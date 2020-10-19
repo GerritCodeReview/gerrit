@@ -16,6 +16,24 @@
       "message": "I haven\u0027t looked at the Gerrit version yet; it\u0027s probably easier if we first address the Git version.",
       "revId": "b896be0436d8a579b35afa39d81eb51fc36ec25b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "befc7baa_0f4ae403",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Thanks for the quick feedback. I addressed it.",
+      "parentUuid": "146255d4_a096f3d3",
+      "revId": "b896be0436d8a579b35afa39d81eb51fc36ec25b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

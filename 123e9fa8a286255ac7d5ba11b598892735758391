@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fd8c8f7_6dd61b6d",
+        "filename": "java/com/google/gerrit/server/patch/DiffNotAvailableException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6224bdb7_71fe4433",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f51f339a_d3a54cbc",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "Please add javadoc.",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79020882_e2c1189a",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f51f339a_d3a54cbc",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f6ed78e_6a2d5a9a",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de3da5d9_2c994f14",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bbb3050_22710129",
@@ -65,6 +119,30 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "nit: stray *-s",
+      "range": {
+        "startLine": 30,
+        "startChar": 50,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f3c07c8_263506c6",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bbb3050_22710129",
       "range": {
         "startLine": 30,
         "startChar": 50,
@@ -98,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e933f4e2_efb426e5",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89fd64af_1703d3c9",
+      "range": {
+        "startLine": 41,
+        "startChar": 66,
+        "endLine": 41,
+        "endChar": 98
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ae79219_ad06c0a6",
@@ -111,6 +213,24 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "Can we share this implementation? (Maybe extract an interface for Key.weight().)",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "883693e9_03831845",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesWeigher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand. Did you mean have an interface like Weighable.\n\npublic interface Weighable {\n  int weight();\n}\n\nthen have the Key and ModifiedFile implement this interface?",
+      "parentUuid": "4ae79219_ad06c0a6",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -132,6 +252,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2b0bf0c_bd4d6443",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "012f8b71_54a55f1d",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7417bb42_f95d7f69",
@@ -145,6 +283,24 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "Can you explain in the comment why the indirection through this interface is needed?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ed4f3c6_cc81a3b9",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "In all other caches we have an interface and an implementation. \n\nAlice also recommended this to me in https://gerrit-review.googlesource.com/c/gerrit/+/280296/comment/a2fa6cd9_0b358afd/.",
+      "parentUuid": "7417bb42_f95d7f69",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -166,6 +322,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11e12938_1f9b2292",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d27d7da_ba9951ec",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5401d642_a156667a",
@@ -179,6 +353,24 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "Can you add @throws with info on when this is thrown?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d1fcd16_d2d4ea63",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5401d642_a156667a",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -200,6 +392,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab7e58c3_3befcf9c",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74d55fa8_1c91fd25",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59d5b102_acbee57b",
@@ -213,6 +423,24 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "Comment how this value was calculated/estimated.",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cf9cc57_0ddeb2eb",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "I\u0027m not very familiar how these numbers were set, but the open source documentation has some defaults and recommendations: https://gerrit-documentation.storage.googleapis.com/Documentation/3.0.0/config-gerrit.html#cache.name.diskLimit.\n\nThis is also the same value used in the current implementation of the diff cache.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/patch/PatchListCacheImpl.java#52",
+      "parentUuid": "59d5b102_acbee57b",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -234,6 +462,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7654801b_790a8f45",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "It is.",
+      "parentUuid": "31456144_e02e034e",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb6c26c1_36b2f931",
@@ -247,6 +493,24 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "I guess there is no need to diff multiple sets of trees, right?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e23012bf_b7eb9dd1",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Yes, currently there is no use case for it, but that can be added later if we needed to.",
+      "parentUuid": "cb6c26c1_36b2f931",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -268,6 +532,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48bcd402_223bf2e2",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "721785d2_85b3b485",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5395bf2_9cfa7abd",
@@ -281,6 +563,24 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "I think it warrants a comment why it\u0027s OK to use DiffFormatter here and discard its output. To the unenlightened reader this looks like massive computation overhead. Unfortunately the docs in DiffFormatter itself don\u0027t address this use case. I\u0027m guilty of the same sin in FileCountValidator. Now that we\u0027re adding another use case of DiffFormatter as a changed file detector, WDYT about taking the opportunity to add to its documentation the reasoning for this use case? This is non-obvious even to the trained eye, as evidenced by the discussion on b/151064182 :-)",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdf70b44_5f915dac",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Why is this problematic? I re-read the discussion for the FileCountValidator, and that seemed to replace using the PatchListCache with a direct DiffFormatter#scan [1] in the FileCountValidator for a faster computation. I don\u0027t see a contradiction.\n\nThe DiffFormatter is also used internally by the current diff cache implementation (in PatchListLoader), so I\u0027m just moving it to the new cache here.\n\nOn why we use a a DisabledOutputStream, I need to take a closer look on this, should I?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/264179",
+      "parentUuid": "f5395bf2_9cfa7abd",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -308,6 +608,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2efafe1a_07f5423f",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29c616df_b52330c3",
+      "range": {
+        "startLine": 111,
+        "startChar": 48,
+        "endLine": 111,
+        "endChar": 63
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0cb7a25_112e0e64",
@@ -325,6 +649,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdd42cff_d8c9cd57",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Thanks for the tip! Much better.\nDone.",
+      "parentUuid": "a0cb7a25_112e0e64",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b53d7391_cce68cd5",
@@ -338,6 +680,30 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "opt: Personally I feel it helps readability when dependencies are declared first. How about moving this up somewhere before where it\u0027s used?",
+      "range": {
+        "startLine": 150,
+        "startChar": 31,
+        "endLine": 150,
+        "endChar": 34
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b2f1a10_a635e5b7",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "I prefer to keep it at the end of the class, Some other caches have this at the end, e.g. the GroupIncludeCacheImpl.",
+      "parentUuid": "b53d7391_cce68cd5",
       "range": {
         "startLine": 150,
         "startChar": 31,
@@ -371,6 +737,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd5ea35b_b8189d2c",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "yes, replaced it with \"computed\".",
+      "parentUuid": "41fad937_c8b2b38f",
+      "range": {
+        "startLine": 156,
+        "startChar": 7,
+        "endLine": 156,
+        "endChar": 16
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8ab78bb_3fd2f930",
@@ -384,6 +774,30 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "Why the quotes? That makes it sound like we\u0027re not talking about a real rename.",
+      "range": {
+        "startLine": 167,
+        "startChar": 53,
+        "endLine": 167,
+        "endChar": 61
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b0f4a81_6c8e36ea",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done. Removed the quotes.",
+      "parentUuid": "e8ab78bb_3fd2f930",
       "range": {
         "startLine": 167,
         "startChar": 53,
@@ -417,6 +831,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8589405_8fe2a16e",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4b9dfb0_5a67af5b",
+      "range": {
+        "startLine": 167,
+        "startChar": 62,
+        "endLine": 168,
+        "endChar": 77
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e4b75fc_ed39602e",
@@ -430,6 +868,30 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "Out of curiosity, how do we ensure that there aren\u0027t different thresholds in Gerrit resulting in contradicting classification?",
+      "range": {
+        "startLine": 170,
+        "startChar": 24,
+        "endLine": 170,
+        "endChar": 35
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c3da411_efca1604",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "I think we can\u0027t. The new design deliberately has this value explicitly so that callers are able to specify their version of rename detections. Although I\u0027m implementing a common wrapper interface on top of the diff caches in a follow up change that should be used by our current code paths, but that doesn\u0027t prevent other callers to directly use these caches since they are public.",
+      "parentUuid": "9e4b75fc_ed39602e",
       "range": {
         "startLine": 170,
         "startChar": 24,
@@ -463,6 +925,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3d1b4e0_d3982ac3",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76291437_d05f4316",
+      "range": {
+        "startLine": 172,
+        "startChar": 19,
+        "endLine": 172,
+        "endChar": 35
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a61a1d92_90300022",
@@ -486,6 +972,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11408dd5_aef286b1",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a61a1d92_90300022",
+      "range": {
+        "startLine": 214,
+        "startChar": 7,
+        "endLine": 214,
+        "endChar": 19
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbd4eedf_7e466421",
@@ -499,6 +1009,24 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "opt: return modifiedFiles.stream().mapToInt(ModifiedFile::weight).sum() + key.weight();",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21060f9a_0bdc4cdd",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesWeigher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbd4eedf_7e466421",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -543,6 +1071,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b324d5d7_14c62898",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "I had a use case for that (where I wanted to set an empty Modified File) but now I removed it.\n\nI removed the Optional. Done.",
+      "parentUuid": "d79e5c3d_690ddc16",
+      "range": {
+        "startLine": 30,
+        "startChar": 18,
+        "endLine": 30,
+        "endChar": 26
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f33a98f3_47a127f7",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e1c1034_c17c478b",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62a3230c_aa3fa1d6",
@@ -556,6 +1126,24 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "I think for simple getters the convention is to just put \"Returns the old name...\" and not use @return.",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cebbbc14_1b1943a3",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62a3230c_aa3fa1d6",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -583,6 +1171,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cc47538_0e569bc5",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e41aa14a_79095095",
+      "range": {
+        "startLine": 34,
+        "startChar": 80,
+        "endLine": 34,
+        "endChar": 86
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f00aaaf4_a65693e3",
@@ -596,6 +1208,24 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "nit: comment that this represents the change type.",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66119785_d2379fb8",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f00aaaf4_a65693e3",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -617,6 +1247,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f37b6d7_15af55d0",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "I implemented this method in the next follow up change.\n\nI did added an exception throw statement as per your recommendation.\n\nDone.",
+      "parentUuid": "d2e2e7bf_9fb056fa",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e820b248_426c93e2",
@@ -630,6 +1278,24 @@
       "writtenOn": "2020-10-19T13:16:00Z",
       "side": 1,
       "message": "Should this be implemented in this change?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6da1e63e_95108b4c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T17:30:00Z",
+      "side": 1,
+      "message": "I will implement it in a follow up change, as it\u0027s not directly related to something that should be tested by this change.",
+      "parentUuid": "e820b248_426c93e2",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

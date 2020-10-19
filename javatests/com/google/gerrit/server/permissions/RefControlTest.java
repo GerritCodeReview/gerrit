@@ -105,11 +105,21 @@ public class RefControlTest {
   }
 
   private void assertCanRead(String ref, ProjectControl u) {
-    assertWithMessage("can read " + ref).that(u.controlForRef(ref).isVisible()).isTrue();
+    assertWithMessage("can read " + ref)
+        .that(
+            u.controlForRef(ref)
+                .hasReadPermissionOnRef(
+                    true)) // This should be false but the test relies on inheritance into refs/tags
+        .isTrue();
   }
 
   private void assertCannotRead(String ref, ProjectControl u) {
-    assertWithMessage("cannot read " + ref).that(u.controlForRef(ref).isVisible()).isFalse();
+    assertWithMessage("cannot read " + ref)
+        .that(
+            u.controlForRef(ref)
+                .hasReadPermissionOnRef(
+                    true)) // This should be false but the test relies on inheritance into refs/tags
+        .isFalse();
   }
 
   private void assertCanSubmit(String ref, ProjectControl u) {

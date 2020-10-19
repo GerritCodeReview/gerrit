@@ -425,7 +425,7 @@ export class GrDiffCursor extends GestureEventListeners(
 
     return {
       leftSide: cell.matches('.left'),
-      number: parseInt(number, 10),
+      number: Number(number),
     };
   }
 

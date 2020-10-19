@@ -18,11 +18,12 @@
 // Mark the file as a module. Otherwise typescript assumes this is a script
 // and $_documentContainer is a global variable.
 // See: https://www.typescriptlang.org/docs/handbook/modules.html
-export {};
+import {createStyle, setInnerHtml} from '../../utils/inner-html-util';
 
-const $_documentContainer = document.createElement('template');
+const customStyle = document.createElement('custom-style');
+customStyle.setAttribute('id', 'light-theme');
 
-$_documentContainer.innerHTML = `
+const styleSheet = `
 <custom-style id="light-theme"><style is="custom-style">
   html {
     /**
@@ -232,7 +233,8 @@ $_documentContainer.innerHTML = `
       --spacing-xl: 12px;
       --spacing-xxl: 16px;
     }
-  }
-</style></custom-style>`;
+  }`;
 
-document.head.appendChild($_documentContainer.content);
+setInnerHtml(customStyle, createStyle(styleSheet));
+
+document.head.appendChild(customStyle);

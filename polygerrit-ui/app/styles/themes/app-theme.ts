@@ -18,12 +18,16 @@
 // Mark the file as a module. Otherwise typescript assumes this is a script
 // and $_documentContainer is a global variable.
 // See: https://www.typescriptlang.org/docs/handbook/modules.html
-export {};
+import {
+  createStyle,
+  safeStyleSheet,
+  setInnerHtml,
+} from '../../utils/inner-html-util';
 
-const $_documentContainer = document.createElement('template');
+const customStyle = document.createElement('custom-style');
+customStyle.setAttribute('id', 'light-theme');
 
-$_documentContainer.innerHTML = `
-<custom-style id="light-theme"><style is="custom-style">
+const styleSheet = safeStyleSheet`
   html {
     /**
      * When adding a new color variable make sure to also add it to the other
@@ -232,7 +236,8 @@ $_documentContainer.innerHTML = `
       --spacing-xl: 12px;
       --spacing-xxl: 16px;
     }
-  }
-</style></custom-style>`;
+  }`;
 
-document.head.appendChild($_documentContainer.content);
+setInnerHtml(customStyle, createStyle(styleSheet));
+
+document.head.appendChild(customStyle);

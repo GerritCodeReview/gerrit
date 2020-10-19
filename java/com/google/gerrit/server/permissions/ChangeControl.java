@@ -61,11 +61,12 @@ class ChangeControl {
   }
 
   /** Can this user see this change? */
-  private boolean isVisible(ChangeData cd) {
-    if (getChange().isPrivate() && !isPrivateVisible(cd)) {
+  boolean isVisible() {
+    if (getChange().isPrivate() && !isPrivateVisible(changeData)) {
       return false;
     }
-    return refControl.isVisible();
+    // Does the user have READ permission on the destination?
+    return refControl.asForRef().testOrFalse(RefPermission.READ);
   }
 
   /** Can this user abandon this change? */
@@ -256,7 +257,7 @@ class ChangeControl {
       try {
         switch (perm) {
           case READ:
-            return isVisible(changeData());
+            return isVisible();
           case ABANDON:
             return canAbandon();
           case DELETE:

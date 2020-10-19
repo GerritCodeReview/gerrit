@@ -163,9 +163,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
     this._patchNum =
       value.patchNum || (SPECIAL_PATCH_SET_NUM.EDIT as PatchSetNum);
     this._lineNum =
-      typeof value.lineNum === 'string'
-        ? parseInt(value.lineNum)
-        : value.lineNum;
+      typeof value.lineNum === 'string' ? Number(value.lineNum) : value.lineNum;
 
     // NOTE: This may be called before attachment (e.g. while parentElement is
     // null). Fire title-change in an async so that, if attachment to the DOM

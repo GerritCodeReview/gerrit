@@ -138,7 +138,7 @@ export class GrWatchedProjectsEditor extends GestureEventListeners(
     const el = (dom(e) as EventApi).localTarget as HTMLInputElement;
     const dataIndex = el.getAttribute('data-index');
     if (dataIndex === null || !this._projects) return;
-    const index = parseInt(dataIndex, 10);
+    const index = Number(dataIndex);
     const project = this._projects[index];
     this.splice('_projects', index, 1);
     this.push('_projectsToRemove', project);
@@ -221,7 +221,7 @@ export class GrWatchedProjectsEditor extends GestureEventListeners(
     const dataIndex = el.getAttribute('data-index');
     const key = el.getAttribute('data-key');
     if (dataIndex === null || key === null) return;
-    const index = parseInt(dataIndex, 10);
+    const index = Number(dataIndex);
     const checked = el.checked;
     this.set(['_projects', index, key], !!checked);
     this.hasUnsavedChanges = true;

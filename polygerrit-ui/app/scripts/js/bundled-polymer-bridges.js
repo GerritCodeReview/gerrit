@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 
+// This file can't be converted to TS - it imports some .js file which
+// can't be imported into typescript
+
 // This file is a replacement for the
 // polymer-bridges/polymer/polymer.html file. The polymer.html file loads
 // other scripts to setup different global variables. Because plugins
@@ -69,6 +72,4 @@ import 'polymer-bridges/polymer/polymer-legacy_bridge.js';
 
 // This is needed due to the Polymer.IronFocusablesHelper in gr-overlay.ts
 import 'polymer-bridges/iron-overlay-behavior/iron-focusables-helper_bridge.js';
-import {importHref} from './import-href.js';
 
-window.Polymer.importHref = importHref;

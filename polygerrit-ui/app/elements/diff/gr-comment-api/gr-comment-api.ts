@@ -44,16 +44,14 @@ import {
   CommentMap,
   CommentThread,
   DraftInfo,
-  isPatchSetFile,
   isUnresolved,
-  PatchNumOnly,
-  PatchSetFile,
   sortComments,
   UIComment,
   UIDraft,
   UIHuman,
   UIRobot,
 } from '../../../utils/comment-util';
+import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 
 export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;

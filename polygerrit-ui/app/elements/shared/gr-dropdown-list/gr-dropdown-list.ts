@@ -115,13 +115,13 @@ export class GrDropdownList extends GestureEventListeners(
    * Handle a click on the button to open the dropdown.
    */
   _showDropdownTapHandler() {
-    this._open();
+    this.open();
   }
 
   /**
    * Open the dropdown.
    */
-  _open() {
+  open() {
     this.$.dropdown.open();
   }
 

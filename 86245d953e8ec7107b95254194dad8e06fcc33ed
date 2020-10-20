@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7e888d9_3382fcc7",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T07:23:22Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/284900",
+      "parentUuid": "89a988c0_32dee717",
+      "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "378aacfc_c889b86c",
@@ -31,6 +49,30 @@
       "writtenOn": "2020-10-20T06:32:07Z",
       "side": 1,
       "message": "Weird, ProjectResetter should reset the state after every test, so that there shouldn\u0027t be a difference if it is run standalone.",
+      "range": {
+        "startLine": 114,
+        "startChar": 29,
+        "endLine": 115,
+        "endChar": 13
+      },
+      "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ae96f72_c0ed6da8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T07:23:22Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/284900/\n\nThe problem was that \"changeOperations.newChange().create()\" in l. 106 creates the change for an arbitrary project, which can be different from \u0027project\u0027 which we use in l. 117 below. To fix this we need to specify the project for the change creation (\"changeOperations.newChange().project(project).create()\").",
+      "parentUuid": "378aacfc_c889b86c",
       "range": {
         "startLine": 114,
         "startChar": 29,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8683c935_498588cf",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T07:23:22Z",
+      "side": 1,
+      "message": "Changed this assertion in https://gerrit-review.googlesource.com/c/gerrit/+/284900 and added a comment to explain it.",
+      "parentUuid": "dabc3626_c127cd80",
+      "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d554217_345c714c",
@@ -71,6 +131,24 @@
       "writtenOn": "2020-10-20T06:32:07Z",
       "side": 1,
       "message": "I see, this is another bug in DefaultRefFilter.",
+      "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "021acc22_6af2a444",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T07:23:22Z",
+      "side": 1,
+      "message": "Added the TODO in  https://gerrit-review.googlesource.com/c/gerrit/+/284900",
+      "parentUuid": "3d554217_345c714c",
       "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +170,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa54396f_d56737ed",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T07:23:22Z",
+      "side": 1,
+      "message": "Added the TODO in  https://gerrit-review.googlesource.com/c/gerrit/+/284900",
+      "parentUuid": "e49454cc_b3adce42",
+      "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e0b0118_aaa61576",
@@ -105,6 +201,24 @@
       "writtenOn": "2020-10-20T06:32:07Z",
       "side": 1,
       "message": "I see, I think this is a bug in DefaultRefFilter.",
+      "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58babf0e_5640cf74",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T07:23:22Z",
+      "side": 1,
+      "message": "Added the TODO in  https://gerrit-review.googlesource.com/c/gerrit/+/284900",
+      "parentUuid": "3e0b0118_aaa61576",
       "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

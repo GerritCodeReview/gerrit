@@ -16,6 +16,24 @@
       "message": "Doesn\u0027t OutgoingEmail do exactly that?",
       "revId": "2022c0bd23a92789a33847e2caf8572c0d1fcf71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4a5d441_06c739bf",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-20T08:14:48Z",
+      "side": 1,
+      "message": "ah one would think.\nthis \"add\" calls the \"add\" below (ChangeEmail#add), and the add in OutgoingEmail calls OutgoingEmail#add, which bypasses our overridden method.\n\nI know this smells, do you have a better idea?",
+      "parentUuid": "bf9c78c6_e2c7bb34",
+      "revId": "2022c0bd23a92789a33847e2caf8572c0d1fcf71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

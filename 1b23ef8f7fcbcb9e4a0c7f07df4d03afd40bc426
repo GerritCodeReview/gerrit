@@ -16,6 +16,24 @@
       "message": "Didn\u0027t you already do that 3 lines above?",
       "revId": "1b23ef8f7fcbcb9e4a0c7f07df4d03afd40bc426",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1e2a475_a83aab76",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1484,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-20T08:19:06Z",
+      "side": 1,
+      "message": "good catch, done.",
+      "parentUuid": "136e11af_e40ef402",
+      "revId": "1b23ef8f7fcbcb9e4a0c7f07df4d03afd40bc426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

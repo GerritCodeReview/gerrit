@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8da0f62_37685071",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-10-20T14:04:48Z",
+      "side": 1,
+      "message": "Thanks Gal. Looks good.",
+      "revId": "7ec931932963abf2add1238f5ae0444785c912ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15f20880_1613d30c",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-10-20T14:04:48Z",
+      "side": 1,
+      "message": "Nit: Maybe \"Important note\" to be more grammatically correct",
+      "range": {
+        "startLine": 164,
+        "startChar": 4,
+        "endLine": 164,
+        "endChar": 13
+      },
+      "revId": "7ec931932963abf2add1238f5ae0444785c912ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c2b0c05_616be95b",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-10-20T14:04:48Z",
+      "side": 1,
+      "message": "nit: unnecessary",
+      "range": {
+        "startLine": 167,
+        "startChar": 17,
+        "endLine": 167,
+        "endChar": 18
+      },
+      "revId": "7ec931932963abf2add1238f5ae0444785c912ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbfcf38a_f5681c71",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-10-20T14:04:48Z",
+      "side": 1,
+      "message": "nit: ditto",
+      "range": {
+        "startLine": 169,
+        "startChar": 53,
+        "endLine": 169,
+        "endChar": 54
+      },
+      "revId": "7ec931932963abf2add1238f5ae0444785c912ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "703e92c3_f68afad9",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-10-20T14:04:48Z",
+      "side": 1,
+      "message": "maybe clearer: an existing group",
+      "range": {
+        "startLine": 177,
+        "startChar": 66,
+        "endLine": 177,
+        "endChar": 74
+      },
+      "revId": "7ec931932963abf2add1238f5ae0444785c912ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

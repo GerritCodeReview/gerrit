@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3d41d7e_b39ef12b",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-20T07:45:34Z",
+      "side": 1,
+      "message": "opt: modifiedFiles.forEach()",
+      "revId": "a418f426e17137056d6f2ae77164d7d501e802f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8719e2d_45310eaa",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/ModifiedFilesSerializerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-20T07:45:34Z",
+      "side": 1,
+      "message": "That\u0027s because you don\u0027t check for the existence of the string field in the proto, but access it and check the returned string (which defaults to \"\") for isEmpty().",
+      "revId": "a418f426e17137056d6f2ae77164d7d501e802f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

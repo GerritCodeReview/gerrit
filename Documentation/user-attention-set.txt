@@ -161,6 +161,25 @@ We are testing it on `googlesource.com` right now. If you build your Gerrit from
 master, you can enable it using
 link:config-gerrit.html#change.enableAttentionSet[enableAttentionSet].
 
+=== Important for all host owners, project owners, and bot owners
+
+If you are a host/project owner, please make sure all bots that run against your
+host/project are a part of the "Service Users" group.
+
+If you are a bot owner, please make sure your bot is a part of the "Service
+Users" group on all hosts it runs on.
+
+To add users to the "Service Users" group, first ensure that the group exists on
+your host. If it doesn't, create it. The name must exactly be "Service Users".
+
+To create a group, use the Gerrit UI; BROWSE -> Groups -> CREATE NEW.
+
+Then, add the bots as members in this group. Alternatively, add a subgroup that
+has multiple bots as a subgroup of "Service Users".
+
+To add members or subgroups, use the Gerrit UI; BROWSE -> Groups ->
+search for "Service Users" -> Members.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

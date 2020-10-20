@@ -78,6 +78,7 @@ import {UIDraft} from '../../../utils/comment-util';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {PatchSetFile} from '../../../types/types';
 import {CustomKeyboardEvent} from '../../../types/events';
+import {PORTING_COMMENTS_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -478,6 +479,13 @@ export class GrFileList extends KeyboardShortcutMixin(
           );
         })
     );
+
+    this.reporting.time(PORTING_COMMENTS_LATENCY_LABEL);
+    this.$.restAPI
+      .getPortedCommentsAndDrafts(changeNum, patchRange.patchNum)
+      .then(() => {
+        this.reporting.timeEnd(PORTING_COMMENTS_LATENCY_LABEL);
+      });
 
     promises.push(
       this._getDiffPreferences().then(prefs => {

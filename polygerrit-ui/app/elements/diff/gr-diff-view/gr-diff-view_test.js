@@ -64,6 +64,7 @@ suite('gr-diff-view tests', () => {
       kb.bindShortcut(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, 'shift+e');
       kb.bindShortcut(Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
       kb.bindShortcut(Shortcut.TOGGLE_BLAME, 'b');
+      kb.bindShortcut(Shortcut.OPEN_FILE_LIST, 'f');
     });
 
     suiteTeardown(() => {
@@ -1575,6 +1576,13 @@ suite('gr-diff-view tests', () => {
           .then(reviewed => assert.isTrue(reviewed)));
 
       return Promise.all(promises);
+    });
+
+    test('f open file dropdown', () => {
+      assert.isFalse(element.$.dropdown.$.dropdown.opened);
+      MockInteractions.pressAndReleaseKeyOn(element, 70, null, 'f');
+      flush();
+      assert.isTrue(element.$.dropdown.$.dropdown.opened);
     });
 
     suite('blame', () => {

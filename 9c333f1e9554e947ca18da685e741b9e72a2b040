@@ -16,6 +16,23 @@
       "message": "Looks correct me to. Luca/Marco?",
       "revId": "9c333f1e9554e947ca18da685e741b9e72a2b040",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8943f58_1a0d665f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-20T20:22:05Z",
+      "side": 1,
+      "message": "Thanks. @Nasser \u0026co, would you mind also reviewing the downstream merges series based on I4dfe8268?",
+      "revId": "9c333f1e9554e947ca18da685e741b9e72a2b040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

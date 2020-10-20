@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8add7b7_1652d0fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-20T16:39:26Z",
+      "side": 1,
+      "message": "I haven\u0027t reviewed everything yet in this change, other comments are possible.",
+      "revId": "19ae2c112be24584ed2903e6030074f07949c8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bb04e5d_4c7460da",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-20T16:39:26Z",
+      "side": 1,
+      "message": "nit: remove types",
+      "range": {
+        "startLine": 1140,
+        "startChar": 22,
+        "endLine": 1143,
+        "endChar": 15
+      },
+      "revId": "19ae2c112be24584ed2903e6030074f07949c8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd6b9da1_6186539c",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-20T16:39:26Z",
+      "side": 1,
+      "message": "This methods uses only methods from restAPI.\nIt might be better to move it to restAPI and rename to getAllPortedComments",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 34
+      },
+      "revId": "19ae2c112be24584ed2903e6030074f07949c8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0720cfcf_aaafee50",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-20T16:39:26Z",
+      "side": 1,
+      "message": "It is better to create an interface for result with 2 properties: portedComments and portedDrafts and return object instead of array.\nArray makes code harder to read and; object makes code cleaner and safer.",
+      "range": {
+        "startLine": 193,
+        "startChar": 2,
+        "endLine": 193,
+        "endChar": 72
+      },
+      "revId": "19ae2c112be24584ed2903e6030074f07949c8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d61876f_69f7b33d",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-20T16:39:26Z",
+      "side": 1,
+      "message": "seems portedComments can\u0027t be undefined here - it is always an array (or empty array).\nThe condition !portedComments is always false.",
+      "range": {
+        "startLine": 214,
+        "startChar": 7,
+        "endLine": 214,
+        "endChar": 21
+      },
+      "revId": "19ae2c112be24584ed2903e6030074f07949c8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89a988c0_32dee717",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T06:32:07Z",
+      "side": 1,
+      "message": "oh yes, this is a copy-paste mistake and this check should be removed",
+      "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "378aacfc_c889b86c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T06:32:07Z",
+      "side": 1,
+      "message": "Weird, ProjectResetter should reset the state after every test, so that there shouldn\u0027t be a difference if it is run standalone.",
+      "range": {
+        "startLine": 114,
+        "startChar": 29,
+        "endLine": 115,
+        "endChar": 13
+      },
+      "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dabc3626_c127cd80",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T06:32:07Z",
+      "side": 1,
+      "message": "You are right, not sure if today\u0027s behaviour is intended?\nI mean the ref name already says that it\u0027s a meta ref... but I guess some tool may already rely on this.",
+      "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d554217_345c714c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T06:32:07Z",
+      "side": 1,
+      "message": "I see, this is another bug in DefaultRefFilter.",
+      "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e49454cc_b3adce42",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T06:32:07Z",
+      "side": 1,
+      "message": "Yes, I know. I think I told you via chat :)",
+      "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e0b0118_aaa61576",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T06:32:07Z",
+      "side": 1,
+      "message": "I see, I think this is a bug in DefaultRefFilter.",
+      "revId": "86245d953e8ec7107b95254194dad8e06fcc33ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

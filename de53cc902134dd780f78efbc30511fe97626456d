@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ea5257c_61aa515b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-20T16:41:57Z",
+      "side": 1,
+      "message": "Could you please rebase this change on https://gerrit-review.googlesource.com/c/gerrit/+/281299 ? It seems, some code are duplicated, makes it harder to review.",
+      "revId": "de53cc902134dd780f78efbc30511fe97626456d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

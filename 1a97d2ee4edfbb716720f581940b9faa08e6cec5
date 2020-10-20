@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f8bdea1_8e0976c4",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-20T12:32:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd762989_080cab1d",
+      "range": {
+        "startLine": 258,
+        "startChar": 8,
+        "endLine": 262,
+        "endChar": 16
+      },
+      "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39700357_1631b397",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-20T07:57:58Z",
       "side": 1,
       "message": "Since we ignore the AuthException should we rather use \u0027test\u0027 here?",
+      "range": {
+        "startLine": 654,
+        "startChar": 38,
+        "endLine": 654,
+        "endChar": 43
+      },
+      "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd71ac3b_3aa90378",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-20T12:32:17Z",
+      "side": 1,
+      "message": "Done. We should get rid of this distinction altogether. With IAM, that was a necessary distinction to make because test was fast, but overly permissive and only check was authoritative.",
+      "parentUuid": "39700357_1631b397",
       "range": {
         "startLine": 654,
         "startChar": 38,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6241097b_78010ec3",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-20T12:32:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae0997eb_790e6ca6",
+      "range": {
+        "startLine": 62,
+        "startChar": 11,
+        "endLine": 62,
+        "endChar": 99
+      },
+      "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82b80857_9df335a2",
@@ -83,6 +155,24 @@
       "writtenOn": "2020-10-20T07:57:58Z",
       "side": 1,
       "message": "nit: move this comment down before l. 74?",
+      "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dffc334c_54ea6820",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-20T12:32:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82b80857_9df335a2",
       "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab6043a5_3055273f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteBranchIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-20T12:32:17Z",
+      "side": 1,
+      "message": "I fixed this actually :-)",
+      "parentUuid": "934691bc_50772620",
+      "range": {
+        "startLine": 159,
+        "startChar": 31,
+        "endLine": 159,
+        "endChar": 40
+      },
+      "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba316b6b_6ae371e2",
@@ -123,6 +237,24 @@
       "writtenOn": "2020-10-20T07:57:58Z",
       "side": 1,
       "message": "Maybe it would be better to adapt the test in such a way the calling user has Access Database and hence can see the branch?",
+      "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6663ddc_bef1bffd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteBranchIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-20T12:32:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba316b6b_6ae371e2",
       "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

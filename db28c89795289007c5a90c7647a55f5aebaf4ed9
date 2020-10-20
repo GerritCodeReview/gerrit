@@ -22,6 +22,30 @@
       },
       "revId": "db28c89795289007c5a90c7647a55f5aebaf4ed9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "005d7dce_e0126e02",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1730,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-20T19:51:51Z",
+      "side": 1,
+      "message": "I think we can make it public, no need for it to be private.",
+      "parentUuid": "aebca72e_98c3bbe1",
+      "range": {
+        "startLine": 1730,
+        "startChar": 20,
+        "endLine": 1730,
+        "endChar": 25
+      },
+      "revId": "db28c89795289007c5a90c7647a55f5aebaf4ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

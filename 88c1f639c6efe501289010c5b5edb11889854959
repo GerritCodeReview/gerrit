@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "de4c577e_4f2d73ec",
+        "filename": ".bazelversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-20T19:05:53Z",
+      "side": 1,
+      "message": "3.7.0, instead?\n\n-As the latter has just been released; since this change is not merged yet...\n\n[1] https://github.com/bazelbuild/bazel/releases",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 5
+      },
+      "revId": "88c1f639c6efe501289010c5b5edb11889854959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5c7e949e_ea7e56d3",

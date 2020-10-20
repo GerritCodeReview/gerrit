@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aebca72e_98c3bbe1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1730,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-20T15:56:11Z",
+      "side": 1,
+      "message": "This is a \"private\" method. Can it be changed to a public method (i.e. remove \"_\" prefix)? Or maybe some other method can be called?",
+      "range": {
+        "startLine": 1730,
+        "startChar": 20,
+        "endLine": 1730,
+        "endChar": 25
+      },
+      "revId": "db28c89795289007c5a90c7647a55f5aebaf4ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

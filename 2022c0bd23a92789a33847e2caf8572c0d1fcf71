@@ -34,6 +34,24 @@
       "parentUuid": "bf9c78c6_e2c7bb34",
       "revId": "2022c0bd23a92789a33847e2caf8572c0d1fcf71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2be1d72d_3461a743",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-20T08:24:35Z",
+      "side": 1,
+      "message": "oh, maybe I was wrong and even the OutgoingEmail#add calls ChangeEmail#add. I\u0027ll verify that case.",
+      "parentUuid": "f4a5d441_06c739bf",
+      "revId": "2022c0bd23a92789a33847e2caf8572c0d1fcf71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

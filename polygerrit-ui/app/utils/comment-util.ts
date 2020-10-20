@@ -73,22 +73,6 @@ export function isDraft<T extends CommentInfo>(
   return !!x && !!(x as UIDraft).__draft;
 }
 
-export interface PatchSetFile {
-  path: string;
-  basePath?: string;
-  patchNum?: PatchSetNum;
-}
-
-export interface PatchNumOnly {
-  patchNum: PatchSetNum;
-}
-
-export function isPatchSetFile(
-  x: PatchSetFile | PatchNumOnly
-): x is PatchSetFile {
-  return !!(x as PatchSetFile).path;
-}
-
 interface SortableComment {
   __draft?: boolean;
   __date?: Date;

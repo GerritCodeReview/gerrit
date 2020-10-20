@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf9c78c6_e2c7bb34",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-20T06:46:23Z",
+      "side": 1,
+      "message": "Doesn\u0027t OutgoingEmail do exactly that?",
+      "revId": "2022c0bd23a92789a33847e2caf8572c0d1fcf71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

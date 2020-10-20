@@ -16,6 +16,23 @@
       "message": "Needs LC similarly with Ie3d28263. Thanks.",
       "revId": "563fe1f30165173aa15b350d9031ea23b80642b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc50286b_a741eeda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-20T20:50:39Z",
+      "side": 1,
+      "message": "@Patrick can someone from Google give the LC+1?\n(see the Jetty upgrade included in the merge)",
+      "revId": "563fe1f30165173aa15b350d9031ea23b80642b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

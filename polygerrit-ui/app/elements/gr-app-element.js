@@ -383,6 +383,8 @@ class GrAppElement extends KeyboardShortcutMixin(
         Shortcut.TOGGLE_BLAME, 'b:keyup');
     this.bindShortcut(
         Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
+    this.bindShortcut(
+        Shortcut.OPEN_FILE_LIST, 'f');
 
     this.bindShortcut(
         Shortcut.OPEN_FIRST_FILE, ']');

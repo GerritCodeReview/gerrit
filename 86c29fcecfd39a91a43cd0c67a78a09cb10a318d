@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5713b34_1ad852de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-20T15:15:55Z",
+      "side": 1,
+      "message": "All tests pass (the replication plugin tests don\u0027t and the git version test always fails for me).\n\nLet\u0027s get this reviewed and rollout out to canary tomorrow.\n\n$ bazel test //... --test_tag_filters\u003d-flaky,-elastic,-local,-manual\n//javatests/com/google/gerrit/common:server_tests                        FAILED in 1.1s\n//plugins/replication:replication_tests                                  FAILED in 332.6s\nExecuted 129 out of 170 tests: 168 tests pass and 2 fail locally.\nINFO: Build completed, 2 tests FAILED, 131 total actions\n",
+      "revId": "86c29fcecfd39a91a43cd0c67a78a09cb10a318d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

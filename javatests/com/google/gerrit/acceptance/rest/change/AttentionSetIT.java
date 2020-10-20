@@ -61,6 +61,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.LongSupplier;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
@@ -1368,43 +1369,30 @@ public class AttentionSetIT extends AbstractDaemonTest {
   public void attentionSetEmailHeader() throws Exception {
     PushOneCommit.Result r = createChange();
     TestAccount user2 = accountCreator.user2();
+
+    // The pattern ensures the header mentions the attention set requirements in any order.
+    Pattern attentionSetHeaderPattern =
+        Pattern.compile(
+            String.format(
+                "Attention is currently required from: (%s|%s), (%s|%s).",
+                user2.fullName(), user.fullName(), user.fullName(), user2.fullName()));
     // Add user and user2 to the attention set.
     change(r)
         .current()
         .review(
             ReviewInput.create().reviewer(user.email()).reviewer(accountCreator.user2().email()));
     assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
-        .contains(
-            "Attention is currently required from: "
-                + user2.fullName()
-                + ", "
-                + user.fullName()
-                + ".");
+        .containsMatch(attentionSetHeaderPattern);
     assertThat(Iterables.getOnlyElement(sender.getMessages()).htmlBody())
-        .contains(
-            "Attention is currently required from: "
-                + user2.fullName()
-                + ", "
-                + user.fullName()
-                + ".");
+        .containsMatch(attentionSetHeaderPattern);
     sender.clear();
 
     // Irrelevant reply, User and User2 are still in the attention set.
     change(r).current().review(ReviewInput.approve());
     assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
-        .contains(
-            "Attention is currently required from: "
-                + user2.fullName()
-                + ", "
-                + user.fullName()
-                + ".");
+        .containsMatch(attentionSetHeaderPattern);
     assertThat(Iterables.getOnlyElement(sender.getMessages()).htmlBody())
-        .contains(
-            "Attention is currently required from: "
-                + user2.fullName()
-                + ", "
-                + user.fullName()
-                + ".");
+        .containsMatch(attentionSetHeaderPattern);
     sender.clear();
 
     // Abandon the change which removes user from attention set; there is an email but without the

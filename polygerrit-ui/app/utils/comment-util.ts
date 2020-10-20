@@ -21,9 +21,12 @@ import {
   RobotCommentInfo,
   Timestamp,
   UrlEncodedCommentId,
+  NumericChangeId,
+  PathToCommentsInfoMap,
 } from '../types/common';
 import {CommentSide, Side} from '../constants/constants';
 import {parseDate} from './date-util';
+import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
 
 export interface DraftCommentProps {
   __draft?: boolean;
@@ -137,4 +140,17 @@ export function isUnresolved(thread?: CommentThread): boolean {
 
 export function isDraftThread(thread?: CommentThread): boolean {
   return isDraft(getLastComment(thread));
+}
+
+export function getPortedComments(
+  changeNum: NumericChangeId,
+  patchNum: PatchSetNum,
+  restAPI: RestApiService
+): Promise<
+  [PathToCommentsInfoMap | undefined, PathToCommentsInfoMap | undefined]
+> {
+  return Promise.all([
+    restAPI.getPortedComments(changeNum, patchNum),
+    restAPI.getPortedDrafts(changeNum, patchNum),
+  ]);
 }

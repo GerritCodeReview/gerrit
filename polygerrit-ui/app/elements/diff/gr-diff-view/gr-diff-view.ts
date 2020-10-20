@@ -89,6 +89,7 @@ import {
   PreferencesInfo,
   RepoName,
   RevisionInfo,
+  PathToCommentsInfoMap,
 } from '../../../types/common';
 import {ChangeViewState, CommitRange, FileRange} from '../../../types/types';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
@@ -100,7 +101,7 @@ import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {LineOfInterest} from '../gr-diff/gr-diff';
 import {CommentEventDetail} from '../../shared/gr-comment/gr-comment';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
-import {CommentMap} from '../../../utils/comment-util';
+import {CommentMap, getPortedComments} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
@@ -1061,6 +1062,19 @@ export class GrDiffView extends KeyboardShortcutMixin(
       return;
     }
 
+    let portedCommentsPromise: Promise<[
+      PathToCommentsInfoMap | undefined,
+      PathToCommentsInfoMap | undefined
+    ]>;
+    const portedCommentRequestStartTime = Date.now();
+    if (value.changeNum && value.patchNum) {
+      portedCommentsPromise = getPortedComments(
+        value.changeNum,
+        value.patchNum,
+        this.$.restAPI
+      );
+    }
+
     const promises: Promise<unknown>[] = [];
 
     promises.push(this._getDiffPreferences());
@@ -1085,6 +1099,20 @@ export class GrDiffView extends KeyboardShortcutMixin(
         this._initPatchRange();
         this._initCommitRange();
         this.$.diffHost.comments = this._commentsForDiff;
+        if (!portedCommentsPromise) {
+          // _initPatchRange() ensures _patchRange is set
+          // AppElementDiffViewParam ensures _changeNum is set
+          portedCommentsPromise = getPortedComments(
+            this._changeNum!,
+            this._patchRange!.patchNum,
+            this.$.restAPI
+          );
+        }
+        portedCommentsPromise.then(() => {
+          this.reporting.reportInteraction('porting-comments-latency', {
+            duration: Date.now() - portedCommentRequestStartTime,
+          });
+        });
         const edit = r[4] as EditInfo | undefined;
         if (edit) {
           this.set(`_change.revisions.${edit.commit.commit}`, {

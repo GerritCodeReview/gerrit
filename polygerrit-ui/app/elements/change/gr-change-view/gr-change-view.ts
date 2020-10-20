@@ -151,6 +151,7 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
+import {PORTING_COMMENTS_CHANGE_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -2093,6 +2094,28 @@ export class GrChangeView extends KeyboardShortcutMixin(
       }
     }
     return latestRev;
+  }
+
+  @observe('_changeNum', '_patchRange.*')
+  _getPortedComments(
+    changeNum?: NumericChangeId,
+    patchRangeRecord?: PolymerDeepPropertyChange<PatchRange, PatchRange>
+  ) {
+    const patchRange = patchRangeRecord?.base;
+    if (!changeNum || !patchRange || !patchRange.patchNum) return;
+    this.reporting.time(PORTING_COMMENTS_CHANGE_LATENCY_LABEL);
+    const portedCommentsPatchNum = patchRange.patchNum;
+    this.$.restAPI
+      .getPortedCommentsAndDrafts(changeNum, patchRange.patchNum)
+      .then(() => {
+        // if patchNum has changed in between then do not report
+        if (
+          !patchNumEquals(portedCommentsPatchNum, this._patchRange?.patchNum)
+        ) {
+          return;
+        }
+        this.reporting.timeEnd(PORTING_COMMENTS_CHANGE_LATENCY_LABEL);
+      });
   }
 
   _getCommitInfo() {

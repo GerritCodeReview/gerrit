@@ -100,6 +100,7 @@ import {
   TopMenuEntryInfo,
   MergeableInfo,
   CommitInfo,
+  PortedCommentsAndDrafts,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
@@ -456,6 +457,21 @@ export interface RestApiService {
     errFn?: ErrorCallback,
     cancelCondition?: CancelConditionCallback
   ): Promise<ChangeInfo | undefined | null>;
+
+  getPortedComments(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<PathToCommentsInfoMap | undefined>;
+
+  getPortedDrafts(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<PathToCommentsInfoMap | undefined>;
+
+  getPortedCommentsAndDrafts(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<PortedCommentsAndDrafts>;
 
   getDiffComments(
     changeNum: NumericChangeId

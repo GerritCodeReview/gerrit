@@ -140,6 +140,7 @@ import {
   Hashtag,
   TopMenuEntryInfo,
   MergeableInfo,
+  PortedCommentsAndDrafts,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -2795,6 +2796,43 @@ export class GrRestApiInterface
     patchNum?: RevisionId
   ) {
     return this._changeBaseURL(changeNum, patchNum).then(url => url + endpoint);
+  }
+
+  getPortedComments(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<PathToCommentsInfoMap | undefined> {
+    return this._getChangeURLAndFetch({
+      changeNum,
+      endpoint: '/ported_comments/',
+      patchNum,
+    });
+  }
+
+  getPortedDrafts(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<PathToCommentsInfoMap | undefined> {
+    return this._getChangeURLAndFetch({
+      changeNum,
+      endpoint: '/ported_drafts/',
+      patchNum,
+    });
+  }
+
+  getPortedCommentsAndDrafts(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<PortedCommentsAndDrafts> {
+    return Promise.all([
+      this.getPortedComments(changeNum, patchNum),
+      this.getPortedDrafts(changeNum, patchNum),
+    ]).then(result => {
+      return {
+        portedComments: result[0],
+        portedDrafts: result[1],
+      };
+    });
   }
 
   saveDiffDraft(

@@ -1180,6 +1180,11 @@ export interface CommentInfo {
 
 export type PathToCommentsInfoMap = {[path: string]: CommentInfo[]};
 
+export type PortedCommentsAndDrafts = {
+  portedComments?: PathToCommentsInfoMap;
+  portedDrafts?: PathToCommentsInfoMap;
+};
+
 /**
  * The CommentRange entity describes the range of an inline comment.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-range

@@ -20,6 +20,8 @@ export type EventValue = string | number | {error?: Error};
 // TODO(dmfilippov): TS-fix-any use more specific type instead if possible
 export type EventDetails = any;
 
+export const PORTING_COMMENTS_LATENCY_LABEL = 'PortingCommentsLatency';
+
 export interface Timer {
   reset(): this;
   end(): this;

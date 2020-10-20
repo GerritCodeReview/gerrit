@@ -14,11 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {BrandType} from '../types/common';
 
-export function setInnerHtml(el: HTMLElement, innerHTML: string) {
+export type SafeHtml = BrandType<string, '_safeHtml'>;
+export type SafeStyleSheet = BrandType<string, '_safeHtml'>;
+
+export function setInnerHtml(el: HTMLElement, innerHTML: SafeHtml) {
   el.innerHTML = innerHTML;
 }
 
-export function createStyle(styleSheet: string): string {
-  return `<style>${styleSheet}</style>`;
+export function createStyle(styleSheet: SafeStyleSheet): SafeHtml {
+  return `<style>${styleSheet}</style>` as SafeHtml;
+}
+
+export function safeStyleSheet(
+  templateObj: TemplateStringsArray
+): SafeStyleSheet {
+  const styleSheet = templateObj[0];
+  if (/[<>]/.test(styleSheet)) {
+    throw new Error('Forbidden characters in styleSheet string: ' + styleSheet);
+  }
+  return styleSheet as SafeStyleSheet;
 }

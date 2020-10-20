@@ -18,12 +18,16 @@
 // Mark the file as a module. Otherwise typescript assumes this is a script
 // and $_documentContainer is a global variable.
 // See: https://www.typescriptlang.org/docs/handbook/modules.html
-import {createStyle, setInnerHtml} from '../../utils/inner-html-util';
+import {
+  createStyle,
+  safeStyleSheet,
+  setInnerHtml,
+} from '../../utils/inner-html-util';
 
 const customStyle = document.createElement('custom-style');
 customStyle.setAttribute('id', 'light-theme');
 
-const styleSheet = `
+const styleSheet = safeStyleSheet`
   html {
     /**
      * When adding a new color variable make sure to also add it to the other

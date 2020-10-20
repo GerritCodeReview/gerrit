@@ -253,6 +253,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf49a24b_90186991",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesWeigher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-20T12:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "622fe495_476055ac",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "012f8b71_54a55f1d",
@@ -337,6 +355,24 @@
       "side": 1,
       "message": "Yes, I saw that comment :-) But why is an interface better than no interface? ISTM it\u0027s just another indirection and complexity, and it\u0027s not clear what the benefit is. Maybe it should be removed for the other caches? Or else there\u0027s a non-obvious reason for having it, in which case that should be mentioned in the docs.",
       "parentUuid": "6ed4f3c6_cc81a3b9",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "686bfb61_9ac51b4d",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-20T12:25:54Z",
+      "side": 1,
+      "message": "Yes I agree. I had it implemented this way at first, since the interface is kind of small. But I think it\u0027s still good to have a compact interface offering a clean API for clients. I also preferred to have this cache implemented in the same way as other caches.\n\nI also saw we do a NotImplemented implementation in some cases, probably we may need to have this flexibility.\n\nWe can think of removing this indirection (probably for some other caches) in a later change.",
+      "parentUuid": "6387ad5a_a67b3157",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -499,6 +535,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fabad90_c4b52c63",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-20T12:25:54Z",
+      "side": 1,
+      "message": "Sure. Done.",
+      "parentUuid": "a152585a_cfb2195c",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31456144_e02e034e",
@@ -548,6 +602,24 @@
       "side": 1,
       "message": "I didn\u0027t realize this uses a default of 128MB disk size. Could you add a comment that this uses the default? (It\u0027s probably better not to mention the value itself in case it ever changes.)",
       "parentUuid": "7654801b_790a8f45",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b72171b6_c94eefec",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-20T12:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5a82bd1_31497f52",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -671,6 +743,24 @@
       "side": 1,
       "message": "When I read \"DiffFormatter\" I imagine that it scans two files, computes a diff and formats it for rendering in the frontend. All that output is then discarded into DisabledOutputStream.INSTANCE. That would be expensive and it\u0027s not what it\u0027s doing here (I hope :-). Instead it is used to just find changed files, which is much faster (I hope again, and actually know from FileCountValidator). So it\u0027s obviously OK to use, but if you don\u0027t happen to know that then the documentation here and in DiffFormatter itself doesn\u0027t explain it. It would never occur to me to use a class called Diff*Formatter* to just find changed files. That\u0027s why I think some more documentation would help here.",
       "parentUuid": "bdf70b44_5f915dac",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c5f4a33_93327735",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-20T12:25:54Z",
+      "side": 1,
+      "message": "Done. Added documentation.\n\nthe #scan method is documented:\n\n\u003e Determine the differences between two trees.\n\u003e No output is created, instead only the file paths that are different are\n\u003e returned. Callers may choose to format these paths themselves, or convert them\n\u003e into {@link org.eclipse.jgit.FileHeader}` instances with a complete edit list by\n\u003e calling {@link DiffEntry}.",
+      "parentUuid": "2eda827a_40859c2f",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

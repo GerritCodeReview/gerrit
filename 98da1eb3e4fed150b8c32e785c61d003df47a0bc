@@ -16,6 +16,24 @@
       "message": "I think you can do:\n\nprivate static final ImmutableMap foo \u003d ImmutableMap.of(a, b, c, d)\n\nor \n\n... \u003d ImmutableMap.builder().put(a, b)...build();",
       "revId": "98da1eb3e4fed150b8c32e785c61d003df47a0bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1465317_c52ca30b",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-20T12:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "185faca9_a3d2f4f5",
+      "revId": "98da1eb3e4fed150b8c32e785c61d003df47a0bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

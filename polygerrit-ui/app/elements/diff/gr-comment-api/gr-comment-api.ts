@@ -35,6 +35,7 @@ import {
   RobotCommentInfo,
   UrlEncodedCommentId,
   NumericChangeId,
+  RevisionId,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {CommentSide} from '../../../constants/constants';
@@ -609,6 +610,11 @@ export class GrCommentApi extends GestureEventListeners(
       // removed
       this.reloadDrafts((changeNum as unknown) as NumericChangeId)
     );
+  }
+
+  getPortedComments(changeNum: NumericChangeId, revision?: RevisionId) {
+    if (!revision) revision = 'current';
+    return this.$.restAPI.getPortedCommentsAndDrafts(changeNum, revision);
   }
 
   /**

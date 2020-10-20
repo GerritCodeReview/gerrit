@@ -119,6 +119,24 @@ module.exports = function(config) {
       compatibility: 'none',
       plugins: [
         {
+          resolveImport(importSpecifier) {
+            // esm-dev-server interprets .ts files as .js files and
+            // tries to replace all module imports with relative/absolute
+            // paths. In most cases this works correctly. However if
+            // a ts file imports type from .d.ts and there is no
+            // associated .js file then the esm-dev-server responds with
+            // 500 error.
+            // For example the following import .ts file causes problem
+            // import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+            // To avoid problems, we don't resolve imports in .ts files
+            // and instead always return original path
+            if (importSpecifier.context.originalUrl.endsWith(".ts")) {
+              return importSpecifier.source;
+            }
+            return undefined;
+          }
+        },
+        {
           transform(context) {
             if (context.path.endsWith('/node_modules/page/page.js')) {
               const orignalBody = context.body;

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8772e37_ea20dfac",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T12:39:07Z",
+      "side": 1,
+      "message": "nit: unneeded line break",
+      "range": {
+        "startLine": 97,
+        "startChar": 29,
+        "endLine": 98,
+        "endChar": 13
+      },
+      "revId": "e7cd930c4b86e5f78470c3ee1ad9f8ecc8d64f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab8f4b51_9f54d76c",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T12:39:07Z",
+      "side": 1,
+      "message": "better use \u0027test\u0027 here too?",
+      "range": {
+        "startLine": 101,
+        "startChar": 23,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "e7cd930c4b86e5f78470c3ee1ad9f8ecc8d64f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57f2d549_4215fca8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T12:59:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08462fd6_a5068a68",
+      "range": {
+        "startLine": 203,
+        "startChar": 4,
+        "endLine": 203,
+        "endChar": 24
+      },
+      "revId": "e7cd930c4b86e5f78470c3ee1ad9f8ecc8d64f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "832a618c_99299437",
@@ -83,6 +107,30 @@
       "writtenOn": "2020-10-20T12:52:41Z",
       "side": 1,
       "message": "this fails because projectControl.controlForRef(refName).hasReadPermissionOnRef() evaluates to true.\n\nIs there a problem with how the permission in this test is set up?",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 45
+      },
+      "revId": "e7cd930c4b86e5f78470c3ee1ad9f8ecc8d64f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7a1a841_82a8a607",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T12:59:32Z",
+      "side": 1,
+      "message": "yeah, the block must be on All-Projects, otherwise the allow on \"refs/groups/*\" on All-Users that exists by default takes precedence. Fixed.",
+      "parentUuid": "832a618c_99299437",
       "range": {
         "startLine": 294,
         "startChar": 0,

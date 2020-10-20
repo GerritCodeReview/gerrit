@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50d11e2a_360ded4f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-20T15:38:55Z",
+      "side": 1,
+      "message": "Actually, types already has a definition for ChangeViewState.\nMerged them together",
+      "parentUuid": "25d942ed_f9737af1",
+      "range": {
+        "startLine": 195,
+        "startChar": 7,
+        "endLine": 195,
+        "endChar": 16
+      },
+      "revId": "722ac657e674768b2ae69c6e80e062c9b73e2ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c2042ad_30f0c4b9",
@@ -54,6 +78,30 @@
       "writtenOn": "2020-10-16T14:27:50Z",
       "side": 1,
       "message": "nit: if(!account) return;",
+      "range": {
+        "startLine": 432,
+        "startChar": 0,
+        "endLine": 432,
+        "endChar": 19
+      },
+      "revId": "722ac657e674768b2ae69c6e80e062c9b73e2ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf2c2bdd_33334eec",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-20T15:38:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c2042ad_30f0c4b9",
       "range": {
         "startLine": 432,
         "startChar": 0,

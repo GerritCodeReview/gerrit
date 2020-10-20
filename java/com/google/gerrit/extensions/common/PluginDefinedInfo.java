@@ -16,4 +16,5 @@ package com.google.gerrit.extensions.common;
 
 public class PluginDefinedInfo {
   public String name;
+  public String message;
 }

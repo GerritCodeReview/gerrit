@@ -1,4 +1,4 @@
-// Copyright (C) 2019 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,36 +14,39 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.server.DynamicOptions.BeanProvider;
 import com.google.gerrit.server.query.change.ChangeData;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * Interface for plugins to provide additional fields in {@link
  * com.google.gerrit.extensions.common.ChangeInfo ChangeInfo}.
  *
- * <p>Register a {@code ChangeAttributeFactory} in a plugin {@code Module} like this:
+ * <p>Register a {@code ChangePluginDefinedInfoFactory} in a plugin {@code Module} like this:
  *
  * <pre>
- * DynamicSet.bind(binder(), ChangeAttributeFactory.class).to(YourClass.class);
+ * DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class).to(YourClass.class);
  * </pre>
  *
  * <p>See the <a
- * href="https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#query_attributes">plugin
- * developer documentation for more details and examples.
+ * href="https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#query_attributes">
+ * plugin developer documentation for more details and examples.
  */
-@Deprecated
-public interface ChangeAttributeFactory {
+public interface ChangePluginDefinedInfoFactory {
 
   /**
-   * Create a plugin-provided info field.
+   * Create a plugin-provided info field for each of the provided {@link ChangeData}s.
    *
    * <p>Typically, implementations will subclass {@code PluginDefinedInfo} to add additional fields.
    *
-   * @param cd change.
+   * @param cds changes.
    * @param beanProvider provider of {@code DynamicBean}s, which may be used for reading options.
    * @param plugin plugin name.
-   * @return the plugin's special change info.
+   * @return map of the plugin's special info for each change
    */
-  PluginDefinedInfo create(ChangeData cd, BeanProvider beanProvider, String plugin);
+  Map<Change.Id, PluginDefinedInfo> createPluginDefinedInfos(
+      Collection<ChangeData> cds, BeanProvider beanProvider, String plugin);
 }

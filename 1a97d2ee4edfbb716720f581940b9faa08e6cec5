@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd762989_080cab1d",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T07:57:58Z",
+      "side": 1,
+      "message": "nit: unneeded line breaks",
+      "range": {
+        "startLine": 258,
+        "startChar": 8,
+        "endLine": 262,
+        "endChar": 16
+      },
+      "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39700357_1631b397",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T07:57:58Z",
+      "side": 1,
+      "message": "Since we ignore the AuthException should we rather use \u0027test\u0027 here?",
+      "range": {
+        "startLine": 654,
+        "startChar": 38,
+        "endLine": 654,
+        "endChar": 43
+      },
+      "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae0997eb_790e6ca6",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T07:57:58Z",
+      "side": 1,
+      "message": "Is this message still accurate with the new patch set?",
+      "range": {
+        "startLine": 62,
+        "startChar": 11,
+        "endLine": 62,
+        "endChar": 99
+      },
+      "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82b80857_9df335a2",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T07:57:58Z",
+      "side": 1,
+      "message": "nit: move this comment down before l. 74?",
+      "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "934691bc_50772620",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteBranchIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T07:57:58Z",
+      "side": 1,
+      "message": "nit: test needs to be renamed",
+      "range": {
+        "startLine": 159,
+        "startChar": 31,
+        "endLine": 159,
+        "endChar": 40
+      },
+      "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba316b6b_6ae371e2",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteBranchIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-20T07:57:58Z",
+      "side": 1,
+      "message": "Maybe it would be better to adapt the test in such a way the calling user has Access Database and hence can see the branch?",
+      "revId": "1a97d2ee4edfbb716720f581940b9faa08e6cec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

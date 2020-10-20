@@ -307,6 +307,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
       [Shortcut.TOGGLE_BLAME]: '_handleToggleBlame',
       [Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
         '_handleToggleHideAllCommentThreads',
+      [Shortcut.OPEN_FILE_LIST]: '_handleOpenFileList',
       [Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
       [Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
       [Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
@@ -1719,6 +1720,12 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (this.modifierPressed(e)) return;
 
     this.toggleClass('hideComments');
+  }
+
+  _handleOpenFileList(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.modifierPressed(e)) return;
+    this.$.dropdown.open();
   }
 
   _handleDiffAgainstBase(e: CustomKeyboardEvent) {

@@ -47,7 +47,7 @@ suite('gr-dropdown-list tests', () => {
   });
 
   test('tap on trigger opens menu', () => {
-    sinon.stub(element, '_open')
+    sinon.stub(element, 'open')
         .callsFake(() => { element.$.dropdown.open(); });
     assert.isFalse(element.$.dropdown.opened);
     MockInteractions.tap(element.$.trigger);

@@ -46,9 +46,8 @@ public class ConfiguredSubscriptionGraphFactory implements SubscriptionGraph.Fac
       throws SubmoduleConflictException {
     if (cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true)) {
       return subscriptionGraphFactory.compute(updatedBranches, orm);
-    } else {
-      logger.atFine().log("Updating superprojects disabled");
-      return SubscriptionGraph.createEmptyGraph(ImmutableSet.copyOf(updatedBranches));
     }
+    logger.atFine().log("Updating superprojects disabled");
+    return SubscriptionGraph.createEmptyGraph(ImmutableSet.copyOf(updatedBranches));
   }
 }

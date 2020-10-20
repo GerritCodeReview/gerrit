@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-/** Input to the {@link ChangeApi#comments(CommentInput)}. */
+/** Input to the {@link ChangeApi#comments}. */
 public class CommentInput {
   public boolean enableContext;
 }

@@ -1563,7 +1563,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     if (!url.endsWith("/")) {
       url += "/";
     }
-    RevCommit c = createCommit(testRepo, "test commit\n\nLink: " + url + "id/" + changeId);
+    createCommit(testRepo, "test commit\n\nLink: " + url + "id/" + changeId);
     pushForReviewOk(testRepo);
 
     List<ChangeMessageInfo> messages = getMessages(changeId);
@@ -1573,7 +1573,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushWithWrongHostLinkFooter() throws Exception {
     String changeId = "I0123456789abcdef0123456789abcdef01234567";
-    RevCommit c = createCommit(testRepo, "test commit\n\nLink: https://wronghost/id/" + changeId);
+    createCommit(testRepo, "test commit\n\nLink: https://wronghost/id/" + changeId);
     pushForReviewRejected(testRepo, "missing Change-Id in message footer");
   }
 
@@ -2731,7 +2731,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   private Collection<CommentInfo> getPublishedComments(String changeId) throws Exception {
-    return gApi.changes().id(changeId).comments().values().stream()
+    return gApi.changes().id(changeId).commentsRequest().get().values().stream()
         .flatMap(Collection::stream)
         .collect(toList());
   }

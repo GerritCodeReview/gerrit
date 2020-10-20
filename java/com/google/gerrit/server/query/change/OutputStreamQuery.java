@@ -17,11 +17,14 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.DynamicOptions;
@@ -97,6 +100,8 @@ public class OutputStreamQuery {
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
+  private ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange =
+      ImmutableListMultimap.of();
 
   @Inject
   OutputStreamQuery(
@@ -207,6 +212,7 @@ public class OutputStreamQuery {
         Map<Project.NameKey, Repository> repos = new HashMap<>();
         Map<Project.NameKey, RevWalk> revWalks = new HashMap<>();
         QueryResult<ChangeData> results = queryProcessor.query(queryBuilder.parse(queryString));
+        pluginInfosByChange = queryProcessor.createPluginDefinedInfos(results.entities());
         try {
           for (ChangeData d : results.entities()) {
             show(buildChangeAttribute(d, repos, revWalks));
@@ -325,6 +331,15 @@ public class OutputStreamQuery {
     }
 
     c.plugins = queryProcessor.getAttributesFactory().create(d);
+    List<PluginDefinedInfo> pluginInfos = pluginInfosByChange.get(d.getId());
+    if (!pluginInfos.isEmpty()) {
+      if (c.plugins == null) {
+        c.plugins = pluginInfos;
+      } else {
+        c.plugins = new ArrayList<>(c.plugins);
+        c.plugins.addAll(pluginInfos);
+      }
+    }
     return c;
   }
 

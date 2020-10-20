@@ -457,6 +457,16 @@ export interface RestApiService {
     cancelCondition?: CancelConditionCallback
   ): Promise<ChangeInfo | undefined | null>;
 
+  getPortedComments(
+    changeNum: NumericChangeId,
+    revision: RevisionId
+  ): Promise<PathToCommentsInfoMap | undefined>;
+
+  getPortedDrafts(
+    changeNum: NumericChangeId,
+    revision: RevisionId
+  ): Promise<PathToCommentsInfoMap | undefined>;
+
   getDiffComments(
     changeNum: NumericChangeId
   ): Promise<PathToCommentsInfoMap | undefined>;

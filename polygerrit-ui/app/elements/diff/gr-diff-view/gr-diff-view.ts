@@ -88,6 +88,7 @@ import {
   PreferencesInfo,
   RepoName,
   RevisionInfo,
+  PortedCommentsAndDrafts,
 } from '../../../types/common';
 import {ChangeViewState, CommitRange, FileRange} from '../../../types/types';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
@@ -101,6 +102,7 @@ import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revisi
 import {CommentMap} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
+import {PORTING_COMMENTS_DIFF_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -1060,6 +1062,17 @@ export class GrDiffView extends KeyboardShortcutMixin(
       return;
     }
 
+    let portedCommentsPromise: Promise<PortedCommentsAndDrafts>;
+    let portedCommentsPatchNum: PatchSetNum;
+    this.reporting.time(PORTING_COMMENTS_DIFF_LATENCY_LABEL);
+    if (value.changeNum && value.patchNum) {
+      portedCommentsPatchNum = value.patchNum;
+      portedCommentsPromise = this.$.restAPI.getPortedCommentsAndDrafts(
+        value.changeNum,
+        value.patchNum
+      );
+    }
+
     const promises: Promise<unknown>[] = [];
 
     promises.push(this._getDiffPreferences());
@@ -1084,6 +1097,24 @@ export class GrDiffView extends KeyboardShortcutMixin(
         this._initPatchRange();
         this._initCommitRange();
         this.$.diffHost.comments = this._commentsForDiff;
+        if (!portedCommentsPromise) {
+          // _initPatchRange() ensures _patchRange is set
+          // AppElementDiffViewParam ensures _changeNum is set
+          portedCommentsPatchNum = this._patchRange!.patchNum;
+          portedCommentsPromise = this.$.restAPI.getPortedCommentsAndDrafts(
+            this._changeNum!,
+            this._patchRange!.patchNum
+          );
+        }
+        portedCommentsPromise.then(() => {
+          // do not report latency if user has changed patchsets during request
+          if (
+            !patchNumEquals(portedCommentsPatchNum, this._patchRange!.patchNum)
+          ) {
+            return;
+          }
+          this.reporting.timeEnd(PORTING_COMMENTS_DIFF_LATENCY_LABEL);
+        });
         const edit = r[4] as EditInfo | undefined;
         if (edit) {
           this.set(`_change.revisions.${edit.commit.commit}`, {

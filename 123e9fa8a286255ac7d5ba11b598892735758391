@@ -237,6 +237,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "622fe495_476055ac",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesWeigher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-20T07:35:32Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "883693e9_03831845",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "012f8b71_54a55f1d",
         "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
         "patchSetId": 4
@@ -301,6 +319,24 @@
       "side": 1,
       "message": "In all other caches we have an interface and an implementation. \n\nAlice also recommended this to me in https://gerrit-review.googlesource.com/c/gerrit/+/280296/comment/a2fa6cd9_0b358afd/.",
       "parentUuid": "7417bb42_f95d7f69",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6387ad5a_a67b3157",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-20T07:35:32Z",
+      "side": 1,
+      "message": "Yes, I saw that comment :-) But why is an interface better than no interface? ISTM it\u0027s just another indirection and complexity, and it\u0027s not clear what the benefit is. Maybe it should be removed for the other caches? Or else there\u0027s a non-obvious reason for having it, in which case that should be mentioned in the docs.",
+      "parentUuid": "6ed4f3c6_cc81a3b9",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -447,6 +483,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a152585a_cfb2195c",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-20T07:35:32Z",
+      "side": 1,
+      "message": "Can you add that link to the value? I think it helps readers understand where this value came from and why it is suitable.",
+      "parentUuid": "1cf9cc57_0ddeb2eb",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31456144_e02e034e",
         "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
         "patchSetId": 4
@@ -476,6 +530,24 @@
       "side": 1,
       "message": "It is.",
       "parentUuid": "31456144_e02e034e",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5a82bd1_31497f52",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-20T07:35:32Z",
+      "side": 1,
+      "message": "I didn\u0027t realize this uses a default of 128MB disk size. Could you add a comment that this uses the default? (It\u0027s probably better not to mention the value itself in case it ever changes.)",
+      "parentUuid": "7654801b_790a8f45",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -581,6 +653,24 @@
       "side": 1,
       "message": "Why is this problematic? I re-read the discussion for the FileCountValidator, and that seemed to replace using the PatchListCache with a direct DiffFormatter#scan [1] in the FileCountValidator for a faster computation. I don\u0027t see a contradiction.\n\nThe DiffFormatter is also used internally by the current diff cache implementation (in PatchListLoader), so I\u0027m just moving it to the new cache here.\n\nOn why we use a a DisabledOutputStream, I need to take a closer look on this, should I?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/264179",
       "parentUuid": "f5395bf2_9cfa7abd",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eda827a_40859c2f",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-20T07:35:32Z",
+      "side": 1,
+      "message": "When I read \"DiffFormatter\" I imagine that it scans two files, computes a diff and formats it for rendering in the frontend. All that output is then discarded into DisabledOutputStream.INSTANCE. That would be expensive and it\u0027s not what it\u0027s doing here (I hope :-). Instead it is used to just find changed files, which is much faster (I hope again, and actually know from FileCountValidator). So it\u0027s obviously OK to use, but if you don\u0027t happen to know that then the documentation here and in DiffFormatter itself doesn\u0027t explain it. It would never occur to me to use a class called Diff*Formatter* to just find changed files. That\u0027s why I think some more documentation would help here.",
+      "parentUuid": "bdf70b44_5f915dac",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

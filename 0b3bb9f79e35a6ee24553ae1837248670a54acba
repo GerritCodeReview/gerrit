@@ -16,6 +16,46 @@
       "message": "Kindly review this change.",
       "revId": "0b3bb9f79e35a6ee24553ae1837248670a54acba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c702414_87962ccf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-21T09:32:05Z",
+      "side": 1,
+      "message": "Have we clearly documented that named queries are considered public knowledge instead of personal information?\n\nI am worried that this is surprising to users. If we make the impression that these queries are per-user information instead of public knowledge, it would leave a bad taste if we opened them up now. The actual risk surface (leaving aside user trust for a moment) is actually low IMO. But user trust seems to be an issue to me.\n\nCould we mitigate this by using prefixes? For example, all queries prefixed with public- can be accessed by other users. While others can\u0027t?\n\nOr could we put this on a host level instead so that named queries can be shared there?",
+      "revId": "0b3bb9f79e35a6ee24553ae1837248670a54acba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0908b89f_a0594cf6",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-21T09:32:05Z",
+      "side": 1,
+      "message": "I checked and it seems this respects account visibility. Good.",
+      "range": {
+        "startLine": 1246,
+        "startChar": 35,
+        "endLine": 1246,
+        "endChar": 47
+      },
+      "revId": "0b3bb9f79e35a6ee24553ae1837248670a54acba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

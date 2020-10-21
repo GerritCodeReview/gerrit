@@ -292,22 +292,6 @@ module.exports = {
       }
     },
     {
-      "files": ["**/*.ts"],
-      "excludedFiles": "*.d.ts",
-      "rules": {
-        // Custom rule from the //tools/js/eslint-rules directory.
-        // See //tools/js/eslint-rules/README.md for details
-        "ts-imports-js": 2,
-      }
-    },
-    {
-      "files": ["**/*.d.ts"],
-      "rules": {
-        // See details in the //tools/js/eslint-rules/report-ts-error.js file.
-        "report-ts-error": "error",
-      }
-    },
-    {
       "files": ["*.html", "test.js", "test-infra.js"],
       "rules": {
         "jsdoc/require-file-overview": "off"
@@ -316,8 +300,6 @@ module.exports = {
     {
       "files": [
         "*.html",
-        "common-test-setup.js",
-        "common-test-setup-karma.js",
         "*_test.js",
         "a11y-test-utils.js",
       ],

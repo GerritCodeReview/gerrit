@@ -182,9 +182,7 @@ function checkChildAllowed(element: Element) {
     `The following node remains in document after the test:
       ${element.tagName}
       Outer HTML:
-      ${element.outerHTML},
-      Stack trace:
-      ${(element as any).stackTrace}`
+      ${element.outerHTML}`
   );
 }
 function checkGlobalSpace() {

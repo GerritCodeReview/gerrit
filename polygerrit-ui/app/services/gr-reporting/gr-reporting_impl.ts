@@ -127,8 +127,8 @@ export function initErrorReporter(appContext: AppContext) {
       oldOnError(msg, url, line, column, error);
     }
     if (error) {
-      line = line || (error as any).lineNumber;
-      column = column || (error as any).columnNumber;
+      line = line || error.lineNumber;
+      column = column || error.columnNumber;
       let shortenedErrorStack = msg;
       if (error.stack) {
         const errorStackLines = error.stack.split('\n');

@@ -86,6 +86,9 @@ function flushImpl(callback?: () => void): Promise<void> | void {
   // Ideally, this function would be a call to Polymer.dom.flush, but that
   // doesn't support a callback yet
   // (https://github.com/Polymer/polymer-dev/issues/851)
+  // The type is used only in one place, disable eslint warning instead of
+  // creating an interface
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as any).Polymer.dom.flush();
   if (callback) {
     nativeSetTimeout(callback, 0);

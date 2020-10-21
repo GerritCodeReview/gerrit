@@ -27,6 +27,7 @@ compiled_pg_srcs = compile_ts(
         ]],
         exclude = [
             "**/*_test.js",
+            "**/*_test.ts",
         ],
     ),
     # The same outdir also appears in the following files:
@@ -48,6 +49,7 @@ compiled_pg_srcs_with_tests = compile_ts(
             "rollup.config.js",
         ],
     ),
+    include_tests = True,
     # The same outdir also appears in the following files:
     # wct_test.sh
     # karma.conf.js

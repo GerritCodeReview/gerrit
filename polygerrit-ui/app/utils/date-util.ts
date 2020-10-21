@@ -141,6 +141,7 @@ export function formatDate(date: Date, format: string) {
   if (format.includes('ss')) {
     options.second = '2-digit';
   }
+
   let locale = 'en-US';
   // Workaround for Chrome 80, en-US is using h24 (midnight is 24:00),
   // en-GB is using h23 (midnight is 00:00)

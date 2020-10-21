@@ -22,6 +22,30 @@
       },
       "revId": "0e9af177f8bb1740a35637ff8e43fc9aee49ea87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df745a03_55698e0c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-21T07:55:56Z",
+      "side": 1,
+      "message": "Yes. Removed.",
+      "parentUuid": "1d9a7b64_d2fe6f81",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 48
+      },
+      "revId": "0e9af177f8bb1740a35637ff8e43fc9aee49ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

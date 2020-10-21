@@ -51,6 +51,24 @@
       "message": "Not sure if we actually want to submit this here?\nI think on submit the change gets non-private automatically nowadays.",
       "revId": "86c29fcecfd39a91a43cd0c67a78a09cb10a318d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "655ac13a_4baf9c9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-21T07:55:56Z",
+      "side": 1,
+      "message": "Right, I\u0027d import this as a Git patch into Google3 so we can roll it out. Once rolled out, we can open up this change to more community members to engage in a discussion.",
+      "parentUuid": "ef464805_55ad1d1f",
+      "revId": "86c29fcecfd39a91a43cd0c67a78a09cb10a318d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

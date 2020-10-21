@@ -1,10 +1,5 @@
 = Gerrit Code Review - Attention Set
 
-The Attention Set will be part of the upcoming 3.3 release (due late 2020).
-We are testing at on some hosts on `googlesource.com` right now. If you build
-your Gerrit from master, you can enable it using
-link:config-gerrit.html#change.enableAttentionSet[enableAttentionSet].
-
 Report a bug or send feedback using
 link:https://bugs.chromium.org/p/gerrit/issues/entry?template=Attention+Set[this Monorail template].
 You can also report a bug through the bug icon in the user hovercard and in the
@@ -16,7 +11,8 @@ reply dialog.
 Code Review is a turn-based workflow going back and forth between the change
 owner and reviewers. For every change Gerrit maintains an "Attention Set" with
 users that are currently expected to act on the change. Both on the dashboard
-and on the change page, this is expressed by an arrow icon before the user name:
+and on the change page, this is expressed by an arrow icon before a (bolded)
+user name:
 
 image::images/user-attention-set-icon.png["account chip with attention icon", align="center"]
 
@@ -41,6 +37,7 @@ To help with the back and forth, Gerrit applies some basic automated rules for
 changing the attention set:
 
 * If reviewers are added to a change, then they are added to the attention set.
+  * Exception: A reviewer adding themselves along with a comment or vote.
 * If an active change is submitted, abandoned or reset to "work in progress",
   then all users are removed from the attention set.
 * Replying (commenting, voting or just writing a change message) removes the
@@ -48,8 +45,8 @@ changing the attention set:
   conversations that the user is replying to.
 * If a *reviewer* replies, then the change owner (and uploader) are added to the
   attention set.
-* For merged and abandoned changes the owner is added when a new human comment
-  is created.
+* For merged and abandoned changes the owner is added only when a human creates
+  an unresolved comment.
 * Only owner, uploader, reviewers and ccs can be in the attention set.
 
 *!IMPORTANT!* These rules are not meant to be super smart and to always do the
@@ -99,17 +96,38 @@ uploader) to the attention set, if it comes along with a negative vote.
 === Dashboard
 
 The default *dashboard* contains a new section at the top called "Your Turn". It
-lists all changes where the logged-in user is in the attention set.
+lists all changes where the logged-in user is in the attention set. When you are
+a reviewer, the change is highlighted and is shown at the top of the section.
+The "Waiting" column indicates how long the owner has already been waiting for
+you to act.
 
 image::images/user-attention-set-dashboard.png["dashboard with Your Turn section", align="center"]
 
-As an active developer one of your daily goals will be to iterate over this list
-and clear it.
+As an active developer, one of your daily goals will be to iterate over this
+list and clear it.
 
 image::images/user-attention-set-dashboard-empty.png["dashboard with empty Your Turn section", align="center"]
 
 Note that you can also navigate to other users' dashboards to check their
 "Your Turn" section.
+
+=== Emails
+
+Every email begins with `Attention is currently required from: ...`, so you can
+identify at a glance whether you are expected to act.
+
+You can even change your email notification preferences in the user settings to
+only receive emails when you are in the attention set of a change:
+
+image::images/user-attention-set-user-prefs.png["user preference for email notifications", align="center"]
+
+If you prefer setting up customized filters in your mail client, then you can
+make use of the `Gerrit-Attention:` footer lines that are added for every user
+in the attention set, e.g.
+
+----
+Gerrit-Attention: Marian Harbach <mharbach@google.com>
+----
 
 === Assignee
 
@@ -123,6 +141,9 @@ is not likely to be important and also still achievable with the attention set.
 Otherwise "Assignee" and "Attention Set" are very much overlapping, so we
 recommend to only use one of them.
 
+If you don't expect action from reviewers, then consider adding them to CC
+instead.
+
 The "Assignee" feature can be turned on/off with the
 link:config-gerrit.html#change.enableAttentionSet[enableAssignee] config option.
 
@@ -132,6 +153,32 @@ Before the attention set feature, changes were bolded in the dashboard when
 *something* happened and you could explicitly "mark a change reviewed" on the
 change page. This former way of keeping track of what you should look at has
 been replaced by the attention set.
+
+=== For Gerrit Admins
+
+The Attention Set will be part of the upcoming 3.3 release (due late 2020).
+We are testing it on `googlesource.com` right now. If you build your Gerrit from
+master, you can enable it using
+link:config-gerrit.html#change.enableAttentionSet[enableAttentionSet].
+
+=== Important note for all host owners, project owners, and bot owners
+
+If you are a host/project owner, please make sure all bots that run against your
+host/project are part of the "Service Users" group.
+
+If you are a bot owner, please make sure your bot is part of the "Service Users"
+group on all hosts it runs on.
+
+To add users to the "Service Users" group, first ensure that the group exists on
+your host. If it doesn't, create it. The name must exactly be "Service Users".
+
+To create a group, use the Gerrit UI; BROWSE -> Groups -> CREATE NEW.
+
+Then, add the bots as members in this group. Alternatively, add an existing
+group that has multiple bots as a subgroup of "Service Users".
+
+To add members or subgroups, use the Gerrit UI; BROWSE -> Groups ->
+search for "Service Users" -> Members.
 
 GERRIT
 ------

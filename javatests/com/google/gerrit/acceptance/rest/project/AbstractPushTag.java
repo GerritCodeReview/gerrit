@@ -22,6 +22,7 @@ import static com.google.gerrit.acceptance.GitUtil.updateAnnotatedTag;
 import static com.google.gerrit.acceptance.rest.project.AbstractPushTag.TagType.ANNOTATED;
 import static com.google.gerrit.acceptance.rest.project.AbstractPushTag.TagType.LIGHTWEIGHT;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
@@ -90,6 +91,26 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     pushTagForNewCommit(Status.OK);
 
     removePushFromRefsTags();
+  }
+
+  @Test
+  public void createTagForExistingCommit_withoutGlobalReadPermissions() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    createTagForExistingCommit();
+  }
+
+  @Test
+  public void createTagForNewCommit_withoutGlobalReadPermissions() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    createTagForNewCommit();
   }
 
   @Test

@@ -16,6 +16,24 @@
       "message": "It would good to have a test for this case.",
       "revId": "ee3012b7439b940df34fb93754656ecec6e25057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "baea8311_07a39933",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-21T13:00:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "83864596_22e72bd1",
+      "revId": "ee3012b7439b940df34fb93754656ecec6e25057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

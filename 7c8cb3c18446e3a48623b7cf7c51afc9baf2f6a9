@@ -262,6 +262,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "762e67c1_228ffd39",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-21T18:00:48Z",
+      "side": 1,
+      "message": "comment would be good.",
+      "parentUuid": "b902b75d_9a60e016",
+      "range": {
+        "startLine": 686,
+        "startChar": 9,
+        "endLine": 691,
+        "endChar": 56
+      },
+      "revId": "7c8cb3c18446e3a48623b7cf7c51afc9baf2f6a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "21c3e0f6_7ea1c209",
         "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
         "patchSetId": 16

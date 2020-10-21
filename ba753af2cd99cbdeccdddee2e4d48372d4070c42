@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8141ef5f_928961fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-21T14:53:19Z",
+      "side": 1,
+      "message": "Here and below: why changeNavStab/diffNavStub should be resetted multiple times?\nCan changeNavStub be called only once (at line 658)?\nOr maybe add assertions?",
+      "range": {
+        "startLine": 630,
+        "startChar": 6,
+        "endLine": 630,
+        "endChar": 28
+      },
+      "revId": "ba753af2cd99cbdeccdddee2e4d48372d4070c42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

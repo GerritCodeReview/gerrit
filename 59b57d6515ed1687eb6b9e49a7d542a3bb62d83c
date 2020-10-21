@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55ebb8b8_45ef5ee5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-21T20:02:36Z",
+      "side": 1,
+      "message": "Approving Marco\u0027s PS2. @Marco can you +2 in return if you agree?",
+      "revId": "59b57d6515ed1687eb6b9e49a7d542a3bb62d83c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

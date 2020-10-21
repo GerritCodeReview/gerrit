@@ -57,10 +57,16 @@ declare global {
 
 const security = window.security;
 
-export function installPolymerResin(safeTypesBridge: SafeTypeBridge) {
+export const _testOnly_defaultResinReportHandler =
+  security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER;
+
+export function installPolymerResin(
+  safeTypesBridge: SafeTypeBridge,
+  reportHandler = security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER
+) {
   window.security.polymer_resin.install({
     allowedIdentifierPrefixes: [''],
-    reportHandler: security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER,
+    reportHandler,
     safeTypesBridge,
   });
 }

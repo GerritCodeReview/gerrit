@@ -22,7 +22,7 @@ export type EventDetails = any;
 
 export interface Timer {
   reset(): this;
-  end(): this;
+  end(): this; 
   withMaximum(maximum: number): this;
 }
 

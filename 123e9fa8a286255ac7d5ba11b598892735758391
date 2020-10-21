@@ -395,6 +395,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b14346f3_f198a18c",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-21T13:54:54Z",
+      "side": 1,
+      "message": "\u003e interface better than no interface? ISTM it\u0027s just another indirection and complexity, and it\u0027s not clear what the benefit is. Maybe it should be removed for the other caches? \n\nmaybe but if all othre caches have it, best to keep it here too, and address it separately?  Introducing interfaces with single implementation is overhead, but it\u0027s not unheard of. See eg. the new test APIs that Alice has been working on it. It does make things clearer for folks who read the source directly, because the interface is a succinct definition of how a class should be used.",
+      "parentUuid": "686bfb61_9ac51b4d",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d27d7da_ba9951ec",

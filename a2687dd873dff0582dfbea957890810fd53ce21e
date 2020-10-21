@@ -120,6 +120,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2644044_36815d25",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-21T16:41:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bcb9ac81_36b05e09",
+      "range": {
+        "startLine": 114,
+        "startChar": 58,
+        "endLine": 114,
+        "endChar": 89
+      },
+      "revId": "a2687dd873dff0582dfbea957890810fd53ce21e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92e449b4_9c0502c8",
@@ -157,6 +181,30 @@
       "side": 1,
       "message": "I thought there is no harm in being more restritive. After all, these branches should not exist in non-All-Users repos. And if they do, that\u0027s weird and we might as well hide them.",
       "parentUuid": "92e449b4_9c0502c8",
+      "range": {
+        "startLine": 128,
+        "startChar": 7,
+        "endLine": 128,
+        "endChar": 53
+      },
+      "revId": "a2687dd873dff0582dfbea957890810fd53ce21e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74300dc2_4ad8ced4",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-21T16:41:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "96010551_0591a095",
       "range": {
         "startLine": 128,
         "startChar": 7,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "049948ce_4da1bace",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-21T11:39:30Z",
+      "side": 1,
+      "message": "This would have been a bad oversight that would have exposed user refs to unauthenticated users. Luckily we had an internal test that caught it, but we should really have an upstream test for this as well.",
+      "range": {
+        "startLine": 114,
+        "startChar": 58,
+        "endLine": 114,
+        "endChar": 89
+      },
+      "revId": "a2687dd873dff0582dfbea957890810fd53ce21e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

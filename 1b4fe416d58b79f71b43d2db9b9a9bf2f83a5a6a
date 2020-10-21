@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b66d64c2_81af592a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-21T14:17:33Z",
+      "side": 1,
+      "message": "What is still missing is a test that proofs that you can create tags via git even if you don\u0027t have access to all refs on the repo to make sure this bypasses the tag-ref-walk logic.",
+      "revId": "1b4fe416d58b79f71b43d2db9b9a9bf2f83a5a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,7 +22,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {sortComments} from '../../../utils/comment-util.js';
 import {Side} from '../../../constants/constants.js';
-import {generateChange} from '../../../test/test-utils';
+import {generateChange} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 

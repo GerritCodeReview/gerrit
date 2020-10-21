@@ -14,14 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import './common-test-setup.js';
-import '@polymer/test-fixture/test-fixture.js';
-import 'chai/chai.js';
-self.assert = window.chai.assert;
-self.expect = window.chai.expect;
+import './common-test-setup';
+import '@polymer/test-fixture/test-fixture';
+import 'chai/chai';
+
+declare global {
+  interface Window {
+    flush(): Promise<void>;
+    flush(callback: () => void): void;
+    fixtureFromTemplate(template: HTMLTemplateElement): TestFixture;
+    fixtureFromElement(tagName: string): TestFixture;
+  }
+}
 
 // Workaround for https://github.com/karma-runner/karma-mocha/issues/227
-let unhandledError = null;
+let unhandledError: ErrorEvent;
 
 window.addEventListener('error', e => {
   // For uncaught error mochajs doesn't print the full stack trace.
@@ -31,7 +38,7 @@ window.addEventListener('error', e => {
   unhandledError = e;
 });
 
-let originalOnBeforeUnload;
+let originalOnBeforeUnload: typeof window.onbeforeunload;
 
 suiteSetup(() => {
   // This suiteSetup() method is called only once before all tests
@@ -39,7 +46,7 @@ suiteSetup(() => {
   // Can't use window.addEventListener("beforeunload",...) here,
   // the handler is raised too late.
   originalOnBeforeUnload = window.onbeforeunload;
-  window.onbeforeunload = e => {
+  window.onbeforeunload = function (e: BeforeUnloadEvent) {
     // If a test reloads a page, we can't prevent it.
     // However we can print earror and the stack trace with assert.fail
     try {
@@ -48,7 +55,9 @@ suiteSetup(() => {
       console.error('Page reloading attempt detected.');
       console.error(e.stack.toString());
     }
-    originalOnBeforeUnload(e);
+    if (originalOnBeforeUnload) {
+      originalOnBeforeUnload.call(this, e);
+    }
   };
 });
 
@@ -64,18 +73,18 @@ suiteTeardown(() => {
 // Keep the original one for use in test utils methods.
 const nativeSetTimeout = window.setTimeout;
 
+function flush(): Promise<void>;
+function flush(callback: () => void): void;
 /**
  * Triggers a flush of any pending events, observations, etc and calls you back
  * after they have been processed if callback is passed; otherwise returns
  * promise.
- *
- * @param {function()} callback
  */
-function flush(callback) {
+function flush(callback?: () => void): Promise<void> | void {
   // Ideally, this function would be a call to Polymer.dom.flush, but that
   // doesn't support a callback yet
   // (https://github.com/Polymer/polymer-dev/issues/851)
-  window.Polymer.dom.flush();
+  (window as any).Polymer.dom.flush();
   if (callback) {
     nativeSetTimeout(callback, 0);
   } else {
@@ -88,16 +97,9 @@ function flush(callback) {
 self.flush = flush;
 
 class TestFixtureIdProvider {
-  static get instance() {
-    if (!TestFixtureIdProvider._instance) {
-      TestFixtureIdProvider._instance = new TestFixtureIdProvider();
-    }
-    return TestFixtureIdProvider._instance;
-  }
+  public static readonly instance: TestFixtureIdProvider = new TestFixtureIdProvider();
 
-  constructor() {
-    this.fixturesCount = 1;
-  }
+  private fixturesCount = 1;
 
   generateNewFixtureId() {
     this.fixturesCount++;
@@ -106,21 +108,19 @@ class TestFixtureIdProvider {
 }
 
 class TestFixture {
-  constructor(fixtureId) {
-    this.fixtureId = fixtureId;
-  }
+  constructor(private readonly fixtureId: string) {}
 
   /**
    * Create an instance of a fixture's template.
    *
-   * @param {Object} model - see Data-bound sections at
+   * @param model - see Data-bound sections at
    *   https://www.webcomponents.org/element/@polymer/test-fixture
-   * @return {HTMLElement | HTMLElement[]} - if the fixture's template contains
+   * @return - if the fixture's template contains
    *   a single element, returns the appropriated instantiated element.
    *   Otherwise, it return an array of all instantiated elements from the
    *   template.
    */
-  instantiate(model) {
+  instantiate(model: unknown) {
     // The window.fixture method is defined in common-test-setup.js
     return window.fixture(this.fixtureId, model);
   }
@@ -153,10 +153,9 @@ class TestFixture {
  *   });
  * }
  *
- * @param {HTMLTemplateElement} template - a template for a fixture
- * @return {TestFixture} - the instance of TestFixture class
+ * @param template - a template for a fixture
  */
-function fixtureFromTemplate(template) {
+function fixtureFromTemplate(template: HTMLTemplateElement): TestFixture {
   const fixtureId = TestFixtureIdProvider.instance.generateNewFixtureId();
   const testFixture = document.createElement('test-fixture');
   testFixture.setAttribute('id', fixtureId);
@@ -183,14 +182,13 @@ function fixtureFromTemplate(template) {
  *   });
  * }
  *
- * @param {HTMLTemplateElement} template - a template for a fixture
- * @return {TestFixture} - the instance of TestFixture class
+ * @param tagName - a template for a fixture is <tagName></tagName>
  */
-function fixtureFromElement(tagName) {
+function fixtureFromElement(tagName: string): TestFixture {
   const template = document.createElement('template');
   template.innerHTML = `<${tagName}></${tagName}>`;
   return fixtureFromTemplate(template);
 }
 
-window.fixtureFromTemplate = fixtureFromTemplate;
-window.fixtureFromElement = fixtureFromElement;
+self.fixtureFromTemplate = fixtureFromTemplate;
+self.fixtureFromElement = fixtureFromElement;

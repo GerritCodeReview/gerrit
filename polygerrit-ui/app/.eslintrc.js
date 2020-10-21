@@ -280,6 +280,11 @@ module.exports = {
         // it catches almost all errors related to invalid usage of this.
         "no-invalid-this": "off",
 
+        "node/no-extraneous-import": "off",
+
+        // Typescript already checks for undef
+        "no-undef": "off",
+
         "jsdoc/no-types": 2,
       },
       "parserOptions": {

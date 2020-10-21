@@ -189,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3f9266b_1f61eb20",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-21T14:14:22Z",
+      "side": 1,
+      "message": "Done and resolved.",
+      "parentUuid": "2f0cfeaa_99627cec",
+      "range": {
+        "startLine": 116,
+        "startChar": 75,
+        "endLine": 117,
+        "endChar": 69
+      },
+      "revId": "7c8cb3c18446e3a48623b7cf7c51afc9baf2f6a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff78da23_01d9f014",

@@ -726,7 +726,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   _navToFile(path: string, fileList: string[], direction: -1 | 1) {
     const newPath = this._getNavLinkPath(path, fileList, direction);
-    if (!newPath?.path) return;
+    if (!newPath) return;
     if (!this._change) return;
     if (!this._patchRange) return;
 
@@ -739,6 +739,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
       return;
     }
 
+    if (!newPath.path) return;
     GerritNav.navigateToDiff(
       this._change,
       newPath.path,

@@ -93,6 +93,20 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
   }
 
   @Test
+  public void createTagForExistingCommit_withoutGlobalReadPermissions() throws Exception {
+    removeReadAccessOnRefsStar();
+    grantReadAccessOnRefsHeadsStar();
+    createTagForExistingCommit();
+  }
+
+  @Test
+  public void createTagForNewCommit_withoutGlobalReadPermissions() throws Exception {
+    removeReadAccessOnRefsStar();
+    grantReadAccessOnRefsHeadsStar();
+    createTagForNewCommit();
+  }
+
+  @Test
   public void fastForward() throws Exception {
     allowTagCreation();
     String tagName = pushTagForExistingCommit(Status.OK);
@@ -232,6 +246,27 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     PushResult r = deleteRef(testRepo, tagRef);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
     assertWithMessage(tagType.name()).that(refUpdate.getStatus()).isEqualTo(expectedStatus);
+  }
+
+  private void removeReadAccessOnRefsStar() {
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .remove(permissionKey(Permission.READ).ref("refs/*"))
+        .update();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .remove(permissionKey(Permission.READ).ref("refs/*"))
+        .update();
+  }
+
+  private void grantReadAccessOnRefsHeadsStar() {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
   }
 
   private void allowTagCreation() throws Exception {

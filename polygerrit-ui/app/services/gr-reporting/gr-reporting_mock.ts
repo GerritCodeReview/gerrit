@@ -14,7 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const grReportingMock = {
+import {ReportingService, Timer} from './gr-reporting';
+
+export class MockTimer implements Timer {
+  end(): this {
+    return this;
+  }
+
+  reset(): this {
+    return this;
+  }
+
+  withMaximum(_: number): this {
+    return this;
+  }
+}
+
+export const grReportingMock: ReportingService = {
   appStarted: () => {},
   beforeLocationChanged: () => {},
   changeDisplayed: () => {},
@@ -25,7 +41,7 @@ export const grReportingMock = {
   diffViewFullyLoaded: () => {},
   fileListDisplayed: () => {},
   getTimer: () => {
-    return {end: () => {}};
+    return new MockTimer();
   },
   locationChanged: () => {},
   onVisibilityChange: () => {},

@@ -70,6 +70,53 @@
       },
       "revId": "a2687dd873dff0582dfbea957890810fd53ce21e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "169e7b8d_dc04adbf",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-21T16:20:57Z",
+      "side": 1,
+      "message": "So with the new logic in hasReadPermissionOnRef this would trigger an ISE for anonymous now? Shouldn\u0027t it rather filter out the ref than fail?",
+      "parentUuid": "442cf10b_572b195c",
+      "range": {
+        "startLine": 114,
+        "startChar": 58,
+        "endLine": 114,
+        "endChar": 89
+      },
+      "revId": "a2687dd873dff0582dfbea957890810fd53ce21e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92e449b4_9c0502c8",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-21T16:20:57Z",
+      "side": 1,
+      "message": "why was this dropped?",
+      "range": {
+        "startLine": 128,
+        "startChar": 7,
+        "endLine": 128,
+        "endChar": 53
+      },
+      "revId": "a2687dd873dff0582dfbea957890810fd53ce21e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

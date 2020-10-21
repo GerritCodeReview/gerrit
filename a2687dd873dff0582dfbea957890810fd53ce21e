@@ -46,6 +46,30 @@
       },
       "revId": "a2687dd873dff0582dfbea957890810fd53ce21e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "442cf10b_572b195c",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-21T14:13:24Z",
+      "side": 1,
+      "message": "If the user was anonymous, currentUserAccountId \u003d null. Hence, it would not enter the body of this if condition. So it would just go to the end of the method and trigger the faulty check for Gerrit permissions.\n\nI built in a second defense layer into hasReadPermissionOnRef that would also fix this type of problem as Han-Wen suggested.",
+      "parentUuid": "8b1300ee_732dd434",
+      "range": {
+        "startLine": 114,
+        "startChar": 58,
+        "endLine": 114,
+        "endChar": 89
+      },
+      "revId": "a2687dd873dff0582dfbea957890810fd53ce21e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

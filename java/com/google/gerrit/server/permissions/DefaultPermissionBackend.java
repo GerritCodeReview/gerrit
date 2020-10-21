@@ -42,6 +42,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Singleton
@@ -82,12 +83,12 @@ public class DefaultPermissionBackend extends PermissionBackend {
   @Override
   public WithUser absentUser(Account.Id id) {
     requireNonNull(id, "user");
-    CurrentUser user = currentUser.get();
-    if (user.isIdentifiedUser() && id.equals(user.asIdentifiedUser().getAccountId())) {
+    Optional<Account.Id> user = getAccountIdOfIdentifiedUser();
+    if (user.isPresent() && id.equals(user.get())) {
       // What looked liked an absent user is actually the current caller. Use the per-request
       // singleton IdentifiedUser instead of constructing a new object to leverage caching in member
       // variables of IdentifiedUser.
-      return new WithUserImpl(user.asIdentifiedUser());
+      return new WithUserImpl(currentUser.get().asIdentifiedUser());
     }
     return new WithUserImpl(identifiedUserFactory.create(requireNonNull(id, "user")));
   }
@@ -95,6 +96,21 @@ public class DefaultPermissionBackend extends PermissionBackend {
   @Override
   public boolean usesDefaultCapabilities() {
     return true;
+  }
+
+  /**
+   * Returns the {@link Account.Id} of the current user if a user is signed in. Catches exceptions
+   * so that background jobs don't get impacted.
+   */
+  private Optional<Account.Id> getAccountIdOfIdentifiedUser() {
+    try {
+      return currentUser.get().isIdentifiedUser()
+          ? Optional.of(currentUser.get().getAccountId())
+          : Optional.empty();
+    } catch (Exception e) {
+      logger.atFine().withCause(e).log("Unable to get current user");
+      return Optional.empty();
+    }
   }
 
   class WithUserImpl extends WithUser {

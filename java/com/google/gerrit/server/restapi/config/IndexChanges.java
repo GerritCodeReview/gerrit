@@ -19,11 +19,13 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.config.IndexChanges.Input;
 import com.google.gwtorm.server.OrmException;
@@ -31,6 +33,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -67,7 +70,16 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
 
     try (ReviewDb db = schemaFactory.open()) {
       for (String id : input.changes) {
-        for (ChangeNotes n : changeFinder.find(id)) {
+        List<ChangeNotes> notes;
+        try {
+          notes = changeFinder.find(id);
+        } catch (NoSuchChangeException e) {
+          logger.atWarning().withCause(e).log(
+              "Change %s doesn't exist, will try to remove it from index", id);
+          removeFromIndex(e.getChangeId());
+          continue;
+        }
+        for (ChangeNotes n : notes) {
           try {
             indexer.index(changeDataFactory.create(db, n));
             logger.atFine().log("Indexed change %s", id);
@@ -79,5 +91,13 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
     }
 
     return Response.ok("Indexed changes " + input.changes);
+  }
+
+  private void removeFromIndex(Change.Id id) {
+    try {
+      indexer.delete(id);
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log("Error while trying to remove change %s from index", id);
+    }
   }
 }

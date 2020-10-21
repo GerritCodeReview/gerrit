@@ -21,11 +21,18 @@ import com.google.gwtorm.server.OrmException;
 public class NoSuchChangeException extends OrmException {
   private static final long serialVersionUID = 1L;
 
+  private final Change.Id id;
+
   public NoSuchChangeException(Change.Id key) {
     this(key, null);
   }
 
   public NoSuchChangeException(Change.Id key, Throwable why) {
     super(key.toString(), why);
+    id = key;
+  }
+
+  public Change.Id getChangeId() {
+    return id;
   }
 }

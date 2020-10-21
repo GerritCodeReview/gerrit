@@ -627,22 +627,26 @@ suite('gr-diff-view tests', () => {
       assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
           PARENT), 'Should navigate to /c/42/1');
 
+      changeNavStub.reset();
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
           PARENT), 'Should navigate to /c/42/1');
 
+      diffNavStub.reset();
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
           'wheatley.md', '1', PARENT),
       'Should navigate to /c/42/1/wheatley.md');
       element._path = 'wheatley.md';
 
+      diffNavStub.reset();
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
           'glados.txt', '1', PARENT),
       'Should navigate to /c/42/1/glados.txt');
       element._path = 'glados.txt';
 
+      diffNavStub.reset();
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(diffNavStub.lastCall.calledWithExactly(
           element._change,
@@ -651,9 +655,11 @@ suite('gr-diff-view tests', () => {
           PARENT), 'Should navigate to /c/42/1/chell.go');
       element._path = 'chell.go';
 
+      changeNavStub.reset();
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
           PARENT), 'Should navigate to /c/42/1');
+      assert.isTrue(changeNavStub.calledOnce);
     });
 
     test('edit should redirect to edit page', done => {

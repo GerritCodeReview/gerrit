@@ -75,50 +75,50 @@ declare global {
     // TODO(TS): should clean up those and removing them may break certain plugin behaviors
     // TODO(TS): as @brohlfs suggested, to avoid importing anything from elements/ to types/
     // use any for them for now
-    GrDisplayNameUtils: any;
-    GrAnnotation: any;
-    GrAttributeHelper: any;
-    GrDiffLine: any;
-    GrDiffLineType: any;
-    GrDiffGroup: any;
-    GrDiffGroupType: any;
-    GrDiffBuilder: any;
-    GrDiffBuilderSideBySide: any;
-    GrDiffBuilderImage: any;
-    GrDiffBuilderUnified: any;
-    GrDiffBuilderBinary: any;
-    GrChangeActionsInterface: any;
-    GrChangeReplyInterface: any;
-    GrEditConstants: any;
-    GrDomHooksManager: any;
-    GrDomHook: any;
-    GrEtagDecorator: any;
-    GrThemeApi: any;
-    SiteBasedCache: any;
-    FetchPromisesCache: any;
-    GrRestApiHelper: any;
-    GrLinkTextParser: any;
-    GrPluginEndpoints: any;
-    GrReviewerUpdatesParser: any;
-    GrPopupInterface: any;
-    GrCountStringFormatter: any;
-    GrReviewerSuggestionsProvider: any;
-    util: any;
-    Auth: any;
-    EventEmitter: any;
-    GrAdminApi: any;
-    GrAnnotationActionsContext: any;
-    GrAnnotationActionsInterface: any;
-    GrChangeMetadataApi: any;
-    GrEmailSuggestionsProvider: any;
-    GrGroupSuggestionsProvider: any;
-    GrEventHelper: any;
-    GrPluginRestApi: any;
-    GrRepoApi: any;
-    GrSettingsApi: any;
-    GrStylesApi: any;
-    PluginLoader: any;
-    GrPluginActionContext: any;
+    GrDisplayNameUtils: unknown;
+    GrAnnotation: unknown;
+    GrAttributeHelper: unknown;
+    GrDiffLine: unknown;
+    GrDiffLineType: unknown;
+    GrDiffGroup: unknown;
+    GrDiffGroupType: unknown;
+    GrDiffBuilder: unknown;
+    GrDiffBuilderSideBySide: unknown;
+    GrDiffBuilderImage: unknown;
+    GrDiffBuilderUnified: unknown;
+    GrDiffBuilderBinary: unknown;
+    GrChangeActionsInterface: unknown;
+    GrChangeReplyInterface: unknown;
+    GrEditConstants: unknown;
+    GrDomHooksManager: unknown;
+    GrDomHook: unknown;
+    GrEtagDecorator: unknown;
+    GrThemeApi: unknown;
+    SiteBasedCache: unknown;
+    FetchPromisesCache: unknown;
+    GrRestApiHelper: unknown;
+    GrLinkTextParser: unknown;
+    GrPluginEndpoints: unknown;
+    GrReviewerUpdatesParser: unknown;
+    GrPopupInterface: unknown;
+    GrCountStringFormatter: unknown;
+    GrReviewerSuggestionsProvider: unknown;
+    util: unknown;
+    Auth: unknown;
+    EventEmitter: unknown;
+    GrAdminApi: unknown;
+    GrAnnotationActionsContext: unknown;
+    GrAnnotationActionsInterface: unknown;
+    GrChangeMetadataApi: unknown;
+    GrEmailSuggestionsProvider: unknown;
+    GrGroupSuggestionsProvider: unknown;
+    GrEventHelper: unknown;
+    GrPluginRestApi: unknown;
+    GrRepoApi: unknown;
+    GrSettingsApi: unknown;
+    GrStylesApi: unknown;
+    PluginLoader: unknown;
+    GrPluginActionContext: unknown;
     _apiUtils: {};
   }
 
@@ -137,5 +137,10 @@ declare global {
     // but marking it as optional breaks CustomKeyboardEvent
     // TODO(TS): replace with composedPath if possible
     readonly path: EventTarget[];
+  }
+
+  interface Error {
+    lineNumber?: number; // non-standard property
+    columnNumber?: number; // non-standard property
   }
 }

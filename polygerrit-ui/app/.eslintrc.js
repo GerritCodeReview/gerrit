@@ -300,8 +300,6 @@ module.exports = {
     {
       "files": [
         "*.html",
-        "common-test-setup.js",
-        "common-test-setup-karma.js",
         "*_test.js",
         "a11y-test-utils.js",
       ],

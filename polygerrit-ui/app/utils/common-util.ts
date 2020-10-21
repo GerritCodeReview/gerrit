@@ -33,7 +33,8 @@ export function hasOwnProperty(obj: any, prop: PropertyKey) {
 }
 
 // TODO(TS): move to common types once we have type utils
-// tslint:disable-next-line:no-any Required for constructor signature.
+//  Required for constructor signature.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Constructor<T> = new (...args: any[]) => T;
 
 /**

@@ -22,6 +22,7 @@ import java.util.Objects;
  */
 public class ValidationMessage {
   public enum Type {
+    FATAL("FATAL: "),
     ERROR("ERROR: "),
     WARNING("WARNING: "),
     HINT("hint: "),
@@ -70,7 +71,7 @@ public class ValidationMessage {
    * Returns {@true} if this message is an error. Used to decide if the operation should be aborted.
    */
   public boolean isError() {
-    return type == Type.ERROR;
+    return type == Type.FATAL || type == Type.ERROR;
   }
 
   @Override

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b19bfc75_e976d44c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AbstractPushTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-21T16:31:19Z",
+      "side": 1,
+      "message": "Can the user still see some ref in the repo? Otherwise I\u0027d be surprised the push goes through.",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 33
+      },
+      "revId": "c631b36ba756f365f6a6ef71f978318e62efb9e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

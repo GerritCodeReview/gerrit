@@ -39,6 +39,30 @@
       },
       "revId": "1b4fe416d58b79f71b43d2db9b9a9bf2f83a5a6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d4058a1_5f39affd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-21T16:35:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6170a980_ea34aed1",
+      "range": {
+        "startLine": 329,
+        "startChar": 0,
+        "endLine": 329,
+        "endChar": 4
+      },
+      "revId": "1b4fe416d58b79f71b43d2db9b9a9bf2f83a5a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

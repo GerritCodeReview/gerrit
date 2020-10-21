@@ -22,6 +22,7 @@ import java.util.Objects;
  */
 public class ValidationMessage {
   public enum Type {
+    FATAL("FATAL: "),
     ERROR("ERROR: "),
     WARNING("WARNING: "),
     HINT("hint: "),

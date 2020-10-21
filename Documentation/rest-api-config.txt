@@ -1701,7 +1701,7 @@ consistency problem.
 |======================
 |Field Name|Description
 |`status`  |The status of the consistency problem. +
-Possible values are `ERROR` and `WARNING`.
+Possible values are `FATAL`, `ERROR` and `WARNING`.
 |`message` |Message describing the consistency problem.
 |======================
 

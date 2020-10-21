@@ -48,6 +48,7 @@ public class ConsistencyCheckInfo {
 
   public static class ConsistencyProblemInfo {
     public enum Status {
+      FATAL,
       ERROR,
       WARNING,
     }

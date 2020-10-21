@@ -48,7 +48,10 @@ import {
   GeneratedWebLink,
 } from '../gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
-import {patchNumEquals} from '../../../utils/patch-set-util';
+import {
+  patchNumEquals,
+  convertToPatchSetNum,
+} from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {assertNever} from '../../../utils/common-util';
 import {
@@ -1539,8 +1542,8 @@ export class GrRouter extends GestureEventListeners(
       project: ctx.params[0] as RepoName,
       // TODO(TS): remove as unknown
       changeNum: (ctx.params[1] as unknown) as NumericChangeId,
-      basePatchNum: ctx.params[4] as PatchSetNum,
-      patchNum: ctx.params[6] as PatchSetNum,
+      basePatchNum: convertToPatchSetNum(ctx.params[4]),
+      patchNum: convertToPatchSetNum(ctx.params[6]),
       view: GerritView.CHANGE,
       queryMap: ctx.queryMap,
     };
@@ -1566,8 +1569,8 @@ export class GrRouter extends GestureEventListeners(
     const params: GenerateUrlDiffViewParameters = {
       project: ctx.params[0] as RepoName,
       changeNum: (ctx.params[1] as unknown) as NumericChangeId,
-      basePatchNum: ctx.params[4] as PatchSetNum,
-      patchNum: ctx.params[6] as PatchSetNum,
+      basePatchNum: convertToPatchSetNum(ctx.params[4]),
+      patchNum: convertToPatchSetNum(ctx.params[6]),
       path: ctx.params[8],
       view: GerritView.DIFF,
     };
@@ -1584,8 +1587,8 @@ export class GrRouter extends GestureEventListeners(
     // Parameter order is based on the regex group number matched.
     const params: GenerateUrlLegacyChangeViewParameters = {
       changeNum: (ctx.params[0] as unknown) as NumericChangeId,
-      basePatchNum: ctx.params[3] as PatchSetNum,
-      patchNum: ctx.params[5] as PatchSetNum,
+      basePatchNum: convertToPatchSetNum(ctx.params[3]),
+      patchNum: convertToPatchSetNum(ctx.params[5]),
       view: GerritView.CHANGE,
       querystring: ctx.querystring,
     };
@@ -1602,8 +1605,8 @@ export class GrRouter extends GestureEventListeners(
     const params: GenerateUrlLegacyDiffViewParameters = {
       // TODO(TS): remove "as unknown"
       changeNum: (ctx.params[0] as unknown) as NumericChangeId,
-      basePatchNum: ctx.params[2] as PatchSetNum,
-      patchNum: ctx.params[4] as PatchSetNum,
+      basePatchNum: convertToPatchSetNum(ctx.params[2]),
+      patchNum: convertToPatchSetNum(ctx.params[4]),
       path: ctx.params[5],
       view: GerritView.DIFF,
     };
@@ -1623,7 +1626,8 @@ export class GrRouter extends GestureEventListeners(
     this._redirectOrNavigate({
       project,
       changeNum: (ctx.params[1] as unknown) as NumericChangeId,
-      patchNum: ctx.params[2] as PatchSetNum,
+      // for edit view params, patchNum cannot be undefined
+      patchNum: convertToPatchSetNum(ctx.params[2])!,
       path: ctx.params[3],
       lineNum: ctx.hash,
       view: GerritView.EDIT,
@@ -1638,7 +1642,7 @@ export class GrRouter extends GestureEventListeners(
       project,
       // TODO(TS): remove "as unknown"
       changeNum: (ctx.params[1] as unknown) as NumericChangeId,
-      patchNum: ctx.params[3] as PatchSetNum,
+      patchNum: convertToPatchSetNum(ctx.params[3]),
       view: GerritView.CHANGE,
       edit: true,
     });

@@ -33,6 +33,24 @@
       "message": "@Patrick can someone from Google give the LC+1?\n(see the Jetty upgrade included in the merge)",
       "revId": "563fe1f30165173aa15b350d9031ea23b80642b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46e61e46_19da889c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-21T06:57:07Z",
+      "side": 1,
+      "message": "Done for the entire series",
+      "parentUuid": "dc50286b_a741eeda",
+      "revId": "563fe1f30165173aa15b350d9031ea23b80642b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

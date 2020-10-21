@@ -4,6 +4,7 @@ import {
   PatchSetNum,
   EditPatchSetNum,
   BrandType,
+  ParentPatchSetNum,
 } from '../types/common';
 import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
 import {ParsedChangeInfo} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
@@ -76,6 +77,22 @@ export function patchNumEquals(a?: PatchSetNum, b?: PatchSetNum) {
  */
 export function isMergeParent(n: PatchSetNum) {
   return `${n}`[0] === '-';
+}
+
+export function isPatchSetNum(patchset: string) {
+  if (!isNaN(Number(patchset))) return true;
+  return patchset === EditPatchSetNum || patchset === ParentPatchSetNum;
+}
+
+export function convertToPatchSetNum(
+  patchset: string | undefined
+): PatchSetNum | undefined {
+  if (patchset === undefined) return patchset;
+  if (!isPatchSetNum(patchset)) {
+    console.error('string is not of type PatchSetNum');
+  }
+  if (!isNaN(Number(patchset))) return Number(patchset) as PatchSetNum;
+  return patchset as PatchSetNum;
 }
 
 export function isNumber(

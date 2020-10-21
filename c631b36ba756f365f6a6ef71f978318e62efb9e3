@@ -22,6 +22,30 @@
       },
       "revId": "c631b36ba756f365f6a6ef71f978318e62efb9e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1705705_7a0db403",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AbstractPushTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-21T16:36:57Z",
+      "side": 1,
+      "message": "I believe the user has no read access at all now. \nI\u0027m surprised too that this actually works like this.",
+      "parentUuid": "b19bfc75_e976d44c",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 33
+      },
+      "revId": "c631b36ba756f365f6a6ef71f978318e62efb9e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

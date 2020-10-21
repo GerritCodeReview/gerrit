@@ -551,6 +551,14 @@ export class ShortcutManager {
 
   private readonly bindings = new Map<Shortcut, string[]>();
 
+  public _testOnly_getBindings() {
+    return this.bindings;
+  }
+
+  public _testOnly_isEmpty() {
+    return this.activeHosts.size === 0 && this.listeners.size === 0;
+  }
+
   private readonly listeners = new Set<ShortcutListener>();
 
   bindShortcut(shortcut: Shortcut, ...bindings: string[]) {

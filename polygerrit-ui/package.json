@@ -2,7 +2,11 @@
   "name": "polygerrit-ui-dev-dependencies",
   "description": "Gerrit Code Review - Polygerrit dev dependencies",
   "browser": true,
-  "dependencies": {},
+  "dependencies": {
+    "@types/chai": "^4.2.14",
+    "@types/mocha": "^8.0.3",
+    "@types/sinon": "^9.0.8"
+  },
   "devDependencies": {
     "@open-wc/karma-esm": "^2.16.16",
     "@polymer/iron-test-helpers": "^3.0.1",

@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "typeRoots": [
+      "../../external/ui_npm/node_modules/@types",
+      "../../external/ui_dev_npm/node_modules/@types"
+    ]
+  }
+}

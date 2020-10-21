@@ -3,7 +3,8 @@ load("//tools/js:eslint.bzl", "eslint")
 
 package(default_visibility = ["//visibility:public"])
 
-# This list must be in sync with the "include" list in the tsconfig.json file
+# This list must be in sync with the "include" list in the follwoing files:
+# tsconfig.json, tsconfig_bazel.json, tsconfig_bazel_test.json
 src_dirs = [
     "constants",
     "elements",
@@ -27,6 +28,7 @@ compiled_pg_srcs = compile_ts(
         ]],
         exclude = [
             "**/*_test.js",
+            "**/*_test.ts",
         ],
     ),
     # The same outdir also appears in the following files:
@@ -40,6 +42,7 @@ compiled_pg_srcs_with_tests = compile_ts(
         [
             "**/*.js",
             "**/*.ts",
+            "test/@types/*.d.ts",
         ],
         exclude = [
             "node_modules/**",
@@ -48,6 +51,7 @@ compiled_pg_srcs_with_tests = compile_ts(
             "rollup.config.js",
         ],
     ),
+    include_tests = True,
     # The same outdir also appears in the following files:
     # wct_test.sh
     # karma.conf.js

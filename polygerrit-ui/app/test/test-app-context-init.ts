@@ -16,14 +16,17 @@
  */
 
 // Init app context before any other imports
-import {initAppContext} from '../services/app-context-init.js';
-import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock.js';
-import {appContext} from '../services/app-context.js';
+import {initAppContext} from '../services/app-context-init';
+import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
+import {AppContext, appContext} from '../services/app-context';
 
 export function _testOnlyInitAppContext() {
   initAppContext();
 
-  function setMock(serviceName, setupMock) {
+  function setMock<T extends keyof AppContext>(
+    serviceName: T,
+    setupMock: AppContext[T]
+  ) {
     Object.defineProperty(appContext, serviceName, {
       get() {
         return setupMock;

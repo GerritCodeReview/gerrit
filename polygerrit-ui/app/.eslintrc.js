@@ -280,26 +280,15 @@ module.exports = {
         // it catches almost all errors related to invalid usage of this.
         "no-invalid-this": "off",
 
+        "node/no-extraneous-import": "off",
+
+        // Typescript already checks for undef
+        "no-undef": "off",
+
         "jsdoc/no-types": 2,
       },
       "parserOptions": {
         "project": path.resolve(__dirname, "./tsconfig_eslint.json"),
-      }
-    },
-    {
-      "files": ["**/*.ts"],
-      "excludedFiles": "*.d.ts",
-      "rules": {
-        // Custom rule from the //tools/js/eslint-rules directory.
-        // See //tools/js/eslint-rules/README.md for details
-        "ts-imports-js": 2,
-      }
-    },
-    {
-      "files": ["**/*.d.ts"],
-      "rules": {
-        // See details in the //tools/js/eslint-rules/report-ts-error.js file.
-        "report-ts-error": "error",
       }
     },
     {

@@ -34,6 +34,116 @@
       "parentUuid": "7ea5257c_61aa515b",
       "revId": "de53cc902134dd780f78efbc30511fe97626456d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fb36d4a_80f16aff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-21T15:37:33Z",
+      "side": 1,
+      "message": "That\u0027s not easy to review if the same code in appears in several changes. Maybe you can rebase 281299 on top of this one for review?",
+      "parentUuid": "7f4d0402_17cce69b",
+      "revId": "de53cc902134dd780f78efbc30511fe97626456d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a6e0e83_e5bbb72a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-21T15:37:33Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/284582/comment/0720cfcf_aaafee50/",
+      "range": {
+        "startLine": 1066,
+        "startChar": 6,
+        "endLine": 1067,
+        "endChar": 39
+      },
+      "revId": "de53cc902134dd780f78efbc30511fe97626456d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fb8534b_52e41155",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-21T15:37:33Z",
+      "side": 1,
+      "message": "Maybe use reporting.time/reporting.timeEnd instead?\n@Milutin WDYT?",
+      "range": {
+        "startLine": 1112,
+        "startChar": 10,
+        "endLine": 1114,
+        "endChar": 13
+      },
+      "revId": "de53cc902134dd780f78efbc30511fe97626456d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa8d9fcf_3714af90",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-21T15:37:33Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/c/gerrit/+/284582/comment/cd6b9da1_6186539c/",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 34
+      },
+      "revId": "de53cc902134dd780f78efbc30511fe97626456d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c246404_5da3f3da",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-21T15:37:33Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/284582/comment/0720cfcf_aaafee50/",
+      "range": {
+        "startLine": 150,
+        "startChar": 1,
+        "endLine": 150,
+        "endChar": 72
+      },
+      "revId": "de53cc902134dd780f78efbc30511fe97626456d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

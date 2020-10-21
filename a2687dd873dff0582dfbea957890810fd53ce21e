@@ -22,6 +22,30 @@
       },
       "revId": "a2687dd873dff0582dfbea957890810fd53ce21e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b1300ee_732dd434",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-21T12:37:52Z",
+      "side": 1,
+      "message": "Why is this check relevant?\n\nif currentUserAccountId was null, wouldn\u0027t hasAccessDatabase and accountId.equals(currentUserAccountId) both be false and hence we would have returned false?",
+      "parentUuid": "049948ce_4da1bace",
+      "range": {
+        "startLine": 114,
+        "startChar": 58,
+        "endLine": 114,
+        "endChar": 89
+      },
+      "revId": "a2687dd873dff0582dfbea957890810fd53ce21e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

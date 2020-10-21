@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22f99c07_53ff5d1b",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-21T15:57:15Z",
+      "side": 1,
+      "message": "This causes an issue for the code-owners plugin which may check permissions for absent users in its submit rule. If the submit rule is triggered from a change reindex event (to compute submit records), then a current user is not available and trying to get one here fails with an exception. Checking permissions of an absent user should not require a current user to be present. Not sure if it affects anything beyond code owners. Should we revert this change?",
+      "revId": "7c829327b09f13278024277adbc57eb8f996383e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

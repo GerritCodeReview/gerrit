@@ -273,6 +273,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f481bdf2_4da5c748",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesWeigher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-21T13:18:22Z",
+      "side": 1,
+      "message": "I had thought you could now unify the (Git)?ModifiedFilesWeigher classes, but hadn\u0027t realized that the PersistentCacheBinding API needs a weigher that implements the exact types. Sorry, I think my idea of deduplicating this code doesn\u0027t work. We could add an additional class just to extract the summing up of the weights, but that seems overkill.",
+      "parentUuid": "bf49a24b_90186991",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "012f8b71_54a55f1d",
         "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
         "patchSetId": 4

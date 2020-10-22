@@ -51,6 +51,24 @@
       "parentUuid": "e27b36aa_9d254932",
       "revId": "4009054b31c1795f383029601cd908df5a8a7ec4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5be89f9_54c8ecdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-22T22:26:45Z",
+      "side": 1,
+      "message": "See the breakage on stable-2.16:\n17:53:43 javadoc: error - Error fetching URL: https://download.eclipse.org/jgit/site/5.1.13.202002110435-r/apidocs/",
+      "parentUuid": "e27b36aa_9d254932",
+      "revId": "4009054b31c1795f383029601cd908df5a8a7ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

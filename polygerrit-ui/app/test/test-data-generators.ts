@@ -22,21 +22,30 @@ import {
   ChangeId,
   ChangeInfo,
   ChangeInfoId,
+  ChangeMessageId,
+  ChangeMessageInfo,
   CommentLinkInfo,
   CommentLinks,
+  CommitInfo,
   ConfigInfo,
   EmailAddress,
+  GitPersonInfo,
+  GitRef,
   InheritedBooleanInfo,
   MaxObjectSizeLimitInfo,
   NumericChangeId,
+  PatchSetNum,
   RepoName,
   Reviewers,
+  RevisionInfo,
   SubmitTypeInfo,
   Timestamp,
+  TimezoneOffset,
 } from '../types/common';
 import {
   ChangeStatus,
   InheritedBooleanInfoConfiguredValue,
+  RevisionKind,
   SubmitType,
 } from '../constants/constants';
 import {formatDate} from '../utils/date-util';
@@ -124,6 +133,81 @@ export const TEST_NUMERIC_CHANGE_ID = 42 as NumericChangeId;
 
 export const TEST_CHANGE_CREATED = new Date(2020, 1, 1, 1, 2, 3);
 export const TEST_CHANGE_UPDATED = new Date(2020, 10, 6, 5, 12, 34);
+
+export function createGitPerson(): GitPersonInfo {
+  return {
+    name: 'Test person',
+    email: 'email@google.com',
+    date: dateToTimestamp(new Date(2019, 11, 6, 14, 5, 8)),
+    tz: 0 as TimezoneOffset,
+  };
+}
+
+export function createCommit(): CommitInfo {
+  return {
+    parents: [],
+    author: createGitPerson(),
+    committer: createGitPerson(),
+    subject: 'Test commit subject',
+    message: 'Test commit message',
+  };
+}
+
+export function createRevision(): RevisionInfo {
+  return {
+    _number: 1 as PatchSetNum,
+    commit: createCommit(),
+    created: dateToTimestamp(TEST_CHANGE_CREATED),
+    kind: RevisionKind.REWORK,
+    ref: 'refs/changes/5/6/1' as GitRef,
+    uploader: createAccountWithId(),
+  };
+}
+
+export function createChangeMessage(): ChangeMessageInfo {
+  return {
+    id: '1000' as ChangeMessageId,
+    date: dateToTimestamp(TEST_CHANGE_CREATED),
+    message: 'This is a message',
+  };
+}
+
+export function createRevisions(
+  count: number
+): {[revisionId: string]: RevisionInfo} {
+  const revisions: {[revisionId: string]: RevisionInfo} = {};
+  const revisionDate = TEST_CHANGE_CREATED;
+  const revisionIdStart = 1;
+  for (let i = 0; i < count; i++) {
+    const revisionId = (i + revisionIdStart).toString(16);
+    const revision: RevisionInfo = {
+      ...createRevision(),
+      _number: (i + 1) as PatchSetNum,
+      created: dateToTimestamp(revisionDate),
+      ref: `refs/changes/5/6/${i + 1}` as GitRef,
+    };
+    revisions[revisionId] = revision;
+    // advance 1 day
+    revisionDate.setDate(revisionDate.getDate() + 1);
+  }
+  return revisions;
+}
+
+export function createChangeMessages(count: number): ChangeMessageInfo[] {
+  const messageIdStart = 1000;
+  const messages: ChangeMessageInfo[] = [];
+  const messageDate = TEST_CHANGE_CREATED;
+  for (let i = 0; i < count; i++) {
+    messages.push({
+      ...createChangeMessage(),
+      id: (i + messageIdStart).toString(16) as ChangeMessageId,
+      date: dateToTimestamp(messageDate),
+      message: `This is a message N${i + 1}`,
+    });
+    messageDate.setDate(messageDate.getDate() + 1);
+  }
+  return messages;
+}
 
 export function createChange(): ChangeInfo {
   return {

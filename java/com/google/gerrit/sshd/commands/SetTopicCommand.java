@@ -16,12 +16,11 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.api.changes.TopicInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.SetTopicOp;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.restapi.change.SetTopicOp;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.sshd.ChangeArgumentParser;
@@ -74,18 +73,17 @@ public class SetTopicCommand extends SshCommand {
 
   @Override
   public void run() throws Exception {
-    TopicInput input = new TopicInput();
     if (topic != null) {
-      input.topic = topic.trim();
+      topic = topic.trim();
     }
 
-    if (input.topic != null && input.topic.length() > ChangeUtil.TOPIC_MAX_LENGTH) {
+    if (topic != null && topic.length() > ChangeUtil.TOPIC_MAX_LENGTH) {
       throw new BadRequestException(
           String.format("topic length exceeds the limit (%s)", ChangeUtil.TOPIC_MAX_LENGTH));
     }
 
     for (ChangeResource r : changes.values()) {
-      SetTopicOp op = topicOpFactory.create(input);
+      SetTopicOp op = topicOpFactory.create(topic);
       try (BatchUpdate u =
           updateFactory.create(r.getChange().getProject(), user, TimeUtil.nowTs())) {
         u.addOp(r.getId(), op);

@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.extensions.api.changes.TopicInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.extensions.events.TopicEdited;
@@ -31,10 +31,10 @@ import com.google.inject.assistedinject.Assisted;
 
 public class SetTopicOp implements BatchUpdateOp {
   public interface Factory {
-    SetTopicOp create(TopicInput input);
+    SetTopicOp create(@Nullable String topic);
   }
 
-  private final TopicInput input;
+  private final String topic;
   private final TopicEdited topicEdited;
   private final ChangeMessagesUtil cmUtil;
 
@@ -44,8 +44,8 @@ public class SetTopicOp implements BatchUpdateOp {
 
   @Inject
   public SetTopicOp(
-      TopicEdited topicEdited, ChangeMessagesUtil cmUtil, @Assisted TopicInput input) {
-    this.input = input;
+      TopicEdited topicEdited, ChangeMessagesUtil cmUtil, @Nullable @Assisted String topic) {
+    this.topic = topic;
     this.topicEdited = topicEdited;
     this.cmUtil = cmUtil;
   }
@@ -54,7 +54,7 @@ public class SetTopicOp implements BatchUpdateOp {
   public boolean updateChange(ChangeContext ctx) throws BadRequestException {
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
-    newTopicName = Strings.nullToEmpty(input.topic);
+    newTopicName = Strings.nullToEmpty(topic);
     oldTopicName = Strings.nullToEmpty(change.getTopic());
     if (oldTopicName.equals(newTopicName)) {
       return false;

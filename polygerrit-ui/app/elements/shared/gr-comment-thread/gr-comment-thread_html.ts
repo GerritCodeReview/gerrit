@@ -34,14 +34,18 @@ export const htmlTemplate = html`
       margin-left: auto;
       padding: var(--spacing-s) var(--spacing-m);
     }
+    .comment-container {
+      display: flex;
+    }
     #container {
       background-color: var(--comment-background-color);
       color: var(--comment-text-color);
       display: var(--gr-comment-thread-display, block);
-      margin: 0 var(--spacing-s) var(--spacing-s);
+      margin: 0 var(--spacing-l) var(--spacing-s);
       white-space: normal;
       box-shadow: var(--elevation-level-2);
       border-radius: var(--border-radius);
+      width: 100%;
       /** This is required for firefox to continue the inheritance */
       -webkit-user-select: inherit;
       -moz-user-select: inherit;
@@ -54,8 +58,8 @@ export const htmlTemplate = html`
     #container.robotComment {
       background-color: var(--robot-comment-background-color);
     }
-    #commentInfoContainer {
-      display: flex;
+    #commentInfoContainer > div {
+      display: inline-block;
     }
     #unresolvedLabel {
       font-family: var(--font-family);
@@ -63,8 +67,6 @@ export const htmlTemplate = html`
       padding: var(--spacing-m);
     }
     .pathInfo {
-      display: flex;
-      align-items: baseline;
       justify-content: space-between;
       padding: 0 var(--spacing-s) var(--spacing-s);
     }
@@ -89,6 +91,8 @@ export const htmlTemplate = html`
         </template>
       </div>
     </template>
+  </template>
+  <div class="comment-container">
     <div class="pathInfo">
       <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
         <a
@@ -97,73 +101,75 @@ export const htmlTemplate = html`
         >
       </template>
     </div>
-  </template>
-  <div
-    id="container"
-    class$="[[_computeHostClass(unresolved, isRobotComment)]]"
-  >
-    <template
-      id="commentList"
-      is="dom-repeat"
-      items="[[_orderedComments]]"
-      as="comment"
-    >
-      <gr-comment
-        comment="{{comment}}"
-        comments="{{comments}}"
-        robot-button-disabled="[[_shouldDisableAction(_showActions, _lastComment)]]"
-        change-num="[[changeNum]]"
-        patch-num="[[patchNum]]"
-        draft="[[_isDraft(comment)]]"
-        show-actions="[[_showActions]]"
-        show-patchset="[[showPatchset]]"
-        comment-side="[[comment.__commentSide]]"
-        side="[[comment.side]]"
-        project-config="[[_projectConfig]]"
-        on-create-fix-comment="_handleCommentFix"
-        on-comment-discard="_handleCommentDiscard"
-        on-comment-save="_handleCommentSavedOrDiscarded"
-      ></gr-comment>
-    </template>
+
     <div
-      id="commentInfoContainer"
-      hidden$="[[_hideActions(_showActions, _lastComment)]]"
+      id="container"
+      class$="[[_computeHostClass(unresolved, isRobotComment)]]"
     >
-      <span id="unresolvedLabel" hidden$="[[!unresolved]]">Unresolved</span>
-      <div id="actions">
-        <gr-button
-          id="replyBtn"
-          link=""
-          class="action reply"
-          on-click="_handleCommentReply"
-          >Reply</gr-button
-        >
-        <gr-button
-          id="quoteBtn"
-          link=""
-          class="action quote"
-          on-click="_handleCommentQuote"
-          >Quote</gr-button
-        >
-        <template is="dom-if" if="[[unresolved]]">
+      <template
+        id="commentList"
+        is="dom-repeat"
+        items="[[_orderedComments]]"
+        as="comment"
+      >
+        <gr-comment
+          comment="{{comment}}"
+          comments="{{comments}}"
+          robot-button-disabled="[[_shouldDisableAction(_showActions, _lastComment)]]"
+          change-num="[[changeNum]]"
+          patch-num="[[patchNum]]"
+          draft="[[_isDraft(comment)]]"
+          show-actions="[[_showActions]]"
+          show-patchset="[[showPatchset]]"
+          comment-side="[[comment.__commentSide]]"
+          side="[[comment.side]]"
+          project-config="[[_projectConfig]]"
+          on-create-fix-comment="_handleCommentFix"
+          on-comment-discard="_handleCommentDiscard"
+          on-comment-save="_handleCommentSavedOrDiscarded"
+        ></gr-comment>
+      </template>
+      <div
+        id="commentInfoContainer"
+        hidden$="[[_hideActions(_showActions, _lastComment)]]"
+      >
+        <span id="unresolvedLabel" hidden$="[[!unresolved]]">Unresolved</span>
+        <div id="actions">
           <gr-button
-            id="ackBtn"
+            id="replyBtn"
             link=""
-            class="action ack"
-            on-click="_handleCommentAck"
-            >Ack</gr-button
+            class="action reply"
+            on-click="_handleCommentReply"
+            >Reply</gr-button
           >
           <gr-button
-            id="doneBtn"
+            id="quoteBtn"
             link=""
-            class="action done"
-            on-click="_handleCommentDone"
-            >Done</gr-button
+            class="action quote"
+            on-click="_handleCommentQuote"
+            >Quote</gr-button
           >
-        </template>
+          <template is="dom-if" if="[[unresolved]]">
+            <gr-button
+              id="ackBtn"
+              link=""
+              class="action ack"
+              on-click="_handleCommentAck"
+              >Ack</gr-button
+            >
+            <gr-button
+              id="doneBtn"
+              link=""
+              class="action done"
+              on-click="_handleCommentDone"
+              >Done</gr-button
+            >
+          </template>
+        </div>
       </div>
     </div>
   </div>
+
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   <gr-storage id="storage"></gr-storage>
 `;

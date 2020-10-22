@@ -39,7 +39,6 @@ import com.google.gerrit.server.account.ServiceUserClassifierImpl;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
-import com.google.gerrit.server.change.ChangeAttributeFactory;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
@@ -116,8 +115,6 @@ public class BatchProgramModule extends FactoryModule {
     bind(new TypeLiteral<List<CommentLinkInfo>>() {})
         .toProvider(CommentLinkProvider.class)
         .in(SINGLETON);
-    bind(new TypeLiteral<DynamicSet<ChangeAttributeFactory>>() {})
-        .toInstance(DynamicSet.emptySet());
     bind(new TypeLiteral<DynamicMap<RestView<CommitResource>>>() {})
         .toInstance(DynamicMap.emptyMap());
     bind(String.class)

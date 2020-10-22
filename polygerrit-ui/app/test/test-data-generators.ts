@@ -22,20 +22,29 @@ import {
   ChangeId,
   ChangeInfo,
   ChangeInfoId,
+  ChangeMessageId,
+  ChangeMessageInfo,
   CommentLinkInfo,
   CommentLinks,
+  CommitInfo,
   ConfigInfo,
+  GitPersonInfo,
+  GitRef,
   InheritedBooleanInfo,
   MaxObjectSizeLimitInfo,
   NumericChangeId,
+  PatchSetNum,
   RepoName,
   Reviewers,
+  RevisionInfo,
   SubmitTypeInfo,
   Timestamp,
+  TimezoneOffset,
 } from '../types/common';
 import {
   ChangeStatus,
   InheritedBooleanInfoConfiguredValue,
+  RevisionKind,
   SubmitType,
 } from '../constants/constants';
 import {formatDate} from '../utils/date-util';
@@ -101,7 +110,7 @@ export const DEFAULT_TEST_BRANCH_ID: BranchName = 'default-test-branch' as Branc
 export const DEFAULT_TEST_CHANGE_ID: ChangeId = 'DefaultTestChangeId' as ChangeId;
 export const DEFAULT_TEST_CHANGE_INFO_ID: ChangeInfoId = `${DEFAULT_TEST_PROJECT_NAME}~${DEFAULT_TEST_BRANCH_ID}~${DEFAULT_TEST_CHANGE_ID}` as ChangeInfoId;
 export const DEFAULT_TEST_SUBJECT = 'Default test subject';
-export const DEFAULT_TEST_NUMERIC_CHANGE_ID = 5 as NumericChangeId;
+export const DEFAULT_TEST_NUMERIC_CHANGE_ID = 42 as NumericChangeId;
 
 export const DEFAULT_TEST_CHANGE_CREATED = new Date(2020, 1, 1, 1, 2, 3);
 export const DEFAULT_TEST_CHANGE_UPDATED = new Date(2020, 10, 6, 5, 12, 34);
@@ -124,4 +133,84 @@ export function createDefaultChangeInfo(): ChangeInfo {
     // This is documented as optional, but actually always set.
     reviewers: createDefaultReviewers(),
   };
+}
+
+export function createDefaultGitPersonInfo(): GitPersonInfo {
+  return {
+    name: 'Test person',
+    email: 'email@google.com',
+    date: dateToTimestamp(new Date(2019, 11, 6, 14, 5, 8)),
+    tz: 0 as TimezoneOffset,
+  };
+}
+
+export function createDefaultCommitInfo(): CommitInfo {
+  return {
+    parents: [],
+    author: createDefaultGitPersonInfo(),
+    committer: createDefaultGitPersonInfo(),
+    subject: 'Test commit subject',
+    message: 'Test commit message',
+  };
+}
+
+export function createDefaultRevisionInfo(): RevisionInfo {
+  return {
+    _number: 1 as PatchSetNum,
+    commit: createDefaultCommitInfo(),
+    created: dateToTimestamp(DEFAULT_TEST_CHANGE_CREATED),
+    kind: RevisionKind.REWORK,
+    ref: 'refs/changes/5/6/1' as GitRef,
+    uploader: createDefaultAccountInfo(),
+  };
+}
+
+export interface GenerateChangeOptions {
+  revisionsCount?: number;
+  messagesCount?: number;
+  status: ChangeStatus;
+}
+
+export function generateChange(options: GenerateChangeOptions) {
+  const change: ChangeInfo = {
+    ...createDefaultChangeInfo(),
+    status: options?.status ?? ChangeStatus.NEW,
+  };
+  const revisionIdStart = 1;
+  const messageIdStart = 1000;
+  // We want to distinguish between empty arrays/objects and undefined
+  // If an option is not set - the appropriate property is not set
+  // If an options is set - the property always set
+  if (options && typeof options.revisionsCount !== 'undefined') {
+    const revisions: {[revisionId: string]: RevisionInfo} = {};
+    const revisionDate = DEFAULT_TEST_CHANGE_CREATED;
+    for (let i = 0; i < options.revisionsCount; i++) {
+      const revisionId = (i + revisionIdStart).toString(16);
+      const revision: RevisionInfo = {
+        ...createDefaultRevisionInfo(),
+        _number: (i + 1) as PatchSetNum,
+        created: dateToTimestamp(revisionDate),
+        ref: `refs/changes/5/6/${i + 1}` as GitRef,
+      };
+      revisions[revisionId] = revision;
+      // advance 1 day
+      revisionDate.setDate(revisionDate.getDate() + 1);
+    }
+    change.revisions = revisions;
+  }
+  if (options && typeof options.messagesCount !== 'undefined') {
+    const messages: ChangeMessageInfo[] = [];
+    for (let i = 0; i < options.messagesCount; i++) {
+      messages.push({
+        id: (i + messageIdStart).toString(16) as ChangeMessageId,
+        date: '2020-01-01 00:00:00.000000000' as Timestamp,
+        message: `This is a message N${i + 1}`,
+      });
+    }
+    change.messages = messages;
+  }
+  if (options && options.status) {
+    change.status = options.status;
+  }
+  return change;
 }

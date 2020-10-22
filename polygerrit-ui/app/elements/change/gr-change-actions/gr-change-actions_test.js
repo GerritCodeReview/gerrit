@@ -20,7 +20,7 @@ import './gr-change-actions.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {generateChange} from '../../../test/test-utils.js';
+import {generateChange} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-change-actions');
 

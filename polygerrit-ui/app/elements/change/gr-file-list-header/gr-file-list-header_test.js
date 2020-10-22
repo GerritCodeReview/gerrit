@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-file-list-header.js';
 import {FilesExpandedState} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {generateChange} from '../../../test/test-utils.js';
+import {generateChange} from '../../../test/test-data-generators.js';
 import 'lodash/lodash.js';
 
 const basicFixture = fixtureFromElement('gr-file-list-header');

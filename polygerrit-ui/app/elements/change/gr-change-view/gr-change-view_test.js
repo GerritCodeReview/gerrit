@@ -30,7 +30,8 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 import {EventType} from '../../plugins/gr-plugin-types.js';
 
 import 'lodash/lodash.js';
-import {generateChange, TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {generateChange} from '../../../test/test-data-generators.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 

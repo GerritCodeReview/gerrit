@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7187811e_eb60bf3e",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-22T06:43:02Z",
+      "side": 1,
+      "message": "store it in a const to avoid double call to Number...)",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 94,
+        "endChar": 29
+      },
+      "revId": "ac867be279f3056c03f7c8fc0b83fb97b426a7d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

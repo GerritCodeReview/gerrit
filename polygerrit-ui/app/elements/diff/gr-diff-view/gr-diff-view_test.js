@@ -19,12 +19,16 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-diff-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
-import {generateChange, TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {_testOnly_findCommentById} from '../gr-comment-api/gr-comment-api.js';
 import {appContext} from '../../../services/app-context.js';
 import {GerritView} from '../../core/gr-navigation/gr-navigation.js';
+import {
+  createChange,
+  createRevisions,
+} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -184,8 +188,10 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element.reporting, 'diffViewDisplayed');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.spy(element, '_paramsChanged');
-      sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(
-          generateChange({revisionsCount: 11})));
+      sinon.stub(element, '_getChangeDetail').returns(Promise.resolve({
+        ...createChange(),
+        revisions: createRevisions(11),
+      }));
       element.params = {
         view: GerritNav.View.DIFF,
         changeNum: '42',
@@ -197,7 +203,10 @@ suite('gr-diff-view tests', () => {
         left: [{id: 'c1', __commentSide: 'left', line: 10}],
         right: [{id: 'c2', __commentSide: 'right', line: 11}],
       });
-      element._change = generateChange({revisionsCount: 11});
+      element._change = {
+        ...createChange(),
+        revisions: createRevisions(11),
+      };
       return element._paramsChanged.returnValues[0].then(() => {
         assert.isTrue(initLineOfInterestAndCursorStub.
             calledWithExactly(true));
@@ -237,8 +246,10 @@ suite('gr-diff-view tests', () => {
           sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
           sinon.stub(element, '_isFileUnchanged').returns(true);
           sinon.spy(element, '_paramsChanged');
-          sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(
-              generateChange({revisionsCount: 11})));
+          sinon.stub(element, '_getChangeDetail').returns(Promise.resolve({
+            ...createChange(),
+            revisions: createRevisions(11),
+          }));
           element.params = {
             view: GerritNav.View.DIFF,
             changeNum: '42',
@@ -247,7 +258,10 @@ suite('gr-diff-view tests', () => {
             commentId: 'c1',
           };
           sinon.stub(element.$.diffHost, '_commentsChanged');
-          element._change = generateChange({revisionsCount: 11});
+          element._change = {
+            ...createChange(),
+            revisions: createRevisions(11),
+          };
           return element._paramsChanged.returnValues[0].then(() => {
             assert.isTrue(diffNavStub.lastCall.calledWithExactly(
                 element._change, '/COMMIT_MSG', 2, 'PARENT', 10));
@@ -262,8 +276,10 @@ suite('gr-diff-view tests', () => {
           sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
           sinon.stub(element, '_isFileUnchanged').returns(true);
           sinon.spy(element, '_paramsChanged');
-          sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(
-              generateChange({revisionsCount: 11})));
+          sinon.stub(element, '_getChangeDetail').returns(Promise.resolve({
+            ...createChange(),
+            revisions: createRevisions(11),
+          }));
           element.params = {
             view: GerritNav.View.DIFF,
             changeNum: '42',
@@ -272,7 +288,10 @@ suite('gr-diff-view tests', () => {
             commentId: 'c3',
           };
           sinon.stub(element.$.diffHost, '_commentsChanged');
-          element._change = generateChange({revisionsCount: 11});
+          element._change = {
+            ...createChange(),
+            revisions: createRevisions(11),
+          };
           return element._paramsChanged.returnValues[0].then(() => {
             assert.isFalse(diffNavStub.called);
           });
@@ -317,7 +336,10 @@ suite('gr-diff-view tests', () => {
       element.$.restAPI.getDiffChangeDetail.restore();
       sinon.stub(element.$.restAPI, 'getDiffChangeDetail')
           .returns(
-              Promise.resolve(generateChange({revisionsCount: 11})));
+              Promise.resolve({
+                ...createChange(),
+                revisions: createRevisions(11),
+              }));
       element._patchRange = {
         patchNum: 2,
         basePatchNum: 1,
@@ -472,7 +494,10 @@ suite('gr-diff-view tests', () => {
     });
 
     test('diff against latest', () => {
-      element._change = generateChange({revisionsCount: 12});
+      element._change = {
+        ...createChange(),
+        revisions: createRevisions(12),
+      };
       element._patchRange = {
         basePatchNum: 5,
         patchNum: 10,
@@ -486,7 +511,10 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_handleDiffBaseAgainstLeft', () => {
-      element._change = generateChange({revisionsCount: 10});
+      element._change = {
+        ...createChange(),
+        revisions: createRevisions(10),
+      };
       element._patchRange = {
         patchNum: 3,
         basePatchNum: 1,
@@ -504,7 +532,10 @@ suite('gr-diff-view tests', () => {
 
     test('_handleDiffBaseAgainstLeft when initially navigating to a comment',
         () => {
-          element._change = generateChange({revisionsCount: 10});
+          element._change = {
+            ...createChange(),
+            revisions: createRevisions(10),
+          };
           element._patchRange = {
             patchNum: 3,
             basePatchNum: 1,
@@ -523,7 +554,10 @@ suite('gr-diff-view tests', () => {
         });
 
     test('_handleDiffRightAgainstLatest', () => {
-      element._change = generateChange({revisionsCount: 10});
+      element._change = {
+        ...createChange(),
+        revisions: createRevisions(10),
+      };
       element._patchRange = {
         basePatchNum: 1,
         patchNum: 3,
@@ -538,7 +572,10 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_handleDiffBaseAgainstLatest', () => {
-      element._change = generateChange({revisionsCount: 10});
+      element._change = {
+        ...createChange(),
+        revisions: createRevisions(10),
+      };
       element._patchRange = {
         basePatchNum: 1,
         patchNum: 3,
@@ -1404,9 +1441,6 @@ suite('gr-diff-view tests', () => {
 
     suite('_initPatchRange', () => {
       setup(async () => {
-        // const changeDetail = generateChange({revisionsCount: 5});
-        // sinon.stub(element.$.restAPI, 'getDiffChangeDetail')
-        //     .returns(Promise.resolve(changeDetail));
         element.params = {
           view: GerritView.DIFF,
           changeNum: '42',
@@ -1701,7 +1735,10 @@ suite('gr-diff-view tests', () => {
         patchNum: 1,
         basePatchNum: 'PARENT',
       };
-      element._change = generateChange({revisionsCount: 1});
+      element._change = {
+        ...createChange(),
+        revisions: createRevisions(1),
+      };
       flush();
       assert.isTrue(GerritNav.navigateToDiff.notCalled);
 

@@ -30,9 +30,14 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 import {EventType} from '../../plugins/gr-plugin-types.js';
 
 import 'lodash/lodash.js';
-import {generateChange, TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import {
+  createChange,
+  createChangeMessages,
+  createRevisions,
+} from '../../../test/test-data-generators.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -348,7 +353,10 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleDiffAgainstBase', () => {
-    element._change = generateChange({revisionsCount: 10});
+    element._change = {
+      ...createChange(),
+      revisions: createRevisions(10),
+    };
     element._patchRange = {
       patchNum: 3,
       basePatchNum: 1,
@@ -362,7 +370,10 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleDiffAgainstLatest', () => {
-    element._change = generateChange({revisionsCount: 10});
+    element._change = {
+      ...createChange(),
+      revisions: createRevisions(10),
+    };
     element._patchRange = {
       basePatchNum: 1,
       patchNum: 3,
@@ -377,7 +388,10 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleDiffBaseAgainstLeft', () => {
-    element._change = generateChange({revisionsCount: 10});
+    element._change = {
+      ...createChange(),
+      revisions: createRevisions(10),
+    };
     element._patchRange = {
       patchNum: 3,
       basePatchNum: 1,
@@ -391,7 +405,10 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleDiffRightAgainstLatest', () => {
-    element._change = generateChange({revisionsCount: 10});
+    element._change = {
+      ...createChange(),
+      revisions: createRevisions(10),
+    };
     element._patchRange = {
       basePatchNum: 1,
       patchNum: 3,
@@ -405,7 +422,10 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleDiffBaseAgainstLatest', () => {
-    element._change = generateChange({revisionsCount: 10});
+    element._change = {
+      ...createChange(),
+      revisions: createRevisions(10),
+    };
     element._patchRange = {
       basePatchNum: 1,
       patchNum: 3,
@@ -577,17 +597,19 @@ suite('gr-change-view tests', () => {
 
     test('A toggles overlay when logged in', done => {
       sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-      element._change = generateChange({
-        revisionsCount: 1,
-        messagesCount: 1,
-      });
+      element._change = {
+        ...createChange(),
+        revisions: createRevisions(1),
+        messages: createChangeMessages(1),
+      };
       element._change.labels = {};
       sinon.stub(element.$.restAPI, 'getChangeDetail')
-          .callsFake(() => Promise.resolve(generateChange({
+          .callsFake(() => Promise.resolve({
+            ...createChange(),
             // element has latest info
-            revisionsCount: 1,
-            messagesCount: 1,
-          })));
+            revisions: createRevisions(1),
+            messages: createChangeMessages(1),
+          }));
 
       const openSpy = sinon.spy(element, '_openReplyDialog');
 
@@ -831,7 +853,7 @@ suite('gr-change-view tests', () => {
             getAllThreadsForChange: () => THREADS,
             computeDraftCount: () => 0,
           }));
-      element._change = generateChange();
+      element._change = createChange();
       element._changeNum = element._change._number;
     });
 
@@ -1756,17 +1778,19 @@ suite('gr-change-view tests', () => {
   suite('reply dialog tests', () => {
     setup(() => {
       sinon.stub(element.$.replyDialog, '_draftChanged');
-      element._change = generateChange({
-        revisionsCount: 1,
-        messagesCount: 1,
-      });
+      element._change = {
+        ...createChange(),
+        revisions: createRevisions(1),
+        messages: createChangeMessages(1),
+      };
       element._change.labels = {};
       sinon.stub(element.$.restAPI, 'getChangeDetail')
-          .callsFake(() => Promise.resolve(generateChange({
+          .callsFake(() => Promise.resolve({
+            ...createChange(),
             // element has latest info
-            revisionsCount: 1,
-            messagesCount: 1,
-          })));
+            revisions: createRevisions(1),
+            messages: createChangeMessages(1),
+          }));
     });
 
     test('show reply dialog on open-reply-dialog event', done => {
@@ -1830,17 +1854,19 @@ suite('gr-change-view tests', () => {
 
   suite('commit message expand/collapse', () => {
     setup(() => {
-      element._change = generateChange({
-        revisionsCount: 1,
-        messagesCount: 1,
-      });
+      element._change = {
+        ...createChange(),
+        revisions: createRevisions(1),
+        messages: createChangeMessages(1),
+      };
       element._change.labels = {};
       sinon.stub(element.$.restAPI, 'getChangeDetail')
-          .callsFake(() => Promise.resolve(generateChange({
+          .callsFake(() => Promise.resolve({
+            ...createChange(),
             // new patchset was uploaded
-            revisionsCount: 2,
-            messagesCount: 1,
-          })));
+            revisions: createRevisions(2),
+            messages: createChangeMessages(1),
+          }));
     });
 
     test('commitCollapseToggle hidden for short commit message', () => {
@@ -1996,20 +2022,22 @@ suite('gr-change-view tests', () => {
           if (element.async.callCount > 1) { return; }
           f.call(element);
         });
-        element._change = generateChange({
-          revisionsCount: 1,
-          messagesCount: 1,
-        });
+        element._change = {
+          ...createChange(),
+          revisions: createRevisions(1),
+          messages: createChangeMessages(1),
+        };
       });
 
       test('_startUpdateCheckTimer negative delay', () => {
         const getChangeDetailStub =
             sinon.stub(element.$.restAPI, 'getChangeDetail')
-                .callsFake(() => Promise.resolve(generateChange({
+                .callsFake(() => Promise.resolve({
+                  ...createChangeMessages(),
                   // element has latest info
-                  revisionsCount: 1,
-                  messagesCount: 1,
-                })));
+                  revisions: createRevisions(1),
+                  messages: createChangeMessages(1),
+                }));
 
         element._serverConfig = {change: {update_delay: -1}};
 
@@ -2020,11 +2048,12 @@ suite('gr-change-view tests', () => {
       test('_startUpdateCheckTimer up-to-date', async () => {
         const getChangeDetailStub =
             sinon.stub(element.$.restAPI, 'getChangeDetail')
-                .callsFake(() => Promise.resolve(generateChange({
+                .callsFake(() => Promise.resolve({
+                  ...createChange(),
                   // element has latest info
-                  revisionsCount: 1,
-                  messagesCount: 1,
-                })));
+                  revisions: createRevisions(1),
+                  messages: createChangeMessages(1),
+                }));
 
         element._serverConfig = {change: {update_delay: 12345}};
         await flush();
@@ -2036,11 +2065,12 @@ suite('gr-change-view tests', () => {
 
       test('_startUpdateCheckTimer out-of-date shows an alert', done => {
         sinon.stub(element.$.restAPI, 'getChangeDetail')
-            .callsFake(() => Promise.resolve(generateChange({
+            .callsFake(() => Promise.resolve({
+              ...createChange(),
               // new patchset was uploaded
-              revisionsCount: 2,
-              messagesCount: 1,
-            })));
+              revisions: createRevisions(2),
+              messages: createChangeMessages(1),
+            }));
 
         element.addEventListener('show-alert', e => {
           assert.equal(e.detail.message,
@@ -2054,11 +2084,12 @@ suite('gr-change-view tests', () => {
 
       test('_startUpdateCheckTimer respects _loading', async () => {
         sinon.stub(element.$.restAPI, 'getChangeDetail')
-            .callsFake(() => Promise.resolve(generateChange({
+            .callsFake(() => Promise.resolve({
+              ...createChange(),
               // new patchset was uploaded
-              revisionsCount: 2,
-              messagesCount: 1,
-            })));
+              revisions: createRevisions(2),
+              messages: createChangeMessages(1),
+            }));
 
         element._loading = true;
         element._serverConfig = {change: {update_delay: 12345}};
@@ -2070,12 +2101,13 @@ suite('gr-change-view tests', () => {
 
       test('_startUpdateCheckTimer new status shows an alert', done => {
         sinon.stub(element.$.restAPI, 'getChangeDetail')
-            .callsFake(() => Promise.resolve(generateChange({
+            .callsFake(() => Promise.resolve({
+              ...createChange(),
               // element has latest info
-              revisionsCount: 1,
-              messagesCount: 1,
+              revisions: createRevisions(1),
+              messages: createChangeMessages(1),
               status: ChangeStatus.MERGED,
-            })));
+            }));
 
         element.addEventListener('show-alert', e => {
           assert.equal(e.detail.message, 'This change has been merged');
@@ -2086,11 +2118,12 @@ suite('gr-change-view tests', () => {
 
       test('_startUpdateCheckTimer new messages shows an alert', done => {
         sinon.stub(element.$.restAPI, 'getChangeDetail')
-            .callsFake(() => Promise.resolve(generateChange({
-              revisionsCount: 1,
+            .callsFake(() => Promise.resolve({
+              ...createChange(),
+              revisions: createRevisions(1),
               // element has new message
-              messagesCount: 2,
-            })));
+              messages: createChangeMessages(2),
+            }));
         element.addEventListener('show-alert', e => {
           assert.equal(e.detail.message,
               'There are new messages on this change');

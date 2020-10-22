@@ -34,6 +34,24 @@
       "parentUuid": "88f5da48_d44cef7a",
       "revId": "8dd9ad0e17ca764f4eacc179d731a39e0f43dfb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6529d766_9bd07ae3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-22T16:23:28Z",
+      "side": 1,
+      "message": "Thanks. I rebased this change (now series) on an attempt based on the latter (eclipse) url. I\u0027d prefer sticking to 5.3.7 rather than downgrading to 5.3.6 only for docs; will see how that fix goes.",
+      "parentUuid": "df3b6f77_b1cddef8",
+      "revId": "8dd9ad0e17ca764f4eacc179d731a39e0f43dfb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

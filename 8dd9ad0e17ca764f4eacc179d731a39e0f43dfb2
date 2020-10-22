@@ -16,6 +16,24 @@
       "message": "@Matthias, could you please check the latest CI error [1,2] (unrelated to this change)? -Looks like this previously available artifact disappeared.\n\n[1] \"javadoc: error - Error fetching URL: https://download.eclipse.org/jgit/site/5.3.7.202002110540-r/apidocs/\"\n\n[2] https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/94831/console",
       "revId": "8dd9ad0e17ca764f4eacc179d731a39e0f43dfb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df3b6f77_b1cddef8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-22T07:10:57Z",
+      "side": 1,
+      "message": "older jgit sites were archived some months ago to\nhttps://archive.eclipse.org/jgit/site\nsee the online browser here\nhttps://archive.eclipse.org/justj/?file\u003djgit/site\nit seems the 5.3.7 site was lost during archival, the closest one which is still available is 5.3.6:\nhttps://archive.eclipse.org/jgit/site/5.3.6.201910020505-r/\n\nOtherwise you can always use the zipped javadoc maven artefacts available on maven central\nhttps://repo1.maven.org/maven2/org/eclipse/jgit/org.eclipse.jgit/5.3.7.202002110540-r/\nand on repo.eclipse.org\nhttps://repo.eclipse.org/content/groups/releases/org/eclipse/jgit/org.eclipse.jgit/5.3.7.202002110540-r/",
+      "parentUuid": "88f5da48_d44cef7a",
+      "revId": "8dd9ad0e17ca764f4eacc179d731a39e0f43dfb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

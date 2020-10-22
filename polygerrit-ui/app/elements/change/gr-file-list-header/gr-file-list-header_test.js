@@ -19,8 +19,8 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-file-list-header.js';
 import {FilesExpandedState} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {generateChange} from '../../../test/test-utils.js';
 import 'lodash/lodash.js';
+import {createRevisions} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-file-list-header');
 
@@ -269,7 +269,7 @@ suite('gr-file-list-header tests', () => {
 
     test('patch specific elements', () => {
       element.editMode = true;
-      element.allPatchSets = generateChange({revisionsCount: 2}).revisions;
+      element.allPatchSets = createRevisions(2);
       flush();
 
       assert.isFalse(isVisible(element.$.diffPrefsContainer));

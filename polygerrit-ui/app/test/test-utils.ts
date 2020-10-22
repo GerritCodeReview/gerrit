@@ -22,26 +22,6 @@ import {
   _testOnly_getShortcutManagerInstance,
   Shortcut,
 } from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {ChangeStatus, RevisionKind} from '../constants/constants';
-import {
-  AccountInfo,
-  BranchName,
-  ChangeId,
-  ChangeInfo,
-  ChangeInfoId,
-  ChangeMessageId,
-  ChangeMessageInfo,
-  CommitInfo,
-  GitPersonInfo,
-  GitRef,
-  NumericChangeId,
-  PatchSetNum,
-  RepoName,
-  RevisionInfo,
-  Timestamp,
-  TimezoneOffset,
-} from '../types/common';
-import {formatDate} from '../utils/date-util';
 
 export interface MockPromise extends Promise<unknown> {
   resolve: (value?: unknown) => void;
@@ -125,96 +105,6 @@ export function stubBaseUrl(newUrl: string) {
   const originalCanonicalPath = window.CANONICAL_PATH;
   window.CANONICAL_PATH = newUrl;
   registerTestCleanup(() => (window.CANONICAL_PATH = originalCanonicalPath));
-}
-
-export interface GenerateChangeOptions {
-  revisionsCount?: number;
-  messagesCount?: number;
-  status: ChangeStatus;
-}
-
-export function dateToTimestamp(date: Date): Timestamp {
-  const nanosecondSuffix = '.000000000';
-  return (formatDate(date, 'YYYY-MM-DD HH:mm:ss') +
-    nanosecondSuffix) as Timestamp;
-}
-
-export function generateChange(options: GenerateChangeOptions) {
-  const project = 'testRepo' as RepoName;
-  const branch = 'test_branch' as BranchName;
-  const changeId = 'abcdef' as ChangeId;
-  const id = `${project}~${branch}~${changeId}` as ChangeInfoId;
-  const owner: AccountInfo = {};
-  const createdDate = new Date(2020, 1, 1, 1, 2, 3);
-
-  const change: ChangeInfo = {
-    _number: 42 as NumericChangeId,
-    project,
-    branch,
-    change_id: changeId,
-    created: dateToTimestamp(createdDate),
-    deletions: 0,
-    id,
-    insertions: 0,
-    owner,
-    reviewers: {},
-    status: options?.status ?? ChangeStatus.NEW,
-    subject: '',
-    submitter: owner,
-    updated: dateToTimestamp(new Date(2020, 10, 5, 1, 2, 3)),
-  };
-  const revisionIdStart = 1;
-  const messageIdStart = 1000;
-  // We want to distinguish between empty arrays/objects and undefined
-  // If an option is not set - the appropriate property is not set
-  // If an options is set - the property always set
-  if (options && typeof options.revisionsCount !== 'undefined') {
-    const revisions: {[revisionId: string]: RevisionInfo} = {};
-    const revisionDate = createdDate;
-    for (let i = 0; i < options.revisionsCount; i++) {
-      const revisionId = (i + revisionIdStart).toString(16);
-      const person: GitPersonInfo = {
-        name: 'Test person',
-        email: 'email@google.com',
-        date: dateToTimestamp(new Date(2019, 11, 6, 14, 5, 8)),
-        tz: 0 as TimezoneOffset,
-      };
-      const commit: CommitInfo = {
-        parents: [],
-        author: person,
-        committer: person,
-        subject: 'Test commit subject',
-        message: 'Test commit message',
-      };
-      const revision: RevisionInfo = {
-        _number: (i + 1) as PatchSetNum,
-        commit,
-        created: dateToTimestamp(revisionDate),
-        kind: RevisionKind.REWORK,
-        ref: `refs/changes/5/6/${i + 1}` as GitRef,
-        uploader: owner,
-      };
-      revisions[revisionId] = revision;
-      // advance 1 day
-      revisionDate.setDate(revisionDate.getDate() + 1);
-    }
-    change.revisions = revisions;
-  }
-  if (options && typeof options.messagesCount !== 'undefined') {
-    const messages: ChangeMessageInfo[] = [];
-    for (let i = 0; i < options.messagesCount; i++) {
-      messages.push({
-        id: (i + messageIdStart).toString(16) as ChangeMessageId,
-        date: '2020-01-01 00:00:00.000000000' as Timestamp,
-        message: `This is a message N${i + 1}`,
-      });
-    }
-    change.messages = messages;
-  }
-  if (options && options.status) {
-    change.status = options.status;
-  }
-  return change;
 }
 
 /**

@@ -37,6 +37,8 @@ import {
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -45,6 +47,9 @@ export interface GrCreateChangeDialog {
   $: {
     restAPI: RestApiService & Element;
     privateChangeCheckBox: HTMLInputElement;
+    branchInput: GrAutocomplete;
+    tagNameInput: HTMLInputElement;
+    messageInput: IronAutogrowTextareaElement;
   };
 }
 @customElement('gr-create-change-dialog')

@@ -22,6 +22,30 @@
       },
       "revId": "ba753af2cd99cbdeccdddee2e4d48372d4070c42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56b5bed1_00b8f90e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-22T09:56:29Z",
+      "side": 1,
+      "message": "Yes, it\u0027s enough to just reset once to improve this test so next time it will capture regression.\n\nI added more resets to make this test more strict, but they are unnecessary. So I am removing it.",
+      "parentUuid": "8141ef5f_928961fe",
+      "range": {
+        "startLine": 630,
+        "startChar": 6,
+        "endLine": 630,
+        "endChar": 28
+      },
+      "revId": "ba753af2cd99cbdeccdddee2e4d48372d4070c42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

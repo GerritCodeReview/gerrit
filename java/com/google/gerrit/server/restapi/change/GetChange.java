@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Change;
@@ -27,7 +26,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
-import com.google.gerrit.server.change.ChangeAttributeFactory;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.gerrit.server.change.ChangeResource;
@@ -46,7 +44,6 @@ public class GetChange
         DynamicOptions.BeanReceiver,
         DynamicOptions.BeanProvider {
   private final ChangeJson.Factory json;
-  private final DynamicSet<ChangeAttributeFactory> attrFactories;
   private final DynamicSet<ChangePluginDefinedInfoFactory> pdiFactories;
   private final EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
   private final Map<String, DynamicBean> dynamicBeans = new HashMap<>();
@@ -62,12 +59,8 @@ public class GetChange
   }
 
   @Inject
-  GetChange(
-      ChangeJson.Factory json,
-      DynamicSet<ChangeAttributeFactory> attrFactories,
-      DynamicSet<ChangePluginDefinedInfoFactory> pdiFactories) {
+  GetChange(ChangeJson.Factory json, DynamicSet<ChangePluginDefinedInfoFactory> pdiFactories) {
     this.json = json;
-    this.attrFactories = attrFactories;
     this.pdiFactories = pdiFactories;
   }
 
@@ -91,12 +84,7 @@ public class GetChange
   }
 
   private ChangeJson newChangeJson() {
-    return json.create(options, this::buildPluginInfo, this::createPluginDefinedInfos);
-  }
-
-  private ImmutableList<PluginDefinedInfo> buildPluginInfo(ChangeData cd) {
-    return PluginDefinedAttributesFactories.createAll(
-        cd, this, Streams.stream(attrFactories.entries()));
+    return json.create(options, this::createPluginDefinedInfos);
   }
 
   private ImmutableListMultimap<Change.Id, PluginDefinedInfo> createPluginDefinedInfos(

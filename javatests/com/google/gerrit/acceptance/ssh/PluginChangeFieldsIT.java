@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.ssh;
 
-import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.collect.ImmutableListMultimap;
@@ -41,28 +40,9 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
   private static final Gson GSON = OutputStreamQuery.GSON;
 
   @Test
-  public void queryChangeWithNullAttribute() throws Exception {
-    getChangeWithNullAttribute(
-        id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))));
-  }
-
-  @Test
-  public void queryChangeWithSimpleAttribute() throws Exception {
-    getChangeWithSimpleAttribute(
-        id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))));
-  }
-
-  @Test
   public void querySingleChangeWithBulkAttribute() throws Exception {
     getSingleChangeWithPluginDefinedBulkAttribute(
         id -> pluginInfosFromList(adminSshSession.exec(changeQueryCmd(id))));
-  }
-
-  @Test
-  public void queryChangeWithOption() throws Exception {
-    getChangeWithOption(
-        id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))),
-        (id, opts) -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id, opts))));
   }
 
   @Test
@@ -81,12 +61,6 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
   @Test
   public void queryChangesByCommitMessageWithPluginDefinedBulkAttribute() throws Exception {
     getChangesByCommitMessageWithPluginDefinedBulkAttribute(
-        () -> pluginInfosFromList(adminSshSession.exec("gerrit query --format json status:open")));
-  }
-
-  @Test
-  public void getMultipleChangesWithPluginDefinedAndChangeAttributes() throws Exception {
-    getMultipleChangesWithPluginDefinedBulkAndChangeAttributes(
         () -> pluginInfosFromList(adminSshSession.exec("gerrit query --format json status:open")));
   }
 
@@ -113,15 +87,6 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
             .collect(joining(" "))
         + " "
         + id;
-  }
-
-  @Nullable
-  private static List<PluginDefinedInfo> pluginInfoFromSingletonList(String sshOutput)
-      throws Exception {
-    List<Map<String, Object>> changeAttrs = getChangeAttrs(sshOutput);
-
-    assertThat(changeAttrs).hasSize(1);
-    return decodeRawPluginsList(GSON, changeAttrs.get(0).get("plugins"));
   }
 
   @Nullable

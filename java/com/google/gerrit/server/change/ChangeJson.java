@@ -158,17 +158,12 @@ public class ChangeJson {
     }
 
     public ChangeJson create(Iterable<ListChangesOption> options) {
-      return factory.create(options, Optional.empty(), Optional.empty());
+      return factory.create(options, Optional.empty());
     }
 
     public ChangeJson create(
-        Iterable<ListChangesOption> options,
-        PluginDefinedAttributesFactory pluginDefinedAttributesFactory,
-        PluginDefinedInfosFactory pluginDefinedInfosFactory) {
-      return factory.create(
-          options,
-          Optional.of(pluginDefinedAttributesFactory),
-          Optional.of(pluginDefinedInfosFactory));
+        Iterable<ListChangesOption> options, PluginDefinedInfosFactory pluginDefinedInfosFactory) {
+      return factory.create(options, Optional.of(pluginDefinedInfosFactory));
     }
 
     public ChangeJson create(ListChangesOption first, ListChangesOption... rest) {
@@ -179,7 +174,6 @@ public class ChangeJson {
   public interface AssistedFactory {
     ChangeJson create(
         Iterable<ListChangesOption> options,
-        Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory,
         Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory);
   }
 
@@ -226,7 +220,6 @@ public class ChangeJson {
   private final TrackingFooters trackingFooters;
   private final Metrics metrics;
   private final RevisionJson revisionJson;
-  private final Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory;
   private final Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory;
   private final boolean includeMergeable;
   private final boolean lazyLoad;
@@ -251,7 +244,6 @@ public class ChangeJson {
       RevisionJson.Factory revisionJsonFactory,
       @GerritServerConfig Config cfg,
       @Assisted Iterable<ListChangesOption> options,
-      @Assisted Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory,
       @Assisted Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory) {
     this.userProvider = user;
     this.changeDataFactory = cdf;
@@ -269,7 +261,6 @@ public class ChangeJson {
     this.options = Sets.immutableEnumSet(options);
     this.includeMergeable = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
-    this.pluginDefinedAttributesFactory = pluginDefinedAttributesFactory;
     this.pluginDefinedInfosFactory = pluginDefinedInfosFactory;
 
     logger.atFine().log("options = %s", options);
@@ -609,17 +600,9 @@ public class ChangeJson {
     }
 
     setSubmitter(cd, out);
-    if (pluginDefinedAttributesFactory.isPresent()) {
-      out.plugins = pluginDefinedAttributesFactory.get().create(cd);
-    }
 
     if (!pluginInfos.isEmpty()) {
-      if (out.plugins == null) {
-        out.plugins = pluginInfos;
-      } else {
-        out.plugins = new ArrayList<>(out.plugins);
-        out.plugins.addAll(pluginInfos);
-      }
+      out.plugins = pluginInfos;
     }
     out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
     out.submissionId = cd.change().getSubmissionId();

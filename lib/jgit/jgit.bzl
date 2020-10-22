@@ -2,9 +2,11 @@ load("//tools/bzl:maven_jar.bzl", "MAVEN_CENTRAL", "maven_jar")
 
 _JGIT_VERS = "5.1.13.202002110435-r"
 
-_DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
+# TODO: Check with Matthias why a released version doesn't have its
+#       JavaDocs published on the archive site.
+_DOC_VERS = "5.1.12.201910011832-r"  # Set to _JGIT_VERS unless using a snapshot
 
-JGIT_DOC_URL = "https://download.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
+JGIT_DOC_URL = "https://archive.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
 
 _JGIT_REPO = MAVEN_CENTRAL  # Leave here even if set to MAVEN_CENTRAL.
 

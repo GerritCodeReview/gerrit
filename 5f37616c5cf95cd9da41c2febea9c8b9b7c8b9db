@@ -22,6 +22,30 @@
       },
       "revId": "5f37616c5cf95cd9da41c2febea9c8b9b7c8b9db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f6e1fc2_e0f7a235",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-22T18:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db2f884e_005bc868",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "5f37616c5cf95cd9da41c2febea9c8b9b7c8b9db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

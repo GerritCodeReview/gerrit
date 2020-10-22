@@ -1227,13 +1227,6 @@ export class GrChangeView extends KeyboardShortcutMixin(
       patchNum: value.patchNum,
       basePatchNum: value.basePatchNum || 'PARENT',
     };
-    // TODO(TS): remove once proper type for patchRange is defined
-    if (!isNaN(Number(patchRange.patchNum))) {
-      patchRange.patchNum = Number(patchRange.patchNum) as PatchSetNum;
-    }
-    if (!isNaN(Number(patchRange.basePatchNum))) {
-      patchRange.basePatchNum = Number(patchRange.basePatchNum) as PatchSetNum;
-    }
 
     this.$.fileList.collapseAllDiffs();
     // TODO(TS): change patchRange to PatchRange.

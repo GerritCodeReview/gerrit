@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "a8ebeafa_6484c10f",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "I\u0027m not done with the review yet. I\u0027ll continue tomorrow. Just posting my comments already so that you can factor them in while you\u0027re working on the caches.",
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "22c59a4c_83bb164d",
         "filename": "/PATCHSET_LEVEL",
@@ -32,10 +33,10 @@
       "message": "Finished it. It took some time to go through and understand the rest of the code.",
       "parentUuid": "a8ebeafa_6484c10f",
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "54d8f0bc_cfb0324d",
         "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
@@ -55,10 +56,34 @@
         "endChar": 88
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cee69db_3bf05074",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54d8f0bc_cfb0324d",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 88
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "1c462f0e_dbf7486c",
         "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
@@ -78,10 +103,34 @@
         "endChar": 53
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4429801_e12cc0ba",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "I removed it. Done.",
+      "parentUuid": "1c462f0e_dbf7486c",
+      "range": {
+        "startLine": 176,
+        "startChar": 36,
+        "endLine": 176,
+        "endChar": 53
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c11d4550_50403782",
         "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
@@ -101,10 +150,34 @@
         "endChar": 6
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82c3e9de_324704f8",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Moved to the GitFileDiffCacheImpl.\nDone.",
+      "parentUuid": "c11d4550_50403782",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 6
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "2e877788_0bc5b623",
         "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
@@ -124,10 +197,34 @@
         "endChar": 30
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ba0d657_e786a2e0",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Right, this parameter should depend on the rename score from the key.\n\nWill do.",
+      "parentUuid": "2e877788_0bc5b623",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 30
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "5adf2d82_c578a622",
         "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
@@ -147,10 +244,34 @@
         "endChar": 65
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "939b9be9_bda4a298",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Path filter hasn\u0027t worked for all tests. I removed this logic and moved it to the GitFileDiffCache.",
+      "parentUuid": "5adf2d82_c578a622",
+      "range": {
+        "startLine": 187,
+        "startChar": 28,
+        "endLine": 187,
+        "endChar": 65
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "e791a2c6_af95a02b",
         "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
@@ -170,10 +291,34 @@
         "endChar": 34
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88cbdf23_ed538e40",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Yes, it was not working.\n\nI had the intention to follow with one or patchsets and remove the commented code before submitting it.\n\nDone.",
+      "parentUuid": "e791a2c6_af95a02b",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 34
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "1f5d59fa_925f4d20",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -193,10 +338,10 @@
         "endChar": 26
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f9ad5d2c_6a11d20a",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -216,10 +361,58 @@
         "endChar": 41
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15eb6532_31de88e9",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9ad5d2c_6a11d20a",
+      "range": {
+        "startLine": 75,
+        "startChar": 30,
+        "endLine": 75,
+        "endChar": 41
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be8c3bf9_fc5aa3ba",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f5d59fa_925f4d20",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 26
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "55fc148f_8ebf03c7",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -239,10 +432,34 @@
         "endChar": 47
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e3b2b70_3993dcfd",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "55fc148f_8ebf03c7",
+      "range": {
+        "startLine": 83,
+        "startChar": 33,
+        "endLine": 83,
+        "endChar": 47
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "afda234e_27f3b505",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -262,10 +479,34 @@
         "endChar": 36
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10cfec10_9588d1ac",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done. Added a weigher with weight \u003d 1. Will implement a proper weigher in a follow up change.",
+      "parentUuid": "afda234e_27f3b505",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 36
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "b2f016fe_3c0e6a6b",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -285,10 +526,10 @@
         "endChar": 60
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3be9d0c7_be37b6f5",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -308,10 +549,58 @@
         "endChar": 97
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c4ebf16_db021334",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3be9d0c7_be37b6f5",
+      "range": {
+        "startLine": 99,
+        "startChar": 72,
+        "endLine": 99,
+        "endChar": 97
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8d46e18_35fb7375",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2f016fe_3c0e6a6b",
+      "range": {
+        "startLine": 99,
+        "startChar": 50,
+        "endLine": 99,
+        "endChar": 60
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "5f8c5dbc_cdd6102a",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -325,10 +614,28 @@
       "side": 1,
       "message": "I like this approach of delegating to the loadAll() method. Can we use it for the GitFileDiffCache, too?",
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01566c71_5c85741b",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "5f8c5dbc_cdd6102a",
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "b596276f_3bacd167",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -348,10 +655,10 @@
         "endChar": 43
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1d3c922c_695a1dc4",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -371,10 +678,58 @@
         "endChar": 72
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c523c10_1043baa3",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d3c922c_695a1dc4",
+      "range": {
+        "startLine": 121,
+        "startChar": 44,
+        "endLine": 121,
+        "endChar": 72
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1b0d4a0_9bc3f08a",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b596276f_3bacd167",
+      "range": {
+        "startLine": 121,
+        "startChar": 36,
+        "endLine": 121,
+        "endChar": 43
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "749b969d_2d5371c1",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -394,10 +749,34 @@
         "endChar": 17
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29a9b78e_c6511523",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "749b969d_2d5371c1",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 127,
+        "endChar": 17
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "6b8d4f48_1a5bd800",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -417,10 +796,34 @@
         "endChar": 36
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a29aa7e_3f764051",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b8d4f48_1a5bd800",
+      "range": {
+        "startLine": 152,
+        "startChar": 27,
+        "endLine": 152,
+        "endChar": 36
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "5f327399_ae7dd73a",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -440,10 +843,34 @@
         "endChar": 37
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66adaae8_64838194",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f327399_ae7dd73a",
+      "range": {
+        "startLine": 157,
+        "startChar": 16,
+        "endLine": 157,
+        "endChar": 37
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d154f03c_a3c91b57",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -463,10 +890,34 @@
         "endChar": 39
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9a3042c_e80e9ecd",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d154f03c_a3c91b57",
+      "range": {
+        "startLine": 164,
+        "startChar": 27,
+        "endLine": 164,
+        "endChar": 39
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "40ffd1ac_4de2730c",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -486,10 +937,34 @@
         "endChar": 79
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f86fd76c_5dceee25",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done. I added a TODO in this file at the line that instantiates the EditTransformer.",
+      "parentUuid": "40ffd1ac_4de2730c",
+      "range": {
+        "startLine": 183,
+        "startChar": 6,
+        "endLine": 183,
+        "endChar": 79
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "e04c67ac_0bf36d58",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -509,10 +984,34 @@
         "endChar": 50
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ce75c02_1e2b17c8",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Replaced PatchListEntry with a new AutoValue.\nDone.",
+      "parentUuid": "e04c67ac_0bf36d58",
+      "range": {
+        "startLine": 204,
+        "startChar": 16,
+        "endLine": 205,
+        "endChar": 50
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "6320c3ec_068cf502",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -532,10 +1031,34 @@
         "endChar": 9
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84e79ea9_04dfbf4e",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6320c3ec_068cf502",
+      "range": {
+        "startLine": 209,
+        "startChar": 8,
+        "endLine": 211,
+        "endChar": 9
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "1b8b6d7f_f7a62baf",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -555,10 +1078,34 @@
         "endChar": 32
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e89aaa9_58fee8d8",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b8b6d7f_f7a62baf",
+      "range": {
+        "startLine": 219,
+        "startChar": 16,
+        "endLine": 219,
+        "endChar": 32
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "f73a7779_dd501bee",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -578,10 +1125,34 @@
         "endChar": 46
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be4e6c0b_f88f0e28",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Yes, what I\u0027m doing was unnecessary. I did the implementation on a couple of iterations and forgot to clean this up.\n\nDone.",
+      "parentUuid": "f73a7779_dd501bee",
+      "range": {
+        "startLine": 220,
+        "startChar": 6,
+        "endLine": 226,
+        "endChar": 46
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "23e5847b_e5fbbed0",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -601,10 +1172,34 @@
         "endChar": 61
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29e4ae1b_e4501a7a",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "I think for some reason it didn\u0027t work.\n\nThe parVsParDiff.oldName is the name we retrieve from DiffEntry (the output of DiffFormatter#scan). This o/p was slightly different from how we treat old/new paths in Gerrit (previously computed in PatchListEntry).\n\nDone!",
+      "parentUuid": "23e5847b_e5fbbed0",
+      "range": {
+        "startLine": 233,
+        "startChar": 22,
+        "endLine": 234,
+        "endChar": 61
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "f556fee6_47885f35",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -624,10 +1219,34 @@
         "endChar": 32
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cee635a2_3999c774",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f556fee6_47885f35",
+      "range": {
+        "startLine": 259,
+        "startChar": 13,
+        "endLine": 259,
+        "endChar": 32
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "0a49726b_fcc46600",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -647,10 +1266,34 @@
         "endChar": 45
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de015543_d66dcc59",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0a49726b_fcc46600",
+      "range": {
+        "startLine": 263,
+        "startChar": 33,
+        "endLine": 263,
+        "endChar": 45
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "5fd1cc37_aea832b9",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -670,10 +1313,34 @@
         "endChar": 42
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8592c52_25ee39e1",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fd1cc37_aea832b9",
+      "range": {
+        "startLine": 310,
+        "startChar": 23,
+        "endLine": 310,
+        "endChar": 42
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "f684046b_49d7878a",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -693,10 +1360,34 @@
         "endChar": 50
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1af36c15_4fe206a8",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "The comparator for files is used in the GitFileDiffCache. I don\u0027t see any usage for comparator here. Am I missing anything?\n\nI removed this method from here, and used the one I introduced in DiffUtil (which is also used by the GitFileDiffCache).",
+      "parentUuid": "f684046b_49d7878a",
+      "range": {
+        "startLine": 335,
+        "startChar": 37,
+        "endLine": 335,
+        "endChar": 50
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d425fa8f_525bc852",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -716,10 +1407,34 @@
         "endChar": 35
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cc4eb1b_96c77146",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Thanks for the explanation. I added a TODO for this hint and can address in a follow up change.",
+      "parentUuid": "d425fa8f_525bc852",
+      "range": {
+        "startLine": 367,
+        "startChar": 18,
+        "endLine": 367,
+        "endChar": 35
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "690c6e91_a2821004",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -739,10 +1454,34 @@
         "endChar": 44
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37173269_064de550",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "renamed to #execute().",
+      "parentUuid": "690c6e91_a2821004",
+      "range": {
+        "startLine": 378,
+        "startChar": 40,
+        "endLine": 378,
+        "endChar": 44
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "71d660c4_4b8e2b6b",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -762,10 +1501,34 @@
         "endChar": 93
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ea59469_656152a2",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71d660c4_4b8e2b6b",
+      "range": {
+        "startLine": 387,
+        "startChar": 33,
+        "endLine": 387,
+        "endChar": 93
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "321fccd0_b1405837",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -785,10 +1548,34 @@
         "endChar": 30
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ca729c2_c18c3ef6",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "You are right. Done.",
+      "parentUuid": "321fccd0_b1405837",
+      "range": {
+        "startLine": 397,
+        "startChar": 12,
+        "endLine": 397,
+        "endChar": 30
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "a4103ba5_0c69a4a8",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -808,10 +1595,34 @@
         "endChar": 60
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05320c7b_a2acad9c",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Right. Done.",
+      "parentUuid": "a4103ba5_0c69a4a8",
+      "range": {
+        "startLine": 405,
+        "startChar": 25,
+        "endLine": 405,
+        "endChar": 60
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "784bdb0d_e7628b9e",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -831,10 +1642,34 @@
         "endChar": 69
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3de4837_1cdedaeb",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "784bdb0d_e7628b9e",
+      "range": {
+        "startLine": 407,
+        "startChar": 25,
+        "endLine": 407,
+        "endChar": 69
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "6e2e8740_48cb288c",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -854,10 +1689,34 @@
         "endChar": 70
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c02ada5b_675d96c9",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6e2e8740_48cb288c",
+      "range": {
+        "startLine": 417,
+        "startChar": 25,
+        "endLine": 417,
+        "endChar": 70
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "72b4d53c_c53d42d5",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -877,10 +1736,34 @@
         "endChar": 80
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e197538f_d90a7b02",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "I reduced the complexity a bit and added a comment here, indicating that we are using the output of the new commit vs. new parent computation. I\u0027m using this structure to avoid duplicate code in this method, since all operations are very similar.",
+      "parentUuid": "72b4d53c_c53d42d5",
+      "range": {
+        "startLine": 428,
+        "startChar": 14,
+        "endLine": 428,
+        "endChar": 80
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "db0da017_61a8440a",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -900,10 +1783,34 @@
         "endChar": 96
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b63ad74a_00371922",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Yes, I think you are right. I added a TODO and will think about this case in a follow up change.",
+      "parentUuid": "db0da017_61a8440a",
+      "range": {
+        "startLine": 429,
+        "startChar": 79,
+        "endLine": 429,
+        "endChar": 96
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "90056ea2_3d8fce97",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -923,10 +1830,34 @@
         "endChar": 20
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a5f4952_975d6e89",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90056ea2_3d8fce97",
+      "range": {
+        "startLine": 441,
+        "startChar": 9,
+        "endLine": 445,
+        "endChar": 20
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d8ca33af_bf0cb0b7",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -946,10 +1877,34 @@
         "endChar": 41
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b75be64_a8c85291",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8ca33af_bf0cb0b7",
+      "range": {
+        "startLine": 448,
+        "startChar": 19,
+        "endLine": 448,
+        "endChar": 41
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "5638552a_b9ecf2b7",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -969,10 +1924,34 @@
         "endChar": 69
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9508a38_239448b5",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done.\n\nThis condition was very confusing. Got rid of it.",
+      "parentUuid": "5638552a_b9ecf2b7",
+      "range": {
+        "startLine": 461,
+        "startChar": 10,
+        "endLine": 461,
+        "endChar": 69
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "f1b48682_2e54bbdb",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -992,10 +1971,34 @@
         "endChar": 28
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f35227fc_9a634a0e",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1b48682_2e54bbdb",
+      "range": {
+        "startLine": 463,
+        "startChar": 16,
+        "endLine": 463,
+        "endChar": 28
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "1bb03314_f4d6b353",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -1015,10 +2018,34 @@
         "endChar": 11
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a28ea23_5f501579",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "The \"backFill\" method is removed now.",
+      "parentUuid": "1bb03314_f4d6b353",
+      "range": {
+        "startLine": 485,
+        "startChar": 10,
+        "endLine": 487,
+        "endChar": 11
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "b5d77037_94955210",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -1038,10 +2065,34 @@
         "endChar": 40
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "766ef303_c20a1f0a",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "I assign the fields of this class incrementally (i.e. after each call to the git diff cache, we assign one of the diffs).\nThat\u0027s why I couldn\u0027t set this as an Autovalue.",
+      "parentUuid": "b5d77037_94955210",
+      "range": {
+        "startLine": 492,
+        "startChar": 25,
+        "endLine": 492,
+        "endChar": 40
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "71146007_87e7049f",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -1061,10 +2112,34 @@
         "endChar": 41
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc2aa6d8_fc16bfd5",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "It\u0027s used. I don\u0027t know why it\u0027s marked as unused in the IDE. \n\nUsed in AllDiffsEvaluator#evaluate()",
+      "parentUuid": "71146007_87e7049f",
+      "range": {
+        "startLine": 503,
+        "startChar": 8,
+        "endLine": 503,
+        "endChar": 41
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "f77c4744_3f3abc2c",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -1084,10 +2159,34 @@
         "endChar": 50
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8003d025_10e287d7",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77c4744_3f3abc2c",
+      "range": {
+        "startLine": 532,
+        "startChar": 4,
+        "endLine": 536,
+        "endChar": 50
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "9e713e62_253fb0f9",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -1107,10 +2206,34 @@
         "endChar": 53
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c62adea_57372502",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e713e62_253fb0f9",
+      "range": {
+        "startLine": 538,
+        "startChar": 51,
+        "endLine": 538,
+        "endChar": 53
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "277597c6_887a3035",
         "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
@@ -1130,10 +2253,34 @@
         "endChar": 38
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a29a3a5f_b5ecfb69",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done. I got rid of ComparisonType from the cache interface. I added a TODO to enhance the computation of this with a follow up change.",
+      "parentUuid": "277597c6_887a3035",
+      "range": {
+        "startLine": 540,
+        "startChar": 20,
+        "endLine": 540,
+        "endChar": 38
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d23c06dd_b394d769",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1153,10 +2300,10 @@
         "endChar": 30
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "71a86b19_a70b93f4",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1176,10 +2323,58 @@
         "endChar": 42
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80703219_90bf7c91",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71a86b19_a70b93f4",
+      "range": {
+        "startLine": 79,
+        "startChar": 34,
+        "endLine": 79,
+        "endChar": 42
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e32ad55b_45c0d35b",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d23c06dd_b394d769",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d277c3e3_66c4b750",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1199,10 +2394,34 @@
         "endChar": 36
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afc1616d_e7e015de",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d277c3e3_66c4b750",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 36
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c47b1372_d89f8422",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1222,10 +2441,34 @@
         "endChar": 24
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c0d6436_54f61cb8",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "I think providing both get() and getAll() in the interface doesn\u0027t hurt (less code for callers instead of wrapping a single element in a list).",
+      "parentUuid": "c47b1372_d89f8422",
+      "range": {
+        "startLine": 102,
+        "startChar": 21,
+        "endLine": 102,
+        "endChar": 24
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c141842c_7c56c94c",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1245,10 +2488,10 @@
         "endChar": 57
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6ee89bf6_a5d5b695",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1268,10 +2511,58 @@
         "endChar": 94
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05f70661_0de94e81",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ee89bf6_a5d5b695",
+      "range": {
+        "startLine": 106,
+        "startChar": 69,
+        "endLine": 106,
+        "endChar": 94
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90ceef4c_90eacd79",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c141842c_7c56c94c",
+      "range": {
+        "startLine": 106,
+        "startChar": 47,
+        "endLine": 106,
+        "endChar": 57
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "519ea3f9_450d7646",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1291,10 +2582,10 @@
         "endChar": 78
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "62117e8e_ae7f736a",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1314,10 +2605,10 @@
         "endChar": 77
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "70f8a795_170ed080",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1338,10 +2629,58 @@
         "endChar": 77
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e5a54d4_ba038689",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "519ea3f9_450d7646",
+      "range": {
+        "startLine": 134,
+        "startChar": 77,
+        "endLine": 134,
+        "endChar": 78
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b3697e_556de228",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done. Created a DiffFormatter per {oldTree, newTree, whitespace} combination.",
+      "parentUuid": "70f8a795_170ed080",
+      "range": {
+        "startLine": 134,
+        "startChar": 10,
+        "endLine": 134,
+        "endChar": 77
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c7874a20_7e8fc081",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1361,10 +2700,34 @@
         "endChar": 49
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a226f2a0_2a519d35",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "I didn\u0027t think of duplicate entries, but I agree it would be wasteful. I used the distinct() method of the stream in line 144.\n\nDone.",
+      "parentUuid": "c7874a20_7e8fc081",
+      "range": {
+        "startLine": 141,
+        "startChar": 41,
+        "endLine": 141,
+        "endChar": 49
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "9b54c157_12eef836",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1384,10 +2747,34 @@
         "endChar": 53
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfe7153a_167677a3",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "No. Done.",
+      "parentUuid": "9b54c157_12eef836",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 142,
+        "endChar": 53
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d308ebcd_4878b038",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1407,10 +2794,34 @@
         "endChar": 51
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0db2c3a0_53ed4adc",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d308ebcd_4878b038",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 51
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
       "key": {
         "uuid": "715064c7_3bd027ab",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1430,10 +2841,34 @@
         "endChar": 66
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbd6e188_14bc21c5",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Yes, I did it intentionally. Thanks :)",
+      "parentUuid": "715064c7_3bd027ab",
+      "range": {
+        "startLine": 148,
+        "startChar": 13,
+        "endLine": 148,
+        "endChar": 66
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "79eea5dd_4a67d7c7",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1453,10 +2888,10 @@
         "endChar": 64
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b8bd4fe4_07a3dba0",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1470,10 +2905,52 @@
       "side": 1,
       "message": "The implementation of loadAll() is nearly meaningless if we don\u0027t combine several files for the same diff between commits into one call on DiffFormatter. Do you intend to still adjust this within this change? If not, can you add a todo?",
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e70560d4_dfb3ca62",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Yes, I adjusted it. We now use 1 diff request per each {old_id, new_id} trees pair.\n\nDone.",
+      "parentUuid": "b8bd4fe4_07a3dba0",
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47cb16c6_3c199d04",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79eea5dd_4a67d7c7",
+      "range": {
+        "startLine": 168,
+        "startChar": 38,
+        "endLine": 168,
+        "endChar": 64
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "ef3f1132_2d02489e",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1493,10 +2970,10 @@
         "endChar": 35
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e0d0537d_ba0bbc0d",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1517,10 +2994,34 @@
         "endChar": 35
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25cad9f3_e809c5e0",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "This is a bit tricky: 1) we can\u0027t throw an exception because we are evaluating many keys, i.e. failure of evaluating 1 key should not abort the operation. 2) dropping this entry would be good for not piling up empty diffs, but would result in getAll failing with an exception which we need to avoid, because the FileDiffCache uses these empty diffs.\n\nWe can make it apparent to the callers by adding some javadoc, highlighting that we return an empty Diff object if the file path is not found in the repo.",
+      "parentUuid": "e0d0537d_ba0bbc0d",
+      "range": {
+        "startLine": 171,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 35
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c31c253a_a39c96a1",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1540,10 +3041,34 @@
         "endChar": 42
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7962d84a_06cb1535",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "I agree. I added a more descriptive name.\nDone.",
+      "parentUuid": "c31c253a_a39c96a1",
+      "range": {
+        "startLine": 219,
+        "startChar": 40,
+        "endLine": 219,
+        "endChar": 42
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c50a0f90_90eab987",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1563,10 +3088,34 @@
         "endChar": 52
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fc62909_a4bce045",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "A TODO for myself to map this code from the old implementation.",
+      "parentUuid": "c50a0f90_90eab987",
+      "range": {
+        "startLine": 226,
+        "startChar": 11,
+        "endLine": 226,
+        "endChar": 52
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d8a7b756_b88eab83",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1586,10 +3135,34 @@
         "endChar": 55
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "464194b9_a47f50e3",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done. I removed the timeout from this class as per your other comment at line 260.\n\nNote: I added that comment to remind myself to change this variable name later.",
+      "parentUuid": "d8a7b756_b88eab83",
+      "range": {
+        "startLine": 231,
+        "startChar": 23,
+        "endLine": 231,
+        "endChar": 55
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "656cfd71_b55e62af",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1609,10 +3182,10 @@
         "endChar": 11
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a46f1c29_102f2031",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1633,10 +3206,34 @@
         "endChar": 11
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55ce897f_591ab407",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Thanks for the detailed feedback.\n\nI\u0027m not sure I fully understand and I think I miss some context.\n\nI assume the executor service was introduced in the original implementation in the first place so that we can control the timeout for each file (let\u0027s say 5 seconds). If the computation for this file exceeds 5 seconds, we abort the operation and use (a cheaper?) algorithm to compute the file header. This fallback modifies the diff formatter to use the other algorithm, which will affect other keys in the new implementation if they use the same diff formatter.\n\nWhat I\u0027m thinking of now: we are using the loadAll method in this cache (the GitFileDiffCache). If we remove the timeout from this cache, we will not be able to force a timeout for each path (as was done in the old implementation), and instead, the caller (of this cache getAll\u0027s) will put a timeout on the whole operation (for many keys).\n\nNow thanks for pointing out that we shouldn\u0027t use the fallback algorithm directly, because the key is already forcing a specific algorithm. So the logic should be changed to:\n  * call the cache with a specific algorithm and set a timeout at caller\u0027s level.\n  * if the caller timed out, re-execute the operation with a different key containing the fallback algorithm.\n\nI can\u0027t think of a way to force a timeout way per path from the caller. Should we just get rid of the timeout from this cache and move to another value of the timeout at the caller (for all keys), and just fallback to the other algorithm for all keys in case of timeout? I implemented this approach.",
+      "parentUuid": "a46f1c29_102f2031",
+      "range": {
+        "startLine": 247,
+        "startChar": 28,
+        "endLine": 260,
+        "endChar": 11
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "1f8dbf53_cccab68e",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1656,10 +3253,34 @@
         "endChar": 54
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12ad720b_229025d6",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "No that was wrong, I adjusted it so that we create a separate diff formatter per (old tree, new tree, whitespace) configuration and this will not change. I also removed the fallback and the caller should explicitly request it.\n\nDone.",
+      "parentUuid": "1f8dbf53_cccab68e",
+      "range": {
+        "startLine": 273,
+        "startChar": 8,
+        "endLine": 273,
+        "endChar": 54
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "fb821c07_8efe5df4",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1679,10 +3300,34 @@
         "endChar": 0
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25d92269_3fe4e91d",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Yes, dependency injection doesn\u0027t make sense here.\nDone.",
+      "parentUuid": "fb821c07_8efe5df4",
+      "range": {
+        "startLine": 282,
+        "startChar": 6,
+        "endLine": 291,
+        "endChar": 0
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c58054e7_6bfb986d",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1702,10 +3347,34 @@
         "endChar": 26
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a17f578_e16d4a55",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "This is the google-java-format style. Probably a bug?",
+      "parentUuid": "c58054e7_6bfb986d",
+      "range": {
+        "startLine": 317,
+        "startChar": 10,
+        "endLine": 322,
+        "endChar": 26
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "e242f0a8_03fac08a",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1725,10 +3394,34 @@
         "endChar": 11
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43e0f402_1de1d3f0",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Thanks. I adjusted it.\n\nDone.",
+      "parentUuid": "e242f0a8_03fac08a",
+      "range": {
+        "startLine": 350,
+        "startChar": 6,
+        "endLine": 350,
+        "endChar": 11
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "8a2c8ce5_35c40dc7",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1748,10 +3441,34 @@
         "endChar": 28
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a430621f_0a572247",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a2c8ce5_35c40dc7",
+      "range": {
+        "startLine": 353,
+        "startChar": 22,
+        "endLine": 353,
+        "endChar": 28
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "e2943755_d73a9e41",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1771,10 +3488,10 @@
         "endChar": 45
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ba4b46cf_8208eeb3",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1794,10 +3511,58 @@
         "endChar": 46
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f895a5e3_4f0200ec",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba4b46cf_8208eeb3",
+      "range": {
+        "startLine": 373,
+        "startChar": 4,
+        "endLine": 374,
+        "endChar": 46
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52ec7932_a66f6cd9",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2943755_d73a9e41",
+      "range": {
+        "startLine": 374,
+        "startChar": 28,
+        "endLine": 374,
+        "endChar": 45
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "17e2d867_5bb80c8d",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1817,10 +3582,34 @@
         "endChar": 50
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1eeb982_bb3eab05",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done. Removed the Nullable annotation.",
+      "parentUuid": "17e2d867_5bb80c8d",
+      "range": {
+        "startLine": 376,
+        "startChar": 4,
+        "endLine": 377,
+        "endChar": 50
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "9fbce65e_8e458ae7",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1840,10 +3629,10 @@
         "endChar": 53
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e7c4074f_bf1d1b31",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
@@ -1863,10 +3652,58 @@
         "endChar": 50
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42d87481_98689839",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7c4074f_bf1d1b31",
+      "range": {
+        "startLine": 379,
+        "startChar": 20,
+        "endLine": 379,
+        "endChar": 50
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68805d25_9cf7a32e",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fbce65e_8e458ae7",
+      "range": {
+        "startLine": 379,
+        "startChar": 51,
+        "endLine": 379,
+        "endChar": 53
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "3117239d_abf5ea58",
         "filename": "java/com/google/gerrit/server/patch/entities/FileHeader.java",
@@ -1886,10 +3723,34 @@
         "endChar": 32
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cf3ea92_230112ad",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileHeader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "3117239d_abf5ea58",
+      "range": {
+        "startLine": 23,
+        "startChar": 22,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c1096038_0375e437",
         "filename": "java/com/google/gerrit/server/patch/entities/FileHeader.java",
@@ -1909,10 +3770,34 @@
         "endChar": 0
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f7b126e_dd25137d",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileHeader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c1096038_0375e437",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 0
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "4240cc92_fea293d4",
         "filename": "java/com/google/gerrit/server/patch/entities/FileHeader.java",
@@ -1932,10 +3817,34 @@
         "endChar": 33
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b512d963_5d11a17e",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileHeader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done. Added a TODO and moved this code to the GitFileDiffCacheImpl.",
+      "parentUuid": "4240cc92_fea293d4",
+      "range": {
+        "startLine": 64,
+        "startChar": 20,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "48990d2d_153eeb3c",
         "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
@@ -1955,10 +3864,34 @@
         "endChar": 57
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd3759c6_49518911",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48990d2d_153eeb3c",
+      "range": {
+        "startLine": 26,
+        "startChar": 34,
+        "endLine": 26,
+        "endChar": 57
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "59dc64c5_77cb101b",
         "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
@@ -1978,10 +3911,34 @@
         "endChar": 34
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84a1beba_e7997c31",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59dc64c5_77cb101b",
+      "range": {
+        "startLine": 27,
+        "startChar": 28,
+        "endLine": 27,
+        "endChar": 34
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "77cc4ea3_0a931cc6",
         "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
@@ -2001,10 +3958,34 @@
         "endChar": 11
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dedd5732_d11946ca",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77cc4ea3_0a931cc6",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "f031e6fc_c058d75e",
         "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
@@ -2024,10 +4005,34 @@
         "endChar": 22
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6822fa9f_82aa8345",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f031e6fc_c058d75e",
+      "range": {
+        "startLine": 42,
+        "startChar": 18,
+        "endLine": 42,
+        "endChar": 22
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "a1c0f72c_0000cc17",
         "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
@@ -2047,10 +4052,34 @@
         "endChar": 11
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1507504_55093e21",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1c0f72c_0000cc17",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 11
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "7f3ec6cf_66736938",
         "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
@@ -2070,10 +4099,34 @@
         "endChar": 32
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e68ca9aa_674521c1",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f3ec6cf_66736938",
+      "range": {
+        "startLine": 48,
+        "startChar": 25,
+        "endLine": 48,
+        "endChar": 32
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c42c6466_0ee0a5f8",
         "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
@@ -2093,10 +4146,10 @@
         "endChar": 22
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "94f363d5_c5d6ec79",
         "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
@@ -2116,8 +4169,55 @@
         "endChar": 32
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b97100d3_a8007c8d",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "I think I did put nullable for \"empty\" GitFileDiff. No specific reason. Done.",
+      "parentUuid": "c42c6466_0ee0a5f8",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95cc6a16_3fef5348",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T13:56:37Z",
+      "side": 1,
+      "message": "Done. \n\nI had to introduce the new fields oldId, newId, oldMode, newMode to the output of the GitDiffFileCache, so that I can use them to compute the size in the FileDiffCache.",
+      "parentUuid": "94f363d5_c5d6ec79",
+      "range": {
+        "startLine": 54,
+        "startChar": 23,
+        "endLine": 54,
+        "endChar": 32
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

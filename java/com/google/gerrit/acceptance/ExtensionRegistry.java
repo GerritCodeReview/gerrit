@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
+import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -58,6 +59,7 @@ public class ExtensionRegistry {
   private final DynamicSet<GroupIndexedListener> groupIndexedListeners;
   private final DynamicSet<ProjectIndexedListener> projectIndexedListeners;
   private final DynamicSet<CommitValidationListener> commitValidationListeners;
+  private final DynamicSet<TopicEditedListener> topicEditedListeners;
   private final DynamicSet<ExceptionHook> exceptionHooks;
   private final DynamicSet<PerformanceLogger> performanceLoggers;
   private final DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
@@ -89,6 +91,7 @@ public class ExtensionRegistry {
       DynamicSet<GroupIndexedListener> groupIndexedListeners,
       DynamicSet<ProjectIndexedListener> projectIndexedListeners,
       DynamicSet<CommitValidationListener> commitValidationListeners,
+      DynamicSet<TopicEditedListener> topicEditedListeners,
       DynamicSet<ExceptionHook> exceptionHooks,
       DynamicSet<PerformanceLogger> performanceLoggers,
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
@@ -116,6 +119,7 @@ public class ExtensionRegistry {
     this.groupIndexedListeners = groupIndexedListeners;
     this.projectIndexedListeners = projectIndexedListeners;
     this.commitValidationListeners = commitValidationListeners;
+    this.topicEditedListeners = topicEditedListeners;
     this.exceptionHooks = exceptionHooks;
     this.performanceLoggers = performanceLoggers;
     this.projectCreationValidationListeners = projectCreationValidationListeners;
@@ -166,6 +170,10 @@ public class ExtensionRegistry {
 
     public Registration add(CommitValidationListener commitValidationListener) {
       return add(commitValidationListeners, commitValidationListener);
+    }
+
+    public Registration add(TopicEditedListener topicEditedListener) {
+      return add(topicEditedListeners, topicEditedListener);
     }
 
     public Registration add(ExceptionHook exceptionHook) {

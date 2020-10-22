@@ -344,7 +344,6 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), VoteDeletedListener.class);
     DynamicSet.setOf(binder(), WorkInProgressStateChangedListener.class);
     DynamicSet.setOf(binder(), RevisionCreatedListener.class);
-    DynamicSet.setOf(binder(), TopicEditedListener.class);
     DynamicSet.setOf(binder(), AgreementSignupListener.class);
     DynamicSet.setOf(binder(), PluginEventListener.class);
     DynamicSet.setOf(binder(), ReceivePackInitializer.class);
@@ -368,6 +367,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.bind(binder(), EventListener.class).to(EventsMetrics.class);
     DynamicSet.setOf(binder(), UserScopedEventListener.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
+    DynamicSet.setOf(binder(), TopicEditedListener.class);
     DynamicSet.setOf(binder(), CommentValidator.class);
     DynamicSet.setOf(binder(), ChangeMessageModifier.class);
     DynamicSet.setOf(binder(), RefOperationValidationListener.class);

@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.SetTopicOp;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -60,7 +61,7 @@ public class PutTopic
       sanitizedInput.topic = sanitizedInput.topic.trim();
     }
 
-    SetTopicOp op = topicOpFactory.create(sanitizedInput);
+    SetTopicOp op = topicOpFactory.create(sanitizedInput.topic);
     try (BatchUpdate u =
         updateFactory.create(req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op);

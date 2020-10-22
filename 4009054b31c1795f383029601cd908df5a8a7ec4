@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c29dbf06_0cc0d8d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-22T20:43:13Z",
+      "side": 1,
+      "message": "@Luca, these look like unrelated failures now. One has to do with flaky|failing elastic tests it seems, and the other with chrome 80 being unstable or so. How should we proceed you think?",
+      "revId": "4009054b31c1795f383029601cd908df5a8a7ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

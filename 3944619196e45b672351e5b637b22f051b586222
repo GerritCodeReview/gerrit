@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5da8831_2947e14f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-22T15:19:14Z",
+      "side": 1,
+      "message": "You created this if because you expect changeNum is not set in params? But it can happen that this_changeNum is also not set.\n\n// AppElementDiffViewParam ensures _changeNum is set\nCan you explain why?",
+      "range": {
+        "startLine": 1098,
+        "startChar": 13,
+        "endLine": 1098,
+        "endChar": 34
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

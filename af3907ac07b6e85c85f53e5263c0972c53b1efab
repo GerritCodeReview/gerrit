@@ -46,6 +46,30 @@
       },
       "revId": "af3907ac07b6e85c85f53e5263c0972c53b1efab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3d24767_1d85f235",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-22T14:45:02Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t look to it that deeply. I just think that this constant doesn\u0027t belong to gr-reporting.ts and it could have better place. But we can refactor it sometimes later.",
+      "parentUuid": "e985e436_fc509795",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 43
+      },
+      "revId": "af3907ac07b6e85c85f53e5263c0972c53b1efab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

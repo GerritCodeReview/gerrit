@@ -561,3 +561,16 @@ message ModifiedFileProto {
 message ModifiedFilesProto {
   repeated ModifiedFileProto modifiedFile = 1;
 }
+
+// Serialized form of a collection of
+// com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.Key
+// Next ID: 8
+message GitFileDiffKeyProto {
+  string project = 1;
+  bytes a_tree = 2;
+  bytes b_tree = 3;
+  string file_path = 4;
+  int32 rename_score = 5;
+  string diff_algorithm = 6; // ENUM as string
+  string whitepsace = 7; // ENUM as string
+}

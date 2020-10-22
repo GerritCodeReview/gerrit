@@ -1373,7 +1373,7 @@ export interface InheritedBooleanInfo {
 }
 
 /**
- * The MaxObjectSizeLimitInfo entity contains information about themax object
+ * The MaxObjectSizeLimitInfo entity contains information about the max object
  * size limit of a project.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#max-object-size-limit-info
  */

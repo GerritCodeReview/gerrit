@@ -1367,9 +1367,9 @@ export interface ImageInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#inherited-boolean-info
  */
 export interface InheritedBooleanInfo {
-  value: string;
+  value: boolean;
   configured_value: InheritedBooleanInfoConfiguredValue;
-  inherited_value?: string;
+  inherited_value?: boolean;
 }
 
 /**
@@ -1378,7 +1378,7 @@ export interface InheritedBooleanInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#max-object-size-limit-info
  */
 export interface MaxObjectSizeLimitInfo {
-  value?: number;
+  value?: string;
   configured_value?: string;
   summary?: string;
 }

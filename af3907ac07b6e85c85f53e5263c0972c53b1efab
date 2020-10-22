@@ -70,6 +70,30 @@
       },
       "revId": "af3907ac07b6e85c85f53e5263c0972c53b1efab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7850b3b2_d3af257b",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-22T14:46:21Z",
+      "side": 1,
+      "message": "Can you review the change then?",
+      "parentUuid": "a3d24767_1d85f235",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 43
+      },
+      "revId": "af3907ac07b6e85c85f53e5263c0972c53b1efab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

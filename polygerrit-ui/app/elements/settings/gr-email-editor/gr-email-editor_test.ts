@@ -17,13 +17,14 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-email-editor.js';
+import {GrEmailEditor} from './gr-email-editor';
 
 const basicFixture = fixtureFromElement('gr-email-editor');
 
 suite('gr-email-editor tests', () => {
-  let element;
+  let element: GrEmailEditor;
 
-  setup(done => {
+  setup(async () => {
     const emails = [
       {email: 'email@one.com'},
       {email: 'email@two.com', preferred: true},
@@ -31,36 +32,47 @@ suite('gr-email-editor tests', () => {
     ];
 
     stub('gr-rest-api-interface', {
-      getAccountEmails() { return Promise.resolve(emails); },
+      getAccountEmails() {
+        return Promise.resolve(emails);
+      },
     });
 
     element = basicFixture.instantiate();
 
-    element.loadData().then(flush(done));
+    await element.loadData();
+    await flush();
   });
 
   test('renders', () => {
-    const rows = element.shadowRoot
-        .querySelector('table').querySelectorAll('tbody tr');
+    const rows = element
+      .shadowRoot!.querySelector('table')!
+      .querySelectorAll('tbody tr') as NodeListOf<HTMLTableRowElement>;
 
     assert.equal(rows.length, 3);
 
-    assert.isFalse(rows[0].querySelector('input[type=radio]').checked);
-    assert.isNotOk(rows[0].querySelector('gr-button').disabled);
+    assert.isFalse(
+      (rows[0].querySelector('input[type=radio]') as HTMLInputElement).checked
+    );
+    assert.isNotOk(rows[0].querySelector('gr-button')!.disabled);
 
-    assert.isTrue(rows[1].querySelector('input[type=radio]').checked);
-    assert.isOk(rows[1].querySelector('gr-button').disabled);
+    assert.isTrue(
+      (rows[1].querySelector('input[type=radio]') as HTMLInputElement).checked
+    );
+    assert.isOk(rows[1].querySelector('gr-button')!.disabled);
 
-    assert.isFalse(rows[2].querySelector('input[type=radio]').checked);
-    assert.isNotOk(rows[2].querySelector('gr-button').disabled);
+    assert.isFalse(
+      (rows[2].querySelector('input[type=radio]') as HTMLInputElement).checked
+    );
+    assert.isNotOk(rows[2].querySelector('gr-button')!.disabled);
 
     assert.isFalse(element.hasUnsavedChanges);
   });
 
   test('edit preferred', () => {
     const preferredChangedSpy = sinon.spy(element, '_handlePreferredChange');
-    const radios = element.shadowRoot
-        .querySelector('table').querySelectorAll('input[type=radio]');
+    const radios = element
+      .shadowRoot!.querySelector('table')!
+      .querySelectorAll('input[type=radio]') as NodeListOf<HTMLInputElement>;
 
     assert.isFalse(element.hasUnsavedChanges);
     assert.isNotOk(element._newPreferred);
@@ -82,8 +94,9 @@ suite('gr-email-editor tests', () => {
   });
 
   test('delete email', () => {
-    const buttons = element.shadowRoot
-        .querySelector('table').querySelectorAll('gr-button');
+    const buttons = element
+      .shadowRoot!.querySelector('table')!
+      .querySelectorAll('gr-button');
 
     assert.isFalse(element.hasUnsavedChanges);
     assert.isNotOk(element._newPreferred);
@@ -101,12 +114,15 @@ suite('gr-email-editor tests', () => {
   });
 
   test('save changes', done => {
-    const deleteEmailStub =
-        sinon.stub(element.$.restAPI, 'deleteAccountEmail');
-    const setPreferredStub = sinon.stub(element.$.restAPI,
-        'setPreferredAccountEmail');
-    const rows = element.shadowRoot
-        .querySelector('table').querySelectorAll('tbody tr');
+    const deleteEmailStub = sinon.stub(element.$.restAPI, 'deleteAccountEmail');
+    const setPreferredStub = sinon.stub(
+      element.$.restAPI,
+      'setPreferredAccountEmail'
+    );
+
+    const rows = element
+      .shadowRoot!.querySelector('table')!
+      .querySelectorAll('tbody tr');
 
     assert.isFalse(element.hasUnsavedChanges);
     assert.isNotOk(element._newPreferred);
@@ -114,8 +130,8 @@ suite('gr-email-editor tests', () => {
     assert.equal(element._emails.length, 3);
 
     // Delete the first email and set the last as preferred.
-    rows[0].querySelector('gr-button').click();
-    rows[2].querySelector('input[type=radio]').click();
+    rows[0].querySelector('gr-button')!.click();
+    (rows[2].querySelector('input[type=radio]')! as HTMLInputElement).click();
 
     assert.isTrue(element.hasUnsavedChanges);
     assert.equal(element._newPreferred, 'email@three.com');
@@ -135,4 +151,3 @@ suite('gr-email-editor tests', () => {
     });
   });
 });
-

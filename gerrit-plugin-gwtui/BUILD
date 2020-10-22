@@ -78,7 +78,6 @@ java_doc(
     ],
     pkgs = [
         "com.google.gerrit.plugin",
-        "com.google.gwtexpui.clippy",
         "com.google.gwtexpui.globalkey",
         "com.google.gwtexpui.safehtml",
         "com.google.gwtexpui.user",

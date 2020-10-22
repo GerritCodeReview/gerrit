@@ -93,6 +93,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -487,26 +488,34 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushForMasterWithTopic() throws Exception {
-    String topic = "my/topic";
-    // specify topic as option
-    PushOneCommit.Result r = pushTo("refs/for/master%topic=" + topic);
-    r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, topic);
+    TopicValidator topicValidator = new TopicValidator();
+    try (Registration registration = extensionRegistry.newRegistration().add(topicValidator)) {
+      String topic = "my/topic";
+      // specify topic as option
+      PushOneCommit.Result r = pushTo("refs/for/master%topic=" + topic);
+      r.assertOkStatus();
+      r.assertChange(Change.Status.NEW, topic);
+      assertThat(topicValidator.count()).isEqualTo(1);
+    }
   }
 
   @Test
   public void pushForMasterWithTopicOption() throws Exception {
-    String topicOption = "topic=myTopic";
-    List<String> pushOptions = new ArrayList<>();
-    pushOptions.add(topicOption);
+    TopicValidator topicValidator = new TopicValidator();
+    try (Registration registration = extensionRegistry.newRegistration().add(topicValidator)) {
+      String topicOption = "topic=myTopic";
+      List<String> pushOptions = new ArrayList<>();
+      pushOptions.add(topicOption);
 
-    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
-    push.setPushOptions(pushOptions);
-    PushOneCommit.Result r = push.to("refs/for/master");
+      PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+      push.setPushOptions(pushOptions);
+      PushOneCommit.Result r = push.to("refs/for/master");
 
-    r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, "myTopic");
-    r.assertPushOptions(pushOptions);
+      r.assertOkStatus();
+      r.assertChange(Change.Status.NEW, "myTopic");
+      r.assertPushOptions(pushOptions);
+      assertThat(topicValidator.count()).isEqualTo(1);
+    }
   }
 
   @Test
@@ -2365,6 +2374,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     @Override
     public boolean shouldValidateAllCommits() {
       return validateAll;
+    }
+
+    public int count() {
+      return count.get();
+    }
+  }
+
+  private static class TopicValidator implements TopicEditedListener {
+    private final AtomicInteger count = new AtomicInteger();
+
+    @Override
+    public void onTopicEdited(Event event) {
+      count.incrementAndGet();
     }
 
     public int count() {

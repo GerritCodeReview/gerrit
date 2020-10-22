@@ -112,6 +112,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.change.SetPrivateOp;
+import com.google.gerrit.server.change.SetTopicOp;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfig;
@@ -179,7 +180,6 @@ import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -344,6 +344,7 @@ class ReceiveCommits {
   private final RequestScopePropagator requestScopePropagator;
   private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
+  private final SetTopicOp.Factory setTopicFactory;
   private final ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners;
   private final TagCache tagCache;
   private final ProjectConfig.Factory projectConfigFactory;
@@ -426,6 +427,7 @@ class ReceiveCommits {
       RequestScopePropagator requestScopePropagator,
       Sequences seq,
       SetHashtagsOp.Factory hashtagsFactory,
+      SetTopicOp.Factory setTopicFactory,
       @SuperprojectUpdateOnSubmission
           ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners,
       TagCache tagCache,
@@ -453,6 +455,7 @@ class ReceiveCommits {
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
     this.editUtil = editUtil;
     this.hashtagsFactory = hashtagsFactory;
+    this.setTopicFactory = setTopicFactory;
     this.indexer = indexer;
     this.initializers = initializers;
     this.mergeOpProvider = mergeOpProvider;
@@ -2595,7 +2598,7 @@ class ReceiveCommits {
                     .setFireEvent(false));
           }
           if (!Strings.isNullOrEmpty(magicBranch.topic)) {
-            bu.addOp(changeId, new SetTopicOp(magicBranch.topic));
+            bu.addOp(changeId, setTopicFactory.create(magicBranch.topic));
           }
           bu.addOp(
               changeId,
@@ -3468,20 +3471,5 @@ class ReceiveCommits {
     }
     b.append(")\n");
     return b.toString();
-  }
-
-  private static class SetTopicOp implements BatchUpdateOp {
-
-    private final String topic;
-
-    public SetTopicOp(String topic) {
-      this.topic = topic;
-    }
-
-    @Override
-    public boolean updateChange(ChangeContext ctx) throws ValidationException {
-      ctx.getUpdate(ctx.getChange().currentPatchSetId()).setTopic(topic);
-      return true;
-    }
   }
 }

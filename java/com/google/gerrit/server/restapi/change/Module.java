@@ -47,6 +47,7 @@ import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.change.SetCherryPickOp;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.change.SetPrivateOp;
+import com.google.gerrit.server.change.SetTopicOp;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
@@ -218,9 +219,9 @@ public class Module extends RestApiModule {
     factory(SetAssigneeOp.Factory.class);
     factory(SetCherryPickOp.Factory.class);
     factory(SetHashtagsOp.Factory.class);
+    factory(SetTopicOp.Factory.class);
     factory(SetPrivateOp.Factory.class);
     factory(WorkInProgressOp.Factory.class);
-    factory(SetTopicOp.Factory.class);
     factory(AddToAttentionSetOp.Factory.class);
     factory(RemoveFromAttentionSetOp.Factory.class);
     factory(AttentionSetEmail.Factory.class);

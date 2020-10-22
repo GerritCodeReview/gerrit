@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07400957_f9618450",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-22T14:04:46Z",
+      "side": 1,
+      "message": "I will split this change to 2 or more changes so that\u0027s it\u0027s manageable for review.",
+      "revId": "44fb64f0319913e0189764ef9595e8d52feea415",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

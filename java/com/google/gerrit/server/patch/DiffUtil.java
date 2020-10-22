@@ -15,11 +15,13 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
 import java.io.IOException;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -76,6 +78,23 @@ public class DiffUtil {
       return ImmutablePair.nullPair();
     }
     return Pair.of(commitA, commitB);
+  }
+
+  public static RawTextComparator comparatorFor(Whitespace ws) {
+    switch (ws) {
+      case IGNORE_ALL:
+        return RawTextComparator.WS_IGNORE_ALL;
+
+      case IGNORE_TRAILING:
+        return RawTextComparator.WS_IGNORE_TRAILING;
+
+      case IGNORE_LEADING_AND_TRAILING:
+        return RawTextComparator.WS_IGNORE_CHANGE;
+
+      case IGNORE_NONE:
+      default:
+        return RawTextComparator.DEFAULT;
+    }
   }
 
   private static boolean isRootOrMergeCommit(RevCommit commit) {

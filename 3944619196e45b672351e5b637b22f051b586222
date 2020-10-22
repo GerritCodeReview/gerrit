@@ -3,6 +3,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4cc51421_101f7289",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-22T17:42:26Z",
+      "side": 1,
+      "message": "So this will run promises, but it will not use their result. Just measure how long it took and start some usage?",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abc8fb5b_996927b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-22T17:42:26Z",
+      "side": 1,
+      "message": "I am little bit out of context in this change, so I have a few questions.",
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c191cfc4_591bf8a5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-22T17:42:26Z",
+      "side": 1,
+      "message": "I am not expert in Promises, but I think you can have very different timings in this two scenarios:\n\ntime()\nportedCommentsPromise() will start running\nPromise.all(promises) will start running\n.then( TimeEnd())\n\nvs\n\ntime()\nPromise.all will start running\n.then(\n   portedCommentsPromise() will start running\n   .then (timeEnd())\n)",
+      "range": {
+        "startLine": 1066,
+        "startChar": 24,
+        "endLine": 1066,
+        "endChar": 54
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d5da8831_2947e14f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 4

@@ -1,10 +1,13 @@
 load("//tools/bzl:maven_jar.bzl", "MAVEN_CENTRAL", "maven_jar")
 
+# TODO(mmiller): Realign _DOC_VERS below with _JGIT_VERS once possible.
 _JGIT_VERS = "5.3.7.202002110540-r"
 
-_DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
+# jgit 5.3.7 archive was lost while preparing the JGIT_DOC_URL site;
+# jgit 5.3.6 is the closest site available, until a next jgit upgrade.
+_DOC_VERS = "5.3.6.201910020505-r"  # Set to _JGIT_VERS unless using a snapshot
 
-JGIT_DOC_URL = "https://download.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
+JGIT_DOC_URL = "https://archive.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
 
 _JGIT_REPO = MAVEN_CENTRAL  # Leave here even if set to MAVEN_CENTRAL.
 

@@ -352,7 +352,7 @@ public class MergeOp implements AutoCloseable {
     }
     if (record.requirements != null) {
       record.requirements.stream()
-          .map(SubmitRequirement::fallbackText)
+          .map(MergeOp::describeSubmitRequirement)
           .forEach(blockingConditions::add);
     }
     return Joiner.on("; ").join(blockingConditions);
@@ -386,6 +386,10 @@ public class MergeOp implements AutoCloseable {
       }
     }
     return Joiner.on("; ").join(labelResults);
+  }
+
+  private static String describeSubmitRequirement(SubmitRequirement submitRequirement) {
+    return String.format("Submit requirement not fulfilled: %s", submitRequirement.fallbackText());
   }
 
   private void checkSubmitRulesAndState(ChangeSet cs, boolean allowMerged)

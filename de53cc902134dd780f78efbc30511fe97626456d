@@ -56,6 +56,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d8024a9a_2248d44c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-22T08:12:23Z",
+      "side": 1,
+      "message": "Time, TimeEnd from reporting",
+      "range": {
+        "startLine": 489,
+        "startChar": 22,
+        "endLine": 489,
+        "endChar": 26
+      },
+      "revId": "de53cc902134dd780f78efbc30511fe97626456d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a6e0e83_e5bbb72a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 1
@@ -90,6 +113,30 @@
       "writtenOn": "2020-10-21T15:37:33Z",
       "side": 1,
       "message": "Maybe use reporting.time/reporting.timeEnd instead?\n@Milutin WDYT?",
+      "range": {
+        "startLine": 1112,
+        "startChar": 10,
+        "endLine": 1114,
+        "endChar": 13
+      },
+      "revId": "de53cc902134dd780f78efbc30511fe97626456d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd878111_6f75fc24",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-22T08:12:23Z",
+      "side": 1,
+      "message": "+1, please don\u0027t introduce new time tracking. Date.now() is not good. window.performance.now() is better. But please use time, timeEnd from reporting",
+      "parentUuid": "0fb8534b_52e41155",
       "range": {
         "startLine": 1112,
         "startChar": 10,

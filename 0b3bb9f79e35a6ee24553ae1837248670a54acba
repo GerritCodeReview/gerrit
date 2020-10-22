@@ -37,6 +37,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "07ddc4dc_5e8e11da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-10-22T17:28:31Z",
+      "side": 1,
+      "message": "I think this is a good concern, and we should at least make sure that we have documented that they are public. \n\nIf we ever support private ones, I would suggest placing them in a separate \"private\" file (alternatively, we could force public ones to be in a \"public\" file). I do think that it might make sense to have some way to distinguish them when accessing them by the user owning the queries since they could have name conflicts between the two. However, this should not need to be distinguishable for other users since the other users will never see the private ones and they therefor could never have a conflict. \n\nOne suggestion would be to do something like \u0027query:[user\u003d\u003cuser\u003e,]\u003cpublic_name\u003e\u0027 for public queries and maybe a new operator for private ones \u0027private:\u003cprivate_name\u003e\u0027?  \n\nAnother approach would be to continue to use the same operator for both public and private, but require the \u0027[user\u003d\u003cuser\u003e,]\u0027 prefix for public ones since the user must be specified by other users anyway. That would mean that I could access my own private queries with \u0027query:\u003cprivate_name\u003e\u0027, and to access my public queries I would need to do query:user\u003dself,\u003cpublic_name\u003e and maybe we would add a \"public\u0027 alias for \u0027user\u003dself\u0027 so that you could do \u0027query:public\u003d\u003cpublic_name\u003e\u0027? It makes it a bit wordy to access your own public queries though, and it might be nice to have an even shorter way to do it, I could imagine something like \u0027query:\u003d\u003cpublic_name\u003e\u0027.",
+      "parentUuid": "7c702414_87962ccf",
+      "revId": "0b3bb9f79e35a6ee24553ae1837248670a54acba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0908b89f_a0594cf6",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1

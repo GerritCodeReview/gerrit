@@ -46,6 +46,9 @@ public class MergedSender extends ReplyToChangeSender {
 
   @Override
   protected void init() throws EmailException {
+    // We want to send the submit email even if the "send only when in attention set" is enabled.
+    emailOnlyAttentionSetIfEnabled = false;
+
     super.init();
 
     ccAllApprovals();

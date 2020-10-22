@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b5b17a8_6c8a0726",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-22T08:51:39Z",
+      "side": 0,
+      "message": "What is the reason to have this flag enabled for all tests without adding asserts/tests for porting comment? \n\nIt is better to have a separate suite/tests where this flag is enabled. Then we can test both scenario: flag is enabled and flag is disabled. If the flag is always enabled, we can\u0027t be sure that code works when experiment is not enabled.",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 69
+      },
+      "revId": "f80fbace31a851b8d29c7f374a1da8db9440db1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

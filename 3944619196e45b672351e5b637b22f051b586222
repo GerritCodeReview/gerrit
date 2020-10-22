@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "02a21266_77310c8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-22T19:03:29Z",
+      "side": 1,
+      "message": "Yes exactly.",
+      "parentUuid": "4cc51421_101f7289",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "abc8fb5b_996927b9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58bdcf78_669134b5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-22T19:03:29Z",
+      "side": 1,
+      "message": "In the end I mainly want to measure how long does it take before we have the response in diff/change view and that will not exactly compare to the API time.\nIf it takes 200ms for the API to return but it is waiting 300ms before requesting, then the actual number I want is 500ms and not 200ms.",
+      "parentUuid": "c191cfc4_591bf8a5",
+      "range": {
+        "startLine": 1066,
+        "startChar": 24,
+        "endLine": 1066,
+        "endChar": 54
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5da8831_2947e14f",
@@ -77,6 +125,30 @@
       "writtenOn": "2020-10-22T15:19:14Z",
       "side": 1,
       "message": "You created this if because you expect changeNum is not set in params? But it can happen that this_changeNum is also not set.\n\n// AppElementDiffViewParam ensures _changeNum is set\nCan you explain why?",
+      "range": {
+        "startLine": 1098,
+        "startChar": 13,
+        "endLine": 1098,
+        "endChar": 34
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5f82303_7a534806",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-22T19:03:29Z",
+      "side": 1,
+      "message": "I created this because patchNum is not set in the params when we are loading /comment/{commentId}. In all other cases we have patchNum and changeNum in the url.\n\nAppElementDiffViewParam has changeNum as a non-optional property, hence it ensures that it is set. \n`this._changeNum \u003d value.changeNum`\nThis line is executed always before this one.\n\nI am also not sure how diff view can be loaded when there is no changeNum,",
+      "parentUuid": "d5da8831_2947e14f",
       "range": {
         "startLine": 1098,
         "startChar": 13,

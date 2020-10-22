@@ -70,6 +70,30 @@
       },
       "revId": "f4cd615a5635adda78caf357fe7bd722262a6830",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b13a14e1_7a7d2b31",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-22T19:12:47Z",
+      "side": 1,
+      "message": "I finally confirmed that the data race never creates any issues, because changeAlreadyMerged variable is only touched by one thread; other threads don\u0027t touch it, and have their own changeAlreadyMerged variable. All evidence in the logs also suggests all other variables are in their correct state.\n\nDuring retries, if the status of the change changes to \"merged\", and then the update still fails, we won\u0027t call postUpdate since this update \"failed\". When retrying, we will see that change is already merged, and won\u0027t call postUpdate again. Hence the bug of not sending emails rarely.\n\nResolving this, since we\u0027re not creating a new data race.",
+      "parentUuid": "7e5946c7_c62bda71",
+      "range": {
+        "startLine": 492,
+        "startChar": 8,
+        "endLine": 492,
+        "endChar": 29
+      },
+      "revId": "f4cd615a5635adda78caf357fe7bd722262a6830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

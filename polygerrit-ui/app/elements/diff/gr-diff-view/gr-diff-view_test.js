@@ -652,9 +652,11 @@ suite('gr-diff-view tests', () => {
           PARENT), 'Should navigate to /c/42/1/chell.go');
       element._path = 'chell.go';
 
+      changeNavStub.reset();
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
           PARENT), 'Should navigate to /c/42/1');
+      assert.isTrue(changeNavStub.calledOnce);
     });
 
     test('edit should redirect to edit page', done => {

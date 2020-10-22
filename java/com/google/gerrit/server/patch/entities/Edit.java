@@ -22,7 +22,7 @@ import com.google.auto.value.AutoValue;
  */
 @AutoValue
 public abstract class Edit {
-  static Edit create(int beginA, int endA, int beginB, int endB) {
+  public static Edit create(int beginA, int endA, int beginB, int endB) {
     return new AutoValue_Edit(beginA, endA, beginB, endB);
   }
 

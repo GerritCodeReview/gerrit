@@ -19,10 +19,13 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.cache.proto.Cache.GitFileDiffKeyProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.DiffAlgorithm;
 import org.eclipse.jgit.lib.ObjectId;
 
-// TODO(ghareeb): Implement a key protobuf serializer
 @AutoValue
 public abstract class GitFileDiffCacheKey {
 
@@ -94,5 +97,41 @@ public abstract class GitFileDiffCacheKey {
     public abstract Builder whitespace(Whitespace value);
 
     public abstract GitFileDiffCacheKey build();
+  }
+
+  public enum Serializer implements CacheSerializer<GitFileDiffCacheKey> {
+    INSTANCE;
+
+    @Override
+    public byte[] serialize(GitFileDiffCacheKey key) {
+      ObjectIdConverter idConverter = ObjectIdConverter.create();
+      return Protos.toByteArray(
+          GitFileDiffKeyProto.newBuilder()
+              .setProject(key.project().get())
+              .setATree(idConverter.toByteString(key.oldTree()))
+              .setBTree(idConverter.toByteString(key.newTree()))
+              .setFilePath(key.newFilePath())
+              .setRenameScore(key.renameScore())
+              .setDiffAlgorithm(key.diffAlgorithm().name())
+              .setWhitepsace(key.whitespace().name())
+              .build());
+    }
+
+    @Override
+    public GitFileDiffCacheKey deserialize(byte[] in) {
+      GitFileDiffKeyProto proto = Protos.parseUnchecked(GitFileDiffKeyProto.parser(), in);
+
+      ObjectIdConverter idConverter = ObjectIdConverter.create();
+
+      return GitFileDiffCacheKey.builder()
+          .project(Project.nameKey(proto.getProject()))
+          .oldTree(idConverter.fromByteString(proto.getATree()))
+          .newTree(idConverter.fromByteString(proto.getBTree()))
+          .newFilePath(proto.getFilePath())
+          .renameScore(proto.getRenameScore())
+          .diffAlgorithm(DiffAlgorithm.valueOf(proto.getDiffAlgorithm()))
+          .whitespace(Whitespace.valueOf(proto.getWhitepsace()))
+          .build();
+    }
   }
 }

@@ -63,6 +63,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
         persist(GIT_DIFF, GitFileDiffCacheKey.class, GitFileDiff.class)
             .maximumWeight(10 << 20)
             .weigher(GitFileDiffWeigher.class)
+            .keySerializer(GitFileDiffCacheKey.Serializer.INSTANCE)
             .valueSerializer(GitFileDiff.Serializer.INSTANCE)
             .loader(GitFileDiffCacheImpl.Loader.class);
       }

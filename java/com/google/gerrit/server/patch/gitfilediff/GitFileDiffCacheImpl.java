@@ -31,11 +31,16 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.proto.Cache.GitFileDiffKeyProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.cache.serialize.entities.Weighable;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffUtil;
+import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.Key.Serializer;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.name.Named;
@@ -86,6 +91,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
         persist(GIT_DIFF, Key.class, GitFileDiff.class)
             .maximumWeight(10 << 20)
             .weigher(GitFileDiffWeigher.class)
+            .keySerializer(Key.Serializer.INSTANCE)
             .valueSerializer(GitFileDiff.Serializer.INSTANCE)
             .loader(GitFileDiffCacheImpl.Loader.class);
       }
@@ -294,7 +300,6 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
     abstract DiffAlgorithm diffAlgorithm();
   }
 
-  // TODO(ghareeb): Implement a key protobuf serializer
   @AutoValue
   public abstract static class Key implements Weighable {
 
@@ -345,6 +350,42 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
       public abstract Builder whitespace(Whitespace value);
 
       public abstract Key build();
+    }
+
+    public enum Serializer implements CacheSerializer<Key> {
+      INSTANCE;
+
+      @Override
+      public byte[] serialize(Key key) {
+        ObjectIdConverter idConverter = ObjectIdConverter.create();
+        return Protos.toByteArray(
+            GitFileDiffKeyProto.newBuilder()
+                .setProject(key.project().get())
+                .setATree(idConverter.toByteString(key.oldTree()))
+                .setBTree(idConverter.toByteString(key.newTree()))
+                .setFilePath(key.newFilePath())
+                .setRenameScore(key.renameScore())
+                .setDiffAlgorithm(key.diffAlgorithm().name())
+                .setWhitepsace(key.whitespace().name())
+                .build());
+      }
+
+      @Override
+      public Key deserialize(byte[] in) {
+        GitFileDiffKeyProto proto = Protos.parseUnchecked(GitFileDiffKeyProto.parser(), in);
+
+        ObjectIdConverter idConverter = ObjectIdConverter.create();
+
+        return Key.builder()
+            .project(Project.nameKey(proto.getProject()))
+            .oldTree(idConverter.fromByteString(proto.getATree()))
+            .newTree(idConverter.fromByteString(proto.getBTree()))
+            .newFilePath(proto.getFilePath())
+            .renameScore(proto.getRenameScore())
+            .diffAlgorithm(DiffAlgorithm.valueOf(proto.getDiffAlgorithm()))
+            .whitespace(Whitespace.valueOf(proto.getWhitepsace()))
+            .build();
+      }
     }
   }
 }

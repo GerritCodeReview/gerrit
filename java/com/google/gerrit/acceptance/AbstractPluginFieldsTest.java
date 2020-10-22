@@ -30,7 +30,6 @@ import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
-import com.google.gerrit.server.change.ChangeAttributeFactory;
 import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.GetChange;
@@ -83,21 +82,6 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
           .add("name", name)
           .add("theAttribute", theAttribute)
           .toString();
-    }
-  }
-
-  protected static class NullAttributeModule extends AbstractModule {
-    @Override
-    public void configure() {
-      DynamicSet.bind(binder(), ChangeAttributeFactory.class).toInstance((cd, bp, p) -> null);
-    }
-  }
-
-  protected static class SimpleAttributeModule extends AbstractModule {
-    @Override
-    public void configure() {
-      DynamicSet.bind(binder(), ChangeAttributeFactory.class)
-          .toInstance((cd, bp, p) -> new MyInfo("change " + cd.getId()));
     }
   }
 
@@ -170,21 +154,6 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     private String opt;
   }
 
-  protected static class OptionAttributeModule extends AbstractModule {
-    @Override
-    public void configure() {
-      DynamicSet.bind(binder(), ChangeAttributeFactory.class)
-          .toInstance(
-              (cd, bp, p) -> {
-                MyOptions opts = (MyOptions) bp.getDynamicBean(p);
-                return opts != null ? new MyInfo("opt " + opts.opt) : null;
-              });
-      bind(DynamicBean.class).annotatedWith(Exports.named(Query.class)).to(MyOptions.class);
-      bind(DynamicBean.class).annotatedWith(Exports.named(QueryChanges.class)).to(MyOptions.class);
-      bind(DynamicBean.class).annotatedWith(Exports.named(GetChange.class)).to(MyOptions.class);
-    }
-  }
-
   public static class BulkAttributeFactoryWithOption implements ChangePluginDefinedInfoFactory {
     protected MyOptions opts;
 
@@ -209,21 +178,6 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
       bind(DynamicBean.class).annotatedWith(Exports.named(QueryChanges.class)).to(MyOptions.class);
       bind(DynamicBean.class).annotatedWith(Exports.named(GetChange.class)).to(MyOptions.class);
     }
-  }
-
-  protected void getChangeWithNullAttribute(PluginInfoGetter getter) throws Exception {
-    Change.Id id = createChange().getChange().getId();
-    assertThat(getter.call(id)).isNull();
-
-    try (AutoCloseable ignored = installPlugin("my-plugin", NullAttributeModule.class)) {
-      assertThat(getter.call(id)).isNull();
-    }
-
-    assertThat(getter.call(id)).isNull();
-  }
-
-  protected void getChangeWithSimpleAttribute(PluginInfoGetter getter) throws Exception {
-    getChangeWithSimpleAttribute(getter, SimpleAttributeModule.class);
   }
 
   protected void getChangeWithSimpleAttribute(
@@ -298,30 +252,6 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     assertThat(pluginInfos.get(changeWithInfo)).isNull();
   }
 
-  protected void getMultipleChangesWithPluginDefinedBulkAndChangeAttributes(
-      BulkPluginInfoGetter getter) throws Exception {
-    Change.Id id1 = createChange().getChange().getId();
-    Change.Id id2 = createChange().getChange().getId();
-
-    Map<Change.Id, List<PluginDefinedInfo>> pluginInfos = getter.call();
-    assertThat(pluginInfos.get(id1)).isNull();
-    assertThat(pluginInfos.get(id2)).isNull();
-
-    try (AutoCloseable ignored =
-            installPlugin("my-plugin-1", PluginDefinedSimpleAttributeModule.class);
-        AutoCloseable ignored1 = installPlugin("my-plugin-2", SimpleAttributeModule.class)) {
-      pluginInfos = getter.call();
-      assertThat(pluginInfos.get(id1)).contains(new MyInfo("my-plugin-1", "change " + id1));
-      assertThat(pluginInfos.get(id1)).contains(new MyInfo("my-plugin-2", "change " + id1));
-      assertThat(pluginInfos.get(id2)).contains(new MyInfo("my-plugin-1", "change " + id2));
-      assertThat(pluginInfos.get(id2)).contains(new MyInfo("my-plugin-2", "change " + id2));
-    }
-
-    pluginInfos = getter.call();
-    assertThat(pluginInfos.get(id1)).isNull();
-    assertThat(pluginInfos.get(id2)).isNull();
-  }
-
   protected void getMultipleChangesWithPluginDefinedBulkAttributeInSingleCall(
       BulkPluginInfoGetter getter) throws Exception {
     Change.Id id1 = createChange().getChange().getId();
@@ -343,22 +273,6 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     pluginInfos = getter.call();
     assertThat(pluginInfos.get(id1)).isNull();
     assertThat(pluginInfos.get(id2)).isNull();
-  }
-
-  protected void getChangeWithOption(
-      PluginInfoGetter getterWithoutOptions, PluginInfoGetterWithOptions getterWithOptions)
-      throws Exception {
-    Change.Id id = createChange().getChange().getId();
-    assertThat(getterWithoutOptions.call(id)).isNull();
-
-    try (AutoCloseable ignored = installPlugin("my-plugin", OptionAttributeModule.class)) {
-      assertThat(getterWithoutOptions.call(id))
-          .containsExactly(new MyInfo("my-plugin", "opt null"));
-      assertThat(getterWithOptions.call(id, ImmutableListMultimap.of("my-plugin--opt", "foo")))
-          .containsExactly(new MyInfo("my-plugin", "opt foo"));
-    }
-
-    assertThat(getterWithoutOptions.call(id)).isNull();
   }
 
   protected void getChangeWithPluginDefinedBulkAttributeOption(

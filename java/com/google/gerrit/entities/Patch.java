@@ -160,5 +160,36 @@ public final class Patch {
     }
   }
 
+  public enum FileMode implements CodedEnum {
+    /** Mode indicating an entry is a tree (aka directory). */
+    TREE('T'),
+
+    /** Mode indicating an entry is a symbolic link. */
+    SYMLINK('S'),
+
+    /** Mode indicating an entry is a non-executable file. */
+    REGULAR_FILE('R'),
+
+    /** Mode indicating an entry is an executable file. */
+    EXECUTABLE_FILE('E'),
+
+    /** Mode indicating an entry is a submodule commit in another repository. */
+    GITLINK('G'),
+
+    /** Mode indicating an entry is missing during parallel walks. */
+    MISSING('M');
+
+    private final char code;
+
+    FileMode(char c) {
+      code = c;
+    }
+
+    @Override
+    public char getCode() {
+      return code;
+    }
+  }
+
   private Patch() {}
 }

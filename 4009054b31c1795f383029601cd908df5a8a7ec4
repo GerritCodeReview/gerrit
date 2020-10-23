@@ -87,6 +87,23 @@
       "parentUuid": "d5be89f9_54c8ecdc",
       "revId": "4009054b31c1795f383029601cd908df5a8a7ec4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cb5ef60_fda0abfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-23T16:15:19Z",
+      "side": 1,
+      "message": "I recreated the missing 5.3.7 site and archived it so that it\u0027s now available at\nhttps://archive.eclipse.org/jgit/site/5.3.7.202002110540-r/apidocs/\n\nwe are supposed to limit the space we consume on https://download.eclipse.org since all content there is mirrored to many mirror sites around the globe. Hence older versions are moved to the archive server from time to time",
+      "revId": "4009054b31c1795f383029601cd908df5a8a7ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

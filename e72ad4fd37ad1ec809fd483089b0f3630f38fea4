@@ -16,6 +16,24 @@
       "message": "Compiles fine here. No idea why it fails on CI.",
       "revId": "e72ad4fd37ad1ec809fd483089b0f3630f38fea4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f30a8b3f_1460850a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-23T20:07:02Z",
+      "side": 1,
+      "message": "\u003e Compiles fine here. No idea why it fails on CI.\n\nThere was a problem with Bazel not using the right JAVA_HOME and ending up building Gerrit with Java11.\n\nIt is fixed with Change-Id: Iede708271d",
+      "parentUuid": "36cf3b86_1171b2d3",
+      "revId": "e72ad4fd37ad1ec809fd483089b0f3630f38fea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

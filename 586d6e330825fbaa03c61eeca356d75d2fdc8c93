@@ -16,6 +16,23 @@
       "message": "Ignore the Verified -1: the whole topic would need to be verified together as all the changes are needed to bring the stable-2.16 branch back to a green state.",
       "revId": "586d6e330825fbaa03c61eeca356d75d2fdc8c93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "787db30b_42005728",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-23T23:17:45Z",
+      "side": 1,
+      "message": "Needs an LC score.",
+      "revId": "586d6e330825fbaa03c61eeca356d75d2fdc8c93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -130,7 +130,7 @@ class GrChangeRequirements extends GestureEventListeners(
     this._optionalLabels = [];
     this._requiredLabels = [];
 
-    for (const label in labels) {
+    for (const label of Object.keys(labels || {}).sort()) {
       if (!hasOwnProperty(labels, label)) {
         continue;
       }

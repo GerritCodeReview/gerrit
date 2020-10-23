@@ -1107,6 +1107,12 @@ export class GrDiffView extends KeyboardShortcutMixin(
           if (!this._path) throw new Error('Missing this._path');
           if (!this._patchRange) throw new Error('Missing this._patchRange');
 
+          if (this._patchRange.basePatchNum === ParentPatchSetNum) {
+            // file is unchanged between Base vs X
+            // hence should not show diff between Base vs Base
+            return;
+          }
+
           this.dispatchEvent(
             new CustomEvent('show-alert', {
               detail: {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c46f6940_3a6e9fc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-23T20:58:47Z",
+      "side": 1,
+      "message": "Setting this change as WIP, until we get clarified from Matthias where the JavaDoc has gone :-)",
+      "revId": "ac63194cbba1707481a6fa0635b9ad8b73ee5cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

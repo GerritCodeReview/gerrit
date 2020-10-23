@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6afd9b9_58f02bb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-23T20:58:47Z",
+      "side": 1,
+      "message": "Sure, done.",
+      "parentUuid": "f3561b0e_ad7e422d",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "b6eb978ca6151d2f698f7578dc6b52ed1db278c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5815dd6d_5e90bce3",
         "filename": "lib/jgit/jgit.bzl",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2020-10-23T14:41:01Z",
       "side": 1,
       "message": "Would add comments similar to my 3.0 related change, here too, including that TODO which I think is necessary.",
+      "revId": "b6eb978ca6151d2f698f7578dc6b52ed1db278c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b90b4fea_621978c3",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-23T20:58:47Z",
+      "side": 1,
+      "message": "Sure, done.",
+      "parentUuid": "5815dd6d_5e90bce3",
       "revId": "b6eb978ca6151d2f698f7578dc6b52ed1db278c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

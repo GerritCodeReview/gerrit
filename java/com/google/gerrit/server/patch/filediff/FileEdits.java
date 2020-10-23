@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * An entity class containing the list of edits between 2 commits for a file, and the old and new
+ * An entity class containing the list of edits between two commits for a file, and the old and new
  * paths.
  */
 @AutoValue
@@ -41,4 +41,8 @@ public abstract class FileEdits {
   public abstract Optional<String> oldPath();
 
   public abstract Optional<String> newPath();
+
+  public static FileEdits empty() {
+    return new AutoValue_FileEdits(ImmutableList.of(), Optional.empty(), Optional.empty());
+  }
 }

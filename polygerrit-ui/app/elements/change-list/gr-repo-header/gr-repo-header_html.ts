@@ -26,8 +26,8 @@ export const htmlTemplate = html`
   <div class="info">
     <h1 class="heading-1">
       [[repo]]
-      <hr />
     </h1>
+    <hr />
     <div><span>Detail:</span> <a href$="[[_repoUrl]]">Repo settings</a></div>
   </div>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

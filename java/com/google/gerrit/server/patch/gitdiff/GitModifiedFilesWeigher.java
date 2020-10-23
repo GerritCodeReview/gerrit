@@ -18,9 +18,9 @@ import com.google.common.cache.Weigher;
 import com.google.common.collect.ImmutableList;
 
 public class GitModifiedFilesWeigher
-    implements Weigher<GitModifiedFilesCacheImpl.Key, ImmutableList<ModifiedFile>> {
+    implements Weigher<GitModifiedFilesCacheKey, ImmutableList<ModifiedFile>> {
   @Override
-  public int weigh(GitModifiedFilesCacheImpl.Key key, ImmutableList<ModifiedFile> modifiedFiles) {
+  public int weigh(GitModifiedFilesCacheKey key, ImmutableList<ModifiedFile> modifiedFiles) {
     return key.weight() + modifiedFiles.stream().mapToInt(ModifiedFile::weight).sum();
   }
 }

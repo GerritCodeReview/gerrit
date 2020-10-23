@@ -2,11 +2,12 @@
   "name": "gerrit",
   "version": "3.1.0-SNAPSHOT",
   "description": "Gerrit Code Review",
-  "dependencies": {},
+  "dependencies": {
+    "@bazel/rollup": "^2.2.2",
+    "@bazel/terser": "^2.2.2",
+    "@bazel/typescript": "^2.2.2"
+  },
   "devDependencies": {
-    "@bazel/rollup": "^2.0.0",
-    "@bazel/terser": "^2.0.0",
-    "@bazel/typescript": "^2.0.0",
     "eslint": "^6.6.0",
     "eslint-config-google": "^0.13.0",
     "eslint-plugin-html": "^6.0.0",

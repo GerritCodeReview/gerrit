@@ -492,15 +492,15 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@bazel/rollup@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@bazel/rollup/-/rollup-2.0.0.tgz#1980cb3f6922227659260bfdca99c457889a5bc1"
-  integrity sha512-mifUfCZbD1RIhfowh4N8E4881ag3FChz7F4z35wxMOP52g1q3+6Bvh5wv9iysFQopxGmS5jNEj3Dq/CWtSoOnw==
+"@bazel/rollup@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@bazel/rollup/-/rollup-2.2.2.tgz#1abfc5cbf5eb65db2aa145e584d225684d961055"
+  integrity sha512-z3sK0dt7pftjxlLuo66e3PMMGyjq6vD/8B+OEFN3LD3GjE34e8X0/KeRX5lXWs1ecVlrnTroiBxLCJSHwqBrEA==
 
-"@bazel/typescript@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-2.0.0.tgz#2ff5615f09c733cc681ba2ada92b11c356b694cd"
-  integrity sha512-5FPkxULWIjAKLG5J1XvpXpY1/4IK39dAoWA/Hhg+16gXTES32fT8w42k96pb6BTaNnyBuYgIHBpELEAJ40OOAQ==
+"@bazel/typescript@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-2.2.2.tgz#c7cd49cb630ca3720c04c94046ba8ca4c0d5b0aa"
+  integrity sha512-hkx/7L3s8q5gIgaSFmkUZWPqdKmdJmQ04GaLnsI/YEp9EhPObqATSKnOHeDdT7bzqLO7giDAwAiXhEmsO1Smcw==
   dependencies:
     protobufjs "6.8.8"
     semver "5.6.0"
@@ -950,9 +950,9 @@
   integrity sha512-N33cKXGSqhOYaPiT4xUGsYlPPDwFtQM/6QxJxuMXA/7BcySW+lkn2yigWP7vfs4daiL/7NJNU6DMCqg5N4B+xQ==
 
 "@types/node@^10.1.0":
-  version "10.17.27"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.27.tgz#391cb391c75646c8ad2a7b6ed3bbcee52d1bdf19"
-  integrity sha512-J0oqm9ZfAXaPdwNXMMgAhylw5fhmXkToJd06vuDUSAgEDZ/n/69/69UmyBZbc+zT34UnShuDSBqvim3SPnozJg==
+  version "10.17.42"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.42.tgz#90dd71b26fe4f4e2929df6b07e72ef2e9648a173"
+  integrity sha512-HElxYF7C/MSkuvlaHB2c+82zhXiuO49Cq056Dol8AQuTph7oJtduo2n6J8rFa+YhJyNgQ/Lm20ZaxqD0vxU0+Q==
 
 "@types/node@^10.17.12":
   version "10.17.24"
@@ -7835,9 +7835,9 @@ triple-beam@^1.2.0, triple-beam@^1.3.0:
   integrity sha512-XrHUvV5HpdLmIj4uVMxHggLbFSZYIn7HEWsqePZcI50pco+MPqJ50wMGY794X7AOOhxOBAjbkqfAbEe/QMp2Lw==
 
 tslib@^1.8.1:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
-  integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
+  integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
 tslib@^1.9.0:
   version "1.10.0"

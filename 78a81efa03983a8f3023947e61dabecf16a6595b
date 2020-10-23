@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eda7b1b_290a2f40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-23T10:21:48Z",
+      "side": 1,
+      "message": "@Dmitrii I don\u0027t have so much context on the PolyGerrit UX build rules. Can you help resolving the conflicts?\n\nThanks for your help.",
+      "revId": "78a81efa03983a8f3023947e61dabecf16a6595b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

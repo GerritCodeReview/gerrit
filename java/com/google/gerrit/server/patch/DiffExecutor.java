@@ -16,6 +16,7 @@ package com.google.gerrit.server.patch;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import com.google.gerrit.server.patch.filediff.PatchListLoader;
 import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 import java.util.concurrent.ExecutorService;

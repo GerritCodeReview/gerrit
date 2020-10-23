@@ -23,8 +23,8 @@ import com.google.gerrit.server.patch.GitPositionTransformer.FileMapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Mapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Range;
 import com.google.gerrit.server.patch.GitPositionTransformer.RangeMapping;
-import com.google.gerrit.server.patch.entities.Edit;
-import com.google.gerrit.server.patch.entities.FileEdits;
+import com.google.gerrit.server.patch.filediff.Edit;
+import com.google.gerrit.server.patch.filediff.FileEdits;
 import java.util.List;
 
 /** Mappings derived from diffs. */

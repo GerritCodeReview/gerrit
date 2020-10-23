@@ -104,7 +104,9 @@ export const htmlTemplate = html`
         <template is="dom-repeat" items="[[_shownItems]]">
           <tr class="table">
             <td class$="[[detailType]] name">
-              [[_stripRefs(item.ref, detailType)]]
+              <a href$="[[_computeFirstWebLink(item)]]">
+                [[_stripRefs(item.ref, detailType)]]
+              </a>
             </td>
             <td
               class$="[[detailType]] revision [[_computeCanEditClass(item.ref, detailType, _isOwner)]]"

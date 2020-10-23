@@ -215,6 +215,11 @@ export class GrRepoDetailList extends ListViewMixin(
     return webLinks.length ? webLinks : null;
   }
 
+  _computeFirstWebLink(repo: ProjectInfo) {
+    const webLinks = this._computeWeblink(repo);
+    return webLinks ? webLinks[0].url : null;
+  }
+
   _computeMessage(message?: string) {
     if (!message) {
       return;

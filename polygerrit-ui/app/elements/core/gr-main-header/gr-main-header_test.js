@@ -78,7 +78,7 @@ suite('gr-main-header tests', () => {
     assert.deepEqual([
       {url: 'https://awesometown.com/#hashyhash'},
       {url: 'url', target: '_blank'},
-    ].map(element._fixCustomMenuItem), [
+    ].map(element._createHeaderLink), [
       {url: 'https://awesometown.com/#hashyhash'},
       {url: 'url'},
     ]);

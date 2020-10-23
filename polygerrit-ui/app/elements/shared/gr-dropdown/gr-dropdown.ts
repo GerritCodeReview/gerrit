@@ -51,7 +51,7 @@ interface DropdownLink {
   url?: string;
   name?: string;
   external?: boolean;
-  target?: string;
+  target?: string | null;
   download?: boolean;
   id?: string;
   tooltip?: string;

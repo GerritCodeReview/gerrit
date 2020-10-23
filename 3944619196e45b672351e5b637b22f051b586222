@@ -84,6 +84,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c562361_f73ba9ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-23T08:45:04Z",
+      "side": 1,
+      "message": "This code send request and does nothing with result.\nIs it intended?\nEither add comments, why this code exists or remove it.",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 9
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c191cfc4_591bf8a5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 4
@@ -219,6 +242,29 @@
         "startChar": 13,
         "endLine": 1098,
         "endChar": 34
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76ae7b99_fb830b4c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-23T08:45:04Z",
+      "side": 1,
+      "message": "If porting comments API is slow, you can get the following sequence of events:\nfile list reload:\n  time(PORTING_COMMENTS_LATENCY_LABEL)\n  send request A\na user clicks on a file, diff view is opened.\n  diff view _paramsChanged:\n  time(PORTING_COMMENTS_LATENCY_LABEL)\n  send request B\n\nrequest A finishes, timeEnd(PORTING_COMMENTS_LATENCY_LABEL) in gr-file-list.\n...\nrequest B finishes, timeEnd(PORTING_COMMENTS_LATENCY_LABEL) in gr-diff-view\n\nAs a result, gerrit reports time between sending request B and finishing request A.\n\nI see 2 solutions:\na) stop timer when user changes view (not sure that it is easy to do)\nb) Use different labels in diff-view and file-list\n\nAnother problem, what if a user selects different patchset while porting comments are loading? It can lead to a similar problem inside _paramsChanged method. Not sure how to solve it correctly.\n\n@milutin any ideas/solutions?",
+      "range": {
+        "startLine": 1107,
+        "startChar": 33,
+        "endLine": 1107,
+        "endChar": 63
       },
       "revId": "3944619196e45b672351e5b637b22f051b586222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

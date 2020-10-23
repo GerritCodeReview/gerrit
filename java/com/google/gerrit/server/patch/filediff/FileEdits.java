@@ -41,4 +41,8 @@ public abstract class FileEdits {
   public abstract Optional<String> oldPath();
 
   public abstract Optional<String> newPath();
+
+  public static FileEdits empty() {
+    return new AutoValue_FileEdits(ImmutableList.of(), Optional.empty(), Optional.empty());
+  }
 }

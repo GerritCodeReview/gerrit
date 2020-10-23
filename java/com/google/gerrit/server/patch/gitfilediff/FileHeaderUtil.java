@@ -16,11 +16,14 @@ package com.google.gerrit.server.patch.gitfilediff;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.PatchType;
 import java.util.Optional;
 import org.eclipse.jgit.patch.CombinedFileHeader;
 import org.eclipse.jgit.patch.FileHeader;
+import org.eclipse.jgit.util.IntList;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /** A utility class for the {@link FileHeader} JGit object */
 public class FileHeaderUtil {
@@ -54,11 +57,35 @@ public class FileHeaderUtil {
     return buf;
   }
 
+  public static ImmutableList<String> getHeaderLines(FileHeader fileHeader) {
+    String fileHeaderString = toString(fileHeader);
+    return getHeaderLines(fileHeaderString);
+  }
+
+  public static ImmutableList<String> getHeaderLines(String header) {
+    return getHeaderLines(header.getBytes(UTF_8));
+  }
+
+  static ImmutableList<String> getHeaderLines(byte[] header) {
+    final IntList m = RawParseUtils.lineMap(header, 0, header.length);
+    final ImmutableList.Builder<String> headerLines =
+        ImmutableList.builderWithExpectedSize(m.size() - 1);
+    for (int i = 1; i < m.size() - 1; i++) {
+      final int b = m.get(i);
+      int e = m.get(i + 1);
+      if (header[e - 1] == '\n') {
+        e--;
+      }
+      headerLines.add(RawParseUtils.decode(UTF_8, header, b, e));
+    }
+    return headerLines.build();
+  }
+
   /**
    * Returns the old file path associated with the {@link FileHeader}, or empty if the file is
    * {@link Patch.ChangeType#ADDED} or {@link Patch.ChangeType#REWRITE}.
    */
-  static Optional<String> getOldPath(FileHeader header) {
+  public static Optional<String> getOldPath(FileHeader header) {
     Patch.ChangeType changeType = getChangeType(header);
     switch (changeType) {
       case DELETED:
@@ -78,7 +105,7 @@ public class FileHeaderUtil {
    * Returns the new file path associated with the {@link FileHeader}, or empty if the file is
    * {@link Patch.ChangeType#DELETED}.
    */
-  static Optional<String> getNewPath(FileHeader header) {
+  public static Optional<String> getNewPath(FileHeader header) {
     Patch.ChangeType changeType = getChangeType(header);
     switch (changeType) {
       case DELETED:
@@ -95,7 +122,7 @@ public class FileHeaderUtil {
   }
 
   /** Returns the change type associated with the file header. */
-  static Patch.ChangeType getChangeType(FileHeader header) {
+  public static Patch.ChangeType getChangeType(FileHeader header) {
     // In Gerrit, we define our own entities  of the JGit entities, so that we have full control
     // over their behaviors (e.g. making sure that these entities are immutable so that we can add
     // them as fields of keys / values of persisted caches).
@@ -117,7 +144,7 @@ public class FileHeaderUtil {
     }
   }
 
-  static PatchType getPatchType(FileHeader header) {
+  public static PatchType getPatchType(FileHeader header) {
     PatchType patchType;
 
     switch (header.getPatchType()) {

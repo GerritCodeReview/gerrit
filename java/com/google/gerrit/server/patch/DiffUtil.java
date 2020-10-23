@@ -64,6 +64,16 @@ public class DiffUtil {
         || haveCommonParent(commitA, commitB);
   }
 
+  public static int stringSize(String str) {
+    if (str != null) {
+      // each character in the string occupies 2 bytes. Ignoring the fixed overhead for the string
+      // (length, offset and hash code) since they are negligible and do not affect the comparison
+      // of 2 strings.
+      return str.length() * 2;
+    }
+    return 0;
+  }
+
   private static boolean isRootOrMergeCommit(RevCommit commit) {
     return commit.getParentCount() != 1;
   }

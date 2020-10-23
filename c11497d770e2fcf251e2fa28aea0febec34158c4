@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c82cfc0_994d4b96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-23T08:17:40Z",
+      "side": 1,
+      "message": "Hi. I added TS support to our tests and converted several tests to TS.\nAlso, I added test-data-generators to create default API objects and used them in the test.\n\nWDYT about it? ",
+      "revId": "c11497d770e2fcf251e2fa28aea0febec34158c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

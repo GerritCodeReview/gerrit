@@ -280,6 +280,7 @@ export const htmlTemplate = html`
       </div>
       <gr-button
         id="deleteBtn"
+        title="Delete Comment"
         link=""
         class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
         hidden$="[[isRobotComment]]"

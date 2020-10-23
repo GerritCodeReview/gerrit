@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1d21a69_b624fab2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-23T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6afd9b9_58f02bb0",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "b6eb978ca6151d2f698f7578dc6b52ed1db278c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5815dd6d_5e90bce3",
@@ -115,6 +139,24 @@
       "side": 1,
       "message": "That\u0027s great, thanks @Matthias.",
       "parentUuid": "5664642d_a326a633",
+      "revId": "b6eb978ca6151d2f698f7578dc6b52ed1db278c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26e27107_cef20017",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-23T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b82a225e_743fbe4a",
       "revId": "b6eb978ca6151d2f698f7578dc6b52ed1db278c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

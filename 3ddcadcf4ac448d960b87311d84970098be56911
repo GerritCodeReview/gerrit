@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc668f1a_fec56cdb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-23T10:59:49Z",
+      "side": 1,
+      "message": "I believe this should be ready for review.\nAdding also Tao for double-checking.",
+      "revId": "3ddcadcf4ac448d960b87311d84970098be56911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

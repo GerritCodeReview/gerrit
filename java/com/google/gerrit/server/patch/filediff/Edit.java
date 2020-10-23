@@ -12,7 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-package com.google.gerrit.server.patch.entities;
+package com.google.gerrit.server.patch.filediff;
 
 import com.google.auto.value.AutoValue;
 
@@ -29,6 +29,10 @@ public abstract class Edit {
   public static Edit fromJGitEdit(org.eclipse.jgit.diff.Edit jgitEdit) {
     return create(
         jgitEdit.getBeginA(), jgitEdit.getEndA(), jgitEdit.getBeginB(), jgitEdit.getEndB());
+  }
+
+  public static org.eclipse.jgit.diff.Edit asJGitEdit(Edit e) {
+    return new org.eclipse.jgit.diff.Edit(e.beginA(), e.endA(), e.beginB(), e.endB());
   }
 
   /** Start of a region in sequence A. */

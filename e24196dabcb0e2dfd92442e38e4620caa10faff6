@@ -33,6 +33,24 @@
       "message": "Adding Patrick + Edwin for LC validation.",
       "revId": "e24196dabcb0e2dfd92442e38e4620caa10faff6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6b6f284_6db8d966",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-23T14:45:08Z",
+      "side": 1,
+      "message": "Marking this as unresolved for now, as I\u0027d like to +1 it (this question for @Matthias). I think Matthias is AFK this week or so, thus we might have to postpone this topic to after finalizing this change. -In which case we may resolve this comment thread by then.",
+      "parentUuid": "89663c82_ca9a1dd2",
+      "revId": "e24196dabcb0e2dfd92442e38e4620caa10faff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

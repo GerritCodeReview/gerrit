@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.patch.gitdiff;
 
+import static com.google.gerrit.server.patch.DiffUtil.stringSize;
+
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
@@ -123,15 +125,5 @@ public abstract class GitModifiedFilesCacheKey {
           .renameScore(proto.getRenameScore())
           .build();
     }
-  }
-
-  private static int stringSize(String str) {
-    if (str != null) {
-      // each character in the string occupies 2 bytes. Ignoring the fixed overhead for the string
-      // (length, offset and hash code) since they are negligible and do not
-      // affect the comparison of 2 strings
-      return str.length() * 2;
-    }
-    return 0;
   }
 }

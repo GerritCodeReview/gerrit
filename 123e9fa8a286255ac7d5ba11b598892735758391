@@ -289,6 +289,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84ded67e_392e0436",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesWeigher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-23T09:34:15Z",
+      "side": 1,
+      "message": "Yeah I think it\u0027s an overkill. However I liked your original idea of having a weighable anyway. That makes entities that are need to implement a weight more visible.",
+      "parentUuid": "f481bdf2_4da5c748",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "012f8b71_54a55f1d",
@@ -427,6 +445,24 @@
       "side": 1,
       "message": "\u003e maybe but if all othre caches have it, best to keep it here too, and address it separately?\n\nIf there is no reason to have the interface I don\u0027t see a benefit from consistency, especially if we decide to clean it up later. So I think we should first decide if we want to keep it or not.\n\n\u003e  Introducing interfaces with single implementation is overhead, but it\u0027s not unheard of. See eg. the new test APIs that Alice has been working on it. It does make things clearer for folks who read the source directly, because the interface is a succinct definition of how a class should be used.\n\nDoesn\u0027t the public API of the class already do that? Also, \"it has been done before/elsewhere\" doesn\u0027t mean that\u0027s the best solution. In fact if it was done before and we still can\u0027t point to an advantage, isn\u0027t that all the more reason to revert to simplicity? :-)\n\nI\u0027m not even sure the interface makes the code more readable. E.g. ModifiedFilesCacheImpl wraps a GitModifiedFilesCacheImpl. Shouldn\u0027t it wrap the interface instead? Now additional thinking is necessary where it otherwise wouldn\u0027t. Also, if we later do discover a use case for an interface layer it seems straightforward to add.\n\nSorry for the rant, I don\u0027t want to block the change on this so if you want to proceed and deal with this later, SGTM. We should just keep track of it somewhere.",
       "parentUuid": "b14346f3_f198a18c",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ee34bf6_6dafafdc",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-23T09:34:15Z",
+      "side": 1,
+      "message": "\u003e ModifiedFilesCacheImpl wraps a GitModifiedFilesCacheImpl. Shouldn\u0027t it wrap the interface instead?\n\nThe ModifiedFilesCacheImpl wraps the interface (GitModifiedFilesCache) and not the implementation. However I\u0027m still using the GitModifiedFilesCacheImpl#Key, but I could extract this key in a separate class to remove this dependency. LMK if you want me to do that.\n\nI would prefer to defer this decision to a later change since it\u0027s not directly affecting the core logic of this change.",
+      "parentUuid": "c8054903_7c94c048",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

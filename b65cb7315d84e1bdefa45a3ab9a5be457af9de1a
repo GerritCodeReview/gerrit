@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "652e3c12_20366c30",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-23T09:34:15Z",
+      "side": 1,
+      "message": "Yes, this method was doing 2 different things:\n  1) doing some checks regarding how commitA is related to commitB.\n  2) returning the rev commit objects or a null pair based on 1.\n\nI refactored this part so that callers do:\n  \u003e RevCommit commitA \u003d DiffUtil.getRevCommit(rw, aId);\n  \u003e RevCommit commitB \u003d DiffUtil.getRevCommit(rw, bId);\n  \u003e boolean related \u003d DiffUtil.areRelated(commitA, commitB);",
+      "parentUuid": "bf1bbeea_1a361b2d",
+      "range": {
+        "startLine": 67,
+        "startChar": 43,
+        "endLine": 67,
+        "endChar": 46
+      },
+      "revId": "b65cb7315d84e1bdefa45a3ab9a5be457af9de1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71b8eb98_6560ea5f",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-21T13:18:22Z",
       "side": 1,
       "message": "nit: areParentAndChild",
+      "range": {
+        "startLine": 85,
+        "startChar": 28,
+        "endLine": 85,
+        "endChar": 39
+      },
+      "revId": "b65cb7315d84e1bdefa45a3ab9a5be457af9de1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dce6f878_c3c7de27",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-23T09:34:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71b8eb98_6560ea5f",
       "range": {
         "startLine": 85,
         "startChar": 28,
@@ -93,6 +141,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db475009_71f56c39",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-23T09:34:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0b2ddab_d7e3c099",
+      "range": {
+        "startLine": 59,
+        "startChar": 44,
+        "endLine": 59,
+        "endChar": 69
+      },
+      "revId": "b65cb7315d84e1bdefa45a3ab9a5be457af9de1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "512d898b_8d1c7e43",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-23T09:34:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6ae67ec_29d8017a",
+      "range": {
+        "startLine": 59,
+        "startChar": 25,
+        "endLine": 59,
+        "endChar": 36
+      },
+      "revId": "b65cb7315d84e1bdefa45a3ab9a5be457af9de1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfdf0b5b_ad261cfe",
@@ -106,6 +202,30 @@
       "writtenOn": "2020-10-21T13:18:22Z",
       "side": 1,
       "message": "If both caches share this serializer, should it be extracted e.g. to the value type itself?",
+      "range": {
+        "startLine": 84,
+        "startChar": 29,
+        "endLine": 84,
+        "endChar": 70
+      },
+      "revId": "b65cb7315d84e1bdefa45a3ab9a5be457af9de1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f6581b7_c083e931",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-23T09:34:15Z",
+      "side": 1,
+      "message": "I agree. I implemented the serializers in the next change. To avoid merge conflicts, I can extract the value serializer in a separate class in a follow up change.",
+      "parentUuid": "dfdf0b5b_ad261cfe",
       "range": {
         "startLine": 84,
         "startChar": 29,
@@ -133,6 +253,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a6f6733_0823bbe7",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-23T09:34:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84121925_885c30c6",
+      "revId": "b65cb7315d84e1bdefa45a3ab9a5be457af9de1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "527ba4e4_8fdba898",
@@ -146,6 +284,30 @@
       "writtenOn": "2020-10-21T13:18:22Z",
       "side": 1,
       "message": "nit: remove",
+      "range": {
+        "startLine": 187,
+        "startChar": 44,
+        "endLine": 187,
+        "endChar": 50
+      },
+      "revId": "b65cb7315d84e1bdefa45a3ab9a5be457af9de1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8e52a65_0a59ea42",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-23T09:34:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "527ba4e4_8fdba898",
       "range": {
         "startLine": 187,
         "startChar": 44,
@@ -174,6 +336,53 @@
         "startChar": 25,
         "endLine": 211,
         "endChar": 34
+      },
+      "revId": "b65cb7315d84e1bdefa45a3ab9a5be457af9de1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed38686c_85e7e2ae",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-23T09:34:15Z",
+      "side": 1,
+      "message": "Yes, except that 2 ObjectIds here have a different meaning: they refer to the commits\u0027 SHA-1 hash ID, whereas in the other git cache they refer to the git tree object IDs. This is why I preferred to keep them separate and having each class has its own key definition.",
+      "parentUuid": "93c19c9d_2a2b77c5",
+      "range": {
+        "startLine": 211,
+        "startChar": 25,
+        "endLine": 211,
+        "endChar": 34
+      },
+      "revId": "b65cb7315d84e1bdefa45a3ab9a5be457af9de1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57d8d575_29715da3",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-23T09:34:15Z",
+      "side": 1,
+      "message": "nit: should be \n\n \u003e if (!changeTypeMap...)",
+      "range": {
+        "startLine": 148,
+        "startChar": 10,
+        "endLine": 148,
+        "endChar": 47
       },
       "revId": "b65cb7315d84e1bdefa45a3ab9a5be457af9de1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

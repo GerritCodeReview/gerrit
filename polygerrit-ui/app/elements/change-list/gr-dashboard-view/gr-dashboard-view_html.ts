@@ -78,6 +78,7 @@ export const htmlTemplate = html`
       user-id="[[params.user]]"
       class$="[[_computeUserHeaderClass(params)]]"
     ></gr-user-header>
+    <h1 class="assistive-tech-only">Dashboard</h1>
     <gr-change-list
       show-star=""
       show-reviewed-state=""

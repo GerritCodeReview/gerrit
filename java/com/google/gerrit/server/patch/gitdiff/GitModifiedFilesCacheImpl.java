@@ -16,24 +16,18 @@ package com.google.gerrit.server.patch.gitdiff;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Patch;
-import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache;
-import com.google.gerrit.server.cache.proto.Cache.GitModifiedFilesKeyProto;
 import com.google.gerrit.server.cache.proto.Cache.ModifiedFilesProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
-import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
-import com.google.gerrit.server.patch.DiffUtil;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
@@ -45,10 +39,8 @@ import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /** Implementation of the {@link GitModifiedFilesCache} */
@@ -67,7 +59,7 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
           DiffEntry.ChangeType.COPY,
           Patch.ChangeType.COPIED);
 
-  private LoadingCache<Key, ImmutableList<ModifiedFile>> cache;
+  private LoadingCache<GitModifiedFilesCacheKey, ImmutableList<ModifiedFile>> cache;
 
   public static Module module() {
     return new CacheModule() {
@@ -75,8 +67,11 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
       protected void configure() {
         bind(GitModifiedFilesCache.class).to(GitModifiedFilesCacheImpl.class);
 
-        persist(GIT_MODIFIED_FILES, Key.class, new TypeLiteral<ImmutableList<ModifiedFile>>() {})
-            .keySerializer(Key.KeySerializer.INSTANCE)
+        persist(
+                GIT_MODIFIED_FILES,
+                GitModifiedFilesCacheKey.class,
+                new TypeLiteral<ImmutableList<ModifiedFile>>() {})
+            .keySerializer(GitModifiedFilesCacheKey.Serializer.INSTANCE)
             .valueSerializer(ValueSerializer.INSTANCE)
             // The documentation has some defaults and recommendations for setting the cache
             // attributes:
@@ -93,12 +88,14 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
 
   @Inject
   public GitModifiedFilesCacheImpl(
-      @Named(GIT_MODIFIED_FILES) LoadingCache<Key, ImmutableList<ModifiedFile>> cache) {
+      @Named(GIT_MODIFIED_FILES)
+          LoadingCache<GitModifiedFilesCacheKey, ImmutableList<ModifiedFile>> cache) {
     this.cache = cache;
   }
 
   @Override
-  public ImmutableList<ModifiedFile> get(Key key) throws DiffNotAvailableException {
+  public ImmutableList<ModifiedFile> get(GitModifiedFilesCacheKey key)
+      throws DiffNotAvailableException {
     try {
       return cache.get(key);
     } catch (ExecutionException e) {
@@ -106,7 +103,7 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
     }
   }
 
-  static class Loader extends CacheLoader<Key, ImmutableList<ModifiedFile>> {
+  static class Loader extends CacheLoader<GitModifiedFilesCacheKey, ImmutableList<ModifiedFile>> {
     private final GitRepositoryManager repoManager;
 
     @Inject
@@ -115,7 +112,7 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
     }
 
     @Override
-    public ImmutableList<ModifiedFile> load(Key key) throws IOException {
+    public ImmutableList<ModifiedFile> load(GitModifiedFilesCacheKey key) throws IOException {
       try (Repository repo = repoManager.openRepository(key.project());
           ObjectReader reader = repo.newObjectReader()) {
         List<DiffEntry> entries = getGitTreeDiff(repo, reader, key);
@@ -125,8 +122,7 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
     }
 
     private List<DiffEntry> getGitTreeDiff(
-        Repository repo, ObjectReader reader, GitModifiedFilesCacheImpl.Key key)
-        throws IOException {
+        Repository repo, ObjectReader reader, GitModifiedFilesCacheKey key) throws IOException {
       try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
         df.setReader(reader, repo.getConfig());
         if (key.renameDetection()) {
@@ -154,109 +150,6 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
         throw new IllegalArgumentException("Unsupported type " + changeType);
       }
       return changeTypeMap.get(changeType);
-    }
-  }
-
-  /**
-   * In this cache, we evaluate the diffs between two git trees (instead of git commits), hence the
-   * key contains the tree IDs.
-   */
-  @AutoValue
-  public abstract static class Key {
-
-    public abstract Project.NameKey project();
-
-    /**
-     * The git SHA-1 {@link ObjectId} of the first git tree object for which the diff should be
-     * computed.
-     */
-    public abstract ObjectId aTree();
-
-    /**
-     * The git SHA-1 {@link ObjectId} of the second git tree object for which the diff should be
-     * computed.
-     */
-    public abstract ObjectId bTree();
-
-    /**
-     * Percentage score used to identify a file as a rename. This value is only available if {@link
-     * #renameDetection()} is true. Otherwise, this method will return -1.
-     *
-     * <p>This value will be used to set the rename score of {@link
-     * DiffFormatter#getRenameDetector()}.
-     */
-    public abstract int renameScore();
-
-    /** Returns true if rename detection was set for this key. */
-    public boolean renameDetection() {
-      return renameScore() != -1;
-    }
-
-    public static Key create(
-        Project.NameKey project, ObjectId aCommit, ObjectId bCommit, int renameScore, RevWalk rw)
-        throws IOException {
-      ObjectId aTree = DiffUtil.getTreeId(rw, aCommit);
-      ObjectId bTree = DiffUtil.getTreeId(rw, bCommit);
-      return builder().project(project).aTree(aTree).bTree(bTree).renameScore(renameScore).build();
-    }
-
-    public static Builder builder() {
-      return new AutoValue_GitModifiedFilesCacheImpl_Key.Builder();
-    }
-
-    /** Returns the size of the object in bytes */
-    public int weight() {
-      return project().get().length()
-          + 20 * 2 // old and new tree IDs
-          + 4; // rename score
-    }
-
-    @AutoValue.Builder
-    public abstract static class Builder {
-
-      public abstract Builder project(NameKey value);
-
-      public abstract Builder aTree(ObjectId value);
-
-      public abstract Builder bTree(ObjectId value);
-
-      public abstract Builder renameScore(int value);
-
-      public Builder disableRenameDetection() {
-        renameScore(-1);
-        return this;
-      }
-
-      public abstract Key build();
-    }
-
-    public enum KeySerializer implements CacheSerializer<Key> {
-      INSTANCE;
-
-      @Override
-      public byte[] serialize(Key key) {
-        ObjectIdConverter idConverter = ObjectIdConverter.create();
-        return Protos.toByteArray(
-            GitModifiedFilesKeyProto.newBuilder()
-                .setProject(key.project().get())
-                .setATree(idConverter.toByteString(key.aTree()))
-                .setBTree(idConverter.toByteString(key.bTree()))
-                .setRenameScore(key.renameScore())
-                .build());
-      }
-
-      @Override
-      public Key deserialize(byte[] in) {
-        GitModifiedFilesKeyProto proto =
-            Protos.parseUnchecked(GitModifiedFilesKeyProto.parser(), in);
-        ObjectIdConverter idConverter = ObjectIdConverter.create();
-        return Key.builder()
-            .project(Project.NameKey.parse(proto.getProject()))
-            .aTree(idConverter.fromByteString(proto.getATree()))
-            .bTree(idConverter.fromByteString(proto.getBTree()))
-            .renameScore(proto.getRenameScore())
-            .build();
-      }
     }
   }
 

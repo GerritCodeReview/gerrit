@@ -19,9 +19,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 
 public class ModifiedFilesWeigher
-    implements Weigher<ModifiedFilesCacheImpl.Key, ImmutableList<ModifiedFile>> {
+    implements Weigher<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> {
   @Override
-  public int weigh(ModifiedFilesCacheImpl.Key key, ImmutableList<ModifiedFile> modifiedFiles) {
+  public int weigh(ModifiedFilesCacheKey key, ImmutableList<ModifiedFile> modifiedFiles) {
     int weight = key.weight();
     for (ModifiedFile modifiedFile : modifiedFiles) {
       weight += modifiedFile.weight();

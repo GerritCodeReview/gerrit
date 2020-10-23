@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Patch.FileMode;
 import com.google.gerrit.entities.Patch.PatchType;
-import com.google.gerrit.server.patch.entities.Edit;
+import com.google.gerrit.server.patch.filediff.Edit;
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiff;
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiff.Serializer;
 import java.util.Optional;

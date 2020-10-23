@@ -34,6 +34,24 @@
       "parentUuid": "36cf3b86_1171b2d3",
       "revId": "e72ad4fd37ad1ec809fd483089b0f3630f38fea4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaf263ff_081585c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-23T20:25:46Z",
+      "side": 1,
+      "message": "And there is also a bug in PolyGerrit UX tests, fixed with Change-Id: I73fdddc9c.\n\nI am a bit surprise they did not fail for you. Did you just run the build or did you execute also all the tests?",
+      "parentUuid": "f30a8b3f_1460850a",
+      "revId": "e72ad4fd37ad1ec809fd483089b0f3630f38fea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

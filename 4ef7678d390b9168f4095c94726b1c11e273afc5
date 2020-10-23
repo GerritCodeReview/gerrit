@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7dfac8b_b491e0e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-23T22:34:48Z",
+      "side": 1,
+      "message": "The metrics update should also include the updates to:\n- caffeine from 2.8.5 to 2.8.6\n- mockito-core from 3.5.13 to 3.5.15",
+      "revId": "4ef7678d390b9168f4095c94726b1c11e273afc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

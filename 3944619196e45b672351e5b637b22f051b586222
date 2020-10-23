@@ -131,6 +131,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96f537ec_d01df5a6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-23T15:47:53Z",
+      "side": 1,
+      "message": "Could you please explain, why do you want to make a frontend change to measure latency?\nThere is another options to do it - run a separate script and measure ported comments api performance by calling endpoint multiple times for different changes.\nThen you can compare it with diff view timings and get some numbers to make some decisions.",
+      "parentUuid": "0ce9e964_c141cdcb",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 9
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c191cfc4_591bf8a5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 4

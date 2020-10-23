@@ -268,6 +268,30 @@
       },
       "revId": "3944619196e45b672351e5b637b22f051b586222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50804d2e_878c8a04",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-23T08:46:31Z",
+      "side": 1,
+      "message": "that\u0027s nice catch. I would suggest 2 different labels.",
+      "parentUuid": "76ae7b99_fb830b4c",
+      "range": {
+        "startLine": 1107,
+        "startChar": 33,
+        "endLine": 1107,
+        "endChar": 63
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

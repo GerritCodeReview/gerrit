@@ -12,7 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-package com.google.gerrit.server.patch.entities;
+package com.google.gerrit.server.patch.filediff;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
@@ -41,4 +41,8 @@ public abstract class FileEdits {
   public abstract Optional<String> oldPath();
 
   public abstract Optional<String> newPath();
+
+  public static FileEdits empty() {
+    return new AutoValue_FileEdits(ImmutableList.of(), Optional.empty(), Optional.empty());
+  }
 }

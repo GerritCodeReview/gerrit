@@ -107,6 +107,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ce9e964_c141cdcb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-23T11:29:45Z",
+      "side": 1,
+      "message": "The whole purpose of the change is to make requests and not do anything with the result since we are tracking latency.\nWhy this code exists is explained in the commit message(I hoped). Anyone can look at the blame and see the purpose of this code.\nLet me know if you think that is not enough, as the comment will simply be repeating the commit message",
+      "parentUuid": "7c562361_f73ba9ad",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 9
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c191cfc4_591bf8a5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 4
@@ -284,6 +308,30 @@
       "side": 1,
       "message": "that\u0027s nice catch. I would suggest 2 different labels.",
       "parentUuid": "76ae7b99_fb830b4c",
+      "range": {
+        "startLine": 1107,
+        "startChar": 33,
+        "endLine": 1107,
+        "endChar": 63
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a196ddbf_dfd7a7bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-23T11:29:45Z",
+      "side": 1,
+      "message": "Used 2 labels.\n\nRe issue of changing patchsets, I decided to store the patchset when request was made and compare it with current patchset when reporting was being done.\nIf it turns out to be different, then I do not report that time.",
+      "parentUuid": "50804d2e_878c8a04",
       "range": {
         "startLine": 1107,
         "startChar": 33,

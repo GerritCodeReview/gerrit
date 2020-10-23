@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36cf3b86_1171b2d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2020-10-23T03:27:36Z",
+      "side": 1,
+      "message": "Compiles fine here. No idea why it fails on CI.",
+      "revId": "e72ad4fd37ad1ec809fd483089b0f3630f38fea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

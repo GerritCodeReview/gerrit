@@ -63,15 +63,17 @@ export const htmlTemplate = html`
               class="cell"
               colspan$="[[_computeColspan(changeSection, visibleChangeTableColumns, labelNames)]]"
             >
-              <a
-                href$="[[_sectionHref(changeSection.query)]]"
-                class="section-title"
-              >
-                <span class="section-name">[[changeSection.name]]</span>
-                <span class="section-count-label"
-                  >[[changeSection.countLabel]]</span
+              <h2>
+                <a
+                  href$="[[_sectionHref(changeSection.query)]]"
+                  class="section-title"
                 >
-              </a>
+                  <span class="section-name">[[changeSection.name]]</span>
+                  <span class="section-count-label"
+                    >[[changeSection.countLabel]]</span
+                  >
+                </a>
+              </h2>
             </td>
           </tr>
         </tbody>

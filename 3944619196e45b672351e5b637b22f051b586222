@@ -157,6 +157,30 @@
       },
       "revId": "3944619196e45b672351e5b637b22f051b586222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "900e203a_b1f8e5d2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-23T05:01:10Z",
+      "side": 1,
+      "message": "Oh, I see. On line if 1060 you could have commentLink and not patchnum (!value.patchNum \u0026\u0026 !value.commentLink).\n\nOk, but still line 1067 can be change (`if (value.changeNum \u0026\u0026 value.patchNum) {`)\nto `if (value.patchNum)`\n\nsince\nvalue.changeNum cannot be undefined, so the check doesn\u0027t make sense.",
+      "parentUuid": "b5f82303_7a534806",
+      "range": {
+        "startLine": 1098,
+        "startChar": 13,
+        "endLine": 1098,
+        "endChar": 34
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

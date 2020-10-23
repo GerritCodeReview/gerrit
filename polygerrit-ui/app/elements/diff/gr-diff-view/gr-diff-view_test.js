@@ -129,8 +129,21 @@ suite('gr-diff-view tests', () => {
         basePatchNum: 'PARENT',
       };
       sinon.stub(element.$.commentAPI, 'loadAll').returns(Promise.resolve({
-        _comments: {'/COMMIT_MSG': [{id: 'c1', line: 10, patch_set: 2,
-          __commentSide: 'left', path: '/COMMIT_MSG'}]},
+        _comments: {'/COMMIT_MSG': [
+          {
+            id: 'c1',
+            line: 10,
+            patch_set: 2,
+            __commentSide: 'left',
+            path: '/COMMIT_MSG',
+          }, {
+            id: 'c3',
+            line: 10,
+            patch_set: 'PARENT',
+            __commentSide: 'left',
+            path: '/COMMIT_MSG',
+          },
+        ]},
         computeCommentCount: () => {},
         computeUnresolvedNum: () => {},
         getPaths: () => {},
@@ -233,19 +246,35 @@ suite('gr-diff-view tests', () => {
             commentLink: true,
             commentId: 'c1',
           };
-          element._patchRange = {
-            patchNum: '2',
-          };
           sinon.stub(element.$.diffHost, '_commentsChanged');
-          sinon.stub(element, '_getCommentsForPath').returns({
-            left: [{id: 'c1', __commentSide: 'left', line: 10, path:
-              '/COMMIT_MSG'}],
-            right: [{id: 'c2', __commentSide: 'right', line: 11}],
-          });
           element._change = generateChange({revisionsCount: 11});
           return element._paramsChanged.returnValues[0].then(() => {
             assert.isTrue(diffNavStub.lastCall.calledWithExactly(
                 element._change, '/COMMIT_MSG', 2, 'PARENT', 10));
+          });
+        });
+
+    test('unchanged diff Base vs latest from comment does not navigate'
+        , () => {
+          const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
+          sinon.stub(element.reporting, 'diffViewDisplayed');
+          sinon.stub(element, '_loadBlame');
+          sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+          sinon.stub(element, '_isFileUnchanged').returns(true);
+          sinon.spy(element, '_paramsChanged');
+          sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(
+              generateChange({revisionsCount: 11})));
+          element.params = {
+            view: GerritNav.View.DIFF,
+            changeNum: '42',
+            path: '/COMMIT_MSG',
+            commentLink: true,
+            commentId: 'c3',
+          };
+          sinon.stub(element.$.diffHost, '_commentsChanged');
+          element._change = generateChange({revisionsCount: 11});
+          return element._paramsChanged.returnValues[0].then(() => {
+            assert.isFalse(diffNavStub.called);
           });
         });
 

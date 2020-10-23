@@ -12,21 +12,22 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.patch.filediff;
 
-import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
-import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
+import com.google.auto.value.AutoValue;
 
 /**
- * Thrown by the diff caches - the {@link GitModifiedFilesCache} and the {@link ModifiedFilesCache},
- * if the implementations failed to retrieve the modified files between the 2 commits.
+ * An entity class encapsulating a JGit {@link Edit} along with extra attributes (e.g. identifying a
+ * rebase edit).
  */
-public class DiffNotAvailableException extends Exception {
-  public DiffNotAvailableException(Throwable cause) {
-    super(cause);
+@AutoValue
+public abstract class TaggedEdit {
+
+  public static TaggedEdit create(Edit edit, boolean dueToRebase) {
+    return new AutoValue_TaggedEdit(edit, dueToRebase);
   }
 
-  public DiffNotAvailableException(String message) {
-    super(message);
-  }
+  abstract Edit edit();
+
+  abstract boolean dueToRebase();
 }

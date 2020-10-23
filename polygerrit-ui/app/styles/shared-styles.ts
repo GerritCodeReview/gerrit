@@ -177,6 +177,19 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         font-weight: var(--font-weight-bold);
       }
 
+      .assistive-tech-only {
+        user-select: none;
+        clip: rect(1px, 1px, 1px, 1px);
+        height: 1px;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+        z-index: -1000;
+      }
+
       /** BEGIN: loading spiner */
       .loadingSpin {
         border: 2px solid var(--disabled-button-background-color);

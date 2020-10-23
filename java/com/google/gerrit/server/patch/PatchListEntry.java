@@ -77,7 +77,7 @@ public class PatchListEntry {
   // Note: When adding new fields, the serialVersionUID in PatchListKey must be
   // incremented so that entries from the cache are automatically invalidated.
 
-  PatchListEntry(
+  public PatchListEntry(
       FileHeader hdr, List<Edit> editList, Set<Edit> editsDueToRebase, long size, long sizeDelta) {
     changeType = toChangeType(hdr);
     patchType = toPatchType(hdr);

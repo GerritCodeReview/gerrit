@@ -26,7 +26,7 @@ import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.GitFileDiffProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
-import com.google.gerrit.server.patch.entities.Edit;
+import com.google.gerrit.server.patch.filediff.Edit;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 import java.io.IOException;
 import java.util.Map;

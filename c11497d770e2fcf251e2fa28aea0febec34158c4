@@ -16,6 +16,23 @@
       "message": "Hi. I added TS support to our tests and converted several tests to TS.\nAlso, I added test-data-generators to create default API objects and used them in the test.\n\nWDYT about it? ",
       "revId": "c11497d770e2fcf251e2fa28aea0febec34158c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1205b9e3_baa1c5cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-23T09:30:11Z",
+      "side": 1,
+      "message": "I really like test-data-generators and I am happy with your current proposal, it\u0027s much better than current code.\n\nBut I would suggest instead of having a lot of functions createDefault* to have something like appContext.\n\nso with API\nconst commentLinkInfo \u003d defaultObjCreator.commentLinkInfo\n\nthat will always return new Object. This would be easier to use and easier to autocomplete.",
+      "revId": "c11497d770e2fcf251e2fa28aea0febec34158c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

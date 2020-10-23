@@ -33,6 +33,24 @@
       "message": "I really like test-data-generators and I am happy with your current proposal, it\u0027s much better than current code.\n\nBut I would suggest instead of having a lot of functions createDefault* to have something like appContext.\n\nso with API\nconst commentLinkInfo \u003d defaultObjCreator.commentLinkInfo\n\nthat will always return new Object. This would be easier to use and easier to autocomplete.",
       "revId": "c11497d770e2fcf251e2fa28aea0febec34158c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4869f7c_60810be1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-23T11:18:33Z",
+      "side": 1,
+      "message": "I really like this idea and vote +1 for it.\n\nBut I am not sure how it fits into the TS style guide:\n---TS style guied---\nContainer Classes\nDo not create container classes with static methods or properties for the sake of namespacing.\n---\n\nMaybe we can agree to have this exception for tests.\nI will keep this comment unresolved for further discussions.",
+      "parentUuid": "1205b9e3_baa1c5cb",
+      "revId": "c11497d770e2fcf251e2fa28aea0febec34158c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

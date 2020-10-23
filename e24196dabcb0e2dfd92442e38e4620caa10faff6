@@ -51,6 +51,24 @@
       "parentUuid": "89663c82_ca9a1dd2",
       "revId": "e24196dabcb0e2dfd92442e38e4620caa10faff6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc1e4f7b_2049d33b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-23T20:54:44Z",
+      "side": 1,
+      "message": "Agreed, let\u0027s see what Matthias is saying about that. It is quite worrying to see a stable release having its documentation disappearing overnight :-(\n\nWe may start copying it to a GCS Bucket, together with the Gerrit documentation.\nHowever, let\u0027s wait for Matthias\u0027 proposals on that.",
+      "parentUuid": "d6b6f284_6db8d966",
+      "revId": "e24196dabcb0e2dfd92442e38e4620caa10faff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

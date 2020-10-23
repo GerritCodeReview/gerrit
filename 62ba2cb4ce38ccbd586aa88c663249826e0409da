@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba7417c7_e611e419",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-23T07:38:34Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 119
+      },
+      "revId": "62ba2cb4ce38ccbd586aa88c663249826e0409da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b6d7f19_33858d15",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-23T07:38:34Z",
+      "side": 1,
+      "message": "If possible we should also include the name of the repo that contains this ref.",
+      "range": {
+        "startLine": 137,
+        "startChar": 10,
+        "endLine": 137,
+        "endChar": 17
+      },
+      "revId": "62ba2cb4ce38ccbd586aa88c663249826e0409da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

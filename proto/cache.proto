@@ -528,12 +528,22 @@ message AllCommentContextProto {
 }
 
 // Serialized key for
-// com.google.gerrit.server.patch.gitdiff.GitModifiedCacheImpl.Key
+// com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheKey
 // Next ID: 5
 message GitModifiedFilesKeyProto {
   string project = 1;
   bytes a_tree = 2; // SHA-1 hash of the left git tree ID in the diff
   bytes b_tree = 3; // SHA-1 hash of the right git tree ID in the diff
+  int32 rename_score = 4;
+}
+
+// Serialized key for
+// com.google.gerrit.server.patch.diff.ModifiedFilesCacheKey
+// Next ID: 5
+message ModifiedFilesKeyProto {
+  string project = 1;
+  bytes a_commit = 2; // SHA-1 hash of the left commit ID in the diff
+  bytes b_commit = 3; // SHA-1 hash of the right commit ID in the diff
   int32 rename_score = 4;
 }
 

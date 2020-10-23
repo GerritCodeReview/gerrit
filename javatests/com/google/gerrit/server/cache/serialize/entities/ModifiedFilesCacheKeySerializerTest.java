@@ -17,7 +17,7 @@ package com.google.gerrit.server.cache.serialize.entities;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.server.patch.diff.ModifiedFilesCacheImpl;
+import com.google.gerrit.server.patch.diff.ModifiedFilesCacheKey;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -29,15 +29,14 @@ public class ModifiedFilesCacheKeySerializerTest {
 
   @Test
   public void roundTrip() {
-    ModifiedFilesCacheImpl.Key key =
-        ModifiedFilesCacheImpl.Key.builder()
+    ModifiedFilesCacheKey key =
+        ModifiedFilesCacheKey.builder()
             .project(Project.NameKey.parse("Project/X"))
             .aCommit(COMMIT_ID_1)
             .bCommit(COMMIT_ID_2)
             .renameScore(65)
             .build();
-    byte[] serialized = ModifiedFilesCacheImpl.Key.Serializer.INSTANCE.serialize(key);
-    assertThat(ModifiedFilesCacheImpl.Key.Serializer.INSTANCE.deserialize(serialized))
-        .isEqualTo(key);
+    byte[] serialized = ModifiedFilesCacheKey.Serializer.INSTANCE.serialize(key);
+    assertThat(ModifiedFilesCacheKey.Serializer.INSTANCE.deserialize(serialized)).isEqualTo(key);
   }
 }

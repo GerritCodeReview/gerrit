@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheImpl;
+import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheKey;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 
 /**
@@ -26,10 +27,10 @@ import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
  * <p>The loader uses the underlying {@link GitModifiedFilesCacheImpl} to retrieve the git modified
  * files.
  *
- * <p>If the {@link ModifiedFilesCacheImpl.Key#aCommit()} is equal to {@link
+ * <p>If the {@link ModifiedFilesCacheKey#aCommit()} is equal to {@link
  * org.eclipse.jgit.lib.Constants#EMPTY_TREE_ID}, the diff will be evaluated against the empty tree,
  * and the result will be exactly the same as the caller can get from {@link
- * GitModifiedFilesCache#get(GitModifiedFilesCacheImpl.Key)}
+ * GitModifiedFilesCache#get(GitModifiedFilesCacheKey)}
  */
 public interface ModifiedFilesCache {
 
@@ -40,5 +41,5 @@ public interface ModifiedFilesCache {
    * @throws DiffNotAvailableException the supplied commits IDs of the key do no exist, are not IDs
    *     of a commit, or an exception occurred while reading a pack file.
    */
-  ImmutableList<ModifiedFile> get(ModifiedFilesCacheImpl.Key key) throws DiffNotAvailableException;
+  ImmutableList<ModifiedFile> get(ModifiedFilesCacheKey key) throws DiffNotAvailableException;
 }

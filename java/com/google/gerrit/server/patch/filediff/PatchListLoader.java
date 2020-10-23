@@ -1,19 +1,21 @@
-// Copyright (C) 2009 The Android Open Source Project
+//  Copyright (C) 2020 The Android Open Source Project
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
 //
-// http://www.apache.org/licenses/LICENSE-2.0
+//  http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+//
 //
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.patch.filediff;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
@@ -38,8 +40,17 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.patch.EditTransformer.ContextAwareEdit;
-import com.google.gerrit.server.patch.entities.FileEdits;
+import com.google.gerrit.server.patch.AutoMerger;
+import com.google.gerrit.server.patch.ComparisonType;
+import com.google.gerrit.server.patch.DiffExecutor;
+import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.Text;
+import com.google.gerrit.server.patch.filediff.EditTransformer.ContextAwareEdit;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -82,7 +93,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 public class PatchListLoader implements Callable<PatchList> {
-  static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  public static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     PatchListLoader create(PatchListKey key, Project.NameKey project);

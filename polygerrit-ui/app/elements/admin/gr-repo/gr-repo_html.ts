@@ -52,8 +52,8 @@ export const htmlTemplate = html`
     <div class="info">
       <h1 id="Title" class="heading-1">
         [[repo]]
-        <hr />
       </h1>
+      <hr />
       <div>
         <a href$="[[_computeChangesUrl(repo)]]">(view changes)</a>
       </div>

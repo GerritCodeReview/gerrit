@@ -35,6 +35,7 @@ import com.google.gerrit.server.patch.DiffUtil;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheImpl.Key.Serializer;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheImpl;
+import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheKey;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -59,7 +60,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  *
  * <p>If the {@link Key#aCommit()} is equal to {@link org.eclipse.jgit.lib.Constants#EMPTY_TREE_ID},
  * the diff will be evaluated against the empty tree, and the result will be exactly the same as the
- * caller can get from {@link GitModifiedFilesCache#get(GitModifiedFilesCacheImpl.Key)}
+ * caller can get from {@link GitModifiedFilesCache#get(GitModifiedFilesCacheKey)}
  */
 public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -134,8 +135,8 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
               ? key.aCommit()
               : DiffUtil.getTreeId(rw, key.aCommit());
       ObjectId bTree = DiffUtil.getTreeId(rw, key.bCommit());
-      GitModifiedFilesCacheImpl.Key gitKey =
-          GitModifiedFilesCacheImpl.Key.builder()
+      GitModifiedFilesCacheKey gitKey =
+          GitModifiedFilesCacheKey.builder()
               .project(key.project())
               .aTree(aTree)
               .bTree(bTree)
@@ -170,13 +171,13 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
         Key key, ObjectId parentOfA, ObjectId parentOfB, RevWalk rw) throws IOException {
       try {
         // TODO(ghareeb): as an enhancement: the 3 calls of the underlying git cache can be combined
-        GitModifiedFilesCacheImpl.Key oldVsBaseKey =
-            GitModifiedFilesCacheImpl.Key.create(
+        GitModifiedFilesCacheKey oldVsBaseKey =
+            GitModifiedFilesCacheKey.create(
                 key.project(), parentOfA, key.aCommit(), key.renameScore(), rw);
         List<ModifiedFile> oldVsBase = gitCache.get(oldVsBaseKey);
 
-        GitModifiedFilesCacheImpl.Key newVsBaseKey =
-            GitModifiedFilesCacheImpl.Key.create(
+        GitModifiedFilesCacheKey newVsBaseKey =
+            GitModifiedFilesCacheKey.create(
                 key.project(), parentOfB, key.bCommit(), key.renameScore(), rw);
         List<ModifiedFile> newVsBase = gitCache.get(newVsBaseKey);
 

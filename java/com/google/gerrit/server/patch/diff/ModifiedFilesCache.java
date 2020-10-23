@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheImpl;
+import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheKey;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 
 /**
@@ -29,7 +30,7 @@ import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
  * <p>If the {@link ModifiedFilesCacheImpl.Key#aCommit()} is equal to {@link
  * org.eclipse.jgit.lib.Constants#EMPTY_TREE_ID}, the diff will be evaluated against the empty tree,
  * and the result will be exactly the same as the caller can get from {@link
- * GitModifiedFilesCache#get(GitModifiedFilesCacheImpl.Key)}
+ * GitModifiedFilesCache#get(GitModifiedFilesCacheKey)}
  */
 public interface ModifiedFilesCache {
 

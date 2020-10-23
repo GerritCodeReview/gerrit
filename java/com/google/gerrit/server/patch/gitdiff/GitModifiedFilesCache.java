@@ -36,6 +36,5 @@ public interface GitModifiedFilesCache {
    * @return the list of {@link ModifiedFile}s between the 2 git trees identified by the key.
    * @throws DiffNotAvailableException trees cannot be read or file contents cannot be read.
    */
-  ImmutableList<ModifiedFile> get(GitModifiedFilesCacheImpl.Key key)
-      throws DiffNotAvailableException;
+  ImmutableList<ModifiedFile> get(GitModifiedFilesCacheKey key) throws DiffNotAvailableException;
 }

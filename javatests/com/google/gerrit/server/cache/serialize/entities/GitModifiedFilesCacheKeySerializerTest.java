@@ -17,8 +17,8 @@ package com.google.gerrit.server.cache.serialize.entities;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheImpl;
-import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheImpl.Key.KeySerializer;
+import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheKey;
+import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheKey.Serializer;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -30,14 +30,14 @@ public class GitModifiedFilesCacheKeySerializerTest {
 
   @Test
   public void roundTrip() {
-    GitModifiedFilesCacheImpl.Key key =
-        GitModifiedFilesCacheImpl.Key.builder()
+    GitModifiedFilesCacheKey key =
+        GitModifiedFilesCacheKey.builder()
             .project(Project.NameKey.parse("Project/X"))
             .aTree(TREE_ID_1)
             .bTree(TREE_ID_2)
             .renameScore(65)
             .build();
-    byte[] serialized = KeySerializer.INSTANCE.serialize(key);
-    assertThat(KeySerializer.INSTANCE.deserialize(serialized)).isEqualTo(key);
+    byte[] serialized = Serializer.INSTANCE.serialize(key);
+    assertThat(Serializer.INSTANCE.deserialize(serialized)).isEqualTo(key);
   }
 }

@@ -17,7 +17,6 @@ package com.google.gerrit.server.patch.diff;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
@@ -25,23 +24,19 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffUtil;
-import com.google.gerrit.server.patch.diff.ModifiedFilesCacheImpl.Key.Serializer;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheImpl;
+import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheKey;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -56,16 +51,17 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>The loader of this cache wraps a {@link GitModifiedFilesCache} to retrieve the git modified
  * files.
  *
- * <p>If the {@link Key#aCommit()} is equal to {@link org.eclipse.jgit.lib.Constants#EMPTY_TREE_ID},
- * the diff will be evaluated against the empty tree, and the result will be exactly the same as the
- * caller can get from {@link GitModifiedFilesCache#get(GitModifiedFilesCacheImpl.Key)}
+ * <p>If the {@link ModifiedFilesCacheKey#aCommit()} is equal to {@link
+ * org.eclipse.jgit.lib.Constants#EMPTY_TREE_ID}, the diff will be evaluated against the empty tree,
+ * and the result will be exactly the same as the caller can get from {@link
+ * GitModifiedFilesCache#get(GitModifiedFilesCacheKey)}
  */
 public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String MODIFIED_FILES = "modified_files";
 
-  private final LoadingCache<Key, ImmutableList<ModifiedFile>> cache;
+  private final LoadingCache<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> cache;
 
   public static Module module() {
     return new CacheModule() {
@@ -80,9 +76,9 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
         // in the cache documentation link.
         persist(
                 ModifiedFilesCacheImpl.MODIFIED_FILES,
-                Key.class,
+                ModifiedFilesCacheKey.class,
                 new TypeLiteral<ImmutableList<ModifiedFile>>() {})
-            .keySerializer(Serializer.INSTANCE)
+            .keySerializer(ModifiedFilesCacheKey.Serializer.INSTANCE)
             .valueSerializer(GitModifiedFilesCacheImpl.ValueSerializer.INSTANCE)
             .maximumWeight(10 << 20)
             .weigher(ModifiedFilesWeigher.class)
@@ -95,12 +91,13 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
   @Inject
   public ModifiedFilesCacheImpl(
       @Named(ModifiedFilesCacheImpl.MODIFIED_FILES)
-          LoadingCache<Key, ImmutableList<ModifiedFile>> cache) {
+          LoadingCache<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> cache) {
     this.cache = cache;
   }
 
   @Override
-  public ImmutableList<ModifiedFile> get(Key key) throws DiffNotAvailableException {
+  public ImmutableList<ModifiedFile> get(ModifiedFilesCacheKey key)
+      throws DiffNotAvailableException {
     try {
       return cache.get(key);
     } catch (Exception e) {
@@ -108,7 +105,8 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     }
   }
 
-  static class ModifiedFilesLoader extends CacheLoader<Key, ImmutableList<ModifiedFile>> {
+  static class ModifiedFilesLoader
+      extends CacheLoader<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> {
     private final GitModifiedFilesCache gitCache;
     private final GitRepositoryManager repoManager;
 
@@ -119,22 +117,23 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     }
 
     @Override
-    public ImmutableList<ModifiedFile> load(Key key) throws IOException, DiffNotAvailableException {
+    public ImmutableList<ModifiedFile> load(ModifiedFilesCacheKey key)
+        throws IOException, DiffNotAvailableException {
       try (Repository repo = repoManager.openRepository(key.project());
           RevWalk rw = new RevWalk(repo.newObjectReader())) {
         return loadModifiedFiles(key, rw);
       }
     }
 
-    private ImmutableList<ModifiedFile> loadModifiedFiles(Key key, RevWalk rw)
+    private ImmutableList<ModifiedFile> loadModifiedFiles(ModifiedFilesCacheKey key, RevWalk rw)
         throws IOException, DiffNotAvailableException {
       ObjectId aTree =
           key.aCommit().equals(EMPTY_TREE_ID)
               ? key.aCommit()
               : DiffUtil.getTreeId(rw, key.aCommit());
       ObjectId bTree = DiffUtil.getTreeId(rw, key.bCommit());
-      GitModifiedFilesCacheImpl.Key gitKey =
-          GitModifiedFilesCacheImpl.Key.builder()
+      GitModifiedFilesCacheKey gitKey =
+          GitModifiedFilesCacheKey.builder()
               .project(key.project())
               .aTree(aTree)
               .bTree(bTree)
@@ -161,21 +160,22 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
      * Returns the paths of files that were modified between the old and new commits versus their
      * parents (i.e. old commit vs. its parent, and new commit vs. its parent).
      *
-     * @param key the {@link Key} representing the commits we are diffing
+     * @param key the {@link ModifiedFilesCacheKey} representing the commits we are diffing
      * @param rw a {@link RevWalk} for the repository
      * @return The list of modified files between the old/new commits and their parents
      */
     private Set<String> getTouchedFilesWithParents(
-        Key key, ObjectId parentOfA, ObjectId parentOfB, RevWalk rw) throws IOException {
+        ModifiedFilesCacheKey key, ObjectId parentOfA, ObjectId parentOfB, RevWalk rw)
+        throws IOException {
       try {
         // TODO(ghareeb): as an enhancement: the 3 calls of the underlying git cache can be combined
-        GitModifiedFilesCacheImpl.Key oldVsBaseKey =
-            GitModifiedFilesCacheImpl.Key.create(
+        GitModifiedFilesCacheKey oldVsBaseKey =
+            GitModifiedFilesCacheKey.create(
                 key.project(), parentOfA, key.aCommit(), key.renameScore(), rw);
         List<ModifiedFile> oldVsBase = gitCache.get(oldVsBaseKey);
 
-        GitModifiedFilesCacheImpl.Key newVsBaseKey =
-            GitModifiedFilesCacheImpl.Key.create(
+        GitModifiedFilesCacheKey newVsBaseKey =
+            GitModifiedFilesCacheKey.create(
                 key.project(), parentOfB, key.bCommit(), key.renameScore(), rw);
         List<ModifiedFile> newVsBase = gitCache.get(newVsBaseKey);
 
@@ -201,87 +201,6 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
       // One of the above file paths could be /dev/null but we need not explicitly check for this
       // value as the set of file paths shouldn't contain it.
       return touchedFilePaths.contains(oldFilePath) || touchedFilePaths.contains(newFilePath);
-    }
-  }
-
-  @AutoValue
-  public abstract static class Key implements Serializable {
-    public abstract Project.NameKey project();
-
-    /** @return the old commit ID used in the git tree diff */
-    public abstract ObjectId aCommit();
-
-    /** @return the new commit ID used in the git tree diff */
-    public abstract ObjectId bCommit();
-
-    /**
-     * Percentage score used to identify a file as a "rename". A special value of -1 means that the
-     * computation will ignore renames and rename detection will be disabled.
-     */
-    public abstract int renameScore();
-
-    public boolean renameDetectionEnabled() {
-      return renameScore() != -1;
-    }
-
-    public int weight() {
-      return project().get().length() + 20 * 2 + 4;
-    }
-
-    public static Builder builder() {
-      return new AutoValue_ModifiedFilesCacheImpl_Key.Builder();
-    }
-
-    @AutoValue.Builder
-    public abstract static class Builder {
-
-      public abstract Builder project(NameKey value);
-
-      public abstract Builder aCommit(ObjectId value);
-
-      public abstract Builder bCommit(ObjectId value);
-
-      public Builder disableRenameDetection() {
-        renameScore(-1);
-        return this;
-      }
-
-      public abstract Builder renameScore(int value);
-
-      public abstract Key build();
-    }
-
-    public enum Serializer implements CacheSerializer<Key> {
-      INSTANCE;
-
-      @Override
-      public byte[] serialize(Key key) {
-        // We are reusing the serializer of the GitModifiedFilesCacheImpl#Key since both classes
-        // contain exactly the same fields, with the difference that the Object Ids here refer
-        // to the commit SHA-1s instead of the tree SHA-1s, but they are still can be serialized
-        // and deserialized in the same way.
-        GitModifiedFilesCacheImpl.Key gitKey =
-            GitModifiedFilesCacheImpl.Key.builder()
-                .project(key.project())
-                .aTree(key.aCommit())
-                .bTree(key.bCommit())
-                .renameScore(key.renameScore())
-                .build();
-
-        return GitModifiedFilesCacheImpl.Key.KeySerializer.INSTANCE.serialize(gitKey);
-      }
-
-      @Override
-      public Key deserialize(byte[] in) {
-        GitModifiedFilesCacheImpl.Key gitKey =
-            GitModifiedFilesCacheImpl.Key.KeySerializer.INSTANCE.deserialize(in);
-        return Key.builder()
-            .project(gitKey.project())
-            .aCommit(gitKey.aTree())
-            .bCommit(gitKey.bTree())
-            .renameScore(gitKey.renameScore())
-            .build();
-      }
     }
   }
 }

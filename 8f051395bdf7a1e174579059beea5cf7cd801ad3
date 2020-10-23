@@ -52,6 +52,24 @@
       "parentUuid": "44744f2c_53b56855",
       "revId": "8f051395bdf7a1e174579059beea5cf7cd801ad3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7f8ff96_f0033803",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-23T14:33:13Z",
+      "side": 1,
+      "message": "I wanted to defer looking at them since they took some time and I wanted to move forward.\n\nI was lucky to fix them quickly. I reverted the @ignore annotations and updated the commit message.",
+      "parentUuid": "807180cf_a5daba85",
+      "revId": "8f051395bdf7a1e174579059beea5cf7cd801ad3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

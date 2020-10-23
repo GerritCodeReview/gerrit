@@ -309,6 +309,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c3f231d_880ee819",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesWeigher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-23T12:56:52Z",
+      "side": 1,
+      "message": "I think we have different ideas about using interfaces. IIUC you\u0027re adding the interface to document right at the top of the class declaration the fact that this class implements the weight() method, and to extract the javadoc for that method. I\u0027m not sure that this adds readability, especially as the interface isn\u0027t actually used in the weigher. IMHO that runs contrary to expectations.\n\nI found this discussion: https://softwareengineering.stackexchange.com/questions/359208/java-interface-for-comments-only-good-practice",
+      "parentUuid": "84ded67e_392e0436",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "012f8b71_54a55f1d",
         "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
         "patchSetId": 4
@@ -463,6 +481,24 @@
       "side": 1,
       "message": "\u003e ModifiedFilesCacheImpl wraps a GitModifiedFilesCacheImpl. Shouldn\u0027t it wrap the interface instead?\n\nThe ModifiedFilesCacheImpl wraps the interface (GitModifiedFilesCache) and not the implementation. However I\u0027m still using the GitModifiedFilesCacheImpl#Key, but I could extract this key in a separate class to remove this dependency. LMK if you want me to do that.\n\nI would prefer to defer this decision to a later change since it\u0027s not directly affecting the core logic of this change.",
       "parentUuid": "c8054903_7c94c048",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8ca6584_2b1c58da",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-23T12:56:52Z",
+      "side": 1,
+      "message": "\u003e \u003e ModifiedFilesCacheImpl wraps a GitModifiedFilesCacheImpl. Shouldn\u0027t it wrap the interface instead?\n\u003e \n\u003e The ModifiedFilesCacheImpl wraps the interface (GitModifiedFilesCache) and not the implementation. \n\nSorry, my mistake - the comment said *Impl but the code actually didn\u0027t use the impl.\n\n\u003e However I\u0027m still using the GitModifiedFilesCacheImpl#Key, but I could extract this key in a separate class to remove this dependency. LMK if you want me to do that.\n\nI think that depends on whether we later remove the interface layer or not. Right now it seems odd; in my mind an *Impl is something that callers, especially from other packages, shouldn\u0027t depend on. So given that this is to be shared between the two, I think yes, it should be extracted.\n\n\u003e I would prefer to defer this decision to a later change since it\u0027s not directly affecting the core logic of this change.\n\nSGTM",
+      "parentUuid": "0ee34bf6_6dafafdc",
       "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

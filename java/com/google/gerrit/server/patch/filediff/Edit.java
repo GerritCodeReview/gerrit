@@ -32,8 +32,12 @@ public abstract class Edit {
         jgitEdit.getBeginA(), jgitEdit.getEndA(), jgitEdit.getBeginB(), jgitEdit.getEndB());
   }
 
-  public static org.eclipse.jgit.diff.Edit asJGitEdit(Edit e) {
+  public static org.eclipse.jgit.diff.Edit toJGitEdit(Edit e) {
     return new org.eclipse.jgit.diff.Edit(e.beginA(), e.endA(), e.beginB(), e.endB());
+  }
+
+  public org.eclipse.jgit.diff.Edit asJGitEdit() {
+    return new org.eclipse.jgit.diff.Edit(beginA(), endA(), beginB(), endB());
   }
 
   /** Start of a region in sequence A. */

@@ -34,6 +34,24 @@
       "parentUuid": "d7dfac8b_b491e0e3",
       "revId": "4ef7678d390b9168f4095c94726b1c11e273afc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79aaa59b_9ec41a26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-24T00:03:16Z",
+      "side": 1,
+      "message": "Gotcha. Shall we park this upgrade as well? I don\u0027t believe it is going to be safe to upgrade only the metrics without its implied dependencies.",
+      "parentUuid": "7793d924_542ed5de",
+      "revId": "4ef7678d390b9168f4095c94726b1c11e273afc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

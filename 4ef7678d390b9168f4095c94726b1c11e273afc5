@@ -52,6 +52,24 @@
       "parentUuid": "7793d924_542ed5de",
       "revId": "4ef7678d390b9168f4095c94726b1c11e273afc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc8f278e_05906432",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-24T16:50:00Z",
+      "side": 1,
+      "message": "I don\u0027t think we should park dependency upgrades, here and in general. That would grow an upgrades debt, which we never fostered up until now. Of course sometimes we do park some upgrades, if problematic or impeded by internal Google constraints. We\u0027ve been upgrading metrics-core up until now, me and David P. before that. Mockito-core should not impede this upgrade if all tests still pass with it. As for caffeine, there is that aforementioned change already.",
+      "parentUuid": "79aaa59b_9ec41a26",
+      "revId": "4ef7678d390b9168f4095c94726b1c11e273afc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

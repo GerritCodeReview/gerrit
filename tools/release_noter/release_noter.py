@@ -221,6 +221,7 @@ def change(submodule_subject, submodules, commit):
     for noted_change in submodules[commit.submodule]:
         if noted_change.subject == submodule_change.subject:
             return noted_change
+    escape_these(submodule_change)
     submodule_change.issues = set()
     submodules[commit.submodule].append(submodule_change)
     return submodule_change
@@ -242,10 +243,16 @@ def finish(commit, commits, release):
             if noted_commit.subject == commit.subject:
                 return Commit()
     if newly_released(commit.sha1, release):
+        escape_these(commit)
         commits.append(commit)
     else:
         print(f"Previously released: commit {commit.sha1}")
     return Commit()
+
+
+def escape_these(in_change):
+    in_change.subject = in_change.subject.replace("<", "\\<")
+    in_change.subject = in_change.subject.replace(">", "\\>")
 
 
 def print_commits(commits, md):

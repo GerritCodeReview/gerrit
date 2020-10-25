@@ -16,6 +16,24 @@
       "message": "I applied the comment from Matthias.",
       "revId": "ca0b28b0617f37b6df533368d99a0b56660fc0f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "860b6ce5_5afcd6ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-25T12:15:00Z",
+      "side": 1,
+      "message": "\u003e I applied the comment from Matthias.\n\nI think I have to self-approve by now.",
+      "parentUuid": "bcd895c4_83c5015a",
+      "revId": "ca0b28b0617f37b6df533368d99a0b56660fc0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

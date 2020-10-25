@@ -32,20 +32,17 @@ import {customElement, property, observe} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   AccountDetailInfo,
+  RequireProperties,
   ServerInfo,
   TopMenuEntryInfo,
   TopMenuItemInfo,
 } from '../../../types/common';
 import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
 import {AuthType} from '../../../constants/constants';
+import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 
-interface FixedTopMenuItemInfo extends Omit<TopMenuItemInfo, 'target'> {
-  target?: never;
-}
-interface MainHeaderLink {
-  url: string;
-  name: string;
-}
+type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
+
 interface MainHeaderLinkGroup {
   title: string;
   links: MainHeaderLink[];
@@ -149,7 +146,7 @@ export class GrMainHeader extends GestureEventListeners(
   loginUrl = '/login';
 
   @property({type: Array})
-  _userLinks: FixedTopMenuItemInfo[] = [];
+  _userLinks: MainHeaderLink[] = [];
 
   @property({type: Array})
   _topMenus?: TopMenuEntryInfo[] = [];
@@ -190,7 +187,7 @@ export class GrMainHeader extends GestureEventListeners(
   }
 
   _computeLinks(
-    userLinks?: FixedTopMenuItemInfo[],
+    userLinks?: TopMenuItemInfo[],
     adminLinks?: NavLink[],
     topMenus?: TopMenuEntryInfo[],
     docBaseUrl?: string | null,
@@ -236,7 +233,7 @@ export class GrMainHeader extends GestureEventListeners(
       topMenuLinks[link.title] = link.links;
     });
     for (const m of topMenus) {
-      const items = m.items.map(this._fixCustomMenuItem).filter(
+      const items = m.items.map(this._createHeaderLink).filter(
         link =>
           // Ignore GWT project links
           !link.url.includes('${projectName}')
@@ -325,7 +322,7 @@ export class GrMainHeader extends GestureEventListeners(
 
     this.$.restAPI.getPreferences().then(prefs => {
       this._userLinks =
-        prefs && prefs.my ? prefs.my.map(this._fixCustomMenuItem) : [];
+        prefs && prefs.my ? prefs.my.map(this._createHeaderLink) : [];
     });
   }
 
@@ -342,13 +339,7 @@ export class GrMainHeader extends GestureEventListeners(
     return registerURL ? '' : 'invisible';
   }
 
-  _fixCustomMenuItem(linkObj: TopMenuItemInfo): FixedTopMenuItemInfo {
-    // TODO(TS): make a copy of linkObj instead of modifying the existing one
-    // Normalize all urls to PolyGerrit style.
-    if (linkObj.url.startsWith('#')) {
-      linkObj.url = linkObj.url.slice(1);
-    }
-
+  _createHeaderLink(linkObj: TopMenuItemInfo): MainHeaderLink {
     // Delete target property due to complications of
     // https://bugs.chromium.org/p/gerrit/issues/detail?id=5888
     //
@@ -356,9 +347,14 @@ export class GrMainHeader extends GestureEventListeners(
     // If not, it sets target='_blank' on the menu item. The server
     // makes assumptions that work for the GWT UI, but not PolyGerrit,
     // so we'll just disable it altogether for now.
-    delete linkObj.target;
+    const {target, ...headerLink} = {...linkObj};
 
-    return (linkObj as unknown) as FixedTopMenuItemInfo;
+    // Normalize all urls to PolyGerrit style.
+    if (headerLink.url.startsWith('#')) {
+      headerLink.url = linkObj.url.slice(1);
+    }
+
+    return headerLink;
   }
 
   _generateSettingsLink() {

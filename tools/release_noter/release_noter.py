@@ -89,8 +89,6 @@ SUBJECT_SUBMODULES_PATTERN = r"^Update git submodules$"
 ISSUE_ID_PATTERN = r"[a-zA-Z]+: [Ii]ssue ([0-9]+)"
 CHANGE_ID_PATTERN = r"^Change-Id: [I0-9a-z]+$"
 PLUGIN_PATTERN = r"plugins/([a-z\-]+)"
-RELEASE_OPTION_PATTERN = r".+\.\.(v.+)"
-RELEASE_TAG_PATTERN = r"v[0-9]+\.[0-9]+\.[0-9]+$"
 RELEASE_VERSIONS_PATTERN = r"v([0-9\.\-rc]+)\.\.v([0-9\.\-rc]+)"
 RELEASE_MAJOR_PATTERN = r"^([0-9]+\.[0-9]+).+"
 RELEASE_DOC_PATTERN = r"^([0-9]+\.[0-9]+\.[0-9]+).*"
@@ -100,7 +98,6 @@ COMMIT_URL = "/changes/?q=commit%3A"
 GERRIT_URL = "https://gerrit-review.googlesource.com"
 ISSUE_URL = "https://bugs.chromium.org/p/gerrit/issues/detail?id="
 
-CHECK_DISCLAIMER = "experimental and much slower"
 MARKDOWN = "release_noter"
 GIT_COMMAND = "git"
 GIT_PATH = "../.."
@@ -114,15 +111,6 @@ def parse_args():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
-        "-c",
-        "--check",
-        dest="check",
-        required=False,
-        default=False,
-        action="store_true",
-        help=f"check commits for previous releases; {CHECK_DISCLAIMER}",
-    )
-    parser.add_argument(
         "-l",
         "--link",
         dest="link",
@@ -133,41 +121,6 @@ def parse_args():
     )
     parser.add_argument("range", help="git log revision range")
     return parser.parse_args()
-
-
-def check_args(options):
-    if options.link:
-        print("Link option used; slower.")
-    if not options.check:
-        return None
-    release_option = re.search(RELEASE_OPTION_PATTERN, options.range)
-    if release_option is None:
-        print("Check option ignored; range doesn't end with release tag.")
-        return None
-    print(f"Check option used; {CHECK_DISCLAIMER}.")
-    return release_option.group(1)
-
-
-def newly_released(commit_sha1, release, cwd):
-    if release is None:
-        return True
-    git_tag = [
-        GIT_COMMAND,
-        "tag",
-        "--contains",
-        commit_sha1,
-    ]
-    process = subprocess.check_output(
-        git_tag, cwd=cwd, stderr=subprocess.PIPE, encoding=UTF8
-    )
-    verdict = True
-    for line in process.splitlines():
-        line = line.strip()
-        if not re.match(rf"{re.escape(release)}$", line):
-            # Wrongfully pushed or malformed tags ignored.
-            # Preceding release-candidate (-rcN) tags treated as newly released.
-            verdict = not re.match(RELEASE_TAG_PATTERN, line)
-    return verdict
 
 
 def list_submodules():
@@ -245,7 +198,7 @@ class Commit:
         return task
 
 
-def parse_log(process, release, gerrit, options, commits, cwd=os.getcwd()):
+def parse_log(process, gerrit, options, commits, cwd=os.getcwd()):
     commit = Commit()
     task = Task.start_commit
     for line in process.splitlines():
@@ -267,13 +220,13 @@ def parse_log(process, release, gerrit, options, commits, cwd=os.getcwd()):
             else:
                 commit_end = re.match(CHANGE_ID_PATTERN, line)
                 if commit_end is not None:
-                    commit = finish(commit, commits, release, gerrit, options, cwd)
+                    commit = finish(commit, commits, gerrit, options, cwd)
                     task = Task.start_commit
         else:
             raise RuntimeError("FIXME")
 
 
-def finish(commit, commits, release, gerrit, options, cwd):
+def finish(commit, commits, gerrit, options, cwd):
     if re.match(SUBJECT_SUBMODULES_PATTERN, commit.subject):
         return Commit()
     if len(commit.issues) == 0:
@@ -284,15 +237,9 @@ def finish(commit, commits, release, gerrit, options, cwd):
             for noted_commit in commits[component]:
                 if noted_commit.subject == commit.subject:
                     return Commit()
-    if newly_released(commit.sha1, release, cwd):
-        set_component(commit, commits, cwd)
-        link_subject(commit, gerrit, options)
-        escape_these(commit)
-    else:
-        prefix = ""
-        if PLUGINS in cwd:
-            prefix = cwd
-        print(f"Previously released: {prefix} commit {commit.sha1}")
+    set_component(commit, commits, cwd)
+    link_subject(commit, gerrit, options)
+    escape_these(commit)
     return Commit()
 
 
@@ -390,7 +337,6 @@ def plugin_changes():
             plugin_log = open_git_log(script_options, plugin_wd)
             parse_log(
                 plugin_log,
-                release_tag,
                 gerrit_api,
                 script_options,
                 plugin_commits,
@@ -402,8 +348,9 @@ def plugin_changes():
 if __name__ == "__main__":
     gerrit_api = GerritRestAPI(url=GERRIT_URL, auth=Anonymous())
     script_options = parse_args()
-    release_tag = check_args(script_options)
+    if script_options.link:
+        print("Link option used; slower.")
     noted_changes = plugin_changes()
     change_log = open_git_log(script_options)
-    parse_log(change_log, release_tag, gerrit_api, script_options, noted_changes)
+    parse_log(change_log, gerrit_api, script_options, noted_changes)
     print_notes(noted_changes, script_options)

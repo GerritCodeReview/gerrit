@@ -369,3 +369,34 @@ export enum AuthType {
   CUSTOM_EXTENSION = 'CUSTOM_EXTENSION',
   DEVELOPMENT_BECOME_ANY_ACCOUNT = 'DEVELOPMENT_BECOME_ANY_ACCOUNT',
 }
+
+/**
+ * Controls visibility of other users' dashboard pages and completion suggestions to web users
+ * https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#accounts.visibility
+ */
+export enum AccountsVisibility {
+  ALL = 'ALL',
+  SAME_GROUP = 'SAME_GROUP',
+  VISIBLE_GROUP = 'VISIBLE_GROUP',
+  NONE = 'NONE',
+}
+
+/**
+ * Account fields that are editable
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#auth-info
+ */
+export enum EditableAccountField {
+  FULL_NAME = 'FULL_NAME',
+  USER_NAME = 'USER_NAME',
+  REGISTER_NEW_EMAIL = 'REGISTER_NEW_EMAIL',
+}
+
+/**
+ * This setting determines when Gerrit computes if a change is mergeable or not.
+ * https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#change.mergeabilityComputationBehavior
+ */
+export enum MergeabilityComputationBehavior {
+  API_REF_UPDATED_AND_CHANGE_REINDEX = 'API_REF_UPDATED_AND_CHANGE_REINDEX',
+  REF_UPDATED_AND_CHANGE_REINDEX = 'REF_UPDATED_AND_CHANGE_REINDEX',
+  NEVER = 'NEVER',
+}

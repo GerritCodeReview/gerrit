@@ -27,6 +27,7 @@ import {htmlTemplate} from './gr-account-info_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {AccountInfo, ServerInfo} from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {EditableAccountField} from '../../../constants/constants';
 
 export interface GrAccountInfo {
   $: {
@@ -211,12 +212,16 @@ export class GrAccountInfo extends GestureEventListeners(
 
     // Username may not be changed once it is set.
     return (
-      config.auth.editable_account_fields.includes('USER_NAME') && !username
+      config.auth.editable_account_fields.includes(
+        EditableAccountField.USER_NAME
+      ) && !username
     );
   }
 
   _computeNameMutable(config: ServerInfo) {
-    return config.auth.editable_account_fields.includes('FULL_NAME');
+    return config.auth.editable_account_fields.includes(
+      EditableAccountField.FULL_NAME
+    );
   }
 
   @observe('_account.status')

@@ -50,6 +50,24 @@
       "message": "The REST API should not offer such convenience. Combining two promises into one is something that the caller can do.",
       "revId": "482d4329e6568761a43438e0769eb4ccbaf41bfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4f5030e_777dfa58",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2823,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T15:13:44Z",
+      "side": 1,
+      "message": "Apparently Dmitrii and I disagree here. :-)\n\nI think it is fine to create such a method in a comment service, but not in a 3600 line file, which has the purpose of just wrapping the backend requests.",
+      "parentUuid": "3e3595ff_18b58916",
+      "revId": "482d4329e6568761a43438e0769eb4ccbaf41bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

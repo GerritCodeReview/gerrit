@@ -4,6 +4,7 @@
   "browser": true,
   "dependencies": {
     "@types/chai": "^4.2.14",
+    "@types/lodash": "^4.14.162",
     "@types/mocha": "^8.0.3",
     "@types/sinon": "^9.0.8"
   },

@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -293,7 +294,12 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     TestAccount robot =
         accountCreator.create(
-            "robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users", "Administrators");
+            "robot2",
+            "robot2@example.com",
+            "Ro Bot",
+            "Ro",
+            ServiceUserClassifier.SERVICE_USERS,
+            "Administrators");
     requestScopeOperations.setApiUser(robot.id());
     change(r1).current().submit();
 
@@ -461,7 +467,12 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     TestAccount robot =
         accountCreator.create(
-            "robot1", "robot1@example.com", "Ro Bot", "Ro", "Service Users", "Administrators");
+            "robot1",
+            "robot1@example.com",
+            "Ro Bot",
+            "Ro",
+            ServiceUserClassifier.SERVICE_USERS,
+            "Administrators");
     requestScopeOperations.setApiUser(robot.id());
     change(r).setReadyForReview();
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
@@ -1223,7 +1234,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void robotsNotAddedToAttentionSet() throws Exception {
     TestAccount robot =
-        accountCreator.create("robot1", "robot1@example.com", "Ro Bot", "Ro", "Service Users");
+        accountCreator.create(
+            "robot1", "robot1@example.com", "Ro Bot", "Ro", ServiceUserClassifier.SERVICE_USERS);
     PushOneCommit.Result r = createChange();
 
     // Throw an error when adding a robot explicitly.
@@ -1243,7 +1255,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void robotAddingAReviewerChangeAttentionSet() throws Exception {
     TestAccount robot =
-        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
+        accountCreator.create(
+            "robot2", "robot2@example.com", "Ro Bot", "Ro", ServiceUserClassifier.SERVICE_USERS);
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(robot.id());
     change(r).addReviewer(user.id().toString());
@@ -1259,7 +1272,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void robotReviewDoesNotChangeAttentionSet() throws Exception {
     TestAccount robot =
-        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
+        accountCreator.create(
+            "robot2", "robot2@example.com", "Ro Bot", "Ro", ServiceUserClassifier.SERVICE_USERS);
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(robot.id());
     change(r).current().review(ReviewInput.recommend());
@@ -1270,7 +1284,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void robotReviewWithNegativeLabelAddsOwner() throws Exception {
     TestAccount robot =
-        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
+        accountCreator.create(
+            "robot2", "robot2@example.com", "Ro Bot", "Ro", ServiceUserClassifier.SERVICE_USERS);
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(robot.id());
     change(r).current().review(ReviewInput.dislike());
@@ -1285,7 +1300,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void robotCommentDoesNotAddOwnerOnClosedChanges() throws Exception {
     TestAccount robot =
-        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
+        accountCreator.create(
+            "robot2", "robot2@example.com", "Ro Bot", "Ro", ServiceUserClassifier.SERVICE_USERS);
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).abandon();
 
@@ -1302,7 +1318,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void robotCanChangeAttentionSetExplicitly() throws Exception {
     TestAccount robot =
-        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
+        accountCreator.create(
+            "robot2", "robot2@example.com", "Ro Bot", "Ro", ServiceUserClassifier.SERVICE_USERS);
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(robot.id());
     change(r).current().review(new ReviewInput().addUserToAttentionSet(admin.email(), "reason"));

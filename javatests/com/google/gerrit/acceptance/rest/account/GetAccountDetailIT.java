@@ -25,6 +25,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.inject.Inject;
 import org.junit.Test;
 
@@ -45,7 +46,11 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
   public void getDetailForServiceUser() throws Exception {
     Account.Id serviceUser = accountOperations.newAccount().create();
     groupOperations
-        .group(groupCache.get(AccountGroup.nameKey("Service Users")).get().getGroupUUID())
+        .group(
+            groupCache
+                .get(AccountGroup.nameKey(ServiceUserClassifier.SERVICE_USERS))
+                .get()
+                .getGroupUUID())
         .forUpdate()
         .addMember(serviceUser)
         .update();

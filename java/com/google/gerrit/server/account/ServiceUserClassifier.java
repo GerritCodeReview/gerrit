@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.entities.Account;
 
 public interface ServiceUserClassifier {
+  public static final String SERVICE_USERS = "Service Users";
   /** Returns {@code true} if the given user is considered a {@code Service User} user. */
   boolean isServiceUser(Account.Id user);
 

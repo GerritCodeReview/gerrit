@@ -258,7 +258,7 @@ export const htmlTemplate = html`
         <gr-tooltip-content
           class="draftTooltip"
           has-tooltip=""
-          title="[[_computeDraftTooltip(_unableToSave)]]"
+          title$="[[_computeDraftTooltip(_unableToSave)]]"
           max-width="20em"
           show-icon=""
         >
@@ -340,7 +340,7 @@ export const htmlTemplate = html`
             <div>
               <gr-tooltip-content
                 has-tooltip=""
-                title="Tips for respectful code reviews."
+                title$="Tips for respectful code reviews."
               >
                 <iron-icon
                   class="pointer"

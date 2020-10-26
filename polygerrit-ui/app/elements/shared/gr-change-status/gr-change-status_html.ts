@@ -67,7 +67,7 @@ export const htmlTemplate = html`
   <gr-tooltip-content
     has-tooltip=""
     position-below=""
-    title="[[tooltipText]]"
+    title$="[[tooltipText]]"
     max-width="40em"
   >
     <div class="chip" aria-label$="Label: [[status]]">

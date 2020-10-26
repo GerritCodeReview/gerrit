@@ -45,7 +45,7 @@ export const htmlTemplate = html`
             <gr-tooltip-content
               has-tooltip="[[option.info.description]]"
               show-icon="[[option.info.description]]"
-              title="[[option.info.description]]"
+              title$="[[option.info.description]]"
             >
               <span>[[option.info.display_name]]</span>
             </gr-tooltip-content>

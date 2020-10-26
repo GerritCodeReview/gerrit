@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2591f478_8f54649b",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T15:57:19Z",
+      "side": 1,
+      "message": "Maybe make this an optional method parameter with `false` being the default.",
+      "range": {
+        "startLine": 57,
+        "startChar": 11,
+        "endLine": 57,
+        "endChar": 16
+      },
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e04524c8_b33c6908",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T15:57:19Z",
+      "side": 1,
+      "message": "It would be nice to also set name and email here. Maybe \n\n  name: `Kermit-${id}`\n  email: `kermit-${id}@gerrit.com`",
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6fd346b_73cbe6bc",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T15:57:19Z",
+      "side": 1,
+      "message": "Can you make 5 a method parameter `id`?",
+      "range": {
+        "startLine": 91,
+        "startChar": 17,
+        "endLine": 91,
+        "endChar": 18
+      },
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cdb808f_762418a1",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T15:57:19Z",
+      "side": 1,
+      "message": "That is unusual to be set.",
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

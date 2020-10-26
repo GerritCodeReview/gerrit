@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dd45133_3f42e67e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T15:08:36Z",
+      "side": 1,
+      "message": "patchRange is controlled by change-view. And the comments are also loaded by change-view, so the ported comments should also be loaded by change-view.",
+      "revId": "482d4329e6568761a43438e0769eb4ccbaf41bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac6b2c21_7d192cea",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T15:08:36Z",
+      "side": 1,
+      "message": "this._patchRange and this._changeNum may have changed since the promises were initiated. That is somewhat unrelated to this change, but instead of arguing for ! being used, I think it is easier and more robust to just do the check.\n\nthis._patchRange could be undefined, if _paramsChanged() was just called (again).",
+      "revId": "482d4329e6568761a43438e0769eb4ccbaf41bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e3595ff_18b58916",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2823,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T15:08:36Z",
+      "side": 1,
+      "message": "The REST API should not offer such convenience. Combining two promises into one is something that the caller can do.",
+      "revId": "482d4329e6568761a43438e0769eb4ccbaf41bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

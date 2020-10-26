@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2680aca9_65eaa2da",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-26T17:20:09Z",
+      "side": 1,
+      "message": "Some comments are missing here that are present in GitModifiedFilesCacheKey.",
+      "revId": "592e6afd3a323caed18647fe1c7c2c5fa5e448b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1e7c1bd_57b603d8",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-26T17:20:09Z",
+      "side": 1,
+      "message": "Could you add comments for the numbers, and for the method itself?",
+      "revId": "592e6afd3a323caed18647fe1c7c2c5fa5e448b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c75c63c7_ee72bfec",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-26T17:20:09Z",
+      "side": 1,
+      "message": "So the general tradeoff here is this: \n\nThe ObjectId has a different meaning in both caches (tree vs. commit). If we had a single key class then that would be named (probably) just \"objectId()\" and we couldn\u0027t express that in the type. Instead you use two types, which entails two serializers, and reuse the serialization under the hood. Or am I missing something?\n\nI take it it would be very confusing in the code to have a key and not know from the type for which cache it is intended?",
+      "revId": "592e6afd3a323caed18647fe1c7c2c5fa5e448b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e306c8a_d816e522",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-26T17:20:09Z",
+      "side": 1,
+      "message": "WDYT about (de)serializing directoy (from) to the proto?",
+      "revId": "592e6afd3a323caed18647fe1c7c2c5fa5e448b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

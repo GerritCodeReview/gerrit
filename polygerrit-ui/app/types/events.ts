@@ -142,6 +142,18 @@ declare global {
   }
 }
 
+export interface ShowAlertEventDetail {
+  message: string;
+}
+
+export type ShowAlertEvent = CustomEvent<ShowAlertEventDetail>;
+
+declare global {
+  interface HTMLElementEventMap {
+    'show-alert': ShowAlertEvent;
+  }
+}
+
 /**
  * Keyboard events emitted from polymer elements.
  */

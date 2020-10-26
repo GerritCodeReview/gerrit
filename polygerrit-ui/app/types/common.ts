@@ -45,6 +45,8 @@ import {
   EmailFormat,
   AuthType,
   MergeStrategy,
+  EditableAccountField,
+  MergeabilityComputationBehavior,
 } from '../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
@@ -540,7 +542,7 @@ export interface RevisionInfo {
   fetch?: {[protocol: string]: FetchInfo};
   commit?: CommitInfo;
   files?: {[filename: string]: FileInfo};
-  actions?: ActionInfo[];
+  actions?: ActionNameToActionInfoMap;
   reviewed?: boolean;
   commit_with_footers?: boolean;
   push_certificate?: PushCertificateInfo;
@@ -736,7 +738,7 @@ export interface VotingRangeInfo {
 /**
  * The AccountsConfigInfo entity contains information about Gerrit configuration
  * from the accounts section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#accounts-config-info
  */
 export interface AccountsConfigInfo {
   visibility: string;
@@ -750,9 +752,9 @@ export interface AccountsConfigInfo {
  */
 export interface AuthInfo {
   auth_type: AuthType; // docs incorrectly names it 'type'
-  use_contributor_agreements: boolean;
+  use_contributor_agreements?: boolean;
   contributor_agreements?: ContributorAgreementInfo;
-  editable_account_fields: string;
+  editable_account_fields: EditableAccountField[];
   login_url?: string;
   login_text?: string;
   switch_account_url?: string;
@@ -799,17 +801,17 @@ export type CapabilityInfoMap = {[id: string]: CapabilityInfo};
 /**
  * The ChangeConfigInfo entity contains information about Gerrit configuration
  * from the change section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#change-config-info
  */
 export interface ChangeConfigInfo {
-  allow_blame: boolean;
-  large_change: string;
+  allow_blame?: boolean;
+  large_change: number;
   reply_label: string;
   reply_tooltip: string;
   update_delay: number;
-  submit_whole_topic: boolean;
-  disable_private_changes: boolean;
-  mergeability_computation_behavior: string;
+  submit_whole_topic?: boolean;
+  disable_private_changes?: boolean;
+  mergeability_computation_behavior: MergeabilityComputationBehavior;
   enable_attention_set: boolean;
   enable_assignee: boolean;
 }
@@ -817,10 +819,10 @@ export interface ChangeConfigInfo {
 /**
  * The ChangeIndexConfigInfo entity contains information about Gerrit
  * configuration from the index.change section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#change-index-config-info
  */
 export interface ChangeIndexConfigInfo {
-  index_mergeable: boolean;
+  index_mergeable?: boolean;
 }
 
 /**
@@ -906,11 +908,11 @@ export type SchemesInfoMap = {[name: string]: DownloadSchemeInfo};
 /**
  * The DownloadInfo entity contains information about supported download
  * options.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#download-info
  */
 export interface DownloadInfo {
   schemes: SchemesInfoMap;
-  archives: string;
+  archives: string[];
 }
 
 export type CloneCommandMap = {[name: string]: string};
@@ -954,9 +956,9 @@ export interface EntriesInfo {
 export interface GerritInfo {
   all_projects: string; // Doc contains incorrect name
   all_users: string; // Doc contains incorrect name
-  doc_search: string;
+  doc_search: boolean;
   doc_url?: string;
-  edit_gpg_keys: boolean;
+  edit_gpg_keys?: boolean;
   report_bug_url?: string;
   // The following property is missed in doc
   primary_weblink_name?: string;
@@ -965,7 +967,7 @@ export interface GerritInfo {
 /**
  * The IndexConfigInfo entity contains information about Gerrit configuration
  * from the index section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#index-config-info
  */
 export interface IndexConfigInfo {
   change: ChangeIndexConfigInfo;
@@ -1022,10 +1024,11 @@ export interface MemSummaryInfo {
 /**
  * The PluginConfigInfo entity contains information about Gerrit extensions by
  * plugins.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#plugin-config-info
  */
 export interface PluginConfigInfo {
   has_avatars: boolean;
+  // The following 2 properies exists in Java class, but don't mention in docs
   js_resource_paths: string[];
   html_resource_paths: string[];
 }
@@ -1050,7 +1053,8 @@ export interface ServerInfo {
   change: ChangeConfigInfo;
   download: DownloadInfo;
   gerrit: GerritInfo;
-  index: IndexConfigInfo;
+  // docs mentions index property, but it doesn't exists in Java class
+  // index: IndexConfigInfo;
   note_db_enabled?: boolean;
   plugin: PluginConfigInfo;
   receive?: ReceiveInfo;
@@ -1074,7 +1078,7 @@ export type SshdInfo = {};
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#suggest-info
  */
 export interface SuggestInfo {
-  from: string;
+  from: number;
 }
 
 /**
@@ -1149,7 +1153,7 @@ export interface TopMenuItemInfo {
 /**
  * The UserConfigInfo entity contains information about Gerrit configuration
  * from the user section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#user-config-info
  */
 export interface UserConfigInfo {
   anonymous_coward_name: string;
@@ -2040,8 +2044,8 @@ export interface EditInfo {
   base_patch_set_number: PatchSetNum;
   base_revision: string;
   ref: GitRef;
-  fetch: ProtocolToFetchInfoMap;
-  files: FileNameToFileInfoMap;
+  fetch?: ProtocolToFetchInfoMap;
+  files?: FileNameToFileInfoMap;
 }
 
 export type ProtocolToFetchInfoMap = {[protocol: string]: FetchInfo};

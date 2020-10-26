@@ -351,9 +351,7 @@ export class GrRestApiInterface
     );
   }
 
-  private _fetchSharedCacheURL(
-    req: FetchJSONRequest
-  ): Promise<ParsedJSON | undefined> {
+  _fetchSharedCacheURL(req: FetchJSONRequest): Promise<ParsedJSON | undefined> {
     // Cache is shared across instances
     return this._restApiHelper.fetchCacheURL(req);
   }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a961c71c_8b4b2f95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-26T12:05:55Z",
+      "side": 1,
+      "message": "Thanks for addressing this!",
+      "revId": "defdde84668f669a9858341478e593856cbfa07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bdf6dc8_d6577813",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-26T12:05:55Z",
+      "side": 1,
+      "message": "Please add javadoc.",
+      "revId": "defdde84668f669a9858341478e593856cbfa07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

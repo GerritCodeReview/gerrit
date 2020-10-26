@@ -143,7 +143,11 @@ public class ListBranches implements RestReadView<ProjectResource> {
   BranchInfo toBranchInfo(BranchResource rsrc)
       throws IOException, ResourceNotFoundException, PermissionBackendException {
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
-      Ref r = db.exactRef(rsrc.getRef());
+      String refName = rsrc.getRef();
+      if (RefNames.isRefsUsersSelf(refName, rsrc.getProjectState().isAllUsers())) {
+        refName = RefNames.refsUsers(rsrc.getUser().getAccountId());
+      }
+      Ref r = db.exactRef(refName);
       if (r == null) {
         throw new ResourceNotFoundException();
       }

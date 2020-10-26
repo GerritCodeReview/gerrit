@@ -262,9 +262,12 @@ public class GetBranchIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     assertBranchFound(allUsers, RefNames.refsUsers(user.id()));
 
-    // TODO: every user can see the own user ref via the magic ref/users/self ref
-    // requestScopeOperations.setApiUser(user.id());
-    // assertBranchFound(allUsers, RefNames.REFS_USERS_SELF);
+    // every user can see the own user ref via the magic ref/users/self ref. For this special case,
+    // the branch in the request is refs/users/self, but the response contains the actual
+    // refs/users/$sharded_id/$id
+    BranchInfo branchInfo =
+        gApi.projects().name(allUsers.get()).branch(RefNames.REFS_USERS_SELF).get();
+    assertThat(branchInfo.ref).isEqualTo(RefNames.refsUsers(user.id()));
   }
 
   @Test

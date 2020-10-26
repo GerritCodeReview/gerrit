@@ -21,6 +21,7 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 import static com.google.gerrit.entities.RefNames.isConfigRef;
+import static com.google.gerrit.entities.RefNames.isRefsUsersSelf;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
@@ -1080,7 +1081,7 @@ class ReceiveCommits {
   private ReceiveCommand wrapReceiveCommand(ReceiveCommand cmd, Task progress) {
     String refname = cmd.getRefName();
 
-    if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
+    if (isRefsUsersSelf(cmd.getRefName(), projectState.isAllUsers())) {
       refname = RefNames.refsUsers(user.getAccountId());
       logger.atFine().log("Swapping out command for %s to %s", RefNames.REFS_USERS_SELF, refname);
     }

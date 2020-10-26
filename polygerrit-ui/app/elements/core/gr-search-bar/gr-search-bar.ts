@@ -36,6 +36,7 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getDocsBaseUrl} from '../../../utils/url-util';
 import {CustomKeyboardEvent} from '../../../types/events';
+import {MergeabilityComputationBehavior} from '../../../constants/constants';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS = [
@@ -197,8 +198,10 @@ export class GrSearchBar extends KeyboardShortcutMixin(
         serverConfig.change &&
         serverConfig.change.mergeability_computation_behavior;
       if (
-        mergeability === 'API_REF_UPDATED_AND_CHANGE_REINDEX' ||
-        mergeability === 'REF_UPDATED_AND_CHANGE_REINDEX'
+        mergeability ===
+          MergeabilityComputationBehavior.API_REF_UPDATED_AND_CHANGE_REINDEX ||
+        mergeability ===
+          MergeabilityComputationBehavior.REF_UPDATED_AND_CHANGE_REINDEX
       ) {
         // add 'is:mergeable' to SEARCH_OPERATORS_WITH_NEGATIONS_SET
         this._addOperator('is:mergeable');

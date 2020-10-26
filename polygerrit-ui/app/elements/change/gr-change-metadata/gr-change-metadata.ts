@@ -50,7 +50,10 @@ import {
 } from '../../../constants/constants';
 import {changeIsOpen} from '../../../utils/change-util';
 import {customElement, property, observe} from '@polymer/decorators';
-import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {
+  EditRevisionInfo,
+  ParsedChangeInfo,
+} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {
   AccountDetailInfo,
   AccountInfo,
@@ -135,7 +138,7 @@ export class GrChangeMetadata extends GestureEventListeners(
   account?: AccountDetailInfo;
 
   @property({type: Object})
-  revision?: RevisionInfo;
+  revision?: RevisionInfo | EditRevisionInfo;
 
   @property({type: Object})
   commitInfo?: CommitInfoWithRequiredCommit;
@@ -612,7 +615,7 @@ export class GrChangeMetadata extends GestureEventListeners(
 
   _computeParents(
     change?: ParsedChangeInfo,
-    revision?: RevisionInfo
+    revision?: RevisionInfo | EditRevisionInfo
   ): ParentCommitInfo[] {
     if (!revision || !revision.commit) {
       if (!change || !change.current_revision) {

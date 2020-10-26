@@ -22,7 +22,10 @@ import {
   ChangeInfo,
   ChangeMessageInfo,
   ChangeViewChangeInfo,
+  CommitInfo,
+  PatchSetNum,
   ReviewerUpdateInfo,
+  RevisionInfo,
   Timestamp,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
@@ -78,8 +81,16 @@ interface UpdateItem {
   prev_state?: ReviewerState;
 }
 
+export interface EditRevisionInfo extends Partial<RevisionInfo> {
+  // EditRevisionInfo has less required properties then RevisionInfo
+  _number: PatchSetNum;
+  basePatchNum: PatchSetNum;
+  commit: CommitInfo;
+}
+
 export interface ParsedChangeInfo
-  extends Omit<ChangeViewChangeInfo, 'reviewer_updates'> {
+  extends Omit<ChangeViewChangeInfo, 'reviewer_updates' | 'revisions'> {
+  revisions: {[revisionId: string]: RevisionInfo | EditRevisionInfo};
   reviewer_updates?: ReviewerUpdateInfo[] | FormattedReviewerUpdateInfo[];
 }
 

@@ -93,4 +93,9 @@ export interface PluginApi {
   attributeHelper(element: Element): GrAttributeHelper;
   restApi(): GrPluginRestApi;
   eventHelper(element: Node): GrEventHelper;
+  registerDynamicCustomComponent(
+    endpointName: string,
+    moduleName?: string,
+    options?: RegisterOptions
+  ): HookApi;
 }

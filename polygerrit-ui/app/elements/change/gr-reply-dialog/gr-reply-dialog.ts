@@ -329,8 +329,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   @property({type: Boolean})
   _labelsChanged = false;
 
-  @property({type: String, readOnly: true})
-  _saveTooltip: string = ButtonTooltips.SAVE;
+  @property({type: String})
+  readonly _saveTooltip: string = ButtonTooltips.SAVE;
 
   @property({type: String})
   _pluginMessage = '';

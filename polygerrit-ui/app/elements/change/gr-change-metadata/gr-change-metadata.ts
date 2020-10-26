@@ -149,8 +149,8 @@ export class GrChangeMetadata extends GestureEventListeners(
   @property({type: Boolean})
   parentIsCurrent?: boolean;
 
-  @property({type: String, readOnly: true})
-  _notCurrentMessage = NOT_CURRENT_MESSAGE;
+  @property({type: String})
+  readonly _notCurrentMessage = NOT_CURRENT_MESSAGE;
 
   @property({
     type: Boolean,

@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d85f820_51a2efe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-26T10:05:42Z",
+      "side": 1,
+      "message": "that\u0027s defined in the serviceUserEmailSuffix?\n\nRegular expression sounds good. I\u0027ll do that.",
+      "parentUuid": "8fd2aadb_a3aa15d5",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "12b0e74fc1f67d7efa2a5db9f7a5e3eae9269a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1cc42b9_4d91efee",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "my concern is more what the added value is. how is poking the configuration (doesn\u0027t that require a gerrit restart?) any less work than adding maybe a dozen users to a group?",
       "parentUuid": "f1cc42b9_4d91efee",
+      "revId": "12b0e74fc1f67d7efa2a5db9f7a5e3eae9269a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3564d9c9_5634fac1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-26T10:05:42Z",
+      "side": 1,
+      "message": "More like 200~ or so users, some of which are easy to miss since they are not very active.\nBut yea, I don\u0027t know if there\u0027s any value for you - I hope that at least it doesn\u0027t create complexity, and maybe it does help you if you have specific way the email addresses for your service users.\nBut yea as I suggested, I am also a bit conflicted about this change; I think it at least creates value as long as you have lots of service users that have similar email addresses formats.",
+      "parentUuid": "b926fc4d_f8847ade",
       "revId": "12b0e74fc1f67d7efa2a5db9f7a5e3eae9269a69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

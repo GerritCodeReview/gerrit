@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d62ded9_dd6e2e88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-26T09:21:28Z",
+      "side": 1,
+      "message": "Add tests.",
+      "revId": "12b0e74fc1f67d7efa2a5db9f7a5e3eae9269a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1cc42b9_4d91efee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-26T09:21:28Z",
+      "side": 1,
+      "message": "Hi Martin and Nasser,\nThis change is an idea suggested to us by a customer, which I think is a pretty good idea and is trivial to implement.\nHowever, due to all of our discussions around this topic, I\u0027m not pushing too hard on this change, and will accept your veto if feel that it creates too much complexity.\nLet me know what you think.\nThanks!",
+      "revId": "12b0e74fc1f67d7efa2a5db9f7a5e3eae9269a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

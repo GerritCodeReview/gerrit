@@ -91,6 +91,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa6dbeae_11ca106a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-10-26T11:25:37Z",
+      "side": 1,
+      "message": "actually, i\u0027m talking nonsense here - obviously, a whole-address suffix like \"-bot@google.com\" would be possible. it\u0027s just that suffixes related to email addresses are usually associated with the user part only, so being explicit that you actually mean the whole address and giving an example in the docs would be helpful.\n\nthat\u0027s much less of a concern when you switch to a regex (regardless in which form this facility gets implemented). instead, it becomes important to point out whether the regex is automatically anchored - which is sort of the same concern applied to a slightly different context.",
+      "parentUuid": "a998bcd3_b0665692",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "12b0e74fc1f67d7efa2a5db9f7a5e3eae9269a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1cc42b9_4d91efee",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

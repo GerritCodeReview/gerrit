@@ -51,6 +51,24 @@
       "parentUuid": "1205b9e3_baa1c5cb",
       "revId": "c11497d770e2fcf251e2fa28aea0febec34158c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b511b969_0e6a33e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T10:15:04Z",
+      "side": 1,
+      "message": "Are you saying that you prefer\n\n  const commentLinkInfo \u003d defaultObjCreator.commentLinkInfo\n\nover\n\n  const commentLinkInfo \u003d createDefaultCommentLinkInfo()\n\n?\n\nI would prefer to call a method/function instead of a magic property accessor that creates a new instance every time.\n\nAlso, your suggestion is more code, not less.\n\nMaybe we can just drop the \"Default\" from all the function names?\n\nWhat do you think about allowing an optional parameter for creating slightly modified test objects?\n\n  const change \u003d createChangeInfo({status: MERGED});\n\nOr do you prefer for this to be done after creation like so?\n\n  const change \u003d createChangeInfo();\n  change.status \u003d MERGED;",
+      "parentUuid": "b4869f7c_60810be1",
+      "revId": "c11497d770e2fcf251e2fa28aea0febec34158c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

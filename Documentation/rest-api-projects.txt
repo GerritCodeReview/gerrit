@@ -1702,7 +1702,9 @@ List all branches that match regex `t.*1`:
 'GET /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]'
 --
 
-Retrieves a branch of a project.
+Retrieves a branch of a project. For the "All-Users" repository, the magic
+branch "refs/users/self" is automatically resolved to the user branch of the
+calling user.
 
 .Request
 ----

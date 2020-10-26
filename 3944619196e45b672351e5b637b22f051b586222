@@ -203,6 +203,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b947153d_9cd9e4bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-26T11:16:54Z",
+      "side": 1,
+      "message": "We need a new API request every time patchNum is changed so I\u0027m not sure we can have that closer to loadAll() since that is not dependent on the patchNum.\n\nThis is how the API request will be made when loading porting comments so that is the latency number we are getting.\n\nUsing two different labels was due to https://gerrit-review.googlesource.com/c/gerrit/+/285360/comment/76ae7b99_fb830b4c/.",
+      "parentUuid": "8f294628_585433e1",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 9
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c191cfc4_591bf8a5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 4

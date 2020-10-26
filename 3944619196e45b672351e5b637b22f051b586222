@@ -179,6 +179,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f294628_585433e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T10:29:03Z",
+      "side": 1,
+      "message": "I am happy with measuring the real latency in the running app. That yields more robust data.\n\nBut I would recommend making the call closer to `loadAll()` in GrCommentApi. That is where all the other comments are loaded. And what we really want to know is not how long the ported comments take to load, but how much longer they take compared to loading all other comments.\n\nIs PortingCommentsDiffLatency expected to be different from PortingCommentsFileLatency? Aren\u0027t those measuring the same thing, just on different pages?",
+      "parentUuid": "59328c58_461e8851",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 9
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c191cfc4_591bf8a5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 4

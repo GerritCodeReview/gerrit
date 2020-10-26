@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82e2d0ac_7a13e5b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T12:44:11Z",
+      "side": 1,
+      "message": "I am sceptical about this change, because it potentially creates confusion about which account is a servicer user. I think looking at group members should be sufficient, but by introducing a magic suffix identifying whether an account is a service user is difficult.\n\nI would prefer the ability to trigger some automatic tasks/events on account creation, so you can explicitly add an account to the service user group when the account is *created*. That might be clearer and easier to understand for admins and users.",
+      "revId": "928248bbc22e2329fff16b47981cc9d8bf1fd005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -32,3 +32,5 @@ Documentation: **[{{ data.new }}](https://gerrit-documentation.storage.googleapi
 * Projects
 
 ## End-to-end tests
+
+## Plugin changes

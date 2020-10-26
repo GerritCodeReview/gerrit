@@ -227,6 +227,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c152869_662f531d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T15:08:36Z",
+      "side": 1,
+      "message": "All comment loading should be done in GrCommentApi. It has a bad name, but it is actually the \"service\" for comments.\n\nFor gr-diff-view loading the ported comments is already fairly close to `this._loadComments()`. For the change-view the loading should be moved to gr-change-view, and I think it could also be close to `this._reloadComments()`.\n\nI understand that you would like to reload the ported comments also if just the patchset changes.\n\nMy most important point is that what we want to measure is the time from \"normal comments are loaded (and all other normal promises are resolved)\" until \"ported comments are loaded\". We need to understand the amount of *additional* latency that the users have to suffer.",
+      "parentUuid": "b947153d_9cd9e4bc",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 9
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c191cfc4_591bf8a5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 4

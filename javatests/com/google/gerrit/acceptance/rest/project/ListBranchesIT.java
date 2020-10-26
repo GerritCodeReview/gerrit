@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefs;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -110,6 +111,16 @@ public class ListBranchesIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     // refs/meta/config is hidden since user is no project owner
     assertRefs(ImmutableList.of(branch("refs/heads/dev", dev, false)), list().get());
+  }
+
+  @Test
+  public void listUserSelfBranchResolvesToTheUserRef() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+
+    BranchInfo branchInfo =
+        gApi.projects().name(allUsers.get()).branch(RefNames.REFS_USERS_SELF).get();
+
+    assertThat(branchInfo.ref).isEqualTo(RefNames.refsUsers(user.id()));
   }
 
   @Test

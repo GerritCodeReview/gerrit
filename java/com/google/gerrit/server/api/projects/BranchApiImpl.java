@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -126,6 +127,10 @@ public class BranchApiImpl implements BranchApi {
 
   private BranchResource resource()
       throws RestApiException, IOException, PermissionBackendException {
-    return branches.parse(project, IdString.fromDecoded(ref));
+    String refName = ref;
+    if (RefNames.isRefsUsersSelf(ref, project.getProjectState().isAllUsers())) {
+      refName = RefNames.refsUsers(project.getUser().getAccountId());
+    }
+    return branches.parse(project, IdString.fromDecoded(refName));
   }
 }

@@ -255,6 +255,10 @@ public class RefNames {
     return ref.startsWith(REFS_USERS);
   }
 
+  public static boolean isRefsUsersSelf(String ref, boolean isAllUsers) {
+    return isAllUsers && REFS_USERS_SELF.equals(ref);
+  }
+
   /**
    * Whether the ref is a group branch that stores NoteDb data of a group. Returns {@code true} for
    * all refs that start with {@code refs/groups/}.

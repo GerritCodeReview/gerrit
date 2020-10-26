@@ -23,5 +23,5 @@ declare module 'sinon/pkg/sinon-esm' {
   // eslint-disable-next-line import/no-default-export
   export default sinon;
   const sinon: Sinon.SinonStatic;
-  export {SinonSpy};
+  export {SinonSpy, SinonFakeTimers, SinonStubbedMember};
 }

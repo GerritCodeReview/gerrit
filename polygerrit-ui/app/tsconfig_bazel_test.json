@@ -3,9 +3,13 @@
   "compilerOptions": {
     "typeRoots": [
       "./test/@types",
+      "../../external/ui_dev_npm/node_modules/@polymer/iron-test-helpers",
       "../../external/ui_npm/node_modules/@types",
       "../../external/ui_dev_npm/node_modules/@types"
     ],
+    "paths": {
+      "@polymer/iron-test-helpers/*": ["../../ui_dev_npm/node_modules/@polymer/iron-test-helpers/*"]
+    }
   },
   "include": [
     // Items below must be in sync with the src_dirs list in the BUILD file

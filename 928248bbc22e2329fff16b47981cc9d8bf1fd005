@@ -16,6 +16,24 @@
       "message": "I am sceptical about this change, because it potentially creates confusion about which account is a servicer user. I think looking at group members should be sufficient, but by introducing a magic suffix identifying whether an account is a service user is difficult.\n\nI would prefer the ability to trigger some automatic tasks/events on account creation, so you can explicitly add an account to the service user group when the account is *created*. That might be clearer and easier to understand for admins and users.",
       "revId": "928248bbc22e2329fff16b47981cc9d8bf1fd005",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0eb93b2c_5a03aabd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-26T15:20:36Z",
+      "side": 1,
+      "message": "Ben\u0027s concern here matches my own, i.e. discoverability of which accounts are service users. If this email matching automatically added users to the Service Users group, I\u0027d still have just one place to look to find them. Without that, admins need to consult multiple sources of truth.\n\nA plugin listening on account creation (AccountActivationListener seems to exist already) and then taking the action to add users to the Service Users group does seem like a reasonable solution.",
+      "parentUuid": "82e2d0ac_7a13e5b4",
+      "revId": "928248bbc22e2329fff16b47981cc9d8bf1fd005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -142,6 +142,17 @@ set, then the (full) name will be used.
 +
 Default is `FULL_NAME`.
 
+[[accounts.serviceUserEmailSuffix]]accounts.serviceUserEmailSuffix::
++
+If configured, each account with an email address with a suffix that
+matches any of the configured suffixes, will be considered a service
+user.
++
+Default is empty, which means there is no suffix for service users.
++
+To be considered a service user, a user can also be a part of the
+"Service Users" group, or any of the subgroups of "Service Users".
+
 [[addreviewer]]
 === Section addreviewer
 

@@ -76,6 +76,44 @@ export const htmlTemplate = html`
           </tr>
         </tbody>
       </template>
+      <template is="dom-if" if="[[!_isEmpty(changeSection)]]">
+        <thead>
+          <tr class="groupTitle">
+            <th aria-hidden="true" class="leftPadding"></th>
+            <th
+              aria-label="Star status column"
+              class="star"
+              hidden$="[[!showStar]]"
+              hidden=""
+            ></th>
+            <th class="number" hidden$="[[!showNumber]]" hidden="">#</th>
+            <template
+              is="dom-repeat"
+              items="[[_computeColumns(changeSection, visibleChangeTableColumns)]]"
+              as="item"
+            >
+              <th class$="[[_lowerCase(item)]]">
+                [[item]]
+              </th>
+            </template>
+            <template is="dom-repeat" items="[[labelNames]]" as="labelName">
+              <th class="label" title$="[[labelName]]">
+                [[_computeLabelShortcut(labelName)]]
+              </th>
+            </template>
+            <template
+              is="dom-repeat"
+              items="[[_dynamicHeaderEndpoints]]"
+              as="pluginHeader"
+            >
+              <th class="endpoint">
+                <gr-endpoint-decorator name$="[[pluginHeader]]">
+                </gr-endpoint-decorator>
+              </th>
+            </template>
+          </tr>
+        </thead>
+      </template>
       <tbody class="groupContent">
         <template is="dom-if" if="[[_isEmpty(changeSection)]]">
           <tr class="noChanges">
@@ -98,42 +136,6 @@ export const htmlTemplate = html`
                 No changes
               </template>
             </td>
-          </tr>
-        </template>
-        <template is="dom-if" if="[[!_isEmpty(changeSection)]]">
-          <tr class="groupTitle">
-            <td aria-hidden="true" class="leftPadding"></td>
-            <td
-              aria-label="Star status column"
-              class="star"
-              hidden$="[[!showStar]]"
-              hidden=""
-            ></td>
-            <td class="number" hidden$="[[!showNumber]]" hidden="">#</td>
-            <template
-              is="dom-repeat"
-              items="[[_computeColumns(changeSection, visibleChangeTableColumns)]]"
-              as="item"
-            >
-              <td class$="[[_lowerCase(item)]]">
-                [[item]]
-              </td>
-            </template>
-            <template is="dom-repeat" items="[[labelNames]]" as="labelName">
-              <td class="label" title$="[[labelName]]">
-                [[_computeLabelShortcut(labelName)]]
-              </td>
-            </template>
-            <template
-              is="dom-repeat"
-              items="[[_dynamicHeaderEndpoints]]"
-              as="pluginHeader"
-            >
-              <td class="endpoint">
-                <gr-endpoint-decorator name$="[[pluginHeader]]">
-                </gr-endpoint-decorator>
-              </td>
-            </template>
           </tr>
         </template>
         <template is="dom-repeat" items="[[changeSection.results]]" as="change">

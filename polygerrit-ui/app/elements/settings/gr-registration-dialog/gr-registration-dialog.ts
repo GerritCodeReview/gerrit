@@ -26,6 +26,7 @@ import {htmlTemplate} from './gr-registration-dialog_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {ServerInfo, AccountDetailInfo} from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {EditableAccountField} from '../../../constants/constants';
 
 export interface GrRegistrationDialog {
   $: {
@@ -97,7 +98,9 @@ export class GrRegistrationDialog extends GestureEventListeners(
     }
 
     return (
-      config.auth.editable_account_fields.includes('USER_NAME') && !username
+      config.auth.editable_account_fields.includes(
+        EditableAccountField.USER_NAME
+      ) && !username
     );
   }
 

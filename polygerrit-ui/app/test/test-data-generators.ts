@@ -18,37 +18,70 @@
 import {
   AccountId,
   AccountInfo,
+  AccountsConfigInfo,
+  ApprovalInfo,
+  AuthInfo,
   BranchName,
+  ChangeConfigInfo,
   ChangeId,
   ChangeInfo,
   ChangeInfoId,
   ChangeMessageId,
   ChangeMessageInfo,
+  ChangeViewChangeInfo,
   CommentLinkInfo,
   CommentLinks,
+  CommitId,
   CommitInfo,
   ConfigInfo,
+  DownloadInfo,
+  EditPatchSetNum,
+  GerritInfo,
   EmailAddress,
   GitPersonInfo,
   GitRef,
   InheritedBooleanInfo,
   MaxObjectSizeLimitInfo,
+  MergeableInfo,
   NumericChangeId,
   PatchSetNum,
+  PluginConfigInfo,
+  PreferencesInfo,
   RepoName,
   Reviewers,
   RevisionInfo,
+  SchemesInfoMap,
+  ServerInfo,
   SubmitTypeInfo,
+  SuggestInfo,
   Timestamp,
   TimezoneOffset,
+  UserConfigInfo,
 } from '../types/common';
 import {
+  AccountsVisibility,
+  AppTheme,
+  AuthType,
   ChangeStatus,
+  DateFormat,
+  DefaultBase,
+  DefaultDisplayNameConfig,
+  DiffViewMode,
+  EmailStrategy,
   InheritedBooleanInfoConfiguredValue,
+  MergeabilityComputationBehavior,
   RevisionKind,
   SubmitType,
+  TimeFormat,
 } from '../constants/constants';
 import {formatDate} from '../utils/date-util';
+import {GetDiffCommentsOutput} from '../services/services/gr-rest-api/gr-rest-api';
+import {AppElementChangeViewParams} from '../elements/gr-app-types';
+import {GerritView} from '../elements/core/gr-navigation/gr-navigation';
+import {
+  EditRevisionInfo,
+  ParsedChangeInfo,
+} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 export function dateToTimestamp(date: Date): Timestamp {
   const nanosecondSuffix = '.000000000';
@@ -134,10 +167,10 @@ export const TEST_NUMERIC_CHANGE_ID = 42 as NumericChangeId;
 export const TEST_CHANGE_CREATED = new Date(2020, 1, 1, 1, 2, 3);
 export const TEST_CHANGE_UPDATED = new Date(2020, 10, 6, 5, 12, 34);
 
-export function createGitPerson(): GitPersonInfo {
+export function createGitPerson(name = 'Test name'): GitPersonInfo {
   return {
-    name: 'Test person',
-    email: 'email@google.com',
+    name,
+    email: `${name}@`,
     date: dateToTimestamp(new Date(2019, 11, 6, 14, 5, 8)),
     tz: 0 as TimezoneOffset,
   };
@@ -153,9 +186,9 @@ export function createCommit(): CommitInfo {
   };
 }
 
-export function createRevision(): RevisionInfo {
+export function createRevision(patchSetNum = 1): RevisionInfo {
   return {
-    _number: 1 as PatchSetNum,
+    _number: patchSetNum as PatchSetNum,
     commit: createCommit(),
     created: dateToTimestamp(TEST_CHANGE_CREATED),
     kind: RevisionKind.REWORK,
@@ -164,11 +197,19 @@ export function createRevision(): RevisionInfo {
   };
 }
 
-export function createChangeMessage(): ChangeMessageInfo {
+export function createEditRevision(): EditRevisionInfo {
   return {
-    id: '1000' as ChangeMessageId,
+    _number: EditPatchSetNum,
+    basePatchNum: 1 as PatchSetNum,
+    commit: createCommit(),
+  };
+}
+
+export function createChangeMessage(id = 'cm_id_1'): ChangeMessageInfo {
+  return {
+    id: id as ChangeMessageId,
     date: dateToTimestamp(TEST_CHANGE_CREATED),
-    message: 'This is a message',
+    message: `This is a message with id ${id}`,
   };
 }
 
@@ -177,12 +218,11 @@ export function createRevisions(
 ): {[revisionId: string]: RevisionInfo} {
   const revisions: {[revisionId: string]: RevisionInfo} = {};
   const revisionDate = TEST_CHANGE_CREATED;
-  const revisionIdStart = 1;
+  const revisionIdStart = 1; // The same as getCurrentRevision
   for (let i = 0; i < count; i++) {
     const revisionId = (i + revisionIdStart).toString(16);
     const revision: RevisionInfo = {
-      ...createRevision(),
-      _number: (i + 1) as PatchSetNum,
+      ...createRevision(i + 1),
       created: dateToTimestamp(revisionDate),
       ref: `refs/changes/5/6/${i + 1}` as GitRef,
     };
@@ -193,16 +233,19 @@ export function createRevisions(
   return revisions;
 }
 
+export function getCurrentRevision(count: number): CommitId {
+  const revisionIdStart = 1; // The same as createRevisions
+  return (count + revisionIdStart).toString(16) as CommitId;
+}
+
 export function createChangeMessages(count: number): ChangeMessageInfo[] {
   const messageIdStart = 1000;
   const messages: ChangeMessageInfo[] = [];
   const messageDate = TEST_CHANGE_CREATED;
   for (let i = 0; i < count; i++) {
     messages.push({
-      ...createChangeMessage(),
-      id: (i + messageIdStart).toString(16) as ChangeMessageId,
+      ...createChangeMessage((i + messageIdStart).toString(16)),
       date: dateToTimestamp(messageDate),
-      message: `This is a message N${i + 1}`,
     });
     messageDate.setDate(messageDate.getDate() + 1);
   }
@@ -225,5 +268,140 @@ export function createChange(): ChangeInfo {
     owner: createAccountWithId(),
     // This is documented as optional, but actually always set.
     reviewers: createReviewers(),
+  };
+}
+
+export function createChangeViewChange(): ChangeViewChangeInfo {
+  return {
+    ...createChange(),
+    revisions: {
+      abc: createRevision(),
+    },
+    current_revision: 'abc' as CommitId,
+  };
+}
+
+export function createParsedChange(): ParsedChangeInfo {
+  return createChangeViewChange();
+}
+
+export function createAccountsConfig(): AccountsConfigInfo {
+  return {
+    visibility: AccountsVisibility.ALL,
+    default_display_name: DefaultDisplayNameConfig.FULL_NAME,
+  };
+}
+
+export function createAuth(): AuthInfo {
+  return {
+    auth_type: AuthType.OPENID,
+    editable_account_fields: [],
+  };
+}
+
+export function createChangeConfig(): ChangeConfigInfo {
+  return {
+    large_change: 500,
+    reply_label: 'Reply',
+    reply_tooltip: 'Reply and score',
+    // The default update_delay is 5 minutes, but we don't want to accidentally
+    // start polling in tests
+    update_delay: 0,
+    mergeability_computation_behavior:
+      MergeabilityComputationBehavior.REF_UPDATED_AND_CHANGE_REINDEX,
+    enable_attention_set: false,
+    enable_assignee: false,
+  };
+}
+
+export function createDownloadSchemes(): SchemesInfoMap {
+  return {};
+}
+
+export function createDownloadInfo(): DownloadInfo {
+  return {
+    schemes: createDownloadSchemes(),
+    archives: ['tgz', 'tar'],
+  };
+}
+
+export function createGerritInfo(): GerritInfo {
+  return {
+    all_projects: 'All-Projects',
+    all_users: 'All-Users',
+    doc_search: false,
+  };
+}
+
+export function createPluginConfig(): PluginConfigInfo {
+  return {
+    has_avatars: false,
+    js_resource_paths: [],
+    html_resource_paths: [],
+  };
+}
+
+export function createSuggestInfo(): SuggestInfo {
+  return {
+    from: 0,
+  };
+}
+
+export function createUserConfig(): UserConfigInfo {
+  return {
+    anonymous_coward_name: 'Name of user not set',
+  };
+}
+
+export function createServerInfo(): ServerInfo {
+  return {
+    accounts: createAccountsConfig(),
+    auth: createAuth(),
+    change: createChangeConfig(),
+    download: createDownloadInfo(),
+    gerrit: createGerritInfo(),
+    plugin: createPluginConfig(),
+    suggest: createSuggestInfo(),
+    user: createUserConfig(),
+  };
+}
+
+export function createGetDiffCommentsOutput(): GetDiffCommentsOutput {
+  return {
+    baseComments: [],
+    comments: [],
+  };
+}
+
+export function createMergeable(): MergeableInfo {
+  return {
+    submit_type: SubmitType.MERGE_IF_NECESSARY,
+    mergeable: false,
+  };
+}
+
+export function createPreferences(): PreferencesInfo {
+  return {
+    changes_per_page: 10,
+    theme: AppTheme.LIGHT,
+    date_format: DateFormat.ISO,
+    time_format: TimeFormat.HHMM_24,
+    diff_view: DiffViewMode.SIDE_BY_SIDE,
+    my: [],
+    change_table: [],
+    email_strategy: EmailStrategy.ENABLED,
+    default_base_for_merges: DefaultBase.AUTO_MERGE,
+  };
+}
+
+export function createApproval(): ApprovalInfo {
+  return createAccountWithId();
+}
+
+export function createAppElementChangeViewParams(): AppElementChangeViewParams {
+  return {
+    view: GerritView.CHANGE,
+    changeNum: TEST_NUMERIC_CHANGE_ID,
+    project: TEST_PROJECT_NAME,
   };
 }

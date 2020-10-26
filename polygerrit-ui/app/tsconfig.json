@@ -37,7 +37,9 @@
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
     "incremental": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+
+    "allowUmdGlobalAccess": true
   },
   // With the * pattern (without an extension), only supported files
   // are included. The supported files are .ts, .tsx, .d.ts.

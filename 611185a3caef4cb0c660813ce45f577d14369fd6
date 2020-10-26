@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7015e596_b9860c62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118400
+      },
+      "writtenOn": "2020-10-26T07:42:39Z",
+      "side": 1,
+      "message": "git fetch https://gerrit.googlesource.com/gerrit refs/changes/10/285610/1 \u0026\u0026 git reset --hard FETCH_HEAD",
+      "revId": "611185a3caef4cb0c660813ce45f577d14369fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

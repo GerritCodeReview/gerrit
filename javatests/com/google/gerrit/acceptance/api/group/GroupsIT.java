@@ -85,6 +85,7 @@ import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.account.GroupsSnapshotReader;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.auth.ldap.FakeLdapGroupBackend;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
@@ -916,7 +917,9 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void defaultGroupsCreated() throws Exception {
     Iterable<String> names = gApi.groups().list().getAsMap().keySet();
-    assertThat(names).containsAtLeast("Administrators", "Service Users").inOrder();
+    assertThat(names)
+        .containsAtLeast("Administrators", ServiceUserClassifier.SERVICE_USERS)
+        .inOrder();
   }
 
   @Test

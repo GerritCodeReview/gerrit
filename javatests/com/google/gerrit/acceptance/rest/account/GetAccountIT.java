@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.inject.Inject;
 import org.junit.Test;
 
@@ -70,7 +71,8 @@ public class GetAccountIT extends AbstractDaemonTest {
   @Test
   public void getServiceUserAccount() throws Exception {
     TestAccount serviceUser =
-        accountCreator.create("robot1", "robot1@example.com", "Ro Bot", "Ro", "Service Users");
+        accountCreator.create(
+            "robot1", "robot1@example.com", "Ro Bot", "Ro", ServiceUserClassifier.SERVICE_USERS);
     assertThat(serviceUser.tags()).containsExactly("SERVICE_USER");
     testGetAccount(serviceUser.id().toString(), serviceUser);
   }

@@ -17,6 +17,11 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.entities.Account;
 
 public interface ServiceUserClassifier {
+  /**
+   * Name of the Service Users group used by this class to determine whether an account is a service
+   * user; if an account is a part of this group, that account is considered a service user.
+   */
+  public static final String SERVICE_USERS = "Service Users";
   /** Returns {@code true} if the given user is considered a {@code Service User} user. */
   boolean isServiceUser(Account.Id user);
 

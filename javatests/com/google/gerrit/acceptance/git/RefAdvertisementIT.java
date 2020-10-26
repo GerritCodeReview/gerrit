@@ -48,6 +48,7 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.receive.ReceiveCommitsAdvertiseRefsHookChain;
 import com.google.gerrit.server.git.receive.testing.TestRefAdvertiser;
@@ -118,7 +119,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     admins = adminGroupUuid();
-    nonInteractiveUsers = groupUuid("Service Users");
+    nonInteractiveUsers = groupUuid(ServiceUserClassifier.SERVICE_USERS);
     setUpPermissions();
     setUpChanges();
   }

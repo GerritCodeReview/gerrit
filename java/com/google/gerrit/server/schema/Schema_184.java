@@ -18,6 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.git.RefUpdateUtil;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -44,7 +45,7 @@ public class Schema_184 implements NoteDbSchemaVersion {
   @Override
   public void upgrade(Arguments args, UpdateUI ui) throws Exception {
     try (Repository allUsersRepo = args.repoManager.openRepository(args.allUsers)) {
-      AccountGroup.NameKey newName = AccountGroup.nameKey("Service Users");
+      AccountGroup.NameKey newName = AccountGroup.nameKey(ServiceUserClassifier.SERVICE_USERS);
       Optional<GroupReference> nonInteractiveUsers =
           GroupNameNotes.loadAllGroups(allUsersRepo).stream()
               .filter(g -> g.getName().equals("Non-Interactive Users"))

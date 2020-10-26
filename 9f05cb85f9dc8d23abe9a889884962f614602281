@@ -33,6 +33,24 @@
       "message": "for python I don\u0027t use pycharm but vscode",
       "revId": "9f05cb85f9dc8d23abe9a889884962f614602281",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "150347d1_e90811f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-26T20:43:26Z",
+      "side": 1,
+      "message": "Editorconfig is usually universal as a standard, working across IDEs and editors.",
+      "parentUuid": "cea9ca4f_dcfc53d8",
+      "revId": "9f05cb85f9dc8d23abe9a889884962f614602281",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

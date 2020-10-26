@@ -81,6 +81,24 @@
       "parentUuid": "eee40f03_e8661d42",
       "revId": "deaef45c95873076bf410481588c50abe32ce4b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dd6ede0_7082ead8",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-26T17:20:09Z",
+      "side": 1,
+      "message": "Sorry, no. And it seems difficult: https://stackoverflow.com/questions/16937359/git-copy-file-preserving-history\n\nI\u0027ll just diff it by hand then :-)",
+      "parentUuid": "42639fa2_13929a22",
+      "revId": "deaef45c95873076bf410481588c50abe32ce4b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

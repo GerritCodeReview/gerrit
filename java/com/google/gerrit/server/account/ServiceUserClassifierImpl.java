@@ -18,17 +18,20 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.inject.Inject;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * An implementation of {@link ServiceUserClassifier} that will consider a user to be a robot if
@@ -47,15 +50,18 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
     };
   }
 
+  private final Config config;
   private final GroupCache groupCache;
   private final InternalGroupBackend internalGroupBackend;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
   @Inject
   ServiceUserClassifierImpl(
+      @GerritServerConfig Config config,
       GroupCache groupCache,
       InternalGroupBackend internalGroupBackend,
       IdentifiedUser.GenericFactory identifiedUserFactory) {
+    this.config = config;
     this.groupCache = groupCache;
     this.internalGroupBackend = internalGroupBackend;
     this.identifiedUserFactory = identifiedUserFactory;
@@ -63,6 +69,9 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
 
   @Override
   public boolean isServiceUser(Account.Id user) {
+    if (isUserWithServiceUserSuffix(user)) {
+      return true;
+    }
     Optional<InternalGroup> maybeGroup = groupCache.get(AccountGroup.nameKey("Service Users"));
     if (!maybeGroup.isPresent()) {
       return false;
@@ -97,6 +106,25 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
             .contains(maybeGroup.get().getGroupUUID());
       }
       toTraverse.addAll(currentGroup.getSubgroups());
+    }
+    return false;
+  }
+
+  /**
+   * checks whether the user has an email address which has a suffix that is considered to be a
+   * suffix for service users in accounts.serviceUserEmailSuffix.
+   *
+   * @param user the user we want to check whether they are a service user based on their email
+   *     suffix.
+   * @return true if one of the email addressses have a suffix that is configured to be a suffix for
+   *     service users.
+   */
+  private boolean isUserWithServiceUserSuffix(Account.Id user) {
+    String[] serviceUserSuffixes = config.getStringList("accounts", null, "serviceUserEmailSuffix");
+    Set<String> emails = identifiedUserFactory.create(user).getEmailAddresses();
+    if (Arrays.stream(serviceUserSuffixes)
+        .anyMatch(suffix -> emails.stream().anyMatch(email -> email.endsWith(suffix)))) {
+      return true;
     }
     return false;
   }

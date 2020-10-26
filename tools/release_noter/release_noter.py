@@ -324,10 +324,9 @@ def link_subject(commit, gerrit, options):
         if not gerrit_change:
             return
         change_number = gerrit_change[0]["_number"]
+        change_address = f"{GERRIT_URL}{CHANGE_URL}{change_number}"
         short_sha1 = commit.sha1[0:7]
-        commit.subject = (
-            f"[{short_sha1}]({GERRIT_URL}{CHANGE_URL}{change_number})\n{commit.subject}"
-        )
+        commit.subject = f"[{short_sha1}]({change_address})\n  {commit.subject}"
 
 
 def escape_these(in_change):

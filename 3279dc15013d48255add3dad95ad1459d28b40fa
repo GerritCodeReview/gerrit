@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2727f0b3_ed4a67d7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5315,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-26T20:04:06Z",
+      "side": 1,
+      "message": "in other environments using jgit it may be preferable to set this to true",
+      "parentUuid": "efdd779d_db16fe9c",
+      "range": {
+        "startLine": 5315,
+        "startChar": 73,
+        "endLine": 5315,
+        "endChar": 82
+      },
+      "revId": "3279dc15013d48255add3dad95ad1459d28b40fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "18962b0d_8ff76b9e",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-23T17:17:04Z",
       "side": 1,
       "message": "that runs",
+      "range": {
+        "startLine": 5317,
+        "startChar": 68,
+        "endLine": 5317,
+        "endChar": 75
+      },
+      "revId": "3279dc15013d48255add3dad95ad1459d28b40fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37cd0932_31676b0e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5317,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-26T20:04:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18962b0d_8ff76b9e",
       "range": {
         "startLine": 5317,
         "startChar": 68,

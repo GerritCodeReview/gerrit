@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ac2224c_f95e337c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 41
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-26T15:27:35Z",
+      "side": 1,
+      "message": "I am removing myself from the attention set, because I assume that you are working on Dmitrii\u0027s comments and on the latency tracking in the parent change. Let me know if you want me to make another pass here.",
+      "revId": "57f357bf3619e497f4f87d52156be023296a5a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

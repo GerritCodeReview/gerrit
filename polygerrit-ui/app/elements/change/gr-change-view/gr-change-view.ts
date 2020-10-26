@@ -144,6 +144,9 @@ import {
   OpenFixPreviewEvent,
   SwitchTabEvent,
 } from '../../../types/events';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
+import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -217,6 +220,10 @@ export interface GrChangeView {
     metadata: GrChangeMetadata;
     relatedChangesToggle: HTMLDivElement;
     mainChangeInfo: HTMLDivElement;
+    commitCollapseToggleButton: GrButton;
+    commitCollapseToggle: HTMLDivElement;
+    relatedChangesToggleButton: GrButton;
+    replyBtn: GrButton;
   };
 }
 @customElement('gr-change-view')
@@ -431,7 +438,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     type: String,
     computed: '_computeChangeStatusChips(_change, _mergeable, _submitEnabled)',
   })
-  _changeStatuses?: string;
+  _changeStatuses?: string[];
 
   /** If false, then the "Show more" button was used to expand. */
   @property({type: Boolean})
@@ -653,11 +660,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
     }
   }
 
-  get messagesList() {
+  get messagesList(): GrMessagesList | null {
     return this.shadowRoot!.querySelector('gr-messages-list');
   }
 
-  get threadList() {
+  get threadList(): GrThreadList | null {
     return this.shadowRoot!.querySelector('gr-thread-list');
   }
 
@@ -868,9 +875,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
     loggedIn: boolean,
     editing: boolean,
     change: ChangeInfo,
-    editMode: boolean,
-    collapsed: boolean,
-    collapsible: boolean
+    editMode?: boolean,
+    collapsed?: boolean,
+    collapsible?: boolean
   ) {
     if (
       !loggedIn ||
@@ -2568,7 +2575,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this.$.relatedChanges.reload();
   }
 
-  _computeHeaderClass(editMode: boolean) {
+  _computeHeaderClass(editMode?: boolean) {
     const classes = ['header'];
     if (editMode) {
       classes.push('editMode');

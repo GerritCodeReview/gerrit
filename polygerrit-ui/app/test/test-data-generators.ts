@@ -18,36 +18,62 @@
 import {
   AccountId,
   AccountInfo,
+  AccountsConfigInfo, ApprovalInfo,
+  AuthInfo,
   BranchName,
+  ChangeConfigInfo,
   ChangeId,
   ChangeInfo,
   ChangeInfoId,
   ChangeMessageId,
-  ChangeMessageInfo,
+  ChangeMessageInfo, ChangeViewChangeInfo,
   CommentLinkInfo,
-  CommentLinks,
+  CommentLinks, CommitId,
   CommitInfo,
   ConfigInfo,
+  DownloadInfo,
+  GerritInfo,
   GitPersonInfo,
   GitRef,
   InheritedBooleanInfo,
   MaxObjectSizeLimitInfo,
+  MergeableInfo,
   NumericChangeId,
   PatchSetNum,
+  PluginConfigInfo,
+  PreferencesInfo,
   RepoName,
   Reviewers,
   RevisionInfo,
+  SchemesInfoMap,
+  ServerInfo,
   SubmitTypeInfo,
+  SuggestInfo,
   Timestamp,
   TimezoneOffset,
+  UserConfigInfo,
 } from '../types/common';
 import {
+  AccountsVisibility,
+  AppTheme,
+  AuthType,
   ChangeStatus,
+  DateFormat,
+  DefaultBase,
+  DefaultDisplayNameConfig,
+  DiffViewMode,
+  EmailStrategy,
   InheritedBooleanInfoConfiguredValue,
+  MergeabilityComputationBehavior,
   RevisionKind,
   SubmitType,
+  TimeFormat,
 } from '../constants/constants';
 import {formatDate} from '../utils/date-util';
+import {GetDiffCommentsOutput} from '../services/services/gr-rest-api/gr-rest-api';
+import {AppElementChangeViewParams} from '../elements/gr-app-types';
+import {GerritView} from '../elements/core/gr-navigation/gr-navigation';
+import {ParsedChangeInfo} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 export function dateToTimestamp(date: Date): Timestamp {
   const nanosecondSuffix = '.000000000';
@@ -209,3 +235,139 @@ export function createChange(): ChangeInfo {
     reviewers: createReviewers(),
   };
 }
+
+export function createChangeViewChange(): ChangeViewChangeInfo {
+  return {
+    ...createChange(),
+    revisions: {
+      abc: createRevision(),
+    },
+    current_revision: 'abc' as CommitId,
+  }
+}
+
+export function createParsedChange(): ParsedChangeInfo {
+  return createChangeViewChange();
+}
+
+export function createAccountsConfig(): AccountsConfigInfo {
+  return {
+    visibility: AccountsVisibility.ALL,
+    default_display_name: DefaultDisplayNameConfig.FULL_NAME,
+  };
+}
+
+export function createAuth(): AuthInfo {
+  return {
+    auth_type: AuthType.OPENID,
+    editable_account_fields: [],
+  };
+}
+
+export function createChangeConfig(): ChangeConfigInfo {
+  return {
+    large_change: 500,
+    reply_label: 'Reply',
+    reply_tooltip: 'Reply and score',
+    // The default update_delay is 5 minutes, but we don't want to accidentally
+    // start polling in tests
+    update_delay: 0,
+    mergeability_computation_behavior:
+      MergeabilityComputationBehavior.REF_UPDATED_AND_CHANGE_REINDEX,
+    enable_attention_set: false,
+    enable_assignee: false,
+  };
+}
+
+export function createDownloadSchemes(): SchemesInfoMap {
+  return {};
+}
+
+export function createDownloadInfo(): DownloadInfo {
+  return {
+    schemes: createDownloadSchemes(),
+    archives: ['tgz', 'tar'],
+  };
+}
+
+export function createGerritInfo(): GerritInfo {
+  return {
+    all_projects: 'All-Projects',
+    all_users: 'All-Users',
+    doc_search: false,
+  };
+}
+
+export function createPluginConfig(): PluginConfigInfo {
+  return {
+    has_avatars: false,
+    js_resource_paths: [],
+    html_resource_paths: [],
+  };
+}
+
+export function createSuggestInfo(): SuggestInfo {
+  return {
+    from: 0,
+  };
+}
+
+export function createUserConfig(): UserConfigInfo {
+  return {
+    anonymous_coward_name: 'Name of user not set',
+  };
+}
+
+export function createServerInfo(): ServerInfo {
+  return {
+    accounts: createAccountsConfig(),
+    auth: createAuth(),
+    change: createChangeConfig(),
+    download: createDownloadInfo(),
+    gerrit: createGerritInfo(),
+    plugin: createPluginConfig(),
+    suggest: createSuggestInfo(),
+    user: createUserConfig(),
+  };
+}
+
+export function createGetDiffCommentsOutput(): GetDiffCommentsOutput {
+  return {
+    baseComments: [],
+    comments: [],
+  };
+}
+
+export function createMergeable(): MergeableInfo {
+  return {
+    submit_type: SubmitType.MERGE_IF_NECESSARY,
+    mergeable: false,
+  };
+}
+
+export function createPreferences(): PreferencesInfo {
+  return {
+    changes_per_page: 10,
+    theme: AppTheme.LIGHT,
+    date_format: DateFormat.ISO,
+    time_format: TimeFormat.HHMM_24,
+    diff_view: DiffViewMode.SIDE_BY_SIDE,
+    my: [],
+    change_table: [],
+    email_strategy: EmailStrategy.ENABLED,
+    default_base_for_merges: DefaultBase.AUTO_MERGE,
+  };
+}
+
+export function createApproval(): ApprovalInfo {
+  return createAccount();
+}
+
+export function createAppElementChangeViewParams(): AppElementChangeViewParams {
+  return {
+    view: GerritView.CHANGE,
+    changeNum: TEST_NUMERIC_CHANGE_ID,
+    project: TEST_PROJECT_NAME,
+  };
+}
+

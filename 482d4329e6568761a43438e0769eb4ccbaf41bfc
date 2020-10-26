@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57287467_2571a9c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-26T20:10:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dd45133_3f42e67e",
+      "revId": "482d4329e6568761a43438e0769eb4ccbaf41bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac6b2c21_7d192cea",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-26T15:08:36Z",
       "side": 1,
       "message": "this._patchRange and this._changeNum may have changed since the promises were initiated. That is somewhat unrelated to this change, but instead of arguing for ! being used, I think it is easier and more robust to just do the check.\n\nthis._patchRange could be undefined, if _paramsChanged() was just called (again).",
+      "revId": "482d4329e6568761a43438e0769eb4ccbaf41bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d46adc1_812bab49",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-26T20:10:26Z",
+      "side": 1,
+      "message": "At this point it cannot be undefined as this should be executed only after _initPatchRange which always sets _patchRange.\n\nHowever _patchRange can be undefined once the promise resolves so I updated\nthis._patchRange!.patchNum to this._patchRange?.patchNum, in which case the patchNumEquals function will return false and the end timer won\u0027t be executed.",
+      "parentUuid": "ac6b2c21_7d192cea",
       "revId": "482d4329e6568761a43438e0769eb4ccbaf41bfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -66,6 +102,24 @@
       "side": 1,
       "message": "Apparently Dmitrii and I disagree here. :-)\n\nI think it is fine to create such a method in a comment service, but not in a 3600 line file, which has the purpose of just wrapping the backend requests.",
       "parentUuid": "3e3595ff_18b58916",
+      "revId": "482d4329e6568761a43438e0769eb4ccbaf41bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea1e4062_318fa8d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2823,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-26T20:10:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a4f5030e_777dfa58",
       "revId": "482d4329e6568761a43438e0769eb4ccbaf41bfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -251,6 +251,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "51ce8a10_2b17cc11",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-26T20:10:26Z",
+      "side": 1,
+      "message": "The comment before it said move it to gr-change-view so I made the API request observing on _changeNum and _patchRange properties of gr-change-view.\n\nThe *additional* latency does make sense and would be the ideal metric but I\u0027m not sure how it fits with porting comments being loaded per patchset.",
+      "parentUuid": "3c152869_662f531d",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 9
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c191cfc4_591bf8a5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 4

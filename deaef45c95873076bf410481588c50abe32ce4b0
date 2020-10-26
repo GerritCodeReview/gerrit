@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ffc47cf_9d25c11a",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-26T09:32:23Z",
+      "side": 1,
+      "message": "The interface shouldn\u0027t depend on the Impl; I think this should be extracted too.",
+      "range": {
+        "startLine": 44,
+        "startChar": 52,
+        "endLine": 44,
+        "endChar": 57
+      },
+      "revId": "deaef45c95873076bf410481588c50abe32ce4b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eee40f03_e8661d42",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-26T09:32:23Z",
+      "side": 1,
+      "message": "Could you branch this off of the original class so that a diff is shown?",
+      "revId": "deaef45c95873076bf410481588c50abe32ce4b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

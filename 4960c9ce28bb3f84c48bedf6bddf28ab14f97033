@@ -16,6 +16,23 @@
       "message": "There is a bug in our validation process: this Bazel version bump should check *ALL* tests but it isn\u0027t. Let me address that in the gerrit-ci-scripts and, in the meantime, verify this manually.",
       "revId": "4960c9ce28bb3f84c48bedf6bddf28ab14f97033",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "967d78a0_e33e8311",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2020-10-27T21:22:24Z",
+      "side": 1,
+      "message": "Should I submit, or you still need to tweak the ci, then you\u0027ll submit?",
+      "revId": "4960c9ce28bb3f84c48bedf6bddf28ab14f97033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -69,6 +69,24 @@
       "parentUuid": "d2f378d4_798811b3",
       "revId": "bf66d4e32d43676497a0ea86b78b416a76175ffc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ef743e2_8e10053f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-27T22:12:15Z",
+      "side": 1,
+      "message": "Marco, sorry for my late reply. I discussed the upgrade today in our team meeting.\n\nIs it possible that we wait postpone the upgrade (probably until the end of the next release cycle)?\n\nEdwin also pointed me to the documentation: since this is a minor version upgrade and doesn\u0027t contain a major feature that we need in Gerrit, I think it\u0027s fine to postpone. What do you think? \nDoing a library upgrade is time consuming because we upgrade the library and run the tests against all its dependencies (not just Gerrit) with a special process that takes roughly a day (+ probable additional iterations in case of broken targets / tests).\n\n\u003e RE: who should we add to this review from Google?\nI think I\u0027d be responsible for this since I did the last upgrade.\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries",
+      "parentUuid": "88f14ef3_cf835ea3",
+      "revId": "bf66d4e32d43676497a0ea86b78b416a76175ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

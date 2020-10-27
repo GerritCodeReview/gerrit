@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a72f3c7_e4bc22a3",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-27T09:41:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2680aca9_65eaa2da",
+      "revId": "592e6afd3a323caed18647fe1c7c2c5fa5e448b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1e7c1bd_57b603d8",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-26T17:20:09Z",
       "side": 1,
       "message": "Could you add comments for the numbers, and for the method itself?",
+      "revId": "592e6afd3a323caed18647fe1c7c2c5fa5e448b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9fc8b5a_de1d863b",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-27T09:41:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1e7c1bd_57b603d8",
       "revId": "592e6afd3a323caed18647fe1c7c2c5fa5e448b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "629dfe90_5272a2bf",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-27T09:41:11Z",
+      "side": 1,
+      "message": "Yes, you are correct.\n\nI see the tradeoff, however I\u0027m in favour of your last statement of having 2 separate entities to avoid confusion of having a key which we\u0027re not sure for which cache it belongs to. Also having\n\u003e builder().aTree(..).bTree(..).build()\nand\n\u003e builder().aCommit(..).bCommit(..).build()\n\nare more verbose and give the reader more clarity for what is going on instead of having, instead of\n\u003e builder().aObjectId(..).bObjectId(..).build()\n\nI did not do any change here.",
+      "parentUuid": "c75c63c7_ee72bfec",
+      "revId": "592e6afd3a323caed18647fe1c7c2c5fa5e448b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e306c8a_d816e522",
@@ -65,6 +119,24 @@
       "writtenOn": "2020-10-26T17:20:09Z",
       "side": 1,
       "message": "WDYT about (de)serializing directoy (from) to the proto?",
+      "revId": "592e6afd3a323caed18647fe1c7c2c5fa5e448b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58a6e3c8_eece48db",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-27T09:41:11Z",
+      "side": 1,
+      "message": "Done. I also added a separate proto definition for the ModifiedFilesCacheKey.",
+      "parentUuid": "5e306c8a_d816e522",
       "revId": "592e6afd3a323caed18647fe1c7c2c5fa5e448b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

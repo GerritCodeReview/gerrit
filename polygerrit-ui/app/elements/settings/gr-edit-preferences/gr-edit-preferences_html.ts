@@ -25,7 +25,7 @@ export const htmlTemplate = html`
   </style>
   <div id="editPreferences" class="gr-form-styles">
     <section>
-      <span class="title">Tab width</span>
+      <label for="editTabWidth" class="title">Tab width</label>
       <span class="value">
         <iron-input
           type="number"
@@ -37,6 +37,7 @@ export const htmlTemplate = html`
         >
           <input
             is="iron-input"
+            id="editTabWidth"
             type="number"
             prevent-invalid-input=""
             allowed-pattern="[0-9]"
@@ -48,7 +49,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Columns</span>
+      <label for="editColumns" class="title">Columns</label>
       <span class="value">
         <iron-input
           type="number"
@@ -59,6 +60,7 @@ export const htmlTemplate = html`
           on-change="_handleEditPrefsChanged"
         >
           <input
+            id="editColumns"
             is="iron-input"
             type="number"
             prevent-invalid-input=""
@@ -71,7 +73,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Indent unit</span>
+      <label for="indentUnit" class="title">Indent unit</label>
       <span class="value">
         <iron-input
           type="number"
@@ -83,6 +85,7 @@ export const htmlTemplate = html`
         >
           <input
             is="iron-input"
+            id="indentUnit"
             type="number"
             prevent-invalid-input=""
             allowed-pattern="[0-9]"
@@ -94,7 +97,9 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Syntax highlighting</span>
+      <label for="editSyntaxHighlighting" class="title"
+        >Syntax highlighting</label
+      >
       <span class="value">
         <input
           id="editSyntaxHighlighting"
@@ -105,7 +110,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Show tabs</span>
+      <label for="editShowTabs" class="title">Show tabs</label>
       <span class="value">
         <input
           id="editShowTabs"
@@ -116,7 +121,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Match brackets</span>
+      <label for="showMatchBrackets" class="title">Match brackets</label>
       <span class="value">
         <input
           id="showMatchBrackets"
@@ -127,7 +132,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Line wrapping</span>
+      <label for="editShowLineWrapping" class="title">Line wrapping</label>
       <span class="value">
         <input
           id="editShowLineWrapping"
@@ -138,7 +143,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Indent with tabs</span>
+      <label for="showIndentWithTabs" class="title">Indent with tabs</label>
       <span class="value">
         <input
           id="showIndentWithTabs"
@@ -149,7 +154,9 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Auto close brackets</span>
+      <label for="showAutoCloseBrackets" class="title"
+        >Auto close brackets</label
+      >
       <span class="value">
         <input
           id="showAutoCloseBrackets"

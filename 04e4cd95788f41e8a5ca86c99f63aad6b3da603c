@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79265e00_44650cbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-27T15:27:53Z",
+      "side": 1,
+      "message": "No comments after ten days. Already amended through many follow-ups.",
+      "revId": "04e4cd95788f41e8a5ca86c99f63aad6b3da603c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

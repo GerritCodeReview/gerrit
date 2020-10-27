@@ -25,10 +25,11 @@ export const htmlTemplate = html`
   </style>
   <div id="diffPreferences" class="gr-form-styles">
     <section>
-      <span class="title">Context</span>
+      <label for="contextLineSelect" class="title">Context</label>
       <span class="value">
         <gr-select id="contextSelect" bind-value="{{diffPrefs.context}}">
           <select
+            id="contextLineSelect"
             on-keypress="_handleDiffPrefsChanged"
             on-change="_handleDiffPrefsChanged"
           >
@@ -44,7 +45,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Fit to screen</span>
+      <label for="lineWrappingInput" class="title">Fit to screen</label>
       <span class="value">
         <input
           id="lineWrappingInput"
@@ -55,7 +56,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Diff width</span>
+      <label for="columnsInput" class="title">Diff width</label>
       <span class="value">
         <iron-input
           type="number"
@@ -79,7 +80,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Tab width</span>
+      <label for="tabSizeInput" class="title">Tab width</label>
       <span class="value">
         <iron-input
           type="number"
@@ -103,7 +104,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section hidden$="[[!diffPrefs.font_size]]">
-      <span class="title">Font size</span>
+      <label for="fontSizeInput" class="title">Font size</label>
       <span class="value">
         <iron-input
           type="number"
@@ -127,7 +128,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Show tabs</span>
+      <label for="showTabsInput" class="title">Show tabs</label>
       <span class="value">
         <input
           id="showTabsInput"
@@ -138,7 +139,9 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Show trailing whitespace</span>
+      <label for="showTrailingWhitespaceInput" class="title"
+        >Show trailing whitespace</label
+      >
       <span class="value">
         <input
           id="showTrailingWhitespaceInput"
@@ -149,7 +152,9 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Syntax highlighting</span>
+      <label for="syntaxHighlightInput" class="title"
+        >Syntax highlighting</label
+      >
       <span class="value">
         <input
           id="syntaxHighlightInput"
@@ -160,7 +165,9 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Automatically mark viewed files reviewed</span>
+      <label for="automaticReviewInput" class="title"
+        >Automatically mark viewed files reviewed</label
+      >
       <span class="value">
         <input
           id="automaticReviewInput"
@@ -172,10 +179,11 @@ export const htmlTemplate = html`
     </section>
     <section>
       <div class="pref">
-        <span class="title">Ignore Whitespace</span>
+        <label for="ignoreWhiteSpace" class="title">Ignore Whitespace</label>
         <span class="value">
           <gr-select bind-value="{{diffPrefs.ignore_whitespace}}">
             <select
+              id="ignoreWhiteSpace"
               on-keypress="_handleDiffPrefsChanged"
               on-change="_handleDiffPrefsChanged"
             >

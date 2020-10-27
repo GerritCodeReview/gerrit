@@ -16,6 +16,29 @@
       "message": "There is one necessary fix, done in the follow-up change I3b717e93.",
       "revId": "e73ca4cf3a9cf748427d8d26d44354fa08b3d64d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "550836ec_65c2ff4b",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-27T15:44:06Z",
+      "side": 1,
+      "message": "This assignment looks odd. Should core_changes or plugin_changes() be renamed?",
+      "range": {
+        "startLine": 407,
+        "startChar": 4,
+        "endLine": 407,
+        "endChar": 35
+      },
+      "revId": "e73ca4cf3a9cf748427d8d26d44354fa08b3d64d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -20,6 +20,7 @@ export const htmlTemplate = html`
   <style include="shared-styles">
     .key {
       background-color: var(--chip-background-color);
+      color: var(--primary-text-color);
       border: 1px solid var(--border-color);
       border-radius: var(--border-radius);
       display: inline-block;

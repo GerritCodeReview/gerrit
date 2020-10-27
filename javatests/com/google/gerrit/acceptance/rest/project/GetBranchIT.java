@@ -45,8 +45,10 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
@@ -56,8 +58,15 @@ public class GetBranchIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
+  @ConfigSuite.Config
+  public static Config skipFalse() {
+    Config config = new Config();
+    config.setBoolean("auth", null, "skipFullRefEvaluationIfAllRefsAreVisible", false);
+    return config;
+  }
+
   @Test
-  public void cannotGetNonExistingBranch() throws Exception {
+  public void cannotGetNonExistingBranch() {
     assertBranchNotFound(project, RefNames.fullName("non-existing"));
   }
 
@@ -74,7 +83,7 @@ public class GetBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cannotGetNonVisibleBranch() throws Exception {
+  public void cannotGetNonVisibleBranch() {
     String branchName = "master";
 
     // block read access to the branch
@@ -89,7 +98,7 @@ public class GetBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cannotGetNonVisibleBranchByShortName() throws Exception {
+  public void cannotGetNonVisibleBranchByShortName() {
     String branchName = "master";
 
     // block read access to the branch
@@ -430,7 +439,7 @@ public class GetBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cannotGetSymbolicRefThatPointsToNonVisibleBranch() throws Exception {
+  public void cannotGetSymbolicRefThatPointsToNonVisibleBranch() {
     // block read access to the branch to which HEAD points by default
     projectOperations
         .project(project)

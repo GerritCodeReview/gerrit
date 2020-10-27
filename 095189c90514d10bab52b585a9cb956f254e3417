@@ -108,6 +108,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0033ba6_0b13c0d5",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-27T09:45:43Z",
+      "side": 1,
+      "message": "What is the benefit of creating objects with required properties only?\n\nWhat most tests want is a \"normal\" object, not a minimal/bare object.\n\nWe will probably need slightly adapted create methods for different needs, see also other comment. So maybe we should come up with a naming pattern such as:\n\n  createChange() for normal object\n  createChangeBare() for object with required props only\n\nWDYT?",
+      "parentUuid": "e753c710_baa0ba6a",
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a914843_7b0d2245",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-27T09:45:43Z",
+      "side": 1,
+      "message": "I understand your concerns and I share them. Generally it is great to stick to a consistent pattern such as\n\n  const change \u003d {\n    ...createChange(),\n    id: \u0027abc\u0027 as ChangeInfoId,\n    _number: 5 as NumericChangeId,\n  }\n\nHowever I would allow exceptions to that rule, if it lets us write lots of shorter tests. I would like to avoid hundreds of tests with\n\n  const account \u003d {\n    ...createAccount(),\n    _account_id: 5,\n  };\n\ninstead of just `const account \u003d createAccount(5);`. That would waste a lot of lines.\n\nIf you would like to not break the pattern, then I would suggest to create a separate method `createAccountWithId()`.\n\nOTOH I guess you can also write your proposal on one line:\n\n  const account \u003d {...createAccount(), _account_id: 5};\n\nMaybe we should allow `createAccountSomething(param)` methods for the use case where `param` affects multiple properties of the object, for example when `id in `createAccountWithId(id)` also affects the name and the email address, or when `createChangeMerged()` does not just change the status to `MERGED`, but also sets a submitted timestamp.\n\nWDYT?",
+      "parentUuid": "799a0ef9_f72df7af",
+      "range": {
+        "startLine": 91,
+        "startChar": 17,
+        "endLine": 91,
+        "endChar": 18
+      },
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6cdb808f_762418a1",
         "filename": "polygerrit-ui/app/test/test-data-generators.ts",
         "patchSetId": 7

@@ -33,6 +33,23 @@
       "message": "As of cl/338424823, Zoss returns null for projects it\u0027s not configured for.\n\n+1 as per discussion on https://bugs.chromium.org/p/chromium/issues/detail?id\u003d1127934",
       "revId": "2b801bb697ed32c42e2bf03fba93c415daef5fc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdc27394_4dedb9ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2020-10-27T22:32:38Z",
+      "side": 1,
+      "message": "Prakhar, could you please +1 if you have verified?",
+      "revId": "2b801bb697ed32c42e2bf03fba93c415daef5fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

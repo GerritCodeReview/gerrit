@@ -47,7 +47,7 @@ import {
 } from '../../../types/types';
 import {
   Base64ImageFile,
-  BlameInfo,
+  BlameInfo, ChangeInfo,
   CommentRange,
   DiffInfo,
   DiffPreferencesInfo,
@@ -165,6 +165,9 @@ export class GrDiffHost extends GestureEventListeners(
 
   @property({type: Number})
   changeNum?: NumericChangeId;
+
+  @property({type: Object})
+  change?: ChangeInfo;
 
   @property({type: Boolean})
   noAutoRender = false;
@@ -402,9 +405,11 @@ export class GrDiffHost extends GestureEventListeners(
 
   _getCoverageData() {
     if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
+    if (!this.change) throw new Error('Missing required "change" prop.');
     if (!this.path) throw new Error('Missing required "path" prop.');
     if (!this.patchRange) throw new Error('Missing required "patchRange".');
     const changeNum = this.changeNum;
+    const change = this.change;
     const path = this.path;
     // Coverage providers do not provide data for EDIT and PARENT patch sets.
 
@@ -419,12 +424,13 @@ export class GrDiffHost extends GestureEventListeners(
         if (!coverageAnnotationApi) return;
         const provider = coverageAnnotationApi.getCoverageProvider();
         if (!provider) return;
-        return provider(changeNum, path, basePatchNum, patchNum).then(
+        return provider(changeNum, path, basePatchNum, patchNum, change).then(
           coverageRanges => {
             if (!this.patchRange) throw new Error('Missing "patchRange".');
             if (
               !coverageRanges ||
               changeNum !== this.changeNum ||
+              change !== this.change ||
               path !== this.path ||
               basePatchNum !== toNumberOnly(this.patchRange.basePatchNum) ||
               patchNum !== toNumberOnly(this.patchRange.patchNum)

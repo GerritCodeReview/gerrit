@@ -395,6 +395,7 @@ export const htmlTemplate = html`
     files-weblinks="{{_filesWeblinks}}"
     diff="{{_diff}}"
     change-num="[[_changeNum]]"
+    change="[[change]]"
     commit-range="[[_commitRange]]"
     patch-range="[[_patchRange]]"
     file="[[_file]]"

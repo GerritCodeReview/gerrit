@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3693ad1d_9fa64c5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1092381
+      },
+      "writtenOn": "2020-10-27T18:41:27Z",
+      "side": 1,
+      "message": "Hi Ben, Dhruv,\n\nAs agreed in https://groups.google.com/a/google.com/g/zoss-eng/c/YQsogdof1F4/m/sdg-VDYSBQAJ, we need the change info passed to the coverage provider and this was the way suggested by Ben.\nThis change was based on https://gerrit-review.googlesource.com/c/gerrit/+/282436, but adapted to the recent TS changes.\nHowever I\u0027m not familiar enough with polygerrit UI to be able to assess whether all places got covered, so I would be really grateful for help here!\n\nThanks, \nGosia",
+      "revId": "38407bc987beaf9cbf2f8d46b80ca94d2541e4f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "2e38fa72_109070fb",
       "revId": "2cda8c655aa9b6f38710bbf5155d485dafe7f86e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60c1d251_3c100af2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-27T17:00:04Z",
+      "side": 1,
+      "message": "I5ded0d1aa is what recently enforced the correct type of Number for this._patchRange.patchNum which caused this issue.",
+      "parentUuid": "e82b5fe3_53327d7e",
+      "revId": "2cda8c655aa9b6f38710bbf5155d485dafe7f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

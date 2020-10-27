@@ -22,6 +22,30 @@
       },
       "revId": "f17140119d7faf67c69746d2c7dc196c57329b6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58e652fa_10297eea",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-27T23:29:26Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "5975e57b_c81cd787",
+      "range": {
+        "startLine": 279,
+        "startChar": 6,
+        "endLine": 279,
+        "endChar": 9
+      },
+      "revId": "f17140119d7faf67c69746d2c7dc196c57329b6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

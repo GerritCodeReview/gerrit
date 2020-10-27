@@ -5,6 +5,7 @@ import re
 import subprocess
 
 from enum import Enum
+from jinja2 import Template
 from pygerrit2 import Anonymous, GerritRestAPI
 
 EXCLUDED_SUBJECTS = {
@@ -60,12 +61,17 @@ CHANGE_ID_PATTERN = r"^Change-Id: [I0-9a-z]+$"
 PLUGIN_PATTERN = r"plugins/([a-z\-]+)"
 RELEASE_OPTION_PATTERN = r".+\.\.(v.+)"
 RELEASE_TAG_PATTERN = r"v[0-9]+\.[0-9]+\.[0-9]+$"
+RELEASE_VERSIONS_PATTERN = r"v([0-9\.\-rc]+)\.\.v([0-9\.\-rc]+)"
+RELEASE_MAJOR_PATTERN = r"^([0-9]+\.[0-9]+).+"
+RELEASE_DOC_PATTERN = r"^([0-9]+\.[0-9]+\.[0-9]+).*"
 
 CHANGE_URL = "/c/gerrit/+/"
 COMMIT_URL = "/changes/?q=commit%3A"
 GERRIT_URL = "https://gerrit-review.googlesource.com"
 ISSUE_URL = "https://bugs.chromium.org/p/gerrit/issues/detail?id="
+
 CHECK_DISCLAIMER = "experimental and much slower"
+MARKDOWN = "release_noter.md"
 GIT_COMMAND = "git"
 UTF8 = "UTF-8"
 
@@ -346,11 +352,29 @@ def print_from(this_change, md):
     md.write(f" {this_change.subject}\n")
 
 
-def print_notes(commits, submodules):
-    with open("release_noter.md", "w") as md:
-        md.write("# Release notes\n")
+def print_template(md, options):
+    previous = "0.0.0"
+    new = "0.1.0"
+    versions = re.search(RELEASE_VERSIONS_PATTERN, options.range)
+    if versions is not None:
+        previous = versions.group(1)
+        new = versions.group(2)
+    data = {
+        "previous": previous,
+        "new": new,
+        "major": re.search(RELEASE_MAJOR_PATTERN, new).group(1),
+        "doc": re.search(RELEASE_DOC_PATTERN, new).group(1),
+    }
+    template = Template(open(f"{MARKDOWN}.template").read())
+    md.write(f"{template.render(data=data)}\n")
+
+
+def print_notes(commits, submodules, options):
+    with open(MARKDOWN, "w") as md:
+        print_template(md, options)
         print_submodules(submodules, md)
         print_commits(commits, md)
+        md.write("\n## Bugfix releases\n")
 
 
 if __name__ == "__main__":
@@ -361,4 +385,4 @@ if __name__ == "__main__":
     core_changes, submodule_changes = parse_log(
         change_log, release_tag, gerrit_api, script_options
     )
-    print_notes(core_changes, submodule_changes)
+    print_notes(core_changes, submodule_changes, script_options)

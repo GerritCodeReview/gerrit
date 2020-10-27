@@ -21,6 +21,10 @@ The make `clean` target removes any previously made `release_noter.md` file.
 make help
 ```
 
+* The resulting `release_noter.md` file can be edited then copied over to the `homepage`.
+  * The markdown file name should be `x.y.md`, where `x.y` is the major release version.
+  * Alternatively, an existing `x.y.md` can be edited with `release_noter.md` snippets.
+
 ## Testing
 
 ```bash

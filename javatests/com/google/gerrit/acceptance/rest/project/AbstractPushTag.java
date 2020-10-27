@@ -31,7 +31,9 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -50,6 +52,13 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     TagType(String createPermission) {
       this.createPermission = createPermission;
     }
+  }
+
+  @ConfigSuite.Config
+  public static Config skipFalse() {
+    Config config = new Config();
+    config.setBoolean("auth", null, "skipFullRefEvaluationIfAllRefsAreVisible", false);
+    return config;
   }
 
   @Inject private ProjectOperations projectOperations;

@@ -938,18 +938,18 @@ export class GrDiffView extends KeyboardShortcutMixin(
     for (const commitSha in this._change.revisions) {
       if (!hasOwnProperty(this._change.revisions, commitSha)) continue;
       const revision = this._change.revisions[commitSha];
-      const patchNum = revision._number.toString();
-      if (patchNum === this._patchRange.patchNum) {
+      const patchNum = revision._number;
+      if (patchNumEquals(patchNum, this._patchRange.patchNum)) {
         commit = commitSha as CommitId;
         const commitObj = revision.commit;
         const parents = commitObj?.parents || [];
         if (
-          this._patchRange.basePatchNum === ParentPatchSetNum &&
+          patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum) &&
           parents.length
         ) {
           baseCommit = parents[parents.length - 1].commit;
         }
-      } else if (patchNum === this._patchRange.basePatchNum) {
+      } else if (patchNumEquals(patchNum, this._patchRange.basePatchNum)) {
         baseCommit = commitSha as CommitId;
       }
     }

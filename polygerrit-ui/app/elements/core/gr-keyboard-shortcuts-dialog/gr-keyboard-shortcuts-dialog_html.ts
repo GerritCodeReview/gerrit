@@ -30,21 +30,39 @@ export const htmlTemplate = html`
       display: flex;
       padding: 0 var(--spacing-xxl) var(--spacing-xxl);
     }
+    .column {
+      flex: 50%;
+    }
     header {
       align-items: center;
       border-bottom: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
     }
-    table:last-of-type {
-      margin-left: var(--spacing-xxl);
+    table caption {
+      font-weight: var(--font-weight-bold);
+      padding-top: var(--spacing-l);
+      text-align: left;
+    }
+    tr {
+      height: 32px;
     }
     td {
       padding: var(--spacing-xs) 0;
     }
-    td:first-child {
+    td:first-child,
+    th:first-child {
       padding-right: var(--spacing-m);
       text-align: right;
+      min-width: 160px;
+      color: var(--deemphasized-text-color);
+    }
+    td:second-child {
+      min-width: 200px;
+    }
+    th {
+      color: var(--deemphasized-text-color);
+      text-align: left;
     }
     .header {
       font-weight: var(--font-weight-bold);
@@ -59,33 +77,19 @@ export const htmlTemplate = html`
     <gr-button link="" on-click="_handleCloseTap">Close</gr-button>
   </header>
   <main>
-    <table>
-      <tbody>
-        <template is="dom-repeat" items="[[_left]]">
-          <tr>
-            <td></td>
-            <td class="header">[[item.section]]</td>
-          </tr>
-          <template is="dom-repeat" items="[[item.shortcuts]]" as="shortcut">
+    <div class="column">
+      <template is="dom-repeat" items="[[_left]]">
+        <table>
+          <caption>
+            [[item.section]]
+          </caption>
+          <thead>
             <tr>
-              <td>
-                <gr-key-binding-display binding="[[shortcut.binding]]">
-                </gr-key-binding-display>
-              </td>
-              <td>[[shortcut.text]]</td>
+              <th>Key</th>
+              <th>Action</th>
             </tr>
-          </template>
-        </template>
-      </tbody>
-    </table>
-    <template is="dom-if" if="[[_right]]">
-      <table>
-        <tbody>
-          <template is="dom-repeat" items="[[_right]]">
-            <tr>
-              <td></td>
-              <td class="header">[[item.section]]</td>
-            </tr>
+          </thead>
+          <tbody>
             <template is="dom-repeat" items="[[item.shortcuts]]" as="shortcut">
               <tr>
                 <td>
@@ -95,10 +99,36 @@ export const htmlTemplate = html`
                 <td>[[shortcut.text]]</td>
               </tr>
             </template>
-          </template>
-        </tbody>
-      </table>
-    </template>
+          </tbody>
+        </table>
+      </template>
+    </div>
+    <div class="column">
+      <template is="dom-repeat" items="[[_right]]">
+        <table>
+          <caption>
+            [[item.section]]
+          </caption>
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template is="dom-repeat" items="[[item.shortcuts]]" as="shortcut">
+              <tr>
+                <td>
+                  <gr-key-binding-display binding="[[shortcut.binding]]">
+                  </gr-key-binding-display>
+                </td>
+                <td>[[shortcut.text]]</td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </template>
+    </div>
   </main>
   <footer></footer>
 `;

@@ -129,7 +129,7 @@ const THROTTLE_INTERVAL_MS = 500;
 export enum ShortcutSection {
   ACTIONS = 'Actions',
   DIFFS = 'Diffs',
-  EVERYWHERE = 'Everywhere',
+  EVERYWHERE = 'Global Shortcuts',
   FILE_LIST = 'File list',
   NAVIGATION = 'Navigation',
   REPLY_DIALOG = 'Reply dialog',

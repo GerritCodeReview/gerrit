@@ -16,6 +16,24 @@
       "message": "Thanks for the posted LC score. -Only missing CR now.",
       "revId": "51eea585bd29cc926e1c357ad415fa6afb9a9879",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c74aa81b_05f76232",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-27T12:34:43Z",
+      "side": 1,
+      "message": "\u003e Thanks for the posted LC score. -Only missing CR now.\n\nGiven the CR delay and positive LC and check scores, self-approving now.",
+      "parentUuid": "4953021b_87c555d9",
+      "revId": "51eea585bd29cc926e1c357ad415fa6afb9a9879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

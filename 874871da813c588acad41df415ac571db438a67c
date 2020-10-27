@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a15dbfc3_f65a244d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-27T21:53:01Z",
+      "side": 1,
+      "message": "The failures are related to the replication plugin, which is unrelated:\n    FAILED  com.googlesource.gerrit.plugins.replication.ReplicationIT.shouldFirePendingOnlyToStoredUri (20.0s)\n    FAILED  com.googlesource.gerrit.plugins.replication.ReplicationIT.shouldReplicateNewBranch (0.3s)\n    FAILED  com.googlesource.gerrit.plugins.replication.ReplicationIT.shouldNotDrainTheQueueWhenReloading (0.3s)",
+      "revId": "874871da813c588acad41df415ac571db438a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

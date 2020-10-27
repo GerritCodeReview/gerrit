@@ -69,7 +69,7 @@ suite('gr-patch-range-select tests', () => {
   test('enabled/disabled options', () => {
     const patchRange = {
       basePatchNum: 'PARENT',
-      patchNum: '3',
+      patchNum: 3,
     };
     const sortedRevisions = [
       {_number: 3},

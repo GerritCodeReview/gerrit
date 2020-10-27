@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7440707a_530ec7d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-27T19:02:48Z",
+      "side": 1,
+      "message": "Should there be a test on polygerrit side verifying that all arguments are sent to the provider?",
+      "revId": "61442c3ca92f2add2beab00fcd46947fbec9b142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

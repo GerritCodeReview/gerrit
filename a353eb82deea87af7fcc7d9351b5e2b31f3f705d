@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "241a81ea_d55c0ba9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-27T14:39:50Z",
+      "side": 1,
+      "message": "This change will be replaced with I363ad0df once the latter (topic) passes and can be merged upstream as a base. That downstream change already has LC reviewers.",
+      "revId": "a353eb82deea87af7fcc7d9351b5e2b31f3f705d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

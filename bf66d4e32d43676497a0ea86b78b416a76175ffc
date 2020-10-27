@@ -51,6 +51,24 @@
       "parentUuid": "d8e77dcd_0e6ad13a",
       "revId": "bf66d4e32d43676497a0ea86b78b416a76175ffc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88f14ef3_cf835ea3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-27T20:34:49Z",
+      "side": 1,
+      "message": "\u003e \u003e Thanks for inviting me for review. Do we really need this upgrade? I\u0027d need to perform an internal upgrade in google3 first before merging this, which may take some time.\n\u003e \n\u003e I tried answering this question in the commit message; thanks @Youssef.\n\nYoussef, are you still willing to work on this LC check? If not, who should we add to this review from Google?",
+      "parentUuid": "d2f378d4_798811b3",
+      "revId": "bf66d4e32d43676497a0ea86b78b416a76175ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

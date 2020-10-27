@@ -1316,7 +1316,7 @@ suite('gr-change-view tests', () => {
 
     const value = {
       view: GerritNav.View.CHANGE,
-      patchNum: '1',
+      patchNum: 1,
     };
     element._paramsChanged(value);
     assert.isTrue(reloadStub.calledOnce);
@@ -2285,7 +2285,7 @@ suite('gr-change-view tests', () => {
         }));
     sinon.stub(element, '_getEdit').returns(Promise.resolve());
     sinon.stub(element, '_getPreferences').returns(Promise.resolve({}));
-    element._patchRange = {patchNum: '2'};
+    element._patchRange = {patchNum: 2};
     return element._getChangeDetail().then(() => {
       assert.strictEqual(element._selectedRevision, revision2);
 

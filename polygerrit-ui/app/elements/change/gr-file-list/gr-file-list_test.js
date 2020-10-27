@@ -114,7 +114,7 @@ suite('gr-file-list tests', () => {
       element.numFilesShown = 200;
       element.patchRange = {
         basePatchNum: 'PARENT',
-        patchNum: '2',
+        patchNum: 2,
       };
       saveStub = sinon.stub(element, '_saveReviewedState').callsFake(
           () => Promise.resolve());
@@ -419,17 +419,17 @@ suite('gr-file-list tests', () => {
 
       const parentTo1 = {
         basePatchNum: 'PARENT',
-        patchNum: '1',
+        patchNum: 1,
       };
 
       const parentTo2 = {
         basePatchNum: 'PARENT',
-        patchNum: '2',
+        patchNum: 2,
       };
 
       const _1To2 = {
-        basePatchNum: '1',
-        patchNum: '2',
+        basePatchNum: 1,
+        patchNum: 2,
       };
 
       assert.equal(
@@ -593,7 +593,7 @@ suite('gr-file-list tests', () => {
         element.changeNum = '42';
         element.patchRange = {
           basePatchNum: 'PARENT',
-          patchNum: '2',
+          patchNum: 2,
         };
         element.change = {_number: 42};
         element.$.fileCursor.setCursorAtIndex(0);
@@ -650,7 +650,7 @@ suite('gr-file-list tests', () => {
         MockInteractions.pressAndReleaseKeyOn(element, 79, null, 'o');
 
         assert(navStub.lastCall.calledWith(element.change,
-            'file_added_in_rev2.txt', '2'),
+            'file_added_in_rev2.txt', 2),
         'Should navigate to /c/42/2/file_added_in_rev2.txt');
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
@@ -826,7 +826,7 @@ suite('gr-file-list tests', () => {
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
-        patchNum: '2',
+        patchNum: 2,
       };
       element.$.fileCursor.setCursorAtIndex(0);
       const reviewSpy = sinon.spy(element, '_reviewFile');
@@ -881,7 +881,7 @@ suite('gr-file-list tests', () => {
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
-        patchNum: '2',
+        patchNum: 2,
       };
 
       const clickSpy = sinon.spy(element, '_handleFileListClick');
@@ -916,7 +916,7 @@ suite('gr-file-list tests', () => {
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
-        patchNum: '2',
+        patchNum: 2,
       };
       element.editMode = true;
       flush();
@@ -937,7 +937,7 @@ suite('gr-file-list tests', () => {
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
-        patchNum: '2',
+        patchNum: 2,
       };
       element.$.fileCursor.setCursorAtIndex(0);
       sinon.stub(element, '_expandedFilesChanged');
@@ -964,7 +964,7 @@ suite('gr-file-list tests', () => {
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
-        patchNum: '2',
+        patchNum: 2,
       };
       sinon.spy(element, '_updateDiffPreferences');
       element.$.fileCursor.setCursorAtIndex(0);
@@ -998,7 +998,7 @@ suite('gr-file-list tests', () => {
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
-        patchNum: '2',
+        patchNum: 2,
       };
       sinon.stub(element, '_expandedFilesChanged');
       flush();
@@ -1593,7 +1593,7 @@ suite('gr-file-list tests', () => {
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
-        patchNum: '2',
+        patchNum: 2,
       };
       sinon.stub(window, 'fetch').callsFake(() => Promise.resolve());
       flush();

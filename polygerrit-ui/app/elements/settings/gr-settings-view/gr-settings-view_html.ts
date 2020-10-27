@@ -136,10 +136,12 @@ export const htmlTemplate = html`
       </h2>
       <fieldset id="preferences">
         <section>
-          <span class="title">Changes per page</span>
+          <label class="title" for="changesPerPageSelect"
+            >Changes per page</label
+          >
           <span class="value">
             <gr-select bind-value="{{_localPrefs.changes_per_page}}">
-              <select>
+              <select id="changesPerPageSelect">
                 <option value="10">10 rows per page</option>
                 <option value="25">25 rows per page</option>
                 <option value="50">50 rows per page</option>
@@ -149,10 +151,12 @@ export const htmlTemplate = html`
           </span>
         </section>
         <section>
-          <span class="title">Date/time format</span>
+          <label class="title" for="dateTimeFormatSelect"
+            >Date/time format</label
+          >
           <span class="value">
             <gr-select bind-value="{{_localPrefs.date_format}}">
-              <select>
+              <select id="dateTimeFormatSelect">
                 <option value="STD">Jun 3 ; Jun 3, 2016</option>
                 <option value="US">06/03 ; 06/03/16</option>
                 <option value="ISO">06-03 ; 2016-06-03</option>
@@ -169,10 +173,12 @@ export const htmlTemplate = html`
           </span>
         </section>
         <section>
-          <span class="title">Email notifications</span>
+          <label class="title" for="emailNotificationsSelect"
+            >Email notifications</label
+          >
           <span class="value">
             <gr-select bind-value="{{_localPrefs.email_strategy}}">
-              <select>
+              <select id="emailNotificationsSelect">
                 <option value="CC_ON_OWN_COMMENTS">Every comment</option>
                 <option value="ENABLED">Only comments left by others</option>
                 <option value="ATTENTION_SET_ONLY"
@@ -184,10 +190,10 @@ export const htmlTemplate = html`
           </span>
         </section>
         <section hidden$="[[!_localPrefs.email_format]]">
-          <span class="title">Email format</span>
+          <label class="title" for="emailFormatSelect">Email format</label>
           <span class="value">
             <gr-select bind-value="{{_localPrefs.email_format}}">
-              <select>
+              <select id="emailFormatSelect">
                 <option value="HTML_PLAINTEXT">HTML and plaintext</option>
                 <option value="PLAINTEXT">Plaintext only</option>
               </select>

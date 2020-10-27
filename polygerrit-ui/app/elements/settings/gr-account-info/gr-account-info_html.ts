@@ -79,7 +79,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section id="nameSection">
-      <span class="title">Full name</span>
+      <label class="title" for="nameInput">Full name</label>
       <span hidden$="[[nameMutable]]" class="value">[[_account.name]]</span>
       <span hidden$="[[!nameMutable]]" class="value">
         <iron-input on-keydown="_handleKeydown" bind-value="{{_account.name}}">
@@ -94,7 +94,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Display name</span>
+      <label class="title" for="displayNameInput">Display name</label>
       <span class="value">
         <iron-input
           on-keydown="_handleKeydown"
@@ -111,7 +111,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <span class="title">Status (e.g. "Vacation")</span>
+      <label class="title" for="statusInput">Status (e.g. "Vacation")</label>
       <span class="value">
         <iron-input
           on-keydown="_handleKeydown"

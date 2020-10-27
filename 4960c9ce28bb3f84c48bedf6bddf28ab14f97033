@@ -33,6 +33,24 @@
       "message": "Should I submit, or you still need to tweak the ci, then you\u0027ll submit?",
       "revId": "4960c9ce28bb3f84c48bedf6bddf28ab14f97033",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dc7ab46_e800b8ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-27T21:51:59Z",
+      "side": 1,
+      "message": "I\u0027m running a manual validation, please bear with me for a bit more.",
+      "parentUuid": "967d78a0_e33e8311",
+      "revId": "4960c9ce28bb3f84c48bedf6bddf28ab14f97033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

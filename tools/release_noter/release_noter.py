@@ -6,6 +6,7 @@ import subprocess
 
 from enum import Enum
 from jinja2 import Template
+from os import path
 from pygerrit2 import Anonymous, GerritRestAPI
 
 EXCLUDED_SUBJECTS = {
@@ -71,7 +72,7 @@ GERRIT_URL = "https://gerrit-review.googlesource.com"
 ISSUE_URL = "https://bugs.chromium.org/p/gerrit/issues/detail?id="
 
 CHECK_DISCLAIMER = "experimental and much slower"
-MARKDOWN = "release_noter.md"
+MARKDOWN = "release_noter"
 GIT_COMMAND = "git"
 UTF8 = "UTF-8"
 
@@ -365,12 +366,17 @@ def print_template(md, options):
         "major": re.search(RELEASE_MAJOR_PATTERN, new).group(1),
         "doc": re.search(RELEASE_DOC_PATTERN, new).group(1),
     }
-    template = Template(open(f"{MARKDOWN}.template").read())
+    template = Template(open(f"{MARKDOWN}.md.template").read())
     md.write(f"{template.render(data=data)}\n")
 
 
 def print_notes(commits, submodules, options):
-    with open(MARKDOWN, "w") as md:
+    markdown = f"{MARKDOWN}.md"
+    next_md = 2
+    while path.exists(markdown):
+        markdown = f"{MARKDOWN}-{next_md}.md"
+        next_md += 1
+    with open(markdown, "w") as md:
         print_template(md, options)
         print_submodules(submodules, md)
         print_commits(commits, md)

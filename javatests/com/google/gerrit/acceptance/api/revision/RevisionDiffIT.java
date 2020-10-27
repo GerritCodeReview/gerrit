@@ -420,6 +420,31 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rewriteBinaryIntoANormalFile() throws Exception {
+    String imageFileName = "an_image.png";
+    byte[] imageBytes = createRgbImage(255, 0, 0);
+    gApi.changes().id(changeId).edit().modifyFile(imageFileName, RawInputUtil.create(imageBytes));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    gApi.changes().id(changeId).edit().deleteFile(imageFileName);
+    String fileContent = "Line 1\nLine 2\nLine 3\n";
+    gApi.changes().id(changeId).edit().modifyFile(imageFileName, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
+    // TODO(paiking): This shouldn't be "ADDED" but it should be "REWRITTEN" as that file got
+    // deleted as a binary file, and was then created as a normal file.
+    assertThat(changedFiles.get(imageFileName).status).isEqualTo('A');
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, imageFileName).withBase(previousPatchSetId).get();
+
+    // TODO(paiking): This shouldn't be "MODIFIED" but it should be "REWRITTEN" as that file got
+    // deleted as a binary file, and was then created as a normal file.
+    assertThat(diffInfo.changeType).isEqualTo(ChangeType.MODIFIED);
+  }
+
+  @Test
   public void diffOnMergeCommitChange() throws Exception {
     PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
 

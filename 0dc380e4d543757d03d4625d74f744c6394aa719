@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8370f9f0_3a3f9d1b",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-27T14:29:50Z",
+      "side": 1,
+      "message": "Sorry I forgot to add Javadoc. Done.",
+      "parentUuid": "0ce5e6b1_79090e97",
+      "revId": "0dc380e4d543757d03d4625d74f744c6394aa719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5469f55c_88b00f02",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6165a654_0ecec1f5",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-27T14:29:50Z",
+      "side": 1,
+      "message": "It is needed. That\u0027s the accurate computation of the string size and is implemented in other parts of the code base.\n\nDone.",
+      "parentUuid": "5469f55c_88b00f02",
+      "range": {
+        "startLine": 50,
+        "startChar": 11,
+        "endLine": 50,
+        "endChar": 22
+      },
+      "revId": "0dc380e4d543757d03d4625d74f744c6394aa719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1edebb4_2167c278",
@@ -71,6 +113,24 @@
       "writtenOn": "2020-10-27T13:54:54Z",
       "side": 1,
       "message": "Can you add comments for these numbers?",
+      "revId": "0dc380e4d543757d03d4625d74f744c6394aa719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4c632b8_ed0b352e",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-27T14:29:50Z",
+      "side": 1,
+      "message": "I copied the string size calculation from PatchListEntry.java. I realized we don\u0027t need to add the extra overhead at the beginning, since we use the weigher to give a weight for different cache entries (we use it for comparison), so the fixed numbers are not needed.\n\nI added a comment.",
+      "parentUuid": "f1edebb4_2167c278",
       "revId": "0dc380e4d543757d03d4625d74f744c6394aa719",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

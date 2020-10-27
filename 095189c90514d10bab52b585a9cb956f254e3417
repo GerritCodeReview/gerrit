@@ -66,6 +66,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e753c710_baa0ba6a",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-27T08:04:54Z",
+      "side": 1,
+      "message": "The idea is to have functions for creating objects with required properties only (maybe even _account_id should be removed here, because it is options). If a test depends on name/email an object can be created with name and email:\nconst account \u003d {\n  ...createAccount(),\n  name: \u0027some name\u0027,\n  email: \u0027email@gerrit.com\u0027,\n}\n\nIf name and email are set in createAccount, there is no simple way to remove them from the returned account (if a test want to check that the code works without name and email).",
+      "parentUuid": "e04524c8_b33c6908",
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "799a0ef9_f72df7af",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-27T08:04:54Z",
+      "side": 1,
+      "message": "I thought about it and I am unsure what is better.\nWith a parameter \u0027id\u0027 we will have 2 different ways to assign properties:\nconst account \u003d {\n  ...createAccount(5),\n  status: \u0027out of office\u0027\n}\n\nIt is unclear how to differentiate between these 2 options (i.e. how to decide what should be passed as a parameter and what shouldn\u0027t). For createAccount this doesn\u0027t look like a problem, but for createChange it is not so easy. ChangeInfo has several ids(id/change_id/_number) and all ids looks equally important for tests, but adding all 3 ids as parameters doesn\u0027t look good idea (many tests changes only one of ids).\n\nI.e. I am afraid that at the end we will have create... functions with multiple parameters and we will have code like this in test:\nconst change \u003d {\n   ...createChange(\u0027abc\u0027, \u0027def\u0027, 5),\n   subject: \u0027Test change\u0027\n   branch: \u0027some-branch\u0027\n}\n(compare to:\nconst change \u003d {\n   ...createChange(),\n   id: \u0027abc\u0027 as ChangeInfoId,\n   change_id: \u0027def\u0027 as ChangeId,\n   _number: 5 as NumericChangeId,\n  subject: \u0027Test change\u0027,\n  branch: \u0027some-branch\u0027\n}\n)\n\nMaybe I am over complicate it and we will not have any problems with it.\nWDYT?",
+      "parentUuid": "f6fd346b_73cbe6bc",
+      "range": {
+        "startLine": 91,
+        "startChar": 17,
+        "endLine": 91,
+        "endChar": 18
+      },
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6cdb808f_762418a1",
         "filename": "polygerrit-ui/app/test/test-data-generators.ts",
         "patchSetId": 7

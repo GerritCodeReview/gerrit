@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48967a4a_c848802a",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-27T16:47:52Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 110,
+        "startChar": 45,
+        "endLine": 110,
+        "endChar": 64
+      },
+      "revId": "605570fb877a9ac3b296f2207c19ef9468029359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42f391d9_32c3ada1",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-27T16:47:52Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 131,
+        "startChar": 51,
+        "endLine": 131,
+        "endChar": 70
+      },
+      "revId": "605570fb877a9ac3b296f2207c19ef9468029359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

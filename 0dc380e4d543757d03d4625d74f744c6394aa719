@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aa2e139_edce6591",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-27T13:54:54Z",
+      "side": 1,
+      "message": "Just some comment nits. Thanks for bearing with me!",
+      "revId": "0dc380e4d543757d03d4625d74f744c6394aa719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ce5e6b1_79090e97",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-27T13:54:54Z",
+      "side": 1,
+      "message": "Could you add Javadoc for the class too?",
+      "revId": "0dc380e4d543757d03d4625d74f744c6394aa719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5469f55c_88b00f02",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-27T13:54:54Z",
+      "side": 1,
+      "message": "Why isn\u0027t this needed for GitModifiedFilesCacheKey?",
+      "range": {
+        "startLine": 50,
+        "startChar": 11,
+        "endLine": 50,
+        "endChar": 22
+      },
+      "revId": "0dc380e4d543757d03d4625d74f744c6394aa719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1edebb4_2167c278",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-27T13:54:54Z",
+      "side": 1,
+      "message": "Can you add comments for these numbers?",
+      "revId": "0dc380e4d543757d03d4625d74f744c6394aa719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

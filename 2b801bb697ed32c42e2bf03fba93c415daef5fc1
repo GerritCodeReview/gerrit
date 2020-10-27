@@ -50,6 +50,24 @@
       "message": "Prakhar, could you please +1 if you have verified?",
       "revId": "2b801bb697ed32c42e2bf03fba93c415daef5fc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ab21966_e15126e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1104972
+      },
+      "writtenOn": "2020-10-27T22:42:32Z",
+      "side": 1,
+      "message": "I\u0027m sorry I didn\u0027t understand fully. Is it the code coverage plugin returning null that has to be verified?(have done that)\n\nOr the CL(Also, LGTM)?",
+      "parentUuid": "cdc27394_4dedb9ed",
+      "revId": "2b801bb697ed32c42e2bf03fba93c415daef5fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

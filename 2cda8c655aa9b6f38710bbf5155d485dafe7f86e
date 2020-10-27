@@ -52,6 +52,24 @@
       "parentUuid": "e82b5fe3_53327d7e",
       "revId": "2cda8c655aa9b6f38710bbf5155d485dafe7f86e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce9198a3_0b1d76e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-27T18:10:39Z",
+      "side": 1,
+      "message": "Actually on taking another look, I should also have updated the type in tests after updating the type in code.\nI06e6e2dd should take care of this.\nAlso, I think we are moving towards migrating our tests into typescript too, so that should help prevent these bugs in the future.",
+      "parentUuid": "60c1d251_3c100af2",
+      "revId": "2cda8c655aa9b6f38710bbf5155d485dafe7f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

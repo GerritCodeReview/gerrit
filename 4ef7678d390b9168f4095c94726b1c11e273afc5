@@ -106,6 +106,24 @@
       "parentUuid": "52a1e89e_c1094387",
       "revId": "4ef7678d390b9168f4095c94726b1c11e273afc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f54932c5_668119ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-27T18:28:18Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e I don\u0027t think we should park dependency upgrades, here and in general. That would grow an upgrades debt, which we never fostered up until now. Of course sometimes we do park some upgrades, if problematic or impeded by internal Google constraints. We\u0027ve been upgrading metrics-core up until now, me and David P. before that. Mockito-core should not impede this upgrade if all tests still pass with it. As for caffeine, there is that aforementioned change already.\n\u003e \u003e \n\u003e \u003e @Luca, based on my explanations above, would you be able to reconsider your CR score? This would allow the merging of this and the follow-up topic changes. Thanks.\n\u003e \n\u003e If we are sure that breaking the Caffeine dependency included in this upgrade is fine, I have no objections to it.\n\nAs mentioned further above, the caffeine upgrade was done through I8dfe8bd2.",
+      "parentUuid": "8b68ed03_c08317bd",
+      "revId": "4ef7678d390b9168f4095c94726b1c11e273afc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

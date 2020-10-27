@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "127b74c4_cbc8dcbb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-27T20:40:51Z",
+      "side": 1,
+      "message": "Thanks Nasser for the CR. -Not expecting other CRs, based on script history.",
+      "revId": "94d0265e2d51fd21b7fe0753cf4a7a72a97160da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

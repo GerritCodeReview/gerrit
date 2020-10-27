@@ -5,6 +5,7 @@ import re
 import subprocess
 
 from enum import Enum
+from pygerrit2 import Anonymous, GerritRestAPI
 
 EXCLUDED_SUBJECTS = {
     "AutoValue",
@@ -60,6 +61,9 @@ PLUGIN_PATTERN = r"plugins/([a-z\-]+)"
 RELEASE_OPTION_PATTERN = r".+\.\.(v.+)"
 RELEASE_TAG_PATTERN = r"v[0-9]+\.[0-9]+\.[0-9]+$"
 
+CHANGE_URL = "/c/gerrit/+/"
+COMMIT_URL = "/changes/?q=commit%3A"
+GERRIT_URL = "https://gerrit-review.googlesource.com"
 ISSUE_URL = "https://bugs.chromium.org/p/gerrit/issues/detail?id="
 CHECK_DISCLAIMER = "experimental and much slower"
 GIT_COMMAND = "git"
@@ -80,11 +84,22 @@ def parse_args():
         action="store_true",
         help=f"check commits for previous releases; {CHECK_DISCLAIMER}",
     )
+    parser.add_argument(
+        "-l",
+        "--link",
+        dest="link",
+        required=False,
+        default=False,
+        action="store_true",
+        help="link commits to change in Gerrit; slower as it gets each _number from gerrit",
+    )
     parser.add_argument("range", help="git log revision range")
     return parser.parse_args()
 
 
 def check_args(options):
+    if options.link:
+        print("Link option used; slower.")
     if not options.check:
         return None
     release_option = re.search(RELEASE_OPTION_PATTERN, options.range)
@@ -156,7 +171,7 @@ class Commit:
         return task
 
 
-def parse_log(process, release):
+def parse_log(process, release, gerrit, options):
     commit = Commit()
     commits = []
     submodules = dict()
@@ -205,7 +220,7 @@ def parse_log(process, release):
             else:
                 commit_end = re.match(CHANGE_ID_PATTERN, line)
                 if commit_end is not None:
-                    commit = finish(commit, commits, release)
+                    commit = finish(commit, commits, release, gerrit, options)
                     task = Task.start_commit
         else:
             raise RuntimeError("FIXME")
@@ -234,7 +249,7 @@ def update_task(line, commit, task):
     return task
 
 
-def finish(commit, commits, release):
+def finish(commit, commits, release, gerrit, options):
     if len(commit.issues) == 0:
         for exclusion in EXCLUDED_SUBJECTS:
             if exclusion in commit.subject:
@@ -243,11 +258,24 @@ def finish(commit, commits, release):
             if noted_commit.subject == commit.subject:
                 return Commit()
     if newly_released(commit.sha1, release):
+        link_subject(commit, gerrit, options)
         escape_these(commit)
         commits.append(commit)
     else:
         print(f"Previously released: commit {commit.sha1}")
     return Commit()
+
+
+def link_subject(commit, gerrit, options):
+    if options.link:
+        gerrit_change = gerrit.get(f"{COMMIT_URL}{commit.sha1}")
+        if not gerrit_change:
+            return
+        change_number = gerrit_change[0]["_number"]
+        short_sha1 = commit.sha1[0:7]
+        commit.subject = (
+            f"[{short_sha1}]({GERRIT_URL}{CHANGE_URL}{change_number}) {commit.subject}"
+        )
 
 
 def escape_these(in_change):
@@ -282,8 +310,11 @@ def print_notes(commits, submodules):
 
 
 if __name__ == "__main__":
+    gerrit_api = GerritRestAPI(url=GERRIT_URL, auth=Anonymous())
     script_options = parse_args()
     release_tag = check_args(script_options)
     change_log = open_git_log(script_options)
-    core_changes, submodule_changes = parse_log(change_log, release_tag)
+    core_changes, submodule_changes = parse_log(
+        change_log, release_tag, gerrit_api, script_options
+    )
     print_notes(core_changes, submodule_changes)

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a86e32e_9c30065c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-27T15:35:55Z",
+      "side": 1,
+      "message": "Hard to say if these are really the correct subjects to exclude, but looks ok to me.",
+      "revId": "4157ddf3f443a90edf8089fb9fe1a748e8420c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

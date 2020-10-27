@@ -2,18 +2,33 @@
 
 ## Setup
 
-The `--deploy` option is to be removed if `Pipfile.lock` is out of date.
-
 ```bash
-pipenv install --dev
-pipenv install --dev --deploy
+make setup
+make deploy
 ```
+
+* The `deploy` target may not succeed if `Pipfile.lock` is out of date.
+  * The `setup` target can be used first in such a case.
+* Using `make all` will run the `deploy` target, among the other key targets.
+
+## Warning
+
+The make `clean` target removes any previously made `release_noter.md` file.
 
 ## Usage
 
 ```bash
-pipenv run python release_noter.py -h
+make help
 ```
+
+## Testing
+
+```bash
+make test
+make test COMMITS=100
+```
+
+This target will use the `-l` option, which takes more time as `COMMITS` increases.
 
 ## Examples
 
@@ -27,6 +42,6 @@ pipenv run python release_noter.py v3.2.3..v3.3.0-rc0 -l
 ## Coding
 
 ```bash
-pipenv run black release_noter.py
-pipenv run flake8 release_noter.py
+make black
+make flake
 ```

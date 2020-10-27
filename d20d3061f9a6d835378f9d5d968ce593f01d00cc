@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5247970_07f3610f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-27T19:31:51Z",
+      "side": 1,
+      "message": "(Nits.)",
+      "revId": "d20d3061f9a6d835378f9d5d968ce593f01d00cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffcfb756_9d4ddafb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5287,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-27T19:31:51Z",
+      "side": 1,
+      "message": "and not\n-or\nand that are not",
+      "range": {
+        "startLine": 5287,
+        "startChar": 44,
+        "endLine": 5287,
+        "endChar": 55
+      },
+      "revId": "d20d3061f9a6d835378f9d5d968ce593f01d00cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04bbb336_28ea007f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5308,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-27T19:31:51Z",
+      "side": 1,
+      "message": "Extra blank line compared to surroundings.",
+      "revId": "d20d3061f9a6d835378f9d5d968ce593f01d00cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

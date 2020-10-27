@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e38fa72_109070fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-10-27T16:51:06Z",
+      "side": 1,
+      "message": "Can the commit message say a little about the symptoms?\n\nIs there an easy way to cover this in tests?",
+      "revId": "2cda8c655aa9b6f38710bbf5155d485dafe7f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

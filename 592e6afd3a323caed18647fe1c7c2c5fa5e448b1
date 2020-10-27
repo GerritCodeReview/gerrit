@@ -106,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86101bf4_dd6a1b37",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-27T13:54:54Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "629dfe90_5272a2bf",
+      "revId": "592e6afd3a323caed18647fe1c7c2c5fa5e448b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e306c8a_d816e522",

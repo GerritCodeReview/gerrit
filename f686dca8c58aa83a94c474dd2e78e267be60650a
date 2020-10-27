@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be4b0b75_965da0dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-27T12:21:16Z",
+      "side": 1,
+      "message": "Sorry, that last rebase (PS 23) was unintentional.",
+      "revId": "f686dca8c58aa83a94c474dd2e78e267be60650a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

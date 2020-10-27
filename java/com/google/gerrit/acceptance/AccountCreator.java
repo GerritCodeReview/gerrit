@@ -26,6 +26,7 @@ import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -110,7 +111,7 @@ public class AccountCreator {
           throw new NoSuchGroupException(n);
         }
         addGroupMember(group.get().getGroupUUID(), id);
-        if ("Service Users".equals(n)) {
+        if (ServiceUserClassifier.SERVICE_USERS.equals(n)) {
           tags.add("SERVICE_USER");
         }
       }

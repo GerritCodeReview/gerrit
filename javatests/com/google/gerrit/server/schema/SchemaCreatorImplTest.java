@@ -23,6 +23,7 @@ import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.LabelValue;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -82,7 +83,7 @@ public class SchemaCreatorImplTest {
 
   @Test
   public void groupIsCreatedWhenSchemaIsCreated() throws Exception {
-    assertThat(hasGroup("Service Users")).isTrue();
+    assertThat(hasGroup(ServiceUserClassifier.SERVICE_USERS)).isTrue();
     assertThat(hasGroup("Non-Interactive Users")).isFalse();
   }
 

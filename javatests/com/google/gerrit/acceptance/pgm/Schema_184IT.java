@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.schema.NoteDbSchemaVersion;
 import com.google.gerrit.server.schema.Schema_184;
 import com.google.gerrit.testing.TestUpdateUI;
@@ -26,7 +27,8 @@ import com.google.inject.Inject;
 import org.junit.Test;
 
 public class Schema_184IT extends AbstractDaemonTest {
-  private static final AccountGroup.NameKey SERVICE_USERS = AccountGroup.nameKey("Service Users");
+  private static final AccountGroup.NameKey SERVICE_USERS =
+      AccountGroup.nameKey(ServiceUserClassifier.SERVICE_USERS);
   private static final AccountGroup.NameKey NON_INTERACTIVE_USERS =
       AccountGroup.nameKey("Non-Interactive Users");
 

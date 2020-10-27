@@ -63,7 +63,7 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
 
   @Override
   public boolean isServiceUser(Account.Id user) {
-    Optional<InternalGroup> maybeGroup = groupCache.get(AccountGroup.nameKey("Service Users"));
+    Optional<InternalGroup> maybeGroup = groupCache.get(AccountGroup.nameKey(SERVICE_USERS));
     if (!maybeGroup.isPresent()) {
       return false;
     }

@@ -44,7 +44,7 @@ public class ServiceUserClassifierIT extends AbstractDaemonTest {
 
   @Test
   public void userWithDirectMembershipInServiceUserIsAServiceUser() throws Exception {
-    TestAccount user = accountCreator.create(null, "Service Users");
+    TestAccount user = accountCreator.create(null, ServiceUserClassifier.SERVICE_USERS);
     assertThat(serviceUserClassifier.isServiceUser(user.id())).isTrue();
   }
 
@@ -91,7 +91,7 @@ public class ServiceUserClassifierIT extends AbstractDaemonTest {
 
   private AccountGroup.UUID serviceUsersUUID() {
     return groupCache
-        .get(AccountGroup.nameKey("Service Users"))
+        .get(AccountGroup.nameKey(ServiceUserClassifier.SERVICE_USERS))
         .orElseThrow(() -> new IllegalStateException("unable to find 'Service Users'"))
         .getGroupUUID();
   }

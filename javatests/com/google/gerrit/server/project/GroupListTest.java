@@ -26,6 +26,7 @@ import static org.mockito.Mockito.verify;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.git.ValidationError;
 import java.io.IOException;
 import java.util.Collection;
@@ -57,7 +58,7 @@ public class GroupListTest {
     GroupReference groupReference = groupList.byUUID(uuid);
 
     assertEquals(uuid, groupReference.getUUID());
-    assertEquals("Service Users", groupReference.getName());
+    assertEquals(ServiceUserClassifier.SERVICE_USERS, groupReference.getName());
   }
 
   @Test

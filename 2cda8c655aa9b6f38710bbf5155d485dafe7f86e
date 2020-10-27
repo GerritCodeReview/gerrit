@@ -16,6 +16,24 @@
       "message": "Can the commit message say a little about the symptoms?\n\nIs there an easy way to cover this in tests?",
       "revId": "2cda8c655aa9b6f38710bbf5155d485dafe7f86e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e82b5fe3_53327d7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-27T16:58:04Z",
+      "side": 1,
+      "message": "This is an unfortunate issue that should have been mitigated by our migration to typescript.\nI\u0027m not sure if a test would be able to catch this, however this should probably \nhave been caught in the review.\nThe root cause is that this._patchRange.patchNum is of type Number(not always it can be \u0027EDIT\u0027 | \u0027PARENT\u0027 but mostly) and we were incorrectly converting patchNum variable to number.\nHaving typescript now means we should not be playing with the type at all. \nBefore we had to unnecessarily modify the patchset number to convert into string or number, now we can enforce correct types when comparing patchsets.",
+      "parentUuid": "2e38fa72_109070fb",
+      "revId": "2cda8c655aa9b6f38710bbf5155d485dafe7f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

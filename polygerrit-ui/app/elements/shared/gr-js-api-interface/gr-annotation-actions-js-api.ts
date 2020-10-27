@@ -23,7 +23,7 @@ import {
 } from '../../../types/types';
 import {Side} from '../../../constants/constants';
 import {PluginApi} from '../../plugins/gr-plugin-types';
-import {NumericChangeId} from '../../../types/common';
+import {ChangeInfo, NumericChangeId} from '../../../types/common';
 
 type AddLayerFunc = (ctx: GrAnnotationActionsContext) => void;
 
@@ -38,7 +38,8 @@ export type CoverageProvider = (
   changeNum: NumericChangeId,
   path: string,
   basePatchNum?: number,
-  patchNum?: number
+  patchNum?: number,
+  change?: ChangeInfo
 ) => Promise<Array<CoverageRange>>;
 
 export class GrAnnotationActionsInterface {

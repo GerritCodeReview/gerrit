@@ -61,6 +61,6 @@ public class EmailSettings {
             TimeUnit.MILLISECONDS.convert(60, TimeUnit.SECONDS),
             TimeUnit.MILLISECONDS);
     sendNewPatchsetEmails = cfg.getBoolean("change", null, "sendNewPatchsetEmails", true);
-    isAttentionSetEnabled = cfg.getBoolean("change", null, "enableAttentionSet", false);
+    isAttentionSetEnabled = cfg.getBoolean("change", null, "enableAttentionSet", true);
   }
 }

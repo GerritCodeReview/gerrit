@@ -210,6 +210,9 @@ export const htmlTemplate = html`
     }
   </style>
   <div class$="stickyHeader [[_computeContainerClass(_editMode)]]">
+    <h1 class="assistive-tech-only">
+      Diff of [[_computeTruncatedPath(_path)]]
+    </h1>
     <header>
       <div>
         <a
@@ -387,6 +390,7 @@ export const htmlTemplate = html`
     </div>
   </div>
   <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+  <h3 class="assistive-tech-only">Diff view</h3>
   <gr-diff-host
     id="diffHost"
     hidden=""

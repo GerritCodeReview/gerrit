@@ -18,6 +18,41 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c948c6a7_5df21c10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-28T14:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e495337_200ec399",
+      "revId": "d792fcf1e878608d3745cf5e6877dc2f2b81a939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b10786a6_47c27d09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-28T14:54:13Z",
+      "side": 1,
+      "message": "Thank you for your comments, I agree with all of them.",
+      "revId": "d792fcf1e878608d3745cf5e6877dc2f2b81a939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "deeb7a9d_e3cd3dbe",
@@ -31,6 +66,30 @@
       "writtenOn": "2020-10-28T14:44:36Z",
       "side": 1,
       "message": "Maybe \"Label Scores\"?",
+      "range": {
+        "startLine": 341,
+        "startChar": 38,
+        "endLine": 341,
+        "endChar": 57
+      },
+      "revId": "d792fcf1e878608d3745cf5e6877dc2f2b81a939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7aaadfc9_a86bcb62",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-28T14:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "deeb7a9d_e3cd3dbe",
       "range": {
         "startLine": 341,
         "startChar": 38,
@@ -64,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2769055e_7c4e50c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-28T14:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e3c9122_7d30e314",
+      "range": {
+        "startLine": 443,
+        "startChar": 46,
+        "endLine": 443,
+        "endChar": 52
+      },
+      "revId": "d792fcf1e878608d3745cf5e6877dc2f2b81a939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ae45c15_1e5de339",
@@ -77,6 +160,30 @@
       "writtenOn": "2020-10-28T14:44:36Z",
       "side": 1,
       "message": "Not 100% sure, but I think \"File List\" is better than \"Files list\".",
+      "range": {
+        "startLine": 317,
+        "startChar": 34,
+        "endLine": 317,
+        "endChar": 39
+      },
+      "revId": "d792fcf1e878608d3745cf5e6877dc2f2b81a939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e49b185f_0d210d53",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-28T14:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ae45c15_1e5de339",
       "range": {
         "startLine": 317,
         "startChar": 34,

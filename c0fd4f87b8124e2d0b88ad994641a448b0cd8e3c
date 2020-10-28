@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e7e9e1c_6a023b10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-28T13:31:53Z",
+      "side": 1,
+      "message": "-Forgot to cc Edwin who was named in our latest review thread. @Edwin, feel free to remove yourself at will though.",
+      "revId": "c0fd4f87b8124e2d0b88ad994641a448b0cd8e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1943,6 +1943,13 @@ export class GrDiffView extends KeyboardShortcutMixin(
   _computeDisplayPath(path: string) {
     return computeDisplayPath(path);
   }
+
+  /**
+   * Wrapper for using in the element template and computed properties
+   */
+  _computeTruncatedPath(path: string) {
+    return computeTruncatedPath(path);
+  }
 }
 
 declare global {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ac9d813_c56aa26c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-user-header/gr-user-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-28T15:23:23Z",
+      "side": 1,
+      "message": "There is slightly different implementation for similar task - getUserName/getDisplayName functions from display-name-util.ts.\nCan we use one of these functions to display user name here? Or is this a special place where we want a different presentation?",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 16
+      },
+      "revId": "a4253b26116d661ab916154a2fac1ff911241cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

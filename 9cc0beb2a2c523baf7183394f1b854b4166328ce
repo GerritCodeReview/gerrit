@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "851d27fc_2db58f56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-28T14:26:22Z",
+      "side": 1,
+      "message": "LGTM, I\u0027m glad no test depends on those flags since apparently I made it explicit in the one test that depends on it :-)\n\nCan you also update the documentation in config-gerrit.txt for those 2 flags? ",
+      "revId": "9cc0beb2a2c523baf7183394f1b854b4166328ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

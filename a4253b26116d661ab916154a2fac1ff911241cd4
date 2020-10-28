@@ -22,6 +22,30 @@
       },
       "revId": "a4253b26116d661ab916154a2fac1ff911241cd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1142ba7c_dc2f09c2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-user-header/gr-user-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-28T15:39:46Z",
+      "side": 1,
+      "message": "Oh, thanks, I am not familiar with these utils.",
+      "parentUuid": "5ac9d813_c56aa26c",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 16
+      },
+      "revId": "a4253b26116d661ab916154a2fac1ff911241cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

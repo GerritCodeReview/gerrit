@@ -87,6 +87,24 @@
       "parentUuid": "88f14ef3_cf835ea3",
       "revId": "bf66d4e32d43676497a0ea86b78b416a76175ffc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ce4b289_83e8a1a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-28T13:28:34Z",
+      "side": 1,
+      "message": "\u003e Marco, sorry for my late reply. I discussed the upgrade today in our team meeting.\n\u003e \n\u003e Is it possible that we wait postpone the upgrade (probably until the end of the next release cycle)?\n\u003e \n\u003e Edwin also pointed me to the documentation: since this is a minor version upgrade and doesn\u0027t contain a major feature that we need in Gerrit, I think it\u0027s fine to postpone. What do you think? \n\u003e Doing a library upgrade is time consuming because we upgrade the library and run the tests against all its dependencies (not just Gerrit) with a special process that takes roughly a day (+ probable additional iterations in case of broken targets / tests).\n\u003e \n\u003e \u003e RE: who should we add to this review from Google?\n\u003e I think I\u0027d be responsible for this since I did the last upgrade.\n\u003e \n\u003e https://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries\n\nThanks Youssef and Edwin. I think we should keep this change, exactly because of the process we refer to above, but then I should move it to the master branch instead. I propose so because of stable-3.3 having been cut out already; see [1,2,3] below -taken from that process of ours.\n\n[1] \"(...) right after a new Gerrit release was branched off, all libraries should be upgraded to the latest version to prevent Gerrit from falling behind.\"\n\n[2] \"Doing those upgrades should conclude at the latest two months after the branch was cut.\"\n\n[3] \"This should happen on the master branch to ensure that they are vetted long enough before they go into a release and we can be sure that the update doesn’t introduce a regression.\"",
+      "parentUuid": "7ef743e2_8e10053f",
+      "revId": "bf66d4e32d43676497a0ea86b78b416a76175ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

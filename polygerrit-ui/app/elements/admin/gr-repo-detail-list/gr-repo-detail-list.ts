@@ -131,6 +131,17 @@ export class GrRepoDetailList extends ListViewMixin(
       return Promise.reject(new Error('undefined repo'));
     }
 
+    // paramsChanged is called before gr-admin-view can set _showRepoDetailList
+    // to false and polymer removes this component, hence check for params
+    if (
+      !(
+        params?.detail === RepoDetailView.BRANCHES ||
+        params?.detail === RepoDetailView.TAGS
+      )
+    ) {
+      return;
+    }
+
     this._repo = params.repo;
 
     this._getLoggedIn().then(loggedIn => {

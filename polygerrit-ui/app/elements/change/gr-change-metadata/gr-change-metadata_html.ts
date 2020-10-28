@@ -338,6 +338,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <div class="separatedSection">
+      <h3 class="assistive-tech-only">Change Label Score</h3>
       <gr-change-requirements
         change="{{change}}"
         account="[[account]]"

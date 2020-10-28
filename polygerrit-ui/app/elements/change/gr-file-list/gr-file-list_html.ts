@@ -314,6 +314,7 @@ export const htmlTemplate = html`
       --gr-comment-thread-display: none;
     }
   </style>
+  <h2 class="assistive-tech-only">Files list</h2>
   <div
     id="container"
     on-click="_handleFileListClick"

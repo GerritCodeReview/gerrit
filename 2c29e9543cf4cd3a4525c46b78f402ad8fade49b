@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce97c4ef_c207315c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-28T16:29:16Z",
+      "side": 1,
+      "message": "nit: ChangeDatas",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "2c29e9543cf4cd3a4525c46b78f402ad8fade49b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38c54791_c72aaf8d",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-28T16:29:16Z",
+      "side": 1,
+      "message": "is this still used anywhere? (same for others below)",
+      "range": {
+        "startLine": 372,
+        "startChar": 0,
+        "endLine": 374,
+        "endChar": 3
+      },
+      "revId": "2c29e9543cf4cd3a4525c46b78f402ad8fade49b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

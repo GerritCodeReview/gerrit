@@ -275,6 +275,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b16f89b8_289d4135",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-28T14:28:31Z",
+      "side": 1,
+      "message": "The idea was to have gr-change-view call the comment service and the comment service call the rest api service. But not so important right now. You can leave as is in that regard.\n\nWhy does it matter whether ported comments are loaded per patchset? Don\u0027t we still want the *additional* latency? I am fine with tracking both actually. But the latency of just making the rest api call you can also look up in the weblog. You don\u0027t need frontend reporting for that.\n\nMy concern is that the median of the absolute latency is maybe 300 ms, and if that is all *additional* latency, then this is too much. But maybe the additional latency median is just 100 ms, and then it is ok.\n\nBtw, it would also be interesting to track how often ported comments are requested for the latest patchset compared to earlier patchsets. If we are successful with porting comments to the latest patchset, then I would hope that looking at earlier patchsets becomes a long tail usecase. If that is true, then we could even consider not supporting ported comments to earlier patchsets. That would make loading and prefetching much easier.",
+      "parentUuid": "51ce8a10_2b17cc11",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 9
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c191cfc4_591bf8a5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 4

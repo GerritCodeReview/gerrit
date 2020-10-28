@@ -34,6 +34,24 @@
       "parentUuid": "7440707a_530ec7d6",
       "revId": "61442c3ca92f2add2beab00fcd46947fbec9b142",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2743fad6_734990f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-28T10:47:12Z",
+      "side": 1,
+      "message": "Yeah I was surprised no test was failing. This should be good enough.",
+      "parentUuid": "272139c8_bbe3eebf",
+      "revId": "61442c3ca92f2add2beab00fcd46947fbec9b142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

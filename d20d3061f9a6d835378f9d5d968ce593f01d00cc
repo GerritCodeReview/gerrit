@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7287929b_db4f2d4a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5287,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-28T09:42:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffcfb756_9d4ddafb",
+      "range": {
+        "startLine": 5287,
+        "startChar": 44,
+        "endLine": 5287,
+        "endChar": 55
+      },
+      "revId": "d20d3061f9a6d835378f9d5d968ce593f01d00cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04bbb336_28ea007f",
@@ -54,6 +78,24 @@
       "writtenOn": "2020-10-27T19:31:51Z",
       "side": 1,
       "message": "Extra blank line compared to surroundings.",
+      "revId": "d20d3061f9a6d835378f9d5d968ce593f01d00cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d754e2a_bd1afe65",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5308,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-28T09:42:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04bbb336_28ea007f",
       "revId": "d20d3061f9a6d835378f9d5d968ce593f01d00cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

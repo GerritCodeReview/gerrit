@@ -1289,14 +1289,14 @@ The default is false.
 If set to true, then all UI features for using and interacting with the
 attention set are enabled.
 +
-The default is false for now, but will be changed to true in Q2 2020.
+The default is true.
 
 [[change.enableAssignee]]change.enableAssignee::
 +
 If set to true, then all UI features for using and interacting with the
 assignee are enabled.
 +
-The default is true for now, but will be changed to false in Q2 2020.
+The default is false.
 
 [[change.largeChange]]change.largeChange::
 +

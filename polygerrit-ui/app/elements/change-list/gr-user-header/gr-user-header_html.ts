@@ -34,7 +34,7 @@ export const htmlTemplate = html`
   ></gr-avatar>
   <div class="info">
     <h1 class="heading-1">
-      [[_computeDetail(_accountDetails, 'name')]]
+      [[_computeHeading(_accountDetails)]]
     </h1>
     <hr />
     <div class$="status [[_computeStatusClass(_status)]]">

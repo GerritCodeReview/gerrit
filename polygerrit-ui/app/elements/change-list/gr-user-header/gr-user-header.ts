@@ -80,6 +80,14 @@ export class GrUserHeader extends GestureEventListeners(
     return accountDetails ? accountDetails[name] : '';
   }
 
+  _computeHeading(accountDetails: AccountDetailInfo | null) {
+    const name = this._computeDetail(accountDetails, 'name');
+    if (!name) {
+      return this._computeDetail(accountDetails, 'email');
+    }
+    return name;
+  }
+
   _computeStatusClass(status: string) {
     return status ? '' : 'hide';
   }

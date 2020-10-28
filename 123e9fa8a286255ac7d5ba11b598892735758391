@@ -557,6 +557,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d1cac05_5f7efec3",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-28T11:36:46Z",
+      "side": 1,
+      "message": "\u003e Sorry for the rant, I don\u0027t want to block the change on this so if you want to proceed and deal with this later, SGTM. We should just keep track of it somewhere.\n\nSGTM - this change series is complex enough already.",
+      "parentUuid": "dea1c465_f922c774",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d27d7da_ba9951ec",

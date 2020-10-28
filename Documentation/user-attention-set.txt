@@ -156,10 +156,9 @@ been replaced by the attention set.
 
 === For Gerrit Admins
 
-The Attention Set will be part of the upcoming 3.3 release (due late 2020).
-We are testing it on `googlesource.com` right now. If you build your Gerrit from
-master, you can enable it using
-link:config-gerrit.html#change.enableAttentionSet[enableAttentionSet].
+The Attention Set will be part of the upcoming 3.3 release (due late 2020). It
+is enabled by default, but you can disable it by setting
+link:config-gerrit.html#change.enableAttentionSet[enableAttentionSet] to false.
 
 === Important note for all host owners, project owners, and bot owners
 

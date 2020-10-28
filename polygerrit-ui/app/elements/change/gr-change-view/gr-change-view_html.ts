@@ -349,6 +349,9 @@ export const htmlTemplate = html`
   >
     <section class="changeInfoSection">
       <div class$="[[_computeHeaderClass(_editMode)]]">
+        <h1 class="assistive-tech-only">
+          Change [[_change._number]]: [[_change.subject]]
+        </h1>
         <div class="headerTitle">
           <div class="changeStatuses">
             <template is="dom-repeat" items="[[_changeStatuses]]" as="status">
@@ -419,6 +422,7 @@ export const htmlTemplate = html`
         <!-- end commit actions -->
       </div>
       <!-- end header -->
+      <h2 class="assistive-tech-only">Change metadata</h2>
       <div class="changeInfo">
         <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
           <gr-change-metadata
@@ -436,6 +440,7 @@ export const htmlTemplate = html`
         <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
           <div id="commitAndRelated" class="hideOnMobileOverlay">
             <div class="commitContainer">
+              <h3 class="assistive-tech-only">Commit Message</h3>
               <div>
                 <gr-button
                   id="replyBtn"
@@ -539,6 +544,7 @@ export const htmlTemplate = html`
       </div>
     </section>
 
+    <h2 class="assistive-tech-only">Files and Comments tabs</h2>
     <paper-tabs id="primaryTabs" on-selected-changed="_setActivePrimaryTab">
       <paper-tab data-name$="[[_constants.PrimaryTab.FILES]]">Files</paper-tab>
       <paper-tab
@@ -699,6 +705,7 @@ export const htmlTemplate = html`
       </paper-tab>
     </paper-tabs>
     <section class="changeLog">
+      <h2 class="assistive-tech-only">Change Log</h2>
       <template
         is="dom-if"
         if="[[_isTabActive(_constants.SecondaryTab.CHANGE_LOG, _activeTabs)]]"

@@ -51,6 +51,7 @@ export const htmlTemplate = html`
       }
     }
   </style>
+  <h3 class="assistive-tech-only">Patchset Range Selection</h3>
   <span class="patchRange" aria-label="patch range starts with">
     <gr-dropdown-list
       id="basePatchDropdown"

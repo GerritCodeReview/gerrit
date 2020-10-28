@@ -52,6 +52,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceed44b6_7d47630f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-28T16:00:58Z",
+      "side": 1,
+      "message": "Adding also @Han-Wen for additional visibility: we do need LC +1 on this merge so that we can fix the stable-3.1 branch, which is currently failing the build.",
+      "revId": "114b0f9944bb79cd49803b72ac3ef3a28333fa7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5eb789db_77c2221d",

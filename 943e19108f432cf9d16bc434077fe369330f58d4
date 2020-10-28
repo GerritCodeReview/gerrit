@@ -16,6 +16,23 @@
       "message": "looks like flaky replication tests.",
       "revId": "943e19108f432cf9d16bc434077fe369330f58d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22a1e2b6_4c6a730f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-28T19:03:27Z",
+      "side": 1,
+      "message": "test",
+      "revId": "943e19108f432cf9d16bc434077fe369330f58d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -656,6 +656,7 @@ export const htmlTemplate = html`
             display-line="[[_displayLine]]"
             hidden="[[!_isFileExpanded(file.__path, _expandedFiles.*)]]"
             change-num="[[changeNum]]"
+            change="[[change]]"
             patch-range="[[patchRange]]"
             file="[[_computePatchSetFile(file)]]"
             path="[[file.__path]]"

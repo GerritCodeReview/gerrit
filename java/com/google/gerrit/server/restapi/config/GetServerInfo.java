@@ -238,8 +238,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.mergeabilityComputationBehavior =
         MergeabilityComputationBehavior.fromConfig(config).name();
     info.enableAttentionSet =
-        toBoolean(this.config.getBoolean("change", null, "enableAttentionSet", false));
-    info.enableAssignee = toBoolean(this.config.getBoolean("change", null, "enableAssignee", true));
+        toBoolean(this.config.getBoolean("change", null, "enableAttentionSet", true));
+    info.enableAssignee =
+        toBoolean(this.config.getBoolean("change", null, "enableAssignee", false));
     return info;
   }
 

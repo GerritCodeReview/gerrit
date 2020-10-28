@@ -60,5 +60,9 @@ public class EmailSettings {
             TimeUnit.MILLISECONDS.convert(60, TimeUnit.SECONDS),
             TimeUnit.MILLISECONDS);
     sendNewPatchsetEmails = cfg.getBoolean("change", null, "sendNewPatchsetEmails", true);
+<<<<<<< HEAD   (94d026 Remove the now unnecessary 'check' option from release_noter)
+=======
+    isAttentionSetEnabled = cfg.getBoolean("change", null, "enableAttentionSet", true);
+>>>>>>> CHANGE (4427d4 Flip the defaults of the attention and assignee flags)
   }
 }

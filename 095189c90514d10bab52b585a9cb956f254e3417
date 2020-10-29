@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b73d609_6f05e18f",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-29T17:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2591f478_8f54649b",
+      "range": {
+        "startLine": 57,
+        "startChar": 11,
+        "endLine": 57,
+        "endChar": 16
+      },
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e04524c8_b33c6908",
@@ -150,6 +174,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d57adaa1_c1057b50",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-29T17:58:23Z",
+      "side": 1,
+      "message": "What I\u0027ve seen in already converted tests (including change-view_test.ts): usually tests creates a minimal object and set 1-2 properties. \ncreateAccountSomething + passing parameters into some methods (as you suggested in other comments) solves 90% cases (at least in the files what i\u0027ve seen).\nMaybe we can submit the and then improve tests gradually, based on real use-cases?",
+      "parentUuid": "a0033ba6_0b13c0d5",
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84a413ae_5787f117",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-29T17:58:23Z",
+      "side": 1,
+      "message": "I like the idea with createAccountSomething... and I added several methods (createAccountWithId/createAccountWithEmail/createAccountWithIdNameAndEmail).",
+      "parentUuid": "7a914843_7b0d2245",
+      "range": {
+        "startLine": 91,
+        "startChar": 17,
+        "endLine": 91,
+        "endChar": 18
+      },
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6cdb808f_762418a1",
         "filename": "polygerrit-ui/app/test/test-data-generators.ts",
         "patchSetId": 7
@@ -161,6 +227,24 @@
       "writtenOn": "2020-10-26T15:57:19Z",
       "side": 1,
       "message": "That is unusual to be set.",
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df3e5a60_90cc6634",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-29T17:58:23Z",
+      "side": 1,
+      "message": "You are right. It was marked as required in ChangeInfo. Fixed.",
+      "parentUuid": "6cdb808f_762418a1",
       "revId": "095189c90514d10bab52b585a9cb956f254e3417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

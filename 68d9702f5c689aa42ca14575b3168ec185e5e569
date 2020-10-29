@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba35089f_a920d3db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-29T12:04:20Z",
+      "side": 1,
+      "message": "I also realised I was not considering whether or not _saveEdit() was successful or not, so updated to use the response in _handleSave function.",
+      "revId": "68d9702f5c689aa42ca14575b3168ec185e5e569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

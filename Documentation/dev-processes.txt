@@ -89,6 +89,15 @@ Google maintainers do not take part in this vote, because Google
 already has dedicated seats in the steering committee (see section
 link:#steering-committee[steering committee]).
 
+If a non-Google seat on the steering committee becomes vacant before
+the current term ends an exceptional election is conducted in order
+to replace the member(s) leaving the committee. The election will
+follow the same procedure as regular steering committee elections.
+The number of votes each maintainer gets in such exceptional election
+matches the number of seats to be filled. The term of the new member
+of the steering committee ends at the end of the current term of
+the steering committee when the next regular election concludes.
+
 [[contribution-process]]
 == Contribution Process
 

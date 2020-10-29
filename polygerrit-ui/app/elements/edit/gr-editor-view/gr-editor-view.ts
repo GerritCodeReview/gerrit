@@ -328,14 +328,10 @@ export class GrEditorView extends KeyboardShortcutMixin(
     this._viewEditInChangeView();
   }
 
-  _handleSaveAndCloseTap() {
-    if (this._saveDisabled) {
+  _handleDoneTap() {
+    this._saveEdit().then(() => {
       this._viewEditInChangeView();
-    } else {
-      this._saveEdit().then(() => {
-        this._viewEditInChangeView();
-      });
-    }
+    });
   }
 
   _handleContentChange(e: CustomEvent<{value: string}>) {

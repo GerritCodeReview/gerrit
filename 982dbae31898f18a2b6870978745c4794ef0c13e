@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73a4bda8_644cf2b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-29T21:36:39Z",
+      "side": 1,
+      "message": "Verified E2E that fixes the issue. Thanks @Vitaliy for the fix.",
+      "revId": "982dbae31898f18a2b6870978745c4794ef0c13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

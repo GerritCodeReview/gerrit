@@ -69,6 +69,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22b54b85_637b95c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-29T12:56:13Z",
+      "side": 1,
+      "message": "\u003e Adding also @Han-Wen for additional visibility: we do need LC +1 on this merge so that we can fix the stable-3.1 branch, which is currently failing the build.\n\nAdding Ben in case he can help quicken this UI-related, L-C score review.",
+      "parentUuid": "ceed44b6_7d47630f",
+      "revId": "114b0f9944bb79cd49803b72ac3ef3a28333fa7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5eb789db_77c2221d",
@@ -82,6 +100,30 @@
       "writtenOn": "2020-10-28T08:49:34Z",
       "side": 1,
       "message": "This is the most important change that is fixing the build. Without the \u0027manual\u0027 flag, Bazel would execute the PolyGerrit UX tests as part of the main \u0027//...\u0027 test target, causing it to fail because of the missing pre-requisites.",
+      "range": {
+        "startLine": 136,
+        "startChar": 8,
+        "endLine": 136,
+        "endChar": 16
+      },
+      "revId": "114b0f9944bb79cd49803b72ac3ef3a28333fa7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e5f7b5c_93528b35",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-29T12:56:13Z",
+      "side": 1,
+      "message": "Marking as Resolved just in case LC review waited for this.",
+      "parentUuid": "5eb789db_77c2221d",
       "range": {
         "startLine": 136,
         "startChar": 8,

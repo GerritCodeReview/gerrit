@@ -16,11 +16,16 @@ package com.google.gerrit.server.util;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import java.io.IOException;
 import java.util.Collection;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Common helpers for dealing with attention set data structures. */
 public class AttentionSetUtil {
@@ -47,6 +52,46 @@ public class AttentionSetUtil {
     if (input.reason.isEmpty()) {
       throw new BadRequestException("missing field: reason");
     }
+  }
+
+  /**
+   * Returns the {@code Account.Id} of {@code user} if the user is active on the change, and exists.
+   * If the user doesn't exist or is not active on the change, the same exception is thrown to
+   * disallow probing for account existence based on exception type.
+   */
+  public static Account.Id resolveAccount(
+      AccountResolver accountResolver, ChangeNotes changeNotes, String user)
+      throws ConfigInvalidException, IOException, BadRequestException {
+    // We will throw this exception if the account doesn't exist, or if the account is not active.
+    // This is purposely the same exception so that users can't probe for account existence based on
+    // the thrown exception.
+    BadRequestException possibleExceptionForNotFoundOrInactiveAccount =
+        new BadRequestException(
+            String.format(
+                "%s doesn't exist or is not active on the change as an owner, uploader, "
+                    + "reviewer, or cc so they can't be added to the attention set",
+                user));
+    Account.Id attentionUserId;
+    try {
+      attentionUserId = accountResolver.resolveIgnoreVisibility(user).asUnique().account().id();
+    } catch (AccountResolver.UnresolvableAccountException ex) {
+      possibleExceptionForNotFoundOrInactiveAccount.initCause(ex);
+      throw possibleExceptionForNotFoundOrInactiveAccount;
+    }
+    if (!isActiveOnTheChange(changeNotes, attentionUserId)) {
+      throw possibleExceptionForNotFoundOrInactiveAccount;
+    }
+    return attentionUserId;
+  }
+
+  /**
+   * Returns whether {@code attentionUserId} is active on a change. Activity is defined as being a
+   * part of the reviewers, an uploader, or an owner of a change.
+   */
+  private static boolean isActiveOnTheChange(ChangeNotes changeNotes, Account.Id attentionUserId) {
+    return changeNotes.getChange().getOwner().equals(attentionUserId)
+        || changeNotes.getCurrentPatchSet().uploader().equals(attentionUserId)
+        || changeNotes.getReviewers().all().stream().anyMatch(id -> id.equals(attentionUserId));
   }
 
   private AttentionSetUtil() {}

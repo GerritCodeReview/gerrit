@@ -48,27 +48,32 @@ export const htmlTemplate = html`
     }
   </style>
   <gr-overlay id="diffPrefsOverlay" with-backdrop="">
-    <div class$="diffHeader [[_computeHeaderClass(_diffPrefsChanged)]]">
-      Diff Preferences
-    </div>
-    <gr-diff-preferences
-      id="diffPreferences"
-      diff-prefs="{{_editableDiffPrefs}}"
-      has-unsaved-changes="{{_diffPrefsChanged}}"
-    ></gr-diff-preferences>
-    <div class="diffActions">
-      <gr-button id="cancelButton" link="" on-click="_handleCancelDiff">
-        Cancel
-      </gr-button>
-      <gr-button
-        id="saveButton"
-        link=""
-        primary=""
-        on-click="_handleSaveDiffPreferences"
-        disabled$="[[!_diffPrefsChanged]]"
+    <div role="dialog" aria-labelledby="diffPreferencesTitle">
+      <h1
+        class$="diffHeader [[_computeHeaderClass(_diffPrefsChanged)]]"
+        id="diffPreferencesTitle"
       >
-        Save
-      </gr-button>
+        Diff Preferences
+      </h1>
+      <gr-diff-preferences
+        id="diffPreferences"
+        diff-prefs="{{_editableDiffPrefs}}"
+        has-unsaved-changes="{{_diffPrefsChanged}}"
+      ></gr-diff-preferences>
+      <div class="diffActions">
+        <gr-button id="cancelButton" link="" on-click="_handleCancelDiff">
+          Cancel
+        </gr-button>
+        <gr-button
+          id="saveButton"
+          link=""
+          primary=""
+          on-click="_handleSaveDiffPreferences"
+          disabled$="[[!_diffPrefsChanged]]"
+        >
+          Save
+        </gr-button>
+      </div>
     </div>
   </gr-overlay>
 `;

@@ -103,6 +103,14 @@ export const htmlTemplate = html`
           on-click="_handleSaveTap"
           >Save</gr-button
         >
+        <gr-button
+          id="publish"
+          link=""
+          title="Publish your edit. A new patchset will be created."
+          on-click="_handlePublishTap"
+          disabled$="[[_saveDisabled]]"
+          >Save & Publish</gr-button
+        >
       </span>
     </header>
   </div>

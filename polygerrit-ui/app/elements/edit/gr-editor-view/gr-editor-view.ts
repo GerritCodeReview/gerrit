@@ -34,7 +34,10 @@ import {
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util';
 import {computeTruncatedPath} from '../../../utils/path-list-util';
 import {customElement, property} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {
+  RestApiService,
+  ErrorCallback,
+} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   ChangeInfo,
   PatchSetNum,
@@ -43,11 +46,14 @@ import {
   NumericChangeId,
 } from '../../../types/common';
 import {GrStorage} from '../../shared/gr-storage/gr-storage';
+import {HttpMethod, NotifyType} from '../../../constants/constants';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
 const SAVED_MESSAGE = 'All changes saved';
 const SAVE_FAILED_MSG = 'Failed to save changes';
+const NAVIGATING_TO_CHANGE_MSG = 'Navigating to change page';
+const PUBLISH_FAILED_MSG = 'Failed to publish edit';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
 
@@ -332,6 +338,34 @@ export class GrEditorView extends KeyboardShortcutMixin(
   _handleSaveTap() {
     this._saveEdit().then(res => {
       if (res.ok) this._viewEditInChangeView();
+    });
+  }
+
+  _handlePublishTap() {
+    if (!this._changeNum) throw new Error('missing changeNum');
+
+    const changeNum = this._changeNum;
+    this._saveEdit().then(() => {
+      const handleError: ErrorCallback = response => {
+        this._showAlert(PUBLISH_FAILED_MSG);
+        console.error(response);
+      };
+
+      this._showAlert(NAVIGATING_TO_CHANGE_MSG);
+
+      this.$.restAPI
+        .executeChangeAction(
+          changeNum,
+          HttpMethod.POST,
+          '/edit:publish',
+          undefined,
+          {notify: NotifyType.NONE},
+          handleError
+        )
+        .then(() => {
+          if (!this._change) throw new Error('missing change');
+          GerritNav.navigateToChange(this._change);
+        });
     });
   }
 

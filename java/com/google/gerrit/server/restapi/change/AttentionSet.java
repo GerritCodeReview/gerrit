@@ -60,7 +60,8 @@ public class AttentionSet implements ChildCollection<ChangeResource, AttentionSe
   public AttentionSetEntryResource parse(ChangeResource changeResource, IdString idString)
       throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException {
     try {
-      Account.Id accountId = accountResolver.resolve(idString.get()).asUnique().account().id();
+      Account.Id accountId =
+          accountResolver.resolveIgnoreVisibility(idString.get()).asUnique().account().id();
       return new AttentionSetEntryResource(changeResource, accountId);
     } catch (UnresolvableAccountException e) {
       throw new ResourceNotFoundException(idString, e);

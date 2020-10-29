@@ -73,7 +73,8 @@ public class AddToAttentionSet
       throws Exception {
     AttentionSetUtil.validateInput(input);
 
-    Account.Id attentionUserId = accountResolver.resolve(input.user).asUnique().account().id();
+    Account.Id attentionUserId =
+        accountResolver.resolveIgnoreVisibility(input.user).asUnique().account().id();
     if (serviceUserClassifier.isServiceUser(attentionUserId)) {
       throw new BadRequestException(
           String.format(

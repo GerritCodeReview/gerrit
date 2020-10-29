@@ -87,6 +87,24 @@
       "parentUuid": "b511b969_0e6a33e9",
       "revId": "c11497d770e2fcf251e2fa28aea0febec34158c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68e0a08c_67dd9fb3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-29T17:58:23Z",
+      "side": 1,
+      "message": "Default are dropped.\nInfo suffix also dropped, except some places (for ex. createServerInfo sounds for me better than createServer)\n\n\u003e\u003eWhat do you think about allowing an optional parameter for creating slightly modified test objects?\n  const change \u003d createChangeInfo({status: MERGED});\nWe can do it, but during migration gr-change-view_test to ts I didn\u0027t feel that it gives enough advantages.\nI suggest to add it later, when the advantage is more clear.",
+      "parentUuid": "8d4f5bf6_3f3b4437",
+      "revId": "c11497d770e2fcf251e2fa28aea0febec34158c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -46,6 +46,30 @@
       },
       "revId": "4ac3aed7883bd4c0e011a371e16aff856c189f44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98437fcd_ca273322",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-29T12:12:14Z",
+      "side": 1,
+      "message": "so this is actually not exactly relevant to this change, but you\u0027re right that this is a bug that should be fixed (you were anyway allowed to add arbitrary users to the attention set).\nIt\u0027s mostly minor since even if it happens, the UI deals with it gracefully, and it can\u0027t happen unless someone directly tries to do it.\nEither way, fixed in the follow-up.",
+      "parentUuid": "3445e66a_dc16da71",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4ac3aed7883bd4c0e011a371e16aff856c189f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

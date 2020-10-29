@@ -16,6 +16,24 @@
       "message": "You mean convert gr-change-view test to typescript 😊",
       "revId": "e98ed6859f0e203745434d504f38dd075984a696",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8e07fae_06279ad0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-29T17:59:46Z",
+      "side": 1,
+      "message": "Yes, thank you 😊",
+      "parentUuid": "c3d53c58_f11b902f",
+      "revId": "e98ed6859f0e203745434d504f38dd075984a696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3ace4cd_d91b3e2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-10-29T10:03:11Z",
+      "side": 1,
+      "message": "What about instead of having three buttons [\"Save\",\"Close\",\"Done\"] only have two:\n* Done - save\u0026close\n* Cancel - equivalent to the current \"Close\" without saving.\n\nJust the \"Save\" button pretty much has no purpose and is (IMO) just a waste of space, if you want to save your edit and come back to it this is easily don from the change-view in edit mode.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "dc7eba7c1f4d45e0c591afcdb832385776416506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

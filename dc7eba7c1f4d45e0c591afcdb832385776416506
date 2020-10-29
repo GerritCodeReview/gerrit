@@ -46,6 +46,30 @@
       },
       "revId": "dc7eba7c1f4d45e0c591afcdb832385776416506",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b413e371_59590662",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-10-29T10:56:35Z",
+      "side": 1,
+      "message": "If the edits-in-progress are saved locally I think that\u0027s enough.\nMost people are used to online editing with auto-save so it shouldn\u0027t be confusing to anyone that there isn\u0027t a save button (except for those who have gotten used to pressing Save and then Close after editing a file  https://xkcd.com/1172/)",
+      "parentUuid": "1d77735d_79468a71",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "dc7eba7c1f4d45e0c591afcdb832385776416506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3fe7f4b_95d272e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-10-29T14:21:35Z",
+      "side": 1,
+      "message": "i have the impression that you picked \"subscribers\" from my longish list because it seemed familiar, but that was exactly the wrong thing to do here, because i\u0027m (somewhat obviously) not talking about any already named concept, but about naming a concept that keeps recurring but needs to be paraphrased each time due to lacking a formal name.\n\n\"had interactions\" is not any clearer to me than \"are active\". specifically, it seems to imply more than merely \"having a role\" (by virtue of being somehow \"linked\"), but that is contradicted by the description.",
+      "parentUuid": "c0c22a42_4878a611",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "4fa8c3d248f22146f3fd3d4492dceb7c44fd18ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e8641df_ad466c8b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -65,6 +65,7 @@ import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.ServiceUserClassifier;
@@ -87,6 +88,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -821,6 +823,22 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         AttentionSetUtil.additionsOnly(getNotes().getAttentionSet()).stream()
             .map(AttentionSetUpdate::account)
             .collect(Collectors.toSet());
+
+    // Current reviewers/ccs are the reviewers/ccs before the update + the new reviewers/ccs - the
+    // deleted reviewers/ccs.
+    Set<Account.Id> currentReviewers =
+        Stream.concat(
+                getNotes().getReviewers().all().stream(),
+                reviewers.entrySet().stream()
+                    .filter(r -> r.getValue().asReviewerState() != ReviewerState.REMOVED)
+                    .map(r -> r.getKey()))
+            .collect(Collectors.toSet());
+    currentReviewers.removeAll(
+        reviewers.entrySet().stream()
+            .filter(r -> r.getValue().asReviewerState() == ReviewerState.REMOVED)
+            .map(r -> r.getKey())
+            .collect(ImmutableSet.toImmutableSet()));
+
     for (AttentionSetUpdate attentionSetUpdate : plannedAttentionSetUpdates.values()) {
       if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD
           && currentUsersInAttentionSet.contains(attentionSetUpdate.account())) {
@@ -848,8 +866,24 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         continue;
       }
 
+      // Don't add accounts that are not active in the change to the attention set.
+      if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD
+          && !isActiveOnChange(currentReviewers, attentionSetUpdate.account())) {
+        continue;
+      }
+
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
+  }
+
+  /**
+   * Returns whether {@code accountId} is active on a change based on the {@code currentReviewers}.
+   * Activity is defined as being a part of the reviewers, an uploader, or an owner of a change.
+   */
+  private boolean isActiveOnChange(Set<Account.Id> currentReviewers, Account.Id accountId) {
+    return currentReviewers.contains(accountId)
+        || getChange().getOwner().equals(accountId)
+        || getNotes().getCurrentPatchSet().uploader().equals(accountId);
   }
 
   /**

@@ -3055,6 +3055,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(change.getChangeId()).addToAttentionSet(input);
     Account.Id user2Id =
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+
+    // Add the second user as cc to ensure that user took part of the change and can be added to the
+    // attention set.
+    AddReviewerInput addReviewerInput = new AddReviewerInput();
+    addReviewerInput.reviewer = user2Id.toString();
+    addReviewerInput.state = ReviewerState.CC;
+    gApi.changes().id(change.getChangeId()).addReviewer(addReviewerInput);
+
     input = new AttentionSetInput(user2Id.toString(), "reason 2");
     gApi.changes().id(change.getChangeId()).addToAttentionSet(input);
 

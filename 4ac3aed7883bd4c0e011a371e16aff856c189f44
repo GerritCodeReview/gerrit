@@ -22,6 +22,30 @@
       },
       "revId": "4ac3aed7883bd4c0e011a371e16aff856c189f44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3445e66a_dc16da71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-29T09:14:55Z",
+      "side": 1,
+      "message": "good point, I\u0027ll clarify.",
+      "parentUuid": "1012cc8d_43898c82",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4ac3aed7883bd4c0e011a371e16aff856c189f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

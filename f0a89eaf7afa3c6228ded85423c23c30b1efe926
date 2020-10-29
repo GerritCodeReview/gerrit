@@ -16,6 +16,24 @@
       "message": "Hesitant +1, I\u0027m not entirely convinced that this is a good approach.\nMy concern is that from my perspective an edit has two levels.\nPressing \"Edit\" from the change-screen puts you in \"change-edit\".\nWhen in \"change-edit\" pressing \"Add/Open/Upload\" puts you in \"file-edit\".\nIt might be more intuitive for the user to close each of these levels individually.\n\n    default-change-screen\n      \u003e change-edit\n        \u003e file-edit\n        \u003c file-edit\n      \u003c change-edit\n    default-change-screen\n",
       "revId": "f0a89eaf7afa3c6228ded85423c23c30b1efe926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df323aa8_38c105ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-29T18:31:49Z",
+      "side": 1,
+      "message": "I understand your concerns, but otoh you also want to support the 90% use case of just editing one file better. We want to make editing simpler and faster.\n\nI have suggested \"Save \u0026 Publish\" as the name of the button, because it must be clear that the button does two things. So maybe that addresses the concern a little bit.\n\nWe can also iterate further when our daily usage of the feature shows that it is clunky or when we get user reports.\n\nSounds good?",
+      "parentUuid": "df6d5f72_f85ecc72",
+      "revId": "f0a89eaf7afa3c6228ded85423c23c30b1efe926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

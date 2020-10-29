@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b6f1562_43f31c62",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-29T13:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e1156f7_61040559",
+      "range": {
+        "startLine": 344,
+        "startChar": 4,
+        "endLine": 346,
+        "endChar": 5
+      },
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d08a7c5_d2182660",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f430847a_19d466b9",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-29T13:17:11Z",
+      "side": 1,
+      "message": "Inlining seems good.\nThis was copied from gr-change-actions so updated theere too.",
+      "parentUuid": "9d08a7c5_d2182660",
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94d7e736_469c39c0",
@@ -54,6 +96,30 @@
       "writtenOn": "2020-10-29T11:44:31Z",
       "side": 1,
       "message": "You are not really navigating to the change message here, right? Maybe \"Publishing edit ...\" instead?",
+      "range": {
+        "startLine": 357,
+        "startChar": 22,
+        "endLine": 357,
+        "endChar": 46
+      },
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a24f877_83416011",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-29T13:17:11Z",
+      "side": 1,
+      "message": "NAVIGATING_TO_CHANGE_MSG \u003d Navigating to change page\nI am navigating to the change page(line 372).\nDo you prefer a rename? the _MSG suffix was in all other constants so I added here for consistency.",
+      "parentUuid": "94d7e736_469c39c0",
       "range": {
         "startLine": 357,
         "startChar": 22,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42292456_9a9ce234",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-29T13:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbb9ced0_431142b2",
+      "range": {
+        "startLine": 369,
+        "startChar": 10,
+        "endLine": 371,
+        "endChar": 11
+      },
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8e466ca_5c707feb",
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "889cd13e_c565be3c",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-29T13:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8e466ca_5c707feb",
+      "range": {
+        "startLine": 97,
+        "startChar": 17,
+        "endLine": 97,
+        "endChar": 35
+      },
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85c660b4_e48ba385",
@@ -123,6 +237,30 @@
       "writtenOn": "2020-10-29T11:44:31Z",
       "side": 1,
       "message": "I think I would call this \"Save \u0026 Publish\".",
+      "range": {
+        "startLine": 100,
+        "startChar": 11,
+        "endLine": 100,
+        "endChar": 18
+      },
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10495d3a_49d7fa2f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-29T13:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85c660b4_e48ba385",
       "range": {
         "startLine": 100,
         "startChar": 11,

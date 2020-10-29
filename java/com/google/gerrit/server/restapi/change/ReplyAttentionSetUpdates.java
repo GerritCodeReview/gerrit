@@ -335,7 +335,8 @@ public class ReplyAttentionSetUpdates {
   private Account.Id getAccountId(ChangeNotes changeNotes, String user)
       throws ConfigInvalidException, IOException, UnprocessableEntityException,
           PermissionBackendException {
-    Account.Id attentionUserId = accountResolver.resolve(user).asUnique().account().id();
+    Account.Id attentionUserId =
+        accountResolver.resolveIgnoreVisibility(user).asUnique().account().id();
     try {
       permissionBackend
           .absentUser(attentionUserId)

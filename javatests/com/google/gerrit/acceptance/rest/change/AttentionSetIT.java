@@ -35,6 +35,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -1530,6 +1531,38 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // Ensure emails that don't relate to changes are still sent.
     gApi.accounts().id(user.id().get()).generateHttpPassword();
     assertThat(sender.getMessages()).isNotEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
+  public void onReplyCanAddInvisibleUsersToAttentionSetOnVisibleChanges() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+
+    // admin is invisible to the user, but they can still add them to the attention set since they
+    // see the change.
+    change(r).current().review(ReviewInput.create().addUserToAttentionSet(admin.email(), "reason"));
+    assertThat(Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin)).operation())
+        .isEqualTo(Operation.ADD);
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
+  public void canAddInvisibleUsersToAttentionSetOnVisibleChanges() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+
+    // admin is invisible to the user, but they can still add them to the attention set since they
+    // see the change.
+    change(r).addToAttentionSet(new AttentionSetInput(admin.email(), "reason"));
+    assertThat(Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin)).operation())
+        .isEqualTo(Operation.ADD);
+
+    // admin is invisible to the user, but they can still remove them to the attention set since
+    // they see the change.
+    change(r).attention(admin.id().toString()).remove(new AttentionSetInput("removed"));
+    assertThat(Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin)).operation())
+        .isEqualTo(Operation.REMOVE);
   }
 
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(

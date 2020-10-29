@@ -27,14 +27,19 @@ need to undergo some stabilization before releasing the final release.
 
 * Propose the release with any plans/objectives to the mailing list.
 
+* Release plans usually become a
+  link:https://www.gerritcodereview.com/news.html[news article]
+  to be followed up with.
+
 * Create a Gerrit `rc0`.
 
-* If needed create a Gerrit `rc1`.
+* If needed create Gerrit `rc1`, `rc2` and `rc3` (one per week, on Mondays
+  or so; see link:https://www.gerritcodereview.com/news.html[past release plans]).
 
 [NOTE]
-You may let in a few features to this release.
+You may let in a few features to these releases.
 
-* If needed create a Gerrit `rc2`.
+* If needed create a Gerrit `rc4`.
 
 [NOTE]
 There should be no new features in this release, only bug fixes.

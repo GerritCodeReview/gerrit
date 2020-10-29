@@ -187,10 +187,10 @@ suite('gr-editor-view tests', () => {
         assert.isTrue(saveFileStub.called);
         assert.isFalse(element._saving);
         assert.equal(alertStub.lastCall.args[0], 'All changes saved');
-        assert.isFalse(navigateStub.called);
         assert.isTrue(element.$.save.hasAttribute('disabled'));
         assert.equal(element._content, element._newContent);
         assert.isTrue(element._successfulSave);
+        assert.isTrue(navigateStub.called);
       });
     });
 

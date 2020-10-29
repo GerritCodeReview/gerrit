@@ -161,7 +161,7 @@ suite('gr-editor-view tests', () => {
         assert.equal(alertStub.lastCall.args[0], 'Failed to save changes');
         assert.deepEqual(saveFileStub.lastCall.args,
             [mockParams.changeNum, mockParams.path, newText]);
-        assert.isFalse(navigateStub.called);
+        assert.isTrue(navigateStub.called);
         assert.isFalse(element.$.save.hasAttribute('disabled'));
         assert.notEqual(element._content, element._newContent);
       });
@@ -187,10 +187,10 @@ suite('gr-editor-view tests', () => {
         assert.isTrue(saveFileStub.called);
         assert.isFalse(element._saving);
         assert.equal(alertStub.lastCall.args[0], 'All changes saved');
-        assert.isFalse(navigateStub.called);
         assert.isTrue(element.$.save.hasAttribute('disabled'));
         assert.equal(element._content, element._newContent);
         assert.isTrue(element._successfulSave);
+        assert.isTrue(navigateStub.called);
       });
     });
 

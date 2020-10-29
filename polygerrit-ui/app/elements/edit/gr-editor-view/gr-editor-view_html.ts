@@ -92,14 +92,14 @@ export const htmlTemplate = html`
       </span>
       <span class="controlGroup rightControls">
         <gr-button id="close" link="" on-click="_handleCloseTap"
-          >Close</gr-button
+          >Cancel</gr-button
         >
         <gr-button
           id="save"
-          disabled$="[[_saveDisabled]]"
-          primary=""
           link=""
-          on-click="_saveEdit"
+          title="Save and Close the file"
+          on-click="_handleSaveTap"
+          disabled$="[[_saveDisabled]]"
           >Save</gr-button
         >
       </span>

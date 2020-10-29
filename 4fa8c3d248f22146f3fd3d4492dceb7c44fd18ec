@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59b18e83_07500a16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-10-29T12:39:45Z",
+      "side": 1,
+      "message": "hehe, there we go again. maybe standardize on {review|change} {participants|attendees|subscribers|members} or something like that after all?",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "4fa8c3d248f22146f3fd3d4492dceb7c44fd18ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e8641df_ad466c8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-10-29T12:39:45Z",
+      "side": 1,
+      "message": "prefer the past form when describing the state before the change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "4fa8c3d248f22146f3fd3d4492dceb7c44fd18ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

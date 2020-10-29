@@ -328,6 +328,12 @@ export class GrEditorView extends KeyboardShortcutMixin(
     this._viewEditInChangeView();
   }
 
+  _handleSaveTap() {
+    this._saveEdit().then(() => {
+      this._viewEditInChangeView();
+    });
+  }
+
   _handleContentChange(e: CustomEvent<{value: string}>) {
     this.debounce(
       'store',

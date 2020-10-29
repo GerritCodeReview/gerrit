@@ -809,6 +809,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void addAttentionStatusForMultipleUsers() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
+    // put the user as cc to ensure that the user took part in this change.
+    update.putReviewer(otherUser.getAccount().id(), CC);
     AttentionSetUpdate attentionSetUpdate0 =
         AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
     AttentionSetUpdate attentionSetUpdate1 =

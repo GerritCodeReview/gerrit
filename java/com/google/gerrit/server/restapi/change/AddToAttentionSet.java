@@ -29,6 +29,7 @@ import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.AttentionSetEntryResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -72,9 +73,16 @@ public class AddToAttentionSet
   public Response<AccountInfo> apply(ChangeResource changeResource, AttentionSetInput input)
       throws Exception {
     AttentionSetUtil.validateInput(input);
-
     Account.Id attentionUserId =
         accountResolver.resolveIgnoreVisibility(input.user).asUnique().account().id();
+    if (!isActiveOnTheChange(changeResource.getNotes(), attentionUserId)) {
+      throw new BadRequestException(
+          String.format(
+              "%s is not active on the change as an owner, uploader, reviewer, or "
+                  + "cc so they can't be added to the attention set",
+              input.user));
+    }
+
     if (serviceUserClassifier.isServiceUser(attentionUserId)) {
       throw new BadRequestException(
           String.format(
@@ -100,5 +108,15 @@ public class AddToAttentionSet
       bu.execute();
       return Response.ok(accountLoaderFactory.create(true).fillOne(attentionUserId));
     }
+  }
+
+  /**
+   * Returns whether {@code accountId} is active on a change. Activity is defined as being a part of
+   * the reviewers, an uploader, or an owner of a change.
+   */
+  private boolean isActiveOnTheChange(ChangeNotes changeNotes, Account.Id attentionUserId) {
+    return changeNotes.getChange().getOwner().equals(attentionUserId)
+        || changeNotes.getCurrentPatchSet().uploader().equals(attentionUserId)
+        || changeNotes.getReviewers().all().stream().anyMatch(id -> id.equals(attentionUserId));
   }
 }

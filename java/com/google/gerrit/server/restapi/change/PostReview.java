@@ -380,7 +380,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       // Notify based on ReviewInput, ignoring the notify settings from any AddReviewerInputs.
       NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
       bu.setNotify(notify);
-
       // Adjust the attention set based on the input
       replyAttentionSetUpdates.updateAttentionSet(
           bu, revision.getNotes(), input, revision.getUser());

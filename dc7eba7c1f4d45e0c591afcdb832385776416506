@@ -22,6 +22,30 @@
       },
       "revId": "dc7eba7c1f4d45e0c591afcdb832385776416506",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d77735d_79468a71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-29T10:07:39Z",
+      "side": 1,
+      "message": "I thought of this but I can imagine people having workflows where they partially Save their changes and want to continue editing without leaving the editor view.\nWe do save edits-in-progress in local storage so probably constantly saving their edits is not required for any user.\n\nI would be fine with removing the Save button. \n\nNote: The follow up change is also adding a Publish button so reducing space would be even more valuable.\n@Ben WDYT?",
+      "parentUuid": "b3ace4cd_d91b3e2c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "dc7eba7c1f4d45e0c591afcdb832385776416506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

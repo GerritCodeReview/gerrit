@@ -214,6 +214,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed2d23c6_3eff4e96",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-29T18:27:27Z",
+      "side": 1,
+      "message": "sg",
+      "parentUuid": "d57adaa1_c1057b50",
+      "revId": "095189c90514d10bab52b585a9cb956f254e3417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cdb808f_762418a1",

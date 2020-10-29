@@ -16,6 +16,24 @@
       "message": "Why did you swap the order?\n\nThe reply dialog has cancel-send.\nThe comment widget has cancel-save.\nSo maybe stick to cancel-save instead of save-cancel?",
       "revId": "2e47f1d89d128e9688fffed194ef5e8db2ccf346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "455a8fc7_cd22b00b",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-29T11:54:12Z",
+      "side": 1,
+      "message": "Yeah I realised that and fixed it already in PS4.\nPTAL.",
+      "parentUuid": "cf156c69_d0e687b0",
+      "revId": "2e47f1d89d128e9688fffed194ef5e8db2ccf346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -71,7 +71,8 @@ public class RemoveFromAttentionSet
     if (!input.user.isEmpty()) {
       Account.Id attentionUserId = null;
       try {
-        attentionUserId = accountResolver.resolve(input.user).asUnique().account().id();
+        attentionUserId =
+            accountResolver.resolveIgnoreVisibility(input.user).asUnique().account().id();
       } catch (AccountResolver.UnresolvableAccountException ex) {
         throw new BadRequestException(
             "The user specified in the input body couldn't be found.", ex);

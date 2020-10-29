@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-editor-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
+import {HttpMethod} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-editor-view');
 
@@ -191,6 +192,43 @@ suite('gr-editor-view tests', () => {
         assert.equal(element._content, element._newContent);
         assert.isTrue(element._successfulSave);
         assert.isTrue(navigateStub.called);
+      });
+    });
+
+    test('file modification and publish', () => {
+      const saveSpy = sinon.spy(element, '_saveEdit');
+      const alertStub = sinon.stub(element, '_showAlert');
+      const changeActionsStub =
+        sinon.stub(element.$.restAPI, 'executeChangeAction');
+      saveFileStub.returns(Promise.resolve({ok: true}));
+      element._newContent = newText;
+      flush();
+
+      assert.isFalse(element._saving);
+      assert.isFalse(element.$.save.hasAttribute('disabled'));
+
+      MockInteractions.tap(element.$.publish);
+      assert.isTrue(saveSpy.called);
+      assert.equal(alertStub.getCall(0).args[0], 'Saving changes...');
+      assert.isTrue(element._saving);
+      assert.isTrue(element.$.save.hasAttribute('disabled'));
+
+      return saveSpy.lastCall.returnValue.then(() => {
+        assert.isTrue(saveFileStub.called);
+        assert.isFalse(element._saving);
+
+        assert.equal(alertStub.getCall(1).args[0], 'All changes saved');
+        assert.equal(alertStub.getCall(2).args[0], 'Publishing edit...');
+
+        assert.isTrue(element.$.save.hasAttribute('disabled'));
+        assert.equal(element._content, element._newContent);
+        assert.isTrue(element._successfulSave);
+        assert.isFalse(navigateStub.called);
+
+        const args = changeActionsStub.lastCall.args;
+        assert.equal(args[0], '42');
+        assert.equal(args[1], HttpMethod.POST);
+        assert.equal(args[2], '/edit:publish');
       });
     });
 

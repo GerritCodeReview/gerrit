@@ -1833,8 +1833,6 @@ export class GrChangeActions
   }
 
   _handlePublishEditTap() {
-    // Type of payload is PublishChangeEditInput.
-    const payload = {notify: NotifyType.NONE};
     if (!this.actions.publishEdit) {
       return;
     }
@@ -1842,7 +1840,7 @@ export class GrChangeActions
       '/edit:publish',
       assertUIActionInfo(this.actions.publishEdit),
       false,
-      payload
+      {notify: NotifyType.NONE}
     );
   }
 

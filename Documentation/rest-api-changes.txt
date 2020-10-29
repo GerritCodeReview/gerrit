@@ -5935,6 +5935,8 @@ A user can only be added if they are not in the attention set.
 If a user is added while already in the attention set, the
 request is silently ignored.
 
+The user must be a reviewer, cc, uploader, or owner on the change.
+
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/attention HTTP/1.0
@@ -7662,7 +7664,8 @@ If true, mark the change as work in progress. It is an error for both
 `ready` and `work_in_progress` to be true.
 |`add_to_attention_set`                |optional|
 list of link:#attention-set-input[AttentionSetInput] entities to add
-to the link:#attention-set[attention set].
+to the link:#attention-set[attention set]. Users that are not reviewers,
+ccs, owner, or uploader are silently ignored.
 |`remove_from_attention_set`           |optional|
 list of link:#attention-set-input[AttentionSetInput] entities to remove
 from the link:#attention-set[attention set].

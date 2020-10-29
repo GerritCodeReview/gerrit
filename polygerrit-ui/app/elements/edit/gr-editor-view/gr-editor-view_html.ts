@@ -91,6 +91,14 @@ export const htmlTemplate = html`
         ></gr-editable-label>
       </span>
       <span class="controlGroup rightControls">
+        <gr-button
+          id="done"
+          link=""
+          title="Save and Close the file"
+          on-click="_handleDoneTap"
+          disabled$="[[_saveDisabled]]"
+          >Done</gr-button
+        >
         <gr-button id="close" link="" on-click="_handleCloseTap"
           >Close</gr-button
         >

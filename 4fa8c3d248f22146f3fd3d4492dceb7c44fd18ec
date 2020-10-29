@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0c22a42_4878a611",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-29T12:48:09Z",
+      "side": 1,
+      "message": "clarified that it just means \"had interactions on the change\". Either way the docs just state clearly that it refers to \"reviewer, cc, uploader, owner\". For subscribers, etc, they can\u0027t be in the attention set and it makes sense to me, since they can be added as reviewer for that purpose.\n\nEither way, it\u0027s not supported by the UI to add someone to the attention without them being reviewer/cc/uploader/owner, so this change doesn\u0027t really introduce anything new (it always was that way), but rather fixes a bug.",
+      "parentUuid": "59b18e83_07500a16",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "4fa8c3d248f22146f3fd3d4492dceb7c44fd18ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e8641df_ad466c8b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-29T12:39:45Z",
       "side": 1,
       "message": "prefer the past form when describing the state before the change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "4fa8c3d248f22146f3fd3d4492dceb7c44fd18ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cbde1d4_599e066d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-29T12:48:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e8641df_ad466c8b",
       "range": {
         "startLine": 9,
         "startChar": 0,

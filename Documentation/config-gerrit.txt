@@ -3397,6 +3397,11 @@ and group membership from.  Must be of the form `ldap://host` or
 If `auth.type` is `LDAP` this setting should use `ldaps://` to
 ensure the end user's plaintext password is transmitted only over
 an encrypted connection.
++
+If you want to configure multiple ldap servers you can try to put
+multiple ldap urls separated by a space:
+`server = ldaps://ldap1 ldaps://ldap2`
+See https://bugs.chromium.org/p/gerrit/issues/detail?id=10841[issue 10841].
 
 [[ldap.startTls]]ldap.startTls::
 +

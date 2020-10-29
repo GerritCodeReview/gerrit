@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e1156f7_61040559",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-29T11:44:31Z",
+      "side": 1,
+      "message": "fits on one line",
+      "range": {
+        "startLine": 344,
+        "startChar": 4,
+        "endLine": 346,
+        "endChar": 5
+      },
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d08a7c5_d2182660",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-29T11:44:31Z",
+      "side": 1,
+      "message": "You can write\n\n  const payload: PublishChangeEditInput \u003d ...\n\nif you want to make it clear what the type is. That is better than a comment.\n\nOr maybe just inline `payload`?",
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94d7e736_469c39c0",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-29T11:44:31Z",
+      "side": 1,
+      "message": "You are not really navigating to the change message here, right? Maybe \"Publishing edit ...\" instead?",
+      "range": {
+        "startLine": 357,
+        "startChar": 22,
+        "endLine": 357,
+        "endChar": 46
+      },
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbb9ced0_431142b2",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-29T11:44:31Z",
+      "side": 1,
+      "message": "fits on one line",
+      "range": {
+        "startLine": 369,
+        "startChar": 10,
+        "endLine": 371,
+        "endChar": 11
+      },
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8e466ca_5c707feb",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-29T11:44:31Z",
+      "side": 1,
+      "message": "Maybe expand a bit so that users know what \"publish\" actually means: A new patchset will be created and uploaded to the change.",
+      "range": {
+        "startLine": 97,
+        "startChar": 17,
+        "endLine": 97,
+        "endChar": 35
+      },
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85c660b4_e48ba385",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-29T11:44:31Z",
+      "side": 1,
+      "message": "I think I would call this \"Save \u0026 Publish\".",
+      "range": {
+        "startLine": 100,
+        "startChar": 11,
+        "endLine": 100,
+        "endChar": 18
+      },
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

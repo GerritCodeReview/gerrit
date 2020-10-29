@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a99270d_dd281de5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AbstractPushTag.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-29T08:33:35Z",
+      "side": 1,
+      "message": "This block rule had no effect, since the setUpTestEnvironment() in AbstractPushTag calls blockAnonymousRead() which blocks read access for anonymous users on refs/*, but grant read access for registered users on refs/*. Adding a block rule for registered users on refs/* had no effect since it was overruled by an allow rule on the same ref.\n\nFixed this now.",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 18
+      },
+      "revId": "294059da624a05e092cb252b392c80b8174bda51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

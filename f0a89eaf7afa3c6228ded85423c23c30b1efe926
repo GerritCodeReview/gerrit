@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df6d5f72_f85ecc72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-10-29T16:28:14Z",
+      "side": 1,
+      "message": "Hesitant +1, I\u0027m not entirely convinced that this is a good approach.\nMy concern is that from my perspective an edit has two levels.\nPressing \"Edit\" from the change-screen puts you in \"change-edit\".\nWhen in \"change-edit\" pressing \"Add/Open/Upload\" puts you in \"file-edit\".\nIt might be more intuitive for the user to close each of these levels individually.\n\n    default-change-screen\n      \u003e change-edit\n        \u003e file-edit\n        \u003c file-edit\n      \u003c change-edit\n    default-change-screen\n",
+      "revId": "f0a89eaf7afa3c6228ded85423c23c30b1efe926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

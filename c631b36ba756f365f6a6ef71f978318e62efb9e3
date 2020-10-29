@@ -46,6 +46,30 @@
       },
       "revId": "c631b36ba756f365f6a6ef71f978318e62efb9e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3387dae_34e30ce6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AbstractPushTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-29T08:35:46Z",
+      "side": 1,
+      "message": "Of course there was something wrong with the test here.\nThe block rule just didn\u0027t have any effect (see comment at https://gerrit-review.googlesource.com/c/gerrit/+/285454/3..4/javatests/com/google/gerrit/acceptance/rest/project/AbstractPushTag.java).\nIf we remove the read access completely, pushing tags fails. To make it work we at least need to grant read access on refs/heads/* (which makes sense).",
+      "parentUuid": "b1705705_7a0db403",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 33
+      },
+      "revId": "c631b36ba756f365f6a6ef71f978318e62efb9e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -194,6 +194,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void removeUserWithInvalidUserInput() throws Exception {
     PushOneCommit.Result r = createChange();
+    // implictly adds the user to the attention set when adding as reviewer
+    change(r).addReviewer(user.email());
+
     BadRequestException exception =
         assertThrows(
             BadRequestException.class,
@@ -202,7 +205,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
                     .attention(user.id().toString())
                     .remove(new AttentionSetInput("invalid user", "reason")));
     assertThat(exception.getMessage())
-        .isEqualTo("The user specified in the input body couldn't be found.");
+        .isEqualTo(
+            "invalid user doesn't exist or is not active on the change as an owner, "
+                + "uploader, reviewer, or cc so they can't be added to the attention set");
 
     exception =
         assertThrows(
@@ -214,13 +219,6 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(exception.getMessage())
         .isEqualTo(
             "The field \"user\" must be empty, or must match the user specified in the URL.");
-  }
-
-  @Test
-  public void removeUnrelatedUser() throws Exception {
-    PushOneCommit.Result r = createChange();
-    change(r).attention(user.id().toString()).remove(new AttentionSetInput("foo"));
-    assertThat(r.getChange().attentionSet()).isEmpty();
   }
 
   @Test
@@ -1565,9 +1563,72 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(exception.getMessage())
         .isEqualTo(
             String.format(
-                "%s is not active on the change as an owner, uploader, reviewer, or cc so they "
-                    + "can't be added to the attention set",
+                "%s doesn't exist or is not active on the change as an owner, uploader, reviewer, "
+                    + "or cc so they can't be added to the attention set",
                 user.email()));
+  }
+
+  @Test
+  public void cannotAddNonExistingUserToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> change(r).addToAttentionSet(new AttentionSetInput("INVALID USER", "reason")));
+    assertThat(exception.getMessage())
+        .isEqualTo(
+            "INVALID USER doesn't exist or is not active on the change as an owner,"
+                + " uploader, reviewer, or cc so they can't be added to the attention set");
+  }
+
+  @Test
+  public void cannotRemoveIrrelevantUserToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> change(r).attention(user.email()).remove(new AttentionSetInput("reason")));
+    assertThat(exception.getMessage())
+        .isEqualTo(
+            String.format(
+                "%s doesn't exist or is not active on the change as an owner, uploader, reviewer, "
+                    + "or cc so they can't be added to the attention set",
+                user.email()));
+  }
+
+  @Test
+  public void cannotRemoveIrrelevantUserToAttentionSetWithUserInInput() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                change(r)
+                    .attention(user.email())
+                    .remove(new AttentionSetInput(user.email(), "reason")));
+    assertThat(exception.getMessage())
+        .isEqualTo(
+            String.format(
+                "%s doesn't exist or is not active on the change as an owner, uploader, reviewer, "
+                    + "or cc so they can't be added to the attention set",
+                user.email()));
+  }
+
+  @Test
+  public void cannotRemoveNonExistingUser() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> change(r).attention("INVALID USER").remove(new AttentionSetInput("reason")));
+    assertThat(exception.getMessage())
+        .isEqualTo(
+            "INVALID USER doesn't exist or is not active on the change as an owner,"
+                + " uploader, reviewer, or cc so they can't be added to the attention set");
   }
 
   @Test
@@ -1598,6 +1659,47 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).current().review(ReviewInput.create().reviewer(user.email()));
     assertThat(Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user)).operation())
         .isEqualTo(Operation.ADD);
+  }
+
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
+  public void onReplyCanAddInvisibleUsersToAttentionSetOnVisibleChanges() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+
+    // admin is invisible to the user, but they can still add them to the attention set since they
+    // see the change.
+    change(r).current().review(ReviewInput.create().addUserToAttentionSet(admin.email(), "reason"));
+    assertThat(Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin)).operation())
+        .isEqualTo(Operation.ADD);
+  }
+
+  @Test
+  public void onReplyNonExistingUsersAreSilentlyIgnored() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    change(r)
+        .current()
+        .review(ReviewInput.create().addUserToAttentionSet("INVALID USER", "reason"));
+    assertThat(getAttentionSetUpdates(r.getChange().getId())).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
+  public void canModifyAttentionSetForInvisibleUsersOnVisibleChanges() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+
+    // admin is invisible to the user, but they can still add them to the attention set since they
+    // see the change.
+    change(r).addToAttentionSet(new AttentionSetInput(admin.email(), "reason"));
+    assertThat(Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin)).operation())
+        .isEqualTo(Operation.ADD);
+
+    // admin is invisible to the user, but they can still remove them to the attention set since
+    // they see the change.
+    change(r).attention(admin.id().toString()).remove(new AttentionSetInput("removed"));
+    assertThat(Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin)).operation())
+        .isEqualTo(Operation.REMOVE);
   }
 
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(

@@ -312,10 +312,14 @@ public class ReplyAttentionSetUpdates {
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
     AttentionSetUtil.validateInput(add);
-    Account.Id attentionUserId =
-        getAccountIdAndValidateUser(changeNotes, add.user, accountsChangedInCommit);
-
-    addToAttentionSet(bu, changeNotes, attentionUserId, add.reason, false);
+    try {
+      Account.Id attentionUserId =
+          getAccountIdAndValidateUser(changeNotes, add.user, accountsChangedInCommit);
+      addToAttentionSet(bu, changeNotes, attentionUserId, add.reason, false);
+    } catch (AccountResolver.UnresolvableAccountException ex) {
+      // This happens only when the account doesn't exist. Silently ignore it. If we gave an error
+      // message here, then it would be possible to probe whether an account exists.
+    }
   }
 
   private void removeFromAttentionSet(
@@ -326,10 +330,14 @@ public class ReplyAttentionSetUpdates {
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
     AttentionSetUtil.validateInput(remove);
-    Account.Id attentionUserId =
-        getAccountIdAndValidateUser(changeNotes, remove.user, accountsChangedInCommit);
-
-    removeFromAttentionSet(bu, changeNotes, attentionUserId, remove.reason, false);
+    try {
+      Account.Id attentionUserId =
+          getAccountIdAndValidateUser(changeNotes, remove.user, accountsChangedInCommit);
+      removeFromAttentionSet(bu, changeNotes, attentionUserId, remove.reason, false);
+    } catch (AccountResolver.UnresolvableAccountException ex) {
+      // This happens only when the account doesn't exist. Silently ignore it. If we gave an error
+      // message here, then it would be possible to probe whether an account exists.
+    }
   }
 
   private Account.Id getAccountId(ChangeNotes changeNotes, String user)
@@ -356,15 +364,21 @@ public class ReplyAttentionSetUpdates {
       ChangeNotes changeNotes, String user, Set<Account.Id> accountsChangedInCommit)
       throws ConfigInvalidException, IOException, PermissionBackendException,
           UnprocessableEntityException, BadRequestException {
-    Account.Id attentionUserId = getAccountId(changeNotes, user);
-    if (accountsChangedInCommit.contains(attentionUserId)) {
-      throw new BadRequestException(
-          String.format(
-              "%s can not be added/removed twice, and can not be added and "
-                  + "removed at the same time",
-              user));
+    try {
+      Account.Id attentionUserId = getAccountId(changeNotes, user);
+      if (accountsChangedInCommit.contains(attentionUserId)) {
+        throw new BadRequestException(
+            String.format(
+                "%s can not be added/removed twice, and can not be added and "
+                    + "removed at the same time",
+                user));
+      }
+      accountsChangedInCommit.add(attentionUserId);
+      return attentionUserId;
+    } catch (AccountResolver.UnresolvableAccountException ex) {
+      // This can only happen if this user can't see the account or the account doesn't exist.
+      // Silently add the account to the attention set anyway if the account exists
+      return accountResolver.resolveIgnoreVisibility(user).asUnique().account().id();
     }
-    accountsChangedInCommit.add(attentionUserId);
-    return attentionUserId;
   }
 }

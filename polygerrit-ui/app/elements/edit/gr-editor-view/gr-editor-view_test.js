@@ -194,6 +194,33 @@ suite('gr-editor-view tests', () => {
       });
     });
 
+    test('file modification and done', () => {
+      const saveSpy = sinon.spy(element, '_saveEdit');
+      const alertStub = sinon.stub(element, '_showAlert');
+      saveFileStub.returns(Promise.resolve({ok: true}));
+      element._newContent = newText;
+      flush();
+
+      assert.isFalse(element._saving);
+      assert.isFalse(element.$.save.hasAttribute('disabled'));
+
+      MockInteractions.tap(element.$.done);
+      assert.isTrue(saveSpy.called);
+      assert.equal(alertStub.lastCall.args[0], 'Saving changes...');
+      assert.isTrue(element._saving);
+      assert.isTrue(element.$.save.hasAttribute('disabled'));
+
+      return saveSpy.lastCall.returnValue.then(() => {
+        assert.isTrue(saveFileStub.called);
+        assert.isFalse(element._saving);
+        assert.equal(alertStub.lastCall.args[0], 'All changes saved');
+        assert.isTrue(element.$.save.hasAttribute('disabled'));
+        assert.equal(element._content, element._newContent);
+        assert.isTrue(element._successfulSave);
+        assert.isTrue(navigateStub.called);
+      });
+    });
+
     test('file modification and close', () => {
       const closeSpy = sinon.spy(element, '_handleCloseTap');
       element._newContent = newText;

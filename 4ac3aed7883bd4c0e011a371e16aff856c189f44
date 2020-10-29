@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1012cc8d_43898c82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-29T09:13:51Z",
+      "side": 1,
+      "message": "I\u0027m fine with allowing to add non-visible users to the attention set, if their existence is already revealed to the caller, because they appear on the change that is visible to the caller.\n\nBut we shouldn\u0027t allow to add arbitrary non-visible users (e.g. non-visible users that don\u0027t appear on the change).\n\nCan you please make the description a bit clearer about this?\n\nI skimmed through this change and it looks like it\u0027s actually allowing to add arbitrary non-visible users to the attention set now?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4ac3aed7883bd4c0e011a371e16aff856c189f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

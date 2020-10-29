@@ -39,6 +39,30 @@
       },
       "revId": "40865f1016274daa912c9f3fb9ba673520ab52b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eb08dbe_b4e11633",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-29T15:43:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ae4e6de_fe808e1e",
+      "range": {
+        "startLine": 93,
+        "startChar": 17,
+        "endLine": 93,
+        "endChar": 24
+      },
+      "revId": "40865f1016274daa912c9f3fb9ba673520ab52b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

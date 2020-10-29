@@ -70,6 +70,30 @@
       },
       "revId": "dc7eba7c1f4d45e0c591afcdb832385776416506",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be9ac6b1_1fd94ebd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-29T11:45:33Z",
+      "side": 1,
+      "message": "As discussed:\n1. removed the Done button\n2. updated Save button to Save \u0026 Close\n3. renamed Close button to Cancel",
+      "parentUuid": "b413e371_59590662",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "dc7eba7c1f4d45e0c591afcdb832385776416506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

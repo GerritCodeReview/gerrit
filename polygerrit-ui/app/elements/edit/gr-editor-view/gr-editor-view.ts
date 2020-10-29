@@ -289,11 +289,12 @@ export class GrEditorView extends KeyboardShortcutMixin(
         this._saving = false;
         this._showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
         if (!res.ok) {
-          return;
+          return res;
         }
 
         this._content = this._newContent;
         this._successfulSave = true;
+        return res;
       });
   }
 
@@ -326,6 +327,12 @@ export class GrEditorView extends KeyboardShortcutMixin(
   _handleCloseTap() {
     // TODO(kaspern): Add a confirm dialog if there are unsaved changes.
     this._viewEditInChangeView();
+  }
+
+  _handleSaveTap() {
+    this._saveEdit().then(res => {
+      if (res.ok) this._viewEditInChangeView();
+    });
   }
 
   _handleContentChange(e: CustomEvent<{value: string}>) {

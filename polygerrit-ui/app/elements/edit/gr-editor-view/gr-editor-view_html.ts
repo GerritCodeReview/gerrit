@@ -92,6 +92,14 @@ export const htmlTemplate = html`
       </span>
       <span class="controlGroup rightControls">
         <gr-button
+          id="publish"
+          link=""
+          title="Publish your edit"
+          on-click="_handlePublishTap"
+          disabled$="[[_saveDisabled]]"
+          >Publish</gr-button
+        >
+        <gr-button
           id="done"
           link=""
           title="Save and Close the file"

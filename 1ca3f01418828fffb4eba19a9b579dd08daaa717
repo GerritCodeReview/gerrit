@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d922d82e_2f63ff35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118555
+      },
+      "writtenOn": "2020-10-29T17:26:09Z",
+      "side": 1,
+      "message": "\u003e Patch Set 1:\n\u003e \n\u003e \u003e Patch Set 1:\n\u003e \u003e \n\u003e \u003e Ups, I didn\u0027t realize that the predecessor change was still open. Maybe just squash this change into the predecessor change.\n\u003e \n\u003e I wuold prefer to keep them separate. For one it\u0027s attribution, for another, I don\u0027t know Google specifics.\n\n",
+      "revId": "1ca3f01418828fffb4eba19a9b579dd08daaa717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

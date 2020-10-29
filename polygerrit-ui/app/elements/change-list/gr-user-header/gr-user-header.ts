@@ -30,6 +30,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {AccountDetailInfo, AccountId} from '../../../types/common';
+import {getDisplayName} from '../../../utils/display-name-util';
 
 export interface GrUserHeader {
   $: {
@@ -78,6 +79,11 @@ export class GrUserHeader extends GestureEventListeners(
     name: keyof AccountDetailInfo
   ) {
     return accountDetails ? accountDetails[name] : '';
+  }
+
+  _computeHeading(accountDetails: AccountDetailInfo | null) {
+    if (!accountDetails) return '';
+    return getDisplayName(undefined, accountDetails);
   }
 
   _computeStatusClass(status: string) {

@@ -132,6 +132,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c795f03_6eda6f6e",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-29T15:33:30Z",
+      "side": 1,
+      "message": "You are navigating to the change page *after* executeChangeAction() has completed. The alert would be shown *while* executeChangeAction() is in progress. And for that \"Publishing edit ...\" seems a more accurate description.",
+      "parentUuid": "9a24f877_83416011",
+      "range": {
+        "startLine": 357,
+        "startChar": 22,
+        "endLine": 357,
+        "endChar": 46
+      },
+      "revId": "2e7c6b2d805238786473bfce24f5f464ecd51db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dbb9ced0_431142b2",
         "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
         "patchSetId": 2

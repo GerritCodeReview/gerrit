@@ -74,6 +74,9 @@ export const htmlTemplate = html`
         display: inline;
       }
     }
+    gr-button[data-action-key='publishEdit'] {
+      background-color: var(--emphasis-color);
+    }
   </style>
   <div id="mainContent">
     <span id="actionLoadingMessage" hidden$="[[!_actionLoadingMessage]]">

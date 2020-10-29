@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8218c239_e21849b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-29T21:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c03790f_cbad6960",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 4
+      },
+      "revId": "ba6d82748701e4a5f0a7e02048e46516338df23a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "eadc97c6_0070398b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 12
@@ -37,6 +61,24 @@
       "writtenOn": "2020-10-18T20:27:38Z",
       "side": 1,
       "message": "Thanks; a few comments:\n\n1. Nit herein.\n2. You may score your Verified vote, based on your testing of these:\n2a. The hereby added regular expressions, confirming them as working.\n2b. The proper rendering of user-search.html with this change.\n\n3. Is this needed on EOL stable-2.16, or can this series be moved to stable-3.0?",
+      "revId": "ba6d82748701e4a5f0a7e02048e46516338df23a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "399fdb3e_1d17e23c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-29T21:38:08Z",
+      "side": 1,
+      "message": "I am planning to release the (hopefully last) v2.16.23 very soon, so it would make sense to include this documentation fix also.",
+      "parentUuid": "eadc97c6_0070398b",
       "revId": "ba6d82748701e4a5f0a7e02048e46516338df23a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

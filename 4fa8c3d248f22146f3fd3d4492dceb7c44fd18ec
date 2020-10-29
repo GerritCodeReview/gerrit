@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5737d0a7_3e9429b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-29T15:29:46Z",
+      "side": 1,
+      "message": "We can formally define \"members/participants/active/had interactions/etc\" \u003d \"reviewer/cc/owner/uploader\".\nPlease send me a change that defines those terms as you see fit and we can iterate from there; happy to review it separately from this change (since this is just a bug fix).",
+      "parentUuid": "c3fe7f4b_95d272e5",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "4fa8c3d248f22146f3fd3d4492dceb7c44fd18ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e8641df_ad466c8b",

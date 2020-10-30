@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -49,19 +50,21 @@ public abstract class SshCommand extends BaseCommand {
   public void start(ChannelSession channel, Environment env) throws IOException {
     startThread(
         () -> {
-          parseCommandLine();
-          stdout = toPrintWriter(out);
-          stderr = toPrintWriter(err);
-          try (TraceContext traceContext = enableTracing();
-              PerformanceLogContext performanceLogContext =
-                  new PerformanceLogContext(config, performanceLoggers)) {
-            RequestInfo requestInfo =
-                RequestInfo.builder(RequestInfo.RequestType.SSH, user, traceContext).build();
-            requestListeners.runEach(l -> l.onRequest(requestInfo));
-            SshCommand.this.run();
-          } finally {
-            stdout.flush();
-            stderr.flush();
+          try (DynamicOptions dynamicOptions = getDynamicOptions(this)) {
+            parseCommandLine();
+            stdout = toPrintWriter(out);
+            stderr = toPrintWriter(err);
+            try (TraceContext traceContext = enableTracing();
+                PerformanceLogContext performanceLogContext =
+                    new PerformanceLogContext(config, performanceLoggers)) {
+              RequestInfo requestInfo =
+                  RequestInfo.builder(RequestInfo.RequestType.SSH, user, traceContext).build();
+              requestListeners.runEach(l -> l.onRequest(requestInfo));
+              SshCommand.this.run();
+            } finally {
+              stdout.flush();
+              stderr.flush();
+            }
           }
         },
         AccessPath.SSH_COMMAND);

@@ -83,6 +83,44 @@ enum ChangeRole {
   COMMITTER = 'committer',
 }
 
+enum Metadata {
+  OWNER = 'Owner',
+  REVIEWERS = 'Reviewers',
+  REPO_BRANCH = 'Repo | Branch',
+  SUBMITTED = 'Submitted',
+  PARENT = 'Parent',
+  STRATEGY = 'Strategy',
+  UPDATED = 'Updated',
+  CC = 'CC',
+  HASHTAGS = 'Hashtags',
+  TOPIC = 'Topic',
+  UPLOADER = 'Uploader',
+  AUTHOR = 'Author',
+  COMMITTER = 'Committer',
+  ASSIGNEE = 'Assignee',
+  CHERRY_PICK_OF = 'Cherry pick of',
+}
+
+const DisplayRules = {
+  ALWAYS_SHOW: [
+    Metadata.OWNER,
+    Metadata.REVIEWERS,
+    Metadata.REPO_BRANCH,
+    Metadata.SUBMITTED,
+  ],
+  SHOW_IF_SET: [
+    Metadata.CC,
+    Metadata.HASHTAGS,
+    Metadata.TOPIC,
+    Metadata.UPLOADER,
+    Metadata.AUTHOR,
+    Metadata.COMMITTER,
+    Metadata.ASSIGNEE,
+    Metadata.CHERRY_PICK_OF,
+  ],
+  ALWAYS_HIDE: [Metadata.PARENT, Metadata.STRATEGY, Metadata.UPDATED],
+};
+
 export interface CommitInfoWithRequiredCommit extends CommitInfo {
   // gr-change-view always assigns commit to CommitInfo
   commit: CommitId;
@@ -190,6 +228,12 @@ export class GrChangeMetadata extends GestureEventListeners(
 
   @property({type: Object})
   _CHANGE_ROLE = ChangeRole;
+
+  @property({type: Object})
+  _SECTION = Metadata;
+
+  @property({type: String})
+  _showAllLabel = 'Show all';
 
   @observe('change.labels')
   _labelsChanged(labels?: LabelNameToInfoMap) {
@@ -561,6 +605,53 @@ export class GrChangeMetadata extends GestureEventListeners(
 
   _computeShowRoleClass(change?: ParsedChangeInfo, role?: ChangeRole) {
     return this._getNonOwnerRole(change, role) ? '' : 'hideDisplay';
+  }
+
+  _computeDisplayState(
+    _showAllLabel: string,
+    change: ParsedChangeInfo | undefined,
+    section: Metadata
+  ) {
+    if (_showAllLabel === 'Show less') {
+      return '';
+    }
+    if (DisplayRules.ALWAYS_SHOW.includes(section)) {
+      return '';
+    }
+    if (
+      DisplayRules.SHOW_IF_SET.includes(section) &&
+      this._isSectionSet(section, change)
+    ) {
+      return '';
+    }
+    return 'hideDisplay';
+  }
+
+  _isSectionSet(section: Metadata, change?: ParsedChangeInfo) {
+    switch (section) {
+      case Metadata.CC:
+        return !!change?.reviewers?.CC?.length;
+      case Metadata.HASHTAGS:
+        return !!change?.hashtags?.length;
+      case Metadata.TOPIC:
+        return !!change?.topic;
+      case Metadata.UPLOADER:
+      case Metadata.AUTHOR:
+      case Metadata.COMMITTER:
+      case Metadata.ASSIGNEE:
+        return false;
+      case Metadata.CHERRY_PICK_OF:
+        return !!change?.cherry_pick_of_change;
+    }
+    return true;
+  }
+
+  _onShowAllClick() {
+    if (this._showAllLabel === 'Show all') {
+      this._showAllLabel = 'Show less';
+    } else {
+      this._showAllLabel = 'Show all';
+    }
   }
 
   /**

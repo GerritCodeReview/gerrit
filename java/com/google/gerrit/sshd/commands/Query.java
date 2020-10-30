@@ -116,9 +116,9 @@ public class Query extends SshCommand implements DynamicOptions.BeanReceiver {
   }
 
   @Override
-  protected void parseCommandLine() throws UnloggedFailure {
+  protected void parseCommandLine(DynamicOptions pluginOptions) throws UnloggedFailure {
     processor.setOutput(out, OutputFormat.TEXT);
-    super.parseCommandLine();
+    super.parseCommandLine(pluginOptions);
     if (processor.getIncludeFiles()
         && !(processor.getIncludePatchSets() || processor.getIncludeCurrentPatchSet())) {
       throw die("--files option needs --patch-sets or --current-patch-set");

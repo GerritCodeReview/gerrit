@@ -101,9 +101,9 @@ public abstract class BaseCommand implements Command {
   @PluginName
   private String pluginName;
 
-  @Inject private Injector injector;
+  @Inject protected Injector injector;
 
-  @Inject private DynamicMap<DynamicOptions.DynamicBean> dynamicBeans = null;
+  @Inject protected DynamicMap<DynamicOptions.DynamicBean> dynamicBeans = null;
 
   /** The task, as scheduled on a worker thread. */
   private final AtomicReference<Future<?>> task;
@@ -211,12 +211,13 @@ public abstract class BaseCommand implements Command {
    *
    * <p>This method must be explicitly invoked to cause a parse.
    *
+   * @param pluginOptions which helps to define and parse options provided from plugins
    * @throws UnloggedFailure if the command line arguments were invalid.
    * @see Option
    * @see Argument
    */
-  protected void parseCommandLine() throws UnloggedFailure {
-    parseCommandLine(this);
+  protected void parseCommandLine(DynamicOptions pluginOptions) throws UnloggedFailure {
+    parseCommandLine(this, pluginOptions);
   }
 
   /**
@@ -226,13 +227,14 @@ public abstract class BaseCommand implements Command {
    *
    * @param options object whose fields declare Option and Argument annotations to describe the
    *     parameters of the command. Usually {@code this}.
+   * @param pluginOptions which helps to define and parse options provided from plugins
    * @throws UnloggedFailure if the command line arguments were invalid.
    * @see Option
    * @see Argument
    */
-  protected void parseCommandLine(Object options) throws UnloggedFailure {
+  protected void parseCommandLine(Object options, DynamicOptions pluginOptions)
+      throws UnloggedFailure {
     final CmdLineParser clp = newCmdLineParser(options);
-    DynamicOptions pluginOptions = new DynamicOptions(options, injector, dynamicBeans);
     pluginOptions.parseDynamicBeans(clp);
     pluginOptions.setDynamicBeans();
     pluginOptions.onBeanParseStart();
@@ -464,13 +466,17 @@ public abstract class BaseCommand implements Command {
           context.started = TimeUtil.nowMs();
           thisThread.setName("SSH " + taskName);
 
-          if (thunk instanceof ProjectCommandRunnable) {
-            ((ProjectCommandRunnable) thunk).executeParseCommand();
-            projectName = ((ProjectCommandRunnable) thunk).getProjectName();
-          }
-
           try {
-            thunk.run();
+            if (thunk instanceof ProjectCommandRunnable) {
+              try (DynamicOptions pluginOptions =
+                  new DynamicOptions(BaseCommand.this, injector, dynamicBeans)) {
+                ((ProjectCommandRunnable) thunk).executeParseCommand(pluginOptions);
+                projectName = ((ProjectCommandRunnable) thunk).getProjectName();
+                thunk.run();
+              }
+            } else {
+              thunk.run();
+            }
           } catch (NoSuchProjectException e) {
             throw new UnloggedFailure(1, e.getMessage());
           } catch (NoSuchChangeException e) {
@@ -533,7 +539,7 @@ public abstract class BaseCommand implements Command {
   public interface ProjectCommandRunnable extends CommandRunnable {
     // execute parser command before running, in order to be able to retrieve
     // project name
-    void executeParseCommand() throws Exception;
+    void executeParseCommand(DynamicOptions pluginOptions) throws Exception;
 
     Project.NameKey getProjectName();
   }

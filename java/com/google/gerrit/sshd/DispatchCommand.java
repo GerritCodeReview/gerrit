@@ -20,6 +20,7 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.args4j.SubcommandHandler;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -71,8 +72,9 @@ final class DispatchCommand extends BaseCommand {
 
   @Override
   public void start(ChannelSession channel, Environment env) throws IOException {
-    try {
-      parseCommandLine();
+    try (DynamicOptions pluginOptions =
+        new DynamicOptions(DispatchCommand.this, injector, dynamicBeans)) {
+      parseCommandLine(pluginOptions);
       if (Strings.isNullOrEmpty(commandName)) {
         StringWriter msg = new StringWriter();
         msg.write(usage());

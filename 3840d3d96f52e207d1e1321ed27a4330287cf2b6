@@ -39,6 +39,30 @@
       },
       "revId": "3840d3d96f52e207d1e1321ed27a4330287cf2b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f37942ba_6208ad12",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-30T15:23:02Z",
+      "side": 1,
+      "message": "None of the options of the migrateToNoteDb command are documented, found only this overview [1]. No entry in [2].\n\nIf you want I can add more detailed documentation for this command.\nWhere would you add these details ?\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/2.16.22/note-db.html#offline-migration\n[2] https://gerrit-documentation.storage.googleapis.com/Documentation/2.16.22/cmd-index.html#admin_commands",
+      "parentUuid": "bc40a9e3_c6948405",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 43
+      },
+      "revId": "3840d3d96f52e207d1e1321ed27a4330287cf2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

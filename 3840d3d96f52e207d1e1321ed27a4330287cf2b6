@@ -63,6 +63,30 @@
       },
       "revId": "3840d3d96f52e207d1e1321ed27a4330287cf2b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "410f54da_cda5f8d8",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-30T15:43:47Z",
+      "side": 1,
+      "message": "\u003e None of the options of the migrateToNoteDb command are documented, found only this overview [1]. No entry in [2].\n\u003e \n\u003e If you want I can add more detailed documentation for this command.\n\nNot really, I agree with you, if there isn\u0027t a prior documentation for it. The description embedded in the command is self-explanatory anyway.\n\nGoing to cut the Release now. Thanks for your feedback.\n\nLuca.",
+      "parentUuid": "f37942ba_6208ad12",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 43
+      },
+      "revId": "3840d3d96f52e207d1e1321ed27a4330287cf2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -440,7 +440,7 @@ export class GrChangeActions
     type: Array,
     computed:
       '_computeTopLevelActions(_allActionValues.*, ' +
-      '_hiddenActions.*, _overflowActions.*)',
+      '_hiddenActions.*, _overflowActions.*, editMode)',
     observer: '_filterPrimaryActions',
   })
   _topLevelActions?: UIActionInfo[];
@@ -1983,10 +1983,14 @@ export class GrChangeActions
 
   _computeTopLevelActions(
     actionRecord: PolymerDeepPropertyChange<UIActionInfo[], UIActionInfo[]>,
-    hiddenActionsRecord: PolymerDeepPropertyChange<string[], string[]>
+    hiddenActionsRecord: PolymerDeepPropertyChange<string[], string[]>,
+    editMode: boolean,
   ): UIActionInfo[] {
     const hiddenActions = hiddenActionsRecord.base || [];
     return actionRecord.base.filter(a => {
+      if (editMode) {
+        return a.__key.toLowerCase().includes('edit');
+      }
       const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
       return !(overflow || hiddenActions.includes(a.__key));
     });

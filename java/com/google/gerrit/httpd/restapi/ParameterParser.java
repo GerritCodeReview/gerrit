@@ -151,6 +151,7 @@ public class ParameterParser {
   private final CmdLineParser.Factory parserFactory;
   private final Injector injector;
   private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
+  private DynamicOptions pluginOptions;
 
   @Inject
   ParameterParser(
@@ -163,12 +164,16 @@ public class ParameterParser {
   }
 
   <T> boolean parse(
-      T param, ListMultimap<String, String> in, HttpServletRequest req, HttpServletResponse res)
+      T param,
+      DynamicOptions pluginOptions,
+      ListMultimap<String, String> in,
+      HttpServletRequest req,
+      HttpServletResponse res)
       throws IOException {
     CmdLineParser clp = parserFactory.create(param);
-    DynamicOptions pluginOptions = new DynamicOptions(param, injector, dynamicBeans);
     pluginOptions.parseDynamicBeans(clp);
     pluginOptions.setDynamicBeans();
+    pluginOptions.startLifecycleListeners();
     pluginOptions.onBeanParseStart();
     try {
       clp.parseOptionMap(in);

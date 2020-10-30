@@ -3,6 +3,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34dc8ff2_8b78fe2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-10-30T23:06:02Z",
+      "side": 1,
+      "message": "I think this summary is a could be improved (handle is a bit too vague).",
+      "revId": "21f91476d84e06f0aa68db86219c5c3417c76d8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7648a4b_442f115b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-10-30T23:06:02Z",
+      "side": 1,
+      "message": "I think this could use an explanation of the duration of the lifecycles.",
+      "revId": "21f91476d84e06f0aa68db86219c5c3417c76d8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "439e8d09_8d36d1e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-10-30T23:06:02Z",
+      "side": 1,
+      "message": "Can we get some tests for this?",
+      "revId": "21f91476d84e06f0aa68db86219c5c3417c76d8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cf2a2698_82adc794",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 2
@@ -14,6 +65,30 @@
       "writtenOn": "2020-10-30T22:54:08Z",
       "side": 1,
       "message": "Should there be a start() somewhere in this class?",
+      "range": {
+        "startLine": 719,
+        "startChar": 10,
+        "endLine": 719,
+        "endChar": 65
+      },
+      "revId": "21f91476d84e06f0aa68db86219c5c3417c76d8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd6abc8b_df5d30d4",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-10-30T23:06:02Z",
+      "side": 1,
+      "message": "Because we don\u0027t want plugin modules to ever have start() called wihtout calling their stop() eventually, anything we can do to ensure this happens would be good. It might even be worth trying to see if we can somehow make the pluginOptions be AutoCloseable, and have it call stopLifeCycleListeners() from the close()?",
+      "parentUuid": "cf2a2698_82adc794",
       "range": {
         "startLine": 719,
         "startChar": 10,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf2a2698_82adc794",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-30T22:54:08Z",
+      "side": 1,
+      "message": "Should there be a start() somewhere in this class?",
+      "range": {
+        "startLine": 719,
+        "startChar": 10,
+        "endLine": 719,
+        "endChar": 65
+      },
+      "revId": "21f91476d84e06f0aa68db86219c5c3417c76d8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

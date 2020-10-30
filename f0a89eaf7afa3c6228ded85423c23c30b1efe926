@@ -34,6 +34,24 @@
       "parentUuid": "df6d5f72_f85ecc72",
       "revId": "f0a89eaf7afa3c6228ded85423c23c30b1efe926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73464f6e_b21bc54e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-10-30T08:59:53Z",
+      "side": 1,
+      "message": "Yup.\nIt was only a mild concern but I wanted to raise it nontheless. As you say there\u0027s also a clear benefit of having the option to remove one button-click/transition for 90+% of the use-cases.",
+      "parentUuid": "df323aa8_38c105ef",
+      "revId": "f0a89eaf7afa3c6228ded85423c23c30b1efe926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

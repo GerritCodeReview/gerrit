@@ -240,6 +240,12 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   @property({type: Boolean, reflectToAttribute: true})
   disabled = false;
 
+  @property({
+    type: Boolean,
+    computed: '_computeHasDrafts(draft,' + 'draftCommentThreads.*)',
+  })
+  hasDrafts = false;
+
   @property({type: String, observer: '_draftChanged'})
   draft = '';
 
@@ -359,7 +365,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   _sendDisabled?: boolean;
 
   @property({type: Array, observer: '_handleHeightChanged'})
-  draftCommentThreads?: CommentThread[];
+  draftCommentThreads: CommentThread[] | undefined;
 
   @property({type: Boolean})
   _isResolvedPatchsetLevelComment = true;
@@ -451,6 +457,17 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
         this._savingComments = false;
       });
     }
+  }
+
+  _computeHasDrafts(
+    draft: string,
+    draftCommentThreads: PolymerDeepPropertyChange<
+      CommentThread[] | undefined,
+      CommentThread[] | undefined
+    >
+  ) {
+    if (draftCommentThreads.base === undefined) return false;
+    return draft.length > 0 || draftCommentThreads.base.length > 0;
   }
 
   focus() {
@@ -961,7 +978,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     'draftCommentThreads',
     '_includeComments',
     '_labelsChanged',
-    'draft'
+    'hasDrafts'
   )
   _computeNewAttention(
     currentUser?: AccountInfo,
@@ -974,7 +991,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     draftCommentThreads?: CommentThread[],
     includeComments?: boolean,
     _labelsChanged?: boolean,
-    draft?: boolean
+    hasDrafts?: boolean
   ) {
     if (
       currentUser === undefined ||
@@ -990,7 +1007,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     // The draft comments are only relevant for the attention set as long as the
     // user actually plans to publish their drafts.
     draftCommentThreads = includeComments ? draftCommentThreads : [];
-    const hasDraft = draftCommentThreads.length > 0 || !!draft;
     const hasVote = !!_labelsChanged;
     const isOwner = this._isOwner(currentUser, change);
     const isUploader = this._uploader?._account_id === currentUser._account_id;
@@ -1009,13 +1025,13 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       // Add all new reviewers, but not the current reviewer, if they are also
       // sending a draft or a label vote.
       const notIsReviewerAndHasDraftOrLabel = (r: AccountInfo) =>
-        !(r._account_id === currentUser._account_id && (hasDraft || hasVote));
+        !(r._account_id === currentUser._account_id && (hasDrafts || hasVote));
       reviewers.base
         .filter(r => r._pendingAdd && r._account_id)
         .filter(notIsReviewerAndHasDraftOrLabel)
         .forEach(r => newAttention.add(r._account_id!));
       // Add owner and uploader, if someone else replies.
-      if (hasDraft || hasVote) {
+      if (hasDrafts || hasVote) {
         if (this._uploader?._account_id && !isUploader) {
           newAttention.add(this._uploader._account_id);
         }

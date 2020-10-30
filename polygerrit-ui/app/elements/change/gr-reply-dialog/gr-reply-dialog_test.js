@@ -230,9 +230,12 @@ suite('gr-reply-dialog tests', () => {
     }
     element.change = change;
     element._reviewers = reviewers.base;
+
     flush();
+    const hasDrafts = draftThreads.length > 0;
     element._computeNewAttention(
-        user, reviewers, [], change, draftThreads, includeComments);
+        user, reviewers, [], change, draftThreads, includeComments, undefined,
+        hasDrafts);
     assert.sameMembers([...element._newAttentionSet], expectedIds);
   }
 

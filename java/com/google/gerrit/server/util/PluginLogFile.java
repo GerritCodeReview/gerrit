@@ -40,8 +40,13 @@ public abstract class PluginLogFile implements LifecycleListener {
   public void start() {
     AsyncAppender asyncAppender = systemLog.createAsyncAppender(logName, layout, true, true);
     Logger logger = LogManager.getLogger(logName);
-    logger.removeAppender(logName);
-    logger.addAppender(asyncAppender);
+    if (logger.getAppender(logName) == null) {
+      synchronized (this) {
+        if (logger.getAppender(logName) == null) {
+          logger.addAppender(asyncAppender);
+        }
+      }
+    }
     logger.setAdditivity(false);
   }
 

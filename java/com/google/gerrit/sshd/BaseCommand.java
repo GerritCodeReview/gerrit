@@ -117,6 +117,8 @@ public abstract class BaseCommand implements Command {
   /** trimmed command line arguments. */
   private String[] trimmedArgv;
 
+  private DynamicOptions pluginOptions;
+
   public BaseCommand() {
     task = Atomics.newReference();
   }
@@ -232,9 +234,10 @@ public abstract class BaseCommand implements Command {
    */
   protected void parseCommandLine(Object options) throws UnloggedFailure {
     final CmdLineParser clp = newCmdLineParser(options);
-    DynamicOptions pluginOptions = new DynamicOptions(options, injector, dynamicBeans);
+    pluginOptions = getDynamicOptions(options);
     pluginOptions.parseDynamicBeans(clp);
     pluginOptions.setDynamicBeans();
+    pluginOptions.startLifecycleListeners();
     pluginOptions.onBeanParseStart();
     try {
       clp.parseArgument(argv);
@@ -251,6 +254,13 @@ public abstract class BaseCommand implements Command {
       throw new UnloggedFailure(1, msg.toString());
     }
     pluginOptions.onBeanParseEnd();
+  }
+
+  protected <T> DynamicOptions getDynamicOptions(T param) {
+    if (pluginOptions == null) {
+      pluginOptions = new DynamicOptions(param, injector, dynamicBeans);
+    }
+    return pluginOptions;
   }
 
   protected String usage() {

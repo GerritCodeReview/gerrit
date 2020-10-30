@@ -251,6 +251,14 @@ const ACTIONS_WITH_ICONS = new Set([
   RevisionActions.SUBMIT,
 ]);
 
+const EDIT_ACTIONS: Set<string> = new Set([
+  ChangeActions.DELETE_EDIT,
+  ChangeActions.EDIT,
+  ChangeActions.PUBLISH_EDIT,
+  ChangeActions.REBASE_EDIT,
+  ChangeActions.STOP_EDIT,
+]);
+
 const AWAIT_CHANGE_ATTEMPTS = 5;
 const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
@@ -440,7 +448,7 @@ export class GrChangeActions
     type: Array,
     computed:
       '_computeTopLevelActions(_allActionValues.*, ' +
-      '_hiddenActions.*, _overflowActions.*)',
+      '_hiddenActions.*, editMode, _overflowActions.*)',
     observer: '_filterPrimaryActions',
   })
   _topLevelActions?: UIActionInfo[];
@@ -1983,12 +1991,14 @@ export class GrChangeActions
 
   _computeTopLevelActions(
     actionRecord: PolymerDeepPropertyChange<UIActionInfo[], UIActionInfo[]>,
-    hiddenActionsRecord: PolymerDeepPropertyChange<string[], string[]>
+    hiddenActionsRecord: PolymerDeepPropertyChange<string[], string[]>,
+    editMode: boolean
   ): UIActionInfo[] {
     const hiddenActions = hiddenActionsRecord.base || [];
     return actionRecord.base.filter(a => {
-      const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
-      return !(overflow || hiddenActions.includes(a.__key));
+      if (hiddenActions.includes(a.__key)) return false;
+      if (editMode) return EDIT_ACTIONS.has(a.__key);
+      return this._getActionOverflowIndex(a.__type, a.__key) === -1;
     });
   }
 

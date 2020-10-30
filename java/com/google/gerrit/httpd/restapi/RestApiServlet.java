@@ -324,6 +324,7 @@ public class RestApiServlet extends HttpServlet {
     Object inputRequestBody = null;
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
+    ParameterParser parameterParser = globals.paramParser.get();
 
     try (TraceContext traceContext = enableTracing(req, res)) {
       List<IdString> path = splitPath(req);
@@ -498,7 +499,7 @@ public class RestApiServlet extends HttpServlet {
             return;
           }
 
-          if (!globals.paramParser.get().parse(viewData.view, qp.params(), req, res)) {
+          if (!parameterParser.parse(viewData.view, qp.params(), req, res)) {
             return;
           }
 
@@ -714,6 +715,9 @@ public class RestApiServlet extends HttpServlet {
         }
         globals.metrics.serverLatency.record(
             metric, System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
+        if (parameterParser.pluginOptions != null) {
+          parameterParser.pluginOptions.stopLifeCycleListeners();
+        }
         globals.auditService.dispatch(
             new ExtendedHttpAuditEvent(
                 globals.webSession.get().getSessionId(),

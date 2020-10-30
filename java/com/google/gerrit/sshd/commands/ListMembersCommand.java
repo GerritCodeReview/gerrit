@@ -20,6 +20,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
@@ -50,8 +51,8 @@ public class ListMembersCommand extends SshCommand {
   }
 
   @Override
-  protected void parseCommandLine() throws UnloggedFailure {
-    parseCommandLine(impl);
+  protected void parseCommandLine(DynamicOptions pluginOptions) throws UnloggedFailure {
+    parseCommandLine(impl, pluginOptions);
   }
 
   private static class ListMembersCommandImpl extends ListMembers {

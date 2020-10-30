@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.config.AuthConfig;
@@ -92,9 +93,9 @@ public final class SuExec extends BaseCommand {
 
   @Override
   public void start(ChannelSession channel, Environment env) throws IOException {
-    try {
+    try (DynamicOptions pluginOptions = new DynamicOptions(SuExec.this, injector, dynamicBeans)) {
       checkCanRunAs();
-      parseCommandLine();
+      parseCommandLine(pluginOptions);
 
       final Context ctx = callingContext.subContext(newSession(), join(args));
       final Context old = sshScope.set(ctx);

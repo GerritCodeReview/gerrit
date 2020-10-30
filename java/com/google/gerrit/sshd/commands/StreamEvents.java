@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventGson;
@@ -107,59 +108,63 @@ public final class StreamEvents extends BaseCommand {
 
   @Override
   public void start(ChannelSession channel, Environment env) throws IOException {
-    try {
-      parseCommandLine();
-    } catch (UnloggedFailure e) {
-      String msg = e.getMessage();
-      if (!msg.endsWith("\n")) {
-        msg += "\n";
+    try (DynamicOptions pluginOptions =
+        new DynamicOptions(StreamEvents.this, injector, dynamicBeans)) {
+      try {
+        parseCommandLine(pluginOptions);
+      } catch (UnloggedFailure e) {
+        String msg = e.getMessage();
+        if (!msg.endsWith("\n")) {
+          msg += "\n";
+        }
+        err.write(msg.getBytes(UTF_8));
+        err.flush();
+        onExit(1);
+        return;
       }
-      err.write(msg.getBytes(UTF_8));
-      err.flush();
-      onExit(1);
-      return;
-    }
 
-    PrintWriter stdout = toPrintWriter(out);
-    CancelableRunnable writer =
-        new CancelableRunnable() {
-          @Override
-          public void run() {
-            writeEvents(this, stdout);
-          }
-
-          @Override
-          public void cancel() {
-            onExit(0);
-          }
-
-          @Override
-          public String toString() {
-            StringBuilder b = new StringBuilder();
-            b.append("Stream Events");
-            if (currentUser.getUserName().isPresent()) {
-              b.append(" (").append(currentUser.getUserName().get()).append(")");
+      PrintWriter stdout = toPrintWriter(out);
+      CancelableRunnable writer =
+          new CancelableRunnable() {
+            @Override
+            public void run() {
+              writeEvents(this, stdout);
             }
-            return b.toString();
-          }
-        };
 
-    eventListenerRegistration =
-        eventListeners.add(
-            "gerrit",
-            new UserScopedEventListener() {
-              @Override
-              public void onEvent(Event event) {
-                if (subscribedToEvents.isEmpty() || subscribedToEvents.contains(event.getType())) {
-                  offer(writer, event);
+            @Override
+            public void cancel() {
+              onExit(0);
+            }
+
+            @Override
+            public String toString() {
+              StringBuilder b = new StringBuilder();
+              b.append("Stream Events");
+              if (currentUser.getUserName().isPresent()) {
+                b.append(" (").append(currentUser.getUserName().get()).append(")");
+              }
+              return b.toString();
+            }
+          };
+
+      eventListenerRegistration =
+          eventListeners.add(
+              "gerrit",
+              new UserScopedEventListener() {
+                @Override
+                public void onEvent(Event event) {
+                  if (subscribedToEvents.isEmpty()
+                      || subscribedToEvents.contains(event.getType())) {
+                    offer(writer, event);
+                  }
                 }
-              }
 
-              @Override
-              public CurrentUser getUser() {
-                return currentUser;
-              }
-            });
+                @Override
+                public CurrentUser getUser() {
+                  return currentUser;
+                }
+              });
+    }
   }
 
   private void removeEventListenerRegistration() {

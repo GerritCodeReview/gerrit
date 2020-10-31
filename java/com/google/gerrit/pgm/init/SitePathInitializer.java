@@ -125,7 +125,8 @@ public class SitePathInitializer {
     extractMailExample("DeleteVoteHtml.soy");
     extractMailExample("Footer.soy");
     extractMailExample("FooterHtml.soy");
-    extractMailExample("HeaderHtml.soy");
+    extractMailExample("ChangeHeader.soy");
+    extractMailExample("ChangeHeaderHtml.soy");
     extractMailExample("HttpPasswordUpdate.soy");
     extractMailExample("HttpPasswordUpdateHtml.soy");
     extractMailExample("InboundEmailRejection.soy");

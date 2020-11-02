@@ -55,12 +55,15 @@ import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RefVisibilityControl;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -118,11 +121,13 @@ public class RefControlTest {
   }
 
   private void assertCanRead(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isVisible()).named("can read " + ref).isTrue();
+    assertThat(u.controlForRef(ref).hasReadPermissionOnRef(true)).named("can read " + ref).isTrue();
   }
 
   private void assertCannotRead(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isVisible()).named("cannot read " + ref).isFalse();
+    assertThat(u.controlForRef(ref).hasReadPermissionOnRef(true))
+        .named("cannot read " + ref)
+        .isFalse();
   }
 
   private void assertCanSubmit(String ref, ProjectControl u) {
@@ -209,6 +214,9 @@ public class RefControlTest {
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
   @Inject private TransferConfig transferConfig;
+  @Inject private RefVisibilityControl refVisibilityControl;
+  @Inject private GitRepositoryManager gitRepositoryManager;
+  @Inject private VisibleRefFilter.Factory visibleRefFilterFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -886,6 +894,9 @@ public class RefControlTest {
         null, // commitsCollection
         changeControlFactory,
         permissionBackend,
+        refVisibilityControl,
+        gitRepositoryManager,
+        visibleRefFilterFactory,
         new MockUser(name, memberOf),
         newProjectState(local));
   }

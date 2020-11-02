@@ -16,6 +16,24 @@
       "message": "Is there an issue that you can reference?",
       "revId": "bc329e98a7a779e21599f01324e40f64e8465c01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76867143_ab51240e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-02T12:31:19Z",
+      "side": 1,
+      "message": "There is Issue 13570 but that actually wanted to highlight the Publish Edit button instead of removing existing buttons.\nI will comment this change on the bug though but not sure if this is actually what the bug was about.",
+      "parentUuid": "2e1c833c_3d9808f0",
+      "revId": "bc329e98a7a779e21599f01324e40f64e8465c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -288,10 +288,16 @@ public class RefNames {
    * Whether the ref is managed by Gerrit. Covers all Gerrit-internal refs like refs/cache-automerge
    * and refs/meta as well as refs/changes. Does not cover user-created refs like branches or custom
    * ref namespaces like refs/my-company.
+   *
+   * <p>Any ref for which this method evaluates to true will be served to users who have the {@code
+   * ACCESS_DATABASE} capability.
+   *
+   * <p><b>Caution</b>Any ref not in this list will be served if the user was granted a READ
+   * permission on it using Gerrit's permission model.
    */
   public static boolean isGerritRef(String ref) {
     return ref.startsWith(REFS_CHANGES)
-        || ref.startsWith(REFS_META)
+        || ref.startsWith(REFS_EXTERNAL_IDS)
         || ref.startsWith(REFS_CACHE_AUTOMERGE)
         || ref.startsWith(REFS_DRAFT_COMMENTS)
         || ref.startsWith(REFS_DELETED_GROUPS)
@@ -299,7 +305,8 @@ public class RefNames {
         || ref.startsWith(REFS_GROUPS)
         || ref.startsWith(REFS_GROUPNAMES)
         || ref.startsWith(REFS_USERS)
-        || ref.startsWith(REFS_STARRED_CHANGES);
+        || ref.startsWith(REFS_STARRED_CHANGES)
+        || ref.startsWith(REFS_REJECT_COMMITS);
   }
 
   static Integer parseShardedRefPart(String name) {

@@ -142,6 +142,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c71790c2_906b3c98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-02T13:12:04Z",
+      "side": 1,
+      "message": "Done. updated the doc. I\u0027ll bring up a new change to update the release notes.. and which version of release notes we need to update about this info..?",
+      "parentUuid": "71ac5c33_fd669980",
+      "revId": "0b3bb9f79e35a6ee24553ae1837248670a54acba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1aa1160f_8b82f6e0",
@@ -155,6 +173,30 @@
       "writtenOn": "2020-10-23T10:58:31Z",
       "side": 1,
       "message": "s/destination/query/\n\nwill be updated in PS2",
+      "range": {
+        "startLine": 1241,
+        "startChar": 59,
+        "endLine": 1241,
+        "endChar": 70
+      },
+      "revId": "0b3bb9f79e35a6ee24553ae1837248670a54acba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "075a1b0b_26551719",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1241,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-02T13:12:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa1160f_8b82f6e0",
       "range": {
         "startLine": 1241,
         "startChar": 59,

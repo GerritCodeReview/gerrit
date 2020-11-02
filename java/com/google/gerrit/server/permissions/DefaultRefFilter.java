@@ -16,10 +16,7 @@ package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.entities.RefNames.REFS_CACHE_AUTOMERGE;
 import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
-import static com.google.gerrit.entities.RefNames.REFS_USERS_SELF;
-import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.auto.value.AutoValue;
@@ -30,8 +27,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -42,13 +37,10 @@ import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TagMatcher;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -79,8 +71,8 @@ class DefaultRefFilter {
   private final TagCache tagCache;
   private final ChangeNotes.Factory changeNotesFactory;
   @Nullable private final SearchingChangeCacheImpl changeCache;
-  private final GroupCache groupCache;
   private final PermissionBackend permissionBackend;
+  private final RefVisibilityControl refVisibilityControl;
   private final ProjectControl projectControl;
   private final CurrentUser user;
   private final ProjectState projectState;
@@ -96,16 +88,16 @@ class DefaultRefFilter {
       TagCache tagCache,
       ChangeNotes.Factory changeNotesFactory,
       @Nullable SearchingChangeCacheImpl changeCache,
-      GroupCache groupCache,
       PermissionBackend permissionBackend,
+      RefVisibilityControl refVisibilityControl,
       @GerritServerConfig Config config,
       MetricMaker metricMaker,
       @Assisted ProjectControl projectControl) {
     this.tagCache = tagCache;
     this.changeNotesFactory = changeNotesFactory;
     this.changeCache = changeCache;
-    this.groupCache = groupCache;
     this.permissionBackend = permissionBackend;
+    this.refVisibilityControl = refVisibilityControl;
     this.skipFullRefEvaluationIfAllRefsAreVisible =
         config.getBoolean("auth", "skipFullRefEvaluationIfAllRefsAreVisible", true);
     this.projectControl = projectControl;
@@ -226,131 +218,56 @@ class DefaultRefFilter {
     logger.atFinest().log("Doing full ref filtering");
     fullFilterCount.increment();
 
-    boolean viewMetadata;
-    boolean isAdmin;
-    Account.Id userId;
-    IdentifiedUser identifiedUser;
-    PermissionBackend.WithUser withUser = permissionBackend.user(user);
-    if (user.isIdentifiedUser()) {
-      viewMetadata = withUser.testOrFalse(GlobalPermission.ACCESS_DATABASE);
-      isAdmin = withUser.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);
-      identifiedUser = user.asIdentifiedUser();
-      userId = identifiedUser.getAccountId();
-      logger.atFinest().log(
-          "Account = %d; can view metadata = %s; is admin = %s",
-          userId.get(), viewMetadata, isAdmin);
-    } else {
-      logger.atFinest().log("User is anonymous");
-      viewMetadata = false;
-      isAdmin = false;
-      userId = null;
-      identifiedUser = null;
-    }
-
-    Map<String, Ref> resultRefs = new HashMap<>();
+    boolean hasAccessDatabase =
+        permissionBackend
+            .user(projectControl.getUser())
+            .testOrFalse(GlobalPermission.ACCESS_DATABASE);
+    Map<String, Ref> resultRefs = Maps.newHashMapWithExpectedSize(refs.size());
     List<Ref> deferredTags = new ArrayList<>();
     for (Ref ref : refs.values()) {
-      String name = ref.getName();
+      String refName = ref.getName();
       Change.Id changeId;
-      Account.Id accountId;
-      AccountGroup.UUID accountGroupUuid;
-      if (name.startsWith(REFS_CACHE_AUTOMERGE)) {
-        continue;
-      } else if (opts.filterMeta() && isMetadata(name)) {
-        logger.atFinest().log("Filter out metadata ref %s", name);
-        continue;
-      } else if (RefNames.isRefsEdit(name)) {
-        // Edits are visible only to the owning user, if change is visible.
-        if (viewMetadata || visibleEdit(repo, name)) {
-          logger.atFinest().log("Include edit ref %s", name);
-          resultRefs.put(name, ref);
-        } else {
-          logger.atFinest().log("Filter out edit ref %s", name);
-        }
-      } else if ((changeId = Change.Id.fromRef(name)) != null) {
-        // Change ref is visible only if the change is visible.
-        if (viewMetadata || visible(repo, changeId)) {
-          logger.atFinest().log("Include change ref %s", name);
-          resultRefs.put(name, ref);
-        } else {
-          logger.atFinest().log("Filter out change ref %s", name);
-        }
-      } else if ((accountId = Account.Id.fromRef(name)) != null) {
-        // Account ref is visible only to the corresponding account.
-        if (viewMetadata || (accountId.equals(userId) && canReadRef(name))) {
-          logger.atFinest().log("Include user ref %s", name);
-          resultRefs.put(name, ref);
-        } else {
-          logger.atFinest().log("Filter out user ref %s", name);
-        }
-      } else if ((accountGroupUuid = AccountGroup.UUID.fromRef(name)) != null) {
-        // Group ref is visible only to the corresponding owner group.
-        InternalGroup group = groupCache.get(accountGroupUuid).orElse(null);
-        if (viewMetadata
-            || (group != null
-                && isGroupOwner(group, identifiedUser, isAdmin)
-                && canReadRef(name))) {
-          logger.atFinest().log("Include group ref %s", name);
-          resultRefs.put(name, ref);
-        } else {
-          logger.atFinest().log("Filter out group ref %s", name);
-        }
+      if (opts.filterMeta() && isMetadata(refName)) {
+        logger.atFinest().log("Filter out metadata ref %s", refName);
       } else if (isTag(ref)) {
         if (hasReadOnRefsStar) {
-          // The user has READ on refs/*. This is the broadest permission one can assign. There is
-          // no way to grant access to (specific) tags in Gerrit, so we have to assume that these
-          // users can see all tags because there could be tags that aren't reachable by any visible
-          // ref while the user can see all non-Gerrit refs. This matches Gerrit's historic
-          // behavior.
+          // The user has READ on refs/* with no effective block permission. This is the broadest
+          // permission one can assign. There is no way to grant access to (specific) tags in
+          // Gerrit,
+          // so we have to assume that these users can see all tags because there could be tags that
+          // aren't reachable by any visible ref while the user can see all non-Gerrit refs. This
+          // matches Gerrit's historic behavior.
           // This makes it so that these users could see commits that they can't see otherwise
           // (e.g. a private change ref) if a tag was attached to it. Tags are meant to be used on
           // the regular Git tree that users interact with, not on any of the Gerrit trees, so this
           // is a negligible risk.
-          logger.atFinest().log("Include tag ref %s because user has read on refs/*", name);
-          resultRefs.put(name, ref);
+          logger.atFinest().log("Include tag ref %s because user has read on refs/*", refName);
+          resultRefs.put(refName, ref);
         } else {
           // If its a tag, consider it later.
           if (ref.getObjectId() != null) {
-            logger.atFinest().log("Defer tag ref %s", name);
+            logger.atFinest().log("Defer tag ref %s", refName);
             deferredTags.add(ref);
           } else {
-            logger.atFinest().log("Filter out tag ref %s that is not a tag", name);
+            logger.atFinest().log("Filter out tag ref %s that is not a tag", refName);
           }
         }
-      } else if (name.startsWith(RefNames.REFS_SEQUENCES)) {
-        // Sequences are internal database implementation details.
-        if (viewMetadata) {
-          logger.atFinest().log("Include sequence ref %s", name);
-          resultRefs.put(name, ref);
+      } else if ((changeId = Change.Id.fromRef(refName)) != null) {
+        // This is a mere performance optimization. RefVisibilityControl could determine the
+        // visibility of these refs just fine. But instead, we use highly-optimized logic that
+        // looks only on the last 10k most recent changes using the change index and a cache.
+        if (hasAccessDatabase) {
+          resultRefs.put(refName, ref);
+        } else if (!visible(repo, changeId)) {
+          logger.atFinest().log("Filter out invisible change ref %s", refName);
+        } else if (RefNames.isRefsEdit(refName) && !visibleEdit(repo, refName)) {
+          logger.atFinest().log("Filter out invisible change edit ref %s", refName);
         } else {
-          logger.atFinest().log("Filter out sequence ref %s", name);
+          // Change is visible
+          resultRefs.put(refName, ref);
         }
-      } else if (projectState.isAllUsers()
-          && (name.equals(RefNames.REFS_EXTERNAL_IDS) || name.equals(RefNames.REFS_GROUPNAMES))) {
-        // The notes branches with the external IDs / group names must not be exposed to normal
-        // users.
-        if (viewMetadata) {
-          logger.atFinest().log("Include external IDs branch %s", name);
-          resultRefs.put(name, ref);
-        } else {
-          logger.atFinest().log("Filter out external IDs branch %s", name);
-        }
-      } else if (canReadRef(ref.getLeaf().getName())) {
-        // Use the leaf to lookup the control data. If the reference is
-        // symbolic we want the control around the final target. If its
-        // not symbolic then getLeaf() is a no-op returning ref itself.
-        logger.atFinest().log(
-            "Include ref %s because its leaf %s is readable", name, ref.getLeaf().getName());
-        resultRefs.put(name, ref);
-      } else if (isRefsUsersSelf(ref)) {
-        // viewMetadata allows to see all account refs, hence refs/users/self should be included as
-        // well
-        if (viewMetadata) {
-          logger.atFinest().log("Include ref %s", REFS_USERS_SELF);
-          resultRefs.put(name, ref);
-        }
-      } else {
-        logger.atFinest().log("Filter out ref %s", name);
+      } else if (refVisibilityControl.isVisible(projectControl, ref.getLeaf().getName())) {
+        resultRefs.put(refName, ref);
       }
     }
     Result result = new AutoValue_DefaultRefFilter_Result(resultRefs, deferredTags);
@@ -360,10 +277,7 @@ class DefaultRefFilter {
 
   /**
    * Returns all refs tag we regard as starting points for reachability computation for tags. In
-   * general, these are all refs not managed by Gerrit excluding symbolic refs and tags.
-   *
-   * <p>We exclude symbolic refs because their target will be included and this will suffice for
-   * computing reachability.
+   * general, these are all refs not managed by Gerrit.
    */
   private static Map<String, Ref> getTaggableRefsMap(Repository repo)
       throws PermissionBackendException {
@@ -373,7 +287,8 @@ class DefaultRefFilter {
               r ->
                   !RefNames.isGerritRef(r.getName())
                       && !r.getName().startsWith(RefNames.REFS_TAGS)
-                      && !r.isSymbolic())
+                      && !r.isSymbolic()
+                      && !REFS_CONFIG.equals(r.getName()))
           .collect(toMap(Ref::getName, r -> r));
     } catch (IOException e) {
       throw new PermissionBackendException(e);
@@ -515,10 +430,6 @@ class DefaultRefFilter {
     return ref.getLeaf().getName().startsWith(Constants.R_TAGS);
   }
 
-  private static boolean isRefsUsersSelf(Ref ref) {
-    return ref.getName().startsWith(REFS_USERS_SELF);
-  }
-
   private boolean canReadRef(String ref) throws PermissionBackendException {
     try {
       permissionBackendForProject.ref(ref).check(RefPermission.READ);
@@ -537,17 +448,6 @@ class DefaultRefFilter {
       return false;
     }
     return true;
-  }
-
-  private boolean isGroupOwner(
-      InternalGroup group, @Nullable IdentifiedUser user, boolean isAdmin) {
-    requireNonNull(group);
-
-    // Keep this logic in sync with GroupControl#isOwner().
-    boolean isGroupOwner =
-        isAdmin || (user != null && user.getEffectiveGroups().contains(group.getOwnerGroupUUID()));
-    logger.atFinest().log("User is owner of group %s = %s", group.getGroupUUID(), isGroupOwner);
-    return isGroupOwner;
   }
 
   /**

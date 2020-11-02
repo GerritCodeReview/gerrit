@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7db73cc_becd5e0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-02T20:51:48Z",
+      "side": 1,
+      "message": "I need this in to release rc4 in the coming minutes now.",
+      "revId": "4e5fca7b57e191f9a5df8f3ad277b21d09847829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

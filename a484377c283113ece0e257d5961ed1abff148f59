@@ -16,6 +16,24 @@
       "message": "Thanks! A few related questions about the UI:\n- what shows in the top-left change status (\"Active\") badge for these changes?\n- what shows in the \"submitted together\" list for these changes?",
       "revId": "a484377c283113ece0e257d5961ed1abff148f59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99e9ce49_139b9745",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-02T17:14:46Z",
+      "side": 1,
+      "message": "1. good catch, based on change-util.ts#166 it\u0027s based on things that are not changed by this change. I\u0027ll see to having it changed to \"whether submit button is enabled\". \n\n2. submitted together list shows all the changes as if there are no outdated patchsets. However, the \"Relation chain\" shows useful information such as \"Not current\" and \"indirect ancestor\" when a patchset is outdated.",
+      "parentUuid": "db895889_c7333318",
+      "revId": "a484377c283113ece0e257d5961ed1abff148f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

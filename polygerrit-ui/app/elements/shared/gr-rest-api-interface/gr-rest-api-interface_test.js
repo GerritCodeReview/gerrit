@@ -693,7 +693,7 @@ suite('gr-rest-api-interface tests', () => {
       assert.equal(fetchStub.lastCall.args[0].changeNum, '42');
       assert.equal(fetchStub.lastCall.args[0].endpoint,
           '/files?q=test%2Fpath.js');
-      assert.equal(fetchStub.lastCall.args[0].patchNum, 'edit');
+      assert.equal(fetchStub.lastCall.args[0].revision, 'edit');
     });
   });
 
@@ -1090,7 +1090,7 @@ suite('gr-rest-api-interface tests', () => {
     element._projectLookup = {1: 'test'};
     const fetchStub = sinon.stub(element._restApiHelper, 'fetchJSON')
         .returns(Promise.resolve());
-    const req = {changeNum: 1, endpoint: '/test', patchNum: 1};
+    const req = {changeNum: 1, endpoint: '/test', revision: 1};
     return element._getChangeURLAndFetch(req).then(() => {
       assert.equal(fetchStub.lastCall.args[0].url,
           '/changes/test~1/revisions/1/test');
@@ -1167,7 +1167,7 @@ suite('gr-rest-api-interface tests', () => {
       const range = {basePatchNum: 'PARENT', patchNum: 2};
       return element.getChangeFiles(123, range).then(() => {
         assert.isTrue(fetchStub.calledOnce);
-        assert.equal(fetchStub.lastCall.args[0].patchNum, 2);
+        assert.equal(fetchStub.lastCall.args[0].revision, 2);
         assert.isNotOk(fetchStub.lastCall.args[0].params);
       });
     });
@@ -1178,7 +1178,7 @@ suite('gr-rest-api-interface tests', () => {
       const range = {basePatchNum: 4, patchNum: 5};
       return element.getChangeFiles(123, range).then(() => {
         assert.isTrue(fetchStub.calledOnce);
-        assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+        assert.equal(fetchStub.lastCall.args[0].revision, 5);
         assert.isOk(fetchStub.lastCall.args[0].params);
         assert.equal(fetchStub.lastCall.args[0].params.base, 4);
         assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
@@ -1191,7 +1191,7 @@ suite('gr-rest-api-interface tests', () => {
       const range = {basePatchNum: -3, patchNum: 5};
       return element.getChangeFiles(123, range).then(() => {
         assert.isTrue(fetchStub.calledOnce);
-        assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+        assert.equal(fetchStub.lastCall.args[0].revision, 5);
         assert.isOk(fetchStub.lastCall.args[0].params);
         assert.isNotOk(fetchStub.lastCall.args[0].params.base);
         assert.equal(fetchStub.lastCall.args[0].params.parent, 3);
@@ -1205,7 +1205,7 @@ suite('gr-rest-api-interface tests', () => {
           .returns(Promise.resolve());
       return element.getDiff(123, 'PARENT', 2, 'foo/bar.baz').then(() => {
         assert.isTrue(fetchStub.calledOnce);
-        assert.equal(fetchStub.lastCall.args[0].patchNum, 2);
+        assert.equal(fetchStub.lastCall.args[0].revision, 2);
         assert.isOk(fetchStub.lastCall.args[0].params);
         assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
         assert.isNotOk(fetchStub.lastCall.args[0].params.base);
@@ -1217,7 +1217,7 @@ suite('gr-rest-api-interface tests', () => {
           .returns(Promise.resolve());
       return element.getDiff(123, 4, 5, 'foo/bar.baz').then(() => {
         assert.isTrue(fetchStub.calledOnce);
-        assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+        assert.equal(fetchStub.lastCall.args[0].revision, 5);
         assert.isOk(fetchStub.lastCall.args[0].params);
         assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
         assert.equal(fetchStub.lastCall.args[0].params.base, 4);
@@ -1229,7 +1229,7 @@ suite('gr-rest-api-interface tests', () => {
           .returns(Promise.resolve());
       return element.getDiff(123, -3, 5, 'foo/bar.baz').then(() => {
         assert.isTrue(fetchStub.calledOnce);
-        assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+        assert.equal(fetchStub.lastCall.args[0].revision, 5);
         assert.isOk(fetchStub.lastCall.args[0].params);
         assert.isNotOk(fetchStub.lastCall.args[0].params.base);
         assert.equal(fetchStub.lastCall.args[0].params.parent, 3);

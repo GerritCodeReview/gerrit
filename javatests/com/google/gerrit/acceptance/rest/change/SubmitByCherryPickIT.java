@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -372,5 +373,28 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         headAfterFirstSubmit.name(),
         change2.getChangeId(),
         headAfterFirstSubmit.name());
+  }
+
+  @Test
+  public void dependencyOnOutdatedPatchSetNotPreventingCherryPick() throws Throwable {
+    // Create a change
+    PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit.Result changeResult = change.to("refs/for/master");
+    PatchSet.Id patchSetId = changeResult.getPatchSetId();
+
+    // Create a successor change.
+    PushOneCommit change2 =
+        pushFactory.create(user.newIdent(), testRepo, "feature", "b.txt", "bar");
+    PushOneCommit.Result change2Result = change2.to("refs/for/master");
+
+    // Create new patch set for first change.
+    testRepo.reset(changeResult.getCommit().name());
+    amendChange(changeResult.getChangeId());
+
+    // Approve both changes
+    approve(changeResult.getChangeId());
+    approve(change2Result.getChangeId());
+
+    assertSubmittable(change2Result.getChangeId());
   }
 }

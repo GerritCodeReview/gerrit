@@ -126,6 +126,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71ac5c33_fd669980",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-02T12:01:48Z",
+      "side": 1,
+      "message": "Sorry I was OOO.\n\nI\u0027d be OK if we clearly document that they are public both in Gerrit docs and in release notes in case we haven\u0027t documented that clearly before so that people can see that there was a change.",
+      "parentUuid": "3cbdd9b9_53f9c4a3",
+      "revId": "0b3bb9f79e35a6ee24553ae1837248670a54acba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1aa1160f_8b82f6e0",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1

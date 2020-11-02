@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d2d195f_93c93d41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-11-02T09:27:42Z",
+      "side": 1,
+      "message": "Should we abandon this series since it\u0027s been decided to put the delete-group feature in a plugin?\nhttps://www.gerritcodereview.com/design-docs/delete-groups.html",
+      "revId": "a740f4dae0a3cd76855087f52cd20990e195c4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -183,7 +183,7 @@ interface FetchChangeJSON {
   reportEndpointAsIs?: boolean;
   endpoint: string;
   anonymizedEndpoint?: string;
-  patchNum?: PatchSetNum;
+  revision?: RevisionId;
   changeNum: NumericChangeId;
   errFn?: ErrorCallback;
   params?: FetchParams;
@@ -1548,7 +1548,7 @@ export class GrRestApiInterface
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/commit?links',
-      patchNum,
+      revision: patchNum,
       reportEndpointAsIs: true,
     }) as Promise<CommitInfo | undefined>;
   }
@@ -1566,7 +1566,7 @@ export class GrRestApiInterface
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/files',
-      patchNum: patchRange.patchNum,
+      revision: patchRange.patchNum,
       params,
       reportEndpointAsIs: true,
     }) as Promise<FileNameToFileInfoMap | undefined>;
@@ -1598,7 +1598,7 @@ export class GrRestApiInterface
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: `/files?q=${encodeURIComponent(query)}`,
-      patchNum,
+      revision: patchNum,
       anonymizedEndpoint: '/files?q=*',
     }) as Promise<string[] | undefined>;
   }
@@ -1622,7 +1622,7 @@ export class GrRestApiInterface
     const req: FetchChangeJSON = {
       changeNum,
       endpoint: '/actions',
-      patchNum,
+      revision: patchNum,
       reportEndpointAsIs: true,
     };
     return this._getChangeURLAndFetch(req) as Promise<
@@ -2004,7 +2004,7 @@ export class GrRestApiInterface
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/related',
-      patchNum,
+      revision: patchNum,
       reportEndpointAsIs: true,
     }) as Promise<RelatedChangesInfo | undefined>;
   }
@@ -2096,7 +2096,7 @@ export class GrRestApiInterface
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/files?reviewed',
-      patchNum,
+      revision: patchNum,
       reportEndpointAsIs: true,
     }) as Promise<string[] | undefined>;
   }
@@ -2369,7 +2369,7 @@ export class GrRestApiInterface
   ): Promise<FilePathToDiffInfoMap | undefined> {
     return this._getChangeURLAndFetch({
       changeNum,
-      patchNum,
+      revision: patchNum,
       endpoint: `/fixes/${encodeURIComponent(fixId)}/preview`,
       reportEndpointAsId: true,
     }) as Promise<FilePathToDiffInfoMap | undefined>;
@@ -2537,7 +2537,7 @@ export class GrRestApiInterface
     const req: FetchChangeJSON = {
       changeNum,
       endpoint,
-      patchNum,
+      revision: patchNum,
       errFn,
       params,
       anonymizedEndpoint: '/files/*/diff',
@@ -2725,7 +2725,7 @@ export class GrRestApiInterface
         {
           changeNum,
           endpoint,
-          patchNum,
+          revision: patchNum,
           reportEndpointAsIs: true,
         },
         noAcceptHeader
@@ -3430,10 +3430,10 @@ export class GrRestApiInterface
     const anonymizedEndpoint = req.reportEndpointAsIs
       ? req.endpoint
       : req.anonymizedEndpoint;
-    const anonymizedBaseUrl = req.patchNum
+    const anonymizedBaseUrl = req.revision
       ? ANONYMIZED_REVISION_BASE_URL
       : ANONYMIZED_CHANGE_BASE_URL;
-    return this._changeBaseURL(req.changeNum, req.patchNum).then(url =>
+    return this._changeBaseURL(req.changeNum, req.revision).then(url =>
       this._restApiHelper.fetchJSON(
         {
           url: url + req.endpoint,
@@ -3503,7 +3503,7 @@ export class GrRestApiInterface
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: `/files/${encodedPath}/blame`,
-      patchNum,
+      revision: patchNum,
       params: base ? {base: 't'} : undefined,
       anonymizedEndpoint: '/files/*/blame',
     }) as Promise<BlameInfo[] | undefined>;

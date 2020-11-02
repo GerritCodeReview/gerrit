@@ -263,8 +263,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/heads/branch",
         "refs/heads/master",
         "refs/tags/branch-tag",
-        "refs/tags/master-tag");
-    // tree-tag not visible. See comment in subsetOfBranchesVisibleIncludingHead.
+        "refs/tags/master-tag",
+        "refs/tags/tree-tag");
+    // tree-tag is visible because when all refs but refs/meta/config are visible we serve all tags.
   }
 
   @Test

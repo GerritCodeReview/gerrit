@@ -207,16 +207,19 @@ class DefaultRefFilter {
     logger.atFinest().log("Filter refs (refs = %s)", refs);
 
     // TODO(hiesel): Remove when optimization is done.
-    boolean hasReadOnRefsStar =
-        checkProjectPermission(permissionBackendForProject, ProjectPermission.READ);
-    logger.atFinest().log("User has READ on refs/* = %s", hasReadOnRefsStar);
+    boolean canReadAllRefs = projectControl.allRefsAreVisible(ImmutableSet.of());
+    boolean canReadAllRefsIgnoringRefsMetaConfig =
+        projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG));
+    logger.atFinest().log(
+        "User can read all refs = %s; all refs ignoring refs/meta/config: %s",
+        canReadAllRefs, canReadAllRefsIgnoringRefsMetaConfig);
     if (skipFullRefEvaluationIfAllRefsAreVisible && !projectState.isAllUsers()) {
-      if (projectState.statePermitsRead() && hasReadOnRefsStar) {
+      if (projectState.statePermitsRead() && canReadAllRefs) {
         skipFilterCount.increment();
         logger.atFinest().log(
             "Fast path, all refs are visible because user has READ on refs/*: %s", refs);
         return new AutoValue_DefaultRefFilter_Result(refs, ImmutableList.of());
-      } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
+      } else if (canReadAllRefsIgnoringRefsMetaConfig) {
         skipFilterCount.increment();
         refs = fastHideRefsMetaConfig(refs);
         logger.atFinest().log(
@@ -297,12 +300,16 @@ class DefaultRefFilter {
           logger.atFinest().log("Filter out group ref %s", name);
         }
       } else if (isTag(ref)) {
-        if (hasReadOnRefsStar) {
-          // The user has READ on refs/*. This is the broadest permission one can assign. There is
-          // no way to grant access to (specific) tags in Gerrit, so we have to assume that these
-          // users can see all tags because there could be tags that aren't reachable by any visible
-          // ref while the user can see all non-Gerrit refs. This matches Gerrit's historic
-          // behavior.
+        if (canReadAllRefsIgnoringRefsMetaConfig) {
+          // The user has READ on refs/* and no block rule is active (ignoring block rules for
+          // ref/meta/config).
+          // This is the broadest permission one can assign. There is no way to grant access to
+          // (specific) tags
+          // in Gerrit, so we have to assume that these users can see all tags because there could
+          // be tags that
+          // aren't reachable by any visible ref while the user can see all non-Gerrit refs. This
+          // matches
+          // Gerrit's historic behavior.
           // This makes it so that these users could see commits that they can't see otherwise
           // (e.g. a private change ref) if a tag was attached to it. Tags are meant to be used on
           // the regular Git tree that users interact with, not on any of the Gerrit trees, so this
@@ -531,17 +538,6 @@ class DefaultRefFilter {
       return false;
     }
     return projectState.statePermitsRead();
-  }
-
-  private boolean checkProjectPermission(
-      PermissionBackend.ForProject forProject, ProjectPermission perm)
-      throws PermissionBackendException {
-    try {
-      forProject.check(perm);
-    } catch (AuthException e) {
-      return false;
-    }
-    return true;
   }
 
   private boolean isGroupOwner(

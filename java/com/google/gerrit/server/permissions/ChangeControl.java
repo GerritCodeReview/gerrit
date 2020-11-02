@@ -70,6 +70,8 @@ class ChangeControl {
   private final RefControl refControl;
   private final ChangeNotes notes;
 
+  private ChangeData cd;
+
   private ChangeControl(
       ChangeData.Factory changeDataFactory, RefControl refControl, ChangeNotes notes) {
     this.changeDataFactory = changeDataFactory;
@@ -78,7 +80,8 @@ class ChangeControl {
   }
 
   ForChange asForChange(@Nullable ChangeData cd, @Nullable Provider<ReviewDb> db) {
-    return new ForChangeImpl(cd, db);
+    setChangeData(cd);
+    return new ForChangeImpl(db);
   }
 
   private CurrentUser getUser() {
@@ -93,12 +96,27 @@ class ChangeControl {
     return notes.getChange();
   }
 
+  private ChangeData changeData(ReviewDb db) {
+    if (cd == null) {
+      cd = changeDataFactory.create(db, notes);
+    }
+    return cd;
+  }
+
+  ChangeControl setChangeData(@Nullable ChangeData cd) {
+    if (cd != null) {
+      this.cd = cd;
+    }
+    return this;
+  }
+
   /** Can this user see this change? */
-  private boolean isVisible(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
+  boolean isVisible(ReviewDb db) throws OrmException {
     if (getChange().isPrivate() && !isPrivateVisible(db, cd)) {
       return false;
     }
-    return refControl.isVisible();
+    // Does the user have READ permission on the destination?
+    return refControl.asForRef().testOrFalse(RefPermission.READ);
   }
 
   /** Can this user abandon this change? */
@@ -215,13 +233,12 @@ class ChangeControl {
         || getUser().isInternalUser();
   }
 
-  private class ForChangeImpl extends ForChange {
-    private ChangeData cd;
+  class ForChangeImpl extends ForChange {
+
     private Map<String, PermissionRange> labels;
     private String resourcePath;
 
-    ForChangeImpl(@Nullable ChangeData cd, @Nullable Provider<ReviewDb> db) {
-      this.cd = cd;
+    ForChangeImpl(@Nullable Provider<ReviewDb> db) {
       this.db = db;
     }
 
@@ -295,7 +312,7 @@ class ChangeControl {
       try {
         switch (perm) {
           case READ:
-            return isVisible(db(), changeData());
+            return isVisible(db());
           case ABANDON:
             return canAbandon();
           case DELETE:

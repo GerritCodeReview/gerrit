@@ -1117,6 +1117,7 @@ public class ChangeIT extends AbstractDaemonTest {
       throws Exception {
     try {
       setApiUser(owner);
+      allow(projectName, "refs/*", Permission.VIEW_PRIVATE_CHANGES, ANONYMOUS_USERS);
       ChangeInput in = new ChangeInput();
       in.project = projectName.get();
       in.branch = "refs/heads/master";

@@ -121,11 +121,17 @@ public class RefControlTest {
   }
 
   private void assertCanRead(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isVisible()).named("can read " + ref).isTrue();
+    assertThat(u.controlForRef(ref).hasReadPermissionOnRef(true))
+        // This should be false but the test relies on inheritance into refs/tags
+        .named("can read " + ref)
+        .isTrue();
   }
 
   private void assertCannotRead(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isVisible()).named("cannot read " + ref).isFalse();
+    assertThat(u.controlForRef(ref).hasReadPermissionOnRef(true))
+        // This should be false but the test relies on inheritance into refs/tags
+        .named("cannot read " + ref)
+        .isFalse();
   }
 
   private void assertCanSubmit(String ref, ProjectControl u) {
@@ -206,6 +212,7 @@ public class RefControlTest {
   @Inject private DefaultRefFilter.Factory refFilterFactory;
   @Inject private TransferConfig transferConfig;
   @Inject private MetricMaker metricMaker;
+  @Inject private RefVisibilityControl refVisibilityControl;
 
   @Before
   public void setUp() throws Exception {
@@ -1012,6 +1019,8 @@ public class RefControlTest {
         sectionSorter,
         changeControlFactory,
         permissionBackend,
+        refVisibilityControl,
+        repoManager,
         refFilterFactory,
         new MockUser(name, memberOf),
         newProjectState(local));

@@ -1018,6 +1018,8 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void pushToDeletedGroupBranchIsRejectedForAllUsersRepo() throws Exception {
+    // refs/deleted-groups is only visible with ACCESS_DATABASE
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     String groupRef =
         RefNames.refsDeletedGroups(
             new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
@@ -1196,6 +1198,8 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void cannotDeleteDeletedGroupBranch() throws Exception {
+    // refs/deleted-groups is only visible with ACCESS_DATABASE
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     String groupRef = RefNames.refsDeletedGroups(new AccountGroup.UUID(name("foo")));
     createBranch(allUsers, groupRef);
     testCannotDeleteGroupBranch(RefNames.REFS_DELETED_GROUPS + "*", groupRef);

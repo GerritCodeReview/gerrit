@@ -132,7 +132,10 @@ import {
 import {AppElementChangeViewParams} from '../../gr-app-types';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
-import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {
+  EditRevisionInfo,
+  ParsedChangeInfo,
+} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {
   GrFileList,
   DEFAULT_NUM_FILES_SHOWN,
@@ -142,8 +145,12 @@ import {
   CustomKeyboardEvent,
   EditableContentSaveEvent,
   OpenFixPreviewEvent,
+  ShowAlertEventDetail,
   SwitchTabEvent,
 } from '../../../types/events';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
+import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -217,8 +224,15 @@ export interface GrChangeView {
     metadata: GrChangeMetadata;
     relatedChangesToggle: HTMLDivElement;
     mainChangeInfo: HTMLDivElement;
+    commitCollapseToggleButton: GrButton;
+    commitCollapseToggle: HTMLDivElement;
+    relatedChangesToggleButton: GrButton;
+    replyBtn: GrButton;
   };
 }
+
+export type ChangeViewPatchRange = Partial<PatchRange>;
+
 @customElement('gr-change-view')
 export class GrChangeView extends KeyboardShortcutMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -377,7 +391,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   _changeIdCommitMessageError?: string;
 
   @property({type: Object})
-  _patchRange?: PatchRange;
+  _patchRange?: ChangeViewPatchRange;
 
   @property({type: String})
   _filesExpanded?: string;
@@ -386,7 +400,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   _basePatchNum?: string;
 
   @property({type: Object})
-  _selectedRevision?: RevisionInfo;
+  _selectedRevision?: RevisionInfo | EditRevisionInfo;
 
   @property({type: Object})
   _currentRevisionActions?: ActionNameToActionInfoMap;
@@ -431,7 +445,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     type: String,
     computed: '_computeChangeStatusChips(_change, _mergeable, _submitEnabled)',
   })
-  _changeStatuses?: string;
+  _changeStatuses?: string[];
 
   /** If false, then the "Show more" button was used to expand. */
   @property({type: Boolean})
@@ -653,11 +667,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
     }
   }
 
-  get messagesList() {
+  get messagesList(): GrMessagesList | null {
     return this.shadowRoot!.querySelector('gr-messages-list');
   }
 
-  get threadList() {
+  get threadList(): GrThreadList | null {
     return this.shadowRoot!.querySelector('gr-thread-list');
   }
 
@@ -868,9 +882,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
     loggedIn: boolean,
     editing: boolean,
     change: ChangeInfo,
-    editMode: boolean,
-    collapsed: boolean,
-    collapsible: boolean
+    editMode?: boolean,
+    collapsed?: boolean,
+    collapsible?: boolean
   ) {
     if (
       !loggedIn ||
@@ -1223,14 +1237,13 @@ export class GrChangeView extends KeyboardShortcutMixin(
         this._patchRange.basePatchNum !== value.basePatchNum);
     const changeChanged = this._changeNum !== value.changeNum;
 
-    const patchRange = {
+    const patchRange: ChangeViewPatchRange = {
       patchNum: value.patchNum,
-      basePatchNum: value.basePatchNum || 'PARENT',
+      basePatchNum: value.basePatchNum || ParentPatchSetNum,
     };
 
     this.$.fileList.collapseAllDiffs();
-    // TODO(TS): change patchRange to PatchRange.
-    this._patchRange = patchRange as PatchRange;
+    this._patchRange = patchRange;
 
     // If the change has already been loaded and the parameter change is only
     // in the patch range, then don't do a full reload.
@@ -1475,7 +1488,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
    */
   _getBasePatchNum(
     change: ChangeInfo | ParsedChangeInfo,
-    patchRange: PatchRange
+    patchRange: ChangeViewPatchRange
   ) {
     if (patchRange.basePatchNum && patchRange.basePatchNum !== 'PARENT') {
       return patchRange.basePatchNum;
@@ -1575,7 +1588,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
       GrChangeView,
       '_diffDrafts'
     > | null,
-    canStartReview?: PolymerDeepPropertyChange<boolean, boolean>
+    canStartReview?: boolean
   ) {
     if (changeRecord === undefined || canStartReview === undefined) {
       return 'Reply';
@@ -1685,11 +1698,12 @@ export class GrChangeView extends KeyboardShortcutMixin(
       throw new Error('missing required _patchRange property');
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+      const detail: ShowAlertEventDetail = {
+        message: 'Latest is already selected.',
+      };
       this.dispatchEvent(
         new CustomEvent('show-alert', {
-          detail: {
-            message: 'Latest is already selected.',
-          },
+          detail,
           composed: true,
           bubbles: true,
         })
@@ -1927,7 +1941,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
         basePatchNum: edit.base_patch_set_number,
         commit: edit.commit,
         fetch: edit.fetch,
-      } as RevisionInfo;
+      };
 
     // If the edit is based on the most recent patchset, load it by
     // default, unless another patch set to load was specified in the URL.
@@ -2568,7 +2582,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this.$.relatedChanges.reload();
   }
 
-  _computeHeaderClass(editMode: boolean) {
+  _computeHeaderClass(editMode?: boolean) {
     const classes = ['header'];
     if (editMode) {
       classes.push('editMode');
@@ -2577,7 +2591,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _computeEditMode(
-    patchRangeRecord: PolymerDeepPropertyChange<PatchRange, PatchRange>,
+    patchRangeRecord: PolymerDeepPropertyChange<
+      ChangeViewPatchRange,
+      ChangeViewPatchRange
+    >,
     paramsRecord: PolymerDeepPropertyChange<
       AppElementChangeViewParams,
       AppElementChangeViewParams
@@ -2734,7 +2751,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
    * Wrapper for using in the element template and computed properties
    */
   _hasEditPatchsetLoaded(
-    patchRangeRecord: PolymerDeepPropertyChange<PatchRange, PatchRange>
+    patchRangeRecord: PolymerDeepPropertyChange<
+      ChangeViewPatchRange,
+      ChangeViewPatchRange
+    >
   ) {
     const patchRange = patchRangeRecord.base;
     if (!patchRange) {

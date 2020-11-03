@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2020 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GerritNav} from '../elements/core/gr-navigation/gr-navigation.js';
 
-GerritNav.setup(url => { /* noop */ }, params => '', () => []);
+declare module 'sinon/pkg/sinon-esm' {
+  // sinon-esm doesn't have it's own d.ts, reexport all types from sinon
+  // This is a trick - @types/sinon adds interfaces and sinon instance
+  // to a global variables/namespace. We reexport it here, so we
+  // can use in our code when importing sinon-esm
+  // eslint-disable-next-line import/no-default-export
+  export default sinon;
+  const sinon: Sinon.SinonStatic;
+  export {SinonSpy, SinonFakeTimers, SinonStubbedMember};
+}

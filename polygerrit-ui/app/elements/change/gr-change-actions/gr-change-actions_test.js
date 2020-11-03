@@ -20,7 +20,11 @@ import './gr-change-actions.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {generateChange} from '../../../test/test-utils.js';
+import {
+  createChange,
+  createChangeMessages,
+  createRevisions,
+} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-change-actions');
 
@@ -1810,10 +1814,11 @@ suite('gr-change-actions tests', () => {
         element.changeNum = 42;
         element.change._number = 42;
         element.latestPatchNum = 12;
-        element.change = generateChange({
-          revisionsCount: element.latestPatchNum,
-          messagesCount: 1,
-        });
+        element.change = {
+          ...createChange(),
+          revisions: createRevisions(element.latestPatchNum),
+          messages: createChangeMessages(1),
+        };
         payload = {foo: 'bar'};
 
         onShowError = sinon.stub();
@@ -1826,12 +1831,12 @@ suite('gr-change-actions tests', () => {
         let sendStub;
         setup(() => {
           sinon.stub(element.$.restAPI, 'getChangeDetail')
-              .returns(Promise.resolve(
-                  generateChange({
-                    // element has latest info
-                    revisionsCount: element.latestPatchNum,
-                    messagesCount: 1,
-                  })));
+              .returns(Promise.resolve({
+                ...createChange(),
+                // element has latest info
+                revisions: createRevisions(element.latestPatchNum),
+                messages: createChangeMessages(1),
+              }));
           sendStub = sinon.stub(element.$.restAPI, 'executeChangeAction')
               .returns(Promise.resolve({}));
           getResponseObjectStub = sinon.stub(element.$.restAPI,
@@ -1945,12 +1950,12 @@ suite('gr-change-actions tests', () => {
       suite('failure modes', () => {
         test('non-latest', () => {
           sinon.stub(element.$.restAPI, 'getChangeDetail')
-              .returns(Promise.resolve(
-                  generateChange({
-                    // new patchset was uploaded
-                    revisionsCount: element.latestPatchNum + 1,
-                    messagesCount: 1,
-                  })));
+              .returns(Promise.resolve({
+                ...createChange(),
+                // new patchset was uploaded
+                revisions: createRevisions(element.latestPatchNum + 1),
+                messages: createChangeMessages(1),
+              }));
           const sendStub = sinon.stub(element.$.restAPI,
               'executeChangeAction');
 
@@ -1965,12 +1970,12 @@ suite('gr-change-actions tests', () => {
 
         test('send fails', () => {
           sinon.stub(element.$.restAPI, 'getChangeDetail')
-              .returns(Promise.resolve(
-                  generateChange({
-                    // element has latest info
-                    revisionsCount: element.latestPatchNum,
-                    messagesCount: 1,
-                  })));
+              .returns(Promise.resolve({
+                ...createChange(),
+                // element has latest info
+                revisions: createRevisions(element.latestPatchNum),
+                messages: createChangeMessages(1),
+              }));
           const sendStub = sinon.stub(element.$.restAPI,
               'executeChangeAction').callsFake(
               (num, method, patchNum, endpoint, payload, onErr) => {

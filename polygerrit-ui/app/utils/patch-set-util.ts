@@ -7,7 +7,10 @@ import {
   ParentPatchSetNum,
 } from '../types/common';
 import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
-import {ParsedChangeInfo} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {
+  EditRevisionInfo,
+  ParsedChangeInfo,
+} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 /**
  * @license
@@ -47,10 +50,6 @@ export interface PatchSet {
   desc: string | undefined;
   sha: string;
   wip?: boolean;
-}
-
-interface RevisionWithSha extends RevisionInfo {
-  sha: string;
 }
 
 interface PatchRange {
@@ -128,7 +127,9 @@ export function getRevisionByPatchNum(
  *     doesn't exist.
  *
  */
-export function findEditParentRevision(revisions: RevisionInfo[]) {
+export function findEditParentRevision(
+  revisions: Array<RevisionInfo | EditRevisionInfo>
+) {
   const editInfo = revisions.find(info => info._number === EditPatchSetNum);
 
   if (!editInfo) {
@@ -144,7 +145,9 @@ export function findEditParentRevision(revisions: RevisionInfo[]) {
  * @return Change edit patch set number or -1.
  *
  */
-export function findEditParentPatchNum(revisions: RevisionInfo[]) {
+export function findEditParentPatchNum(
+  revisions: Array<RevisionInfo | EditRevisionInfo>
+) {
   const revisionInfo = findEditParentRevision(revisions);
   // finding parent of 'edit' patchset, hence revisionInfo._number cannot be
   // 'edit' and must be a number
@@ -162,7 +165,9 @@ export function findEditParentPatchNum(revisions: RevisionInfo[]) {
  * 3, edit, 2, 1.
  *
  */
-export function sortRevisions<T extends RevisionInfo>(revisions: T[]): T[] {
+export function sortRevisions<T extends RevisionInfo | EditRevisionInfo>(
+  revisions: T[]
+): T[] {
   const editParent: number = findEditParentPatchNum(revisions);
   // Map a normal patchNum to 2 * (patchNum - 1) + 1... I.e. 1 -> 1,
   // 2 -> 3, 3 -> 5, etc.
@@ -200,12 +205,10 @@ export function computeAllPatchSets(
   let patchNums: PatchSet[] = [];
   if (change.revisions && Object.keys(change.revisions).length) {
     const changeRevisions = change.revisions;
-    const revisions: RevisionWithSha[] = Object.keys(change.revisions).map(
-      sha => {
-        return {sha, ...changeRevisions[sha]};
-      }
-    );
-    patchNums = sortRevisions(revisions).map((e: RevisionWithSha) => {
+    const revisions = Object.keys(change.revisions).map(sha => {
+      return {sha, ...changeRevisions[sha]};
+    });
+    patchNums = sortRevisions(revisions).map(e => {
       // TODO(kaspern): Mark which patchset an edit was made on, if an
       // edit exists -- perhaps with a temporary description.
       return {

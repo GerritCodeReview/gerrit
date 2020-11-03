@@ -22,7 +22,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {sortComments} from '../../../utils/comment-util.js';
 import {Side} from '../../../constants/constants.js';
-import {generateChange} from '../../../test/test-utils';
+import {createChange} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
@@ -55,7 +55,7 @@ suite('gr-diff-host tests', () => {
     });
     test('plugin layers requested', () => {
       element.patchRange = {};
-      element.change = generateChange();
+      element.change = createChange();
       element.reload();
       assert(element.$.jsAPI.getDiffLayers.called);
     });
@@ -323,7 +323,7 @@ suite('gr-diff-host tests', () => {
       sinon.stub(element.$.restAPI, 'getDiff').returns(
           Promise.resolve({content: []}));
       element.patchRange = {};
-      element.change = generateChange();
+      element.change = createChange();
       element.$.restAPI.getDiffPreferences().then(prefs => {
         element.prefs = prefs;
         return element.reload(true);
@@ -344,7 +344,7 @@ suite('gr-diff-host tests', () => {
       sinon.stub(element.$.restAPI, 'getDiff').returns(
           Promise.resolve({content: []}));
       element.patchRange = {};
-      element.change = generateChange();
+      element.change = createChange();
       element.reload();
       // Multiple cascading microtasks are scheduled.
       await flush();
@@ -366,7 +366,7 @@ suite('gr-diff-host tests', () => {
       sinon.stub(element.$.restAPI, 'getDiff').returns(
           Promise.resolve({content: []}));
       element.patchRange = {};
-      element.change = generateChange();
+      element.change = createChange();
       let reloadComplete = false;
       element.$.restAPI.getDiffPreferences()
           .then(prefs => {
@@ -392,7 +392,7 @@ suite('gr-diff-host tests', () => {
     // Stub the network calls into requests that never resolve.
     sinon.stub(element, '_getDiff').callsFake(() => new Promise(() => {}));
     element.patchRange = {};
-    element.change = generateChange();
+    element.change = createChange();
 
     // Needs to be set to something first for it to cancel.
     element.diff = {
@@ -410,7 +410,7 @@ suite('gr-diff-host tests', () => {
       getLoggedIn = false;
       element = basicFixture.instantiate();
       element.changeNum = 123;
-      element.change = generateChange();
+      element.change = createChange();
       element.path = 'some/path';
     });
 
@@ -542,7 +542,7 @@ suite('gr-diff-host tests', () => {
             );
 
         element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
-        element.change = generateChange();
+        element.change = createChange();
         element.comments = {
           left: [],
           right: [],
@@ -1447,7 +1447,7 @@ suite('gr-diff-host tests', () => {
       element.patchRange = {};
       element.prefs = prefs;
       element.changeNum = 123;
-      element.change = generateChange();
+      element.change = createChange();
       element.path = 'some/path';
     });
 
@@ -1502,7 +1502,7 @@ suite('gr-diff-host tests', () => {
         }],
       };
       element.patchRange = {};
-      element.change = generateChange();
+      element.change = createChange();
       element.prefs = prefs;
     });
 
@@ -1559,7 +1559,7 @@ suite('gr-diff-host tests', () => {
       });
       element = basicFixture.instantiate();
       element.changeNum = 123;
-      element.change = generateChange();
+      element.change = createChange();
       element.path = 'some/path';
       const prefs = {
         line_length: 10,

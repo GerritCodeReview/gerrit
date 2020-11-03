@@ -21,7 +21,7 @@ import {GrPopupInterface} from './gr-popup-interface.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {createIronOverlayBackdropStyleEl} from '../../../test/test-utils';
+import {createIronOverlayBackdropStyleEl} from '../../../test/test-utils.js';
 
 class GrUserTestPopupElement extends PolymerElement {
   static get is() { return 'gr-user-test-popup'; }

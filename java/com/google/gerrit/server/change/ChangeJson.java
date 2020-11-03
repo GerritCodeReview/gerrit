@@ -244,7 +244,7 @@ public class ChangeJson {
       Provider<ConsistencyChecker> checkerProvider,
       ActionJson actionJson,
       ChangeNotes.Factory notesFactory,
-      LabelsJson.Factory labelsJsonFactory,
+      LabelsJson labelsJson,
       RemoveReviewerControl removeReviewerControl,
       TrackingFooters trackingFooters,
       Metrics metrics,
@@ -261,7 +261,7 @@ public class ChangeJson {
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
     this.notesFactory = notesFactory;
-    this.labelsJson = labelsJsonFactory.create(options);
+    this.labelsJson = labelsJson;
     this.removeReviewerControl = removeReviewerControl;
     this.trackingFooters = trackingFooters;
     this.metrics = metrics;

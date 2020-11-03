@@ -111,7 +111,6 @@ import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
-import com.google.gerrit.server.change.LabelsJson;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.RevisionJson;
@@ -273,7 +272,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeData.AssistedFactory.class);
     factory(ChangeJson.AssistedFactory.class);
     factory(ChangeIsVisibleToPredicate.Factory.class);
-    factory(LabelsJson.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(PatchScriptFactory.Factory.class);
     factory(PatchScriptFactoryForAutoFix.Factory.class);

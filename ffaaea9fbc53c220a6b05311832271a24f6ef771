@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee87a9f4_11090aa9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-03T14:27:19Z",
+      "side": 1,
+      "message": "Can you change the entire method to use the ?. operator where possible?",
+      "revId": "ffaaea9fbc53c220a6b05311832271a24f6ef771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

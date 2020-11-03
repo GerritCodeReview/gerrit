@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df9db997_6429880d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1115330
+      },
+      "writtenOn": "2020-11-03T14:30:08Z",
+      "side": 1,
+      "message": "LGTM, thanks for following up on this! 🙏",
+      "revId": "bdb4583896be65fbb882236a34fa49c5f86f7e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

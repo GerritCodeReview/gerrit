@@ -586,28 +586,24 @@ export class GrChangeMetadata extends GestureEventListeners(
 
     if (
       role === ChangeRole.UPLOADER &&
-      rev.uploader &&
-      change.owner._account_id !== rev.uploader._account_id
+      change.owner?._account_id !== rev?.uploader?._account_id
     ) {
       return rev.uploader;
     }
 
     if (
       role === ChangeRole.AUTHOR &&
-      rev.commit &&
-      rev.commit.author &&
-      change.owner.email !== rev.commit.author.email
+      change.owner?.email !== rev.commit?.author?.email
     ) {
-      return rev.commit.author;
+      return rev?.commit?.author;
     }
 
     if (
       role === ChangeRole.COMMITTER &&
-      rev.commit &&
-      rev.commit.committer &&
-      change.owner.email !== rev.commit.committer.email
+      change.owner?.email !== rev.commit?.committer?.email &&
+      !(rev.uploader?.email === rev.commit?.committer?.email)
     ) {
-      return rev.commit.committer;
+      return rev?.commit?.committer;
     }
 
     return null;

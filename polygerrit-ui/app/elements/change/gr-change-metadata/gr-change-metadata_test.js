@@ -210,13 +210,13 @@ suite('gr-change-metadata tests', () => {
       test('_getNonOwnerRole that it does not return uploader', () => {
         // Set the uploader email to be the same as the owner.
         change.revisions.rev1.uploader._account_id = 1019328;
-        assert.isNull(element._getNonOwnerRole(change,
+        assert.isNotOk(element._getNonOwnerRole(change,
             element._CHANGE_ROLE.UPLOADER));
       });
 
       test('_getNonOwnerRole null for uploader with no current rev', () => {
         delete change.current_revision;
-        assert.isNull(element._getNonOwnerRole(change,
+        assert.isNotOk(element._getNonOwnerRole(change,
             element._CHANGE_ROLE.UPLOADER));
       });
 
@@ -235,33 +235,39 @@ suite('gr-change-metadata tests', () => {
 
     suite('role=committer', () => {
       test('_getNonOwnerRole for committer', () => {
+        change.revisions.rev1.uploader.email = 'ghh@def';
         assert.deepEqual(
             element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER),
             {email: 'ghi@def'});
       });
 
+      test('_getNonOwnerRole is null if committer is same as uploader', () => {
+        assert.isNotOk(element._getNonOwnerRole(change,
+            element._CHANGE_ROLE.COMMITTER));
+      });
+
       test('_getNonOwnerRole that it does not return committer', () => {
         // Set the committer email to be the same as the owner.
         change.revisions.rev1.commit.committer.email = 'abc@def';
-        assert.isNull(element._getNonOwnerRole(change,
+        assert.isNotOk(element._getNonOwnerRole(change,
             element._CHANGE_ROLE.COMMITTER));
       });
 
       test('_getNonOwnerRole null for committer with no current rev', () => {
         delete change.current_revision;
-        assert.isNull(element._getNonOwnerRole(change,
+        assert.isNotOk(element._getNonOwnerRole(change,
             element._CHANGE_ROLE.COMMITTER));
       });
 
       test('_getNonOwnerRole null for committer with no commit', () => {
         delete change.revisions.rev1.commit;
-        assert.isNull(element._getNonOwnerRole(change,
+        assert.isNotOk(element._getNonOwnerRole(change,
             element._CHANGE_ROLE.COMMITTER));
       });
 
       test('_getNonOwnerRole null for committer with no committer', () => {
         delete change.revisions.rev1.commit.committer;
-        assert.isNull(element._getNonOwnerRole(change,
+        assert.isNotOk(element._getNonOwnerRole(change,
             element._CHANGE_ROLE.COMMITTER));
       });
     });
@@ -276,25 +282,25 @@ suite('gr-change-metadata tests', () => {
       test('_getNonOwnerRole that it does not return author', () => {
         // Set the author email to be the same as the owner.
         change.revisions.rev1.commit.author.email = 'abc@def';
-        assert.isNull(element._getNonOwnerRole(change,
+        assert.isNotOk(element._getNonOwnerRole(change,
             element._CHANGE_ROLE.AUTHOR));
       });
 
       test('_getNonOwnerRole null for author with no current rev', () => {
         delete change.current_revision;
-        assert.isNull(element._getNonOwnerRole(change,
+        assert.isNotOk(element._getNonOwnerRole(change,
             element._CHANGE_ROLE.AUTHOR));
       });
 
       test('_getNonOwnerRole null for author with no commit', () => {
         delete change.revisions.rev1.commit;
-        assert.isNull(element._getNonOwnerRole(change,
+        assert.isNotOk(element._getNonOwnerRole(change,
             element._CHANGE_ROLE.AUTHOR));
       });
 
       test('_getNonOwnerRole null for author with no author', () => {
         delete change.revisions.rev1.commit.author;
-        assert.isNull(element._getNonOwnerRole(change,
+        assert.isNotOk(element._getNonOwnerRole(change,
             element._CHANGE_ROLE.AUTHOR));
       });
     });

@@ -323,6 +323,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a101b38d_7bcf8b36",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T09:20:03Z",
+      "side": 1,
+      "message": "Moved the porting comments call to gr-comment-api.\nIn change view, the timer begins when loadAll() resolves and ends when getPortedComment() resolves giving us the extra time we need to wait.",
+      "parentUuid": "24b8b7a2_67107d3a",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 9
+      },
+      "revId": "3944619196e45b672351e5b637b22f051b586222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c191cfc4_591bf8a5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 4

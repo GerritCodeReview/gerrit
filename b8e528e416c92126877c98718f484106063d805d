@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "821d9034_00d6ec59",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 2085,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-03T13:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ca48450_0d4ccc64",
+      "revId": "b8e528e416c92126877c98718f484106063d805d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07ec5eea_46955ada",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-28T14:28:31Z",
       "side": 1,
       "message": "It looks like none of the _reload() promises has this kind of guard, so I would leave this out for now. If we want to solve that problem, then we should tackle it holistically and cancel all promises.",
+      "revId": "b8e528e416c92126877c98718f484106063d805d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c8e2bcf_8e28b7f3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 2100,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-03T13:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07ec5eea_46955ada",
       "revId": "b8e528e416c92126877c98718f484106063d805d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

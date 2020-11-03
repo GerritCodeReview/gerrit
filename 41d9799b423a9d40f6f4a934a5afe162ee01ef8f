@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d47042e_2438e39f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-03T17:36:48Z",
+      "side": 1,
+      "message": "LGTM, but I don\u0027t know enough about the business logic to be worth much.",
+      "revId": "41d9799b423a9d40f6f4a934a5afe162ee01ef8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

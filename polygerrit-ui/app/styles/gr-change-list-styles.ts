@@ -26,7 +26,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
   <template>
     <style>
       gr-change-list-item {
-        border-top: 1px solid var(--border-color);
+        border-top: 3px solid var(--border-color);
       }
       gr-change-list-item[selected],
       gr-change-list-item:focus {

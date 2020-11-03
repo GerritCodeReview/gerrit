@@ -2795,6 +2795,28 @@ export class GrRestApiInterface
     return this._changeBaseURL(changeNum, patchNum).then(url => url + endpoint);
   }
 
+  getPortedComments(
+    changeNum: NumericChangeId,
+    revision: RevisionId
+  ): Promise<PathToCommentsInfoMap | undefined> {
+    return this._getChangeURLAndFetch({
+      changeNum,
+      endpoint: '/ported_comments/',
+      revision,
+    });
+  }
+
+  getPortedDrafts(
+    changeNum: NumericChangeId,
+    revision: RevisionId
+  ): Promise<PathToCommentsInfoMap | undefined> {
+    return this._getChangeURLAndFetch({
+      changeNum,
+      endpoint: '/ported_drafts/',
+      revision,
+    });
+  }
+
   saveDiffDraft(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,

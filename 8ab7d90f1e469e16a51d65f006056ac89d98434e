@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8483ae13_9a634532",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-03T14:02:47Z",
+      "side": 0,
+      "message": "nit: unrelated removal of empty line",
+      "revId": "8ab7d90f1e469e16a51d65f006056ac89d98434e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

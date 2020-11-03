@@ -16,6 +16,24 @@
       "message": "nit: Looks like this is no longer used now?",
       "revId": "1ab9c3dee29af0cc1b185345d1aa99a86ca4270e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8af67aba_77698089",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-03T14:11:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "385d7e8c_c35459f8",
+      "revId": "1ab9c3dee29af0cc1b185345d1aa99a86ca4270e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

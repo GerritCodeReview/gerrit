@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df24347d_0d52dc1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-03T14:02:47Z",
+      "side": 1,
+      "message": "The more important bug was that you could add accounts to the attention set that are not visible to you. This means users were able to probe whether accounts exist, by just trying to add random users to the attention set. This change intends to prevent such probing of existing accounts by only allowing to add users to the attention set, whose existence is already revealed to the users since they are part of the change that is visible to the user. I think this should be mentioned in this commit message.",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "240908801b563d00528b12bf0beb4ffc7de29158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7535da5_651c493f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-03T14:02:47Z",
+      "side": 1,
+      "message": "[optional] we may also accept uploaders of old patch sets",
+      "revId": "240908801b563d00528b12bf0beb4ffc7de29158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b39f6413_d7d386b2",
+        "filename": "java/com/google/gerrit/server/restapi/change/AddToAttentionSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-03T14:02:47Z",
+      "side": 1,
+      "message": "This doesn\u0027t fix the actual problem which I thought this change would fix (see my comment in the commit message). Using this REST endpoint you must not be able to find out for a random email if there is a Gerrit account for this email, unless this Gerrit account is visible to you. But now I can still do this by observing the error messages:\n\n1. if I provide an email that doesn\u0027t exist on the Gerrit server, line 77 throws an UnresolvableAccountException\n2. if I provide an email of an account that I cannot see, line 77 resolves it and I get the BadRequestException thrown here\n\nSince both error messages are different, I can find out whether an account for a random email exists (case 2.) or not (case 1.).",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 5
+      },
+      "revId": "240908801b563d00528b12bf0beb4ffc7de29158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe0f623e_cb1c4b7d",
+        "filename": "java/com/google/gerrit/server/restapi/change/AddToAttentionSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-03T14:02:47Z",
+      "side": 1,
+      "message": "[optional] we may also accept uploaders of old patch sets",
+      "revId": "240908801b563d00528b12bf0beb4ffc7de29158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -605,7 +605,8 @@ export class GrChangeMetadata extends GestureEventListeners(
       role === ChangeRole.COMMITTER &&
       rev.commit &&
       rev.commit.committer &&
-      change.owner.email !== rev.commit.committer.email
+      change.owner.email !== rev.commit.committer.email &&
+      !(rev.uploader && rev.uploader.email === rev.commit.committer.email)
     ) {
       return rev.commit.committer;
     }

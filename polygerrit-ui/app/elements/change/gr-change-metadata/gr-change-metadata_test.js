@@ -235,9 +235,15 @@ suite('gr-change-metadata tests', () => {
 
     suite('role=committer', () => {
       test('_getNonOwnerRole for committer', () => {
+        change.revisions.rev1.uploader.email = 'ghh@def';
         assert.deepEqual(
             element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER),
             {email: 'ghi@def'});
+      });
+
+      test('_getNonOwnerRole is null if committer is same as uploader', () => {
+        assert.isNull(element._getNonOwnerRole(change,
+            element._CHANGE_ROLE.COMMITTER));
       });
 
       test('_getNonOwnerRole that it does not return committer', () => {

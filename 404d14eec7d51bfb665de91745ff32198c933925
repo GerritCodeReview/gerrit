@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7df9c0f8_cccf69bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 2135,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-03T12:52:29Z",
+      "side": 1,
+      "message": "I think you want to return this promise, not the combined promise.\n\nAnd also move the `_recomputeComments` call into a then block here.",
+      "revId": "404d14eec7d51bfb665de91745ff32198c933925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

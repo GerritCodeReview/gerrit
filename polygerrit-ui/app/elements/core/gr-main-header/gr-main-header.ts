@@ -219,7 +219,7 @@ export class GrMainHeader extends GestureEventListeners(
     const docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
     if (docLinks.length) {
       links.push({
-        title: 'Documentation',
+        title: 'Documentation2',
         links: docLinks,
         class: 'hideOnMobile',
       });

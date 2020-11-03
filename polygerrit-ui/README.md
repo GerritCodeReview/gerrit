@@ -1,12 +1,5 @@
 # Gerrit Polymer Frontend
 
-**Warning**: DON'T ADD MORE TYPESCRIPT FILES/TYPES. Gerrit Polymer Frontend
-contains several typescript files and uses typescript compiler. This is a
-preparation for the upcoming migration to typescript and we actively working on
-it. We want to avoid massive typescript-related changes until the preparation
-work is done. Thanks for your understanding!
-
-
 Follow the
 [setup instructions for Gerrit backend developers](https://gerrit-review.googlesource.com/Documentation/dev-readme.html)
 where applicable, the most important command is:
@@ -279,6 +272,245 @@ or
 npm run polylint
 ```
 
+## Migrating tests to Typescript
+
+You can use the following steps for migrating tests to Typescript:
+
+1. Rename the `_test.js` file to `_test.ts`
+2. Remove `.js` extensions from all imports:
+   ```
+   // Before:
+   import ... from 'x/y/z.js`
+ 
+   // After
+   import .. from 'x/y/z'
+   ```
+3. Fix typescript and eslint errors.
+
+Common errors and fixes are:
+
+* An object in the test doesn't have all required properties. You can use
+existing helpers to create an object with all required properties:
+```
+// Before:
+sinon.stub(element.$.restAPI, 'getPreferences').returns(
+    Promise.resolve({default_diff_view: 'UNIFIED'}));
+
+// After:
+Promise.resolve({
+  ...createPreferences(),
+  default_diff_view: DiffViewMode.UNIFIED,
+})
+```
+
+Some helpers receive parameters:
+```
+// Before
+element._change = {
+  change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+  revisions: {
+    rev1: {_number: 1, commit: {parents: []}},
+    rev2: {_number: 2, commit: {parents: []}},
+  },
+  current_revision: 'rev1',
+  status: ChangeStatus.MERGED,
+  labels: {},
+  actions: {},
+};
+
+// After
+element._change = {
+  ...createChange(),
+  // The change_id is set by createChange.
+  // The exact change_id is not important in the test, so it was removed.
+  revisions: {
+    rev1: createRevision(1), // _number is a parameter here
+    rev2: createRevision(2), // _number is a parameter here
+  },
+  current_revision: 'rev1' as CommitId,
+  status: ChangeStatus.MERGED,
+  labels: {},
+  actions: {},
+};
+```
+* Typescript reports some weird messages about `window` property - sometimes an
+IDE adds wrong import. Just remove it.
+```
+// The wrong import added by IDE, must be removed
+import window = Mocha.reporters.Base.window;
+```
+
+* `TS2531: Object is possibly 'null'`. To fix use either non-null assertion
+operator `!` or nullish coalescing operator `?.`:
+```
+// Before:
+const rows = element
+  .shadowRoot.querySelector('table')
+  .querySelectorAll('tbody tr');
+...
+// The _robotCommentThreads declared as _robotCommentThreads?: CommentThread
+assert.equal(element._robotCommentThreads.length, 2);
+  
+// Fix with non-null assertion operator:
+const rows = element
+  .shadowRoot!.querySelector('table')! // '!' after shadowRoot and querySelector
+  .querySelectorAll('tbody tr');
+
+assert.equal(element._robotCommentThreads!.length, 2); 
+
+// Fix with nullish coalescing operator:
+ assert.equal(element._robotCommentThreads?.length, 2); 
+```
+Usually the fix with `!` is preferable, because it gives more clear error
+when an intermediate property is `null/undefined`. If the _robotComments is
+`undefined` in the example above, the `element._robotCommentThreads!.length`
+crashes with the error `Cannot read property 'length' of undefined`. At the
+same time the fix with
+`?.` doesn't distinct between 2 cases: _robotCommentThreads is `undefined`
+and `length` is `undefined`.
+
+* `TS2339: Property '...' does not exist on type 'Element'.` for elements
+returned by `querySelector/querySelectorAll`. To fix it, use generic versions
+of those methods:
+```
+// Before:
+const radios = parentTable
+  .querySelectorAll('input[type=radio]');
+const radio = parentRow
+  .querySelector('input[type=radio]');
+
+// After:
+const radios = parentTable
+  .querySelectorAll<HTMLInputElement>('input[type=radio]');
+const radio = parentRow
+  .querySelector<HTMLInputElement>('input[type=radio]');
+```
+
+* Sinon: `TS2339: Property 'lastCall' does not exist on type '...` (the same
+for other sinon properties). Store stub/spy in a variable and then use the
+variable:
+```
+// Before:
+sinon.stub(GerritNav, 'getUrlForChange')
+...
+assert.equal(GerritNav.getUrlForChange.lastCall.args[4], '#message-a12345');
+
+// After:
+const getUrlStub = sinon.stub(GerritNav, 'getUrlForChange');
+...
+assert.equal(getUrlStub.lastCall.args[4], '#message-a12345');
+```
+
+If you need to define a type for such variable, you can use one of the following
+options:
+```
+suite('my suite', () => {
+    // Non static members, option 1
+    let updateHeightSpy: SinonSpyMember<typeof element._updateRelatedChangeMaxHeight>;
+    // Non static members, option 2
+    let updateHeightSpy_prototype: SinonSpyMember<typeof GrChangeView.prototype._updateRelatedChangeMaxHeight>;
+    // Static members
+    let navigateToChangeStub: SinonStubbedMember<typeof GerritNav.navigateToChange>;
+    // For interfaces
+    let getMergeableStub: SinonStubbedMember<RestApiService['getMergeable']>;
+});
+```
+
+* Typescript reports errors when stubbing/faking methods:
+```
+// The JS code:
+const reloadStub = sinon
+    .stub(element, '_reload')
+    .callsFake(() => Promise.resolve());
+
+stub('gr-rest-api-interface', {
+  getDiffComments() { return Promise.resolve({}); },
+  getDiffRobotComments() { return Promise.resolve({}); },
+  getDiffDrafts() { return Promise.resolve({}); },
+  _fetchSharedCacheURL() { return Promise.resolve({}); },
+});
+```
+
+In such cases, validate the input and output of a stub/fake method. Quite often
+tests return null instead of undefined or `[]` instead of `{}`, etc...
+Fix types if they are not correct:
+```
+const reloadStub = sinon
+  .stub(element, '_reload')
+  // GrChangeView._reload method returns an array
+  .callsFake(() => Promise.resolve([])); // return [] here
+
+stub('gr-rest-api-interface', {
+  ...
+  // Fix return type:
+  _fetchSharedCacheURL() { return Promise.resolve({} as ParsedJSON); },
+});
+```
+
+If a method has multiple overloads, you can use one of 2 options:
+```
+// Option 1: less accurate, but shorter:
+function getCommentsStub() {
+  return Promise.resolve({});
+}
+
+stub('gr-rest-api-interface', {
+  ...
+  getDiffComments: (getCommentsStub as unknown) as RestApiService['getDiffComments'],
+  getDiffRobotComments: (getCommentsStub as unknown) as RestApiService['getDiffRobotComments'],
+  getDiffDrafts: (getCommentsStub as unknown) as RestApiService['getDiffDrafts'],
+  ...
+});
+
+// Option 2: more accurate, but longer.
+// Step 1: define the same overloads for stub:
+function getDiffCommentsStub(
+  changeNum: NumericChangeId
+): Promise<PathToCommentsInfoMap | undefined>;
+function getDiffCommentsStub(
+  changeNum: NumericChangeId,
+  basePatchNum: PatchSetNum,
+  patchNum: PatchSetNum,
+  path: string
+): Promise<GetDiffCommentsOutput>;
+
+// Step 2: implement stub method for differnt input
+function getDiffCommentsStub(
+  _: NumericChangeId,
+  basePatchNum?: PatchSetNum,
+):
+  | Promise<PathToCommentsInfoMap | undefined>
+  | Promise<GetDiffCommentsOutput> {
+  if (basePatchNum) {
+    return Promise.resolve({
+      baseComments: [],
+      comments: [],
+    });
+  }
+  return Promise.resolve({});
+}
+
+// Step 3: use stubbed function:
+stub('gr-rest-api-interface', {
+  ...
+  getDiffComments: getDiffCommentsStub,
+  ...
+});
+```
+
+* If a test requires a `@types/...` library, install the required library
+in the `polygerrit_ui/node_modules` and update the `typeRoots` in the
+`polygerrit-ui/app/tsconfig_bazel_test.json` file.
+
+The same update should be done if a test requires a .d.ts file from a library
+that already exists in `polygerrit_ui/node_modules`.
+
+**Note:** Types from a library located in `polygerrit_ui/app/node_modules` are
+handle automatically.
+
+* If a test imports a library from `polygerrit_ui/node_modules` - update
+`paths` in `polygerrit-ui/app/tsconfig_bazel_test.json`.
+ 
 ## Contributing
 
 Our users report bugs / feature requests related to the UI through [Monorail Issues - PolyGerrit](https://bugs.chromium.org/p/gerrit/issues/list?q=component%3APolyGerrit).

@@ -215,6 +215,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e422736f_b05190e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-11-03T15:18:34Z",
+      "side": 1,
+      "message": "\u003e Han-Wen is actually out again :-)\n\nThanks for letting us know. :)\n\n\u003e \n\u003e Here is my $0.02: We feel strongly about not having this operator on the instances that we maintain (aka googlesource.com) because of the performance and stability concern that Han-Wen cited. For Gerrit as a product, my personal opinion is that it should also rather not support this operator, because the use case is very specific and mainly targeting CI and other bots who could easily just implement this client-side. On top comes the poor support for nested queries in the Gerrit UI (that you could of course fix).\n\nWhile callers could implement this client side, that forces all clients to reimplement the same logic. It also means you can\u0027t use it as a task query in the task plugin.\n\n\u003e \n\u003e That doesn\u0027t necessarily prevent you from adding it to Gerrit (e.g. gating it by a config option). I think if there is interest in the community in this operator or at least the concerns that we voiced aren\u0027t shared, I\u0027d say you can add it if there\u0027s a way to disable it with a config.\n\u003e \n\u003e I\u0027ve added Luca, Saša and Sven for an opinion on this.\n\nThanks. I\u0027m curious if others have use cases for tracking propagation of changes across branches. I assumed this was a pretty common use case, but perhaps our internal branching is more extreme than others.",
+      "parentUuid": "1609af95_15021442",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0192619_fa25da08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-11-03T15:18:34Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t quite understand. In version without a change index, how would has:draft has caused n database lookups when serving n changes? How did the lookup work?\n\nAll of these queries involved tables that were not the \u0027changes\u0027 table. gwtorm didn\u0027t do joins, so it would either use \u0027changes\u0027 as the source and then do lookups in the respective table, or use a different table (\u0027patch_comments\u0027 in the case of has:draft) as the source (the original idea of an operator implementing ChangeDataSource) and then lookup each change in \u0027changes\u0027 for the additional data.",
+      "parentUuid": "f0afc2e6_714061e8",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "821ae05d_461809e5",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 2

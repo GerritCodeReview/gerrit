@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "659bca3f_690824b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T17:17:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57d84cad_507306eb",
+      "range": {
+        "startLine": 589,
+        "startChar": 35,
+        "endLine": 589,
+        "endChar": 39
+      },
+      "revId": "3d154b4423ebfd46f9f54ac770094b22c9682d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc2fe9a3_b8cd9d5b",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-11-03T15:53:17Z",
       "side": 1,
       "message": "That looks like a semantic change now.\n\nI `rev.commit.author` is undefined, then the if clause will evaluate to true. Same below.",
+      "revId": "3d154b4423ebfd46f9f54ac770094b22c9682d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0734748_68895500",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T17:17:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc2fe9a3_b8cd9d5b",
       "revId": "3d154b4423ebfd46f9f54ac770094b22c9682d88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57d84cad_507306eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-03T15:53:17Z",
+      "side": 1,
+      "message": "Either don\u0027t use a ? for `rev` or drop the `if (!rev)` clause above.",
+      "range": {
+        "startLine": 589,
+        "startChar": 35,
+        "endLine": 589,
+        "endChar": 39
+      },
+      "revId": "3d154b4423ebfd46f9f54ac770094b22c9682d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc2fe9a3_b8cd9d5b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-03T15:53:17Z",
+      "side": 1,
+      "message": "That looks like a semantic change now.\n\nI `rev.commit.author` is undefined, then the if clause will evaluate to true. Same below.",
+      "revId": "3d154b4423ebfd46f9f54ac770094b22c9682d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

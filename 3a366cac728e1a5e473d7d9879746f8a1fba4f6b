@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1a3956c_fd52b033",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-03T07:44:03Z",
+      "side": 1,
+      "message": "Without forEach, this return allows to catch exceptions/rejections inside provider or inside then(...) block (catch(err \u003d\u003e ...) are called).\nAfter wrapping this code in the forEach call, the outer catch(...) is not called if an error happens inside provider/then.\nI can suggest to add another catch on line 466 instead of return here.",
+      "range": {
+        "startLine": 428,
+        "startChar": 10,
+        "endLine": 428,
+        "endChar": 16
+      },
+      "revId": "3a366cac728e1a5e473d7d9879746f8a1fba4f6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

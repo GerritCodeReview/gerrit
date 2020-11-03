@@ -34,6 +34,47 @@
       "parentUuid": "7df9c0f8_cccf69bd",
       "revId": "404d14eec7d51bfb665de91745ff32198c933925",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3e5e9bb_c70c879e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 2135,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-03T13:06:14Z",
+      "side": 1,
+      "message": "Oh right, sorry. I think I was confused by the name \"allCommentsPromise\", because it sounds like it goes together with `Promise.all`. Maybe change the name?",
+      "parentUuid": "4257f9ac_b50fa3fd",
+      "revId": "404d14eec7d51bfb665de91745ff32198c933925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e062d5ab_b3b6ebd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 2139,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-03T13:06:14Z",
+      "side": 1,
+      "message": "I would recommend making the execution of this then block part of the allCommentsPromise, because then you can ensure that time() is called before timeEnd(). Otherwise it is not clear which then block is executed first in the case of ported comments being faster.",
+      "range": {
+        "startLine": 2139,
+        "startChar": 30,
+        "endLine": 2139,
+        "endChar": 34
+      },
+      "revId": "404d14eec7d51bfb665de91745ff32198c933925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

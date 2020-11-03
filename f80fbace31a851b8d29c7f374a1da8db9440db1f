@@ -22,6 +22,30 @@
       },
       "revId": "f80fbace31a851b8d29c7f374a1da8db9440db1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "430ac3ff_e8f7d935",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T18:45:58Z",
+      "side": 0,
+      "message": "This flag isn\u0027t enabled for all tests. It was initially stubbing the isEnabled() function to always return true, which is now removed since we want like you said, testing by explicitly setting the flag to true.",
+      "parentUuid": "4b5b17a8_6c8a0726",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 69
+      },
+      "revId": "f80fbace31a851b8d29c7f374a1da8db9440db1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

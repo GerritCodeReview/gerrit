@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c993267b_5e5aa012",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T18:45:58Z",
+      "side": 1,
+      "message": "Yeah should have been.\nNow we are doing reporting/latency tracking for all cases so I guess this should be outside the experiment now.",
+      "parentUuid": "cc94e006_b35e2e1e",
+      "range": {
+        "startLine": 1090,
+        "startChar": 30,
+        "endLine": 1090,
+        "endChar": 53
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e13c640e_110fe31a",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-22T08:51:39Z",
       "side": 1,
       "message": "If I understand correctly, you want to start loading portedComments as earlier as possible and display them only after _initPatchRange is called.\nMaybe make it more \"reactive\" to avoid double call for _getPortedComments and express dependencies better:\nSmth like:\n\n@property\nportedCommentsParams?: {changeNum:..., patchNum:...};\n\n@property\nportedComments:...\n\n@observe(\u0027portedCommentsParams\u0027)\nasync function portedCommentsParamsChanged(params:...) {\n   this.portedComments \u003d undefined;\n   if(params)\n       this.portedComments \u003d await this._getPortedComments(params.changeNum, params.patchNum);\n}\n\n@observe(\u0027portedCommentsParams\u0027, \u0027portedComments\u0027) {\n   if(!params || !portedComments) return;\n   _processPortedComments(...);\n}\n\nNote: this code still have problem if _getPortedComments is slow (see my comments on below about .then)",
+      "range": {
+        "startLine": 1124,
+        "startChar": 36,
+        "endLine": 1124,
+        "endChar": 59
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04bd4508_069ba2a9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T18:45:58Z",
+      "side": 1,
+      "message": "The code looks significantly different now.\nPTAL and let me know if this comment still applies.",
+      "parentUuid": "e13c640e_110fe31a",
       "range": {
         "startLine": 1124,
         "startChar": 36,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3ab8e34_a5adebb2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T18:45:58Z",
+      "side": 1,
+      "message": "Nice catch!\nI stored the patchNum when requesting and checked it\u0027s the same when promise resolves.",
+      "parentUuid": "5ee5af32_d0774f11",
+      "range": {
+        "startLine": 1129,
+        "startChar": 32,
+        "endLine": 1129,
+        "endChar": 36
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "783f9ca4_8b9a1930",
@@ -83,6 +155,30 @@
       "writtenOn": "2020-10-22T08:51:39Z",
       "side": 1,
       "message": "Seems this method works only with ported comments (.id is required). Maybe rename it to something link _getOriginalCommentUrl(portedComment: UIComment) {...}",
+      "range": {
+        "startLine": 311,
+        "startChar": 2,
+        "endLine": 311,
+        "endChar": 19
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e212a2ea_81e0dfcf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T18:45:58Z",
+      "side": 1,
+      "message": ".id being required doesn\u0027t make it valid only for ported comments.\nCommentInfo has a non-optional property id that I\u0027m relying on.\n\nnote this will not work for drafts though, which I will tackle in the porting drafts change.",
+      "parentUuid": "783f9ca4_8b9a1930",
       "range": {
         "startLine": 311,
         "startChar": 2,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff7bbf54_0f15bf5a",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T18:45:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aab3d942_5e8a49bf",
+      "range": {
+        "startLine": 181,
+        "startChar": 2,
+        "endLine": 183,
+        "endChar": 16
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28d8f68a_5df8f8dd",
@@ -129,6 +249,30 @@
       "writtenOn": "2020-10-22T08:51:39Z",
       "side": 1,
       "message": "Please add tests for this function.",
+      "range": {
+        "startLine": 186,
+        "startChar": 16,
+        "endLine": 186,
+        "endChar": 39
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c13ee3b7_06807c2a",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T18:45:58Z",
+      "side": 1,
+      "message": "I plan to add them in a follow up change.",
+      "parentUuid": "28d8f68a_5df8f8dd",
       "range": {
         "startLine": 186,
         "startChar": 16,
@@ -164,6 +308,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c3cc06f_bf1d820a",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T18:45:58Z",
+      "side": 1,
+      "message": "I did spend some time on this.\n\nI could have __commentSide? optional in createThreads but I\u0027m not sure that is a better solution. WDYT",
+      "parentUuid": "def2e304_c2eeed9e",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 71
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "77bc17bb_919e882a",
         "filename": "polygerrit-ui/app/utils/comment-util.ts",
         "patchSetId": 38
@@ -175,6 +343,30 @@
       "writtenOn": "2020-10-22T08:51:39Z",
       "side": 1,
       "message": "Seems the result of filter is not used. Is it a mistake or maybe call forEach instead of filter?",
+      "range": {
+        "startLine": 217,
+        "startChar": 2,
+        "endLine": 217,
+        "endChar": 16
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fa55d5b_1c9758f0",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T18:45:58Z",
+      "side": 1,
+      "message": "Yeah should have used the return value. \nupdated",
+      "parentUuid": "77bc17bb_919e882a",
       "range": {
         "startLine": 217,
         "startChar": 2,
@@ -198,6 +390,30 @@
       "writtenOn": "2020-10-22T08:51:39Z",
       "side": 1,
       "message": "patchRange can\u0027t be null or undefined in this function. Does typescript report error without \u0027!\u0027 ?",
+      "range": {
+        "startLine": 234,
+        "startChar": 18,
+        "endLine": 234,
+        "endChar": 19
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1fded2e_868e7446",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T18:45:58Z",
+      "side": 1,
+      "message": "yeah I think my ide was showing an error.\nit\u0027s not needed. removed",
+      "parentUuid": "309e238c_77177141",
       "range": {
         "startLine": 234,
         "startChar": 18,
@@ -233,6 +449,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66f5f23b_a99dd569",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T18:45:58Z",
+      "side": 1,
+      "message": "I like this for readability. Makes each case explicit of the choice being made.\nIs that ok?",
+      "parentUuid": "bf118204_3e9e50c5",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 7
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8a2ef28_a627f999",
         "filename": "polygerrit-ui/app/utils/comment-util.ts",
         "patchSetId": 38
@@ -244,6 +484,30 @@
       "writtenOn": "2020-10-22T08:51:39Z",
       "side": 1,
       "message": "optional: else is not required, code can be moved right after the if without else.",
+      "range": {
+        "startLine": 258,
+        "startChar": 6,
+        "endLine": 258,
+        "endChar": 10
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d499bd2_50daf128",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T18:45:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8a2ef28_a627f999",
       "range": {
         "startLine": 258,
         "startChar": 6,

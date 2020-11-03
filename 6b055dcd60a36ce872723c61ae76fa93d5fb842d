@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8ac84e2_14cfb123",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119236
+      },
+      "writtenOn": "2020-11-03T21:46:08Z",
+      "side": 1,
+      "message": "\u003e Patch Set 2:\n\u003e \n\u003e This change is ready for review.\n\n",
+      "revId": "6b055dcd60a36ce872723c61ae76fa93d5fb842d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

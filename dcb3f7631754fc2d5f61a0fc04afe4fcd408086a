@@ -16,6 +16,23 @@
       "message": "@Gal, could you please review my manual amends against the Auto Merge? I basically kept what was in master, thus removed what came from downstream (3.3\u0027s cherry-picks and so).",
       "revId": "dcb3f7631754fc2d5f61a0fc04afe4fcd408086a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45cb8026_396e61e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-03T21:10:03Z",
+      "side": 1,
+      "message": "Looks good to me, but it would be safer for Ben to double-check, because of the involved changes on the front-end during the conflict resolution.",
+      "revId": "dcb3f7631754fc2d5f61a0fc04afe4fcd408086a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

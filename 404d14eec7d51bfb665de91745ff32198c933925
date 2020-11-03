@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b22125a9_c160c4fa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 2135,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T13:12:33Z",
+      "side": 1,
+      "message": "Dropped \"all\" from the promise name.",
+      "parentUuid": "b3e5e9bb_c70c879e",
+      "revId": "404d14eec7d51bfb665de91745ff32198c933925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e062d5ab_b3b6ebd5",
@@ -67,6 +85,30 @@
       "writtenOn": "2020-11-03T13:06:14Z",
       "side": 1,
       "message": "I would recommend making the execution of this then block part of the allCommentsPromise, because then you can ensure that time() is called before timeEnd(). Otherwise it is not clear which then block is executed first in the case of ported comments being faster.",
+      "range": {
+        "startLine": 2139,
+        "startChar": 30,
+        "endLine": 2139,
+        "endChar": 34
+      },
+      "revId": "404d14eec7d51bfb665de91745ff32198c933925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31f2657b_49900593",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 2139,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-03T13:12:33Z",
+      "side": 1,
+      "message": "`return allCommentsPromise.then`\n\nThe code should make this part of the allCommentsPromise right?\nI renamed it to \"commentsPromise\" and moved the then block before the return statement.",
+      "parentUuid": "e062d5ab_b3b6ebd5",
       "range": {
         "startLine": 2139,
         "startChar": 30,

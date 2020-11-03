@@ -52,6 +52,46 @@
       "parentUuid": "99e9ce49_139b9745",
       "revId": "a484377c283113ece0e257d5961ed1abff148f59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23c3c257_5d02a965",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-03T14:20:35Z",
+      "side": 1,
+      "message": "Nice fix!",
+      "revId": "a484377c283113ece0e257d5961ed1abff148f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d151dc8a_2e15a5a4",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-03T14:20:35Z",
+      "side": 1,
+      "message": "Is this check needed?\nI mean it is still a cherry-pick even if the submit type record isn\u0027t ok.",
+      "range": {
+        "startLine": 440,
+        "startChar": 11,
+        "endLine": 440,
+        "endChar": 34
+      },
+      "revId": "a484377c283113ece0e257d5961ed1abff148f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -233,6 +233,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "53ae9b08_7e23549b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1241,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-03T10:18:15Z",
+      "side": 1,
+      "message": "Hi Patrick.., I see there is no 3.4 yet https://gerrit.googlesource.com/homepage/+/refs/heads/master/pages/site/releases/... shall I create it..? or mentioning in the feature issue (https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13336) will be sufficient (suggested by Nasser)..?",
+      "parentUuid": "0be49223_2857f7bd",
+      "range": {
+        "startLine": 1241,
+        "startChar": 59,
+        "endLine": 1241,
+        "endChar": 70
+      },
+      "revId": "0b3bb9f79e35a6ee24553ae1837248670a54acba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0908b89f_a0594cf6",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1

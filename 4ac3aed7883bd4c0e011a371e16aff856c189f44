@@ -70,6 +70,30 @@
       },
       "revId": "4ac3aed7883bd4c0e011a371e16aff856c189f44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "879c99bb_e9639485",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-03T14:07:15Z",
+      "side": 1,
+      "message": "Hmm, the follow-up change doesn\u0027t address my concern yet.\nAlso I think it\u0027s not good, if this change introduces an issue that leaks existence of accounts, which is only fixed by a follow-up change. Wouldn\u0027t it be better to switch the order of the changes?",
+      "parentUuid": "98437fcd_ca273322",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4ac3aed7883bd4c0e011a371e16aff856c189f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

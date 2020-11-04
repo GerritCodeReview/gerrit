@@ -116,6 +116,30 @@
       },
       "revId": "a484377c283113ece0e257d5961ed1abff148f59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1ce381c_fc86aedf",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-04T10:20:59Z",
+      "side": 1,
+      "message": "\u003e If the submitTypeRecord is not \"OK\", the type will be null. \n\nAh, gotcha, didn\u0027t think about this.",
+      "parentUuid": "a28a1e1a_061e361c",
+      "range": {
+        "startLine": 440,
+        "startChar": 11,
+        "endLine": 440,
+        "endChar": 34
+      },
+      "revId": "a484377c283113ece0e257d5961ed1abff148f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Why am I in the attention set?",
       "revId": "a89dd4127ffc5d0e26a58867437b9f6c6565e037",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64a077fd_74d6cbe2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-04T15:33:54Z",
+      "side": 1,
+      "message": "I just set it ready for review using the Mark Active button.\nI will leave it as is for investigation.",
+      "parentUuid": "4d23b1e7_37d632ae",
+      "revId": "a89dd4127ffc5d0e26a58867437b9f6c6565e037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

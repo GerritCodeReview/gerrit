@@ -21,6 +21,7 @@ import {mockPromise} from '../../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {ListChangesOption} from '../../../utils/change-util.js';
 import {appContext} from '../../../services/app-context.js';
+import {createChange} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-rest-api-interface');
 
@@ -1341,6 +1342,14 @@ suite('gr-rest-api-interface tests', () => {
         ._logCall({url: 'url', anonymizedUrl: 'not url'}, 100, 200);
     flush();
     assert.isTrue(handler.calledOnce);
+  });
+
+  test('ported comment errors do not trigger error dialog', () => {
+    const change = createChange();
+    const dispatchStub = sinon.stub(element._restApiHelper, 'dispatchEvent');
+    sinon.stub(element._restApiHelper, 'fetchJSON').returns({ok: false});
+    element.getPortedComments(change._number, 'current');
+    assert.isFalse(dispatchStub.called);
   });
 
   test('saveChangeStarred', async () => {

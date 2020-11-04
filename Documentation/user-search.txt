@@ -106,9 +106,11 @@ as a legacy numerical 'ID' such as 15183, or a newer style Change-Id
 that was scraped out of the commit message.
 
 [[destination]]
-destination:'NAME'::
+destination:'[name=]NAME[,user=USER]'::
 +
-Changes which match the current user's destination named 'NAME'.
+Changes which match the specified USER's destination named 'NAME'. If 'USER'
+is unspecified, the current user is used. The named destinations can be
+publicly accessible by other users.
 (see link:user-named-destinations.html[Named Destinations]).
 
 [[owner]]

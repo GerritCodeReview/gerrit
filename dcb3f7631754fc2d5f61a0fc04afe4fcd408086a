@@ -69,6 +69,24 @@
       "parentUuid": "b169f375_e3e57253",
       "revId": "dcb3f7631754fc2d5f61a0fc04afe4fcd408086a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a07abc03_56604e8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-04T14:00:50Z",
+      "side": 1,
+      "message": "\u003e Looks good to me, but it would be safer for Ben to double-check, because of the involved changes on the front-end during the conflict resolution.\n\nGal (then Edwin) checked, so should be ok now; thanks guys.",
+      "parentUuid": "45cb8026_396e61e2",
+      "revId": "dcb3f7631754fc2d5f61a0fc04afe4fcd408086a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

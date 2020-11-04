@@ -35,8 +35,17 @@ export const mockPromise = () => {
   promise.resolve = res!;
   return promise;
 };
-export const isHidden = (el: Element) =>
-  getComputedStyle(el).display === 'none';
+
+export function isHidden(el: Element | undefined | null) {
+  if (!el) return true;
+  return getComputedStyle(el).display === 'none';
+}
+
+export function query(el: Element | undefined, selectors: string) {
+  if (!el) return null;
+  const root = el.shadowRoot || el;
+  return root.querySelector(selectors);
+}
 
 // Some tests/elements can define its own binding. We want to restore bindings
 // at the end of the test. The TestKeyboardShortcutBinder store bindings in

@@ -249,6 +249,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3792f339_c39137c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-11-04T08:47:54Z",
+      "side": 1,
+      "message": "I double-checked with our CI team and our CI system has it\u0027s own data-structure (handled by the CI system itself) to determine which changes should be submitted together and wouldn\u0027t be assisted by this feature at all.\n\nThis leaves me with my personal opinion and I agree with Han-Wen\u0027s and Patrick\u0027s analysis.\nIt brings a lot of complexity and potential performance issues for a rather narrow use-case.\nIf you ask me, I think this should be in a plugin.",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "821ae05d_461809e5",

@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a14c2e68_22f7ba72",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-04T11:57:53Z",
+      "side": 1,
+      "message": "I think, the comment still applies.",
+      "parentUuid": "04bd4508_069ba2a9",
+      "range": {
+        "startLine": 1124,
+        "startChar": 36,
+        "endLine": 1124,
+        "endChar": 59
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ee5af32_d0774f11",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 38
@@ -309,6 +333,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d7a1d0c_ead579b2",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-04T11:57:53Z",
+      "side": 1,
+      "message": "Tests should be always submitted together with other code changes. Submitting tests separately can lead to a problem and other changes can break the new feature.",
+      "parentUuid": "c13ee3b7_06807c2a",
+      "range": {
+        "startLine": 186,
+        "startChar": 16,
+        "endLine": 186,
+        "endChar": 39
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "def2e304_c2eeed9e",
         "filename": "polygerrit-ui/app/utils/comment-util.ts",
         "patchSetId": 38
@@ -344,6 +392,30 @@
       "side": 1,
       "message": "I did spend some time on this.\n\nI could have __commentSide? optional in createThreads but I\u0027m not sure that is a better solution. WDYT",
       "parentUuid": "def2e304_c2eeed9e",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 71
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfc89866_2b4fea07",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-04T11:57:53Z",
+      "side": 1,
+      "message": "Not sure that it is easy to make __commentSide option in createThreads. We can update to it later, in a separate change.",
+      "parentUuid": "1c3cc06f_bf1d820a",
       "range": {
         "startLine": 209,
         "startChar": 0,
@@ -485,6 +557,30 @@
       "side": 1,
       "message": "I like this for readability. Makes each case explicit of the choice being made.\nIs that ok?",
       "parentUuid": "bf118204_3e9e50c5",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 7
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db0e26bb_bee87d96",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-04T11:57:53Z",
+      "side": 1,
+      "message": "It doesn\u0027t improve readability for me.\nDuplicated code often leads to a problems, when a developer updates only one copy of a code.\nAlso, when I read such code, I always think: why I see the same code 3 times, but inside different if blocks? Did author forget to update code after copy-paste?",
+      "parentUuid": "66f5f23b_a99dd569",
       "range": {
         "startLine": 240,
         "startChar": 0,

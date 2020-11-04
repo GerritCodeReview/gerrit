@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c6a1636_7747987c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-04T13:03:58Z",
+      "side": 1,
+      "message": "you\u0027re right, I switched the order of the changes so now this bug doesn\u0027t exist in this change.",
+      "parentUuid": "df24347d_0d52dc1d",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "240908801b563d00528b12bf0beb4ffc7de29158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7535da5_651c493f",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-11-03T14:02:47Z",
       "side": 1,
       "message": "[optional] we may also accept uploaders of old patch sets",
+      "revId": "240908801b563d00528b12bf0beb4ffc7de29158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2290508_b0256266",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-04T13:03:58Z",
+      "side": 1,
+      "message": "The idea is to only accept people that are visible on the change, but past uploaders are not visible (unless they are reviewers, etc), so I\u0027d rather keep it as is.",
+      "parentUuid": "a7535da5_651c493f",
       "revId": "240908801b563d00528b12bf0beb4ffc7de29158",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60f94086_d0346685",
+        "filename": "java/com/google/gerrit/server/restapi/change/AddToAttentionSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-04T13:03:58Z",
+      "side": 1,
+      "message": "Good point. Now that I reverted back to \"resolve\" without ignoring visiblity, this is no longer possible.\nIn the other change, I\u0027ve made sure to disallow probing by throwing the same BadRequestException if the account doesn\u0027t exist or is not active.",
+      "parentUuid": "b39f6413_d7d386b2",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 5
+      },
+      "revId": "240908801b563d00528b12bf0beb4ffc7de29158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe0f623e_cb1c4b7d",
@@ -77,6 +143,24 @@
       "writtenOn": "2020-11-03T14:02:47Z",
       "side": 1,
       "message": "[optional] we may also accept uploaders of old patch sets",
+      "revId": "240908801b563d00528b12bf0beb4ffc7de29158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c2ce11a_760bb42b",
+        "filename": "java/com/google/gerrit/server/restapi/change/AddToAttentionSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-04T13:03:58Z",
+      "side": 1,
+      "message": "The idea is to only accept people that are visible on the change, but past uploaders are not visible (unless they are reviewers, etc), so I\u0027d rather keep it as is.",
+      "parentUuid": "fe0f623e_cb1c4b7d",
       "revId": "240908801b563d00528b12bf0beb4ffc7de29158",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

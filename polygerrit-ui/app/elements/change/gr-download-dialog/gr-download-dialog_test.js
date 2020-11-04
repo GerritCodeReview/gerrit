@@ -174,21 +174,33 @@ suite('gr-download-dialog', () => {
   test('_computeHidePatchFile', () => {
     const patchNum = '1';
 
-    const change1 = {
+    const changeWithNoParent = {
       revisions: {
         r1: {_number: 1, commit: {parents: []}},
       },
     };
-    assert.isTrue(element._computeHidePatchFile(change1, patchNum));
+    assert.isTrue(element._computeHidePatchFile(changeWithNoParent, patchNum));
 
-    const change2 = {
+    const changeWithOneParent = {
       revisions: {
         r1: {_number: 1, commit: {parents: [
           {commit: 'p1'},
         ]}},
       },
     };
-    assert.isFalse(element._computeHidePatchFile(change2, patchNum));
+    assert.isFalse(
+        element._computeHidePatchFile(changeWithOneParent, patchNum));
+
+    const changeWithMultipleParents = {
+      revisions: {
+        r1: {_number: 1, commit: {parents: [
+          {commit: 'p1'},
+          {commit: 'p2'},
+        ]}},
+      },
+    };
+    assert.isTrue(
+        element._computeHidePatchFile(changeWithMultipleParents, patchNum));
   });
 });
 

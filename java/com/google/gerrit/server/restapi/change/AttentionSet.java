@@ -17,14 +17,15 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.change.AttentionSetEntryResource;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -58,12 +59,10 @@ public class AttentionSet implements ChildCollection<ChangeResource, AttentionSe
 
   @Override
   public AttentionSetEntryResource parse(ChangeResource changeResource, IdString idString)
-      throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException {
-    try {
-      Account.Id accountId = accountResolver.resolve(idString.get()).asUnique().account().id();
-      return new AttentionSetEntryResource(changeResource, accountId);
-    } catch (UnresolvableAccountException e) {
-      throw new ResourceNotFoundException(idString, e);
-    }
+      throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException,
+          BadRequestException {
+    Account.Id accountId =
+        AttentionSetUtil.resolveAccount(accountResolver, changeResource.getNotes(), idString.get());
+    return new AttentionSetEntryResource(changeResource, accountId);
   }
 }

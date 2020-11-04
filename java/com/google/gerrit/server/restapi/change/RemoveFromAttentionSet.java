@@ -30,6 +30,7 @@ import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -69,13 +70,9 @@ public class RemoveFromAttentionSet
     }
     input.user = Strings.nullToEmpty(input.user).trim();
     if (!input.user.isEmpty()) {
-      Account.Id attentionUserId = null;
-      try {
-        attentionUserId = accountResolver.resolve(input.user).asUnique().account().id();
-      } catch (AccountResolver.UnresolvableAccountException ex) {
-        throw new BadRequestException(
-            "The user specified in the input body couldn't be found.", ex);
-      }
+      Account.Id attentionUserId =
+          AttentionSetUtil.resolveAccount(
+              accountResolver, attentionResource.getChangeResource().getNotes(), input.user);
       if (attentionUserId.get() != attentionResource.getAccountId().get()) {
         throw new BadRequestException(
             "The field \"user\" must be empty, or must match the user specified in the URL.");

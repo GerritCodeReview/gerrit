@@ -42,6 +42,7 @@ import com.google.inject.Singleton;
 public class AddToAttentionSet
     implements RestCollectionModifyView<
         ChangeResource, AttentionSetEntryResource, AttentionSetInput> {
+
   private final BatchUpdate.Factory updateFactory;
   private final AccountResolver accountResolver;
   private final AddToAttentionSetOp.Factory opFactory;
@@ -72,8 +73,9 @@ public class AddToAttentionSet
   public Response<AccountInfo> apply(ChangeResource changeResource, AttentionSetInput input)
       throws Exception {
     AttentionSetUtil.validateInput(input);
+    Account.Id attentionUserId =
+        AttentionSetUtil.resolveAccount(accountResolver, changeResource.getNotes(), input.user);
 
-    Account.Id attentionUserId = accountResolver.resolve(input.user).asUnique().account().id();
     if (serviceUserClassifier.isServiceUser(attentionUserId)) {
       throw new BadRequestException(
           String.format(

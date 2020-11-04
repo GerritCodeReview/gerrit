@@ -16,6 +16,24 @@
       "message": "LGTM, but I don\u0027t know enough about the business logic to be worth much.",
       "revId": "41d9799b423a9d40f6f4a934a5afe162ee01ef8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77623d8a_54d16453",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-04T09:07:50Z",
+      "side": 1,
+      "message": "This is the wrong change, we had to re-upload it to the security repo: https://gerrit-review.googlesource.com/c/gerrit-security-fixes/+/286461\n\nBut it\u0027s basically the same. The change in the security repo has the tests squashed into it.",
+      "parentUuid": "7d47042e_2438e39f",
+      "revId": "41d9799b423a9d40f6f4a934a5afe162ee01ef8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

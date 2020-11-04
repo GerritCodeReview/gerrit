@@ -214,7 +214,10 @@ export const htmlTemplate = html`
           role="button"
           aria-label="[[_computeShowHideAriaLabel(mobileSearchHidden)]]"
         ></iron-icon>
-        <div class$="[[_computeIsInvisible(_registerURL)]]">
+        <div
+          class="registerDiv"
+          hidden="[[_computeRegisterHidden(_registerURL)]]"
+        >
           <a class="registerButton" href$="[[_registerURL]]">
             [[_registerText]]
           </a>

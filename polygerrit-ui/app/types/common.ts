@@ -1254,7 +1254,7 @@ export interface DiffContent {
   edit_b?: number[][];
   due_to_rebase?: boolean;
   due_to_move?: boolean;
-  skip?: string;
+  skip?: number;
   common?: string;
   keyLocation?: boolean;
 }

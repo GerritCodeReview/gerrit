@@ -33,6 +33,24 @@
       "message": "Should this change be submitted? If so, can your team do it as confirmation from your end?",
       "revId": "4b7593a102e2304dce0fe9086f79d75b9a3c23d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e040e2e8_1e218b33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-11-04T15:29:47Z",
+      "side": 1,
+      "message": "We\u0027re gonna wait until 3.3.0 final is released and then submit it, just in case 😊",
+      "parentUuid": "ea4150c5_28967224",
+      "revId": "4b7593a102e2304dce0fe9086f79d75b9a3c23d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

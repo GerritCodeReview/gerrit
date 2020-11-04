@@ -2817,11 +2817,14 @@ export class GrRestApiInterface
     const errFn: ErrorCallback = (response?: Response | null) => {
       if (response) console.error(response);
     };
-    return this._getChangeURLAndFetch({
-      changeNum,
-      endpoint: '/ported_drafts/',
-      revision,
-      errFn,
+    return this.getLoggedIn().then(loggedIn => {
+      if (!loggedIn) return;
+      return this._getChangeURLAndFetch({
+        changeNum,
+        endpoint: '/ported_drafts/',
+        revision,
+        errFn,
+      });
     });
   }
 

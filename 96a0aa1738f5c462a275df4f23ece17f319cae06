@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d70023f0_a5f0a9ca",
+        "filename": "java/com/google/gerrit/server/util/AttentionSetUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-04T14:08:48Z",
+      "side": 1,
+      "message": "nit: is not",
+      "range": {
+        "startLine": 59,
+        "startChar": 34,
+        "endLine": 59,
+        "endChar": 37
+      },
+      "revId": "96a0aa1738f5c462a275df4f23ece17f319cae06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96711123_ef9eb990",
+        "filename": "java/com/google/gerrit/server/util/AttentionSetUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-04T14:08:48Z",
+      "side": 1,
+      "message": "Thanks, this works to prevent probing of account existence.\n\n[optional] If the account exists and is visible to the caller, but is not active on the change, it would be ok to give a more specific error message (\"%s is not active on the change as an owner, uploader, reviewer, or cc so they can\u0027t be added to the attention set\"). But not sure if it adds enough value to justify additional complexity here.",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 23
+      },
+      "revId": "96a0aa1738f5c462a275df4f23ece17f319cae06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f6f60d4_c9f476f8",
+        "filename": "java/com/google/gerrit/server/util/AttentionSetUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-04T14:08:48Z",
+      "side": 1,
+      "message": "Should this rather be initCause?",
+      "range": {
+        "startLine": 78,
+        "startChar": 52,
+        "endLine": 78,
+        "endChar": 65
+      },
+      "revId": "96a0aa1738f5c462a275df4f23ece17f319cae06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -257,6 +257,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8557ede1_4116aff8",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1241,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-04T07:51:39Z",
+      "side": 1,
+      "message": "I think mentioning it in the future issue is sufficient.",
+      "parentUuid": "53ae9b08_7e23549b",
+      "range": {
+        "startLine": 1241,
+        "startChar": 59,
+        "endLine": 1241,
+        "endChar": 70
+      },
+      "revId": "0b3bb9f79e35a6ee24553ae1837248670a54acba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0908b89f_a0594cf6",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1

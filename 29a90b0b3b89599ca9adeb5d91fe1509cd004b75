@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8a561f3_79b2c172",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3178,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-04T07:51:39Z",
+      "side": 1,
+      "message": "Can you add two more tests?\n\n1) An account that can\u0027t be parsed (fails)\n2) An account that isn\u0027t visible to the caller (fails)",
+      "revId": "29a90b0b3b89599ca9adeb5d91fe1509cd004b75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

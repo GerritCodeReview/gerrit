@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "840dfcc9_623a2ddc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-04T10:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bb04e5d_4c7460da",
+      "range": {
+        "startLine": 1140,
+        "startChar": 22,
+        "endLine": 1143,
+        "endChar": 15
+      },
+      "revId": "19ae2c112be24584ed2903e6030074f07949c8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd6b9da1_6186539c",
@@ -71,6 +95,30 @@
       "writtenOn": "2020-10-20T16:39:26Z",
       "side": 1,
       "message": "This methods uses only methods from restAPI.\nIt might be better to move it to restAPI and rename to getAllPortedComments",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 34
+      },
+      "revId": "19ae2c112be24584ed2903e6030074f07949c8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddf498d7_15afd427",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-04T10:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd6b9da1_6186539c",
       "range": {
         "startLine": 188,
         "startChar": 0,
@@ -104,6 +152,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d530cb3_5e46f798",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-04T10:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0720cfcf_aaafee50",
+      "range": {
+        "startLine": 193,
+        "startChar": 2,
+        "endLine": 193,
+        "endChar": 72
+      },
+      "revId": "19ae2c112be24584ed2903e6030074f07949c8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d61876f_69f7b33d",
@@ -117,6 +189,30 @@
       "writtenOn": "2020-10-20T16:39:26Z",
       "side": 1,
       "message": "seems portedComments can\u0027t be undefined here - it is always an array (or empty array).\nThe condition !portedComments is always false.",
+      "range": {
+        "startLine": 214,
+        "startChar": 7,
+        "endLine": 214,
+        "endChar": 21
+      },
+      "revId": "19ae2c112be24584ed2903e6030074f07949c8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99862a0a_0e0b44dd",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-04T10:13:09Z",
+      "side": 1,
+      "message": "Updated to check for length instead.",
+      "parentUuid": "2d61876f_69f7b33d",
       "range": {
         "startLine": 214,
         "startChar": 7,

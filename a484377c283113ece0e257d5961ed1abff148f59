@@ -92,6 +92,30 @@
       },
       "revId": "a484377c283113ece0e257d5961ed1abff148f59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a28a1e1a_061e361c",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-04T10:16:46Z",
+      "side": 1,
+      "message": "It\u0027s not *strictly* needed, but I think it\u0027s better to keep it here.\nIf the submitTypeRecord is not \"OK\", the type will be null. In this case it actually compiles but if I had done submitTypeRecord.type.equals() it would already not compile.\n\nSee SubmitTypeRecord#OK and SubmitTypeRecord#error.\nBtw, it looks safe since RULE_ERROR anyway only happens when the project can\u0027t be found, and if that happens the submit will anyway fail for that reason.\n\nThis is a bit confusing since this RULE_ERROR has nothing to do with the prolog RULE_ERROR.",
+      "parentUuid": "d151dc8a_2e15a5a4",
+      "range": {
+        "startLine": 440,
+        "startChar": 11,
+        "endLine": 440,
+        "endChar": 34
+      },
+      "revId": "a484377c283113ece0e257d5961ed1abff148f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

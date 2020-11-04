@@ -274,7 +274,7 @@ export class GrDiffProcessor extends GestureEventListeners(
   }
 
   _isCollapsibleChunk(chunk: DiffContent) {
-    return (chunk.ab || chunk.common) && !chunk.keyLocation;
+    return (chunk.ab || chunk.common || chunk.skip) && !chunk.keyLocation;
   }
 
   /**
@@ -326,7 +326,11 @@ export class GrDiffProcessor extends GestureEventListeners(
   }
 
   _commonChunkLength(chunk: DiffContent) {
+    if (chunk.skip) {
+      return chunk.skip;
+    }
     console.assert(!!chunk.ab || !!chunk.common);
+
     console.assert(
       !chunk.a || (!!chunk.b && chunk.a.length === chunk.b.length),
       'common chunk needs same number of a and b lines: ',
@@ -354,13 +358,21 @@ export class GrDiffProcessor extends GestureEventListeners(
     offsetLeft: number,
     offsetRight: number
   ): GrDiffGroup {
-    const type = chunk.ab ? GrDiffGroupType.BOTH : GrDiffGroupType.DELTA;
+    const type =
+      chunk.ab || chunk.skip ? GrDiffGroupType.BOTH : GrDiffGroupType.DELTA;
     const lines = this._linesFromChunk(chunk, offsetLeft, offsetRight);
     const group = new GrDiffGroup(type, lines);
     group.keyLocation = !!chunk.keyLocation;
     group.dueToRebase = !!chunk.due_to_rebase;
     group.dueToMove = !!chunk.due_to_move;
+    group.skip = chunk.skip;
     group.ignoredWhitespaceOnly = !!chunk.common;
+    if (chunk.skip) {
+      group.lineRange = {
+        left: {start: offsetLeft, end: offsetLeft + chunk.skip - 1},
+        right: {start: offsetRight, end: offsetRight + chunk.skip - 1},
+      };
+    }
     return group;
   }
 
@@ -497,7 +509,7 @@ export class GrDiffProcessor extends GestureEventListeners(
 
     for (const chunk of chunks) {
       // If it isn't a common chunk, append it as-is and update line numbers.
-      if (!chunk.ab && !chunk.common) {
+      if (!chunk.ab && !chunk.skip && !chunk.common) {
         if (chunk.a) {
           leftLineNum += chunk.a.length;
         }
@@ -522,7 +534,13 @@ export class GrDiffProcessor extends GestureEventListeners(
       leftLineNum += numLines;
       rightLineNum += numLines;
 
-      if (chunk.ab) {
+      if (chunk.skip) {
+        result.push({
+          ...chunk,
+          skip: chunk.skip,
+          keyLocation: false,
+        });
+      } else if (chunk.ab) {
         result.push(
           ...this._splitAtChunkEnds(chunk.ab, chunkEnds).map(
             ({lines, keyLocation}) => {

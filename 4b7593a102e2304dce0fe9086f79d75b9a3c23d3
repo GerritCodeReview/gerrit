@@ -16,6 +16,23 @@
       "message": "Adding Patrick since he was involved in the related change review.",
       "revId": "4b7593a102e2304dce0fe9086f79d75b9a3c23d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea4150c5_28967224",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-04T13:42:00Z",
+      "side": 1,
+      "message": "Should this change be submitted? If so, can your team do it as confirmation from your end?",
+      "revId": "4b7593a102e2304dce0fe9086f79d75b9a3c23d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

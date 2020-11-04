@@ -56,7 +56,7 @@ import {
   SuggestInfo,
   Timestamp,
   TimezoneOffset,
-  UserConfigInfo,
+  UserConfigInfo, AccountDetailInfo,
 } from '../types/common';
 import {
   AccountsVisibility,
@@ -136,6 +136,13 @@ export function createConfig(): ConfigInfo {
 export function createAccountWithId(id = 5): AccountInfo {
   return {
     _account_id: id as AccountId,
+  };
+}
+
+export function createAccountDetailWithId(id = 5): AccountDetailInfo {
+  return {
+    _account_id: id as AccountId,
+    registered_on: dateToTimestamp(new Date(2020, 10, 15, 14, 5, 8)),
   };
 }
 

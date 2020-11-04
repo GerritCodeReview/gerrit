@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7733b0d_07e520bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-04T14:29:00Z",
+      "side": 1,
+      "message": "Gerrit CI is unhappy.",
+      "revId": "f869e85f6977fbfd5260f6c29500e7c00650a575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c45a99eb_1c656149",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-04T14:29:00Z",
+      "side": 1,
+      "message": "Add a test.",
+      "revId": "f869e85f6977fbfd5260f6c29500e7c00650a575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8f08675_819e0563",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2803,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-04T14:29:00Z",
+      "side": 1,
+      "message": "Should this if-condition be inverted?",
+      "revId": "f869e85f6977fbfd5260f6c29500e7c00650a575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cec951b_fc98bacb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2813,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-04T14:29:00Z",
+      "side": 1,
+      "message": "This needs the same.",
+      "revId": "f869e85f6977fbfd5260f6c29500e7c00650a575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

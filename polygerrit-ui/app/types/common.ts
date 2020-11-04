@@ -64,7 +64,7 @@ export type PropertyType<T, K extends keyof T> = ReturnType<() => T[K]>;
 export type ElementPropertyDeepChange<
   T,
   K extends keyof T
-> = PolymerDeepPropertyChange<PropertyType<T, K>, PropertyType<T, K>>;
+  > = PolymerDeepPropertyChange<PropertyType<T, K>, PropertyType<T, K>>;
 
 /**
  * Type alias for parsed json object to make code cleaner
@@ -1254,7 +1254,7 @@ export interface DiffContent {
   edit_b?: number[][];
   due_to_rebase?: boolean;
   due_to_move?: boolean;
-  skip?: string;
+  skip?: number;
   common?: string;
   keyLocation?: boolean;
 }

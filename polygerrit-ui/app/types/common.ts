@@ -45,10 +45,8 @@ import {
   EmailFormat,
   AuthType,
   MergeStrategy,
-  EditableAccountField,
-  MergeabilityComputationBehavior,
 } from '../constants/constants';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import {PolymerDeepPropertyChange} from 'goog:polymer.polymer.interfaces';
 
 export type BrandType<T, BrandName extends string> = T &
   {[__brand in BrandName]: never};
@@ -250,7 +248,7 @@ export interface ChangeInfo {
   created: Timestamp;
   updated: Timestamp;
   submitted?: Timestamp;
-  submitter?: AccountInfo;
+  submitter: AccountInfo;
   starred?: boolean; // not set if false
   stars?: StarLabel[];
   reviewed?: boolean; // not set if false
@@ -542,7 +540,7 @@ export interface RevisionInfo {
   fetch?: {[protocol: string]: FetchInfo};
   commit?: CommitInfo;
   files?: {[filename: string]: FileInfo};
-  actions?: ActionNameToActionInfoMap;
+  actions?: ActionInfo[];
   reviewed?: boolean;
   commit_with_footers?: boolean;
   push_certificate?: PushCertificateInfo;
@@ -738,7 +736,7 @@ export interface VotingRangeInfo {
 /**
  * The AccountsConfigInfo entity contains information about Gerrit configuration
  * from the accounts section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#accounts-config-info
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
  */
 export interface AccountsConfigInfo {
   visibility: string;
@@ -752,9 +750,9 @@ export interface AccountsConfigInfo {
  */
 export interface AuthInfo {
   auth_type: AuthType; // docs incorrectly names it 'type'
-  use_contributor_agreements?: boolean;
+  use_contributor_agreements: boolean;
   contributor_agreements?: ContributorAgreementInfo;
-  editable_account_fields: EditableAccountField[];
+  editable_account_fields: string;
   login_url?: string;
   login_text?: string;
   switch_account_url?: string;
@@ -801,17 +799,17 @@ export type CapabilityInfoMap = {[id: string]: CapabilityInfo};
 /**
  * The ChangeConfigInfo entity contains information about Gerrit configuration
  * from the change section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#change-config-info
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
  */
 export interface ChangeConfigInfo {
-  allow_blame?: boolean;
-  large_change: number;
+  allow_blame: boolean;
+  large_change: string;
   reply_label: string;
   reply_tooltip: string;
   update_delay: number;
-  submit_whole_topic?: boolean;
-  disable_private_changes?: boolean;
-  mergeability_computation_behavior: MergeabilityComputationBehavior;
+  submit_whole_topic: boolean;
+  disable_private_changes: boolean;
+  mergeability_computation_behavior: string;
   enable_attention_set: boolean;
   enable_assignee: boolean;
 }
@@ -819,10 +817,10 @@ export interface ChangeConfigInfo {
 /**
  * The ChangeIndexConfigInfo entity contains information about Gerrit
  * configuration from the index.change section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#change-index-config-info
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
  */
 export interface ChangeIndexConfigInfo {
-  index_mergeable?: boolean;
+  index_mergeable: boolean;
 }
 
 /**
@@ -908,11 +906,11 @@ export type SchemesInfoMap = {[name: string]: DownloadSchemeInfo};
 /**
  * The DownloadInfo entity contains information about supported download
  * options.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#download-info
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
  */
 export interface DownloadInfo {
   schemes: SchemesInfoMap;
-  archives: string[];
+  archives: string;
 }
 
 export type CloneCommandMap = {[name: string]: string};
@@ -956,9 +954,9 @@ export interface EntriesInfo {
 export interface GerritInfo {
   all_projects: string; // Doc contains incorrect name
   all_users: string; // Doc contains incorrect name
-  doc_search: boolean;
+  doc_search: string;
   doc_url?: string;
-  edit_gpg_keys?: boolean;
+  edit_gpg_keys: boolean;
   report_bug_url?: string;
   // The following property is missed in doc
   primary_weblink_name?: string;
@@ -967,7 +965,7 @@ export interface GerritInfo {
 /**
  * The IndexConfigInfo entity contains information about Gerrit configuration
  * from the index section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#index-config-info
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
  */
 export interface IndexConfigInfo {
   change: ChangeIndexConfigInfo;
@@ -1024,11 +1022,10 @@ export interface MemSummaryInfo {
 /**
  * The PluginConfigInfo entity contains information about Gerrit extensions by
  * plugins.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#plugin-config-info
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
  */
 export interface PluginConfigInfo {
   has_avatars: boolean;
-  // The following 2 properies exists in Java class, but don't mention in docs
   js_resource_paths: string[];
   html_resource_paths: string[];
 }
@@ -1053,8 +1050,7 @@ export interface ServerInfo {
   change: ChangeConfigInfo;
   download: DownloadInfo;
   gerrit: GerritInfo;
-  // docs mentions index property, but it doesn't exists in Java class
-  // index: IndexConfigInfo;
+  index: IndexConfigInfo;
   note_db_enabled?: boolean;
   plugin: PluginConfigInfo;
   receive?: ReceiveInfo;
@@ -1078,7 +1074,7 @@ export type SshdInfo = {};
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#suggest-info
  */
 export interface SuggestInfo {
-  from: number;
+  from: string;
 }
 
 /**
@@ -1153,7 +1149,7 @@ export interface TopMenuItemInfo {
 /**
  * The UserConfigInfo entity contains information about Gerrit configuration
  * from the user section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#user-config-info
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
  */
 export interface UserConfigInfo {
   anonymous_coward_name: string;
@@ -1183,11 +1179,6 @@ export interface CommentInfo {
 }
 
 export type PathToCommentsInfoMap = {[path: string]: CommentInfo[]};
-
-export type PortedCommentsAndDrafts = {
-  portedComments?: PathToCommentsInfoMap;
-  portedDrafts?: PathToCommentsInfoMap;
-};
 
 /**
  * The CommentRange entity describes the range of an inline comment.
@@ -1254,7 +1245,7 @@ export interface DiffContent {
   edit_b?: number[][];
   due_to_rebase?: boolean;
   due_to_move?: boolean;
-  skip?: string;
+  skip?: number;
   common?: string;
   keyLocation?: boolean;
 }
@@ -1382,7 +1373,7 @@ export interface InheritedBooleanInfo {
 }
 
 /**
- * The MaxObjectSizeLimitInfo entity contains information about the max object
+ * The MaxObjectSizeLimitInfo entity contains information about themax object
  * size limit of a project.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#max-object-size-limit-info
  */
@@ -2049,8 +2040,8 @@ export interface EditInfo {
   base_patch_set_number: PatchSetNum;
   base_revision: string;
   ref: GitRef;
-  fetch?: ProtocolToFetchInfoMap;
-  files?: FileNameToFileInfoMap;
+  fetch: ProtocolToFetchInfoMap;
+  files: FileNameToFileInfoMap;
 }
 
 export type ProtocolToFetchInfoMap = {[protocol: string]: FetchInfo};

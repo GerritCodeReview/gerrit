@@ -16,6 +16,24 @@
       "message": "Please see my comment on I57981a238 for if we can regard this information as public or not.",
       "revId": "c9b7fea58eeb662f952c7360eb59f1d6cad37d91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d9b8f42_800e6793",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-04T13:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fbc439c_3902a29a",
+      "revId": "c9b7fea58eeb662f952c7360eb59f1d6cad37d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

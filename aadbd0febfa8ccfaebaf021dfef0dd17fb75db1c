@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87d5fd14_26eba804",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-04T10:56:27Z",
+      "side": 1,
+      "message": "We have upgraded this library three months ago. Library upgrades are expensive for us. We are happy to do them when there is a fix we as a community need or we have not done an upgrade for a longer time period. In this case, neither argument applies, so we can\u0027t spend more time on an upgrade right now, sorry. Happy to revisit this in 2021.",
+      "revId": "aadbd0febfa8ccfaebaf021dfef0dd17fb75db1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

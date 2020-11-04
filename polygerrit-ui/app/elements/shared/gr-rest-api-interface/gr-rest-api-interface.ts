@@ -2799,10 +2799,14 @@ export class GrRestApiInterface
     changeNum: NumericChangeId,
     revision: RevisionId
   ): Promise<PathToCommentsInfoMap | undefined> {
+    const errFn: ErrorCallback = (response?: Response | null) => {
+      if (response) console.error(response);
+    };
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/ported_comments/',
       revision,
+      errFn,
     });
   }
 
@@ -2810,10 +2814,14 @@ export class GrRestApiInterface
     changeNum: NumericChangeId,
     revision: RevisionId
   ): Promise<PathToCommentsInfoMap | undefined> {
+    const errFn: ErrorCallback = (response?: Response | null) => {
+      if (response) console.error(response);
+    };
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/ported_drafts/',
       revision,
+      errFn,
     });
   }
 

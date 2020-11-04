@@ -16,6 +16,24 @@
       "message": "Can you add two more tests?\n\n1) An account that can\u0027t be parsed (fails)\n2) An account that isn\u0027t visible to the caller (fails)",
       "revId": "29a90b0b3b89599ca9adeb5d91fe1509cd004b75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4335874_64a9d418",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3178,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-04T12:39:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8a561f3_79b2c172",
+      "revId": "29a90b0b3b89599ca9adeb5d91fe1509cd004b75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

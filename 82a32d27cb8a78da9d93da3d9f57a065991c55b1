@@ -189,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42e2364a_348e0999",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-04T11:36:59Z",
+      "side": 1,
+      "message": "I just tested and we assign an id to drafts too upon saving so this will work for drafts too as it is now.",
+      "parentUuid": "e212a2ea_81e0dfcf",
+      "range": {
+        "startLine": 311,
+        "startChar": 2,
+        "endLine": 311,
+        "endChar": 19
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aab3d942_5e8a49bf",

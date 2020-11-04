@@ -177,6 +177,35 @@ suite('gr-diff-group tests', () => {
       assert.deepEqual(collapsedGroups[3].lines, groups[2].lines.slice(1));
     });
 
+    suite('with skip chunks', () => {
+      setup(() => {
+        const skipGroup = new GrDiffGroup(GrDiffGroupType.BOTH);
+        skipGroup.skip = 60;
+        skipGroup.lineRange = {
+          left: {start: 8, end: 67},
+          right: {start: 10, end: 69},
+        };
+        groups = [
+          new GrDiffGroup(GrDiffGroupType.BOTH, [
+            new GrDiffLine(GrDiffLineType.BOTH, 5, 7),
+            new GrDiffLine(GrDiffLineType.BOTH, 6, 8),
+            new GrDiffLine(GrDiffLineType.BOTH, 7, 9),
+          ]),
+          skipGroup,
+          new GrDiffGroup(GrDiffGroupType.BOTH, [
+            new GrDiffLine(GrDiffLineType.BOTH, 68, 70),
+            new GrDiffLine(GrDiffLineType.BOTH, 69, 71),
+            new GrDiffLine(GrDiffLineType.BOTH, 70, 72),
+          ]),
+        ];
+      });
+
+      test('refuses to split skip group when closer to before', () => {
+        const collapsedGroups = hideInContextControl(groups, 4, 10);
+        assert.deepEqual(groups, collapsedGroups);
+      });
+    });
+
     test('groups unchanged if the hidden range is empty', () => {
       assert.deepEqual(
           hideInContextControl(groups, 0, 0), groups);

@@ -171,6 +171,56 @@ suite('gr-diff-processor tests', () => {
         });
       });
 
+      test('at the beginning with skip chunks', () => {
+        element.context = 10;
+        const content = [
+          {ab: new Array(20)
+              .fill('all work and no play make jack a dull boy')},
+          {skip: 43900},
+          {ab: new Array(30)
+              .fill('some other content')},
+          {a: ['some other content']},
+        ];
+
+        return element.process(content).then(() => {
+          const groups = element.groups;
+
+          // group[0] is the file group
+
+          const commonGroup = groups[1];
+
+          // Hidden context before
+          assert.equal(commonGroup.type, GrDiffGroupType.CONTEXT_CONTROL);
+          assert.instanceOf(commonGroup.contextGroups[0], GrDiffGroup);
+          assert.equal(commonGroup.contextGroups[0].lines.length, 20);
+          for (const l of commonGroup.contextGroups[0].lines) {
+            assert.equal(l.text, 'all work and no play make jack a dull boy');
+          }
+
+          // Skipped group
+          const skipGroup = commonGroup.contextGroups[1];
+          assert.equal(skipGroup.skip, 43900);
+          const expectedRange = {
+            left: {start: 21, end: 43920},
+            right: {start: 21, end: 43920},
+          };
+          assert.deepEqual(skipGroup.lineRange, expectedRange);
+
+          // Hidden context after
+          assert.equal(commonGroup.contextGroups[2].lines.length, 20);
+          for (const l of commonGroup.contextGroups[2].lines) {
+            assert.equal(l.text, 'some other content');
+          }
+
+          // Displayed lines
+          assert.equal(groups[2].type, GrDiffGroupType.BOTH);
+          assert.equal(groups[2].lines.length, 10);
+          for (const l of groups[2].lines) {
+            assert.equal(l.text, 'some other content');
+          }
+        });
+      });
+
       test('at the beginning, smaller than context', () => {
         element.context = 10;
         const content = [
@@ -411,6 +461,55 @@ suite('gr-diff-processor tests', () => {
                 l.text, 'all work and no play make jill a dull girl');
           }
         });
+      });
+    });
+
+    test('in the middle with skip chunks', () => {
+      element.context = 10;
+      const content = [
+        {a: ['all work and no play make andybons a dull boy']},
+        {ab: new Array(20)
+            .fill('all work and no play make jill a dull girl')},
+        {skip: 60},
+        {ab: new Array(20)
+            .fill('all work and no play make jill a dull girl')},
+        {a: ['all work and no play make andybons a dull boy']},
+      ];
+
+      return element.process(content).then(() => {
+        const groups = element.groups;
+
+        // group[0] is the file group
+        // group[1] is the chunk with a
+        // group[2] is the displayed part of ab before
+
+        const commonGroup = groups[3];
+
+        // Hidden context before
+        assert.equal(commonGroup.type, GrDiffGroupType.CONTEXT_CONTROL);
+        assert.instanceOf(commonGroup.contextGroups[0], GrDiffGroup);
+        assert.equal(commonGroup.contextGroups[0].lines.length, 10);
+        for (const l of commonGroup.contextGroups[0].lines) {
+          assert.equal(
+              l.text, 'all work and no play make jill a dull girl');
+        }
+
+        // Skipped group
+        const skipGroup = commonGroup.contextGroups[1];
+        assert.equal(skipGroup.skip, 60);
+        const expectedRange = {
+          left: {start: 22, end: 81},
+          right: {start: 21, end: 80},
+        };
+        assert.deepEqual(skipGroup.lineRange, expectedRange);
+
+        // Hidden context after
+        assert.equal(commonGroup.contextGroups[2].lines.length, 10);
+        for (const l of commonGroup.contextGroups[2].lines) {
+          assert.equal(
+              l.text, 'all work and no play make jill a dull girl');
+        }
+        // group[4] is the displayed part of the second ab
       });
     });
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32ef32c7_00b878f3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 43
+      },
+      "lineNbr": 1581,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-04T11:57:53Z",
+      "side": 1,
+      "message": "The _renderInOrder method is not called when portedComments is assigned. If a user clicks on a file before ported comments is loaded, the file-list shows diff and later doesn\u0027t show ported comments (after they are loaded).\nYou can reproduce it by adding a timeout in gr-change-view.ts before assigning this._portedComments",
+      "range": {
+        "startLine": 1569,
+        "startChar": 8,
+        "endLine": 1581,
+        "endChar": 9
+      },
+      "revId": "348341f9de258a37aac44771ef27cf80ba1fa079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcb2116d_8c09b3a7",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 43
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-04T11:57:53Z",
+      "side": 1,
+      "message": "looks suspicious. The property is set before return and thread object is not used anywhere else",
+      "range": {
+        "startLine": 243,
+        "startChar": 6,
+        "endLine": 243,
+        "endChar": 24
+      },
+      "revId": "348341f9de258a37aac44771ef27cf80ba1fa079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

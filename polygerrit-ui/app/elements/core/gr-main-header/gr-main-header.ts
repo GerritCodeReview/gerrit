@@ -154,8 +154,9 @@ export class GrMainHeader extends GestureEventListeners(
   @property({type: String})
   _registerText = 'Sign up';
 
+  // Empty string means that the register <div> will be hidden.
   @property({type: String})
-  _registerURL?: string;
+  _registerURL = '';
 
   @property({type: Boolean})
   mobileSearchHidden = false;
@@ -328,15 +329,15 @@ export class GrMainHeader extends GestureEventListeners(
 
   _retrieveRegisterURL(config: ServerInfo) {
     if (AUTH_TYPES_WITH_REGISTER_URL.has(config.auth.auth_type)) {
-      this._registerURL = config.auth.register_url;
+      this._registerURL = config.auth.register_url ?? '';
       if (config.auth.register_text) {
         this._registerText = config.auth.register_text;
       }
     }
   }
 
-  _computeIsInvisible(registerURL?: string) {
-    return registerURL ? '' : 'invisible';
+  _computeRegisterHidden(registerURL: string) {
+    return !registerURL;
   }
 
   _createHeaderLink(linkObj: TopMenuItemInfo): MainHeaderLink {

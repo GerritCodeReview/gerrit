@@ -175,6 +175,30 @@
       },
       "revId": "21f91476d84e06f0aa68db86219c5c3417c76d8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e346042_0b6a991d",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-11-04T18:37:34Z",
+      "side": 1,
+      "message": "My hope was that making it AutoCloseable would highlight the need for a clear scope (a new try block) that starts at a higher level (in the calling class) potentially.",
+      "parentUuid": "11e278eb_75188d04",
+      "range": {
+        "startLine": 719,
+        "startChar": 10,
+        "endLine": 719,
+        "endChar": 65
+      },
+      "revId": "21f91476d84e06f0aa68db86219c5c3417c76d8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

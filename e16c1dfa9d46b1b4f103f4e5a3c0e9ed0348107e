@@ -16,6 +16,24 @@
       "message": "CI check failed [1] because of a google-java-format [2] issue in [3].\n\n[1] https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/62499/console\n[2] https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#style\n[3] javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java\n",
       "revId": "e16c1dfa9d46b1b4f103f4e5a3c0e9ed0348107e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59fdbdf9_5e57c0fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-04T14:00:05Z",
+      "side": 1,
+      "message": "Done. thanks for the comment",
+      "parentUuid": "eace9738_85e5d818",
+      "revId": "e16c1dfa9d46b1b4f103f4e5a3c0e9ed0348107e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

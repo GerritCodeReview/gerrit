@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24bae426_1ff1aed8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2821,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-04T15:13:43Z",
+      "side": 1,
+      "message": "I *think* returning `undefined` is reserved for the error case, but I am not sure. `getDiffDrafts` returns {} in this case. Maybe do the same here?",
+      "range": {
+        "startLine": 2821,
+        "startChar": 21,
+        "endLine": 2821,
+        "endChar": 27
+      },
+      "revId": "ebd98fe52986822f83bcc437dc9a15c5102818c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

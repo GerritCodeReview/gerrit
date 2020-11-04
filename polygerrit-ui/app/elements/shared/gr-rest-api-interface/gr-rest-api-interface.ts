@@ -2821,11 +2821,14 @@ export class GrRestApiInterface
       if (response)
         console.info(`Fetching ported comments failed, ${response.status}`);
     };
-    return this._getChangeURLAndFetch({
-      changeNum,
-      endpoint: '/ported_drafts/',
-      revision,
-      errFn,
+    return this.getLoggedIn().then(loggedIn => {
+      if (!loggedIn) return {};
+      return this._getChangeURLAndFetch({
+        changeNum,
+        endpoint: '/ported_drafts/',
+        revision,
+        errFn,
+      });
     });
   }
 

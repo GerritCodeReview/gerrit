@@ -34,7 +34,7 @@ export const htmlTemplate = html`
       display: table-row;
     }
     gr-label-score-row.no-access {
-      display: var(--label-no-access-display, table-row);
+      display: none;
     }
   </style>
   <div class="scoresTable">

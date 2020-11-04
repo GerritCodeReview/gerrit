@@ -188,7 +188,7 @@ export class GrDownloadDialog extends GestureEventListeners(
       if (patchNumEquals(rev._number, patchNum)) {
         const parentLength =
           rev.commit && rev.commit.parents ? rev.commit.parents.length : 0;
-        return parentLength === 0;
+        return parentLength === 0 || parentLength > 1;
       }
     }
     return false;

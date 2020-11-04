@@ -30,8 +30,10 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -66,12 +68,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -373,8 +377,15 @@ public class Submit
 
   public Collection<ChangeData> unmergeableChanges(ChangeSet cs) throws IOException {
     Set<ChangeData> mergeabilityMap = new HashSet<>();
+    Set<ObjectId> outDatedPatchsets = new HashSet<>();
     for (ChangeData change : cs.changes()) {
       mergeabilityMap.add(change);
+      // Add all the patchsets commit ids except the current patchset.
+      outDatedPatchsets.addAll(
+          change.notes().getPatchSets().values().stream()
+              .map(p -> p.commitId())
+              .collect(Collectors.toSet()));
+      outDatedPatchsets.remove(change.currentPatchSet().commitId());
     }
 
     ListMultimap<BranchNameKey, ChangeData> cbb = cs.changesByBranch();
@@ -388,12 +399,17 @@ public class Submit
           allParents.add(parent.getId());
         }
       }
-
       for (ChangeData change : targetBranch) {
+
         RevCommit commit = commits.get(change.getId());
         boolean isMergeCommit = commit.getParentCount() > 1;
         boolean isLastInChain = !allParents.contains(commit.getId());
-
+        if (Arrays.stream(commit.getParents()).anyMatch(c -> outDatedPatchsets.contains(c.getId()))
+            && !isCherryPickSubmit(change)) {
+          // Found a parent that depends on an outdated patchset and the submit strategy is not
+          // cherry-pick.
+          continue;
+        }
         // Recheck mergeability rather than using value stored in the index,
         // which may be stale.
         // TODO(dborowitz): This is ugly; consider providing a way to not read
@@ -417,6 +433,11 @@ public class Submit
       }
     }
     return mergeabilityMap;
+  }
+
+  private boolean isCherryPickSubmit(ChangeData changeData) {
+    SubmitTypeRecord submitTypeRecord = changeData.submitTypeRecord();
+    return submitTypeRecord.isOk() && submitTypeRecord.type == SubmitType.CHERRY_PICK;
   }
 
   private HashMap<Change.Id, RevCommit> findCommits(

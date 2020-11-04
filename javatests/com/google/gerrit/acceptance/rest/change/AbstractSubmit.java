@@ -1439,6 +1439,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertWithMessage("enabled bit on submit action").that(desc.isEnabled()).isTrue();
   }
 
+  protected void assertSubmitDisabled(String changeId) throws Throwable {
+    RevisionResource rsrc = parseCurrentRevisionResource(changeId);
+    UiAction.Description desc = submitHandler.getDescription(rsrc);
+    assertWithMessage("enabled bit on submit action").that(desc.isEnabled()).isFalse();
+  }
+
   protected void assertChangeMergedEvents(String... expected) throws Throwable {
     eventRecorder.assertChangeMergedEvents(project.get(), "refs/heads/master", expected);
   }

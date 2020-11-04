@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
@@ -169,5 +170,50 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, headAfterSubmit);
     assertChangeMergedEvents(id1, headAfterSubmit.name());
+  }
+
+  @Test
+  public void dependencyOnOutdatedPatchSetPreventsFastForward() throws Throwable {
+    // Create a change
+    PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit.Result changeResult = change.to("refs/for/master");
+    PatchSet.Id patchSetId = changeResult.getPatchSetId();
+
+    // Create a successor change.
+    PushOneCommit change2 =
+        pushFactory.create(user.newIdent(), testRepo, "feature", "b.txt", "bar");
+    PushOneCommit.Result change2Result = change2.to("refs/for/master");
+
+    // Create new patch set for first change.
+    testRepo.reset(changeResult.getCommit().name());
+    amendChange(changeResult.getChangeId());
+
+    // Approve both changes
+    approve(changeResult.getChangeId());
+    approve(change2Result.getChangeId());
+
+    // submit button is disabled.
+    assertSubmitDisabled(change2Result.getChangeId());
+
+    submitWithConflict(
+        change2Result.getChangeId(),
+        "Failed to submit 2 changes due to the following problems:\n"
+            + "Change "
+            + change2Result.getChange().getId()
+            + ": Depends on change that was not submitted."
+            + " Commit "
+            + change2Result.getCommit().name()
+            + " depends on commit "
+            + changeResult.getCommit().name()
+            + ", which is outdated patch set "
+            + patchSetId.get()
+            + " of change "
+            + changeResult.getChange().getId()
+            + ". The latest patch set is "
+            + changeResult.getPatchSetId().get()
+            + ".");
+
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
   }
 }

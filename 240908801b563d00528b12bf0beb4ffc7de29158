@@ -83,6 +83,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9ce2df5_89777956",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-04T13:16:42Z",
+      "side": 1,
+      "message": "I think the past uploaders are visible from the change message history, but fine with keeping it as it is :)",
+      "parentUuid": "f2290508_b0256266",
+      "revId": "240908801b563d00528b12bf0beb4ffc7de29158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b39f6413_d7d386b2",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d88e8c69_7d0ee548",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-04T12:49:34Z",
+      "side": 1,
+      "message": "This test is no identical with uploadPackAllRefsVisibleNoRefsMetaConfigSkipFullRefEval(). Can they be merged now?",
+      "revId": "c4dcf0c02c58849136ccd9ebe3433dc1180af237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

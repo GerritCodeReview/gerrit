@@ -33,12 +33,12 @@ export interface GrDiffLinePair {
   right: GrDiffLine;
 }
 
-interface Range {
+export interface Range {
   start: number | null;
   end: number | null;
 }
 
-interface GrDiffGroupRange {
+export interface GrDiffGroupRange {
   left: Range;
   right: Range;
 }
@@ -89,7 +89,13 @@ export function hideInContextControl(
       [before, hidden] = _splitCommonGroups(hidden, hiddenStart);
     }
     if (hiddenEnd) {
-      [hidden, after] = _splitCommonGroups(hidden, hiddenEnd - hiddenStart);
+      let beforeLength = 0;
+      if (before.length > 0) {
+        const beforeStart = before[0].lineRange.left.start || 0;
+        const beforeEnd = before[before.length - 1].lineRange.left.end || 0;
+        beforeLength = beforeEnd - beforeStart + 1;
+      }
+      [hidden, after] = _splitCommonGroups(hidden, hiddenEnd - beforeLength);
     }
   } else {
     [hidden, after] = [[], hidden];
@@ -129,47 +135,59 @@ function _splitCommonGroups(
   const beforeGroups = [];
   const afterGroups = [];
   for (const group of groups) {
-    if (
+    const isCompletelyBefore =
       (group.lineRange.left.end || 0) < leftSplit ||
-      (group.lineRange.right.end || 0) < rightSplit
-    ) {
-      beforeGroups.push(group);
-      continue;
-    }
-    if (
+      (group.lineRange.right.end || 0) < rightSplit;
+    const isCompletelyAfter =
       leftSplit <= (group.lineRange.left.start || 0) ||
-      rightSplit <= (group.lineRange.right.start || 0)
-    ) {
+      rightSplit <= (group.lineRange.right.start || 0);
+    if (isCompletelyBefore) {
+      beforeGroups.push(group);
+    } else if (isCompletelyAfter) {
       afterGroups.push(group);
-      continue;
-    }
-
-    const before = [];
-    const after = [];
-    for (const line of group.lines) {
-      if (
-        (line.beforeNumber && line.beforeNumber < leftSplit) ||
-        (line.afterNumber && line.afterNumber < rightSplit)
-      ) {
-        before.push(line);
+    } else {
+      // split line is in the middle of a group, we need to break the group
+      // in lines before and after the split.
+      if (group.skip) {
+        // Currently we assume skip chunks "refuse" to be split. Expanding this group will in the future mean
+        // load more data - and therefore we want to fire an event when user wants to do it.
+        const closerToStartThanEnd =
+          Math.abs((group.lineRange.left.start || 0) - leftSplit) <
+          Math.abs((group.lineRange.right.end || 0) - leftSplit);
+        if (closerToStartThanEnd) {
+          afterGroups.push(group);
+        } else {
+          beforeGroups.push(group);
+        }
       } else {
-        after.push(line);
-      }
-    }
+        const before = [];
+        const after = [];
+        for (const line of group.lines) {
+          if (
+            (line.beforeNumber && line.beforeNumber < leftSplit) ||
+            (line.afterNumber && line.afterNumber < rightSplit)
+          ) {
+            before.push(line);
+          } else {
+            after.push(line);
+          }
+        }
 
-    if (before.length) {
-      beforeGroups.push(
-        before.length === group.lines.length
-          ? group
-          : group.cloneWithLines(before)
-      );
-    }
-    if (after.length) {
-      afterGroups.push(
-        after.length === group.lines.length
-          ? group
-          : group.cloneWithLines(after)
-      );
+        if (before.length) {
+          beforeGroups.push(
+            before.length === group.lines.length
+              ? group
+              : group.cloneWithLines(before)
+          );
+        }
+        if (after.length) {
+          afterGroups.push(
+            after.length === group.lines.length
+              ? group
+              : group.cloneWithLines(after)
+          );
+        }
+      }
     }
   }
   return [beforeGroups, afterGroups];
@@ -212,6 +230,8 @@ export class GrDiffGroup {
   removes: GrDiffLine[] = [];
 
   contextGroups: GrDiffGroup[] = [];
+
+  skip?: number;
 
   /** Both start and end line are inclusive. */
   lineRange: GrDiffGroupRange = {

@@ -94,6 +94,30 @@
       },
       "revId": "4ac3aed7883bd4c0e011a371e16aff856c189f44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67f4ee21_142e71d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-04T13:03:58Z",
+      "side": 1,
+      "message": "Done\nI addressed the issue of probing account existence in this change now.",
+      "parentUuid": "879c99bb_e9639485",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4ac3aed7883bd4c0e011a371e16aff856c189f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

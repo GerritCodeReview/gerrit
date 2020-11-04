@@ -106,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6322d250_9e1d9751",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2803,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-04T15:07:38Z",
+      "side": 1,
+      "message": "If you are checking for null, then should it be:\n\n  if (!response) ...\n\ninstead of\n\n  if (response) ...\n\nOk, looking at send() in gr-rest-api-helper, response is null for network errors. And in that case a \u0027network-error\u0027 event is already dispatched. So I guess you can leave the if-condition as is.",
+      "parentUuid": "055eda51_c2698546",
+      "revId": "f869e85f6977fbfd5260f6c29500e7c00650a575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cec951b_fc98bacb",

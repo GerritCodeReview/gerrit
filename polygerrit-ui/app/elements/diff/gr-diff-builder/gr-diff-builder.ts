@@ -18,6 +18,7 @@ import {getBaseUrl} from '../../../utils/url-util';
 import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
 import {
   GrDiffGroup,
+  GrDiffGroupRange,
   GrDiffGroupType,
   hideInContextControl,
   rangeBySide,
@@ -64,6 +65,12 @@ export interface ContextEvent extends Event {
   };
 }
 
+export interface ContentLoadNeededEvent extends Event {
+  detail: {
+    lineRange: GrDiffGroupRange;
+  };
+}
+
 export abstract class GrDiffBuilder {
   private readonly _diff: DiffInfo;
 
@@ -93,7 +100,7 @@ export abstract class GrDiffBuilder {
     this._numLinesLeft = this._diff.content
       ? this._diff.content.reduce((sum, chunk) => {
           const left = chunk.a || chunk.ab;
-          return sum + (left ? left.length : 0);
+          return sum + (left?.length || chunk.skip || 0);
         }, 0)
       : 0;
     this._prefs = prefs;
@@ -311,8 +318,13 @@ export abstract class GrDiffBuilder {
 
     const td = this._createElement('td');
     const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
-
-    if (showPartialLinks && leftStart > 1) {
+    const firstGroupIsSkipped = !!contextGroups[0].skip;
+    const lastGroupIsSkipped = !!contextGroups[contextGroups.length - 1].skip;
+    const showAboveButton =
+      showPartialLinks && leftStart > 1 && !firstGroupIsSkipped;
+    const showBelowButton =
+      showPartialLinks && leftEnd < this._numLinesLeft && !lastGroupIsSkipped;
+    if (showAboveButton) {
       td.appendChild(
         this._createContextButton(
           ContextButtonType.ABOVE,
@@ -322,7 +334,6 @@ export abstract class GrDiffBuilder {
         )
       );
     }
-
     td.appendChild(
       this._createContextButton(
         ContextButtonType.ALL,
@@ -331,8 +342,7 @@ export abstract class GrDiffBuilder {
         numLines
       )
     );
-
-    if (showPartialLinks && leftEnd < this._numLinesLeft) {
+    if (showBelowButton) {
       td.appendChild(
         this._createContextButton(
           ContextButtonType.BELOW,
@@ -342,7 +352,6 @@ export abstract class GrDiffBuilder {
         )
       );
     }
-
     return td;
   }
 
@@ -359,7 +368,9 @@ export abstract class GrDiffBuilder {
 
     let text = '';
     let groups: GrDiffGroup[] = []; // The groups that replace this one if tapped.
+    let requiresLoad = false;
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
+      requiresLoad = contextGroups.find(c => !!c.skip) !== undefined;
       const icon = this._createElement('iron-icon', 'showContext');
       icon.setAttribute('icon', 'gr-icons:unfold-more');
       button.appendChild(icon);
@@ -367,6 +378,10 @@ export abstract class GrDiffBuilder {
       text = `Show ${numLines} common line`;
       if (numLines > 1) {
         text += 's';
+      }
+      if (requiresLoad) {
+        // Expanding content would require load of more data
+        text += ' (too large)';
       }
       groups.push(...contextGroups);
     } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
@@ -380,15 +395,36 @@ export abstract class GrDiffBuilder {
     textSpan.textContent = text;
     button.appendChild(textSpan);
 
-    button.addEventListener('tap', e => {
-      const event = e as ContextEvent;
-      event.detail = {
-        groups,
-        section,
-        numLines,
-      };
-      // Let it bubble up the DOM tree.
-    });
+    if (requiresLoad) {
+      button.addEventListener('tap', e => {
+        e.stopPropagation();
+        const firstRange = groups[0].lineRange;
+        const lastRange = groups[groups.length - 1].lineRange;
+        const lineRange = {
+          left: {start: firstRange.left.start, end: lastRange.left.end},
+          right: {start: firstRange.right.start, end: lastRange.right.end},
+        };
+        button.dispatchEvent(
+          new CustomEvent('content-load-needed', {
+            detail: {
+              lineRange,
+            },
+            bubbles: true,
+            composed: true,
+          } as ContentLoadNeededEvent)
+        );
+      });
+    } else {
+      button.addEventListener('tap', e => {
+        const event = e as ContextEvent;
+        event.detail = {
+          groups,
+          section,
+          numLines,
+        };
+        // Let it bubble up the DOM tree.
+      });
+    }
 
     return button;
   }

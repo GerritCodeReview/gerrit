@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "242834c4_2c13c5c3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-05T13:38:25Z",
+      "side": 1,
+      "message": "Please remove this entire block. Rationale:\n\n1. It makes the reader think that this works for all promises in gr-diff-view, but that is not true. All other promises do not have this kind of check.\n\n2. It makes the reader think that this is that best pattern for achieving this robustness against parameter changes, while it would be much better to make this a cancelable promise and cancel it (along with all the others) when parameters change.",
+      "range": {
+        "startLine": 1097,
+        "startChar": 10,
+        "endLine": 1110,
+        "endChar": 11
+      },
+      "revId": "3dc3894d36f126ff2733dbb70a6404bb3d7a53ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

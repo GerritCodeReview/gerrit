@@ -88,7 +88,6 @@ import {
   PreferencesInfo,
   RepoName,
   RevisionInfo,
-  PortedCommentsAndDrafts,
 } from '../../../types/common';
 import {ChangeViewState, CommitRange, FileRange} from '../../../types/types';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
@@ -1062,15 +1061,10 @@ export class GrDiffView extends KeyboardShortcutMixin(
       return;
     }
 
-    let portedCommentsPromise: Promise<PortedCommentsAndDrafts>;
-    let portedCommentsPatchNum: PatchSetNum;
-    if (value.changeNum && value.patchNum) {
-      portedCommentsPatchNum = value.patchNum;
-      portedCommentsPromise = this.$.commentAPI.getPortedComments(
-        value.changeNum,
-        value.patchNum
-      );
-    }
+    const portedCommentsPromise = this.$.commentAPI.getPortedComments(
+      value.changeNum,
+      value.patchNum || 'current'
+    );
 
     const promises: Promise<unknown>[] = [];
 
@@ -1097,23 +1091,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
         this._initPatchRange();
         this._initCommitRange();
         this.$.diffHost.comments = this._commentsForDiff;
-        if (!portedCommentsPromise) {
-          // _initPatchRange() ensures _patchRange is set
-          // AppElementDiffViewParam ensures _changeNum is set
-          portedCommentsPatchNum = this._patchRange!.patchNum;
-          value.changeNum = this._changeNum!;
-          portedCommentsPromise = this.$.commentAPI.getPortedComments(
-            this._changeNum!,
-            this._patchRange!.patchNum
-          );
-        }
         portedCommentsPromise.then(() => {
-          // do not report latency if user has changed patchsets during request
-          if (
-            !patchNumEquals(portedCommentsPatchNum, this._patchRange?.patchNum)
-          ) {
-            return;
-          }
           this.reporting.timeEnd(PORTING_COMMENTS_DIFF_LATENCY_LABEL);
         });
         const edit = r[4] as EditInfo | undefined;

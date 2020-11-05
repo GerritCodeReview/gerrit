@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0c064c0_c5856d91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-05T20:53:05Z",
+      "side": 1,
+      "message": "The \"comment thread without side\" error in tests is a flaky test that is hard to hunt down. We will do this in the Fixit later this month. Until then you have to re-run the check and remove the \"Verified -1\" vote. :-/ I have done that just now. Hopefully the next will yield a +1 such that you can submit the change.",
+      "revId": "eb7b34db0755f98532ce9b61ac68bd810caab2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

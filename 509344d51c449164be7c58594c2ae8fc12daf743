@@ -39,6 +39,30 @@
       },
       "revId": "509344d51c449164be7c58594c2ae8fc12daf743",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3faf94b_e43ed31e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-11-05T16:13:59Z",
+      "side": 1,
+      "message": "That makes sense - it was a indeed quick replace from my side without event thinking it through.",
+      "parentUuid": "bf02060f_7321ddc2",
+      "range": {
+        "startLine": 412,
+        "startChar": 15,
+        "endLine": 412,
+        "endChar": 56
+      },
+      "revId": "509344d51c449164be7c58594c2ae8fc12daf743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

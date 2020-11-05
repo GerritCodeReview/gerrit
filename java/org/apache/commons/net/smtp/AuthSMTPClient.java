@@ -34,32 +34,45 @@ import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.net.util.SSLSocketUtils;
 
 public class AuthSMTPClient extends SMTPClient {
   private String authTypes;
+  boolean handshakeOnConnect;
+  boolean isSSLVerificationEnabled;
 
-  public AuthSMTPClient(String charset) {
-    super(charset);
+  public AuthSMTPClient(boolean shouldHandshakeOnConnect, boolean sslVerificationEnabled) {
+    super(UTF_8.name());
+    handshakeOnConnect = shouldHandshakeOnConnect;
+    isSSLVerificationEnabled = sslVerificationEnabled;
   }
 
-  public void enableSSL(boolean verify) {
-    _socketFactory_ = sslFactory(verify);
+  @Override
+  protected void _connectAction_() throws IOException {
+    // This logic is somewhat a duplicate of SMTPSClient in commons-net-3.6.
+    // SMTPSClient can not be used directly as the caller does not always require SSL processing.
+    if (handshakeOnConnect) {
+      performSSLNegotiation();
+    }
+    super._connectAction_();
+    // Either SSL Encryption is not required or startTLS() will be called by the user.
   }
 
-  public boolean startTLS(String hostname, int port, boolean verify)
-      throws SocketException, IOException {
-    if (sendCommand("STARTTLS") != 220) {
-      return false;
+  private void performSSLNegotiation() throws IOException {
+    // This logic is somewhat a duplicate of SMTPSClient in commons-net-3.6.
+    // SMTPSClient can not be used directly as the caller does not always require SSL processing.
+    String host = (_hostname_ != null) ? _hostname_ : getRemoteAddress().getHostAddress();
+    int port = getRemotePort();
+    SSLSocket socket =
+        (SSLSocket) sslFactory(isSSLVerificationEnabled).createSocket(_socket_, host, port, true);
+
+    if (isSSLVerificationEnabled) {
+      SSLSocketUtils.enableEndpointNameVerification(socket);
     }
 
-    _socket_ = sslFactory(verify).createSocket(_socket_, hostname, port, true);
+    socket.startHandshake();
 
-    if (verify) {
-      SSLParameters sslParams = new SSLParameters();
-      sslParams.setEndpointIdentificationAlgorithm("HTTPS");
-      ((SSLSocket) _socket_).setSSLParameters(sslParams);
-    }
-
+    _socket_ = socket;
     // XXX: Can't call _connectAction_() because SMTP server doesn't
     // give banner information again after STARTTLS, thus SMTP._connectAction_()
     // will wait on __getReply() forever, see source code of commons-net-2.2.
@@ -71,6 +84,13 @@ public class AuthSMTPClient extends SMTPClient {
     _output_ = _socket_.getOutputStream();
     _reader = new BufferedReader(new InputStreamReader(_input_, UTF_8));
     _writer = new BufferedWriter(new OutputStreamWriter(_output_, UTF_8));
+  }
+
+  public boolean startTLS() throws SocketException, IOException {
+    if (sendCommand("STARTTLS") != 220) {
+      return false;
+    }
+    performSSLNegotiation();
     return true;
   }
 

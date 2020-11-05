@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c0ae253_b2ff80a7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-05T14:31:03Z",
+      "side": 1,
+      "message": "The pattern in Gerrit for this is either\n\n  CustomEvent\u003cContentLoadNeededEventDetail\u003e\n\nor\n\n  CustomEvent\u003c{lineRange: GrDiffGroupRange}\u003e",
+      "revId": "43d87ab2913b87deae49f97e1be9b10a1663bdd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9131293a_da8ebdab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-05T14:31:03Z",
+      "side": 1,
+      "message": "For new tests we are trying to use `await` instead of promise.then().",
+      "revId": "43d87ab2913b87deae49f97e1be9b10a1663bdd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "073bf6ff_b7b198f0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-05T14:31:03Z",
+      "side": 1,
+      "message": "80 chars",
+      "revId": "43d87ab2913b87deae49f97e1be9b10a1663bdd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab1c8bcd_bfcd744e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-05T14:31:03Z",
+      "side": 1,
+      "message": "move 3 lines up",
+      "revId": "43d87ab2913b87deae49f97e1be9b10a1663bdd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49aee9cf_80f69d23",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-05T14:31:03Z",
+      "side": 1,
+      "message": "split",
+      "range": {
+        "startLine": 123,
+        "startChar": 32,
+        "endLine": 123,
+        "endChar": 40
+      },
+      "revId": "43d87ab2913b87deae49f97e1be9b10a1663bdd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

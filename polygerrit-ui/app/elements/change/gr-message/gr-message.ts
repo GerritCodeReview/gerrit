@@ -39,12 +39,14 @@ import {
   VotingRangeInfo,
   NumericChangeId,
   ChangeMessageId,
+  PatchSetNum,
 } from '../../../types/common';
 import {CommentThread} from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {appContext} from '../../../services/app-context';
 import {pluralize} from '../../../utils/string-util';
 import {fireEvent} from '../../../utils/event-util';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?(?:P|p)atch (?:S|s)et \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
@@ -271,13 +273,32 @@ export class GrMessage extends GestureEventListeners(
     return this._patchsetCommentSummary(commentThreads);
   }
 
+  _isNewPatchsetTag(tag: ReviewInputTag) {
+    return tag.endsWith(':newPatchSet') || tag.endsWith(':newWipPatchSet');
+  }
+
+  _handleViewPatchsetDiff(e: Event) {
+    if (!this.message || !this.change) return;
+    const match = this.message.message.match(/Uploaded patch set (\d+)./);
+    if (!match || match.length < 1) return;
+    const patchNum = Number(match[1]);
+    if (isNaN(patchNum)) throw new Error('invalid patchnum in message');
+    GerritNav.navigateToChange(
+      this.change,
+      patchNum as PatchSetNum,
+      (patchNum === 1 ? 'PARENT' : patchNum - 1) as PatchSetNum
+    );
+    // stop propagation to stop message expansion
+    e.stopPropagation();
+  }
+
   _computeMessageContent(
     content = '',
     tag: ReviewInputTag = '' as ReviewInputTag,
     isExpanded: boolean
   ) {
-    const isNewPatchSet =
-      tag.endsWith(':newPatchSet') || tag.endsWith(':newWipPatchSet');
+    const isNewPatchSet = this._isNewPatchsetTag(tag);
+
     const lines = content.split('\n');
     const filteredLines = lines.filter(line => {
       if (!isExpanded && line.startsWith('>')) {

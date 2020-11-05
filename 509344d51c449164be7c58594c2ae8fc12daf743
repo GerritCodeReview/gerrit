@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "439e834a_ab1fcbe3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-05T15:59:41Z",
+      "side": 1,
+      "message": "just 2 nits, sorry for not having a sticky +2 :-/",
+      "revId": "509344d51c449164be7c58594c2ae8fc12daf743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf02060f_7321ddc2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-05T15:59:41Z",
+      "side": 1,
+      "message": "If you do\n\n  new CustomEvent\u003cContentLoadNeededEventDetail\u003e\n\nthen you avoid the `as` casting.",
+      "range": {
+        "startLine": 412,
+        "startChar": 15,
+        "endLine": 412,
+        "endChar": 56
+      },
+      "revId": "509344d51c449164be7c58594c2ae8fc12daf743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

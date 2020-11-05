@@ -50,6 +50,24 @@
       "message": "Seems like doc is pointing to wrong command for java 8 bazel build... \n\n  $ bazel build --java_toolchain //tools:error_prone_warnings_toolchain_java8 :release\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-bazel.html ",
       "revId": "b89332d7c726fcc14ab87c1bb7fda91afce43179",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1be0942_68ff07ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-05T11:31:09Z",
+      "side": 1,
+      "message": "\u003e Seems like doc is pointing to wrong command for java 8 bazel build... \n\u003e \n\u003e   $ bazel build --java_toolchain //tools:error_prone_warnings_toolchain_java8 :release\n\u003e \n\u003e https://gerrit-review.googlesource.com/Documentation/dev-bazel.html \n\nGood catch, fixed with Change-Id: Ib1f883207182",
+      "parentUuid": "f639b873_58a7a7d9",
+      "revId": "b89332d7c726fcc14ab87c1bb7fda91afce43179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

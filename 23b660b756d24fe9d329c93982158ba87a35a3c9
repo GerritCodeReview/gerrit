@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e1c88f2_0392337a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-05T10:55:17Z",
+      "side": 1,
+      "message": "nit: Do you think about other things? If yes, can we mention them here? If not, \u0027things like\u0027 is redundant IMHO.",
+      "range": {
+        "startLine": 690,
+        "startChar": 40,
+        "endLine": 690,
+        "endChar": 51
+      },
+      "revId": "23b660b756d24fe9d329c93982158ba87a35a3c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -281,13 +281,21 @@ export class GrMessage extends GestureEventListeners(
     return this._patchsetCommentSummary(commentThreads);
   }
 
+  _isNewPatchsetTag(tag: ReviewInputTag = '' as ReviewInputTag) {
+    return tag.endsWith(':newPatchSet') || tag.endsWith(':newWipPatchSet');
+  }
+
+  _handleViewPatchsetDiff() {
+    this.dispatc
+  }
+
   _computeMessageContent(
     content = '',
     tag: ReviewInputTag = '' as ReviewInputTag,
     isExpanded: boolean
   ) {
-    const isNewPatchSet =
-      tag.endsWith(':newPatchSet') || tag.endsWith(':newWipPatchSet');
+    const isNewPatchSet = this._isNewPatchsetTag(tag);
+
     const lines = content.split('\n');
     const filteredLines = lines.filter(line => {
       if (!isExpanded && line.startsWith('>')) {

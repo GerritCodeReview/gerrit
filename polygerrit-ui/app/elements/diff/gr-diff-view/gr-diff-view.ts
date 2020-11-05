@@ -88,7 +88,7 @@ import {
   PreferencesInfo,
   RepoName,
   RevisionInfo,
-  PortedCommentsAndDrafts,
+  RevisionId,
 } from '../../../types/common';
 import {ChangeViewState, CommitRange, FileRange} from '../../../types/types';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
@@ -1062,15 +1062,11 @@ export class GrDiffView extends KeyboardShortcutMixin(
       return;
     }
 
-    let portedCommentsPromise: Promise<PortedCommentsAndDrafts>;
-    let portedCommentsPatchNum: PatchSetNum;
-    if (value.changeNum && value.patchNum) {
-      portedCommentsPatchNum = value.patchNum;
-      portedCommentsPromise = this.$.commentAPI.getPortedComments(
-        value.changeNum,
-        value.patchNum
-      );
-    }
+    const portedCommentsRevision: RevisionId = value.patchNum || 'current';
+    const portedCommentsPromise = this.$.commentAPI.getPortedComments(
+      value.changeNum,
+      portedCommentsRevision
+    );
 
     const promises: Promise<unknown>[] = [];
 
@@ -1097,18 +1093,16 @@ export class GrDiffView extends KeyboardShortcutMixin(
         this._initPatchRange();
         this._initCommitRange();
         this.$.diffHost.comments = this._commentsForDiff;
-        if (!portedCommentsPromise) {
-          // _initPatchRange() ensures _patchRange is set
-          // AppElementDiffViewParam ensures _changeNum is set
-          portedCommentsPatchNum = this._patchRange!.patchNum;
-          value.changeNum = this._changeNum!;
-          portedCommentsPromise = this.$.commentAPI.getPortedComments(
-            this._changeNum!,
-            this._patchRange!.patchNum
-          );
-        }
         portedCommentsPromise.then(() => {
           // do not report latency if user has changed patchsets during request
+          let portedCommentsPatchNum;
+          if (portedCommentsRevision === 'current') {
+            portedCommentsPatchNum = computeLatestPatchNum(
+              computeAllPatchSets(this._change!)
+            );
+          } else {
+            portedCommentsPatchNum = portedCommentsRevision as PatchSetNum;
+          }
           if (
             !patchNumEquals(portedCommentsPatchNum, this._patchRange?.patchNum)
           ) {

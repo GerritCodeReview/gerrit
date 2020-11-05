@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58742581_629721c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-05T13:44:25Z",
+      "side": 1,
+      "message": "Unfortunately there are different requirements for writing commit messages compared to Critique descriptions:\n\nhttps://review.opendev.org/Documentation/dev-contributing.html#commit-message\n\nUnfortunately we don\u0027t have an automated check for this. :-(\n\nI am surprised that it is not documented, but the first line of the commit message must not end with a full stop.",
+      "revId": "b03c5e945c39a4a8de3d838f2b262502306a59ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9965da6d_8cc3a763",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-05T13:44:25Z",
+      "side": 1,
+      "message": "Thanks for the first fix!!!",
+      "revId": "b03c5e945c39a4a8de3d838f2b262502306a59ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

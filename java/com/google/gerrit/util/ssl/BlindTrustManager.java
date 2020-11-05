@@ -15,7 +15,6 @@
 package com.google.gerrit.util.ssl;
 
 import java.security.cert.X509Certificate;
-
 import javax.net.ssl.X509TrustManager;
 
 public class BlindTrustManager implements X509TrustManager {

@@ -16,24 +16,15 @@ package org.apache.commons.net.smtp;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 import com.google.gerrit.util.ssl.BlindTrustManager;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.SocketException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import javax.net.ssl.SSLParameters;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 import org.apache.commons.codec.binary.Base64;
 
 public class AuthSMTPClient extends SMTPSClient {

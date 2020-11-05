@@ -30,21 +30,34 @@ import java.util.Arrays;
 import java.util.List;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.net.util.SSLSocketUtils;
 
 public class AuthSMTPClient extends SMTPClient {
-  private String authTypes;
+  private static final char[] hexchar = {
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+  };
   boolean handshakeOnConnect;
   boolean isSSLVerificationEnabled;
+  private String authTypes;
 
   public AuthSMTPClient(boolean shouldHandshakeOnConnect, boolean sslVerificationEnabled) {
     super(UTF_8.name());
     handshakeOnConnect = shouldHandshakeOnConnect;
     isSSLVerificationEnabled = sslVerificationEnabled;
+  }
+
+  private static SSLSocketFactory sslFactory(boolean verify) {
+    if (verify) {
+      return (SSLSocketFactory) SSLSocketFactory.getDefault();
+    }
+    return (SSLSocketFactory) BlindSSLSocketFactory.getDefault();
+  }
+
+  private static String encodeBase64(byte[] data) {
+    return new String(Base64.encodeBase64(data), UTF_8);
   }
 
   @Override
@@ -92,13 +105,6 @@ public class AuthSMTPClient extends SMTPClient {
     }
     performSSLNegotiation();
     return true;
-  }
-
-  private static SSLSocketFactory sslFactory(boolean verify) {
-    if (verify) {
-      return (SSLSocketFactory) SSLSocketFactory.getDefault();
-    }
-    return (SSLSocketFactory) BlindSSLSocketFactory.getDefault();
   }
 
   @Override
@@ -184,10 +190,6 @@ public class AuthSMTPClient extends SMTPClient {
     return SMTPReply.isPositiveCompletion(sendCommand(cmd));
   }
 
-  private static final char[] hexchar = {
-    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
-  };
-
   private String toHex(byte[] b) {
     final StringBuilder sec = new StringBuilder();
     for (byte c : b) {
@@ -204,9 +206,5 @@ public class AuthSMTPClient extends SMTPClient {
     String token = '\0' + smtpUser + '\0' + smtpPass;
     String cmd = "PLAIN " + encodeBase64(token.getBytes(UTF_8));
     return SMTPReply.isPositiveCompletion(sendCommand("AUTH", cmd));
-  }
-
-  private static String encodeBase64(byte[] data) {
-    return new String(Base64.encodeBase64(data), UTF_8);
   }
 }

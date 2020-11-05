@@ -16,69 +16,67 @@ package org.apache.commons.net.smtp;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import com.google.gerrit.util.ssl.BlindTrustManager;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.SocketException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import javax.net.ssl.SSLParameters;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 import org.apache.commons.codec.binary.Base64;
 
-public class AuthSMTPClient extends SMTPClient {
+/**
+ * SMTP Client with authentication support and optional SSL processing and verification. {@link
+ * org.apache.commons.net.smtp.SMTPSClient} is used for the SSL handshake and hostname verification.
+ *
+ * <p>If shouldHandshakeOnConnect mode is selected, SSL/TLS negotiation starts right after the
+ * connection has been established. Otherwise SSL/TLS negotiation will only occur if {@link
+ * AuthSMTPClient#execTLS} is explicitly called and the server accepts the command.
+ *
+ * <p>Examples:
+ *
+ * <ul>
+ *   <li>For SSL connection:
+ *       <pre>
+ *       AuthSMTPClient c = new AuthSMTPClient(true, sslVerify);
+ *       c.connect("127.0.0.1", 465);
+ *     </pre>
+ *   <li>For TLS connection:
+ *       <pre>
+ *       AuthSMTPClient c = new AuthSMTPClient(false, sslVerify);
+ *       c.connect("127.0.0.1", 25);
+ *       if (c.execTLS()) { /rest of the commands here/ }
+ *     </pre>
+ *   <li>If SSL encryption is not required:
+ *       <pre>
+ *       AuthSMTPClient c = new AuthSMTPClient(false, false);
+ *       c.connect("127.0.0.1", port);
+ *     </pre>
+ */
+public class AuthSMTPClient extends SMTPSClient {
+
   private String authTypes;
 
-  public AuthSMTPClient(String charset) {
-    super(charset);
-  }
-
-  public void enableSSL(boolean verify) {
-    _socketFactory_ = sslFactory(verify);
-  }
-
-  public boolean startTLS(String hostname, int port, boolean verify)
-      throws SocketException, IOException {
-    if (sendCommand("STARTTLS") != 220) {
-      return false;
+  /**
+   * Constructs AuthSMTPClient.
+   *
+   * @param shouldHandshakeOnConnect the SSL processing mode, {@code true} if SSL negotiation should
+   *     start right after connect, {@code false} if it will be started by the user explicitly or
+   *     SSL negotiation is not required.
+   * @param sslVerificationEnabled {@code true} if the SMTP server's SSL certificate and hostname
+   *     should be verified, {@code false} otherwise.
+   */
+  public AuthSMTPClient(boolean shouldHandshakeOnConnect, boolean sslVerificationEnabled) {
+    // If SSL Encryption is required, SMTPSClient is used for the handshake.
+    // Otherwise, use  SMTPSClient in 'explicit' mode without calling execTLS().
+    // See SMTPSClient._connectAction_ in commons-net-3.6.
+    super("TLS", shouldHandshakeOnConnect, UTF_8.name());
+    this.setEndpointCheckingEnabled(sslVerificationEnabled);
+    if (!sslVerificationEnabled) {
+      this.setTrustManager(new BlindTrustManager());
     }
-
-    _socket_ = sslFactory(verify).createSocket(_socket_, hostname, port, true);
-
-    if (verify) {
-      SSLParameters sslParams = new SSLParameters();
-      sslParams.setEndpointIdentificationAlgorithm("HTTPS");
-      ((SSLSocket) _socket_).setSSLParameters(sslParams);
-    }
-
-    // XXX: Can't call _connectAction_() because SMTP server doesn't
-    // give banner information again after STARTTLS, thus SMTP._connectAction_()
-    // will wait on __getReply() forever, see source code of commons-net-2.2.
-    //
-    // The lines below are copied from SocketClient._connectAction_() and
-    // SMTP._connectAction_() in commons-net-2.2.
-    _socket_.setSoTimeout(_timeout_);
-    _input_ = _socket_.getInputStream();
-    _output_ = _socket_.getOutputStream();
-    _reader = new BufferedReader(new InputStreamReader(_input_, UTF_8));
-    _writer = new BufferedWriter(new OutputStreamWriter(_output_, UTF_8));
-    return true;
-  }
-
-  private static SSLSocketFactory sslFactory(boolean verify) {
-    if (verify) {
-      return (SSLSocketFactory) SSLSocketFactory.getDefault();
-    }
-    return (SSLSocketFactory) BlindSSLSocketFactory.getDefault();
   }
 
   @Override

@@ -347,34 +347,34 @@ public class SmtpEmailSender implements EmailSender {
     String htmlTransferEncoding = htmlPart.equals(encodedHtmlPart) ? "7bit" : "quoted-printable";
 
     return
-    // Output the text part:
-    "--"
-        + boundary
-        + "\r\n"
-        + "Content-Type: text/plain; charset=UTF-8\r\n"
-        + "Content-Transfer-Encoding: "
-        + textTransferEncoding
-        + "\r\n"
-        + "\r\n"
-        + encodedTextPart
-        + "\r\n"
+        // Output the text part:
+        "--"
+            + boundary
+            + "\r\n"
+            + "Content-Type: text/plain; charset=UTF-8\r\n"
+            + "Content-Transfer-Encoding: "
+            + textTransferEncoding
+            + "\r\n"
+            + "\r\n"
+            + encodedTextPart
+            + "\r\n"
 
-        // Output the HTML part:
-        + "--"
-        + boundary
-        + "\r\n"
-        + "Content-Type: text/html; charset=UTF-8\r\n"
-        + "Content-Transfer-Encoding: "
-        + htmlTransferEncoding
-        + "\r\n"
-        + "\r\n"
-        + encodedHtmlPart
-        + "\r\n"
+            // Output the HTML part:
+            + "--"
+            + boundary
+            + "\r\n"
+            + "Content-Type: text/html; charset=UTF-8\r\n"
+            + "Content-Transfer-Encoding: "
+            + htmlTransferEncoding
+            + "\r\n"
+            + "\r\n"
+            + encodedHtmlPart
+            + "\r\n"
 
-        // Output the closing boundary.
-        + "--"
-        + boundary
-        + "--\r\n";
+            // Output the closing boundary.
+            + "--"
+            + boundary
+            + "--\r\n";
   }
 
   protected String quotedPrintableEncode(String input) throws IOException {
@@ -392,11 +392,7 @@ public class SmtpEmailSender implements EmailSender {
   }
 
   private SMTPClient open() throws EmailException {
-    final AuthSMTPClient client = new AuthSMTPClient(UTF_8.name());
-
-    if (smtpEncryption == Encryption.SSL) {
-      client.enableSSL(sslVerify);
-    }
+    final AuthSMTPClient client = new AuthSMTPClient(smtpEncryption == Encryption.SSL, sslVerify);
 
     client.setConnectTimeout(connectTimeout);
     try {
@@ -412,7 +408,7 @@ public class SmtpEmailSender implements EmailSender {
       }
 
       if (smtpEncryption == Encryption.TLS) {
-        if (!client.startTLS(smtpHost, smtpPort, sslVerify)) {
+        if (!client.execTLS()) {
           throw new EmailException("SMTP server does not support TLS");
         }
         if (!client.login()) {

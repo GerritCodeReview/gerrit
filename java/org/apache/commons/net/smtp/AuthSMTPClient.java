@@ -17,6 +17,7 @@ package org.apache.commons.net.smtp;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
+import com.google.gerrit.util.ssl.BlindTrustManager;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -35,50 +36,18 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import org.apache.commons.codec.binary.Base64;
 
-public class AuthSMTPClient extends SMTPClient {
+public class AuthSMTPClient extends SMTPSClient {
   private String authTypes;
 
-  public AuthSMTPClient(String charset) {
-    super(charset);
-  }
-
-  public void enableSSL(boolean verify) {
-    _socketFactory_ = sslFactory(verify);
-  }
-
-  public boolean startTLS(String hostname, int port, boolean verify)
-      throws SocketException, IOException {
-    if (sendCommand("STARTTLS") != 220) {
-      return false;
+  public AuthSMTPClient(boolean shouldHandshakeOnConnect, boolean sslVerificationEnabled) {
+    // If SSL Encryption is required, SMTPSClient is used for the handshake.
+    // Otherwise, use  SMTPSClient in 'explicit' mode without calling execTLS().
+    // See SMTPSClient._connectAction_ in commons-net-3.6.
+    super("TLS", shouldHandshakeOnConnect, UTF_8.name());
+    this.setEndpointCheckingEnabled(sslVerificationEnabled);
+    if (!sslVerificationEnabled) {
+      this.setTrustManager(new BlindTrustManager());
     }
-
-    _socket_ = sslFactory(verify).createSocket(_socket_, hostname, port, true);
-
-    if (verify) {
-      SSLParameters sslParams = new SSLParameters();
-      sslParams.setEndpointIdentificationAlgorithm("HTTPS");
-      ((SSLSocket) _socket_).setSSLParameters(sslParams);
-    }
-
-    // XXX: Can't call _connectAction_() because SMTP server doesn't
-    // give banner information again after STARTTLS, thus SMTP._connectAction_()
-    // will wait on __getReply() forever, see source code of commons-net-2.2.
-    //
-    // The lines below are copied from SocketClient._connectAction_() and
-    // SMTP._connectAction_() in commons-net-2.2.
-    _socket_.setSoTimeout(_timeout_);
-    _input_ = _socket_.getInputStream();
-    _output_ = _socket_.getOutputStream();
-    _reader = new BufferedReader(new InputStreamReader(_input_, UTF_8));
-    _writer = new BufferedWriter(new OutputStreamWriter(_output_, UTF_8));
-    return true;
-  }
-
-  private static SSLSocketFactory sslFactory(boolean verify) {
-    if (verify) {
-      return (SSLSocketFactory) SSLSocketFactory.getDefault();
-    }
-    return (SSLSocketFactory) BlindSSLSocketFactory.getDefault();
   }
 
   @Override

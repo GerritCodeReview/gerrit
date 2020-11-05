@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf2efed9_20b55ac0",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-05T12:02:57Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "277e85ec_6007123f",
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c07b477_35fff739",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-11-04T13:25:32Z",
       "side": 0,
       "message": "Please add documentation to this class.",
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05d4334a_445490f6",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffWeigher.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-05T12:02:57Z",
+      "side": 0,
+      "message": "mmm no need for javadoc IMO, the class is self explaining.",
+      "parentUuid": "0c07b477_35fff739",
       "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

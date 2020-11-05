@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c603a01c_e6f5f496",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-05T17:24:14Z",
+      "side": 1,
+      "message": "As discussed, let\u0027s focus on the parent change first.\n\nRemoving myself and Dmitrii from the attention set.",
+      "revId": "3a7dff269f0c4dcba25fdb44e5f1420c191d6a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

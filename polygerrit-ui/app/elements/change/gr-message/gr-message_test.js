@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-message.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const basicFixture = fixtureFromElement('gr-message');
 
@@ -226,6 +227,45 @@ suite('gr-message tests', () => {
 
       assert.isTrue(stub.called);
       assert.deepEqual(stub.lastCall.args[0].detail, {id: element.message.id});
+    });
+
+    suite('uploaded patchset X message navigates to X - 1 vs  X', () => {
+      let navStub;
+      setup(() => {
+        element.change = {changeNum: 12345};
+        navStub = sinon.stub(GerritNav, 'navigateToChange');
+      });
+
+      test('Patchset 1 navigates to Base', () => {
+        element.message = {
+          message: 'Uploaded patch set 1.',
+        };
+        element._handleViewPatchsetDiff(new MouseEvent('click'));
+        assert.isTrue(navStub.calledWithExactly({changeNum: 12345}, 1,
+            'PARENT'));
+      });
+
+      test('Patchset X navigates to X vs X - 1', () => {
+        element.message = {
+          message: 'Uploaded patch set 2.',
+        };
+        element._handleViewPatchsetDiff(new MouseEvent('click'));
+        assert.isTrue(navStub.calledWithExactly({changeNum: 12345}, 2, 1));
+
+        element.message = {
+          message: 'Uploaded patch set 200.',
+        };
+        element._handleViewPatchsetDiff(new MouseEvent('click'));
+        assert.isTrue(navStub.calledWithExactly({changeNum: 12345}, 200, 199));
+      });
+
+      test('invalid patchset does not cause navigation', () => {
+        element.message = {
+          message: 'Uploaded patch set XYZ.',
+        };
+        element._handleViewPatchsetDiff(new MouseEvent('click'));
+        assert.isFalse(navStub.called);
+      });
     });
 
     suite('compute messages', () => {

@@ -33,6 +33,23 @@
       "message": "I\u0027ve manually verified that the CI job still checks against Java 8.",
       "revId": "b89332d7c726fcc14ab87c1bb7fda91afce43179",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f639b873_58a7a7d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-05T11:25:45Z",
+      "side": 1,
+      "message": "Seems like doc is pointing to wrong command for java 8 bazel build... \n\n  $ bazel build --java_toolchain //tools:error_prone_warnings_toolchain_java8 :release\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-bazel.html ",
+      "revId": "b89332d7c726fcc14ab87c1bb7fda91afce43179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

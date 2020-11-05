@@ -39,7 +39,7 @@ import {CustomKeyboardEvent} from '../../../types/events';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
 
 // Possible static search options for auto complete, without negations.
-const SEARCH_OPERATORS = [
+const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'added:',
   'age:',
   'age:1week', // Give an example age
@@ -117,7 +117,7 @@ const SEARCH_OPERATORS = [
 ];
 
 // All of the ops, with corresponding negations.
-const SEARCH_OPERATORS_WITH_NEGATIONS_SET = new Set(
+const SEARCH_OPERATORS_WITH_NEGATIONS_SET: ReadonlySet<string> = new Set(
   SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`))
 );
 
@@ -148,6 +148,8 @@ export class GrSearchBar extends KeyboardShortcutMixin(
   static get template() {
     return htmlTemplate;
   }
+
+  private searchOperators = new Set(SEARCH_OPERATORS_WITH_NEGATIONS_SET);
 
   /**
    * Fired when a search is committed
@@ -203,7 +205,7 @@ export class GrSearchBar extends KeyboardShortcutMixin(
         mergeability ===
           MergeabilityComputationBehavior.REF_UPDATED_AND_CHANGE_REINDEX
       ) {
-        // add 'is:mergeable' to SEARCH_OPERATORS_WITH_NEGATIONS_SET
+        // add 'is:mergeable' to searchOperators
         this._addOperator('is:mergeable');
       }
       if (serverConfig) {
@@ -225,9 +227,9 @@ export class GrSearchBar extends KeyboardShortcutMixin(
   }
 
   _addOperator(name: string, include_neg = true) {
-    SEARCH_OPERATORS_WITH_NEGATIONS_SET.add(name);
+    this.searchOperators.add(name);
     if (include_neg) {
-      SEARCH_OPERATORS_WITH_NEGATIONS_SET.add(`-${name}`);
+      this.searchOperators.add(`-${name}`);
     }
   }
 
@@ -264,9 +266,9 @@ export class GrSearchBar extends KeyboardShortcutMixin(
     if (!this._inputVal) return;
     const trimmedInput = this._inputVal.trim();
     if (trimmedInput) {
-      const predefinedOpOnlyQuery = [
-        ...SEARCH_OPERATORS_WITH_NEGATIONS_SET,
-      ].some(op => op.endsWith(':') && op === trimmedInput);
+      const predefinedOpOnlyQuery = [...this.searchOperators].some(
+        op => op.endsWith(':') && op === trimmedInput
+      );
       if (predefinedOpOnlyQuery) {
         return;
       }
@@ -319,7 +321,7 @@ export class GrSearchBar extends KeyboardShortcutMixin(
 
       default:
         return Promise.resolve(
-          [...SEARCH_OPERATORS_WITH_NEGATIONS_SET]
+          [...this.searchOperators]
             .filter(operator => operator.includes(input))
             .map(operator => {
               return {text: operator};

@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-cursor-manager.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {CursorMoveResult} from './gr-cursor-manager.js';
+import {AbortStop, CursorMoveResult} from './gr-cursor-manager.js';
 
 const basicTestFixutre = fixtureFromTemplate(html`
     <gr-cursor-manager cursor-target-class="targeted"></gr-cursor-manager>
@@ -48,7 +48,7 @@ suite('gr-cursor-manager tests', () => {
     assert.isNotOk(element.target);
 
     // Initialize the cursor with its stops.
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
 
     // It should have the stops but it should not be targeting any of them.
     assert.isNotNull(element.stops);
@@ -104,7 +104,7 @@ suite('gr-cursor-manager tests', () => {
     const newLi = document.createElement('li');
     newLi.textContent = 'Z';
     list.insertBefore(newLi, list.children[0]);
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
 
     assert.equal(element.index, 1);
 
@@ -118,7 +118,7 @@ suite('gr-cursor-manager tests', () => {
   });
 
   test('next() goes to first element when no cursor is set', () => {
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
     const result = element.next();
 
     assert.equal(result, CursorMoveResult.MOVED);
@@ -139,29 +139,6 @@ suite('gr-cursor-manager tests', () => {
     assert.isFalse(list.children[1].classList.contains('targeted'));
     assert.isFalse(element.isAtStart());
     assert.isFalse(element.isAtEnd());
-  });
-
-  test('next() with abort', () => {
-    element.stops = list.querySelectorAll('li');
-    element.setCursor(list.children[0]);
-
-    const result = element.next({abort: row => row.textContent === 'B'});
-
-    assert.equal(result, CursorMoveResult.ABORTED);
-    assert.equal(element.index, 0);
-  });
-
-  test('next() aborts even when stop would be filtered', () => {
-    element.stops = list.querySelectorAll('li');
-    element.setCursor(list.children[0]);
-
-    const result = element.next({
-      abort: row => row.textContent === 'B',
-      filter: row => row.textContent === 'C',
-    });
-
-    assert.equal(result, CursorMoveResult.ABORTED);
-    assert.equal(element.index, 0);
   });
 
   test('previous() goes to last element when no cursor is set', () => {
@@ -191,7 +168,7 @@ suite('gr-cursor-manager tests', () => {
 
   test('_moveCursor', () => {
     // Initialize the cursor with its stops.
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
     // Select the first stop.
     element.setCursor(list.children[0]);
     const getTargetHeight = sinon.stub();
@@ -215,7 +192,7 @@ suite('gr-cursor-manager tests', () => {
   test('setCursorAtIndex with noScroll', () => {
     sinon.stub(element, '_targetIsVisible').callsFake(() => false);
     const scrollStub = sinon.stub(window, 'scrollTo');
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
     element.scrollMode = 'keep-visible';
 
     element.setCursorAtIndex(1, true);
@@ -229,7 +206,7 @@ suite('gr-cursor-manager tests', () => {
     const isLetterB = function(row) {
       return row.textContent === 'B';
     };
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
     // Start cursor at the first stop.
     element.setCursor(list.children[0]);
 
@@ -256,7 +233,7 @@ suite('gr-cursor-manager tests', () => {
   });
 
   test('focusOnMove prop', () => {
-    const listEls = list.querySelectorAll('li');
+    const listEls = [...list.querySelectorAll('li')];
     for (let i = 0; i < listEls.length; i++) {
       sinon.spy(listEls[i], 'focus');
     }
@@ -275,7 +252,7 @@ suite('gr-cursor-manager tests', () => {
   suite('_scrollToTarget', () => {
     let scrollStub;
     setup(() => {
-      element.stops = list.querySelectorAll('li');
+      element.stops = [...list.querySelectorAll('li')];
       element.scrollMode = 'keep-visible';
 
       // There is a target which has a targetNext
@@ -337,6 +314,52 @@ suite('gr-cursor-manager tests', () => {
       });
       assert.equal(element._calculateScrollToValue(1000, {offsetHeight: 10}),
           905);
+    });
+  });
+
+  suite('AbortStops', () => {
+    test('next() does not skip AbortStops', () => {
+      element.stops = [
+        document.createElement('li'),
+        new AbortStop(),
+        document.createElement('li'),
+      ];
+      element.setCursorAtIndex(0);
+
+      const result = element.next();
+
+      assert.equal(result, CursorMoveResult.ABORTED);
+      assert.equal(element.index, 0);
+    });
+
+    test('setCursorAtIndex() does not target AbortStops', () => {
+      element.stops = [
+        document.createElement('li'),
+        new AbortStop(),
+        document.createElement('li'),
+      ];
+      element.setCursorAtIndex(1);
+      assert.equal(element.index, -1);
+    });
+
+    test('moveToStart() does not target AbortStop', () => {
+      element.stops = [
+        new AbortStop(),
+        document.createElement('li'),
+        document.createElement('li'),
+      ];
+      element.moveToStart();
+      assert.equal(element.index, -1);
+    });
+
+    test('moveToEnd() does not target AbortStop', () => {
+      element.stops = [
+        document.createElement('li'),
+        document.createElement('li'),
+        new AbortStop(),
+      ];
+      element.moveToEnd();
+      assert.equal(element.index, -1);
     });
   });
 });

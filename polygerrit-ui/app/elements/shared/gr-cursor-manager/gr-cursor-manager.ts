@@ -56,7 +56,7 @@ export class GrCursorManager extends GestureEventListeners(
     return htmlTemplate;
   }
 
-  @property({type: Object, notify: true})
+  @property({type: Object, notify: true, readOnly: true})
   target: HTMLElement | null = null;
 
   /**

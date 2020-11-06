@@ -76,7 +76,12 @@ export class GrDiffCursor extends GestureEventListeners(
   @property({type: String})
   side = Side.RIGHT;
 
-  @property({type: Object, notify: true, observer: '_rowChanged'})
+  @property({
+    type: Object,
+    notify: true,
+    observer: '_rowChanged',
+    readOnly: true,
+  })
   diffRow?: HTMLElement;
 
   @property({type: Object})

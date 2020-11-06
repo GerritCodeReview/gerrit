@@ -107,6 +107,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99cba9cc_57f343e9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-11-06T13:27:41Z",
+      "side": 1,
+      "message": "I added some blank lines, hope it helps with overview. I would also prefer if the context controls were their own component, but I am not sure how to make that work with it having to fit table rows into a surrounding table as direct children, without a component element between. Maybe there is some clever slotting / transclusion magic that could be applied, but I am too unfamiliar with Polymer to attempt this right now.",
+      "parentUuid": "0d4563cc_a10b7f81",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecddca51_474c2cd4",
@@ -215,6 +233,30 @@
       "side": 1,
       "message": "Maybe go for a calc of --line-height-normal + --spacing-s? I think that would express better what you are trying to accomplish here. You could add a comment explaining that the line-height is for the button and the spacing-s is for a bit of padding.",
       "parentUuid": "92908aef_652291e4",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 18
+      },
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6242e42_04599266",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-11-06T13:27:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9c508c2_d862f557",
       "range": {
         "startLine": 241,
         "startChar": 6,
@@ -356,6 +398,24 @@
       "side": 1,
       "message": "Applying `display:flex` to a \u003ctd\u003e is a bit weird anyway. I would recommend to put a container \u003cdiv\u003e inside the \u003ctd\u003e and apply styles to that. Maybe then you problem with colspan\u003d4 also goes away?",
       "parentUuid": "b3f76667_1b623174",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e9ba200_e8f2f90e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-11-06T13:27:41Z",
+      "side": 1,
+      "message": "This now works without any colspan. I don\u0027t see a huge problem with display: flex inside the td directly; without it, I would need the colspan, an additional div inside the td, and then still display: flex on the div; that does not seem like an improvement to me.",
+      "parentUuid": "4655e96f_2352b3bd",
       "revId": "be5c46621652d61ab8518993731206b7d466cbda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

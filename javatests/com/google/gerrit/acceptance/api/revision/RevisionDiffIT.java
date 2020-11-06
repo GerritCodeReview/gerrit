@@ -452,6 +452,57 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void diffWithThreeParentsMergeCommitChange() throws Exception {
+    // Create a merge commit of 3 files: foo, bar, baz. The merge commit is pointing to 3 different
+    // parents: the merge commit contains foo of parent1, bar of parent2 and baz of parent3.
+    PushOneCommit.Result r =
+        createNParentsMergeCommitChange("refs/for/master", ImmutableList.of("foo", "bar", "baz"));
+
+    DiffInfo diff;
+
+    // parent 1
+    Map<String, FileInfo> changedFiles = gApi.changes().id(r.getChangeId()).current().files(1);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, MERGE_LIST, "bar", "baz");
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "foo").withParent(1).get();
+    assertThat(diff.diffHeader).isNull();
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "bar").withParent(1).get();
+    assertThat(diff.diffHeader).hasSize(4);
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "baz").withParent(1).get();
+    assertThat(diff.diffHeader).hasSize(4);
+
+    // parent 2
+    changedFiles = gApi.changes().id(r.getChangeId()).current().files(2);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, MERGE_LIST, "foo", "baz");
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "foo").withParent(2).get();
+    assertThat(diff.diffHeader).hasSize(4);
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "bar").withParent(2).get();
+    assertThat(diff.diffHeader).isNull();
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "baz").withParent(2).get();
+    assertThat(diff.diffHeader).hasSize(4);
+
+    // parent 3
+    changedFiles = gApi.changes().id(r.getChangeId()).current().files(3);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, MERGE_LIST, "foo", "bar");
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "foo").withParent(3).get();
+    assertThat(diff.diffHeader).hasSize(4);
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "bar").withParent(3).get();
+    assertThat(diff.diffHeader).hasSize(4);
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "baz").withParent(3).get();
+    assertThat(diff.diffHeader).isNull();
+  }
+
+  @Test
+  public void diffWithThreeParentsMergeCommitAgainstAutoMergeIsNotSupported() throws Exception {
+    PushOneCommit.Result r =
+        createNParentsMergeCommitChange("refs/for/master", ImmutableList.of("foo", "bar", "baz"));
+
+    // Diff against auto-merge returns COMMIT_MSG and MERGE_LIST only
+    // todo(ghareeb): We could throw an exception in this case for better handling at the client.
+    Map<String, FileInfo> changedFiles = gApi.changes().id(r.getChangeId()).current().files();
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, MERGE_LIST);
+  }
+
+  @Test
   public void diffBetweenPatchSetsOfMergeCommitCanBeRetrievedForCommitMessageAndMergeList()
       throws Exception {
     PushOneCommit.Result result = createMergeCommitChange("refs/for/master", "my_file.txt");

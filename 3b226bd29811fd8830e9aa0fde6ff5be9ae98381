@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "08481e77_672c14f1",
         "filename": "/COMMIT_MSG",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "I am wondering if there is some overall arch to these changes.\nWhat is the motivation behind adding the abort/skip/not-skip loading diffs?",
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "a22d0567_fc81710f",
         "filename": "/COMMIT_MSG",
@@ -32,10 +33,10 @@
       "message": "Yes, always difficult to find a good place to explain the arch for a series of changes. \n\nThe motivation is basically what is described in this CL description: If you have 3 files, and the middle one is very large, and you expand all on the CL page, and then cursor through the changes, it would basically skip over the second file and go straight to the third if the second was still loading. This can cause you to miss critical changes. To prevent that from happening, I am disallowing to skip over loading diffs.\n\nAfter this change, there might be more follow up to make the UX of this more obvious, such as showing a toast \"Cannot go to next change because it\u0027s not done loading yet\". This needs to be discussed with UX.",
       "parentUuid": "08481e77_672c14f1",
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9f79e0e1_5cbf3966",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
@@ -55,10 +56,34 @@
         "endChar": 19
       },
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16c2e799_e6c34682",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-06T20:23:36Z",
+      "side": 1,
+      "message": "Thanks for thinking of this.\n\nI think this does not need to be updated though: `moveToVisibleArea` is not really advancing the cursor but rather setting it to a line in the middle of the screen. \n\nFrom the user\u0027s perspective, if there is code loading before or after the middle of the screen, they would still want to jump to the middle of the screen - they are purposely \"jumping\" somewhere, and skipping loading things along the way is not a problem.\n\nThis is similar to moveToLineNumber/setCursor.\n\nMaybe this should be called \"jumpToVisibleArea\" or something like that to make this difference more clear.",
+      "parentUuid": "9f79e0e1_5cbf3966",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 19
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "168d7e43_af2637c6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
@@ -78,10 +103,34 @@
         "endChar": 9
       },
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25609f8b_0e36a782",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-06T20:23:36Z",
+      "side": 1,
+      "message": "Of course. Good catch.",
+      "parentUuid": "168d7e43_af2637c6",
+      "range": {
+        "startLine": 446,
+        "startChar": 4,
+        "endLine": 450,
+        "endChar": 9
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "9f0529c5_e23109b1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
@@ -101,10 +150,10 @@
         "endChar": 66
       },
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "276746de_0a52bea0",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
@@ -125,10 +174,10 @@
         "endChar": 66
       },
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "03ecb443_0b10b6b8",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
@@ -149,10 +198,10 @@
         "endChar": 66
       },
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7afeb892_7e921856",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
@@ -173,10 +222,34 @@
         "endChar": 66
       },
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6fcd06d_18d0875d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-06T20:23:36Z",
+      "side": 1,
+      "message": "Turns out it\u0027s contained in the meta data of the diff response. Using that.",
+      "parentUuid": "7afeb892_7e921856",
+      "range": {
+        "startLine": 463,
+        "startChar": 64,
+        "endLine": 463,
+        "endChar": 66
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "a0b499dd_fd03c589",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
@@ -196,10 +269,34 @@
         "endChar": 5
       },
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "912e735e_b454433f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-06T20:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0b499dd_fd03c589",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 5
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "17513d76_4b60d2d9",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
@@ -219,10 +316,34 @@
         "endChar": 35
       },
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8291f422_1eb31037",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-06T20:23:36Z",
+      "side": 1,
+      "message": "I changed the approach significantly, and added tests for moveToStart/End. Nothing really changes for isAtEnd, because the Loading sentinel now cannot be targeted, and so the situation that it\u0027s last and targeted cannot happen.",
+      "parentUuid": "17513d76_4b60d2d9",
+      "range": {
+        "startLine": 473,
+        "startChar": 14,
+        "endLine": 473,
+        "endChar": 35
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "ede126b8_5fc7df0b",
         "filename": "polygerrit-ui/app/test/test-utils.js",
@@ -242,10 +363,34 @@
         "endChar": 12
       },
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8119968c_6a8fd46c",
+        "filename": "polygerrit-ui/app/test/test-utils.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-06T20:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ede126b8_5fc7df0b",
+      "range": {
+        "startLine": 148,
+        "startChar": 7,
+        "endLine": 148,
+        "endChar": 12
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "9a5a10ae_18b63ae7",
         "filename": "polygerrit-ui/app/test/test-utils.js",
@@ -265,10 +410,34 @@
         "endChar": 54
       },
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9243264f_273c86b5",
+        "filename": "polygerrit-ui/app/test/test-utils.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-06T20:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5a10ae_18b63ae7",
+      "range": {
+        "startLine": 152,
+        "startChar": 40,
+        "endLine": 152,
+        "endChar": 54
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c7ff5a15_c7edaf90",
         "filename": "polygerrit-ui/app/test/test-utils.js",
@@ -288,8 +457,31 @@
         "endChar": 51
       },
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cae9eb27_afa7fe05",
+        "filename": "polygerrit-ui/app/test/test-utils.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-06T20:23:36Z",
+      "side": 1,
+      "message": "Thanks, good point.",
+      "parentUuid": "c7ff5a15_c7edaf90",
+      "range": {
+        "startLine": 154,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 51
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

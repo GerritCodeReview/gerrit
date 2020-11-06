@@ -121,3 +121,25 @@ export function createIronOverlayBackdropStyleEl() {
   );
   return ironOverlayBackdropStyleEl;
 }
+
+/**
+ * Promisify an event callback to simplify async...await tests.
+ *
+ * Use like this:
+ *   await listenOnce(el, 'render');
+ *   ...
+ */
+export function listenOnce(el: EventTarget, eventType: string) {
+  return new Promise(resolve => {
+    const listener = () => {
+      removeEventListener();
+      resolve();
+    };
+    el.addEventListener(eventType, listener);
+    let removeEventListener = () => {
+      el.removeEventListener(eventType, listener);
+      removeEventListener = () => {};
+    };
+    registerTestCleanup(removeEventListener);
+  });
+}

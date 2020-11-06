@@ -18,7 +18,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
@@ -46,7 +48,10 @@ public class ListPortedDrafts implements RestReadView<RevisionResource> {
 
   @Override
   public Response<Map<String, List<CommentInfo>>> apply(RevisionResource revisionResource)
-      throws PermissionBackendException {
+      throws PermissionBackendException, RestApiException {
+    if (!revisionResource.getUser().isIdentifiedUser()) {
+      throw new AuthException("requires authentication; only authenticated users can have drafts");
+    }
     PatchSet targetPatchset = revisionResource.getPatchSet();
 
     List<HumanComment> draftComments =

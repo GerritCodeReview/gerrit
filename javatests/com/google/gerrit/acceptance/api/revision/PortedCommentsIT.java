@@ -20,6 +20,7 @@ import static com.google.common.collect.MoreCollectors.onlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommentInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommentInfoSubject.assertThatList;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
 
 import com.google.common.collect.ImmutableList;
@@ -37,6 +38,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
@@ -493,6 +495,25 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
     assertThat(portedComment).author().id().isEqualTo(authorId.get());
+  }
+
+  @Test
+  public void anonymousUsersGetAuthExceptionForPortedDrafts() throws Exception {
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchsetId = changeOps.change(changeId).currentPatchset().get().patchsetId();
+
+    requestScopeOps.setApiUserAnonymous();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.changes()
+                    .id(patchsetId.changeId().get())
+                    .revision(patchsetId.get())
+                    .portedDrafts());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("requires authentication; only authenticated users can have drafts");
   }
 
   @Test

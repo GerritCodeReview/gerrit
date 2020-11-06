@@ -281,18 +281,18 @@ export class GrJsApiInterface
    * provider, the first one is returned. If no plugin offers a coverage provider,
    * will resolve to null.
    */
-  getCoverageAnnotationApi(): Promise<
-    GrAnnotationActionsInterface | undefined
-  > {
+  getCoverageAnnotationApis(): Promise<GrAnnotationActionsInterface[]> {
     return getPluginLoader()
       .awaitPluginsLoaded()
-      .then(
-        () =>
-          this._getEventCallbacks(EventType.ANNOTATE_DIFF).find(cb => {
-            const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
-            return annotationApi.getCoverageProvider();
-          }) as GrAnnotationActionsInterface | undefined
-      );
+      .then(() => {
+        const providers: GrAnnotationActionsInterface[] = [];
+        this._getEventCallbacks(EventType.ANNOTATE_DIFF).forEach(cb => {
+          const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
+          const provider = annotationApi.getCoverageProvider();
+          if (provider) providers.push(annotationApi);
+        });
+        return providers;
+      });
   }
 
   getAdminMenuLinks(): MenuLink[] {

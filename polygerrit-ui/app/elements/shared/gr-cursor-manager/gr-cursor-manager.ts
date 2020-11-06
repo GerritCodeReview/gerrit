@@ -212,12 +212,17 @@ export class GrCursorManager extends GestureEventListeners(
   }
 
   /**
-   * Set the cursor to an arbitrary element.
+   * Set the cursor to an arbitrary stop - if the given element is not one of
+   * the stops, unset the cursor.
    *
    * @param noScroll prevent any potential scrolling in response
    * setting the cursor.
    */
   setCursor(element: HTMLElement, noScroll?: boolean) {
+    if (!this.stops.includes(element)) {
+      this.unsetCursor();
+      return;
+    }
     let behavior;
     if (noScroll) {
       behavior = this.scrollMode;
@@ -368,7 +373,7 @@ export class GrCursorManager extends GestureEventListeners(
       return;
     }
 
-    const newIndex = Array.prototype.indexOf.call(this.stops, this.target);
+    const newIndex = this.stops.indexOf(this.target);
     if (newIndex === -1) {
       this.unsetCursor();
     } else {

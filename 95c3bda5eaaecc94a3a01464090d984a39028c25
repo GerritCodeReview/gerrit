@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd9ad349_778b4952",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-11-06T13:16:33Z",
+      "side": 1,
+      "message": "I have changed a lot of things around, most of the construction is now happening in the GrDiffBuilder base class. I hope I didn\u0027t miss anything.",
+      "revId": "95c3bda5eaaecc94a3a01464090d984a39028c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

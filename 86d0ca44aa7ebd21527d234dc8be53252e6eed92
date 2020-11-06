@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a984677e_bc9789ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-06T14:53:47Z",
+      "side": 1,
+      "message": "The fix looks good to me.",
+      "revId": "86d0ca44aa7ebd21527d234dc8be53252e6eed92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b85cb995_4ede8987",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-06T14:53:47Z",
+      "side": 1,
+      "message": "should this be\n\n  \"parent \" + i\n\n?",
+      "range": {
+        "startLine": 781,
+        "startChar": 26,
+        "endLine": 781,
+        "endChar": 27
+      },
+      "revId": "86d0ca44aa7ebd21527d234dc8be53252e6eed92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d19a1380_750e1e15",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-06T14:53:47Z",
+      "side": 1,
+      "message": "It looks like the verifications below are based on knowing implementation details of the createThreeParentsMergeCommitChange method. E.g. which files exist in the created change. The test should be readable without needing to lookup the implementation of the createThreeParentsMergeCommitChange method. Also this test will likely break if the implementation of createThreeParentsMergeCommitChange changed. I mean this method promises to create a merge change with 3 parents, but which files will be contain in the change is not part of the API contract.",
+      "revId": "86d0ca44aa7ebd21527d234dc8be53252e6eed92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0533d2bf_a123eb7a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-06T14:53:47Z",
+      "side": 1,
+      "message": "+1 sounds like a good idea",
+      "revId": "86d0ca44aa7ebd21527d234dc8be53252e6eed92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -43,6 +43,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f2c75565_920d8da9",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1119512
+      },
+      "writtenOn": "2020-11-06T20:18:56Z",
+      "side": 1,
+      "message": "nit: to me, a better comment ordering would be\n```\n// Only support auto-merge for 2 parents, not octopus merges\nif (b.getParentCount() \u003d\u003d 2) {\n```",
+      "revId": "86d0ca44aa7ebd21527d234dc8be53252e6eed92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d19a1380_750e1e15",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
         "patchSetId": 1

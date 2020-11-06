@@ -767,6 +767,39 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
+  protected PushOneCommit.Result createThreeParentsMergeCommitChange(String ref) throws Exception {
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+
+    List<PushOneCommit.Result> pushResults = new ArrayList<>();
+
+    for (int i = 1; i <= 3; i++) {
+      pushResults.add(
+          pushFactory
+              .create(
+                  admin.newIdent(),
+                  testRepo,
+                  "parent 1",
+                  ImmutableMap.of("foo", "foo-" + i, "bar", "bar-" + i, "baz", "baz-" + i))
+              .to(ref));
+
+      // reset HEAD in order to create a sibling of the first change
+      if (i < 3) {
+        testRepo.reset(initial);
+      }
+    }
+
+    PushOneCommit m =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "merge",
+            ImmutableMap.of("foo", "foo-1", "bar", "bar-2", "baz", "baz-3"));
+    m.setParents(pushResults.stream().map(PushOneCommit.Result::getCommit).collect(toList()));
+    PushOneCommit.Result result = m.to(ref);
+    result.assertOkStatus();
+    return result;
+  }
+
   protected PushOneCommit.Result createCommitAndPush(
       TestRepository<InMemoryRepository> repo,
       String ref,

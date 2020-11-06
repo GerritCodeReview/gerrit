@@ -611,15 +611,16 @@ public class PatchListLoader implements Callable<PatchList> {
           rw.parseBody(r);
           return r;
         }
-      case 2:
+      default:
         if (key.getParentNum() != null) {
           RevCommit r = b.getParent(key.getParentNum() - 1);
           rw.parseBody(r);
           return r;
         }
-        return autoMerger.merge(repo, rw, ins, b, mergeStrategy);
-      default:
-        // TODO(sop) handle an octopus merge.
+        if (b.getParentCount() == 2) {
+          return autoMerger.merge(repo, rw, ins, b, mergeStrategy);
+        }
+        // We don't handle auto-merge for octopus merges
         return null;
     }
   }

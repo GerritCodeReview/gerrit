@@ -48,7 +48,7 @@ suite('gr-cursor-manager tests', () => {
     assert.isNotOk(element.target);
 
     // Initialize the cursor with its stops.
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
 
     // It should have the stops but it should not be targeting any of them.
     assert.isNotNull(element.stops);
@@ -104,7 +104,7 @@ suite('gr-cursor-manager tests', () => {
     const newLi = document.createElement('li');
     newLi.textContent = 'Z';
     list.insertBefore(newLi, list.children[0]);
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
 
     assert.equal(element.index, 1);
 
@@ -118,7 +118,7 @@ suite('gr-cursor-manager tests', () => {
   });
 
   test('next() goes to first element when no cursor is set', () => {
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
     const result = element.next();
 
     assert.equal(result, CursorMoveResult.MOVED);
@@ -142,7 +142,7 @@ suite('gr-cursor-manager tests', () => {
   });
 
   test('next() with abort', () => {
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
     element.setCursor(list.children[0]);
 
     const result = element.next({abort: row => row.textContent === 'B'});
@@ -152,7 +152,7 @@ suite('gr-cursor-manager tests', () => {
   });
 
   test('next() aborts even when stop would be filtered', () => {
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
     element.setCursor(list.children[0]);
 
     const result = element.next({
@@ -165,7 +165,7 @@ suite('gr-cursor-manager tests', () => {
   });
 
   test('previous() goes to last element when no cursor is set', () => {
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
     const result = element.previous();
 
     assert.equal(result, CursorMoveResult.MOVED);
@@ -191,7 +191,7 @@ suite('gr-cursor-manager tests', () => {
 
   test('_moveCursor', () => {
     // Initialize the cursor with its stops.
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
     // Select the first stop.
     element.setCursor(list.children[0]);
     const getTargetHeight = sinon.stub();
@@ -215,7 +215,7 @@ suite('gr-cursor-manager tests', () => {
   test('setCursorAtIndex with noScroll', () => {
     sinon.stub(element, '_targetIsVisible').callsFake(() => false);
     const scrollStub = sinon.stub(window, 'scrollTo');
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
     element.scrollMode = 'keep-visible';
 
     element.setCursorAtIndex(1, true);
@@ -229,7 +229,7 @@ suite('gr-cursor-manager tests', () => {
     const isLetterB = function(row) {
       return row.textContent === 'B';
     };
-    element.stops = list.querySelectorAll('li');
+    element.stops = [...list.querySelectorAll('li')];
     // Start cursor at the first stop.
     element.setCursor(list.children[0]);
 
@@ -256,7 +256,7 @@ suite('gr-cursor-manager tests', () => {
   });
 
   test('focusOnMove prop', () => {
-    const listEls = list.querySelectorAll('li');
+    const listEls = [...list.querySelectorAll('li')];
     for (let i = 0; i < listEls.length; i++) {
       sinon.spy(listEls[i], 'focus');
     }
@@ -275,7 +275,7 @@ suite('gr-cursor-manager tests', () => {
   suite('_scrollToTarget', () => {
     let scrollStub;
     setup(() => {
-      element.stops = list.querySelectorAll('li');
+      element.stops = [...list.querySelectorAll('li')];
       element.scrollMode = 'keep-visible';
 
       // There is a target which has a targetNext

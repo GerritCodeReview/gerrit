@@ -16,6 +16,24 @@
       "message": "unused.",
       "revId": "86aa95f9d298a480cd2896572528f2250186364c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46995472_1eee86c0",
+        "filename": "java/com/google/gerrit/httpd/restapi/ParameterParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-06T06:37:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e396d937_3197c4c7",
+      "revId": "86aa95f9d298a480cd2896572528f2250186364c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "747ab132_8726680d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-06T09:14:25Z",
+      "side": 1,
+      "message": "RE: Verified -1, the only failing test is //javatests/com/google/gerrit/elasticsearch:elasticsearch_query_changes_test_V7 and is flaky. I triggered a re-run for the check.",
+      "revId": "e95230c2b8453489e2a3032868db4519c890488d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

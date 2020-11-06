@@ -48,6 +48,19 @@ export enum CursorMoveResult {
   ABORTED,
 }
 
+/** A sentinel that can be inserted to disallow moving across. */
+export class AbortStop {}
+
+export type Stop = HTMLElement | AbortStop;
+
+/**
+ * Type guard and checker to check if a stop can be targetted.
+ * Abort stops cannot be targetted.
+ */
+export function isTargetable(stop: Stop): stop is HTMLElement {
+  return !(stop instanceof AbortStop);
+}
+
 @customElement('gr-cursor-manager')
 export class GrCursorManager extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -95,7 +108,12 @@ export class GrCursorManager extends GestureEventListeners(
   focusOnMove = false;
 
   @property({type: Array})
-  stops: HTMLElement[] = [];
+  stops: Stop[] = [];
+
+  /** Only non-AbortStop stops. */
+  get targetableStops(): HTMLElement[] {
+    return this.stops.filter(isTargetable);
+  }
 
   /** @override */
   detached() {
@@ -106,9 +124,6 @@ export class GrCursorManager extends GestureEventListeners(
   /**
    * Move the cursor forward. Clipped to the ends of the stop list.
    *
-   * @param options.abort Will abort moving the cursor when encountering a
-   *    stop for which this condition is met. Will abort even if the stop
-   *    would have been filtered
    * @param options.filter Will keep going and skip any stops for which this
    *    condition is not met.
    * @param options.getTargetHeight Optional function to calculate the
@@ -122,7 +137,6 @@ export class GrCursorManager extends GestureEventListeners(
   next(
     options: {
       filter?: (stop: HTMLElement) => boolean;
-      abort?: (stop: HTMLElement) => boolean;
       getTargetHeight?: (target: HTMLElement) => number;
       clipToTop?: boolean;
     } = {}
@@ -133,7 +147,6 @@ export class GrCursorManager extends GestureEventListeners(
   previous(
     options: {
       filter?: (stop: HTMLElement) => boolean;
-      abort?: (stop: HTMLElement) => boolean;
     } = {}
   ): CursorMoveResult {
     return this._moveCursor(-1, options);
@@ -152,7 +165,9 @@ export class GrCursorManager extends GestureEventListeners(
     if (!this.stops || !this._isIntersectionObserverSupported()) {
       return;
     }
-    const filteredStops = condition ? this.stops.filter(condition) : this.stops;
+    const filteredStops = condition
+      ? this.targetableStops.filter(condition)
+      : this.targetableStops;
     const dims = this._getWindowDims();
     const windowCenter = Math.round(dims.innerHeight / 2);
 
@@ -219,7 +234,7 @@ export class GrCursorManager extends GestureEventListeners(
    * setting the cursor.
    */
   setCursor(element: HTMLElement, noScroll?: boolean) {
-    if (!this.stops.includes(element)) {
+    if (!this.targetableStops.includes(element)) {
       this.unsetCursor();
       return;
     }
@@ -258,18 +273,21 @@ export class GrCursorManager extends GestureEventListeners(
 
   moveToStart() {
     if (this.stops.length) {
-      this.setCursor(this.stops[0]);
+      this.setCursorAtIndex(0);
     }
   }
 
   moveToEnd() {
     if (this.stops.length) {
-      this.setCursor(this.stops[this.stops.length - 1]);
+      this.setCursorAtIndex(this.stops.length - 1);
     }
   }
 
   setCursorAtIndex(index: number, noScroll?: boolean) {
-    this.setCursor(this.stops[index], noScroll);
+    const stop = this.stops[index];
+    if (isTargetable(stop)) {
+      this.setCursor(stop, noScroll);
+    }
   }
 
   /**
@@ -294,12 +312,10 @@ export class GrCursorManager extends GestureEventListeners(
     delta: number,
     {
       filter,
-      abort,
       getTargetHeight,
       clipToTop,
     }: {
       filter?: (stop: HTMLElement) => boolean;
-      abort?: (stop: HTMLElement) => boolean;
       getTargetHeight?: (target: HTMLElement) => number;
       clipToTop?: boolean;
     } = {}
@@ -317,7 +333,7 @@ export class GrCursorManager extends GestureEventListeners(
     }
 
     let clipped = false;
-
+    let newStop: Stop;
     do {
       newIndex += delta;
       if (
@@ -325,19 +341,23 @@ export class GrCursorManager extends GestureEventListeners(
         (delta < 0 && newIndex < 0)
       ) {
         newIndex = delta < 0 || clipToTop ? 0 : this.stops.length - 1;
+        newStop = this.stops[newIndex];
         clipped = true;
         break;
       }
-      if (abort && abort(this.stops[newIndex])) {
-        newIndex = this.index;
-        return CursorMoveResult.ABORTED;
-      }
-    } while (filter && !filter(this.stops[newIndex]));
+      // Sadly needed so that type narrowing understands that this.stops[newIndex] is
+      // targetable after I have checked that.
+      newStop = this.stops[newIndex];
+    } while (isTargetable(newStop) && filter && !filter(newStop));
+
+    if (!isTargetable(newStop)) {
+      return CursorMoveResult.ABORTED;
+    }
 
     this._unDecorateTarget();
 
     this.index = newIndex;
-    this.target = this.stops[newIndex];
+    this.target = newStop;
 
     if (getTargetHeight) {
       this._targetHeight = getTargetHeight(this.target);

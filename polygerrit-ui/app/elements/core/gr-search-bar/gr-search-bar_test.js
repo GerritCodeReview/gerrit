@@ -176,11 +176,9 @@ suite('gr-search-bar tests', () => {
       });
     });
 
-    test('Autocompltes without is:mergable when disabled', done => {
-      element._getSearchSuggestions('is:mergeab').then(s => {
-        assert.equal(s.length, 0);
-        done();
-      });
+    test('Autocompletes without is:mergable when disabled', async () => {
+      const s = await element._getSearchSuggestions('is:mergeab');
+      assert.isEmpty(s);
     });
   });
 

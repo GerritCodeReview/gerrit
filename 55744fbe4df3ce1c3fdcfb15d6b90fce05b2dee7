@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eb783f2_9315538f",
+        "filename": "java/com/google/gerrit/sshd/SshCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-11-06T18:53:58Z",
+      "side": 1,
+      "message": "This is cheating, it isn\u0027t where the start is called.",
+      "range": {
+        "startLine": 56,
+        "startChar": 15,
+        "endLine": 56,
+        "endChar": 30
+      },
+      "revId": "55744fbe4df3ce1c3fdcfb15d6b90fce05b2dee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

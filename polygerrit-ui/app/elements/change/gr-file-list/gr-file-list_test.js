@@ -614,7 +614,7 @@ suite('gr-file-list tests', () => {
       test('keyboard shortcuts', () => {
         flush();
 
-        const items = element.root.querySelectorAll('.file-row');
+        const items = [...element.root.querySelectorAll('.file-row')];
         element.$.fileCursor.stops = items;
         element.$.fileCursor.setCursorAtIndex(0);
         assert.equal(items.length, 3);
@@ -670,7 +670,7 @@ suite('gr-file-list tests', () => {
         const paths = Object.keys(element._filesByPath);
         sinon.stub(element, '_expandedFilesChanged');
         flush();
-        const files = element.root.querySelectorAll('.file-row');
+        const files = [...element.root.querySelectorAll('.file-row')];
         element.$.fileCursor.stops = files;
         element.$.fileCursor.setCursorAtIndex(0);
         assert.equal(element.diffs.length, 0);

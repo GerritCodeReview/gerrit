@@ -22,6 +22,30 @@
       },
       "revId": "f4435b02b012258183e7e81c49a2100d0ca454ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "657b06a8_ee802c51",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-07T00:38:53Z",
+      "side": 1,
+      "message": "I only found it in the 2.13 release notes page so that\u0027s ok.",
+      "parentUuid": "50b3055c_e50c4dde",
+      "range": {
+        "startLine": 317,
+        "startChar": 2,
+        "endLine": 317,
+        "endChar": 23
+      },
+      "revId": "f4435b02b012258183e7e81c49a2100d0ca454ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

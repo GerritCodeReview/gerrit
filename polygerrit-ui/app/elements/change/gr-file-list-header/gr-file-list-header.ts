@@ -171,13 +171,12 @@ export class GrFileListHeader extends KeyboardShortcutMixin(
 
   @computed('loggedIn', 'change', 'account')
   get _descriptionReadOnly(): boolean {
-    // Polymer 2: check for undefined
     if (
       this.loggedIn === undefined ||
       this.change === undefined ||
       this.account === undefined
     ) {
-      return false;
+      return true;
     }
 
     return !(

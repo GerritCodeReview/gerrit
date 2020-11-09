@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05b0a087_7af7c34f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-09T14:35:38Z",
+      "side": 1,
+      "message": "The unit test doesn\u0027t seem useful, so I\u0027m fine with omitting it.\nAs for adding the test results, you can just put them in the commit message.",
+      "parentUuid": "288eb620_cd472677",
+      "revId": "d28b86aeb1a4456c83063054626e63a6aa996d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ce991fd_baff943c",

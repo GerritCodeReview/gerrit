@@ -75,6 +75,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cccbb47_cd1bf34c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-09T07:48:09Z",
+      "side": 1,
+      "message": "[optional] You may also try to use the new ChangeOperations test API to create the merge commit. Maybe that makes it easier.",
+      "parentUuid": "d19a1380_750e1e15",
+      "revId": "86d0ca44aa7ebd21527d234dc8be53252e6eed92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0533d2bf_a123eb7a",

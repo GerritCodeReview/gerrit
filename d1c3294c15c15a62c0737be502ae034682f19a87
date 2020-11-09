@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd6ceeee_ff4635a3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-11-09T09:25:24Z",
+      "side": 1,
+      "message": "I think since the default is true we should mention this limitation of privacy also in\nDocumentation/access-control.txt in section \"View Private Changes\" in order\nto ensure administrators are aware of this.",
+      "revId": "d1c3294c15c15a62c0737be502ae034682f19a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

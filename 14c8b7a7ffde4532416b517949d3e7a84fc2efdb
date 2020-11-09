@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a5ae657_0ce7235b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-09T14:40:58Z",
+      "side": 1,
+      "message": "nit: commit message titles don\u0027t end with a .",
+      "range": {
+        "startLine": 7,
+        "startChar": 68,
+        "endLine": 7,
+        "endChar": 69
+      },
+      "revId": "14c8b7a7ffde4532416b517949d3e7a84fc2efdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07416154_caa5df3f",
+        "filename": "java/org/apache/commons/net/smtp/AuthSMTPClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-09T14:40:58Z",
+      "side": 1,
+      "message": "nit: duplicate word",
+      "range": {
+        "startLine": 35,
+        "startChar": 86,
+        "endLine": 35,
+        "endChar": 87
+      },
+      "revId": "14c8b7a7ffde4532416b517949d3e7a84fc2efdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a76a6dfb_4311f3df",
+        "filename": "java/org/apache/commons/net/smtp/AuthSMTPClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-09T14:40:58Z",
+      "side": 1,
+      "message": "Who is the user in this case? The caller of methods of this class?",
+      "range": {
+        "startLine": 35,
+        "startChar": 92,
+        "endLine": 35,
+        "endChar": 96
+      },
+      "revId": "14c8b7a7ffde4532416b517949d3e7a84fc2efdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

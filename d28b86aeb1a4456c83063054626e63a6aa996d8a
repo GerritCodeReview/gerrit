@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "288eb620_cd472677",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-09T14:06:58Z",
+      "side": 1,
+      "message": "I tested it running a local gerrit host with different etc/gerrit.config options for smtp.\n\nMalicious server:\nsmtpServer \u003d wrong-mail-host.sectests.net\nsmtpServerPort \u003d 465\nsmtpEncryption \u003d SSL\npass \tsslVerify \u003d false\nfail    sslVerify \u003d true\n\nValid SSL server:\nsmtpServer \u003d smtp.laposte.net\nsmtpServerPort \u003d 465\nsmtpEncryption \u003d SSL\npass   sslVerify \u003d true/false\n\nValid TLS server:\nsmtpServer \u003d smtp.gmail.com\nsmtpServerPort \u003d 587\nsmtpEncryption \u003d TLS\npass\tsslVerify \u003d true/false\n\n\nThen I just traced the email notification to the point where SMTP server fails certificate/hostname verification or the verification passes but the server rejects gerrit local host credentials.\n\nIs there a good way to share the test results that I can include in this change?\n\n\n\nAs for the unit tests: I could set up a test for AuthSMTPClient that it calls the correct functions/constructors of SMTPSClient (Assuming SMTPSClient should be covered by it\u0027s authors already). I personally don\u0027t feel it will add much coverage value, but I will add them if you feel strongly about it.",
+      "parentUuid": "29fdcbcc_7a514372",
+      "revId": "d28b86aeb1a4456c83063054626e63a6aa996d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ce991fd_baff943c",
@@ -49,6 +67,30 @@
       "writtenOn": "2020-11-09T09:13:10Z",
       "side": 1,
       "message": "Please add javadoc (we try to add javadoc to all public classes)",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "d28b86aeb1a4456c83063054626e63a6aa996d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d4da841_979ea9c9",
+        "filename": "java/com/google/gerrit/util/ssl/BlindTrustManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-09T14:06:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ce991fd_baff943c",
       "range": {
         "startLine": 20,
         "startChar": 13,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1b21378_edc74f83",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5593,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-11-09T20:24:41Z",
+      "side": 1,
+      "message": "@Matthias (or anyone else with thoughts), should we be making this the default in Gerrit?",
+      "range": {
+        "startLine": 5592,
+        "startChar": 53,
+        "endLine": 5593,
+        "endChar": 29
+      },
+      "revId": "88a1f8a569ef5e5e44bd2d45eefdb017725ae5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

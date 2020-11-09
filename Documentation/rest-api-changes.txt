@@ -5134,6 +5134,8 @@ able to handle this situation. The same holds for drafts which are a reply to a 
 Different than the link:#get-ported-comments[Get Ported Comments] endpoint, the `author` of the
 returned comments is not filled for this endpoint as only comments of the calling user are returned.
 
+This endpoint requires authentication.
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/ported_drafts/ HTTP/1.0

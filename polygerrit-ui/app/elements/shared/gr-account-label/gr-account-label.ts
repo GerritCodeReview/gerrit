@@ -30,6 +30,7 @@ import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {fireEvent} from '../../../utils/event-util';
+import {isInvolved} from '../../../utils/change-util';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends GestureEventListeners(
@@ -260,15 +261,39 @@ export class GrAccountLabel extends GestureEventListeners(
     };
   }
 
+  _computeAttentionButtionDisabled(
+    config: ServerInfo | undefined,
+    highlight: boolean,
+    account: AccountInfo,
+    change: ChangeInfo,
+    selfAccount: AccountInfo
+  ) {
+    return (
+      !this._hasUnforcedAttention(config, highlight, account, change) ||
+      !isInvolved(change, selfAccount)
+    );
+  }
+
   _computeAttentionIconTitle(
     config: ServerInfo | undefined,
     highlight: boolean,
     account: AccountInfo,
-    change: ChangeInfo
+    change: ChangeInfo,
+    selfAccount: AccountInfo,
+    force: boolean
   ) {
-    return this._hasUnforcedAttention(config, highlight, account, change)
+    const disabled = this._computeAttentionButtionDisabled(
+      config,
+      highlight,
+      account,
+      change,
+      selfAccount
+    );
+    return !disabled
       ? 'Click to remove the user from the attention set'
-      : 'Disabled. Use "Modify" to make changes.';
+      : force
+      ? 'Disabled. Use "Modify" to make changes.'
+      : 'Disabled. Only involved users can change.';
   }
 }
 

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6acd77ac_427298b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 44
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-09T12:17:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e3bcc13_2247aaeb",
+      "revId": "c42beb16f50fc7453e535d4114e41a557683b569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2487452_1b0f0fa7",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-11-05T14:00:45Z",
       "side": 1,
       "message": "order all fields before methods",
+      "revId": "c42beb16f50fc7453e535d4114e41a557683b569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed1611d3_5b19a45a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 44
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-09T12:17:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2487452_1b0f0fa7",
       "revId": "c42beb16f50fc7453e535d4114e41a557683b569",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "329f2a5e_cbd64547",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.ts",
+        "patchSetId": 44
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-09T12:17:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35e3ca15_1aad0302",
+      "range": {
+        "startLine": 260,
+        "startChar": 12,
+        "endLine": 260,
+        "endChar": 18
+      },
+      "revId": "c42beb16f50fc7453e535d4114e41a557683b569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "955457ca_ba6f7199",
@@ -71,6 +131,24 @@
       "writtenOn": "2020-11-05T14:00:45Z",
       "side": 1,
       "message": "How is this different from getCommentThreads() in gr-comment-api?",
+      "revId": "c42beb16f50fc7453e535d4114e41a557683b569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a93be733_e2cc25de",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 44
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-09T12:17:07Z",
+      "side": 1,
+      "message": "The return type necessary is UICommentThread which is an alias of CommentThread type defined in gr-diff-host.\ngetCommentThreads() defines the type CommentThread differently which for now is not compatible.\nThere is a TODO(TS) to make these two types compatible.\nI added a comment to remove usage of this once the types are resolved.\n\nThis function was already defined in gr-diff-host. I just moved it into comment-util.",
+      "parentUuid": "955457ca_ba6f7199",
       "revId": "c42beb16f50fc7453e535d4114e41a557683b569",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

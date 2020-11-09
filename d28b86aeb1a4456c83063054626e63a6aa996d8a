@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b6568f4_c4a69d87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-09T15:36:06Z",
+      "side": 1,
+      "message": "Thanks for the pointers! I will keep this approach in mind, I agree this is probably not worth the effort.",
+      "parentUuid": "a0b3feda_2d4168f8",
+      "revId": "d28b86aeb1a4456c83063054626e63a6aa996d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ce991fd_baff943c",

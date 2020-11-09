@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0b3feda_2d4168f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-09T14:40:58Z",
+      "side": 1,
+      "message": "If you want to be extra clean, you could write a test using GreenMail (a library we use for mail tests). You\u0027d have to check to what extent you could use that to create broken SSL SMTP servers (not sure you can).\n\nI would rather not invest that time TBH.",
+      "parentUuid": "05b0a087_7af7c34f",
+      "revId": "d28b86aeb1a4456c83063054626e63a6aa996d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ce991fd_baff943c",

@@ -97,9 +97,9 @@ export class GrLabelInfo extends GestureEventListeners(
    * This method also listens on change.labels.*,
    * to trigger computation when a label is removed from the change.
    */
-  _mapLabelInfo(labelInfo: LabelInfo, account: AccountInfo) {
+  _mapLabelInfo(labelInfo?: LabelInfo, account?: AccountInfo) {
     const result: FormattedLabel[] = [];
-    if (!labelInfo || !account) {
+    if (!labelInfo) {
       return result;
     }
     if (!isDetailedLabelInfo(labelInfo)) {
@@ -152,7 +152,7 @@ export class GrLabelInfo extends GestureEventListeners(
           className: labelClassName,
           account: label,
         };
-        if (label._account_id === account._account_id) {
+        if (label._account_id === account?._account_id) {
           // Put self-votes at the top.
           result.unshift(formattedLabel);
         } else {

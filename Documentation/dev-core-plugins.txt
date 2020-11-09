@@ -170,7 +170,7 @@ Apache License Version 2.0.
 The plugin functionality has gone outside the Gerrit-related scope,
 has a clear scope or conflict with other core plugins or existing and
 planned Gerrit core features.
-
++
 NOTE: The plugin would need to remain core until the planned replacement gets
 implemented. Otherwise the feature is likely missing between the removal and
 planned implementation times.

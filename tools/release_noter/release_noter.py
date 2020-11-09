@@ -187,12 +187,14 @@ class Task(Enum):
 class Commit:
     sha1 = None
     subject = None
+    component = None
     issues = set()
 
     def reset(self, signature, task):
         if signature is not None:
             self.sha1 = signature.group(1)
             self.subject = None
+            self.component = None
             self.issues = set()
             return Task.finish_headers
         return task
@@ -238,24 +240,25 @@ def finish(commit, commits, gerrit, options, cwd):
                 if noted_commit.subject == commit.subject:
                     return Commit()
     set_component(commit, commits, cwd)
-    link_subject(commit, gerrit, options)
+    link_subject(commit, gerrit, options, cwd)
     escape_these(commit)
     return Commit()
 
 
 def set_component(commit, commits, cwd):
-    component_found = False
+    component_found = None
     for component in Components:
         for sentinel in component.value.sentinels:
-            if not component_found:
+            if component_found is None:
                 if re.match(f"{GIT_PATH}/{PLUGINS}{component.value.name.lower()}", cwd):
-                    component_found = True
+                    component_found = component
                 elif sentinel.lower() in commit.subject.lower():
-                    component_found = True
-                if component_found:
+                    component_found = component
+                if component_found is not None:
                     commits[component].append(commit)
-    if not component_found:
+    if component_found is None:
         commits[Components.otherwise].append(commit)
+    commit.component = component_found
 
 
 def init_components():
@@ -265,13 +268,17 @@ def init_components():
     return components
 
 
-def link_subject(commit, gerrit, options):
+def link_subject(commit, gerrit, options, cwd):
     if options.link:
         gerrit_change = gerrit.get(f"{COMMIT_URL}{commit.sha1}")
         if not gerrit_change:
             return
         change_number = gerrit_change[0]["_number"]
-        change_address = f"{GERRIT_URL}{CHANGE_URL}{change_number}"
+        plugin_wd = re.search(f"{GIT_PATH}/({PLUGINS}.+)", cwd)
+        if plugin_wd is not None:
+            change_address = f"{GERRIT_URL}/c/{plugin_wd.group(1)}/+/{change_number}"
+        else:
+            change_address = f"{GERRIT_URL}{CHANGE_URL}{change_number}"
         short_sha1 = commit.sha1[0:7]
         commit.subject = f"[{short_sha1}]({change_address})\n  {commit.subject}"
 

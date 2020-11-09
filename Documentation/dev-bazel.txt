@@ -61,8 +61,7 @@ Java 8 is a legacy Java release and support for Java 8 will be discontinued
 in future gerrit releases. To build Gerrit with Java 8 language level, run:
 
 ```
-  $ bazel build --java_toolchain //tools:error_prone_warnings_toolchain_java8
-        :release
+  $ bazel build --java_toolchain //tools:error_prone_warnings_toolchain :release
 ```
 
 [[java-11]]

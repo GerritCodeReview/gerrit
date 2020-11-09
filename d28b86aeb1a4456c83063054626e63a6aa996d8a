@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3f9f2a4_92c6623b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-09T09:13:10Z",
+      "side": 1,
+      "message": "I get that it may be complicated, but is there a way to write a test for this?\nIf not, have you tested it some other way?",
+      "revId": "d28b86aeb1a4456c83063054626e63a6aa996d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ce991fd_baff943c",
+        "filename": "java/com/google/gerrit/util/ssl/BlindTrustManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-09T09:13:10Z",
+      "side": 1,
+      "message": "Please add javadoc (we try to add javadoc to all public classes)",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "d28b86aeb1a4456c83063054626e63a6aa996d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33a0307d_5eab8e31",
+        "filename": "java/org/apache/commons/net/smtp/AuthSMTPClient.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-09T09:13:10Z",
+      "side": 1,
+      "message": "looks good based on the docs in https://commons.apache.org/proper/commons-net/javadocs/api-3.6/org/apache/commons/net/smtp/SMTPSClient.html",
+      "range": {
+        "startLine": 33,
+        "startChar": 9,
+        "endLine": 33,
+        "endChar": 23
+      },
+      "revId": "d28b86aeb1a4456c83063054626e63a6aa996d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33109e72_f7a7de6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-11-09T20:25:04Z",
+      "side": 1,
+      "message": "@Matthias, see inline comment about receive.autogc default.",
+      "revId": "88a1f8a569ef5e5e44bd2d45eefdb017725ae5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1b21378_edc74f83",

@@ -45,7 +45,10 @@ import {
   isAttentionSetEnabled,
 } from '../../../utils/attention-set-util';
 import {ReviewerState} from '../../../constants/constants';
-import {isRemovableReviewer} from '../../../utils/change-util';
+import {
+  isInvolved,
+  isRemovableReviewer,
+} from '../../../utils/change-util';
 
 export interface GrHovercardAccount {
   $: {
@@ -223,15 +226,13 @@ export class GrHovercardAccount extends GestureEventListeners(
   }
 
   _computeShowActionAddToAttentionSet() {
-    return (
-      this._selfAccount && this.isAttentionEnabled && !this.hasUserAttention
-    );
+    const involved = isInvolved(this.change, this._selfAccount);
+    return involved && this.isAttentionEnabled && !this.hasUserAttention;
   }
 
   _computeShowActionRemoveFromAttentionSet() {
-    return (
-      this._selfAccount && this.isAttentionEnabled && this.hasUserAttention
-    );
+    const involved = isInvolved(this.change, this._selfAccount);
+    return involved && this.isAttentionEnabled && this.hasUserAttention;
   }
 
   _handleClickAddToAttentionSet() {

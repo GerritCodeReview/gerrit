@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "227805f7_e05ab170",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-09T16:54:06Z",
+      "side": 1,
+      "message": "nit: the bullets seem like unnecessary formatting since this isn\u0027t a list of equal bullets, but rather prose",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 2
+      },
+      "revId": "3eeb5fe1d7ec5af0f6ecca6a7e533032086cb9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94ad44da_5e29cd1b",
+        "filename": "java/org/apache/commons/net/smtp/AuthSMTPClient.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-09T16:54:06Z",
+      "side": 1,
+      "message": "nit: either {@link AuthSMTPClient#execTLS} or {@code AuthSMTPClient#execTLS} if the method can\u0027t be linked.",
+      "range": {
+        "startLine": 35,
+        "startChar": 85,
+        "endLine": 35,
+        "endChar": 86
+      },
+      "revId": "3eeb5fe1d7ec5af0f6ecca6a7e533032086cb9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

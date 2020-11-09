@@ -168,6 +168,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -762,6 +764,58 @@ public abstract class AbstractDaemonTest {
         pushFactory.create(
             admin.newIdent(), testRepo, "merge", ImmutableMap.of(file, "foo-1", "bar", "bar-2"));
     m.setParents(ImmutableList.of(p1.getCommit(), p2.getCommit()));
+    PushOneCommit.Result result = m.to(ref);
+    result.assertOkStatus();
+    return result;
+  }
+
+  protected PushOneCommit.Result createNParentsMergeCommitChange(String ref, List<String> fileNames)
+      throws Exception {
+    // This method creates n different commits and creates a merge commit pointing to all n parents.
+    // Each commit will contain all the fileNames. Commit i will have the following file names and
+    // their contents:
+    // {$file_1_name, ${file_1_name}-1}
+    // {$file_2_name, ${file_2_name}-1}, etc...
+    // The merge commit will have:
+    // {$file_1_name, ${file_1_name}-1}
+    // {$file_2_name, ${file_2_name}-2},
+    // {$file_3_name, ${file_3_name}-3}, etc...
+    // i.e. taking the ith file from the ith commit.
+    int n = fileNames.size();
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+
+    List<PushOneCommit.Result> pushResults = new ArrayList<>();
+
+    for (int i = 1; i <= n; i++) {
+      int finalI = i;
+      pushResults.add(
+          pushFactory
+              .create(
+                  admin.newIdent(),
+                  testRepo,
+                  "parent " + i,
+                  fileNames.stream().collect(Collectors.toMap(f -> f, f -> f + "-" + finalI)))
+              .to(ref));
+
+      // reset HEAD in order to create a sibling of the first change
+      if (i < n) {
+        testRepo.reset(initial);
+      }
+    }
+
+    PushOneCommit m =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "merge",
+            IntStream.range(1, n + 1)
+                .boxed()
+                .collect(
+                    Collectors.toMap(
+                        i -> fileNames.get((int) i - 1),
+                        i -> fileNames.get((int) i - 1) + "-" + i)));
+
+    m.setParents(pushResults.stream().map(PushOneCommit.Result::getCommit).collect(toList()));
     PushOneCommit.Result result = m.to(ref);
     result.assertOkStatus();
     return result;

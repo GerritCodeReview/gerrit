@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8766a59a_ea35f7d3",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-09T10:56:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b85cb995_4ede8987",
+      "range": {
+        "startLine": 781,
+        "startChar": 26,
+        "endLine": 781,
+        "endChar": 27
+      },
+      "revId": "86d0ca44aa7ebd21527d234dc8be53252e6eed92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2c75565_920d8da9",
@@ -54,6 +78,24 @@
       "writtenOn": "2020-11-06T20:18:56Z",
       "side": 1,
       "message": "nit: to me, a better comment ordering would be\n```\n// Only support auto-merge for 2 parents, not octopus merges\nif (b.getParentCount() \u003d\u003d 2) {\n```",
+      "revId": "86d0ca44aa7ebd21527d234dc8be53252e6eed92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe03cf73_ec0584a2",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-09T10:56:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2c75565_920d8da9",
       "revId": "86d0ca44aa7ebd21527d234dc8be53252e6eed92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -89,6 +131,24 @@
       "side": 1,
       "message": "[optional] You may also try to use the new ChangeOperations test API to create the merge commit. Maybe that makes it easier.",
       "parentUuid": "d19a1380_750e1e15",
+      "revId": "86d0ca44aa7ebd21527d234dc8be53252e6eed92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d971b47c_21149558",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-09T10:56:56Z",
+      "side": 1,
+      "message": "You\u0027re right. I modified the method to take the list of filenames as input and generalized it to n parents.\nI also added a comment in the test to explain the behavior.",
+      "parentUuid": "3cccbb47_cd1bf34c",
       "revId": "86d0ca44aa7ebd21527d234dc8be53252e6eed92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

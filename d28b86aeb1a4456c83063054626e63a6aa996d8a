@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "29fdcbcc_7a514372",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-09T09:13:28Z",
+      "side": 1,
+      "message": "(not resolved)",
+      "parentUuid": "b3f9f2a4_92c6623b",
+      "revId": "d28b86aeb1a4456c83063054626e63a6aa996d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9ce991fd_baff943c",
         "filename": "java/com/google/gerrit/util/ssl/BlindTrustManager.java",
         "patchSetId": 6

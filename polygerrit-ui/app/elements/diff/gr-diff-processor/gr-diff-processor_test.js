@@ -770,6 +770,51 @@ suite('gr-diff-processor tests', () => {
             state.lineNums.right + rows.length);
       });
 
+      test('WHOLE_FILE with skip chunks still get collapsed', () => {
+        element.context = WHOLE_FILE;
+        const lineNums = {left: 10, right: 100};
+        const state = {
+          lineNums,
+          chunkIndex: 1,
+        };
+        const skip = 10000;
+        const chunks = [
+          {a: ['foo']},
+          {skip},
+          {ab: rows},
+          {a: ['bar']},
+        ];
+        const result = element._processNext(state, chunks);
+        // Results in one, uncollapsed group with all rows.
+        assert.equal(result.groups.length, 1);
+        assert.equal(result.groups[0].type, GrDiffGroupType.CONTEXT_CONTROL);
+
+        // Skip and ab group are hidden in the same context control
+        assert.equal(result.groups[0].contextGroups.length, 2);
+        const [skippedGroup, abGroup] = result.groups[0].contextGroups;
+
+        // Line numbers are set correctly.
+        assert.deepEqual(
+            skippedGroup.lineRange,
+            {
+              left: {start: lineNums.left + 1, end: lineNums.left + skip},
+              right: {start: lineNums.right + 1, end: lineNums.right + skip},
+            });
+
+        assert.deepEqual(
+            abGroup.lineRange,
+            {
+              left: {
+                start: lineNums.left + skip + 1,
+                end: lineNums.left + skip + rows.length,
+              },
+              right: {
+                start: lineNums.right + skip + 1,
+                end: lineNums.right + skip + rows.length,
+              },
+            });
+      });
+
       test('with context', () => {
         element.context = 10;
         const state = {

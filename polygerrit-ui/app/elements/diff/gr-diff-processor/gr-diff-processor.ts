@@ -307,8 +307,10 @@ export class GrDiffProcessor extends GestureEventListeners(
       state.lineNums.right + 1
     );
 
-    if (this.context !== WHOLE_FILE) {
-      const hiddenStart = state.chunkIndex === 0 ? 0 : this.context;
+    const hasSkippedGroup = !!groups.find(g => g.skip);
+    if (this.context !== WHOLE_FILE || hasSkippedGroup) {
+      const contextNumLines = this.context > 0 ? this.context : 0;
+      const hiddenStart = state.chunkIndex === 0 ? 0 : contextNumLines;
       const hiddenEnd =
         lineCount -
         (firstUncollapsibleChunkIndex === chunks.length ? 0 : this.context);

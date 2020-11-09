@@ -26,7 +26,7 @@ link:config-gerrit.html#_a_id_rules_a_section_rules[rules section])
 link:https://groups.google.com/d/topic/repo-discuss/wJxTGhlHZMM/discussion[This
 discussion thread,role=external,window=_blank] explains why Prolog was chosen for the purpose of writing
 project specific submit rules.
-link:http://gerrit-documentation.googlecode.com/svn/ReleaseNotes/ReleaseNotes-2.2.2.html[Gerrit
+link:https://gerrit-documentation.storage.googleapis.com/ReleaseNotes/ReleaseNotes-2.2.2.html#_prolog[Gerrit
 2.2.2 ReleaseNotes,role=external,window=_blank] introduces Prolog support in Gerrit.
 
 [[SubmitType]]

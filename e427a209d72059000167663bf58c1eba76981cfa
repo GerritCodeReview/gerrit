@@ -268,6 +268,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f4cc4e31_204f3f6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-09T08:02:27Z",
+      "side": 1,
+      "message": "Thank you for looking at this, Sven. I appreciate that you took the time and effort!",
+      "parentUuid": "3792f339_c39137c0",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8c5b1ca_ba0f7849",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-09T08:02:27Z",
+      "side": 1,
+      "message": "\u003e We could limiting nesting to a single (or other fixed/configurable number) of sub queries. Would that address this concern?\n\nNo, the result of the sub query still produces N results. These results have to be resolved by searching N times for the respective I hashes.\n\n\u003e I don\u0027t believe the Gerrit project (i.e. open source community Gerrit) provides predictable latency on search queries. If this becomes the only remaining concern, perhaps it would make sense for you to disable this on googlesource.com servers too.\n\nThat\u0027s what I offered on Nov 3 given that the community supports such an operator. Then we can single ourselves out and turn it off for us. Looks like the community has no need for that operator, though.\n\n\u003e I don\u0027t think it\u0027s a fair (or documented) criteria for a core change to say that use-cases are as widespread as you request here. Do you believe this is a general policy that the project should be (or already is) applying to changes?\n\nDepends. If there is no negative (latency, stability) impact in the feature then not. Just add it and maybe gate it by a flag. If it\u0027s opening up an interface for attackers to bring down the service, then I believe more vetting (as we do here) is warranted.\n\n\u003e Joining results is not a new thing for Gerrit queries. There have been many instances of it in the past.\n\nI don\u0027t think (and please correct me) that today we have any operators that do N index queries where N is close to the number of returned results.\n\n\u003e Plugins don\u0027t need core support to do that already (we have existing plugins that do this).\n\nI was under the impression that plugin provided operators can\u0027t accept arguments today. But maybe I am wrong here.\n\n\u003e Different operators can have different performance.\n\nI agree - and they do today. My problem is that I\u0027d be OK if this called the index twice, three-times, ... but not N times where N is close to the number of results. Since this is an ongoing point of confusion in our discussion, here is how I think it works and why I claim it\u0027s N-times:\n\npeer:\"is:open\"\n1) query is:open with a default limit (1000 results?)\n2) 1000 x query (id:\u003cI-hash-of-one-change\u003e)\n3) serve these results because they are \"peers\" (all cherry picks) of any results of \"is:open\"\n\nYou could enforce tight limits (say 25 changes) but the problem is still there and that rather decreases the usefulness of the feature. Caching instead of using the index would resolve most of the problem, but caching this is impossible with freshness guarantees (usually SHA1s of refs in keys), so might actually create more problems.",
+      "parentUuid": "a0192619_fa25da08",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "821ae05d_461809e5",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 2

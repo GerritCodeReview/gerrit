@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7f66391_08626b47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-11-09T14:16:51Z",
+      "side": 1,
+      "message": "Hi Ben, I forgot about this scenario - when the user has \"show all content\" in their preferences. This should make skip groups also collapse in this situation.",
+      "revId": "cc0e510636db52ea4481cc5fee5a1c5e5a218a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

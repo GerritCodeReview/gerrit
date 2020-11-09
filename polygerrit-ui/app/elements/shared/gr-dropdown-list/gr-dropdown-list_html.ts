@@ -35,9 +35,7 @@ export const htmlTemplate = html`
       background-color: var(--dropdown-background-color);
       box-shadow: var(--elevation-level-2);
       max-height: 70vh;
-      margin-top: var(--spacing-xxl);
       min-width: 266px;
-      @apply --dropdown-content-style;
     }
     paper-listbox {
       --paper-listbox: {
@@ -136,6 +134,9 @@ export const htmlTemplate = html`
   <iron-dropdown
     id="dropdown"
     vertical-align="top"
+    horizontal-align="left"
+    dynamic-align
+    no-overlap
     allow-outside-scroll="true"
     on-click="_handleDropdownClick"
   >

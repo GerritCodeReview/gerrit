@@ -17,8 +17,10 @@
 
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {
+  AbortStop,
   CursorMoveResult,
   GrCursorManager,
+  isTargetable,
 } from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
@@ -588,21 +590,18 @@ export class GrDiffCursor extends GestureEventListeners(
     side: Side,
     path?: string
   ): HTMLElement | undefined {
-    let stops;
+    let stops: Array<HTMLElement | AbortStop>;
     if (path) {
       const diff = this.diffs.filter(diff => diff.path === path)[0];
       stops = diff.getCursorStops();
     } else {
       stops = this.$.cursorManager.stops;
     }
-    let selector;
-    for (let i = 0; i < stops.length; i++) {
-      selector = `.lineNum.${side}[data-value="${targetNumber}"]`;
-      if (stops[i].querySelector(selector)) {
-        return stops[i];
-      }
-    }
-    return undefined;
+    // Sadly needed for type narrowing to understand that the result is always
+    // targetable.
+    const targetableStops: HTMLElement[] = stops.filter(isTargetable);
+    const selector = `.lineNum.${side}[data-value="${targetNumber}"]`;
+    return targetableStops.find(stop => stop.querySelector(selector));
   }
 }
 

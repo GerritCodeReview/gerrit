@@ -46,6 +46,30 @@
       },
       "revId": "55744fbe4df3ce1c3fdcfb15d6b90fce05b2dee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f04a36b2_4adbdbc8",
+        "filename": "java/com/google/gerrit/sshd/SshCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-11-09T15:21:24Z",
+      "side": 1,
+      "message": "Perhaps you miss-understood what I meant, The BaseCommand class is now calling the start method, and it is not doing so within a try() block which means that the stop (close) cannot be easily traced to ensure that it is not missed.",
+      "parentUuid": "c11e86e5_ad62450e",
+      "range": {
+        "startLine": 56,
+        "startChar": 15,
+        "endLine": 56,
+        "endChar": 30
+      },
+      "revId": "55744fbe4df3ce1c3fdcfb15d6b90fce05b2dee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

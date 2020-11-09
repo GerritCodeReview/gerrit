@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc577fb3_f333ff81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-09T18:18:25Z",
+      "side": 1,
+      "message": "IIUC the bug was actually introduced before TS conversion but was discovered when converting account from {} to undefined?",
+      "revId": "2f19f1f0c10fe3acc565d1f1e273261b7c461030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71261b19_c6d50770",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-09T18:08:55Z",
+      "side": 1,
+      "message": "Tried to bring some structure, as the description is quite long.",
+      "parentUuid": "227805f7_e05ab170",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 2
+      },
+      "revId": "3eeb5fe1d7ec5af0f6ecca6a7e533032086cb9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94ad44da_5e29cd1b",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-11-09T16:54:06Z",
       "side": 1,
       "message": "nit: either {@link AuthSMTPClient#execTLS} or {@code AuthSMTPClient#execTLS} if the method can\u0027t be linked.",
+      "range": {
+        "startLine": 35,
+        "startChar": 85,
+        "endLine": 35,
+        "endChar": 86
+      },
+      "revId": "3eeb5fe1d7ec5af0f6ecca6a7e533032086cb9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cfa7344_448798a8",
+        "filename": "java/org/apache/commons/net/smtp/AuthSMTPClient.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-09T18:08:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94ad44da_5e29cd1b",
       "range": {
         "startLine": 35,
         "startChar": 85,

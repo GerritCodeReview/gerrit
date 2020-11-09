@@ -82,16 +82,21 @@ suite('gr-account-label tests', () => {
   });
 
   suite('attention set', () => {
-    setup(() => {
+    setup(async () => {
+      const kermit = createAccount('kermit', 31);
       element.highlightAttention = true;
       element._config = {
         change: {enable_attention_set: true},
         user: {anonymous_coward_name: 'Anonymous Coward'},
       };
-      element._selfAccount = createAccount('kermit', 31);
+      element._selfAccount = kermit;
       element.account = createAccount('ernie', 42);
-      element.change = {attention_set: {42: {}}};
-      flush();
+      element.change = {
+        attention_set: {42: {}},
+        owner: kermit,
+        reviewers: {},
+      };
+      await flush();
     });
 
     test('show attention button', () => {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e30295db_fb9f4968",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 43
+      },
+      "lineNbr": 1581,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-09T12:17:07Z",
+      "side": 1,
+      "message": "I know of this.\nIcb88045e is measuring latency for this API.\nThere is a possibility that the API is fast enough that we load them along with all the comments and hence the problem automatically fixes itself.\n\nHence, I want to wait until that decision is made. Given this is all protected by. an experiment, we can go ahead for now",
+      "parentUuid": "32ef32c7_00b878f3",
+      "range": {
+        "startLine": 1569,
+        "startChar": 8,
+        "endLine": 1581,
+        "endChar": 9
+      },
+      "revId": "348341f9de258a37aac44771ef27cf80ba1fa079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcb2116d_8c09b3a7",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-11-04T11:57:53Z",
       "side": 1,
       "message": "looks suspicious. The property is set before return and thread object is not used anywhere else",
+      "range": {
+        "startLine": 243,
+        "startChar": 6,
+        "endLine": 243,
+        "endChar": 24
+      },
+      "revId": "348341f9de258a37aac44771ef27cf80ba1fa079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ff49561_efcc0711",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 43
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-09T12:17:07Z",
+      "side": 1,
+      "message": "Yeah it was unused. Removed.",
+      "parentUuid": "fcb2116d_8c09b3a7",
       "range": {
         "startLine": 243,
         "startChar": 6,

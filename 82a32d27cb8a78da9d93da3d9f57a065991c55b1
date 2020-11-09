@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7561ae1_d649a393",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-09T12:17:07Z",
+      "side": 1,
+      "message": "There is only one occurrence of _getPortedComments(due to I0b1e73b78)  so I will keep the code as is for now.",
+      "parentUuid": "a14c2e68_22f7ba72",
+      "range": {
+        "startLine": 1124,
+        "startChar": 36,
+        "endLine": 1124,
+        "endChar": 59
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ee5af32_d0774f11",
@@ -355,6 +379,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49621664_f12cf549",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-09T12:17:07Z",
+      "side": 1,
+      "message": "The code is protected by an experiment so it will not break any existing feature.\n\nThe feature is also probably going to undergo few changes as we iterate along, so it\u0027s not really clear what tests should be added.\n\nThe experiment won\u0027t be removed without significant tests for sure.",
+      "parentUuid": "2d7a1d0c_ead579b2",
+      "range": {
+        "startLine": 186,
+        "startChar": 16,
+        "endLine": 186,
+        "endChar": 39
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "def2e304_c2eeed9e",
@@ -581,6 +629,30 @@
       "side": 1,
       "message": "It doesn\u0027t improve readability for me.\nDuplicated code often leads to a problems, when a developer updates only one copy of a code.\nAlso, when I read such code, I always think: why I see the same code 3 times, but inside different if blocks? Did author forget to update code after copy-paste?",
       "parentUuid": "66f5f23b_a99dd569",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 7
+      },
+      "revId": "82a32d27cb8a78da9d93da3d9f57a065991c55b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "815909d5_fb6442a8",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-09T12:17:07Z",
+      "side": 1,
+      "message": "Updated.\nI still kept the comments to keep track of all the cases.",
+      "parentUuid": "db0e26bb_bee87d96",
       "range": {
         "startLine": 240,
         "startChar": 0,

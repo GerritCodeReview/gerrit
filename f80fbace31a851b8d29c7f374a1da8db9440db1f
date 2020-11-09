@@ -70,6 +70,30 @@
       },
       "revId": "f80fbace31a851b8d29c7f374a1da8db9440db1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce35b4fe_78619220",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-09T12:17:07Z",
+      "side": 0,
+      "message": "The exact flow isn\u0027t decided so I propose we wait for it before writing tests.",
+      "parentUuid": "f1eb2d66_21101e39",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 69
+      },
+      "revId": "f80fbace31a851b8d29c7f374a1da8db9440db1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

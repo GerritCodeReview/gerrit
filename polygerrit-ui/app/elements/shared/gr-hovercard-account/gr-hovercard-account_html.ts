@@ -144,7 +144,7 @@ export const htmlTemplate = html`
       </template>
       <template
         is="dom-if"
-        if="[[_computeShowActionAddToAttentionSet(_config, highlightAttention, account, change)]]"
+        if="[[_computeShowActionAddToAttentionSet(_config, highlightAttention, account, change, _selfAccount)]]"
       >
         <div class="action">
           <gr-button
@@ -159,7 +159,7 @@ export const htmlTemplate = html`
       </template>
       <template
         is="dom-if"
-        if="[[_computeShowActionRemoveFromAttentionSet(_config, highlightAttention, account, change)]]"
+        if="[[_computeShowActionRemoveFromAttentionSet(_config, highlightAttention, account, change, _selfAccount)]]"
       >
         <div class="action">
           <gr-button
@@ -172,7 +172,10 @@ export const htmlTemplate = html`
           </gr-button>
         </div>
       </template>
-      <template is="dom-if" if="[[_showReviewerOrCCActions(account, change)]]">
+      <template
+        is="dom-if"
+        if="[[_showReviewerOrCCActions(account, change, _selfAccount)]]"
+      >
         <div class="action">
           <gr-button
             class="removeReviewerOrCC"

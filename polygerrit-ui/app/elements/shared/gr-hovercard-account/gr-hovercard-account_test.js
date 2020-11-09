@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-hovercard-account.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {ReviewerState} from '../../../constants/constants.js';
+import {appContext} from '../../../services/app-context.js';
 
 const basicFixture = fixtureFromTemplate(html`
 <gr-hovercard-account class="hovered"></gr-hovercard-account>
@@ -34,22 +35,22 @@ suite('gr-hovercard-account tests', () => {
     _account_id: '31415926535',
   };
 
-  setup(() => {
-    element = basicFixture.instantiate();
-    sinon.stub(element.restApiService, 'getAccount').returns(
-        new Promise(resolve => { '2'; })
+  setup(async () => {
+    sinon.stub(appContext.restApiService, 'getAccount').returns(
+        Promise.resolve({...ACCOUNT})
     );
-
-    element._selfAccount = {...ACCOUNT};
+    sinon.stub(appContext.restApiService, 'getConfig').returns(
+        Promise.resolve({change: {enable_attention_set: true}})
+    );
+    element = basicFixture.instantiate();
     element.account = {...ACCOUNT};
-    element._config = {
-      change: {enable_attention_set: true},
-    };
     element.change = {
       attention_set: {},
+      reviewers: {},
+      owner: {...ACCOUNT},
     };
     element.show({});
-    flush();
+    await flush();
   });
 
   teardown(() => {
@@ -242,7 +243,11 @@ suite('gr-hovercard-account tests', () => {
     sinon.stub(element.restApiService, 'removeFromAttentionSet')
         .callsFake(() => apiPromise);
     element.highlightAttention = true;
-    element.change = {attention_set: {31415926535: {}}};
+    element.change = {
+      attention_set: {31415926535: {}},
+      reviewers: {},
+      owner: {...ACCOUNT},
+    };
     element._target = document.createElement('div');
     flush();
     const showAlertListener = sinon.spy();

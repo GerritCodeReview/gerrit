@@ -35,10 +35,16 @@
       <name>David Pursehouse</name>
     </developer>
     <developer>
+      <name>Dmitrii Filippov</name>
+    </developer>
+    <developer>
       <name>Edwin Kempin</name>
     </developer>
     <developer>
       <name>Han-Wen Nienhuys</name>
+    </developer>
+    <developer>
+      <name>Joerg Zieren</name>
     </developer>
     <developer>
       <name>Luca Milanesio</name>
@@ -53,7 +59,7 @@
       <name>Matthias Sohn</name>
     </developer>
     <developer>
-      <name>Ole Rehmsen</name>
+      <name>Nasser Grainawi</name>
     </developer>
     <developer>
       <name>Patrick Hiesel</name>
@@ -63,6 +69,9 @@
     </developer>
     <developer>
       <name>Sven Selberg</name>
+    </developer>
+    <developer>
+      <name>Tao Zhou</name>
     </developer>
   </developers>
 

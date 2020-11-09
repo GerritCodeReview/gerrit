@@ -22,6 +22,30 @@
       },
       "revId": "23b660b756d24fe9d329c93982158ba87a35a3c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "324df735_4ce35d41",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-09T08:58:08Z",
+      "side": 1,
+      "message": "I believe besides change edits and private changes, these are only auto-merge refs.",
+      "parentUuid": "1e1c88f2_0392337a",
+      "range": {
+        "startLine": 690,
+        "startChar": 40,
+        "endLine": 690,
+        "endChar": 51
+      },
+      "revId": "23b660b756d24fe9d329c93982158ba87a35a3c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

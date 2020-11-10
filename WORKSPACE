@@ -34,11 +34,11 @@ load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
 
 http_archive(
     name = "bazel_toolchains",
-    sha256 = "88e818f9f03628eef609c8429c210ecf265ffe46c2af095f36c7ef8b1855fef5",
-    strip_prefix = "bazel-toolchains-92dd8a7a518a2fb7ba992d47c8b38299fe0be825",
+    sha256 = "be7242405c0974b15054915597aff1ecff28ea7a7c949924876da87cfe76781e",
+    strip_prefix = "bazel-toolchains-f72be76e580f4b4684deeb0ea58e810ab7222d0d",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/archive/92dd8a7a518a2fb7ba992d47c8b38299fe0be825.tar.gz",
-        "https://github.com/bazelbuild/bazel-toolchains/archive/92dd8a7a518a2fb7ba992d47c8b38299fe0be825.tar.gz",
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/archive/f72be76e580f4b4684deeb0ea58e810ab7222d0d.tar.gz",
+        "https://github.com/bazelbuild/bazel-toolchains/archive/f72be76e580f4b4684deeb0ea58e810ab7222d0d.tar.gz",
     ],
 )
 

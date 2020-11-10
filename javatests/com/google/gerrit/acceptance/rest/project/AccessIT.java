@@ -77,6 +77,7 @@ import org.junit.Test;
 public class AccessIT extends AbstractDaemonTest {
 
   private static final String REFS_ALL = Constants.R_REFS + "*";
+  private static final String REFS_FOR = Constants.R_REFS + "for/*";
   private static final String REFS_HEADS = Constants.R_HEADS + "*";
 
   private static final String LABEL_CODE_REVIEW = "Code-Review";
@@ -496,7 +497,8 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo = createAccessSectionInfoDenyAll();
 
     // Disallow READ
-    accessInput.add.put(REFS_ALL, accessSectionInfo);
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    accessInput.add.put(REFS_FOR, accessSectionInfo);
     pApi().access(accessInput);
 
     requestScopeOperations.setApiUser(user.id());
@@ -510,7 +512,8 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo = createAccessSectionInfoDenyAll();
 
     // Disallow READ
-    accessInput.add.put(REFS_ALL, accessSectionInfo);
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    accessInput.add.put(REFS_FOR, accessSectionInfo);
     pApi().access(accessInput);
 
     // Create a change to apply

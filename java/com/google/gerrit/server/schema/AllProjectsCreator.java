@@ -174,16 +174,14 @@ public class AllProjectsCreator {
         "refs/for/*",
         refsFor -> {
           grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
+          grant(config, refsFor, Permission.REVERT, registered);
+          grant(config, refsFor, Permission.READ, anonymous);
         });
 
     grant(config, heads, codeReviewLabel, -1, 1, registered);
     grant(config, heads, Permission.FORGE_AUTHOR, registered);
-
-    config.upsertAccessSection(
-        "refs/*",
-        all -> {
-          grant(config, all, Permission.REVERT, registered);
-        });
+    grant(config, heads, Permission.READ, anonymous);
+    grant(config, heads, Permission.REVERT, registered);
 
     config.upsertAccessSection(
         "refs/for/" + AccessSection.ALL,
@@ -213,7 +211,7 @@ public class AllProjectsCreator {
     config.upsertAccessSection(
         AccessSection.ALL,
         all -> {
-          grant(config, all, Permission.READ, adminsGroup, anonymous);
+          grant(config, all, Permission.READ, adminsGroup);
         });
 
     config.upsertAccessSection(

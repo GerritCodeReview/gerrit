@@ -128,6 +128,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
+        .add(allow(Permission.READ).ref(metaRef).group(REGISTERED_USERS))
         .add(allow(Permission.CREATE).ref(metaRef).group(REGISTERED_USERS))
         .add(allow(Permission.PUSH).ref(metaRef).group(REGISTERED_USERS))
         .update();

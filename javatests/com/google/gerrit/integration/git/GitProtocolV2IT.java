@@ -91,7 +91,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       projectOperations
           .project(project)
           .forUpdate()
-          .add(deny(Permission.READ).ref("refs/*").group(SystemGroupBackend.ANONYMOUS_USERS))
+          .add(deny(Permission.READ).ref("refs/heads/*").group(SystemGroupBackend.ANONYMOUS_USERS))
           .add(
               allow(Permission.READ)
                   .ref("refs/heads/master")

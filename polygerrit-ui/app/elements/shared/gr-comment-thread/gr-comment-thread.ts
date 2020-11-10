@@ -34,7 +34,7 @@ import {
 } from '../../../utils/comment-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
-import {CommentSide, Side, SpecialFilePath} from '../../../constants/constants';
+import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {computeDisplayPath} from '../../../utils/path-list-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
@@ -116,7 +116,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   keyEventTarget: HTMLElement = document.body;
 
   @property({type: String, reflectToAttribute: true})
-  commentSide?: Side;
+  commentSide?: CommentSide;
 
   @property({type: String})
   patchNum?: PatchSetNum;

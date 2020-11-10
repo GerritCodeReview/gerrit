@@ -22,7 +22,7 @@ import {
   Timestamp,
   UrlEncodedCommentId,
 } from '../types/common';
-import {CommentSide, Side} from '../constants/constants';
+import {CommentSide} from '../constants/constants';
 import {parseDate} from './date-util';
 
 export interface DraftCommentProps {
@@ -39,10 +39,7 @@ export type DraftInfo = CommentBasics & DraftCommentProps;
 export type Comment = DraftInfo | CommentInfo | RobotCommentInfo;
 
 export interface UIStateCommentProps {
-  // The `side` of the comment is PARENT or REVISION, but this is LEFT or RIGHT.
-  // TODO(TS): Remove the naming confusion of commentSide being of type of Side,
-  // but side being of type CommentSide. :-)
-  __commentSide?: Side;
+  __commentSide?: CommentSide;
   // TODO(TS): Remove this. Seems to be exactly the same as `path`??
   __path?: string;
   collapsed?: boolean;

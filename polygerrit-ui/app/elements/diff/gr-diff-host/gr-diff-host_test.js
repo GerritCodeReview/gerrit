@@ -1378,39 +1378,10 @@ suite('gr-diff-host tests', () => {
     const line = {beforeNumber: 3, afterNumber: 5};
 
     const threads = [];
-    assert.deepEqual(element._filterThreadElsForLocation(threads, line), []);
     assert.deepEqual(element._filterThreadElsForLocation(threads, line,
         Side.LEFT), []);
     assert.deepEqual(element._filterThreadElsForLocation(threads, line,
         Side.RIGHT), []);
-  });
-
-  test('_filterThreadElsForLocation for line comments', () => {
-    const line = {beforeNumber: 3, afterNumber: 5};
-
-    const l3 = document.createElement('div');
-    l3.setAttribute('line-num', 3);
-    l3.setAttribute('comment-side', 'left');
-
-    const l5 = document.createElement('div');
-    l5.setAttribute('line-num', 5);
-    l5.setAttribute('comment-side', 'left');
-
-    const r3 = document.createElement('div');
-    r3.setAttribute('line-num', 3);
-    r3.setAttribute('comment-side', 'right');
-
-    const r5 = document.createElement('div');
-    r5.setAttribute('line-num', 5);
-    r5.setAttribute('comment-side', 'right');
-
-    const threadEls = [l3, l5, r3, r5];
-    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
-        [l3, r5]);
-    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Side.LEFT), [l3]);
-    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Side.RIGHT), [r5]);
   });
 
   test('_filterThreadElsForLocation for file comments', () => {
@@ -1425,10 +1396,6 @@ suite('gr-diff-host tests', () => {
     r.setAttribute('line-num', 'FILE');
 
     const threadEls = [l, r];
-    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
-        [l, r]);
-    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Side.BOTH), [l, r]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
         Side.LEFT), [l]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,

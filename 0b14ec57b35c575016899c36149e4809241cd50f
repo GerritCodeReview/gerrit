@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdd0a756_b93b1190",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 2148,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-10T09:50:28Z",
+      "side": 1,
+      "message": "Move this into commentAPI.loadAll().",
+      "range": {
+        "startLine": 2147,
+        "startChar": 34,
+        "endLine": 2148,
+        "endChar": 25
+      },
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaa6ac26_c80730bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 1564,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-10T09:50:28Z",
+      "side": 1,
+      "message": "Change this call to return threads and also let gr-comment-api add the information about portedness to each comment/thread.",
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8be8283b_e314b3d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 1581,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-10T09:50:28Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 1569,
+        "startChar": 8,
+        "endLine": 1581,
+        "endChar": 9
+      },
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4b64364_877f18dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-10T09:50:28Z",
+      "side": 1,
+      "message": "Why does gr-diff-host have to know about both, comment threads and ported comment threads? Can this be hidden from gr-diff-host?\n\nThis\n\n  comments?: TwoSidesComments;\n\nwould probably need to be changed to something like\n\n  commentThreads?: TwoSidesCommentThreads;",
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "083ad5b0_854937a7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-10T09:50:28Z",
+      "side": 1,
+      "message": "All this should be moved to gr-comment-api.",
+      "range": {
+        "startLine": 711,
+        "startChar": 2,
+        "endLine": 726,
+        "endChar": 0
+      },
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dce7e92_b6a8d848",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-10T09:50:28Z",
+      "side": 1,
+      "message": "This should also be done in gr-comment-api.",
+      "range": {
+        "startLine": 738,
+        "startChar": 1,
+        "endLine": 741,
+        "endChar": 41
+      },
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8c1d4c6_b501b913",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-10T09:50:28Z",
+      "side": 1,
+      "message": "Similar to above, there should be a method on _changeComments that returns what diffHost needs, containing both ported and unported comment threads.",
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b23221f_ba13af0b",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-10T09:50:28Z",
+      "side": 1,
+      "message": "This is really weird. Why does createThreads throw an error when __commentSide is not set?",
+      "range": {
+        "startLine": 197,
+        "startChar": 2,
+        "endLine": 199,
+        "endChar": 71
+      },
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bd4ba80_f1de4626",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-10T09:50:28Z",
+      "side": 1,
+      "message": "When you overwrite range here, then how does gr-diff know where the thread originally was? It has to know when creating a draft reply for example, right?",
+      "range": {
+        "startLine": 218,
+        "startChar": 5,
+        "endLine": 219,
+        "endChar": 42
+      },
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd95cad8_2318e87a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-10T17:52:38Z",
+      "side": 1,
+      "message": "perhaps a test for this?",
+      "range": {
+        "startLine": 184,
+        "startChar": 8,
+        "endLine": 184,
+        "endChar": 23
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e01c2e1c_8af3d10b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-10T17:52:38Z",
+      "side": 1,
+      "message": "why is there \"Once\" in the function name?\nIs it supposed to be called only one time?",
+      "range": {
+        "startLine": 215,
+        "startChar": 16,
+        "endLine": 215,
+        "endChar": 38
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

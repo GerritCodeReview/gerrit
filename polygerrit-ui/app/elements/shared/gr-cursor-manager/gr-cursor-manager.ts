@@ -156,6 +156,22 @@ export class GrCursorManager {
     }
   }
 
+  /**
+   * Returns all visible stops.
+   *
+   * This method uses the IntersectionObservers API. If the browser
+   * doesn't support this API the returned promise is rejected.
+   *
+   * @param filter Optional condition. If a condition
+   * is passed only stops which meet conditions are taken into account.
+   */
+  async getVisibleStops(
+    filter?: (el: Element) => boolean
+  ): Promise<Stop[] | undefined> {
+    const visibleEntries = await this.getVisibleEntries(filter);
+    return visibleEntries.map(entry => entry.target as HTMLElement);
+  }
+
   private async getCenterMostStop(
     filter?: (el: Element) => boolean
   ): Promise<HTMLElement | undefined> {

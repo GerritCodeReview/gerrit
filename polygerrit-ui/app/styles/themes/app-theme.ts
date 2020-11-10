@@ -122,7 +122,7 @@ const styleSheet = safeStyleSheet`
     --font-size-h3: 1.143rem;   /* 16px */
     --font-size-h2: 1.429rem;   /* 20px */
     --font-size-h1: 1.714rem;   /* 24px */
-    --line-height-code: 1.334;      /* 16px */
+    --line-height-code: 1.143rem;   /* 16px */
     --line-height-mono: 1.286rem;   /* 18px */
     --line-height-small: 1.143rem;  /* 16px */
     --line-height-normal: 1.429rem; /* 20px */

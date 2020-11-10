@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab5ba855_f141413f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-10T08:38:25Z",
+      "side": 1,
+      "message": "Maybe add a screenshot, e.g. using imgur.",
+      "revId": "4d9175d2cfee0165323fb4c2391568ab1c0d3684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b958357_918fe98c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
         "patchSetId": 20

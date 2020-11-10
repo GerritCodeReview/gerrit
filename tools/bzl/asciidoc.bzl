@@ -18,8 +18,7 @@ def documentation_attributes():
     ]
 
 def _replace_macros_impl(ctx):
-    cmd = [
-        ctx.file._exe.path,
+    args = [
         "--suffix",
         ctx.attr.suffix,
         "-s",
@@ -28,13 +27,14 @@ def _replace_macros_impl(ctx):
         ctx.outputs.out.path,
     ]
     if ctx.attr.searchbox:
-        cmd.append("--searchbox")
+        args.append("--searchbox")
     else:
-        cmd.append("--no-searchbox")
-    ctx.actions.run_shell(
+        args.append("--no-searchbox")
+    ctx.actions.run(
         inputs = [ctx.file._exe, ctx.file.src],
         outputs = [ctx.outputs.out],
-        command = cmd,
+        executable = ctx.file._exe.path,
+        arguments = args,
         use_default_shell_env = True,
         progress_message = "Replacing macros in %s" % ctx.file.src.short_path,
     )

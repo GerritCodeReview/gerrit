@@ -266,7 +266,7 @@ suite('comment action tests with unresolved thread', () => {
       path: '/path/to/file.txt',
       unresolved: true,
       patch_set: 3,
-      __commentSide: 'left',
+      __commentSide: CommentSide.PARENT,
     }];
     flush();
   });

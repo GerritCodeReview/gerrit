@@ -138,13 +138,13 @@ suite('gr-diff-view tests', () => {
             id: 'c1',
             line: 10,
             patch_set: 2,
-            __commentSide: 'left',
+            __commentSide: CommentSide.PARENT,
             path: '/COMMIT_MSG',
           }, {
             id: 'c3',
             line: 10,
             patch_set: 'PARENT',
-            __commentSide: 'left',
+            __commentSide: CommentSide.PARENT,
             path: '/COMMIT_MSG',
           },
         ]},
@@ -200,7 +200,7 @@ suite('gr-diff-view tests', () => {
       };
       sinon.stub(element.$.diffHost, '_commentsChanged');
       sinon.stub(element, '_getCommentsForPath').returns({
-        left: [{id: 'c1', __commentSide: 'left', line: 10}],
+        left: [{id: 'c1', __commentSide: CommentSide.PARENT, line: 10}],
         right: [{id: 'c2', __commentSide: 'right', line: 11}],
       });
       element._change = {

@@ -66,8 +66,8 @@ export interface TwoSidesComments {
     patchRange: PatchRange;
     projectConfig?: ConfigInfo;
   };
-  left: UIComment[];
-  right: UIComment[];
+  [CommentSide.PARENT]: UIComment[];
+  [CommentSide.REVISION]: UIComment[];
 }
 
 export class ChangeComments {
@@ -366,8 +366,8 @@ export class ChangeComments {
         patchRange,
         projectConfig,
       },
-      left: baseComments,
-      right: revisionComments,
+      [CommentSide.PARENT]: baseComments,
+      [CommentSide.REVISION]: revisionComments,
     };
   }
 
@@ -400,8 +400,12 @@ export class ChangeComments {
         projectConfig
       );
       // merge in the left and right
-      comments.left = comments.left.concat(commentsForBasePath.left);
-      comments.right = comments.right.concat(commentsForBasePath.right);
+      comments[CommentSide.PARENT] = comments[CommentSide.PARENT].concat(
+        commentsForBasePath[CommentSide.PARENT]
+      );
+      comments[CommentSide.REVISION] = comments[CommentSide.REVISION].concat(
+        commentsForBasePath[CommentSide.REVISION]
+      );
     }
     return comments;
   }

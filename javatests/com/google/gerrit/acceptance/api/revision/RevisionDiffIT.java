@@ -880,6 +880,37 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void intralineEditsAreIdentified() throws Exception {
+    // TODO(ghareeb): This test asserts the wrong behavior due to the following issue
+    // bugs.chromium.org/p/gerrit/issues/detail?id=13563
+    // Please remove this comment and assert the correct behavior when the bug is fixed.
+
+    assume().that(intraline).isTrue();
+
+    String orig = "[-9999,9999]";
+    String replace = "[-999,999]";
+
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat(orig));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.replace(orig, replace));
+
+    // TODO(ghareeb): remove this comment when the issue is fixed.
+    // The returned diff incorrectly contains:
+    // replace [-9999{,99}99] with [-999{,}999].
+    // If this replace edit is done, the resulting string incorrectly becomes [-9999,99].
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
+
+    List<List<Integer>> editsA = diffInfo.content.get(1).editA;
+    List<List<Integer>> editsB = diffInfo.content.get(1).editB;
+    String reconstructed = transformStringUsingEditList(orig, replace, editsA, editsB);
+
+    // TODO(ghareeb): assert equals when the issue is fixed.
+    assertThat(reconstructed).isNotEqualTo(replace);
+  }
+
+  @Test
   public void intralineEditsForModifiedLastLineArePreservedWhenNewlineIsAlsoAddedAtEnd()
       throws Exception {
     assume().that(intraline).isTrue();
@@ -2844,5 +2875,30 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .file(fileName)
         .diffRequest()
         .withIntraline(intraline);
+  }
+
+  /**
+   * This method transforms the {@code orig} input String using the list of replace edits {@code
+   * editsA}, {@code editsB} and the resulting {@code replace} String. This method currently assumes
+   * that all input edits are replace edits, and that the edits are sorted according to their
+   * indices.
+   *
+   * @return The transformed String after applying the list of replace edits to the original String.
+   */
+  private String transformStringUsingEditList(
+      String orig, String replace, List<List<Integer>> editsA, List<List<Integer>> editsB) {
+    assertThat(editsA).hasSize(editsB.size());
+    StringBuilder process = new StringBuilder(orig);
+    // The edits are processed right to left to avoid recomputation of indices when characters
+    // are removed.
+    for (int i = editsA.size() - 1; i >= 0; i--) {
+      List<Integer> leftEdit = editsA.get(i);
+      List<Integer> rightEdit = editsB.get(i);
+      process.replace(
+          leftEdit.get(0),
+          leftEdit.get(0) + leftEdit.get(1),
+          replace.substring(rightEdit.get(0), rightEdit.get(0) + rightEdit.get(1)));
+    }
+    return process.toString();
   }
 }

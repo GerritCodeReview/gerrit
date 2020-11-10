@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03d6b00d_b2a590e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-10T10:02:55Z",
+      "side": 1,
+      "message": "Ben, Dmitrii is OOO - do you have time to take a look?",
+      "revId": "b80a4dc25a9fd05937ba753e72fb4ec66fd9a18e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

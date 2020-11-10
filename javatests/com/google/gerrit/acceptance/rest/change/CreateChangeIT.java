@@ -714,7 +714,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.branch = "foo";
 
-    assertCreateFails(input, ResourceNotFoundException.class, "ref refs/heads/foo not found");
+    // Denying read on refs/heads/* results in the whole project not being visible to the user
+    assertCreateFails(input, UnprocessableEntityException.class, "Project Not Found:");
   }
 
   @Test

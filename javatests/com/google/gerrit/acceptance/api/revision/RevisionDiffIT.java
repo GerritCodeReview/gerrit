@@ -880,6 +880,34 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  // TODO(ghareeb) unignore this test when the issue is fixed
+  // Issue: bugs.chromium.org/p/gerrit/issues/detail?id=13563
+  @Ignore
+  public void intralineEditsAreIdentified() throws Exception {
+    assume().that(intraline).isTrue();
+
+    String content = "[-9999,9999]";
+    String replacement = "[-999,999]";
+
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat(content));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace(content, replacement));
+
+    // todo(ghareeb): remove this comment when the issue is fixed.
+    // The returned diff incorrectly contains:
+    // replace [-9999{,99}99] with [-999{,}999].
+    // If this replace edit is done, the resulting string incorrectly becomes [-9999,99].
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
+
+    List<List<Integer>> editA = diffInfo.content.get(1).editA;
+    List<List<Integer>> editB = diffInfo.content.get(1).editB;
+    assertIntralineDiffOk(content, replacement, editA, editB);
+  }
+
+  @Test
   public void intralineEditsForModifiedLastLineArePreservedWhenNewlineIsAlsoAddedAtEnd()
       throws Exception {
     assume().that(intraline).isTrue();
@@ -2844,5 +2872,28 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .file(fileName)
         .diffRequest()
         .withIntraline(intraline);
+  }
+
+  /**
+   * This method transforms the {@code orig} input String using the list of replace edits {@code
+   * editsA} and {@code editsB} and asserts that the resulting String is equal to the {@code
+   * replace}. The method currently assumes that all input edits are replace edits, and that the
+   * edits are sorted according to their indices.
+   */
+  private void assertIntralineDiffOk(
+      String orig, String replace, List<List<Integer>> editsA, List<List<Integer>> editsB) {
+    assertThat(editsA).hasSize(editsB.size());
+    StringBuilder process = new StringBuilder(orig);
+    // The edits are processed right to left to avoid recomputation of indices when characters
+    // are removed.
+    for (int i = editsA.size() - 1; i >= 0; i--) {
+      List<Integer> leftEdit = editsA.get(i);
+      List<Integer> rightEdit = editsB.get(i);
+      process.replace(
+          leftEdit.get(0),
+          leftEdit.get(0) + leftEdit.get(1),
+          replace.substring(rightEdit.get(0), rightEdit.get(0) + rightEdit.get(1)));
+    }
+    assertThat(process.toString()).isEqualTo(replace);
   }
 }

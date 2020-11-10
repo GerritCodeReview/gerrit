@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-diff-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {ChangeStatus} from '../../../constants/constants.js';
+import {ChangeStatus, CommentSide} from '../../../constants/constants.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
@@ -138,13 +138,13 @@ suite('gr-diff-view tests', () => {
             id: 'c1',
             line: 10,
             patch_set: 2,
-            __commentSide: 'left',
+            __commentSide: CommentSide.PARENT,
             path: '/COMMIT_MSG',
           }, {
             id: 'c3',
             line: 10,
             patch_set: 'PARENT',
-            __commentSide: 'left',
+            __commentSide: CommentSide.PARENT,
             path: '/COMMIT_MSG',
           },
         ]},
@@ -200,8 +200,8 @@ suite('gr-diff-view tests', () => {
       };
       sinon.stub(element.$.diffHost, '_commentsChanged');
       sinon.stub(element, '_getCommentsForPath').returns({
-        left: [{id: 'c1', __commentSide: 'left', line: 10}],
-        right: [{id: 'c2', __commentSide: 'right', line: 11}],
+        left: [{id: 'c1', __commentSide: CommentSide.PARENT, line: 10}],
+        right: [{id: 'c2', __commentSide: CommentSide.REVISION, line: 11}],
       });
       element._change = {
         ...createChange(),

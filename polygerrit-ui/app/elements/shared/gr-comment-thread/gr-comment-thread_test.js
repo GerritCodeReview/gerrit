@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-comment-thread.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {SpecialFilePath} from '../../../constants/constants.js';
+import {SpecialFilePath, CommentSide} from '../../../constants/constants.js';
 import {sortComments} from '../../../utils/comment-util.js';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');
@@ -266,7 +266,7 @@ suite('comment action tests with unresolved thread', () => {
       path: '/path/to/file.txt',
       unresolved: true,
       patch_set: 3,
-      __commentSide: 'left',
+      __commentSide: CommentSide.PARENT,
     }];
     flush();
   });

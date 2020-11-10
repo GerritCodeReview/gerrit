@@ -158,63 +158,100 @@ export class GrCursorManager extends GestureEventListeners(
    * The method uses IntersectionObservers API. If browser
    * doesn't support this API the method does nothing
    *
-   * @param condition Optional condition. If a condition
+   * @param filter Optional condition. If a condition
    * is passed only stops which meet conditions are taken into account.
    */
-  moveToVisibleArea(condition?: (el: Element) => boolean) {
-    if (!this.stops || !this._isIntersectionObserverSupported()) {
-      return;
+  async moveToVisibleArea(filter?: (el: Element) => boolean) {
+    const centerMostStop = await this._getCenterMostStop(filter);
+    // In most cases the target is visible, so scroll is not
+    // needed. But in rare cases the target can become invisible
+    // at this point (due to some scrolling in window).
+    // To avoid jumps set noScroll options.
+    if (centerMostStop) {
+      this.setCursor(centerMostStop, true);
     }
-    const filteredStops = condition
-      ? this.targetableStops.filter(condition)
+  }
+
+  /**
+   * Returns all visible stops.
+   *
+   * This method uses the IntersectionObservers API. If the browser
+   * doesn't support this API the returned promise is rejected.
+   *
+   * @param filter Optional condition. If a condition
+   * is passed only stops which meet conditions are taken into account.
+   */
+  async getVisibleStops(
+    filter?: (el: Element) => boolean
+  ): Promise<Stop[] | undefined> {
+    const visibleEntries = await this._getVisibleEntriesOnce(filter);
+    return visibleEntries.map(entry => entry.target as HTMLElement);
+  }
+
+  private async _getCenterMostStop(
+    filter?: (el: Element) => boolean
+  ): Promise<HTMLElement | null> {
+    const visibleEntries = await this._getVisibleEntriesOnce(filter);
+    const windowCenter = Math.round(this._getWindowDims().innerHeight / 2);
+
+    let centerMostStop: HTMLElement | null = null;
+    let minDistanceToCenter = Number.MAX_VALUE;
+
+    for (const entry of visibleEntries) {
+      const center =
+        entry.boundingClientRect.top +
+        Math.round(entry.boundingClientRect.height / 2);
+      const distanceToWindowCenter = Math.abs(center - windowCenter);
+      if (distanceToWindowCenter < minDistanceToCenter) {
+        // entry.target comes from the filteredStops array,
+        // hence it is an HTMLElement
+        centerMostStop = entry.target as HTMLElement;
+        minDistanceToCenter = distanceToWindowCenter;
+      }
+    }
+    return centerMostStop;
+  }
+
+  private async _getVisibleEntriesOnce(
+    filter?: (el: Element) => boolean
+  ): Promise<IntersectionObserverEntry[]> {
+    if (!this._isIntersectionObserverSupported()) {
+      throw new Error('Intersection observing not supported');
+    }
+    if (!this.stops) {
+      return [];
+    }
+    const filteredStops = filter
+      ? this.targetableStops.filter(filter)
       : this.targetableStops;
-    const dims = this._getWindowDims();
-    const windowCenter = Math.round(dims.innerHeight / 2);
 
-    let closestToTheCenter: HTMLElement | null = null;
-    let minDistanceToCenter: number | null = null;
-    let unobservedCount = filteredStops.length;
+    return new Promise(resolve => {
+      let unobservedCount = filteredStops.length;
+      const visibleEntries: IntersectionObserverEntry[] = [];
+      const observer = new IntersectionObserver(entries => {
+        visibleEntries.push(
+          ...entries
+            // In Edge it is recommended to use intersectionRatio instead of
+            // isIntersecting.
+            .filter(
+              entry => entry.isIntersecting || entry.intersectionRatio > 0
+            )
+        );
 
-    const observer = new IntersectionObserver(entries => {
-      // This callback is called for the first time immediately.
-      // Typically it gets all observed stops at once, but
-      // sometimes can get them in several chunks.
-      entries.forEach(entry => {
-        observer.unobserve(entry.target);
-
-        // In Edge it is recommended to use intersectionRatio instead of
-        // isIntersecting.
-        const isInsideViewport =
-          entry.isIntersecting || entry.intersectionRatio > 0;
-        if (!isInsideViewport) {
-          return;
+        // This callback is called for the first time immediately.
+        // Typically it gets all observed stops at once, but
+        // sometimes can get them in several chunks.
+        for (const entry of entries) {
+          observer.unobserve(entry.target);
         }
-        const center =
-          entry.boundingClientRect.top +
-          Math.round(entry.boundingClientRect.height / 2);
-        const distanceToWindowCenter = Math.abs(center - windowCenter);
-        if (
-          minDistanceToCenter === null ||
-          distanceToWindowCenter < minDistanceToCenter
-        ) {
-          // entry.target comes from the filteredStops array,
-          // hence it is an HTMLElement
-          closestToTheCenter = entry.target as HTMLElement;
-          minDistanceToCenter = distanceToWindowCenter;
+        unobservedCount -= entries.length;
+        if (unobservedCount === 0) {
+          resolve(visibleEntries);
         }
       });
-      unobservedCount -= entries.length;
-      if (unobservedCount === 0 && closestToTheCenter) {
-        // set cursor when all stops were observed.
-        // In most cases the target is visible, so scroll is not
-        // needed. But in rare cases the target can become invisible
-        // at this point (due to some scrolling in window).
-        // To avoid jumps set noScroll options.
-        this.setCursor(closestToTheCenter, true);
+      for (const stop of filteredStops) {
+        observer.observe(stop);
       }
-    });
-    filteredStops.forEach(stop => {
-      observer.observe(stop);
     });
   }
 

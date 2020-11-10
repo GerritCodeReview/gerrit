@@ -1428,8 +1428,6 @@ suite('gr-diff-host tests', () => {
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
         [l, r]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Side.BOTH), [l, r]);
-    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
         Side.LEFT), [l]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
         Side.RIGHT), [r]);

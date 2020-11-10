@@ -921,12 +921,11 @@ export class GrDiffHost extends GestureEventListeners(
     }
 
     // Select the appropriate matchers for the desired side and line
-    // If side is BOTH, we want both the left and right matcher.
     const matchers: ((thread: GrCommentThread) => boolean)[] = [];
-    if (side !== Side.RIGHT) {
+    if (side === Side.LEFT) {
       matchers.push(matchesLeftLine);
     }
-    if (side !== Side.LEFT) {
+    if (side === Side.RIGHT) {
       matchers.push(matchesRightLine);
     }
     if (lineInfo.afterNumber === 'FILE' || lineInfo.beforeNumber === 'FILE') {

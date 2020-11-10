@@ -54,6 +54,7 @@ import {DiffViewMode, Side} from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import {AbortStop} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -193,7 +194,7 @@ export class GrDiff extends GestureEventListeners(
 
   /** True when diff is changed, until the content is done rendering. */
   @property({type: Boolean})
-  _loading = false;
+  _loading = true;
 
   @property({type: Boolean})
   loggedIn = false;
@@ -459,14 +460,17 @@ export class GrDiff extends GestureEventListeners(
     this.cancelDebouncer(RENDER_DIFF_TABLE_DEBOUNCE_NAME);
   }
 
-  getCursorStops(): HTMLElement[] {
+  getCursorStops(): Array<HTMLElement | AbortStop> {
     if (this.hidden && this.noAutoRender) return [];
-    if (!this.root) return [];
+
+    if (this._loading) {
+      return [new AbortStop()];
+    }
 
     return Array.from(
-      this.root.querySelectorAll<HTMLElement>(
+      this.root?.querySelectorAll<HTMLElement>(
         ':not(.contextControl) > .diff-row'
-      )
+      ) || []
     ).filter(tr => tr.querySelector('button'));
   }
 

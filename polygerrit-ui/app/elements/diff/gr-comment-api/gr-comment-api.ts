@@ -66,8 +66,8 @@ export interface TwoSidesComments {
     patchRange: PatchRange;
     projectConfig?: ConfigInfo;
   };
-  left: UIComment[];
-  right: UIComment[];
+  [CommentSide.PARENT]: UIComment[];
+  [CommentSide.REVISION]: UIComment[];
 }
 
 export class ChangeComments {
@@ -366,15 +366,15 @@ export class ChangeComments {
         patchRange,
         projectConfig,
       },
-      left: baseComments,
-      right: revisionComments,
+      [CommentSide.PARENT]: baseComments,
+      [CommentSide.REVISION]: revisionComments,
     };
   }
 
   /**
    * Get the comments (with drafts and robot comments) for a file and
-   * patch-range. Returns an object with left and right properties mapping to
-   * arrays of comments in on either side of the patch range for that path.
+   * patch-range. Returns an object with parent and revision properties mapping
+   * to arrays of comments in on either side of the patch range for that path.
    *
    * // TODO(taoalpha): maybe merge *ForPath so find all comments in one pass
    *
@@ -399,9 +399,13 @@ export class ChangeComments {
         patchRange,
         projectConfig
       );
-      // merge in the left and right
-      comments.left = comments.left.concat(commentsForBasePath.left);
-      comments.right = comments.right.concat(commentsForBasePath.right);
+      // merge in the parent and revision
+      comments[CommentSide.PARENT] = comments[CommentSide.PARENT].concat(
+        commentsForBasePath[CommentSide.PARENT]
+      );
+      comments[CommentSide.REVISION] = comments[CommentSide.REVISION].concat(
+        commentsForBasePath[CommentSide.REVISION]
+      );
     }
     return comments;
   }

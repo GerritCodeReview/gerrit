@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-comment.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {__testOnly_UNSAVED_MESSAGE} from './gr-comment.js';
-import {SpecialFilePath} from '../../../constants/constants.js';
+import {SpecialFilePath, CommentSide} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-comment');
 
@@ -477,7 +477,7 @@ suite('gr-comment tests', () => {
       element.patchNum = 1;
       element.editing = false;
       element.comment = {
-        __commentSide: 'right',
+        __commentSide: CommentSide.REVISION,
         __draft: true,
         __draftID: 'temp_draft_id',
         path: '/path/to/file',
@@ -911,7 +911,7 @@ suite('gr-comment tests', () => {
 
         assert.deepEqual(dispatchEventStub.lastCall.args[0].detail, {
           comment: {
-            __commentSide: 'right',
+            __commentSide: CommentSide.REVISION,
             __draft: true,
             __draftID: 'temp_draft_id',
             id: 'baf0414d_40572e03',
@@ -1139,7 +1139,7 @@ suite('gr-comment tests', () => {
           updated: '2017-04-04 15:36:17.000000000',
           message: 'This is a robot comment with a fix.',
           unresolved: false,
-          __commentSide: 'right',
+          __commentSide: CommentSide.REVISION,
           collapsed: false,
         },
         {
@@ -1149,7 +1149,7 @@ suite('gr-comment tests', () => {
           path: 'Documentation/config-gerrit.txt',
           patchNum: 1,
           side: 'REVISION',
-          __commentSide: 'right',
+          __commentSide: CommentSide.REVISION,
           line: 10,
           in_reply_to: 'eb0d03fd_5e95904f',
           message: '> This is a robot comment with a fix.\n\nPlease fix.',
@@ -1214,7 +1214,7 @@ suite('gr-comment tests', () => {
           updated: '2017-04-04 15:36:17.000000000',
           message: 'This is a robot comment with a fix.',
           unresolved: false,
-          __commentSide: 'right',
+          __commentSide: CommentSide.REVISION,
           collapsed: false,
         },
       ];

@@ -64,7 +64,7 @@ import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
 import {
   DiffViewMode,
   IgnoreWhitespaceType,
-  Side,
+  CommentSide,
 } from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
@@ -116,7 +116,7 @@ interface LineInfo {
 interface CommentThread {
   comments: UIComment[];
   // In the context of a diff each thread must have a side!
-  commentSide: Side;
+  commentSide: CommentSide;
   patchNum?: PatchSetNum;
   lineNum?: LineNumber;
   isOnParent?: boolean;
@@ -707,12 +707,12 @@ export class GrDiffHost extends GestureEventListeners(
 
   _commentsChanged(newComments: TwoSidesComments) {
     const allComments = [];
-    for (const side of [Side.LEFT, Side.RIGHT]) {
+    for (const commentSide of [CommentSide.PARENT, CommentSide.REVISION]) {
       // This is needed by the threading.
-      for (const comment of newComments[side]) {
-        comment.__commentSide = side;
+      for (const comment of newComments[commentSide]) {
+        comment.__commentSide = commentSide;
       }
-      allComments.push(...newComments[side]);
+      allComments.push(...newComments[commentSide]);
     }
     // Currently, the only way this is ever changed here is when the initial
     // comments are loaded, so it's okay performance wise to clear the threads
@@ -794,7 +794,7 @@ export class GrDiffHost extends GestureEventListeners(
   _getOrCreateThread(
     patchNum: PatchSetNum,
     lineNum: LineNumber | undefined,
-    commentSide: Side,
+    commentSide: CommentSide,
     range?: CommentRange,
     isOnParent?: boolean
   ): GrCommentThread {
@@ -837,7 +837,7 @@ export class GrDiffHost extends GestureEventListeners(
     if (
       this.file &&
       this.file.basePath &&
-      thread.commentSide === Side.LEFT &&
+      thread.commentSide === CommentSide.PARENT &&
       !thread.isOnParent
     ) {
       threadEl.path = this.file.basePath;
@@ -867,13 +867,13 @@ export class GrDiffHost extends GestureEventListeners(
    */
   _getThreadEl(
     lineNum: LineNumber | undefined,
-    commentSide: Side,
+    commentSide: CommentSide,
     range?: CommentRange
   ): GrCommentThread | null {
     let line: LineInfo;
-    if (commentSide === Side.LEFT) {
+    if (commentSide === CommentSide.PARENT) {
       line = {beforeNumber: lineNum};
-    } else if (commentSide === Side.RIGHT) {
+    } else if (commentSide === CommentSide.REVISION) {
       line = {afterNumber: lineNum};
     } else {
       throw new Error(`Unknown side: ${commentSide}`);
@@ -897,23 +897,23 @@ export class GrDiffHost extends GestureEventListeners(
   _filterThreadElsForLocation(
     threadEls: GrCommentThread[],
     lineInfo: LineInfo,
-    side: Side
+    commentSide: CommentSide
   ) {
     function matchesLeftLine(threadEl: GrCommentThread) {
       return (
-        threadEl.getAttribute('comment-side') === Side.LEFT &&
+        threadEl.getAttribute('comment-side') === CommentSide.PARENT &&
         threadEl.getAttribute('line-num') === String(lineInfo.beforeNumber)
       );
     }
     function matchesRightLine(threadEl: GrCommentThread) {
       return (
-        threadEl.getAttribute('comment-side') === Side.RIGHT &&
+        threadEl.getAttribute('comment-side') === CommentSide.REVISION &&
         threadEl.getAttribute('line-num') === String(lineInfo.afterNumber)
       );
     }
     function matchesFileComment(threadEl: GrCommentThread) {
       return (
-        threadEl.getAttribute('comment-side') === side &&
+        threadEl.getAttribute('comment-side') === commentSide &&
         // line/range comments have 1-based line set, if line is falsy it's
         // a file comment
         !threadEl.getAttribute('line-num')
@@ -922,10 +922,10 @@ export class GrDiffHost extends GestureEventListeners(
 
     // Select the appropriate matchers for the desired side and line
     const matchers: ((thread: GrCommentThread) => boolean)[] = [];
-    if (side === Side.LEFT) {
+    if (commentSide !== CommentSide.REVISION) {
       matchers.push(matchesLeftLine);
     }
-    if (side === Side.RIGHT) {
+    if (commentSide !== CommentSide.PARENT) {
       matchers.push(matchesRightLine);
     }
     if (lineInfo.afterNumber === 'FILE' || lineInfo.beforeNumber === 'FILE') {
@@ -1027,38 +1027,39 @@ export class GrDiffHost extends GestureEventListeners(
   }
 
   _removeComment(comment: UIComment) {
-    const side = comment.__commentSide;
-    if (!side) throw new Error('Missing required "side" in comment.');
-    this._removeCommentFromSide(comment, side);
+    const commentSide = comment.__commentSide;
+    if (!commentSide)
+      throw new Error('Missing required "commentSide" in comment.');
+    this._removeCommentFromSide(comment, commentSide);
   }
 
-  _removeCommentFromSide(comment: Comment, side: Side) {
-    let idx = this._findCommentIndex(comment, side);
+  _removeCommentFromSide(comment: Comment, commentSide: CommentSide) {
+    let idx = this._findCommentIndex(comment, commentSide);
     if (idx === -1) {
-      idx = this._findDraftIndex(comment, side);
+      idx = this._findDraftIndex(comment, commentSide);
     }
     if (idx !== -1) {
-      this.splice('comments.' + side, idx, 1);
+      this.splice('comments.' + commentSide, idx, 1);
     }
   }
 
-  _findCommentIndex(comment: Comment, side: Side) {
-    if (!comment.id || !this.comments || !this.comments[side]) {
+  _findCommentIndex(comment: Comment, commentSide: CommentSide) {
+    if (!comment.id || !this.comments || !this.comments[commentSide]) {
       return -1;
     }
-    return this.comments[side].findIndex(item => item.id === comment.id);
+    return this.comments[commentSide].findIndex(item => item.id === comment.id);
   }
 
-  _findDraftIndex(comment: Comment, side: Side) {
+  _findDraftIndex(comment: Comment, commentSide: CommentSide) {
     if (
       !isDraft(comment) ||
       !comment.__draftID ||
       !this.comments ||
-      !this.comments[side]
+      !this.comments[commentSide]
     ) {
       return -1;
     }
-    return this.comments[side].findIndex(
+    return this.comments[commentSide].findIndex(
       item => isDraft(item) && item.__draftID === comment.__draftID
     );
   }

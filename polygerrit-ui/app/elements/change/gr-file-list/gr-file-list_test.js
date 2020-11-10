@@ -29,6 +29,7 @@ import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api.js';
+import { CommentSide } from '../../../constants/constants.js';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
@@ -107,7 +108,8 @@ suite('gr-file-list tests', () => {
       commentApiWrapper.loadComments().then(() => {
         sinon.stub(element.changeComments, 'getPaths').returns({});
         sinon.stub(element.changeComments, 'getCommentsBySideForPath')
-            .returns({meta: {}, left: [], right: []});
+            .returns({meta: {}, [CommentSide.PARENT]: [],
+              [CommentSide.REVISION]: []});
         done();
       });
       element._loading = false;
@@ -1495,8 +1497,9 @@ suite('gr-file-list tests', () => {
 
     async function setupDiff(diff) {
       diff.comments = {
-        left: diff.path === '/COMMIT_MSG' ? commitMsgComments : [],
-        right: [],
+        [CommentSide.PARENT]: diff.path === '/COMMIT_MSG' ? commitMsgComments :
+          [],
+        [CommentSide.REVISION]: [],
         meta: {
           changeNum: 1,
           patchRange: {
@@ -1576,7 +1579,8 @@ suite('gr-file-list tests', () => {
       commentApiWrapper.loadComments().then(() => {
         sinon.stub(element.changeComments, 'getPaths').returns({});
         sinon.stub(element.changeComments, 'getCommentsBySideForPath')
-            .returns({meta: {}, left: [], right: []});
+            .returns({meta: {}, [CommentSide.PARENT]: [],
+              [CommentSide.REVISION]: []});
         done();
       });
       element._loading = false;

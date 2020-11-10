@@ -21,7 +21,7 @@ import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {sortComments} from '../../../utils/comment-util.js';
-import {Side} from '../../../constants/constants.js';
+import {Side, CommentSide} from '../../../constants/constants.js';
 import {createChange} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
@@ -75,23 +75,25 @@ suite('gr-diff-host tests', () => {
           projectConfig: {foo: 'bar'},
         },
         left: [
-          {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-          {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
-          {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-          {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+          {id: 'bc1', side: 'PARENT', __commentSide: CommentSide.PARENT},
+          {id: 'bc2', side: 'PARENT', __commentSide: CommentSide.PARENT},
+          {id: 'bd1', __draft: true, side: 'PARENT',
+            __commentSide: CommentSide.PARENT},
+          {id: 'bd2', __draft: true, side: 'PARENT',
+            __commentSide: CommentSide.PARENT},
         ],
         right: [
-          {id: 'c1', __commentSide: 'right'},
-          {id: 'c2', __commentSide: 'right'},
-          {id: 'd1', __draft: true, __commentSide: 'right'},
-          {id: 'd2', __draft: true, __commentSide: 'right'},
+          {id: 'c1', __commentSide: CommentSide.REVISION},
+          {id: 'c2', __commentSide: CommentSide.REVISION},
+          {id: 'd1', __draft: true, __commentSide: CommentSide.REVISION},
+          {id: 'd2', __draft: true, __commentSide: CommentSide.REVISION},
         ],
       };
     });
 
     test('creating a draft', () => {
       const comment = {__draft: true, __draftID: 'tempID', side: 'PARENT',
-        __commentSide: 'left'};
+        __commentSide: CommentSide.PARENT};
       element.dispatchEvent(
           new CustomEvent('comment-update', {
             detail: {comment},
@@ -107,7 +109,7 @@ suite('gr-diff-host tests', () => {
         __draft: true,
         __draftID: draftID,
         side: 'PARENT',
-        __commentSide: 'left',
+        __commentSide: CommentSide.PARENT,
       };
       const diffCommentsModifiedStub = sinon.stub();
       element.addEventListener('diff-comments-modified',
@@ -132,7 +134,7 @@ suite('gr-diff-host tests', () => {
         __draft: true,
         __draftID: draftID,
         side: 'PARENT',
-        __commentSide: 'left',
+        __commentSide: CommentSide.PARENT,
       };
       const diffCommentsModifiedStub = sinon.stub();
       element.addEventListener('diff-comments-modified',
@@ -165,16 +167,18 @@ suite('gr-diff-host tests', () => {
         projectConfig: {foo: 'bar'},
       },
       left: [
-        {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-        {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
-        {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-        {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+        {id: 'bc1', side: 'PARENT', __commentSide: CommentSide.PARENT},
+        {id: 'bc2', side: 'PARENT', __commentSide: CommentSide.PARENT},
+        {id: 'bd1', __draft: true, side: 'PARENT',
+          __commentSide: CommentSide.PARENT},
+        {id: 'bd2', __draft: true, side: 'PARENT',
+          __commentSide: CommentSide.PARENT},
       ],
       right: [
-        {id: 'c1', __commentSide: 'right'},
-        {id: 'c2', __commentSide: 'right'},
-        {id: 'd1', __draft: true, __commentSide: 'right'},
-        {id: 'd2', __draft: true, __commentSide: 'right'},
+        {id: 'c1', __commentSide: CommentSide.REVISION},
+        {id: 'c2', __commentSide: CommentSide.REVISION},
+        {id: 'd1', __draft: true, __commentSide: CommentSide.REVISION},
+        {id: 'd2', __draft: true, __commentSide: CommentSide.REVISION},
       ],
     };
 
@@ -191,21 +195,23 @@ suite('gr-diff-host tests', () => {
         projectConfig: {foo: 'bar'},
       },
       left: [
-        {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-        {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
-        {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-        {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+        {id: 'bc1', side: 'PARENT', __commentSide: CommentSide.PARENT},
+        {id: 'bc2', side: 'PARENT', __commentSide: CommentSide.PARENT},
+        {id: 'bd1', __draft: true, side: 'PARENT',
+          __commentSide: CommentSide.PARENT},
+        {id: 'bd2', __draft: true, side: 'PARENT',
+          __commentSide: CommentSide.PARENT},
       ],
       right: [
-        {id: 'c1', __commentSide: 'right'},
-        {id: 'c2', __commentSide: 'right'},
-        {id: 'd1', __draft: true, __commentSide: 'right'},
-        {id: 'd2', __draft: true, __commentSide: 'right'},
+        {id: 'c1', __commentSide: CommentSide.REVISION},
+        {id: 'c2', __commentSide: CommentSide.REVISION},
+        {id: 'd1', __draft: true, __commentSide: CommentSide.REVISION},
+        {id: 'd2', __draft: true, __commentSide: CommentSide.REVISION},
       ],
     }));
 
     element._removeComment({id: 'bc2', side: 'PARENT',
-      __commentSide: 'left'});
+      __commentSide: CommentSide.PARENT});
     assert.deepEqual(element.comments, {
       meta: {
         changeNum: '42',
@@ -217,19 +223,21 @@ suite('gr-diff-host tests', () => {
         projectConfig: {foo: 'bar'},
       },
       left: [
-        {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-        {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-        {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+        {id: 'bc1', side: 'PARENT', __commentSide: CommentSide.PARENT},
+        {id: 'bd1', __draft: true, side: 'PARENT',
+          __commentSide: CommentSide.PARENT},
+        {id: 'bd2', __draft: true, side: 'PARENT',
+          __commentSide: CommentSide.PARENT},
       ],
       right: [
-        {id: 'c1', __commentSide: 'right'},
-        {id: 'c2', __commentSide: 'right'},
-        {id: 'd1', __draft: true, __commentSide: 'right'},
-        {id: 'd2', __draft: true, __commentSide: 'right'},
+        {id: 'c1', __commentSide: CommentSide.REVISION},
+        {id: 'c2', __commentSide: CommentSide.REVISION},
+        {id: 'd1', __draft: true, __commentSide: CommentSide.REVISION},
+        {id: 'd2', __draft: true, __commentSide: CommentSide.REVISION},
       ],
     });
 
-    element._removeComment({id: 'd2', __commentSide: 'right'});
+    element._removeComment({id: 'd2', __commentSide: CommentSide.REVISION});
     assert.deepEqual(element.comments, {
       meta: {
         changeNum: '42',
@@ -241,14 +249,16 @@ suite('gr-diff-host tests', () => {
         projectConfig: {foo: 'bar'},
       },
       left: [
-        {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-        {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-        {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+        {id: 'bc1', side: 'PARENT', __commentSide: CommentSide.PARENT},
+        {id: 'bd1', __draft: true, side: 'PARENT',
+          __commentSide: CommentSide.PARENT},
+        {id: 'bd2', __draft: true, side: 'PARENT',
+          __commentSide: CommentSide.PARENT},
       ],
       right: [
-        {id: 'c1', __commentSide: 'right'},
-        {id: 'c2', __commentSide: 'right'},
-        {id: 'd1', __draft: true, __commentSide: 'right'},
+        {id: 'c1', __commentSide: CommentSide.REVISION},
+        {id: 'c2', __commentSide: CommentSide.REVISION},
+        {id: 'd1', __draft: true, __commentSide: CommentSide.REVISION},
       ],
     });
   });
@@ -257,12 +267,12 @@ suite('gr-diff-host tests', () => {
     const threads = element._createThreads([
       {
         id: 4711,
-        __commentSide: 'left',
+        __commentSide: CommentSide.PARENT,
         updated: '2015-12-20 15:01:20.396000000',
       },
       {
         id: 42,
-        __commentSide: 'left',
+        __commentSide: CommentSide.PARENT,
         updated: '2017-12-20 15:01:20.396000000',
       },
     ]);
@@ -1128,7 +1138,7 @@ suite('gr-diff-host tests', () => {
       {
         id: 'new_draft',
         message: 'i do not like either of you',
-        __commentSide: 'left',
+        __commentSide: CommentSide.PARENT,
         __draft: true,
         updated: '2015-12-20 15:01:20.396000000',
       },
@@ -1137,12 +1147,12 @@ suite('gr-diff-host tests', () => {
         message: 'i like you, jack',
         updated: '2015-12-23 15:00:20.396000000',
         line: 1,
-        __commentSide: 'left',
+        __commentSide: CommentSide.PARENT,
       }, {
         id: 'jacks_reply',
         message: 'i like you, too',
         updated: '2015-12-24 15:01:20.396000000',
-        __commentSide: 'left',
+        __commentSide: CommentSide.PARENT,
         line: 1,
         in_reply_to: 'sallys_confession',
       },
@@ -1160,19 +1170,19 @@ suite('gr-diff-host tests', () => {
         message: 'i like you, jack',
         updated: '2015-12-23 15:00:20.396000000',
         line: 1,
-        __commentSide: 'left',
+        __commentSide: CommentSide.PARENT,
       }, {
         id: 'jacks_reply',
         message: 'i like you, too',
         updated: '2015-12-24 15:01:20.396000000',
-        __commentSide: 'left',
+        __commentSide: CommentSide.PARENT,
         line: 1,
         in_reply_to: 'sallys_confession',
       },
       {
         id: 'new_draft',
         message: 'i do not like either of you',
-        __commentSide: 'left',
+        __commentSide: CommentSide.PARENT,
         __draft: true,
         updated: '2015-12-20 15:01:20.396000000',
       },
@@ -1208,7 +1218,7 @@ suite('gr-diff-host tests', () => {
         end_character: 2,
       },
       patch_set: 5,
-      __commentSide: 'left',
+      __commentSide: CommentSide.PARENT,
       line: 1,
     }];
 
@@ -1226,7 +1236,7 @@ suite('gr-diff-host tests', () => {
             end_character: 2,
           },
           patch_set: 5,
-          __commentSide: 'left',
+          __commentSide: CommentSide.PARENT,
           line: 1,
         }],
         patchNum: 5,
@@ -1253,12 +1263,12 @@ suite('gr-diff-host tests', () => {
             id: 'sallys_confession',
             message: 'i like you, jack',
             updated: '2015-12-23 15:00:20.396000000',
-            __commentSide: 'left',
+            __commentSide: CommentSide.PARENT,
           }, {
             id: 'jacks_reply',
             message: 'i like you, too',
             updated: '2015-12-24 15:01:20.396000000',
-            __commentSide: 'left',
+            __commentSide: CommentSide.PARENT,
           },
         ];
         assert.equal(element._createThreads(comments).length, 2);
@@ -1271,12 +1281,12 @@ suite('gr-diff-host tests', () => {
             id: 'sallys_confession',
             message: 'i like you, jack',
             updated: '2015-12-23 15:00:20.396000000',
-            __commentSide: 'left',
+            __commentSide: CommentSide.PARENT,
           }, {
             id: 'jacks_reply',
             message: 'i like you, too',
             updated: '2015-12-24 15:01:20.396000000',
-            __commentSide: 'left',
+            __commentSide: CommentSide.PARENT,
             in_reply_to: 'sallys_confession',
           },
         ];
@@ -1380,9 +1390,9 @@ suite('gr-diff-host tests', () => {
     const threads = [];
     assert.deepEqual(element._filterThreadElsForLocation(threads, line), []);
     assert.deepEqual(element._filterThreadElsForLocation(threads, line,
-        Side.LEFT), []);
+        CommentSide.PARENT), []);
     assert.deepEqual(element._filterThreadElsForLocation(threads, line,
-        Side.RIGHT), []);
+        CommentSide.REVISION), []);
   });
 
   test('_filterThreadElsForLocation for line comments', () => {
@@ -1406,9 +1416,9 @@ suite('gr-diff-host tests', () => {
 
     const threadEls = [l3, l5, r3, r5];
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Side.LEFT), [l3]);
+        CommentSide.PARENT), [l3]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Side.RIGHT), [r5]);
+        CommentSide.REVISION), [r5]);
   });
 
   test('_filterThreadElsForLocation for file comments', () => {
@@ -1424,9 +1434,9 @@ suite('gr-diff-host tests', () => {
 
     const threadEls = [l, r];
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Side.LEFT), [l]);
+        CommentSide.PARENT), [l]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Side.RIGHT), [r]);
+        CommentSide.REVISION), [r]);
   });
 
   suite('syntax layer with syntax_highlighting on', () => {

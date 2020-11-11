@@ -21,9 +21,11 @@ import {
   RobotCommentInfo,
   Timestamp,
   UrlEncodedCommentId,
+  CommentRange,
 } from '../types/common';
 import {CommentSide, Side} from '../constants/constants';
 import {parseDate} from './date-util';
+import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
 
 export interface DraftCommentProps {
   __draft?: boolean;
@@ -101,13 +103,10 @@ export interface CommentThread {
   comments: UIComment[];
   patchNum?: PatchSetNum;
   path: string;
-  // TODO(TS): It would be nice to use LineNumber here, but the comment thread
-  // element actually relies on line to be undefined for file comments. Be
-  // aware of element attribute getters and setters, if you try to refactor
-  // this. :-) Still worthwhile to do ...
-  line?: number;
+  line?: LineNumber;
   rootId: UrlEncodedCommentId;
   commentSide?: CommentSide;
+  range?: CommentRange;
 }
 
 export function getLastComment(thread?: CommentThread): UIComment | undefined {

@@ -574,7 +574,7 @@ export class GrDiff extends GestureEventListeners(
     // request if file level draft contains the `line: 'FILE'` field
     // probably should do this inside of the _createComment, this
     // is just to keep existing behavior.
-    this._createComment(el, lineNum === FILE ? undefined : lineNum);
+    this._createComment(el, lineNum);
   }
 
   createRangeComment() {

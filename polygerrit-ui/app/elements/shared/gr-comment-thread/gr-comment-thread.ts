@@ -50,6 +50,7 @@ import {GrComment} from '../gr-comment/gr-comment';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 import {CustomKeyboardEvent} from '../../../types/events';
+import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -88,7 +89,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
    * diff widget like gr-diff to show the thread in the right location:
    *
    * line-num:
-   *     1-based line number or undefined if it refers to the entire file.
+   *     1-based line number or 'FILE' if it refers to the entire file.
    *
    * comment-side:
    *     "left" or "right". These indicate which of the two diffed versions
@@ -146,8 +147,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   @property({type: Boolean})
   showFilePath = false;
 
-  @property({type: Number, reflectToAttribute: true})
-  lineNum?: number;
+  @property({type: Object, reflectToAttribute: true})
+  lineNum?: LineNumber;
 
   @property({type: Boolean, notify: true, reflectToAttribute: true})
   unresolved?: boolean;
@@ -200,7 +201,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     this._setInitialExpandedState();
   }
 
-  addOrEditDraft(lineNum?: number, rangeParam?: CommentRange) {
+  addOrEditDraft(lineNum?: LineNumber, rangeParam?: CommentRange) {
     const lastComment = this.comments[this.comments.length - 1] || {};
     if (isDraft(lastComment)) {
       const commentEl = this._commentElWithDraftID(
@@ -223,7 +224,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     }
   }
 
-  addDraft(lineNum?: number, range?: CommentRange, unresolved?: boolean) {
+  addDraft(lineNum?: LineNumber, range?: CommentRange, unresolved?: boolean) {
     const draft = this._newDraft(lineNum, range);
     draft.__editing = true;
     draft.unresolved = unresolved === false ? unresolved : true;
@@ -272,7 +273,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
         path,
         patchNum,
         undefined,
-        this.lineNum
+        this.lineNum === FILE ? undefined : this.lineNum
       );
     }
     const id = this.comments[0].id;
@@ -293,14 +294,14 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   }
 
   _computeDisplayLine() {
-    if (this.lineNum) return `#${this.lineNum}`;
-    // If range is set, then lineNum equals the end line of the range.
-    if (!this.lineNum && !this.range) {
+    if (this.lineNum === FILE) {
       if (this.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
         return '';
       }
-      return 'FILE';
+      return FILE;
     }
+    if (this.lineNum) return `#${this.lineNum}`;
+    // If range is set, then lineNum equals the end line of the range.
     if (this.range) return `#${this.range.end_line}`;
     return '';
   }
@@ -490,7 +491,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     return d;
   }
 
-  _newDraft(lineNum?: number, range?: CommentRange) {
+  _newDraft(lineNum?: LineNumber, range?: CommentRange) {
     const d: UIDraft = {
       __draft: true,
       __draftID: Math.random().toString(36),
@@ -516,7 +517,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       d.side = this._getSide(this.isOnParent);
       d.__commentSide = this.commentSide;
 
-      if (lineNum) {
+      if (lineNum && lineNum !== FILE) {
         d.line = lineNum;
       }
       if (range) {

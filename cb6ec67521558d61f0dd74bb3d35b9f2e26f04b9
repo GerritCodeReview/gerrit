@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16bf00b0_d396bb58",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-11T17:22:10Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "921a7ce8_b5644dd5",
+      "revId": "cb6ec67521558d61f0dd74bb3d35b9f2e26f04b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "383ea9ee_43359a59",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-11-11T16:31:12Z",
       "side": 0,
       "message": "Is this change compatible with other users of gr-diff?",
+      "revId": "cb6ec67521558d61f0dd74bb3d35b9f2e26f04b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b2a49c8_07b8cc3e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-11T17:22:10Z",
+      "side": 0,
+      "message": "Other users of gr-diff will be directly using a private method?\nI assume if they want to create a comment, they will send an event or use any public methods so this change shouldn\u0027t affect them?",
+      "parentUuid": "383ea9ee_43359a59",
       "revId": "cb6ec67521558d61f0dd74bb3d35b9f2e26f04b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

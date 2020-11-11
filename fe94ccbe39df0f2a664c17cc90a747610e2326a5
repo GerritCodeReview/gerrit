@@ -26,6 +26,92 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "500ca930_b3a61483",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T12:04:29Z",
+      "side": 1,
+      "message": "Unused? Remove?",
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2aa423d_f426c50f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T12:04:29Z",
+      "side": 1,
+      "message": "This is same as `window.innerHeight`, right? Maybe remove the `_getWindowDims` indirection.",
+      "range": {
+        "startLine": 195,
+        "startChar": 36,
+        "endLine": 195,
+        "endChar": 69
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "220f2a95_d722e77d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T12:04:29Z",
+      "side": 1,
+      "message": "I am trying to avoid `null` in favor of only using `undefined`. What is your view on that?",
+      "range": {
+        "startLine": 197,
+        "startChar": 45,
+        "endLine": 197,
+        "endChar": 49
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54187373_211b1392",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T12:04:29Z",
+      "side": 1,
+      "message": "What is the difference between\n\n  entry.boundingClientRect\n\nand\n\n  entry.target.boundingClientRect\n\nI am a bit confused about entry vs stop. Maybe you can add a comment what the entry is for.",
+      "range": {
+        "startLine": 202,
+        "startChar": 8,
+        "endLine": 202,
+        "endChar": 33
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e01c2e1c_8af3d10b",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
         "patchSetId": 1
@@ -43,6 +129,23 @@
         "endLine": 215,
         "endChar": 38
       },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d2d9295_a65b623e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T12:04:29Z",
+      "side": 1,
+      "message": "Maybe rename to \u0027getVisibleStops\u0027?",
       "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

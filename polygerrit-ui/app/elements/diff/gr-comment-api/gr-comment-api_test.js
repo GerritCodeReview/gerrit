@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-comment-api.js';
 import {ChangeComments} from './gr-comment-api.js';
+import {CommentSide} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
 
@@ -538,6 +539,7 @@ suite('gr-comment-api tests', () => {
                 __path: 'file/one',
               },
             ],
+            diffSide: undefined,
             commentSide: 'PARENT',
             patchNum: 2,
             path: 'file/one',
@@ -561,11 +563,12 @@ suite('gr-comment-api tests', () => {
                 updated: '2013-02-26 15:01:43.986000000',
               },
             ],
-            commentSide: 'PARENT',
             patchNum: 2,
             path: 'file/one',
             line: 2,
             range: undefined,
+            diffSide: undefined,
+            commentSide: CommentSide.PARENT,
             rootId: '03',
           }, {
             comments: [
@@ -603,6 +606,8 @@ suite('gr-comment-api tests', () => {
             line: 1,
             rootId: '04',
             range: undefined,
+            diffSide: undefined,
+            commentSide: CommentSide.REVISION,
           }, {
             comments: [
               {
@@ -619,6 +624,8 @@ suite('gr-comment-api tests', () => {
             line: 2,
             rootId: '05',
             range: undefined,
+            diffSide: undefined,
+            commentSide: CommentSide.REVISION,
           }, {
             comments: [
               {
@@ -635,6 +642,8 @@ suite('gr-comment-api tests', () => {
             line: 2,
             rootId: '06',
             range: undefined,
+            diffSide: undefined,
+            commentSide: CommentSide.REVISION,
           }, {
             comments: [
               {
@@ -665,6 +674,7 @@ suite('gr-comment-api tests', () => {
             line: 1,
             rootId: '07',
             range: undefined,
+            diffSide: undefined,
           }, {
             comments: [
               {
@@ -681,6 +691,8 @@ suite('gr-comment-api tests', () => {
             line: 1,
             rootId: '09',
             range: undefined,
+            diffSide: undefined,
+            commentSide: CommentSide.REVISION,
           }, {
             comments: [
               {
@@ -699,6 +711,7 @@ suite('gr-comment-api tests', () => {
             line: 1,
             rootId: '10',
             range: undefined,
+            diffSide: undefined,
           }, {
             comments: [
               {
@@ -715,6 +728,8 @@ suite('gr-comment-api tests', () => {
             path: 'file/four',
             line: 1,
             range: undefined,
+            diffSide: undefined,
+            commentSide: CommentSide.REVISION,
           }, {
             comments: [
               {
@@ -732,6 +747,8 @@ suite('gr-comment-api tests', () => {
             path: 'file/two',
             line: 1,
             range: undefined,
+            diffSide: undefined,
+            commentSide: CommentSide.REVISION,
           }, {
             comments: [
               {
@@ -751,6 +768,7 @@ suite('gr-comment-api tests', () => {
             path: 'file/one',
             line: 1,
             range: undefined,
+            diffSide: undefined,
           },
         ];
         const threads = element._changeComments.getAllThreadsForChange();

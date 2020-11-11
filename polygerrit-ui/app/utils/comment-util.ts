@@ -24,6 +24,7 @@ import {
 } from '../types/common';
 import {CommentSide, Side} from '../constants/constants';
 import {parseDate} from './date-util';
+import { CommentIdToCommentThreadMap } from '../elements/diff/gr-comment-api/gr-comment-api';
 
 export interface DraftCommentProps {
   __draft?: boolean;
@@ -97,6 +98,48 @@ export function sortComments<T extends SortableComment>(comments: T[]): T[] {
   });
 }
 
+/**
+  * Computes all of the comments in thread format.
+  *
+  * @param comments sorted by updated timestamp.
+  */
+export function getCommentThreads(comments: UIComment[]) {
+  const threads: CommentThread[] = [];
+  const idThreadMap: CommentIdToCommentThreadMap = {};
+  for (const comment of comments) {
+    if (!comment.id) continue;
+    // If the comment is in reply to another comment, find that comment's
+    // thread and append to it.
+    if (comment.in_reply_to) {
+      const thread = idThreadMap[comment.in_reply_to];
+      if (thread) {
+        thread.comments.push(comment);
+        idThreadMap[comment.id] = thread;
+        continue;
+      }
+    }
+
+    // Otherwise, this comment starts its own thread.
+    if (!comment.__path && !comment.path) {
+      throw new Error('Comment missing required "path".');
+    }
+    const newThread: CommentThread = {
+      comments: [comment],
+      patchNum: comment.patch_set,
+      path: comment.__path || comment.path!,
+      line: comment.line,
+      rootId: comment.id,
+    };
+    if (comment.side) {
+      newThread.commentSide = comment.side;
+    }
+    newThread.diffSide = comment.__commentSide;
+    threads.push(newThread);
+    idThreadMap[comment.id] = newThread;
+  }
+  return threads;
+}
+
 export interface CommentThread {
   comments: UIComment[];
   patchNum?: PatchSetNum;
@@ -107,6 +150,7 @@ export interface CommentThread {
   // this. :-) Still worthwhile to do ...
   line?: number;
   rootId: UrlEncodedCommentId;
+  diffSide?: Side;
   commentSide?: CommentSide;
 }
 

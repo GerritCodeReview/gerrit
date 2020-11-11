@@ -36,6 +36,8 @@ import {
   isDraft,
   sortComments,
   UIComment,
+  CommentThread,
+  getCommentThreads,
 } from '../../../utils/comment-util';
 import {TwoSidesComments} from '../gr-comment-api/gr-comment-api';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -65,6 +67,7 @@ import {
   DiffViewMode,
   IgnoreWhitespaceType,
   Side,
+  CommentSide,
 } from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
@@ -113,15 +116,6 @@ interface LineInfo {
 // What is being used here is just a local object for collecting all the data
 // that is needed to create a GrCommentThread component, see
 // _createThreadElement().
-interface CommentThread {
-  comments: UIComment[];
-  // In the context of a diff each thread must have a side!
-  commentSide: Side;
-  patchNum?: PatchSetNum;
-  lineNum?: LineNumber;
-  isOnParent?: boolean;
-  range?: CommentRange;
-}
 
 export interface GrDiffHost {
   $: {
@@ -719,48 +713,11 @@ export class GrDiffHost extends GestureEventListeners(
     // and recreate them. If this changes in future, we might want to reuse
     // some DOM nodes here.
     this._clearThreads();
-    const threads = this._createThreads(allComments);
+    const threads = getCommentThreads(allComments);
     for (const thread of threads) {
       const threadEl = this._createThreadElement(thread);
       this._attachThreadElement(threadEl);
     }
-  }
-
-  _createThreads(comments: UIComment[]): CommentThread[] {
-    const sortedComments = sortComments(comments);
-    const threads = [];
-    for (const comment of sortedComments) {
-      // If the comment is in reply to another comment, find that comment's
-      // thread and append to it.
-      if (comment.in_reply_to) {
-        const thread = threads.find(thread =>
-          thread.comments.some(c => c.id === comment.in_reply_to)
-        );
-        if (thread) {
-          thread.comments.push(comment);
-          continue;
-        }
-      }
-
-      // Otherwise, this comment starts its own thread.
-      if (!comment.__commentSide) throw new Error('Missing "__commentSide".');
-      const newThread: CommentThread = {
-        comments: [comment],
-        commentSide: comment.__commentSide,
-        patchNum: comment.patch_set,
-        lineNum: comment.line,
-        isOnParent: comment.side === 'PARENT',
-      };
-      if (comment.range) {
-        newThread.range = {...comment.range};
-      }
-      threads.push(newThread);
-    }
-    return threads;
-  }
-
-  _computeIsBlameLoaded(blame: BlameInfo[] | null) {
-    return !!blame;
   }
 
   _getImages(diff: DiffInfo) {
@@ -802,7 +759,7 @@ export class GrDiffHost extends GestureEventListeners(
     if (!threadEl) {
       threadEl = this._createThreadElement({
         comments: [],
-        commentSide,
+        diffSide: commentSide,
         patchNum,
         lineNum,
         range,

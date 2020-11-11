@@ -375,9 +375,11 @@ export class GrPatchRangeSelect extends GestureEventListeners(
       return;
     }
 
-    const commentCount = changeComments.computeCommentCount({patchNum});
-    const commentString = GrCountStringFormatter.computePluralString(
-      commentCount,
+    const commentThreadCount = changeComments.computeCommentThreadCount({
+      patchNum,
+    });
+    const commentThreadString = GrCountStringFormatter.computePluralString(
+      commentThreadCount,
       'comment'
     );
 
@@ -387,14 +389,14 @@ export class GrPatchRangeSelect extends GestureEventListeners(
       'unresolved'
     );
 
-    if (!commentString.length && !unresolvedString.length) {
+    if (!commentThreadString.length && !unresolvedString.length) {
       return '';
     }
 
     return (
-      ` (${commentString}` +
-      // Add a comma + space if both comments and unresolved
-      (commentString && unresolvedString ? ', ' : '') +
+      ` (${commentThreadString}` +
+      // Add a comma + space if both comment threads and unresolved
+      (commentThreadString && unresolvedString ? ', ' : '') +
       `${unresolvedString})`
     );
   }
@@ -437,7 +439,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
         previous: detail.patchNum,
         current: e.detail.value,
         latest: latestPatchNum,
-        commentCount: this.changeComments?.computeCommentCount({
+        commentCount: this.changeComments?.computeCommentThreadCount({
           patchNum: e.detail.value as PatchSetNum,
         }),
       });
@@ -447,7 +449,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
       this.reporting.reportInteraction('left-patchset-changed', {
         previous: detail.basePatchNum,
         current: e.detail.value,
-        commentCount: this.changeComments?.computeCommentCount({
+        commentCount: this.changeComments?.computeCommentThreadCount({
           patchNum: patchSetValue,
         }),
       });

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97c4976e_de3f7c27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-11-11T19:56:16Z",
+      "side": 1,
+      "message": "This support and duration should get documented in the dev-plugins guide.",
+      "revId": "fa435cdd6400cf6cd20c6fa961c5e1a95b696eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b35294c8_89233f20",
+        "filename": "java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-11-11T19:56:16Z",
+      "side": 1,
+      "message": "This interface should document that it supports running LifecycleListeners.",
+      "revId": "fa435cdd6400cf6cd20c6fa961c5e1a95b696eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

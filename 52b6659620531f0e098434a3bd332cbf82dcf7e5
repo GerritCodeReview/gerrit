@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b203245a_d3f620be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2020-11-11T21:37:53Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "57cec7e5_51668b41",
+      "revId": "52b6659620531f0e098434a3bd332cbf82dcf7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6ead3a8a_3259225a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -105,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de35b854_fb4bb6be",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2020-11-11T21:37:53Z",
+      "side": 1,
+      "message": "Switching back to comment (and \u0027c\u0027 on mobile). For completeness, here is what it looked like for me using \u0027comment thread\u0027:\nhttps://imgur.com/a/k51KuJn\n\nLet me know if there\u0027s a better place to share images.",
+      "parentUuid": "5cf594cc_8c9c9727",
+      "revId": "52b6659620531f0e098434a3bd332cbf82dcf7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09c02254_d703e59d",
@@ -142,6 +178,30 @@
       "side": 1,
       "message": "You can also change the reporting and remove this method.",
       "parentUuid": "09c02254_d703e59d",
+      "range": {
+        "startLine": 441,
+        "startChar": 2,
+        "endLine": 441,
+        "endChar": 21
+      },
+      "revId": "52b6659620531f0e098434a3bd332cbf82dcf7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "747b00d1_4eea773a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2020-11-11T21:37:53Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "60ccb458_0c5931db",
       "range": {
         "startLine": 441,
         "startChar": 2,

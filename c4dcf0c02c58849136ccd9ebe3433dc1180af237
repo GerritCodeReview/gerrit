@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27b178de_fa22dbeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-11T09:41:42Z",
+      "side": 1,
+      "message": "We have internal constraints that prevent submitting this change for now",
+      "revId": "c4dcf0c02c58849136ccd9ebe3433dc1180af237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d88e8c69_7d0ee548",

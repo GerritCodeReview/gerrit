@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7a97ac4_6ec3942a",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerByEmailOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-11T14:24:24Z",
+      "side": 1,
+      "message": "There is a conceptual problem with this change. Previously, all code in this method and more generally in this class was single threaded. So we can use mutable members and don\u0027t have to care about races.\n\nWith this change, this premise is no longer true. Code in asyncPostUpdate will run asynchronously on a different thread. If we allow it to access mutable members from this class, we risk races.\n\nYou can see that some of the existing places that used a different thread for sending have variable names a la \"immutableVariableName\" and make immutable copies of objects before dispatching the async runnable.\n\nWe will need to do something similar here to prevent races. Now, I don\u0027t have a canned solution to fix this problem. One option could be that we split data from processing logic in the email sender classes. So instead of having members in each *Sender class, we just have a single member that is called \"Arguments\" and is an immutable AutoValue. We create that in the main thread and hand it over to the background thread. There, we create the *Sender and provide the arguments.\n\nI was thinking about constructing the *Sender in postUpdate instead and just calling #send in asyncPostUpdate, but since *Senders are deeply mutable, that doesn\u0027t seem like a good idea either.\n\nHappy to discuss this further.",
+      "range": {
+        "startLine": 77,
+        "startChar": 14,
+        "endLine": 77,
+        "endChar": 29
+      },
+      "revId": "9d7af48ce2e7cbdcdb13f14a6e5595fbf0b38d38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

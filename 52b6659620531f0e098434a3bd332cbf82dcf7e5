@@ -89,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5cf594cc_8c9c9727",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-11-11T15:41:34Z",
+      "side": 1,
+      "message": "I also would prefer to keep \"Comment\". Because:\n\n1. It is one word so it is consistent with the other tabs\n2. The UI is a comment card and all the thread is contained in the comment card UI. The thread is stemming from the comment.\n3. Users leave a comment on a diff, resolve a comment on a diff... and I assume that this term will be more straightforward than \"Threads\" because I assume that is how users talk about it.",
+      "parentUuid": "5037150f_7c400412",
+      "revId": "52b6659620531f0e098434a3bd332cbf82dcf7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09c02254_d703e59d",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 3

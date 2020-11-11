@@ -148,7 +148,7 @@ suite('gr-diff-view tests', () => {
             path: '/COMMIT_MSG',
           },
         ]},
-        computeCommentCount: () => {},
+        computeCommentThreadCount: () => {},
         computeUnresolvedNum: () => {},
         getPaths: () => {},
         getCommentsBySideForPath: () => {},
@@ -903,14 +903,14 @@ suite('gr-diff-view tests', () => {
     test('_computeCommentString', done => {
       const path = '/test';
       element.$.commentAPI.loadAll().then(comments => {
-        const commentCountStub =
-            sinon.stub(comments, 'computeCommentCount');
+        const commentThreadCountStub =
+            sinon.stub(comments, 'computeCommentThreadCount');
         const unresolvedCountStub =
             sinon.stub(comments, 'computeUnresolvedNum');
-        commentCountStub.withArgs({patchNum: 1, path}).returns(0);
-        commentCountStub.withArgs({patchNum: 2, path}).returns(1);
-        commentCountStub.withArgs({patchNum: 3, path}).returns(2);
-        commentCountStub.withArgs({patchNum: 4, path}).returns(0);
+        commentThreadCountStub.withArgs({patchNum: 1, path}).returns(0);
+        commentThreadCountStub.withArgs({patchNum: 2, path}).returns(1);
+        commentThreadCountStub.withArgs({patchNum: 3, path}).returns(2);
+        commentThreadCountStub.withArgs({patchNum: 4, path}).returns(0);
         unresolvedCountStub.withArgs({patchNum: 1, path}).returns(1);
         unresolvedCountStub.withArgs({patchNum: 2, path}).returns(0);
         unresolvedCountStub.withArgs({patchNum: 3, path}).returns(2);
@@ -920,13 +920,13 @@ suite('gr-diff-view tests', () => {
             '1 unresolved');
         assert.equal(
             element._computeCommentString(comments, 2, path, {status: 'M'}),
-            '1 comment');
+            '1 comment thread');
         assert.equal(
             element._computeCommentString(comments, 2, path, {status: 'U'}),
-            'no changes, 1 comment');
+            'no changes, 1 comment thread');
         assert.equal(
             element._computeCommentString(comments, 3, path, {status: 'A'}),
-            '2 comments, 2 unresolved');
+            '2 comment threads, 2 unresolved');
         assert.equal(
             element._computeCommentString(
                 comments, 4, path, {status: 'M'}
@@ -957,8 +957,8 @@ suite('gr-diff-view tests', () => {
           basePatchNum: PARENT,
           patchNum: 10,
         };
-        // computeCommentCount is an empty function hence stubbing function
-        // that depends on it's return value
+        // computeCommentThreadCount is an empty function hence stubbing
+        // function that depends on it's return value
         sinon.stub(element, '_computeCommentString').returns('');
         element._change = {_number: 42};
         element._files = getFilesFromFileList(

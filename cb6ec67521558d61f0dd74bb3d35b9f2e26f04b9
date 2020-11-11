@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "921a7ce8_b5644dd5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T16:31:12Z",
+      "side": 0,
+      "message": "Remove this comment, because the TODO is addressed?",
+      "revId": "cb6ec67521558d61f0dd74bb3d35b9f2e26f04b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "383ea9ee_43359a59",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T16:31:12Z",
+      "side": 0,
+      "message": "Is this change compatible with other users of gr-diff?",
+      "revId": "cb6ec67521558d61f0dd74bb3d35b9f2e26f04b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

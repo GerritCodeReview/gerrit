@@ -88,7 +88,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
    * diff widget like gr-diff to show the thread in the right location:
    *
    * line-num:
-   *     1-based line number or undefined if it refers to the entire file.
+   *     1-based line number or 'FILE' if it refers to the entire file.
    *
    * comment-side:
    *     "left" or "right". These indicate which of the two diffed versions

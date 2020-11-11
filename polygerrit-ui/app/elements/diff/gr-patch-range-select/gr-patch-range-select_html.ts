@@ -45,9 +45,6 @@ export const htmlTemplate = html`
         --native-select-style: {
           max-width: 5.25em;
         }
-        --dropdown-content-stype: {
-          max-width: 300px;
-        }
       }
     }
   </style>

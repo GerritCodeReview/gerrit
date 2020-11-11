@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c992997d_6433abf8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T11:40:26Z",
+      "side": 0,
+      "message": "This TODO is not correct. I must apologize, because I have added it.\n\ngr-diff is a re-usable component that can also be used by other code review tools, so it has to be agnostic of the comment widgets that are being used. It would be nice though to clearly define a GrDiffCommentThreadWidget interface. And also have a description of expectations that gr-diff has from those widgets.\n\ngr-diff.ts referencing GrCommentThread is also a mistake. It should use a generic GrDiffCommentThreadWidget interface.",
+      "revId": "e3f49ae3025440f9f474c9d012059fb5b3f80366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

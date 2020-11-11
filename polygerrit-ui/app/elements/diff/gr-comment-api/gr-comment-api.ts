@@ -436,7 +436,7 @@ export class ChangeComments {
   }
 
   /**
-   * Computes a string counting the number of commens in a given file.
+   * Computes a string counting the number of comments in a given file.
    */
   computeCommentCount(file: PatchSetFile | PatchNumOnly) {
     if (isPatchSetFile(file)) {
@@ -444,6 +444,22 @@ export class ChangeComments {
     }
     const allComments = this.getAllPublishedComments(file.patchNum);
     return this._commentObjToArray(allComments).length;
+  }
+
+  /**
+   * Computes the number of comment threads in a given file or patch.
+   */
+  computeCommentThreadCount(file: PatchSetFile | PatchNumOnly) {
+    let comments: Comment[] = [];
+    if (isPatchSetFile(file)) {
+      comments = this.getAllCommentsForFile(file);
+    } else {
+      comments = this._commentObjToArray(
+        this.getAllPublishedComments(file.patchNum)
+      );
+    }
+
+    return this.getCommentThreads(comments).length;
   }
 
   /**

@@ -16,6 +16,24 @@
       "message": "Hi Ben! I come from the Bazel team with peace offerings :) A change in the latest version of Bazel means that the old version of bazel-toolchains currently used by Gerrit will break. I don\u0027t know who to add as a reviewer, so I just picked you randomly. Please reroute to the correct reviewer (if it\u0027s not you)!",
       "revId": "289b37f5c0cf3d031139c9e1b8d41b8b8f640f12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edca5762_d8a71ac5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T08:08:12Z",
+      "side": 1,
+      "message": "Thanks for fixing us. I will add some appropriate reviewers.",
+      "parentUuid": "92788609_5ffc2ddd",
+      "revId": "289b37f5c0cf3d031139c9e1b8d41b8b8f640f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

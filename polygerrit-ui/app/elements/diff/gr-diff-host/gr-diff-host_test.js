@@ -20,9 +20,10 @@ import './gr-diff-host.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {sortComments} from '../../../utils/comment-util.js';
-import {Side} from '../../../constants/constants.js';
+import {sortComments, getCommentThreads} from '../../../utils/comment-util.js';
+import {Side, CommentSide} from '../../../constants/constants.js';
 import {createChange} from '../../../test/test-data-generators.js';
+import {FILE} from '../gr-diff/gr-diff-line.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
@@ -254,16 +255,20 @@ suite('gr-diff-host tests', () => {
   });
 
   test('thread-discard handling', () => {
-    const threads = element._createThreads([
+    const threads = getCommentThreads([
       {
         id: 4711,
         __commentSide: 'left',
         updated: '2015-12-20 15:01:20.396000000',
+        patch_set: 1,
+        path: 'some/path',
       },
       {
         id: 42,
         __commentSide: 'left',
         updated: '2017-12-20 15:01:20.396000000',
+        patch_set: 1,
+        path: 'some/path',
       },
     ]);
     element._parentIndex = 1;
@@ -1161,6 +1166,8 @@ suite('gr-diff-host tests', () => {
         updated: '2015-12-23 15:00:20.396000000',
         line: 1,
         __commentSide: 'left',
+        patch_set: 1,
+        path: 'some/path',
       }, {
         id: 'jacks_reply',
         message: 'i like you, too',
@@ -1168,6 +1175,8 @@ suite('gr-diff-host tests', () => {
         __commentSide: 'left',
         line: 1,
         in_reply_to: 'sallys_confession',
+        patch_set: 1,
+        path: 'some/path',
       },
       {
         id: 'new_draft',
@@ -1175,25 +1184,27 @@ suite('gr-diff-host tests', () => {
         __commentSide: 'left',
         __draft: true,
         updated: '2015-12-20 15:01:20.396000000',
+        patch_set: 1,
+        path: 'some/path',
       },
     ];
 
-    const actualThreads = element._createThreads(comments);
+    const actualThreads = getCommentThreads(comments);
 
     assert.equal(actualThreads.length, 2);
 
-    assert.equal(actualThreads[0].commentSide, 'left');
+    assert.equal(actualThreads[0].diffSide, 'left');
     assert.equal(actualThreads[0].comments.length, 2);
     assert.deepEqual(actualThreads[0].comments[0], comments[0]);
     assert.deepEqual(actualThreads[0].comments[1], comments[1]);
-    assert.equal(actualThreads[0].patchNum, undefined);
-    assert.equal(actualThreads[0].lineNum, 1);
+    assert.equal(actualThreads[0].patchNum, 1);
+    assert.equal(actualThreads[0].line, 1);
 
-    assert.equal(actualThreads[1].commentSide, 'left');
+    assert.equal(actualThreads[1].diffSide, 'left');
     assert.equal(actualThreads[1].comments.length, 1);
     assert.deepEqual(actualThreads[1].comments[0], comments[2]);
-    assert.equal(actualThreads[1].patchNum, undefined);
-    assert.equal(actualThreads[1].lineNum, undefined);
+    assert.equal(actualThreads[1].patchNum, 1);
+    assert.equal(actualThreads[1].line, FILE);
   });
 
   test('_createThreads inherits patchNum and range', () => {
@@ -1208,15 +1219,19 @@ suite('gr-diff-host tests', () => {
         end_character: 2,
       },
       patch_set: 5,
+      path: '/p',
       __commentSide: 'left',
       line: 1,
     }];
 
     const expectedThreads = [
       {
-        commentSide: 'left',
+        diffSide: 'left',
+        path: '/p',
+        rootId: 'betsys_confession',
         comments: [{
           id: 'betsys_confession',
+          path: '/p',
           message: 'i like you, jack',
           updated: '2015-12-24 15:00:10.396000000',
           range: {
@@ -1236,13 +1251,12 @@ suite('gr-diff-host tests', () => {
           end_line: 1,
           end_character: 2,
         },
-        lineNum: 1,
-        isOnParent: false,
+        line: 1,
       },
     ];
 
     assert.deepEqual(
-        element._createThreads(comments),
+        getCommentThreads(comments),
         expectedThreads);
   });
 
@@ -1254,47 +1268,23 @@ suite('gr-diff-host tests', () => {
             message: 'i like you, jack',
             updated: '2015-12-23 15:00:20.396000000',
             __commentSide: 'left',
+            path: '/p',
           }, {
             id: 'jacks_reply',
             message: 'i like you, too',
             updated: '2015-12-24 15:01:20.396000000',
             __commentSide: 'left',
+            path: '/p',
           },
         ];
-        assert.equal(element._createThreads(comments).length, 2);
-      });
-
-  test('_createThreads derives isOnParent using  side from first comment',
-      () => {
-        const comments = [
-          {
-            id: 'sallys_confession',
-            message: 'i like you, jack',
-            updated: '2015-12-23 15:00:20.396000000',
-            __commentSide: 'left',
-          }, {
-            id: 'jacks_reply',
-            message: 'i like you, too',
-            updated: '2015-12-24 15:01:20.396000000',
-            __commentSide: 'left',
-            in_reply_to: 'sallys_confession',
-          },
-        ];
-
-        assert.equal(element._createThreads(comments)[0].isOnParent, false);
-
-        comments[0].side = 'REVISION';
-        assert.equal(element._createThreads(comments)[0].isOnParent, false);
-
-        comments[0].side = 'PARENT';
-        assert.equal(element._createThreads(comments)[0].isOnParent, true);
+        assert.equal(getCommentThreads(comments).length, 2);
       });
 
   test('_getOrCreateThread', () => {
     const commentSide = 'left';
 
     assert.isOk(element._getOrCreateThread('2', 3,
-        commentSide, undefined, false));
+        commentSide, '/p'));
 
     let threads = dom(element.$.diff)
         .queryDistributedElements('gr-comment-thread');
@@ -1302,7 +1292,6 @@ suite('gr-diff-host tests', () => {
     assert.equal(threads.length, 1);
     assert.equal(threads[0].commentSide, commentSide);
     assert.equal(threads[0].range, undefined);
-    assert.equal(threads[0].isOnParent, false);
     assert.equal(threads[0].patchNum, 2);
 
     // Try to fetch a thread with a different range.
@@ -1314,7 +1303,7 @@ suite('gr-diff-host tests', () => {
     };
 
     assert.isOk(element._getOrCreateThread(
-        '3', 1, commentSide, range, true));
+        '3', 1, commentSide, '/p', range));
 
     threads = dom(element.$.diff)
         .queryDistributedElements('gr-comment-thread');
@@ -1322,7 +1311,6 @@ suite('gr-diff-host tests', () => {
     assert.equal(threads.length, 2);
     assert.equal(threads[1].commentSide, commentSide);
     assert.equal(threads[1].range, range);
-    assert.equal(threads[1].isOnParent, true);
     assert.equal(threads[1].patchNum, 3);
   });
 
@@ -1332,7 +1320,7 @@ suite('gr-diff-host tests', () => {
     element.file = {basePath: 'file_renamed.txt', path: element.path};
 
     assert.isOk(element._getOrCreateThread('2', 3,
-        commentSide, undefined, /* isOnParent= */ false));
+        commentSide, '/p'));
 
     const threads = dom(element.$.diff)
         .queryDistributedElements('gr-comment-thread');
@@ -1348,7 +1336,7 @@ suite('gr-diff-host tests', () => {
     element.file = {basePath: 'file_renamed.txt', path: element.path};
 
     assert.isOk(element._getOrCreateThread('2', 3,
-        commentSide, undefined, /* isOnParent= */ false));
+        commentSide, '/p'));
 
     const threads = dom(element.$.diff)
         .queryDistributedElements('gr-comment-thread');
@@ -1364,7 +1352,7 @@ suite('gr-diff-host tests', () => {
     element.file = {basePath: 'file_renamed.txt', path: element.path};
 
     assert.isOk(element._getOrCreateThread('2', 3,
-        commentSide, undefined, /* isOnParent= */ true));
+        commentSide, '/p', undefined, CommentSide.PARENT));
 
     const threads = dom(element.$.diff)
         .queryDistributedElements('gr-comment-thread');

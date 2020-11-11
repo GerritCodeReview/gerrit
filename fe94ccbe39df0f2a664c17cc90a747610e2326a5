@@ -78,6 +78,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dbfeb3a0_1c858400",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T13:39:28Z",
+      "side": 1,
+      "message": "I think we should make the gr-diff API explicit then.\n\nAt least don\u0027t call the cursor manager directly, but let gr-diff expose it explicitly.\n\nFor public methods of gr-diff I think it is expected that they can be called from somewhere. But even then we should probably mark them somehow or have gr-diff implement an interface called GrDiffApi or something.",
+      "parentUuid": "22eaadb3_73700f0f",
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f2aa423d_f426c50f",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
         "patchSetId": 1
@@ -219,6 +237,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6419cd48_bc1f64f2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T13:39:28Z",
+      "side": 1,
+      "message": "Not knowing the intrinsics of the IntersectionObserverAPI I am just a bit lost here. It would make it easier to understand for me personally, if we leave the \"entry\" things behind as quickly as possible and only deal with HTML elements. Those are better known to everyone reading the code.\n\nWhat I am saying is, feel free to keep using the \"entries\", but then you have to add more comments about why you are using them. I would have been fine with\n\n  We are just using the entries here, because entry.boundingClientRect is\n  already computed, but entry.target.getBoundingClientRect() should actually\n  yield the same result.",
+      "parentUuid": "0e7795ff_c89f5a2a",
+      "range": {
+        "startLine": 202,
+        "startChar": 8,
+        "endLine": 202,
+        "endChar": 33
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e01c2e1c_8af3d10b",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
         "patchSetId": 1
@@ -271,6 +313,30 @@
       "side": 1,
       "message": "The Once makes sense if you look at the API it uses: It is an observer pattern that is designed to be called whenever something becomes visible or off screen, but we use it only once to get the current values. You are probably right though that from the outside, this does not matter as much and maybe does not need to be in the name.",
       "parentUuid": "e01c2e1c_8af3d10b",
+      "range": {
+        "startLine": 215,
+        "startChar": 16,
+        "endLine": 215,
+        "endChar": 38
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d47bce81_db5befc9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T13:39:28Z",
+      "side": 1,
+      "message": "Maybe \"current(ly)\" in the name is a better choice?",
+      "parentUuid": "6a878a94_d2d962fd",
       "range": {
         "startLine": 215,
         "startChar": 16,

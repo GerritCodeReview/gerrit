@@ -381,12 +381,12 @@ suite('gr-patch-range-select tests', () => {
     element.changeComments = new ChangeComments(comments, {}, {}, 123);
 
     assert.equal(element._computePatchSetCommentsString(
-        element.changeComments, 1), ' (3 comments, 1 unresolved)');
+        element.changeComments, 1), ' (3 comment threads, 1 unresolved)');
 
     // Test string with no unresolved comments.
     delete element.changeComments._comments['foo'];
     assert.equal(element._computePatchSetCommentsString(
-        element.changeComments, 1), ' (2 comments)');
+        element.changeComments, 1), ' (2 comment threads)');
 
     // Test string with no comments.
     delete element.changeComments._comments['bar'];

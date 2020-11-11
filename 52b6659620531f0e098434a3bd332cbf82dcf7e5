@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "57cec7e5_51668b41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-11T12:47:28Z",
+      "side": 1,
+      "message": "Add the tracking bug here.\n\u0027Bug: Issue 13658\u0027 goes above the Change-Id footer. It will be automatically linkified to buganizer.",
+      "revId": "52b6659620531f0e098434a3bd332cbf82dcf7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6ead3a8a_3259225a",
@@ -18,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8e166ba_174acef4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-11T12:47:28Z",
+      "side": 1,
+      "message": "Nice!!",
+      "revId": "52b6659620531f0e098434a3bd332cbf82dcf7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9f2c29e_3ef86424",
@@ -31,6 +65,24 @@
       "writtenOn": "2020-11-11T08:23:32Z",
       "side": 1,
       "message": "I think I would prefer to keep \u0027comment\u0027 even though we are counting threads. (Also in the other two places.)\n\nIt saves space, reduces clutter and I don\u0027t think that users would be confused.\n\nDelphine, WDYT?",
+      "revId": "52b6659620531f0e098434a3bd332cbf82dcf7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5037150f_7c400412",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-11T12:47:28Z",
+      "side": 1,
+      "message": "I suggest only keeping \u0027thread\u0027 so, \u00272 unresolved threads\u0027.\nMy 0.02$.",
+      "parentUuid": "c9f2c29e_3ef86424",
       "revId": "52b6659620531f0e098434a3bd332cbf82dcf7e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

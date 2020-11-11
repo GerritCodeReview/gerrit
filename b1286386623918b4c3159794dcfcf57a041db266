@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66345967_43722c14",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-11T13:57:25Z",
+      "side": 1,
+      "message": "Note that you will have to write additional code when you import this into Google to make sure we share the executor among tenant hosts.",
+      "range": {
+        "startLine": 186,
+        "startChar": 12,
+        "endLine": 186,
+        "endChar": 27
+      },
+      "revId": "b1286386623918b4c3159794dcfcf57a041db266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee2c6ff8_b02428d3",
+        "filename": "java/com/google/gerrit/server/update/ExecuteAsyncPostUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-11T13:57:25Z",
+      "side": 1,
+      "message": "nit: could export the repo name or change number if you have it in the Context. That makes debugging later easier.",
+      "range": {
+        "startLine": 58,
+        "startChar": 29,
+        "endLine": 58,
+        "endChar": 31
+      },
+      "revId": "b1286386623918b4c3159794dcfcf57a041db266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

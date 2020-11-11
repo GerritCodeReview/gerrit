@@ -146,6 +146,7 @@ DIRECTORIES = [
     tags = [
         # Should not run sandboxed.
         "local",
+        "manual",
         "template",
     ],
 ) for directory in DIRECTORIES]

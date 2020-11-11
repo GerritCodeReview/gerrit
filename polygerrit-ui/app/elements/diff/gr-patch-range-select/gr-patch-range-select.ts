@@ -375,10 +375,12 @@ export class GrPatchRangeSelect extends GestureEventListeners(
       return;
     }
 
-    const commentCount = changeComments.computeCommentCount({patchNum});
-    const commentString = GrCountStringFormatter.computePluralString(
-      commentCount,
-      'comment'
+    const commentThreadCount = changeComments.computeCommentThreadCount({
+      patchNum,
+    });
+    const commentThreadString = GrCountStringFormatter.computePluralString(
+      commentThreadCount,
+      'comment thread'
     );
 
     const unresolvedCount = changeComments.computeUnresolvedNum({patchNum});
@@ -387,14 +389,14 @@ export class GrPatchRangeSelect extends GestureEventListeners(
       'unresolved'
     );
 
-    if (!commentString.length && !unresolvedString.length) {
+    if (!commentThreadString.length && !unresolvedString.length) {
       return '';
     }
 
     return (
-      ` (${commentString}` +
-      // Add a comma + space if both comments and unresolved
-      (commentString && unresolvedString ? ', ' : '') +
+      ` (${commentThreadString}` +
+      // Add a comma + space if both comment threads and unresolved
+      (commentThreadString && unresolvedString ? ', ' : '') +
       `${unresolvedString})`
     );
   }

@@ -93,8 +93,8 @@ on any change in any project they have `Read` access to.
 == Predefined Groups
 
 Predefined groups differs from system groups by the fact that they
-exist in the ACCOUNT_GROUPS table (like normal groups) but predefined groups
-are created on Gerrit site initialization and unique UUIDs are assigned
+exist in NoteDb under refs/meta/group-names (like normal groups) but predefined
+groups are created on Gerrit site initialization and unique UUIDs are assigned
 to those groups. These UUIDs are different on different Gerrit sites.
 
 Gerrit comes with two predefined groups:

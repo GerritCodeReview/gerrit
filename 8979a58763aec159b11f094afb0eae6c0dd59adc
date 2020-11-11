@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54ddb96e_31d3d8ba",
+        "filename": "polygerrit-ui/app/elements/lit/rx-lit-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-11T10:44:34Z",
+      "side": 1,
+      "message": "What if property is changed after the disconnectedCallback, but before the next connectedCallback?\n(i.e connectedCallback -\u003e render -\u003e disconnectedCallback -\u003e new value set -\u003e connectedCallback)\nDoes LitElement always calls render after each connectedCallback? I can\u0027t find this information in LitElement doc.",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 46
+      },
+      "revId": "8979a58763aec159b11f094afb0eae6c0dd59adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

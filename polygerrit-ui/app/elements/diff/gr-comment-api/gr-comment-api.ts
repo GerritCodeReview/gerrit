@@ -51,6 +51,7 @@ import {
   UIDraft,
   UIHuman,
   UIRobot,
+  getCommentThreads,
 } from '../../../utils/comment-util';
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 
@@ -475,7 +476,7 @@ export class ChangeComments {
     }
 
     comments = comments.concat(drafts);
-    const threads = this.getCommentThreads(sortComments(comments));
+    const threads = getCommentThreads(sortComments(comments));
     const unresolvedThreads = threads.filter(isUnresolved);
     return unresolvedThreads.length;
   }
@@ -483,55 +484,7 @@ export class ChangeComments {
   getAllThreadsForChange() {
     const comments = this._commentObjToArrayWithFile(this.getAllComments(true));
     const sortedComments = sortComments(comments);
-    return this.getCommentThreads(sortedComments);
-  }
-
-  /**
-   * Computes all of the comments in thread format.
-   *
-   * @param comments sorted by updated timestamp.
-   */
-  getCommentThreads(comments: UIComment[]) {
-    const threads: CommentThread[] = [];
-    const idThreadMap: CommentIdToCommentThreadMap = {};
-    for (const comment of comments) {
-      if (!comment.id) continue;
-      // If the comment is in reply to another comment, find that comment's
-      // thread and append to it.
-      if (comment.in_reply_to) {
-        const thread = idThreadMap[comment.in_reply_to];
-        if (thread) {
-          thread.comments.push(comment);
-          idThreadMap[comment.id] = thread;
-          continue;
-        }
-      }
-
-      // Otherwise, this comment starts its own thread.
-      if (!comment.__path && !comment.path) {
-        throw new Error('Comment missing required "path".');
-      }
-      const newThread: CommentThread = {
-        comments: [comment],
-        patchNum: comment.patch_set,
-        path: comment.__path || comment.path!,
-        rootId: comment.id,
-      };
-      if (comment.range) {
-        newThread.range = {...comment.range};
-      }
-      if (comment.side) {
-        newThread.commentSide = comment.side;
-      }
-      if (comment.line) {
-        newThread.line = comment.line;
-      } else if (!comment.line && !comment.range) {
-        newThread.line = 'FILE';
-      }
-      threads.push(newThread);
-      idThreadMap[comment.id] = newThread;
-    }
-    return threads;
+    return getCommentThreads(sortedComments);
   }
 
   /**

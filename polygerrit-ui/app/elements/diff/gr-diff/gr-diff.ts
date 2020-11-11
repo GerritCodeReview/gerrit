@@ -50,7 +50,7 @@ import {
   PolymerDomWrapper,
 } from '../../../types/types';
 import {CommentRangeLayer} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
-import {DiffViewMode, Side} from '../../../constants/constants';
+import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
@@ -668,10 +668,10 @@ export class GrDiff extends GestureEventListeners(
       lineEl,
       contentEl
     );
-    const isOnParent = this._getIsParentCommentByLineAndContent(
-      lineEl,
-      contentEl
-    );
+    const commentSide =
+      side === Side.LEFT && this.patchRange?.basePatchNum === ParentPatchSetNum
+        ? CommentSide.PARENT
+        : CommentSide.REVISION;
     this.dispatchEvent(
       new CustomEvent('create-comment', {
         bubbles: true,
@@ -679,9 +679,10 @@ export class GrDiff extends GestureEventListeners(
         detail: {
           lineNum,
           side,
+          commentSide,
           patchNum: patchForNewThreads,
-          isOnParent,
           range,
+          path: this.path,
         },
       })
     );

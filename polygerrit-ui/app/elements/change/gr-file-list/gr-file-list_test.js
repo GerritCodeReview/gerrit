@@ -1498,6 +1498,7 @@ suite('gr-file-list tests', () => {
     const commitMsgComments = [
       {
         patch_set: 2,
+        path: '/p',
         id: 'ecf0b9fa_fe1a5f62',
         line: 20,
         updated: '2018-02-08 18:49:18.000000000',
@@ -1506,6 +1507,7 @@ suite('gr-file-list tests', () => {
       },
       {
         patch_set: 2,
+        path: '/p',
         id: '503008e2_0ab203ee',
         line: 10,
         updated: '2018-02-14 22:07:43.000000000',
@@ -1514,6 +1516,7 @@ suite('gr-file-list tests', () => {
       },
       {
         patch_set: 2,
+        path: '/p',
         id: 'cc788d2c_cb1d728c',
         line: 20,
         in_reply_to: 'ecf0b9fa_fe1a5f62',
@@ -1888,6 +1891,7 @@ suite('gr-file-list tests', () => {
       const commentStubRes1 = [
         {
           patch_set: 2,
+          path: '/p',
           id: '503008e2_0ab203ee',
           line: 20,
           updated: '2018-02-08 18:49:18.000000000',
@@ -1898,6 +1902,7 @@ suite('gr-file-list tests', () => {
       const commentStubRes2 = [
         {
           patch_set: 2,
+          path: '/p',
           id: 'ecf0b9fa_fe1a5f62',
           line: 20,
           updated: '2018-02-08 18:49:18.000000000',
@@ -1906,6 +1911,7 @@ suite('gr-file-list tests', () => {
         },
         {
           patch_set: 2,
+          path: '/p',
           id: '503008e2_0ab203ee',
           line: 10,
           in_reply_to: 'ecf0b9fa_fe1a5f62',
@@ -1915,6 +1921,7 @@ suite('gr-file-list tests', () => {
         },
         {
           patch_set: 2,
+          path: '/p',
           id: '503008e2_0ab203ef',
           line: 20,
           in_reply_to: '503008e2_0ab203ee',

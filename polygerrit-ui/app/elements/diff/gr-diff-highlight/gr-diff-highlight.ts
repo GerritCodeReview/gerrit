@@ -30,6 +30,7 @@ import {CommentRange} from '../../../types/common';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
 import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
 import {FILE} from '../gr-diff/gr-diff-line';
+import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 
 interface SidedRange {
   side: Side;
@@ -46,11 +47,6 @@ interface NormalizedPosition {
 interface NormalizedRange {
   start: NormalizedPosition | null;
   end: NormalizedPosition | null;
-}
-
-// TODO(TS): Replace by GrCommentThread once that is converted.
-interface CommentThreadElement extends HTMLElement {
-  rootId: string;
 }
 
 @customElement('gr-diff-highlight')
@@ -128,23 +124,20 @@ export class GrDiffHighlight extends GestureEventListeners(
     );
   }
 
-  _getThreadEl(e: Event): CommentThreadElement | null {
+  _getThreadEl(e: Event): GrCommentThread | null {
     const path = (dom(e) as EventApi).path || [];
     for (const pathEl of path) {
       if (
         pathEl instanceof HTMLElement &&
         pathEl.classList.contains('comment-thread')
       ) {
-        return pathEl as CommentThreadElement;
+        return pathEl as GrCommentThread;
       }
     }
     return null;
   }
 
-  _toggleRangeElHighlight(
-    threadEl: CommentThreadElement,
-    highlightRange = false
-  ) {
+  _toggleRangeElHighlight(threadEl: GrCommentThread, highlightRange = false) {
     // We don't want to re-create the line just for highlighting the range which
     // is creating annoying bugs: @see Issue 12934
     // As gr-ranged-comment-layer now does not notify the layer re-render and

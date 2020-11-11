@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0a9beb1_d943efed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-11T12:40:12Z",
+      "side": 1,
+      "message": "Thanks, I will make the changes when I have a moment - for now just a few explanations and questions back.",
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd95cad8_2318e87a",
@@ -43,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22eaadb3_73700f0f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-11T12:40:12Z",
+      "side": 1,
+      "message": "This is a public method that will become part of gr-diff\u0027s API - we intend to use this in another project using gr-diff. Any idea how we should document to avoid anyone from removing this in the future?",
+      "parentUuid": "500ca930_b3a61483",
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f2aa423d_f426c50f",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
         "patchSetId": 1
@@ -54,6 +89,30 @@
       "writtenOn": "2020-11-11T12:04:29Z",
       "side": 1,
       "message": "This is same as `window.innerHeight`, right? Maybe remove the `_getWindowDims` indirection.",
+      "range": {
+        "startLine": 195,
+        "startChar": 36,
+        "endLine": 195,
+        "endChar": 69
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10f95d11_e7aeb160",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-11T12:40:12Z",
+      "side": 1,
+      "message": "Good point... I just copied that as it was - maybe that was for testing? I will try to remove the indirection and see if that works.",
+      "parentUuid": "f2aa423d_f426c50f",
       "range": {
         "startLine": 195,
         "startChar": 36,
@@ -89,6 +148,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75bb1362_70ef7f79",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-11T12:40:12Z",
+      "side": 1,
+      "message": "I also prefer undefined - this is copied from what it was, and I did not remember Gerrit conventions about this. Will change it to undefined.",
+      "parentUuid": "220f2a95_d722e77d",
+      "range": {
+        "startLine": 197,
+        "startChar": 45,
+        "endLine": 197,
+        "endChar": 49
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54187373_211b1392",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
         "patchSetId": 1
@@ -100,6 +183,30 @@
       "writtenOn": "2020-11-11T12:04:29Z",
       "side": 1,
       "message": "What is the difference between\n\n  entry.boundingClientRect\n\nand\n\n  entry.target.boundingClientRect\n\nI am a bit confused about entry vs stop. Maybe you can add a comment what the entry is for.",
+      "range": {
+        "startLine": 202,
+        "startChar": 8,
+        "endLine": 202,
+        "endChar": 33
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e7795ff_c89f5a2a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-11T12:40:12Z",
+      "side": 1,
+      "message": "There is no entry.target.boundingClientRect - there is a getter instead: https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect\n\nThat may mean that it is computed on the fly, and that may mean it\u0027s slightly slower to throw away the entry and work only with the stop. But I am happy to do that if you prefer.",
+      "parentUuid": "54187373_211b1392",
       "range": {
         "startLine": 202,
         "startChar": 8,
@@ -146,6 +253,30 @@
       "writtenOn": "2020-11-11T12:04:29Z",
       "side": 1,
       "message": "Maybe rename to \u0027getVisibleStops\u0027?",
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a878a94_d2d962fd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-11T12:40:12Z",
+      "side": 1,
+      "message": "The Once makes sense if you look at the API it uses: It is an observer pattern that is designed to be called whenever something becomes visible or off screen, but we use it only once to get the current values. You are probably right though that from the outside, this does not matter as much and maybe does not need to be in the name.",
+      "parentUuid": "e01c2e1c_8af3d10b",
+      "range": {
+        "startLine": 215,
+        "startChar": 16,
+        "endLine": 215,
+        "endChar": 38
+      },
       "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

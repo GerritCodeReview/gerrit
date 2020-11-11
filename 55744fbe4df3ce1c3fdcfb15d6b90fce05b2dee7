@@ -70,6 +70,30 @@
       },
       "revId": "55744fbe4df3ce1c3fdcfb15d6b90fce05b2dee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75700e5c_8fe0f06e",
+        "filename": "java/com/google/gerrit/sshd/SshCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-11T09:28:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f04a36b2_4adbdbc8",
+      "range": {
+        "startLine": 56,
+        "startChar": 15,
+        "endLine": 56,
+        "endChar": 30
+      },
+      "revId": "55744fbe4df3ce1c3fdcfb15d6b90fce05b2dee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

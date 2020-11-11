@@ -543,6 +543,12 @@ suite('gr-comment-api tests', () => {
             path: 'file/one',
             line: 1,
             rootId: '01',
+            range: {
+              start_line: 1,
+              start_character: 2,
+              end_line: 2,
+              end_character: 2,
+            },
           }, {
             comments: [
               {

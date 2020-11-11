@@ -568,12 +568,7 @@ export class GrDiff extends GestureEventListeners(
       return;
     }
 
-    // TODO(TS): existing logic always pass undefined lineNum
-    // for file level comment, the drafts API will reject the
-    // request if file level draft contains the `line: 'FILE'` field
-    // probably should do this inside of the _createComment, this
-    // is just to keep existing behavior.
-    this._createComment(el, lineNum === FILE ? undefined : lineNum);
+    this._createComment(el, lineNum);
   }
 
   createRangeComment() {

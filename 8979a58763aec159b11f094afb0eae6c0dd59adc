@@ -46,6 +46,30 @@
       },
       "revId": "8979a58763aec159b11f094afb0eae6c0dd59adc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99e88ba3_9b82337f",
+        "filename": "polygerrit-ui/app/elements/lit/rx-lit-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-11T11:59:31Z",
+      "side": 1,
+      "message": "\u003e\u003e When connectedCallback is called for the second time this.subscribe() is called once more.\n\nWhat if property is changed before this.subscribe() is called?\nI assume (probably wrong), that LitElement has the following lifecycle:\n\n- Property value set to 1, then 2, then 3 - nothing happens\n- connectedCallback is called \u003d\u003e this.subscribe is called\n- render is called, displays 3.\n- Property value set to 4 \u003d\u003e requestUpdate \u003d\u003e render \u003d\u003e displays 4\n- Property value set to 5 \u003d\u003e requestUpdate \u003d\u003e render \u003d\u003e displays 4\n- element removed from a document, disconnectedCallback is called \u003d\u003e \"unsubscribe\" from stream\n- Property value set to 6 - nothing happens\n- Property value set to 7 - nothing happens\n- element attached to the document again. connectedCallback is called \u003d\u003e this.subscribe is called\n\n- ????? render() is not called and element displays 4 (I am not sure here. if it displays 7, then it ok).\n\n\u003e\u003e Maybe what you want to highlight is that stream$ should actually be a ReplaySubject\n\nNot sure (and I didn\u0027t know about ReplaySubject). I expect to see the latest property value. ReplaySubject solves this problem, but maybe there is other solution to display the latest value after reattach to the document. (or maybe LitElement always calls render after connectedCallback and there is no issue)",
+      "parentUuid": "5b560fbc_77eb0618",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 46
+      },
+      "revId": "8979a58763aec159b11f094afb0eae6c0dd59adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

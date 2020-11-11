@@ -520,11 +520,15 @@ export class ChangeComments {
         comments: [comment],
         patchNum: comment.patch_set,
         path: comment.__path || comment.path!,
-        line: comment.line,
         rootId: comment.id,
+        line: comment.line,
+        range: comment.range,
       };
       if (comment.side) {
         newThread.commentSide = comment.side;
+      }
+      if (!comment.line && !comment.range) {
+        newThread.line = 'FILE';
       }
       threads.push(newThread);
       idThreadMap[comment.id] = newThread;

@@ -637,17 +637,17 @@ export class GrFileList extends KeyboardShortcutMixin(
         patchNum: patchRange.patchNum,
         path,
       });
-    const commentCount =
-      changeComments.computeCommentCount({
+    const commentThreadCount =
+      changeComments.computeCommentThreadCount({
         patchNum: patchRange.basePatchNum,
         path,
       }) +
-      changeComments.computeCommentCount({
+      changeComments.computeCommentThreadCount({
         patchNum: patchRange.patchNum,
         path,
       });
     const commentString = GrCountStringFormatter.computePluralString(
-      commentCount,
+      commentThreadCount,
       'comment'
     );
     const unresolvedString = GrCountStringFormatter.computeString(
@@ -733,16 +733,16 @@ export class GrFileList extends KeyboardShortcutMixin(
     ) {
       return '';
     }
-    const commentCount =
-      changeComments.computeCommentCount({
+    const commentThreadCount =
+      changeComments.computeCommentThreadCount({
         patchNum: patchRange.basePatchNum,
         path,
       }) +
-      changeComments.computeCommentCount({
+      changeComments.computeCommentThreadCount({
         patchNum: patchRange.patchNum,
         path,
       });
-    return GrCountStringFormatter.computeShortString(commentCount, 'c');
+    return GrCountStringFormatter.computeShortString(commentThreadCount, 'c');
   }
 
   private _reviewFile(path: string, reviewed?: boolean) {

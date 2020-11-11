@@ -355,36 +355,66 @@ suite('gr-file-list tests', () => {
     test('comment filtering', () => {
       const comments = {
         '/COMMIT_MSG': [
-          {patch_set: 1, message: 'Done', updated: '2017-02-08 16:40:49'},
-          {patch_set: 1, message: 'oh hay', updated: '2017-02-09 16:40:49'},
-          {patch_set: 2, message: 'hello', updated: '2017-02-10 16:40:49'},
+          {
+            patch_set: 1,
+            message: 'Done',
+            updated: '2017-02-08 16:40:49',
+            id: '1',
+          },
+          {
+            patch_set: 1,
+            message: 'oh hay',
+            updated: '2017-02-09 16:40:49',
+            id: '2',
+          },
+          {
+            patch_set: 2,
+            message: 'hello',
+            updated: '2017-02-10 16:40:49',
+            id: '3',
+          },
         ],
         'myfile.txt': [
-          {patch_set: 1, message: 'good news!', updated: '2017-02-08 16:40:49'},
-          {patch_set: 2, message: 'wat!?', updated: '2017-02-09 16:40:49'},
-          {patch_set: 2, message: 'hi', updated: '2017-02-10 16:40:49'},
+          {
+            patch_set: 1,
+            message: 'good news!',
+            updated: '2017-02-08 16:40:49',
+            id: '4',
+          },
+          {
+            patch_set: 2,
+            message: 'wat!?',
+            updated: '2017-02-09 16:40:49',
+            id: '5',
+          },
+          {
+            patch_set: 2,
+            message: 'hi',
+            updated: '2017-02-10 16:40:49',
+            id: '6',
+          },
         ],
         'unresolved.file': [
           {
             patch_set: 2,
             message: 'wat!?',
             updated: '2017-02-09 16:40:49',
-            id: '1',
+            id: '7',
             unresolved: true,
           },
           {
             patch_set: 2,
             message: 'hi',
             updated: '2017-02-10 16:40:49',
-            id: '2',
-            in_reply_to: '1',
+            id: '8',
+            in_reply_to: '7',
             unresolved: false,
           },
           {
             patch_set: 2,
             message: 'good news!',
             updated: '2017-02-08 16:40:49',
-            id: '3',
+            id: '9',
             unresolved: true,
           },
         ],
@@ -395,14 +425,14 @@ suite('gr-file-list tests', () => {
             patch_set: 1,
             message: 'hi',
             updated: '2017-02-15 16:40:49',
-            id: '5',
+            id: '10',
             unresolved: true,
           },
           {
             patch_set: 1,
             message: 'fyi',
             updated: '2017-02-15 16:40:49',
-            id: '6',
+            id: '11',
             unresolved: false,
           },
         ],
@@ -411,7 +441,7 @@ suite('gr-file-list tests', () => {
             patch_set: 1,
             message: 'hi',
             updated: '2017-02-11 16:40:49',
-            id: '4',
+            id: '12',
             unresolved: false,
           },
         ],
@@ -569,11 +599,19 @@ suite('gr-file-list tests', () => {
           element._computeCommentsString(element.changeComments, _1To2,
               'file_added_in_rev2.txt', 'comment'), '');
       assert.equal(
-          element._computeCommentsString(element.changeComments, parentTo2,
-              'unresolved.file', 'comment'), '3 comments (1 unresolved)');
+          element._computeCommentsString(
+              element.changeComments,
+              parentTo2,
+              'unresolved.file',
+              'comment'
+          ), '2 comments (1 unresolved)');
       assert.equal(
-          element._computeCommentsString(element.changeComments, _1To2,
-              'unresolved.file', 'comment'), '3 comments (1 unresolved)');
+          element._computeCommentsString(
+              element.changeComments,
+              _1To2,
+              'unresolved.file',
+              'comment'
+          ), '2 comments (1 unresolved)');
     });
 
     test('_reviewedTitle', () => {

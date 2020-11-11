@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da92aa48_fef7167e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-11T15:21:30Z",
+      "side": 1,
+      "message": "Feature: Issue 11123 (to add here?)",
+      "revId": "7229046d73f5259ff67ac6067c273d3d8cb08fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "548a52ac_98976f4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-11T15:21:30Z",
+      "side": 1,
+      "message": "Nit proposal; for now.",
+      "revId": "7229046d73f5259ff67ac6067c273d3d8cb08fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

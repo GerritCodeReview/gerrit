@@ -22,6 +22,30 @@
       },
       "revId": "8979a58763aec159b11f094afb0eae6c0dd59adc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b560fbc_77eb0618",
+        "filename": "polygerrit-ui/app/elements/lit/rx-lit-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-11T11:29:17Z",
+      "side": 1,
+      "message": "When connectedCallback is called for the second time this.subscribe() is called once more. Maybe what you want to highlight is that stream$ should actually be a ReplaySubject. Yes, that makes a lot of sense. The model/service should expose ReplaySubjects to the UI components instead of plain observables, but that is an (important) implementation detail of the service/model. It would still just expose Observable, but use ReplaySubject under the hood.\n\nhttps://blog.wishtack.com/2017/05/06/angular-2-components-communication-using-reactive-stores/",
+      "parentUuid": "54ddb96e_31d3d8ba",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 46
+      },
+      "revId": "8979a58763aec159b11f094afb0eae6c0dd59adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

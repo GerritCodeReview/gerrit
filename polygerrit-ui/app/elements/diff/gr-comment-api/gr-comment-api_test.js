@@ -220,14 +220,14 @@ suite('gr-comment-api tests', () => {
         const drafts = {
           'file/one': [
             {
-              id: '11',
+              id: '12',
               patch_set: 2,
               side: PARENT,
               line: 1,
               updated: makeTime(3),
             },
             {
-              id: '12',
+              id: '13',
               in_reply_to: '04',
               patch_set: 2,
               line: 1,
@@ -289,21 +289,30 @@ suite('gr-comment-api tests', () => {
               id: '07',
               patch_set: 2,
               side: PARENT,
-              unresolved: true,
+              unresolved: false,
               line: 1,
               updated: makeTime(1),
             },
-            {id: '08', patch_set: 3, line: 1, updated: makeTime(1)},
+            {
+              id: '08',
+              patch_set: 2,
+              side: PARENT,
+              unresolved: true,
+              in_reply_to: '07',
+              line: 1,
+              updated: makeTime(1),
+            },
+            {id: '09', patch_set: 3, line: 1, updated: makeTime(1)},
           ],
           'file/four': [
             {
-              id: '09',
+              id: '10',
               patch_set: 5,
               side: PARENT,
               line: 1,
               updated: makeTime(1),
             },
-            {id: '10', patch_set: 5, line: 1, updated: makeTime(1)},
+            {id: '11', patch_set: 5, line: 1, updated: makeTime(1)},
           ],
         };
         element._changeComments =
@@ -439,19 +448,19 @@ suite('gr-comment-api tests', () => {
             element._changeComments.computeUnresolvedNum(1, 'path'), 0);
       });
 
-      test('computeCommentCount', () => {
+      test('computeCommentThreadCount', () => {
         assert.equal(element._changeComments
-            .computeCommentCount({
+            .computeCommentThreadCount({
               patchNum: 2,
               path: 'file/one',
-            }), 4);
+            }), 3);
         assert.equal(element._changeComments
-            .computeCommentCount({
+            .computeCommentThreadCount({
               patchNum: 1,
               path: 'file/one',
             }), 0);
         assert.equal(element._changeComments
-            .computeCommentCount({
+            .computeCommentThreadCount({
               patchNum: 2,
               path: 'file/three',
             }), 1);
@@ -572,7 +581,7 @@ suite('gr-comment-api tests', () => {
                 updated: '2013-02-26 15:03:43.986000000',
               },
               {
-                id: '12',
+                id: '13',
                 in_reply_to: '04',
                 patch_set: 2,
                 line: 1,
@@ -622,6 +631,17 @@ suite('gr-comment-api tests', () => {
                 id: '07',
                 patch_set: 2,
                 side: 'PARENT',
+                unresolved: false,
+                line: 1,
+                path: 'file/three',
+                __path: 'file/three',
+                updated: '2013-02-26 15:01:43.986000000',
+              },
+              {
+                id: '08',
+                in_reply_to: '07',
+                patch_set: 2,
+                side: 'PARENT',
                 unresolved: true,
                 line: 1,
                 path: 'file/three',
@@ -637,7 +657,7 @@ suite('gr-comment-api tests', () => {
           }, {
             comments: [
               {
-                id: '08',
+                id: '09',
                 patch_set: 3,
                 line: 1,
                 path: 'file/three',
@@ -648,11 +668,11 @@ suite('gr-comment-api tests', () => {
             patchNum: 3,
             path: 'file/three',
             line: 1,
-            rootId: '08',
+            rootId: '09',
           }, {
             comments: [
               {
-                id: '09',
+                id: '10',
                 patch_set: 5,
                 side: 'PARENT',
                 line: 1,
@@ -665,11 +685,11 @@ suite('gr-comment-api tests', () => {
             patchNum: 5,
             path: 'file/four',
             line: 1,
-            rootId: '09',
+            rootId: '10',
           }, {
             comments: [
               {
-                id: '10',
+                id: '11',
                 patch_set: 5,
                 line: 1,
                 path: 'file/four',
@@ -677,7 +697,7 @@ suite('gr-comment-api tests', () => {
                 updated: '2013-02-26 15:01:43.986000000',
               },
             ],
-            rootId: '10',
+            rootId: '11',
             patchNum: 5,
             path: 'file/four',
             line: 1,
@@ -700,7 +720,7 @@ suite('gr-comment-api tests', () => {
           }, {
             comments: [
               {
-                id: '11',
+                id: '12',
                 patch_set: 2,
                 side: 'PARENT',
                 line: 1,
@@ -710,7 +730,7 @@ suite('gr-comment-api tests', () => {
                 updated: '2013-02-26 15:03:43.986000000',
               },
             ],
-            rootId: '11',
+            rootId: '12',
             commentSide: 'PARENT',
             patchNum: 2,
             path: 'file/one',
@@ -745,7 +765,7 @@ suite('gr-comment-api tests', () => {
             __path: 'file/one',
             path: 'file/one',
             __draft: true,
-            id: '12',
+            id: '13',
             in_reply_to: '04',
             patch_set: 2,
             line: 1,
@@ -756,7 +776,7 @@ suite('gr-comment-api tests', () => {
             expectedComments);
 
         expectedComments = [{
-          id: '11',
+          id: '12',
           patch_set: 2,
           side: 'PARENT',
           line: 1,
@@ -766,7 +786,7 @@ suite('gr-comment-api tests', () => {
           updated: '2013-02-26 15:03:43.986000000',
         }];
 
-        assert.deepEqual(element._changeComments.getCommentsForThread('11'),
+        assert.deepEqual(element._changeComments.getCommentsForThread('12'),
             expectedComments);
 
         assert.deepEqual(element._changeComments.getCommentsForThread('1000'),

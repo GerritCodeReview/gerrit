@@ -668,10 +668,6 @@ export class GrDiff extends GestureEventListeners(
       lineEl,
       contentEl
     );
-    const isOnParent = this._getIsParentCommentByLineAndContent(
-      lineEl,
-      contentEl
-    );
     this.dispatchEvent(
       new CustomEvent('create-comment', {
         bubbles: true,
@@ -680,8 +676,8 @@ export class GrDiff extends GestureEventListeners(
           lineNum,
           side,
           patchNum: patchForNewThreads,
-          isOnParent,
           range,
+          path: this.path,
         },
       })
     );

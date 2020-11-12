@@ -878,6 +878,16 @@ public abstract class AbstractDaemonTest {
     return gApi.projects().name(branch.project().get()).branch(branch.branch()).create(in);
   }
 
+  /** Returns true if the input branch exists and is visible to the calling user. */
+  protected boolean branchExistsAndVisible(BranchNameKey branch) {
+    try {
+      gApi.projects().name(branch.project().get()).branch(branch.branch()).get();
+    } catch (RestApiException e) {
+      return false;
+    }
+    return true;
+  }
+
   private static final List<Character> RANDOM =
       Chars.asList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 

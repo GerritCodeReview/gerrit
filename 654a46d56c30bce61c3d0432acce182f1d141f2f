@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58265b73_8c4581f8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-12T08:09:18Z",
+      "side": 1,
+      "message": "I meant\n\n  line: comment.line,\n\ninstead of\n\n  if (comment.line) {\n    newThread.line \u003d comment.line;\n  }\n\nOf course, you would still have to keep:\n\n  if (!comment.line \u0026\u0026 !comment.range) {\n    newThread.line \u003d \u0027FILE\u0027;\n  }\n\nManipulating the thread range??? I would hope that nobody ever does that! :-)",
+      "parentUuid": "705f15ad_824faa39",
+      "revId": "654a46d56c30bce61c3d0432acce182f1d141f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "197f8029_014ed092",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
         "patchSetId": 3
@@ -73,6 +91,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e7c1eff_67785d8b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-12T08:09:18Z",
+      "side": 1,
+      "message": "While you are here, remove.",
+      "revId": "654a46d56c30bce61c3d0432acce182f1d141f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3b15280_1c366ddf",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
         "patchSetId": 3
@@ -102,6 +137,24 @@
       "side": 1,
       "message": "Yeah it will return NaN and then we will get FILE instead. This is intended I think.\nAre you saying it will not work correctly even if line-num attribute is a number?",
       "parentUuid": "f3b15280_1c366ddf",
+      "revId": "654a46d56c30bce61c3d0432acce182f1d141f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7eebfd2f_b3465ef3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-12T08:09:18Z",
+      "side": 1,
+      "message": "I guess what I am saying is that it does not make sense to convert this into a number at all, if you are using it as a property key below, which implicitly converts it back to a string.",
+      "parentUuid": "68929b7c_b8295096",
       "revId": "654a46d56c30bce61c3d0432acce182f1d141f2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

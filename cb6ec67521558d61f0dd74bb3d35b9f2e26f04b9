@@ -69,6 +69,24 @@
       "parentUuid": "383ea9ee_43359a59",
       "revId": "cb6ec67521558d61f0dd74bb3d35b9f2e26f04b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64a1bf3a_69ff69da",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-12T08:09:18Z",
+      "side": 0,
+      "message": "Comments are created by users of gr-diff by listening to the comment-create event. I could imagine that another user of gr-diff has such code:\n\n  onCommentCreate(e: CreateCommentEventDetail) {\n    const isFileComment \u003d e.lineNum \u003d\u003d null;\n    ...\n\nAnd that will break, right?\n\nCan you make sure that other gr-diff users at Google are not broken by this change. Reach out to them and figure out a process for testing.",
+      "parentUuid": "2b2a49c8_07b8cc3e",
+      "revId": "cb6ec67521558d61f0dd74bb3d35b9f2e26f04b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

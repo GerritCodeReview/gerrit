@@ -238,7 +238,7 @@ def load_jsons(json_filenames):
                                 key=lambda package: get_package_display_name(
                                     package)),
             ))
-    return result
+    return sorted(result, key=lambda license: license.name)
 
 def get_licensed_files(json_licensed_file_dict):
     """Convert json dictionary to LicensedFiles"""

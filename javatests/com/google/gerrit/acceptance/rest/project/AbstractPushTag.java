@@ -22,6 +22,7 @@ import static com.google.gerrit.acceptance.GitUtil.updateAnnotatedTag;
 import static com.google.gerrit.acceptance.rest.project.AbstractPushTag.TagType.ANNOTATED;
 import static com.google.gerrit.acceptance.rest.project.AbstractPushTag.TagType.LIGHTWEIGHT;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
@@ -29,6 +30,7 @@ import com.google.common.base.MoreObjects;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.testing.ConfigSuite;
@@ -191,33 +193,57 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     pushTagDeletion(tagName, Status.OK);
   }
 
+  @Test
+  public void pushToNonVisibleTagIsRejected() throws Exception {
+    allowTagCreation();
+    allowPushOnRefsTags();
+
+    String tagName = pushTagForExistingCommit(Status.OK);
+
+    removeReadFromRefsTags();
+    removeReadFromRefsHeads();
+
+    pushTag(
+        tagName,
+        /* newCommit= */ true,
+        /* force= */ false,
+        Status.REJECTED_OTHER_REASON,
+        /* expectedMessage= */ String.format(
+            "Cannot create ref '%s' because it already exists.", tagRef(tagName)));
+  }
+
   private String pushTagForExistingCommit(Status expectedStatus) throws Exception {
-    return pushTag(null, false, false, expectedStatus);
+    return pushTag(null, false, false, expectedStatus, /* expectedMessage= */ null);
   }
 
   private String pushTagForNewCommit(Status expectedStatus) throws Exception {
-    return pushTag(null, true, false, expectedStatus);
+    return pushTag(null, true, false, expectedStatus, /* expectedMessage= */ null);
   }
 
   private void fastForwardTagToExistingCommit(String tagName, Status expectedStatus)
       throws Exception {
-    pushTag(tagName, false, false, expectedStatus);
+    pushTag(tagName, false, false, expectedStatus, /* expectedMessage= */ null);
   }
 
   private void fastForwardTagToNewCommit(String tagName, Status expectedStatus) throws Exception {
-    pushTag(tagName, true, false, expectedStatus);
+    pushTag(tagName, true, false, expectedStatus, /* expectedMessage= */ null);
   }
 
   private void forceUpdateTagToExistingCommit(String tagName, Status expectedStatus)
       throws Exception {
-    pushTag(tagName, false, true, expectedStatus);
+    pushTag(tagName, false, true, expectedStatus, /* expectedMessage= */ null);
   }
 
   private void forceUpdateTagToNewCommit(String tagName, Status expectedStatus) throws Exception {
-    pushTag(tagName, true, true, expectedStatus);
+    pushTag(tagName, true, true, expectedStatus, /* expectedMessage= */ null);
   }
 
-  private String pushTag(String tagName, boolean newCommit, boolean force, Status expectedStatus)
+  private String pushTag(
+      String tagName,
+      boolean newCommit,
+      boolean force,
+      Status expectedStatus,
+      @Nullable String expectedMessage)
       throws Exception {
     if (force) {
       testRepo.reset(initialHead);
@@ -256,6 +282,9 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
             : GitUtil.pushTag(testRepo, tagName, !createTag);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
     assertWithMessage(tagType.name()).that(refUpdate.getStatus()).isEqualTo(expectedStatus);
+    if (expectedMessage != null) {
+      assertWithMessage(tagType.name()).that(refUpdate.getMessage()).isEqualTo(expectedMessage);
+    }
     return tagName;
   }
 
@@ -349,6 +378,22 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .remove(permissionKey(Permission.PUSH).ref("refs/tags/*"))
+        .update();
+  }
+
+  private void removeReadFromRefsTags() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/tags/*").group(REGISTERED_USERS))
+        .update();
+  }
+
+  private void removeReadFromRefsHeads() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/*").group(REGISTERED_USERS))
         .update();
   }
 

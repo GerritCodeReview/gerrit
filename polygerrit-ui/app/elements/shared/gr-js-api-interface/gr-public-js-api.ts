@@ -34,7 +34,7 @@ import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api';
 import {getPluginEndpoints} from './gr-plugin-endpoints';
 
 import {PRELOADED_PROTOCOL, getPluginNameFromUrl, send} from './gr-api-utils';
-import {GrReporintJsApi} from './gr-reporting-js-api';
+import {GrReportingJsApi} from './gr-reporting-js-api';
 import {
   EventType,
   HookApi,
@@ -251,7 +251,7 @@ export class Plugin implements PluginApi {
   }
 
   reporting() {
-    return new GrReporintJsApi(this);
+    return new GrReportingJsApi(this);
   }
 
   theme() {

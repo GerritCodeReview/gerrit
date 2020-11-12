@@ -46,6 +46,7 @@ import {RequestPayload} from '../../../types/common';
 import {HttpMethod} from '../../../constants/constants';
 import {JsApiService} from './gr-js-api-types';
 import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
+import {GrChecksApi} from '../../plugins/gr-checks-api/gr-checks-api';
 
 /**
  * Plugin-provided custom components can affect content in extension
@@ -248,6 +249,10 @@ export class Plugin implements PluginApi {
 
   changeReply() {
     return new GrChangeReplyInterface(this, this.sharedApiElement);
+  }
+
+  checks() {
+    return new GrChecksApi(this);
   }
 
   reporting() {

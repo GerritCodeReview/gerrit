@@ -15,7 +15,9 @@ link:rest-api.html[REST API].
 --
 
 The change input link:#change-input[ChangeInput] entity must be provided in the
-request body.
+request body. Allowed values for `branch` are refs/heads/*,
+refs/meta/dashboards/*, refs/meta/config or HEAD. The request would fail with
+`400 Bad Request` if any other `branch` is specified.
 
 To create a change the calling user must be allowed to
 link:access-control.html#category_push_review[upload to code review].

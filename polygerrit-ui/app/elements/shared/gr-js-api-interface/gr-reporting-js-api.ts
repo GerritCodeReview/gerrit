@@ -26,7 +26,7 @@ interface PluginApi {
 /**
  * Defines all methods that will be exported to plugin from reporting service.
  */
-export class GrReporintJsApi {
+export class GrReportingJsApi {
   private readonly reporting = appContext.reportingService;
 
   constructor(private readonly plugin: PluginApi) {}

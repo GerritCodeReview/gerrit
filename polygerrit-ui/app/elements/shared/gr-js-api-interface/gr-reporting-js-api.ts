@@ -17,11 +17,7 @@
 
 import {appContext} from '../../../services/app-context';
 import {EventDetails} from '../../../services/gr-reporting/gr-reporting';
-
-// TODO(TS): remove once Plugin api converted to ts
-interface PluginApi {
-  getPluginName(): string;
-}
+import {PluginApi} from '../../plugins/gr-plugin-types';
 
 /**
  * Defines all methods that will be exported to plugin from reporting service.

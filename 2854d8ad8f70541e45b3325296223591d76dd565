@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16b2525b_3013e87d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2020-11-12T22:27:38Z",
+      "side": 1,
+      "message": "Just a documentation enhancement.\n\n\nA side note, when using the ssh command \"gerrit  show-caches\", I do see the disk entries and hit ratio for the caches having a leading D ",
+      "revId": "2854d8ad8f70541e45b3325296223591d76dd565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

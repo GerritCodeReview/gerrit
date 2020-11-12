@@ -1318,6 +1318,10 @@ class ReceiveCommits {
   private void parseCreate(ReceiveCommand cmd)
       throws PermissionBackendException, NoSuchProjectException, IOException {
     try (TraceTimer traceTimer = newTimer("parseCreate")) {
+      if (repo.resolve(cmd.getRefName()) != null) {
+        reject(cmd, "Ref " + cmd.getRefName() + " already exists.");
+        return;
+      }
       RevObject obj;
       try {
         obj = receivePack.getRevWalk().parseAny(cmd.getNewId());

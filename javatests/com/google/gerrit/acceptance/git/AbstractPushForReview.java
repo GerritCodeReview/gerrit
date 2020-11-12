@@ -1416,6 +1416,29 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushToNonVisibleBranchIsRejected() throws Exception {
+    String master = "refs/heads/master";
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref(master).group(REGISTERED_USERS))
+        .update();
+
+    testRepo.branch("HEAD").commit().message("New Commit 1").insertChangeId().create();
+    assertPushRejected(pushHead(testRepo, master), master, "Ref " + master + " already exists.");
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(master).group(REGISTERED_USERS))
+        .update();
+
+    testRepo.branch("HEAD").commit().message("New Commit 2").insertChangeId().create();
+    assertPushOk(pushHead(testRepo, master), master);
+  }
+
+  @Test
   public void pushSameCommitTwiceUsingMagicBranchBaseOption() throws Exception {
     projectOperations
         .project(project)

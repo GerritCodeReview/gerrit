@@ -223,6 +223,13 @@ public class CreateChange
       throw new BadRequestException("branch must be non-empty");
     }
     input.branch = RefNames.fullName(input.branch);
+    if (!isBranchAllowed(input.branch)) {
+      throw new BadRequestException(
+          "Cannot create a change on ref "
+              + input.branch
+              + ". "
+              + "Allowed branches should are refs/heads/* or refs/meta/config.");
+    }
 
     String subject = Strings.nullToEmpty(input.subject);
     subject = subject.replaceAll("(?m)^#.*$\n?", "").trim();
@@ -290,6 +297,12 @@ public class CreateChange
             || Strings.isNullOrEmpty(input.author.name))) {
       throw new BadRequestException("Author must specify name and email");
     }
+  }
+
+  private boolean isBranchAllowed(String branch) {
+    return branch.startsWith(RefNames.REFS_HEADS)
+        || "HEAD".equals(branch)
+        || branch.equals(RefNames.REFS_CONFIG);
   }
 
   private void checkRequiredPermissions(

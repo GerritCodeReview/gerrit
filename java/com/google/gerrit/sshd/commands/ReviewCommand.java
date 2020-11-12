@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.json.OutputFormat;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -320,7 +321,7 @@ public class ReviewCommand extends SshCommand {
   }
 
   @Override
-  protected void parseCommandLine() throws UnloggedFailure {
+  protected void parseCommandLine(DynamicOptions pluginOptions) throws UnloggedFailure {
     optionMap = new LinkedHashMap<>();
     customLabels = new HashMap<>();
 
@@ -341,7 +342,7 @@ public class ReviewCommand extends SshCommand {
       optionMap.put(newApproveOption(type, usage.toString()), new LabelSetter(type));
     }
 
-    super.parseCommandLine();
+    super.parseCommandLine(pluginOptions);
   }
 
   private static String asOptionName(LabelType type) {

@@ -32,7 +32,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.Url;
@@ -44,7 +43,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashSet;
@@ -149,24 +147,20 @@ public class ParameterParser {
   }
 
   private final CmdLineParser.Factory parserFactory;
-  private final Injector injector;
-  private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
 
   @Inject
-  ParameterParser(
-      CmdLineParser.Factory pf,
-      Injector injector,
-      DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
+  ParameterParser(CmdLineParser.Factory pf) {
     this.parserFactory = pf;
-    this.injector = injector;
-    this.dynamicBeans = dynamicBeans;
   }
 
   <T> boolean parse(
-      T param, ListMultimap<String, String> in, HttpServletRequest req, HttpServletResponse res)
+      T param,
+      DynamicOptions pluginOptions,
+      ListMultimap<String, String> in,
+      HttpServletRequest req,
+      HttpServletResponse res)
       throws IOException {
     CmdLineParser clp = parserFactory.create(param);
-    DynamicOptions pluginOptions = new DynamicOptions(param, injector, dynamicBeans);
     pluginOptions.parseDynamicBeans(clp);
     pluginOptions.setDynamicBeans();
     pluginOptions.onBeanParseStart();

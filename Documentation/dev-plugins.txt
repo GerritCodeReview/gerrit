@@ -803,6 +803,35 @@ public class SshModule extends AbstractModule {
   }
 ----
 
+To provide additional Guice bindings for options to a command in another classloader, bind a
+ModulesClassNamesProvider which provides the name of your Modules needed for your DynamicBean
+in the other classLoader.
+
+Do this by binding to the name of the command you are going to bind to and providing an
+Iterable of Module names to instantiate and add to the Injector used to instantiate the
+DynamicBean in the other classLoader. This interface supports running LifecycleListeners
+which are defined by the Modules being provided. The duration of the lifecycle starts when
+a ssh or http request starts and ends when the request completes.
+
+[source, java]
+----
+  bind(DynamicOptions.DynamicBean.class)
+      .annotatedWith(Exports.named(
+          "com.google.gerrit.plugins.otherplugin.command"))
+      .to(MyOptionsModulesClassNamesProvider.class);
+
+  static class MyOptionsModulesClassNamesProvider implements DynamicOptions.ModulesClassNamesProvider {
+    {@literal @}Override
+    public String getClassName() {
+      return "com.googlesource.gerrit.plugins.myplugin.CommandOptions";
+    }
+    {@literal @}Override
+    public Iterable<String> getModulesClassNames()() {
+      return "com.googlesource.gerrit.plugins.myplugin.MyOptionsModule";
+    }
+  }
+----
+
 === Calling Command Options ===
 
 Within an OptionHandler, during the processing of an option, plugins can

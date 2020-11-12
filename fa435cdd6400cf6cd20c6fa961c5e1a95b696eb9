@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17c9e5a0_53b749ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-12T06:09:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97c4976e_de3f7c27",
+      "revId": "fa435cdd6400cf6cd20c6fa961c5e1a95b696eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b35294c8_89233f20",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-11-11T19:56:16Z",
       "side": 1,
       "message": "This interface should document that it supports running LifecycleListeners.",
+      "revId": "fa435cdd6400cf6cd20c6fa961c5e1a95b696eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0e86097_a9c9dcb7",
+        "filename": "java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-12T06:09:57Z",
+      "side": 1,
+      "message": "Done. Corrected the example.. which was not implementing ModulesClassNamesProvider",
+      "parentUuid": "b35294c8_89233f20",
       "revId": "fa435cdd6400cf6cd20c6fa961c5e1a95b696eb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

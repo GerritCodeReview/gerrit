@@ -824,6 +824,15 @@ public abstract class AbstractDaemonTest {
     return gApi.projects().name(branch.project().get()).branch(branch.branch()).create(in);
   }
 
+  protected Boolean branchExists(BranchNameKey branch) {
+    try {
+      gApi.projects().name(branch.project().get()).branch(branch.branch()).get();
+    } catch (RestApiException e) {
+      return false;
+    }
+    return true;
+  }
+
   private static final List<Character> RANDOM =
       Chars.asList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 

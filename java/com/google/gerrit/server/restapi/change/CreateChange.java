@@ -223,6 +223,13 @@ public class CreateChange
       throw new BadRequestException("branch must be non-empty");
     }
     input.branch = RefNames.fullName(input.branch);
+    if (!(input.branch.startsWith(RefNames.REFS_HEADS) || "HEAD".equals(input.branch))) {
+      throw new PermissionBackendException(
+          "Cannot create a change on branch "
+              + input.branch
+              + ". "
+              + "Allowed branches should start with refs/heads.");
+    }
 
     String subject = Strings.nullToEmpty(input.subject);
     subject = subject.replaceAll("(?m)^#.*$\n?", "").trim();

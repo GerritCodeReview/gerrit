@@ -15,7 +15,9 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.entities.Permission.CREATE;
 import static com.google.gerrit.entities.Permission.READ;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.extensions.common.testing.GitPersonSubject.assertThat;
@@ -177,6 +179,48 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInfo info = assertCreateSucceeds(ci);
     assertThat(info.changeId).isEqualTo(changeId);
     assertThat(info.revisions.get(info.currentRevision).commit.message).contains(changeIdLine);
+  }
+
+  @Test
+  public void cannotCreateChangeOnNoteDbRefs() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    String[] disallowedBranches = {
+      "refs/users/82/1000002",
+      "refs/meta/config",
+      "refs/tags/v2.1",
+      "refs/cache-automerge/ec/00000000000000000000000000000000000000"
+    };
+
+    requestScopeOperations.setApiUser(admin.id());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(CREATE).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    for (String branchName : disallowedBranches) {
+      requestScopeOperations.setApiUser(admin.id());
+      BranchNameKey branchNameKey = BranchNameKey.create(project, branchName);
+      if (!branchExists(branchNameKey)) {
+        createBranch(branchNameKey);
+      }
+
+      requestScopeOperations.setApiUser(user.id());
+      ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+      ci.subject = "Subject\n\nChange-Id: " + changeId;
+      ci.branch = branchName;
+
+      Throwable thrown = assertThrows(RestApiException.class, () -> gApi.changes().create(ci));
+      assertThat(thrown)
+          .hasCauseThat()
+          .hasMessageThat()
+          .contains(
+              "Cannot create a change on branch "
+                  + ci.branch
+                  + ". "
+                  + "Allowed branches should start with refs/heads.");
+    }
   }
 
   @Test

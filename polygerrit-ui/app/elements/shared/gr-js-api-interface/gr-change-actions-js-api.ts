@@ -19,12 +19,8 @@ import {
   ActionPriority,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 import {JsApiService} from './gr-js-api-types';
-import {TargetElement} from '../../plugins/gr-plugin-types';
+import {PluginApi, TargetElement} from '../../plugins/gr-plugin-types';
 import {ActionInfo, RequireProperties} from '../../../types/common';
-
-interface Plugin {
-  getPluginName(): string;
-}
 
 export enum ChangeActions {
   ABANDON = 'abandon',
@@ -102,7 +98,7 @@ export class GrChangeActionsInterface {
 
   ActionType = ActionType;
 
-  constructor(public plugin: Plugin, el?: GrChangeActionsElement) {
+  constructor(public plugin: PluginApi, el?: GrChangeActionsElement) {
     this.setEl(el);
   }
 

@@ -19,6 +19,7 @@ import {GrPluginRestApi} from '../shared/gr-js-api-interface/gr-plugin-rest-api'
 import {GrEventHelper} from './gr-event-helper/gr-event-helper';
 import {GrPopupInterface} from './gr-popup-interface/gr-popup-interface';
 import {ConfigInfo} from '../../types/common';
+import {GrChecksApi} from './gr-checks-api/gr-checks-api';
 
 interface GerritElementExtensions {
   content?: HTMLElement & {hidden?: boolean};
@@ -91,6 +92,7 @@ export interface PluginApi {
   getPluginName(): string;
   on(eventName: string, target: any): void;
   attributeHelper(element: Element): GrAttributeHelper;
+  checks(): GrChecksApi;
   restApi(): GrPluginRestApi;
   eventHelper(element: Node): GrEventHelper;
   registerDynamicCustomComponent(

@@ -19,6 +19,7 @@ import {FlagsServiceImplementation} from './flags/flags_impl';
 import {GrReporting} from './gr-reporting/gr-reporting_impl';
 import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
 import {Auth} from './gr-auth/gr-auth_impl';
+import {ChecksServiceImplementation} from './checks/checks_impl';
 
 type ServiceName = keyof AppContext;
 type ServiceCreator<T> = () => T;
@@ -61,6 +62,7 @@ export function initAppContext() {
   }
 
   populateAppContext({
+    checksService: () => new ChecksServiceImplementation(),
     flagsService: () => new FlagsServiceImplementation(),
     reportingService: () => new GrReporting(appContext.flagsService),
     eventEmitter: () => new EventEmitter(),

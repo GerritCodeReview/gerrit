@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3ec58c2_a65b1527",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1322,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-13T10:14:42Z",
+      "side": 1,
+      "message": "Optional: it\u0027s probably better to change this to:\n\n\u003e \"Cannot create ref $ref_name because it already exists.\"\n\nTo the reviewer: please comment if you think this is better.",
+      "range": {
+        "startLine": 1322,
+        "startChar": 21,
+        "endLine": 1322,
+        "endChar": 65
+      },
+      "revId": "517133cbe9e676196f45f0711b03134b29eaafd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "884fbb94_4ac580f1",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1429,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-13T10:14:42Z",
+      "side": 1,
+      "message": "Optional: Add a comment above this line:\n\n\u003e // Since the branch is not visible to the caller, the command tries to \n\u003e // create the ref resulting in the command being rejected, because the\n\u003e // ref already exists.",
+      "range": {
+        "startLine": 1429,
+        "startChar": 4,
+        "endLine": 1429,
+        "endChar": 22
+      },
+      "revId": "517133cbe9e676196f45f0711b03134b29eaafd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

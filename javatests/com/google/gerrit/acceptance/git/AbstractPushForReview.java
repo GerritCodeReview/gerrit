@@ -87,6 +87,7 @@ import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -1123,7 +1124,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     String changeId = GitUtil.getChangeId(testRepo, c).get();
     assertThat(getOwnerEmail(changeId)).isEqualTo(admin.email());
-    assertThat(getReviewerEmails(changeId, ReviewerState.REVIEWER))
+    assertThat(getReviewerEmails(changeId, ReviewerState.CC))
         .containsExactly(user.email(), user2.email());
 
     assertThat(sender.getMessages()).hasSize(1);
@@ -1148,7 +1149,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pushHead(testRepo, "refs/for/master");
 
     assertThat(getOwnerEmail(r.getChangeId())).isEqualTo(admin.email());
-    assertThat(getReviewerEmails(r.getChangeId(), ReviewerState.REVIEWER))
+    assertThat(getReviewerEmails(r.getChangeId(), ReviewerState.CC))
         .containsExactly(user.email(), user2.email());
 
     assertThat(sender.getMessages()).hasSize(1);
@@ -1180,27 +1181,20 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // Push this commit as "Administrator" (requires Forge Committer Identity)
     pushHead(testRepo, "refs/for/master%l=Code-Review+1", false);
 
-    // Expected Code-Review votes:
-    // 1. 0 from User (committer):
-    //    When the committer is forged, the committer is automatically added as
-    //    reviewer, hence we expect a dummy 0 vote for the committer.
-    // 2. +1 from Administrator (uploader):
-    //    On push Code-Review+1 was specified, hence we expect a +1 vote from
-    //    the uploader.
+    // Expected Code-Review vote:
+    // +1 from Administrator (uploader):
+    // On push Code-Review+1 was specified, hence we expect a +1 vote from the uploader. When the
+    // committer is forged, the committer is automatically added as cc, but that doesn't add votes
+    // (as opposted to being added as reviewer that adds a dummy +0 vote). We ensure there are no
+    // votes from the committer.
     ChangeInfo ci =
         get(GitUtil.getChangeId(testRepo, c).get(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     LabelInfo cr = ci.labels.get("Code-Review");
-    assertThat(cr.all).hasSize(2);
-    int indexAdmin = admin.fullName().equals(cr.all.get(0).name) ? 0 : 1;
-    int indexUser = indexAdmin == 0 ? 1 : 0;
-    assertThat(cr.all.get(indexAdmin).name).isEqualTo(admin.fullName());
-    assertThat(cr.all.get(indexAdmin).value.intValue()).isEqualTo(1);
-    assertThat(cr.all.get(indexUser).name).isEqualTo(user.fullName());
-    assertThat(cr.all.get(indexUser).value.intValue()).isEqualTo(0);
+    ApprovalInfo approvalInfo = Iterables.getOnlyElement(cr.all);
+    assertThat(approvalInfo.name).isEqualTo(admin.fullName());
+    assertThat(approvalInfo.value.intValue()).isEqualTo(1);
     assertThat(Iterables.getLast(ci.messages).message)
         .isEqualTo("Uploaded patch set 1: Code-Review+1.");
-    // Check that the user who pushed the change was added as a reviewer since they added a vote
-    assertThatUserIsOnlyReviewer(ci, admin);
   }
 
   @Test

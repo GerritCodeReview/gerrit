@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
-import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
@@ -140,12 +139,12 @@ public class ReviewerAdder {
     }
 
     logger.atFine().log(
-        "Adding account %d from author/committer identity of commit %s as reviewer to change %d",
+        "Adding account %d from author/committer identity of commit %s as cc to change %d",
         accountId.get(), commitId.name(), change.getChangeId());
 
     InternalAddReviewerInput in = new InternalAddReviewerInput();
     in.reviewer = accountId.toString();
-    in.state = REVIEWER;
+    in.state = CC;
     in.notify = notify;
     in.otherFailureBehavior = FailureBehavior.IGNORE;
     return Optional.of(in);

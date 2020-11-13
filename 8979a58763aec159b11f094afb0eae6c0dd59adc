@@ -70,6 +70,30 @@
       },
       "revId": "8979a58763aec159b11f094afb0eae6c0dd59adc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31c16f41_4c0c4cad",
+        "filename": "polygerrit-ui/app/elements/lit/rx-lit-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-13T08:14:35Z",
+      "side": 1,
+      "message": "I don\u0027t understand why the first call of connectedCallback is any different than a later call.\n\nIf this.subscribe() is called in connectedCallback(), then property is subscribed to the observable.\n\nSince the observable is a ReplaySubject it will emit the current value (7) immediately. This means\n\n  this[propertyName] \u003d 7;\n\nwill be set. And then requestUpdate() is called, which essentially forces a render() call, right?",
+      "parentUuid": "99e88ba3_9b82337f",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 46
+      },
+      "revId": "8979a58763aec159b11f094afb0eae6c0dd59adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

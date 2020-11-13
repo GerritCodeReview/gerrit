@@ -101,14 +101,14 @@ suite('gr-diff-cursor tests', () => {
   test('cursor scroll behavior', () => {
     assert.equal(cursorElement._scrollMode, 'keep-visible');
 
-    cursorElement._handleDiffRenderStart();
+    diffElement.dispatchEvent(new Event('render-start'));
     assert.isTrue(cursorElement._focusOnMove);
 
-    cursorElement._handleWindowScroll();
+    window.dispatchEvent(new Event('scroll'));
     assert.equal(cursorElement._scrollMode, 'never');
     assert.isFalse(cursorElement._focusOnMove);
 
-    cursorElement._handleDiffRenderContent();
+    diffElement.dispatchEvent(new Event('render-content'));
     assert.isTrue(cursorElement._focusOnMove);
 
     cursorElement.reInitCursor();
@@ -118,7 +118,7 @@ suite('gr-diff-cursor tests', () => {
   test('moves to selected line', () => {
     const moveToNumStub = sinon.stub(cursorElement, 'moveToLineNumber');
 
-    cursorElement._handleDiffLineSelected(
+    diffElement.dispatchEvent(
         new CustomEvent('line-selected', {
           detail: {number: '123', side: 'right', path: 'some/file'},
         }));

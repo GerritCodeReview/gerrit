@@ -64,14 +64,6 @@ export class GrDiffCursor extends GestureEventListeners(
     return htmlTemplate;
   }
 
-  private _boundHandleWindowScroll: () => void;
-
-  private _boundHandleDiffRenderStart: () => void;
-
-  private _boundHandleDiffRenderContent: () => void;
-
-  private _boundHandleDiffLineSelected: (e: Event) => void;
-
   private _preventAutoScrollOnManualScroll = false;
 
   private lastDisplayedNavigateToNextFileToast: number | null = null;
@@ -109,15 +101,6 @@ export class GrDiffCursor extends GestureEventListeners(
 
   @property({type: Boolean})
   _listeningForScroll = false;
-
-  constructor() {
-    super();
-    this._boundHandleWindowScroll = () => this._handleWindowScroll();
-    this._boundHandleDiffRenderStart = () => this._handleDiffRenderStart();
-    this._boundHandleDiffRenderContent = () => this._handleDiffRenderContent();
-    this._boundHandleDiffLineSelected = (e: Event) =>
-      this._handleDiffLineSelected(e);
-  }
 
   /** @override */
   ready() {
@@ -340,13 +323,13 @@ export class GrDiffCursor extends GestureEventListeners(
     this._scrollMode = ScrollMode.KEEP_VISIBLE;
   }
 
-  _handleWindowScroll() {
+  private _boundHandleWindowScroll = () => {
     if (this._preventAutoScrollOnManualScroll) {
       this._scrollMode = ScrollMode.NEVER;
       this._focusOnMove = false;
       this._preventAutoScrollOnManualScroll = false;
     }
-  }
+  };
 
   reInitAndUpdateStops() {
     this.reInit();
@@ -358,25 +341,25 @@ export class GrDiffCursor extends GestureEventListeners(
     this.reInitCursor();
   }
 
-  _handleDiffRenderStart() {
+  private _boundHandleDiffRenderStart = () => {
     this._preventAutoScrollOnManualScroll = true;
-  }
+  };
 
-  _handleDiffRenderContent() {
+  private _boundHandleDiffRenderContent = () => {
     this._updateStops();
     // When done rendering, turn focus on move and automatic scrolling back on
     this._focusOnMove = true;
     this._preventAutoScrollOnManualScroll = false;
-  }
+  };
 
-  _handleDiffLineSelected(event: Event) {
+  private _boundHandleDiffLineSelected = (event: Event) => {
     const customEvent = event as CustomEvent;
     this.moveToLineNumber(
       customEvent.detail.number,
       customEvent.detail.side,
       customEvent.detail.path
     );
-  }
+  };
 
   createCommentInPlace() {
     const diffWithRangeSelected = this.diffs.find(diff =>

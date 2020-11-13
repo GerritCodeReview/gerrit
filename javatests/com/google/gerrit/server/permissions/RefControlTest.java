@@ -101,6 +101,14 @@ public class RefControlTest extends GerritBaseTests {
     assertThat(u.isOwner()).named("not owner").isFalse();
   }
 
+  private void assertAllRefsAreVisible(ProjectControl u) {
+    assertThat(u.allRefsAreVisible(Collections.emptySet())).named("all refs visible").isTrue();
+  }
+
+  private void assertAllRefsAreNotVisible(ProjectControl u) {
+    assertThat(u.allRefsAreVisible(Collections.emptySet())).named("all refs NOT visible").isFalse();
+  }
+
   private void assertNotOwner(String ref, ProjectControl u) {
     assertThat(u.controlForRef(ref).isOwner()).named("NOT OWN " + ref).isFalse();
   }
@@ -336,6 +344,27 @@ public class RefControlTest extends GerritBaseTests {
     block(local, OWNER, DEVS, "refs/*");
 
     assertAdminsAreOwnersAndDevsAreNot();
+  }
+
+  @Test
+  public void allRefsAreVisibleForRegularProject() throws Exception {
+    allow(local, READ, DEVS, "refs/*");
+    allow(local, READ, DEVS, "refs/groups/*");
+    allow(local, READ, DEVS, "refs/users/default");
+
+    assertAllRefsAreVisible(user(local, DEVS));
+  }
+
+  @Test
+  public void allRefsAreNotVisibleForAllUsers() throws Exception {
+    ProjectConfig allUsers = projectConfigFactory.create(allUsersName);
+    allUsers.load(newRepository(allUsersName));
+
+    allow(allUsers, READ, DEVS, "refs/*");
+    allow(allUsers, READ, DEVS, "refs/groups/*");
+    allow(allUsers, READ, DEVS, "refs/users/default");
+
+    assertAllRefsAreNotVisible(user(allUsers, DEVS));
   }
 
   @Test
@@ -999,6 +1028,7 @@ public class RefControlTest extends GerritBaseTests {
         refVisibilityControl,
         repoManager,
         refFilterFactory,
+        allUsersName,
         new MockUser(name, memberOf),
         newProjectState(local));
   }

@@ -745,6 +745,24 @@ for detail.
 +
 Default is false.
 
+[[cache.openFiles]]
++
+The number of file descriptors to add to the limit set by the Gerrit daemon.
++
+By default Gerrit's cache backend defaults to H2, however it is possible to
+configure Gerrit to use a different cache backend. See the
+link:https://gerrit.googlesource.com/modules/cache-chroniclemap/+/refs/heads/master[
+Cache-Chroniclemap documentation,role=external,window=_blank] for an example.
++
+Some cache backends might require the allocation of additional file descriptors,
+depending on their implementation. This setting allows to increase the limit of
+allowed file descriptors that can be opened all at once.
++
+If you increase this to a larger setting you may need to also adjust
+the ulimit on file descriptors for the host JVM, as Gerrit needs
+additional file descriptors available for network sockets and other
+repository data manipulation.
++
 [[cache.name.maxAge]]cache.<name>.maxAge::
 +
 Maximum age to keep an entry in the cache. Entries are removed from

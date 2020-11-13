@@ -142,7 +142,7 @@ export const htmlTemplate = html`
       width: 100%;
     }
     .full-width .contentText {
-      white-space: pre-wrap;
+      white-space: break-spaces;
       word-wrap: break-word;
     }
     .lineNumButton,

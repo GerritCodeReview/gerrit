@@ -296,6 +296,13 @@ test -n "$USE_LFS" && FDS_MULTIPLIER=3
 GERRIT_FDS=`expr $FDS_MULTIPLIER \* $GERRIT_FDS`
 test $GERRIT_FDS -lt 1024 && GERRIT_FDS=1024
 
+if test "`get_config --get gerrit.installModule`" = "com.googlesource.gerrit.modules.cache.chroniclemap.ChronicleMapCacheModule"; then
+  CACHE_CHRONICLEMAP_FDS=`get_config --get core.chronicleMapOpenFiles`
+  test -z "$CACHE_CHRONICLEMAP_FDS" && CACHE_CHRONICLEMAP_FDS=128
+
+  GERRIT_FDS=`expr $CACHE_CHRONICLEMAP_FDS \+ $GERRIT_FDS`
+fi
+
 GERRIT_STARTUP_TIMEOUT=`get_config --get container.startupTimeout`
 test -z "$GERRIT_STARTUP_TIMEOUT" && GERRIT_STARTUP_TIMEOUT=90  # seconds
 

@@ -24,6 +24,5 @@ export interface FlagsService {
  * @desc Experiment ids used in Gerrit.
  */
 export enum KnownExperimentId {
-  PATCHSET_COMMENTS = 'UiFeature__patchset_comments',
   NEW_CONTEXT_CONTROLS = 'UiFeature__new_context_controls',
 }

@@ -1255,7 +1255,7 @@ export interface DiffContent {
   due_to_rebase?: boolean;
   due_to_move?: boolean;
   skip?: number;
-  common?: string;
+  common?: boolean;
   keyLocation?: boolean;
 }
 

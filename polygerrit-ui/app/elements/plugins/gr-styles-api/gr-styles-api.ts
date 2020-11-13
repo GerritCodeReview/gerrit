@@ -22,13 +22,6 @@
  * 2. we have css variables which are more recommended way to custom styling
  */
 
-/**
- * // import { useShadow } from '@polymer/polymer/lib/utils/settings';
- * TODO(TS): polymer/lib/utils/settings.d.ts is not exporting useShadow
- * while the js is, to avoid the error, re-define it here
- */
-const useShadow = !window.ShadyDOM || !window.ShadyDOM.inUse;
-
 let styleObjectCount = 0;
 
 interface PgElement extends Element {
@@ -50,10 +43,9 @@ export class GrStyleObject {
    * if it hasn't been added yet. A root node is an document or is the
    * associated shadowRoot. This class can be added to any element with the same
    * root node.
-   *
    */
   getClassName(element: Element) {
-    let rootNodeEl = useShadow ? element.getRootNode() : document.body;
+    let rootNodeEl = element.getRootNode();
     if (rootNodeEl === document) {
       rootNodeEl = document.head;
     }

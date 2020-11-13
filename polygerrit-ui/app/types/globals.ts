@@ -23,12 +23,6 @@ declare global {
   interface Window {
     CANONICAL_PATH?: string;
     INITIAL_DATA?: {[key: string]: ParsedJSON};
-    ShadyCSS?: {
-      getComputedStyleValue(el: Element, name: string): string;
-    };
-    ShadyDOM?: {
-      inUse?: boolean;
-    };
     HTMLImports?: {whenReady: (cb: () => void) => void};
     linkify(
       text: string,

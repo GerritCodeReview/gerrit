@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 
@@ -70,27 +69,9 @@ function getPathFromNode(el: EventTarget) {
 
 /**
  * Get computed style value.
- *
- * If ShadyCSS is provided, use ShadyCSS api.
- * If `getComputedStyleValue` is provided on the element, use it.
- * Otherwise fallback to native method (in polymer 2).
- *
  */
-export function getComputedStyleValue(
-  name: string,
-  el: Element | LegacyElementMixin
-) {
-  let style;
-  if (window.ShadyCSS) {
-    style = window.ShadyCSS.getComputedStyleValue(el as Element, name);
-    // `getComputedStyleValue` defined through LegacyElementMixin
-    // TODO: It should be safe to just use `getComputedStyle`, but just to be safe
-  } else if ('getComputedStyleValue' in el) {
-    style = el.getComputedStyleValue(name);
-  } else {
-    style = getComputedStyle(el).getPropertyValue(name);
-  }
-  return style;
+export function getComputedStyleValue(name: string, el: Element) {
+  return getComputedStyle(el).getPropertyValue(name);
 }
 
 /**

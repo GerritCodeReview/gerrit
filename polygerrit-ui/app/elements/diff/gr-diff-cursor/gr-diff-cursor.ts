@@ -466,7 +466,7 @@ export class GrDiffCursor extends GestureEventListeners(
 
   /**
    * If we jumped to a row where there is no content on the current side then
-   * switch to the alternate side.
+   * switch to the alternate    side.
    */
   _fixSide() {
     if (

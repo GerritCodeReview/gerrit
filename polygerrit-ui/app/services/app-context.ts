@@ -18,8 +18,10 @@ import {FlagsService} from './flags/flags';
 import {EventEmitterService} from './gr-event-interface/gr-event-interface';
 import {ReportingService} from './gr-reporting/gr-reporting';
 import {AuthService} from './gr-auth/gr-auth';
+import {ChecksService} from './checks/checks';
 
 export interface AppContext {
+  checksService: ChecksService;
   flagsService: FlagsService;
   reportingService: ReportingService;
   eventEmitter: EventEmitterService;

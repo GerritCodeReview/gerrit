@@ -639,14 +639,13 @@ export abstract class GrDiffBuilder {
     side: Side
   ) {
     const td = this._createElement('td');
+    td.classList.add(side);
     if (line.type === GrDiffLineType.BLANK) {
       return td;
     }
     if (line.type === GrDiffLineType.BOTH || line.type === type) {
-      // Both td and button need a number of classes/attributes for various
-      // selectors to work.
-      this._decorateLineEl(td, number, side);
       td.classList.add('lineNum');
+      td.dataset['value'] = number.toString();
 
       if (this._prefs.show_file_comment_button === false && number === 'FILE') {
         return td;
@@ -655,10 +654,8 @@ export abstract class GrDiffBuilder {
       const button = this._createElement('button');
       td.appendChild(button);
       button.tabIndex = -1;
-      this._decorateLineEl(button, number, side);
-
       button.classList.add('lineNumButton');
-
+      button.dataset['value'] = number.toString();
       button.textContent = number === 'FILE' ? 'File' : number.toString();
 
       // Add aria-labels for valid line numbers.
@@ -675,11 +672,6 @@ export abstract class GrDiffBuilder {
     }
 
     return td;
-  }
-
-  _decorateLineEl(el: HTMLElement, number: LineNumber, side: Side) {
-    el.classList.add(side);
-    el.dataset['value'] = number.toString();
   }
 
   _createTextEl(

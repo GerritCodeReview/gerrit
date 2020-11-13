@@ -94,6 +94,30 @@
       },
       "revId": "8979a58763aec159b11f094afb0eae6c0dd59adc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28152731_6206df7a",
+        "filename": "polygerrit-ui/app/elements/lit/rx-lit-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-13T08:20:11Z",
+      "side": 1,
+      "message": "Discussed offline that this is not a blocker. And we can look into it later.",
+      "parentUuid": "31c16f41_4c0c4cad",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 46
+      },
+      "revId": "8979a58763aec159b11f094afb0eae6c0dd59adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

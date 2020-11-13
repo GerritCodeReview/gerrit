@@ -296,6 +296,11 @@ test -n "$USE_LFS" && FDS_MULTIPLIER=3
 GERRIT_FDS=`expr $FDS_MULTIPLIER \* $GERRIT_FDS`
 test $GERRIT_FDS -lt 1024 && GERRIT_FDS=1024
 
+CACHE_FDS=`get_config --get cache.openFiles`
+if test -n "$CACHE_FDS"; then
+  GERRIT_FDS=`expr $CACHE_FDS \+ $GERRIT_FDS`
+fi
+
 GERRIT_STARTUP_TIMEOUT=`get_config --get container.startupTimeout`
 test -z "$GERRIT_STARTUP_TIMEOUT" && GERRIT_STARTUP_TIMEOUT=90  # seconds
 

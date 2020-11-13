@@ -745,6 +745,24 @@ for detail.
 +
 Default is false.
 
+[[cache.openFiles]]cache.openFiles::
++
+The number of file descriptors to add to the limit set by the Gerrit daemon.
++
+Persistent caches are stored on the file system and as such participate in the
+file descriptors utilization. The number of file descriptors can vary depending
+on the cache configuration and the specific backend used.
++
+The additional file descriptors required by the cache should be accounted for
+via this setting, so that the Gerrit daemon can adjust the ulimit accordingly.
++
+If you increase this to a larger setting you may need to also adjust
+the ulimit on file descriptors for the host JVM, as Gerrit needs
+additional file descriptors available for network sockets and other
+repository data manipulation.
++
+Default is 0.
+
 [[cache.name.maxAge]]cache.<name>.maxAge::
 +
 Maximum age to keep an entry in the cache. Entries are removed from

@@ -466,8 +466,9 @@ export class GrDiffCursor extends GestureEventListeners(
 
   /**
    * If we jumped to a row where there is no content on the current side then
-   * switch to the alternate side.
+   * switch to the alternate    side.
    */
+  // A whitespace only change above.
   _fixSide() {
     if (
       this._getViewMode() === DiffViewMode.SIDE_BY_SIDE &&

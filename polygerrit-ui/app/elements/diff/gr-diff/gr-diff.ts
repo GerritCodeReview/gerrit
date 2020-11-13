@@ -193,8 +193,11 @@ export class GrDiff extends GestureEventListeners(
   lineOfInterest?: LineOfInterest;
 
   /** True when diff is changed, until the content is done rendering. */
-  @property({type: Boolean})
-  _loading = true;
+  @property({type: Boolean, notify: true, readOnly: true})
+  loading!: boolean;
+
+  // Polymer generated when setting readOnly above.
+  _setLoading!: (loading: boolean) => void;
 
   @property({type: Boolean})
   loggedIn = false;
@@ -276,6 +279,7 @@ export class GrDiff extends GestureEventListeners(
   /** @override */
   created() {
     super.created();
+    this._setLoading(true);
     this.addEventListener('create-range-comment', (e: Event) =>
       this._handleCreateRangeComment(e as CustomEvent)
     );
@@ -463,7 +467,7 @@ export class GrDiff extends GestureEventListeners(
   getCursorStops(): Array<HTMLElement | AbortStop> {
     if (this.hidden && this.noAutoRender) return [];
 
-    if (this._loading) {
+    if (this.loading) {
       return [new AbortStop()];
     }
 
@@ -833,7 +837,7 @@ export class GrDiff extends GestureEventListeners(
   }
 
   _diffChanged(newValue?: DiffInfo) {
-    this._loading = true;
+    this._setLoading(true);
     this._cleanup();
     if (newValue) {
       this._diffLength = this.getDiffLength(newValue);
@@ -893,7 +897,7 @@ export class GrDiff extends GestureEventListeners(
   }
 
   _handleRenderContent() {
-    this._loading = false;
+    this._setLoading(false);
     this._unobserveIncrementalNodes();
     this._incrementalNodeObserver = (dom(
       this

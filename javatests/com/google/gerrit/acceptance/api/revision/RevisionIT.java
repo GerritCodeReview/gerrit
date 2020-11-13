@@ -872,7 +872,7 @@ public class RevisionIT extends AbstractDaemonTest {
     String changeId = project.get() + "~master~" + result.getChangeId();
 
     // 'user' cherry-picks the change to a new branch, the source change's author/committer('admin')
-    // will be added as a reviewer of the newly created change.
+    // will be added as cc of the newly created change.
     requestScopeOperations.setApiUser(user.id());
     CherryPickInput input = new CherryPickInput();
     input.message = "it goes to a new branch";
@@ -882,7 +882,7 @@ public class RevisionIT extends AbstractDaemonTest {
     input.notify = NotifyHandling.ALL;
     sender.clear();
     gApi.changes().id(changeId).current().cherryPick(input);
-    assertNotifyTo(admin);
+    assertNotifyCc(admin);
 
     // Disable the notification. 'admin' as a reviewer should not be notified any more.
     input.destination = "branch-2";

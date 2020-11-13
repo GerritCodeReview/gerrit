@@ -1714,7 +1714,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
         .to(sc.reviewer)
-        .to(other)
+        .cc(other)
         .cc(sc.ccer)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
@@ -1730,7 +1730,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
         .to(sc.reviewer)
-        .to(other)
+        .cc(other)
         .cc(sc.ccer)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();

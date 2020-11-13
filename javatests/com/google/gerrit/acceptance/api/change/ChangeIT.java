@@ -1499,19 +1499,19 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(commit.author.email).isEqualTo(user.email());
     assertThat(commit.committer.email).isEqualTo(user.email());
 
-    // check that the author/committer was added as reviewer
-    Collection<AccountInfo> reviewers = change.reviewers.get(REVIEWER);
+    // check that the author/committer was added as cc
+    Collection<AccountInfo> reviewers = change.reviewers.get(CC);
     assertThat(reviewers).isNotNull();
     assertThat(reviewers).hasSize(1);
     assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.id().get());
-    assertThat(change.reviewers.get(CC)).isNull();
+    assertThat(change.reviewers.get(REVIEWER)).isNull();
 
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.from().name()).isEqualTo("Administrator (Code Review)");
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
-    assertThat(m.body()).contains("I'd like you to do a code review");
+    assertThat(m.body()).contains("has uploaded this change for review");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
     assertMailReplyTo(m, admin.email());
   }

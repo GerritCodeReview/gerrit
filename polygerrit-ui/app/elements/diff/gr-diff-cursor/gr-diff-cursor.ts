@@ -341,6 +341,10 @@ export class GrDiffCursor extends GestureEventListeners(
     this.reInitCursor();
   }
 
+  private boundHandleDiffLoadingChanged = () => {
+    this._updateStops();
+  };
+
   private _boundHandleDiffRenderStart = () => {
     this._preventAutoScrollOnManualScroll = true;
   };
@@ -538,6 +542,10 @@ export class GrDiffCursor extends GestureEventListeners(
       // might be the same.
       for (i = 0; i < splice?.removed.length; i++) {
         splice.removed[i].removeEventListener(
+          'loading-changed',
+          this.boundHandleDiffLoadingChanged
+        );
+        splice.removed[i].removeEventListener(
           'render-start',
           this._boundHandleDiffRenderStart
         );
@@ -552,6 +560,10 @@ export class GrDiffCursor extends GestureEventListeners(
       }
 
       for (i = splice.index; i < splice.index + splice.addedCount; i++) {
+        this.diffs[i].addEventListener(
+          'loading-changed',
+          this.boundHandleDiffLoadingChanged
+        );
         this.diffs[i].addEventListener(
           'render-start',
           this._boundHandleDiffRenderStart

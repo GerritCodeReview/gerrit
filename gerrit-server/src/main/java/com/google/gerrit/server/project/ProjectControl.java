@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -140,6 +141,7 @@ public class ProjectControl {
   private final RefVisibilityControl refVisibilityControl;
   private final VisibleRefFilter.Factory visibleRefFilterFactory;
   private final GitRepositoryManager gitRepositoryManager;
+  private final AllUsersName allUsersName;
 
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
@@ -156,6 +158,7 @@ public class ProjectControl {
       RefVisibilityControl refVisibilityControl,
       GitRepositoryManager gitRepositoryManager,
       VisibleRefFilter.Factory visibleRefFilterFactory,
+      AllUsersName allUsersName,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.changeControlFactory = changeControlFactory;
@@ -167,6 +170,7 @@ public class ProjectControl {
     this.refVisibilityControl = refVisibilityControl;
     this.gitRepositoryManager = gitRepositoryManager;
     this.visibleRefFilterFactory = visibleRefFilterFactory;
+    this.allUsersName = allUsersName;
     user = who;
     state = ps;
   }
@@ -262,7 +266,9 @@ public class ProjectControl {
   }
 
   private boolean allRefsAreVisible(Set<String> ignore) {
-    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
+    return user.isInternalUser()
+        || (!getProject().getNameKey().equals(allUsersName)
+            && canPerformOnAllRefs(Permission.READ, ignore));
   }
 
   /** Returns whether the project is hidden. */

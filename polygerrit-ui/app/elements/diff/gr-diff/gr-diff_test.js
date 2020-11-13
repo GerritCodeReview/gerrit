@@ -605,7 +605,7 @@ suite('gr-diff tests', () => {
         };
 
         element._renderDiffTable();
-        element._loading = false;
+        element._setLoading(false);
         flush();
       }
 

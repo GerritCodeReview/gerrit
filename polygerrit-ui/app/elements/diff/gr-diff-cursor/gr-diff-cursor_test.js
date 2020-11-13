@@ -474,6 +474,12 @@ suite('gr-diff-cursor tests', () => {
     });
   });
 
+  test('updates stops when loading changes', () => {
+    sinon.spy(cursorElement, '_updateStops');
+    diffElement.dispatchEvent(new Event('loading-changed'));
+    assert.isTrue(cursorElement._updateStops.called);
+  });
+
   suite('gr-diff-cursor event tests', () => {
     let someEmptyDiv;
 

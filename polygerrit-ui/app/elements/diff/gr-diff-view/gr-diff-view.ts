@@ -296,8 +296,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
       [Shortcut.NEXT_COMMENT_THREAD]: '_handleNextChunkOrCommentThread',
       [Shortcut.PREV_CHUNK]: '_handlePrevChunkOrCommentThread',
       [Shortcut.PREV_COMMENT_THREAD]: '_handlePrevChunkOrCommentThread',
-      [Shortcut.OPEN_REPLY_DIALOG]: '_handleOpenReplyDialogOrToggleLeftPane',
-      [Shortcut.TOGGLE_LEFT_PANE]: '_handleOpenReplyDialogOrToggleLeftPane',
+      [Shortcut.OPEN_REPLY_DIALOG]: '_handleOpenReplyDialog',
+      [Shortcut.TOGGLE_LEFT_PANE]: '_handleToggleLeftPane',
       [Shortcut.OPEN_DOWNLOAD_DIALOG]: '_handleOpenDownloadDialog',
       [Shortcut.UP_TO_CHANGE]: '_handleUpToChange',
       [Shortcut.OPEN_DIFF_PREFS]: '_handleCommaKey',
@@ -659,22 +659,22 @@ export class GrDiffView extends KeyboardShortcutMixin(
     }
   }
 
-  _handleOpenReplyDialogOrToggleLeftPane(e: CustomKeyboardEvent) {
+  _handleOpenReplyDialog(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e)) return;
-
-    if (e.detail.keyboardEvent?.shiftKey) {
-      // Hide left diff.
-      e.preventDefault();
-      this.$.diffHost.toggleLeftDiff();
-      return;
-    }
-
     if (this.modifierPressed(e)) return;
     if (!this._loggedIn) return;
 
     this.set('changeViewState.showReplyDialog', true);
     e.preventDefault();
     this._navToChangeView();
+  }
+
+  _handleToggleLeftPane(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (!e.detail.keyboardEvent?.shiftKey) return;
+
+    e.preventDefault();
+    this.$.diffHost.toggleLeftDiff();
   }
 
   _handleOpenDownloadDialog(e: CustomKeyboardEvent) {

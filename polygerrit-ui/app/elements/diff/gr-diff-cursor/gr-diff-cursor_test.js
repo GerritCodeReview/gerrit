@@ -104,7 +104,7 @@ suite('gr-diff-cursor tests', () => {
     cursorElement._handleDiffRenderStart();
     assert.isTrue(cursorElement._focusOnMove);
 
-    cursorElement._handleWindowScroll();
+    window.dispatchEvent(new Event('scroll'));
     assert.equal(cursorElement._scrollMode, 'never');
     assert.isFalse(cursorElement._focusOnMove);
 

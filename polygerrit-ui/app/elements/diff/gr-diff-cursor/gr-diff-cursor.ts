@@ -64,8 +64,6 @@ export class GrDiffCursor extends GestureEventListeners(
     return htmlTemplate;
   }
 
-  private _boundHandleWindowScroll: () => void;
-
   private _boundHandleDiffRenderStart: () => void;
 
   private _boundHandleDiffRenderContent: () => void;
@@ -112,7 +110,6 @@ export class GrDiffCursor extends GestureEventListeners(
 
   constructor() {
     super();
-    this._boundHandleWindowScroll = () => this._handleWindowScroll();
     this._boundHandleDiffRenderStart = () => this._handleDiffRenderStart();
     this._boundHandleDiffRenderContent = () => this._handleDiffRenderContent();
     this._boundHandleDiffLineSelected = (e: Event) =>
@@ -340,13 +337,13 @@ export class GrDiffCursor extends GestureEventListeners(
     this._scrollMode = ScrollMode.KEEP_VISIBLE;
   }
 
-  _handleWindowScroll() {
+  private _boundHandleWindowScroll = () => {
     if (this._preventAutoScrollOnManualScroll) {
       this._scrollMode = ScrollMode.NEVER;
       this._focusOnMove = false;
       this._preventAutoScrollOnManualScroll = false;
     }
-  }
+  };
 
   reInitAndUpdateStops() {
     this.reInit();

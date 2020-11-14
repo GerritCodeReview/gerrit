@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30b2c33b_7ed630bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1120285
+      },
+      "writtenOn": "2020-11-14T02:10:57Z",
+      "side": 1,
+      "message": "\u003e Uploaded patch set 2.\n\n",
+      "revId": "9437b7be9f66efc4f8b2cc70a6c7b474ba20e93c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

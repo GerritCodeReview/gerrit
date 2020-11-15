@@ -12,6 +12,8 @@ grep 'name = "[^"]*"' ${bzl} | sed 's|^[^"]*"||g;s|".*$||g' | sort > $TMP/names
 
 cat << EOF > $TMP/want
 cglib-3_2
+docker-java-api
+docker-java-transport
 dropwizard-core
 duct-tape
 eddsa
@@ -19,6 +21,7 @@ elasticsearch-rest-client
 httpasyncclient
 httpcore-nio
 j2objc
+jackson-annotations
 jackson-core
 javassist
 jna

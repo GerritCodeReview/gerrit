@@ -162,6 +162,28 @@ def declare_nongoogle_deps():
         sha1 = "3e83394258ae2089be7219b971ec21a8288528ad",
     )
 
+    DOCKER_JAVA_VERS = "3.2.5"
+
+    maven_jar(
+        name = "docker-java-api",
+        artifact = "com.github.docker-java:docker-java-api:" + DOCKER_JAVA_VERS,
+        sha1 = "8fe5c5e39f940ce58620e77cedc0a2a52d76f9d8",
+    )
+
+    maven_jar(
+        name = "docker-java-transport",
+        artifact = "com.github.docker-java:docker-java-transport:" + DOCKER_JAVA_VERS,
+        sha1 = "27af0ee7ebc2f5672e23ea64769497b5d55ce3ac",
+    )
+
+    # https://github.com/docker-java/docker-java/blob/3.2.5/pom.xml#L61
+    # <=> DOCKER_JAVA_VERS
+    maven_jar(
+        name = "jackson-annotations",
+        artifact = "com.fasterxml.jackson.core:jackson-annotations:2.10.3",
+        sha1 = "0f63b3b1da563767d04d2e4d3fc1ae0cdeffebe7",
+    )
+
     TESTCONTAINERS_VERSION = "1.15.0"
 
     maven_jar(

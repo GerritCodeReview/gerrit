@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4849e996_7e2389ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-16T21:09:38Z",
+      "side": 1,
+      "message": "[Optional] Add more context and test plan section to clarify how to reproduce the problem that is fixed by this CL, e.g.\n\nThe Bazel option `--incompatible_run_shell_command_string` is going to be flipped to true in upcoming Bazel 4.0 release per default, see: [1] for more details.\n\nTest Plan:\n\n  bazel build  :release\n\n[1] https://github.com/bazelbuild/bazel/issues/5903",
+      "revId": "ea0172d112cf664a12916bc4ca67f422e602d1b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31ef048d_c8ebfa01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-16T21:09:38Z",
+      "side": 1,
+      "message": "We usually use bug footer in the form:\n\nBug: Issue 13612",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "ea0172d112cf664a12916bc4ca67f422e602d1b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99abf0d4_c1116b98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-16T21:09:38Z",
+      "side": 1,
+      "message": "Nit: No new line between bug footer and Change-Id line.",
+      "revId": "ea0172d112cf664a12916bc4ca67f422e602d1b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fd86f79_c251e05d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-16T21:09:38Z",
+      "side": 1,
+      "message": "Thanks for the fix.",
+      "revId": "ea0172d112cf664a12916bc4ca67f422e602d1b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

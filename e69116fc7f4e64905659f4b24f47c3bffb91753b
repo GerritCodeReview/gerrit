@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33e3bab3_2dbf46fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-16T07:14:09Z",
+      "side": 1,
+      "message": "There are still some hosts that have not yet upgraded their internal systems, hence we cannot clean up this experiment.",
+      "revId": "e69116fc7f4e64905659f4b24f47c3bffb91753b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

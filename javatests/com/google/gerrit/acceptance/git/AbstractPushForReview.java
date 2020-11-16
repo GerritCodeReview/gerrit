@@ -1169,6 +1169,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
    */
   @Test
   public void pushForMasterWithApprovalsForgeCommitterButNoForgeVote() throws Exception {
+    int betterVariableName = 2;
+    betterVariableName++;
     // Create a commit with "User" as author and committer
     RevCommit c =
         commitBuilder()

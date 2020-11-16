@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cffc6d2_9243769f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-11-16T09:24:48Z",
+      "side": 1,
+      "message": "This should be a generic configuration, not tied specifically to chronicle-map",
+      "revId": "efd176591bd193879b6ea23cc003ac8395a54f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

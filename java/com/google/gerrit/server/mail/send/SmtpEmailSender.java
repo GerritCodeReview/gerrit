@@ -392,11 +392,7 @@ public class SmtpEmailSender implements EmailSender {
   }
 
   private SMTPClient open() throws EmailException {
-    final AuthSMTPClient client = new AuthSMTPClient(UTF_8.name());
-
-    if (smtpEncryption == Encryption.SSL) {
-      client.enableSSL(sslVerify);
-    }
+    final AuthSMTPClient client = new AuthSMTPClient(smtpEncryption == Encryption.SSL, sslVerify);
 
     client.setConnectTimeout(connectTimeout);
     try {
@@ -412,7 +408,7 @@ public class SmtpEmailSender implements EmailSender {
       }
 
       if (smtpEncryption == Encryption.TLS) {
-        if (!client.startTLS(smtpHost, smtpPort, sslVerify)) {
+        if (!client.execTLS()) {
           throw new EmailException("SMTP server does not support TLS");
         }
         if (!client.login()) {

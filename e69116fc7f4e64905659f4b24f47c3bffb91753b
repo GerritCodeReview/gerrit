@@ -16,6 +16,24 @@
       "message": "There are still some hosts that have not yet upgraded their internal systems, hence we cannot clean up this experiment.",
       "revId": "e69116fc7f4e64905659f4b24f47c3bffb91753b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d514dff0_ce1ce85b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-16T09:09:06Z",
+      "side": 1,
+      "message": "Is UiFeature__patchset_choice_for_comment_links ready to be cleaned up? Can you do that?\n\nCan you make sure that both features are turned by default in stable-3.3?",
+      "parentUuid": "33e3bab3_2dbf46fb",
+      "revId": "e69116fc7f4e64905659f4b24f47c3bffb91753b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

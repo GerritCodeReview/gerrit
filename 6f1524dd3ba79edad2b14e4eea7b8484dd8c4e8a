@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa802dd6_05e31cd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-16T23:11:55Z",
+      "side": 1,
+      "message": "@Marija, this doesn\u0027t merge-up cleanly onto the stable-3.2 branch for me locally. I didn\u0027t try manually resolving the merge conflicts yet myself. Would you be able to? -That would be great. Otherwise, I might work on it tomorrow if time allows; not sure yet. Thanks.",
+      "revId": "6f1524dd3ba79edad2b14e4eea7b8484dd8c4e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

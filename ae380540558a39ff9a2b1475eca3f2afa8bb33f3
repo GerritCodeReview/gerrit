@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a008ebfc_fee5b90a",
+        "filename": "java/com/google/gerrit/server/patch/DiffMappings.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T15:34:49Z",
+      "side": 1,
+      "message": "IIUC jgit only uses its Edit type. Could you extend this comment to say why we need three types (Mapping, FileMapping, RangeMapping) instead?",
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7aba9cf_c8fc6be9",
+        "filename": "java/com/google/gerrit/server/patch/DiffMappings.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T15:34:49Z",
+      "side": 1,
+      "message": "fileEdits",
+      "range": {
+        "startLine": 41,
+        "startChar": 44,
+        "endLine": 41,
+        "endChar": 46
+      },
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "464e2c8f_78704542",
+        "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T15:34:49Z",
+      "side": 1,
+      "message": "This seems overly specific, List or just Collection should suffice.",
+      "range": {
+        "startLine": 61,
+        "startChar": 25,
+        "endLine": 61,
+        "endChar": 38
+      },
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30492261_0243d87d",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T15:34:49Z",
+      "side": 1,
+      "message": "Can be static",
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0154442d_8e6e9c18",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T15:34:49Z",
+      "side": 1,
+      "message": "patchListEntry",
+      "range": {
+        "startLine": 321,
+        "startChar": 47,
+        "endLine": 321,
+        "endChar": 50
+      },
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e4d54a4_3ba16842",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T15:34:49Z",
+      "side": 1,
+      "message": "Old?",
+      "range": {
+        "startLine": 326,
+        "startChar": 37,
+        "endLine": 326,
+        "endChar": 41
+      },
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b72fb3cc_b143844c",
+        "filename": "java/com/google/gerrit/server/patch/entities/Edit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T15:34:49Z",
+      "side": 1,
+      "message": "Could you add to the comment why we need our own version?",
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41247b82_cf844241",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T15:34:49Z",
+      "side": 1,
+      "message": "I wouldn\u0027t have expected that; from the class name I\u0027d think it only contains Edit-s. How about FileChanges? (I guess though that it\u0027s hard to find a name that isn\u0027t already used somewhere or otherwise confusing, so feel free to keep the name if there is no better one.)",
+      "range": {
+        "startLine": 25,
+        "startChar": 78,
+        "endLine": 27,
+        "endChar": 3
+      },
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

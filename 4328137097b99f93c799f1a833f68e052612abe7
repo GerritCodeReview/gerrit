@@ -1,0 +1,339 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8805276_a414fc69",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "javadoc",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d13f0e1_bf485e26",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "nit/opt: I think convention is to use final only when necessary or when it would otherwise be confusing.",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd7613ac_f3052e7d",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "Why not just have a default: label?",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "919fdc1f_207c99a3",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "Could you explain (in the comment) why this indirection is needed?",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b4f259d_86bff107",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "patchType",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe6a0d0e_df7163a7",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "Return directly?",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00709107_02fafd84",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "Why don\u0027t you use a regular expression instead of writing this by hand?\nAlso, should we have a limit (like Git apparently does) to restrict time/space consumption?\nWhy is NUL the only character we use to determine this? Isn\u0027t there something like maybe \"nonprintable()\"?",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38be74b0_7314f641",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "typo: it\u0027s",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9f87eaf_926b0685",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "Why not return directly here?",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "779fcb05_7c427b5f",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "h -\u003e fileHeader\nend() looks to me like it returns an iterator.\nThis method would benefit from comments.",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ef9a05c_c95cbe78",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "opt: IMHO this doesn\u0027t add readability.",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7b4f8cb_533d619d",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "nit: reformat",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 43
+      },
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47ac0f2a_47d0103b",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "nit: I think the convention is to spell out numbers up to 12.",
+      "range": {
+        "startLine": 26,
+        "startChar": 27,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87fc7ab6_352ae8c4",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "Creation and returning of the instance can be moved before/after the switch.",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8913601_5cfba666",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "Can this happen with the compiler checking case completeness?",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64763875_a045b410",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "I think what the code does is easy to see. The comment should rather explain the reason for this.",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "085664a2_2ffe9825",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "I think overloads should be avoided. They make it hard to e.g. codesearch for method uses, and also reduce readability outside of an IDE. How about loadAllImpl or doLoadAll?",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3e5a90f_fd7aeadb",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "Why is it necessary to copy here? If you\u0027re concerned about modifications I think you could use ImmutableMap in line 181.",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e49a51b_914c974f",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheKey.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T14:41:26Z",
+      "side": 1,
+      "message": "Why isn\u0027t this an int?",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

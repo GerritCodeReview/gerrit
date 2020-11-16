@@ -27,7 +27,10 @@ export const htmlTemplate = html`
     :host {
       font-family: var(--monospace-font-family, ''), 'Roboto Mono';
       font-size: var(--font-size, var(--font-size-code, 12px));
-      line-height: var(--line-height-code, 1.334);
+      /* usually 16px = 12px + 4px */
+      line-height: calc(
+        var(--font-size, var(--font-size-code, 12px)) + var(--spacing-s, 4px)
+      );
     }
 
     .thread-group {

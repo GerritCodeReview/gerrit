@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ec586bf_fdd6d427",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-16T20:57:58Z",
+      "side": 1,
+      "message": "I know this is a cherry-pick, but should this rather be strict equality (\u003d\u003d\u003d) instead of loose equality (\u003d\u003d)? Also note, that Milutin changed it to strict equality during conversion to TypeScript in: [1].\n\n(It should be probably changed in a different commit to preserve the cherry-pick as is?)\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/281526/3/polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.ts#71",
+      "range": {
+        "startLine": 59,
+        "startChar": 66,
+        "endLine": 59,
+        "endChar": 68
+      },
+      "revId": "7f0dcdbeaca0160e5bb2873f2da00f47155062aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

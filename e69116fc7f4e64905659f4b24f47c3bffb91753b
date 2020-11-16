@@ -52,6 +52,24 @@
       "parentUuid": "d514dff0_ce1ce85b",
       "revId": "e69116fc7f4e64905659f4b24f47c3bffb91753b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e9902c9_dd39d14d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-16T09:16:49Z",
+      "side": 1,
+      "message": "Cool, thanks. Can you also reply to my comment about the stable-3.3 branch?",
+      "parentUuid": "3d2666a2_a985b839",
+      "revId": "e69116fc7f4e64905659f4b24f47c3bffb91753b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

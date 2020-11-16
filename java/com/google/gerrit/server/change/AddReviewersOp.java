@@ -194,7 +194,7 @@ public class AddReviewersOp implements BatchUpdateOp {
 
     if (state == CC) {
       addedCCsByEmail = addressesToAdd;
-    } else {
+    } else {.
       addedReviewersByEmail = addressesToAdd;
     }
     for (Address a : addressesToAdd) {

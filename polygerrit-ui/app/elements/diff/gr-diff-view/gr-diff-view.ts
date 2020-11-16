@@ -1369,9 +1369,12 @@ export class GrDiffView extends KeyboardShortcutMixin(
       patchNum,
       path,
     });
-    const commentCount = changeComments.computeCommentCount({patchNum, path});
-    const commentString = GrCountStringFormatter.computePluralString(
-      commentCount,
+    const commentThreadCount = changeComments.computeCommentThreadCount({
+      patchNum,
+      path,
+    });
+    const commentThreadString = GrCountStringFormatter.computePluralString(
+      commentThreadCount,
       'comment'
     );
     const unresolvedString = GrCountStringFormatter.computeString(
@@ -1381,7 +1384,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
     const unmodifiedString = changeFileInfo.status === 'U' ? 'no changes' : '';
 
-    return [unmodifiedString, commentString, unresolvedString]
+    return [unmodifiedString, commentThreadString, unresolvedString]
       .filter(v => v && v.length > 0)
       .join(', ');
   }

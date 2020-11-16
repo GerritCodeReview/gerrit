@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05b519b5_8d861dbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-11-16T21:12:31Z",
+      "side": 1,
+      "message": "Here is the chain of changes that I have mentioned during today\u0027s session. Enjoy and let me know if sth more is needed.",
+      "revId": "2e4846c8fc90cd4566d63c3dd9cf26279df06f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

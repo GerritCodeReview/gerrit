@@ -23,7 +23,8 @@ export const htmlTemplate = html`
       box-sizing: border-box;
       font-family: var(--monospace-font-family);
       font-size: var(--font-size-code);
-      line-height: var(--line-height-code);
+      /* usually 16px = 12px + 4px */
+      line-height: calc(var(--font-size-code) + var(--spacing-s));
       min-height: 60vh;
       resize: none;
       white-space: pre;

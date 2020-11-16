@@ -925,6 +925,18 @@ EXHIBIT A -Mozilla Public License.
 ----
 
 
+[[PublicDomain]]
+PublicDomain
+
+* guice:aopalliance
+
+[[PublicDomain_license]]
+----
+This software has been placed in the public domain by its author(s).
+
+----
+
+
 [[antlr]]
 antlr
 

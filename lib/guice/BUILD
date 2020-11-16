@@ -1,9 +1,4 @@
-load("@rules_java//java:defs.bzl", "java_import", "java_library")
-
-java_import(
-    name = "guice-library-no-aop",
-    jars = ["@guice-library-no-aop//file"],
-)
+load("@rules_java//java:defs.bzl", "java_library")
 
 java_library(
     name = "guice",
@@ -19,7 +14,8 @@ java_library(
     name = "guice-library",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = [":guice-library-no-aop"],
+    exports = ["@guice-library//jar"],
+    runtime_deps = ["aopalliance"],
 )
 
 java_library(
@@ -36,6 +32,12 @@ java_library(
     visibility = ["//visibility:public"],
     exports = ["@guice-servlet//jar"],
     runtime_deps = [":guice"],
+)
+
+java_library(
+    name = "aopalliance",
+    data = ["//lib:LICENSE-PublicDomain"],
+    exports = ["@aopalliance//jar"],
 )
 
 java_library(

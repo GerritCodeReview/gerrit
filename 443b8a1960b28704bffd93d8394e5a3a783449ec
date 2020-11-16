@@ -16,6 +16,29 @@
       "message": "Manually removing Ben and Patrick from the attention set",
       "revId": "443b8a1960b28704bffd93d8394e5a3a783449ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cbc4fe1_927b1a13",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-16T13:13:41Z",
+      "side": 1,
+      "message": "please user a better variable name",
+      "range": {
+        "startLine": 1172,
+        "startChar": 4,
+        "endLine": 1172,
+        "endChar": 10
+      },
+      "revId": "443b8a1960b28704bffd93d8394e5a3a783449ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

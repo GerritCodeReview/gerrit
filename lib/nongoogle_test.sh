@@ -22,6 +22,9 @@ elasticsearch-rest-client
 flogger
 flogger-log4j-backend
 flogger-system-backend
+guice-assistedinject
+guice-library
+guice-servlet
 httpasyncclient
 httpcore-nio
 j2objc

@@ -136,6 +136,26 @@ def declare_nongoogle_deps():
         sha1 = "b66d3bedb14da604828a8693bb24fd78e36b0e9e",
     )
 
+    GUICE_VERS = "5.0.0-BETA-1"
+
+    maven_jar(
+        name = "guice-library",
+        artifact = "com.google.inject:guice:" + GUICE_VERS,
+        sha1 = "c5572be8a8b75ea50e0fdf54fa1f75a3141ab936",
+    )
+
+    maven_jar(
+        name = "guice-assistedinject",
+        artifact = "com.google.inject.extensions:guice-assistedinject:" + GUICE_VERS,
+        sha1 = "4d06eba0e08151b52d9e25a14e4f01eedf998bc3",
+    )
+
+    maven_jar(
+        name = "guice-servlet",
+        artifact = "com.google.inject.extensions:guice-servlet:" + GUICE_VERS,
+        sha1 = "373b9a4f1b6683d9a991410660d2c9adb9f06737",
+    )
+
     # Test-only dependencies below.
 
     maven_jar(

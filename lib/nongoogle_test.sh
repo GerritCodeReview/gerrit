@@ -11,6 +11,7 @@ TMP=$(mktemp -d || mktemp -d -t /tmp/tmp.XXXXXX)
 grep 'name = "[^"]*"' ${bzl} | sed 's|^[^"]*"||g;s|".*$||g' | sort > $TMP/names
 
 cat << EOF > $TMP/want
+aopalliance
 cglib-3_2
 commons-io
 docker-java-api
@@ -23,7 +24,7 @@ flogger-log4j-backend
 flogger-system-backend
 guava
 guice-assistedinject
-guice-library-no-aop
+guice-library
 guice-servlet
 httpasyncclient
 httpcore-nio

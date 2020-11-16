@@ -140,6 +140,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "aopalliance",
+    artifact = "aopalliance:aopalliance:1.0",
+    sha1 = "0235ba8b489512805ac13a8f9ea77a1ca5ebe3e8",
+)
+
+maven_jar(
     name = "javax_inject",
     artifact = "javax.inject:javax.inject:1",
     sha1 = "6975da39a7040257bd51d21a231b76c915872d38",

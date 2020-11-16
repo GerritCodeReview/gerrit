@@ -142,34 +142,24 @@ def declare_nongoogle_deps():
         sha1 = GUAVA_BIN_SHA1,
     )
 
-    GUICE_VERS = "4.2.3"
+    GUICE_VERS = "5.0.0-BETA-1"
 
-    GUICE_LIBRARY_SHA256 = "5168f5e7383f978c1b4154ac777b78edd8ac214bb9f9afdb92921c8d156483d3"
-
-    http_file(
-        name = "guice-library-no-aop",
-        canonical_id = "guice-library-no-aop-" + GUICE_VERS + ".jar-" + GUICE_LIBRARY_SHA256,
-        downloaded_file_path = "guice-library-no-aop.jar",
-        sha256 = GUICE_LIBRARY_SHA256,
-        urls = [
-            "https://repo1.maven.org/maven2/com/google/inject/guice/" +
-            GUICE_VERS +
-            "/guice-" +
-            GUICE_VERS +
-            "-no_aop.jar",
-        ],
+    maven_jar(
+        name = "guice-library",
+        artifact = "com.google.inject:guice:" + GUICE_VERS,
+        sha1 = "c5572be8a8b75ea50e0fdf54fa1f75a3141ab936",
     )
 
     maven_jar(
         name = "guice-assistedinject",
         artifact = "com.google.inject.extensions:guice-assistedinject:" + GUICE_VERS,
-        sha1 = "acbfddc556ee9496293ed1df250cc378f331d854",
+        sha1 = "4d06eba0e08151b52d9e25a14e4f01eedf998bc3",
     )
 
     maven_jar(
         name = "guice-servlet",
         artifact = "com.google.inject.extensions:guice-servlet:" + GUICE_VERS,
-        sha1 = "8d6e7e35eac4fb5e7df19c55b3bc23fa51b10a11",
+        sha1 = "373b9a4f1b6683d9a991410660d2c9adb9f06737",
     )
 
     # Keep this version of Soy synchronized with the version used in Gitiles.

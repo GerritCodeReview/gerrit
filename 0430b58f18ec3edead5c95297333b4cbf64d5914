@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79dbd213_a58b1a60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-16T16:39:37Z",
+      "side": 1,
+      "message": "Leaving +2 for Marco or Luca as release maintainer.",
+      "revId": "0430b58f18ec3edead5c95297333b4cbf64d5914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

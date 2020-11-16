@@ -16,6 +16,23 @@
       "message": "Locally passes elastic tests again.",
       "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2cb2a86_d4dae682",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-16T22:46:43Z",
+      "side": 1,
+      "message": "Needs L-C scoring too; thanks.\n-Issue starts from downstream 2.16 in CI, hence this initial target branch.\n\n@Luca, would you be able to enable elastic tests to test this change in CI?\n(They passed locally for me.)",
+      "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

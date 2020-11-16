@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a1fc53d_aaa0b509",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-16T09:03:32Z",
+      "side": 1,
+      "message": "Can it be LabelName ?",
+      "range": {
+        "startLine": 277,
+        "startChar": 10,
+        "endLine": 277,
+        "endChar": 16
+      },
+      "revId": "2e0d2110b5bc151ad001d0606464e37372217526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e97712c_58453279",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-16T09:03:32Z",
+      "side": 1,
+      "message": "Maybe instead of explicit color define a type of color (e.g. IMPORTANT, OPTIONAL, ERROR, etc...). Then each color can be defined differently for each app theme.",
+      "range": {
+        "startLine": 333,
+        "startChar": 2,
+        "endLine": 333,
+        "endChar": 6
+      },
+      "revId": "2e0d2110b5bc151ad001d0606464e37372217526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

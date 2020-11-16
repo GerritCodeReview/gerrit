@@ -406,7 +406,6 @@ export class GrDiff extends GestureEventListeners(
    * The key locations based on the comments and line of interests,
    * where lines should not be collapsed.
    *
-   * @return
    */
   _computeKeyLocations() {
     const keyLocations: KeyLocations = {left: {}, right: {}};

@@ -419,9 +419,6 @@ export class GrCursorManager extends GestureEventListeners(
     return top;
   }
 
-  /**
-   * @return
-   */
   _targetIsVisible(top: number) {
     const dims = this._getWindowDims();
     return (

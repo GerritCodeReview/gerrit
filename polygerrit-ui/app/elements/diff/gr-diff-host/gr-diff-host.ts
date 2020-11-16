@@ -329,7 +329,6 @@ export class GrDiffHost extends GestureEventListeners(
   /**
    * @param shouldReportMetric indicate a new Diff Page. This is a
    * signal to report metrics event that started on location change.
-   * @return
    */
   async reload(shouldReportMetric?: boolean) {
     this.clear();

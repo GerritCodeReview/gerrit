@@ -382,7 +382,6 @@ export class GrDiffCursor extends GestureEventListeners(
    * {leftSide: true, number: 321} for line 321 of the base patch.
    * Returns null if an address is not available.
    *
-   * @return
    */
   getAddress() {
     if (!this.diffRow) {

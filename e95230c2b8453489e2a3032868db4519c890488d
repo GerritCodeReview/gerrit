@@ -16,6 +16,63 @@
       "message": "RE: Verified -1, the only failing test is //javatests/com/google/gerrit/elasticsearch:elasticsearch_query_changes_test_V7 and is flaky. I triggered a re-run for the check.",
       "revId": "e95230c2b8453489e2a3032868db4519c890488d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2133fcfb_cc460cf9",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T12:22:29Z",
+      "side": 1,
+      "message": "OLD_PATH_DESCRIPTOR",
+      "revId": "e95230c2b8453489e2a3032868db4519c890488d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21e92160_222b3c01",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T12:22:29Z",
+      "side": 1,
+      "message": "nit: not needed",
+      "range": {
+        "startLine": 251,
+        "startChar": 26,
+        "endLine": 251,
+        "endChar": 34
+      },
+      "revId": "e95230c2b8453489e2a3032868db4519c890488d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db6e0dfe_a300b494",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-16T12:22:29Z",
+      "side": 1,
+      "message": "supernit: whitespace here seems inconsistent with the other methods",
+      "revId": "e95230c2b8453489e2a3032868db4519c890488d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -31,7 +31,9 @@ public class GeneralPreferencesInfo {
     PULL,
     CHECKOUT,
     CHERRY_PICK,
-    FORMAT_PATCH
+    FORMAT_PATCH,
+    BRANCH,
+    RESET,
   }
 
   public enum DateFormat {

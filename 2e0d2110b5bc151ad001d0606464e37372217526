@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "92e9d3bb_486f6af3",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2020-11-17T20:50:35Z",
+      "side": 1,
+      "message": "Are change/patchset/attempt also passed to each Action handler (can also see pattern where I just embed these info into runName)? I am a bit confused as to the difference between actionName and runName.",
+      "range": {
+        "startLine": 195,
+        "startChar": 2,
+        "endLine": 195,
+        "endChar": 10
+      },
+      "revId": "2e0d2110b5bc151ad001d0606464e37372217526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a1fc53d_aaa0b509",
         "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
         "patchSetId": 2

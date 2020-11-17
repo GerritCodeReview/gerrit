@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14d2977f_dd7a222f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-17T09:17:22Z",
+      "side": 1,
+      "message": "Move the two overloads next to each other.\nopt: The Collection version\u0027s javadoc could just link to the other one to avoid duplicate/out-of-sync javadoc.",
+      "revId": "bf6db8b4902c6c30969cd98b940e98b0e5981111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42052668_d402fd5f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -32,6 +49,41 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "42052668_d402fd5f",
+      "revId": "bf6db8b4902c6c30969cd98b940e98b0e5981111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "163ff497_d68796c6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4284,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-17T09:17:22Z",
+      "side": 1,
+      "message": "Do you need to rebase?",
+      "parentUuid": "39d4f44b_23ced522",
+      "revId": "bf6db8b4902c6c30969cd98b940e98b0e5981111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63e6dfff_126c8eb7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4285,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-17T09:17:22Z",
+      "side": 1,
+      "message": "Lint.IfChange?",
       "revId": "bf6db8b4902c6c30969cd98b940e98b0e5981111",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

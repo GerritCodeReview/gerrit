@@ -46,6 +46,30 @@
       },
       "revId": "6339204648e4f2035972aed654b824eddf6a57a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f89ac4b6_b3acfec5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-17T14:13:20Z",
+      "side": 1,
+      "message": "Ok, it seems an adequate solution then. It is just that the team (including myself) does not really use \u0027readOnly\u0027 and as you can see it can cause confusion, because this pattern is only used once in the code base.\n\nAlternative would be to just keep `_loading` and accept a `_loading-changed` event.\n\nAnother alternative would be to set an observer and fire an event explicitly from there.\n\nIn any case it would be good to clearly document that this ...-changed event is being relied upon as part of gr-diff\u0027s top-level API.",
+      "parentUuid": "5c6095c1_5f1dfaa0",
+      "range": {
+        "startLine": 196,
+        "startChar": 42,
+        "endLine": 200,
+        "endChar": 43
+      },
+      "revId": "6339204648e4f2035972aed654b824eddf6a57a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

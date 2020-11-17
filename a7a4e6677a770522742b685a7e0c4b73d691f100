@@ -16,6 +16,110 @@
       "message": "Ben, can you please verify that after this change the backend serves you all the details you need using LABELS instead of DETAILED_LABELS?",
       "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1b3eac8_44b692a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-17T10:35:16Z",
+      "side": 1,
+      "message": "Yes, once this is rolled out, I can make a frontend change switching us to LABELS and will check whether this has an effect on the dashboards. Just ping me if I forget about it. You can also bugjuggle the issue to me depending on the rollout. :-)",
+      "parentUuid": "ff9fc01d_7c005ea0",
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4983c84f_b9a3ce29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-17T10:35:16Z",
+      "side": 1,
+      "message": "Thanks for the change!",
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "199224e3_d6c43a49",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-17T10:35:16Z",
+      "side": 1,
+      "message": "Are these expensive to retrieve/compute? Could they also be returned for LABELS?",
+      "range": {
+        "startLine": 224,
+        "startChar": 59,
+        "endLine": 225,
+        "endChar": 59
+      },
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "519f46de_7ff8f883",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-17T10:35:16Z",
+      "side": 1,
+      "message": "I think you said that the permitted labels for *all* users will be calculated and returned. Maybe change this comment?",
+      "range": {
+        "startLine": 225,
+        "startChar": 61,
+        "endLine": 226,
+        "endChar": 41
+      },
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b656cee8_81bc14e4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-17T10:35:16Z",
+      "side": 1,
+      "message": "also add to LABELS above",
+      "range": {
+        "startLine": 226,
+        "startChar": 43,
+        "endLine": 227,
+        "endChar": 51
+      },
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

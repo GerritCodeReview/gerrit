@@ -22,6 +22,30 @@
       },
       "revId": "6339204648e4f2035972aed654b824eddf6a57a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c6095c1_5f1dfaa0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-17T13:02:35Z",
+      "side": 1,
+      "message": "As far as I can tell that is the official Polymer way to declare that a property can be listened to for changes, but should not be reassigned, see https://polymer-library.polymer-project.org/2.0/docs/devguide/properties#read-only\n\nI need to make this property public so that gr-diff can listen for the changes, but I want to prevent other code writing this field and messing with component internal state. \n\nDo you have another suggestion how I should document/enforce that?",
+      "parentUuid": "2dd7fae9_515a8b75",
+      "range": {
+        "startLine": 196,
+        "startChar": 42,
+        "endLine": 200,
+        "endChar": 43
+      },
+      "revId": "6339204648e4f2035972aed654b824eddf6a57a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

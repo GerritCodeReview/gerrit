@@ -123,7 +123,7 @@ public class CatServlet extends HttpServlet {
     final Change.Id changeId = patchKey.patchSetId().changeId();
     String revision;
     try {
-      ChangeNotes notes = changeNotesFactory.createChecked(changeId);
+      ChangeNotes notes = changeNotesFactory.createCheckedUsingIndexLookup(changeId);
       permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
       projectCache
           .get(notes.getProjectName())

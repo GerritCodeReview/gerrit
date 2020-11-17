@@ -602,7 +602,9 @@ public class ChangeJson {
                 ? labelsJson.permittedLabels(user.getAccountId(), cd)
                 : ImmutableMap.of();
       }
+    }
 
+    if (has(LABELS) || has(DETAILED_LABELS)) {
       out.reviewers = reviewerMap(cd.reviewers(), cd.reviewersByEmail(), false);
       out.pendingReviewers = reviewerMap(cd.pendingReviewers(), cd.pendingReviewersByEmail(), true);
       out.removableReviewers = removableReviewers(cd, out);

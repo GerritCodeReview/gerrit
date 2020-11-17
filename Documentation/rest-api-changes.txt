@@ -222,15 +222,18 @@ default. Optional fields are:
 [[labels]]
 --
 * `LABELS`: a summary of each label required for submit, and
-  approvers that have granted (or rejected) with that label.
+  approvers that have granted (or rejected) with that label
+  as well as all reviewers by state, and reviewers that may
+  be removed by the current user.
 --
 
 [[detailed-labels]]
 --
 * `DETAILED_LABELS`: detailed label information, including numeric
   values of all existing approvals, recognized label values, values
-  permitted to be set by the current user, all reviewers by state, and
-  reviewers that may be removed by the current user.
+  permitted to be set by any reviewer and the change owner, all
+  reviewers by state, and reviewers that may be removed by the
+  current user.
 --
 
 [[current-revision]]
@@ -6414,7 +6417,8 @@ Only set if link:#detailed-labels[detailed labels] are requested.
 |`removable_reviewers`|optional|
 The reviewers that can be removed by the calling user as a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities. +
-Only set if link:#detailed-labels[detailed labels] are requested.
+Only set if link:#labels[labels] or
+link:#detailed-labels[detailed labels] are requested.
 |`reviewers`          |optional|
 The reviewers as a map that maps a reviewer state to a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities.
@@ -6423,13 +6427,15 @@ Possible reviewer states are `REVIEWER`, `CC` and `REMOVED`. +
 `CC`: Users that were added to the change, but have not voted. +
 `REMOVED`: Users that were previously reviewers on the change, but have
 been removed. +
-Only set if link:#detailed-labels[detailed labels] are requested.
+Only set if link:#labels[labels] or
+link:#detailed-labels[detailed labels] are requested.
 |`pending_reviewers`  |optional|
 Updates to `reviewers` that have been made while the change was in the
 WIP state. Only present on WIP changes and only if there are pending
 reviewer updates to report. These are reviewers who have not yet been
 notified about being added to or removed from the change. +
-Only set if link:#detailed-labels[detailed labels] are requested.
+Only set if link:#labels[labels] or
+link:#detailed-labels[detailed labels] are requested.
 |`reviewer_updates`|optional|
 Updates to reviewers set for the change as
 link:#review-update-info[ReviewerUpdateInfo] entities.

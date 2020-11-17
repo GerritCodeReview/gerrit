@@ -1272,13 +1272,24 @@ export interface DiffFileMetaInfo {
 }
 
 /**
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-info
+ */
+export type ChangeType =
+  | 'ADDED'
+  | 'MODIFIED'
+  | 'DELETED'
+  | 'RENAMED'
+  | 'COPIED'
+  | 'REWRITE';
+
+/**
  * The DiffInfo entity contains information about the diff of a file in a revision.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-info
  */
 export interface DiffInfo {
   meta_a: DiffFileMetaInfo;
   meta_b: DiffFileMetaInfo;
-  change_type: string;
+  change_type: ChangeType;
   intraline_status: string;
   diff_header: string[];
   content: DiffContent[];

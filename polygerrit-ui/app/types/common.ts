@@ -1327,8 +1327,8 @@ export interface DiffWebLinkInfo {
   name: string;
   url: string;
   image_url: string;
-  show_on_side_by_side_diff_view: string;
-  show_on_unified_diff_view: string;
+  show_on_side_by_side_diff_view: boolean;
+  show_on_unified_diff_view: boolean;
 }
 
 /**

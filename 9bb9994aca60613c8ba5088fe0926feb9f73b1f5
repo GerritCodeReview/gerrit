@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9b58cba2_292356d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-17T20:16:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "839839ee_096925da",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d7ab859b_4f31177f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -75,6 +99,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ffd6c99_8a337ba2",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-17T20:16:21Z",
+      "side": 1,
+      "message": "Done; added to commit message.",
+      "parentUuid": "2ab4f4a2_197a7665",
+      "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f38b3b2_c0108882",
@@ -92,6 +134,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfbe3448_cb05527c",
+        "filename": "lib/docker-java/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-17T20:16:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f38b3b2_c0108882",
+      "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b86b4cc_2277c28c",
@@ -105,6 +165,30 @@
       "writtenOn": "2020-11-17T17:34:12Z",
       "side": 1,
       "message": "Is this still needed after the upgrade or can be removed?",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 217,
+        "endChar": 5
+      },
+      "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44794e59_c05147e7",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-17T20:16:21Z",
+      "side": 1,
+      "message": "Removing it locally causes test failures.",
+      "parentUuid": "0b86b4cc_2277c28c",
       "range": {
         "startLine": 213,
         "startChar": 4,

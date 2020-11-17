@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff9fc01d_7c005ea0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-17T10:11:58Z",
+      "side": 1,
+      "message": "Ben, can you please verify that after this change the backend serves you all the details you need using LABELS instead of DETAILED_LABELS?",
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

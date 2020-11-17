@@ -30,7 +30,6 @@ import {
   PatchSetNum,
   RequestPayload,
   PreferencesInput,
-  DiffPreferencesInfo,
   EditPreferencesInfo,
   DiffPreferenceInput,
   SshKeyInfo,
@@ -87,7 +86,6 @@ import {
   EmailAddress,
   FixId,
   FilePathToDiffInfoMap,
-  DiffInfo,
   BlameInfo,
   PatchRange,
   ImagesForDiff,
@@ -102,7 +100,11 @@ import {
   MergeableInfo,
   CommitInfo,
 } from '../../../types/common';
-import {IgnoreWhitespaceType} from '../../../types/diff';
+import {
+  DiffInfo,
+  DiffPreferencesInfo,
+  IgnoreWhitespaceType,
+} from '../../../types/diff';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;

@@ -27,7 +27,7 @@ import {
 } from '../gr-diff-highlight/gr-range-normalizer';
 import {descendedFromClass, querySelectorAll} from '../../../utils/dom-util';
 import {customElement, property, observe} from '@polymer/decorators';
-import {DiffInfo} from '../../../types/common';
+import {DiffInfo} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
 

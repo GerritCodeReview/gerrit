@@ -72,9 +72,7 @@ import {
   DashboardId,
   DashboardInfo,
   DeleteDraftCommentsInput,
-  DiffInfo,
   DiffPreferenceInput,
-  DiffPreferencesInfo,
   EditPatchSetNum,
   EditPreferencesInfo,
   EncodedGroupId,
@@ -141,7 +139,11 @@ import {
   TopMenuEntryInfo,
   MergeableInfo,
 } from '../../../types/common';
-import {IgnoreWhitespaceType} from '../../../types/diff';
+import {
+  DiffInfo,
+  DiffPreferencesInfo,
+  IgnoreWhitespaceType,
+} from '../../../types/diff';
 import {
   CancelConditionCallback,
   ErrorCallback,

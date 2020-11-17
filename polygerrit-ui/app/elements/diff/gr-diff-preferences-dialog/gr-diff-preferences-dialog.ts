@@ -26,7 +26,7 @@ import {customElement, property} from '@polymer/decorators';
 import {GrDiffPreferences} from '../../shared/gr-diff-preferences/gr-diff-preferences';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {DiffPreferencesInfo} from '../../../types/common';
+import {DiffPreferencesInfo} from '../../../types/diff';
 
 export interface GrDiffPreferencesDialog {
   $: {

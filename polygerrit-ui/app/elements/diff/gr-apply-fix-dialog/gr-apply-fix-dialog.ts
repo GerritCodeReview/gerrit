@@ -29,14 +29,13 @@ import {customElement, property} from '@polymer/decorators';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {
   NumericChangeId,
-  DiffInfo,
-  DiffPreferencesInfo,
   EditPatchSetNum,
   FixId,
   FixSuggestionInfo,
   PatchSetNum,
   RobotId,
 } from '../../../types/common';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {isRobot} from '../../../utils/comment-util';

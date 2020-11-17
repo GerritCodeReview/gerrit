@@ -16,7 +16,8 @@
  */
 
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
-import {DiffInfo, DiffPreferencesInfo, ImageInfo} from '../../../types/common';
+import {ImageInfo} from '../../../types/common';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrEndpointParam} from '../../plugins/gr-endpoint-param/gr-endpoint-param';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain

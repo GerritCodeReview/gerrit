@@ -57,7 +57,6 @@ import {customElement, observe, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   ConfigInfo,
-  DiffPreferencesInfo,
   ElementPropertyDeepChange,
   FileInfo,
   FileNameToFileInfoMap,
@@ -67,6 +66,7 @@ import {
   RevisionInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
+import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrDiffPreferencesDialog} from '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import {hasOwnProperty} from '../../../utils/common-util';

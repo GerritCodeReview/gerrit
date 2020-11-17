@@ -51,14 +51,16 @@ import {
   BlameInfo,
   ChangeInfo,
   CommentRange,
-  DiffInfo,
-  DiffPreferencesInfo,
   NumericChangeId,
   PatchRange,
   PatchSetNum,
   RepoName,
 } from '../../../types/common';
-import {IgnoreWhitespaceType} from '../../../types/diff';
+import {
+  DiffInfo,
+  DiffPreferencesInfo,
+  IgnoreWhitespaceType,
+} from '../../../types/diff';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
 import {GrDiff, LineOfInterest} from '../gr-diff/gr-diff';

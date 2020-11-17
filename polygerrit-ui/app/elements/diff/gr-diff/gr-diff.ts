@@ -34,14 +34,16 @@ import {customElement, observe, property} from '@polymer/decorators';
 import {
   BlameInfo,
   CommentRange,
-  DiffInfo,
-  DiffPreferencesInfo,
-  DiffPreferencesInfoKey,
   EditPatchSetNum,
   ImageInfo,
   ParentPatchSetNum,
   PatchRange,
 } from '../../../types/common';
+import {
+  DiffInfo,
+  DiffPreferencesInfo,
+  DiffPreferencesInfoKey,
+} from '../../../types/diff';
 import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
 import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
 import {

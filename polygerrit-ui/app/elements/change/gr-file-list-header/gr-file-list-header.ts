@@ -46,10 +46,10 @@ import {
   PatchSetNum,
   CommitInfo,
   ServerInfo,
-  DiffPreferencesInfo,
   RevisionInfo,
   NumericChangeId,
 } from '../../../types/common';
+import {DiffPreferencesInfo} from '../../../types/diff';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {DiffViewMode} from '../../../constants/constants';

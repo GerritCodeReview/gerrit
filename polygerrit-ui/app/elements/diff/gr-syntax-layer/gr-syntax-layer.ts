@@ -23,8 +23,8 @@ import {htmlTemplate} from './gr-syntax-layer_html';
 import {FILE, GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {CancelablePromise, util} from '../../../scripts/util';
 import {customElement, property} from '@polymer/decorators';
+import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 import {DiffLayer, DiffLayerListener, HighlightJS} from '../../../types/types';
-import {DiffFileMetaInfo, DiffInfo} from '../../../types/common';
 import {GrLibLoader} from '../../shared/gr-lib-loader/gr-lib-loader';
 import {Side} from '../../../constants/constants';
 

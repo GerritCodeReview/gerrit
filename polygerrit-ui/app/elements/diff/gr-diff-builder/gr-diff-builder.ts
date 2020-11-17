@@ -23,7 +23,8 @@ import {
   hideInContextControl,
   rangeBySide,
 } from '../gr-diff/gr-diff-group';
-import {BlameInfo, DiffInfo, DiffPreferencesInfo} from '../../../types/common';
+import {BlameInfo} from '../../../types/common';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 

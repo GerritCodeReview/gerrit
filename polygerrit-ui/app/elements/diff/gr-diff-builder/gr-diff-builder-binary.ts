@@ -16,7 +16,7 @@
  */
 
 import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
-import {DiffInfo, DiffPreferencesInfo} from '../../../types/common';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 
 export class GrDiffBuilderBinary extends GrDiffBuilderUnified {

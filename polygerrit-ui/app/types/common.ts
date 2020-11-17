@@ -49,27 +49,7 @@ import {
 } from '../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
-import {
-  DiffContent,
-  DiffFileMetaInfo,
-  DiffInfo,
-  DiffPreferencesInfo,
-  DiffPreferencesInfoKey,
-  DiffWebLinkInfo,
-  IgnoreWhitespaceType,
-  WebLinkInfo,
-} from './diff';
-
-// TODO(oler): Link directly to diff across the code base
-export {
-  DiffContent,
-  DiffFileMetaInfo,
-  DiffInfo,
-  DiffPreferencesInfo,
-  DiffPreferencesInfoKey,
-  DiffWebLinkInfo,
-  WebLinkInfo,
-};
+import {DiffInfo, IgnoreWhitespaceType, WebLinkInfo} from './diff';
 
 export type BrandType<T, BrandName extends string> = T &
   {[__brand in BrandName]: never};

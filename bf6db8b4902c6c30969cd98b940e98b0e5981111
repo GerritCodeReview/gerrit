@@ -16,6 +16,24 @@
       "message": "This should to into a separate change",
       "revId": "bf6db8b4902c6c30969cd98b940e98b0e5981111",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39d4f44b_23ced522",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4284,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-17T09:13:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42052668_d402fd5f",
+      "revId": "bf6db8b4902c6c30969cd98b940e98b0e5981111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6fa0a93_20f13279",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4284,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-17T09:18:26Z",
+      "side": 1,
+      "message": "I was reading the comment before I saw the new patch set. (Strange, shouldn\u0027t the UI tell me there\u0027s a new PS available?)",
+      "parentUuid": "163ff497_d68796c6",
+      "revId": "bf6db8b4902c6c30969cd98b940e98b0e5981111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63e6dfff_126c8eb7",

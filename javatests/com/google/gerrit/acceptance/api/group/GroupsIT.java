@@ -112,6 +112,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -700,6 +701,36 @@ public class GroupsIT extends AbstractDaemonTest {
 
     GroupInfo group2 = gApi.groups().create(name).get();
     assertThat(group2.id).isNotEqualTo(group1.id);
+  }
+
+  @Test
+  public void renamingGroupChangesProjectConfigs() throws Exception {
+    String name = name("Name1");
+    GroupInfo group = gApi.groups().create(name).get();
+
+    // Use group in a permission
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(AccountGroup.uuid(group.id)))
+        .update();
+    Optional<String> beforeRename =
+        projectCache.get(project).get().getLocalGroups().stream()
+            .filter(g -> g.getUUID().get().equals(group.id))
+            .map(GroupReference::getName)
+            .findAny();
+    // Groups created with ProjectOperations always have their UUID as local name
+    assertThat(beforeRename).hasValue(group.id);
+
+    String newName = name("Name2");
+    gApi.groups().id(name).name(newName);
+
+    Optional<String> afterRename =
+        projectCache.get(project).get().getLocalGroups().stream()
+            .filter(g -> g.getUUID().get().equals(group.id))
+            .map(GroupReference::getName)
+            .findAny();
+    assertThat(afterRename).hasValue(newName);
   }
 
   @Test

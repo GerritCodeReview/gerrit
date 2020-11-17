@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c9ab300_5502aea8",
+        "filename": "java/com/google/gerrit/server/patch/DiffMappings.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "The JGit Edit entity is equivalent to RangeMapping (start/end indices in the old and new files) but does not include the old/new file names.\n\nWe added the Mapping entity which contains the FileMapping (old/new file path names) and RangeMapping.\n\nThere are Javadoc for these classes. I\u0027d prefer not to copy them over to here.",
+      "parentUuid": "a008ebfc_fee5b90a",
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7aba9cf_c8fc6be9",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a2c0c9d_21f06f26",
+        "filename": "java/com/google/gerrit/server/patch/DiffMappings.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7aba9cf_c8fc6be9",
+      "range": {
+        "startLine": 41,
+        "startChar": 44,
+        "endLine": 41,
+        "endChar": 46
+      },
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "464e2c8f_78704542",
@@ -54,6 +96,30 @@
       "writtenOn": "2020-11-16T15:34:49Z",
       "side": 1,
       "message": "This seems overly specific, List or just Collection should suffice.",
+      "range": {
+        "startLine": 61,
+        "startChar": 25,
+        "endLine": 61,
+        "endChar": 38
+      },
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a60869c_f5722a81",
+        "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "464e2c8f_78704542",
       "range": {
         "startLine": 61,
         "startChar": 25,
@@ -104,6 +170,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14c3527d_f9d06a28",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30492261_0243d87d",
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbe9cd4f_3b9155ff",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0154442d_8e6e9c18",
+      "range": {
+        "startLine": 321,
+        "startChar": 47,
+        "endLine": 321,
+        "endChar": 50
+      },
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e4d54a4_3ba16842",
@@ -117,6 +225,30 @@
       "writtenOn": "2020-11-16T15:34:49Z",
       "side": 1,
       "message": "Old?",
+      "range": {
+        "startLine": 326,
+        "startChar": 37,
+        "endLine": 326,
+        "endChar": 41
+      },
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac496100_e090594d",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "No, this is correct.\n\nFor the current diff cache, when we create the PatchListEntry, if the file is DELETED, we retrieve the file name from the file header\u0027s old name field and assign it to the newName field of PatchListEntry [1]. In this line I\u0027m parsing back the file path name from the PatchListEntry. For deleted files, the oldName should always point to the file name.\n\nThis confusion happens because of the way PatchListEntry handles the old/new file names. We are getting rid of this entity in the new redesign anyway.\n\nhttps://gerrit.googlesource.com/gerrit/+/4db5198955340a117fe227bfc74f09acf2508e6a/gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java#69",
+      "parentUuid": "5e4d54a4_3ba16842",
       "range": {
         "startLine": 326,
         "startChar": 37,
@@ -144,6 +276,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8a7c6d4_2120d4f8",
+        "filename": "java/com/google/gerrit/server/patch/entities/Edit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b72fb3cc_b143844c",
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41247b82_cf844241",
@@ -157,6 +307,30 @@
       "writtenOn": "2020-11-16T15:34:49Z",
       "side": 1,
       "message": "I wouldn\u0027t have expected that; from the class name I\u0027d think it only contains Edit-s. How about FileChanges? (I guess though that it\u0027s hard to find a name that isn\u0027t already used somewhere or otherwise confusing, so feel free to keep the name if there is no better one.)",
+      "range": {
+        "startLine": 25,
+        "startChar": 78,
+        "endLine": 27,
+        "endChar": 3
+      },
+      "revId": "ae380540558a39ff9a2b1475eca3f2afa8bb33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e567456_2c54ddab",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "I agree. FileChanges is a bit confusing though, and I think \"Edits\" is more convenient in the context of diff.\n\nI\u0027d leave it as it is for now as I couldn\u0027t come up with a better name.",
+      "parentUuid": "41247b82_cf844241",
       "range": {
         "startLine": 25,
         "startChar": 78,

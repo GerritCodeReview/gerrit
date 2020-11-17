@@ -358,7 +358,11 @@ public class RevertSubmission
         commitUtil.createRevertChange(changeNotes, user.get(), revertInput, timestamp);
     results.add(json.noOptions().format(changeNotes.getProjectName(), revertId));
     cherryPickInput.base =
-        changeNotesFactory.createChecked(revertId).getCurrentPatchSet().commitId().getName();
+        changeNotesFactory
+            .createChecked(changeNotes.getProjectName(), revertId)
+            .getCurrentPatchSet()
+            .commitId()
+            .getName();
   }
 
   private CherryPickInput createCherryPickInput(RevertInput revertInput) {
@@ -591,7 +595,7 @@ public class RevertSubmission
       // save the commit as base for next cherryPick of that branch
       cherryPickInput.base =
           changeNotesFactory
-              .createChecked(cherryPickResult.changeId())
+              .createChecked(ctx.getProject(), cherryPickResult.changeId())
               .getCurrentPatchSet()
               .commitId()
               .getName();
@@ -612,7 +616,9 @@ public class RevertSubmission
     @Override
     public void postUpdate(Context ctx) throws Exception {
       changeReverted.fire(
-          change, changeNotesFactory.createChecked(revertChangeId).getChange(), ctx.getWhen());
+          change,
+          changeNotesFactory.createChecked(ctx.getProject(), revertChangeId).getChange(),
+          ctx.getWhen());
       try {
         RevertedSender emailSender = revertedSenderFactory.create(ctx.getProject(), change.getId());
         emailSender.setFrom(ctx.getAccountId());

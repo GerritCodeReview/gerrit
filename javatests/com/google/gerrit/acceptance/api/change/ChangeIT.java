@@ -2969,7 +2969,7 @@ public class ChangeIT extends AbstractDaemonTest {
                   // Options should match defaults in AccountDashboardScreen.
                   .withOption(LABELS)
                   .withOption(DETAILED_ACCOUNTS)
-                  .withOption(REVIEWED)
+                  .withOption(DETAILED_LABELS)
                   .get())
           .hasSize(2);
     }

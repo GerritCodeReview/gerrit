@@ -1425,7 +1425,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           if (group.getUUID() != null) {
             keepGroups.add(group.getUUID());
           }
-          rules.add(rule.asString(needRange));
+          rules.add(rule.toBuilder().setGroup(group).build().asString(needRange));
         }
         rc.setStringList(CAPABILITY, null, permission.getName(), rules);
       }
@@ -1470,7 +1470,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           if (group.getUUID() != null) {
             keepGroups.add(group.getUUID());
           }
-          rules.add(rule.asString(needRange));
+          rules.add(rule.toBuilder().setGroup(group).build().asString(needRange));
         }
         rc.setStringList(ACCESS, refName, permission.getName(), rules);
       }

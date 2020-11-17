@@ -141,6 +141,7 @@ import {
   TopMenuEntryInfo,
   MergeableInfo,
 } from '../../../types/common';
+import {IgnoreWhitespaceType} from '../../../types/diff';
 import {
   CancelConditionCallback,
   ErrorCallback,
@@ -152,7 +153,6 @@ import {
   CommentSide,
   DiffViewMode,
   HttpMethod,
-  IgnoreWhitespaceType,
   ReviewerState,
 } from '../../../constants/constants';
 

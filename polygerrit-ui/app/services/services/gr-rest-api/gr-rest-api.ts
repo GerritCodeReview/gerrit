@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import {HttpMethod} from '../../../constants/constants';
 import {
   AccountDetailInfo,
   AccountExternalIdInfo,
@@ -101,8 +102,8 @@ import {
   MergeableInfo,
   CommitInfo,
 } from '../../../types/common';
+import {IgnoreWhitespaceType} from '../../../types/diff';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
-import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 export type CancelConditionCallback = () => boolean;

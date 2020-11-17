@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5862bfbd_441f0ce0",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2133fcfb_cc460cf9",
+      "revId": "e95230c2b8453489e2a3032868db4519c890488d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21e92160_222b3c01",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fada5654_c87cb519",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21e92160_222b3c01",
+      "range": {
+        "startLine": 251,
+        "startChar": 26,
+        "endLine": 251,
+        "endChar": 34
+      },
+      "revId": "e95230c2b8453489e2a3032868db4519c890488d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db6e0dfe_a300b494",
@@ -71,6 +113,24 @@
       "writtenOn": "2020-11-16T12:22:29Z",
       "side": 1,
       "message": "supernit: whitespace here seems inconsistent with the other methods",
+      "revId": "e95230c2b8453489e2a3032868db4519c890488d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83503ff3_2ecc7c21",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db6e0dfe_a300b494",
       "revId": "e95230c2b8453489e2a3032868db4519c890488d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1705,6 +1705,12 @@ configuration:
 ----
   javaOptions = -Dlog4j.configuration=file:///home/gerrit/site/etc/log4j.properties
 ----
++
+Gerrit built-in loggers are then ignored: error logger (`error_log` file),
+link:#httpd.requestLog[httpd.requestLog] and
+link:#sshd.requestLog[sshd.requestLog]. The
+link:#log.jsonLogging[log.jsonLogging] and
+link:#log.textLogging[log.textLogging] options are also ignored.
 
 [[container.daemonOpt]]container.daemonOpt::
 +
@@ -3768,8 +3774,13 @@ By default unset.
 
 [[log.jsonLogging]]log.jsonLogging::
 +
-If set to true, enables error, ssh and http logging in JSON format (file name:
-"logs/{error|sshd|httpd}_log.json").
+If set to true, enables error, ssh and http logging in JSON format (file names:
+`logs/error_log.json`, `logs/sshd_log.json` and `logs/httpd_log.json`).
++
+The option only applies to Gerrit built-in loggers. It is ignored when a log4j
+configuration is specified via
+link:#container.javaOptions[container.javaOptions], for example
+`-Dlog4j.configuration=file://etc/log4j.properties`.
 +
 Defaults to false.
 
@@ -3777,6 +3788,11 @@ Defaults to false.
 +
 If set to true, enables error logging in regular plain text format. Can only be disabled
 if `jsonLogging` is enabled.
++
+The option only applies to Gerrit built-in loggers. It is ignored when a log4j
+configuration is specified via
+link:#container.javaOptions[container.javaOptions], for example
+`-Dlog4j.configuration=file://etc/log4j.properties`.
 +
 Defaults to true.
 

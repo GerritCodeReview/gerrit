@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9fb05fe4_b3551207",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-17T20:52:07Z",
+      "side": 1,
+      "message": "I\u0027ll have to check that myself as co-maintainer for that repo. Thanks for the good suggestion. I\u0027ll see how I can report or fix this maybe.",
+      "parentUuid": "27c66b94_b0cdfd45",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 44
+      },
+      "revId": "0471d0cad4d086449760cb10e0e2d72af7e7e4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8e459732_70404ef4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

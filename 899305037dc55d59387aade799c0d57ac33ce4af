@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bc4cd1d_94c73efe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-17T16:05:42Z",
+      "side": 1,
+      "message": "I ended up getting it to work by avoiding enums and use string literal types for things in the API. Let me know if you think that is acceptable.",
+      "revId": "899305037dc55d59387aade799c0d57ac33ce4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

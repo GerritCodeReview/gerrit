@@ -70,6 +70,30 @@
       },
       "revId": "6339204648e4f2035972aed654b824eddf6a57a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efe89afe_ca5da535",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-17T14:26:03Z",
+      "side": 1,
+      "message": "I added some more docs to explain the pattern. I think it does not make sense to selectively speak about the gr-diff API here, as we don\u0027t do that on all the other fields in the class. I propose we leave this for the type files that I work on, which will eventually define exactly what is considered API and what is not. For now, anything public (and not starting with an underscore) is considered part of the API.",
+      "parentUuid": "f89ac4b6_b3acfec5",
+      "range": {
+        "startLine": 196,
+        "startChar": 42,
+        "endLine": 200,
+        "endChar": 43
+      },
+      "revId": "6339204648e4f2035972aed654b824eddf6a57a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

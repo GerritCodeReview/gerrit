@@ -44,6 +44,7 @@ import {
   CoverageRange,
   DiffLayer,
   DiffLayerListener,
+  PatchSetFile,
 } from '../../../types/types';
 import {
   Base64ImageFile,
@@ -57,20 +58,16 @@ import {
   PatchSetNum,
   RepoName,
 } from '../../../types/common';
+import {IgnoreWhitespaceType} from '../../../types/diff';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
 import {GrDiff, LineOfInterest} from '../gr-diff/gr-diff';
 import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
-import {
-  DiffViewMode,
-  IgnoreWhitespaceType,
-  Side,
-} from '../../../constants/constants';
+import {DiffViewMode, Side} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {LineNumber} from '../gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
-import {PatchSetFile} from '../../../types/types';
 import {KnownExperimentId} from '../../../services/flags/flags';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';

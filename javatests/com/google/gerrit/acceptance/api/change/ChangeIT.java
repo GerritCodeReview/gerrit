@@ -4281,6 +4281,27 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void dashboardDoesNotRequireNoteDb() throws Exception {
+    // This set of options must be kept in sync with gr-rest-api-interface.js
+    Set<ListChangesOption> options =
+        ImmutableSet.of(
+            ListChangesOption.LABELS,
+            ListChangesOption.DETAILED_ACCOUNTS,
+            ListChangesOption.DETAILED_LABELS);
+
+    PushOneCommit.Result change = createChange();
+    int number = gApi.changes().id(change.getChangeId()).get()._number;
+
+    try (AutoCloseable ignored = disableNoteDb()) {
+      assertThat(
+              Iterables.getOnlyElement(
+                      gApi.changes().query("change:" + number).withOptions(options).get())
+                  .changeId)
+          .isEqualTo(change.getChangeId());
+    }
+  }
+
+  @Test
   @GerritConfig(
       name = "change.mergeabilityComputationBehavior",
       value = "API_REF_UPDATED_AND_CHANGE_REINDEX")

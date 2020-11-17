@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "839839ee_096925da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-17T17:34:12Z",
+      "side": 1,
+      "message": "Just say: transitive?",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d7ab859b_4f31177f",
@@ -31,6 +54,63 @@
       "writtenOn": "2020-11-16T22:46:43Z",
       "side": 1,
       "message": "Needs L-C scoring too; thanks.\n-Issue starts from downstream 2.16 in CI, hence this initial target branch.\n\n@Luca, would you be able to enable elastic tests to test this change in CI?\n(They passed locally for me.)",
+      "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ab4f4a2_197a7665",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-17T17:34:12Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f38b3b2_c0108882",
+        "filename": "lib/docker-java/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-17T17:34:12Z",
+      "side": 1,
+      "message": "Is a standalone file for the sub-dependency of testcontainers is actually justified?\n\nYou could just add those two into lib/testcontainers/BUILD.\nWe have already there:\n\n  duct-tape\n  jna",
+      "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b86b4cc_2277c28c",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-17T17:34:12Z",
+      "side": 1,
+      "message": "Is this still needed after the upgrade or can be removed?",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 217,
+        "endChar": 5
+      },
       "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

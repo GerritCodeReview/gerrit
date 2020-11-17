@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "589070ad_f98492ff",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2020-11-17T21:35:22Z",
+      "side": 1,
+      "message": "Android presubmit plugin currently calls an API on gapi on \"Login\" button click instead of opening a link. A callback here instead of loginUrl would be more flexible to different use cases (can still open a link if that is part of the login flow).",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 68,
+        "endChar": 20
+      },
+      "revId": "2e0d2110b5bc151ad001d0606464e37372217526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92e9d3bb_486f6af3",
         "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
         "patchSetId": 2

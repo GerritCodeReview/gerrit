@@ -116,7 +116,7 @@ public class ChangeArgumentParser {
   }
 
   private List<ChangeNotes> changeFromNotesFactory(String id) throws UnloggedFailure {
-    return changeNotesFactory.create(parseId(id));
+    return changeNotesFactory.createUsingIndexLookup(parseId(id));
   }
 
   private List<Change.Id> parseId(String id) throws UnloggedFailure {

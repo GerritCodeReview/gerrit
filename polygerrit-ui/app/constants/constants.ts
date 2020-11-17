@@ -327,17 +327,6 @@ export enum DefaultBase {
 }
 
 /**
- * Whether whitespace changes should be ignored and if yes, which whitespace changes should be ignored
- * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#diff-preferences-input
- */
-export enum IgnoreWhitespaceType {
-  IGNORE_NONE = 'IGNORE_NONE',
-  IGNORE_TRAILING = 'IGNORE_TRAILING',
-  IGNORE_LEADING_AND_TRAILING = 'IGNORE_LEADING_AND_TRAILING',
-  IGNORE_ALL = 'IGNORE_ALL',
-}
-
-/**
  * how draft comments are handled
  */
 export enum DraftsAction {

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9fcca50_a1ce9c67",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-17T21:20:29Z",
+      "side": 1,
+      "message": "This setting isn\u0027t relevant for chronicle-map specifically OR for other pluggable cache backends.\n\nAlso for H2, the number of used file-descriptors isn\u0027t zero and can vary depending on the configuration.\n\nSee for instance:\n# ls -l  | grep \u0027/cache/\u0027\nlrwx------ 1 gerrit gerrit 64 Oct 29 04:04 198 -\u003e /var/gerrit/cache/accounts.h2.db\nlrwx------ 1 gerrit gerrit 64 Oct 29 05:04 216 -\u003e /var/gerrit/cache/github-plugin.groups.h2.db\nlrwx------ 1 gerrit gerrit 64 Oct 29 04:04 284 -\u003e /var/gerrit/cache/diff.h2.db\nlrwx------ 1 gerrit gerrit 64 Oct 29 04:04 291 -\u003e /var/gerrit/cache/diff_intraline.h2.db\nlrwx------ 1 gerrit gerrit 64 Oct 29 04:04 295 -\u003e /var/gerrit/cache/diff_summary.h2.db\nlrwx------ 1 gerrit gerrit 64 Oct 29 04:04 296 -\u003e /var/gerrit/cache/mergeability.h2.db\nlrwx------ 1 gerrit gerrit 64 Oct 29 04:04 298 -\u003e /var/gerrit/cache/change_kind.h2.db\nlrwx------ 1 gerrit gerrit 64 Oct 29 04:04 299 -\u003e /var/gerrit/cache/conflicts.h2.db\nlrwx------ 1 gerrit gerrit 64 Oct 29 04:04 316 -\u003e /var/gerrit/cache/oauth_tokens.h2.db\nlrwx------ 1 gerrit gerrit 64 Oct 29 04:04 317 -\u003e /var/gerrit/cache/git_tags.h2.db\nlrwx------ 1 gerrit gerrit 64 Oct 29 04:04 318 -\u003e /var/gerrit/cache/pure_revert.h2.db\nlrwx------ 1 gerrit gerrit 64 Oct 29 04:04 319 -\u003e /var/gerrit/cache/web_sessions.h2.db",
+      "range": {
+        "startLine": 752,
+        "startChar": 48,
+        "endLine": 755,
+        "endChar": 77
+      },
+      "revId": "58e70d022b7608296415abe62541c2b65e8f7f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b72789cf_1a33453e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-17T21:20:29Z",
+      "side": 1,
+      "message": "*ALL* persistent backends require additional file-descriptors, that were not accounted for.",
+      "range": {
+        "startLine": 757,
+        "startChar": 0,
+        "endLine": 759,
+        "endChar": 56
+      },
+      "revId": "58e70d022b7608296415abe62541c2b65e8f7f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3b01055_e63629db",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-17T21:20:29Z",
+      "side": 1,
+      "message": "That isn\u0027t the scope for this setting and also gerrit.sh does it already for us.\nThis sentence isn\u0027t related to the setting IMHO.\n\nWDYT?",
+      "range": {
+        "startLine": 761,
+        "startChar": 0,
+        "endLine": 764,
+        "endChar": 29
+      },
+      "revId": "58e70d022b7608296415abe62541c2b65e8f7f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

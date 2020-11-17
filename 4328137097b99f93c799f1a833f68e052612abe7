@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ec956d9_0cb76e81",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8805276_a414fc69",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d13f0e1_bf485e26",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-11-16T14:41:26Z",
       "side": 1,
       "message": "nit/opt: I think convention is to use final only when necessary or when it would otherwise be confusing.",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c94829bc_4cda1d49",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d13f0e1_bf485e26",
       "revId": "4328137097b99f93c799f1a833f68e052612abe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a752523c_73b32d11",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "JGit does that. It has a default String \"/dev/null\" for empty old / new paths (e.g. for old file paths of an added file). However with the new redesign, we preferred to have the empty file names more explicit by introducing the optionals. \n\nPlease also check https://gerrit-review.googlesource.com/c/gerrit/+/280296/comment/5359f3ff_9cdc35d0/",
+      "parentUuid": "bd7613ac_f3052e7d",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "919fdc1f_207c99a3",
@@ -65,6 +119,24 @@
       "writtenOn": "2020-11-16T14:41:26Z",
       "side": 1,
       "message": "Could you explain (in the comment) why this indirection is needed?",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62caac63_c6d14da1",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "This indirection is needed so that we have our Gerrit entities that we can guarantee are immutable, since they\u0027ll be used as fields of persisted caches\u0027 keys / values.\n\nI added a comment.",
+      "parentUuid": "919fdc1f_207c99a3",
       "revId": "4328137097b99f93c799f1a833f68e052612abe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4f032cb_635fc562",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b4f259d_86bff107",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe6a0d0e_df7163a7",
@@ -99,6 +189,24 @@
       "writtenOn": "2020-11-16T14:41:26Z",
       "side": 1,
       "message": "Return directly?",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac9d4429_4f11e894",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "I prefer keeping as is. Having the return statements only at the end of the method in this case is more readable for me.\n\nNote: this method is copied over from the old implementation.",
+      "parentUuid": "fe6a0d0e_df7163a7",
       "revId": "4328137097b99f93c799f1a833f68e052612abe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -122,6 +230,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a641ab4e_70c5071a",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "This method is copied over from the old implementation. It looks to me like this code was added after some bug was detected. I also think from the comment below (line 123) that that\u0027s a bug in JGit, though we are handling it here in Gerrit.\n\nApparently the NUL is one definite signal that the file is binary, but probably there are more.\n\nWe can use a regular expression if we are checking for many characters, but for now I think we don\u0027t need to. WDYT? I replaced the for loop anyway as per your suggestion.",
+      "parentUuid": "00709107_02fafd84",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "38be74b0_7314f641",
         "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
         "patchSetId": 8
@@ -133,6 +259,24 @@
       "writtenOn": "2020-11-16T14:41:26Z",
       "side": 1,
       "message": "typo: it\u0027s",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "407c7ab1_bc4cf222",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38be74b0_7314f641",
       "revId": "4328137097b99f93c799f1a833f68e052612abe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -154,6 +298,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9566a9d3_403e53d9",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "I replaced the for loop and made the condition simpler as per your suggestions above. Done.",
+      "parentUuid": "d9f87eaf_926b0685",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "779fcb05_7c427b5f",
@@ -167,6 +329,24 @@
       "writtenOn": "2020-11-16T14:41:26Z",
       "side": 1,
       "message": "h -\u003e fileHeader\nend() looks to me like it returns an iterator.\nThis method would benefit from comments.",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7484a1a6_19072c58",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Thanks Jörg. The methods of this class were poorly documented.\n\nI renamed the input param. I also added some javadoc as per my understanding.",
+      "parentUuid": "779fcb05_7c427b5f",
       "revId": "4328137097b99f93c799f1a833f68e052612abe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -188,6 +368,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a89173b3_f95a5329",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "5ef9a05c_c95cbe78",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7b4f8cb_533d619d",
@@ -201,6 +399,30 @@
       "writtenOn": "2020-11-16T14:41:26Z",
       "side": 1,
       "message": "nit: reformat",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 43
+      },
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "212bba85_f393910d",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7b4f8cb_533d619d",
       "range": {
         "startLine": 170,
         "startChar": 0,
@@ -234,6 +456,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57222133_dc71795d",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done. Thanks for the info.",
+      "parentUuid": "47ac0f2a_47d0103b",
+      "range": {
+        "startLine": 26,
+        "startChar": 27,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87fc7ab6_352ae8c4",
@@ -247,6 +493,24 @@
       "writtenOn": "2020-11-16T14:41:26Z",
       "side": 1,
       "message": "Creation and returning of the instance can be moved before/after the switch.",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d865f3e_521c1a82",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87fc7ab6_352ae8c4",
       "revId": "4328137097b99f93c799f1a833f68e052612abe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -268,6 +532,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33b4cf3d_ed3276af",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Thanks for catching this. I should\u0027ve move the throw exception to the switch default case.",
+      "parentUuid": "c8913601_5cfba666",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64763875_a045b410",
@@ -281,6 +563,24 @@
       "writtenOn": "2020-11-16T14:41:26Z",
       "side": 1,
       "message": "I think what the code does is easy to see. The comment should rather explain the reason for this.",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "512c72cd_eed507f7",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64763875_a045b410",
       "revId": "4328137097b99f93c799f1a833f68e052612abe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -302,6 +602,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b99289e3_f5e4fb17",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "I was making up my mind about this. For example I thought about \"loadForSameDiffOptions\" but then retreated due to the long name.\n\nThanks for providing reasons not to overload.\n\nDone.",
+      "parentUuid": "085664a2_2ffe9825",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3e5a90f_fd7aeadb",
@@ -319,6 +637,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e3f7dcb_6fe01709",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "I don\u0027t modify this collection in here. I\u0027m using a set to do more efficient filtering at line 209.",
+      "parentUuid": "f3e5a90f_fd7aeadb",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e49a51b_914c974f",
@@ -332,6 +668,24 @@
       "writtenOn": "2020-11-16T14:41:26Z",
       "side": 1,
       "message": "Why isn\u0027t this an int?",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5ca3e08_29057e86",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheKey.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-17T12:43:58Z",
+      "side": 1,
+      "message": "There is no specific need for Integer. Done.",
+      "parentUuid": "3e49a51b_914c974f",
       "revId": "4328137097b99f93c799f1a833f68e052612abe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dd7fae9_515a8b75",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-17T12:49:22Z",
+      "side": 1,
+      "message": "Why the \"readOnly\" and the setter? Seems really hacky. Any good reason?\n\nFWIW we do not have any \"readOnly\" property in all of Gerrit.",
+      "range": {
+        "startLine": 196,
+        "startChar": 42,
+        "endLine": 200,
+        "endChar": 43
+      },
+      "revId": "6339204648e4f2035972aed654b824eddf6a57a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

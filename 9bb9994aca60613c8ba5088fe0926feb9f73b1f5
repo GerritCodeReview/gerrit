@@ -197,6 +197,30 @@
       },
       "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fae901f9_ef5bf88a",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-17T20:42:46Z",
+      "side": 1,
+      "message": "Right. visible-assertions depend on it: [1].\n\n[1] https://repo1.maven.org/maven2/org/rnorth/visible-assertions/visible-assertions/2.1.2/visible-assertions-2.1.2.pom",
+      "parentUuid": "44794e59_c05147e7",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 217,
+        "endChar": 5
+      },
+      "revId": "9bb9994aca60613c8ba5088fe0926feb9f73b1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

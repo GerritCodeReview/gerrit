@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "587cae7d_335c92e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2020-11-18T00:13:01Z",
+      "side": 1,
+      "message": "Thanks, Patrick!\nHow did renaming work before? I definitely rename a few groups in the last 4 years without broken ACLs (afaik)",
+      "revId": "bf9be01299cb33847b2a5cf09494c5f8caa9dfe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

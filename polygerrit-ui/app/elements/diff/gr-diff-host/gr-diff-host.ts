@@ -1068,18 +1068,38 @@ export class GrDiffHost extends GestureEventListeners(
     >,
     diff?: DiffInfo
   ) {
-    if (
-      !preferenceChangeRecord ||
-      !preferenceChangeRecord.base ||
-      !preferenceChangeRecord.base.syntax_highlighting ||
-      !diff
-    ) {
+    if (!preferenceChangeRecord?.base?.syntax_highlighting || !diff) {
       return false;
     }
-    return (
-      !this._anyLineTooLong(diff) &&
-      this.$.diff.getDiffLength(diff) <= SYNTAX_MAX_DIFF_LENGTH
-    );
+    if (this._anyLineTooLong(diff)) {
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {
+            message:
+              `A line is longer than ${SYNTAX_MAX_LINE_LENGTH}.` +
+              ' Syntax Highlighting was turned off.',
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+      return false;
+    }
+    if (this.$.diff.getDiffLength(diff) > SYNTAX_MAX_DIFF_LENGTH) {
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {
+            message:
+              `A diff is longer than ${SYNTAX_MAX_DIFF_LENGTH}.` +
+              ' Syntax Highlighting was turned off.',
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+      return false;
+    }
+    return true;
   }
 
   /**

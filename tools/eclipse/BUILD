@@ -43,5 +43,14 @@ classpath_collector(
 
 classpath_collector(
     name = "autovalue_classpath_collect",
-    deps = ["//lib/auto:auto-value"],
+    deps = [
+        "//lib/auto:auto-value",
+        "@auto-value-annotations//jar",
+        "@auto-value-gson-extension//jar",
+        "@auto-value-gson-factory//jar",
+        "@auto-value-gson-runtime//jar",
+        "@autotransient//jar",
+        "@gson//jar",
+        "@javapoet//jar",
+    ],
 )

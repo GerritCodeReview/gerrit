@@ -16,6 +16,24 @@
       "message": "This broke Eclipse project generation. I filed issue 13689.",
       "revId": "fc573a846525ef66393671f0dcbbef29426c1b4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "813c83d8_5240ec08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-18T07:55:55Z",
+      "side": 1,
+      "message": "Thanks for filing this. I stumbled upon this yesterday too, and I was wondering if it\u0027s just my setup which was broken.",
+      "parentUuid": "dccd8589_7e13ce73",
+      "revId": "fc573a846525ef66393671f0dcbbef29426c1b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

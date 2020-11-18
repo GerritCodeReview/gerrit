@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13f490fa_67f2df3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-18T14:31:19Z",
+      "side": 1,
+      "message": "I have not run a local Gerrit for a year, but I guess I will manage. :-) But it will have to wait until tomorrow.",
+      "parentUuid": "7d82409b_a483532f",
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "199224e3_d6c43a49",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -108,6 +126,30 @@
       "side": 1,
       "message": "They are not as expensive. Do we need them right now? Otherwise I would defer adding them when we need them.",
       "parentUuid": "199224e3_d6c43a49",
+      "range": {
+        "startLine": 224,
+        "startChar": 59,
+        "endLine": 225,
+        "endChar": 59
+      },
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45eb379c_e4f37751",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-18T14:31:19Z",
+      "side": 1,
+      "message": "Ok, then let\u0027s add them later when we need them.",
+      "parentUuid": "626c0342_ad06bd88",
       "range": {
         "startLine": 224,
         "startChar": 59,

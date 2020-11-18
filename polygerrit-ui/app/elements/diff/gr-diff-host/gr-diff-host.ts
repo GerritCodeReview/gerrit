@@ -71,6 +71,7 @@ import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {LineNumber} from '../gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {EventType, fire} from '../../../utils/event-util';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -525,13 +526,7 @@ export class GrDiffHost extends GestureEventListeners(
       .getBlame(this.changeNum, this.patchRange.patchNum, this.path, true)
       .then(blame => {
         if (!blame || !blame.length) {
-          this.dispatchEvent(
-            new CustomEvent('show-alert', {
-              detail: {message: MSG_EMPTY_BLAME},
-              composed: true,
-              bubbles: true,
-            })
-          );
+          fire(this, EventType.SHOW_ALERT, MSG_EMPTY_BLAME);
           return Promise.reject(MSG_EMPTY_BLAME);
         }
 
@@ -1068,18 +1063,28 @@ export class GrDiffHost extends GestureEventListeners(
     >,
     diff?: DiffInfo
   ) {
-    if (
-      !preferenceChangeRecord ||
-      !preferenceChangeRecord.base ||
-      !preferenceChangeRecord.base.syntax_highlighting ||
-      !diff
-    ) {
+    if (!preferenceChangeRecord?.base?.syntax_highlighting || !diff) {
       return false;
     }
-    return (
-      !this._anyLineTooLong(diff) &&
-      this.$.diff.getDiffLength(diff) <= SYNTAX_MAX_DIFF_LENGTH
-    );
+    if (this._anyLineTooLong(diff)) {
+      fire(
+        this,
+        EventType.SHOW_ALERT,
+        `A line is longer than ${SYNTAX_MAX_LINE_LENGTH}.` +
+          ' Syntax Highlighting was turned off.'
+      );
+      return false;
+    }
+    if (this.$.diff.getDiffLength(diff) > SYNTAX_MAX_DIFF_LENGTH) {
+      fire(
+        this,
+        EventType.SHOW_ALERT,
+        `A diff is longer than ${SYNTAX_MAX_DIFF_LENGTH}.` +
+          ' Syntax Highlighting was turned off.'
+      );
+      return false;
+    }
+    return true;
   }
 
   /**

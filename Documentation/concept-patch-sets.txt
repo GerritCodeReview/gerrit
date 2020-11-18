@@ -89,7 +89,7 @@ evolves, such as "Added more unit tests." Unlike the change description, a patch
 set description does not become a part of the project's history.
 
 To add a patch set description, click *Add a patch set description*, located in
-the file list.
+the file list, or provide it link:user-upload.html#patch_set_description[on upload].
 
 GERRIT
 ------

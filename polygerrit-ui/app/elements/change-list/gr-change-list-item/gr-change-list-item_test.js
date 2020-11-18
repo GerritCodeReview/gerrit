@@ -88,41 +88,47 @@ suite('gr-change-list-item tests', () => {
         'Label not applicable');
     assert.equal(element._computeLabelTitle(
         {labels: {Verified: {approved: {name: 'Diffy'}}}}, 'Verified'),
-    'Verified\nby Diffy');
+    'Verified by Diffy');
     assert.equal(element._computeLabelTitle(
         {labels: {Verified: {approved: {name: 'Diffy'}}}}, 'Code-Review'),
     'Label not applicable');
     assert.equal(element._computeLabelTitle(
         {labels: {Verified: {rejected: {name: 'Diffy'}}}}, 'Verified'),
-    'Verified\nby Diffy');
+    'Verified by Diffy');
     assert.equal(element._computeLabelTitle(
         {labels: {'Code-Review': {disliked: {name: 'Diffy'}, value: -1}}},
-        'Code-Review'), 'Code-Review\nby Diffy');
+        'Code-Review'), 'Code-Review by Diffy');
     assert.equal(element._computeLabelTitle(
         {labels: {'Code-Review': {recommended: {name: 'Diffy'}, value: 1}}},
-        'Code-Review'), 'Code-Review\nby Diffy');
+        'Code-Review'), 'Code-Review by Diffy');
     assert.equal(element._computeLabelTitle(
         {labels: {'Code-Review': {recommended: {name: 'Diffy'},
           rejected: {name: 'Admin'}}}}, 'Code-Review'),
-    'Code-Review\nby Admin');
+    'Code-Review by Admin');
     assert.equal(element._computeLabelTitle(
         {labels: {'Code-Review': {approved: {name: 'Diffy'},
           rejected: {name: 'Admin'}}}}, 'Code-Review'),
-    'Code-Review\nby Admin');
+    'Code-Review by Admin');
     assert.equal(element._computeLabelTitle(
         {labels: {'Code-Review': {recommended: {name: 'Diffy'},
           disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
-    'Code-Review\nby Admin');
+    'Code-Review by Admin');
     assert.equal(element._computeLabelTitle(
         {labels: {'Code-Review': {approved: {name: 'Diffy'},
           disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
-    'Code-Review\nby Diffy');
+    'Code-Review by Diffy');
     assert.equal(element._computeLabelTitle(
         {
           labels: {'Code-Review': {approved: true, value: 1}},
           unresolved_comment_count: 1,
         }, 'Code-Review'),
     '1 unresolved comment');
+    assert.equal(element._computeLabelTitle(
+        {
+          labels: {'Code-Review': {approved: {name: 'Diffy'}, value: 1}},
+          unresolved_comment_count: 1,
+        }, 'Code-Review'),
+    '1 unresolved comment,\nCode-Review by Diffy');
     assert.equal(element._computeLabelTitle(
         {
           labels: {'Code-Review': {approved: true, value: 1}},

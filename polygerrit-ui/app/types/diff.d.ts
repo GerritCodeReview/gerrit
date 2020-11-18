@@ -107,8 +107,16 @@ export declare interface DiffContent {
   edit_b?: DiffIntralineInfo[];
   /** Indicates whether this entry was introduced by a rebase. */
   due_to_rebase?: boolean;
-  /** Indicates whether this entry was introduced by a move. */
+  /** @deprecated Use move_details instead. */
   due_to_move?: boolean;
+
+  move_details?: {
+    changed: boolean;
+    range: {
+      start: number;
+      end: number;
+    };
+  };
   /**
    * Count of lines skipped on both sides when the file is too large to include
    * all common lines.

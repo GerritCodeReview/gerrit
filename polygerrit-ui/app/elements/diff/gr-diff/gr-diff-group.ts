@@ -237,8 +237,6 @@ export class GrDiffGroup {
 
   dueToRebase = false;
 
-  dueToMove = false;
-
   /**
    * True means all changes in this line are whitespace changes that should
    * not be highlighted as changed as per the user settings.
@@ -267,6 +265,14 @@ export class GrDiffGroup {
   lineRange: GrDiffGroupRange = {
     left: {start: null, end: null},
     right: {start: null, end: null},
+  };
+
+  moveDetails?: {
+    changed: boolean;
+    range?: {
+      start: number;
+      end: number;
+    };
   };
 
   /**

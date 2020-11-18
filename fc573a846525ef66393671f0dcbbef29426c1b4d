@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dccd8589_7e13ce73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-18T07:47:43Z",
+      "side": 1,
+      "message": "This broke Eclipse project generation. I filed issue 13689.",
+      "revId": "fc573a846525ef66393671f0dcbbef29426c1b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

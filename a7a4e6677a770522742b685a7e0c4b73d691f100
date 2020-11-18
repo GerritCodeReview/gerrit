@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d82409b_a483532f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-18T13:39:16Z",
+      "side": 1,
+      "message": "Can you test this before we submit it please? I would rather not submit an API change that in the end doesn\u0027t solve the problem we have because the API should be as stable as possible.\n\nIf you build a local Gerrit based off of this change, that should work IMO.",
+      "parentUuid": "f1b3eac8_44b692a1",
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "199224e3_d6c43a49",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -66,6 +84,30 @@
       "writtenOn": "2020-11-17T10:35:16Z",
       "side": 1,
       "message": "Are these expensive to retrieve/compute? Could they also be returned for LABELS?",
+      "range": {
+        "startLine": 224,
+        "startChar": 59,
+        "endLine": 225,
+        "endChar": 59
+      },
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "626c0342_ad06bd88",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-18T13:39:16Z",
+      "side": 1,
+      "message": "They are not as expensive. Do we need them right now? Otherwise I would defer adding them when we need them.",
+      "parentUuid": "199224e3_d6c43a49",
       "range": {
         "startLine": 224,
         "startChar": 59,
@@ -99,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89f84401_ad9b2def",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-18T13:39:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "519f46de_7ff8f883",
+      "range": {
+        "startLine": 225,
+        "startChar": 61,
+        "endLine": 226,
+        "endChar": 41
+      },
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b656cee8_81bc14e4",
@@ -112,6 +178,30 @@
       "writtenOn": "2020-11-17T10:35:16Z",
       "side": 1,
       "message": "also add to LABELS above",
+      "range": {
+        "startLine": 226,
+        "startChar": 43,
+        "endLine": 227,
+        "endChar": 51
+      },
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12fa0aa9_d35d4374",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-18T13:39:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b656cee8_81bc14e4",
       "range": {
         "startLine": 226,
         "startChar": 43,

@@ -16,6 +16,24 @@
       "message": "@Marija, this doesn\u0027t merge-up cleanly onto the stable-3.2 branch for me locally. I didn\u0027t try manually resolving the merge conflicts yet myself. Would you be able to? -That would be great. Otherwise, I might work on it tomorrow if time allows; not sure yet. Thanks.",
       "revId": "6f1524dd3ba79edad2b14e4eea7b8484dd8c4e8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41b53cc8_cb6784a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-18T17:09:38Z",
+      "side": 1,
+      "message": "\u003e @Marija, this doesn\u0027t merge-up cleanly onto the stable-3.2 branch for me locally. I didn\u0027t try manually resolving the merge conflicts yet myself. Would you be able to? -That would be great. Otherwise, I might work on it tomorrow if time allows; not sure yet. Thanks.\n\nDone through [1] below. Much less edits than anticipated above. An oversight on my part. Will see what CI checks say.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/288763",
+      "parentUuid": "aa802dd6_05e31cd7",
+      "revId": "6f1524dd3ba79edad2b14e4eea7b8484dd8c4e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

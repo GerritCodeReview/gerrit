@@ -51,7 +51,7 @@ class GrListView extends GestureEventListeners(
   @property({type: Number})
   itemsPerPage = 25;
 
-  @property({type: String})
+  @property({type: String, observer: '_filterChanged'})
   filter?: string;
 
   @property({type: Number})
@@ -69,8 +69,8 @@ class GrListView extends GestureEventListeners(
     this.cancelDebouncer('reload');
   }
 
-  @observe('filter')
-  _filterChanged(newFilter: string, oldFilter: string) {
+  _filterChanged(newFilter?: string, oldFilter?: string) {
+    // newFilter can be empty string and then !newFilter === true
     if (!newFilter && !oldFilter) {
       return;
     }
@@ -78,7 +78,7 @@ class GrListView extends GestureEventListeners(
     this._debounceReload(newFilter);
   }
 
-  _debounceReload(filter: string) {
+  _debounceReload(filter?: string) {
     this.debounce(
       'reload',
       () => {

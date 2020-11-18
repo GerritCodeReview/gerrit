@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c0e0c6b_4eb5248d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-11-18T22:34:20Z",
+      "side": 1,
+      "message": "Had to rebase and fix a merge conflict on 2.16. Can you +1 if it still looks good to you?",
+      "revId": "eeebe41ee8fd3d22befc0c399c3f8bd119993b04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

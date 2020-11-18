@@ -43,8 +43,8 @@ public class AuthorizationCheckServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
     CacheHeaders.setNotCacheable(res);
-    res.setContentLength(0);
     if (user.get().isIdentifiedUser()) {
+      res.setContentLength(0);
       res.setStatus(HttpServletResponse.SC_NO_CONTENT);
     } else {
       res.setStatus(HttpServletResponse.SC_FORBIDDEN);

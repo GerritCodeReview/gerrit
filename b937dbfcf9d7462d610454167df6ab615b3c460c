@@ -22,6 +22,30 @@
       },
       "revId": "b937dbfcf9d7462d610454167df6ab615b3c460c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f263720a_ca4b6a00",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-18T15:41:39Z",
+      "side": 1,
+      "message": "You mean implement util which creates such customEvents?\n```\nimport showAlert from \u0027event-util\u0027\nthis.dispatchEvent(showAlert(\u0027message\u0027))\n```",
+      "parentUuid": "8384832a_830873ef",
+      "range": {
+        "startLine": 1075,
+        "startChar": 6,
+        "endLine": 1085,
+        "endChar": 8
+      },
+      "revId": "b937dbfcf9d7462d610454167df6ab615b3c460c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

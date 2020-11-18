@@ -226,6 +226,7 @@ suite('gr-diff-cursor tests', () => {
     assert.equal(cursorElement.side, 'left');
   });
 
+  // To be removed as soon due_to_move (deprecated) is removed
   suite('moved chunks (dueToMove=true)', () => {
     setup(done => {
       const renderHandler = function() {
@@ -269,27 +270,62 @@ suite('gr-diff-cursor tests', () => {
       ]};
     });
 
-    test('chunk skip functionality', () => {
-      const chunks = diffElement.root.querySelectorAll(
-          '.section.delta');
-      const indexOfChunk = function(chunk) {
-        return Array.prototype.indexOf.call(chunks, chunk);
+    test('renders moveControls with simple descriptions', () => {
+      const [movedIn, movedOut] = diffElement.root
+          .querySelectorAll('.dueToMove .moveControls');
+      assert.equal(movedIn.textContent, 'Moved in');
+      assert.equal(movedOut.textContent, 'Moved out');
+    });
+  });
+
+  suite('moved chunks (moveDetails)', () => {
+    setup(done => {
+      const renderHandler = function() {
+        diffElement.removeEventListener('render', renderHandler);
+        cursorElement.reInitCursor();
+        done();
       };
+      diffElement.addEventListener('render', renderHandler);
+      diffElement.diff = {...diff, content: [
+        {
+          ab: [
+            'Lorem ipsum dolor sit amet, suspendisse inceptos vehicula, ',
+          ],
+        },
+        {
+          b: [
+            'Nullam neque, ligula ac, id blandit.',
+            'Sagittis tincidunt torquent, tempor nunc amet.',
+            'At rhoncus id.',
+          ],
+          move_details: {changed: false, range: {start: 4, end: 6}},
+        },
+        {
+          ab: [
+            'Sem nascetur, erat ut, non in.',
+          ],
+        },
+        {
+          a: [
+            'Nullam neque, ligula ac, id blandit.',
+            'Sagittis tincidunt torquent, tempor nunc amet.',
+            'At rhoncus id.',
+          ],
+          move_details: {changed: false, range: {start: 2, end: 4}},
+        },
+        {
+          ab: [
+            'Arcu eget, rhoncus amet cursus, ipsum elementum.',
+          ],
+        },
+      ]};
+    });
 
-      // We should be initialized to the first chunk (b)
-      let currentIndex = indexOfChunk(cursorElement.diffRow.parentElement);
-      assert.equal(currentIndex, 0);
-      assert.equal(cursorElement.side, 'right');
-
-      // Move to the next chunk.
-      cursorElement.moveToNextChunk();
-
-      // Since the next chunk only has content on the left side (a). we should have been
-      // automatically moved over.
-      const previousIndex = currentIndex;
-      currentIndex = indexOfChunk(cursorElement.diffRow.parentElement);
-      assert.equal(currentIndex, previousIndex + 1);
-      assert.equal(cursorElement.side, 'left');
+    test('renders moveControls with simple descriptions', () => {
+      const [movedIn, movedOut] = diffElement.root
+          .querySelectorAll('.dueToMove .moveControls');
+      assert.equal(movedIn.textContent, 'Moved from lines 4 - 6');
+      assert.equal(movedOut.textContent, 'Moved to lines 2 - 4');
     });
   });
 

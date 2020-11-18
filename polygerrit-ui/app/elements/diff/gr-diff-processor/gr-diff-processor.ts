@@ -366,7 +366,8 @@ export class GrDiffProcessor extends GestureEventListeners(
     const group = new GrDiffGroup(type, lines);
     group.keyLocation = !!chunk.keyLocation;
     group.dueToRebase = !!chunk.due_to_rebase;
-    group.dueToMove = !!chunk.due_to_move;
+    group.moveDetails =
+      chunk.move_details || (chunk.due_to_move ? {changed: false} : undefined);
     group.skip = chunk.skip;
     group.ignoredWhitespaceOnly = !!chunk.common;
     if (chunk.skip) {
@@ -699,6 +700,9 @@ export class GrDiffProcessor extends GestureEventListeners(
       }
       if (chunk.due_to_move) {
         subChunk.due_to_move = true;
+      }
+      if (chunk.move_details) {
+        subChunk.move_details = chunk.move_details;
       }
       return subChunk;
     });

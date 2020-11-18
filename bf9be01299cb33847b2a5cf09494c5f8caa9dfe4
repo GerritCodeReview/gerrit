@@ -16,6 +16,24 @@
       "message": "Thanks, Patrick!\nHow did renaming work before? I definitely rename a few groups in the last 4 years without broken ACLs (afaik)",
       "revId": "bf9be01299cb33847b2a5cf09494c5f8caa9dfe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fdc8819_831f1c89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-18T08:41:44Z",
+      "side": 1,
+      "message": "I am pretty sure this was caused by my work to serialized the project cache and make in-memory data immutable. That work landed early 2020.\n\nRenaming groups is a rare enough task that this wasn\u0027t encountered until now.",
+      "parentUuid": "587cae7d_335c92e3",
+      "revId": "bf9be01299cb33847b2a5cf09494c5f8caa9dfe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

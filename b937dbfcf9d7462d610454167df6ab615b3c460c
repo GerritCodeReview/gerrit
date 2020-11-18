@@ -46,6 +46,30 @@
       },
       "revId": "b937dbfcf9d7462d610454167df6ab615b3c460c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "651da3fd_be121e33",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-18T16:32:11Z",
+      "side": 1,
+      "message": "Yes. Or even\n\n  import fire from \u0027event-util\u0027\n  fire(this, \u0027show-alert\u0027, \u0027message\u0027)\n\nWould be a simpler version of `fire` from legacy-element-mixin:\n\n    /**\n     * Dispatches a custom event with an optional detail value.\n     *\n     * @param {string} type Name of event type.\n     * @param {*\u003d} detail Detail value containing event-specific\n     *   payload.\n     * @param {{ bubbles: (boolean|undefined), cancelable: (boolean|undefined),\n     *     composed: (boolean|undefined) }\u003d}\n     *  options Object specifying options.  These may include:\n     *  `bubbles` (boolean, defaults to `true`),\n     *  `cancelable` (boolean, defaults to false), and\n     *  `node` on which to fire the event (HTMLElement, defaults to `this`).\n     * @return {!Event} The new event that was fired.\n     * @override\n     */\n    fire(type, detail, options) {\n      options \u003d options || {};\n      detail \u003d (detail \u003d\u003d\u003d null || detail \u003d\u003d\u003d undefined) ? {} : detail;\n      let event \u003d new Event(type, {\n        bubbles: options.bubbles \u003d\u003d\u003d undefined ? true : options.bubbles,\n        cancelable: Boolean(options.cancelable),\n        composed: options.composed \u003d\u003d\u003d undefined ? true: options.composed\n      });\n      event.detail \u003d detail;\n      let node \u003d options.node || this;\n      wrap(node).dispatchEvent(event);\n      return event;\n    }",
+      "parentUuid": "f263720a_ca4b6a00",
+      "range": {
+        "startLine": 1075,
+        "startChar": 6,
+        "endLine": 1085,
+        "endChar": 8
+      },
+      "revId": "b937dbfcf9d7462d610454167df6ab615b3c460c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

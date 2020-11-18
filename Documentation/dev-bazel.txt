@@ -287,6 +287,18 @@ The WAR file will be placed in:
   bazel-bin/withdocs.war
 ----
 
+Alternatively, one can generate the documentation as flat files:
+
+----
+  bazel build Documentation:Documentation
+----
+
+The html, css, js files are placed in:
+
+----
+ `bazel-bin/Documentation/`
+----
+
 [[tests]]
 == Running Unit Tests
 

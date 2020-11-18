@@ -125,6 +125,12 @@ suite('gr-change-list-item tests', () => {
     '1 unresolved comment');
     assert.equal(element._computeLabelTitle(
         {
+          labels: {'Code-Review': {approved: {name: 'Diffy'}, value: 1}},
+          unresolved_comment_count: 1,
+        }, 'Code-Review'),
+    '1 unresolved comment, Code-Review\nby Diffy');
+    assert.equal(element._computeLabelTitle(
+        {
           labels: {'Code-Review': {approved: true, value: 1}},
           unresolved_comment_count: 2,
         }, 'Code-Review'),

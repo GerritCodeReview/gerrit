@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c65c0d4a_ba025d7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-11-18T17:57:57Z",
+      "side": 1,
+      "message": "Hi Ben,\n\nThis is the change I mentioned before about providing more info for moved chunks.",
+      "revId": "f827457dfd69901c7c67f711c7e1776ea7c26bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

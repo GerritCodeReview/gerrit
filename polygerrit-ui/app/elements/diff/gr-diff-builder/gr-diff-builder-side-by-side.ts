@@ -50,7 +50,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     if (group.dueToRebase) {
       sectionEl.classList.add('dueToRebase');
     }
-    if (group.dueToMove) {
+    if (group.moveDetails) {
       sectionEl.classList.add('dueToMove');
       sectionEl.appendChild(this._buildMoveControls(group));
     }

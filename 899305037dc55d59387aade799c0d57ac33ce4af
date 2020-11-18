@@ -34,6 +34,24 @@
       "parentUuid": "4bc4cd1d_94c73efe",
       "revId": "899305037dc55d59387aade799c0d57ac33ce4af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef687fbb_5c48eb35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-18T11:09:56Z",
+      "side": 1,
+      "message": "In TypeScript, you have to distinguish Types and Values: Types only exist at compile-time. Values exist at runtime. Enums are both: They are like string literal unions at compile time and additionally have values (such as when you access IgnoreWhitespaceTypes.IGNORE_NONE, this is a JS value at runtime). \nString literal types are only types - they do not exist at runtime.\n\nFor the specific purpose of sharing APIs, not implementation, string literal types are more suitable: They can be put into a d.ts file, and imported using regular imports, and just work. Enum can also be put into d.ts files, but then crash when importing them because the TypeScript compiler treats d.ts files as \"types only\" and does compile the values in.\nThe other option would be to use enums, and change the file to .ts, which has two issues:\n1) It does not enforce that we only share types between bundles.\n2) It does not automatically generate externs when compiling the file. Externs prevent property renaming, which Gerrit does not currently use, but other clients of gr-diff do. There are ways to make this work (adding @export on every symbol and passing the right flags to JSCompiler), but it\u0027s a bit more work.\n\nWe already had a mix of enums and string literal types. I propose to use string literal types in these files throughout for consistency and because it makes these things easier. If you have good arguments why string enums are preferable, I can try to make that work, with the caveats explained above.",
+      "parentUuid": "7a14971a_b440d9c6",
+      "revId": "899305037dc55d59387aade799c0d57ac33ce4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

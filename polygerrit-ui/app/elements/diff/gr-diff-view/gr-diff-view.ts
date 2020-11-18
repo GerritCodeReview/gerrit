@@ -75,8 +75,6 @@ import {
   ChangeInfo,
   CommitId,
   ConfigInfo,
-  DiffInfo,
-  DiffPreferencesInfo,
   EditInfo,
   EditPatchSetNum,
   ElementPropertyDeepChange,
@@ -89,6 +87,7 @@ import {
   RepoName,
   RevisionInfo,
 } from '../../../types/common';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {ChangeViewState, CommitRange, FileRange} from '../../../types/types';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';

@@ -30,7 +30,7 @@ import {
 } from '../gr-diff/gr-diff-group';
 import {CancelablePromise, util} from '../../../scripts/util';
 import {customElement, property} from '@polymer/decorators';
-import {DiffContent} from '../../../types/common';
+import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 
 const WHOLE_FILE = -1;

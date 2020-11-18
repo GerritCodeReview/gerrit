@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import {HttpMethod} from '../../../constants/constants';
 import {
   AccountDetailInfo,
   AccountExternalIdInfo,
@@ -29,7 +30,6 @@ import {
   PatchSetNum,
   RequestPayload,
   PreferencesInput,
-  DiffPreferencesInfo,
   EditPreferencesInfo,
   DiffPreferenceInput,
   SshKeyInfo,
@@ -86,7 +86,6 @@ import {
   EmailAddress,
   FixId,
   FilePathToDiffInfoMap,
-  DiffInfo,
   BlameInfo,
   PatchRange,
   ImagesForDiff,
@@ -101,8 +100,12 @@ import {
   MergeableInfo,
   CommitInfo,
 } from '../../../types/common';
+import {
+  DiffInfo,
+  DiffPreferencesInfo,
+  IgnoreWhitespaceType,
+} from '../../../types/diff';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
-import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 export type CancelConditionCallback = () => boolean;

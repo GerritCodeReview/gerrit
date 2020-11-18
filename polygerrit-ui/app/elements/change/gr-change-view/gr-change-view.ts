@@ -98,7 +98,6 @@ import {
   ConfigInfo,
   PreferencesInfo,
   CommitInfo,
-  DiffPreferencesInfo,
   RevisionInfo,
   EditInfo,
   LabelNameToInfoMap,
@@ -107,6 +106,7 @@ import {
   ApprovalInfo,
   ElementPropertyDeepChange,
 } from '../../../types/common';
+import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrReplyDialog, FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';

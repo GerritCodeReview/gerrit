@@ -25,7 +25,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-preferences_html';
 import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
-import {DiffPreferencesInfo} from '../../../types/common';
+import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrSelect} from '../gr-select/gr-select';
 
 export interface GrDiffPreferences {

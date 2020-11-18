@@ -72,9 +72,7 @@ import {
   DashboardId,
   DashboardInfo,
   DeleteDraftCommentsInput,
-  DiffInfo,
   DiffPreferenceInput,
-  DiffPreferencesInfo,
   EditPatchSetNum,
   EditPreferencesInfo,
   EncodedGroupId,
@@ -142,6 +140,11 @@ import {
   MergeableInfo,
 } from '../../../types/common';
 import {
+  DiffInfo,
+  DiffPreferencesInfo,
+  IgnoreWhitespaceType,
+} from '../../../types/diff';
+import {
   CancelConditionCallback,
   ErrorCallback,
   RestApiService,
@@ -152,7 +155,6 @@ import {
   CommentSide,
   DiffViewMode,
   HttpMethod,
-  IgnoreWhitespaceType,
   ReviewerState,
 } from '../../../constants/constants';
 
@@ -828,7 +830,7 @@ export class GrRestApiInterface
         context: 10,
         cursor_blink_rate: 0,
         font_size: 12,
-        ignore_whitespace: IgnoreWhitespaceType.IGNORE_NONE,
+        ignore_whitespace: 'IGNORE_NONE',
         intraline_difference: true,
         line_length: 100,
         line_wrapping: false,
@@ -2525,7 +2527,7 @@ export class GrRestApiInterface
     const params: GetDiffParams = {
       context: 'ALL',
       intraline: null,
-      whitespace: whitespace || IgnoreWhitespaceType.IGNORE_NONE,
+      whitespace: whitespace || 'IGNORE_NONE',
     };
     if (isMergeParent(basePatchNum)) {
       params.parent = getParentIndex(basePatchNum);

@@ -107,8 +107,25 @@ export declare interface DiffContent {
   edit_b?: DiffIntralineInfo[];
   /** Indicates whether this entry was introduced by a rebase. */
   due_to_rebase?: boolean;
-  /** Indicates whether this entry was introduced by a move. */
+  /** @deprecated Use move_details instead. */
   due_to_move?: boolean;
+
+  /**
+   * Provides info about a move operation the chunk.
+   * It's presence indicates the current chunk exists due to a move.
+   */
+  move_details?: {
+    /** Indicates whether the content of the chunk changes while moving code */
+    changed: boolean;
+    /**
+     * Indicates the range (line numbers) on the other side of the comparison
+     * where the code related to the current chunk came from/went to.
+     */
+    range: {
+      start: number;
+      end: number;
+    };
+  };
   /**
    * Count of lines skipped on both sides when the file is too large to include
    * all common lines.

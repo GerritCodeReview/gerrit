@@ -892,6 +892,17 @@ export abstract class GrDiffBuilder {
     }
   }
 
+  _createMoveDescription(movedIn: boolean, group: GrDiffGroup) {
+    if (group.moveDetails?.range) {
+      const {changed, range} = group.moveDetails;
+      const moveLabel = 'Moved' + (changed ? ' and changed' : '');
+      const direction = movedIn ? 'from' : 'to';
+      const lineDetails = `lines ${range.start} - ${range.end}`;
+      return `${moveLabel} ${direction} ${lineDetails}`;
+    }
+    return movedIn ? 'Moved in' : 'Moved out';
+  }
+
   _buildMoveControls(group: GrDiffGroup) {
     const movedIn = group.adds.length > 0;
     const {
@@ -901,16 +912,14 @@ export abstract class GrDiffBuilder {
     } = this._getMoveControlsConfig();
 
     let controlsClass;
-    let descriptionText;
     let descriptionIndex;
+    const descriptionText = this._createMoveDescription(movedIn, group);
     if (movedIn) {
       controlsClass = 'movedIn';
       descriptionIndex = movedInIndex;
-      descriptionText = 'Moved in';
     } else {
       controlsClass = 'movedOut';
       descriptionIndex = movedOutIndex;
-      descriptionText = 'Moved out';
     }
     const controls = document.createElement('tr');
     const cells = [...Array(numberOfCells).keys()].map(() =>

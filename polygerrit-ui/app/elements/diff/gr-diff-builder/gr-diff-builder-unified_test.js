@@ -105,7 +105,7 @@ suite('GrDiffBuilderUnified tests', () => {
       lines[0].text = 'def hello_world():';
       lines[1].text = '  print "Hello World"';
       const group = new GrDiffGroup(GrDiffGroupType.DELTA, lines);
-      group.dueToMove = true;
+      group.moveDetails = {changed: false};
 
       const sectionEl = diffBuilder.buildSectionElement(group);
 
@@ -128,7 +128,7 @@ suite('GrDiffBuilderUnified tests', () => {
       lines[0].text = 'def hello_world():';
       lines[1].text = '  print "Hello World"';
       const group = new GrDiffGroup(GrDiffGroupType.DELTA, lines);
-      group.dueToMove = true;
+      group.moveDetails = {changed: false};
 
       const sectionEl = diffBuilder.buildSectionElement(group);
 

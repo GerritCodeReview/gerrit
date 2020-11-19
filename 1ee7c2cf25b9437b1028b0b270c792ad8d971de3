@@ -45,6 +45,30 @@
       },
       "revId": "1ee7c2cf25b9437b1028b0b270c792ad8d971de3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcd0cf6b_1266189c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-19T07:58:28Z",
+      "side": 1,
+      "message": "There is only one significant label, but I agree about the line break being in the wrong position.",
+      "parentUuid": "336195ea_7b5fdb1b",
+      "range": {
+        "startLine": 128,
+        "startChar": 9,
+        "endLine": 133,
+        "endChar": 9
+      },
+      "revId": "1ee7c2cf25b9437b1028b0b270c792ad8d971de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

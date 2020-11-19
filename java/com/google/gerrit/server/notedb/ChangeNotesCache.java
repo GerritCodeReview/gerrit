@@ -138,6 +138,7 @@ public class ChangeNotesCache {
           + K // owner
           + P
           + str(state.columns().branch())
+          + P // status
           + P
           + patchSetId() // currentPatchSetId
           + P
@@ -148,9 +149,16 @@ public class ChangeNotesCache {
           + str(state.columns().originalSubject())
           + P
           + str(state.columns().submissionId())
-          + P // status
+          + 1 // isPrivate
+          + 1 // workInProgress
+          + 1 // reviewStarted
+          + P
+          + K // revertOf
+          + P
+          + patchSetId() // cherryPickOf
           + P
           + set(state.hashtags(), str(10))
+          + str(state.serverId()) // serverId
           + P
           + list(state.patchSets(), patchSet())
           + P
@@ -177,10 +185,8 @@ public class ChangeNotesCache {
           + list(state.changeMessages(), changeMessage())
           + P
           + map(state.publishedComments().asMap(), comment())
-          + 1 // isPrivate
-          + 1 // workInProgress
-          + 1 // reviewStarted
-          + I; // updateCount
+          + I // updateCount
+          + T; // mergedOn
     }
 
     private static int str(String s) {

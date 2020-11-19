@@ -22,6 +22,30 @@
       },
       "revId": "73f6dda8a00e5d0b7ac58137e4b738329d75e28c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "add4ec6b_89a0d9eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-19T20:47:45Z",
+      "side": 1,
+      "message": "\u003e Nit: it\n\nWe can approve this change once that nit (doubled \u0027is\u0027 in commit message) can be addressed, Antoine. Thanks :)",
+      "parentUuid": "7366634d_215440cc",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "73f6dda8a00e5d0b7ac58137e4b738329d75e28c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -59,7 +59,7 @@ public class CreateChange implements RestModifyView<ProjectResource, ChangeInput
       throw new AuthException("Authentication required");
     }
 
-    if (!Strings.isNullOrEmpty(input.project)) {
+    if (!Strings.isNullOrEmpty(input.project) && !rsrc.getName().equals(input.project)) {
       throw new BadRequestException("may not specify project");
     }
 

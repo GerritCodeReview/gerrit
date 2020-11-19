@@ -151,7 +151,6 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
-import {PORTING_COMMENTS_CHANGE_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -2128,20 +2127,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this._robotCommentThreads = undefined;
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
-
-    const portedCommentsPromise = this.$.commentAPI.getPortedComments(
-      this._changeNum
-    );
-    const commentsPromise = this.$.commentAPI
+    return this.$.commentAPI
       .loadAll(this._changeNum)
-      .then(comments => {
-        this.reporting.time(PORTING_COMMENTS_CHANGE_LATENCY_LABEL);
-        this._recomputeComments(comments);
-      });
-    Promise.all([portedCommentsPromise, commentsPromise]).then(() => {
-      this.reporting.timeEnd(PORTING_COMMENTS_CHANGE_LATENCY_LABEL);
-    });
-    return commentsPromise;
+      .then(comments => this._recomputeComments(comments));
   }
 
   /**

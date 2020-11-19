@@ -21,7 +21,6 @@ import {mockPromise} from '../../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {ListChangesOption} from '../../../utils/change-util.js';
 import {appContext} from '../../../services/app-context.js';
-import {createChange} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-rest-api-interface');
 
@@ -1342,28 +1341,6 @@ suite('gr-rest-api-interface tests', () => {
         ._logCall({url: 'url', anonymizedUrl: 'not url'}, 100, 200);
     flush();
     assert.isTrue(handler.calledOnce);
-  });
-
-  test('ported comment errors do not trigger error dialog', () => {
-    const change = createChange();
-    const dispatchStub = sinon.stub(element._restApiHelper, 'dispatchEvent');
-    sinon.stub(element._restApiHelper, 'fetchJSON').returns(Promise.resolve({
-      ok: false}));
-
-    element.getPortedComments(change._number, 'current');
-
-    assert.isFalse(dispatchStub.called);
-  });
-
-  test('ported drafts are not requested user is not logged in', () => {
-    const change = createChange();
-    sinon.stub(element, 'getLoggedIn').returns(Promise.resolve(false));
-    const getChangeURLAndFetchStub = sinon.stub(element,
-        '_getChangeURLAndFetch');
-
-    element.getPortedDrafts(change._number, 'current');
-
-    assert.isFalse(getChangeURLAndFetchStub.called);
   });
 
   test('saveChangeStarred', async () => {

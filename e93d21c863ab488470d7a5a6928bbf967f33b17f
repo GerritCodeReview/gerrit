@@ -16,6 +16,23 @@
       "message": "Can somebody approve my amends or review otherwise? Thanks.",
       "revId": "e93d21c863ab488470d7a5a6928bbf967f33b17f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68b89c80_e3aa6287",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2020-11-19T22:30:44Z",
+      "side": 1,
+      "message": "Thank you for the corrections Marco.",
+      "revId": "e93d21c863ab488470d7a5a6928bbf967f33b17f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

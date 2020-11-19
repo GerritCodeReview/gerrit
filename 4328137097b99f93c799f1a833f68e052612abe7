@@ -248,6 +248,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1871ac34_bc4b0cc3",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-11-19T11:35:26Z",
+      "side": 1,
+      "message": "All of git (including git-core and jgit) uses the 0-byte as the signal to decide something is binary.",
+      "parentUuid": "a641ab4e_70c5071a",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "38be74b0_7314f641",
         "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
         "patchSetId": 8

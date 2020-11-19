@@ -84,6 +84,9 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String BULK = "_bulk";
   protected static final String MAPPINGS = "mappings";
   protected static final String ORDER = "order";
+  protected static final String DESC_SORT_ORDER = "desc";
+  protected static final String ASC_SORT_ORDER = "asc";
+  protected static final String UNMAPPED_TYPE = "unmapped_type";
   protected static final String SEARCH = "_search";
   protected static final String SETTINGS = "settings";
 
@@ -298,7 +301,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected JsonArray getSortArray(String idFieldName) {
     JsonObject properties = new JsonObject();
-    properties.addProperty(ORDER, "asc");
+    properties.addProperty(ORDER, ASC_SORT_ORDER);
 
     JsonArray sortArray = new JsonArray();
     addNamedElement(idFieldName, properties, sortArray);

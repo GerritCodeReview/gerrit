@@ -29,7 +29,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.RegexPredicate;
 import com.google.gerrit.index.query.TimestampRangePredicate;
-import com.google.gerrit.server.query.change.AfterPredicate;
 import java.time.Instant;
 
 public class ElasticQueryBuilder {
@@ -130,7 +129,9 @@ public class ElasticQueryBuilder {
   private <T> QueryBuilder timestampQuery(IndexPredicate<T> p) throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
       TimestampRangePredicate<T> r = (TimestampRangePredicate<T>) p;
-      if (p instanceof AfterPredicate) {
+      if (r.getMaxTimestamp().getTime() == Long.MAX_VALUE) {
+        // The time range only has the start value, search from the start to the max supported value
+        // Long.MAX_VALUE
         return QueryBuilders.rangeQuery(r.getField().getName())
             .gte(Instant.ofEpochMilli(r.getMinTimestamp().getTime()));
       }

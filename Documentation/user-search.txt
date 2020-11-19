@@ -92,6 +92,18 @@ Changes modified after the given 'TIME', inclusive. Must be in the
 format `2006-01-02[ 15:04:05[.890][ -0700]]`; omitting the time defaults
 to 00:00:00 and omitting the timezone defaults to UTC.
 
+[[mergedbefore]]
+mergedbefore:'TIME'::
++
+Changes merged before the given 'TIME'. The matching behaviour is consistent
+with `before:'TIME'`.
+
+[[mergedafter]]
+mergedafter:'TIME'::
++
+Changes merged after the given 'TIME'. The matching behaviour is consistent
+with `after:'TIME'`.
+
 [[change]]
 change:'ID'::
 +

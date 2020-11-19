@@ -72,6 +72,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.protobuf.MessageLite;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -110,6 +111,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED);
+  static final String MERGED_ON_SORT_FIELD = sortFieldName(ChangeField.MERGED_ON);
   static final String ID_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID);
   static final String ID2_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID_STR);
 
@@ -140,6 +142,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String UNRESOLVED_COMMENT_COUNT_FIELD =
       ChangeField.UNRESOLVED_COMMENT_COUNT.getName();
   private static final String ATTENTION_SET_FULL_FIELD = ChangeField.ATTENTION_SET_FULL.getName();
+  private static final String MERGED_ON_FIELD = ChangeField.MERGED_ON.getName();
 
   @FunctionalInterface
   static interface IdTerm {
@@ -320,6 +323,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private Sort getSort() {
     return new Sort(
         new SortField(UPDATED_SORT_FIELD, SortField.Type.LONG, true),
+        new SortField(MERGED_ON_SORT_FIELD, SortField.Type.LONG, true),
         new SortField(idSortFieldName, SortField.Type.LONG, true));
   }
 
@@ -563,6 +567,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(REF_STATE_PATTERN_FIELD)) {
       decodeRefStatePatterns(doc, cd);
     }
+    if (fields.contains(MERGED_ON_FIELD)) {
+      decodeMergedOn(doc, cd);
+    }
 
     decodeUnresolvedCommentCount(doc, cd);
     decodeTotalCommentCount(doc, cd);
@@ -717,6 +724,16 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (f != null && f.numericValue() != null) {
       consumer.accept(f.numericValue().intValue());
     }
+  }
+
+  private void decodeMergedOn(ListMultimap<String, IndexableField> doc, ChangeData cd) {
+    IndexableField mergedOnField =
+        Iterables.getFirst(doc.get(MERGED_ON_FIELD), /* defaultValue= */ null);
+    Timestamp mergedOn = null;
+    if (mergedOnField != null && mergedOnField.numericValue() != null) {
+      mergedOn = new Timestamp(mergedOnField.numericValue().longValue());
+    }
+    cd.setMergedOn(mergedOn);
   }
 
   private static <T> List<T> decodeProtos(

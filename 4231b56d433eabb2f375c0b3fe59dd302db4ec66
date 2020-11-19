@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8451d113_a6180b12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-19T14:18:16Z",
+      "side": 1,
+      "message": "Can this logic be moved into gr-overlay?\n\nonOpen()\n  returnFoucsTo \u003d document.activeElement\nonClose()\n  if (returnFoucsTo) returnFoucsTo.focus()",
+      "revId": "4231b56d433eabb2f375c0b3fe59dd302db4ec66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3006dbb_00f0ff2c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 6

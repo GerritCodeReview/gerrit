@@ -300,6 +300,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb1e91b3_715826b8",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-11-19T18:09:08Z",
+      "side": 1,
+      "message": "\u003e Up to 177 bytes the probability for a binary file to not contain a NUL is \u003e50%, assuming an even distribution.\n\nBut even distribution basically means \"uniformly random\", and that\u0027s precisely what source files (even binary ones) aren\u0027t.\n\nMost file formats have headers at the top of the file that include fixed size integers (file offsets, images sizes, version numbers), so those have nul bytes naturally.\n\nFor example, zip, png and jpg files have nul bytes in the first 32 bytes.",
+      "parentUuid": "e2f909c4_d953e006",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38be74b0_7314f641",

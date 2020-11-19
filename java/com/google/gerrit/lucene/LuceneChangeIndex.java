@@ -72,6 +72,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.protobuf.MessageLite;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -110,6 +111,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED);
+  static final String MERGED_ON_SORT_FIELD = sortFieldName(ChangeField.MERGED_ON);
   static final String ID_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID);
   static final String ID2_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID_STR);
 
@@ -320,6 +322,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private Sort getSort() {
     return new Sort(
         new SortField(UPDATED_SORT_FIELD, SortField.Type.LONG, true),
+        new SortField(MERGED_ON_SORT_FIELD, SortField.Type.LONG, true),
         new SortField(idSortFieldName, SortField.Type.LONG, true));
   }
 
@@ -563,6 +566,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(REF_STATE_PATTERN_FIELD)) {
       decodeRefStatePatterns(doc, cd);
     }
+    if (fields.contains(MERGED_ON_SORT_FIELD)) {
+      decodeMergedOn(doc, cd);
+    }
 
     decodeUnresolvedCommentCount(doc, cd);
     decodeTotalCommentCount(doc, cd);
@@ -709,6 +715,13 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private void decodeTotalCommentCount(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     decodeIntField(doc, TOTAL_COMMENT_COUNT_FIELD, cd::setTotalCommentCount);
+  }
+
+  private void decodeMergedOn(ListMultimap<String, IndexableField> doc, ChangeData cd) {
+    IndexableField f = Iterables.getFirst(doc.get(MERGED_ON_SORT_FIELD), null);
+    if (f != null && f.numericValue() != null) {
+      cd.setMergedOn(new Timestamp(f.numericValue().longValue()));
+    }
   }
 
   private static void decodeIntField(

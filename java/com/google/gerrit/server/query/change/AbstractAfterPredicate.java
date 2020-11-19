@@ -14,17 +14,27 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.index.change.ChangeField;
+import java.sql.Timestamp;
+import java.util.Date;
 
-public class BeforePredicate extends AbstractBeforePredicate {
+public abstract class AbstractAfterPredicate extends TimestampRangeChangePredicate {
+  protected final Date cut;
 
-  public BeforePredicate(String value) throws QueryParseException {
-    super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_BEFORE, value);
+  public AbstractAfterPredicate(FieldDef<ChangeData, Timestamp> def, String name, String value)
+      throws QueryParseException {
+    super(def, name, value);
+    cut = parse(value);
   }
 
   @Override
-  public boolean match(ChangeData cd) {
-    return cd.change().getLastUpdatedOn().getTime() <= cut.getTime();
+  public Date getMinTimestamp() {
+    return cut;
+  }
+
+  @Override
+  public Date getMaxTimestamp() {
+    return new Date(Long.MAX_VALUE);
   }
 }

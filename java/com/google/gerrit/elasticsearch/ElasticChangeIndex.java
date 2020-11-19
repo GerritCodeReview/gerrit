@@ -61,6 +61,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -162,6 +163,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     JsonArray sortArray = new JsonArray();
     addNamedElement(ChangeField.UPDATED.getName(), properties, sortArray);
+    addNamedElement(ChangeField.MERGED_ON.getName(), properties, sortArray);
     addNamedElement(idField.getName(), properties, sortArray);
     return sortArray;
   }
@@ -388,6 +390,14 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
               .transform(ElasticChangeIndex::decodeBase64JsonElement)
               .toSet(),
           cd);
+    }
+
+    // Merged on
+    if (fields.contains(ChangeField.MERGED_ON.getName())) {
+      JsonElement mergedOn = source.get(ChangeField.MERGED_ON.getName());
+      if (mergedOn != null) {
+        cd.setMergedOn(new Timestamp(mergedOn.getAsLong()));
+      }
     }
 
     return cd;

@@ -84,6 +84,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String BULK = "_bulk";
   protected static final String MAPPINGS = "mappings";
   protected static final String ORDER = "order";
+  protected static final String IGNORE_UNMAPPED = "ignore_unmapped";
   protected static final String SEARCH = "_search";
   protected static final String SETTINGS = "settings";
 

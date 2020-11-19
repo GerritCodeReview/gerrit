@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "95db13f5_e2d44025",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-19T20:44:48Z",
+      "side": 1,
+      "message": "Would it make sense to file an issue upstream?",
+      "parentUuid": "9fb05fe4_b3551207",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 44
+      },
+      "revId": "0471d0cad4d086449760cb10e0e2d72af7e7e4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8e459732_70404ef4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

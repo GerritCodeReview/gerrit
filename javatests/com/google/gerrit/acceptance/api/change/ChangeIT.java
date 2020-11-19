@@ -1082,6 +1082,7 @@ public class ChangeIT extends AbstractDaemonTest {
       com.google.gerrit.acceptance.TestAccount deleteAs)
       throws Exception {
     try {
+      allow(projectName, "refs/*", Permission.VIEW_PRIVATE_CHANGES, ANONYMOUS_USERS);
       requestScopeOperations.setApiUser(owner.id());
       ChangeInput in = new ChangeInput();
       in.project = projectName.get();

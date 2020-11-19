@@ -28,6 +28,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.testing.ConfigSuite;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -46,6 +48,13 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     TagType(String createPermission) {
       this.createPermission = createPermission;
     }
+  }
+
+  @ConfigSuite.Config
+  public static Config skipFalse() {
+    Config config = new Config();
+    config.setBoolean("auth", null, "skipFullRefEvaluationIfAllRefsAreVisible", false);
+    return config;
   }
 
   private RevCommit initialHead;
@@ -87,6 +96,20 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
   }
 
   @Test
+  public void createTagForExistingCommit_withoutGlobalReadPermissions() throws Exception {
+    removeReadAccessOnRefsStar();
+    grantReadAccessOnRefsHeadsStar();
+    createTagForExistingCommit();
+  }
+
+  @Test
+  public void createTagForNewCommit_withoutGlobalReadPermissions() throws Exception {
+    removeReadAccessOnRefsStar();
+    grantReadAccessOnRefsHeadsStar();
+    createTagForNewCommit();
+  }
+
+  @Test
   public void fastForward() throws Exception {
     allowTagCreation();
     String tagName = pushTagForExistingCommit(Status.OK);
@@ -102,6 +125,15 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     Status expectedStatus = tagType == ANNOTATED ? Status.REJECTED_OTHER_REASON : Status.OK;
     fastForwardTagToExistingCommit(tagName, expectedStatus);
     fastForwardTagToNewCommit(tagName, expectedStatus);
+
+    // Above we just fast-forwarded the tag to a new commit which is not part of any branch. By
+    // default this tag is not visible, as users can only see tags that point to commits that are
+    // part of visible branches, which is not the case for this tag. It's odd that we allow the user
+    // to create such a tag that is then not visible to the creator. Below we want to fast-forward
+    // this tag, but this is only possible if the tag is visible. To make it visible we must allow
+    // the user to read all tags, regardless of whether it points to a commit that is part of a
+    // visible branch.
+    allowReadingAllTag();
 
     allowForcePushOnRefsTags();
     fastForwardTagToExistingCommit(tagName, Status.OK);
@@ -222,6 +254,33 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     PushResult r = deleteRef(testRepo, tagRef);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
     assertThat(refUpdate.getStatus()).named(tagType.name()).isEqualTo(expectedStatus);
+  }
+
+  private void removeReadAccessOnRefsStar() throws Exception {
+    removePermission(allProjects, "refs/heads/*", Permission.READ);
+    removePermission(project, "refs/heads/*", Permission.READ);
+  }
+
+  private void grantReadAccessOnRefsHeadsStar() throws Exception {
+    grant(project, "refs/heads/*", Permission.READ, false, REGISTERED_USERS);
+  }
+
+  private void allowReadingAllTag() throws Exception {
+    // Tags are only visible if the commits to which they point are part of a visible branch.
+    // To make all tags visible, including tags that point to commits that are not part of a visible
+    // branch, either auth.skipFullRefEvaluationIfAllRefsAreVisible in gerrit.config needs to be
+    // true, or the user must have READ access for all refs in the repository.
+
+    if (cfg.getBoolean("auth", "skipFullRefEvaluationIfAllRefsAreVisible", true)) {
+      return;
+    }
+
+    // By default READ access in the All-Projects project is granted to registered users on refs/*,
+    // which makes all refs, except refs/meta/config, visible to them. refs/meta/config is not
+    // visible since by default READ access to it is exclusively granted to the project owners only.
+    // This means to make all refs, and thus all tags, visible, we must allow registered users to
+    // see the refs/meta/config branch.
+    allow(project, "refs/meta/config", Permission.READ, REGISTERED_USERS);
   }
 
   private void allowTagCreation() throws Exception {

@@ -16,6 +16,23 @@
       "message": "I took Ben\u0027s idea from https://gerrit-review.googlesource.com/c/gerrit/+/279036 and it works 😊",
       "revId": "4c66a7707f7b08906157aa2c2ee108d89e1a6866",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36a35a50_c4edc172",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-19T15:12:11Z",
+      "side": 1,
+      "message": "Add a test?",
+      "revId": "4c66a7707f7b08906157aa2c2ee108d89e1a6866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

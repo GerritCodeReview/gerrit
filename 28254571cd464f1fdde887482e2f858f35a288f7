@@ -169,6 +169,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ff53e1f_8d2d2d1c",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-19T18:18:59Z",
+      "side": 1,
+      "message": "Thanks Hanwen. Is the limit I added here reasonable?",
+      "parentUuid": "598f0d89_c2b2028f",
+      "range": {
+        "startLine": 130,
+        "startChar": 10,
+        "endLine": 130,
+        "endChar": 23
+      },
+      "revId": "28254571cd464f1fdde887482e2f858f35a288f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83146d78_30fdfe58",
         "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
         "patchSetId": 10

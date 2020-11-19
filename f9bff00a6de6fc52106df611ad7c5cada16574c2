@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25445ee2_0101e999",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-11-19T14:37:58Z",
+      "side": 1,
+      "message": "Thanks, I had been meaning to add these as I forgot them in the original change.",
+      "revId": "f9bff00a6de6fc52106df611ad7c5cada16574c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33331fa1_fb75ce1a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-11-19T14:37:58Z",
+      "side": 1,
+      "message": "Nit: I would probably just go with \"+${context} above\" to keep it nice and short, and the same as before.",
+      "revId": "f9bff00a6de6fc52106df611ad7c5cada16574c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -46,7 +45,10 @@ public class AgePredicate extends TimestampRangeChangePredicate {
 
   @Override
   public boolean match(ChangeData object) {
-    Change change = object.change();
-    return change != null && change.getLastUpdatedOn().getTime() <= cut;
+    Timestamp valueTimestamp = this.getValueTimestamp(object);
+    if (valueTimestamp == null) {
+      return false;
+    }
+    return valueTimestamp.getTime() <= cut;
   }
 }

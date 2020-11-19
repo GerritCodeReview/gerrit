@@ -162,6 +162,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     JsonArray sortArray = new JsonArray();
     addNamedElement(ChangeField.UPDATED.getName(), properties, sortArray);
+    addNamedElement(ChangeField.MERGED_ON.getName(), properties, sortArray);
     addNamedElement(idField.getName(), properties, sortArray);
     return sortArray;
   }

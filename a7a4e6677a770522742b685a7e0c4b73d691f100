@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e091a2dd_02bd1935",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-19T14:03:01Z",
+      "side": 1,
+      "message": "Verified using a local Gerrit server.",
+      "parentUuid": "13f490fa_67f2df3f",
+      "revId": "a7a4e6677a770522742b685a7e0c4b73d691f100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "199224e3_d6c43a49",

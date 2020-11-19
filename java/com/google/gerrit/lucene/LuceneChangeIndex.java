@@ -110,6 +110,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED);
+  static final String MERGED_ON_SORT_FIELD = sortFieldName(ChangeField.MERGED_ON);
   static final String ID_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID);
   static final String ID2_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID_STR);
 
@@ -320,6 +321,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private Sort getSort() {
     return new Sort(
         new SortField(UPDATED_SORT_FIELD, SortField.Type.LONG, true),
+        new SortField(MERGED_ON_SORT_FIELD, SortField.Type.LONG, true),
         new SortField(idSortFieldName, SortField.Type.LONG, true));
   }
 

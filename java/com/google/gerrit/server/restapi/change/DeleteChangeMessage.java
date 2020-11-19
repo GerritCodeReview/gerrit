@@ -23,6 +23,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.DeleteChangeMessageInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -93,13 +94,17 @@ public class DeleteChangeMessage
     }
 
     ChangeMessageInfo updatedMessageInfo =
-        createUpdatedChangeMessageInfo(resource.getChangeId(), resource.getChangeMessageIndex());
+        createUpdatedChangeMessageInfo(
+            resource.getChangeResource().getId(),
+            resource.getChangeResource().getProject(),
+            resource.getChangeMessageIndex());
     return Response.created(updatedMessageInfo);
   }
 
-  private ChangeMessageInfo createUpdatedChangeMessageInfo(Change.Id id, int targetIdx)
-      throws PermissionBackendException {
-    List<ChangeMessage> messages = changeMessagesUtil.byChange(notesFactory.createChecked(id));
+  private ChangeMessageInfo createUpdatedChangeMessageInfo(
+      Change.Id cId, Project.NameKey project, int targetIdx) throws PermissionBackendException {
+    List<ChangeMessage> messages =
+        changeMessagesUtil.byChange(notesFactory.createChecked(project, cId));
     ChangeMessage updatedChangeMessage = messages.get(targetIdx);
     AccountLoader accountLoader = accountLoaderFactory.create(true);
     ChangeMessageInfo info = createChangeMessageInfo(updatedChangeMessage, accountLoader);

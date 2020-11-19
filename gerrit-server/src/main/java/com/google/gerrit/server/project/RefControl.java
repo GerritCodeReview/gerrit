@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -24,15 +25,20 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.FailedPermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RefVisibilityControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.util.Providers;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,10 +48,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 /** Manages access control for Git references (aka branches, tags). */
 public class RefControl {
+  private final VisibleRefFilter.Factory visibleRefFilterFactory;
+  private final RefVisibilityControl refVisibilityControl;
   private final ProjectControl projectControl;
+  private final GitRepositoryManager repositoryManager;
   private final String refName;
 
   /** All permissions that apply to this reference. */
@@ -57,10 +69,19 @@ public class RefControl {
   private Boolean owner;
   private Boolean canForgeAuthor;
   private Boolean canForgeCommitter;
-  private Boolean isVisible;
+  private Boolean hasReadPermissionOnRef;
 
-  RefControl(ProjectControl projectControl, String ref, PermissionCollection relevant) {
+  RefControl(
+      VisibleRefFilter.Factory visibleRefFilterFactory,
+      RefVisibilityControl refVisibilityControl,
+      ProjectControl projectControl,
+      GitRepositoryManager repositoryManager,
+      String ref,
+      PermissionCollection relevant) {
+    this.visibleRefFilterFactory = visibleRefFilterFactory;
+    this.refVisibilityControl = refVisibilityControl;
     this.projectControl = projectControl;
+    this.repositoryManager = repositoryManager;
     this.refName = ref;
     this.relevant = relevant;
     this.effective = new HashMap<>();
@@ -83,7 +104,13 @@ public class RefControl {
     if (relevant.isUserSpecific()) {
       return newCtl.controlForRef(getRefName());
     }
-    return new RefControl(newCtl, getRefName(), relevant);
+    return new RefControl(
+        visibleRefFilterFactory,
+        refVisibilityControl,
+        newCtl,
+        repositoryManager,
+        getRefName(),
+        relevant);
   }
 
   /** Is this user a ref owner? */
@@ -99,14 +126,24 @@ public class RefControl {
     return owner;
   }
 
-  /** Can this user see this reference exists? */
-  boolean isVisible() {
-    if (isVisible == null) {
-      isVisible =
+  /**
+   * Returns {@code true} if the user has permission to read the ref. This method evaluates {@link
+   * RefPermission#READ} only. Hence, it is not authoritative. For example, it does not tell if the
+   * user can see NoteDb refs such as {@code refs/meta/external-ids} which requires {@link
+   * GlobalPermission#ACCESS_DATABASE} and deny access in this case.
+   */
+  public boolean hasReadPermissionOnRef(boolean allowNoteDbRefs) {
+    // Don't allow checking for NoteDb refs unless instructed otherwise.
+    if (!allowNoteDbRefs
+        && (refName.startsWith(Constants.R_TAGS) || RefNames.isGerritRef(refName))) {
+      return false;
+    }
+    if (hasReadPermissionOnRef == null) {
+      hasReadPermissionOnRef =
           (getUser().isInternalUser() || canPerform(Permission.READ))
               && isProjectStatePermittingRead();
     }
-    return isVisible;
+    return hasReadPermissionOnRef;
   }
 
   /** Can this user see other users change edits? */
@@ -552,7 +589,10 @@ public class RefControl {
     private boolean can(RefPermission perm) throws PermissionBackendException {
       switch (perm) {
         case READ:
-          return isVisible();
+          if (refName.startsWith(Constants.R_TAGS)) {
+            return isTagVisible();
+          }
+          return refVisibilityControl.isVisible(projectControl, refName);
         case CREATE:
           // TODO This isn't an accurate test.
           return canPerform(perm.permissionName().get());
@@ -586,6 +626,36 @@ public class RefControl {
               && !projectControl.getProjectState().isUseSignedOffBy();
       }
       throw new PermissionBackendException(perm + " unsupported");
+    }
+  }
+
+  private boolean isTagVisible() throws PermissionBackendException {
+    if (projectControl.asForProject().test(ProjectPermission.READ)) {
+      // The user has READ on refs/* with no effective block permission. This is the broadest
+      // permission one can assign. There is no way to grant access to (specific) tags in Gerrit,
+      // so we have to assume that these users can see all tags because there could be tags that
+      // aren't reachable by any visible ref while the user can see all non-Gerrit refs. This
+      // matches Gerrit's historic behavior.
+      // This makes it so that these users could see commits that they can't see otherwise
+      // (e.g. a private change ref) if a tag was attached to it. Tags are meant to be used on
+      // the regular Git tree that users interact with, not on any of the Gerrit trees, so this
+      // is a negligible risk.
+      return true;
+    }
+
+    try (Repository repo =
+        repositoryManager.openRepository(projectControl.getProject().getNameKey())) {
+      // Tag visibility requires going through RefFilter because it entails loading all taggable
+      // refs and filtering them all by visibility.
+      Ref resolvedRef = repo.getRefDatabase().exactRef(refName);
+      if (resolvedRef == null) {
+        return false;
+      }
+      return visibleRefFilterFactory.create(projectControl.getProjectState(), repo)
+          .filter(ImmutableMap.of(resolvedRef.getName(), resolvedRef), true).values().stream()
+          .anyMatch(r -> refName.equals(r.getName()));
+    } catch (IOException e) {
+      throw new PermissionBackendException(e);
     }
   }
 }

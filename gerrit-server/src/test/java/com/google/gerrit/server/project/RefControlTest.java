@@ -55,12 +55,16 @@ import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RefVisibilityControl;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -107,6 +111,16 @@ public class RefControlTest {
     assertThat(u.controlForRef(ref).isOwner()).named("NOT OWN " + ref).isFalse();
   }
 
+  private void assertAllRefsAreVisible(ProjectControl u) throws PermissionBackendException {
+    assertThat(u.asForProject().test(ProjectPermission.READ)).named("all refs visible").isTrue();
+  }
+
+  private void assertAllRefsAreNotVisible(ProjectControl u) throws PermissionBackendException {
+    assertThat(u.asForProject().test(ProjectPermission.READ))
+        .named("all refs NOT visible")
+        .isFalse();
+  }
+
   private void assertCanAccess(ProjectControl u) {
     boolean access = u.asForProject().testOrFalse(ProjectPermission.ACCESS);
     assertThat(access).named("can access").isTrue();
@@ -118,11 +132,13 @@ public class RefControlTest {
   }
 
   private void assertCanRead(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isVisible()).named("can read " + ref).isTrue();
+    assertThat(u.controlForRef(ref).hasReadPermissionOnRef(true)).named("can read " + ref).isTrue();
   }
 
   private void assertCannotRead(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isVisible()).named("cannot read " + ref).isFalse();
+    assertThat(u.controlForRef(ref).hasReadPermissionOnRef(true))
+        .named("cannot read " + ref)
+        .isFalse();
   }
 
   private void assertCanSubmit(String ref, ProjectControl u) {
@@ -194,6 +210,7 @@ public class RefControlTest {
   private final Map<Project.NameKey, ProjectState> all = new HashMap<>();
   private Project.NameKey localKey = new Project.NameKey("local");
   private ProjectConfig local;
+  private ProjectConfig allUsers;
   private Project.NameKey parentKey = new Project.NameKey("parent");
   private ProjectConfig parent;
   private InMemoryRepositoryManager repoManager;
@@ -209,6 +226,9 @@ public class RefControlTest {
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
   @Inject private TransferConfig transferConfig;
+  @Inject private RefVisibilityControl refVisibilityControl;
+  @Inject private GitRepositoryManager gitRepositoryManager;
+  @Inject private VisibleRefFilter.Factory visibleRefFilterFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -222,7 +242,7 @@ public class RefControlTest {
 
           @Override
           public ProjectState getAllUsers() {
-            return null;
+            return get(allUsersName);
           }
 
           @Override
@@ -282,6 +302,11 @@ public class RefControlTest {
       LabelType cr = Util.codeReview();
       allProjects.getLabelSections().put(cr.getName(), cr);
       add(allProjects);
+
+      Repository allUsersRepo = repoManager.createRepository(allUsersName);
+      allUsers = new ProjectConfig(new Project.NameKey(allUsersName.get()));
+      allUsers.load(allUsersRepo);
+      add(allUsers);
     } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException(e);
     }
@@ -353,6 +378,24 @@ public class RefControlTest {
     block(local, OWNER, DEVS, "refs/*");
 
     assertAdminsAreOwnersAndDevsAreNot();
+  }
+
+  @Test
+  public void allRefsAreVisibleForRegularProject() throws Exception {
+    allow(local, READ, DEVS, "refs/*");
+    allow(local, READ, DEVS, "refs/groups/*");
+    allow(local, READ, DEVS, "refs/users/default");
+
+    assertAllRefsAreVisible(user(local, DEVS));
+  }
+
+  @Test
+  public void allRefsAreNotVisibleForAllUsers() throws Exception {
+    allow(allUsers, READ, DEVS, "refs/*");
+    allow(allUsers, READ, DEVS, "refs/groups/*");
+    allow(allUsers, READ, DEVS, "refs/users/default");
+
+    assertAllRefsAreNotVisible(user(allUsers, DEVS));
   }
 
   @Test
@@ -886,6 +929,10 @@ public class RefControlTest {
         null, // commitsCollection
         changeControlFactory,
         permissionBackend,
+        refVisibilityControl,
+        gitRepositoryManager,
+        visibleRefFilterFactory,
+        allUsersName,
         new MockUser(name, memberOf),
         newProjectState(local));
   }

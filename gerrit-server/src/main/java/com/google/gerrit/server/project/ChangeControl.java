@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 
 /** Access control management for a user accessing a single change. */
-class ChangeControl {
+public class ChangeControl {
   @Singleton
   static class Factory {
     private final ChangeData.Factory changeDataFactory;
@@ -86,6 +86,8 @@ class ChangeControl {
   private final RefControl refControl;
   private final ChangeNotes notes;
   private final PatchSetUtil patchSetUtil;
+
+  private ChangeData cd;
 
   ChangeControl(
       ChangeData.Factory changeDataFactory,
@@ -128,17 +130,20 @@ class ChangeControl {
     return notes;
   }
 
-  /** Can this user see this change? */
-  private boolean isVisible(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
-    if (getChange().isPrivate() && !isPrivateVisible(db, cd)) {
-      return false;
+  public ChangeControl setChangeData(@Nullable ChangeData cd) {
+    if (cd != null) {
+      this.cd = cd;
     }
-    return isRefVisible();
+    return this;
   }
 
-  /** Can the user see this change? Does not account for draft status */
-  private boolean isRefVisible() {
-    return getRefControl().isVisible();
+  /** Can this user see this change? */
+  public boolean isVisible(ReviewDb db) throws OrmException {
+    if (getChange().isPrivate() && !isPrivateVisible(db, changeData(db))) {
+      return false;
+    }
+    // Does the user have READ permission on the destination?
+    return refControl.asForRef().testOrFalse(RefPermission.READ);
   }
 
   /** Can this user abandon this change? */
@@ -237,7 +242,7 @@ class ChangeControl {
   /** Is this user a reviewer for the change? */
   private boolean isReviewer(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
     if (getUser().isIdentifiedUser()) {
-      Collection<Account.Id> results = changeData(db, cd).reviewers().all();
+      Collection<Account.Id> results = setChangeData(cd).changeData(db).reviewers().all();
       return results.contains(getUser().getAccountId());
     }
     return false;
@@ -282,8 +287,8 @@ class ChangeControl {
         || getProjectControl().isAdmin();
   }
 
-  private ChangeData changeData(ReviewDb db, @Nullable ChangeData cd) {
-    return cd != null ? cd : changeDataFactory.create(db, getNotes());
+  private ChangeData changeData(ReviewDb db) {
+    return this.cd != null ? cd : changeDataFactory.create(db, getNotes());
   }
 
   private boolean isPrivateVisible(ReviewDb db, ChangeData cd) throws OrmException {
@@ -294,15 +299,13 @@ class ChangeControl {
   }
 
   ForChange asForChange(@Nullable ChangeData cd, @Nullable Provider<ReviewDb> db) {
-    return new ForChangeImpl(cd, db);
+    return new ForChangeImpl(db);
   }
 
   private class ForChangeImpl extends ForChange {
-    private ChangeData cd;
     private Map<String, PermissionRange> labels;
 
-    ForChangeImpl(@Nullable ChangeData cd, @Nullable Provider<ReviewDb> db) {
-      this.cd = cd;
+    ForChangeImpl(@Nullable Provider<ReviewDb> db) {
       this.db = db;
     }
 
@@ -370,7 +373,7 @@ class ChangeControl {
       try {
         switch (perm) {
           case READ:
-            return isVisible(db(), changeData());
+            return isVisible(db());
           case ABANDON:
             return canAbandon(db());
           case DELETE:

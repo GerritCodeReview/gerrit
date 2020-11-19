@@ -101,9 +101,30 @@ public class RefNames {
     return ref;
   }
 
+  /**
+   * Whether the ref is managed by Gerrit. Covers all Gerrit-internal refs like refs/cache-automerge
+   * and refs/meta as well as refs/changes. Does not cover user-created refs like branches or custom
+   * ref namespaces like refs/my-company.
+   */
+  public static boolean isGerritRef(String ref) {
+    return ref.startsWith(REFS_CHANGES)
+        || ref.startsWith(REFS_EXTERNAL_IDS)
+        || ref.startsWith(REFS_CACHE_AUTOMERGE)
+        || ref.startsWith(REFS_DRAFT_COMMENTS)
+        || ref.startsWith(REFS_SEQUENCES)
+        || ref.startsWith(REFS_USERS)
+        || ref.startsWith(REFS_STARRED_CHANGES)
+        || ref.startsWith(REFS_REJECT_COMMITS);
+  }
+
   public static String changeMetaRef(Change.Id id) {
     StringBuilder r = newStringBuilder().append(REFS_CHANGES);
     return shard(id.get(), r).append(META_SUFFIX).toString();
+  }
+
+  public static String patchSetRef(PatchSet.Id id) {
+    StringBuilder r = newStringBuilder().append(REFS_CHANGES);
+    return shard(id.changeId.get(), r).append('/').append(id.get()).toString();
   }
 
   public static String robotCommentsRef(Change.Id id) {

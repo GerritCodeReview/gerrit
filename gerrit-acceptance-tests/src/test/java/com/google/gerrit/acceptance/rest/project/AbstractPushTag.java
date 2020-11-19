@@ -157,6 +157,29 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     pushTagDeletion(tagName, Status.OK);
   }
 
+  @Test
+  public void createTagForExistingCommit_withoutGlobalReadPermissions() throws Exception {
+    removeReadAccessOnRefsStar();
+    grantReadAccessOnRefsHeadsStar();
+    createTagForExistingCommit();
+  }
+
+  @Test
+  public void createTagForNewCommit_withoutGlobalReadPermissions() throws Exception {
+    removeReadAccessOnRefsStar();
+    grantReadAccessOnRefsHeadsStar();
+    createTagForNewCommit();
+  }
+
+  private void removeReadAccessOnRefsStar() throws Exception {
+    removePermission(allProjects, "refs/heads/*", Permission.READ);
+    removePermission(project, "refs/heads/*", Permission.READ);
+  }
+
+  private void grantReadAccessOnRefsHeadsStar() throws Exception {
+    grant(project, "refs/heads/*", Permission.READ, false, REGISTERED_USERS);
+  }
+
   private String pushTagForExistingCommit(Status expectedStatus) throws Exception {
     return pushTag(null, false, false, expectedStatus);
   }

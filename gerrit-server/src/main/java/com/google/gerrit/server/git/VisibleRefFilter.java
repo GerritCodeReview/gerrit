@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
@@ -38,6 +37,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RefVisibilityControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -80,6 +80,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   private final PermissionBackend.ForProject perm;
   private final ProjectState projectState;
   private final Repository git;
+  private final RefVisibilityControl refVisibilityControl;
   private ProjectControl projectCtl;
   private boolean showMetadata = true;
   private String userEditPrefix;
@@ -93,6 +94,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
+      RefVisibilityControl refVisibilityControl,
       @Assisted ProjectState projectState,
       @Assisted Repository git) {
     this.tagCache = tagCache;
@@ -105,6 +107,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         permissionBackend.user(user).database(db).project(projectState.getProject().getNameKey());
     this.projectState = projectState;
     this.git = git;
+    this.refVisibilityControl = refVisibilityControl;
   }
 
   /** Show change references. Default is {@code true}. */
@@ -128,68 +131,54 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       }
     }
 
-    Account.Id userId;
-    boolean viewMetadata;
+    boolean hasAccessDatabase;
     if (user.get().isIdentifiedUser()) {
-      viewMetadata = withUser.testOrFalse(GlobalPermission.ACCESS_DATABASE);
+      hasAccessDatabase = withUser.testOrFalse(GlobalPermission.ACCESS_DATABASE);
       IdentifiedUser u = user.get().asIdentifiedUser();
-      userId = u.getAccountId();
+      Account.Id userId = u.getAccountId();
       userEditPrefix = RefNames.refsEditPrefix(userId);
     } else {
-      userId = null;
-      viewMetadata = false;
+      hasAccessDatabase = false;
     }
 
-    Map<String, Ref> result = new HashMap<>();
+    Map<String, Ref> resultRefs = new HashMap<>();
     List<Ref> deferredTags = new ArrayList<>();
 
     projectCtl = projectState.controlFor(user.get());
     for (Ref ref : refs.values()) {
-      String name = ref.getName();
+      String refName = ref.getName();
       Change.Id changeId;
-      Account.Id accountId;
-      if (name.startsWith(REFS_CACHE_AUTOMERGE) || (!showMetadata && isMetadata(name))) {
-        continue;
-      } else if (RefNames.isRefsEdit(name)) {
-        // Edits are visible only to the owning user, if change is visible.
-        if (viewMetadata || visibleEdit(name)) {
-          result.put(name, ref);
-        }
-      } else if ((changeId = Change.Id.fromRef(name)) != null) {
-        // Change ref is visible only if the change is visible.
-        if (viewMetadata || visible(changeId)) {
-          result.put(name, ref);
-        }
-      } else if ((accountId = Account.Id.fromRef(name)) != null) {
-        // Account ref is visible only to corresponding account.
-        if (viewMetadata || (accountId.equals(userId) && canReadRef(name))) {
-          result.put(name, ref);
-        }
+      if (!showMetadata && isMetadata(refName)) {
+        log.debug("Filter out metadata ref %s", refName);
       } else if (isTag(ref)) {
         // If its a tag, consider it later.
         if (ref.getObjectId() != null) {
+          log.debug("Defer tag ref %s", refName);
           deferredTags.add(ref);
+        } else {
+          log.debug("Filter out tag ref %s that is not a tag", refName);
         }
-      } else if (name.startsWith(RefNames.REFS_SEQUENCES)) {
-        // Sequences are internal database implementation details.
-        if (viewMetadata) {
-          result.put(name, ref);
+      } else if ((changeId = Change.Id.fromRef(refName)) != null) {
+        // This is a mere performance optimization. RefVisibilityControl could determine the
+        // visibility of these refs just fine. But instead, we use highly-optimized logic that
+        // looks only on the last 10k most recent changes using the change index and a cache.
+        if (hasAccessDatabase) {
+          resultRefs.put(refName, ref);
+        } else if (!visible(changeId)) {
+          log.debug("Filter out invisible change ref %s", refName);
+        } else if (RefNames.isRefsEdit(refName) && !visibleEdit(refName)) {
+          log.debug("Filter out invisible change edit ref %s", refName);
+        } else {
+          // Change is visible
+          resultRefs.put(refName, ref);
         }
-      } else if (projectState.isAllUsers() && name.equals(RefNames.REFS_EXTERNAL_IDS)) {
-        // The notes branch with the external IDs of all users must not be exposed to normal users.
-        if (viewMetadata) {
-          result.put(name, ref);
-        }
-      } else if (canReadRef(ref.getLeaf().getName())) {
-        // Use the leaf to lookup the control data. If the reference is
-        // symbolic we want the control around the final target. If its
-        // not symbolic then getLeaf() is a no-op returning ref itself.
-        result.put(name, ref);
-      } else if (isRefsUsersSelf(ref)) {
-        // viewMetadata allows to see all account refs, hence refs/users/self should be included as
-        // well
-        if (viewMetadata) {
-          result.put(name, ref);
+      } else {
+        try {
+          if (refVisibilityControl.isVisible(projectCtl, ref.getLeaf().getName())) {
+            resultRefs.put(refName, ref);
+          }
+        } catch (PermissionBackendException e) {
+          log.warn("could not evaluate ref permission", e);
         }
       }
     }
@@ -197,22 +186,22 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     // If we have tags that were deferred, we need to do a revision walk
     // to identify what tags we can actually reach, and what we cannot.
     //
-    if (!deferredTags.isEmpty() && (!result.isEmpty() || filterTagsSeparately)) {
+    if (!deferredTags.isEmpty() && (!resultRefs.isEmpty() || filterTagsSeparately)) {
       TagMatcher tags =
           tagCache
               .get(projectState.getNameKey())
               .matcher(
                   tagCache,
                   git,
-                  filterTagsSeparately ? filter(git.getAllRefs()).values() : result.values());
+                  filterTagsSeparately ? filter(git.getAllRefs()).values() : resultRefs.values());
       for (Ref tag : deferredTags) {
         if (tags.isReachable(tag)) {
-          result.put(tag.getName(), tag);
+          resultRefs.put(tag.getName(), tag);
         }
       }
     }
 
-    return result;
+    return resultRefs;
   }
 
   private Map<String, Ref> fastHideRefsMetaConfig(Map<String, Ref> refs) {

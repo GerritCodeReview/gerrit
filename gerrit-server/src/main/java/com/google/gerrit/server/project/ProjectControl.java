@@ -39,8 +39,11 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.FailedPermissionBackend;
@@ -51,6 +54,7 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RefVisibilityControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -134,6 +138,10 @@ public class ProjectControl {
   private final CommitsCollection commits;
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
+  private final RefVisibilityControl refVisibilityControl;
+  private final VisibleRefFilter.Factory visibleRefFilterFactory;
+  private final GitRepositoryManager gitRepositoryManager;
+  private final AllUsersName allUsersName;
 
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
@@ -147,6 +155,10 @@ public class ProjectControl {
       CommitsCollection commits,
       ChangeControl.Factory changeControlFactory,
       PermissionBackend permissionBackend,
+      RefVisibilityControl refVisibilityControl,
+      GitRepositoryManager gitRepositoryManager,
+      VisibleRefFilter.Factory visibleRefFilterFactory,
+      AllUsersName allUsersName,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.changeControlFactory = changeControlFactory;
@@ -155,6 +167,10 @@ public class ProjectControl {
     this.permissionFilter = permissionFilter;
     this.commits = commits;
     this.perm = permissionBackend.user(who);
+    this.refVisibilityControl = refVisibilityControl;
+    this.gitRepositoryManager = gitRepositoryManager;
+    this.visibleRefFilterFactory = visibleRefFilterFactory;
+    this.allUsersName = allUsersName;
     user = who;
     state = ps;
   }
@@ -186,7 +202,14 @@ public class ProjectControl {
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
       PermissionCollection relevant = permissionFilter.filter(access(), refName, user);
-      ctl = new RefControl(this, refName, relevant);
+      ctl =
+          new RefControl(
+              visibleRefFilterFactory,
+              refVisibilityControl,
+              this,
+              gitRepositoryManager,
+              refName,
+              relevant);
       refControls.put(refName, ctl);
     }
     return ctl;
@@ -243,7 +266,9 @@ public class ProjectControl {
   }
 
   private boolean allRefsAreVisible(Set<String> ignore) {
-    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
+    return user.isInternalUser()
+        || (!getProject().getNameKey().equals(allUsersName)
+            && canPerformOnAllRefs(Permission.READ, ignore));
   }
 
   /** Returns whether the project is hidden. */
@@ -428,11 +453,11 @@ public class ProjectControl {
     }
   }
 
-  ForProject asForProject() {
+  public ForProject asForProject() {
     return new ForProjectImpl();
   }
 
-  private class ForProjectImpl extends ForProject {
+  public class ForProjectImpl extends ForProject {
     @Override
     public ForProject user(CurrentUser user) {
       return forUser(user).asForProject().database(db);

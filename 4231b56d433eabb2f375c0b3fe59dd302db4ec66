@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f77434a6_7133f68a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-19T14:50:00Z",
+      "side": 1,
+      "message": "Oh, why I haven\u0027t done it like that on first place 😊\nHere is your idea implemented:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/289026",
+      "parentUuid": "8451d113_a6180b12",
+      "revId": "4231b56d433eabb2f375c0b3fe59dd302db4ec66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3006dbb_00f0ff2c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 6

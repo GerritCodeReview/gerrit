@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf0b9848_c5fe4397",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-19T14:33:14Z",
+      "side": 1,
+      "message": "This creates a new array; I think we want to avoid that.",
+      "range": {
+        "startLine": 129,
+        "startChar": 19,
+        "endLine": 129,
+        "endChar": 39
+      },
+      "revId": "28254571cd464f1fdde887482e2f858f35a288f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fbccea6_ffed1c88",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-19T14:33:14Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we can rely on this not allocating memory for the content. The fact that it writes through to the backing array suggests it doesn\u0027t, but there is no explicit guarantee. I think if you don\u0027t go for an RE anyway then then original loop was actually better because it avoids extra memory allocation.\n\nI\u0027m still concerned that this will loop over the entire content. Isn\u0027t that potentially very slow? I assume git has that limit the comment mentions precisely for that reason.",
+      "range": {
+        "startLine": 130,
+        "startChar": 10,
+        "endLine": 130,
+        "endChar": 23
+      },
+      "revId": "28254571cd464f1fdde887482e2f858f35a288f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83146d78_30fdfe58",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-19T14:33:14Z",
+      "side": 1,
+      "message": "nit: two (also below)",
+      "range": {
+        "startLine": 86,
+        "startChar": 91,
+        "endLine": 86,
+        "endChar": 92
+      },
+      "revId": "28254571cd464f1fdde887482e2f858f35a288f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73434f89_1bd91273",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-19T14:33:14Z",
+      "side": 1,
+      "message": "I still think you don\u0027t need this. If you just remove it then compilation will fail if a new DiffAlgorithm is added, which is likely preferable to a runtime error.",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 88,
+        "endChar": 92
+      },
+      "revId": "28254571cd464f1fdde887482e2f858f35a288f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "297521d6_013093b0",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-19T14:33:14Z",
+      "side": 1,
+      "message": "You can do this in the switch by moving the corresponding case to the top and then falling through.",
+      "revId": "28254571cd464f1fdde887482e2f858f35a288f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

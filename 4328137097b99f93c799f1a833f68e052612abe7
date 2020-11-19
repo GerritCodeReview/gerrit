@@ -266,6 +266,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8f106bc_7ccfa851",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-19T14:33:14Z",
+      "side": 1,
+      "message": "I assume you\u0027re saying that checking for NUL is good enough, or even the only way for consistency? If so, and we don\u0027t expect accuracy here to be a problem, SGTM. But generally it seems like a pretty rough approximation. Up to 177 bytes the probability for a binary file to not contain a NUL is \u003e50%, assuming an even distribution.",
+      "parentUuid": "1871ac34_bc4b0cc3",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "38be74b0_7314f641",
         "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
         "patchSetId": 8
@@ -634,6 +652,24 @@
       "side": 1,
       "message": "I was making up my mind about this. For example I thought about \"loadForSameDiffOptions\" but then retreated due to the long name.\n\nThanks for providing reasons not to overload.\n\nDone.",
       "parentUuid": "085664a2_2ffe9825",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50db8825_3213d801",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-19T14:33:14Z",
+      "side": 1,
+      "message": "Maybe as additional context: Up to a couple years ago IIRC overloads were discouraged in the style guide for (at least) the reasons I mentioned. Today the guide just says to put them next to one another. I think the original reasoning still holds, but now it\u0027s just my personal opinion :-)",
+      "parentUuid": "b99289e3_f5e4fb17",
       "revId": "4328137097b99f93c799f1a833f68e052612abe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

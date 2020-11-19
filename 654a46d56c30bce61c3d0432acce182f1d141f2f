@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ffb255a_a01c219a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-19T09:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58265b73_8c4581f8",
+      "revId": "654a46d56c30bce61c3d0432acce182f1d141f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "197f8029_014ed092",
@@ -102,6 +120,24 @@
       "writtenOn": "2020-11-12T08:09:18Z",
       "side": 1,
       "message": "While you are here, remove.",
+      "revId": "654a46d56c30bce61c3d0432acce182f1d141f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a74e9e44_4dcb75cb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-19T09:22:10Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/288104\nMight as well fix all occurrences.\nI used this regex \"\\* @return[\\s]*\\n\".",
+      "parentUuid": "5e7c1eff_67785d8b",
       "revId": "654a46d56c30bce61c3d0432acce182f1d141f2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -155,6 +191,24 @@
       "side": 1,
       "message": "I guess what I am saying is that it does not make sense to convert this into a number at all, if you are using it as a property key below, which implicitly converts it back to a string.",
       "parentUuid": "68929b7c_b8295096",
+      "revId": "654a46d56c30bce61c3d0432acce182f1d141f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7848d28e_eaa8efc9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-19T09:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7eebfd2f_b3465ef3",
       "revId": "654a46d56c30bce61c3d0432acce182f1d141f2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

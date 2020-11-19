@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "480816a5_ebb3430a",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-19T18:04:57Z",
+      "side": 1,
+      "message": "Well, I spent some time trying to understand how Git detects binary files [1]. It looks like it scans the header line by line looking for BIN_TRAILER or BIN_HEADERS match within that line. I\u0027m trying to follow up on the logic here but I don\u0027t want this to take too much time.\n\nSince this is the behaviour in the old caches and I copied it over, then the behaviour here is not supposed to produce a regression. I added a TODO for myself and can take a look again with a follow up. \n\nI also added a limit on the number of characters we parse anyway as per our discussion on chat.\n\nhttps://github.com/eclipse/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/patch/Patch.java#L297",
+      "parentUuid": "1591cddb_682055c5",
+      "range": {
+        "startLine": 130,
+        "startChar": 10,
+        "endLine": 130,
+        "endChar": 23
+      },
+      "revId": "28254571cd464f1fdde887482e2f858f35a288f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83146d78_30fdfe58",

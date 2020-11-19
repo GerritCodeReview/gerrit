@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,14 +17,14 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
 
-public class BeforePredicate extends AbstractBeforePredicate {
+public class MergedBeforePredicate extends AbstractBeforePredicate {
 
-  public BeforePredicate(String value) throws QueryParseException {
-    super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_BEFORE, value);
+  public MergedBeforePredicate(String value) throws QueryParseException {
+    super(ChangeField.MERGED_ON, ChangeQueryBuilder.OPERATOR_MERGED_BEFORE, value);
   }
 
   @Override
   public boolean match(ChangeData cd) {
-    return cd.change().getLastUpdatedOn().getTime() <= cut.getTime();
+    return cd.getMergedOn().isPresent() && cd.getMergedOn().get().getTime() <= cut.getTime();
   }
 }

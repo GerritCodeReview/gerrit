@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29be7d67_71d040d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-19T22:23:29Z",
+      "side": 1,
+      "message": "Can you also update the release notes, and put both in the same topic?\nWe should warn about this UI change, as people won\u0027t expect normally that in a stable branch.",
+      "revId": "9c3fc1116672016cf584643b5a6001f6b1447974",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

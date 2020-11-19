@@ -52,6 +52,24 @@
       "parentUuid": "41b53cc8_cb6784a9",
       "revId": "6f1524dd3ba79edad2b14e4eea7b8484dd8c4e8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6424feb_f8ef923c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-19T13:24:49Z",
+      "side": 1,
+      "message": "\u003e Hi Marco, sorry I completely missed your comment somehow. The merge seems to be quite straightforward, do you need any help with that?\n\nNo, but thanks for having followed-up, Marija.",
+      "parentUuid": "8c9f9b1f_421e105f",
+      "revId": "6f1524dd3ba79edad2b14e4eea7b8484dd8c4e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

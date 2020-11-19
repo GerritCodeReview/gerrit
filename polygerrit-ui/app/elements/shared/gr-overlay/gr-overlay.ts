@@ -22,6 +22,7 @@ import {htmlTemplate} from './gr-overlay_html';
 import {IronOverlayMixin} from '../../../mixins/iron-overlay-mixin/iron-overlay-mixin';
 import {customElement, property} from '@polymer/decorators';
 import {IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior';
+import {findActiveElement} from '../../../utils/dom-util';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -61,6 +62,8 @@ export class GrOverlay extends IronOverlayMixin(
 
   private focusableNodes: Node[] | undefined;
 
+  private returnFocusTo?: HTMLElement = undefined;
+
   get _focusableNodes() {
     if (this.focusableNodes) {
       return this.focusableNodes;
@@ -89,6 +92,15 @@ export class GrOverlay extends IronOverlayMixin(
   }
 
   open() {
+    this.returnFocusTo = findActiveElement(document) ?? undefined;
+    // We return focus only go gr-buttons or other buttons nodes. Sometimes
+    // browsers return body or iframe nodes as activeElements.
+    if (
+      this.returnFocusTo &&
+      !this.returnFocusTo.nodeName.toUpperCase().includes('BUTTON')
+    ) {
+      this.returnFocusTo = undefined;
+    }
     window.addEventListener('popstate', this._boundHandleClose);
     return new Promise((resolve, reject) => {
       super.open.apply(this);
@@ -120,6 +132,10 @@ export class GrOverlay extends IronOverlayMixin(
         })
       );
       this._fullScreenOpen = false;
+    }
+    if (this.returnFocusTo) {
+      this.returnFocusTo.focus();
+      this.returnFocusTo = undefined;
     }
   }
 

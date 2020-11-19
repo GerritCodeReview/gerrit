@@ -234,3 +234,17 @@ export function getSharedApiEl(): JsApiService {
   }
   return _sharedApiEl;
 }
+
+// document.activeElement is not enough, because it's not getting activeElement
+// without looking inside of shadow roots. This will find best activeElement.
+export function findActiveElement(
+  root: DocumentOrShadowRoot | null
+): HTMLElement | null {
+  if (root === null) {
+    return null;
+  }
+  if (root.activeElement?.shadowRoot?.activeElement) {
+    return findActiveElement(root.activeElement.shadowRoot);
+  }
+  return root.activeElement as HTMLElement | null;
+}

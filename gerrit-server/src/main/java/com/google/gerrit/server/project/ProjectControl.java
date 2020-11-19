@@ -39,6 +39,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.change.IncludedInResolver;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
@@ -171,6 +172,7 @@ public class ProjectControl {
   @Nullable private final SearchingChangeCacheImpl changeCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Metrics metrics;
+  private final AllUsersName allUsersName;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -190,6 +192,7 @@ public class ProjectControl {
       Provider<InternalChangeQuery> queryProvider,
       @Nullable SearchingChangeCacheImpl changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
+      AllUsersName allUsersName,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps,
       Metrics metrics) {
@@ -204,6 +207,7 @@ public class ProjectControl {
     this.canonicalWebUrl = canonicalWebUrl;
     this.queryProvider = queryProvider;
     this.metrics = metrics;
+    this.allUsersName = allUsersName;
     user = who;
     state = ps;
   }
@@ -318,7 +322,9 @@ public class ProjectControl {
   }
 
   public boolean allRefsAreVisible(Set<String> ignore) {
-    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
+    return user.isInternalUser()
+        || (!getProject().getNameKey().equals(allUsersName)
+            && canPerformOnAllRefs(Permission.READ, ignore));
   }
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */

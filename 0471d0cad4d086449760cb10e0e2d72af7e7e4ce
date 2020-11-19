@@ -152,6 +152,24 @@
       "message": "This change needs approval and L-C scores, and shouldn\u0027t impact Google AFAIK. Thanks.",
       "revId": "0471d0cad4d086449760cb10e0e2d72af7e7e4ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deca5ae5_e87f0b92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-19T21:13:33Z",
+      "side": 1,
+      "message": "\u003e This change needs approval and L-C scores, and shouldn\u0027t impact Google AFAIK. Thanks.\n\nThe aforementioned upstream issue shouldn\u0027t deprive this change from approvals.",
+      "parentUuid": "d904da5d_d5c89ba2",
+      "revId": "0471d0cad4d086449760cb10e0e2d72af7e7e4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

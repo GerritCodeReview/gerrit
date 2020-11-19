@@ -56,7 +56,7 @@
 
     _computeHasChangeEdit(change) {
       return !!change.revisions &&
-          Object.values(change.revisions).some(rev => rev._number == 'edit');
+          Object.values(change.revisions).some(rev => rev._number === 'edit');
     },
 
     _handleConfirmTap(e) {

@@ -61,6 +61,8 @@ export class GrOverlay extends IronOverlayMixin(
 
   private focusableNodes: Node[] | undefined;
 
+  private returnFocusTo: HTMLElement | null = null;
+
   get _focusableNodes() {
     if (this.focusableNodes) {
       return this.focusableNodes;
@@ -88,7 +90,18 @@ export class GrOverlay extends IronOverlayMixin(
     );
   }
 
+  findActiveElement(root: DocumentOrShadowRoot | null): HTMLElement | null {
+    if (root === null) {
+      return null;
+    }
+    if (root.activeElement?.shadowRoot?.activeElement) {
+      return this.findActiveElement(root.activeElement.shadowRoot);
+    }
+    return root.activeElement as HTMLElement | null;
+  }
+
   open() {
+    this.returnFocusTo = this.findActiveElement(document);
     window.addEventListener('popstate', this._boundHandleClose);
     return new Promise((resolve, reject) => {
       super.open.apply(this);
@@ -120,6 +133,10 @@ export class GrOverlay extends IronOverlayMixin(
         })
       );
       this._fullScreenOpen = false;
+    }
+    if (this.returnFocusTo) {
+      this.returnFocusTo.focus();
+      this.returnFocusTo = null;
     }
   }
 

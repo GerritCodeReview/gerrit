@@ -19,13 +19,16 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.cache.proto.Cache.FileDiffKeyProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.DiffAlgorithm;
-import java.io.Serializable;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Cache key for the {@link FileDiffCache}. */
 @AutoValue
-public abstract class FileDiffCacheKey implements Serializable {
+public abstract class FileDiffCacheKey {
 
   /** A specific git project / repository. */
   public abstract Project.NameKey project();
@@ -97,5 +100,39 @@ public abstract class FileDiffCacheKey implements Serializable {
     public abstract FileDiffCacheKey.Builder whitespace(Whitespace value);
 
     public abstract FileDiffCacheKey build();
+  }
+
+  public enum Serializer implements CacheSerializer<FileDiffCacheKey> {
+    INSTANCE;
+
+    @Override
+    public byte[] serialize(FileDiffCacheKey key) {
+      ObjectIdConverter idConverter = ObjectIdConverter.create();
+      return Protos.toByteArray(
+          FileDiffKeyProto.newBuilder()
+              .setProject(key.project().get())
+              .setOldCommit(idConverter.toByteString(key.oldCommit()))
+              .setNewCommit(idConverter.toByteString(key.newCommit()))
+              .setFilePath(key.newFilePath())
+              .setRenameScore(key.renameScore())
+              .setDiffAlgorithm(key.diffAlgorithm().name())
+              .setWhitespace(key.whitespace().name())
+              .build());
+    }
+
+    @Override
+    public FileDiffCacheKey deserialize(byte[] in) {
+      FileDiffKeyProto proto = Protos.parseUnchecked(FileDiffKeyProto.parser(), in);
+      ObjectIdConverter idConverter = ObjectIdConverter.create();
+      return FileDiffCacheKey.builder()
+          .project(Project.nameKey(proto.getProject()))
+          .oldCommit(idConverter.fromByteString(proto.getOldCommit()))
+          .newCommit(idConverter.fromByteString(proto.getNewCommit()))
+          .newFilePath(proto.getFilePath())
+          .renameScore(proto.getRenameScore())
+          .diffAlgorithm(DiffAlgorithm.valueOf(proto.getDiffAlgorithm()))
+          .whitespace(Whitespace.valueOf(proto.getWhitespace()))
+          .build();
+    }
   }
 }

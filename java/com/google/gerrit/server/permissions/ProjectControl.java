@@ -36,8 +36,10 @@ import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
@@ -68,11 +70,14 @@ class ProjectControl {
   private final Set<AccountGroup.UUID> uploadGroups;
   private final Set<AccountGroup.UUID> receiveGroups;
   private final PermissionBackend permissionBackend;
+  private final RefVisibilityControl refVisibilityControl;
+  private final GitRepositoryManager repositoryManager;
   private final CurrentUser user;
   private final ProjectState state;
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
   private final DefaultRefFilter.Factory refFilterFactory;
+  private final AllUsersName allUsersName;
 
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
@@ -85,7 +90,10 @@ class ProjectControl {
       PermissionCollection.Factory permissionFilter,
       ChangeControl.Factory changeControlFactory,
       PermissionBackend permissionBackend,
+      RefVisibilityControl refVisibilityControl,
+      GitRepositoryManager repositoryManager,
       DefaultRefFilter.Factory refFilterFactory,
+      AllUsersName allUsersName,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.changeControlFactory = changeControlFactory;
@@ -93,7 +101,10 @@ class ProjectControl {
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
     this.permissionBackend = permissionBackend;
+    this.refVisibilityControl = refVisibilityControl;
+    this.repositoryManager = repositoryManager;
     this.refFilterFactory = refFilterFactory;
+    this.allUsersName = allUsersName;
     user = who;
     state = ps;
   }
@@ -122,7 +133,7 @@ class ProjectControl {
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
       PermissionCollection relevant = permissionFilter.filter(access(), refName, user);
-      ctl = new RefControl(this, refName, relevant);
+      ctl = new RefControl(refVisibilityControl, this, repositoryManager, refName, relevant);
       refControls.put(refName, ctl);
     }
     return ctl;
@@ -169,7 +180,9 @@ class ProjectControl {
   }
 
   boolean allRefsAreVisible(Set<String> ignore) {
-    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
+    return user.isInternalUser()
+        || (!getProject().getNameKey().equals(allUsersName)
+            && canPerformOnAllRefs(Permission.READ, ignore));
   }
 
   /** Can the user run upload pack? */
@@ -447,7 +460,7 @@ class ProjectControl {
           return canPushToAtLeastOneRef();
 
         case READ_CONFIG:
-          return controlForRef(RefNames.REFS_CONFIG).isVisible();
+          return controlForRef(RefNames.REFS_CONFIG).hasReadPermissionOnRef(false);
 
         case BAN_COMMIT:
         case READ_REFLOG:

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fcbb1b7_2ddd3b8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-19T14:38:09Z",
+      "side": 1,
+      "message": "Thank you for volunteering to review!\n\nI am not sure if I took the right approach here, so opinions/hints/pointers much appreciated.",
+      "revId": "df05a42053ef59d7a9f9e7a1a451da4ca4d088af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

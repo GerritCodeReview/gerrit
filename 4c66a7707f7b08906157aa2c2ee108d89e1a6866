@@ -33,6 +33,24 @@
       "message": "Add a test?",
       "revId": "4c66a7707f7b08906157aa2c2ee108d89e1a6866",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8df3b886_608398b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-19T15:29:25Z",
+      "side": 1,
+      "message": "I don\u0027t think it is worth to make test for this.\n\nI see only two options:\n1, I can make simple test with mocking activeElement, which would be trivial and it will not test this code much\n2, Or I can spend hours on test that is much more complex than this code.\n\nI don\u0027t think it is worth to do any of this option.\n\nWhat is your idea of test? What part of code you want to test? \n\nBtw. Also my rule of thumb was that this code worked on my first manual test.",
+      "parentUuid": "36a35a50_c4edc172",
+      "revId": "4c66a7707f7b08906157aa2c2ee108d89e1a6866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

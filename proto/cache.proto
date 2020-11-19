@@ -599,3 +599,43 @@ message GitFileDiffProto {
   string change_type = 9; // ENUM as string
   string patch_type = 10; // ENUM as string
 }
+
+// Serialized form of
+// com.google.gerrit.server.patch.fileDiff.FileDiffCacheKey
+// Next ID: 8
+message FileDiffKeyProto {
+  string project = 1;
+  bytes old_commit = 2;
+  bytes new_commit = 3;
+  string file_path = 4;
+  int32 rename_score = 5;
+  string diff_algorithm = 6;
+  string whitespace = 7;
+}
+
+// Serialized form of
+// com.google.gerrit.server.patch.filediff.FileDiffOutput
+// Next ID: 9
+message FileDiffOutputProto {
+  // Next ID: 5
+  message Edit {
+    int32 begin_a = 1;
+    int32 end_a = 2;
+    int32 begin_b = 3;
+    int32 end_b = 4;
+  }
+  // Serialized form  of com.google.gerrit.server.patch.filediff.TaggedEdit
+  // Next ID: 3
+  message TaggedEdit {
+    Edit edit = 1;
+    bool due_to_rebase = 2;
+  }
+  string old_path = 1;
+  string new_path = 2;
+  string change_type = 3;
+  string patch_type = 4;
+  repeated string header_lines = 5;
+  int64 size = 6;
+  int64 size_delta = 7;
+  repeated TaggedEdit edits = 8;
+}

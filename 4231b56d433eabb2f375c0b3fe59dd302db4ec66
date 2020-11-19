@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "881f1c27_d4993c08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-19T14:04:18Z",
+      "side": 1,
+      "message": "Add a test for this change?",
+      "revId": "4231b56d433eabb2f375c0b3fe59dd302db4ec66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3006dbb_00f0ff2c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-19T14:04:18Z",
+      "side": 1,
+      "message": "You are storing this element in change-view but not doing the same for diff-view. \nInstead it\u0027s saved in the diff-preference-dialog.\nThis should be consistent, either both in dialogs or both in views?",
+      "range": {
+        "startLine": 534,
+        "startChar": 2,
+        "endLine": 534,
+        "endChar": 30
+      },
+      "revId": "4231b56d433eabb2f375c0b3fe59dd302db4ec66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d35b253b_42aadee0",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-19T14:04:18Z",
+      "side": 1,
+      "message": "hasFocusRecursive is checking for null, so is it possible to remove this check and do \n`hasFocusRecursive(root?.activeElement?.shadowRoot, element);`",
+      "range": {
+        "startLine": 249,
+        "startChar": 4,
+        "endLine": 249,
+        "endChar": 62
+      },
+      "revId": "4231b56d433eabb2f375c0b3fe59dd302db4ec66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

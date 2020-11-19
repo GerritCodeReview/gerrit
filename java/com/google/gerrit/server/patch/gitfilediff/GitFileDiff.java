@@ -202,22 +202,22 @@ public abstract class GitFileDiff {
     INSTANCE;
 
     private static final FieldDescriptor OLD_PATH_DESCRIPTOR =
-        GitFileDiffProto.getDescriptor().findFieldByName("old_path");
+        GitFileDiffProto.getDescriptor().findFieldByNumber(3);
 
     private static final FieldDescriptor NEW_PATH_DESCRIPTOR =
-        GitFileDiffProto.getDescriptor().findFieldByName("new_path");
+        GitFileDiffProto.getDescriptor().findFieldByNumber(4);
 
     private static final FieldDescriptor OLD_MODE_DESCRIPTOR =
-        GitFileDiffProto.getDescriptor().findFieldByName("old_mode");
+        GitFileDiffProto.getDescriptor().findFieldByNumber(7);
 
     private static final FieldDescriptor NEW_MODE_DESCRIPTOR =
-        GitFileDiffProto.getDescriptor().findFieldByName("new_mode");
+        GitFileDiffProto.getDescriptor().findFieldByNumber(8);
 
     private static final FieldDescriptor CHANGE_TYPE_DESCRIPTOR =
-        GitFileDiffProto.getDescriptor().findFieldByName("change_type");
+        GitFileDiffProto.getDescriptor().findFieldByNumber(9);
 
     private static final FieldDescriptor PATCH_TYPE_DESCRIPTOR =
-        GitFileDiffProto.getDescriptor().findFieldByName("patch_type");
+        GitFileDiffProto.getDescriptor().findFieldByNumber(10);
 
     @Override
     public byte[] serialize(GitFileDiff gitFileDiff) {

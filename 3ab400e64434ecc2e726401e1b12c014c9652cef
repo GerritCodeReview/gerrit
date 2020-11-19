@@ -16,6 +16,24 @@
       "message": "Assuming we will re-set the version to 2.14.23-SNAPSHOT in this target branch (only once ready to do so).",
       "revId": "3ab400e64434ecc2e726401e1b12c014c9652cef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9c75f7d_938e3434",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-19T21:39:29Z",
+      "side": 1,
+      "message": "Ah, good catch. I should actually set in this merge as every change merged should be consistent.",
+      "parentUuid": "08b498bc_4d435685",
+      "revId": "3ab400e64434ecc2e726401e1b12c014c9652cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

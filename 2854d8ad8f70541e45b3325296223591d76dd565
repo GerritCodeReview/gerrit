@@ -33,6 +33,24 @@
       "message": "Can you move (using Move Change) this to the stable-2.16 branch? Otherwise it looks good to me.",
       "revId": "2854d8ad8f70541e45b3325296223591d76dd565",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dec47a2f_1330bfac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2020-11-19T21:54:57Z",
+      "side": 1,
+      "message": "I have moved it as instructed (thank you to have mentioned that feature I was not aware of it and don\u0027t know much about the branch model used by the gerrit project).\n\nI have verified the feature I documented is indeed in stable-2.16.\n\nThank you!",
+      "parentUuid": "70433ba6_22ae2f2a",
+      "revId": "2854d8ad8f70541e45b3325296223591d76dd565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

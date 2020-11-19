@@ -34,6 +34,24 @@
       "parentUuid": "6c0e0c6b_4eb5248d",
       "revId": "eeebe41ee8fd3d22befc0c399c3f8bd119993b04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac1d1053_5898702e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2020-11-19T21:54:57Z",
+      "side": 1,
+      "message": "The \"Move Change\" feature was entirely new to me, I guess I felt like it automatically rebased the change behind the hood.  Thank you to have taken care of the conflict resolution and for the +2.    Looks good!",
+      "parentUuid": "79332249_ab5982f4",
+      "revId": "eeebe41ee8fd3d22befc0c399c3f8bd119993b04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

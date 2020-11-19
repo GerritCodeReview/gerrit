@@ -16,24 +16,11 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
-import java.util.Date;
 
-public class AfterPredicate extends TimestampRangeChangePredicate {
-  protected final Date cut;
+public class AfterPredicate extends AbstractAfterPredicate {
 
   public AfterPredicate(String value) throws QueryParseException {
     super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_BEFORE, value);
-    cut = parse(value);
-  }
-
-  @Override
-  public Date getMinTimestamp() {
-    return cut;
-  }
-
-  @Override
-  public Date getMaxTimestamp() {
-    return new Date(Long.MAX_VALUE);
   }
 
   @Override

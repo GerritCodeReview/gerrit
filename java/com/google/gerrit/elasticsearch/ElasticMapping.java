@@ -21,6 +21,10 @@ import com.google.gerrit.index.Schema;
 import java.util.Map;
 
 class ElasticMapping {
+
+  protected static final String TIMESTAMP_FIELD_TYPE = "date";
+  protected static final String TIMESTAMP_FIELD_FORMAT = "dateOptionalTime";
+
   static MappingProperties createMapping(Schema<?> schema, ElasticQueryAdapter adapter) {
     ElasticMapping.Builder mapping = new ElasticMapping.Builder(adapter);
     for (FieldDef<?, ?> field : schema.getFields().values()) {
@@ -71,9 +75,9 @@ class ElasticMapping {
     }
 
     Builder addTimestamp(String name) {
-      FieldProperties properties = new FieldProperties("date");
-      properties.type = "date";
-      properties.format = "dateOptionalTime";
+      FieldProperties properties = new FieldProperties(TIMESTAMP_FIELD_TYPE);
+      properties.type = TIMESTAMP_FIELD_TYPE;
+      properties.format = TIMESTAMP_FIELD_FORMAT;
       fields.put(name, properties);
       return this;
     }

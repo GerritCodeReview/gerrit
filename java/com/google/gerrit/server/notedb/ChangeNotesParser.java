@@ -156,6 +156,7 @@ class ChangeNotesParser {
   private Change.Id revertOf;
   private int updateCount;
   private PatchSet.Id cherryPickOf;
+  private Timestamp mergedOn;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -259,7 +260,8 @@ class ChangeNotesParser {
         firstNonNull(hasReviewStarted, true),
         revertOf,
         cherryPickOf,
-        updateCount);
+        updateCount,
+        mergedOn);
   }
 
   private Map<PatchSet.Id, PatchSet> buildPatchSets() throws ConfigInvalidException {
@@ -322,7 +324,7 @@ class ChangeNotesParser {
 
   private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {
     updateCount++;
-    Timestamp ts = new Timestamp(commit.getCommitterIdent().getWhen().getTime());
+    Timestamp ts = getCommitTimestamp(commit);
 
     createdOn = ts;
     parseTag(commit);
@@ -373,9 +375,7 @@ class ChangeNotesParser {
     parseAttentionSetUpdates(commit);
     parseAssigneeUpdates(ts, commit);
 
-    if (submissionId == null) {
-      submissionId = parseSubmissionId(commit);
-    }
+    parseSubmission(commit);
 
     if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
       lastUpdatedOn = ts;
@@ -395,12 +395,6 @@ class ChangeNotesParser {
       parsePatchSet(psId, currRev, accountId, ts);
     }
     parseCurrentPatchSet(psId, commit);
-
-    if (submitRecords.isEmpty()) {
-      // Only parse the most recent set of submit records; any older ones are
-      // still there, but not currently used.
-      parseSubmitRecords(commit.getFooterLineValues(FOOTER_SUBMITTED_WITH));
-    }
 
     if (status == null) {
       status = parseStatus(commit);
@@ -437,6 +431,23 @@ class ChangeNotesParser {
 
     previousWorkInProgressFooter = null;
     parseWorkInProgress(commit);
+  }
+
+  private void parseSubmission(ChangeNotesCommit commit) throws ConfigInvalidException {
+    // Only parse the most recent sumbit commit (there should be exactly one).
+    if (submissionId == null) {
+      submissionId = parseSubmissionId(commit);
+    }
+
+    if (submissionId != null && mergedOn == null) {
+      mergedOn = getCommitTimestamp(commit);
+    }
+
+    if (submitRecords.isEmpty()) {
+      // Only parse the most recent set of submit records; any older ones are
+      // still there, but not currently used.
+      parseSubmitRecords(commit.getFooterLineValues(FOOTER_SUBMITTED_WITH));
+    }
   }
 
   private String parseSubmissionId(ChangeNotesCommit commit) throws ConfigInvalidException {
@@ -1014,6 +1025,10 @@ class ChangeNotesParser {
     } catch (IllegalArgumentException e) {
       throw new ConfigInvalidException("\"" + cherryPickOf + "\" is not a valid patchset", e);
     }
+  }
+
+  private Timestamp getCommitTimestamp(ChangeNotesCommit commit) {
+    return new Timestamp(commit.getCommitterIdent().getWhen().getTime());
   }
 
   private void pruneReviewers() {

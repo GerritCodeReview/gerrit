@@ -63,6 +63,23 @@
       "message": "All elastic tests passed locally from clean.",
       "revId": "0471d0cad4d086449760cb10e0e2d72af7e7e4ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d904da5d_d5c89ba2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-19T20:42:57Z",
+      "side": 1,
+      "message": "This change needs approval and L-C scores, and shouldn\u0027t impact Google AFAIK. Thanks.",
+      "revId": "0471d0cad4d086449760cb10e0e2d72af7e7e4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

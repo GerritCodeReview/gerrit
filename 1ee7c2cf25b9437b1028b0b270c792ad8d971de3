@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37e72396_6b7dc8ee",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-19T07:31:50Z",
+      "side": 1,
+      "message": "NIT: this could be `if(significantLabel?.name)`",
+      "range": {
+        "startLine": 163,
+        "startChar": 8,
+        "endLine": 163,
+        "endChar": 49
+      },
+      "revId": "1ee7c2cf25b9437b1028b0b270c792ad8d971de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "336195ea_7b5fdb1b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-19T07:31:50Z",
+      "side": 1,
+      "message": "How does it look like for 3 reviewers?\n\n1 unresolved comment, Code-Review\\n\nby Diffy, Code-Review\\n\nby Diffy2, Code-review\\n\nby Diffy3\n\n\nShouldn\u0027t it be more like\n1 unresolved comment,\\n\nCode-Review by Diffy,\\n\nCode-Review by Diffy2,\\n\nCode-review by Diffy3",
+      "range": {
+        "startLine": 128,
+        "startChar": 9,
+        "endLine": 133,
+        "endChar": 9
+      },
+      "revId": "1ee7c2cf25b9437b1028b0b270c792ad8d971de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

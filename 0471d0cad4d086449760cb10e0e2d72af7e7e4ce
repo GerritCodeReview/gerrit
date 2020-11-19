@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5060ed50_349f740c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-19T21:11:27Z",
+      "side": 1,
+      "message": "Definitely, as discussed above; \u003d\u003e [1] https://github.com/blacktop/docker-elasticsearch-alpine/issues/39",
+      "parentUuid": "95db13f5_e2d44025",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 44
+      },
+      "revId": "0471d0cad4d086449760cb10e0e2d72af7e7e4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8e459732_70404ef4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

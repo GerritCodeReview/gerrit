@@ -142,7 +142,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_ASSIGNEE = "assignee";
   public static final String FIELD_AUTHOR = "author";
   public static final String FIELD_EXACTAUTHOR = "exactauthor";
-  public static final String FIELD_BEFORE = "before";
+
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_CHANGE_ID = "change_id";
   public static final String FIELD_COMMENT = "comment";
@@ -169,6 +169,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_MERGE = "merge";
   public static final String FIELD_MERGEABLE = "mergeable2";
+  public static final String FIELD_MERGED_ON = "mergedon";
   public static final String FIELD_MESSAGE = "message";
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_OWNERIN = "ownerin";
@@ -204,6 +205,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String ARG_ID_GROUP = "group";
   public static final String ARG_ID_OWNER = "owner";
   public static final Account.Id OWNER_ACCOUNT_ID = Account.id(0);
+
+  public static final String OPERATOR_MERGED_BEFORE = "mergedbefore";
+  public static final String OPERATOR_MERGED_AFTER = "mergedafter";
+
+  // Operators to match on the last time the change was updated. Naming for legacy reasons.
+  public static final String OPERATOR_BEFORE = "before";
+  public static final String OPERATOR_AFTER = "after";
 
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ChangeQueryBuilder.class);
@@ -471,7 +479,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> before(String value) throws QueryParseException {
-    return new BeforePredicate(value);
+    return new BeforePredicate(ChangeField.UPDATED, ChangeQueryBuilder.OPERATOR_BEFORE, value);
   }
 
   @Operator
@@ -481,12 +489,34 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> after(String value) throws QueryParseException {
-    return new AfterPredicate(value);
+    return new AfterPredicate(ChangeField.UPDATED, ChangeQueryBuilder.OPERATOR_AFTER, value);
   }
 
   @Operator
   public Predicate<ChangeData> since(String value) throws QueryParseException {
     return after(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> mergedBefore(String value) throws QueryParseException {
+    if (!args.index.getSchema().hasField(ChangeField.MERGED_ON)) {
+      throw new QueryParseException(
+          String.format(
+              "'%s' operator is not supported by change index version", OPERATOR_MERGED_BEFORE));
+    }
+    return new BeforePredicate(
+        ChangeField.MERGED_ON, ChangeQueryBuilder.OPERATOR_MERGED_BEFORE, value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> mergedAfter(String value) throws QueryParseException {
+    if (!args.index.getSchema().hasField(ChangeField.MERGED_ON)) {
+      throw new QueryParseException(
+          String.format(
+              "'%s' operator is not supported by change index version", OPERATOR_MERGED_AFTER));
+    }
+    return new AfterPredicate(
+        ChangeField.MERGED_ON, ChangeQueryBuilder.OPERATOR_MERGED_AFTER, value);
   }
 
   @Operator

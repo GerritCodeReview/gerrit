@@ -2795,43 +2795,6 @@ export class GrRestApiInterface
     return this._changeBaseURL(changeNum, patchNum).then(url => url + endpoint);
   }
 
-  getPortedComments(
-    changeNum: NumericChangeId,
-    revision: RevisionId
-  ): Promise<PathToCommentsInfoMap | undefined> {
-    // maintaining a custom error function so that errors do not surface in UI
-    const errFn: ErrorCallback = (response?: Response | null) => {
-      if (response)
-        console.info(`Fetching ported comments failed, ${response.status}`);
-    };
-    return this._getChangeURLAndFetch({
-      changeNum,
-      endpoint: '/ported_comments/',
-      revision,
-      errFn,
-    });
-  }
-
-  getPortedDrafts(
-    changeNum: NumericChangeId,
-    revision: RevisionId
-  ): Promise<PathToCommentsInfoMap | undefined> {
-    // maintaining a custom error function so that errors do not surface in UI
-    const errFn: ErrorCallback = (response?: Response | null) => {
-      if (response)
-        console.info(`Fetching ported drafts failed, ${response.status}`);
-    };
-    return this.getLoggedIn().then(loggedIn => {
-      if (!loggedIn) return {};
-      return this._getChangeURLAndFetch({
-        changeNum,
-        endpoint: '/ported_drafts/',
-        revision,
-        errFn,
-      });
-    });
-  }
-
   saveDiffDraft(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,

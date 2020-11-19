@@ -1344,28 +1344,6 @@ suite('gr-rest-api-interface tests', () => {
     assert.isTrue(handler.calledOnce);
   });
 
-  test('ported comment errors do not trigger error dialog', () => {
-    const change = createChange();
-    const dispatchStub = sinon.stub(element._restApiHelper, 'dispatchEvent');
-    sinon.stub(element._restApiHelper, 'fetchJSON').returns(Promise.resolve({
-      ok: false}));
-
-    element.getPortedComments(change._number, 'current');
-
-    assert.isFalse(dispatchStub.called);
-  });
-
-  test('ported drafts are not requested user is not logged in', () => {
-    const change = createChange();
-    sinon.stub(element, 'getLoggedIn').returns(Promise.resolve(false));
-    const getChangeURLAndFetchStub = sinon.stub(element,
-        '_getChangeURLAndFetch');
-
-    element.getPortedDrafts(change._number, 'current');
-
-    assert.isFalse(getChangeURLAndFetchStub.called);
-  });
-
   test('saveChangeStarred', async () => {
     sinon.stub(element, 'getFromProjectLookup')
         .returns(Promise.resolve('test'));

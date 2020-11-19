@@ -114,6 +114,14 @@ public class RefControlTest {
     assertThat(u.isVisible()).named("can read").isTrue();
   }
 
+  private void assertAllRefsAreVisible(ProjectControl u) {
+    assertThat(u.allRefsAreVisible()).named("all refs visible").isTrue();
+  }
+
+  private void assertAllRefsAreNotVisible(ProjectControl u) {
+    assertThat(u.allRefsAreVisible()).named("all refs NOT visible").isFalse();
+  }
+
   private void assertCannotRead(ProjectControl u) {
     assertThat(u.isVisible()).named("cannot read").isFalse();
   }
@@ -189,6 +197,7 @@ public class RefControlTest {
   private final Map<Project.NameKey, ProjectState> all = new HashMap<>();
   private Project.NameKey localKey = new Project.NameKey("local");
   private ProjectConfig local;
+  private ProjectConfig allUsers;
   private Project.NameKey parentKey = new Project.NameKey("parent");
   private ProjectConfig parent;
   private InMemoryRepositoryManager repoManager;
@@ -219,7 +228,7 @@ public class RefControlTest {
 
           @Override
           public ProjectState getAllUsers() {
-            return null;
+            return get(allUsersName);
           }
 
           @Override
@@ -273,6 +282,11 @@ public class RefControlTest {
       LabelType cr = Util.codeReview();
       allProjects.getLabelSections().put(cr.getName(), cr);
       add(allProjects);
+
+      Repository allUsersRepo = repoManager.createRepository(allUsersName);
+      allUsers = new ProjectConfig(new Project.NameKey(allUsersName.get()));
+      allUsers.load(allUsersRepo);
+      add(allUsers);
     } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException(e);
     }
@@ -344,6 +358,24 @@ public class RefControlTest {
     block(local, OWNER, DEVS, "refs/*");
 
     assertAdminsAreOwnersAndDevsAreNot();
+  }
+
+  @Test
+  public void allRefsAreVisibleForRegularProject() throws Exception {
+    allow(local, READ, DEVS, "refs/*");
+    allow(local, READ, DEVS, "refs/groups/*");
+    allow(local, READ, DEVS, "refs/users/default");
+
+    assertAllRefsAreVisible(user(local, DEVS));
+  }
+
+  @Test
+  public void allRefsAreNotVisibleForAllUsers() throws Exception {
+    allow(allUsers, READ, DEVS, "refs/*");
+    allow(allUsers, READ, DEVS, "refs/groups/*");
+    allow(allUsers, READ, DEVS, "refs/users/default");
+
+    assertAllRefsAreNotVisible(user(allUsers, DEVS));
   }
 
   @Test
@@ -908,6 +940,7 @@ public class RefControlTest {
         queryProvider,
         null,
         canonicalWebUrl,
+        allUsersName,
         new MockUser(name, memberOf),
         newProjectState(local),
         metrics);

@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "159763dd_7c7905d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-19T21:21:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60d92ba4_4485137c",
+      "range": {
+        "startLine": 29,
+        "startChar": 60,
+        "endLine": 29,
+        "endChar": 67
+      },
+      "revId": "dc937fabab2d334bd15ffe12d1841d0f49ba3d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8d859127_cf2a2f7e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -81,6 +105,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ba4d010_d6d3ea1c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1709,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-19T21:21:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82cf7602_e14b97d4",
+      "range": {
+        "startLine": 1709,
+        "startChar": 28,
+        "endLine": 1709,
+        "endChar": 32
+      },
+      "revId": "dc937fabab2d334bd15ffe12d1841d0f49ba3d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62d976dd_c67788be",
@@ -94,6 +142,30 @@
       "writtenOn": "2020-11-18T16:35:07Z",
       "side": 1,
       "message": "are also ignored\n\n(A proposal.)",
+      "range": {
+        "startLine": 1713,
+        "startChar": 47,
+        "endLine": 1713,
+        "endChar": 58
+      },
+      "revId": "dc937fabab2d334bd15ffe12d1841d0f49ba3d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebd5a3d3_e637894a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1713,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-19T21:21:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62d976dd_c67788be",
       "range": {
         "startLine": 1713,
         "startChar": 47,

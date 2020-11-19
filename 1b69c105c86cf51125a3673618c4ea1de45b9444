@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ba8cf63_2213e2c9",
+        "filename": "modules/jgit",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-11-19T21:14:45Z",
+      "side": 1,
+      "message": "this version didn\u0027t yet arrive in the jgit mirror on gerrit-review",
+      "revId": "1b69c105c86cf51125a3673618c4ea1de45b9444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

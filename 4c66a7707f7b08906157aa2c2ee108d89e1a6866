@@ -51,6 +51,24 @@
       "parentUuid": "36a35a50_c4edc172",
       "revId": "4c66a7707f7b08906157aa2c2ee108d89e1a6866",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d535343_f9d55959",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-19T15:35:37Z",
+      "side": 1,
+      "message": "In change-view-test can you set focus on some element, open overlay and then determine if findActiveElement() returns that element?\nFor me findActiveElement is the most interesting thing worth testing, but you took a closer look, so if it is much more complex, then I trust your decision.",
+      "parentUuid": "8df3b886_608398b7",
+      "revId": "4c66a7707f7b08906157aa2c2ee108d89e1a6866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

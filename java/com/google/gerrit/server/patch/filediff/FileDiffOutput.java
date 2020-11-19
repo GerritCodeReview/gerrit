@@ -21,8 +21,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Patch.PatchType;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.cache.proto.Cache.FileDiffOutputProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.protobuf.Descriptors.FieldDescriptor;
 import java.io.Serializable;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /** File diff for a single file path. Produced as output of the {@link FileDiffCache}. */
 @AutoValue
@@ -105,7 +110,7 @@ public abstract class FileDiffOutput implements Serializable {
     return headerLines().isEmpty() && edits().isEmpty();
   }
 
-  static Builder builder() {
+  public static Builder builder() {
     return new AutoValue_FileDiffOutput.Builder();
   }
 
@@ -152,5 +157,99 @@ public abstract class FileDiffOutput implements Serializable {
     public abstract Builder sizeDelta(long value);
 
     public abstract FileDiffOutput build();
+  }
+
+  public enum Serializer implements CacheSerializer<FileDiffOutput> {
+    INSTANCE;
+
+    private static final FieldDescriptor OLD_PATH_DESCRIPTOR =
+        FileDiffOutputProto.getDescriptor().findFieldByNumber(1);
+
+    private static final FieldDescriptor NEW_PATH_DESCRIPTOR =
+        FileDiffOutputProto.getDescriptor().findFieldByNumber(2);
+
+    private static final FieldDescriptor CHANGE_TYPE_DESCRIPTOR =
+        FileDiffOutputProto.getDescriptor().findFieldByNumber(3);
+
+    private static final FieldDescriptor PATCH_TYPE_DESCRIPTOR =
+        FileDiffOutputProto.getDescriptor().findFieldByNumber(4);
+
+    @Override
+    public byte[] serialize(FileDiffOutput fileDiff) {
+      FileDiffOutputProto.Builder builder =
+          FileDiffOutputProto.newBuilder()
+              .setSize(fileDiff.size())
+              .setSizeDelta(fileDiff.sizeDelta())
+              .addAllHeaderLines(fileDiff.headerLines())
+              .addAllEdits(
+                  fileDiff.edits().stream()
+                      .map(
+                          e ->
+                              FileDiffOutputProto.TaggedEdit.newBuilder()
+                                  .setEdit(
+                                      FileDiffOutputProto.Edit.newBuilder()
+                                          .setBeginA(e.edit().beginA())
+                                          .setEndA(e.edit().endA())
+                                          .setBeginB(e.edit().beginB())
+                                          .setEndB(e.edit().endB())
+                                          .build())
+                                  .setDueToRebase(e.dueToRebase())
+                                  .build())
+                      .collect(Collectors.toList()));
+
+      if (fileDiff.oldPath().isPresent()) {
+        builder.setOldPath(fileDiff.oldPath().get());
+      }
+
+      if (fileDiff.newPath().isPresent()) {
+        builder.setNewPath(fileDiff.newPath().get());
+      }
+
+      if (fileDiff.changeType().isPresent()) {
+        builder.setChangeType(fileDiff.changeType().get().name());
+      }
+
+      if (fileDiff.patchType().isPresent()) {
+        builder.setPatchType(fileDiff.patchType().get().name());
+      }
+
+      return Protos.toByteArray(builder.build());
+    }
+
+    @Override
+    public FileDiffOutput deserialize(byte[] in) {
+      FileDiffOutputProto proto = Protos.parseUnchecked(FileDiffOutputProto.parser(), in);
+      FileDiffOutput.Builder builder = FileDiffOutput.builder();
+      builder
+          .size(proto.getSize())
+          .sizeDelta(proto.getSizeDelta())
+          .headerLines(proto.getHeaderLinesList().stream().collect(ImmutableList.toImmutableList()))
+          .edits(
+              proto.getEditsList().stream()
+                  .map(
+                      e ->
+                          TaggedEdit.create(
+                              Edit.create(
+                                  e.getEdit().getBeginA(),
+                                  e.getEdit().getEndA(),
+                                  e.getEdit().getBeginB(),
+                                  e.getEdit().getEndB()),
+                              e.getDueToRebase()))
+                  .collect(ImmutableList.toImmutableList()));
+
+      if (proto.hasField(OLD_PATH_DESCRIPTOR)) {
+        builder.oldPath(Optional.of(proto.getOldPath()));
+      }
+      if (proto.hasField(NEW_PATH_DESCRIPTOR)) {
+        builder.newPath(Optional.of(proto.getNewPath()));
+      }
+      if (proto.hasField(CHANGE_TYPE_DESCRIPTOR)) {
+        builder.changeType(Optional.of(Patch.ChangeType.valueOf(proto.getChangeType())));
+      }
+      if (proto.hasField(PATCH_TYPE_DESCRIPTOR)) {
+        builder.patchType(Optional.of(Patch.PatchType.valueOf(proto.getPatchType())));
+      }
+      return builder.build();
+    }
   }
 }

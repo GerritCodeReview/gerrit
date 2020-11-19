@@ -659,6 +659,9 @@ export abstract class GrDiffBuilder {
       button.classList.add(side);
       button.dataset['value'] = number.toString();
       button.textContent = number === 'FILE' ? 'File' : number.toString();
+      if (number === 'FILE') {
+        button.setAttribute('aria-label', 'Add file comment');
+      }
 
       // Add aria-labels for valid line numbers.
       // For unified diff, this method will be called with number set to 0 for

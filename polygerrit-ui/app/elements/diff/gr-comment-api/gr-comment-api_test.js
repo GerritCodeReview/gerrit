@@ -543,6 +543,12 @@ suite('gr-comment-api tests', () => {
             path: 'file/one',
             line: 1,
             rootId: '01',
+            range: {
+              start_line: 1,
+              start_character: 2,
+              end_line: 2,
+              end_character: 2,
+            },
           }, {
             comments: [
               {
@@ -559,6 +565,7 @@ suite('gr-comment-api tests', () => {
             patchNum: 2,
             path: 'file/one',
             line: 2,
+            range: undefined,
             rootId: '03',
           }, {
             comments: [
@@ -595,6 +602,7 @@ suite('gr-comment-api tests', () => {
             path: 'file/one',
             line: 1,
             rootId: '04',
+            range: undefined,
           }, {
             comments: [
               {
@@ -610,6 +618,7 @@ suite('gr-comment-api tests', () => {
             path: 'file/two',
             line: 2,
             rootId: '05',
+            range: undefined,
           }, {
             comments: [
               {
@@ -625,6 +634,7 @@ suite('gr-comment-api tests', () => {
             path: 'file/two',
             line: 2,
             rootId: '06',
+            range: undefined,
           }, {
             comments: [
               {
@@ -654,6 +664,7 @@ suite('gr-comment-api tests', () => {
             path: 'file/three',
             line: 1,
             rootId: '07',
+            range: undefined,
           }, {
             comments: [
               {
@@ -669,6 +680,7 @@ suite('gr-comment-api tests', () => {
             path: 'file/three',
             line: 1,
             rootId: '09',
+            range: undefined,
           }, {
             comments: [
               {
@@ -686,6 +698,7 @@ suite('gr-comment-api tests', () => {
             path: 'file/four',
             line: 1,
             rootId: '10',
+            range: undefined,
           }, {
             comments: [
               {
@@ -701,6 +714,7 @@ suite('gr-comment-api tests', () => {
             patchNum: 5,
             path: 'file/four',
             line: 1,
+            range: undefined,
           }, {
             comments: [
               {
@@ -717,6 +731,7 @@ suite('gr-comment-api tests', () => {
             patchNum: 3,
             path: 'file/two',
             line: 1,
+            range: undefined,
           }, {
             comments: [
               {
@@ -735,6 +750,7 @@ suite('gr-comment-api tests', () => {
             patchNum: 2,
             path: 'file/one',
             line: 1,
+            range: undefined,
           },
         ];
         const threads = element._changeComments.getAllThreadsForChange();

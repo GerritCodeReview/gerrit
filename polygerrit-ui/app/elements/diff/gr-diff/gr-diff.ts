@@ -431,7 +431,7 @@ export class GrDiff extends GestureEventListeners(
 
     for (const threadEl of threadEls) {
       const side = getSide(threadEl);
-      const lineNum = Number(threadEl.getAttribute('line-num')) || FILE;
+      const lineNum = threadEl.getAttribute('line-num') || FILE;
       const commentRange = threadEl.range || {};
       keyLocations[side][lineNum] = true;
       // Add start_line as well if exists,
@@ -580,12 +580,7 @@ export class GrDiff extends GestureEventListeners(
       return;
     }
 
-    // TODO(TS): existing logic always pass undefined lineNum
-    // for file level comment, the drafts API will reject the
-    // request if file level draft contains the `line: 'FILE'` field
-    // probably should do this inside of the _createComment, this
-    // is just to keep existing behavior.
-    this._createComment(el, lineNum === FILE ? undefined : lineNum);
+    this._createComment(el, lineNum);
   }
 
   createRangeComment() {

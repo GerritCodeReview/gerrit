@@ -68,7 +68,7 @@ import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
-import {LineNumber} from '../gr-diff/gr-diff-line';
+import {LineNumber, FILE} from '../gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {KnownExperimentId} from '../../../services/flags/flags';
 
@@ -912,9 +912,7 @@ export class GrDiffHost extends GestureEventListeners(
     function matchesFileComment(threadEl: GrCommentThread) {
       return (
         threadEl.getAttribute('comment-side') === side &&
-        // line/range comments have 1-based line set, if line is falsy it's
-        // a file comment
-        !threadEl.getAttribute('line-num')
+        threadEl.getAttribute('line-num') === FILE
       );
     }
 

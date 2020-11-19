@@ -307,7 +307,7 @@ public class ChangeData {
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
-  private Timestamp mergedOn;
+  private Optional<Timestamp> mergedOn;
   private ImmutableList<byte[]> refStates;
   private ImmutableList<byte[]> refStatePatterns;
 
@@ -615,9 +615,27 @@ public class ChangeData {
     return attentionSet;
   }
 
-  /** Returns the {@link Optional} value of time when the change was merged. */
-  public Optional<Timestamp> getMergedOn() {
-    return notes().getMergedOn();
+  /**
+   * Returns the {@link Optional} value of time when the change was merged.
+   *
+   * <p>The value can be set from index field, see {@link ChangeData#setMergedOn} or loaded from the
+   * database (available in {@link ChangeNotes})
+   *
+   * @return {@link Optional} value of time when the change was merged.
+   * @throws StorageException if {@code lazyLoad} is off, {@link ChangeNotes} can not be loaded
+   *     because we do not expect to call the database.
+   */
+  public Optional<Timestamp> getMergedOn() throws StorageException {
+    if (mergedOn == null) {
+      // The value was not load yet, try to load from the database.
+      mergedOn = notes().getMergedOn();
+    }
+    return mergedOn;
+  }
+
+  /** Sets the value e.g. when loading from index. */
+  public void setMergedOn(@Nullable Timestamp mergedOn) {
+    this.mergedOn = Optional.ofNullable(mergedOn);
   }
 
   /**

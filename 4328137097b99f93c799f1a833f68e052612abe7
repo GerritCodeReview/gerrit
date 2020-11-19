@@ -282,6 +282,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2f909c4_d953e006",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-19T15:38:29Z",
+      "side": 1,
+      "message": "Thanks for the explanations. I left this as is.",
+      "parentUuid": "b8f106bc_7ccfa851",
+      "revId": "4328137097b99f93c799f1a833f68e052612abe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38be74b0_7314f641",

@@ -61,7 +61,7 @@ public class ChangeNotesCache {
             .weigher(Weigher.class)
             .maximumWeight(10 << 20)
             .diskLimit(-1)
-            .version(2)
+            .version(3)
             .keySerializer(Key.Serializer.INSTANCE)
             .valueSerializer(ChangeNotesState.Serializer.INSTANCE);
       }
@@ -180,7 +180,8 @@ public class ChangeNotesCache {
           + 1 // isPrivate
           + 1 // workInProgress
           + 1 // reviewStarted
-          + I; // updateCount
+          + I // updateCount
+          + T;// mergedOn
     }
 
     private static int str(String s) {

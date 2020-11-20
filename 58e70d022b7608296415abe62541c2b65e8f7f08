@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6da1e3fe_e2ea947d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-11-20T11:31:08Z",
+      "side": 1,
+      "message": "Good point I will amend.",
+      "parentUuid": "d9fcca50_a1ce9c67",
+      "range": {
+        "startLine": 752,
+        "startChar": 48,
+        "endLine": 755,
+        "endChar": 77
+      },
+      "revId": "58e70d022b7608296415abe62541c2b65e8f7f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b72789cf_1a33453e",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2020-11-17T21:20:29Z",
       "side": 1,
       "message": "*ALL* persistent backends require additional file-descriptors, that were not accounted for.",
+      "range": {
+        "startLine": 757,
+        "startChar": 0,
+        "endLine": 759,
+        "endChar": 56
+      },
+      "revId": "58e70d022b7608296415abe62541c2b65e8f7f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c652a1d_d46544d5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-11-20T11:31:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b72789cf_1a33453e",
       "range": {
         "startLine": 757,
         "startChar": 0,
@@ -60,6 +108,30 @@
       "writtenOn": "2020-11-17T21:20:29Z",
       "side": 1,
       "message": "That isn\u0027t the scope for this setting and also gerrit.sh does it already for us.\nThis sentence isn\u0027t related to the setting IMHO.\n\nWDYT?",
+      "range": {
+        "startLine": 761,
+        "startChar": 0,
+        "endLine": 764,
+        "endChar": 29
+      },
+      "revId": "58e70d022b7608296415abe62541c2b65e8f7f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9189168f_2bab1cdf",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-11-20T11:31:08Z",
+      "side": 1,
+      "message": "I actually think this sentence is related to this change.\nIn fact, it is the same sentence used in the `core.packedGitOpenFiles`[1], because I think it affects Gerrit in exactly the same way.\n\nThere\u0027s a hard limit imposed by the host JVM and gerrit.sh can only adjust the ulimit up to that value.\nThe admins should consider increasing the _host_ ulimit, so that gerrit.sh can adjust _within_ those boundaries.\n\nWDYT?\n\n[1]https://gerrit.googlesource.com/gerrit/+/refs/heads/master/Documentation/config-gerrit.txt#1823",
+      "parentUuid": "d3b01055_e63629db",
       "range": {
         "startLine": 761,
         "startChar": 0,

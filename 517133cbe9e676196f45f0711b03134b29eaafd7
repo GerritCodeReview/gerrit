@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "01aa36c5_8beb63ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T09:12:44Z",
+      "side": 1,
+      "message": "Maybe rephrase this a bit to make it clearer that the target ref in the remote repo is not visible to user. The tag that they created in the local repo and that they are pushing is visible to them.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "517133cbe9e676196f45f0711b03134b29eaafd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d465fa74_72665b59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T09:12:44Z",
+      "side": 1,
+      "message": "Can you please also cover the tag push case in a test?\nThis test may be added in the AbstractPushTag class.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "517133cbe9e676196f45f0711b03134b29eaafd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d3ec58c2_a65b1527",
@@ -24,6 +70,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "051eb9ba_ce6374cd",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1322,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T09:12:44Z",
+      "side": 1,
+      "message": "Yes, I think this would be a little better.",
+      "parentUuid": "d3ec58c2_a65b1527",
+      "range": {
+        "startLine": 1322,
+        "startChar": 21,
+        "endLine": 1322,
+        "endChar": 65
+      },
+      "revId": "517133cbe9e676196f45f0711b03134b29eaafd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "884fbb94_4ac580f1",
@@ -37,6 +107,30 @@
       "writtenOn": "2020-11-13T10:14:42Z",
       "side": 1,
       "message": "Optional: Add a comment above this line:\n\n\u003e // Since the branch is not visible to the caller, the command tries to \n\u003e // create the ref resulting in the command being rejected, because the\n\u003e // ref already exists.",
+      "range": {
+        "startLine": 1429,
+        "startChar": 4,
+        "endLine": 1429,
+        "endChar": 22
+      },
+      "revId": "517133cbe9e676196f45f0711b03134b29eaafd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d22ef64_02f1ca22",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1429,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T09:12:44Z",
+      "side": 1,
+      "message": "Yes, this comment would be helpful to have.",
+      "parentUuid": "884fbb94_4ac580f1",
       "range": {
         "startLine": 1429,
         "startChar": 4,

@@ -138,6 +138,14 @@ export class GrDiffCursor extends GestureEventListeners(
     window.removeEventListener('scroll', this._boundHandleWindowScroll);
   }
 
+  isAtStart() {
+    return this.$.cursorManager.isAtStart();
+  }
+
+  isAtEnd() {
+    return this.$.cursorManager.isAtEnd();
+  }
+
   moveLeft() {
     this.side = Side.LEFT;
     if (this._isTargetBlank()) {

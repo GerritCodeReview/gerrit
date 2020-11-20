@@ -200,8 +200,8 @@ func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writ
 		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}tslib/tslib.es6.js';"))
 
 		// 'lit-element' imports and exports have to be resolved to 'lit-element/lit-element.js'.
-		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)lit-element.js';$")
-		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}lit-element/lit-element.js';"))
+		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)lit-(element|html).js';$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}lit-${3}/lit-${3}.js';"))
 
 		if strings.HasSuffix(normalizedContentPath, "/node_modules/page/page.js") {
 			// Can't import page.js directly, because this is undefined.

@@ -839,7 +839,7 @@ suite('comment action tests with unresolved thread', () => {
 
   test('_newDraft with no root', () => {
     element.comments = [];
-    element.commentSide = Side.RIGHT;
+    element.diffSide = Side.RIGHT;
     element.patchNum = 2 as PatchSetNum;
     const draft = element._newDraft();
     assert.equal(draft.__commentSide, Side.RIGHT);
@@ -909,10 +909,10 @@ suite('comment action tests with unresolved thread', () => {
 
   test('reflects lineNum and commentSide to attributes', () => {
     element.lineNum = 7;
-    element.commentSide = Side.LEFT;
+    element.diffSide = Side.LEFT;
 
     assert.equal(element.getAttribute('line-num'), '7');
-    assert.equal(element.getAttribute('comment-side'), Side.LEFT);
+    assert.equal(element.getAttribute('diff-side'), Side.LEFT);
   });
 
   test('reflects range to JSON serialized attribute if set', () => {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d93ec0e8_1d88d60c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-20T13:28:14Z",
+      "side": 0,
+      "message": "Reverted back to using it.",
+      "parentUuid": "64228091_cad9c5e8",
+      "range": {
+        "startLine": 677,
+        "startChar": 28,
+        "endLine": 677,
+        "endChar": 63
+      },
+      "revId": "d6720fc65b4f979b6460feb2b933c44795c3589b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cad0f0f0_370b000b",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-11-20T10:47:23Z",
       "side": 0,
       "message": "Did you check that Critique does not need that?",
+      "revId": "d6720fc65b4f979b6460feb2b933c44795c3589b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ad4ef0_5458ffdd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-20T13:28:14Z",
+      "side": 0,
+      "message": "They are not using it but I still decided to revert back in case they depend on it in the future.\nSo sending isOnParent again.",
+      "parentUuid": "cad0f0f0_370b000b",
       "revId": "d6720fc65b4f979b6460feb2b933c44795c3589b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

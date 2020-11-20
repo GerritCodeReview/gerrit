@@ -1291,7 +1291,7 @@ suite('gr-diff-host tests', () => {
         .queryDistributedElements('gr-comment-thread');
 
     assert.equal(threads.length, 1);
-    assert.equal(threads[0].commentSide, diffSide);
+    assert.equal(threads[0].diffSide, diffSide);
     assert.equal(threads[0].range, undefined);
     assert.equal(threads[0].patchNum, 2);
 
@@ -1310,7 +1310,7 @@ suite('gr-diff-host tests', () => {
         .queryDistributedElements('gr-comment-thread');
 
     assert.equal(threads.length, 2);
-    assert.equal(threads[1].commentSide, diffSide);
+    assert.equal(threads[1].diffSide, diffSide);
     assert.equal(threads[1].range, range);
     assert.equal(threads[1].patchNum, 3);
   });
@@ -1327,7 +1327,7 @@ suite('gr-diff-host tests', () => {
         .queryDistributedElements('gr-comment-thread');
 
     assert.equal(threads.length, 1);
-    assert.equal(threads[0].commentSide, diffSide);
+    assert.equal(threads[0].diffSide, diffSide);
     assert.equal(threads[0].path, element.file.basePath);
   });
 
@@ -1343,7 +1343,7 @@ suite('gr-diff-host tests', () => {
         .queryDistributedElements('gr-comment-thread');
 
     assert.equal(threads.length, 1);
-    assert.equal(threads[0].commentSide, diffSide);
+    assert.equal(threads[0].diffSide, diffSide);
     assert.equal(threads[0].path, element.file.path);
   });
 
@@ -1359,7 +1359,7 @@ suite('gr-diff-host tests', () => {
         .queryDistributedElements('gr-comment-thread');
 
     assert.equal(threads.length, 1);
-    assert.equal(threads[0].commentSide, diffSide);
+    assert.equal(threads[0].diffSide, diffSide);
     assert.equal(threads[0].path, element.file.path);
   });
 
@@ -1379,19 +1379,19 @@ suite('gr-diff-host tests', () => {
 
     const l3 = document.createElement('div');
     l3.setAttribute('line-num', 3);
-    l3.setAttribute('comment-side', 'left');
+    l3.setAttribute('diff-side', 'left');
 
     const l5 = document.createElement('div');
     l5.setAttribute('line-num', 5);
-    l5.setAttribute('comment-side', 'left');
+    l5.setAttribute('diff-side', 'left');
 
     const r3 = document.createElement('div');
     r3.setAttribute('line-num', 3);
-    r3.setAttribute('comment-side', 'right');
+    r3.setAttribute('diff-side', 'right');
 
     const r5 = document.createElement('div');
     r5.setAttribute('line-num', 5);
-    r5.setAttribute('comment-side', 'right');
+    r5.setAttribute('diff-side', 'right');
 
     const threadEls = [l3, l5, r3, r5];
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
@@ -1404,11 +1404,11 @@ suite('gr-diff-host tests', () => {
     const line = {beforeNumber: 'FILE', afterNumber: 'FILE'};
 
     const l = document.createElement('div');
-    l.setAttribute('comment-side', 'left');
+    l.setAttribute('diff-side', 'left');
     l.setAttribute('line-num', 'FILE');
 
     const r = document.createElement('div');
-    r.setAttribute('comment-side', 'right');
+    r.setAttribute('diff-side', 'right');
     r.setAttribute('line-num', 'FILE');
 
     const threadEls = [l, r];

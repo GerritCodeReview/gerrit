@@ -99,7 +99,7 @@ export class GrDiffSelection extends GestureEventListeners(
     if (node?.nodeName?.toLowerCase() === 'gr-comment-thread') {
       this._setClasses([
         SelectionClass.COMMENT,
-        node.getAttribute('comment-side') === Side.LEFT
+        node.getAttribute('diff-side') === Side.LEFT
           ? SelectionClass.LEFT
           : SelectionClass.RIGHT,
       ]);

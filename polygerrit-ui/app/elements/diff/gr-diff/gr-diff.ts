@@ -66,7 +66,7 @@ const FULL_CONTEXT = -1;
 const LIMITED_CONTEXT = 10;
 
 function getSide(threadEl: GrCommentThread): Side {
-  const sideAtt = threadEl.getAttribute('comment-side');
+  const sideAtt = threadEl.getAttribute('diff-side');
   if (!sideAtt) throw Error('comment thread without side');
   if (sideAtt !== 'left' && sideAtt !== 'right')
     throw Error(`unexpected value for side: ${sideAtt}`);

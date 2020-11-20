@@ -779,7 +779,7 @@ export class GrDiffHost extends GestureEventListeners(
     threadEl.className = 'comment-thread';
     threadEl.setAttribute('slot', `${thread.commentSide}-${thread.line}`);
     threadEl.comments = thread.comments;
-    threadEl.commentSide = thread.diffSide;
+    threadEl.diffSide = thread.diffSide;
     threadEl.isOnParent = thread.commentSide === CommentSide.PARENT;
     threadEl.parentIndex = this._parentIndex;
     // Use path before renmaing when comment added on the left when comparing
@@ -851,19 +851,19 @@ export class GrDiffHost extends GestureEventListeners(
   ) {
     function matchesLeftLine(threadEl: GrCommentThread) {
       return (
-        threadEl.getAttribute('comment-side') === Side.LEFT &&
+        threadEl.getAttribute('diff-side') === Side.LEFT &&
         threadEl.getAttribute('line-num') === String(lineInfo.beforeNumber)
       );
     }
     function matchesRightLine(threadEl: GrCommentThread) {
       return (
-        threadEl.getAttribute('comment-side') === Side.RIGHT &&
+        threadEl.getAttribute('diff-side') === Side.RIGHT &&
         threadEl.getAttribute('line-num') === String(lineInfo.afterNumber)
       );
     }
     function matchesFileComment(threadEl: GrCommentThread) {
       return (
-        threadEl.getAttribute('comment-side') === side &&
+        threadEl.getAttribute('diff-side') === side &&
         threadEl.getAttribute('line-num') === FILE
       );
     }

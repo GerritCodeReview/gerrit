@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "105e674e_f9fd4c1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-20T22:09:54Z",
+      "side": 1,
+      "message": "This was (still is) a publicly hidden gerrit-security-fixes commit (264e96fe), from that 2020-11.notedb-refs-tags branch which was master. We didn\u0027t mention it in the other cherry-picks either. I\u0027d prefer not to inconsistently do it here, also because it is not reachable anyway from here.",
+      "parentUuid": "c0751939_0f335fb0",
+      "revId": "2000bacbb7042aafca4100d05a7af84a63139462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ad054401_0aff93b2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

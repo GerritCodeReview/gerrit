@@ -152,15 +152,19 @@ export class GrChangeListItem extends ChangeTableMixin(
     if (!label || category === LabelCategory.NOT_APPLICABLE) {
       return 'Label not applicable';
     }
+    const titleParts: string[] = [];
     if (category === LabelCategory.UNRESOLVED_COMMENTS) {
       const num = change?.unresolved_comment_count ?? 0;
       const plural = num > 1 ? 's' : '';
-      return `${num} unresolved comment${plural}`;
+      titleParts.push(`${num} unresolved comment${plural}`);
     }
     const significantLabel =
       label.rejected || label.approved || label.disliked || label.recommended;
-    if (significantLabel && significantLabel.name) {
-      return `${labelName}\nby ${significantLabel.name}`;
+    if (significantLabel?.name) {
+      titleParts.push(`${labelName} by ${significantLabel.name}`);
+    }
+    if (titleParts.length > 0) {
+      return titleParts.join(',\n');
     }
     return labelName;
   }

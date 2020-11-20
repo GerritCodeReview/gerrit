@@ -261,14 +261,14 @@ export class GrCursorManager extends GestureEventListeners(
     this._targetHeight = null;
   }
 
-  isAtStart() {
-    return this.index === 0;
+  /** Returns true if there are no stops, or we are on the first stop. */
+  isAtStart(): boolean {
+    return this.stops.length === 0 || this.index === 0;
   }
 
-  isAtEnd() {
-    // Unset cursor should not be considered "at end", even when there are no
-    // cursor stops.
-    return this.index !== -1 && this.index === this.stops.length - 1;
+  /** Returns true if there are no stops, or we are on the last stop. */
+  isAtEnd(): boolean {
+    return this.stops.length === 0 || this.index === this.stops.length - 1;
   }
 
   moveToStart() {

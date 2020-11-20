@@ -222,6 +222,30 @@
       },
       "revId": "d827fcdc4099d75cbe24f35e416d814b05dd9d6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23b2c684_ad0ad27b",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T15:09:45Z",
+      "side": 1,
+      "message": "Maybe convert this review comment into a code comment, e.g. \"This is only undefined for unsaved draft comments\", or something like that.\n\nSimilarly it would be interesting for the other fields when/why they can be undefined.",
+      "parentUuid": "1abae671_8f095552",
+      "range": {
+        "startLine": 154,
+        "startChar": 2,
+        "endLine": 154,
+        "endChar": 10
+      },
+      "revId": "d827fcdc4099d75cbe24f35e416d814b05dd9d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

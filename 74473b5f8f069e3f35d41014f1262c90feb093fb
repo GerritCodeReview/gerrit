@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0355addd_f1ae4782",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T15:09:45Z",
+      "side": 1,
+      "message": "LG, just some nits.",
+      "revId": "74473b5f8f069e3f35d41014f1262c90feb093fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "435fbc67_cc59b7b7",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T15:09:45Z",
+      "side": 1,
+      "message": "Nit: I find this comment confusing.",
+      "revId": "74473b5f8f069e3f35d41014f1262c90feb093fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fb929a0_32617295",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T15:09:45Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 106,
+        "startChar": 19,
+        "endLine": 106,
+        "endChar": 25
+      },
+      "revId": "74473b5f8f069e3f35d41014f1262c90feb093fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "506a9594_5a8e46c2",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T15:09:45Z",
+      "side": 1,
+      "message": "Nit: Maybe \"create...\"?",
+      "range": {
+        "startLine": 108,
+        "startChar": 16,
+        "endLine": 108,
+        "endChar": 33
+      },
+      "revId": "74473b5f8f069e3f35d41014f1262c90feb093fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

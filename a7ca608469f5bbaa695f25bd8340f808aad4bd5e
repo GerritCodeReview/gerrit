@@ -16,6 +16,24 @@
       "message": "Is this a double-conflict? I struggle to understand exactly where it is comping from. Can you help me?",
       "revId": "a7ca608469f5bbaa695f25bd8340f808aad4bd5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f37ed03_92c884df",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-20T20:47:24Z",
+      "side": 0,
+      "message": "Lines 268-284 right below were kept. They show as lines 245-261 on the right. Basically, this whole file was preserved by this change.\n\nThis is because we stick to the already ported, local-branch specific version of the \"Make PermissionBackend#ForRef authoritative\" change. So, we stick to its stable-3.0 version, rather than considering the downstream stable-2.16 one. No other merged commit in this change touched this file, AFAIK.",
+      "parentUuid": "6fee33eb_cca9e7b2",
+      "revId": "a7ca608469f5bbaa695f25bd8340f808aad4bd5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

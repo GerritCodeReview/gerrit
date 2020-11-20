@@ -695,9 +695,8 @@ suite('gr-comment tests', () => {
         assert.isTrue(runDetailsLink.href.indexOf(element.comment.url) !== -1);
 
         const robotServiceName = element.shadowRoot
-            .querySelector('gr-account-label')
-            .shadowRoot.querySelector('span.name');
-        assert.equal(robotServiceName.textContent.trim(), 'Display name Robot');
+            .querySelector('.robotName');
+        assert.equal(robotServiceName.textContent.trim(), 'happy_robot_id');
 
         const authorName = element.shadowRoot
             .querySelector('.robotId');

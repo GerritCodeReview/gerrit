@@ -22,6 +22,30 @@
       },
       "revId": "e160a051d8519542d02f2e1bdcaa2e773b1dd449",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9176d84d_647ecf92",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-20T15:09:11Z",
+      "side": 1,
+      "message": "I am working in parallel on a change that will upstream the agreed upon API as TypeScript types (in fact, this change is in preparation for that), but sure, I can add a comment until that is ready.",
+      "parentUuid": "a2b4382a_762c14db",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 141,
+        "endChar": 12
+      },
+      "revId": "e160a051d8519542d02f2e1bdcaa2e773b1dd449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

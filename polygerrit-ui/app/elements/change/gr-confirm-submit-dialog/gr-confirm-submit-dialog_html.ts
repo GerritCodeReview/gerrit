@@ -78,6 +78,15 @@ export const htmlTemplate = html`
         </template>
         <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
         <gr-endpoint-param name="action" value="[[action]]"></gr-endpoint-param>
+        <!-- This is just a workaround such that plugins can control the
+             buttons of the dialog. That does not mean that <gr-dialog>
+             should be considered to be part of the plugin API. Dependencies
+             on this parameter should be as minimal as possible. Ideally you
+             should just be depending on the 'disabled' property. -->
+        <gr-endpoint-param
+          name="dialog"
+          value="[[$.dialog]]"
+        ></gr-endpoint-param>
       </gr-endpoint-decorator>
     </div>
   </gr-dialog>

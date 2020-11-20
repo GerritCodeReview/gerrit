@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f75be49e_a03635f1",
+        "filename": "java/com/google/gerrit/server/patch/filediff/Edit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-20T09:12:59Z",
+      "side": 1,
+      "message": "Is this from another change?",
+      "revId": "1e8b2ef02a0b3c632830f45fbd731bb2902b5f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8275d8f3_44f0f915",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileEdits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-20T09:12:59Z",
+      "side": 1,
+      "message": "ditto?",
+      "revId": "1e8b2ef02a0b3c632830f45fbd731bb2902b5f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cfc5569_c6f62d0f",
+        "filename": "java/com/google/gerrit/server/patch/filediff/PatchListLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-20T09:12:59Z",
+      "side": 1,
+      "message": "Loggers shouldn\u0027t be public; it would be confusing for another class X to log through this logger because it would be tagged with PatchListLoader instead of X. It would also degrade filtering in Analog.\n\nDoes this mean that logger is already being used from another class?",
+      "revId": "1e8b2ef02a0b3c632830f45fbd731bb2902b5f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

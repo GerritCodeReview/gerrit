@@ -270,6 +270,30 @@
       },
       "revId": "d827fcdc4099d75cbe24f35e416d814b05dd9d6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eeedf8c_ef8f93d5",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T16:21:43Z",
+      "side": 1,
+      "message": "Maybe move the comment to `rootId`.\n\nWhat about the other fields, see my earlier comment.",
+      "parentUuid": "c1cf7e14_cbca2a20",
+      "range": {
+        "startLine": 154,
+        "startChar": 2,
+        "endLine": 154,
+        "endChar": 10
+      },
+      "revId": "d827fcdc4099d75cbe24f35e416d814b05dd9d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

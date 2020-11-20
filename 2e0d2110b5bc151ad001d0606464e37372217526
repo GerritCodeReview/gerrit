@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3553a39f_5b993006",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T10:08:04Z",
+      "side": 1,
+      "message": "As discussed, reverted back to enums. Renamed .d.ts file to .ts.\n\nLong term plan is to expose the plugin API as an npm module with generated .d.ts and .js files.",
+      "parentUuid": "bbc02a73_11c629e9",
+      "revId": "2e0d2110b5bc151ad001d0606464e37372217526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "589070ad_f98492ff",

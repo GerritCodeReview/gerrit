@@ -169,7 +169,11 @@ public class ChangeNotesCache {
           + list(state.submitRecords(), P + list(2, str(4) + P + K) + P)
           + P
           + list(state.changeMessages(), changeMessage())
+<<<<<<< HEAD   (fcef5f Merge branch 'stable-2.16' into stable-3.0)
           + P
+=======
+          + P + P + P // The below change no longer needed
+>>>>>>> CHANGE (d82c37 Commit 0)
           + map(state.publishedComments().asMap(), comment())
           + 1 // isPrivate
           + 1 // workInProgress

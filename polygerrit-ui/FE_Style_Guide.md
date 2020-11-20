@@ -10,10 +10,19 @@ Gerrit JavaScript code uses ES6 modules and doesn't use goog.module files.
 Additionally to the rules above, Gerrit frontend uses the following rules (some of them have automated checks,
 some don't):
 
+- [Prefer null over undefined](#prefer-null)
 - [Use destructuring imports only](#destructuring-imports-only)
 - [Use classes and services for storing and manipulating global state](#services-for-global-state)
 - [Pass required services in the constructor for plain classes](#pass-dependencies-in-constructor)
 - [Assign required services in a HTML/Polymer element constructor](#assign-dependencies-in-html-element-constructor)
+
+## <a name="prefer-undefined"></a>Prefer `undefined` over `null`
+
+It is more confusing than helpful to work with both `null` and `undefined`. We prefer to only use `undefined` in
+our code base. Try to avoid `null`.
+
+Some browser and library APIs are using `null`, so we cannot remove `null` completely from our code base. But even
+then try to convert return values and leak as few `nulls` as possible.
 
 ## <a name="destructuring-imports-only"></a>Use destructuring imports only
 Always use destructuring import statement and specify all required names explicitly (e.g. `import {a,b,c} from '...'`)

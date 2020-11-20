@@ -138,6 +138,16 @@ export class GrDiffCursor extends GestureEventListeners(
     window.removeEventListener('scroll', this._boundHandleWindowScroll);
   }
 
+  // Don't remove - used by clients embedding gr-diff outside of Gerrit.
+  isAtStart() {
+    return this.$.cursorManager.isAtStart();
+  }
+
+  // Don't remove - used by clients embedding gr-diff outside of Gerrit.
+  isAtEnd() {
+    return this.$.cursorManager.isAtEnd();
+  }
+
   moveLeft() {
     this.side = Side.LEFT;
     if (this._isTargetBlank()) {
@@ -200,7 +210,7 @@ export class GrDiffCursor extends GestureEventListeners(
     if (
       navigateToNextFile &&
       result === CursorMoveResult.CLIPPED &&
-      this.$.cursorManager.isAtEnd()
+      this.isAtEnd()
     ) {
       if (
         this.lastDisplayedNavigateToNextFileToast &&

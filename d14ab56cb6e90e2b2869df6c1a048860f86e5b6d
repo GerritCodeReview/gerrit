@@ -46,6 +46,30 @@
       },
       "revId": "d14ab56cb6e90e2b2869df6c1a048860f86e5b6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1024bb2e_2ffd0737",
+        "filename": "javatests/com/google/gerrit/elasticsearch/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-20T21:36:56Z",
+      "side": 0,
+      "message": "Ack.",
+      "parentUuid": "bd256065_72fb8352",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "d14ab56cb6e90e2b2869df6c1a048860f86e5b6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

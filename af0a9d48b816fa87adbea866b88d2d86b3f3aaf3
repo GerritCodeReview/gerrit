@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d666d27b_f370baea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T08:51:50Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure that these permissions are not needed on refs/for/*. Having them on refs/heads/* should be sufficient.",
+      "range": {
+        "startLine": 17,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 45
+      },
+      "revId": "af0a9d48b816fa87adbea866b88d2d86b3f3aaf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

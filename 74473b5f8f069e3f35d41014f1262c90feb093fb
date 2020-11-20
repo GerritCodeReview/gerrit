@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2e52476_199a5b81",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-20T15:51:32Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "435fbc67_cc59b7b7",
+      "revId": "74473b5f8f069e3f35d41014f1262c90feb093fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fb929a0_32617295",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "613a573b_df578345",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-20T15:51:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fb929a0_32617295",
+      "range": {
+        "startLine": 106,
+        "startChar": 19,
+        "endLine": 106,
+        "endChar": 25
+      },
+      "revId": "74473b5f8f069e3f35d41014f1262c90feb093fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "506a9594_5a8e46c2",
@@ -71,6 +113,30 @@
       "writtenOn": "2020-11-20T15:09:45Z",
       "side": 1,
       "message": "Nit: Maybe \"create...\"?",
+      "range": {
+        "startLine": 108,
+        "startChar": 16,
+        "endLine": 108,
+        "endChar": 33
+      },
+      "revId": "74473b5f8f069e3f35d41014f1262c90feb093fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7170d70c_5c3d81d0",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-20T15:51:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "506a9594_5a8e46c2",
       "range": {
         "startLine": 108,
         "startChar": 16,

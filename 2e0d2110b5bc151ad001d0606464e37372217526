@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83f4f491_e360b33a",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T08:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "589070ad_f98492ff",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 68,
+        "endChar": 20
+      },
+      "revId": "2e0d2110b5bc151ad001d0606464e37372217526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92e9d3bb_486f6af3",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-11-17T20:50:35Z",
       "side": 1,
       "message": "Are change/patchset/attempt also passed to each Action handler (can also see pattern where I just embed these info into runName)? I am a bit confused as to the difference between actionName and runName.",
+      "range": {
+        "startLine": 195,
+        "startChar": 2,
+        "endLine": 195,
+        "endChar": 10
+      },
+      "revId": "2e0d2110b5bc151ad001d0606464e37372217526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "504c4c3b_f3fa5eb7",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T08:50:08Z",
+      "side": 1,
+      "message": "Added and clarified.",
+      "parentUuid": "92e9d3bb_486f6af3",
       "range": {
         "startLine": 195,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00ebe7fd_f27aed9e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T08:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a1fc53d_aaa0b509",
+      "range": {
+        "startLine": 277,
+        "startChar": 10,
+        "endLine": 277,
+        "endChar": 16
+      },
+      "revId": "2e0d2110b5bc151ad001d0606464e37372217526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e97712c_58453279",
@@ -83,6 +155,30 @@
       "writtenOn": "2020-11-16T09:03:32Z",
       "side": 1,
       "message": "Maybe instead of explicit color define a type of color (e.g. IMPORTANT, OPTIONAL, ERROR, etc...). Then each color can be defined differently for each app theme.",
+      "range": {
+        "startLine": 333,
+        "startChar": 2,
+        "endLine": 333,
+        "endChar": 6
+      },
+      "revId": "2e0d2110b5bc151ad001d0606464e37372217526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3892c3c_5e6eb1c8",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T08:50:08Z",
+      "side": 1,
+      "message": "I think it will be very hard to come up with these categories of IMPORTANT, OPTIONAL, ERROR, ... Tags are for stuff that goes beyond the ERROR/WARNING/INFO categories.\n\nAnd I don\u0027t think we want to render something in green in light theme, but in red in dark theme. So I think it is good that we give API users an indication here what the actual color will be. Then it might be easier for them to choose between BLUE/PURPLE/GRAY/... depending on what set of labels they are providing. IMPORTANT/OPTIONAL/ERROR/... would run the risk of always being incomplete.",
+      "parentUuid": "3e97712c_58453279",
       "range": {
         "startLine": 333,
         "startChar": 2,

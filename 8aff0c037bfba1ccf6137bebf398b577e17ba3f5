@@ -1,0 +1,239 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c1bb586_8e45beb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-20T12:33:51Z",
+      "side": 1,
+      "message": "just one important comment, everything else is a nit :)",
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf33ca82_23fae58f",
+        "filename": "java/com/google/gerrit/server/query/change/AbstractAfterPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-20T12:33:51Z",
+      "side": 1,
+      "message": "(here and in other classes)\nI guess those places in the code are not well documented but since you\u0027re here, can you add some javadocs to the new classes?",
+      "range": {
+        "startLine": 22,
+        "startChar": 22,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "508d0389_90e82244",
+        "filename": "java/com/google/gerrit/server/query/change/BeforePredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-20T12:33:51Z",
+      "side": 1,
+      "message": "This is sad that we can\u0027t rename the query \"before\" and \"after\", and we\u0027re stuck with them although they mean \"updatedBefore/updatedAfter\".\n\nIt would be nice to at least rename this class to updatedBefore (same for updatedAfter). You can also rename FIELD_BEFORE to FIELD_UPDATED_BEFORE and add a comment that for legacy reasons the value is still going to be \"before\".",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67038fd3_1f69c7dc",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1647,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-20T12:33:51Z",
+      "side": 1,
+      "message": "submit(change1)? Unless you explicitly didn\u0027t want to merge it, and then a comment could be good.",
+      "range": {
+        "startLine": 1647,
+        "startChar": 0,
+        "endLine": 1647,
+        "endChar": 21
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "992318a9_364dc06c",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1648,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-20T12:33:51Z",
+      "side": 1,
+      "message": "Initially reading this I wanted to say \"omit\" but I see you\u0027re just approving it for the sake of updating the change, could you add a comment?",
+      "range": {
+        "startLine": 1648,
+        "startChar": 4,
+        "endLine": 1648,
+        "endChar": 21
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4834e12_ac11e358",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1655,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-20T12:33:51Z",
+      "side": 1,
+      "message": "You could add a comment explaining when change1, change2, change3 were merged (if at all) cause this is actually not immediately clear from the code (or use some variables)",
+      "range": {
+        "startLine": 1655,
+        "startChar": 4,
+        "endLine": 1655,
+        "endChar": 15
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "373b0d70_31eeddf7",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1695,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-20T12:33:51Z",
+      "side": 1,
+      "message": "Same here about all 3 comments above.",
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43921fd1_c8415acd",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1706,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-20T12:33:51Z",
+      "side": 1,
+      "message": "not nit:\nThis is not ideal. The reason for the feature request was to enable queries that get all the changes that were merged in the past 6 months. However, those changes will appear in illogical order (that depends on the \"updated\" time).\n\nIn an ideal world, we could return the changes in the order they have been merged (from the most recent merge to the oldest merge). Can you check how complex it is to implement?\n\nPossibly it should be an independent change then: Is it possible to add an option when querying changes (similar to [1]), and based on the option we would decide whether we return the results based on updated time, or based on mergedOn time? Right now it\u0027s always based on the updated time.\n\nWDYT?\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#list-changes",
+      "range": {
+        "startLine": 1706,
+        "startChar": 14,
+        "endLine": 1706,
+        "endChar": 36
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6920173_de5dd04c",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1716,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-20T12:33:51Z",
+      "side": 1,
+      "message": "It\u0027s good practice to add comments when passing null to a method:\n/** variableName \u003d */ null",
+      "range": {
+        "startLine": 1716,
+        "startChar": 51,
+        "endLine": 1716,
+        "endChar": 55
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea73327b_1288f3d0",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-20T12:33:51Z",
+      "side": 1,
+      "message": "Are you testing that the changes appear in the correct order?\nIf so, please add another assertion for mergedAfter, and possibly a comment.",
+      "range": {
+        "startLine": 1732,
+        "startChar": 0,
+        "endLine": 1734,
+        "endChar": 0
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed5147e0_8a3fab18",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1735,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-20T12:33:51Z",
+      "side": 1,
+      "message": "I hope I didn\u0027t tell you to add too many comments. Some are probably optional, and I think the most important part that the comments should convey is \"why is the assertion I\u0027m seeing correct?\"",
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

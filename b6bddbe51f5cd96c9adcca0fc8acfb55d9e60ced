@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "855a1db5_01325fda",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-20T08:59:49Z",
+      "side": 1,
+      "message": "Could you add a comment here or below to explain the reasoning for this limit? We did invest some cycles to come up with this :-)",
+      "revId": "b6bddbe51f5cd96c9adcca0fc8acfb55d9e60ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

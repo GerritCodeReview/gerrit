@@ -193,6 +193,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6249e966_920fdd7a",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-11-20T08:59:49Z",
+      "side": 1,
+      "message": "We discussed this limit via chat and I suggested ~2k (or 1764 to be precise :-) because that yields a probability \u003c0.0001 (arbitrarily chosen) to not find a NUL despite an even random distribution, so I think 20k is fine.",
+      "parentUuid": "1ff53e1f_8d2d2d1c",
+      "range": {
+        "startLine": 130,
+        "startChar": 10,
+        "endLine": 130,
+        "endChar": 23
+      },
+      "revId": "28254571cd464f1fdde887482e2f858f35a288f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83146d78_30fdfe58",
         "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
         "patchSetId": 10

@@ -249,12 +249,17 @@ export const htmlTemplate = html`
   <div id="container" class="container">
     <div class="header" id="header" on-click="_handleToggleCollapsed">
       <div class="headerLeft">
-        <gr-account-label
-          account="[[_getAuthor(comment, _selfAccount)]]"
-          class$="[[_computeAccountLabelClass(draft)]]"
-          hide-status=""
-        >
-        </gr-account-label>
+        <template is="dom-if" if="[[comment.robot_id]]">
+          <span class="robotName"> [[comment.robot_id]] </span>
+        </template>
+        <template is="dom-if" if="[[!comment.robot_id]]">
+          <gr-account-label
+            account="[[_getAuthor(comment, _selfAccount)]]"
+            class$="[[_computeAccountLabelClass(draft)]]"
+            hide-status=""
+          >
+          </gr-account-label>
+        </template>
         <gr-tooltip-content
           class="draftTooltip"
           has-tooltip=""

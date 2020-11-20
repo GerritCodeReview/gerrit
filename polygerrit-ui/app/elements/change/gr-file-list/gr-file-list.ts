@@ -998,6 +998,7 @@ export class GrFileList extends KeyboardShortcutMixin(
       return;
     }
     e.preventDefault();
+    this.classList.remove('hideComments');
     this.$.diffCursor.createCommentInPlace();
   }
 

@@ -117,6 +117,16 @@ suite('gr-cursor-manager tests', () => {
     assert.equal(element.index, -1);
   });
 
+  test('isAtStart() returns true when there are no stops', () => {
+    element.stops = [];
+    assert.isTrue(element.isAtStart());
+  });
+
+  test('isAtEnd() returns true when there are no stops', () => {
+    element.stops = [];
+    assert.isTrue(element.isAtEnd());
+  });
+
   test('next() goes to first element when no cursor is set', () => {
     element.stops = [...list.querySelectorAll('li')];
     const result = element.next();
@@ -137,8 +147,6 @@ suite('gr-cursor-manager tests', () => {
     assert.equal(element.index, -1);
     assert.isNotOk(element.target);
     assert.isFalse(list.children[1].classList.contains('targeted'));
-    assert.isFalse(element.isAtStart());
-    assert.isFalse(element.isAtEnd());
   });
 
   test('previous() goes to last element when no cursor is set', () => {
@@ -162,8 +170,6 @@ suite('gr-cursor-manager tests', () => {
     assert.equal(element.index, -1);
     assert.isNotOk(element.target);
     assert.isFalse(list.children[1].classList.contains('targeted'));
-    assert.isFalse(element.isAtStart());
-    assert.isFalse(element.isAtEnd());
   });
 
   test('_moveCursor', () => {

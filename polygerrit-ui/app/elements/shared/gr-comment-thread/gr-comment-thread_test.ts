@@ -912,7 +912,7 @@ suite('comment action tests with unresolved thread', () => {
     element.commentSide = Side.LEFT;
 
     assert.equal(element.getAttribute('line-num'), '7');
-    assert.equal(element.getAttribute('comment-side'), Side.LEFT);
+    assert.equal(element.getAttribute('diff-side'), Side.LEFT);
   });
 
   test('reflects range to JSON serialized attribute if set', () => {

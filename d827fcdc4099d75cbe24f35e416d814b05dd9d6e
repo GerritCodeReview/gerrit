@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49d9803c_51c1fb8d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T10:47:23Z",
+      "side": 1,
+      "message": "Should the comments be sorted before calling getCommentThreads()? Or sort them inside the method?",
+      "revId": "d827fcdc4099d75cbe24f35e416d814b05dd9d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cac903a5_64ecc0bb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T10:47:23Z",
+      "side": 1,
+      "message": "If it is not too much work, it would be nice to rename GrCommentThread.commentSide to diffSide.",
+      "range": {
+        "startLine": 782,
+        "startChar": 13,
+        "endLine": 782,
+        "endChar": 24
+      },
+      "revId": "d827fcdc4099d75cbe24f35e416d814b05dd9d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c2c252f_c626d099",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T10:47:23Z",
+      "side": 1,
+      "message": "!! of a boolean is a no-op. You can drop that here.\n\n!! is used for example to convert boolean|undefined to boolean or to convert other types to boolean when truthy.",
+      "range": {
+        "startLine": 783,
+        "startChar": 26,
+        "endLine": 783,
+        "endChar": 28
+      },
+      "revId": "d827fcdc4099d75cbe24f35e416d814b05dd9d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f85b5aa_67ef0767",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T10:47:23Z",
+      "side": 1,
+      "message": "Compared to _getIsParentCommentByLineAndContent() you are not using  isMergeParent(). Why?",
+      "range": {
+        "startLine": 678,
+        "startChar": 28,
+        "endLine": 678,
+        "endChar": 79
+      },
+      "revId": "d827fcdc4099d75cbe24f35e416d814b05dd9d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0dc2a92_b78bdc73",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T10:47:23Z",
+      "side": 1,
+      "message": "Can we keep `rootId` required?",
+      "range": {
+        "startLine": 154,
+        "startChar": 2,
+        "endLine": 154,
+        "endChar": 10
+      },
+      "revId": "d827fcdc4099d75cbe24f35e416d814b05dd9d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

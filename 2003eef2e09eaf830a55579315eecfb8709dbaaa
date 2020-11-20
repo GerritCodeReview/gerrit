@@ -22,6 +22,30 @@
       },
       "revId": "2003eef2e09eaf830a55579315eecfb8709dbaaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c37c312_abc9c428",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T11:22:03Z",
+      "side": 1,
+      "message": "Ack.\n\nI think what you want is a deepClone() method and something that ensures that an object is immutable. We will need more of that for proper state management. We should consider using Immer and then using its produce() method. For now I will leave as is.",
+      "parentUuid": "6abd7c80_4034fe17",
+      "range": {
+        "startLine": 60,
+        "startChar": 28,
+        "endLine": 60,
+        "endChar": 42
+      },
+      "revId": "2003eef2e09eaf830a55579315eecfb8709dbaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -667,6 +667,7 @@ public class ChangeData {
       }
       allApprovals = approvalsUtil.byChange(notes());
     }
+
     return allApprovals;
   }
 

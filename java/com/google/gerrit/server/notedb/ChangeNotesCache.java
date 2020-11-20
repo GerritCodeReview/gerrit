@@ -176,6 +176,7 @@ public class ChangeNotesCache {
           + P
           + list(state.changeMessages(), changeMessage())
           + P
+
           + map(state.publishedComments().asMap(), comment())
           + 1 // reviewStarted
           + I // updateCount

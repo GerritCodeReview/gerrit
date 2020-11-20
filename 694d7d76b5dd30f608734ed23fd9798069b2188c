@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "74e51a4e_4469ef88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T08:22:05Z",
+      "side": 1,
+      "message": "+1 I also think that refs/meta/config should be allowed",
+      "parentUuid": "3093d95e_99629dad",
+      "revId": "694d7d76b5dd30f608734ed23fd9798069b2188c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a20d51c1_a1c2a010",
         "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
         "patchSetId": 1

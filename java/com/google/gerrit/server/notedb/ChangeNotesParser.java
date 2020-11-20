@@ -381,6 +381,8 @@ class ChangeNotesParser {
       lastUpdatedOn = ts;
     }
 
+
+
     if (deletedPatchSets.contains(psId)) {
       // Do not update PS details as PS was deleted and this meta data is of no relevance.
       return;

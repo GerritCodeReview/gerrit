@@ -16,6 +16,24 @@
       "message": "Either remove this comment or extract a method such that the \u0027hideComments\u0027 string only appears once in gr-file-list.ts.\n\nSame for gr-diff-view.",
       "revId": "de7dc3a7d9d6d914a06f6fcbc203a34c2737e10b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39b2d91a_6d35d0c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-20T10:38:44Z",
+      "side": 1,
+      "message": "Removed the comment, it was not contributing much.",
+      "parentUuid": "520f5797_0f869e68",
+      "revId": "de7dc3a7d9d6d914a06f6fcbc203a34c2737e10b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

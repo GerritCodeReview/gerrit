@@ -1697,6 +1697,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     return ImmutableList.of(change1, change2);
   }
 
+
+
   @Test
   public void byHashtag() throws Exception {
     List<Change> changes = setUpHashtagChanges();

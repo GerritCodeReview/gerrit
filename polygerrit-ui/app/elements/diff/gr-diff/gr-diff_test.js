@@ -950,7 +950,7 @@ suite('gr-diff tests', () => {
     test('line comments are key locations', () => {
       const threadEl = document.createElement('div');
       threadEl.className = 'comment-thread';
-      threadEl.setAttribute('comment-side', 'right');
+      threadEl.setAttribute('diff-side', 'right');
       threadEl.setAttribute('line-num', 3);
       element.appendChild(threadEl);
       flush();
@@ -966,7 +966,7 @@ suite('gr-diff tests', () => {
     test('file comments are key locations', () => {
       const threadEl = document.createElement('div');
       threadEl.className = 'comment-thread';
-      threadEl.setAttribute('comment-side', 'left');
+      threadEl.setAttribute('diff-side', 'left');
       element.appendChild(threadEl);
       flush();
 

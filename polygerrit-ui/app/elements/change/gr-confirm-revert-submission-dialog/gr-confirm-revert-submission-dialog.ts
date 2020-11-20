@@ -24,6 +24,7 @@ import {htmlTemplate} from './gr-confirm-revert-submission-dialog_html';
 import {customElement, property} from '@polymer/decorators';
 import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
 import {ChangeInfo} from '../../../types/common';
+import {fire, EventType} from '../../../utils/event-util';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -86,13 +87,7 @@ export class GrConfirmRevertSubmissionDialog extends GestureEventListeners(
     // Follow the same convention of the revert
     const commitHash = change.current_revision;
     if (!commitHash) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {message: ERR_COMMIT_NOT_FOUND},
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, ERR_COMMIT_NOT_FOUND);
       return;
     }
     const revertTitle = `Revert submission ${change.submission_id}`;

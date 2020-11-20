@@ -52,6 +52,7 @@ import {
   PropertyTreeNode,
   PrimitiveValue,
 } from './gr-repo-access-interfaces';
+import {EventType, fire} from '../../../utils/event-util';
 
 const NOTHING_TO_SAVE = 'No changes to save.';
 
@@ -516,13 +517,7 @@ export class GrRepoAccess extends GestureEventListeners(
       !Object.keys(addRemoveObj.remove).length &&
       !addRemoveObj.parent
     ) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {message: NOTHING_TO_SAVE},
-          bubbles: true,
-          composed: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, NOTHING_TO_SAVE);
       return;
     }
     const obj: ProjectAccessInput = ({

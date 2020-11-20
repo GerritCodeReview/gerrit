@@ -46,6 +46,7 @@ import {
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {PolymerDomRepeatEvent} from '../../../types/types';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {EventType, fire} from '../../../utils/event-util';
 
 const SUGGESTIONS_LIMIT = 15;
 const SAVING_ERROR_TEXT =
@@ -297,13 +298,7 @@ export class GrGroupMembers extends GestureEventListeners(
         (errResponse, err) => {
           if (errResponse) {
             if (errResponse.status === 404) {
-              this.dispatchEvent(
-                new CustomEvent('show-alert', {
-                  detail: {message: SAVING_ERROR_TEXT},
-                  bubbles: true,
-                  composed: true,
-                })
-              );
+              fire(this, EventType.SHOW_ALERT, SAVING_ERROR_TEXT);
               return errResponse;
             }
             throw Error(errResponse.statusText);

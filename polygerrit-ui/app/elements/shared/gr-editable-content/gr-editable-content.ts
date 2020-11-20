@@ -24,6 +24,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-editable-content_html';
+import {fire, EventType} from '../../../utils/event-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -149,13 +150,7 @@ export class GrEditableContent extends GestureEventListeners(
       );
       if (storedContent?.message) {
         content = storedContent.message;
-        this.dispatchEvent(
-          new CustomEvent('show-alert', {
-            detail: {message: RESTORED_MESSAGE},
-            bubbles: true,
-            composed: true,
-          })
-        );
+        fire(this, EventType.SHOW_ALERT, RESTORED_MESSAGE);
       }
     }
     if (!content) {

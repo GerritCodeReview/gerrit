@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f585085b_464fe245",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T08:20:52Z",
+      "side": 1,
+      "message": "In addition we should also allow refs/meta/config as it is quite common to upload a change for this branch, e.g. to review changes to the project.config.\n\nWhen we allow this, there should also be a test to check that using refs/meta/config is working.",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "694d7d76b5dd30f608734ed23fd9798069b2188c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3093d95e_99629dad",
@@ -14,6 +37,86 @@
       "writtenOn": "2020-11-19T18:53:20Z",
       "side": 1,
       "message": "Seems like this restricts being able to edit project.config (as you won\u0027t be able to touch refs/meta/config).\n\nShouldn\u0027t we just blacklist the refs that would be cause for concern?",
+      "revId": "694d7d76b5dd30f608734ed23fd9798069b2188c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d75214e_88c63b6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T08:20:52Z",
+      "side": 1,
+      "message": "Do we also need a documentation update for the Create Change REST endpoint to mention the new constraint there?",
+      "revId": "694d7d76b5dd30f608734ed23fd9798069b2188c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a20d51c1_a1c2a010",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T08:20:52Z",
+      "side": 1,
+      "message": "This should be a BadRequestException as it is wrong user input.\nUsing PermissionBackendException would be bad as it would result in a 500 ISE which would count against our SLO.",
+      "range": {
+        "startLine": 227,
+        "startChar": 16,
+        "endLine": 227,
+        "endChar": 42
+      },
+      "revId": "694d7d76b5dd30f608734ed23fd9798069b2188c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e9d3adc_62e2f01d",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T08:20:52Z",
+      "side": 1,
+      "message": "Better say \"ref\" here. I believe some people understand branches as \"refs under refs/heads/\".",
+      "range": {
+        "startLine": 228,
+        "startChar": 37,
+        "endLine": 228,
+        "endChar": 43
+      },
+      "revId": "694d7d76b5dd30f608734ed23fd9798069b2188c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db441f2f_ddcbc16c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T08:20:52Z",
+      "side": 1,
+      "message": "I think the Change-Id is not relevant for this test and should probably be dropped. E.g. just make this: ci.subject \u003d \"Subject\";",
       "revId": "694d7d76b5dd30f608734ed23fd9798069b2188c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

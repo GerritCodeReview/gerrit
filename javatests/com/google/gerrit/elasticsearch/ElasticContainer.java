@@ -19,6 +19,7 @@ import org.junit.AssumptionViolatedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
+import org.testcontainers.utility.DockerImageName;
 
 /* Helper class for running ES integration tests in docker container */
 public class ElasticContainer extends ElasticsearchContainer {
@@ -39,7 +40,7 @@ public class ElasticContainer extends ElasticsearchContainer {
   private static String getImageName(ElasticVersion version) {
     switch (version) {
       case V6_8:
-        return "blacktop/elasticsearch:6.8.12";
+        return "blacktop/elasticsearch:6.8.13";
       case V7_0:
         return "blacktop/elasticsearch:7.0.1";
       case V7_1:
@@ -63,7 +64,9 @@ public class ElasticContainer extends ElasticsearchContainer {
   }
 
   private ElasticContainer(ElasticVersion version) {
-    super(getImageName(version));
+    super(
+        DockerImageName.parse(getImageName(version))
+            .asCompatibleSubstituteFor("docker.elastic.co/elasticsearch/elasticsearch"));
   }
 
   @Override

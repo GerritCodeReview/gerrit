@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb420c92_b9537fa6",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:58:36Z",
+      "side": 1,
+      "message": "This code is now moved to the new BaseCommitUtil, which is used from the Diffs facade.",
+      "parentUuid": "3f66ed22_c3925e56",
+      "range": {
+        "startLine": 297,
+        "startChar": 17,
+        "endLine": 297,
+        "endChar": 28
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b987450_24ca11e3",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-09-18T11:53:49Z",
       "side": 1,
       "message": "Nit: Ideally, this Javadoc description includes a note saying that the diff caches should not be used directly and that any callers should only refer to the Diffs facade.\n\n(This of course also means that we\u0027ll have to add all necessary methods to the Diffs interface, e.g. also for the diff summary, but that\u0027s the plan. :-) )",
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9753c8fd_075c0d3f",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:58:36Z",
+      "side": 1,
+      "message": "Sure. I added documentation for the methods in this change, and will add more in follow ups.",
+      "parentUuid": "4b987450_24ca11e3",
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -134,6 +176,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d02b6454_88b7d99d",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:58:36Z",
+      "side": 1,
+      "message": "Right. That was in my mind to remove FileInfo from the API later. Done.",
+      "parentUuid": "2a0940ea_32a6a162",
+      "range": {
+        "startLine": 34,
+        "startChar": 14,
+        "endLine": 34,
+        "endChar": 22
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3ecdaf5_8fa41519",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:58:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7af4ea_eada9da3",
+      "range": {
+        "startLine": 34,
+        "startChar": 68,
+        "endLine": 34,
+        "endChar": 84
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c07fdf7b_508f85fa",
@@ -147,6 +237,30 @@
       "writtenOn": "2020-09-18T11:53:49Z",
       "side": 1,
       "message": "We should have a clear separation between the code used by the diff caches and the code used outside of them e.g. in DiffsImpl. The new code added to DiffUtil is especially confusing as it only works with the design of the PatchListKey, which is filled and set up differently than the keys of the new caches. Hence, please move that code out of DiffUtil.",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 77
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af1138c5_46d6a662",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:58:36Z",
+      "side": 1,
+      "message": "Yes, this is correct. I made that separation for now. Code in this change only relies on the newly added BaseCommitUtil.\n\nDone.",
+      "parentUuid": "c07fdf7b_508f85fa",
       "range": {
         "startLine": 79,
         "startChar": 6,
@@ -497,6 +611,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "752c7833_9ab04893",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:58:36Z",
+      "side": 1,
+      "message": "I re-worked this part.",
+      "parentUuid": "7fb2d55c_27b0c74e",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 9
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f13dda17_10b30ea5",
@@ -510,6 +648,30 @@
       "writtenOn": "2020-09-18T11:53:49Z",
       "side": 1,
       "message": "FYI: Whichever error handling we\u0027ll have in the future, it shouldn\u0027t use PatchListNotAvailableException anymore. PatchListNotAvailableException is too close to the old caches and should be removed with them.",
+      "range": {
+        "startLine": 142,
+        "startChar": 16,
+        "endLine": 142,
+        "endChar": 46
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34de9458_9a6decae",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:58:36Z",
+      "side": 1,
+      "message": "Not yet addressed. Getting rid of PatchListNotAvailableException would require visiting all callers.\n\nBut I can probably get rid of it here, then remove it from callers in a follow up change.",
+      "parentUuid": "f13dda17_10b30ea5",
       "range": {
         "startLine": 142,
         "startChar": 16,
@@ -580,6 +742,30 @@
       "writtenOn": "2020-09-18T11:53:49Z",
       "side": 1,
       "message": "Did you include this flag as you ran into issues with root commits in bare repositories (guessing from the \"(aCommit instanceof RevCommit) ? true : false)\" input in DiffsImpl)? If so, the (Git)ModifiedFilesCache should properly handle such root commits without the need of this flag.\n\nI remember commenting on the handling of root commits on the previous changes, so these issues might be gone after you adjusted the previous changes.",
+      "range": {
+        "startLine": 234,
+        "startChar": 20,
+        "endLine": 234,
+        "endChar": 43
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "163e9d99_a44574fd",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:58:36Z",
+      "side": 1,
+      "message": "Yes right. This boolean was very bad anyway. I got rid of it.",
+      "parentUuid": "aeadb32d_9f017960",
       "range": {
         "startLine": 234,
         "startChar": 20,

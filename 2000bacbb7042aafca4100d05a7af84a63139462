@@ -16,6 +16,24 @@
       "message": "I cherry-picked this change from its \"master\" (2020-11.notedb-refs-tags) version, rather than relying on its potentially farther downstream 3.2 version.\n\nThe follow-up change does that merge-up, bringing the companion \"Workaround Gitiles bug on All-Users visibility\" security fix in this branch. The latter change had no \"master\" version, AFAIK.",
       "revId": "2000bacbb7042aafca4100d05a7af84a63139462",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42695ebc_931af248",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-20T20:27:28Z",
+      "side": 1,
+      "message": "Adding David in cc, as I added him to the base and follow-up changes. David, you may also see my explanations right above.",
+      "parentUuid": "ad054401_0aff93b2",
+      "revId": "2000bacbb7042aafca4100d05a7af84a63139462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

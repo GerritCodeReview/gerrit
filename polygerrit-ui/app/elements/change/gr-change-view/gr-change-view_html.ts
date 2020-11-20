@@ -558,6 +558,11 @@ export const htmlTemplate = html`
           <span>Comments</span></gr-tooltip-content
         >
       </paper-tab>
+      <template is="dom-if" if="[[_isChecksEnabled]]">
+        <paper-tab data-name$="[[_constants.PrimaryTab.CHECKS]]"
+          >Checks</paper-tab
+        >
+      </template>
       <template
         is="dom-repeat"
         items="[[_dynamicTabHeaderEndpoints]]"
@@ -645,6 +650,12 @@ export const htmlTemplate = html`
           on-thread-list-modified="_handleReloadDiffComments"
           unresolved-only
         ></gr-thread-list>
+      </template>
+      <template
+        is="dom-if"
+        if="[[_isTabActive(_constants.PrimaryTab.CHECKS, _activeTabs)]]"
+      >
+        <gr-checks-tab id="checksTab"></gr-checks-tab>
       </template>
       <template
         is="dom-if"

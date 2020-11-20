@@ -15,16 +15,12 @@
  * limitations under the License.
  */
 
-export interface FlagsService {
-  isEnabled(experimentId: string): boolean;
-  enabledExperiments: string[];
-}
+import '../../test/common-test-setup-karma';
+import {GrChecksTab} from './gr-checks-tab';
 
-/**
- * @desc Experiment ids used in Gerrit.
- */
-export enum KnownExperimentId {
-  PATCHSET_COMMENTS = 'UiFeature__patchset_comments',
-  NEW_CONTEXT_CONTROLS = 'UiFeature__new_context_controls',
-  CI_REBOOT_CHECKS = 'UiFeature__ci_reboot_checks',
-}
+suite('gr-checks-tab test', () => {
+  test('is defined', () => {
+    const el = document.createElement('gr-checks-tab');
+    assert.instanceOf(el, GrChecksTab);
+  });
+});

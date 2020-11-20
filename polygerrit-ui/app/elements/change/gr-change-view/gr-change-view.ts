@@ -152,6 +152,8 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {PORTING_COMMENTS_CHANGE_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {GrChecksTab} from '../../checks/gr-checks-tab';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -229,6 +231,7 @@ export interface GrChangeView {
     commitCollapseToggle: HTMLDivElement;
     relatedChangesToggleButton: GrButton;
     replyBtn: GrButton;
+    checksTab: GrChecksTab;
   };
 }
 
@@ -261,6 +264,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
    */
 
   reporting = appContext.reportingService;
+
+  flagsService = appContext.flagsService;
 
   /**
    * URL params passed from the router.
@@ -531,6 +536,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _throttledToggleChangeStar?: EventListener;
 
+  _isChecksEnabled = false;
+
   keyboardShortcuts() {
     return {
       [Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
@@ -555,8 +562,17 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   /** @override */
+  ready() {
+    super.ready();
+    this._isChecksEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.CI_REBOOT_CHECKS
+    );
+  }
+
+  /** @override */
   connectedCallback() {
     super.connectedCallback();
+    if (this.$.checksTab) this.$.checksTab.setAttribute("party", "yes");
     this._throttledToggleChangeStar = this._throttleWrap(e =>
       this._handleToggleChangeStar(e as CustomKeyboardEvent)
     );

@@ -78,6 +78,7 @@ import {UIDraft} from '../../../utils/comment-util';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {PatchSetFile} from '../../../types/types';
 import {CustomKeyboardEvent} from '../../../types/events';
+import {GrChecksTab} from '../../checks/gr-checks-tab';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -376,6 +377,8 @@ export class GrFileList extends KeyboardShortcutMixin(
   /** @override */
   attached() {
     super.attached();
+    const c: GrChecksTab = document.createElement('gr-checks-tab');
+    if (this.root) this.root.appendChild(c);
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {

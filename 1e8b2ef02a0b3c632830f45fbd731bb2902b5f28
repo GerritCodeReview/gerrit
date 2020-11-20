@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3d3cd97_5c268324",
+        "filename": "java/com/google/gerrit/server/patch/filediff/Edit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T14:53:25Z",
+      "side": 1,
+      "message": "This added method doesn\u0027t have anything to do for this change, but it will be used in the next change.\n\nI removed it back and will add it again in the follow up change.",
+      "parentUuid": "f75be49e_a03635f1",
+      "revId": "1e8b2ef02a0b3c632830f45fbd731bb2902b5f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8275d8f3_44f0f915",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78640355_c4844ddf",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileEdits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T14:53:25Z",
+      "side": 1,
+      "message": "This also will be used in the next follow up change.\n\nI removed it back and will add it again in the follow up change.",
+      "parentUuid": "8275d8f3_44f0f915",
+      "revId": "1e8b2ef02a0b3c632830f45fbd731bb2902b5f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cfc5569_c6f62d0f",
@@ -48,6 +84,24 @@
       "writtenOn": "2020-11-20T09:12:59Z",
       "side": 1,
       "message": "Loggers shouldn\u0027t be public; it would be confusing for another class X to log through this logger because it would be tagged with PatchListLoader instead of X. It would also degrade filtering in Analog.\n\nDoes this mean that logger is already being used from another class?",
+      "revId": "1e8b2ef02a0b3c632830f45fbd731bb2902b5f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "269881a8_fd5ed9a3",
+        "filename": "java/com/google/gerrit/server/patch/filediff/PatchListLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T14:53:25Z",
+      "side": 1,
+      "message": "Yes, the logger is used from PatchListCacheImpl.java (the old diff cache implementation). Now that I moved PatchListLoader into the new package the two classes are in separate packages.\n\nThis change is transient and this class \"PatchListLoader\" will be totally deprecated after the redesign. So I\u0027d just leave it as is for now, instead of moving more classes that are soon to be deprecated to the new package.",
+      "parentUuid": "6cfc5569_c6f62d0f",
       "revId": "1e8b2ef02a0b3c632830f45fbd731bb2902b5f28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2dc247b5_06562f02",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T09:30:20Z",
+      "side": 1,
+      "message": "I would be interested in establishing a \"never use null\" rule for our code base. WDYT?",
+      "revId": "b07dc546550fa7c9fc0595b09002a7111a59b5d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b4e0dffb_1076bbcc",
         "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
         "patchSetId": 2

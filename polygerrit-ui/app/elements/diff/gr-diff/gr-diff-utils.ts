@@ -58,7 +58,10 @@ export function getLine(threadEl: HTMLElement): LineNumber {
 }
 
 export function getSide(threadEl: HTMLElement): Side | undefined {
-  const sideAtt = threadEl.getAttribute('comment-side');
+  // TODO(dhruvsri): Remove check for comment-side once all users of gr-diff
+  // start setting diff-side
+  const sideAtt =
+    threadEl.getAttribute('diff-side') || threadEl.getAttribute('comment-side');
   if (!sideAtt) {
     console.warn('comment thread without side');
     return undefined;

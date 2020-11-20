@@ -94,7 +94,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
    * line-num:
    *     1-based line number or 'FILE' if it refers to the entire file.
    *
-   * comment-side:
+   * diff-side:
    *     "left" or "right". These indicate which of the two diffed versions
    *     the comment relates to. In the case of unified diff, the left
    *     version is the one whose line number column is further to the left.
@@ -120,7 +120,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   keyEventTarget: HTMLElement = document.body;
 
   @property({type: String, reflectToAttribute: true})
-  commentSide?: Side;
+  diffSide?: Side;
 
   @property({type: String})
   patchNum?: PatchSetNum;
@@ -517,7 +517,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       d.path = this.path;
       d.patch_set = this.patchNum;
       d.side = this._getSide(this.isOnParent);
-      d.diffSide = this.commentSide;
+      d.diffSide = this.diffSide;
 
       if (lineNum && lineNum !== FILE) {
         d.line = lineNum;

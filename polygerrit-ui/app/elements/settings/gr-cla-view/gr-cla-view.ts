@@ -32,6 +32,7 @@ import {
   GroupInfo,
   ContributorAgreementInfo,
 } from '../../../types/common';
+import {fire, EventType} from '../../../utils/event-util';
 
 export interface GrClaView {
   $: {
@@ -156,13 +157,7 @@ export class GrClaView extends GestureEventListeners(
   }
 
   _createToast(message: string) {
-    this.dispatchEvent(
-      new CustomEvent('show-alert', {
-        detail: {message},
-        bubbles: true,
-        composed: true,
-      })
-    );
+    fire(this, EventType.SHOW_ALERT, message);
   }
 
   _computeShowAgreementsClass(showAgreements: boolean) {

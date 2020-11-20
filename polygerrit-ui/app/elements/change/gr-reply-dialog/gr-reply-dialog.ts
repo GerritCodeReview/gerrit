@@ -110,6 +110,7 @@ import {GrStorage, StorageLocation} from '../../shared/gr-storage/gr-storage';
 import {isAttentionSetEnabled} from '../../../utils/attention-set-util';
 import {CODE_REVIEW, getMaxAccounts} from '../../../utils/label-util';
 import {isUnresolved} from '../../../utils/comment-util';
+import {fire, EventType} from '../../../utils/event-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -548,13 +549,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
             const moveTo = isReviewer ? 'reviewer' : 'CC';
             const id = account.name || account.email || key;
             const message = `${id} moved from ${moveFrom} to ${moveTo}.`;
-            this.dispatchEvent(
-              new CustomEvent('show-alert', {
-                detail: {message},
-                composed: true,
-                bubbles: true,
-              })
-            );
+            fire(this, EventType.SHOW_ALERT, message);
           }
         }
       }
@@ -1275,13 +1270,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       return;
     }
     if (this._sendDisabled) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          bubbles: true,
-          composed: true,
-          detail: {message: EMPTY_REPLY_MESSAGE},
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, EMPTY_REPLY_MESSAGE);
       return;
     }
     return this.send(this._includeComments, this.canBeStarted)

@@ -57,6 +57,7 @@ import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {AbortStop} from '../../shared/gr-cursor-manager/gr-cursor-manager';
+import {fire, EventType} from '../../../utils/event-util';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -570,13 +571,7 @@ export class GrDiff extends GestureEventListeners(
 
     const lineNum = getLineNumber(el);
     if (lineNum === null) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {message: 'Invalid line number'},
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, 'Invalid line number');
       return;
     }
 
@@ -618,12 +613,10 @@ export class GrDiff extends GestureEventListeners(
       return false;
     }
     if (!this.patchRange) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {message: 'Cannot create comment. Patch range undefined.'},
-          composed: true,
-          bubbles: true,
-        })
+      fire(
+        this,
+        EventType.SHOW_ALERT,
+        'Cannot create comment. Patch range undefined.'
       );
       return false;
     }
@@ -637,24 +630,14 @@ export class GrDiff extends GestureEventListeners(
       patchNumEquals(this.patchRange.patchNum, EditPatchSetNum);
 
     if (isEdit) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {message: 'You cannot comment on an edit.'},
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, 'You cannot comment on an edit.');
       return false;
     }
     if (isEditBase) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {
-            message: 'You cannot comment on the base patchset of an edit.',
-          },
-          composed: true,
-          bubbles: true,
-        })
+      fire(
+        this,
+        EventType.SHOW_ALERT,
+        'You cannot comment on the base patchset of an edit.'
       );
       return false;
     }

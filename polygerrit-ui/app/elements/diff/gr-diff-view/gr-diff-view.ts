@@ -101,6 +101,7 @@ import {CommentMap} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {PORTING_COMMENTS_DIFF_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
+import {fire, EventType} from '../../../utils/event-util';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -457,13 +458,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     this.$.reviewed.checked = reviewed;
     if (!this._patchRange?.patchNum) return;
     this._saveReviewedState(reviewed).catch(err => {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {message: ERR_REVIEW_STATUS},
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, ERR_REVIEW_STATUS);
       throw err;
     });
   }
@@ -880,18 +875,12 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   _displayDiffBaseAgainstLeftToast() {
     if (!this._patchRange) return;
-    this.dispatchEvent(
-      new CustomEvent('show-alert', {
-        detail: {
-          // \u2190 = ←
-          message:
-            `Patchset ${this._patchRange.basePatchNum} vs ` +
-            `${this._patchRange.patchNum} selected. Press v + \u2190 to view ` +
-            `Base vs ${this._patchRange.basePatchNum}`,
-        },
-        composed: true,
-        bubbles: true,
-      })
+    fire(
+      this,
+      EventType.SHOW_ALERT,
+      `Patchset ${this._patchRange.basePatchNum} vs ` +
+        `${this._patchRange.patchNum} selected. Press v + \u2190 to view ` +
+        `Base vs ${this._patchRange.basePatchNum}`
     );
   }
 
@@ -903,17 +892,12 @@ export class GrDiffView extends KeyboardShortcutMixin(
     )
       ? 'Base'
       : `Patchset ${this._patchRange.basePatchNum}`;
-    this.dispatchEvent(
-      new CustomEvent('show-alert', {
-        detail: {
-          // \u2191 = ↑
-          message: `${leftPatchset} vs
+    fire(
+      this,
+      EventType.SHOW_ALERT,
+      `${leftPatchset} vs
             ${this._patchRange.patchNum} selected\n. Press v + \u2191 to view
-            ${leftPatchset} vs Patchset ${latestPatchNum}`,
-        },
-        composed: true,
-        bubbles: true,
-      })
+            ${leftPatchset} vs Patchset ${latestPatchNum}`
     );
   }
 
@@ -965,15 +949,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
         this.params.commentId
       );
       if (!comment) {
-        this.dispatchEvent(
-          new CustomEvent('show-alert', {
-            detail: {
-              message: 'comment not found',
-            },
-            composed: true,
-            bubbles: true,
-          })
-        );
+        fire(this, EventType.SHOW_ALERT, 'comment not found');
         GerritNav.navigateToChange(this._change);
         return;
       }
@@ -1122,17 +1098,13 @@ export class GrDiffView extends KeyboardShortcutMixin(
             return;
           }
 
-          this.dispatchEvent(
-            new CustomEvent('show-alert', {
-              detail: {
-                message: `File is unchanged between Patchset
+          fire(
+            this,
+            EventType.SHOW_ALERT,
+            `File is unchanged between Patchset
                   ${this._patchRange.basePatchNum} and
                   ${this._patchRange.patchNum}. Showing diff of Base vs
-                  ${this._patchRange.basePatchNum}`,
-              },
-              composed: true,
-              bubbles: true,
-            })
+                  ${this._patchRange.basePatchNum}`
           );
           GerritNav.navigateToDiff(
             this._change,
@@ -1690,24 +1662,12 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   _loadBlame() {
     this._isBlameLoading = true;
-    this.dispatchEvent(
-      new CustomEvent('show-alert', {
-        detail: {message: MSG_LOADING_BLAME},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fire(this, EventType.SHOW_ALERT, MSG_LOADING_BLAME);
     this.$.diffHost
       .loadBlame()
       .then(() => {
         this._isBlameLoading = false;
-        this.dispatchEvent(
-          new CustomEvent('show-alert', {
-            detail: {message: MSG_LOADED_BLAME},
-            composed: true,
-            bubbles: true,
-          })
-        );
+        fire(this, EventType.SHOW_ALERT, MSG_LOADED_BLAME);
       })
       .catch(() => {
         this._isBlameLoading = false;
@@ -1753,15 +1713,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (!this._patchRange) return;
 
     if (patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {
-            message: 'Base is already selected.',
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, 'Base is already selected.');
       return;
     }
     GerritNav.navigateToDiff(
@@ -1778,15 +1730,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (!this._patchRange) return;
 
     if (patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {
-            message: 'Left is already base.',
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, 'Left is already base.');
       return;
     }
     GerritNav.navigateToDiff(
@@ -1808,15 +1752,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {
-            message: 'Latest is already selected.',
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, 'Latest is already selected.');
       return;
     }
 
@@ -1836,15 +1772,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {
-            message: 'Right is already latest.',
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, 'Right is already latest.');
       return;
     }
     GerritNav.navigateToDiff(
@@ -1866,15 +1794,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
       patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
       patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)
     ) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {
-            message: 'Already diffing base against latest.',
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, 'Already diffing base against latest.');
       return;
     }
     GerritNav.navigateToDiff(this._change, this._path, latestPatchNum);

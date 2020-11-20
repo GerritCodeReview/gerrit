@@ -154,21 +154,21 @@ export class GrDiffCursor extends GestureEventListeners(
 
   moveDown() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.next({
+      return this.$.cursorManager.next({
         filter: (row: Element) => this._rowHasSide(row),
       });
     } else {
-      this.$.cursorManager.next();
+      return this.$.cursorManager.next();
     }
   }
 
   moveUp() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.previous({
+      return this.$.cursorManager.previous({
         filter: (row: Element) => this._rowHasSide(row),
       });
     } else {
-      this.$.cursorManager.previous();
+      return this.$.cursorManager.previous();
     }
   }
 
@@ -182,7 +182,10 @@ export class GrDiffCursor extends GestureEventListeners(
     }
   }
 
-  moveToNextChunk(clipToTop?: boolean, navigateToNextFile?: boolean) {
+  moveToNextChunk(
+    clipToTop?: boolean,
+    navigateToNextFile?: boolean
+  ): CursorMoveResult {
     const result = this.$.cursorManager.next({
       filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
       getTargetHeight: target =>
@@ -226,27 +229,31 @@ export class GrDiffCursor extends GestureEventListeners(
     }
 
     this._fixSide();
+    return result;
   }
 
-  moveToPreviousChunk() {
-    this.$.cursorManager.previous({
+  moveToPreviousChunk(): CursorMoveResult {
+    const result = this.$.cursorManager.previous({
       filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
     });
     this._fixSide();
+    return result;
   }
 
-  moveToNextCommentThread() {
-    this.$.cursorManager.next({
+  moveToNextCommentThread(): CursorMoveResult {
+    const result = this.$.cursorManager.next({
       filter: (row: HTMLElement) => this._rowHasThread(row),
     });
     this._fixSide();
+    return result;
   }
 
-  moveToPreviousCommentThread() {
-    this.$.cursorManager.previous({
+  moveToPreviousCommentThread(): CursorMoveResult {
+    const result = this.$.cursorManager.previous({
       filter: (row: HTMLElement) => this._rowHasThread(row),
     });
     this._fixSide();
+    return result;
   }
 
   moveToLineNumber(number: number, side: Side, path?: string) {

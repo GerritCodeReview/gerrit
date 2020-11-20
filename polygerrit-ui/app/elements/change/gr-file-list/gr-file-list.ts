@@ -1654,7 +1654,7 @@ export class GrFileList extends KeyboardShortcutMixin(
     // The comment thread already has a side associated with it, so
     // set the comment's side to match.
     threadEl.comments = newComments.map(c =>
-      Object.assign(c, {__commentSide: threadEl.commentSide})
+      Object.assign(c, {__commentSide: threadEl.diffSide})
     );
     flush();
   }

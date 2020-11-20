@@ -1641,7 +1641,7 @@ suite('gr-file-list tests', () => {
       flush();
     });
 
-    test('cursor with individually opened files', async () => {
+    test.only('cursor with individually opened files', async () => {
       MockInteractions.keyUpOn(element, 73, null, 'i');
       flush();
       let diffs = await renderAndGetNewDiffs(0);

@@ -151,7 +151,7 @@ suite('gr-diff-highlight', () => {
     test('comment-thread-mouseenter from line comments is ignored', () => {
       const threadEl = document.createElement('div');
       threadEl.className = 'comment-thread';
-      threadEl.setAttribute('comment-side', 'right');
+      threadEl.setAttribute('diff-side', 'right');
       threadEl.setAttribute('line-num', 3);
       element.appendChild(threadEl);
       element.commentRanges = [{side: 'right'}];
@@ -165,7 +165,7 @@ suite('gr-diff-highlight', () => {
     test('comment-thread-mouseenter from ranged comment causes set', () => {
       const threadEl = document.createElement('div');
       threadEl.className = 'comment-thread';
-      threadEl.setAttribute('comment-side', 'right');
+      threadEl.setAttribute('diff-side', 'right');
       threadEl.setAttribute('line-num', 3);
       threadEl.setAttribute('range', JSON.stringify({
         start_line: 3,
@@ -193,7 +193,7 @@ suite('gr-diff-highlight', () => {
     test('comment-thread-mouseleave from line comments is ignored', () => {
       const threadEl = document.createElement('div');
       threadEl.className = 'comment-thread';
-      threadEl.setAttribute('comment-side', 'right');
+      threadEl.setAttribute('diff-side', 'right');
       threadEl.setAttribute('line-num', 3);
       element.appendChild(threadEl);
       element.commentRanges = [{side: 'right'}];

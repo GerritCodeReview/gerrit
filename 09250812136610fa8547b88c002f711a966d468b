@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bdacc1d_e5882e23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-20T13:50:35Z",
+      "side": 1,
+      "message": "@Tony looks good :-) can you also add an entry to the Gerrit v3.3 release notes and put the two changes in the same topic?",
+      "revId": "09250812136610fa8547b88c002f711a966d468b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

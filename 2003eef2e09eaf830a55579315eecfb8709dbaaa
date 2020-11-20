@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6abd7c80_4034fe17",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-20T10:50:37Z",
+      "side": 1,
+      "message": "nit: I prefer either {...DEFAULT_CONFIG} or a method getDefaultConfig. It protects from accidentally updates DEFAULT_CONFIG settings (the method is better, because it works with nested objects too)",
+      "range": {
+        "startLine": 60,
+        "startChar": 28,
+        "endLine": 60,
+        "endChar": 42
+      },
+      "revId": "2003eef2e09eaf830a55579315eecfb8709dbaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

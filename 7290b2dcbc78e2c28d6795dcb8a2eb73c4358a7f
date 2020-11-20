@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "3f66ed22_c3925e56",
         "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
@@ -20,10 +21,10 @@
         "endChar": 28
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "4b987450_24ca11e3",
         "filename": "java/com/google/gerrit/server/patch/Diffs.java",
@@ -37,10 +38,10 @@
       "side": 1,
       "message": "Nit: Ideally, this Javadoc description includes a note saying that the diff caches should not be used directly and that any callers should only refer to the Diffs facade.\n\n(This of course also means that we\u0027ll have to add all necessary methods to the Diffs interface, e.g. also for the diff summary, but that\u0027s the plan. :-) )",
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "72c8167a_000e5530",
         "filename": "java/com/google/gerrit/server/patch/Diffs.java",
@@ -60,10 +61,34 @@
         "endChar": 31
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63e1ea51_04ac11b1",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72c8167a_000e5530",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "da7af4ea_eada9da3",
         "filename": "java/com/google/gerrit/server/patch/Diffs.java",
@@ -83,10 +108,10 @@
         "endChar": 84
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "2a0940ea_32a6a162",
         "filename": "java/com/google/gerrit/server/patch/Diffs.java",
@@ -106,10 +131,10 @@
         "endChar": 22
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c07fdf7b_508f85fa",
         "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
@@ -129,10 +154,10 @@
         "endChar": 77
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "08b73503_274accc9",
         "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
@@ -152,10 +177,34 @@
         "endChar": 78
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bb7da79_9c9377eb",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08b73503_274accc9",
+      "range": {
+        "startLine": 83,
+        "startChar": 24,
+        "endLine": 83,
+        "endChar": 78
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "ed21c7ef_ac18a088",
         "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
@@ -175,10 +224,34 @@
         "endChar": 36
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f3b31a6_13e41e4f",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:29:01Z",
+      "side": 1,
+      "message": "I removed the whitespace setting from this cache. This parameter has no effect on the computation and is only relevant when requesting the file diff and list of edits.",
+      "parentUuid": "ed21c7ef_ac18a088",
+      "range": {
+        "startLine": 89,
+        "startChar": 14,
+        "endLine": 89,
+        "endChar": 36
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "b7ac3b6d_7f2d85ee",
         "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
@@ -198,10 +271,34 @@
         "endChar": 34
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50f23f5f_6a951311",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7ac3b6d_7f2d85ee",
+      "range": {
+        "startLine": 95,
+        "startChar": 30,
+        "endLine": 95,
+        "endChar": 34
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "6427a29f_286db405",
         "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
@@ -221,10 +318,34 @@
         "endChar": 47
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfac373b_efd845d5",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6427a29f_286db405",
+      "range": {
+        "startLine": 96,
+        "startChar": 46,
+        "endLine": 96,
+        "endChar": 47
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "33d20902_6d83d602",
         "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
@@ -238,10 +359,28 @@
       "side": 1,
       "message": "After removing the temporary code to handle root commits, this loop can be a simple stream.",
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c05e82d3_77694d73",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33d20902_6d83d602",
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "eb65b53d_a1ab697e",
         "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
@@ -261,10 +400,34 @@
         "endChar": 30
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8705f72_42bda227",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb65b53d_a1ab697e",
+      "range": {
+        "startLine": 107,
+        "startChar": 14,
+        "endLine": 107,
+        "endChar": 30
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "315c3339_e7b14dc5",
         "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
@@ -284,10 +447,34 @@
         "endChar": 19
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f57ff82b_869ba24e",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "315c3339_e7b14dc5",
+      "range": {
+        "startLine": 108,
+        "startChar": 14,
+        "endLine": 109,
+        "endChar": 19
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "7fb2d55c_27b0c74e",
         "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
@@ -307,10 +494,10 @@
         "endChar": 9
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f13dda17_10b30ea5",
         "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
@@ -330,10 +517,10 @@
         "endChar": 46
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "91a9d6d5_aef97bec",
         "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
@@ -353,10 +540,34 @@
         "endChar": 30
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7754806_4ffca3b4",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91a9d6d5_aef97bec",
+      "range": {
+        "startLine": 147,
+        "startChar": 19,
+        "endLine": 147,
+        "endChar": 30
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "aeadb32d_9f017960",
         "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
@@ -376,10 +587,10 @@
         "endChar": 43
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "603a2bfd_7673a3fc",
         "filename": "java/com/google/gerrit/server/patch/PatchListEntry.java",
@@ -399,8 +610,31 @@
         "endChar": 51
       },
       "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe0722ba_2049c66d",
+        "filename": "java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T18:29:01Z",
+      "side": 1,
+      "message": "Done.\n\nReverted the change to this file in this and the previous change.",
+      "parentUuid": "603a2bfd_7673a3fc",
+      "range": {
+        "startLine": 50,
+        "startChar": 13,
+        "endLine": 50,
+        "endChar": 51
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

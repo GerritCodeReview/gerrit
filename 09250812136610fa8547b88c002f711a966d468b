@@ -34,6 +34,23 @@
       "parentUuid": "0bdacc1d_e5882e23",
       "revId": "09250812136610fa8547b88c002f711a966d468b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21c56ba9_e59f52bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-20T16:52:36Z",
+      "side": 1,
+      "message": "I\u0027ve submitted *before* the CI validation, because there are *zero* changes on the Gerrit code, whilst the gerrit.sh is covered by manual testing, done already by Tony.",
+      "revId": "09250812136610fa8547b88c002f711a966d468b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

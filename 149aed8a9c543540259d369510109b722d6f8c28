@@ -22,6 +22,30 @@
       },
       "revId": "149aed8a9c543540259d369510109b722d6f8c28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af73c606_ec1562be",
+        "filename": "polygerrit-ui/FE_Style_Guide.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-20T16:04:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d0e4fe2_33fbd567",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 69
+      },
+      "revId": "149aed8a9c543540259d369510109b722d6f8c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

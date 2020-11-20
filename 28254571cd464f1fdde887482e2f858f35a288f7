@@ -215,6 +215,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b69256b8_a3f78bc3",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-11-20T11:30:29Z",
+      "side": 1,
+      "message": "Thanks. I\u0027d still keep that TODO for myself as I\u0027m interested to revisit this in more depth.",
+      "parentUuid": "6249e966_920fdd7a",
+      "range": {
+        "startLine": 130,
+        "startChar": 10,
+        "endLine": 130,
+        "endChar": 23
+      },
+      "revId": "28254571cd464f1fdde887482e2f858f35a288f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83146d78_30fdfe58",

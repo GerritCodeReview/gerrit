@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "188848dd_11f4862c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-20T09:13:07Z",
+      "side": 0,
+      "message": "This row was added in another A11y fix (https://gerrit-review.googlesource.com/c/gerrit/+/109152, Issue 6435) and the commit message explicitly says:\n\"As part of this change, the \u003ctr\u003e elements that make up the diff are now focusable.\"\nTruly speaking, I don\u0027t understand completely what was fixed in Issue 6435, but maybe you can take a look and ensure that the issue doesn\u0027t appear after your fix (or the issue is not valid anymore).\nI vote +2 for this change, so feel free to resolve this comment and submit your fix if this comment is not actionable.",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 22
+      },
+      "revId": "50eb67be9f55e0a25b6507afa076496ef77cecc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

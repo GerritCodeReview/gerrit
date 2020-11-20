@@ -16,6 +16,29 @@
       "message": "PTAL\n\nWill try to submit this later today.",
       "revId": "628c8919762f35776dbba0ff66e213e84e520648",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90293b3b_9668633a",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.d.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-20T09:25:06Z",
+      "side": 1,
+      "message": "Maybe let\u0027s not go in this way until it is strongly required for diff?\nI am not sure that this is a good solution even for diff, probably we should re-evaluate it for diff as well.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 60
+      },
+      "revId": "628c8919762f35776dbba0ff66e213e84e520648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

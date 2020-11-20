@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bbc02a73_11c629e9",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-20T09:25:06Z",
+      "side": 1,
+      "message": "Maybe let\u0027s not go in this way until it is strongly required for diff?\nThe .d.ts was introduced for adding typing to existing .js library. I am not sure that this is a good solution even for diff, probably we should re-evaluate it for diff as well.",
+      "revId": "2e0d2110b5bc151ad001d0606464e37372217526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "589070ad_f98492ff",
         "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
         "patchSetId": 2

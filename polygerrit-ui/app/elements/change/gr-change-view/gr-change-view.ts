@@ -43,6 +43,7 @@ import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
 import '../gr-upload-help-dialog/gr-upload-help-dialog';
+import '../../checks/gr-checks-tab';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
@@ -152,6 +153,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {PORTING_COMMENTS_CHANGE_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -261,6 +263,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
    */
 
   reporting = appContext.reportingService;
+
+  flagsService = appContext.flagsService;
 
   /**
    * URL params passed from the router.
@@ -531,6 +535,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _throttledToggleChangeStar?: EventListener;
 
+  _isChecksEnabled = false;
+
   keyboardShortcuts() {
     return {
       [Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
@@ -552,6 +558,14 @@ export class GrChangeView extends KeyboardShortcutMixin(
       [Shortcut.DIFF_RIGHT_AGAINST_LATEST]: '_handleDiffRightAgainstLatest',
       [Shortcut.DIFF_BASE_AGAINST_LATEST]: '_handleDiffBaseAgainstLatest',
     };
+  }
+
+  /** @override */
+  ready() {
+    super.ready();
+    this._isChecksEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.CI_REBOOT_CHECKS
+    );
   }
 
   /** @override */

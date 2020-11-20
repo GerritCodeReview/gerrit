@@ -21,10 +21,11 @@
 export enum PrimaryTab {
   FILES = 'files',
   /**
-   * When renaming this, the links in UrlFormatter must be updated.
+   * When renaming 'comments' or 'findings', UrlFormatter.java must be updated.
    */
   COMMENT_THREADS = 'comments',
   FINDINGS = 'findings',
+  CHECKS = 'checks',
 }
 
 /**

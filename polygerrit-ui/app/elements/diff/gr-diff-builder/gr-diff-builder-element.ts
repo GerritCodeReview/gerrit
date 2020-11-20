@@ -48,6 +48,7 @@ import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {getLineNumber} from '../gr-diff/gr-diff-utils';
+import {fire, EventType} from '../../../utils/event-util';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -359,15 +360,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     const message =
       `The value of the '${pref}' user preference is ` +
       'invalid. Fix in diff preferences';
-    this.dispatchEvent(
-      new CustomEvent('show-alert', {
-        detail: {
-          message,
-        },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    fire(this, EventType.SHOW_ALERT, message);
     throw Error(`Invalid preference value: ${pref}`);
   }
 

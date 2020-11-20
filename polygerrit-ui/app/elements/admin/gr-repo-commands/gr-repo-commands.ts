@@ -42,6 +42,7 @@ import {
 } from '../../../types/common';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrCreateChangeDialog} from '../gr-create-change-dialog/gr-create-change-dialog';
+import {fire, EventType} from '../../../utils/event-util';
 
 const GC_MESSAGE = 'Garbage collection completed successfully.';
 const CONFIG_BRANCH = 'refs/meta/config' as BranchName;
@@ -142,13 +143,7 @@ export class GrRepoCommands extends GestureEventListeners(
       .runRepoGC(this.repo)
       .then(response => {
         if (response?.status === 200) {
-          this.dispatchEvent(
-            new CustomEvent('show-alert', {
-              detail: {message: GC_MESSAGE},
-              bubbles: true,
-              composed: true,
-            })
-          );
+          fire(this, EventType.SHOW_ALERT, GC_MESSAGE);
         }
       })
       .finally(() => {
@@ -190,13 +185,7 @@ export class GrRepoCommands extends GestureEventListeners(
         const message = change
           ? CREATE_CHANGE_SUCCEEDED_MESSAGE
           : CREATE_CHANGE_FAILED_MESSAGE;
-        this.dispatchEvent(
-          new CustomEvent('show-alert', {
-            detail: {message},
-            bubbles: true,
-            composed: true,
-          })
-        );
+        fire(this, EventType.SHOW_ALERT, message);
         if (!change) {
           return;
         }

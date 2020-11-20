@@ -294,6 +294,30 @@
       },
       "revId": "d827fcdc4099d75cbe24f35e416d814b05dd9d6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b55c4aa5_e462eb75",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-20T16:49:08Z",
+      "side": 1,
+      "message": "All these properties are optional because they are optional on CommentInfo.\nIf we want to investigate why they are optional, we would have to look at why certain properties are optional on UIComment.\nI don\u0027t think that is in the scope of this change. There are some TODO(TS) on the UIComment object, probably when someone makes those properties non-optional, we can update CommentThread too.",
+      "parentUuid": "6eeedf8c_ef8f93d5",
+      "range": {
+        "startLine": 154,
+        "startChar": 2,
+        "endLine": 154,
+        "endChar": 10
+      },
+      "revId": "d827fcdc4099d75cbe24f35e416d814b05dd9d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

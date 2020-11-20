@@ -16,6 +16,7 @@ package com.google.gerrit.server.patch;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
@@ -45,6 +46,8 @@ import org.eclipse.jgit.revwalk.RevObject;
 
 /** Implementation of {@link Diffs}. */
 public class DiffsImpl implements Diffs {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final int RENAME_SCORE = 60;
   private static final DiffAlgorithm DEFAULT_DIFF_ALGORITHM = DiffAlgorithm.HISTOGRAM;
 
@@ -86,13 +89,14 @@ public class DiffsImpl implements Diffs {
       }
       int numParents = baseCommitUtil.getNumParents(project, newCommit);
       if (numParents > 2) {
-        throw new DiffNotAvailableException(
+        logger.atWarning().log(
             "Diff against auto-merge for merge commits "
                 + "with more than two parents is not supported. Commit "
                 + newCommit
                 + " has "
                 + numParents
                 + " parents");
+        return ImmutableMap.of();
       }
       if (numParents == 1) {
         RevObject base = baseCommitUtil.getBaseCommit(project, newCommit, parent);

@@ -605,6 +605,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (this.modifierPressed(e)) return;
 
     e.preventDefault();
+    // show all comments if user had hidden them
+    this.classList.remove('hideComments');
     this.$.cursor.createCommentInPlace();
   }
 

@@ -998,6 +998,8 @@ export class GrFileList extends KeyboardShortcutMixin(
       return;
     }
     e.preventDefault();
+    // show all comments if user had hidden them
+    this.classList.remove('hideComments');
     this.$.diffCursor.createCommentInPlace();
   }
 

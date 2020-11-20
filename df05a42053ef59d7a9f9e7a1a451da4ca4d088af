@@ -342,6 +342,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "11d0d5e7_a00df80e",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-20T11:05:45Z",
+      "side": 1,
+      "message": "Good point that you\u0027re relying on submissionId for mergedOn.\nInstead of doing so, it\u0027s probably better to look at the status. We\u0027re parsing the status a few lines later in ChangeNotesParser, so you could check if the status \u003d MERGED.",
+      "parentUuid": "fe0a5ba3_2701bc83",
+      "range": {
+        "startLine": 716,
+        "startChar": 14,
+        "endLine": 716,
+        "endChar": 28
+      },
+      "revId": "df05a42053ef59d7a9f9e7a1a451da4ca4d088af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "95be3b6e_a92ba490",
         "filename": "proto/cache.proto",
         "patchSetId": 1

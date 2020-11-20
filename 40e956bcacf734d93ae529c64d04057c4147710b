@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4ed4e3b_b9187bc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-11-20T07:47:43Z",
+      "side": 1,
+      "message": "Sorry for the indecisiveness, Side-A moved from Parent 1 to \"Merge Base\" after I looked at the following merge, which got me confused.",
+      "revId": "40e956bcacf734d93ae529c64d04057c4147710b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

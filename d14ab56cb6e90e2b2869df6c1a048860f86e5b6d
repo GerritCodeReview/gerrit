@@ -22,6 +22,30 @@
       },
       "revId": "d14ab56cb6e90e2b2869df6c1a048860f86e5b6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd256065_72fb8352",
+        "filename": "javatests/com/google/gerrit/elasticsearch/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-20T21:34:11Z",
+      "side": 0,
+      "message": "It comes from downstream as a needed transitive dependency of the docker-java ones added below. Diffing from [1] and through the next diffs shows this, as jackson-annotations is added and used alongside docker-java.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/289363/-1..2/javatests/com/google/gerrit/elasticsearch/BUILD",
+      "parentUuid": "e9065e64_6ef21ce5",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "d14ab56cb6e90e2b2869df6c1a048860f86e5b6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

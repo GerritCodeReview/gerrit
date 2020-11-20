@@ -65,6 +65,11 @@ objects needing finalization.
 * `caches/disk_cached`: Disk entries used by persistent cache.
 * `caches/disk_hit_ratio`: Disk hit ratio for persistent cache.
 
+Cache disk metrics are expensive to compute on larger installations and are not
+computed by default. They can be enabled via the
+link:config.gerrit.html#cache.enableDiskStatMetrics[`cache.enableDiskStatMetrics`]
+setting.
+
 === Change
 
 * `change/submit_rule_evaluation`: Latency for evaluating submit rules on a change.

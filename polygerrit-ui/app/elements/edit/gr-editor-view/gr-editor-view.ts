@@ -47,6 +47,7 @@ import {
 } from '../../../types/common';
 import {GrStorage} from '../../shared/gr-storage/gr-storage';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
+import {fire, EventType} from '../../../utils/event-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -255,13 +256,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
           storedContent.message &&
           storedContent.message !== content
         ) {
-          this.dispatchEvent(
-            new CustomEvent('show-alert', {
-              detail: {message: RESTORED_MESSAGE},
-              bubbles: true,
-              composed: true,
-            })
-          );
+          fire(this, EventType.SHOW_ALERT, RESTORED_MESSAGE);
 
           this._newContent = storedContent.message;
         } else {
@@ -305,13 +300,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
   }
 
   _showAlert(message: string) {
-    this.dispatchEvent(
-      new CustomEvent('show-alert', {
-        detail: {message},
-        bubbles: true,
-        composed: true,
-      })
-    );
+    fire(this, EventType.SHOW_ALERT, message);
   }
 
   _computeSaveDisabled(

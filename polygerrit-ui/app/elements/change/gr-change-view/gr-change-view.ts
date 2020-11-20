@@ -73,7 +73,7 @@ import {
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {changeStatuses, changeStatusString} from '../../../utils/change-util';
-import {EventType} from '../../plugins/gr-plugin-types';
+import {EventType as PluginEventType} from '../../plugins/gr-plugin-types';
 import {customElement, property, observe} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
@@ -152,6 +152,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {PORTING_COMMENTS_CHANGE_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
+import {fire, EventType} from '../../../utils/event-util';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -1297,7 +1298,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   _sendShowChangeEvent() {
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
-    this.$.jsAPI.handleEvent(EventType.SHOW_CHANGE, {
+    this.$.jsAPI.handleEvent(PluginEventType.SHOW_CHANGE, {
       change: this._change,
       patchNum: this._patchRange.patchNum,
       info: {mergeable: this._mergeable},
@@ -1654,15 +1655,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     if (patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {
-            message: 'Base is already selected.',
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, 'Base is already selected.');
       return;
     }
     GerritNav.navigateToChange(this._change, this._patchRange.patchNum);
@@ -1676,15 +1669,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     if (patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {
-            message: 'Left is already base.',
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, 'Left is already base.');
       return;
     }
     GerritNav.navigateToChange(this._change, this._patchRange.basePatchNum);
@@ -1727,15 +1712,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {
-            message: 'Right is already latest.',
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, 'Right is already latest.');
       return;
     }
     GerritNav.navigateToChange(
@@ -1757,15 +1734,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
       patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
       patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)
     ) {
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {
-            message: 'Already diffing base against latest.',
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, EventType.SHOW_ALERT, 'Already diffing base against latest.');
       return;
     }
     GerritNav.navigateToChange(this._change, latestPatchNum);
@@ -1873,7 +1842,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
         changeRecord.path
       );
     }
-    this.$.jsAPI.handleEvent(EventType.LABEL_CHANGE, {
+    this.$.jsAPI.handleEvent(PluginEventType.LABEL_CHANGE, {
       change: this._change,
     });
   }

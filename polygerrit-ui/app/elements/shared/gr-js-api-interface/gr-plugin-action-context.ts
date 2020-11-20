@@ -18,6 +18,7 @@
 import {RevisionInfo, ChangeInfo, RequestPayload} from '../../../types/common';
 import {PluginApi} from '../../plugins/gr-plugin-types';
 import {UIActionInfo} from './gr-change-actions-js-api';
+import {fire, EventType} from '../../../utils/event-util';
 
 interface GrPopupInterface {
   close(): void;

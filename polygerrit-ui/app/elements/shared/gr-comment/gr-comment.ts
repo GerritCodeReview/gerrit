@@ -60,6 +60,7 @@ import {
   UIRobot,
 } from '../../../utils/comment-util';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
+import {fire, EventType} from '../../../utils/event-util';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -850,13 +851,7 @@ export class GrComment extends KeyboardShortcutMixin(
         // Note: the event is fired on the body rather than this element because
         // this element may not be attached by the time this executes, in which
         // case the event would not bubble.
-        document.body.dispatchEvent(
-          new CustomEvent('show-alert', {
-            detail: {message},
-            bubbles: true,
-            composed: true,
-          })
-        );
+        fire(document.body, EventType.SHOW_ALERT, message);
       },
       TOAST_DEBOUNCE_INTERVAL
     );

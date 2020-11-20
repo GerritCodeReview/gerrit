@@ -175,7 +175,7 @@ public class ChangeNotesCache {
           + list(state.submitRecords(), P + list(2, str(4) + P + K) + P)
           + P
           + list(state.changeMessages(), changeMessage())
-          + P
+          + P + P
           + map(state.publishedComments().asMap(), comment())
           + 1 // isPrivate
           + 1 // workInProgress

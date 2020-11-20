@@ -48,6 +48,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.project.ProjectCache;
@@ -63,6 +64,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
@@ -88,6 +90,18 @@ public class RefControlTest {
 
   private void assertNotOwner(ProjectControl u) {
     assertWithMessage("not owner").that(u.isOwner()).isFalse();
+  }
+
+  private void assertAllRefsAreVisible(ProjectControl u) {
+    assertWithMessage("all refs visible")
+        .that(u.allRefsAreVisible(Collections.emptySet()))
+        .isTrue();
+  }
+
+  private void assertAllRefsAreNotVisible(ProjectControl u) {
+    assertWithMessage("all refs NOT visible")
+        .that(u.allRefsAreVisible(Collections.emptySet()))
+        .isFalse();
   }
 
   private void assertNotOwner(String ref, ProjectControl u) {
@@ -181,6 +195,7 @@ public class RefControlTest {
   private final Project.NameKey parentKey = Project.nameKey("parent");
 
   @Inject private AllProjectsName allProjectsName;
+  @Inject private AllUsersName allUsersName;
   @Inject private InMemoryRepositoryManager repoManager;
   @Inject private MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject private ProjectCache projectCache;
@@ -269,6 +284,32 @@ public class RefControlTest {
         .add(block(OWNER).ref("refs/*").group(DEVS))
         .update();
     assertAdminsAreOwnersAndDevsAreNot();
+  }
+
+  @Test
+  public void allRefsAreVisibleForRegularProject() throws Exception {
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(allow(READ).ref("refs/*").group(DEVS))
+        .add(allow(READ).ref("refs/groups/*").group(DEVS))
+        .add(allow(READ).ref("refs/users/default").group(DEVS))
+        .update();
+
+    assertAllRefsAreVisible(user(localKey, DEVS));
+  }
+
+  @Test
+  public void allRefsAreNotVisibleForAllUsers() throws Exception {
+    projectOperations
+        .project(allUsersName)
+        .forUpdate()
+        .add(allow(READ).ref("refs/*").group(DEVS))
+        .add(allow(READ).ref("refs/groups/*").group(DEVS))
+        .add(allow(READ).ref("refs/users/default").group(DEVS))
+        .update();
+
+    assertAllRefsAreNotVisible(user(allUsersName, DEVS));
   }
 
   @Test

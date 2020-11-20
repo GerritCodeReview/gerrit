@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -76,6 +77,7 @@ class ProjectControl {
   private final PermissionCollection.Factory permissionFilter;
   private final DefaultRefFilter.Factory refFilterFactory;
   private final ChangeData.Factory changeDataFactory;
+  private final AllUsersName allUsersName;
 
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
@@ -91,6 +93,7 @@ class ProjectControl {
       GitRepositoryManager repositoryManager,
       DefaultRefFilter.Factory refFilterFactory,
       ChangeData.Factory changeDataFactory,
+      AllUsersName allUsersName,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.uploadGroups = uploadGroups;
@@ -101,6 +104,7 @@ class ProjectControl {
     this.repositoryManager = repositoryManager;
     this.refFilterFactory = refFilterFactory;
     this.changeDataFactory = changeDataFactory;
+    this.allUsersName = allUsersName;
     user = who;
     state = ps;
   }
@@ -173,7 +177,9 @@ class ProjectControl {
   }
 
   boolean allRefsAreVisible(Set<String> ignore) {
-    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
+    return user.isInternalUser()
+        || (!getProject().getNameKey().equals(allUsersName)
+            && canPerformOnAllRefs(Permission.READ, ignore));
   }
 
   /** Can the user run upload pack? */

@@ -66,6 +66,11 @@ objects needing finalization.
 * `caches/disk_hit_ratio`: Disk hit ratio for persistent cache.
 * `caches/refresh_count`: The number of refreshes per cache with an indicator if a reload was necessary.
 
+Cache disk metrics are expensive to compute on larger installations and are not
+computed by default. They can be enabled via the
+link:config.gerrit.html#cache.enableDiskStatMetrics[`cache.enableDiskStatMetrics`]
+setting.
+
 === Change
 
 * `change/submit_rule_evaluation`: Latency for evaluating submit rules on a change.

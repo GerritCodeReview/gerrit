@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf2f13b9_c8c778a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T12:57:32Z",
+      "side": 1,
+      "message": "Please document these new operators in Documentation/user-search.txt",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16bcaf8e_e2f0fc83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T12:57:32Z",
+      "side": 1,
+      "message": "You may mention that the new mergedafter/mergedbefore operators are consistent with the existing after/before operators to reason why the current implementation was chosen.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 23
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1c1bb586_8e45beb0",
@@ -60,6 +106,69 @@
         "endLine": 20,
         "endChar": 28
       },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "199bf10e_6bc901cb",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T12:57:32Z",
+      "side": 1,
+      "message": "nit: missing space before \u0027operator\u0027",
+      "range": {
+        "startLine": 501,
+        "startChar": 19,
+        "endLine": 501,
+        "endChar": 20
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bc4dfe2_4c20c578",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T12:57:32Z",
+      "side": 1,
+      "message": "nit: missing space before \u0027operator\u0027",
+      "range": {
+        "startLine": 511,
+        "startChar": 19,
+        "endLine": 511,
+        "endChar": 20
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e82f6678_abaee17a",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1630,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-20T12:57:32Z",
+      "side": 1,
+      "message": "[optional] you may also want to check the error message if this field is not present.\nYou may do this like this\n\n if (getSchemaVersion() \u003c 61) {\n      assertMissingField(ChangeField.MERGED_ON);\n      assertFailingQuery(\"mergedbefore:2009-10-01\", \"\u0027mergedbefore\u0027 operator is not supported by change index version\");\n      return;\n    }",
       "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

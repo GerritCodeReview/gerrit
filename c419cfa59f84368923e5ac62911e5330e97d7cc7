@@ -16,6 +16,24 @@
       "message": "Can you provide more background of the change?\nWhy the \u0027\u003d\u003d\u003d\u0027 is necessary here instead of the \u0027\u003d\u003d\u0027?\n\nP.S. The commit message should describe why you are doing it :-)",
       "revId": "c419cfa59f84368923e5ac62911e5330e97d7cc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7386ade7_7ed9deec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-11-20T00:12:45Z",
+      "side": 1,
+      "message": "Described that this was done in another change, thanks!",
+      "parentUuid": "60633710_e4e1d468",
+      "revId": "c419cfa59f84368923e5ac62911e5330e97d7cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

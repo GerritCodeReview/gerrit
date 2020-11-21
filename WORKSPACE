@@ -64,8 +64,8 @@ protobuf_deps()
 
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "f2194102720e662dbf193546585d705e645314319554c6ce7e47d8b59f459e9c",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/2.2.2/rules_nodejs-2.2.2.tar.gz"],
+    sha256 = "290b659e7a6323e442db922175a4838e4ac622509f9e9fa0dd16b7ca30377d68",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/3.0.0-rc.0/rules_nodejs-3.0.0-rc.0.tar.gz"],
 )
 
 # Golang support for PolyGerrit local dev server.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3c809ad_dc0ce0d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-21T09:59:06Z",
+      "side": 1,
+      "message": "How feasible would it be to release 3.2.5.2 (or 3.2.6) ASAP with this fix included, to unblock Gerrit users on JDK 15?",
+      "revId": "bb9ea229fbc10fbe37658ae4b68e723d3095120a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

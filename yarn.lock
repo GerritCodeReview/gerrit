@@ -485,20 +485,20 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@bazel/rollup@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@bazel/rollup/-/rollup-2.2.2.tgz#1abfc5cbf5eb65db2aa145e584d225684d961055"
-  integrity sha512-z3sK0dt7pftjxlLuo66e3PMMGyjq6vD/8B+OEFN3LD3GjE34e8X0/KeRX5lXWs1ecVlrnTroiBxLCJSHwqBrEA==
+"@bazel/rollup@^3.0.0-rc.1":
+  version "3.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@bazel/rollup/-/rollup-3.0.0-rc.1.tgz#153fb7ca556dfb0397aa3a86cbef71bcefb00733"
+  integrity sha512-O2WGfDw17aiQfUF6t5aL1kbVGeR6BnCImmtCOoFf1I8/Nw0dx+iE9x2qfqPyvSivZRuL2EBTI+xUcti42bpWgA==
 
-"@bazel/terser@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@bazel/terser/-/terser-2.2.2.tgz#2a72b739de8a12ab9ca1cfe60c6c118215acc10f"
-  integrity sha512-pPhNr21g8PN0jGhzQHOIL9pOicMgU1Jfrh+liI4PVBfSFrJbTjJw3iNRDX0skYAlsR0WG433kn8CkEjY4IvJVw==
+"@bazel/terser@^3.0.0-rc.1":
+  version "3.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@bazel/terser/-/terser-3.0.0-rc.1.tgz#62398c1702d3eecbc41764c9ef24a6a232abb1b3"
+  integrity sha512-iaJTYl/oUBqLFG6MFYODwqBWGTshFFdVCClTmpZwdnwnAkcGf7kU1noX2vz3VcwOOHoJseBG/dhluvRmFerJ3g==
 
-"@bazel/typescript@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-2.2.2.tgz#c7cd49cb630ca3720c04c94046ba8ca4c0d5b0aa"
-  integrity sha512-hkx/7L3s8q5gIgaSFmkUZWPqdKmdJmQ04GaLnsI/YEp9EhPObqATSKnOHeDdT7bzqLO7giDAwAiXhEmsO1Smcw==
+"@bazel/typescript@^3.0.0-rc.1":
+  version "3.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-3.0.0-rc.1.tgz#4a80682124475db63abc97b7da358caaadbd3077"
+  integrity sha512-KaGaCEbXjCKaRuwH/hLjW7aBuNyU8p/9yUe4KlP4KKoRqHAmjYISbUOw7VAksOW6BxXHgknOcZYaVF6PzE4CgQ==
   dependencies:
     protobufjs "6.8.8"
     semver "5.6.0"
@@ -937,9 +937,9 @@
   integrity sha512-rp7La3m845mSESCgsJePNL/JQyhkOJA6G4vcwvVgkDAwHhGdq5GCumxmPjEk1MZf+8p5ZQAUE7tqgQRQTXN7uQ==
 
 "@types/node@^10.1.0":
-  version "10.17.42"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.42.tgz#90dd71b26fe4f4e2929df6b07e72ef2e9648a173"
-  integrity sha512-HElxYF7C/MSkuvlaHB2c+82zhXiuO49Cq056Dol8AQuTph7oJtduo2n6J8rFa+YhJyNgQ/Lm20ZaxqD0vxU0+Q==
+  version "10.17.49"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.49.tgz#ecf0b67bab4b84d0ec9b0709db4aac3824a51c4a"
+  integrity sha512-PGaJNs5IZz5XgzwJvL/1zRfZB7iaJ5BydZ8/Picm+lUNYoNO9iVTQkVy5eUh0dZDrx3rBOIs3GCbCRmMuYyqwg==
 
 "@types/node@^4.0.30":
   version "4.9.3"
@@ -4256,6 +4256,11 @@ fsevents@^1.0.0:
   dependencies:
     nan "^2.12.1"
     node-pre-gyp "^0.12.0"
+
+fsevents@~2.1.2:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.1.3.tgz#fb738703ae8d2f9fe900c33836ddebee8b97f23e"
+  integrity sha512-Auw9a4AxqWpa9GUfj370BMPzzyncfBABW8Mab7BGWBYDj4Isgq+cDKtx0i6u9jcX9pQDnswsaaOTgTmA5pEjuQ==
 
 function-bind@^1.1.1:
   version "1.1.1"
@@ -8121,6 +8126,13 @@ rollup@^1.3.0:
     "@types/estree" "0.0.39"
     "@types/node" "^12.0.10"
     acorn "^6.1.1"
+
+rollup@^2.3.4:
+  version "2.35.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.35.1.tgz#e6bc8d10893556a638066f89e8c97f422d03968c"
+  integrity sha512-q5KxEyWpprAIcainhVy6HfRttD9kutQpHbeqDTWnqAFNJotiojetK6uqmcydNMymBEtC4I8bCYR+J3mTMqeaUA==
+  optionalDependencies:
+    fsevents "~2.1.2"
 
 run-async@^2.0.0, run-async@^2.2.0:
   version "2.3.0"

@@ -64,8 +64,8 @@ protobuf_deps()
 
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "f2194102720e662dbf193546585d705e645314319554c6ce7e47d8b59f459e9c",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/2.2.2/rules_nodejs-2.2.2.tar.gz"],
+    sha256 = "84b1d11b1f3bda68c24d992dc6e830bca9db8fa12276f2ca7fcb7761c893976b",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/3.0.0-rc.1/rules_nodejs-3.0.0-rc.1.tar.gz"],
 )
 
 # Golang support for PolyGerrit local dev server.
@@ -993,6 +993,7 @@ yarn_install(
     name = "npm",
     package_json = "//:package.json",
     yarn_lock = "//:yarn.lock",
+    frozen_lockfile = False,
 )
 
 yarn_install(
@@ -1000,18 +1001,21 @@ yarn_install(
     args = ["--prod"],
     package_json = "//:polygerrit-ui/app/package.json",
     yarn_lock = "//:polygerrit-ui/app/yarn.lock",
+    frozen_lockfile = False,
 )
 
 yarn_install(
     name = "ui_dev_npm",
     package_json = "//:polygerrit-ui/package.json",
     yarn_lock = "//:polygerrit-ui/yarn.lock",
+    frozen_lockfile = False,
 )
 
 yarn_install(
     name = "tools_npm",
     package_json = "//:tools/node_tools/package.json",
     yarn_lock = "//:tools/node_tools/yarn.lock",
+    frozen_lockfile = False, 
 )
 
 yarn_install(
@@ -1019,6 +1023,7 @@ yarn_install(
     args = ["--prod"],
     package_json = "//:plugins/package.json",
     yarn_lock = "//:plugins/yarn.lock",
+    frozen_lockfile = False,
 )
 
 load("//tools/bzl:js.bzl", "bower_archive", "npm_binary")

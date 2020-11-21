@@ -3,9 +3,9 @@
   "version": "3.1.0-SNAPSHOT",
   "description": "Gerrit Code Review",
   "dependencies": {
-    "@bazel/rollup": "^2.2.2",
-    "@bazel/terser": "^2.2.2",
-    "@bazel/typescript": "^2.2.2"
+    "@bazel/rollup": "^3.0.0-rc.0",
+    "@bazel/terser": "^3.0.0-rc.0",
+    "@bazel/typescript": "^3.0.0-rc.0"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
@@ -17,6 +17,7 @@
     "gts": "^2.0.2",
     "polymer-cli": "^1.9.11",
     "prettier": "2.0.5",
+    "rollup": "^2.3.4",
     "terser": "^4.8.0",
     "typescript": "3.9.5"
   },

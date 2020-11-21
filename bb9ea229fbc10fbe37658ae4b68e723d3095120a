@@ -16,6 +16,23 @@
       "message": "How feasible would it be to release 3.2.5.2 (or 3.2.6) ASAP with this fix included, to unblock Gerrit users on JDK 15?",
       "revId": "bb9ea229fbc10fbe37658ae4b68e723d3095120a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96de21f9_dd20f802",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-21T10:21:37Z",
+      "side": 1,
+      "message": "Note to the reviewers:\n\nI verified, that git wire protocol integration tests are passing on JDK 15 from this change. To do that, I cherry-picked change 269382 and dependent changes from master to stable-3.2 and ran:\n\n  $ bazel test javatests/com/google/gerrit/integration/git/...\n  [...]\n  OpenJDK 64-Bit Server VM warning: Options -Xverify:none and -noverify were deprecated in JDK 13 and will likely be removed in a future release.\n  INFO: From Compiling Java headers java/com/google/gerrit/acceptance/libframework-lib-hjar.jar (70 source files):\n  INFO: 375 processes: 191 remote cache hit, 19 internal, 81 linux-sandbox, 84 worker.\n  INFO: Build completed successfully, 375 total actions\n  //javatests/com/google/gerrit/integration/git:protocol-v2                PASSED in 54.3s\n  //javatests/com/google/gerrit/integration/git:upload-archive             PASSED in 56.3s\n",
+      "revId": "bb9ea229fbc10fbe37658ae4b68e723d3095120a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

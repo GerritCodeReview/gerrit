@@ -74,6 +74,14 @@ bazel fetch @tools_npm//:node_modules
 
 More information for installing and using nodejs rules can be found here https://bazelbuild.github.io/rules_nodejs/install.html
 
+### Upgrade to @bazel-scoped packages
+
+It might be necessary to run this command to upgrade to major `rules_nodejs` release:
+
+```sh
+yarn remove @bazel/...
+```
+
 ## Setup typescript support in the IDE
 
 Modern IDE should automatically handle typescript settings from the 

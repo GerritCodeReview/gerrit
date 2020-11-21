@@ -51,10 +51,10 @@ rbe_autoconfig(name = "rbe_default")
 
 http_archive(
     name = "com_google_protobuf",
-    sha256 = "71030a04aedf9f612d2991c1c552317038c3c5a2b578ac4745267a45e7037c29",
-    strip_prefix = "protobuf-3.12.3",
+    sha256 = "d0f5f605d0d656007ce6c8b5a82df3037e1d8fe8b121ed42e536f569dec16113",
+    strip_prefix = "protobuf-3.14.0",
     urls = [
-        "https://github.com/protocolbuffers/protobuf/archive/v3.12.3.tar.gz",
+        "https://github.com/protocolbuffers/protobuf/archive/v3.14.0.tar.gz",
     ],
 )
 

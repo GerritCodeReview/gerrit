@@ -50,6 +50,24 @@
       "message": "Needs L-C scoring; Xudong maybe? -Thank you.",
       "revId": "7afd9bc971d66db6623c1c6d15a112d7a5bf2289",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd6a92aa_a9905a6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1120040
+      },
+      "writtenOn": "2020-11-22T22:20:21Z",
+      "side": 1,
+      "message": "Naw, it\u0027s gotta be someone from the Gerrit team. I\u0027m just passing by :)\n\nLooks like Edwin Kempin\tdid it for the original change. Maybe add him?",
+      "parentUuid": "dcf547e7_6fb4206b",
+      "revId": "7afd9bc971d66db6623c1c6d15a112d7a5bf2289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

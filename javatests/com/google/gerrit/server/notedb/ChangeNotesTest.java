@@ -677,6 +677,74 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void mergedOnEmptyIfNotSubmitted() throws Exception {
+    Change c = newChange();
+
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    // Make sure unrelevent update does not set mergedOn.
+    update.setTopic("topic");
+    update.commit();
+    assertThat(newNotes(c).getMergedOn()).isEmpty();
+  }
+
+  @Test
+  public void mergedOnSetWhenSubmitted() throws Exception {
+    Change c = newChange();
+
+    SubmissionId submissionId = new SubmissionId(c);
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setSubjectForCommit("Update patch set 1");
+    update.merge(
+        submissionId,
+        ImmutableList.of(
+            submitRecord("OK", null, submitLabel("Code-Review", "OK", otherUser.getAccountId()))));
+    update.commit();
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getMergedOn()).isPresent();
+    Timestamp mergedOn = notes.getMergedOn().get();
+    assertThat(mergedOn).isEqualTo(notes.getChange().getLastUpdatedOn());
+
+    // Next update does not change mergedOn date.
+    update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) 1);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getMergedOn().get()).isEqualTo(mergedOn);
+    assertThat(notes.getMergedOn().get()).isLessThan(notes.getChange().getLastUpdatedOn());
+  }
+
+  @Test
+  public void latestMergedOn() throws Exception {
+    Change c = newChange();
+    SubmissionId submissionId = new SubmissionId(c);
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setSubjectForCommit("Update patch set 1");
+    update.merge(
+        submissionId,
+        ImmutableList.of(
+            submitRecord("OK", null, submitLabel("Code-Review", "OK", otherUser.getAccountId()))));
+    update.commit();
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getMergedOn()).isPresent();
+    Timestamp mergedOn = notes.getMergedOn().get();
+    assertThat(mergedOn).isEqualTo(notes.getChange().getLastUpdatedOn());
+
+    incrementPatchSet(c);
+    update = newUpdate(c, changeOwner);
+    update.setSubjectForCommit("Update patch set 2");
+    update.merge(
+        submissionId,
+        ImmutableList.of(
+            submitRecord(
+                "OK", null, submitLabel("Code-Review", "OK", changeOwner.getAccountId()))));
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getMergedOn().get()).isGreaterThan(mergedOn);
+    assertThat(notes.getMergedOn().get()).isEqualTo(notes.getChange().getLastUpdatedOn());
+  }
+
+  @Test
   public void emptyChangeUpdate() throws Exception {
     Change c = newChange();
     Ref initial = repo.exactRef(changeMetaRef(c.getId()));

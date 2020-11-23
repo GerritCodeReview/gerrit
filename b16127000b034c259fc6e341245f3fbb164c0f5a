@@ -110,6 +110,30 @@
       },
       "revId": "b16127000b034c259fc6e341245f3fbb164c0f5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dfc79ce_05c2c189",
+        "filename": "java/com/google/gerrit/pgm/init/InitJGitConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-23T20:28:31Z",
+      "side": 1,
+      "message": "Yes, I know. It seems that the current implementation is not stable enough, and number of JGit users would like to disable it anyway. That\u0027s why we could consider to change the default in JGit itself and make the life of JGit users easier. E.g. swap the logic in JGit around this line: [1]\n\nCurrent implementation (on by default):\n\n  if (!repo.getConfig().getBoolean(ConfigConstants.CONFIG_RECEIVE_SECTION,\n\t\t\t\tConfigConstants.CONFIG_KEY_AUTOGC, true)) {\n    return;\n  }\n  repo.autoGC(NullProgressMonitor.INSTANCE);\n\nPossible change (off by default):\n\n  if (repo.getConfig().getBoolean(ConfigConstants.CONFIG_RECEIVE_SECTION,\n\t\t\t\tConfigConstants.CONFIG_KEY_AUTOGC, true)) {\n    repo.autoGC(NullProgressMonitor.INSTANCE);\n  }\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/70714/7/org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java#318",
+      "parentUuid": "4f8f3b83_b54889e1",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 67
+      },
+      "revId": "b16127000b034c259fc6e341245f3fbb164c0f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

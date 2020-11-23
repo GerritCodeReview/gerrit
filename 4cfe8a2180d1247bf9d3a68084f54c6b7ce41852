@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "932376e7_336c1a40",
         "filename": "/PATCHSET_LEVEL",
@@ -14,8 +15,25 @@
       "side": 1,
       "message": "We first need to wait for I6f5acd4e2 to be fully rolled out. Hence, blocking submit with a -2.",
       "revId": "4cfe8a2180d1247bf9d3a68084f54c6b7ce41852",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48627c67_d285270c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-23T08:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "932376e7_336c1a40",
+      "revId": "4cfe8a2180d1247bf9d3a68084f54c6b7ce41852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

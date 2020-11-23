@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5376287_199d94d9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-23T09:08:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc247b5_06562f02",
+      "revId": "b07dc546550fa7c9fc0595b09002a7111a59b5d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4e0dffb_1076bbcc",
@@ -54,6 +72,48 @@
       "writtenOn": "2020-11-20T09:25:23Z",
       "side": 1,
       "message": "Maybe add a comment why \"document.activeElement\" is not good enough.",
+      "revId": "b07dc546550fa7c9fc0595b09002a7111a59b5d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "398c8617_044b1d35",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-23T09:08:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99527ad9_85b6d5a8",
+      "revId": "b07dc546550fa7c9fc0595b09002a7111a59b5d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1cfa60c_0f16e370",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-23T09:08:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4e0dffb_1076bbcc",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 76
+      },
       "revId": "b07dc546550fa7c9fc0595b09002a7111a59b5d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

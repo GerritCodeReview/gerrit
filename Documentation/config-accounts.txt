@@ -329,7 +329,7 @@ show the content of the note:
 $ echo -n 'gerrit:jdoe' | shasum
 7c2a55657d911109dbc930836e7a770fb946e8ef  -
 
-$ git show refs/meta/external-ids:7c/2a55657d911109dbc930836e7a770fb946e8ef
+$ git show refs/meta/external-ids:7c/2a/55657d911109dbc930836e7a770fb946e8ef
 [externalId "username:jdoe"]
   accountId = 1003407
   email = jdoe@example.com

@@ -47,6 +47,7 @@ import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {PolymerDomRepeatEvent} from '../../../types/types';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {fireAlert, firePageError} from '../../../utils/event-util';
+import {fireTitleChange} from '../../../utils/event-util';
 
 const SUGGESTIONS_LIMIT = 15;
 const SAVING_ERROR_TEXT =
@@ -126,13 +127,7 @@ export class GrGroupMembers extends GestureEventListeners(
     super.attached();
     this._loadGroupDetails();
 
-    this.dispatchEvent(
-      new CustomEvent('title-change', {
-        detail: {title: 'Members'},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireTitleChange(this, 'Members');
   }
 
   _loadGroupDetails() {

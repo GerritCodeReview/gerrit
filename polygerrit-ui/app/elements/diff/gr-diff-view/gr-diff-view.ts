@@ -102,6 +102,7 @@ import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {PORTING_COMMENTS_DIFF_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
 import {fireAlert} from '../../../utils/event-util';
+import {fireTitleChange} from '../../../utils/event-util';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -1223,13 +1224,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   _pathChanged(path: string) {
     if (path) {
-      this.dispatchEvent(
-        new CustomEvent('title-change', {
-          detail: {title: computeTruncatedPath(path)},
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireTitleChange(this, computeTruncatedPath(path));
     }
 
     if (!this._fileList || this._fileList.length === 0) return;

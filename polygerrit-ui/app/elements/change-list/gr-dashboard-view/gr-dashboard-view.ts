@@ -59,6 +59,7 @@ import {ChangeListToggleReviewedDetail} from '../gr-change-list-item/gr-change-l
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {DashboardViewState} from '../../../types/types';
 import {firePageError} from '../../../utils/event-util';
+import {fireTitleChange} from '../../../utils/event-util';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
@@ -221,13 +222,7 @@ export class GrDashboardView extends GestureEventListeners(
     return dashboardPromise
       .then(res => {
         if (res && res.title) {
-          this.dispatchEvent(
-            new CustomEvent('title-change', {
-              detail: {title: res.title},
-              composed: true,
-              bubbles: true,
-            })
-          );
+          fireTitleChange(this, res.title);
         }
         return this._fetchDashboardChanges(res, checkForNewUser);
       })
@@ -236,15 +231,7 @@ export class GrDashboardView extends GestureEventListeners(
         this.reporting.dashboardDisplayed();
       })
       .catch(err => {
-        this.dispatchEvent(
-          new CustomEvent('title-change', {
-            detail: {
-              title: title || this._computeTitle(user),
-            },
-            composed: true,
-            bubbles: true,
-          })
-        );
+        fireTitleChange(this, title || this._computeTitle(user));
         console.warn(err);
       })
       .then(() => {

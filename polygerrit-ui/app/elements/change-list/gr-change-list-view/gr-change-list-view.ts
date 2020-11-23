@@ -41,6 +41,7 @@ import {ChangeListToggleReviewedDetail} from '../gr-change-list-item/gr-change-l
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {ChangeListViewState} from '../../../types/types';
+import {fireTitleChange} from '../../../utils/event-util';
 
 const LookupQueryPatterns = {
   CHANGE_ID: /^\s*i?[0-9a-f]{7,40}\s*$/i,
@@ -143,15 +144,7 @@ export class GrChangeListView extends GestureEventListeners(
 
     // NOTE: This method may be called before attachment. Fire title-change
     // in an async so that attachment to the DOM can take place first.
-    this.async(() =>
-      this.dispatchEvent(
-        new CustomEvent('title-change', {
-          detail: {title: this._query},
-          composed: true,
-          bubbles: true,
-        })
-      )
-    );
+    this.async(() => fireTitleChange(this, this._query));
 
     this.$.restAPI
       .getPreferences()

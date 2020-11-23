@@ -43,6 +43,7 @@ import {
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrCreateChangeDialog} from '../gr-create-change-dialog/gr-create-change-dialog';
 import {fireAlert, firePageError} from '../../../utils/event-util';
+import {fireTitleChange} from '../../../utils/event-util';
 
 const GC_MESSAGE = 'Garbage collection completed successfully.';
 const CONFIG_BRANCH = 'refs/meta/config' as BranchName;
@@ -96,13 +97,7 @@ export class GrRepoCommands extends GestureEventListeners(
     super.attached();
     this._loadRepo();
 
-    this.dispatchEvent(
-      new CustomEvent('title-change', {
-        detail: {title: 'Repo Commands'},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireTitleChange(this, 'Repo Commands');
   }
 
   _loadRepo() {

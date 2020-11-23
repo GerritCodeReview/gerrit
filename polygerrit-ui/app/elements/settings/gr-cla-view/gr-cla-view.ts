@@ -33,6 +33,7 @@ import {
   ContributorAgreementInfo,
 } from '../../../types/common';
 import {fireAlert} from '../../../utils/event-util';
+import {fireTitleChange} from '../../../utils/event-util';
 
 export interface GrClaView {
   $: {
@@ -80,13 +81,7 @@ export class GrClaView extends GestureEventListeners(
     super.attached();
     this.loadData();
 
-    this.dispatchEvent(
-      new CustomEvent('title-change', {
-        detail: {title: 'New Contributor Agreement'},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireTitleChange(this, 'New Contributor Agreement');
   }
 
   loadData() {

@@ -16,6 +16,24 @@
       "message": "Thanks for doing it. The update requires some additional steps (https://github.com/bazelbuild/rules_nodejs/releases - \"update your @bazel-scoped npm dependencies.\").\n\nUsually, I am doing in 2 steps:\nyarn remove @bazel/... @bazel/... ... (all @bazel packages from package.json)\nyarn add @bazel/... ... (same packages)\n\nP.S. yarn upgrade has a problem with updating transitive dependencies",
       "revId": "c240cd6aacbadde2b10a65d80d93ed3126d4bc05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7a092bd_00a7ed65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-23T09:26:17Z",
+      "side": 1,
+      "message": "I noticed that warning, but ignored it and everything just worked. Should we update the documentation and document the steps your suggested?",
+      "parentUuid": "460844cd_caed6c85",
+      "revId": "c240cd6aacbadde2b10a65d80d93ed3126d4bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

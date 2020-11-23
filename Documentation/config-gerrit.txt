@@ -684,8 +684,11 @@ By default, false.
 
 [[auth.skipFullRefEvaluationIfAllRefsAreVisible]]auth.skipFullRefEvaluationIfAllRefsAreVisible::
 +
-Whether to skip the full ref visibility checks as a performance shortcut when all refs are
-visible to a user. Full ref filtering would filter out things like pending edits.
+Whether to skip the full ref visibility checks as a performance shortcut when a
+user has READ permission for all refs.
++
+The full ref filtering would filter out refs for pending edits, private changes
+and auto merge commits.
 +
 By default, true.
 
@@ -741,6 +744,24 @@ See link:http://www.h2database.com/html/features.html#auto_mixed_mode[here,role=
 for detail.
 +
 Default is false.
+
+[[cache.openFiles]]cache.openFiles::
++
+The number of file descriptors to add to the limit set by the Gerrit daemon.
++
+Persistent caches are stored on the file system and as such participate in the
+file descriptors utilization. The number of file descriptors can vary depending
+on the cache configuration and the specific backend used.
++
+The additional file descriptors required by the cache should be accounted for
+via this setting, so that the Gerrit daemon can adjust the ulimit accordingly.
++
+If you increase this to a larger setting you may need to also adjust
+the ulimit on file descriptors for the host JVM, as Gerrit needs
+additional file descriptors available for network sockets and other
+repository data manipulation.
++
+Default is 0.
 
 [[cache.name.maxAge]]cache.<name>.maxAge::
 +

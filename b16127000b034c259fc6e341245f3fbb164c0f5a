@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2219d3b4_d9e7cbc8",
+        "filename": "java/com/google/gerrit/pgm/init/InitJGitConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-11-23T19:46:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "354b8706_e3c9a527",
+      "range": {
+        "startLine": 47,
+        "startChar": 21,
+        "endLine": 47,
+        "endChar": 53
+      },
+      "revId": "b16127000b034c259fc6e341245f3fbb164c0f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e5345dc_aa52d2f3",
@@ -54,6 +78,30 @@
       "writtenOn": "2020-11-23T16:05:13Z",
       "side": 1,
       "message": "Would it be an option to disable receive.autogc in JGit per default? So that JGit and Gerrit users would have to explicitly enable it. That way we wouldn\u0027t need to disable it on gerrit side.",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 67
+      },
+      "revId": "b16127000b034c259fc6e341245f3fbb164c0f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f8f3b83_b54889e1",
+        "filename": "java/com/google/gerrit/pgm/init/InitJGitConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-11-23T19:46:45Z",
+      "side": 1,
+      "message": "it\u0027s true by default to match the default in C git [1]\n\n[1] https://git-scm.com/docs/git-config#Documentation/git-config.txt-receiveautogc",
+      "parentUuid": "0e5345dc_aa52d2f3",
       "range": {
         "startLine": 53,
         "startChar": 12,

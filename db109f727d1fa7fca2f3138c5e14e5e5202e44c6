@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "94a20c28_f756455c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-23T12:30:19Z",
+      "side": 1,
+      "message": "The layout for Reply Dialog section is broken.\nIs this expected?\n\nThe Ctrl + Enter or Meta + Control section for now takes up one line.\nIn the screenshot attached it spills over to another line.",
+      "revId": "db109f727d1fa7fca2f3138c5e14e5e5202e44c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4cf417a3_650e3d86",
@@ -14,6 +31,24 @@
       "writtenOn": "2020-11-23T12:20:46Z",
       "side": 1,
       "message": "After: https://imgur.com/a/Vrx9rgK",
+      "revId": "db109f727d1fa7fca2f3138c5e14e5e5202e44c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "269dc98f_c0ee8aa1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-23T12:30:19Z",
+      "side": 1,
+      "message": "Perhaps move this to commit message? We usually keep it there and it\u0027s more visible.\nResolved patchset comment has relatively low visibility.",
+      "parentUuid": "4cf417a3_650e3d86",
       "revId": "db109f727d1fa7fca2f3138c5e14e5e5202e44c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -307,7 +307,7 @@ public class ChangeData {
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
-
+  private Timestamp mergedOn;
   private ImmutableList<byte[]> refStates;
   private ImmutableList<byte[]> refStatePatterns;
 
@@ -615,6 +615,22 @@ public class ChangeData {
     return attentionSet;
   }
 
+  /** Returns the time when the change was merged or null if it was not. */
+  @Nullable
+  public Timestamp getMergedOn() {
+    if (mergedOn == null) {
+      if (!lazyLoad) {
+        return null;
+      }
+      mergedOn = notes().getMergedOn();
+    }
+    return mergedOn;
+  }
+
+  public void setMergedOn(Timestamp mergedOn) {
+    this.mergedOn = mergedOn;
+  }
+
   /**
    * Sets the specified attention set. If two or more entries refer to the same user, throws an
    * {@link IllegalStateException}.
@@ -670,7 +686,9 @@ public class ChangeData {
     return allApprovals;
   }
 
-  /** @return The submit ('SUBM') approval label */
+  /* @return legacy submit ('SUBM') approval label */
+  // TODO(mariasavtchouk): Deprecate legacy submit label,
+  // see com.google.gerrit.entities.LabelId.LEGACY_SUBMIT_NAME
   public Optional<PatchSetApproval> getSubmitApproval() {
     return currentApprovals().stream().filter(PatchSetApproval::isLegacySubmit).findFirst();
   }

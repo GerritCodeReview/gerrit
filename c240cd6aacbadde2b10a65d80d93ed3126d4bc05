@@ -34,6 +34,24 @@
       "parentUuid": "460844cd_caed6c85",
       "revId": "c240cd6aacbadde2b10a65d80d93ed3126d4bc05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57118a1b_af8f0588",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-23T13:37:22Z",
+      "side": 1,
+      "message": "\u003e\u003e I noticed that warning, but ignored it and everything just worked\nKeeping old version can lead to unexpected bugs, that hard to debug/reproduce, so I would like to keep packages versions in sync with rulese_nodejs versions.\n\n\u003e\u003e Should we update the documentation and document the steps your suggested?\nYes, I think it makes sense. We shouldn\u0027t expect that everyone knows how to update yard dependencies.",
+      "parentUuid": "f7a092bd_00a7ed65",
+      "revId": "c240cd6aacbadde2b10a65d80d93ed3126d4bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

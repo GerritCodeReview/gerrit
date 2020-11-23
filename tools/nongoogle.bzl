@@ -23,8 +23,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "dropwizard-core",
-        artifact = "io.dropwizard.metrics:metrics-core:4.1.14",
-        sha1 = "14cf9dd67619a0390812dddb232df339e3383d35",
+        artifact = "io.dropwizard.metrics:metrics-core:4.1.12.1",
+        sha1 = "cb2f351bf4463751201f43bb99865235d5ba07ca",
     )
 
     SSHD_VERS = "2.4.0"
@@ -143,18 +143,40 @@ def declare_nongoogle_deps():
         sha1 = "dc13ae4faca6df981fc7aeb5a522d9db446d5d50",
     )
 
-    TESTCONTAINERS_VERSION = "1.14.3"
+    DOCKER_JAVA_VERS = "3.2.5"
+
+    maven_jar(
+        name = "docker-java-api",
+        artifact = "com.github.docker-java:docker-java-api:" + DOCKER_JAVA_VERS,
+        sha1 = "8fe5c5e39f940ce58620e77cedc0a2a52d76f9d8",
+    )
+
+    maven_jar(
+        name = "docker-java-transport",
+        artifact = "com.github.docker-java:docker-java-transport:" + DOCKER_JAVA_VERS,
+        sha1 = "27af0ee7ebc2f5672e23ea64769497b5d55ce3ac",
+    )
+
+    # https://github.com/docker-java/docker-java/blob/3.2.5/pom.xml#L61
+    # <=> DOCKER_JAVA_VERS
+    maven_jar(
+        name = "jackson-annotations",
+        artifact = "com.fasterxml.jackson.core:jackson-annotations:2.10.3",
+        sha1 = "0f63b3b1da563767d04d2e4d3fc1ae0cdeffebe7",
+    )
+
+    TESTCONTAINERS_VERSION = "1.15.0"
 
     maven_jar(
         name = "testcontainers",
         artifact = "org.testcontainers:testcontainers:" + TESTCONTAINERS_VERSION,
-        sha1 = "071fc82ba663f469447a19434e7db90f3a872753",
+        sha1 = "b627535b444d88e7b14953bb953d80d9b7b3bd76",
     )
 
     maven_jar(
         name = "testcontainers-elasticsearch",
         artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-        sha1 = "3709e2ebb0b6aa4e2ba2b6ca92ffdd3bf637a86c",
+        sha1 = "2bd79fd915e5c7bcf9b5d86cd8e0b7a0fff4b8ce",
     )
 
     maven_jar(

@@ -20,7 +20,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -32,19 +31,7 @@ public class BlindSSLSocketFactory extends SSLSocketFactory {
   private static final BlindSSLSocketFactory INSTANCE;
 
   static {
-    final X509TrustManager dummyTrustManager =
-        new X509TrustManager() {
-          @Override
-          public X509Certificate[] getAcceptedIssuers() {
-            return null;
-          }
-
-          @Override
-          public void checkClientTrusted(X509Certificate[] chain, String authType) {}
-
-          @Override
-          public void checkServerTrusted(X509Certificate[] chain, String authType) {}
-        };
+    final X509TrustManager dummyTrustManager = new BlindTrustManager();
 
     try {
       final SSLContext context = SSLContext.getInstance("SSL");

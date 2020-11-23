@@ -869,6 +869,11 @@ The change owner and any explicitly added reviewers can always see
 private changes (even without having the `View Private Changes` access
 right assigned).
 
+**NOTE**: If link:config-gerrit.html#auth.skipFullRefEvaluationIfAllRefsAreVisible[
+auth.skipFullRefEvaluationIfAllRefsAreVisible] is `true` (which is the case by
+default) privates changes and all change edit refs are also visible to users
+that have read access on `refs/*`.
+
 [[category_toggle_work_in_progress_state]]
 === Toggle Work In Progress state
 

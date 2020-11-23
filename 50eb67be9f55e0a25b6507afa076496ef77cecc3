@@ -22,6 +22,30 @@
       },
       "revId": "50eb67be9f55e0a25b6507afa076496ef77cecc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "435028ae_e9dd9ab5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-23T07:29:43Z",
+      "side": 0,
+      "message": "I was as well trying to understand that change. I think it was fixing gr-cursor-manager (up, down arrows) that worked only on tabIndex\u003d\"-1\". But it works well after this change. So I am going to submit this.",
+      "parentUuid": "188848dd_11f4862c",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 22
+      },
+      "revId": "50eb67be9f55e0a25b6507afa076496ef77cecc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

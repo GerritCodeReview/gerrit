@@ -1017,6 +1017,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     ResourceConflictException thrown =
         assertThrows(
+
             ResourceConflictException.class,
             () -> gApi.changes().id(change1.getChangeId()).current().cherryPick(input));
     assertThat(thrown)

@@ -1386,6 +1386,17 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void submitSetsMergedOn() throws Throwable {
+    PushOneCommit.Result r = createChange();
+    assertThat(r.getChange().getMergedOn()).isNull();
+    submit(r.getChangeId());
+    assertThat(r.getChange().getMergedOn()).isNotNull();
+    ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
+    assertThat(r.getChange().getMergedOn()).isEqualTo(change.updated);
+    assertThat(r.getChange().getMergedOn()).isEqualTo(change.submitted);
+  }
+
   @Override
   protected void updateProjectInput(ProjectInput in) {
     in.submitType = getSubmitType();

@@ -136,7 +136,8 @@ public abstract class ChangeNotesState {
       boolean reviewStarted,
       @Nullable Change.Id revertOf,
       @Nullable PatchSet.Id cherryPickOf,
-      int updateCount) {
+      int updateCount,
+      @Nullable Timestamp mergedOn) {
     requireNonNull(
         metaId,
         () ->
@@ -184,6 +185,7 @@ public abstract class ChangeNotesState {
         .changeMessages(changeMessages)
         .publishedComments(publishedComments)
         .updateCount(updateCount)
+        .mergedOn(mergedOn)
         .build();
   }
 
@@ -329,6 +331,9 @@ public abstract class ChangeNotesState {
 
   abstract int updateCount();
 
+  @Nullable
+  abstract Timestamp mergedOn();
+
   Change newChange(Project.NameKey project) {
     ChangeColumns c = requireNonNull(columns(), "columns are required");
     Change change =
@@ -445,6 +450,8 @@ public abstract class ChangeNotesState {
 
     abstract Builder updateCount(int updateCount);
 
+    abstract Builder mergedOn(Timestamp mergedOn);
+
     abstract ChangeNotesState build();
   }
 
@@ -515,6 +522,10 @@ public abstract class ChangeNotesState {
           .forEach(m -> b.addChangeMessage(toByteString(m, ChangeMessageProtoConverter.INSTANCE)));
       object.publishedComments().values().forEach(c -> b.addPublishedComment(GSON.toJson(c)));
       b.setUpdateCount(object.updateCount());
+      if (object.mergedOn() != null) {
+        b.setMergedOnMillis(object.mergedOn().getTime());
+        b.setHasMergedOn(true);
+      }
 
       return Protos.toByteArray(b.build());
     }
@@ -655,7 +666,8 @@ public abstract class ChangeNotesState {
                   proto.getPublishedCommentList().stream()
                       .map(r -> GSON.fromJson(r, HumanComment.class))
                       .collect(toImmutableListMultimap(HumanComment::getCommitId, c -> c)))
-              .updateCount(proto.getUpdateCount());
+              .updateCount(proto.getUpdateCount())
+              .mergedOn(proto.getHasMergedOn() ? new Timestamp(proto.getMergedOnMillis()) : null);
       return b.build();
     }
 

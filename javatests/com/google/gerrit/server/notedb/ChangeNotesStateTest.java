@@ -837,6 +837,7 @@ public class ChangeNotesStateTest {
                     "publishedComments",
                     new TypeLiteral<ImmutableListMultimap<ObjectId, HumanComment>>() {}.getType())
                 .put("updateCount", int.class)
+                .put("mergedOn", Timestamp.class)
                 .build());
   }
 
@@ -974,6 +975,19 @@ public class ChangeNotesStateTest {
             ImmutableMap.of(
                 "fallbackText", String.class,
                 "type", String.class));
+  }
+
+  @Test
+  public void serializeMergedOn() throws Exception {
+    assertRoundTrip(
+        newBuilder().mergedOn(new Timestamp(234567L)).build(),
+        ChangeNotesStateProto.newBuilder()
+            .setMetaId(SHA_BYTES)
+            .setChangeId(ID.get())
+            .setMergedOnMillis(234567L)
+            .setHasMergedOn(true)
+            .setColumns(colsProto.toBuilder())
+            .build());
   }
 
   @Test

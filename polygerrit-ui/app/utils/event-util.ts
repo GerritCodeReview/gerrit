@@ -39,3 +39,13 @@ export function firePageError(target: EventTarget, response?: Response | null) {
     })
   );
 }
+
+export function fireTitleChange(target: EventTarget, title: string) {
+  target.dispatchEvent(
+    new CustomEvent(EventType.PAGE_ERROR, {
+      detail: {title},
+      composed: true,
+      bubbles: true,
+    })
+  );
+}

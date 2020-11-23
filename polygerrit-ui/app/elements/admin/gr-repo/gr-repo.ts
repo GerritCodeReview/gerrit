@@ -48,7 +48,7 @@ import {PluginData} from '../gr-repo-plugin-config/gr-repo-plugin-config';
 import {ProjectState} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {firePageError} from '../../../utils/event-util';
+import {firePageError, fireTitleChange} from '../../../utils/event-util';
 
 const STATES = {
   active: {value: ProjectState.ACTIVE, label: 'Active'},
@@ -150,13 +150,7 @@ export class GrRepo extends GestureEventListeners(
     super.attached();
     this._loadRepo();
 
-    this.dispatchEvent(
-      new CustomEvent('title-change', {
-        detail: {title: this.repo},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireTitleChange(this, `${this.repo}`);
   }
 
   _computePluginData(

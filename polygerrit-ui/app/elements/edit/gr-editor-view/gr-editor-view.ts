@@ -47,7 +47,7 @@ import {
 } from '../../../types/common';
 import {GrStorage} from '../../shared/gr-storage/gr-storage';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
-import {fireAlert} from '../../../utils/event-util';
+import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -177,13 +177,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
     // has been queued, the event can bubble up to the handler in gr-app.
     this.async(() => {
       const title = `Editing ${computeTruncatedPath(value.path)}`;
-      this.dispatchEvent(
-        new CustomEvent('title-change', {
-          detail: {title},
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireTitleChange(this, title);
     });
 
     const promises = [];

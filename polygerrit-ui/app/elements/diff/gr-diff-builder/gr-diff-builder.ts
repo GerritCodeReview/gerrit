@@ -563,6 +563,7 @@ export abstract class GrDiffBuilder {
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
       if (this.useNewContextControls) {
         text = `+${numLines} common line`;
+        button.setAttribute('aria-label', `Show ${numLines} common lines`);
       } else {
         text = `Show ${numLines} common line`;
         const icon = this._createElement('iron-icon', 'showContext');
@@ -583,6 +584,7 @@ export abstract class GrDiffBuilder {
       if (this.useNewContextControls) {
         text = `+${context}`;
         button.classList.add('aboveButton');
+        button.setAttribute('aria-label', `Show ${context} lines above`);
       } else {
         text = `+${context} above`;
       }
@@ -591,6 +593,7 @@ export abstract class GrDiffBuilder {
       if (this.useNewContextControls) {
         text = `+${context}`;
         button.classList.add('belowButton');
+        button.setAttribute('aria-label', `Show ${context} lines below`);
       } else {
         text = `+${context} below`;
       }
@@ -659,6 +662,9 @@ export abstract class GrDiffBuilder {
       button.classList.add(side);
       button.dataset['value'] = number.toString();
       button.textContent = number === 'FILE' ? 'File' : number.toString();
+      if (number === 'FILE') {
+        button.setAttribute('aria-label', 'Add file comment');
+      }
 
       // Add aria-labels for valid line numbers.
       // For unified diff, this method will be called with number set to 0 for

@@ -184,6 +184,8 @@ suite('gr-diff-view tests', () => {
     test('comment route', () => {
       const initLineOfInterestAndCursorStub =
         sinon.stub(element, '_initLineOfInterestAndCursor');
+      const getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
+      const replaceStateStub = sinon.stub(history, 'replaceState');
       sinon.stub(element, '_getFiles');
       sinon.stub(element.reporting, 'diffViewDisplayed');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
@@ -213,6 +215,10 @@ suite('gr-diff-view tests', () => {
         assert.equal(element._focusLineNum, 10);
         assert.equal(element._patchRange.patchNum, 11);
         assert.equal(element._patchRange.basePatchNum, 2);
+
+        assert.isTrue(replaceStateStub.called);
+        assert.isTrue(getUrlStub.calledWithExactly('42', 'test-project',
+            '/COMMIT_MSG', 11, 2, 10, true));
       });
     });
 

@@ -941,6 +941,23 @@ export class GrDiffView extends KeyboardShortcutMixin(
     this._commitRange = commit && baseCommit ? {commit, baseCommit} : undefined;
   }
 
+  _updateUrlToDiffUrl(lineNum?: number, leftSide?: boolean) {
+    if (!this._change) return;
+    if (!this._patchRange) return;
+    if (!this._changeNum) return;
+    if (!this._path) return;
+    const url = GerritNav.getUrlForDiffById(
+      this._changeNum,
+      this._change.project,
+      this._path,
+      this._patchRange.patchNum,
+      this._patchRange.basePatchNum,
+      lineNum,
+      leftSide
+    );
+    history.replaceState(null, '', url);
+  }
+
   _initPatchRange() {
     let leftSide = false;
     if (!this._change) return;
@@ -991,6 +1008,12 @@ export class GrDiffView extends KeyboardShortcutMixin(
     }
     if (!this._patchRange) throw new Error('Failed to initialize patchRange.');
     this._initLineOfInterestAndCursor(leftSide);
+
+    if (this.params?.commentId) {
+      // url is of type /comment/{commentId} which isn't meaningful
+      this._updateUrlToDiffUrl(this._focusLineNum, leftSide);
+    }
+
     this._commentMap = this._getPaths(this._patchRange);
 
     this._commentsForDiff = this._getCommentsForPath(
@@ -1437,26 +1460,12 @@ export class GrDiffView extends KeyboardShortcutMixin(
     _: Event,
     detail: {side: Side | CommentSide; number: number}
   ) {
-    if (!this._change) return;
-    if (!this._path) return;
-    if (!this._changeNum) return;
-    if (!this._patchRange) return;
-
-    const number = detail.number;
     // for on-comment-anchor-tap side can be PARENT/REVISIONS
     // for on-line-selected side can be left/right
-    const leftSide =
-      detail.side === Side.LEFT || detail.side === CommentSide.PARENT;
-    const url = GerritNav.getUrlForDiffById(
-      this._changeNum,
-      this._change.project,
-      this._path,
-      this._patchRange.patchNum,
-      this._patchRange.basePatchNum,
-      number,
-      leftSide
+    this._updateUrlToDiffUrl(
+      detail.number,
+      detail.side === Side.LEFT || detail.side === CommentSide.PARENT
     );
-    history.replaceState(null, '', url);
   }
 
   _computeDownloadDropdownLinks(

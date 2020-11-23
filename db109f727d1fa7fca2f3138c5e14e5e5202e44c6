@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3c2a11fc_05c26ea8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-23T12:36:59Z",
+      "side": 1,
+      "message": "Yes, since this separate keyboards shortcuts to different tables, there was not other option to make these table align then setting width for 1st column same for each table. This was discussed with Delphine as well.",
+      "parentUuid": "94a20c28_f756455c",
+      "revId": "db109f727d1fa7fca2f3138c5e14e5e5202e44c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4cf417a3_650e3d86",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "Perhaps move this to commit message? We usually keep it there and it\u0027s more visible.\nResolved patchset comment has relatively low visibility.",
       "parentUuid": "4cf417a3_650e3d86",
+      "revId": "db109f727d1fa7fca2f3138c5e14e5e5202e44c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b47d7a5_ff5b47aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-23T12:36:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "269dc98f_c0ee8aa1",
       "revId": "db109f727d1fa7fca2f3138c5e14e5e5202e44c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -190,6 +190,7 @@ suite('gr-change-view tests', () => {
       path: '/COMMIT_MSG',
       line: 5,
       rootId: 'ecf0b9fa_fe1a5f62' as UrlEncodedCommentId,
+      commentSide: CommentSide.REVISION,
     },
     {
       comments: [
@@ -249,6 +250,7 @@ suite('gr-change-view tests', () => {
       path: '/COMMIT_MSG',
       line: 4,
       rootId: '8caddf38_44770ec1' as UrlEncodedCommentId,
+      commentSide: CommentSide.REVISION,
     },
     {
       comments: [
@@ -271,6 +273,7 @@ suite('gr-change-view tests', () => {
       path: '/COMMIT_MSG',
       line: 4,
       rootId: 'scaddf38_44770ec1' as UrlEncodedCommentId,
+      commentSide: CommentSide.REVISION,
     },
     {
       comments: [
@@ -291,6 +294,7 @@ suite('gr-change-view tests', () => {
       path: '/COMMIT_MSG',
       line: 6,
       rootId: 'zcf0b9fa_fe1a5f62' as UrlEncodedCommentId,
+      commentSide: CommentSide.REVISION,
     },
     {
       comments: [
@@ -314,6 +318,7 @@ suite('gr-change-view tests', () => {
       path: '/COMMIT_MSG',
       line: 5,
       rootId: 'rc1' as UrlEncodedCommentId,
+      commentSide: CommentSide.REVISION,
     },
     {
       comments: [
@@ -351,6 +356,7 @@ suite('gr-change-view tests', () => {
       path: '/COMMIT_MSG',
       line: 5,
       rootId: 'rc2' as UrlEncodedCommentId,
+      commentSide: CommentSide.REVISION,
     },
   ];
 

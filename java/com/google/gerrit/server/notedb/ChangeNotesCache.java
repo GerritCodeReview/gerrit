@@ -175,6 +175,7 @@ public class ChangeNotesCache {
           + list(state.submitRecords(), P + list(2, str(4) + P + K) + P)
           + P
           + list(state.changeMessages(), changeMessage())
+          + P + P // TODO: clean up the comments and remove the line below
           + P
           + map(state.publishedComments().asMap(), comment())
           + 1 // isPrivate

@@ -64,6 +64,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -458,6 +459,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public int getUpdateCount() {
     return state.updateCount();
+  }
+
+  /** @return {@link Optional} value of time when the change was merged. */
+  public Optional<Timestamp> getMergedOn() {
+    return Optional.ofNullable(state.mergedOn());
   }
 
   public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(Account.Id author) {

@@ -98,10 +98,10 @@ export interface CheckRun {
    * Older runs and their results are only available on request, e.g. by
    * switching to another patchset in a dropdown
    *
-   * TBD: CI data providers may decide that runs and results are applicable to a
-   * newer patchset, even if they were produced for an older, e.g. because only
-   * the commit message was changed. Maybe that warrants the addition of another
-   * optional field, e.g. `original_patchset`.
+   * TBD: Check data providers may decide that runs and results are applicable
+   * to a newer patchset, even if they were produced for an older, e.g. because
+   * only the commit message was changed. Maybe that warrants the addition of
+   * another optional field, e.g. `original_patchset`.
    */
   patchset?: number;
   /**
@@ -176,13 +176,13 @@ export interface CheckRun {
   /**
    * Optional reference to a Gerrit label (e.g. "Verified") that this result
    * influences. Allows the user to understand and navigate the relationship
-   * between CI results and submit requirements,
+   * between check runs/results and submit requirements,
    * see also https://gerrit-review.googlesource.com/c/homepage/+/279176.
    */
   labelName?: string;
 
   /**
-   * Optional callbacks to the CI plugin. Must be implemented individually by
+   * Optional callbacks to the plugin. Must be implemented individually by
    * each plugin. The most important actions (which get special UI treatment)
    * are:
    * "Run" for RUNNABLE and COMPLETED runs.
@@ -250,7 +250,7 @@ export interface CheckResult {
    * INFO:    The user will typically not bother to look into this category,
    *          only for looking up something that they are searching for. Can be
    *          used for reporting secondary metrics and analysis, or a wider
-   *          range of artifacts produced by the CI system.
+   *          range of artifacts produced by the checks system.
    * WARNING: A warning is something that should be read before submitting the
    *          change. The user should not ignore it, but it is also not blocking
    *          submit. It has a similar level of importance as an unresolved
@@ -280,8 +280,8 @@ export interface CheckResult {
   /**
    * Exhaustive optional message describing the check result.
    * Will be initially collapsed. Might potentially be very long, e.g. a log of
-   * MB size. The UI is not limiting this. CI data providers are responsible for
-   * not killing the browser. :-)
+   * MB size. The UI is not limiting this. Data providing plugins are
+   * responsible for not killing the browser. :-)
    *
    * For now this is just a plain unformatted string. The only formatting
    * applied is the one that Gerrit also applies to human comments. TBD: Both
@@ -291,7 +291,7 @@ export interface CheckResult {
   message?: string;
 
   /**
-   * Tags allow a CI System to further categorize a result, e.g. making a list
+   * Tags allow a plugins to further categorize a result, e.g. making a list
    * of results filterable by the end-user.
    * The name is free-form, but there is a predefined set of TagColors to
    * choose from with a recommendation of color for common tags, see below.
@@ -319,7 +319,7 @@ export interface CheckResult {
   links: Link[];
 
   /**
-   * Callbacks to the CI plugin. Must be implemented individually by each
+   * Callbacks to the plugin. Must be implemented individually by each
    * plugin. Actions are rendered as buttons. If there are more than two actions
    * per result, then further actions are put into an overflow menu. Sort order
    * is defined by the data provider.

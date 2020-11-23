@@ -239,6 +239,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50740ed3_b351c54c",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-11-23T16:01:05Z",
+      "side": 1,
+      "message": "there is something interesting going on here, which is that the code over here is for analyzing the Patch, which in itself is a diff. (This is why the code is looking for the magic string \"binary files differ\", because that is what the patch is supposed to say for binary files)\n\nIf everything works in JGit, we would never get inexact results for diffs on binaries. Computing a diff already implies going over all the input files, and checking for NUL bytes is cheap and should already happen, hopefully here: \n\nhttps://eclipse.googlesource.com/jgit/jgit/+/b8441e1e355164527ba6aeb857248190f60524ea/org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java#382\n\nI support keeping existing behavior to reduce the number of moving pieces, but I think we should look into this again, because it really should not be necessary.",
+      "parentUuid": "b69256b8_a3f78bc3",
+      "range": {
+        "startLine": 130,
+        "startChar": 10,
+        "endLine": 130,
+        "endChar": 23
+      },
+      "revId": "28254571cd464f1fdde887482e2f858f35a288f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83146d78_30fdfe58",

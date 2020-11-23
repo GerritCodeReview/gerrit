@@ -27,6 +27,7 @@ import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {RepoName, DashboardId, DashboardInfo} from '../../../types/common';
 import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {firePageError} from '../../../utils/event-util';
 
 interface DashboardRef {
   section: string;
@@ -61,15 +62,7 @@ export class GrRepoDashboards extends GestureEventListeners(
       return Promise.resolve();
     }
 
-    const errFn: ErrorCallback = response => {
-      this.dispatchEvent(
-        new CustomEvent('page-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
-    };
+    const errFn: ErrorCallback = response => firePageError(this, response);
 
     return this.$.restAPI
       .getRepoDashboards(repo, errFn)

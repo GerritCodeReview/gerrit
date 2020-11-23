@@ -153,7 +153,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {PORTING_COMMENTS_CHANGE_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
-import {fire, EventType} from '../../../utils/event-util';
+import {fireAlert, firePageError} from '../../../utils/event-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
 
 const CHANGE_ID_ERROR = {
@@ -1669,7 +1669,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     if (patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
-      fire(this, EventType.SHOW_ALERT, 'Base is already selected.');
+      fireAlert(this, 'Base is already selected.');
       return;
     }
     GerritNav.navigateToChange(this._change, this._patchRange.patchNum);
@@ -1683,7 +1683,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     if (patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
-      fire(this, EventType.SHOW_ALERT, 'Left is already base.');
+      fireAlert(this, 'Left is already base.');
       return;
     }
     GerritNav.navigateToChange(this._change, this._patchRange.basePatchNum);
@@ -1726,7 +1726,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
-      fire(this, EventType.SHOW_ALERT, 'Right is already latest.');
+      fireAlert(this, 'Right is already latest.');
       return;
     }
     GerritNav.navigateToChange(
@@ -1748,7 +1748,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
       patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
       patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)
     ) {
-      fire(this, EventType.SHOW_ALERT, 'Already diffing base against latest.');
+      fireAlert(this, 'Already diffing base against latest.');
       return;
     }
     GerritNav.navigateToChange(this._change, latestPatchNum);
@@ -1872,13 +1872,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleGetChangeDetailError(response?: Response | null) {
-    this.dispatchEvent(
-      new CustomEvent('page-error', {
-        detail: {response},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    firePageError(this, response);
   }
 
   _getLoggedIn() {

@@ -157,6 +157,7 @@ import {
   HttpMethod,
   ReviewerState,
 } from '../../../constants/constants';
+import {firePageError} from '../../../utils/event-util';
 
 const JSON_PREFIX = ")]}'";
 const MAX_PROJECT_RESULTS = 25;
@@ -3396,16 +3397,8 @@ export class GrRestApiInterface
       return Promise.resolve(project);
     }
 
-    const onError = (response?: Response | null) => {
-      // Fire a page error so that the visual 404 is displayed.
-      this.dispatchEvent(
-        new CustomEvent('page-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
-    };
+    const onError = (response?: Response | null) =>
+      firePageError(this, response);
 
     return this.getChange(changeNum, onError).then(change => {
       if (!change || !change.project) {

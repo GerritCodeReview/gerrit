@@ -48,6 +48,7 @@ import {PluginData} from '../gr-repo-plugin-config/gr-repo-plugin-config';
 import {ProjectState} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {firePageError} from '../../../utils/event-util';
 
 const STATES = {
   active: {value: ProjectState.ACTIVE, label: 'Active'},
@@ -181,15 +182,7 @@ export class GrRepo extends GestureEventListeners(
 
     const promises = [];
 
-    const errFn: ErrorCallback = response => {
-      this.dispatchEvent(
-        new CustomEvent('page-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
-    };
+    const errFn: ErrorCallback = response => firePageError(this, response);
 
     promises.push(
       this._getLoggedIn().then(loggedIn => {

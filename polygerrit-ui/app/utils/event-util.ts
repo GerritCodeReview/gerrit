@@ -17,12 +17,23 @@
 
 export enum EventType {
   SHOW_ALERT = 'show-alert',
+  PAGE_ERROR = 'page-error',
 }
 
-export function fire(target: EventTarget, type: EventType, message: string) {
+export function fireAlert(target: EventTarget, message: string) {
   target.dispatchEvent(
-    new CustomEvent(type, {
+    new CustomEvent(EventType.SHOW_ALERT, {
       detail: {message},
+      composed: true,
+      bubbles: true,
+    })
+  );
+}
+
+export function firePageError(target: EventTarget, response?: Response | null) {
+  target.dispatchEvent(
+    new CustomEvent(EventType.PAGE_ERROR, {
+      detail: {response},
       composed: true,
       bubbles: true,
     })

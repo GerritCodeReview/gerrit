@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1c3ecf5_9b248848",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-23T08:53:27Z",
+      "side": 1,
+      "message": "Maybe extract into a method. This avoids code duplication (with _onLineSelected()) and ensures that the _initPatchRange() method is not growing too large.",
+      "range": {
+        "startLine": 999,
+        "startChar": 6,
+        "endLine": 1008,
+        "endChar": 42
+      },
+      "revId": "83bd7f90cea2ea69993458a6eba11c502e06a67a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

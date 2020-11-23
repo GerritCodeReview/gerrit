@@ -222,6 +222,7 @@ export const htmlTemplate = html`
     }
     .moveControls {
       text-align: right;
+      font-style: italic;
     }
 
     /* ignoredWhitespaceOnly */

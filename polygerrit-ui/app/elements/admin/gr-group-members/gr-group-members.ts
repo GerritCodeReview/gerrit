@@ -46,7 +46,7 @@ import {
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {PolymerDomRepeatEvent} from '../../../types/types';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {EventType, fire} from '../../../utils/event-util';
+import {fireAlert, firePageError} from '../../../utils/event-util';
 
 const SUGGESTIONS_LIMIT = 15;
 const SAVING_ERROR_TEXT =
@@ -142,15 +142,7 @@ export class GrGroupMembers extends GestureEventListeners(
 
     const promises: Promise<void>[] = [];
 
-    const errFn: ErrorCallback = response => {
-      this.dispatchEvent(
-        new CustomEvent('page-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
-    };
+    const errFn: ErrorCallback = response => firePageError(this, response);
 
     return this.$.restAPI.getGroupConfig(this.groupId, errFn).then(config => {
       if (!config || !config.name) {
@@ -298,7 +290,7 @@ export class GrGroupMembers extends GestureEventListeners(
         (errResponse, err) => {
           if (errResponse) {
             if (errResponse.status === 404) {
-              fire(this, EventType.SHOW_ALERT, SAVING_ERROR_TEXT);
+              fireAlert(this, SAVING_ERROR_TEXT);
               return errResponse;
             }
             throw Error(errResponse.statusText);

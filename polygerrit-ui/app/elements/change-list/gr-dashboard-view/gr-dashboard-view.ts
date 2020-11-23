@@ -58,6 +58,7 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ChangeListToggleReviewedDetail} from '../gr-change-list-item/gr-change-list-item';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {DashboardViewState} from '../../../types/types';
+import {firePageError} from '../../../utils/event-util';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
@@ -149,15 +150,7 @@ export class GrDashboardView extends GestureEventListeners(
     project: RepoName,
     dashboard: DashboardId
   ): Promise<UserDashboard | undefined> {
-    const errFn = (response?: Response | null) => {
-      this.dispatchEvent(
-        new CustomEvent('page-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
-    };
+    const errFn = (response?: Response | null) => firePageError(this, response);
     return this.$.restAPI
       .getDashboard(project, dashboard, errFn)
       .then(response => {

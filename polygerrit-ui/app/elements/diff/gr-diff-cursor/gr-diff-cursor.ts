@@ -36,7 +36,7 @@ import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {PolymerDomWrapper} from '../../../types/types';
 import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiff} from '../gr-diff/gr-diff';
-import {fire, EventType} from '../../../utils/event-util';
+import {fireAlert} from '../../../utils/event-util';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',

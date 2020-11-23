@@ -37,6 +37,7 @@ import {
   EncodedGroupId,
   GroupAuditEventInfo,
 } from '../../../types/common';
+import {firePageError} from '../../../utils/event-util';
 
 const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
 
@@ -85,15 +86,7 @@ export class GrGroupAuditLog extends ListViewMixin(
       return '';
     }
 
-    const errFn: ErrorCallback = response => {
-      this.dispatchEvent(
-        new CustomEvent('page-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
-    };
+    const errFn: ErrorCallback = response => firePageError(this, response);
 
     return this.$.restAPI
       .getGroupAuditLog(this.groupId, errFn)

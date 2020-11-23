@@ -72,7 +72,7 @@ import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {LineNumber, FILE} from '../gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {EventType, fire} from '../../../utils/event-util';
+import {EventType, fire, firePageError} from '../../../utils/event-util';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -513,7 +513,7 @@ export class GrDiffHost extends GestureEventListeners(
       .getBlame(this.changeNum, this.patchRange.patchNum, this.path, true)
       .then(blame => {
         if (!blame || !blame.length) {
-          fire(this, EventType.SHOW_ALERT, MSG_EMPTY_BLAME);
+          fireAlert(this, MSG_EMPTY_BLAME);
           return Promise.reject(MSG_EMPTY_BLAME);
         }
 
@@ -612,13 +612,7 @@ export class GrDiffHost extends GestureEventListeners(
       return;
     }
 
-    this.dispatchEvent(
-      new CustomEvent('page-error', {
-        detail: {response},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    firePageError(this, response);
   }
 
   /**

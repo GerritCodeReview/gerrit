@@ -53,6 +53,7 @@ import {
 import {AppElementRepoParams} from '../../gr-app-types';
 import {PolymerDomRepeatEvent} from '../../../types/types';
 import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
+import {firePageError} from '../../../utils/event-util';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
@@ -181,15 +182,8 @@ export class GrRepoDetailList extends ListViewMixin(
     this._loading = true;
     this._items = [];
     flush();
-    const errFn: ErrorCallback = response => {
-      this.dispatchEvent(
-        new CustomEvent('page-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
-    };
+    const errFn: ErrorCallback = response => firePageError(this, response);
+
     if (detailType === RepoDetailView.BRANCHES) {
       return this.$.restAPI
         .getRepoBranches(filter, repo, itemsPerPage, offset, errFn)

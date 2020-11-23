@@ -60,7 +60,7 @@ import {
   UIRobot,
 } from '../../../utils/comment-util';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
-import {fire, EventType} from '../../../utils/event-util';
+import {fireAlert} from '../../../utils/event-util';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;

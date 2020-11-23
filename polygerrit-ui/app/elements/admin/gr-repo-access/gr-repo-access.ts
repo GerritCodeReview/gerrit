@@ -155,15 +155,7 @@ export class GrRepoAccess extends GestureEventListeners(
   }
 
   _reload(repo: RepoName) {
-    const errFn = (response?: Response | null) => {
-      this.dispatchEvent(
-        new CustomEvent('page-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
-    };
+    const errFn = (response?: Response | null) => firePageError(this, response);
 
     this._editing = false;
 
@@ -517,7 +509,7 @@ export class GrRepoAccess extends GestureEventListeners(
       !Object.keys(addRemoveObj.remove).length &&
       !addRemoveObj.parent
     ) {
-      fire(this, EventType.SHOW_ALERT, NOTHING_TO_SAVE);
+      fireAlert(this, NOTHING_TO_SAVE);
       return;
     }
     const obj: ProjectAccessInput = ({

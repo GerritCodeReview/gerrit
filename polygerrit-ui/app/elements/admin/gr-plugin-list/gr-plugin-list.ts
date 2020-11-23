@@ -30,6 +30,7 @@ import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {PluginInfo} from '../../../types/common';
+import {firePageError} from '../../../utils/event-util';
 
 interface PluginInfoWithName extends PluginInfo {
   name: string;
@@ -102,15 +103,7 @@ export class GrPluginList extends ListViewMixin(
   }
 
   _getPlugins(filter: string, pluginsPerPage: number, offset?: number) {
-    const errFn: ErrorCallback = response => {
-      this.dispatchEvent(
-        new CustomEvent('page-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
-    };
+    const errFn: ErrorCallback = response => firePageError(this, response);
     return this.$.restAPI
       .getPlugins(filter, pluginsPerPage, offset, errFn)
       .then(plugins => {

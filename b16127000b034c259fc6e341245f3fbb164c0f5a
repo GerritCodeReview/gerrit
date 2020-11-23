@@ -16,6 +16,52 @@
       "message": "I believe the problem isn\u0027t caused by autoGC itself, which is simply a way to automate a concurrent GC with Gerrit activity.\n\nI would spend some time today *fixing* the issue, rather than ignoring it.\nI\u0027ve posted more hints on the ticket: it looks like a generic issue with refs scanning IMHO.\n\n@Matthias WDYT?",
       "revId": "b16127000b034c259fc6e341245f3fbb164c0f5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "354b8706_e3c9a527",
+        "filename": "java/com/google/gerrit/pgm/init/InitJGitConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-23T16:05:13Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we check and disable \"receive.autogc\" option, see: [1]\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/70714/7/org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java#318",
+      "range": {
+        "startLine": 47,
+        "startChar": 21,
+        "endLine": 47,
+        "endChar": 53
+      },
+      "revId": "b16127000b034c259fc6e341245f3fbb164c0f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e5345dc_aa52d2f3",
+        "filename": "java/com/google/gerrit/pgm/init/InitJGitConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-23T16:05:13Z",
+      "side": 1,
+      "message": "Would it be an option to disable receive.autogc in JGit per default? So that JGit and Gerrit users would have to explicitly enable it. That way we wouldn\u0027t need to disable it on gerrit side.",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 67
+      },
+      "revId": "b16127000b034c259fc6e341245f3fbb164c0f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

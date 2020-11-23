@@ -156,6 +156,7 @@ class ChangeNotesParser {
   private Change.Id revertOf;
   private int updateCount;
   private PatchSet.Id cherryPickOf;
+  private Timestamp mergedOn;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -259,7 +260,8 @@ class ChangeNotesParser {
         firstNonNull(hasReviewStarted, true),
         revertOf,
         cherryPickOf,
-        updateCount);
+        updateCount,
+        mergedOn);
   }
 
   private Map<PatchSet.Id, PatchSet> buildPatchSets() throws ConfigInvalidException {
@@ -322,9 +324,9 @@ class ChangeNotesParser {
 
   private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {
     updateCount++;
-    Timestamp ts = new Timestamp(commit.getCommitterIdent().getWhen().getTime());
+    Timestamp commitTimestamp = getCommitTimestamp(commit);
 
-    createdOn = ts;
+    createdOn = commitTimestamp;
     parseTag(commit);
 
     if (branch == null) {
@@ -364,21 +366,19 @@ class ChangeNotesParser {
       originalSubject = currSubject;
     }
 
-    parseChangeMessage(psId, accountId, realAccountId, commit, ts);
+    parseChangeMessage(psId, accountId, realAccountId, commit, commitTimestamp);
     if (topic == null) {
       topic = parseTopic(commit);
     }
 
     parseHashtags(commit);
     parseAttentionSetUpdates(commit);
-    parseAssigneeUpdates(ts, commit);
+    parseAssigneeUpdates(commitTimestamp, commit);
 
-    if (submissionId == null) {
-      submissionId = parseSubmissionId(commit);
-    }
+    parseSubmission(commit, commitTimestamp);
 
-    if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
-      lastUpdatedOn = ts;
+    if (lastUpdatedOn == null || commitTimestamp.after(lastUpdatedOn)) {
+      lastUpdatedOn = commitTimestamp;
     }
 
     if (deletedPatchSets.contains(psId)) {
@@ -392,15 +392,9 @@ class ChangeNotesParser {
 
     ObjectId currRev = parseRevision(commit);
     if (currRev != null) {
-      parsePatchSet(psId, currRev, accountId, ts);
+      parsePatchSet(psId, currRev, accountId, commitTimestamp);
     }
     parseCurrentPatchSet(psId, commit);
-
-    if (submitRecords.isEmpty()) {
-      // Only parse the most recent set of submit records; any older ones are
-      // still there, but not currently used.
-      parseSubmitRecords(commit.getFooterLineValues(FOOTER_SUBMITTED_WITH));
-    }
 
     if (status == null) {
       status = parseStatus(commit);
@@ -409,15 +403,15 @@ class ChangeNotesParser {
     // Parse approvals after status to treat approvals in the same commit as
     // "Status: merged" as non-post-submit.
     for (String line : commit.getFooterLineValues(FOOTER_LABEL)) {
-      parseApproval(psId, accountId, realAccountId, ts, line);
+      parseApproval(psId, accountId, realAccountId, commitTimestamp, line);
     }
 
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
       for (String line : commit.getFooterLineValues(state.getFooterKey())) {
-        parseReviewer(ts, state, line);
+        parseReviewer(commitTimestamp, state, line);
       }
       for (String line : commit.getFooterLineValues(state.getByEmailFooterKey())) {
-        parseReviewerByEmail(ts, state, line);
+        parseReviewerByEmail(commitTimestamp, state, line);
       }
       // Don't update timestamp when a reviewer was added, matching RevewDb
       // behavior.
@@ -437,6 +431,24 @@ class ChangeNotesParser {
 
     previousWorkInProgressFooter = null;
     parseWorkInProgress(commit);
+  }
+
+  private void parseSubmission(ChangeNotesCommit commit, Timestamp commitTimestamp)
+      throws ConfigInvalidException {
+    // Only parse the most recent sumbit commit (there should be exactly one).
+    if (submissionId == null) {
+      submissionId = parseSubmissionId(commit);
+    }
+
+    if (submissionId != null && mergedOn == null) {
+      mergedOn = commitTimestamp;
+    }
+
+    if (submitRecords.isEmpty()) {
+      // Only parse the most recent set of submit records; any older ones are
+      // still there, but not currently used.
+      parseSubmitRecords(commit.getFooterLineValues(FOOTER_SUBMITTED_WITH));
+    }
   }
 
   private String parseSubmissionId(ChangeNotesCommit commit) throws ConfigInvalidException {
@@ -1014,6 +1026,23 @@ class ChangeNotesParser {
     } catch (IllegalArgumentException e) {
       throw new ConfigInvalidException("\"" + cherryPickOf + "\" is not a valid patchset", e);
     }
+  }
+
+  /**
+   * Returns the {@link Timestamp} when the commit was applied.
+   *
+   * <p>The author's date only notes when the commit was originally made. Thus, use the commiter's
+   * date as it accounts for the rebase, cherry-pick, commit --ammend and other commands that
+   * rewrite the history of the branch.
+   *
+   * <p>Don't use {@link org.eclipse.jgit.revwalk.RevCommit#getCommitTime} directly because it
+   * returns int and would overflow.
+   *
+   * @param commit the commit to return commit time.
+   * @return the timestamp when the commit was applied.
+   */
+  private Timestamp getCommitTimestamp(ChangeNotesCommit commit) {
+    return new Timestamp(commit.getCommitterIdent().getWhen().getTime());
   }
 
   private void pruneReviewers() {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44dd7b6f_7af625c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-11-23T14:58:12Z",
+      "side": 1,
+      "message": "comment from the peanut gallery: it might be cleaner to extend to further timestamp fields to use merged:\u0027RELATION\u0027. \n\nMaybe you could do some vetting to see what other systems (critique, gmail) use for their query language? and/or check with Marian if he has an idea which might be preferable.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "9f669a5bdb5e9406bc069849b540f675b39cf2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

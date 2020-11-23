@@ -191,7 +191,8 @@ public class ChangeNotesCache {
           + list(state.changeMessages(), changeMessage())
           + P
           + map(state.publishedComments().asMap(), comment())
-          + I; // updateCount
+          + I // updateCount
+          + T; // mergedOn
     }
 
     private static int str(String s) {

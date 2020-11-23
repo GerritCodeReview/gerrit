@@ -38,7 +38,7 @@ import {
   RestApiService,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {firePageError} from '../../../utils/event-util';
+import {firePageError, fireTitleChange} from '../../../utils/event-util';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -176,13 +176,7 @@ export class GrGroup extends GestureEventListeners(
       }
       this._groupConfig = config;
 
-      this.dispatchEvent(
-        new CustomEvent('title-change', {
-          detail: {title: config.name},
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireTitleChange(this, config.name);
 
       return Promise.all(promises).then(() => {
         this._loading = false;

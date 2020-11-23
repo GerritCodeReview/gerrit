@@ -34,6 +34,7 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrCreateGroupDialog} from '../gr-create-group-dialog/gr-create-group-dialog';
+import {fireTitleChange} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -100,13 +101,7 @@ export class GrAdminGroupList extends ListViewMixin(
   attached() {
     super.attached();
     this._getCreateGroupCapability();
-    this.dispatchEvent(
-      new CustomEvent('title-change', {
-        detail: {title: 'Groups'},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireTitleChange(this, 'Groups');
     this._maybeOpenCreateOverlay(this.params);
   }
 

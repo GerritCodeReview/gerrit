@@ -34,6 +34,7 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {RepoName, ProjectInfoWithName} from '../../../types/common';
 import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
 import {ProjectState} from '../../../constants/constants';
+import {fireTitleChange} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -93,13 +94,7 @@ export class GrRepoList extends ListViewMixin(
   attached() {
     super.attached();
     this._getCreateRepoCapability();
-    this.dispatchEvent(
-      new CustomEvent('title-change', {
-        detail: {title: 'Repos'},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireTitleChange(this, 'Repos');
     this._maybeOpenCreateOverlay(this.params);
   }
 

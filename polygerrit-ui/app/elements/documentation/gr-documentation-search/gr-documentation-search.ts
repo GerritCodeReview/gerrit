@@ -30,6 +30,7 @@ import {getBaseUrl} from '../../../utils/url-util';
 import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {DocResult} from '../../../types/common';
+import {fireTitleChange} from '../../../utils/event-util';
 
 export interface GrDocumentationSearch {
   $: {
@@ -62,9 +63,7 @@ export class GrDocumentationSearch extends ListViewMixin(
   /** @override */
   attached() {
     super.attached();
-    this.dispatchEvent(
-      new CustomEvent('title-change', {detail: {title: 'Documentation Search'}})
-    );
+    fireTitleChange(this, 'Documentation Search');
   }
 
   _paramsChanged(params: ListViewParams) {

@@ -18,6 +18,7 @@
 export enum EventType {
   SHOW_ALERT = 'show-alert',
   PAGE_ERROR = 'page-error',
+  TITLE_CHANGE = 'title-change',
 }
 
 export function fireAlert(target: EventTarget, message: string) {
@@ -34,6 +35,16 @@ export function firePageError(target: EventTarget, response?: Response | null) {
   target.dispatchEvent(
     new CustomEvent(EventType.PAGE_ERROR, {
       detail: {response},
+      composed: true,
+      bubbles: true,
+    })
+  );
+}
+
+export function fireTitleChange(target: EventTarget, title: string) {
+  target.dispatchEvent(
+    new CustomEvent(EventType.TITLE_CHANGE, {
+      detail: {title},
       composed: true,
       bubbles: true,
     })

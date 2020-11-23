@@ -991,6 +991,23 @@ export class GrDiffView extends KeyboardShortcutMixin(
     }
     if (!this._patchRange) throw new Error('Failed to initialize patchRange.');
     this._initLineOfInterestAndCursor(leftSide);
+
+    if (this.params?.commentId) {
+      if (!this._changeNum) throw new Error('Failed to initialize changeNum.');
+      if (!this._path) throw new Error('Failed to initialize path.');
+      // url is of type /comment/{commentId} which isn't meaningful
+      const url = GerritNav.getUrlForDiffById(
+        this._changeNum,
+        this._change.project,
+        this._path,
+        this._patchRange.patchNum,
+        this._patchRange.basePatchNum,
+        this._focusLineNum,
+        leftSide
+      );
+      history.replaceState(null, '', url);
+    }
+
     this._commentMap = this._getPaths(this._patchRange);
 
     this._commentsForDiff = this._getCommentsForPath(

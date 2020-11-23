@@ -68,7 +68,7 @@ import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GerritView} from '../../core/gr-navigation/gr-navigation';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
 import {CustomKeyboardEvent} from '../../../types/events';
-import {fire, EventType} from '../../../utils/event-util';
+import {fireAlert} from '../../../utils/event-util';
 
 const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'changes_per_page',
@@ -287,7 +287,7 @@ export class GrSettingsView extends ChangeTableMixin(
       promises.push(
         this.$.restAPI.confirmEmail(this.params.emailToken).then(message => {
           if (message) {
-            fire(this, EventType.SHOW_ALERT, message);
+            fireAlert(this, message);
           }
           this.$.emailEditor.loadData();
         })
@@ -537,11 +537,7 @@ export class GrSettingsView extends ChangeTableMixin(
       applyDarkTheme();
     }
     this._isDark = !!window.localStorage.getItem('dark-theme');
-    fire(
-      this,
-      EventType.SHOW_ALERT,
-      `Theme changed to ${this._isDark ? 'dark' : 'light'}.`
-    );
+    fireAlert(this, `Theme changed to ${this._isDark ? 'dark' : 'light'}.`);
   }
 
   _showHttpAuth(config?: ServerInfo) {

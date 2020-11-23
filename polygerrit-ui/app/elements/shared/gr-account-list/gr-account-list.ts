@@ -38,7 +38,7 @@ import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {PaperInputElementExt} from '../../../types/types';
-import {fire, EventType} from '../../../utils/event-util';
+import {fireAlert} from '../../../utils/event-util';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
@@ -257,7 +257,7 @@ export class GrAccountList extends GestureEventListeners(
         // Repopulate the input with what the user tried to enter and have
         // a toast tell them why they can't enter it.
         this.$.entry.setText(item);
-        fire(this, EventType.SHOW_ALERT, VALID_EMAIL_ALERT);
+        fireAlert(this, VALID_EMAIL_ALERT);
         return false;
       } else {
         const account = {email: item, _pendingAdd: true};

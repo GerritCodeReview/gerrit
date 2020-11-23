@@ -113,7 +113,7 @@ import {
   RevisionActions,
   UIActionInfo,
 } from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
-import {fire, EventType} from '../../../utils/event-util';
+import {fireAlert} from '../../../utils/event-util';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -613,7 +613,7 @@ export class GrChangeActions
         this._handleLoadingComplete();
       })
       .catch(err => {
-        fire(this, EventType.SHOW_ALERT, ERR_REVISION_ACTIONS);
+        fireAlert(this, ERR_REVISION_ACTIONS);
         this._loading = false;
         throw err;
       });
@@ -1368,11 +1368,11 @@ export class GrChangeActions
   _handleCherryPickRestApi(conflicts: boolean) {
     const el = this.$.confirmCherrypick;
     if (!el.branch) {
-      fire(this, EventType.SHOW_ALERT, ERR_BRANCH_EMPTY);
+      fireAlert(this, ERR_BRANCH_EMPTY);
       return;
     }
     if (!el.message) {
-      fire(this, EventType.SHOW_ALERT, ERR_COMMIT_EMPTY);
+      fireAlert(this, ERR_COMMIT_EMPTY);
       return;
     }
     this.$.overlay.close();
@@ -1393,7 +1393,7 @@ export class GrChangeActions
   _handleMoveConfirm() {
     const el = this.$.confirmMove;
     if (!el.branch) {
-      fire(this, EventType.SHOW_ALERT, ERR_BRANCH_EMPTY);
+      fireAlert(this, ERR_BRANCH_EMPTY);
       return;
     }
     this.$.overlay.close();

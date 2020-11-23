@@ -42,7 +42,7 @@ import {
 } from '../../../types/common';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrCreateChangeDialog} from '../gr-create-change-dialog/gr-create-change-dialog';
-import {fire, EventType} from '../../../utils/event-util';
+import {fireAlert, firePageError} from '../../../utils/event-util';
 
 const GC_MESSAGE = 'Garbage collection completed successfully.';
 const CONFIG_BRANCH = 'refs/meta/config' as BranchName;
@@ -110,13 +110,7 @@ export class GrRepoCommands extends GestureEventListeners(
       // Do not process the error, if the component is not attached to the DOM
       // anymore, which at least in tests can happen.
       if (!this.isConnected) return;
-      this.dispatchEvent(
-        new CustomEvent('page-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
+      firePageError(this, response);
     };
 
     this.$.restAPI.getProjectConfig(this.repo, errFn).then(config => {
@@ -143,7 +137,7 @@ export class GrRepoCommands extends GestureEventListeners(
       .runRepoGC(this.repo)
       .then(response => {
         if (response?.status === 200) {
-          fire(this, EventType.SHOW_ALERT, GC_MESSAGE);
+          fireAlert(this, GC_MESSAGE);
         }
       })
       .finally(() => {
@@ -185,7 +179,7 @@ export class GrRepoCommands extends GestureEventListeners(
         const message = change
           ? CREATE_CHANGE_SUCCEEDED_MESSAGE
           : CREATE_CHANGE_FAILED_MESSAGE;
-        fire(this, EventType.SHOW_ALERT, message);
+        fireAlert(this, message);
         if (!change) {
           return;
         }

@@ -57,7 +57,7 @@ import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {AbortStop} from '../../shared/gr-cursor-manager/gr-cursor-manager';
-import {fire, EventType} from '../../../utils/event-util';
+import {fireAlert} from '../../../utils/event-util';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -571,7 +571,7 @@ export class GrDiff extends GestureEventListeners(
 
     const lineNum = getLineNumber(el);
     if (lineNum === null) {
-      fire(this, EventType.SHOW_ALERT, 'Invalid line number');
+      fireAlert(this, 'Invalid line number');
       return;
     }
 
@@ -613,11 +613,7 @@ export class GrDiff extends GestureEventListeners(
       return false;
     }
     if (!this.patchRange) {
-      fire(
-        this,
-        EventType.SHOW_ALERT,
-        'Cannot create comment. Patch range undefined.'
-      );
+      fireAlert(this, 'Cannot create comment. Patch range undefined.');
       return false;
     }
     const patchNum = el.classList.contains(Side.LEFT)
@@ -630,15 +626,11 @@ export class GrDiff extends GestureEventListeners(
       patchNumEquals(this.patchRange.patchNum, EditPatchSetNum);
 
     if (isEdit) {
-      fire(this, EventType.SHOW_ALERT, 'You cannot comment on an edit.');
+      fireAlert(this, 'You cannot comment on an edit.');
       return false;
     }
     if (isEditBase) {
-      fire(
-        this,
-        EventType.SHOW_ALERT,
-        'You cannot comment on the base patchset of an edit.'
-      );
+      fireAlert(this, 'You cannot comment on the base patchset of an edit.');
       return false;
     }
     return true;

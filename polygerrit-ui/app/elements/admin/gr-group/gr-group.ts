@@ -38,6 +38,7 @@ import {
   RestApiService,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {firePageError} from '../../../utils/event-util';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -144,15 +145,7 @@ export class GrGroup extends GestureEventListeners(
 
     const promises: Promise<unknown>[] = [];
 
-    const errFn: ErrorCallback = response => {
-      this.dispatchEvent(
-        new CustomEvent('page-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
-    };
+    const errFn: ErrorCallback = response => firePageError(this, response);
 
     return this.$.restAPI.getGroupConfig(this.groupId, errFn).then(config => {
       if (!config || !config.name) {

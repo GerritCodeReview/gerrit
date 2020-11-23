@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c6a76dd_8584de5c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-23T09:55:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54efa0ef_066ceeb3",
+      "range": {
+        "startLine": 65,
+        "startChar": 40,
+        "endLine": 65,
+        "endChar": 49
+      },
+      "revId": "ab804d210caecfd40e22849b55b75c8dcec00475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9daef87b_a9d8376e",
@@ -54,6 +78,30 @@
       "writtenOn": "2020-11-23T09:27:56Z",
       "side": 1,
       "message": "I find this arbitrary. Why not focus on links for example? Maybe rather a block-list approach than an allow-list approach?\n\nAlso, what is the problem with returning the focus back to body or iframe? Maybe not helpful, but is it a bug? Is it a problem for the user? Isn\u0027t it putting the user in the exact same state as before?\n\nIf it makes sense to to only consider certain elements, then I think it would be nice to move this code into the findActiveElement() utility method, because it is more an option of that function than something unique to gr-overlay.",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 62
+      },
+      "revId": "ab804d210caecfd40e22849b55b75c8dcec00475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ce17823_5e37f148",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-23T09:55:15Z",
+      "side": 1,
+      "message": "Ok, I made it specific - I block \"body\" - it doesn\u0027t make sense to return focus to body and it happens in some tests.\n\nI am not returning focus to elements inside dialogs - there are some gr-overlay show after elements in dialog (reviewers dropdown in reply dialog) and it works better without returning focus for such elements.",
+      "parentUuid": "9daef87b_a9d8376e",
       "range": {
         "startLine": 96,
         "startChar": 4,

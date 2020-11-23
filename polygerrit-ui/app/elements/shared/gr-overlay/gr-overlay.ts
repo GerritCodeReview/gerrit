@@ -22,6 +22,7 @@ import {htmlTemplate} from './gr-overlay_html';
 import {IronOverlayMixin} from '../../../mixins/iron-overlay-mixin/iron-overlay-mixin';
 import {customElement, property} from '@polymer/decorators';
 import {IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior';
+import {findActiveElement} from '../../../utils/dom-util';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -59,7 +60,9 @@ export class GrOverlay extends IronOverlayMixin(
 
   private _boundHandleClose: () => void = () => super.close();
 
-  private focusableNodes: Node[] | undefined;
+  private focusableNodes?: Node[];
+
+  private returnFocusTo?: HTMLElement;
 
   get _focusableNodes() {
     if (this.focusableNodes) {
@@ -89,6 +92,7 @@ export class GrOverlay extends IronOverlayMixin(
   }
 
   open() {
+    this.returnFocusTo = findActiveElement(document, true) ?? undefined;
     window.addEventListener('popstate', this._boundHandleClose);
     return new Promise((resolve, reject) => {
       super.open.apply(this);
@@ -120,6 +124,10 @@ export class GrOverlay extends IronOverlayMixin(
         })
       );
       this._fullScreenOpen = false;
+    }
+    if (this.returnFocusTo) {
+      this.returnFocusTo.focus();
+      this.returnFocusTo = undefined;
     }
   }
 

@@ -5604,10 +5604,12 @@ Supported versions:
 
 [[receive.autogc]]receive.autogc::
 +
-By default, `git-receive-pack` will run auto gc after receiving data from git-push and updating refs.
+By default, up to Gerrit 3.2 `git-receive-pack` will run auto gc after receiving data from git-push and updating refs.
 You can stop it by setting this variable to `false`. This is recommended in gerrit to avoid the
 additional load this creates. Instead schedule gc using link:cmd-gc.html#gc.startTime[gc.startTime]
 and link:cmd-gc.html#gc.interval[gc.interval] or e.g. in a cron job that runs gc in a separate process.
+Since Gerrit 3.3 the init command will auto-configure `git-receive-pack = false` in `etc/jgit.config` if
+it wasn't set manually and show a warning if it was set to `true` manually.
 
 GERRIT
 ------

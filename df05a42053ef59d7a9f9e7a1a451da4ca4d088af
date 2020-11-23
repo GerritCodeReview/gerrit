@@ -388,6 +388,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c1138c4_772863a0",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-23T12:18:45Z",
+      "side": 1,
+      "message": "SubmissionId could change too, but yea sure, I see your point. I\u0027m fine with keeping it as is.",
+      "parentUuid": "6463c3d9_b547d780",
+      "range": {
+        "startLine": 716,
+        "startChar": 14,
+        "endLine": 716,
+        "endChar": 28
+      },
+      "revId": "df05a42053ef59d7a9f9e7a1a451da4ca4d088af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95be3b6e_a92ba490",

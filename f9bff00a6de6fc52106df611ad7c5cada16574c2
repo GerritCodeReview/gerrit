@@ -33,6 +33,24 @@
       "message": "Nit: I would probably just go with \"+${context} above\" to keep it nice and short, and the same as before.",
       "revId": "f9bff00a6de6fc52106df611ad7c5cada16574c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3c44391_c0269ac1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-23T07:29:43Z",
+      "side": 1,
+      "message": "+10 above sounds confusing without visual clues. There aren\u0027t many of these buttons so I think we can be more descriptive.",
+      "parentUuid": "33331fa1_fb75ce1a",
+      "revId": "f9bff00a6de6fc52106df611ad7c5cada16574c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

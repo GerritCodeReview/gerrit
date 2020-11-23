@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a52b3c6f_d540e61f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-23T09:17:31Z",
+      "side": 1,
+      "message": "I was considering this too, but came to the conclusion that I would keep null behaviour for the consistency with the other methods in the interface.\n\nIf I go for Optional, I would have to do the null conversion in ChangeField anyway, smth like cd -\u003e cd.getMergedOn().isPresent() ? cd.getMergedOn().get(): null\n\nAnd similar in predicates.\n\nI  agree Optional is cleaner, I just don\u0027t feel like it adds much to the readability of the existing classes in this case.\n\nChanging the Nulluble methods to Optional in both ChangeNotes and ChangeData could be a separate clean-up change, WDYT?",
+      "parentUuid": "15d6da52_6906aacc",
+      "range": {
+        "startLine": 465,
+        "startChar": 2,
+        "endLine": 466,
+        "endChar": 34
+      },
+      "revId": "6d6db58e844f3970907aaa18926f4d03e39d5cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "617abcd6_eb6d6e30",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
         "patchSetId": 3
@@ -54,6 +78,30 @@
       "writtenOn": "2020-11-20T12:17:21Z",
       "side": 1,
       "message": "It seems you are adding weighs for fields here that were forgotten so far, but which are unrelated to this change. It\u0027s good that you noticed this and that you are fixing it right away. However it would be better if you would do this in a separate (predecessor) change. This way we will be able to cherry-pick this fix to the stable branches if we want, while not integrating the new feature too. Decoupling the bug-fix from the new feature in a separate change also has the advantage that we can keep the bug-fix in case the feature needs to be reverted. So if you don\u0027t mind it would be nice if you could split out this bug-fix into a separate change.",
+      "range": {
+        "startLine": 156,
+        "startChar": 9,
+        "endLine": 161,
+        "endChar": 45
+      },
+      "revId": "6d6db58e844f3970907aaa18926f4d03e39d5cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eb2e03c_346ff0c9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-23T09:17:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "617abcd6_eb6d6e30",
       "range": {
         "startLine": 156,
         "startChar": 9,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c689ecd_b70b4b71",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-23T09:17:31Z",
+      "side": 1,
+      "message": "See the comment in ChangeNotes, WDYT?",
+      "parentUuid": "e90c181a_f70e7296",
+      "range": {
+        "startLine": 620,
+        "startChar": 9,
+        "endLine": 620,
+        "endChar": 18
+      },
+      "revId": "6d6db58e844f3970907aaa18926f4d03e39d5cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "229b0fcc_bfa6aa46",
@@ -100,6 +172,24 @@
       "writtenOn": "2020-11-20T12:17:21Z",
       "side": 1,
       "message": "nit: setting a topic seems to be not relevant for this test, can this line be dropped?",
+      "revId": "6d6db58e844f3970907aaa18926f4d03e39d5cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9caf7cc_dd0bf5e8",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-23T09:17:31Z",
+      "side": 1,
+      "message": "I just really wanted to verify merged is not set on any update accidentally. Added a line about this.",
+      "parentUuid": "229b0fcc_bfa6aa46",
       "revId": "6d6db58e844f3970907aaa18926f4d03e39d5cd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

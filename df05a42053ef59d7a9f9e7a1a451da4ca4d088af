@@ -366,6 +366,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6463c3d9_b547d780",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-23T09:17:31Z",
+      "side": 1,
+      "message": "Hm doesn\u0027t look like status \u003d MERGED would be more reliable\n - in case we add post-merge statuses (smth like revered?, I found a comment - https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/notedb/ChangeNotesParser.java#642)\n- in case status \u003d MERGED will appear on multiple commits, same situation as with submissionID\nSo I would prefer to keep relying on submissionId for now, with the test coverege.",
+      "parentUuid": "11d0d5e7_a00df80e",
+      "range": {
+        "startLine": 716,
+        "startChar": 14,
+        "endLine": 716,
+        "endChar": 28
+      },
+      "revId": "df05a42053ef59d7a9f9e7a1a451da4ca4d088af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "95be3b6e_a92ba490",
         "filename": "proto/cache.proto",
         "patchSetId": 1

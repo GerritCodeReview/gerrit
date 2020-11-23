@@ -39,6 +39,7 @@ import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api
 import {FetchRequest} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {ErrorType, FixIronA11yAnnouncer} from '../../../types/types';
 import {AccountId} from '../../../types/common';
+import {EventType} from '../../../utils/event-util';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -129,7 +130,7 @@ export class GrErrorManager extends GestureEventListeners(
     super.attached();
     this.listen(document, 'server-error', '_handleServerError');
     this.listen(document, 'network-error', '_handleNetworkError');
-    this.listen(document, 'show-alert', '_handleShowAlert');
+    this.listen(document, EventType.SHOW_ALERT, '_handleShowAlert');
     this.listen(document, 'hide-alert', '_hideAlert');
     this.listen(document, 'show-error', '_handleShowErrorDialog');
     this.listen(document, 'visibilitychange', '_handleVisibilityChange');
@@ -151,7 +152,7 @@ export class GrErrorManager extends GestureEventListeners(
     this._clearHideAlertHandle();
     this.unlisten(document, 'server-error', '_handleServerError');
     this.unlisten(document, 'network-error', '_handleNetworkError');
-    this.unlisten(document, 'show-alert', '_handleShowAlert');
+    this.unlisten(document, EventType.SHOW_ALERT, '_handleShowAlert');
     this.unlisten(document, 'hide-alert', '_hideAlert');
     this.unlisten(document, 'show-error', '_handleShowErrorDialog');
     this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');

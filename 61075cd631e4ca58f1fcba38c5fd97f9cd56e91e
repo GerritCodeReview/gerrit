@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "506808d6_41ef9ee7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-23T20:28:31Z",
+      "side": 1,
+      "message": "CI failure doesn\u0027t seem to be related.",
+      "revId": "61075cd631e4ca58f1fcba38c5fd97f9cd56e91e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f4f5360_ce75a5cd",
+        "filename": "java/com/google/gerrit/pgm/init/InitJGitConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-23T20:28:31Z",
+      "side": 1,
+      "message": "The documentation, that was added in change 280843 should be adapted in Documentation/config-gerrit.txt, it is saying:\n\n  [[receive.autogc]]receive.autogc::\n  +\n  By default, `git-receive-pack` will run auto gc after receiving data from git-push and updating refs.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 100
+      },
+      "revId": "61075cd631e4ca58f1fcba38c5fd97f9cd56e91e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

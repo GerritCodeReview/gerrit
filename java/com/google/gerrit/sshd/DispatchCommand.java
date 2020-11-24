@@ -72,8 +72,7 @@ final class DispatchCommand extends BaseCommand {
 
   @Override
   public void start(ChannelSession channel, Environment env) throws IOException {
-    try (DynamicOptions pluginOptions =
-        new DynamicOptions(DispatchCommand.this, injector, dynamicBeans)) {
+    try (DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans)) {
       parseCommandLine(pluginOptions);
       if (Strings.isNullOrEmpty(commandName)) {
         StringWriter msg = new StringWriter();

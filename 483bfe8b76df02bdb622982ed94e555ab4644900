@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87b03512_f8a6a07b",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-11-24T18:41:39Z",
+      "side": 1,
+      "message": "This \"fix\" seems like a good fix that is not fixing something described in the commit message?",
+      "range": {
+        "startLine": 509,
+        "startChar": 0,
+        "endLine": 509,
+        "endChar": 5
+      },
+      "revId": "483bfe8b76df02bdb622982ed94e555ab4644900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

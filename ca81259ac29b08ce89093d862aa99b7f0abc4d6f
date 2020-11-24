@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35e13fce_b5920e51",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-24T15:58:26Z",
+      "side": 1,
+      "message": "NIT: Why not put it under else\n```\n960: if (result) {\n....\n} else if (this.change.labels[CODE_REVIEW] \u0026\u0026\n      this._getLabelStatus(this.change.labels[CODE_REVIEW]) \u003d\u003d\u003d LabelStatus.OK\n    ) {\n   result \u003d ...\n}\n```",
+      "range": {
+        "startLine": 953,
+        "startChar": 3,
+        "endLine": 959,
+        "endChar": 5
+      },
+      "revId": "ca81259ac29b08ce89093d862aa99b7f0abc4d6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

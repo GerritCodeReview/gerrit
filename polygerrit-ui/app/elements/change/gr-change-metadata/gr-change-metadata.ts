@@ -76,6 +76,13 @@ import {assertNever} from '../../../utils/common-util';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
 import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
+import {appContext} from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {
+  Metadata,
+  isSectionSet,
+  DisplayRules,
+} from '../../../utils/change-metadata-util';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -193,6 +200,25 @@ export class GrChangeMetadata extends GestureEventListeners(
 
   @property({type: Object})
   _CHANGE_ROLE = ChangeRole;
+
+  @property({type: Object})
+  _SECTION = Metadata;
+
+  @property({type: Boolean})
+  _showAllSections = false;
+
+  @property({type: Boolean})
+  _isNewChangeSummaryUiEnabled = false;
+
+  flagsService = appContext.flagsService;
+
+  /** @override */
+  ready() {
+    super.ready();
+    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.NEW_CHANGE_SUMMARY_UI
+    );
+  }
 
   @observe('change.labels')
   _labelsChanged(labels?: LabelNameToInfoMap) {
@@ -564,6 +590,35 @@ export class GrChangeMetadata extends GestureEventListeners(
 
   _computeShowRoleClass(change?: ParsedChangeInfo, role?: ChangeRole) {
     return this._getNonOwnerRole(change, role) ? '' : 'hideDisplay';
+  }
+
+  _computeDisplayState(
+    showAllSections: boolean,
+    change: ParsedChangeInfo | undefined,
+    section: Metadata
+  ) {
+    if (
+      !this._isNewChangeSummaryUiEnabled ||
+      showAllSections ||
+      DisplayRules.ALWAYS_SHOW.includes(section) ||
+      (DisplayRules.SHOW_IF_SET.includes(section) &&
+        isSectionSet(section, change))
+    ) {
+      return '';
+    }
+    return 'hideDisplay';
+  }
+
+  _computeShowAllLabelText(showAllSections: boolean) {
+    if (showAllSections) {
+      return 'Show less';
+    } else {
+      return 'Show all';
+    }
+  }
+
+  _onShowAllClick() {
+    this._showAllSections = !this._showAllSections;
   }
 
   /**

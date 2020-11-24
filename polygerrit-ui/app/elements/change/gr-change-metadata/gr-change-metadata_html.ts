@@ -94,9 +94,31 @@ export const htmlTemplate = html`
       --account-max-length: 120px;
       max-width: 285px;
     }
+    .metadata-title {
+      font-weight: var(--font-weight-bold);
+      color: var(--deemphasized-text-color);
+      padding-left: var(--metadata-horizontal-padding);
+    }
+    .metadata-header {
+      display: flex;
+      justify-content: space-between;
+    }
   </style>
   <gr-external-style id="externalStyle" name="change-metadata">
-    <section>
+    <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
+      <div class="metadata-header">
+        <h3 class="metadata-title">Change Info</h3>
+        <gr-button
+          class="show-all-button"
+          on-click="_onShowAllClick"
+          no-uppercase=""
+          >[[_computeShowAllLabelText(_showAllSections)]]</gr-button
+        >
+      </div>
+    </template>
+    <section
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.UPDATED)]]"
+    >
       <span class="title">Updated</span>
       <span class="value">
         <gr-date-formatter
@@ -105,7 +127,9 @@ export const htmlTemplate = html`
         ></gr-date-formatter>
       </span>
     </section>
-    <section>
+    <section
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.OWNER)]]"
+    >
       <span class="title">Owner</span>
       <span class="value">
         <gr-account-chip
@@ -156,7 +180,9 @@ export const htmlTemplate = html`
       </span>
     </section>
     <template is="dom-if" if="[[_isAssigneeEnabled(serverConfig)]]">
-      <section class="assignee">
+      <section
+        class$="assignee [[_computeDisplayState(_showAllSections, change, _SECTION.ASSIGNEE)]]"
+      >
         <span class="title">Assignee</span>
         <span class="value">
           <gr-account-list
@@ -172,7 +198,9 @@ export const htmlTemplate = html`
         </span>
       </section>
     </template>
-    <section>
+    <section
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REVIEWERS)]]"
+    >
       <span class="title">Reviewers</span>
       <span class="value">
         <gr-reviewer-list
@@ -183,7 +211,9 @@ export const htmlTemplate = html`
         ></gr-reviewer-list>
       </span>
     </section>
-    <section>
+    <section
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.CC)]]"
+    >
       <span class="title">CC</span>
       <span class="value">
         <gr-reviewer-list
@@ -198,7 +228,9 @@ export const htmlTemplate = html`
       is="dom-if"
       if="[[_computeShowRepoBranchTogether(change.project, change.branch)]]"
     >
-      <section>
+      <section
+        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REPO_BRANCH)]]"
+      >
         <span class="title">Repo | Branch</span>
         <span class="value">
           <a href$="[[_computeProjectUrl(change.project)]]"
@@ -215,7 +247,9 @@ export const htmlTemplate = html`
       is="dom-if"
       if="[[!_computeShowRepoBranchTogether(change.project, change.branch)]]"
     >
-      <section>
+      <section
+        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REPO_BRANCH)]]"
+      >
         <span class="title">Repo</span>
         <span class="value">
           <a href$="[[_computeProjectUrl(change.project)]]">
@@ -226,7 +260,9 @@ export const htmlTemplate = html`
           </a>
         </span>
       </section>
-      <section>
+      <section
+        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REPO_BRANCH)]]"
+      >
         <span class="title">Branch</span>
         <span class="value">
           <a href$="[[_computeBranchUrl(change.project, change.branch)]]">
@@ -238,7 +274,9 @@ export const htmlTemplate = html`
         </span>
       </section>
     </template>
-    <section>
+    <section
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.PARENT)]]"
+    >
       <span class="title">[[_computeParentsLabel(_currentParents)]]</span>
       <span class="value">
         <ol
@@ -262,7 +300,9 @@ export const htmlTemplate = html`
         </ol>
       </span>
     </section>
-    <section class="topic">
+    <section
+      class$="topic [[_computeDisplayState(_showAllSections, change, _SECTION.TOPIC)]]"
+    >
       <span class="title">Topic</span>
       <span class="value">
         <template is="dom-if" if="[[_showTopicChip(change.*, _settingTopic)]]">
@@ -288,7 +328,9 @@ export const htmlTemplate = html`
       </span>
     </section>
     <template is="dom-if" if="[[_showCherryPickOf(change.*)]]">
-      <section>
+      <section
+        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.CHERRY_PICK_OF)]]"
+      >
         <span class="title">Cherry pick of</span>
         <span class="value">
           <a
@@ -304,14 +346,16 @@ export const htmlTemplate = html`
       </section>
     </template>
     <section
-      class="strategy"
+      class$="strategy [[_computeDisplayState(_showAllSections, change, _SECTION.STRATEGY)]]"
       hidden$="[[_computeHideStrategy(change)]]"
       hidden=""
     >
       <span class="title">Strategy</span>
       <span class="value">[[_computeStrategy(change)]]</span>
     </section>
-    <section class="hashtag">
+    <section
+      class$="hashtag [[_computeDisplayState(_showAllSections, change, _SECTION.HASHTAGS)]]"
+    >
       <span class="title">Hashtags</span>
       <span class="value">
         <template is="dom-repeat" items="[[change.hashtags]]">

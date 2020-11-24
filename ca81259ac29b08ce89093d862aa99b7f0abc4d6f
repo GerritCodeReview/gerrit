@@ -46,6 +46,30 @@
       },
       "revId": "ca81259ac29b08ce89093d862aa99b7f0abc4d6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a708eb54_0970101e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2020-11-24T21:25:50Z",
+      "side": 1,
+      "message": "Yes that\u0027s right. Let me know if you see a way to make it more obvious what is happening. I will add a newline after this if-block and before the if(result)-block to separate the function parts a bit. (First part is find a potential result, second part is check the result and return it).",
+      "parentUuid": "ab7b91f8_fcbdec7c",
+      "range": {
+        "startLine": 953,
+        "startChar": 3,
+        "endLine": 959,
+        "endChar": 5
+      },
+      "revId": "ca81259ac29b08ce89093d862aa99b7f0abc4d6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -98,7 +98,9 @@ export class GrPluginList extends ListViewMixin(
   }
 
   _getPlugins(filter: string, pluginsPerPage: number, offset?: number) {
-    const errFn: ErrorCallback = response => firePageError(this, response);
+    const errFn: ErrorCallback = response => {
+      firePageError(this, response);
+    };
     return this.$.restAPI
       .getPlugins(filter, pluginsPerPage, offset, errFn)
       .then(plugins => {

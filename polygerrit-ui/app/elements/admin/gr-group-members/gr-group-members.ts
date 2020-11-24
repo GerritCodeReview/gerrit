@@ -140,7 +140,9 @@ export class GrGroupMembers extends GestureEventListeners(
 
     const promises: Promise<void>[] = [];
 
-    const errFn: ErrorCallback = response => firePageError(this, response);
+    const errFn: ErrorCallback = response => {
+      firePageError(this, response);
+    };
 
     return this.$.restAPI.getGroupConfig(this.groupId, errFn).then(config => {
       if (!config || !config.name) {

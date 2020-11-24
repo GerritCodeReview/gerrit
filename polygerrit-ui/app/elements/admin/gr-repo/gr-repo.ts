@@ -176,7 +176,9 @@ export class GrRepo extends GestureEventListeners(
 
     const promises = [];
 
-    const errFn: ErrorCallback = response => firePageError(this, response);
+    const errFn: ErrorCallback = response => {
+      firePageError(this, response);
+    };
 
     promises.push(
       this._getLoggedIn().then(loggedIn => {

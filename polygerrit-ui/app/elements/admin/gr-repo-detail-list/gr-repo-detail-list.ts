@@ -182,7 +182,9 @@ export class GrRepoDetailList extends ListViewMixin(
     this._loading = true;
     this._items = [];
     flush();
-    const errFn: ErrorCallback = response => firePageError(this, response);
+    const errFn: ErrorCallback = response => {
+      firePageError(this, response);
+    };
 
     if (detailType === RepoDetailView.BRANCHES) {
       return this.$.restAPI

@@ -34,7 +34,6 @@ import {
 import {
   Comment,
   isDraft,
-  UIComment,
   CommentThread,
   createCommentThreads,
 } from '../../../utils/comment-util';
@@ -276,11 +275,12 @@ export class GrDiffHost extends GestureEventListeners(
       'create-comment',
       e => this._handleCreateComment(e)
     );
-    this.addEventListener('comment-discard', e =>
-      this._handleCommentDiscard(e)
+    this.addEventListener('comment-discard', () =>
+      this._handleCommentSaveOrDiscard()
     );
-    this.addEventListener('comment-update', e => this._handleCommentUpdate(e));
-    this.addEventListener('comment-save', e => this._handleCommentSave(e));
+    this.addEventListener('comment-save', () =>
+      this._handleCommentSaveOrDiscard()
+    );
     this.addEventListener('render-start', () => this._handleRenderStart());
     this.addEventListener('render-content', () => this._handleRenderContent());
     this.addEventListener('normalize-range', event =>
@@ -938,76 +938,9 @@ export class GrDiffHost extends GestureEventListeners(
       : null;
   }
 
-  _handleCommentSave(e: CustomEvent) {
-    const comment = e.detail.comment;
-    const side = e.detail.comment.__commentSide;
-    const idx = this._findDraftIndex(comment, side);
-    this.set(['comments', side, idx], comment);
-    this._handleCommentSaveOrDiscard();
-  }
-
-  _handleCommentDiscard(e: CustomEvent) {
-    const comment = e.detail.comment;
-    this._removeComment(comment);
-    this._handleCommentSaveOrDiscard();
-  }
-
-  _handleCommentUpdate(e: CustomEvent) {
-    const comment = e.detail.comment;
-    const side = e.detail.comment.__commentSide;
-    let idx = this._findCommentIndex(comment, side);
-    if (idx === -1) {
-      idx = this._findDraftIndex(comment, side);
-    }
-    if (idx !== -1) {
-      // Update draft or comment.
-      this.set(['comments', side, idx], comment);
-    } else {
-      // Create new draft.
-      this.push(['comments', side], comment);
-    }
-  }
-
   _handleCommentSaveOrDiscard() {
     this.dispatchEvent(
       new CustomEvent('diff-comments-modified', {bubbles: true, composed: true})
-    );
-  }
-
-  _removeComment(comment: UIComment) {
-    const side = comment.__commentSide;
-    if (!side) throw new Error('Missing required "side" in comment.');
-    this._removeCommentFromSide(comment, side);
-  }
-
-  _removeCommentFromSide(comment: Comment, side: Side) {
-    let idx = this._findCommentIndex(comment, side);
-    if (idx === -1) {
-      idx = this._findDraftIndex(comment, side);
-    }
-    if (idx !== -1) {
-      this.splice('comments.' + side, idx, 1);
-    }
-  }
-
-  _findCommentIndex(comment: Comment, side: Side) {
-    if (!comment.id || !this.comments || !this.comments[side]) {
-      return -1;
-    }
-    return this.comments[side].findIndex(item => item.id === comment.id);
-  }
-
-  _findDraftIndex(comment: Comment, side: Side) {
-    if (
-      !isDraft(comment) ||
-      !comment.__draftID ||
-      !this.comments ||
-      !this.comments[side]
-    ) {
-      return -1;
-    }
-    return this.comments[side].findIndex(
-      item => isDraft(item) && item.__draftID === comment.__draftID
     );
   }
 

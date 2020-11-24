@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e217ea16_72580df6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-24T07:09:46Z",
+      "side": 1,
+      "message": "Could not find anything frontend related. So +1 from my side, but cannot give +2.",
+      "revId": "891bf29bffde4e55a1d0f9f726308cb487236dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

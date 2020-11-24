@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "91481c61_d842e7ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-11-24T20:06:45Z",
+      "side": 1,
+      "message": "In the past, the upstream policy has been to only using \"fixup\" notations in local branches, so we should probably eliminate this.",
+      "parentUuid": "7eef7f8f_c0dccaa3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "f8ce4ac270653855d990a17e830a4c9e7a170839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2e34a261_a658f3d6",

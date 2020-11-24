@@ -68,6 +68,30 @@
       },
       "revId": "3102127c175f27b92f6cdff65655f02664a895e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9463290_a5788839",
+        "filename": "polygerrit-ui/app/utils/change-metadata-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-24T13:49:46Z",
+      "side": 1,
+      "message": "I also thought of this but I guessed maybe he wanted to differentiate between \"section-not-set\" and section doesn\u0027t exist.\nHowever the code is already checking \n`DisplayRules.SHOW_IF_SET.includes(section)`\nso I guess we can replace with false.",
+      "parentUuid": "4a8f686e_38fd96d4",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 19
+      },
+      "revId": "3102127c175f27b92f6cdff65655f02664a895e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -716,7 +716,7 @@ suite('gr-change-metadata tests', () => {
       MockInteractions.tap(remove);
       assert.isTrue(chip.disabled);
       assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
-          42, null));
+          42));
       return element.$.restAPI.setChangeTopic.lastCall.returnValue
           .then(() => {
             assert.isFalse(chip.disabled);

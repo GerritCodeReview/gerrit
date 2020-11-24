@@ -828,10 +828,7 @@ export interface RestApiService {
     hashtag: HashtagsInput
   ): Promise<Hashtag[]>;
 
-  setChangeTopic(
-    changeNum: NumericChangeId,
-    topic: string | null
-  ): Promise<string>;
+  setChangeTopic(changeNum: NumericChangeId, topic?: string): Promise<string>;
 
   getChangeFiles(
     changeNum: NumericChangeId,

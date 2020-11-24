@@ -4196,7 +4196,9 @@ link:config-gerrit.html#repository.name.defaultSubmitType[
 repository.<name>.defaultSubmitType] is set to a different value.
 |`branches`                  |optional|
 A list of branches that should be initially created. +
-For the branch names the `refs/heads/` prefix can be omitted.
+For the branch names the `refs/heads/` prefix can be omitted. +
+The first entry of the list will be the default branch (ie. the target +
+of the `HEAD` symbolic ref).
 |`owners`                    |optional|
 A list of groups that should be assigned as project owner. +
 Each group in the list must be specified as

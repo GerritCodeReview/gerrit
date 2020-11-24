@@ -2729,8 +2729,8 @@ changes that are marked as WIP or that are closed (abandoned, merged) can't be m
 [source, java]
 ----
 import java.util.Optional;
-import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.common.data.SubmitRecord.Status;
+import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRecord.Status;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.SubmitRule;
 

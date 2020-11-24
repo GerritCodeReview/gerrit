@@ -80,7 +80,9 @@ export class GrGroupAuditLog extends ListViewMixin(
       return '';
     }
 
-    const errFn: ErrorCallback = response => firePageError(this, response);
+    const errFn: ErrorCallback = response => {
+      firePageError(this, response);
+    };
 
     return this.$.restAPI
       .getGroupAuditLog(this.groupId, errFn)

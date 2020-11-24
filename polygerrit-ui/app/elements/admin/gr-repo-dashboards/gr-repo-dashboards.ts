@@ -62,7 +62,9 @@ export class GrRepoDashboards extends GestureEventListeners(
       return Promise.resolve();
     }
 
-    const errFn: ErrorCallback = response => firePageError(this, response);
+    const errFn: ErrorCallback = response => {
+      firePageError(this, response);
+    };
 
     return this.$.restAPI
       .getRepoDashboards(repo, errFn)

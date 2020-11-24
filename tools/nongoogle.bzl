@@ -1,5 +1,9 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
 
+GUAVA_VERSION = "29.0-jre"
+GUAVA_BIN_SHA1 = "801142b4c3d0f0770dd29abea50906cacfddd447"
+GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
+
 def declare_nongoogle_deps():
     """loads dependencies that are not used at Google.
 
@@ -127,6 +131,12 @@ def declare_nongoogle_deps():
         name = "flogger-system-backend",
         artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
         sha1 = "b66d3bedb14da604828a8693bb24fd78e36b0e9e",
+    )
+
+    maven_jar(
+        name = "guava",
+        artifact = "com.google.guava:guava:" + GUAVA_VERSION,
+        sha1 = GUAVA_BIN_SHA1,
     )
 
     # Test-only dependencies below.

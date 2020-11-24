@@ -1,5 +1,5 @@
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
-load("//lib:guava.bzl", "GUAVA_DOC_URL")
+load("//tools:nongoogle.bzl", "GUAVA_DOC_URL")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
 _DOC_VERS = "5.5.0.201909110433-r"

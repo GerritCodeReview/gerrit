@@ -21,6 +21,7 @@ elasticsearch-rest-client
 flogger
 flogger-log4j-backend
 flogger-system-backend
+guava
 httpasyncclient
 httpcore-nio
 j2objc

@@ -68,7 +68,7 @@ import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GerritView} from '../../core/gr-navigation/gr-navigation';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
 import {CustomKeyboardEvent} from '../../../types/events';
-import {fireAlert} from '../../../utils/event-util';
+import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 
 const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'changes_per_page',
@@ -220,13 +220,7 @@ export class GrSettingsView extends ChangeTableMixin(
     // Polymer 2: anchor tag won't work on shadow DOM
     // we need to manually calling scrollIntoView when hash changed
     this.listen(window, 'location-change', '_handleLocationChange');
-    this.dispatchEvent(
-      new CustomEvent('title-change', {
-        detail: {title: 'Settings'},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireTitleChange(this, 'Settings');
 
     this._isDark = !!window.localStorage.getItem('dark-theme');
 

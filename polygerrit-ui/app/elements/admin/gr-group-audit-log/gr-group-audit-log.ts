@@ -37,7 +37,7 @@ import {
   EncodedGroupId,
   GroupAuditEventInfo,
 } from '../../../types/common';
-import {firePageError} from '../../../utils/event-util';
+import {firePageError, fireTitleChange} from '../../../utils/event-util';
 
 const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
 
@@ -66,13 +66,7 @@ export class GrGroupAuditLog extends ListViewMixin(
   /** @override */
   attached() {
     super.attached();
-    this.dispatchEvent(
-      new CustomEvent('title-change', {
-        detail: {title: 'Audit Log'},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireTitleChange(this, 'Audit Log');
   }
 
   /** @override */

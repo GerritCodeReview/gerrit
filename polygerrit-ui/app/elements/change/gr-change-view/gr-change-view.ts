@@ -146,7 +146,6 @@ import {
   CustomKeyboardEvent,
   EditableContentSaveEvent,
   OpenFixPreviewEvent,
-  ShowAlertEventDetail,
   SwitchTabEvent,
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -155,6 +154,7 @@ import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {PORTING_COMMENTS_CHANGE_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
 import {fireAlert, firePageError} from '../../../utils/event-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {fireTitleChange} from '../../../utils/event-util';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -1489,13 +1489,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this.set('_patchRange.basePatchNum', parent);
 
     const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
-    this.dispatchEvent(
-      new CustomEvent('title-change', {
-        detail: {title},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireTitleChange(this, title);
   }
 
   /**
@@ -1698,16 +1692,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
       throw new Error('missing required _patchRange property');
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
-      const detail: ShowAlertEventDetail = {
-        message: 'Latest is already selected.',
-      };
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail,
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireAlert(this, 'Latest is already selected.');
       return;
     }
     GerritNav.navigateToChange(

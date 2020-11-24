@@ -31,6 +31,7 @@ import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api
 import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {PluginInfo} from '../../../types/common';
 import {firePageError} from '../../../utils/event-util';
+import {fireTitleChange} from '../../../utils/event-util';
 
 interface PluginInfoWithName extends PluginInfo {
   name: string;
@@ -85,13 +86,7 @@ export class GrPluginList extends ListViewMixin(
   /** @override */
   attached() {
     super.attached();
-    this.dispatchEvent(
-      new CustomEvent('title-change', {
-        detail: {title: 'Plugins'},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireTitleChange(this, 'Plugins');
   }
 
   _paramsChanged(params: ListViewParams) {

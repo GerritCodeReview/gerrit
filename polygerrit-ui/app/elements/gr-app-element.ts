@@ -79,6 +79,7 @@ import {
   TitleChangeEventDetail,
 } from '../types/events';
 import {ViewState} from '../types/types';
+import {EventType} from '../utils/event-util';
 
 interface ErrorInfo {
   text: string;
@@ -209,8 +210,10 @@ export class GrAppElement extends KeyboardShortcutMixin(
   created() {
     super.created();
     this._bindKeyboardShortcuts();
-    this.addEventListener('page-error', e => this._handlePageError(e));
-    this.addEventListener('title-change', e => this._handleTitleChange(e));
+    this.addEventListener(EventType.PAGE_ERROR, e => this._handlePageError(e));
+    this.addEventListener(EventType.TITLE_CHANGE, e =>
+      this._handleTitleChange(e)
+    );
     this.addEventListener('location-change', e =>
       this._handleLocationChange(e)
     );

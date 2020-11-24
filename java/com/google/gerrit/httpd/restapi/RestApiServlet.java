@@ -507,7 +507,7 @@ public class RestApiServlet extends HttpServlet {
           }
 
           try (DynamicOptions pluginOptions =
-              new DynamicOptions(viewData.view, globals.injector, globals.dynamicBeans)) {
+              new DynamicOptions(globals.injector, globals.dynamicBeans)) {
             if (!globals
                 .paramParser
                 .get()

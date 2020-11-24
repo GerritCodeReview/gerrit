@@ -26,15 +26,18 @@ import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.api.changes.ChangeApiImpl.DynamicOptionParser;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.change.CreateChange;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.List;
@@ -46,6 +49,8 @@ class ChangesImpl implements Changes {
   private final CreateChange createChange;
   private final DynamicOptionParser dynamicOptionParser;
   private final Provider<QueryChanges> queryProvider;
+  private final Injector injector;
+  private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
 
   @Inject
   ChangesImpl(
@@ -53,12 +58,16 @@ class ChangesImpl implements Changes {
       ChangeApiImpl.Factory api,
       CreateChange createChange,
       DynamicOptionParser dynamicOptionParser,
-      Provider<QueryChanges> queryProvider) {
+      Provider<QueryChanges> queryProvider,
+      Injector injector,
+      DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
     this.changes = changes;
     this.api = api;
     this.createChange = createChange;
     this.dynamicOptionParser = dynamicOptionParser;
     this.queryProvider = queryProvider;
+    this.injector = injector;
+    this.dynamicBeans = dynamicBeans;
   }
 
   @Override
@@ -123,34 +132,36 @@ class ChangesImpl implements Changes {
   }
 
   private List<ChangeInfo> get(QueryRequest q) throws RestApiException {
-    QueryChanges qc = queryProvider.get();
-    if (q.getQuery() != null) {
-      qc.addQuery(q.getQuery());
-    }
-    qc.setLimit(q.getLimit());
-    qc.setStart(q.getStart());
-    qc.setNoLimit(q.getNoLimit());
-    for (ListChangesOption option : q.getOptions()) {
-      qc.addOption(option);
-    }
-    dynamicOptionParser.parseDynamicOptions(qc, q.getPluginOptions());
-
-    try {
-      List<?> result = qc.apply(TopLevelResource.INSTANCE).value();
-      if (result.isEmpty()) {
-        return ImmutableList.of();
+    try (DynamicOptions dynamicOptions = new DynamicOptions(injector, dynamicBeans)) {
+      QueryChanges qc = queryProvider.get();
+      if (q.getQuery() != null) {
+        qc.addQuery(q.getQuery());
       }
+      qc.setLimit(q.getLimit());
+      qc.setStart(q.getStart());
+      qc.setNoLimit(q.getNoLimit());
+      for (ListChangesOption option : q.getOptions()) {
+        qc.addOption(option);
+      }
+      dynamicOptionParser.parseDynamicOptions(qc, q.getPluginOptions(), dynamicOptions);
 
-      // Check type safety of result; the extension API should be safer than the
-      // REST API in this case, since it's intended to be used in Java.
-      Object first = requireNonNull(result.iterator().next());
-      checkState(first instanceof ChangeInfo);
-      @SuppressWarnings("unchecked")
-      List<ChangeInfo> infos = (List<ChangeInfo>) result;
+      try {
+        List<?> result = qc.apply(TopLevelResource.INSTANCE).value();
+        if (result.isEmpty()) {
+          return ImmutableList.of();
+        }
 
-      return ImmutableList.copyOf(infos);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot query changes", e);
+        // Check type safety of result; the extension API should be safer than the
+        // REST API in this case, since it's intended to be used in Java.
+        Object first = requireNonNull(result.iterator().next());
+        checkState(first instanceof ChangeInfo);
+        @SuppressWarnings("unchecked")
+        List<ChangeInfo> infos = (List<ChangeInfo>) result;
+
+        return ImmutableList.copyOf(infos);
+      } catch (Exception e) {
+        throw asRestApiException("Cannot query changes", e);
+      }
     }
   }
 }

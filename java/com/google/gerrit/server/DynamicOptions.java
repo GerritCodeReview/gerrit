@@ -193,6 +193,7 @@ public class DynamicOptions implements AutoCloseable {
   protected Object bean;
   protected Map<String, DynamicBean> beansByPlugin;
   protected Injector injector;
+  protected DynamicMap<DynamicBean> dynamicBeans;
   protected LifecycleManager lifecycleManager;
 
   /**
@@ -200,7 +201,9 @@ public class DynamicOptions implements AutoCloseable {
    * this class so the following methods can be called if desired:
    *
    * <pre>
-   *    DynamicOptions pluginOptions = new DynamicOptions(bean, injector, dynamicBeans);
+   *    DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans);
+   *    pluginOptions.setBean(bean);
+   *    pluginOptions.startLifecycleListeners();
    *    pluginOptions.parseDynamicBeans(clp);
    *    pluginOptions.setDynamicBeans();
    *    pluginOptions.onBeanParseStart();
@@ -210,11 +213,15 @@ public class DynamicOptions implements AutoCloseable {
    *    pluginOptions.onBeanParseEnd();
    * </pre>
    */
-  public DynamicOptions(Object bean, Injector injector, DynamicMap<DynamicBean> dynamicBeans) {
-    this.bean = bean;
+  public DynamicOptions(Injector injector, DynamicMap<DynamicBean> dynamicBeans) {
     this.injector = injector;
+    this.dynamicBeans = dynamicBeans;
     lifecycleManager = new LifecycleManager();
     beansByPlugin = new HashMap<>();
+  }
+
+  public void setBean(Object bean) {
+    this.bean = bean;
     Class<?> beanClass =
         (bean instanceof BeanReceiver)
             ? ((BeanReceiver) bean).getExportedBeanReceiver()
@@ -226,7 +233,6 @@ public class DynamicOptions implements AutoCloseable {
         beansByPlugin.put(plugin, getDynamicBean(bean, provider.get()));
       }
     }
-    startLifecycleListeners();
   }
 
   @SuppressWarnings("unchecked")

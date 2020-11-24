@@ -178,7 +178,7 @@ export class GrChangeMetadata extends GestureEventListeners(
     type: Object,
     computed: '_computePushCertificateValidation(serverConfig, change)',
   })
-  _pushCertificateValidation: PushCertifacteValidationInfo | null = null;
+  _pushCertificateValidation?: PushCertifacteValidationInfo;
 
   @property({type: Boolean, computed: '_computeShowRequirements(change)'})
   _showRequirements = false;
@@ -222,7 +222,7 @@ export class GrChangeMetadata extends GestureEventListeners(
 
   @observe('change.labels')
   _labelsChanged(labels?: LabelNameToInfoMap) {
-    this.labels = {...labels} || null;
+    this.labels = {...labels} || undefined;
   }
 
   @observe('change')
@@ -264,7 +264,7 @@ export class GrChangeMetadata extends GestureEventListeners(
   }
 
   /**
-   * @return If array is empty, returns null instead so
+   * @return If array is empty, returns undefined instead so
    * an existential check can be used to hide or show the webLinks
    * section.
    */
@@ -272,9 +272,7 @@ export class GrChangeMetadata extends GestureEventListeners(
     commitInfo?: CommitInfoWithRequiredCommit,
     serverConfig?: ServerInfo
   ) {
-    if (!commitInfo) {
-      return null;
-    }
+    if (!commitInfo) return undefined;
     const weblinks = GerritNav.getChangeWeblinks(
       this.change ? this.change.project : ('' as RepoName),
       commitInfo.commit,
@@ -283,15 +281,11 @@ export class GrChangeMetadata extends GestureEventListeners(
         config: serverConfig,
       }
     );
-    return weblinks.length ? weblinks : null;
+    return weblinks.length ? weblinks : undefined;
   }
 
   _isAssigneeEnabled(serverConfig?: ServerInfo) {
-    return (
-      serverConfig &&
-      serverConfig.change &&
-      !!serverConfig.change.enable_assignee
-    );
+    return !!serverConfig?.change?.enable_assignee;
   }
 
   _computeStrategy(change?: ParsedChangeInfo) {
@@ -311,18 +305,13 @@ export class GrChangeMetadata extends GestureEventListeners(
       throw new Error('change must be set');
     }
     const lastTopic = this.change.topic;
-    const topic = e.detail.length ? e.detail : null;
+    const topic = e.detail.length ? e.detail : undefined;
     this._settingTopic = true;
     const topicChangedForChangeNumber = this.change._number;
     this.$.restAPI
       .setChangeTopic(topicChangedForChangeNumber, topic)
       .then(newTopic => {
-        if (
-          !this.change ||
-          this.change._number !== topicChangedForChangeNumber
-        ) {
-          return;
-        }
+        if (this.change?._number !== topicChangedForChangeNumber) return;
         this._settingTopic = false;
         this.set(['change', 'topic'], newTopic);
         if (newTopic !== lastTopic) {
@@ -337,8 +326,7 @@ export class GrChangeMetadata extends GestureEventListeners(
     changeRecord: ElementPropertyDeepChange<GrChangeMetadata, 'change'>,
     settingTopic?: boolean
   ) {
-    const hasTopic =
-      !!changeRecord && !!changeRecord.base && !!changeRecord.base.topic;
+    const hasTopic = !!changeRecord?.base?.topic;
     return !hasTopic && !settingTopic;
   }
 
@@ -346,8 +334,7 @@ export class GrChangeMetadata extends GestureEventListeners(
     changeRecord: ElementPropertyDeepChange<GrChangeMetadata, 'change'>,
     settingTopic?: boolean
   ) {
-    const hasTopic =
-      !!changeRecord && !!changeRecord.base && !!changeRecord.base.topic;
+    const hasTopic = !!changeRecord?.base?.topic;
     return hasTopic && !settingTopic;
   }
 
@@ -355,10 +342,8 @@ export class GrChangeMetadata extends GestureEventListeners(
     changeRecord: ElementPropertyDeepChange<GrChangeMetadata, 'change'>
   ) {
     const hasCherryPickOf =
-      !!changeRecord &&
-      !!changeRecord.base &&
-      !!changeRecord.base.cherry_pick_of_change &&
-      !!changeRecord.base.cherry_pick_of_patch_set;
+      !!changeRecord?.base?.cherry_pick_of_change &&
+      !!changeRecord?.base?.cherry_pick_of_patch_set;
     return hasCherryPickOf;
   }
 
@@ -385,33 +370,15 @@ export class GrChangeMetadata extends GestureEventListeners(
   }
 
   _computeTopicReadOnly(mutable?: boolean, change?: ParsedChangeInfo) {
-    return (
-      !mutable ||
-      !change ||
-      !change.actions ||
-      !change.actions.topic ||
-      !change.actions.topic.enabled
-    );
+    return !mutable || !change?.actions?.topic?.enabled;
   }
 
   _computeHashtagReadOnly(mutable?: boolean, change?: ParsedChangeInfo) {
-    return (
-      !mutable ||
-      !change ||
-      !change.actions ||
-      !change.actions.hashtags ||
-      !change.actions.hashtags.enabled
-    );
+    return !mutable || !change?.actions?.hashtags?.enabled;
   }
 
   _computeAssigneeReadOnly(mutable?: boolean, change?: ParsedChangeInfo) {
-    return (
-      !mutable ||
-      !change ||
-      !change.actions ||
-      !change.actions.assignee ||
-      !change.actions.assignee.enabled
-    );
+    return !mutable || !change?.actions?.assignee?.enabled;
   }
 
   _computeTopicPlaceholder(_topicReadOnly?: boolean) {
@@ -445,17 +412,11 @@ export class GrChangeMetadata extends GestureEventListeners(
   _computePushCertificateValidation(
     serverConfig?: ServerInfo,
     change?: ParsedChangeInfo
-  ): PushCertifacteValidationInfo | null {
-    if (
-      !change ||
-      !serverConfig ||
-      !serverConfig.receive ||
-      !serverConfig.receive.enable_signed_push
-    ) {
-      return null;
-    }
+  ): PushCertifacteValidationInfo | undefined {
+    if (!change || !serverConfig?.receive?.enable_signed_push) return undefined;
+
     const rev = change.revisions[change.current_revision];
-    if (!rev.push_certificate || !rev.push_certificate.key) {
+    if (!rev.push_certificate?.key) {
       return {
         class: 'help',
         icon: 'gr-icons:help',
@@ -498,7 +459,7 @@ export class GrChangeMetadata extends GestureEventListeners(
   }
 
   _problems(msg: string, key: GpgKeyInfo) {
-    if (!key || !key.problems || key.problems.length === 0) {
+    if (!key?.problems || key.problems.length === 0) {
       return msg;
     }
 
@@ -551,7 +512,7 @@ export class GrChangeMetadata extends GestureEventListeners(
     const target = (dom(e) as EventApi).rootTarget as GrLinkedChip;
     target.disabled = true;
     this.$.restAPI
-      .setChangeTopic(this.change._number, null)
+      .setChangeTopic(this.change._number, undefined)
       .then(() => {
         target.disabled = false;
         this.set(['change', 'topic'], '');
@@ -561,7 +522,6 @@ export class GrChangeMetadata extends GestureEventListeners(
       })
       .catch(() => {
         target.disabled = false;
-        return;
       });
   }
 
@@ -580,12 +540,11 @@ export class GrChangeMetadata extends GestureEventListeners(
       })
       .catch(() => {
         target.disabled = false;
-        return;
       });
   }
 
   _computeIsWip(change?: ParsedChangeInfo) {
-    return change && !!change.work_in_progress;
+    return !!change?.work_in_progress;
   }
 
   _computeShowRoleClass(change?: ParsedChangeInfo, role?: ChangeRole) {
@@ -622,22 +581,14 @@ export class GrChangeMetadata extends GestureEventListeners(
   }
 
   /**
-   * Get the user with the specified role on the change. Returns null if the
+   * Get the user with the specified role on the change. Returns undefined if the
    * user with that role is the same as the owner.
    */
   _getNonOwnerRole(change?: ParsedChangeInfo, role?: ChangeRole) {
-    if (
-      !change ||
-      !change.current_revision ||
-      !change.revisions[change.current_revision]
-    ) {
-      return null;
-    }
+    if (!change?.revisions?.[change.current_revision]) return undefined;
 
     const rev = change.revisions[change.current_revision];
-    if (!rev) {
-      return null;
-    }
+    if (!rev) return undefined;
 
     if (
       role === ChangeRole.UPLOADER &&
@@ -666,7 +617,7 @@ export class GrChangeMetadata extends GestureEventListeners(
       return rev.commit.committer;
     }
 
-    return null;
+    return undefined;
   }
 
   _computeParents(

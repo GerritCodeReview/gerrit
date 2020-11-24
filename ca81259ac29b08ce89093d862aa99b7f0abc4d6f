@@ -22,6 +22,30 @@
       },
       "revId": "ca81259ac29b08ce89093d862aa99b7f0abc4d6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab7b91f8_fcbdec7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-24T15:59:35Z",
+      "side": 1,
+      "message": "Oh, you probably want to execute code under if(). I see. Sorry.",
+      "parentUuid": "35e13fce_b5920e51",
+      "range": {
+        "startLine": 953,
+        "startChar": 3,
+        "endLine": 959,
+        "endChar": 5
+      },
+      "revId": "ca81259ac29b08ce89093d862aa99b7f0abc4d6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

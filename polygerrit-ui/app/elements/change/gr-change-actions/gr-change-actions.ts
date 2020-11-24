@@ -54,10 +54,7 @@ import {
   HttpMethod,
   NotifyType,
 } from '../../../constants/constants';
-import {
-  EventType as PluginEventType,
-  TargetElement,
-} from '../../plugins/gr-plugin-types';
+import {EventType, TargetElement} from '../../plugins/gr-plugin-types';
 import {customElement, observe, property} from '@polymer/decorators';
 import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
 import {
@@ -113,7 +110,7 @@ import {
   RevisionActions,
   UIActionInfo,
 } from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
-import {fireAlert} from '../../../utils/event-util';
+import { CODE_REVIEW } from '../../../utils/label-util';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -613,7 +610,13 @@ export class GrChangeActions
         this._handleLoadingComplete();
       })
       .catch(err => {
-        fireAlert(this, ERR_REVISION_ACTIONS);
+        this.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {message: ERR_REVISION_ACTIONS},
+            composed: true,
+            bubbles: true,
+          })
+        );
         this._loading = false;
         throw err;
       });
@@ -629,7 +632,7 @@ export class GrChangeActions
     change: ChangeInfo;
     revisionActions: ActionNameToActionInfoMap;
   }) {
-    this.$.jsAPI.handleEvent(PluginEventType.SHOW_REVISION_ACTIONS, detail);
+    this.$.jsAPI.handleEvent(EventType.SHOW_REVISION_ACTIONS, detail);
   }
 
   @observe('change')
@@ -946,6 +949,13 @@ export class GrChangeActions
       ) {
         return null;
       }
+    }
+    // Allow the user to use quick approve to vote the max score on code review
+    // even if it is already granted.
+    if (!result
+      && this.change.labels[CODE_REVIEW]
+      && this._getLabelStatus(this.change.labels[CODE_REVIEW]) === LabelStatus.OK) {
+      result = CODE_REVIEW;
     }
     if (result) {
       const score = this.change.permitted_labels[result].slice(-1)[0];
@@ -1368,11 +1378,23 @@ export class GrChangeActions
   _handleCherryPickRestApi(conflicts: boolean) {
     const el = this.$.confirmCherrypick;
     if (!el.branch) {
-      fireAlert(this, ERR_BRANCH_EMPTY);
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {message: ERR_BRANCH_EMPTY},
+          composed: true,
+          bubbles: true,
+        })
+      );
       return;
     }
     if (!el.message) {
-      fireAlert(this, ERR_COMMIT_EMPTY);
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {message: ERR_COMMIT_EMPTY},
+          composed: true,
+          bubbles: true,
+        })
+      );
       return;
     }
     this.$.overlay.close();
@@ -1393,7 +1415,13 @@ export class GrChangeActions
   _handleMoveConfirm() {
     const el = this.$.confirmMove;
     if (!el.branch) {
-      fireAlert(this, ERR_BRANCH_EMPTY);
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {message: ERR_BRANCH_EMPTY},
+          composed: true,
+          bubbles: true,
+        })
+      );
       return;
     }
     this.$.overlay.close();

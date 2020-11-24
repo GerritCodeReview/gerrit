@@ -25,6 +25,7 @@ import {
   createChangeMessages,
   createRevisions,
 } from '../../../test/test-data-generators.js';
+import {CODE_REVIEW} from '../../../utils/label-util';
 
 const basicFixture = fixtureFromElement('gr-change-actions');
 
@@ -1716,6 +1717,31 @@ suite('gr-change-actions tests', () => {
             element.shadowRoot
                 .querySelector('gr-button[data-action-key=\'review\']');
         assert.equal(approveButton.getAttribute('data-label'), 'bar+2');
+      });
+
+      test('added when can approve an already-approved code review label', () => {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            'Code-Review': {
+              approved: {},
+              value: 1,
+              values: {
+                ' 0': '',
+                '+1': '',
+                '+2': '',
+              },
+            }
+          },
+          permitted_labels: {
+            'Code-Review': [' 0', '+1', '+2'],
+          },
+        };
+        flush();
+        const approveButton =
+          element.shadowRoot
+            .querySelector('gr-button[data-action-key=\'review\']');
+        assert.isNotNull(approveButton);
       });
     });
 

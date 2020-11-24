@@ -201,9 +201,7 @@ suite('gr-dashboard-view tests', () => {
         user: 'self',
       };
       return paramsChangedPromise.then(() => {
-        assert.isTrue(
-            getChangesStub.calledWith(undefined,
-                ['1', '2', 'owner:self limit:1']));
+        assert.isTrue(getChangesStub.calledWith(undefined, ['1', '2']));
       });
     });
 

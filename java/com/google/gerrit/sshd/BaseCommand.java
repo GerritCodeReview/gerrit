@@ -235,6 +235,8 @@ public abstract class BaseCommand implements Command {
   protected void parseCommandLine(Object options, DynamicOptions pluginOptions)
       throws UnloggedFailure {
     final CmdLineParser clp = newCmdLineParser(options);
+    pluginOptions.setBean(options);
+    pluginOptions.startLifecycleListeners();
     pluginOptions.parseDynamicBeans(clp);
     pluginOptions.setDynamicBeans();
     pluginOptions.onBeanParseStart();
@@ -468,8 +470,7 @@ public abstract class BaseCommand implements Command {
 
           try {
             if (thunk instanceof ProjectCommandRunnable) {
-              try (DynamicOptions pluginOptions =
-                  new DynamicOptions(BaseCommand.this, injector, dynamicBeans)) {
+              try (DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans)) {
                 ((ProjectCommandRunnable) thunk).executeParseCommand(pluginOptions);
                 projectName = ((ProjectCommandRunnable) thunk).getProjectName();
                 thunk.run();

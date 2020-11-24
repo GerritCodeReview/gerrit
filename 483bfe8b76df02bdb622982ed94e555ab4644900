@@ -22,6 +22,30 @@
       },
       "revId": "483bfe8b76df02bdb622982ed94e555ab4644900",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb6c5302_ddd2a10a",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-24T18:54:27Z",
+      "side": 1,
+      "message": "yep. commit message is updated now.",
+      "parentUuid": "87b03512_f8a6a07b",
+      "range": {
+        "startLine": 509,
+        "startChar": 0,
+        "endLine": 509,
+        "endChar": 5
+      },
+      "revId": "483bfe8b76df02bdb622982ed94e555ab4644900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

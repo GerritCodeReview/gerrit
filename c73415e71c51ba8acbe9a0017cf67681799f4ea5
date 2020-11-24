@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ad7b16f_afedde32",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-24T16:22:41Z",
+      "side": 1,
+      "message": "It seems, this test was written for checking \u0027owner:self\u0027 in getChanges parameter.\nMaybe set an account in the test instead of removing \u0027owner:self limit:1\u0027 ?",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 204,
+        "endChar": 72
+      },
+      "revId": "c73415e71c51ba8acbe9a0017cf67681799f4ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -226,9 +226,10 @@ export class GrDiffCursor extends GestureEventListeners(
             bubbles: true,
           })
         );
+      } else {
+        this.lastDisplayedNavigateToNextFileToast = Date.now();
+        fireAlert(this, 'Press n again to navigate to next unreviewed file');
       }
-      this.lastDisplayedNavigateToNextFileToast = Date.now();
-      fireAlert(this, 'Press n again to navigate to next unreviewed file');
     }
 
     this._fixSide();

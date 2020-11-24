@@ -65,14 +65,13 @@ public class StaticModule extends ServletModule {
    *
    * <p>Supports {@code "/*"} as a trailing wildcard.
    */
-  public static final ImmutableList<String> POLYGERRIT_INDEX_PATHS =
+  public static ImmutableList<String> POLYGERRIT_INDEX_PATHS =
       ImmutableList.of(
           "/",
           "/c/*",
           "/id/*",
           "/p/*",
           "/q/*",
-          "/x/*",
           "/admin/*",
           "/dashboard/*",
           "/groups/self",
@@ -102,8 +101,12 @@ public class StaticModule extends ServletModule {
   private Paths paths;
 
   @Inject
-  public StaticModule(GerritOptions options) {
+  public StaticModule(GerritOptions options, @GerritServerConfig Config cfg) {
     this.options = options;
+    if (cfg.getBoolean("httpd", "extendedPluginScreenSupport", false)) {
+      POLYGERRIT_INDEX_PATHS =
+          ImmutableList.<String>builder().addAll(POLYGERRIT_INDEX_PATHS).add("/x/*").build();
+    }
   }
 
   @Provides

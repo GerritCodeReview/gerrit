@@ -3005,6 +3005,18 @@ Enable (or disable) registration of Jetty MBeans for Java JMX.
 +
 By default, false.
 
+[[httpd.extendedPluginScreenSupport]]httpd.extendedPluginScreenSupport::
++
+Support extended plugin screens URLs starting with: `/x/*` path. Only few
+plugins currently expose extended screens and require that prefix to be
+reserved for serving such plugin requests. The disadvantage is that such
+routes conflict with Git over HTTP requests so that gerrit projects
+cannot be named with "x/" prefix. The support for this configuration option
+may be removed in future gerrit releases and it's discouraged to enable it.
+The plugins should be migrated of extended plugin screen support API.
++
+By default, false.
+
 [[index]]
 === Section index
 

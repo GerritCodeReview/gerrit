@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f9c2c2cd_212227ae",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-24T13:47:16Z",
+      "side": 1,
+      "message": "I would personally find it easier to maintain a boolean state of whether we are showing all labels or not.\nCurrently _showAllLabel \u003d\u003d\u003d \u0027Show less\u0027 actually means that more labels are being shown and the _showAllLabel implies the state that we can go to instead of the current state.",
+      "range": {
+        "startLine": 602,
+        "startChar": 6,
+        "endLine": 602,
+        "endChar": 35
+      },
+      "revId": "3102127c175f27b92f6cdff65655f02664a895e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4a8f686e_38fd96d4",
         "filename": "polygerrit-ui/app/utils/change-metadata-util.ts",
         "patchSetId": 4

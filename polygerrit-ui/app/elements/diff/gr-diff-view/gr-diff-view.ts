@@ -65,11 +65,7 @@ import {
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {
-  ChangeComments,
-  GrCommentApi,
-  TwoSidesComments,
-} from '../gr-comment-api/gr-comment-api';
+import {ChangeComments, GrCommentApi} from '../gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
 import {
   ChangeInfo,
@@ -239,9 +235,6 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   @property({type: Object})
   _commentMap?: CommentMap;
-
-  @property({type: Object})
-  _commentsForDiff?: TwoSidesComments;
 
   @property({
     type: Object,
@@ -1013,12 +1006,6 @@ export class GrDiffView extends KeyboardShortcutMixin(
     }
 
     this._commentMap = this._getPaths(this._patchRange);
-
-    this._commentsForDiff = this._getCommentsForPath(
-      this._path,
-      this._patchRange,
-      this._projectConfig
-    );
   }
 
   _isFileUnchanged(diff: DiffInfo) {
@@ -1087,7 +1074,13 @@ export class GrDiffView extends KeyboardShortcutMixin(
         this._loading = false;
         this._initPatchRange();
         this._initCommitRange();
-        this.$.diffHost.comments = this._commentsForDiff;
+        if (this._changeComments && this._path && this._patchRange) {
+          this.$.diffHost.threads = this._changeComments.getThreadsBySideForPath(
+            this._path,
+            this._patchRange,
+            this._projectConfig
+          );
+        }
         portedCommentsPromise.then(() => {
           this.reporting.timeEnd(PORTING_COMMENTS_DIFF_LATENCY_LABEL);
         });
@@ -1575,35 +1568,17 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
     const file = files[path];
     if (file && file.old_path) {
-      this._commentsForDiff = this._changeComments.getCommentsBySideForFile(
+      this.$.diffHost.threads = this._changeComments.getThreadsBySideForFile(
         {path, basePath: file.old_path},
         patchRange,
         projectConfig
       );
-
-      this.$.diffHost.comments = this._commentsForDiff;
     }
   }
 
   _getPaths(patchRange: PatchRange) {
     if (!this._changeComments) return {};
     return this._changeComments.getPaths(patchRange);
-  }
-
-  _getCommentsForPath(
-    path?: string,
-    patchRange?: PatchRange,
-    projectConfig?: ConfigInfo
-  ) {
-    if (!path) return undefined;
-    if (!patchRange) return undefined;
-    if (!this._changeComments) return undefined;
-
-    return this._changeComments.getCommentsBySideForPath(
-      path,
-      patchRange,
-      projectConfig
-    );
   }
 
   _getDiffDrafts() {

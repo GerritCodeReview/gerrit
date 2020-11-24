@@ -38,7 +38,7 @@ import {
   RevisionId,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {CommentSide} from '../../../constants/constants';
+import {CommentSide, Side} from '../../../constants/constants';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   Comment,
@@ -313,6 +313,30 @@ export class ChangeComments {
     return allDrafts;
   }
 
+  _addCommentSide(comments: TwoSidesComments) {
+    const allComments = [];
+    for (const side of [Side.LEFT, Side.RIGHT]) {
+      // This is needed by the threading.
+      for (const comment of comments[side]) {
+        comment.__commentSide = side;
+      }
+      allComments.push(...comments[side]);
+    }
+    return allComments;
+  }
+
+  getThreadsBySideForPath(
+    path: string,
+    patchRange: PatchRange,
+    projectConfig?: ConfigInfo
+  ): CommentThread[] {
+    return createCommentThreads(
+      this._addCommentSide(
+        this.getCommentsBySideForPath(path, patchRange, projectConfig)
+      )
+    );
+  }
+
   /**
    * Get the comments (with drafts and robot comments) for a path and
    * patch-range. Returns an object with left and right properties mapping to
@@ -369,6 +393,18 @@ export class ChangeComments {
       left: baseComments,
       right: revisionComments,
     };
+  }
+
+  getThreadsBySideForFile(
+    file: PatchSetFile,
+    patchRange: PatchRange,
+    projectConfig?: ConfigInfo
+  ): CommentThread[] {
+    return createCommentThreads(
+      this._addCommentSide(
+        this.getCommentsBySideForFile(file, patchRange, projectConfig)
+      )
+    );
   }
 
   /**

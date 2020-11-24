@@ -1558,7 +1558,7 @@ export class GrFileList extends KeyboardShortcutMixin(
             'changeComments, patchRange and diffPrefs must be set'
           );
         }
-        diffElem.comments = this.changeComments.getCommentsBySideForFile(
+        diffElem.threads = this.changeComments.getThreadsBySideForFile(
           file,
           this.patchRange,
           this.projectConfig

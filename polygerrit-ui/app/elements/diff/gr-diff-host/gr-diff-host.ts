@@ -31,8 +31,7 @@ import {
   isMergeParent,
   isNumber,
 } from '../../../utils/patch-set-util';
-import {CommentThread, createCommentThreads} from '../../../utils/comment-util';
-import {TwoSidesComments} from '../gr-comment-api/gr-comment-api';
+import {CommentThread} from '../../../utils/comment-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
   CommitRange,
@@ -192,8 +191,8 @@ export class GrDiffHost extends GestureEventListeners(
   @property({type: Boolean})
   noRenderOnPrefsChange = false;
 
-  @property({type: Object, observer: '_commentsChanged'})
-  comments?: TwoSidesComments;
+  @property({type: Object, observer: '_threadsChanged'})
+  threads?: CommentThread[];
 
   @property({type: Boolean})
   lineWrapping = false;
@@ -674,21 +673,12 @@ export class GrDiffHost extends GestureEventListeners(
     return isImageDiff(diff);
   }
 
-  _commentsChanged(newComments: TwoSidesComments) {
-    const allComments = [];
-    for (const side of [Side.LEFT, Side.RIGHT]) {
-      // This is needed by the threading.
-      for (const comment of newComments[side]) {
-        comment.__commentSide = side;
-      }
-      allComments.push(...newComments[side]);
-    }
+  _threadsChanged(threads: CommentThread[]) {
     // Currently, the only way this is ever changed here is when the initial
-    // comments are loaded, so it's okay performance wise to clear the threads
+    // threads are loaded, so it's okay performance wise to clear the threads
     // and recreate them. If this changes in future, we might want to reuse
     // some DOM nodes here.
     this._clearThreads();
-    const threads = createCommentThreads(allComments);
     for (const thread of threads) {
       const threadEl = this._createThreadElement(thread);
       this._attachThreadElement(threadEl);

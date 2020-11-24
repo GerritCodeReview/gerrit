@@ -151,8 +151,10 @@ suite('gr-diff-view tests', () => {
         computeCommentThreadCount: () => {},
         computeUnresolvedNum: () => {},
         getPaths: () => {},
-        getCommentsBySideForPath: () => {},
+        getThreadsBySideForPath: () => {},
+        getThreadsBySideForFile: () => {},
         findCommentById: _testOnly_findCommentById,
+
       }));
       await element._loadComments();
       await flush();
@@ -200,11 +202,6 @@ suite('gr-diff-view tests', () => {
         commentLink: true,
         commentId: 'c1',
       };
-      sinon.stub(element.$.diffHost, '_commentsChanged');
-      sinon.stub(element, '_getCommentsForPath').returns({
-        left: [{id: 'c1', __commentSide: 'left', line: 10}],
-        right: [{id: 'c2', __commentSide: 'right', line: 11}],
-      });
       element._change = {
         ...createChange(),
         revisions: createRevisions(11),
@@ -263,7 +260,6 @@ suite('gr-diff-view tests', () => {
             commentLink: true,
             commentId: 'c1',
           };
-          sinon.stub(element.$.diffHost, '_commentsChanged');
           element._change = {
             ...createChange(),
             revisions: createRevisions(11),
@@ -293,7 +289,6 @@ suite('gr-diff-view tests', () => {
             commentLink: true,
             commentId: 'c3',
           };
-          sinon.stub(element.$.diffHost, '_commentsChanged');
           element._change = {
             ...createChange(),
             revisions: createRevisions(11),
@@ -1455,7 +1450,6 @@ suite('gr-diff-view tests', () => {
         await flush();
       });
       test('empty', () => {
-        sinon.stub(element, '_getCommentsForPath');
         sinon.stub(element, '_getPaths').returns(new Map());
         element._initPatchRange();
         assert.equal(Object.keys(element._commentMap).length, 0);
@@ -1467,7 +1461,6 @@ suite('gr-diff-view tests', () => {
           'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
           'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
         });
-        sinon.stub(element, '_getCommentsForPath').returns({meta: {}});
         element._changeNum = '42';
         element._patchRange = {
           basePatchNum: 3,

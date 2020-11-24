@@ -22,6 +22,30 @@
       },
       "revId": "82c352d0fdb337f5cff4408f3637b998a82ca56d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "895fa52a_22ce7dfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2020-11-24T22:34:07Z",
+      "side": 1,
+      "message": "New update mentions it is variable and that gerrit admins can check deeper and deeper as necessary.",
+      "parentUuid": "3de8a4e4_0fa584ee",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 33
+      },
+      "revId": "82c352d0fdb337f5cff4408f3637b998a82ca56d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

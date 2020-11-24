@@ -17,8 +17,11 @@ java_library(
         "//lib:junit",
         "//lib/guice",
         "//lib/httpcomponents:httpcore",
+        "//lib/jackson:jackson-annotations",
         "//lib/log:api",
         "//lib/testcontainers",
+        "//lib/testcontainers:docker-java-api",
+        "//lib/testcontainers:docker-java-transport",
         "//lib/testcontainers:testcontainers-elasticsearch",
     ],
 )

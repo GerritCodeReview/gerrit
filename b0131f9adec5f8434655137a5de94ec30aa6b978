@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5df9540c_1a0d9449",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-24T11:15:12Z",
+      "side": 1,
+      "message": "Oh, sorry. We should create eslint for that. ",
+      "revId": "b0131f9adec5f8434655137a5de94ec30aa6b978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

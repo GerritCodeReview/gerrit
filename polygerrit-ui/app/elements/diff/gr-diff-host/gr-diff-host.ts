@@ -938,56 +938,10 @@ export class GrDiffHost extends GestureEventListeners(
       : null;
   }
 
-  _handleCommentSave(e: CustomEvent) {
-    const comment = e.detail.comment;
-    const side = e.detail.comment.__commentSide;
-    const idx = this._findDraftIndex(comment, side);
-    this.set(['comments', side, idx], comment);
-    this._handleCommentSaveOrDiscard();
-  }
-
-  _handleCommentDiscard(e: CustomEvent) {
-    const comment = e.detail.comment;
-    this._removeComment(comment);
-    this._handleCommentSaveOrDiscard();
-  }
-
-  _handleCommentUpdate(e: CustomEvent) {
-    const comment = e.detail.comment;
-    const side = e.detail.comment.__commentSide;
-    let idx = this._findCommentIndex(comment, side);
-    if (idx === -1) {
-      idx = this._findDraftIndex(comment, side);
-    }
-    if (idx !== -1) {
-      // Update draft or comment.
-      this.set(['comments', side, idx], comment);
-    } else {
-      // Create new draft.
-      this.push(['comments', side], comment);
-    }
-  }
-
   _handleCommentSaveOrDiscard() {
     this.dispatchEvent(
       new CustomEvent('diff-comments-modified', {bubbles: true, composed: true})
     );
-  }
-
-  _removeComment(comment: UIComment) {
-    const side = comment.__commentSide;
-    if (!side) throw new Error('Missing required "side" in comment.');
-    this._removeCommentFromSide(comment, side);
-  }
-
-  _removeCommentFromSide(comment: Comment, side: Side) {
-    let idx = this._findCommentIndex(comment, side);
-    if (idx === -1) {
-      idx = this._findDraftIndex(comment, side);
-    }
-    if (idx !== -1) {
-      this.splice('comments.' + side, idx, 1);
-    }
   }
 
   _findCommentIndex(comment: Comment, side: Side) {

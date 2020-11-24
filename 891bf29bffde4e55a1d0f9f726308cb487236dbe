@@ -33,6 +33,23 @@
       "message": "I wanted to submit this change, but got:\n\nChange 289562: Depends on change that was not submitted. Commit 891bf29bffde4e55a1d0f9f726308cb487236dbe depends on commit d642a28c12ae4f1414aa531e720896e8d782e608 of change 289503 which cannot be merged.",
       "revId": "891bf29bffde4e55a1d0f9f726308cb487236dbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "289142f3_42f769f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-24T07:54:24Z",
+      "side": 1,
+      "message": "Worked now after I have manually submitted the parent.",
+      "revId": "891bf29bffde4e55a1d0f9f726308cb487236dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

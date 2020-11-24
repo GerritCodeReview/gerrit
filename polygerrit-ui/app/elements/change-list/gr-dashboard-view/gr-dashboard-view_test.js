@@ -21,6 +21,7 @@ import {isHidden} from '../../../test/test-utils.js';
 import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation.js';
 import {changeIsOpen} from '../../../utils/change-util.js';
 import {ChangeStatus} from '../../../constants/constants.js';
+import {createAccountWithId} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-dashboard-view');
 
@@ -201,9 +202,23 @@ suite('gr-dashboard-view tests', () => {
         user: 'self',
       };
       return paramsChangedPromise.then(() => {
-        assert.isTrue(
-            getChangesStub.calledWith(undefined,
-                ['1', '2', 'owner:self limit:1']));
+        assert.isTrue(getChangesStub.calledWith(undefined, ['1', '2']));
+      });
+    });
+
+    test('viewing dashboard when logged in includes owner:self query', () => {
+      element.account = createAccountWithId(1);
+      element.params = {
+        view: GerritNav.View.DASHBOARD,
+        sections: [
+          {query: '1'},
+          {query: '2', selfOnly: true},
+        ],
+        user: 'self',
+      };
+      return paramsChangedPromise.then(() => {
+        assert.isTrue(getChangesStub.calledWith(undefined,
+            ['1', '2', 'owner:self limit:1']));
       });
     });
 

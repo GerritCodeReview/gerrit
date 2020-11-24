@@ -224,7 +224,9 @@ export class GrDashboardView extends GestureEventListeners(
             )
           );
 
-    const checkForNewUser = !project && user === 'self';
+    // Checking `this.account` to make sure that the user is logged in.
+    // Otherwise sending a query for 'owner:self' will result in an error.
+    const checkForNewUser = !project && !!this.account && user === 'self';
     return dashboardPromise
       .then(res => {
         if (res && res.title) {

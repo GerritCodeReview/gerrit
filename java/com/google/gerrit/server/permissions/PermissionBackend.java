@@ -60,9 +60,9 @@ import org.eclipse.jgit.lib.Repository;
  * <p>{@code PermissionBackend} is a singleton for the server, acting as a factory for lightweight
  * request instances. Implementation classes may cache supporting data inside of {@link WithUser},
  * {@link ForProject}, {@link ForRef}, and {@link ForChange} instances, in addition to storing
- * within {@link CurrentUser} using a {@link com.google.gerrit.server.CurrentUser.PropertyKey}.
- * {@link GlobalPermission} caching for {@link WithUser} may best cached inside {@link CurrentUser}
- * as {@link WithUser} instances are frequently created.
+ * within {@link CurrentUser} using a {@link com.google.gerrit.server.PropertyMap.Key}. {@link
+ * GlobalPermission} caching for {@link WithUser} may best cached inside {@link CurrentUser} as
+ * {@link WithUser} instances are frequently created.
  *
  * <p>Example use:
  *

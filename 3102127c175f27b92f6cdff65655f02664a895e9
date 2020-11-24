@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4590aaf6_fd140158",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-24T14:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d8dfe35_27e9b5c9",
+      "range": {
+        "startLine": 602,
+        "startChar": 6,
+        "endLine": 602,
+        "endChar": 38
+      },
+      "revId": "3102127c175f27b92f6cdff65655f02664a895e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab319845_64787d7f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-24T14:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9c2c2cd_212227ae",
+      "range": {
+        "startLine": 602,
+        "startChar": 6,
+        "endLine": 602,
+        "endChar": 35
+      },
+      "revId": "3102127c175f27b92f6cdff65655f02664a895e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a8f686e_38fd96d4",
@@ -83,6 +131,30 @@
       "writtenOn": "2020-11-24T13:49:46Z",
       "side": 1,
       "message": "I also thought of this but I guessed maybe he wanted to differentiate between \"section-not-set\" and section doesn\u0027t exist.\nHowever the code is already checking \n`DisplayRules.SHOW_IF_SET.includes(section)`\nso I guess we can replace with false.",
+      "parentUuid": "4a8f686e_38fd96d4",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 19
+      },
+      "revId": "3102127c175f27b92f6cdff65655f02664a895e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ffb3a9d_072bcfeb",
+        "filename": "polygerrit-ui/app/utils/change-metadata-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-24T14:39:08Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "4a8f686e_38fd96d4",
       "range": {
         "startLine": 74,

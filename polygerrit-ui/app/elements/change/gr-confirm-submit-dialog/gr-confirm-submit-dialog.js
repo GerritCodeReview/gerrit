@@ -54,6 +54,11 @@
       this.$.dialog.resetFocus();
     },
 
+    _computeHasChangeEdit(change) {
+      return !!change.revisions &&
+          Object.values(change.revisions).some(rev => rev._number === 'edit');
+    },
+
     _handleConfirmTap(e) {
       e.preventDefault();
       this.dispatchEvent(new CustomEvent('confirm', {bubbles: false}));

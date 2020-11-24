@@ -23,6 +23,30 @@
       },
       "revId": "9c6ffc116508fe41a0aa4403e813be0046d6d413",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77d2f449_3a9e67da",
+        "filename": "java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-11-24T20:11:45Z",
+      "side": 1,
+      "message": "I suspect it does. If questionable, it probably means a lack of test coverage. Can you see if we need a test to cover this use case?",
+      "parentUuid": "0e516286_5b69b253",
+      "range": {
+        "startLine": 216,
+        "startChar": 14,
+        "endLine": 216,
+        "endChar": 24
+      },
+      "revId": "9c6ffc116508fe41a0aa4403e813be0046d6d413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

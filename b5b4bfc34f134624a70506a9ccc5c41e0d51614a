@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdaabf9c_144eb29d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-24T14:42:55Z",
+      "side": 1,
+      "message": "do you need to maintain this property now?\nYou can compute this value in the html template, something like\n\u003cgr-button\u003e [[_computeShowLabelText(_showAllLabel)]] \u003c/gr-button\u003e",
+      "range": {
+        "startLine": 619,
+        "startChar": 6,
+        "endLine": 619,
+        "endChar": 24
+      },
+      "revId": "b5b4bfc34f134624a70506a9ccc5c41e0d51614a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

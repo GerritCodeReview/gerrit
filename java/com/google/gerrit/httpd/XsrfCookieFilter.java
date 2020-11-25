@@ -32,6 +32,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.http.server.GitSmartHttpTools;
 
 @Singleton
 public class XsrfCookieFilter implements Filter {
@@ -50,8 +51,11 @@ public class XsrfCookieFilter implements Filter {
   @Override
   public void doFilter(ServletRequest req, ServletResponse rsp, FilterChain chain)
       throws IOException, ServletException {
-    WebSession s = user.get().isIdentifiedUser() ? session.get() : null;
-    setXsrfTokenCookie((HttpServletRequest) req, (HttpServletResponse) rsp, s);
+    HttpServletRequest httpRequest = (HttpServletRequest) req;
+    if (!GitSmartHttpTools.isGitClient(httpRequest)) {
+      WebSession s = user.get().isIdentifiedUser() ? session.get() : null;
+      setXsrfTokenCookie(httpRequest, (HttpServletResponse) rsp, s);
+    }
     chain.doFilter(req, rsp);
   }
 

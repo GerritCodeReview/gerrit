@@ -16,6 +16,24 @@
       "message": "Have you checked libgit2?",
       "revId": "b739f25990cd93b46a1dafcaafa1e814550dd354",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22c86635_05321ab4",
+        "filename": "java/com/google/gerrit/httpd/UserAgentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-25T22:21:16Z",
+      "side": 1,
+      "message": "I have found this comment: [1]:\n\n  Yes, it would be more accurate, but a lot of server side tools scan the\n  user-agent for /^git/ and may assume it\u0027s a true human if they don\u0027t see it. \n  Anyway, that\u0027s why we report git/1.0 (libgit2 0.0).\n\nSo that libgit2 clients should work as is.\n\n[1] https://github.com/libgit2/libgit2/pull/3448#commitcomment-24405403",
+      "parentUuid": "4a709a2a_a2d4c20f",
+      "revId": "b739f25990cd93b46a1dafcaafa1e814550dd354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -192,6 +192,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12e75fc3_a70a381f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 56
+      },
+      "lineNbr": 1594,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "Like I said before, I want to maintain the distinction between ported threads and normal threads.\nAnyone using the method getThreadsBySideForFile() or getAllThreadsForChange() should explicitly ask for ported threads and not be surprised by the response, such as rendering them in the Comments Tab say where we don\u0027t plan to show the ported threads.",
+      "parentUuid": "8ab154aa_0687f7b6",
+      "range": {
+        "startLine": 1573,
+        "startChar": 8,
+        "endLine": 1594,
+        "endChar": 10
+      },
+      "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f31366d_2b18690d",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 56

@@ -102,6 +102,24 @@
       "message": "Clients can override the user-agent header, and [1] even mentions something about it sometimes being necessary to change it to look like a browser to pass through firewalls. Someone using JGit as a library in his own product might well give it a completely different User-Agent. And finally the slash is only a convention.\n\nThere are a few other ways one could try to distinguish git and web requests.\n\nFor POSTs in smart HTTP, I think one could rely on the Content-Type. C git *requires* the application/x-git-\u003cservice\u003e-request content type, so that could be taken as a more precise determination whether the client is a browser or a git client.\n\nFor GETs in smart HTTP: if the URL path ends in info/refs and there\u0027s one parameter service\u003d, and the value matches a known service, it\u0027s a git request.\n\nThat leaves only dumb HTTP GETs that cannot be unambiguously identified. But they\u0027d all end in /info/refs or /info/packs and the like, and the part before the /info/ would have to map to a known repository.\n\n[1] https://git-scm.com/docs/git-config#Documentation/git-config.txt-httpuserAgent",
       "revId": "83de4b90445f319435fa0fb0c7ae3b743139375b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "755dd95f_203addc4",
+        "filename": "java/com/google/gerrit/httpd/UserAgentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026270
+      },
+      "writtenOn": "2020-11-25T23:58:20Z",
+      "side": 1,
+      "message": "I don\u0027t want to pile on ... I\u0027d just also say that the failure case for the points above is also just about the worst for a developer; most of your clones work except some, and the only way you\u0027ll figure it out is having to dig through the gerrit source code to find this switching.  \n\nI\u0027m afraid I don\u0027t have much of a solution to offer.  Maybe calling it out in documentation that might come up in a web search, or perhaps even adding a X- header on these endpoints that you might see in a verbose dump.",
+      "parentUuid": "941a42e0_124299cc",
+      "revId": "83de4b90445f319435fa0fb0c7ae3b743139375b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

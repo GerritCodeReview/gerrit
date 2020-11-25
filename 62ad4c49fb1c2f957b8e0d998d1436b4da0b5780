@@ -51,6 +51,24 @@
       "parentUuid": "50640071_e083da62",
       "revId": "62ad4c49fb1c2f957b8e0d998d1436b4da0b5780",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2447fa51_2c822713",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T08:19:43Z",
+      "side": 1,
+      "message": "I have looked a bit into how to migrate existing users of the Screen API and have changed my opinion a little:\n\nIf you look at the serviceuser plugin for example:\nhttps://gerrit.googlesource.com/plugins/serviceuser/+/643d6d755a97360cf323fc1d2a3c51e0f069cbe8/src/main/resources/static/gr-serviceuser.html#39\n\nThey are using addMenuLink() to add a link to a plugin controlled \"screen\" for creating service users. And we have a similar internal plugin that does the same. I don\u0027t have a great idea how to easily migrate those plugins away from using screens, and it is actually a nice functionality that is already implemented. Do we really have to take that away?\n\nI would still be fine with the config option, but I think we should then be planning to support that config indefinitely.\n\nAn alternative would be to just change \"x\" to \"plugin-screen\". Then there is no chance of conflict. The frontend router could easily support both paths, so not much effort needed.\n\nThat said, I think we have not addressed the fundamental problem as also stated in https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13721#c4: The other paths have the same potential for conflicting with project names:\n          \"/c/*\",\n          \"/id/*\",\n          \"/p/*\",\n          \"/q/*\",\n          \"/admin/*\",\n\nWhy are we special casing \"/x/*\"? Can\u0027t we try to detect that a request is coming from the git command line and handle paths differently in that case generally, not just for \"/x/*\"?",
+      "parentUuid": "70ef70f7_5f02c967",
+      "revId": "62ad4c49fb1c2f957b8e0d998d1436b4da0b5780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

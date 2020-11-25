@@ -114,6 +114,7 @@ import {
   UIActionInfo,
 } from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
 import {fireAlert} from '../../../utils/event-util';
+import {CODE_REVIEW} from '../../../utils/label-util';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -947,6 +948,16 @@ export class GrChangeActions
         return null;
       }
     }
+    // Allow the user to use quick approve to vote the max score on code review
+    // even if it is already granted.
+    if (
+      !result &&
+      this.change.labels[CODE_REVIEW] &&
+      this._getLabelStatus(this.change.labels[CODE_REVIEW]) === LabelStatus.OK
+    ) {
+      result = CODE_REVIEW;
+    }
+
     if (result) {
       const score = this.change.permitted_labels[result].slice(-1)[0];
       const labelInfo = this.change.labels[result];

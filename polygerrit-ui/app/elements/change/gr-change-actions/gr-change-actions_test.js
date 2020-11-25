@@ -1717,6 +1717,31 @@ suite('gr-change-actions tests', () => {
                 .querySelector('gr-button[data-action-key=\'review\']');
         assert.equal(approveButton.getAttribute('data-label'), 'bar+2');
       });
+
+      test('added when can approve an already-approved code review label',
+          () => {
+            element.change = {
+              current_revision: 'abc1234',
+              labels: {
+                'Code-Review': {
+                  approved: {},
+                  values: {
+                    ' 0': '',
+                    '+1': '',
+                    '+2': '',
+                  },
+                },
+              },
+              permitted_labels: {
+                'Code-Review': [' 0', '+1', '+2'],
+              },
+            };
+            flush();
+            const approveButton =
+              element.shadowRoot
+                  .querySelector('gr-button[data-action-key=\'review\']');
+            assert.isNotNull(approveButton);
+          });
     });
 
     test('adds download revision action', () => {

@@ -33,6 +33,24 @@
       "message": "I think we should not be changing the default.\n\nThis change is probably most useful to have on 3.2 and 3.3. And for already released versions the default configs should not change in bugfix releases.\n\nFor master I am wondering whether we should maybe just try to remove the entire \"screen\" support right away. Is there much benefit in delaying the removal from 3.4 to 3.5?",
       "revId": "62ad4c49fb1c2f957b8e0d998d1436b4da0b5780",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70ef70f7_5f02c967",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-25T08:10:48Z",
+      "side": 1,
+      "message": "My understanding is that these \u0027screens\u0027 can easily be added to where they contextually belong (change related plugin functionality on the change screen, project on the project UI as their own screen, etc.) so +1 to Ben\u0027s proposal.\n\nApart from that, the only use cases that remain is where Gerrit is used as a webserver for other functionality and I don\u0027t think this use case is strong enough to support it.",
+      "parentUuid": "50640071_e083da62",
+      "revId": "62ad4c49fb1c2f957b8e0d998d1436b4da0b5780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.http.server.GitSmartHttpTools;
 import org.eclipse.jgit.lib.Config;
 
 public class StaticModule extends ServletModule {
@@ -405,32 +406,34 @@ public class StaticModule extends ServletModule {
       HttpServletRequest req = (HttpServletRequest) request;
       HttpServletResponse res = (HttpServletResponse) response;
 
-      GuiceFilterRequestWrapper reqWrapper = new GuiceFilterRequestWrapper(req);
-      String path = pathInfo(req);
+      if (!GitSmartHttpTools.isGitClient(req)) {
+        GuiceFilterRequestWrapper reqWrapper = new GuiceFilterRequestWrapper(req);
+        String path = pathInfo(req);
 
-      // Special case assets during development that are built by Bazel and not
-      // served out of the source tree.
-      //
-      // In the war case, these are either inlined, or live under
-      // /polygerrit_ui in the war file, so we can just treat them as normal
-      // assets.
-      if (paths.isDev()) {
-        if (path.startsWith("/bower_components/")) {
-          bowerComponentServlet.service(reqWrapper, res);
-          return;
-        } else if (path.startsWith("/fonts/")) {
-          fontServlet.service(reqWrapper, res);
+        // Special case assets during development that are built by Bazel and not
+        // served out of the source tree.
+        //
+        // In the war case, these are either inlined, or live under
+        // /polygerrit_ui in the war file, so we can just treat them as normal
+        // assets.
+        if (paths.isDev()) {
+          if (path.startsWith("/bower_components/")) {
+            bowerComponentServlet.service(reqWrapper, res);
+            return;
+          } else if (path.startsWith("/fonts/")) {
+            fontServlet.service(reqWrapper, res);
+            return;
+          }
+        }
+
+        if (isPolyGerritIndex(path)) {
+          polyGerritIndex.service(reqWrapper, res);
           return;
         }
-      }
-
-      if (isPolyGerritIndex(path)) {
-        polyGerritIndex.service(reqWrapper, res);
-        return;
-      }
-      if (isPolyGerritAsset(path)) {
-        polygerritUI.service(reqWrapper, res);
-        return;
+        if (isPolyGerritAsset(path)) {
+          polygerritUI.service(reqWrapper, res);
+          return;
+        }
       }
 
       chain.doFilter(req, res);

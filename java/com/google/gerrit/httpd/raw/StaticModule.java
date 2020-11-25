@@ -372,16 +372,19 @@ public class StaticModule extends ServletModule {
       HttpServletRequest req = (HttpServletRequest) request;
       HttpServletResponse res = (HttpServletResponse) response;
 
-      GuiceFilterRequestWrapper reqWrapper = new GuiceFilterRequestWrapper(req);
-      String path = pathInfo(req);
+      String userAgent = req.getHeader("User-Agent");
+      if (!userAgent.contains("git/")) {
+        GuiceFilterRequestWrapper reqWrapper = new GuiceFilterRequestWrapper(req);
+        String path = pathInfo(req);
 
-      if (isPolyGerritIndex(path)) {
-        polyGerritIndex.service(reqWrapper, res);
-        return;
-      }
-      if (isPolyGerritAsset(path)) {
-        polygerritUI.service(reqWrapper, res);
-        return;
+        if (isPolyGerritIndex(path)) {
+          polyGerritIndex.service(reqWrapper, res);
+          return;
+        }
+        if (isPolyGerritAsset(path)) {
+          polygerritUI.service(reqWrapper, res);
+          return;
+        }
       }
 
       chain.doFilter(req, res);

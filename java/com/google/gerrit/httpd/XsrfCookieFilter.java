@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import static com.google.common.base.Strings.nullToEmpty;
+import static com.google.gerrit.httpd.UserAgentUtil.isGitAgent;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
@@ -50,8 +51,11 @@ public class XsrfCookieFilter implements Filter {
   @Override
   public void doFilter(ServletRequest req, ServletResponse rsp, FilterChain chain)
       throws IOException, ServletException {
-    WebSession s = user.get().isIdentifiedUser() ? session.get() : null;
-    setXsrfTokenCookie((HttpServletRequest) req, (HttpServletResponse) rsp, s);
+    HttpServletRequest httpRequest = (HttpServletRequest) req;
+    if (!isGitAgent(httpRequest)) {
+      WebSession s = user.get().isIdentifiedUser() ? session.get() : null;
+      setXsrfTokenCookie(httpRequest, (HttpServletResponse) rsp, s);
+    }
     chain.doFilter(req, rsp);
   }
 

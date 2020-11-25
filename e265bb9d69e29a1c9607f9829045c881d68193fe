@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "388041e9_dd04062c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 57
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T14:05:47Z",
+      "side": 1,
+      "message": "replaced with left/right patchset.\nlmk if that is better.",
+      "parentUuid": "6ec310bc_89843a91",
+      "range": {
+        "startLine": 418,
+        "startChar": 38,
+        "endLine": 418,
+        "endChar": 46
+      },
+      "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1296fc7_fbd19a67",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 57
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T14:05:47Z",
+      "side": 1,
+      "message": "Added definition",
+      "parentUuid": "1c26cbbe_ffd2377a",
+      "range": {
+        "startLine": 418,
+        "startChar": 13,
+        "endLine": 418,
+        "endChar": 27
+      },
+      "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c161c621_8036f7b5",
@@ -95,6 +143,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ffa065d8_d529c01f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 57
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T14:05:47Z",
+      "side": 1,
+      "message": "not sure what you mean by this comment. I was using patchRange since that is the variable name that is used in our codebase to denote the selected patchsets.\nI replaced this with left/right patchset.",
+      "parentUuid": "c161c621_8036f7b5",
+      "range": {
+        "startLine": 420,
+        "startChar": 30,
+        "endLine": 420,
+        "endChar": 53
+      },
+      "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a65e78b2_fd70d1bb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 57
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T14:05:47Z",
+      "side": 1,
+      "message": "updated to say it will be \"filtered\" by return value instead.",
+      "parentUuid": "123f4619_b871c5db",
+      "range": {
+        "startLine": 420,
+        "startChar": 60,
+        "endLine": 420,
+        "endChar": 64
+      },
+      "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e1fa39bd_e052e348",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 57
@@ -106,6 +202,24 @@
       "writtenOn": "2020-11-25T13:24:31Z",
       "side": 1,
       "message": "remove empty line",
+      "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b789e037_9ac44af7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 57
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T14:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1fa39bd_e052e348",
       "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -123,6 +237,24 @@
       "writtenOn": "2020-11-25T13:24:31Z",
       "side": 1,
       "message": "Is this only returning the ported threads or both unported and ported threads?",
+      "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0be0c875_4d9ef01c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 57
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T14:05:47Z",
+      "side": 1,
+      "message": "This is only returning the ported threads as the function name suggests.\nIs this unclear?\nI added a comment just in case.",
+      "parentUuid": "807f25ef_d9651dc9",
       "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

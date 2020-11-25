@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d77a096b_acde3a59",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 56
+      },
+      "lineNbr": 1594,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T14:05:47Z",
+      "side": 1,
+      "message": "The returning of the ported threads and adding them to diff-host explicitly rather than letting comment-api return the complete thread object.",
+      "parentUuid": "f5f21046_9ccf1841",
+      "range": {
+        "startLine": 1573,
+        "startChar": 8,
+        "endLine": 1594,
+        "endChar": 10
+      },
+      "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f31366d_2b18690d",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 56

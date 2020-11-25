@@ -538,6 +538,10 @@ export class GrChangeList extends ChangeTableMixin(
   _isEmpty(section: DashboardSection) {
     return !section.results?.length;
   }
+
+  _computeAriaLabel(change: ChangeInfo, sectionName: string) {
+    return `${change.subject} (${sectionName})`;
+  }
 }
 
 declare global {

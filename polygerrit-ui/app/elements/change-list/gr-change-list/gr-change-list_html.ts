@@ -156,6 +156,7 @@ export const htmlTemplate = html`
             show-star="[[showStar]]"
             tabindex$="[[_computeTabIndex(sectionIndex, index, selectedIndex)]]"
             label-names="[[labelNames]]"
+            aria-label$="[[_computeAriaLabel(change, changeSection.name)]]"
           ></gr-change-list-item>
         </template>
       </tbody>

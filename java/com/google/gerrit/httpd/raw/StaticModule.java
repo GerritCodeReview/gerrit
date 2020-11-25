@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static com.google.gerrit.httpd.UserAgentUtil.isGitAgent;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.isReadable;
 
@@ -372,16 +373,18 @@ public class StaticModule extends ServletModule {
       HttpServletRequest req = (HttpServletRequest) request;
       HttpServletResponse res = (HttpServletResponse) response;
 
-      GuiceFilterRequestWrapper reqWrapper = new GuiceFilterRequestWrapper(req);
-      String path = pathInfo(req);
+      if (!isGitAgent(req)) {
+        GuiceFilterRequestWrapper reqWrapper = new GuiceFilterRequestWrapper(req);
+        String path = pathInfo(req);
 
-      if (isPolyGerritIndex(path)) {
-        polyGerritIndex.service(reqWrapper, res);
-        return;
-      }
-      if (isPolyGerritAsset(path)) {
-        polygerritUI.service(reqWrapper, res);
-        return;
+        if (isPolyGerritIndex(path)) {
+          polyGerritIndex.service(reqWrapper, res);
+          return;
+        }
+        if (isPolyGerritAsset(path)) {
+          polygerritUI.service(reqWrapper, res);
+          return;
+        }
       }
 
       chain.doFilter(req, res);

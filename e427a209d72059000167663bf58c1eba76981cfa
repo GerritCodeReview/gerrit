@@ -319,6 +319,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b2cb7d9_7a0f8d82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-11-25T07:48:52Z",
+      "side": 1,
+      "message": "Yup, by removing yourself as a reviewer you pretty much say \"I don\u0027t care\" or \"I\u0027m not the correct person to review this\" hence your vote don\u0027t count and get\u0027s removed.\nYou can however \"Ignore\" the change.",
+      "parentUuid": "76a9603c_d6469a21",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "821ae05d_461809e5",

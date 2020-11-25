@@ -136,6 +136,9 @@ export class GrChangeList extends ChangeTableMixin(
   @property({type: Object})
   preferences?: PreferencesInput;
 
+  @property({type: Boolean})
+  isCursorMoving = false;
+
   @property({type: Object})
   _config?: ServerInfo;
 
@@ -356,7 +359,13 @@ export class GrChangeList extends ChangeTableMixin(
     return idx === selectedIndex;
   }
 
-  _computeTabIndex(sectionIndex: number, index: number, selectedIndex: number) {
+  _computeTabIndex(
+    sectionIndex: number,
+    index: number,
+    selectedIndex: number,
+    isCursorMoving: boolean
+  ) {
+    if (isCursorMoving) return 0;
     return this._computeItemSelected(sectionIndex, index, selectedIndex)
       ? 0
       : undefined;
@@ -399,7 +408,9 @@ export class GrChangeList extends ChangeTableMixin(
     }
 
     e.preventDefault();
+    this.isCursorMoving = true;
     this.cursor.next();
+    this.isCursorMoving = false;
     this.selectedIndex = this.cursor.index;
   }
 
@@ -409,7 +420,9 @@ export class GrChangeList extends ChangeTableMixin(
     }
 
     e.preventDefault();
+    this.isCursorMoving = true;
     this.cursor.previous();
+    this.isCursorMoving = false;
     this.selectedIndex = this.cursor.index;
   }
 
@@ -537,6 +550,11 @@ export class GrChangeList extends ChangeTableMixin(
 
   _isEmpty(section: DashboardSection) {
     return !section.results?.length;
+  }
+
+  _computeAriaLabel(change?: ChangeInfo, sectionName?: string) {
+    if (!change) return '';
+    return change.subject + (sectionName ? `, section: ${sectionName}` : '');
   }
 }
 

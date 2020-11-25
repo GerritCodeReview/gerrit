@@ -52,6 +52,24 @@
       "parentUuid": "bca32905_0c0b3b29",
       "revId": "d8be8954242fc994ef3d1d45186d387b7ba18030",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "048e6de5_b23be338",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-25T09:35:36Z",
+      "side": 1,
+      "message": "Ack, thanks for explaining.",
+      "parentUuid": "0ac6c11f_dade40d4",
+      "revId": "d8be8954242fc994ef3d1d45186d387b7ba18030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

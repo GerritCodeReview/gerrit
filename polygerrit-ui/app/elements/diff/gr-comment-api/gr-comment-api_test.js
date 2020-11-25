@@ -282,6 +282,52 @@ suite('gr-comment-api tests', () => {
       });
     });
 
+    test('threads without a file are shown on commit message', () => {
+      element._changeComments._portedComments['random_deleted.js'].push({
+        id: 'db977012_abcdefgh',
+        path: 'random_deleted.js',
+        line: 5,
+        updated: '2018-02-13 22:48:48.018000000',
+        unresolved: false,
+        __draft: true,
+        __draftID: '0.m6abcdefgh',
+        patch_set: 4,
+      });
+
+      sinon.stub(element._changeComments, 'getAllCommentsForPath').returns([
+        {
+          __path: 'karma.conf.js',
+          patch_set: 2,
+          id: 'ecf0b9fa_fe1a5f62',
+          line: 5,
+          updated: '2018-02-08 18:49:18.000000000',
+          message: 'test',
+          unresolved: true,
+        },
+        {
+          id: '503008e2_0ab203ee',
+          path: 'karma.conf.js',
+          line: 5,
+          in_reply_to: 'ecf0b9fa_fe1a5f62',
+          updated: '2018-02-13 22:48:48.018000000',
+          unresolved: true,
+          __draft: true,
+          __draftID: '0.m683trwff68',
+          patch_set: 2,
+        },
+        {
+          id: 'db977012_e1f13828',
+          path: 'karma.conf.js',
+          line: 4,
+          updated: '2018-02-13 22:48:48.018000000',
+          unresolved: false,
+          __draft: true,
+          __draftID: '0.m683trwff68',
+          patch_set: 2,
+        },
+      ]);
+    });
+
     test('_isInBaseOfPatchRange', () => {
       const comment = {patch_set: 1};
       const patchRange = {basePatchNum: 1, patchNum: 2};

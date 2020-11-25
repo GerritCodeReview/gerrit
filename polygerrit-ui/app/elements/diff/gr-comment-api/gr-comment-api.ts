@@ -49,7 +49,7 @@ import {
 } from '../../../utils/comment-util';
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
-import {CommentSide, Side} from '../../../constants/constants';
+import {CommentSide, Side, SpecialFilePath} from '../../../constants/constants';
 
 export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
@@ -377,6 +377,19 @@ export class ChangeComments {
     // current patchrange, so we need to form threads for them using all
     // comments
     const allComments: UIComment[] = this.getAllCommentsForFile(file, true);
+
+    const files = Object.keys(this.getPaths());
+
+    if (file.path === SpecialFilePath.COMMIT_MESSAGE) {
+      Object.entries(this._portedComments).forEach(([file, comments]) => {
+        if (!files.includes(file)) {
+          allComments.push(
+            ...this.getAllCommentsForPath(file, undefined, true)
+          );
+          portedComments.push(...comments);
+        }
+      });
+    }
 
     return createCommentThreads(allComments).filter(thread => {
       // Robot comments and drafts are not ported over. A human reply to

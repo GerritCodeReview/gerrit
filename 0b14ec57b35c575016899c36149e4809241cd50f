@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc1527f0_21e998b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 2148,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T09:57:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdd0a756_b93b1190",
+      "range": {
+        "startLine": 2147,
+        "startChar": 34,
+        "endLine": 2148,
+        "endChar": 25
+      },
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aaa6ac26_c80730bd",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-11-10T09:50:28Z",
       "side": 1,
       "message": "Change this call to return threads and also let gr-comment-api add the information about portedness to each comment/thread.",
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78c51d64_9700f7ae",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 1564,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T09:57:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaa6ac26_c80730bd",
       "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9c760bb3_fe898aaf",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 1581,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T09:57:57Z",
+      "side": 1,
+      "message": "not sure what you meant by this.",
+      "parentUuid": "8be8283b_e314b3d1",
+      "range": {
+        "startLine": 1569,
+        "startChar": 8,
+        "endLine": 1581,
+        "endChar": 9
+      },
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f4b64364_877f18dd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
         "patchSetId": 47
@@ -77,6 +143,24 @@
       "writtenOn": "2020-11-10T09:50:28Z",
       "side": 1,
       "message": "Why does gr-diff-host have to know about both, comment threads and ported comment threads? Can this be hidden from gr-diff-host?\n\nThis\n\n  comments?: TwoSidesComments;\n\nwould probably need to be changed to something like\n\n  commentThreads?: TwoSidesCommentThreads;",
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a20c8644_81796199",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T09:57:57Z",
+      "side": 1,
+      "message": "Done in change 289682",
+      "parentUuid": "f4b64364_877f18dd",
       "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -94,6 +178,30 @@
       "writtenOn": "2020-11-10T09:50:28Z",
       "side": 1,
       "message": "All this should be moved to gr-comment-api.",
+      "range": {
+        "startLine": 711,
+        "startChar": 2,
+        "endLine": 726,
+        "endChar": 0
+      },
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca887d93_2aa7cf5c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T09:57:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "083ad5b0_854937a7",
       "range": {
         "startLine": 711,
         "startChar": 2,
@@ -127,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9088fd05_4b72bb02",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T09:57:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dce7e92_b6a8d848",
+      "range": {
+        "startLine": 738,
+        "startChar": 1,
+        "endLine": 741,
+        "endChar": 41
+      },
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8c1d4c6_b501b913",
@@ -140,6 +272,24 @@
       "writtenOn": "2020-11-10T09:50:28Z",
       "side": 1,
       "message": "Similar to above, there should be a method on _changeComments that returns what diffHost needs, containing both ported and unported comment threads.",
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74f2ef3b_64262316",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T09:57:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c1d4c6_b501b913",
       "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -167,6 +317,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5f1af06_bcee0eaa",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T09:57:57Z",
+      "side": 1,
+      "message": "After the refactor, the new createCommentThreads does not require this property.\nRemoved.",
+      "parentUuid": "6b23221f_ba13af0b",
+      "range": {
+        "startLine": 197,
+        "startChar": 2,
+        "endLine": 199,
+        "endChar": 71
+      },
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bd4ba80_f1de4626",
@@ -180,6 +354,30 @@
       "writtenOn": "2020-11-10T09:50:28Z",
       "side": 1,
       "message": "When you overwrite range here, then how does gr-diff know where the thread originally was? It has to know when creating a draft reply for example, right?",
+      "range": {
+        "startLine": 218,
+        "startChar": 5,
+        "endLine": 219,
+        "endChar": 42
+      },
+      "revId": "0b14ec57b35c575016899c36149e4809241cd50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1f1edb4_7387ffa7",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T09:57:57Z",
+      "side": 1,
+      "message": "Draft information is calculated from the parent comment to which we are replying and hence the thread range changes do not affect it.",
+      "parentUuid": "3bd4ba80_f1de4626",
       "range": {
         "startLine": 218,
         "startChar": 5,

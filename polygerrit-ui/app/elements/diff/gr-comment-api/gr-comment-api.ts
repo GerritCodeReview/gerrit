@@ -40,7 +40,7 @@ import {
   PortedCommentsAndDrafts,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {CommentSide, Side} from '../../../constants/constants';
+import {CommentSide, Side, SpecialFilePath} from '../../../constants/constants';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   Comment,
@@ -83,7 +83,7 @@ export class ChangeComments {
     comments: {[path: string]: UIHuman[]} | undefined,
     robotComments: {[path: string]: UIRobot[]} | undefined,
     drafts: {[path: string]: UIDraft[]} | undefined,
-    portedComments: PathToCommentsInfoMap | undefined,
+    portedComments: PathToCommentsInfoMap | undefined
   ) {
     this._comments = this._addPath(comments);
     this._robotComments = this._addPath(robotComments);
@@ -274,8 +274,7 @@ export class ChangeComments {
       this._comments,
       this._robotComments,
       drafts,
-      this._portedComments,
-      this._changeNum
+      this._portedComments
     );
   }
 
@@ -328,9 +327,7 @@ export class ChangeComments {
     includePortedComments?: boolean
   ): CommentThread[] {
     const threads = createCommentThreads(
-      this._addCommentSide(
-        this.getCommentsBySideForPath(path, patchRange)
-      )
+      this._addCommentSide(this.getCommentsBySideForPath(path, patchRange))
     );
     if (includePortedComments) {
       threads.push(...this.getPortedCommentThreads(path, patchRange));
@@ -439,6 +436,19 @@ export class ChangeComments {
       true
     );
 
+    const files = Object.keys(this.getPaths());
+
+    if (path === SpecialFilePath.COMMIT_MESSAGE) {
+      Object.entries(this._portedComments).forEach(([file, comments]) => {
+        if (!files.includes(file)) {
+          allComments.push(
+            ...this.getAllCommentsForPath(file, undefined, true)
+          );
+          portedComments.push(...comments);
+        }
+      });
+    }
+
     return createCommentThreads(allComments).filter(thread => {
       // Robot comments and drafts are not ported over. A human reply to
       // the robot comment will be ported over, thefore it's possible to
@@ -481,9 +491,7 @@ export class ChangeComments {
     includePortedComments?: boolean
   ): CommentThread[] {
     const threads = createCommentThreads(
-      this._addCommentSide(
-        this.getCommentsBySideForFile(file, patchRange)
-      )
+      this._addCommentSide(this.getCommentsBySideForFile(file, patchRange))
     );
     if (includePortedComments) {
       threads.push(...this.getPortedCommentThreads(file.path, patchRange));
@@ -726,7 +734,7 @@ export class GrCommentApi extends GestureEventListeners(
           comments,
           robotComments,
           drafts,
-          portedCommentsAndDrafts?.portedComments,
+          portedCommentsAndDrafts?.portedComments
         );
         return this._changeComments;
       }

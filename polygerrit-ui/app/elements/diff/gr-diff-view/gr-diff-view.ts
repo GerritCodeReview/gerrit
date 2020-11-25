@@ -1082,7 +1082,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
         this.$.diffHost.threads = this._changeComments.getThreadsBySideForPath(
           this._path,
           this._patchRange,
-          this._isPortingCommentsExperimentEnabled
+          this._isPortingCommentsExperimentEnabled || true
         );
 
         const edit = r[4] as EditInfo | undefined;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a9e182b_0213e3b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T14:34:52Z",
+      "side": 1,
+      "message": "Should I revert this, since this is the only string replaced with a constant?\nLooks fine to me, which is why I kept it.",
+      "range": {
+        "startLine": 705,
+        "startChar": 6,
+        "endLine": 705,
+        "endChar": 31
+      },
+      "revId": "3ff6336d883edb25c05d32cd9dd470b9cb70bb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -81,6 +81,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca3e1d04_995e86a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-25T21:39:45Z",
+      "side": 1,
+      "message": "@Clark this is the fix that you guys would need on OpenStack: v3.3 is going to be released next week.",
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bb53b1c_89837784",

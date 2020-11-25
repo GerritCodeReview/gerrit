@@ -22,6 +22,30 @@
       },
       "revId": "3ff6336d883edb25c05d32cd9dd470b9cb70bb02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5811882_1c4e927e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T15:54:40Z",
+      "side": 1,
+      "message": "Yes, revert. This is a different \u0027current\u0027. :-)",
+      "parentUuid": "9a9e182b_0213e3b3",
+      "range": {
+        "startLine": 705,
+        "startChar": 6,
+        "endLine": 705,
+        "endChar": 31
+      },
+      "revId": "3ff6336d883edb25c05d32cd9dd470b9cb70bb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -121,12 +121,18 @@ public class ChangeNotesCache {
     // Single Timestamp overhead.
     private static final int T = O + 8;
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>Take all columns and all collection sizes into account, but use estimated average element
+     * sizes rather than iterating over collections. Numbers are largely hand-wavy based on
+     * http://stackoverflow.com/questions/258120/what-is-the-memory-consumption-of-an-object-in-java
+     *
+     * <p>Should be kept up to date with {@link ChangeNotesState}. Please, keep weights listed in
+     * the same order as fields.
+     */
     @Override
     public int weigh(Key key, ChangeNotesState state) {
-      // Take all columns and all collection sizes into account, but use
-      // estimated average element sizes rather than iterating over collections.
-      // Numbers are largely hand-wavy based on
-      // http://stackoverflow.com/questions/258120/what-is-the-memory-consumption-of-an-object-in-java
       return P
           + O
           + 20 // metaId
@@ -138,6 +144,7 @@ public class ChangeNotesCache {
           + K // owner
           + P
           + str(state.columns().branch())
+          + P // status
           + P
           + patchSetId() // currentPatchSetId
           + P
@@ -148,9 +155,16 @@ public class ChangeNotesCache {
           + str(state.columns().originalSubject())
           + P
           + str(state.columns().submissionId())
-          + P // status
+          + 1 // isPrivate
+          + 1 // workInProgress
+          + 1 // reviewStarted
+          + P
+          + K // revertOf
+          + P
+          + patchSetId() // cherryPickOf
           + P
           + set(state.hashtags(), str(10))
+          + str(state.serverId()) // serverId
           + P
           + list(state.patchSets(), patchSet())
           + P
@@ -177,9 +191,6 @@ public class ChangeNotesCache {
           + list(state.changeMessages(), changeMessage())
           + P
           + map(state.publishedComments().asMap(), comment())
-          + 1 // isPrivate
-          + 1 // workInProgress
-          + 1 // reviewStarted
           + I; // updateCount
     }
 

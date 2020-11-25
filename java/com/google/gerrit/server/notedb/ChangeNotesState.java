@@ -81,6 +81,9 @@ import org.eclipse.jgit.lib.ObjectId;
  * <p>One instance is the output of a single {@link ChangeNotesParser}, and contains types required
  * to support public methods on {@link ChangeNotes}. It is intended to be cached in-process.
  *
+ * <p>When new fields are added to the {@link ChangeNotesState}, {@link
+ * ChangeNotesCache.Weigher#weigh} should be updated.
+ *
  * <p>Note that {@link ChangeNotes} contains more than just a single {@code ChangeNoteState}, such
  * as per-draft information, so that class is not cached directly.
  */

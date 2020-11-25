@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0ffa160_fc0eb218",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-25T10:01:32Z",
+      "side": 1,
+      "message": "After the latest findings last night, this change isn\u0027t going to mitigate or solve Issue 13544. I still believe it is good to disable autoGc by default, but we shouldn\u0027t correlate it with the issue because isn\u0027t the root-case of it.",
+      "revId": "4ba6647fa26b658d7f9255c2ad6c3ee7be52aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3c4725cf_2542638e",

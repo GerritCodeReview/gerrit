@@ -86,19 +86,29 @@ public class WebLinks {
   /**
    * @param project Project name.
    * @param commit SHA1 of commit.
+   * @param subject subject of the commit.
+   * @param branchName branch of the commit.
    * @return Links for patch sets.
    */
-  public ImmutableList<WebLinkInfo> getPatchSetLinks(Project.NameKey project, String commit) {
-    return filterLinks(patchSetLinks, webLink -> webLink.getPatchSetWebLink(project.get(), commit));
+  public ImmutableList<WebLinkInfo> getPatchSetLinks(
+      Project.NameKey project, String commit, String subject, String branchName) {
+    return filterLinks(
+        patchSetLinks,
+        webLink -> webLink.getPatchSetWebLink(project.get(), commit, subject, branchName));
   }
 
   /**
    * @param project Project name.
    * @param revision SHA1 of the parent revision.
+   * @param subject subject of the parent revision.
+   * @param branchName branch of the revision (and parent revision).
    * @return Links for patch sets.
    */
-  public ImmutableList<WebLinkInfo> getParentLinks(Project.NameKey project, String revision) {
-    return filterLinks(parentLinks, webLink -> webLink.getParentWebLink(project.get(), revision));
+  public ImmutableList<WebLinkInfo> getParentLinks(
+      Project.NameKey project, String revision, String subject, String branchName) {
+    return filterLinks(
+        parentLinks,
+        webLink -> webLink.getParentWebLink(project.get(), revision, subject, branchName));
   }
 
   /**

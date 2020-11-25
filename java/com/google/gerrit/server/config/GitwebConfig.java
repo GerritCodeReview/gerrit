@@ -327,8 +327,10 @@ public class GitwebConfig {
     }
 
     @Override
-    public WebLinkInfo getPatchSetWebLink(String projectName, String commit) {
+    public WebLinkInfo getPatchSetWebLink(
+        String projectName, String commit, String subject, String branchName) {
       if (revision != null) {
+        // subject and branchName and not needed, hence not used.
         return link(
             revision
                 .replace("project", encode(projectName))
@@ -339,9 +341,10 @@ public class GitwebConfig {
     }
 
     @Override
-    public WebLinkInfo getParentWebLink(String projectName, String commit) {
+    public WebLinkInfo getParentWebLink(
+        String projectName, String commit, String subject, String branchName) {
       // For Gitweb treat parent revision links the same as patch set links
-      return getPatchSetWebLink(projectName, commit);
+      return getPatchSetWebLink(projectName, commit, subject, branchName);
     }
 
     @Override

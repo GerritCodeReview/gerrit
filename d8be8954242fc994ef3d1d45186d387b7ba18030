@@ -16,6 +16,24 @@
       "message": "Do we need to add the new REPO constant here?",
       "revId": "d8be8954242fc994ef3d1d45186d387b7ba18030",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca32905_0c0b3b29",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2020-11-25T08:56:00Z",
+      "side": 1,
+      "message": "nope.  this pref tracks the command used, not the protocol.\n\nfor example, if you click \"Download\" at https://crrev.com/c/2494363, you\u0027ll see two protocol tabs at the top of the dialog: \"HTTP\" \u0026 \"REPO\".  each protocol tab has a list of commands (\"Branch\", \"Checkout\", etc...).  those commands correspond to this DownloadCommand enum.\n\nthe reason REPO_DOWNLOAD is here is because of how the Download plugin used to implement the \"repo\" protocol -- it was hacked in as a special case.  i cleaned that up a bit, so this shouldn\u0027t be necessary anymore.",
+      "parentUuid": "a5fe333b_cb3fb614",
+      "revId": "d8be8954242fc994ef3d1d45186d387b7ba18030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

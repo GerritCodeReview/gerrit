@@ -168,6 +168,24 @@
       "message": "I would suggest making ported comments a field of the ChangeComments class. Or maybe even not store ported comments at all, but instead add properties to the \"normal\" comments like:\n\n  ported_patch_set\n  ported_line\n  ported_range\n\nWDYT?",
       "revId": "c42beb16f50fc7453e535d4114e41a557683b569",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f998b8d_fdf0c7c6",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 44
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T09:57:57Z",
+      "side": 1,
+      "message": "Made ported comments a field of Change Comments.",
+      "parentUuid": "1e0f6f73_fc9c9371",
+      "revId": "c42beb16f50fc7453e535d4114e41a557683b569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

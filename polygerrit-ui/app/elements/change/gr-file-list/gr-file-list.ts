@@ -1572,15 +1572,17 @@ export class GrFileList extends KeyboardShortcutMixin(
         }
         let portedThreads: CommentThread[] = [];
         if (
-          this.changeComments?.portedComments &&
-          path &&
-          this._isPortingCommentsExperimentEnabled
+          (this.changeComments?.portedComments &&
+            path &&
+            this._isPortingCommentsExperimentEnabled) ||
+          true
         ) {
           portedThreads = getPortedCommentThreads(
             this.changeComments.portedComments,
             path,
             this.changeComments,
-            this.patchRange
+            this.patchRange,
+            this._files.map(file => file.__path)
           );
         }
 

@@ -25,7 +25,7 @@ import {
   PathToCommentsInfoMap,
   PatchRange,
 } from '../types/common';
-import {CommentSide, Side} from '../constants/constants';
+import {CommentSide, Side, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
 import {LineNumber, FILE} from '../elements/diff/gr-diff/gr-diff-line';
 import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
@@ -179,25 +179,12 @@ function convertToFileThread(thread: CommentThread): CommentThread {
   return threadCopy;
 }
 
-export function getPortedCommentThreads(
-  comments: PathToCommentsInfoMap,
+function createPortedThreads(
+  allComments: UIComment[],
   path: string,
-  changeComments: ChangeComments,
-  patchRange: PatchRange
-): CommentThread[] {
-  if (!comments[path]) return [];
-  const portedComments = comments[path];
-
-  // when forming threads in diff view, we filter for current patchrange but
-  // ported comments will involve comments that may not belong to the
-  // current patchrange, so we need to form threads for them using all
-  // comments
-  const allComments: UIComment[] = changeComments.getAllCommentsForPath(
-    path,
-    undefined,
-    true
-  );
-
+  patchRange: PatchRange,
+  portedComments: CommentInfo[]
+) {
   return createCommentThreads(allComments)
     .filter(thread => {
       const portedComment = portedComments.find(portedComment =>
@@ -258,4 +245,34 @@ export function getPortedCommentThreads(
       }
       return thread;
     });
+}
+
+export function getPortedCommentThreads(
+  comments: PathToCommentsInfoMap,
+  path: string,
+  changeComments: ChangeComments,
+  patchRange: PatchRange,
+  files: string[]
+): CommentThread[] {
+  if (!comments[path]) return [];
+  const portedComments = comments[path];
+
+  // when forming threads in diff view, we filter for current patchrange but
+  // ported comments will involve comments that may not belong to the
+  // current patchrange, so we need to form threads for them using all
+  // comments
+  const allComments: UIComment[] = changeComments.getAllCommentsForPath(
+    path,
+    undefined,
+    true
+  );
+
+  if (path === SpecialFilePath.COMMIT_MESSAGE) {
+    // if this is the commit message then also add all ported threads which
+    // do not have any file associated with them
+    Object.keys(comments).filter(file => )
+    files.filter(file => comments)
+  }
+
+  return createPortedThreads(allComments, path, patchRange, portedComments);
 }

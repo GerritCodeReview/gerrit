@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4619b8a9_1da8bfe0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "patch range looks good.",
+      "parentUuid": "7a400c22_5f2eb5ed",
+      "range": {
+        "startLine": 418,
+        "startChar": 32,
+        "endLine": 418,
+        "endChar": 46
+      },
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2dab2c34_9d5d6356",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-11-25T15:39:01Z",
       "side": 1,
       "message": "newer?",
+      "range": {
+        "startLine": 421,
+        "startChar": 54,
+        "endLine": 421,
+        "endChar": 59
+      },
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b9a64ea_163b7659",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dab2c34_9d5d6356",
       "range": {
         "startLine": 421,
         "startChar": 54,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29ae9108_67242200",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffbcfa3a_4d21ab13",
+      "range": {
+        "startLine": 435,
+        "startChar": 19,
+        "endLine": 435,
+        "endChar": 29
+      },
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aba25dfd_8d5aef9c",
@@ -83,6 +155,30 @@
       "writtenOn": "2020-11-25T15:39:01Z",
       "side": 1,
       "message": "the backend",
+      "range": {
+        "startLine": 439,
+        "startChar": 68,
+        "endLine": 439,
+        "endChar": 70
+      },
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37328e6e_50739466",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aba25dfd_8d5aef9c",
       "range": {
         "startLine": 439,
         "startChar": 68,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4c73940_c3effb9d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71d9d4c3_7eaf98ed",
+      "range": {
+        "startLine": 448,
+        "startChar": 64,
+        "endLine": 448,
+        "endChar": 72
+      },
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c6cfa03_2f02bdd9",
@@ -129,6 +249,30 @@
       "writtenOn": "2020-11-25T15:39:01Z",
       "side": 1,
       "message": "Should be sufficient to just compare the rootId, right?",
+      "range": {
+        "startLine": 471,
+        "startChar": 10,
+        "endLine": 471,
+        "endChar": 30
+      },
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5d50074_469cc4df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "In case of a draft created to a resolved thread, we will not have entire thread ported hence the root of the thread will not be found in portedComments.",
+      "parentUuid": "2c6cfa03_2f02bdd9",
       "range": {
         "startLine": 471,
         "startChar": 10,
@@ -162,6 +306,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87d5741f_a1234c19",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "removed function now.",
+      "parentUuid": "4c9e5a2f_a147bc29",
+      "range": {
+        "startLine": 484,
+        "startChar": 14,
+        "endLine": 484,
+        "endChar": 33
+      },
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fd5e041_4c31f239",
@@ -175,6 +343,24 @@
       "writtenOn": "2020-11-25T15:39:01Z",
       "side": 1,
       "message": "Use isDraftThread from util instead.",
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a4b31d0_d91258b7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fd5e041_4c31f239",
       "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -196,6 +382,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e51b5288_dfade250",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f85f101a_bd2f2291",
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7438abcb_7768d5f1",
@@ -209,6 +413,24 @@
       "writtenOn": "2020-11-25T15:39:01Z",
       "side": 1,
       "message": "remove comment, it just describes the code",
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a8ed12d_f6bc5fb9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7438abcb_7768d5f1",
       "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -230,6 +452,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ea97b90_94037150",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "858f1f64_7e68983c",
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7144ecfe_03f57cf8",
@@ -247,6 +487,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfede7c9_4988471c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7144ecfe_03f57cf8",
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aaab54b7_7c823386",
@@ -260,6 +518,24 @@
       "writtenOn": "2020-11-25T15:39:01Z",
       "side": 1,
       "message": "Doesn\u0027t the backend tell you where it has ported the comment to? Do we have to figure out the diffSide ourselves?",
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4b68a57_dbed0a66",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T16:30:54Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info\n\nBackend is returning CommentInfo which doesn\u0027t really have any property like diffSide.",
+      "parentUuid": "aaab54b7_7c823386",
       "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

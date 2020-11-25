@@ -27,7 +27,6 @@ public class GeneralPreferencesInfo {
 
   /** Preferred method to download a change. */
   public enum DownloadCommand {
-    REPO_DOWNLOAD,
     PULL,
     CHECKOUT,
     CHERRY_PICK,

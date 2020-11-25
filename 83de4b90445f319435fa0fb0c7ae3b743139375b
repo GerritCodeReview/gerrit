@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd3b48cb_bc09bc89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-25T23:53:43Z",
+      "side": 1,
+      "message": "\u003e Apologies if I\u0027m beating the same dead horse from the original bug report, but why do HTP-over-Git and the WebApp need to coexist at the same paths at all?\n\nYou can do that already now, by simply having a different path on the reverse proxy and have an headless Gerrit serving the Git protocol.\nThat solution is already implemented in many other sites and it works already today.\n\n@David\u0027s change is more for all of those who don\u0027t want to change the existing URLs.",
+      "parentUuid": "1a8124a1_ae5be7cb",
+      "revId": "83de4b90445f319435fa0fb0c7ae3b743139375b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "941a42e0_124299cc",
         "filename": "java/com/google/gerrit/httpd/UserAgentUtil.java",
         "patchSetId": 3

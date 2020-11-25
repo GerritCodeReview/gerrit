@@ -213,6 +213,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86db3e44_1d065538",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 56
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T14:35:35Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/289889",
+      "parentUuid": "58754979_6a7556a8",
+      "range": {
+        "startLine": 652,
+        "startChar": 53,
+        "endLine": 652,
+        "endChar": 60
+      },
+      "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "418398b3_91f398cf",

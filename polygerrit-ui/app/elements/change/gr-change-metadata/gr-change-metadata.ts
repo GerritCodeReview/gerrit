@@ -83,6 +83,7 @@ import {
   isSectionSet,
   DisplayRules,
 } from '../../../utils/change-metadata-util';
+import {CURRENT} from '../../../utils/patch-set-util';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -701,7 +702,7 @@ export class GrChangeMetadata extends GestureEventListeners(
     return [
       'parentList',
       parents && parents.length > 1 ? 'merge' : 'nonMerge',
-      parentIsCurrent ? 'current' : 'notCurrent',
+      parentIsCurrent ? CURRENT : 'notCurrent',
     ].join(' ');
   }
 

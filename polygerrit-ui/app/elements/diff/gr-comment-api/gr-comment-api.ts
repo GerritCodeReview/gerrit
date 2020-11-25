@@ -23,6 +23,7 @@ import {
   getParentIndex,
   isMergeParent,
   patchNumEquals,
+  CURRENT,
 } from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {
@@ -612,7 +613,7 @@ export class GrCommentApi extends GestureEventListeners(
   }
 
   getPortedComments(changeNum: NumericChangeId, revision?: RevisionId) {
-    if (!revision) revision = 'current';
+    if (!revision) revision = CURRENT;
     return Promise.all([
       this.$.restAPI.getPortedComments(changeNum, revision),
       this.$.restAPI.getPortedDrafts(changeNum, revision),

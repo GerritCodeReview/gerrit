@@ -45,6 +45,8 @@ export const SPECIAL_PATCH_SET_NUM = {
   PARENT: 'PARENT',
 };
 
+export const CURRENT = 'current';
+
 export interface PatchSet {
   num: PatchSetNum;
   desc: string | undefined;

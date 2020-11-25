@@ -48,6 +48,7 @@ import {
   computeLatestPatchNum,
   patchNumEquals,
   PatchSet,
+  CURRENT,
 } from '../../../utils/patch-set-util';
 import {
   addUnmodifiedFiles,
@@ -1047,7 +1048,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
     const portedCommentsPromise = this.$.commentAPI.getPortedComments(
       value.changeNum,
-      value.patchNum || 'current'
+      value.patchNum || CURRENT
     );
 
     const promises: Promise<unknown>[] = [];

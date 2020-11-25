@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ec310bc_89843a91",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 57
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T13:24:31Z",
+      "side": 1,
+      "message": "Patch range?",
+      "range": {
+        "startLine": 418,
+        "startChar": 38,
+        "endLine": 418,
+        "endChar": 46
+      },
+      "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c26cbbe_ffd2377a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 57
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T13:24:31Z",
+      "side": 1,
+      "message": "What is a ported thread? A copy of a normal thread with changed properties?",
+      "range": {
+        "startLine": 418,
+        "startChar": 13,
+        "endLine": 418,
+        "endChar": 27
+      },
+      "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c161c621_8036f7b5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 57
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T13:24:31Z",
+      "side": 1,
+      "message": "Is a thread on patchset 5 in the patchrange 4..6?",
+      "range": {
+        "startLine": 420,
+        "startChar": 30,
+        "endLine": 420,
+        "endChar": 53
+      },
+      "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "123f4619_b871c5db",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 57
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T13:24:31Z",
+      "side": 1,
+      "message": "This is a \"model\" class. How is \"show\" to be interpreted?",
+      "range": {
+        "startLine": 420,
+        "startChar": 60,
+        "endLine": 420,
+        "endChar": 64
+      },
+      "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1fa39bd_e052e348",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 57
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T13:24:31Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "807f25ef_d9651dc9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 57
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T13:24:31Z",
+      "side": 1,
+      "message": "Is this only returning the ported threads or both unported and ported threads?",
+      "revId": "e265bb9d69e29a1c9607f9829045c881d68193fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

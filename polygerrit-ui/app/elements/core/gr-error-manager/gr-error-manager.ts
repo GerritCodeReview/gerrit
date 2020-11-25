@@ -336,7 +336,11 @@ export class GrErrorManager extends GestureEventListeners(
     const el = this._createToastAlert();
     el.show(text, actionText, actionCallback);
     this._alertElement = el;
-    this.fire('iron-announce', {text}, {bubbles: true});
+    this.fire(
+      'iron-announce',
+      {text: `Alert: ${text.substr(0, 280)}`},
+      {bubbles: true}
+    );
     this.reporting.reportInteraction('show-alert', {text});
   }
 

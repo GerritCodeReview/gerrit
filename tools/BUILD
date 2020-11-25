@@ -44,7 +44,6 @@ default_java_toolchain(
     header_compiler_direct = ["@bazel_tools//tools/jdk:turbine_direct"],
     ijar = ["@bazel_tools//tools/jdk:ijar"],
     javabuilder = ["@bazel_tools//tools/jdk:javabuilder"],
-    javac = ["@bazel_tools//tools/jdk:javac_jar"],
     javac_supports_workers = True,
     jvm_opts = JDK11_JVM_OPTS,
     misc = [
@@ -59,6 +58,7 @@ default_java_toolchain(
     source_version = "11",
     target_version = "11",
     tools = [
+        "@bazel_tools//tools/jdk:javac_jar",
         "@bazel_tools//tools/jdk:java_compiler_jar",
         "@bazel_tools//tools/jdk:jdk_compiler_jar",
     ],

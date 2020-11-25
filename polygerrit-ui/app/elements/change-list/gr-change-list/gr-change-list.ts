@@ -356,12 +356,6 @@ export class GrChangeList extends ChangeTableMixin(
     return idx === selectedIndex;
   }
 
-  _computeTabIndex(sectionIndex: number, index: number, selectedIndex: number) {
-    return this._computeItemSelected(sectionIndex, index, selectedIndex)
-      ? 0
-      : undefined;
-  }
-
   _computeItemNeedsReview(
     account: AccountInfo | undefined,
     change: ChangeInfo,
@@ -537,6 +531,10 @@ export class GrChangeList extends ChangeTableMixin(
 
   _isEmpty(section: DashboardSection) {
     return !section.results?.length;
+  }
+
+  _computeAriaLabel(change: ChangeInfo, sectionName: string | undefined) {
+    return change.subject + (sectionName ? ` , section: ${sectionName}` : '');
   }
 }
 

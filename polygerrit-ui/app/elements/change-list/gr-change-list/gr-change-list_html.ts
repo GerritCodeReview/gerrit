@@ -154,8 +154,9 @@ export const htmlTemplate = html`
             visible-change-table-columns="[[_computeColumns(changeSection, visibleChangeTableColumns)]]"
             show-number="[[showNumber]]"
             show-star="[[showStar]]"
-            tabindex$="[[_computeTabIndex(sectionIndex, index, selectedIndex)]]"
+            tabindex="0"
             label-names="[[labelNames]]"
+            aria-label$="[[_computeAriaLabel(change, changeSection.name)]]"
           ></gr-change-list-item>
         </template>
       </tbody>

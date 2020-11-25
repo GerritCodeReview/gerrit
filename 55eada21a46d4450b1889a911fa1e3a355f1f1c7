@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9fd4a16_69e9e947",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 56
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T13:10:37Z",
+      "side": 1,
+      "message": "I will create a separate change for that and then rebase this on top of that then.\nKeeping it unresolved until the change is made.",
+      "parentUuid": "d5249e8e_b128a5b9",
+      "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "359009a5_3ebc17e7",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
         "patchSetId": 56
@@ -31,6 +49,24 @@
       "writtenOn": "2020-11-25T12:32:35Z",
       "side": 1,
       "message": "Why are you passing this?",
+      "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3590a05_e63edcda",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 56
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T13:10:37Z",
+      "side": 1,
+      "message": "removed.\ninitially it was a property on file-list, hence was being passed.",
+      "parentUuid": "359009a5_3ebc17e7",
       "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -48,6 +84,30 @@
       "writtenOn": "2020-11-25T12:32:35Z",
       "side": 1,
       "message": "Maybe move all this logic into getThreadsBySideForFile()? Then gr-file-list can stay as is.",
+      "range": {
+        "startLine": 1573,
+        "startChar": 8,
+        "endLine": 1594,
+        "endChar": 10
+      },
+      "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdf17960_cde14bd7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 56
+      },
+      "lineNbr": 1594,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T13:10:37Z",
+      "side": 1,
+      "message": "That was my first idea of simply updating createCommentPorted comments to return portedThreads too.\nPorted comments are not new copies of existing comments but simply the same comments displayed elsewhere.\nTherefore, I wanted to keep them separate from existing methods and define another method for them. \nIt does mean more bookkeeping for gr-file-list and gr-diff-view but I\u0027m fine with that for now. It\u0027s more explicit that ported threads are being added,",
+      "parentUuid": "d2f96c6f_ab8807da",
       "range": {
         "startLine": 1573,
         "startChar": 8,
@@ -83,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58754979_6a7556a8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 56
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T13:10:37Z",
+      "side": 1,
+      "message": "I\u0027ll create a change to fix all occurrences in the codebase.\nKeeping this unresolved until that change is made.",
+      "parentUuid": "4f31366d_2b18690d",
+      "range": {
+        "startLine": 652,
+        "startChar": 53,
+        "endLine": 652,
+        "endChar": 60
+      },
+      "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "418398b3_91f398cf",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 56
@@ -94,6 +178,30 @@
       "writtenOn": "2020-11-25T12:32:35Z",
       "side": 1,
       "message": "Maybe move all this into getThreadsBySideForPath()? Then gr-diff-view can basically stay as is.",
+      "range": {
+        "startLine": 1081,
+        "startChar": 8,
+        "endLine": 1105,
+        "endChar": 0
+      },
+      "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0910a18_b42e3bc9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 56
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T13:10:37Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "418398b3_91f398cf",
       "range": {
         "startLine": 1081,
         "startChar": 8,
@@ -140,6 +248,48 @@
       "writtenOn": "2020-11-25T12:32:35Z",
       "side": 1,
       "message": "Maybe make this a method of ChangeComments class?",
+      "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8df50617_339c7b35",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 56
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T13:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6fb57db_029b2917",
+      "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19707ff7_510243e7",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 56
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-25T13:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bfdf533_1d28dbfc",
+      "range": {
+        "startLine": 182,
+        "startChar": 16,
+        "endLine": 182,
+        "endChar": 39
+      },
       "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

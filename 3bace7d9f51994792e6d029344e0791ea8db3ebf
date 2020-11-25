@@ -149,6 +149,30 @@
       },
       "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49b82e4c_b5658d0e",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-25T20:41:39Z",
+      "side": 1,
+      "message": "Ack, at the end of the day the list of Git clients is limited :-)",
+      "parentUuid": "556f58b2_4fba8684",
+      "range": {
+        "startLine": 376,
+        "startChar": 11,
+        "endLine": 376,
+        "endChar": 21
+      },
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

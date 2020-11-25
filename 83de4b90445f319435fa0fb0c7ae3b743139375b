@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a8124a1_ae5be7cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011602
+      },
+      "writtenOn": "2020-11-25T23:39:19Z",
+      "side": 1,
+      "message": "Apologies if I\u0027m beating the same dead horse from the original bug report, but why do HTP-over-Git and the WebApp need to coexist at the same paths at all? Why not just deprecate serving Git-over-HTTP from the root URL and make it possible to use a non-conflicting subpath for it instead? It seems like that sidesteps all the possibly invalid assumptions about arbitrary user agent strings, or postulating what project names people might choose.",
+      "revId": "83de4b90445f319435fa0fb0c7ae3b743139375b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "941a42e0_124299cc",

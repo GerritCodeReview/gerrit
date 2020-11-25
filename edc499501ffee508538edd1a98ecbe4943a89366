@@ -39,6 +39,30 @@
       },
       "revId": "edc499501ffee508538edd1a98ecbe4943a89366",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9cd09b3_32a1e260",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-25T11:29:56Z",
+      "side": 1,
+      "message": "Good idea. Removed all nulls :)",
+      "parentUuid": "9940797f_7b701dd2",
+      "range": {
+        "startLine": 593,
+        "startChar": 14,
+        "endLine": 593,
+        "endChar": 25
+      },
+      "revId": "edc499501ffee508538edd1a98ecbe4943a89366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

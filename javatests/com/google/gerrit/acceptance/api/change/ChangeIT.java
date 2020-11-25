@@ -2258,6 +2258,10 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(message.body()).contains("Removed reviewer " + user.fullName() + ".");
     assertThat(message.body()).doesNotContain("with the following votes");
 
+    // Make sure the change message for removing a reviewer is correct.
+    assertThat(Iterables.getLast(gApi.changes().id(changeId).messages()).message)
+        .contains("Removed reviewer " + user.fullName());
+
     // Make sure the reviewer can still be added again.
     gApi.changes().id(changeId).addReviewer(user.id().toString());
     c = gApi.changes().id(changeId).get();
@@ -2270,6 +2274,31 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThrows(
         ResourceNotFoundException.class,
         () -> gApi.changes().id(changeId).reviewer(user.id().toString()).remove());
+  }
+
+  @Test
+  public void removeCC() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    // Add a cc
+    AddReviewerInput addReviewerInput = new AddReviewerInput();
+    addReviewerInput.state = CC;
+    addReviewerInput.reviewer = user.id().toString();
+    gApi.changes().id(changeId).addReviewer(addReviewerInput);
+
+    // Remove a cc
+    sender.clear();
+    gApi.changes().id(changeId).reviewer(user.id().toString()).remove();
+    assertThat(gApi.changes().id(changeId).get().reviewers).isEmpty();
+
+    // Make sure the email for removing a cc is correct.
+    assertThat(sender.getMessages()).hasSize(1);
+    Message message = sender.getMessages().get(0);
+    assertThat(message.body()).contains("Removed cc " + user.fullName() + ".");
+
+    // Make sure the change message for removing a reviewer is correct.
+    assertThat(Iterables.getLast(gApi.changes().id(changeId).messages()).message)
+        .contains("Removed cc " + user.fullName());
   }
 
   @Test

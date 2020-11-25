@@ -40,6 +40,7 @@ import com.google.gerrit.server.extensions.events.ReviewerDeleted;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RemoveReviewerControl;
@@ -132,9 +133,15 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     for (LabelType lt : labelTypes.getLabelTypes()) {
       newApprovals.put(lt.getName(), (short) 0);
     }
-
+    String ccOrReviewer =
+        approvalsUtil
+                .getReviewers(ctx.getNotes())
+                .byState(ReviewerStateInternal.CC)
+                .contains(reviewerId)
+            ? "cc"
+            : "reviewer";
     StringBuilder msg = new StringBuilder();
-    msg.append("Removed reviewer " + reviewer.account().fullName());
+    msg.append(String.format("Removed %s %s", ccOrReviewer, reviewer.account().fullName()));
     StringBuilder removedVotesMsg = new StringBuilder();
     removedVotesMsg.append(" with the following votes:\n\n");
     boolean votesRemoved = false;

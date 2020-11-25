@@ -22,6 +22,7 @@ import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {ListChangesOption} from '../../../utils/change-util.js';
 import {appContext} from '../../../services/app-context.js';
 import {createChange} from '../../../test/test-data-generators.js';
+import {CURRENT} from '../../../utils/patch-set-util.js';
 
 const basicFixture = fixtureFromElement('gr-rest-api-interface');
 
@@ -1350,7 +1351,7 @@ suite('gr-rest-api-interface tests', () => {
     sinon.stub(element._restApiHelper, 'fetchJSON').returns(Promise.resolve({
       ok: false}));
 
-    element.getPortedComments(change._number, 'current');
+    element.getPortedComments(change._number, CURRENT);
 
     assert.isFalse(dispatchStub.called);
   });
@@ -1361,7 +1362,7 @@ suite('gr-rest-api-interface tests', () => {
     const getChangeURLAndFetchStub = sinon.stub(element,
         '_getChangeURLAndFetch');
 
-    element.getPortedDrafts(change._number, 'current');
+    element.getPortedDrafts(change._number, CURRENT);
 
     assert.isFalse(getChangeURLAndFetchStub.called);
   });

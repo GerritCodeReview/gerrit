@@ -46,6 +46,7 @@ import {
 } from '../../../utils/attention-set-util';
 import {ReviewerState} from '../../../constants/constants';
 import {isRemovableReviewer} from '../../../utils/change-util';
+import {CURRENT} from '../../../utils/patch-set-util';
 
 export interface GrHovercardAccount {
   $: {
@@ -186,7 +187,7 @@ export class GrHovercardAccount extends GestureEventListeners(
     ];
 
     this.$.restAPI
-      .saveChangeReview(this.change._number, 'current', reviewInput)
+      .saveChangeReview(this.change._number, CURRENT, reviewInput)
       .then(response => {
         if (!response || !response.ok) {
           throw new Error(

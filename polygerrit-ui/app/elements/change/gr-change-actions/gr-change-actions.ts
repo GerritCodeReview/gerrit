@@ -42,6 +42,7 @@ import {appContext} from '../../../services/app-context';
 import {
   fetchChangeUpdates,
   patchNumEquals,
+  CURRENT,
 } from '../../../utils/patch-set-util';
 import {
   changeIsOpen,
@@ -1591,7 +1592,7 @@ export class GrChangeActions
     if (!labels) {
       return Promise.resolve(undefined);
     }
-    return this.$.restAPI.saveChangeReview(newChangeId, 'current', {labels});
+    return this.$.restAPI.saveChangeReview(newChangeId, CURRENT, {labels});
   }
 
   _handleResponse(action: UIActionInfo, response?: Response) {

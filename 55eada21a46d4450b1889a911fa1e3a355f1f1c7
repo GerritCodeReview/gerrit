@@ -168,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ab154aa_0687f7b6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 56
+      },
+      "lineNbr": 1594,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T15:39:01Z",
+      "side": 1,
+      "message": "Is it relevant for file-list and diff-view, whether ported comments are passed on? Yeah, also diff-host and diff don\u0027t care. You can encapsulate all the logic in ChangeComments. getThreadsBySideForFile() can just also return ported comments, if the flag is enabled.",
+      "parentUuid": "d77a096b_acde3a59",
+      "range": {
+        "startLine": 1573,
+        "startChar": 8,
+        "endLine": 1594,
+        "endChar": 10
+      },
+      "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f31366d_2b18690d",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 56

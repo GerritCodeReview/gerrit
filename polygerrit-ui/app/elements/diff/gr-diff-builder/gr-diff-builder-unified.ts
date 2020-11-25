@@ -104,6 +104,8 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
   _createRow(line: GrDiffLine) {
     const row = this._createElement('tr', line.type);
     row.classList.add('diff-row', 'unified');
+    // TabIndex makes screen reader read a row when navigating with j/k
+    row.tabIndex = -1;
     row.appendChild(this._createBlameCell(line.beforeNumber));
     let lineNumberEl = this._createLineEl(
       line,

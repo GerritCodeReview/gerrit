@@ -105,6 +105,8 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     row.classList.add('diff-row', 'side-by-side');
     row.setAttribute('left-type', leftLine.type);
     row.setAttribute('right-type', rightLine.type);
+    // TabIndex makes screen reader read a row when navigating with j/k
+    row.tabIndex = -1;
 
     row.appendChild(this._createBlameCell(leftLine.beforeNumber));
 

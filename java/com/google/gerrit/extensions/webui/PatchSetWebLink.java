@@ -32,8 +32,11 @@ public interface PatchSetWebLink extends WebLink {
    *
    * @param projectName Name of the project
    * @param commit Commit of the patch set
+   * @param subject Subject of the patch set (as part of the commit message)
+   * @param branchName Branch of the patch set
    * @return WebLinkInfo that links to patch set in external service, null if there should be no
    *     link.
    */
-  WebLinkInfo getPatchSetWebLink(String projectName, String commit);
+  WebLinkInfo getPatchSetWebLink(
+      String projectName, String commit, String subject, String branchName);
 }

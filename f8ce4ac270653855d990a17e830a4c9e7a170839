@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a42cbfa2_23ff4e34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-11-25T05:24:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91481c61_d842e7ea",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "f8ce4ac270653855d990a17e830a4c9e7a170839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2e34a261_a658f3d6",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/DynamicOptionsIT.java",
         "patchSetId": 1

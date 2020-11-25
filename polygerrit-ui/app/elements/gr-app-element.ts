@@ -492,6 +492,9 @@ export class GrAppElement extends KeyboardShortcutMixin(
         registrationOverlay.refit();
       });
     }
+    // To fix bug announce read after each new view, we reset announce with
+    // empty space
+    this.fire('iron-announce', {text: ' '}, {bubbles: true});
   }
 
   _handleShortcutTriggered(event: ShortcutTriggeredEvent) {

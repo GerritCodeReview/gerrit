@@ -98,6 +98,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06208b2d_335a7ee7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-25T21:51:19Z",
+      "side": 1,
+      "message": "Thanks for the review and helpful comments.\n\nI can confirm, that JGit client is not correctly recognized. I have built JGit from main branch and it\u0027s reporting: \"JGit/v5.9.0.202009080501-r-48-g0ae95dc12\".",
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bb53b1c_89837784",

@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2db80602_57b08a27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-25T20:19:44Z",
+      "side": 1,
+      "message": "and",
+      "range": {
+        "startLine": 21,
+        "startChar": 34,
+        "endLine": 21,
+        "endChar": 37
+      },
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "769967e3_2c97f393",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-25T20:19:44Z",
+      "side": 1,
+      "message": "all git agents",
+      "range": {
+        "startLine": 22,
+        "startChar": 11,
+        "endLine": 22,
+        "endChar": 20
+      },
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "57beb2ce_c2ef7556",
@@ -14,6 +60,69 @@
       "writtenOn": "2020-11-25T20:12:37Z",
       "side": 1,
       "message": "This is alternative approach for change 289842.",
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c319ea24_b1112ab7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-25T20:19:44Z",
+      "side": 1,
+      "message": "Great idea, @Davido :-)\nCan we also add a test?",
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bb53b1c_89837784",
+        "filename": "java/com/google/gerrit/httpd/XsrfCookieFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-25T20:19:44Z",
+      "side": 1,
+      "message": "lowercase",
+      "range": {
+        "startLine": 55,
+        "startChar": 9,
+        "endLine": 55,
+        "endChar": 18
+      },
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1724b1df_489a36b9",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-25T20:19:44Z",
+      "side": 1,
+      "message": "lowercase. I believe JGit identies itself as \u0027JGit/\u0027\n\nP.S. What do we do if there isn\u0027t a \u0027User-Agent\u0027 header?",
+      "range": {
+        "startLine": 376,
+        "startChar": 11,
+        "endLine": 376,
+        "endChar": 21
+      },
       "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

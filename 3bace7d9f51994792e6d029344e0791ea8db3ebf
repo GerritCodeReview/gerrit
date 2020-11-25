@@ -125,6 +125,30 @@
       },
       "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "556f58b2_4fba8684",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-11-25T20:35:21Z",
+      "side": 1,
+      "message": "\u003e lowercase. I believe JGit identies itself as \u0027JGit/\u0027\n\nat the same time, i\u0027d make this stricter (maybe startsWith()?), as i\u0027m afraid that \"git/\" may appear as part of an agent\u0027s version string.\n\n\u003e P.S. What do we do if there isn\u0027t a \u0027User-Agent\u0027 header?\n\nthen it\u0027s an unidentified browser, but definitely not git. by definition. ^^",
+      "parentUuid": "1724b1df_489a36b9",
+      "range": {
+        "startLine": 376,
+        "startChar": 11,
+        "endLine": 376,
+        "endChar": 21
+      },
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "362d4ff3_f0712389",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-25T11:42:40Z",
+      "side": 1,
+      "message": "nit: now it is optional, can be removed",
+      "range": {
+        "startLine": 515,
+        "startChar": 43,
+        "endLine": 515,
+        "endChar": 52
+      },
+      "revId": "50985ecdde6e7a3a3041ddb03d0bcd8a68c52557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

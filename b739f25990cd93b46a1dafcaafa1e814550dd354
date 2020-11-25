@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e90bf169_731ac9e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-25T23:19:35Z",
+      "side": 1,
+      "message": "It seems not to be that easy to do, because right now in both cases in memory and on disk use cases, gerrit server is starting in headless mode:\n\n1. In Memory use case: headless mode is unconditionally set in setDatabaseForTesting() method:\n\n  @VisibleForTesting\n  public void setDatabaseForTesting(List\u003cModule\u003e modules) {\n    dbInjector \u003d Guice.createInjector(Stage.PRODUCTION, modules);\n    inMemoryTest \u003d true;\n    headless \u003d true;\n  }\n\n2. On disk: \"--headless\" option is unconditionally passed to Daemon ctor:\n\n  Stream.of(\n    \"-d\", site.toString(), \"--headless\", \"--console-log\", \"--show-stack-trace\"),\n\nSo basically, in the current acceptance test setup project \"x/y/z\" would already be served by Git over HTTP protocol without any problem.",
+      "parentUuid": "5e25ebc5_c69c176e",
+      "revId": "b739f25990cd93b46a1dafcaafa1e814550dd354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4a709a2a_a2d4c20f",
         "filename": "java/com/google/gerrit/httpd/UserAgentUtil.java",
         "patchSetId": 2

@@ -216,6 +216,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d443b7f5_11d2840c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 56
+      },
+      "lineNbr": 1594,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T18:24:40Z",
+      "side": 1,
+      "message": "getThreadsBySideForFile() is only used by file-list and diff-view. And we have no plans for them to not show ported comments. So I don\u0027t see a reason why they have to call two methods and combine the results.\n\nYou could rename getThreadsBySideForFile() to getThreadsBySideIncludingPortedComments(). Or you could add an `options` parameter to getThreadsBySideForFile() with a \"includePortedComments\" options. I would be fine with both, but getThreadsBySideForFile() will always be used in the context of a diff, so I don\u0027t think it will be surprising to have ported comments included.",
+      "parentUuid": "12e75fc3_a70a381f",
+      "range": {
+        "startLine": 1573,
+        "startChar": 8,
+        "endLine": 1594,
+        "endChar": 10
+      },
+      "revId": "55eada21a46d4450b1889a911fa1e3a355f1f1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f31366d_2b18690d",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 56

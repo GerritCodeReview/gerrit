@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bc64032_8b0c27dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 62
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T18:24:40Z",
+      "side": 1,
+      "message": "Better:\n  if (!isUnresolved(thread) \u0026\u0026 !isDraftThread(thread)) return false;",
+      "range": {
+        "startLine": 485,
+        "startChar": 8,
+        "endLine": 485,
+        "endChar": 75
+      },
+      "revId": "f0d5cc1a8be677a621d3f9763403b8a40d82bd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7459df7b_1ea44bf8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 62
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T18:24:40Z",
+      "side": 1,
+      "message": "Maybe this should also just be changed for the thread, not the comment? If not, can you add a code comment why this is set for the comment.\n\nThis could also be vital, because the comment entities are not copied, or are they?",
+      "revId": "f0d5cc1a8be677a621d3f9763403b8a40d82bd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "121a5ab3_117e2056",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 62
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T18:24:40Z",
+      "side": 1,
+      "message": "Here and below (c.patch_set) I would prefer to use the thread, not the rootComment.",
+      "range": {
+        "startLine": 495,
+        "startChar": 12,
+        "endLine": 495,
+        "endChar": 18
+      },
+      "revId": "f0d5cc1a8be677a621d3f9763403b8a40d82bd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12ad6b1d_70f61f9a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 62
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T18:24:40Z",
+      "side": 1,
+      "message": "When PARENT threads are ported, do they always become file comments? Or can they have a range? If they have a range, then is it only applicable to the RIGHT side? Maybe add comments explaining that.",
+      "revId": "f0d5cc1a8be677a621d3f9763403b8a40d82bd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3629e9a1_af4d9dea",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 62
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T18:24:40Z",
+      "side": 1,
+      "message": "Meaning that it should have been filtered?",
+      "range": {
+        "startLine": 501,
+        "startChar": 54,
+        "endLine": 501,
+        "endChar": 73
+      },
+      "revId": "f0d5cc1a8be677a621d3f9763403b8a40d82bd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c47ccb01_fc910fc0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 62
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T18:24:40Z",
+      "side": 1,
+      "message": "What are X, Y and Z?",
+      "revId": "f0d5cc1a8be677a621d3f9763403b8a40d82bd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

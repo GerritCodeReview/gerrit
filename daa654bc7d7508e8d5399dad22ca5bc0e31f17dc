@@ -238,6 +238,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dcef87cd_98cb2715",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T18:24:40Z",
+      "side": 1,
+      "message": "Maybe just add `portedDrafts` here? Or is there anything else to be considered for drafts?",
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c6cfa03_2f02bdd9",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 61
@@ -273,6 +290,30 @@
       "side": 1,
       "message": "In case of a draft created to a resolved thread, we will not have entire thread ported hence the root of the thread will not be found in portedComments.",
       "parentUuid": "2c6cfa03_2f02bdd9",
+      "range": {
+        "startLine": 471,
+        "startChar": 10,
+        "endLine": 471,
+        "endChar": 30
+      },
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "896b5e28_589c74ab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-25T18:24:40Z",
+      "side": 1,
+      "message": "portedComments do not contain ported drafts, so I think this should be sufficient:\n\n  const portedComment \u003d portedComments.find(c \u003d\u003e c.id \u003d\u003d\u003d thread.rootId);",
+      "parentUuid": "b5d50074_469cc4df",
       "range": {
         "startLine": 471,
         "startChar": 10,

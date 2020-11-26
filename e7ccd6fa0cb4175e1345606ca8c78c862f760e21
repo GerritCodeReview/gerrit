@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3138d097_13ea0e6e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-26T09:33:58Z",
+      "side": 1,
+      "message": "I think you can remove this getter. We do not want to expose _portedComments, right?",
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e308ab82_85a444ae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-26T09:33:58Z",
+      "side": 1,
+      "message": "getThreadsBySideForPath() and getThreadsBySideForFile() are duplicating code. Can you avoid this?",
+      "range": {
+        "startLine": 341,
+        "startChar": 2,
+        "endLine": 341,
+        "endChar": 25
+      },
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79953950_df9b088a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-26T09:33:58Z",
+      "side": 1,
+      "message": "This comment is not helpful, because it just describes the code.\n\nI would be more interested in \"Why?\", because the thread is created within getPortedCommentThreads() and not used anywhere else, right?\n\nIf you end up removing the code for copying, then maybe just inline the method.",
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e1c1572_482b6196",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-26T09:33:58Z",
+      "side": 1,
+      "message": "Maybe better:\n\n  const portedComments \u003d this._portedComments[path];\n  if (!portedComments) return [];",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 463,
+        "endChar": 42
+      },
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bc90cf4_cdb0f3fb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-26T09:33:58Z",
+      "side": 1,
+      "message": "Is this doing the right thing? thread.patchNum is never \u0027PARENT\u0027.\n\ngetCommentsBySideForPath has a more sophisticated way of filtering/comparing using _isInBaseOfPatchRange() and _isInRevisionOfPatchRange(). Should they also be used here?",
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12ddb93a_04f0615e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-26T09:33:58Z",
+      "side": 1,
+      "message": "Maybe move this up to where thread.range and thread.line are set.",
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9614e682_249fe645",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-26T09:33:58Z",
+      "side": 1,
+      "message": "Given the complexity of the change, the amount of comments and the lack of tests, we should maybe consider dealing with some of the complexity is follow-up changes. It would be totally fine to restrict this change to the case `thread.commentSide !\u003d\u003d CommentSide.PARENT` and add a TODO.",
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "300b054b_a448d58e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-26T09:33:58Z",
+      "side": 1,
+      "message": "Isn\u0027t `patchRange.basePatchNum` the property that determines whether the diff is \u0027Base vs X\u0027?",
+      "range": {
+        "startLine": 503,
+        "startChar": 39,
+        "endLine": 503,
+        "endChar": 58
+      },
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5c9592f_cbab9716",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-26T09:33:58Z",
+      "side": 1,
+      "message": "How do these patchsets relate to these?\n  thread.patchNum\n  patchRange.basePatchNum\n  patchRange.patchNum",
+      "range": {
+        "startLine": 505,
+        "startChar": 13,
+        "endLine": 505,
+        "endChar": 34
+      },
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

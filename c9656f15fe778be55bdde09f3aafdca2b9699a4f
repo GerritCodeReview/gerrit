@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "595a9a5e_84ae4ac6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_html.ts",
@@ -14,10 +15,28 @@
       "side": 1,
       "message": "Why a class instead of a dom-if?",
       "revId": "c9656f15fe778be55bdde09f3aafdca2b9699a4f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b4b0133_017b4b85",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-26T11:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "595a9a5e_84ae4ac6",
+      "revId": "c9656f15fe778be55bdde09f3aafdca2b9699a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "3d5d9865_f781b40f",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
@@ -31,8 +50,25 @@
       "side": 1,
       "message": "Why do you introduce this variable specifically for the submitted timestamp? What is different compared to other date that we show in the UI?\n\nFWIW I would prefer to see 16:13, if I am looking at the change at 17:00.",
       "revId": "c9656f15fe778be55bdde09f3aafdca2b9699a4f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cf30800_5c84ebd3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-26T11:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d5d9865_f781b40f",
+      "revId": "c9656f15fe778be55bdde09f3aafdca2b9699a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -927,13 +927,20 @@ export abstract class GrDiffBuilder {
       controlsClass = 'movedOut';
       descriptionIndex = movedOutIndex;
     }
-    const controls = document.createElement('tr');
+
+    const controls = this._createElement('tr', `moveControls ${controlsClass}`);
     const cells = [...Array(numberOfCells).keys()].map(() =>
-      document.createElement('td')
+      this._createElement('td')
     );
-    controls.classList.add('moveControls', controlsClass);
-    cells[descriptionIndex].classList.add('moveDescription');
-    cells[descriptionIndex].textContent = descriptionText;
+    const moveDescriptionDiv = this._createElement('div', 'moveDescription');
+    const icon = this._createElement('iron-icon');
+    icon.setAttribute('icon', 'gr-icons:move-item');
+    const span = this._createElement('span', '');
+    span.textContent = descriptionText;
+    moveDescriptionDiv.appendChild(icon);
+    moveDescriptionDiv.appendChild(span);
+    cells[descriptionIndex].appendChild(moveDescriptionDiv);
+    cells[descriptionIndex].classList.add('moveLabel');
     cells.forEach(c => {
       controls.appendChild(c);
     });

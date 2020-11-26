@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbb5bbb4_6d0e4faf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-26T14:04:13Z",
+      "side": 1,
+      "message": "Change that line to use the private property such that we can remove the public getter.",
+      "parentUuid": "e9d21a41_847eb261",
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e308ab82_85a444ae",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 64
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "You mean the 2-3 lines of code for pushing the threads or merging the two methods entirely(there is a TODO for that)?\nIf you mean the 2-3 lines, I didn\u0027t think it was worth to create a separate function for that.",
       "parentUuid": "e308ab82_85a444ae",
+      "range": {
+        "startLine": 341,
+        "startChar": 2,
+        "endLine": 341,
+        "endChar": 25
+      },
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1aad6d3_0d2d28ab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-26T14:04:13Z",
+      "side": 1,
+      "message": "getThreadsBySideForPath consumes 17 lines: 341-357\ngetThreadsBySideForFile consumes 17 lines: 526-542\n\nSo I am not sure which 2-3 lines you are referring to. :-)\n\nWhich TODO are you referring to?\n\ngetThreadsBySideForPath and getThreadsBySideForFile look very similar to me, so I just wanted to know whether you have an idea for how to improve that.",
+      "parentUuid": "170e6b05_c85c4678",
       "range": {
         "startLine": 341,
         "startChar": 2,

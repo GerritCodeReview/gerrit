@@ -290,8 +290,28 @@ public class RevertIT extends AbstractDaemonTest {
     gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
     RevertInput revertInput = new RevertInput();
     revertInput.message = "Message from input";
-    assertThat(gApi.changes().id(result.getChangeId()).revert(revertInput).get().subject)
-        .isEqualTo(revertInput.message);
+    ChangeInfo revertChange = gApi.changes().id(result.getChangeId()).revert(revertInput).get();
+    assertThat(revertChange.subject).isEqualTo(revertInput.message);
+    assertThat(gApi.changes().id(revertChange.id).current().commit(false).message)
+        .isEqualTo(String.format("Message from input\n\nChange-Id: %s\n", revertChange.changeId));
+  }
+
+  @Test
+  public void revertWithSetMessageChangeIdIgnored() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+    RevertInput revertInput = new RevertInput();
+    String fakeChangeId = "Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    String commitSubject = "Message from input";
+    revertInput.message = String.format("%s\n\nChange-Id: %s\n", commitSubject, fakeChangeId);
+    ChangeInfo revertChange = gApi.changes().id(result.getChangeId()).revert(revertInput).get();
+    // ChangeId provided in revert input is ignored.
+    assertThat(revertChange.changeId).isNotEqualTo(fakeChangeId);
+    assertThat(revertChange.subject).isEqualTo(commitSubject);
+    // ChangeId footer was replaced in revert commit message.
+    assertThat(gApi.changes().id(revertChange.id).current().commit(false).message)
+        .isEqualTo(String.format("Message from input\n\nChange-Id: %s\n", revertChange.changeId));
   }
 
   @Test
@@ -822,6 +842,38 @@ public class RevertIT extends AbstractDaemonTest {
             String.format(
                 "Revert \"second change\"\n\n%s\n\nChange-Id: %s\n",
                 commitMessage, revertChanges.get(1).changeId));
+  }
+
+  @Test
+  public void revertSubmissionWithSetMessageChangeIdIgnored() throws Exception {
+    String firstResult = createChange("first change", "a.txt", "message").getChangeId();
+    String secondResult = createChange("second change", "b.txt", "message").getChangeId();
+    approve(firstResult);
+    approve(secondResult);
+    gApi.changes().id(secondResult).current().submit();
+    RevertInput revertInput = new RevertInput();
+    String fakeChangeId = "Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    String commitSubject = "Message from input";
+    String revertMessage = String.format("%s\n\nChange-Id: %s\n", commitSubject, fakeChangeId);
+    revertInput.message = revertMessage;
+    List<ChangeInfo> revertChanges =
+        gApi.changes().id(firstResult).revertSubmission(revertInput).revertChanges;
+    assertThat(revertChanges.get(0).subject).isEqualTo("Revert \"first change\"");
+    // ChangeId provided in revert input is ignored.
+    assertThat(revertChanges.get(0).changeId).isNotEqualTo(fakeChangeId);
+    assertThat(revertChanges.get(1).changeId).isNotEqualTo(fakeChangeId);
+    // ChangeId footer was replaced in revert commit message.
+    assertThat(gApi.changes().id(revertChanges.get(0).id).current().commit(false).message)
+        .isEqualTo(
+            String.format(
+                "Revert \"first change\"\n\n%s\n\nChange-Id: %s\n",
+                commitSubject, revertChanges.get(0).changeId));
+    assertThat(revertChanges.get(1).subject).isEqualTo("Revert \"second change\"");
+    assertThat(gApi.changes().id(revertChanges.get(1).id).current().commit(false).message)
+        .isEqualTo(
+            String.format(
+                "Revert \"second change\"\n\n%s\n\nChange-Id: %s\n",
+                commitSubject, revertChanges.get(1).changeId));
   }
 
   @Test

@@ -1145,7 +1145,6 @@ class ChangeNotesParser {
     }
   }
 
-
   private boolean patchSetCommitParsed(PatchSet.Id psId) {
     PatchSet.Builder pending = patchSets.get(psId);
     return pending != null && pending.commitId().isPresent();

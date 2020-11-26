@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc3e558e_5c315f7d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-26T17:17:46Z",
+      "side": 1,
+      "message": "IIUC the method is outside the class and so the access(as expected) throws an error when accessing _portedComments property directly.",
+      "parentUuid": "fbb5bbb4_6d0e4faf",
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e308ab82_85a444ae",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 64
@@ -115,6 +133,30 @@
       "side": 1,
       "message": "getThreadsBySideForPath consumes 17 lines: 341-357\ngetThreadsBySideForFile consumes 17 lines: 526-542\n\nSo I am not sure which 2-3 lines you are referring to. :-)\n\nWhich TODO are you referring to?\n\ngetThreadsBySideForPath and getThreadsBySideForFile look very similar to me, so I just wanted to know whether you have an idea for how to improve that.",
       "parentUuid": "170e6b05_c85c4678",
+      "range": {
+        "startLine": 341,
+        "startChar": 2,
+        "endLine": 341,
+        "endChar": 25
+      },
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fb926d4_71c2488c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-26T17:17:46Z",
+      "side": 1,
+      "message": "// TODO(taoalpha): maybe merge *ForPath so find all comments in one pass\nIt\u0027s on Line number 525.\n\nThere\u0027s basically not that much difference in the getXForFile or getXForPath methods and there are multiple TODOs to fix them.\n\n17 lines looks like a lot but the two functions are making 2 different calls for *file and *path and then the creation of ported threads(3 lines) is the repeated part.\n\nI added a TODO to merge these two *thread methods once the TODO on line 525 is resolved.\nDo you see a way to merge these two without resolving that TODO(the one on 525)?",
+      "parentUuid": "a1aad6d3_0d2d28ab",
       "range": {
         "startLine": 341,
         "startChar": 2,

@@ -52,6 +52,24 @@
       "parentUuid": "4fdc8819_831f1c89",
       "revId": "bf9be01299cb33847b2a5cf09494c5f8caa9dfe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5068109b_697e59be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-26T08:26:54Z",
+      "side": 1,
+      "message": "Done: https://gerrit-review.googlesource.com/c/gerrit/+/290022\n\nI did not find this code on stable 3.2 but backported it to 3.3",
+      "parentUuid": "90a8faac_a69836e4",
+      "revId": "bf9be01299cb33847b2a5cf09494c5f8caa9dfe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

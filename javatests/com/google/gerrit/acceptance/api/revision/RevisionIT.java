@@ -386,8 +386,11 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // The cherry-pick honors the ChangeId specified in the input message:
     RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    // New change was created.
+    assertThat(changeInfo._number).isGreaterThan(orig.get()._number);
+    assertThat(changeInfo.changeId).isEqualTo(id);
     assertThat(revInfo).isNotNull();
-    assertThat(revInfo.commit.message).endsWith(id + "\n");
+    assertThat(revInfo.commit.message.trim()).endsWith(id);
   }
 
   @Test
@@ -477,6 +480,9 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(cherryInfo.messages).hasSize(2);
     Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
     assertThat(cherryInfo.cherryPickOfChange).isEqualTo(change.get()._number);
+
+    // Existing change was updated.
+    assertThat(cherryInfo._number).isEqualTo(change.get()._number);
     assertThat(cherryInfo.cherryPickOfPatchSet).isEqualTo(1);
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
@@ -708,12 +714,13 @@ public class RevisionIT extends AbstractDaemonTest {
     in.destination = "foo";
     in.message = r3.getCommit().getFullMessage();
     cherry = gApi.changes().id(t1).current().cherryPick(in);
+    assertThat(cherry.get()._number).isEqualTo(info(t2)._number);
     assertThat(cherry.get().cherryPickOfChange).isEqualTo(orig.get()._number);
     assertThat(cherry.get().cherryPickOfPatchSet).isEqualTo(2);
   }
 
   @Test
-  public void cherryPickToExistingChange() throws Exception {
+  public void cherryPickToAbandonedChange() throws Exception {
     PushOneCommit.Result r1 =
         pushFactory
             .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "a")
@@ -734,20 +741,61 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
     in.message = r1.getCommit().getFullMessage();
-    ResourceConflictException thrown =
+    BadRequestException thrown =
         assertThrows(
-            ResourceConflictException.class, () -> gApi.changes().id(t1).current().cherryPick(in));
+            BadRequestException.class, () -> gApi.changes().id(t1).current().cherryPick(in));
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo(
-            "Cannot create new patch set of change "
-                + info(t2)._number
-                + " because it is abandoned");
+            String.format(
+                "Cherry-pick with Change-Id %s could not update the existing change %d in "
+                    + "destination branch refs/heads/foo of project %s, because "
+                    + "the change was closed (ABANDONED)",
+                r1.getChangeId(), info(t2)._number, project.get()));
 
     gApi.changes().id(t2).restore();
     gApi.changes().id(t1).current().cherryPick(in);
     assertThat(get(t2, ALL_REVISIONS).revisions).hasSize(2);
     assertThat(gApi.changes().id(t2).current().file(FILE_NAME).content().asString()).isEqualTo("a");
+  }
+
+  @Test
+  public void cherryPickToExistingMergedChange() throws Exception {
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "a")
+            .to("refs/for/master");
+    String t1 = project.get() + "~master~" + r1.getChangeId();
+
+    BranchInput bin = new BranchInput();
+    bin.revision = r1.getCommit().getParent(0).name();
+    gApi.projects().name(project.get()).branch("foo").create(bin);
+
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "b", r1.getChangeId())
+            .to("refs/for/foo");
+    String t2 = project.get() + "~foo~" + r2.getChangeId();
+
+    gApi.changes().id(t2).current().review(ReviewInput.approve());
+    gApi.changes().id(t2).current().submit();
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = r1.getCommit().getFullMessage();
+    in.allowConflicts = true;
+    in.allowEmpty = true;
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> gApi.changes().id(t2).current().cherryPick(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Cherry-pick with Change-Id %s could not update the existing change %d in "
+                    + "destination branch refs/heads/foo of project %s, because "
+                    + "the change was closed (MERGED)",
+                r1.getChangeId(), info(t2)._number, project.get()));
   }
 
   @Test

@@ -161,6 +161,8 @@ public class ParameterParser {
       HttpServletResponse res)
       throws IOException {
     CmdLineParser clp = parserFactory.create(param);
+    pluginOptions.setBean(param);
+    pluginOptions.startLifecycleListeners();
     pluginOptions.parseDynamicBeans(clp);
     pluginOptions.setDynamicBeans();
     pluginOptions.onBeanParseStart();

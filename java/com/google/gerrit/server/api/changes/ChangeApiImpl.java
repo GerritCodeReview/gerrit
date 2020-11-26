@@ -177,6 +177,8 @@ class ChangeApiImpl implements ChangeApi {
   private final Provider<GetPureRevert> getPureRevertProvider;
   private final StarredChangesUtil stars;
   private final DynamicOptionParser dynamicOptionParser;
+  private final Injector injector;
+  private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
 
   @Inject
   ChangeApiImpl(
@@ -230,7 +232,9 @@ class ChangeApiImpl implements ChangeApi {
       Provider<GetPureRevert> getPureRevertProvider,
       StarredChangesUtil stars,
       DynamicOptionParser dynamicOptionParser,
-      @Assisted ChangeResource change) {
+      @Assisted ChangeResource change,
+      Injector injector,
+      DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
     this.changeApi = changeApi;
     this.revert = revert;
     this.revertSubmission = revertSubmission;
@@ -282,6 +286,8 @@ class ChangeApiImpl implements ChangeApi {
     this.stars = stars;
     this.dynamicOptionParser = dynamicOptionParser;
     this.change = change;
+    this.injector = injector;
+    this.dynamicBeans = dynamicBeans;
   }
 
   @Override
@@ -500,10 +506,10 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeInfo get(
       EnumSet<ListChangesOption> options, ImmutableListMultimap<String, String> pluginOptions)
       throws RestApiException {
-    try {
+    try (DynamicOptions dynamicOptions = new DynamicOptions(injector, dynamicBeans)) {
       GetChange getChange = getChangeProvider.get();
       options.forEach(getChange::addOption);
-      dynamicOptionParser.parseDynamicOptions(getChange, pluginOptions);
+      dynamicOptionParser.parseDynamicOptions(getChange, pluginOptions, dynamicOptions);
       return getChange.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve change", e);
@@ -759,8 +765,6 @@ class ChangeApiImpl implements ChangeApi {
   @Singleton
   static class DynamicOptionParser {
     private final CmdLineParser.Factory cmdLineParserFactory;
-    private final Injector injector;
-    private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
 
     @Inject
     DynamicOptionParser(
@@ -768,14 +772,14 @@ class ChangeApiImpl implements ChangeApi {
         Injector injector,
         DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
       this.cmdLineParserFactory = cmdLineParserFactory;
-      this.injector = injector;
-      this.dynamicBeans = dynamicBeans;
     }
 
-    void parseDynamicOptions(Object bean, ListMultimap<String, String> pluginOptions)
+    void parseDynamicOptions(
+        Object bean, ListMultimap<String, String> pluginOptions, DynamicOptions dynamicOptions)
         throws BadRequestException {
       CmdLineParser clp = cmdLineParserFactory.create(bean);
-      DynamicOptions dynamicOptions = new DynamicOptions(bean, injector, dynamicBeans);
+      dynamicOptions.setBean(bean);
+      dynamicOptions.startLifecycleListeners();
       dynamicOptions.parseDynamicBeans(clp);
       dynamicOptions.setDynamicBeans();
       dynamicOptions.onBeanParseStart();

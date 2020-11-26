@@ -174,7 +174,10 @@ const styleSheet = safeStyleSheet`
     --diff-trailing-whitespace-indicator: #ff9ad2;
     --light-add-highlight-color: #d8fed8;
     --light-rebased-add-highlight-color: #eef;
-    --light-moved-add-highlight-color: #eef;
+    --diff-moved-in-background: #e4f7fb;
+    --diff-moved-out-background: #f3e8fd;
+    --diff-moved-in-label-background: #007b83;
+    --diff-moved-out-label-background: #681da8;
     --light-remove-add-highlight-color: #fff8dc;
     --light-remove-highlight-color: #ffebee;
     --coverage-covered: #e0f2f1;

@@ -156,6 +156,24 @@
       "parentUuid": "755dd95f_203addc4",
       "revId": "83de4b90445f319435fa0fb0c7ae3b743139375b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55929b43_3aa043fd",
+        "filename": "java/com/google/gerrit/httpd/UserAgentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-11-26T14:50:42Z",
+      "side": 1,
+      "message": "isn\u0027t there a way to treat URLs that have ?service\u003dgit-{send,receive-pack} differently, regardless of the prefix where they are found?\n\nI agree that the UserAgent switching is hacky and confusing.",
+      "parentUuid": "c7ac130b_3c8a3aeb",
+      "revId": "83de4b90445f319435fa0fb0c7ae3b743139375b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

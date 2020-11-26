@@ -24,7 +24,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-host_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {rangesEqual} from '../gr-diff/gr-diff-utils';
+import {rangesEqual, isFileUnchanged} from '../gr-diff/gr-diff-utils';
 import {appContext} from '../../../services/app-context';
 import {
   getParentIndex,
@@ -1068,8 +1068,11 @@ export class GrDiffHost extends GestureEventListeners(
     return this._hasTrailingNewlines(diff, false) === false;
   }
 
-  _useNewContextControls() {
-    return this.flags.isEnabled(KnownExperimentId.NEW_CONTEXT_CONTROLS);
+  _useNewContextControls(diff?: DiffInfo) {
+    return (
+      this.flags.isEnabled(KnownExperimentId.NEW_CONTEXT_CONTROLS) &&
+      !isFileUnchanged(diff)
+    );
   }
 }
 

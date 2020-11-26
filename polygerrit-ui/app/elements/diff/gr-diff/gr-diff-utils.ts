@@ -17,6 +17,7 @@
 
 import {CommentRange} from '../../../types/common';
 import {FILE, LineNumber} from './gr-diff-line';
+import {DiffInfo} from '../../../types/diff';
 
 /**
  * Compare two ranges. Either argument may be falsy, but will only return
@@ -45,4 +46,11 @@ export function getLineNumber(lineEl?: Element | null): LineNumber | null {
   if (lineNumberStr === FILE) return FILE;
   const lineNumber = Number(lineNumberStr);
   return Number.isInteger(lineNumber) ? lineNumber : null;
+}
+
+export function isFileUnchanged(diff?: DiffInfo) {
+  if (!diff || !diff.content) return false;
+  return !diff.content.some(
+    content => (content.a && !content.common) || (content.b && !content.common)
+  );
 }

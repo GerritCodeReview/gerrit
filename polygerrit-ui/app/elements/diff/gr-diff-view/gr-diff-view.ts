@@ -99,6 +99,7 @@ import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {PORTING_COMMENTS_DIFF_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
+import {isFileUnchanged} from '../gr-diff/gr-diff-utils';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -1009,14 +1010,6 @@ export class GrDiffView extends KeyboardShortcutMixin(
     this._commentMap = this._getPaths(this._patchRange);
   }
 
-  _isFileUnchanged(diff: DiffInfo) {
-    if (!diff || !diff.content) return false;
-    return !diff.content.some(
-      content =>
-        (content.a && !content.common) || (content.b && !content.common)
-    );
-  }
-
   _paramsChanged(value: AppElementParams) {
     if (value.view !== GerritView.DIFF) {
       return;
@@ -1102,7 +1095,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
       })
       .then(() => {
         if (!this._diff) throw new Error('Missing this._diff');
-        const fileUnchanged = this._isFileUnchanged(this._diff);
+        const fileUnchanged = isFileUnchanged(this._diff);
         if (fileUnchanged && value.commentLink) {
           if (!this._change) throw new Error('Missing this._change');
           if (!this._path) throw new Error('Missing this._path');

@@ -154,7 +154,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Boolean isPrivate;
   private Boolean workInProgress;
   private Integer revertOf;
-  private String cherryPickOf;
+  private Optional<String> cherryPickOf;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -475,7 +475,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void setCherryPickOf(String cherryPickOf) {
-    this.cherryPickOf = cherryPickOf;
+    this.cherryPickOf = Optional.ofNullable(cherryPickOf);
+  }
+
+  public void resetCherryPickOf() {
+    this.cherryPickOf = Optional.empty();
   }
 
   /** @return the tree id for the updated tree */
@@ -738,7 +742,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     if (cherryPickOf != null) {
-      addFooter(msg, FOOTER_CHERRY_PICK_OF, cherryPickOf);
+      if (cherryPickOf.isPresent()) {
+        addFooter(msg, FOOTER_CHERRY_PICK_OF, cherryPickOf.get());
+      } else {
+        addFooter(msg, FOOTER_CHERRY_PICK_OF).append('\n');
+      }
     }
 
     if (plannedAttentionSetUpdates != null) {

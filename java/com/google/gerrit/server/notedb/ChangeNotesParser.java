@@ -155,7 +155,7 @@ class ChangeNotesParser {
   private ReviewerByEmailSet pendingReviewersByEmail;
   private Change.Id revertOf;
   private int updateCount;
-  private PatchSet.Id cherryPickOf;
+  private Optional<PatchSet.Id> cherryPickOf;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -258,7 +258,7 @@ class ChangeNotesParser {
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),
         revertOf,
-        cherryPickOf,
+        cherryPickOf != null ? cherryPickOf.orElse(null) : null,
         updateCount);
   }
 
@@ -1004,15 +1004,20 @@ class ChangeNotesParser {
     return Change.id(revertOf);
   }
 
-  private PatchSet.Id parseCherryPickOf(ChangeNotesCommit commit) throws ConfigInvalidException {
+  private Optional<PatchSet.Id> parseCherryPickOf(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
     String cherryPickOf = parseOneFooter(commit, FOOTER_CHERRY_PICK_OF);
     if (cherryPickOf == null) {
       return null;
-    }
-    try {
-      return PatchSet.Id.parse(cherryPickOf);
-    } catch (IllegalArgumentException e) {
-      throw new ConfigInvalidException("\"" + cherryPickOf + "\" is not a valid patchset", e);
+    } else if (cherryPickOf.equals("")) {
+      // Empty footer found, cherryPickOf was reset.
+      return Optional.empty();
+    } else {
+      try {
+        return Optional.of(PatchSet.Id.parse(cherryPickOf));
+      } catch (IllegalArgumentException e) {
+        throw new ConfigInvalidException("\"" + cherryPickOf + "\" is not a valid patchset", e);
+      }
     }
   }
 

@@ -30,6 +30,7 @@ import {
   isWithinHalfYear,
   formatDate,
   utcOffsetString,
+  wasYesterday,
 } from '../../../utils/date-util';
 import {TimeFormat, DateFormat} from '../../../constants/constants';
 import {assertNever} from '../../../utils/common-util';
@@ -103,6 +104,9 @@ export class GrDateFormatter extends TooltipMixin(
    */
   @property({type: Boolean})
   hasTooltip = false;
+
+  @property({type: Boolean})
+  showYesterday = false;
 
   /**
    * The title to be used as the native tooltip or by the tooltip behavior.
@@ -222,7 +226,8 @@ export class GrDateFormatter extends TooltipMixin(
     timeFormat?: string,
     dateFormat?: DateFormatPair,
     relative?: boolean,
-    showDateAndTime?: boolean
+    showDateAndTime?: boolean,
+    showYesterday?: boolean
   ) {
     if (!dateStr || !timeFormat || !dateFormat) {
       return '';
@@ -238,6 +243,8 @@ export class GrDateFormatter extends TooltipMixin(
     let format = dateFormat.full;
     if (isWithinDay(now, date)) {
       format = timeFormat;
+    } else if (showYesterday && wasYesterday(now, date)) {
+      return `Yesterday at ${formatDate(date, timeFormat)}`;
     } else {
       if (isWithinHalfYear(now, date)) {
         format = dateFormat.short;

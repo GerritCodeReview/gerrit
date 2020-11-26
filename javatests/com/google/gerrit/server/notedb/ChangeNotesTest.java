@@ -3146,6 +3146,34 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void resetCherryPickOf() throws Exception {
+    Change destinationChange = newChange();
+    Change cherryPickChange = newChange();
+    assertThat(newNotes(destinationChange).getChange().getCherryPickOf()).isNull();
+
+    ChangeUpdate update = newUpdate(destinationChange, changeOwner);
+    update.setCherryPickOf(
+        cherryPickChange.currentPatchSetId().getCommaSeparatedChangeAndPatchSetId());
+    update.commit();
+    assertThat(newNotes(destinationChange).getChange().getCherryPickOf())
+        .isEqualTo(cherryPickChange.currentPatchSetId());
+
+    update = newUpdate(destinationChange, changeOwner);
+    update.resetCherryPickOf();
+    update.commit();
+    assertThat(newNotes(destinationChange).getChange().getCherryPickOf()).isNull();
+
+    // Can set again after reset.
+    cherryPickChange = newChange();
+    update = newUpdate(destinationChange, changeOwner);
+    update.setCherryPickOf(
+        cherryPickChange.currentPatchSetId().getCommaSeparatedChangeAndPatchSetId());
+    update.commit();
+    assertThat(newNotes(destinationChange).getChange().getCherryPickOf())
+        .isEqualTo(cherryPickChange.currentPatchSetId());
+  }
+
+  @Test
   public void updateCount() throws Exception {
     Change c = newChange();
     assertThat(newNotes(c).getUpdateCount()).isEqualTo(1);

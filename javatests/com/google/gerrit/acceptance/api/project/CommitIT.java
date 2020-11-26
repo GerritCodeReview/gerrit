@@ -24,6 +24,7 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -147,77 +148,237 @@ public class CommitIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cherryPickWithoutMessage() throws Exception {
-    String branch = "foo";
+  public void cherryPickWithoutMessageSameBranch() throws Exception {
+    String destBranch = "master";
 
     // Create change to cherry-pick
-    RevCommit revCommit = createChange().getCommit();
-
-    // Create target branch to cherry-pick to.
-    gApi.projects().name(project.get()).branch(branch).create(new BranchInput());
+    PushOneCommit.Result r = createChange();
+    ChangeInfo changeToCherryPick = info(r.getChangeId());
+    RevCommit commitToCherryPick = r.getCommit();
 
     // Cherry-pick without message.
     CherryPickInput input = new CherryPickInput();
-    input.destination = branch;
-    String changeId =
-        gApi.projects().name(project.get()).commit(revCommit.name()).cherryPick(input).get().id;
+    input.destination = destBranch;
+    ChangeInfo cherryPickResult =
+        gApi.projects()
+            .name(project.get())
+            .commit(commitToCherryPick.name())
+            .cherryPick(input)
+            .get();
 
+    // Expect that the Change-Id of the cherry-picked commit was used for the cherry-pick change.
+    // New patch-set to existing change was uploaded.
+    assertThat(cherryPickResult._number).isEqualTo(changeToCherryPick._number);
+    assertThat(cherryPickResult.revisions).hasSize(2);
+    assertThat(cherryPickResult.changeId).isEqualTo(changeToCherryPick.changeId);
+    assertThat(cherryPickResult.messages).hasSize(2);
+
+    // Cherry-pick of is not set, because the source change was not provided.
+    assertThat(cherryPickResult.cherryPickOfChange).isNull();
+    assertThat(cherryPickResult.cherryPickOfPatchSet).isNull();
     // Expect that the message of the cherry-picked commit was used for the cherry-pick change.
-    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    RevisionInfo revInfo = cherryPickResult.revisions.get(cherryPickResult.currentRevision);
     assertThat(revInfo).isNotNull();
-    assertThat(revInfo.commit.message).isEqualTo(revCommit.getFullMessage());
+    assertThat(revInfo.commit.message).isEqualTo(commitToCherryPick.getFullMessage());
   }
 
   @Test
-  public void cherryPickCommitWithoutChangeId() throws Exception {
+  public void cherryPickWithoutMessageOtherBranch() throws Exception {
+    String destBranch = "foo";
+    createBranch(BranchNameKey.create(project, destBranch));
+
+    // Create change to cherry-pick
+    PushOneCommit.Result r = createChange();
+    ChangeInfo changeToCherryPick = info(r.getChangeId());
+    RevCommit commitToCherryPick = r.getCommit();
+
+    // Cherry-pick without message.
     CherryPickInput input = new CherryPickInput();
-    input.destination = "foo";
+    input.destination = destBranch;
+    ChangeInfo cherryPickResult =
+        gApi.projects()
+            .name(project.get())
+            .commit(commitToCherryPick.name())
+            .cherryPick(input)
+            .get();
+
+    // Expect that the Change-Id of the cherry-picked commit was used for the cherry-pick change.
+    // New change in destination branch was created.
+    assertThat(cherryPickResult._number).isGreaterThan(changeToCherryPick._number);
+    assertThat(cherryPickResult.revisions).hasSize(1);
+    assertThat(cherryPickResult.changeId).isEqualTo(changeToCherryPick.changeId);
+    assertThat(cherryPickResult.messages).hasSize(1);
+
+    // Cherry-pick of is not set, because the source change was not provided.
+    assertThat(cherryPickResult.cherryPickOfChange).isNull();
+    assertThat(cherryPickResult.cherryPickOfPatchSet).isNull();
+    // Expect that the message of the cherry-picked commit was used for the cherry-pick change.
+    RevisionInfo revInfo = cherryPickResult.revisions.get(cherryPickResult.currentRevision);
+    assertThat(revInfo).isNotNull();
+    assertThat(revInfo.commit.message).isEqualTo(commitToCherryPick.getFullMessage());
+  }
+
+  @Test
+  public void cherryPickCommitWithoutChangeIdCreateNewChange() throws Exception {
+    String destBranch = "foo";
+    createBranch(BranchNameKey.create(project, destBranch));
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = destBranch;
     input.message = "it goes to foo branch";
-    gApi.projects().name(project.get()).branch(input.destination).create(new BranchInput());
 
-    RevCommit revCommit = createNewCommitWithoutChangeId("refs/heads/master", "a.txt", "content");
-    ChangeInfo changeInfo =
-        gApi.projects().name(project.get()).commit(revCommit.getName()).cherryPick(input).get();
+    RevCommit commitToCherryPick =
+        createNewCommitWithoutChangeId("refs/heads/master", "a.txt", "content");
+    ChangeInfo cherryPickResult =
+        gApi.projects()
+            .name(project.get())
+            .commit(commitToCherryPick.getName())
+            .cherryPick(input)
+            .get();
 
-    assertThat(changeInfo.messages).hasSize(1);
-    Iterator<ChangeMessageInfo> messageIterator = changeInfo.messages.iterator();
+    assertThat(cherryPickResult.messages).hasSize(1);
+    Iterator<ChangeMessageInfo> messageIterator = cherryPickResult.messages.iterator();
     String expectedMessage =
-        String.format("Patch Set 1: Cherry Picked from commit %s.", revCommit.getName());
+        String.format("Patch Set 1: Cherry Picked from commit %s.", commitToCherryPick.getName());
     assertThat(messageIterator.next().message).isEqualTo(expectedMessage);
 
-    RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    RevisionInfo revInfo = cherryPickResult.revisions.get(cherryPickResult.currentRevision);
     assertThat(revInfo).isNotNull();
     CommitInfo commitInfo = revInfo.commit;
     assertThat(commitInfo.message)
-        .isEqualTo(input.message + "\n\nChange-Id: " + changeInfo.changeId + "\n");
+        .isEqualTo(input.message + "\n\nChange-Id: " + cherryPickResult.changeId + "\n");
   }
 
   @Test
-  public void cherryPickCommitWithChangeId() throws Exception {
-    CherryPickInput input = new CherryPickInput();
-    input.destination = "foo";
+  public void cherryPickCommitWithChangeIdCreateNewChange() throws Exception {
+    String destBranch = "foo";
+    createBranch(BranchNameKey.create(project, destBranch));
 
-    RevCommit revCommit = createChange().getCommit();
-    List<String> footers = revCommit.getFooterLines("Change-Id");
+    PushOneCommit.Result r = createChange();
+    ChangeInfo changeToCherryPick = info(r.getChangeId());
+    RevCommit commitToCherryPick = r.getCommit();
+    List<String> footers = commitToCherryPick.getFooterLines("Change-Id");
     assertThat(footers).hasSize(1);
     String changeId = footers.get(0);
 
-    input.message = "it goes to foo branch\n\nChange-Id: " + changeId;
-    gApi.projects().name(project.get()).branch(input.destination).create(new BranchInput());
+    CherryPickInput input = new CherryPickInput();
+    input.destination = destBranch;
+    input.message =
+        String.format(
+            "it goes to foo branch\n\nChange-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n\nChange-Id: %s\n",
+            changeId);
 
-    ChangeInfo changeInfo =
-        gApi.projects().name(project.get()).commit(revCommit.getName()).cherryPick(input).get();
+    ChangeInfo cherryPickResult =
+        gApi.projects()
+            .name(project.get())
+            .commit(commitToCherryPick.getName())
+            .cherryPick(input)
+            .get();
 
-    assertThat(changeInfo.messages).hasSize(1);
-    Iterator<ChangeMessageInfo> messageIterator = changeInfo.messages.iterator();
+    // No change was found in destination branch with the provided Change-Id.
+    assertThat(cherryPickResult._number).isGreaterThan(changeToCherryPick._number);
+    assertThat(cherryPickResult.changeId).isEqualTo(changeId);
+    assertThat(cherryPickResult.revisions).hasSize(1);
+    assertThat(cherryPickResult.messages).hasSize(1);
+    Iterator<ChangeMessageInfo> messageIterator = cherryPickResult.messages.iterator();
     String expectedMessage =
-        String.format("Patch Set 1: Cherry Picked from commit %s.", revCommit.getName());
+        String.format("Patch Set 1: Cherry Picked from commit %s.", commitToCherryPick.getName());
     assertThat(messageIterator.next().message).isEqualTo(expectedMessage);
 
-    RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    // Cherry-pick of is not set, because the source change was not provided.
+    assertThat(cherryPickResult.cherryPickOfChange).isNull();
+    assertThat(cherryPickResult.cherryPickOfPatchSet).isNull();
+    RevisionInfo revInfo = cherryPickResult.revisions.get(cherryPickResult.currentRevision);
     assertThat(revInfo).isNotNull();
-    assertThat(revInfo.commit.message).isEqualTo(input.message + "\n");
+    assertThat(revInfo.commit.message).isEqualTo(input.message);
+  }
+
+  @Test
+  public void cherryPickCommitToExistingChange() throws Exception {
+    String destBranch = "foo";
+    createBranch(BranchNameKey.create(project, destBranch));
+
+    PushOneCommit.Result r = createChange("refs/for/" + destBranch);
+    ChangeInfo existingDestChange = info(r.getChangeId());
+
+    String commitToCherryPick = createChange().getCommit().getName();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = destBranch;
+    input.message =
+        String.format(
+            "it goes to foo branch\n\nChange-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n\nChange-Id: %s\n",
+            existingDestChange.changeId);
+    input.allowConflicts = true;
+    input.allowEmpty = true;
+
+    ChangeInfo cherryPickResult =
+        gApi.projects().name(project.get()).commit(commitToCherryPick).cherryPick(input).get();
+
+    // New patch-set to existing change was uploaded.
+    assertThat(cherryPickResult._number).isEqualTo(existingDestChange._number);
+    assertThat(cherryPickResult.changeId).isEqualTo(existingDestChange.changeId);
+    assertThat(cherryPickResult.messages).hasSize(2);
+    assertThat(cherryPickResult.revisions).hasSize(2);
+    Iterator<ChangeMessageInfo> messageIterator = cherryPickResult.messages.iterator();
+
+    assertThat(messageIterator.next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(messageIterator.next().message).isEqualTo("Uploaded patch set 2.");
+    // Cherry-pick of is not set, because the source change was not provided.
+    assertThat(cherryPickResult.cherryPickOfChange).isNull();
+    assertThat(cherryPickResult.cherryPickOfPatchSet).isNull();
+    RevisionInfo revInfo = cherryPickResult.revisions.get(cherryPickResult.currentRevision);
+    assertThat(revInfo).isNotNull();
+    assertThat(revInfo.commit.message).isEqualTo(input.message);
+  }
+
+  @Test
+  public void cherryPickCommitToExistingCherryPickedChange() throws Exception {
+    String destBranch = "foo";
+    createBranch(BranchNameKey.create(project, destBranch));
+
+    PushOneCommit.Result r = createChange("refs/for/" + destBranch);
+    ChangeInfo existingDestChange = info(r.getChangeId());
+
+    r = createChange();
+    ChangeInfo changeToCherryPick = info(r.getChangeId());
+    RevCommit commitToCherryPick = r.getCommit();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = destBranch;
+    input.message =
+        String.format("it goes to foo branch\n\nChange-Id: %s\n", existingDestChange.changeId);
+    input.allowConflicts = true;
+    input.allowEmpty = true;
+    // Use RevisionAPI to submit initial cherryPick.
+    ChangeInfo cherryPickResult =
+        gApi.changes().id(changeToCherryPick.changeId).current().cherryPick(input).get();
+    assertThat(cherryPickResult.changeId).isEqualTo(existingDestChange.changeId);
+    // Cherry-pick was set.
+    assertThat(cherryPickResult.cherryPickOfChange).isEqualTo(changeToCherryPick._number);
+    assertThat(cherryPickResult.cherryPickOfPatchSet).isEqualTo(1);
+    RevisionInfo revInfo = cherryPickResult.revisions.get(cherryPickResult.currentRevision);
+    assertThat(revInfo).isNotNull();
+    assertThat(revInfo.commit.message).isEqualTo(input.message);
+    // Use CommitApi to update the cherryPick change.
+    cherryPickResult =
+        gApi.projects()
+            .name(project.get())
+            .commit(commitToCherryPick.getName())
+            .cherryPick(input)
+            .get();
+
+    assertThat(cherryPickResult.changeId).isEqualTo(existingDestChange.changeId);
+    assertThat(cherryPickResult.messages).hasSize(3);
+    Iterator<ChangeMessageInfo> messageIterator = cherryPickResult.messages.iterator();
+
+    assertThat(messageIterator.next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(messageIterator.next().message).isEqualTo("Uploaded patch set 2.");
+    assertThat(messageIterator.next().message).isEqualTo("Uploaded patch set 3.");
+    // Cherry-pick was reset to empty value.
+    assertThat(cherryPickResult._number).isEqualTo(existingDestChange._number);
+    assertThat(cherryPickResult.cherryPickOfChange).isNull();
+    assertThat(cherryPickResult.cherryPickOfPatchSet).isNull();
   }
 
   @Test

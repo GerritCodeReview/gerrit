@@ -48,7 +48,6 @@ import {
   computeLatestPatchNum,
   patchNumEquals,
   PatchSet,
-  CURRENT,
 } from '../../../utils/patch-set-util';
 import {
   addUnmodifiedFiles,
@@ -97,7 +96,6 @@ import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revisi
 import {CommentMap} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
-import {PORTING_COMMENTS_DIFF_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
@@ -1046,11 +1044,6 @@ export class GrDiffView extends KeyboardShortcutMixin(
       return;
     }
 
-    const portedCommentsPromise = this.$.commentAPI.getPortedComments(
-      value.changeNum,
-      value.patchNum || CURRENT
-    );
-
     const promises: Promise<unknown>[] = [];
 
     promises.push(this._getDiffPreferences());
@@ -1071,7 +1064,6 @@ export class GrDiffView extends KeyboardShortcutMixin(
     this._loading = true;
     return Promise.all(promises)
       .then(r => {
-        this.reporting.time(PORTING_COMMENTS_DIFF_LATENCY_LABEL);
         this._loading = false;
         this._initPatchRange();
         this._initCommitRange();
@@ -1081,9 +1073,6 @@ export class GrDiffView extends KeyboardShortcutMixin(
             this._patchRange
           );
         }
-        portedCommentsPromise.then(() => {
-          this.reporting.timeEnd(PORTING_COMMENTS_DIFF_LATENCY_LABEL);
-        });
         const edit = r[4] as EditInfo | undefined;
         if (edit) {
           this.set(`_change.revisions.${edit.commit.commit}`, {

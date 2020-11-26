@@ -954,7 +954,9 @@ export class GrChangeActions
     if (
       !result &&
       this.change.labels[CODE_REVIEW] &&
-      this._getLabelStatus(this.change.labels[CODE_REVIEW]) === LabelStatus.OK
+      this._getLabelStatus(this.change.labels[CODE_REVIEW]) ===
+        LabelStatus.OK &&
+      this.change.permitted_labels[CODE_REVIEW]
     ) {
       result = CODE_REVIEW;
     }

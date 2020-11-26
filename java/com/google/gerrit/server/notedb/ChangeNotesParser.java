@@ -55,6 +55,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -155,7 +156,10 @@ class ChangeNotesParser {
   private ReviewerByEmailSet pendingReviewersByEmail;
   private Change.Id revertOf;
   private int updateCount;
-  private PatchSet.Id cherryPickOf;
+  // Null indicates that the field was not parsed (yet).
+  // We only set the value once, based on the latest update (the actual value or Optional.empty() if
+  // the latest record unsets the field).
+  private @Nullable Optional<PatchSet.Id> cherryPickOf;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -258,7 +262,7 @@ class ChangeNotesParser {
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),
         revertOf,
-        cherryPickOf,
+        cherryPickOf != null ? cherryPickOf.orElse(null) : null,
         updateCount);
   }
 
@@ -1004,15 +1008,26 @@ class ChangeNotesParser {
     return Change.id(revertOf);
   }
 
-  private PatchSet.Id parseCherryPickOf(ChangeNotesCommit commit) throws ConfigInvalidException {
-    String cherryPickOf = parseOneFooter(commit, FOOTER_CHERRY_PICK_OF);
-    if (cherryPickOf == null) {
+  /**
+   * Returns {@link Optional} value of parsed {@link ChangeNoteUtil#FOOTER_CHERRY_PICK_OF} or {@code
+   * null} if the footer is missing in this commit.
+   */
+  @Nullable
+  private Optional<PatchSet.Id> parseCherryPickOf(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
+    String footer = parseOneFooter(commit, FOOTER_CHERRY_PICK_OF);
+    if (footer == null) {
+      // The footer is missing, nothing to parse.
       return null;
-    }
-    try {
-      return PatchSet.Id.parse(cherryPickOf);
-    } catch (IllegalArgumentException e) {
-      throw new ConfigInvalidException("\"" + cherryPickOf + "\" is not a valid patchset", e);
+    } else if (footer.equals("")) {
+      // Empty footer value, cherryPickOf was unset at this commit.
+      return Optional.empty();
+    } else {
+      try {
+        return Optional.of(PatchSet.Id.parse(footer));
+      } catch (IllegalArgumentException e) {
+        throw new ConfigInvalidException("\"" + footer + "\" is not a valid patchset", e);
+      }
     }
   }
 
@@ -1129,6 +1144,7 @@ class ChangeNotesParser {
           footer.getName(), psId.get());
     }
   }
+
 
   private boolean patchSetCommitParsed(PatchSet.Id psId) {
     PatchSet.Builder pending = patchSets.get(psId);

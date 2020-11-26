@@ -3085,10 +3085,7 @@ export class GrRestApiInterface
     });
   }
 
-  setChangeTopic(
-    changeNum: NumericChangeId,
-    topic: string | null
-  ): Promise<string> {
+  setChangeTopic(changeNum: NumericChangeId, topic?: string): Promise<string> {
     return (this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,

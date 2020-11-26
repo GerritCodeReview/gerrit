@@ -255,6 +255,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d649b7ad_e39e3575",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-26T08:42:34Z",
+      "side": 1,
+      "message": "I don\u0027t understand.\nChange 284582 is tackling porting drafts.",
+      "parentUuid": "dcef87cd_98cb2715",
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c6cfa03_2f02bdd9",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 61
@@ -314,6 +332,30 @@
       "side": 1,
       "message": "portedComments do not contain ported drafts, so I think this should be sufficient:\n\n  const portedComment \u003d portedComments.find(c \u003d\u003e c.id \u003d\u003d\u003d thread.rootId);",
       "parentUuid": "b5d50074_469cc4df",
+      "range": {
+        "startLine": 471,
+        "startChar": 10,
+        "endLine": 471,
+        "endChar": 30
+      },
+      "revId": "daa654bc7d7508e8d5399dad22ca5bc0e31f17dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f202148_373cb2ba",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-26T08:42:34Z",
+      "side": 1,
+      "message": "In case of robot comments, they are not ported over but human replies to them are ported over.\nSorry for not mentioning this earlier. I will write a comment, it\u0027s mentioned in the backend docs.",
+      "parentUuid": "896b5e28_589c74ab",
       "range": {
         "startLine": 471,
         "startChar": 10,

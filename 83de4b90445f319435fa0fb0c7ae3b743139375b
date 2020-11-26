@@ -120,6 +120,24 @@
       "parentUuid": "941a42e0_124299cc",
       "revId": "83de4b90445f319435fa0fb0c7ae3b743139375b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7ac130b_3c8a3aeb",
+        "filename": "java/com/google/gerrit/httpd/UserAgentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2020-11-26T07:44:44Z",
+      "side": 1,
+      "message": "For GET, there\u0027s also the protocol V2 header: if the request has the Git-Protocol: version\u003d2 header, it\u0027s a git request. An Accept header containing application/x-git-\u003cservice\u003e-advertisement is another indicator.",
+      "parentUuid": "755dd95f_203addc4",
+      "revId": "83de4b90445f319435fa0fb0c7ae3b743139375b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

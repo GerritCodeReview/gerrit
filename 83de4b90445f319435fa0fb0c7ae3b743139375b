@@ -89,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bd6f5a63_cfcf48d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011602
+      },
+      "writtenOn": "2020-11-26T14:28:31Z",
+      "side": 1,
+      "message": "I understand you can work around the problem by running an entire extra Gerrit, I was hoping there was a possibility to simply prefix the Git-over-HTTP path unambiguously so that we could serve refs to our CI system without risk that stream-events might race replication lag or filesystem flush delays, without worrying whether all Git clients have consistent behaviors, but also particularly without needing more than one Gerrit.",
+      "parentUuid": "cd3b48cb_bc09bc89",
+      "revId": "83de4b90445f319435fa0fb0c7ae3b743139375b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "941a42e0_124299cc",
         "filename": "java/com/google/gerrit/httpd/UserAgentUtil.java",
         "patchSetId": 3

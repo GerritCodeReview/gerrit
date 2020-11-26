@@ -55,6 +55,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -153,7 +154,15 @@ class ChangeNotesParser {
   private ReviewerByEmailSet pendingReviewersByEmail;
   private Change.Id revertOf;
   private int updateCount;
+<<<<<<< HEAD   (bf22fe Merge "Update reload4j to 1.2.19 and slf4j to 1.7.36" into s)
   private PatchSet.Id cherryPickOf;
+=======
+  // Null indicates that the field was not parsed (yet).
+  // We only set the value once, based on the latest update (the actual value or Optional.empty() if
+  // the latest record unsets the field).
+  private Optional<PatchSet.Id> cherryPickOf;
+  private Timestamp mergedOn;
+>>>>>>> CHANGE (b9608b Update existing change on cherry-pick with CommitApi)
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -254,8 +263,14 @@ class ChangeNotesParser {
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),
         revertOf,
+<<<<<<< HEAD   (bf22fe Merge "Update reload4j to 1.2.19 and slf4j to 1.7.36" into s)
         cherryPickOf,
         updateCount);
+=======
+        cherryPickOf != null ? cherryPickOf.orElse(null) : null,
+        updateCount,
+        mergedOn);
+>>>>>>> CHANGE (b9608b Update existing change on cherry-pick with CommitApi)
   }
 
   private Map<PatchSet.Id, PatchSet> buildPatchSets() throws ConfigInvalidException {
@@ -999,15 +1014,31 @@ class ChangeNotesParser {
     return Change.id(revertOf);
   }
 
-  private PatchSet.Id parseCherryPickOf(ChangeNotesCommit commit) throws ConfigInvalidException {
-    String cherryPickOf = parseOneFooter(commit, FOOTER_CHERRY_PICK_OF);
-    if (cherryPickOf == null) {
+  /**
+   * Parses {@link ChangeNoteUtil#FOOTER_CHERRY_PICK_OF} of the commit.
+   *
+   * @param commit the commit to parse.
+   * @return {@link Optional} value of the parsed footer or {@code null} if the footer is missing in
+   *     this commit.
+   * @throws ConfigInvalidException if the footer value could not be parsed as a valid {@link
+   *     PatchSet.Id}.
+   */
+  @Nullable
+  private Optional<PatchSet.Id> parseCherryPickOf(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
+    String footer = parseOneFooter(commit, FOOTER_CHERRY_PICK_OF);
+    if (footer == null) {
+      // The footer is missing, nothing to parse.
       return null;
-    }
-    try {
-      return PatchSet.Id.parse(cherryPickOf);
-    } catch (IllegalArgumentException e) {
-      throw new ConfigInvalidException("\"" + cherryPickOf + "\" is not a valid patchset", e);
+    } else if (footer.equals("")) {
+      // Empty footer value, cherryPickOf was unset at this commit.
+      return Optional.empty();
+    } else {
+      try {
+        return Optional.of(PatchSet.Id.parse(footer));
+      } catch (IllegalArgumentException e) {
+        throw new ConfigInvalidException("\"" + footer + "\" is not a valid patchset", e);
+      }
     }
   }
 

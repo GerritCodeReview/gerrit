@@ -226,8 +226,7 @@ suite('gr-diff-cursor tests', () => {
     assert.equal(cursorElement.side, 'left');
   });
 
-  // To be removed as soon due_to_move (deprecated) is removed
-  suite('moved chunks (dueToMove=true)', () => {
+  suite('moved chunks without line range)', () => {
     setup(done => {
       const renderHandler = function() {
         diffElement.removeEventListener('render', renderHandler);
@@ -247,7 +246,7 @@ suite('gr-diff-cursor tests', () => {
             'Sagittis tincidunt torquent, tempor nunc amet.',
             'At rhoncus id.',
           ],
-          due_to_move: true,
+          move_details: {changed: false},
         },
         {
           ab: [
@@ -260,7 +259,7 @@ suite('gr-diff-cursor tests', () => {
             'Sagittis tincidunt torquent, tempor nunc amet.',
             'At rhoncus id.',
           ],
-          due_to_move: true,
+          move_details: {changed: false},
         },
         {
           ab: [

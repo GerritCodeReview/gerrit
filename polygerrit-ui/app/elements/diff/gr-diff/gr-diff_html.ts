@@ -211,18 +211,45 @@ export const htmlTemplate = html`
 
     /* dueToMove */
     .dueToMove .content.add .contentText,
-    .dueToMove .moveControls.movedIn .moveDescription,
+    .dueToMove .moveControls.movedIn .moveLabel,
     .delta.total.dueToMove .content.add .contentText {
-      background-color: var(--light-moved-add-highlight-color);
+      background-color: var(--diff-moved-in-background);
     }
+
     .dueToMove .content.remove .contentText,
-    .dueToMove .moveControls.movedOut .moveDescription,
+    .dueToMove .moveControls.movedOut .moveLabel,
     .delta.total.dueToMove .content.remove .contentText {
-      background-color: var(--light-remove-add-highlight-color);
+      background-color: var(--diff-moved-out-background);
     }
-    .moveControls {
-      text-align: right;
-      font-style: italic;
+
+    .delta.dueToMove .movedIn .moveDescription {
+      color: var(--diff-moved-in-background);
+      background-color: var(--diff-moved-in-label-background);
+    }
+    .delta.dueToMove .movedOut .moveDescription {
+      color: var(--diff-moved-out-background);
+      background-color: var(--diff-moved-out-label-background);
+    }
+    .moveLabel {
+      display: flex;
+      justify-content: flex-end;
+      font-family: var(--header-font-family);
+    }
+    .delta.dueToMove .moveDescription {
+      border-radius: var(--spacing-l);
+      padding: var(--spacing-s) var(--spacing-m);
+      margin: var(--spacing-s);
+      font-weight: 500;
+      line-height: var(--spacing-xl);
+      vertical-align: middle;
+      display: flex;
+    }
+
+    .moveDescription iron-icon {
+      color: inherit;
+      margin-right: var(--spacing-s);
+      height: var(--spacing-xl);
+      width: var(--spacing-xl);
     }
 
     /* ignoredWhitespaceOnly */
@@ -284,8 +311,8 @@ export const htmlTemplate = html`
       background-color: var(--view-background-color);
     }
     .contextBackground {
-      /* 
-       * One line of background behind the context expanders which they can 
+      /*
+       * One line of background behind the context expanders which they can
        * render on top of, plus some padding.
        */
       height: calc(var(--line-height-normal) + var(--spacing-s));

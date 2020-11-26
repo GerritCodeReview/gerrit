@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3da62931_d08e7dc2",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-26T11:19:53Z",
+      "side": 1,
+      "message": "It wouldn\u0027t hurt to adjust the SHA1.",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 62
+      },
+      "revId": "e768166ba4faf199ddaee19d458a90c627fe41ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

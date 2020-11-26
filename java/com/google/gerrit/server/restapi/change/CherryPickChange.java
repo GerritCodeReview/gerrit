@@ -42,6 +42,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.change.ResetCherryPickOp;
 import com.google.gerrit.server.change.SetCherryPickOp;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -107,6 +108,7 @@ public class CherryPickChange {
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final SetCherryPickOp.Factory setCherryPickOfFactory;
+  private final ResetCherryPickOp.Factory resetCherryPickOfFactory;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ProjectCache projectCache;
@@ -125,6 +127,7 @@ public class CherryPickChange {
       ChangeInserter.Factory changeInserterFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       SetCherryPickOp.Factory setCherryPickOfFactory,
+      ResetCherryPickOp.Factory resetCherryPickOfFactory,
       MergeUtil.Factory mergeUtilFactory,
       ChangeNotes.Factory changeNotesFactory,
       ProjectCache projectCache,
@@ -140,6 +143,7 @@ public class CherryPickChange {
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.setCherryPickOfFactory = setCherryPickOfFactory;
+    this.resetCherryPickOfFactory = resetCherryPickOfFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeNotesFactory = changeNotesFactory;
     this.projectCache = projectCache;
@@ -371,7 +375,7 @@ public class CherryPickChange {
                     git,
                     destChanges.get(0).notes(),
                     cherryPickCommit,
-                    sourceChange.currentPatchSetId(),
+                    sourceChange,
                     newTopic,
                     workInProgress);
           } else {
@@ -456,7 +460,7 @@ public class CherryPickChange {
       Repository git,
       ChangeNotes destNotes,
       CodeReviewCommit cherryPickCommit,
-      PatchSet.Id sourcePatchSetId,
+      @Nullable Change sourceChange,
       String topic,
       @Nullable Boolean workInProgress)
       throws IOException {
@@ -469,7 +473,11 @@ public class CherryPickChange {
       inserter.setWorkInProgress(workInProgress);
     }
     bu.addOp(destChange.getId(), inserter);
-    if (destChange.getCherryPickOf() == null
+    PatchSet.Id sourcePatchSetId = sourceChange == null ? null : sourceChange.currentPatchSetId();
+    // If sourceChange is not provided, reset cherryPickOf to avoid stale value.
+    if (sourcePatchSetId == null) {
+      bu.addOp(destChange.getId(), resetCherryPickOfFactory.create());
+    } else if (destChange.getCherryPickOf() == null
         || !destChange.getCherryPickOf().equals(sourcePatchSetId)) {
       SetCherryPickOp cherryPickOfUpdater = setCherryPickOfFactory.create(sourcePatchSetId);
       bu.addOp(destChange.getId(), cherryPickOfUpdater);

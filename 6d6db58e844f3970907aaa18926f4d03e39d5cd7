@@ -91,6 +91,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "849bea3e_6ee69eb4",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-27T14:33:39Z",
+      "side": 1,
+      "message": "Actually, I decided to go for Optional. It also made me reconsider where I want to get mergedOn from in the ChangeData. I added a way to set it from the index so that it could be load on the dashboard. WDYT?",
+      "parentUuid": "5c76c18e_b4aacd48",
+      "range": {
+        "startLine": 465,
+        "startChar": 2,
+        "endLine": 466,
+        "endChar": 34
+      },
+      "revId": "6d6db58e844f3970907aaa18926f4d03e39d5cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "617abcd6_eb6d6e30",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
         "patchSetId": 3

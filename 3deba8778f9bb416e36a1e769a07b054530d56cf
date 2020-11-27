@@ -16,6 +16,24 @@
       "message": "Just to understand: you don\u0027t provide release notes link here, because there is no release, right?",
       "revId": "3deba8778f9bb416e36a1e769a07b054530d56cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bb7a0e0_96c0769c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-11-27T11:51:48Z",
+      "side": 1,
+      "message": "yes",
+      "parentUuid": "3abdd60c_e2b74ac8",
+      "revId": "3deba8778f9bb416e36a1e769a07b054530d56cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

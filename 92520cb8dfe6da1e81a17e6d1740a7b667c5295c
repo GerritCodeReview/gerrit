@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a414b964_9d72ce40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-27T09:07:12Z",
+      "side": 1,
+      "message": "Can you maybe rephrase this a bit so that it gets clearer that this change only adds support for resetting cherryPickOf in NoteDb, but that making use of this when cherry-picking a commit, is done in the follow-up change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "92520cb8dfe6da1e81a17e6d1740a7b667c5295c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "beb88005_2d6dfaf3",
+        "filename": "java/com/google/gerrit/server/change/ResetCherryPickOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-27T09:07:12Z",
+      "side": 1,
+      "message": "nit: 2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "92520cb8dfe6da1e81a17e6d1740a7b667c5295c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c591dccb_c7bf6dbe",
+        "filename": "java/com/google/gerrit/server/change/ResetCherryPickOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-27T09:07:12Z",
+      "side": 1,
+      "message": "Since there are no parameters, I think you can simplify this and just drop this factory.\nInstead of having the factory, you can annotate the ResetCherryPickOp class with @Singleton and then inject ResetCherryPickOp directly into the class where you need it.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 3
+      },
+      "revId": "92520cb8dfe6da1e81a17e6d1740a7b667c5295c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62c49774_846208d6",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-27T09:07:12Z",
+      "side": 1,
+      "message": "If we want to use an Optional here, should we initialise it as Optional.empty()?\n\nConsidering that all the other parameters here are nullable, I think keeping cherryPickOf as nullable would be also fine.",
+      "revId": "92520cb8dfe6da1e81a17e6d1740a7b667c5295c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f14bc5d_1092198b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-27T09:07:12Z",
+      "side": 1,
+      "message": "A variable of type Optional should not be null. It\u0027s either an empty optional or an optional that holds a value. The whole point of using Optionals is that you do not need to do null checks. If the variable can be null anyway, there is no benefit from using an Optional, actually it makes things worse, as you now have 3 states: null, empty optional, optional with value. I guess there is no reason for being able to distinguish null (cherryPickOf was not set) and empty optional (cherryPickOf was reset)?",
+      "revId": "92520cb8dfe6da1e81a17e6d1740a7b667c5295c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86982900_f2481aa3",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-27T09:07:12Z",
+      "side": 1,
+      "message": "If the method returns an Optional now, should we return Optional.empty() here, rather than null?",
+      "revId": "92520cb8dfe6da1e81a17e6d1740a7b667c5295c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57066f67_466177a6",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-27T09:07:12Z",
+      "side": 1,
+      "message": "IIUC we have 3 states here:\n\n* cherryPickOf \u003d null: This field should not be updated\n* cherryPickOf \u003d empty optional: This field should be unset\n* cherryPickOf \u003d non-empty optional: This field should be updated\n\nThis wasn\u0027t clear to me right away. Does it make sense to explain this in a comment?",
+      "revId": "92520cb8dfe6da1e81a17e6d1740a7b667c5295c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c3ab3cb_b43ff4b8",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-27T09:07:12Z",
+      "side": 1,
+      "message": "I think we should not allow callers to invoke this method with null, but rather force the callers to use resetCherryPickOf in this case.\n\nThis is similar to setStatus(Change.Status) which could be used to set the change to MERGED, but we want to force callers to use fixStatusToMerged(SubmissionId) instead. I think we could follow the example of fixStatusToMerged and use checkArgument here to ensure that the given cherryPickOf is not null. WDYT?",
+      "revId": "92520cb8dfe6da1e81a17e6d1740a7b667c5295c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

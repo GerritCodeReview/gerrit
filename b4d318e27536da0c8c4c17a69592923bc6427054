@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "721ecafc_1b3268f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-27T11:09:40Z",
+      "side": 1,
+      "message": "We may want to backport this fix older stable branches to be able to upgrade Bazel there. ",
+      "revId": "b4d318e27536da0c8c4c17a69592923bc6427054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

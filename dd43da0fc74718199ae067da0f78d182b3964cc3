@@ -69,6 +69,30 @@
       },
       "revId": "dd43da0fc74718199ae067da0f78d182b3964cc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06950f2e_ec4b2d93",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-27T13:36:42Z",
+      "side": 1,
+      "message": "I seems that the most recent release fixed coupld of issues: [1], so that we may want to consider to bump to the latest Jetty release, at least on master:\n\n  Important Change\n  #5605 : java.io.IOException: unconsumed input during http request parsing\n\n  Bugs\n  #4711 : Reset trailers on recycled response\n  #5486 : PropertyFileLoginModule retains PropertyUserStores\n  #5562 : ArrayTernaryTrie consumes too much memory\n\n[1] https://github.com/eclipse/jetty.project/releases/tag/jetty-9.4.35.v20201120",
+      "parentUuid": "59ecc10f_1dc49390",
+      "range": {
+        "startLine": 859,
+        "startChar": 14,
+        "endLine": 859,
+        "endChar": 30
+      },
+      "revId": "dd43da0fc74718199ae067da0f78d182b3964cc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

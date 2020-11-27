@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b2fdde5_2b32a0ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-27T10:10:19Z",
+      "side": 1,
+      "message": "Nit: Abbreviate?",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "03f26705796b52aa562724f10a2b7e9a2a0f82a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54df63ce_9dd2140f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-27T10:10:19Z",
+      "side": 1,
+      "message": "Reference issue 13544 here as well, as it was done in another change on stable-2.16 and stable-3.0 branches?",
+      "revId": "03f26705796b52aa562724f10a2b7e9a2a0f82a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

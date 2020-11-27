@@ -450,7 +450,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
   }
 
   _handleBodyClick(e: Event) {
-    const eventPath = e.path;
+    const eventPath = e.composedPath();
     if (!eventPath) return;
     for (let i = 0; i < eventPath.length; i++) {
       if (eventPath[i] === this) {

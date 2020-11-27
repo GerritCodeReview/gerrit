@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.flogger.FluentLogger;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -30,6 +31,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 public class ConfigUtil {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @SuppressWarnings("unchecked")
   private static <T> T[] allValuesOf(T defaultValue) {
     try {
@@ -138,7 +141,12 @@ public class ConfigUtil {
     } else {
       for (String string : values) {
         if (string != null) {
-          list.add(getEnum(section, subsection, setting, string, all));
+          try {
+            list.add(getEnum(section, subsection, setting, string, all));
+          } catch (IllegalArgumentException ex) {
+            // It's better to ignore a wrongly configured enum, rather than fail to load Gerrit.
+            logger.atWarning().log(ex.getMessage());
+          }
         }
       }
     }

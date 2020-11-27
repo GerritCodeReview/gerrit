@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -32,6 +33,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.submit.CommitMergeStatus;
 import com.google.inject.Inject;
 import java.util.List;
@@ -89,12 +91,18 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   @Test
   public void changeMessageOnSubmit() throws Throwable {
     PushOneCommit.Result change = createChange();
-    try (Registration registration =
-        extensionRegistry
-            .newRegistration()
-            .add(
-                (newCommitMessage, original, mergeTip, destination) ->
-                    newCommitMessage + "Custom: " + destination.branch())) {
+    ChangeMessageModifier link =
+        new ChangeMessageModifier() {
+          @Override
+          public String onSubmit(
+              String newCommitMessage,
+              RevCommit original,
+              RevCommit mergeTip,
+              BranchNameKey destination) {
+            return newCommitMessage + "Custom: " + destination.branch();
+          }
+        };
+    try (Registration registration = extensionRegistry.newRegistration().add(link)) {
       submit(change.getChangeId());
     }
     testRepo.git().fetch().setRemote("origin").call();

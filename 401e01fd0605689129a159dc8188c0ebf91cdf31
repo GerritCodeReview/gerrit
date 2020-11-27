@@ -51,6 +51,24 @@
       "message": "Minor version seems fine to upgrade even on an old branch to fix an issue",
       "revId": "401e01fd0605689129a159dc8188c0ebf91cdf31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4d7bc79_0db16465",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-27T08:17:52Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "e7b065b0_935c6bfd",
+      "revId": "401e01fd0605689129a159dc8188c0ebf91cdf31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

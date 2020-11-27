@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6cecf16_f4cf32c8",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-11-27T13:28:47Z",
+      "side": 1,
+      "message": "I have seen there is also a more recent version of it (9.4.35.v20201120). Any reason we are not upgrading to that one instead?",
+      "range": {
+        "startLine": 859,
+        "startChar": 14,
+        "endLine": 859,
+        "endChar": 30
+      },
+      "revId": "dd43da0fc74718199ae067da0f78d182b3964cc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

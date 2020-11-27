@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b691439_9aa45d33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-27T09:22:07Z",
+      "side": 1,
+      "message": "Nice",
+      "revId": "00fc5f32f4908a05cdba4210f756967ae8259f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8ec2a51_8a4eba08",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-11-27T09:22:07Z",
+      "side": 1,
+      "message": "nit: spelling mistake, should be resetCherryPickOpFactory (I see it\u0027s wrong too in the line above, so probably you got this by copy\u0026paste)\n\nIf you follow my suggestion on the predecessor change, this can just be ResetCherryPickOp instead of ResetCherryPickOp.Factory.",
+      "range": {
+        "startLine": 111,
+        "startChar": 42,
+        "endLine": 111,
+        "endChar": 66
+      },
+      "revId": "00fc5f32f4908a05cdba4210f756967ae8259f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

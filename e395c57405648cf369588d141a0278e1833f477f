@@ -39,6 +39,30 @@
       },
       "revId": "e395c57405648cf369588d141a0278e1833f477f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4745bed4_1c29c9ae",
+        "filename": "java/com/google/gerrit/pgm/init/InitJGitConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-27T15:08:20Z",
+      "side": 1,
+      "message": "I think the intention was to say, don\u0027t schedule JGit gc cycles from inside Gerrit. Do it outside Gerrit using JGit gc or git gc. But this would also mean that we don\u0027t recommend supported and documented way to schedule JGit gc from inside Gerrit? As a compoormiss to mention both, e.g.:\n\n  \"should be configured in a separate gc section or run as a separate process.\"",
+      "parentUuid": "8fd05367_4e5da52a",
+      "range": {
+        "startLine": 63,
+        "startChar": 22,
+        "endLine": 63,
+        "endChar": 63
+      },
+      "revId": "e395c57405648cf369588d141a0278e1833f477f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

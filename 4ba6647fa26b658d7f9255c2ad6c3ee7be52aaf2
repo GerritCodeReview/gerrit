@@ -74,6 +74,30 @@
       },
       "revId": "4ba6647fa26b658d7f9255c2ad6c3ee7be52aaf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70b75069_584bcc49",
+        "filename": "java/com/google/gerrit/pgm/init/InitJGitConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-27T20:36:40Z",
+      "side": 1,
+      "message": "Most of the people would just run the init in batch mode and then just analyse the logs. Your idea makes sense though, follow-up change?",
+      "parentUuid": "ec2b3905_4d507d78",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 67
+      },
+      "revId": "4ba6647fa26b658d7f9255c2ad6c3ee7be52aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

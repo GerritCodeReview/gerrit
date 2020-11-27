@@ -2325,8 +2325,8 @@ Defaults to the full hostname of the Gerrit server.
 [[gerrit.experimentalRollingUpgrade]]gerrit.experimentalRollingUpgrade::
 +
 Enable Gerrit rolling upgrade to the next version.
-For example if Gerrit v3.1 is version N (All-Projects:refs/meta/version=181)
-then its next version N+1 is v3.2 (All-Projects:refs/meta/version=183).
+For example if Gerrit v3.2 is version N (All-Projects:refs/meta/version=183)
+then its next version N+1 is v3.3 (All-Projects:refs/meta/version=184).
 Allow Gerrit to start even if the underlying schema version has been bumped to
 the next Gerrit version.
 +
@@ -2343,7 +2343,7 @@ of the following steps:
 1. Set gerrit.experimentalRollingUpgrade to true on all Gerrit masters
 2. Set the first master unhealthy
 3. Shutdown the first master and [upgrade](install.html#init) to the next version
-4. Startup the first master, wait for the online reindex to complete
+4. Startup the first master, wait for the online reindex to complete (where applicable)
 5. Verify the the first master upgrade is successful and online reindex is complete
 6. Set the first master healthy
 7. Repeat steps 2. to 6. for all the other Gerrit nodes

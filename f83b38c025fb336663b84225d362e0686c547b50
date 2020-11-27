@@ -16,6 +16,24 @@
       "message": "see comments on 290136",
       "revId": "f83b38c025fb336663b84225d362e0686c547b50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49d4c71e_b2882785",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-27T08:19:33Z",
+      "side": 1,
+      "message": "Removed the conditional check.\nI\u0027ll see about removing the Event interface and update the second change.\nI prefer to keep them separate for now. Hope that\u0027s okay.",
+      "parentUuid": "e195c12a_ad63d93d",
+      "revId": "f83b38c025fb336663b84225d362e0686c547b50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

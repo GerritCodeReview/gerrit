@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "176f6acd_abc31509",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-27T16:28:50Z",
+      "side": 1,
+      "message": "you may need to rebase the change if CI still fails.",
+      "revId": "7af5a8b6f0e5aad839aa35beee9b8994c10fbce7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

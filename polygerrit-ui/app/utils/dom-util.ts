@@ -167,7 +167,7 @@ export function querySelectorAll(
 export function getEventPath<T extends PolymerEvent>(e?: T) {
   if (!e) return '';
 
-  let path = e.path;
+  let path = e.composedPath && e.composedPath();
   if (!path || !path.length) {
     path = [];
     let el = e.target;

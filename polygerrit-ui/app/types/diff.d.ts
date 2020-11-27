@@ -107,25 +107,12 @@ export declare interface DiffContent {
   edit_b?: DiffIntralineInfo[];
   /** Indicates whether this entry was introduced by a rebase. */
   due_to_rebase?: boolean;
-  /** @deprecated Use move_details instead. */
-  due_to_move?: boolean;
 
   /**
    * Provides info about a move operation the chunk.
    * It's presence indicates the current chunk exists due to a move.
    */
-  move_details?: {
-    /** Indicates whether the content of the chunk changes while moving code */
-    changed: boolean;
-    /**
-     * Indicates the range (line numbers) on the other side of the comparison
-     * where the code related to the current chunk came from/went to.
-     */
-    range: {
-      start: number;
-      end: number;
-    };
-  };
+  move_details?: MoveDetails;
   /**
    * Count of lines skipped on both sides when the file is too large to include
    * all common lines.
@@ -139,6 +126,22 @@ export declare interface DiffContent {
   common?: boolean;
   // TODO: Undocumented, but used in code.
   keyLocation?: boolean;
+}
+
+/**
+ * Details about move operation related to a specific chunk.
+ */
+export declare interface MoveDetails {
+  /** Indicates whether the content of the chunk changes while moving code */
+  changed: boolean;
+  /**
+   * Indicates the range (line numbers) on the other side of the comparison
+   * where the code related to the current chunk came from/went to.
+   */
+  range: {
+    start: number;
+    end: number;
+  };
 }
 
 /**

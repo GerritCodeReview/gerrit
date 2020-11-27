@@ -87,6 +87,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e3a01b2_f9f8347b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2240,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-27T13:35:40Z",
+      "side": 1,
+      "message": "just left it unchanged, so ack.",
+      "parentUuid": "78d39f23_a1df4e9c",
+      "revId": "defe62e14a7193d945cc08e6c3d2a88eb0d6e6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "356bad8f_8eda0f42",
@@ -100,6 +118,30 @@
       "writtenOn": "2020-11-27T13:21:28Z",
       "side": 1,
       "message": "This example doesn\u0027t make much sense, it\u0027s very unlikely that any URL will contain the whole subject.\n\nMaybe just leave this unchanged?",
+      "range": {
+        "startLine": 2248,
+        "startChar": 68,
+        "endLine": 2248,
+        "endChar": 75
+      },
+      "revId": "defe62e14a7193d945cc08e6c3d2a88eb0d6e6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6b0f632_bd3536e5",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2248,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-27T13:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "356bad8f_8eda0f42",
       "range": {
         "startLine": 2248,
         "startChar": 68,
@@ -127,6 +169,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57a65c33_8b1e950f",
+        "filename": "java/com/google/gerrit/extensions/webui/ParentWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-27T13:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33888165_fae6da57",
+      "revId": "defe62e14a7193d945cc08e6c3d2a88eb0d6e6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25bc95fe_becaab3a",
@@ -140,6 +200,30 @@
       "writtenOn": "2020-11-27T13:21:28Z",
       "side": 1,
       "message": "better say: target branch of the change\n\nShould we say whether this is the full branch name, or the short branch name (e.g. does it include the refs/heads/ prefix)?",
+      "range": {
+        "startLine": 36,
+        "startChar": 23,
+        "endLine": 36,
+        "endChar": 46
+      },
+      "revId": "defe62e14a7193d945cc08e6c3d2a88eb0d6e6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7dff43e_05ef46b3",
+        "filename": "java/com/google/gerrit/extensions/webui/ParentWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-27T13:35:40Z",
+      "side": 1,
+      "message": "Done\nIt looks like branch() is \"long name\" and we only mention explicitly if it\u0027s a short name (see BranchNameKey#shortName vs BranchNameKey#branch)",
+      "parentUuid": "25bc95fe_becaab3a",
       "range": {
         "startLine": 36,
         "startChar": 23,
@@ -173,6 +257,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1169a971_a6cf6341",
+        "filename": "java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-27T13:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c3d2ea2_ffce76f8",
+      "range": {
+        "startLine": 35,
+        "startChar": 46,
+        "endLine": 35,
+        "endChar": 75
+      },
+      "revId": "defe62e14a7193d945cc08e6c3d2a88eb0d6e6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab5aa024_630ab06c",
@@ -190,6 +298,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5db00d5a_838caf8f",
+        "filename": "java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-27T13:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab5aa024_630ab06c",
+      "revId": "defe62e14a7193d945cc08e6c3d2a88eb0d6e6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "065cb0f4_25def493",
@@ -203,6 +329,30 @@
       "writtenOn": "2020-11-27T13:21:28Z",
       "side": 1,
       "message": "nit: are",
+      "range": {
+        "startLine": 333,
+        "startChar": 34,
+        "endLine": 333,
+        "endChar": 37
+      },
+      "revId": "defe62e14a7193d945cc08e6c3d2a88eb0d6e6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ff29bc8_2b804290",
+        "filename": "java/com/google/gerrit/server/config/GitwebConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-27T13:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "065cb0f4_25def493",
       "range": {
         "startLine": 333,
         "startChar": 34,

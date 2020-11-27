@@ -28,7 +28,6 @@ import {
 import {customElement, property} from '@polymer/decorators';
 import {
   CommentBasics,
-  ConfigInfo,
   ParentPatchSetNum,
   PatchRange,
   PatchSetNum,
@@ -60,13 +59,6 @@ export type CommentIdToCommentThreadMap = {
 };
 
 export interface TwoSidesComments {
-  // TODO(TS): remove meta - it is not used anywhere
-  meta: {
-    changeNum: NumericChangeId;
-    path: string;
-    patchRange: PatchRange;
-    projectConfig?: ConfigInfo;
-  };
   left: UIComment[];
   right: UIComment[];
 }
@@ -78,8 +70,6 @@ export class ChangeComments {
 
   private readonly _drafts: {[path: string]: UIDraft[]};
 
-  private readonly _changeNum: NumericChangeId;
-
   /**
    * Construct a change comments object, which can be data-bound to child
    * elements of that which uses the gr-comment-api.
@@ -87,14 +77,11 @@ export class ChangeComments {
   constructor(
     comments: {[path: string]: UIHuman[]} | undefined,
     robotComments: {[path: string]: UIRobot[]} | undefined,
-    drafts: {[path: string]: UIDraft[]} | undefined,
-    changeNum: NumericChangeId
+    drafts: {[path: string]: UIDraft[]} | undefined
   ) {
     this._comments = this._addPath(comments);
     this._robotComments = this._addPath(robotComments);
     this._drafts = this._addPath(drafts);
-    // TODO(TS): remove changeNum param - it is not used anywhere
-    this._changeNum = changeNum;
   }
 
   /**
@@ -328,13 +315,10 @@ export class ChangeComments {
 
   getThreadsBySideForPath(
     path: string,
-    patchRange: PatchRange,
-    projectConfig?: ConfigInfo
+    patchRange: PatchRange
   ): CommentThread[] {
     return createCommentThreads(
-      this._addCommentSide(
-        this.getCommentsBySideForPath(path, patchRange, projectConfig)
-      )
+      this._addCommentSide(this.getCommentsBySideForPath(path, patchRange))
     );
   }
 
@@ -350,8 +334,7 @@ export class ChangeComments {
    */
   getCommentsBySideForPath(
     path: string,
-    patchRange: PatchRange,
-    projectConfig?: ConfigInfo
+    patchRange: PatchRange
   ): TwoSidesComments {
     let comments: Comment[] = [];
     let drafts: DraftInfo[] = [];
@@ -385,12 +368,6 @@ export class ChangeComments {
     );
 
     return {
-      meta: {
-        changeNum: this._changeNum,
-        path,
-        patchRange,
-        projectConfig,
-      },
       left: baseComments,
       right: revisionComments,
     };
@@ -398,13 +375,10 @@ export class ChangeComments {
 
   getThreadsBySideForFile(
     file: PatchSetFile,
-    patchRange: PatchRange,
-    projectConfig?: ConfigInfo
+    patchRange: PatchRange
   ): CommentThread[] {
     return createCommentThreads(
-      this._addCommentSide(
-        this.getCommentsBySideForFile(file, patchRange, projectConfig)
-      )
+      this._addCommentSide(this.getCommentsBySideForFile(file, patchRange))
     );
   }
 
@@ -422,19 +396,13 @@ export class ChangeComments {
    */
   getCommentsBySideForFile(
     file: PatchSetFile,
-    patchRange: PatchRange,
-    projectConfig?: ConfigInfo
+    patchRange: PatchRange
   ): TwoSidesComments {
-    const comments = this.getCommentsBySideForPath(
-      file.path,
-      patchRange,
-      projectConfig
-    );
+    const comments = this.getCommentsBySideForPath(file.path, patchRange);
     if (file.basePath) {
       const commentsForBasePath = this.getCommentsBySideForPath(
         file.basePath,
-        patchRange,
-        projectConfig
+        patchRange
       );
       // merge in the left and right
       comments.left = comments.left.concat(commentsForBasePath.left);
@@ -643,8 +611,7 @@ export class GrCommentApi extends GestureEventListeners(
         // PathToCommentsInfoMap given its PathToRobotCommentsInfoMap
         // returned from the second promise
         robotComments as PathToRobotCommentsInfoMap,
-        drafts,
-        changeNum
+        drafts
       );
       return this._changeComments;
     });
@@ -664,8 +631,7 @@ export class GrCommentApi extends GestureEventListeners(
       this._changeComments = new ChangeComments(
         oldChangeComments.comments,
         (oldChangeComments.robotComments as unknown) as PathToRobotCommentsInfoMap,
-        drafts,
-        changeNum
+        drafts
       );
       return this._changeComments;
     });

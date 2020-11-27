@@ -1078,8 +1078,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
         if (this._changeComments && this._path && this._patchRange) {
           this.$.diffHost.threads = this._changeComments.getThreadsBySideForPath(
             this._path,
-            this._patchRange,
-            this._projectConfig
+            this._patchRange
           );
         }
         portedCommentsPromise.then(() => {
@@ -1571,8 +1570,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (file && file.old_path) {
       this.$.diffHost.threads = this._changeComments.getThreadsBySideForFile(
         {path, basePath: file.old_path},
-        patchRange,
-        projectConfig
+        patchRange
       );
     }
   }

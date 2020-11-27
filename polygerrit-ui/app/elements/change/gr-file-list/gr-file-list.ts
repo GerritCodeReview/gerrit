@@ -1560,8 +1560,7 @@ export class GrFileList extends KeyboardShortcutMixin(
         }
         diffElem.threads = this.changeComments.getThreadsBySideForFile(
           file,
-          this.patchRange,
-          this.projectConfig
+          this.patchRange
         );
         const promises: Array<Promise<unknown>> = [diffElem.reload()];
         if (this._loggedIn && !this.diffPrefs.manual_review) {

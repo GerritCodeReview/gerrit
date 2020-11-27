@@ -126,13 +126,6 @@ declare global {
     };
   }
 
-  interface Event {
-    // path is a non-standard property. Actually, this is optional property,
-    // but marking it as optional breaks CustomKeyboardEvent
-    // TODO(TS): replace with composedPath if possible
-    readonly path: EventTarget[];
-  }
-
   interface Error {
     lineNumber?: number; // non-standard property
     columnNumber?: number; // non-standard property

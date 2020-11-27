@@ -51,6 +51,23 @@
       "message": "CI can\u0027t build and run tests because of gitiles that fails the build, so will have to test manually.",
       "revId": "defe62e14a7193d945cc08e6c3d2a88eb0d6e6b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6649a430_e0c64191",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-11-27T12:02:11Z",
+      "side": 1,
+      "message": "Self verified. PTAL",
+      "revId": "defe62e14a7193d945cc08e6c3d2a88eb0d6e6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

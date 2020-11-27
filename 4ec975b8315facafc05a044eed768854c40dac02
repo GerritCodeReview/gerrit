@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a5812b8_4d71159e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-27T09:17:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bd974923_1d0df8c5",
+      "revId": "4ec975b8315facafc05a044eed768854c40dac02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a820f0b_ff833b20",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f073f68a_d0725154",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-27T09:17:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a820f0b_ff833b20",
+      "range": {
+        "startLine": 510,
+        "startChar": 23,
+        "endLine": 510,
+        "endChar": 35
+      },
+      "revId": "4ec975b8315facafc05a044eed768854c40dac02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d1d9798_84adfd1f",
@@ -54,6 +96,24 @@
       "writtenOn": "2020-11-27T08:09:00Z",
       "side": 1,
       "message": "Maybe drop the entire interface extension?",
+      "revId": "4ec975b8315facafc05a044eed768854c40dac02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83a0bbf3_abe79009",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-27T09:17:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d1d9798_84adfd1f",
       "revId": "4ec975b8315facafc05a044eed768854c40dac02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

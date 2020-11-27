@@ -507,11 +507,10 @@ export class GrAppElement extends KeyboardShortcutMixin(
     if (e.ctrlKey) key = 'ctrl+' + key;
     if (e.metaKey) key = 'meta+' + key;
     if (e.altKey) key = 'alt+' + key;
+    const path = event.composedPath && event.composedPath();
     this.reporting.reportInteraction('shortcut-triggered', {
       key,
-      from:
-        (event.path && event.path[0] && (event.path[0] as Element).nodeName) ??
-        'unknown',
+      from: (path && path[0] && (path[0] as Element).nodeName) ?? 'unknown',
     });
   }
 

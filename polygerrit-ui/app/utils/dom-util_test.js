@@ -55,13 +55,13 @@ suite('dom-util tests', () => {
       assert.equal(getEventPath(), '');
       assert.equal(getEventPath(null), '');
       assert.equal(getEventPath(undefined), '');
-      assert.equal(getEventPath({}), '');
+      assert.equal(getEventPath({composedPath: () => []}), '');
     });
 
     test('event with fake path', () => {
-      assert.equal(getEventPath({path: []}), '');
+      assert.equal(getEventPath({composedPath: () => []}), '');
       const dd = document.createElement('dd');
-      assert.equal(getEventPath({path: [dd]}), 'dd');
+      assert.equal(getEventPath({composedPath: () => [dd]}), 'dd');
     });
 
     test('event with fake complicated path', () => {
@@ -72,7 +72,7 @@ suite('dom-util tests', () => {
       divNode.id = 'test2';
       divNode.className = 'a b c';
       assert.equal(getEventPath(
-          {path: [dd, divNode]}),
+          {composedPath: () => [dd, divNode]}),
       'div#test2.a.b.c>dd#test.a.b'
       );
     });
@@ -88,7 +88,7 @@ suite('dom-util tests', () => {
       const fakeTarget = document.createElement('SPAN');
       fakeTargetParent1.appendChild(fakeTarget);
       assert.equal(
-          getEventPath({target: fakeTarget}),
+          getEventPath({composedPath: () => {}, target: fakeTarget}),
           'div#test2.a.b.c>dd#test.a.b>span'
       );
     });

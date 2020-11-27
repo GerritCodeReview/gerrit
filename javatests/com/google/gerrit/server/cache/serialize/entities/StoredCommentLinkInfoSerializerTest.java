@@ -56,4 +56,19 @@ public class StoredCommentLinkInfoSerializerTest {
             .build();
     assertThat(deserialize(serialize(autoValue))).isEqualTo(autoValue);
   }
+
+  @Test
+  public void nullEnabled_roundTrip() {
+    StoredCommentLinkInfo sourceAutoValue =
+        StoredCommentLinkInfo.builder("name").setLink("<p>html").setMatch("*").build();
+
+    StoredCommentLinkInfo storedAutoValue =
+        StoredCommentLinkInfo.builder("name")
+            .setLink("<p>html")
+            .setMatch("*")
+            .setEnabled(true)
+            .build();
+
+    assertThat(deserialize(serialize(sourceAutoValue))).isEqualTo(storedAutoValue);
+  }
 }

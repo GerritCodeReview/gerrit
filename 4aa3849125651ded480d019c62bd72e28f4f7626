@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdc578c1_82aa9f0c",
+        "filename": "java/com/google/gerrit/server/cache/serialize/entities/StoredCommentLinkInfoSerializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-27T22:23:42Z",
+      "side": 1,
+      "message": "Add a test in: [1] without explicitly setting enabled to true?\n\n[1] javatests/com/google/gerrit/server/cache/serialize/entities/StoredCommentLinkInfoSerializerTest.java",
+      "revId": "4aa3849125651ded480d019c62bd72e28f4f7626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

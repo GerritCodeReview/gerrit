@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bec08712_08eeae1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-27T10:39:42Z",
+      "side": 1,
+      "message": "Yeah I replied on the parent change if it was ok to keep them separate.\nI thought removing the interface would be more work initially.",
+      "parentUuid": "f63e2b9e_b025f61c",
+      "revId": "4ec975b8315facafc05a044eed768854c40dac02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a820f0b_ff833b20",

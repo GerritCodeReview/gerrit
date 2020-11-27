@@ -91,6 +91,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
@@ -154,6 +155,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.testing.TestChangeETagComputation;
+import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -2922,14 +2924,19 @@ public class ChangeIT extends AbstractDaemonTest {
   public void customCommitFooters() throws Exception {
     PushOneCommit.Result change = createChange();
     ChangeInfo actual;
-    try (Registration registration =
-        extensionRegistry
-            .newRegistration()
-            .add(
-                (newCommitMessage, original, mergeTip, destination) -> {
-                  assertThat(original.getName()).isNotEqualTo(mergeTip.getName());
-                  return newCommitMessage + "Custom: " + destination.branch();
-                })) {
+    ChangeMessageModifier link =
+        new ChangeMessageModifier() {
+          @Override
+          public String onSubmit(
+              String newCommitMessage,
+              RevCommit original,
+              RevCommit mergeTip,
+              BranchNameKey destination) {
+            assertThat(original.getName()).isNotEqualTo(mergeTip.getName());
+            return newCommitMessage + "Custom: " + destination.branch();
+          }
+        };
+    try (Registration registration = extensionRegistry.newRegistration().add(link)) {
       actual = gApi.changes().id(change.getChangeId()).get(ALL_REVISIONS, COMMIT_FOOTERS);
     }
     List<String> footers =

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_GLOBAL;
@@ -39,7 +40,9 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -55,6 +58,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
@@ -63,6 +67,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.AbstractModule;
@@ -70,6 +75,7 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -937,6 +943,42 @@ public class ProjectIT extends AbstractDaemonTest {
                 allProjects.get(),
                 RefNames.REFS_CONFIG,
                 projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).name()));
+  }
+
+  @Test
+  public void renamingGroupGetsPersisted() throws Exception {
+    String name = name("Name1");
+    GroupInfo group = gApi.groups().create(name).get();
+
+    // Use group in a permission
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(AccountGroup.uuid(group.id)))
+        .update();
+    Optional<String> beforeRename =
+        projectCache.get(project).get().getLocalGroups().stream()
+            .filter(g -> g.getUUID().get().equals(group.id))
+            .map(GroupReference::getName)
+            .findAny();
+    // Groups created with ProjectOperations always have their UUID as local name
+    assertThat(beforeRename).hasValue(group.id);
+
+    // Rename the group directly on the project config
+    String newName = name("Name2");
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig config = projectConfigFactory.read(md);
+      config.renameGroup(AccountGroup.uuid(group.id), newName);
+      config.commit(md);
+      projectCache.evict(config.getProject());
+    }
+
+    Optional<String> afterRename =
+        projectCache.get(project).get().getLocalGroups().stream()
+            .filter(g -> g.getUUID().get().equals(group.id))
+            .map(GroupReference::getName)
+            .findAny();
+    assertThat(afterRename).hasValue(newName);
   }
 
   private CommentLinkInfo commentLinkInfo(String name, String match, String link) {

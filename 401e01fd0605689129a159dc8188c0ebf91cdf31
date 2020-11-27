@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fe95c00_2414a227",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-11-27T11:34:52Z",
+      "side": 1,
+      "message": "wrong link, release notes for 5.3.8 are here:\nhttps://projects.eclipse.org/projects/technology.jgit/releases/5.1.14\nthough content is the same :-)",
+      "revId": "401e01fd0605689129a159dc8188c0ebf91cdf31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3a4f8a83_b00d3772",

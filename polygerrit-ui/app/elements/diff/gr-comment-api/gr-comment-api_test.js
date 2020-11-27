@@ -352,7 +352,6 @@ suite('gr-comment-api tests', () => {
         let path = 'file/one';
         let comments = element._changeComments.getCommentsBySideForPath(path,
             patchRange);
-        assert.equal(comments.meta.changeNum, 1234);
         assert.equal(comments.left.length, 0);
         assert.equal(comments.right.length, 0);
 

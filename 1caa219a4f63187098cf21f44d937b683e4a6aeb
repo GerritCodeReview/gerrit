@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c9c1d6a_c68a620c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 73
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-27T11:09:50Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "595f54c4_a8d08003",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 73
@@ -72,6 +95,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82523787_ae6f8436",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 73
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-27T11:09:50Z",
+      "side": 1,
+      "message": "that was changed",
+      "range": {
+        "startLine": 433,
+        "startChar": 55,
+        "endLine": 433,
+        "endChar": 75
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db8aab6e_b681c85e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 73
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-27T11:09:50Z",
+      "side": 1,
+      "message": "that was removed",
+      "range": {
+        "startLine": 450,
+        "startChar": 5,
+        "endLine": 452,
+        "endChar": 36
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3eff9c5_375652c9",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 73
@@ -129,6 +198,80 @@
         "endLine": 789,
         "endChar": 17
       },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a7e73ff_a139c980",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-27T11:09:50Z",
+      "side": 1,
+      "message": "I thought drafts are not handled by this change?",
+      "range": {
+        "startLine": 175,
+        "startChar": 34,
+        "endLine": 175,
+        "endChar": 40
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d2a56d9_0c036eec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-27T11:09:50Z",
+      "side": 1,
+      "message": "Instead of using a stub here you also just create a new ChangeComments object.",
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e70f6906_6cb5bbbf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-27T11:09:50Z",
+      "side": 1,
+      "message": "Here you set __path, but below you set path.\n\nCan you make sure that the sorting of the properties for each comment is the same.",
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ac60a06_9b02dd6a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-27T11:09:50Z",
+      "side": 1,
+      "message": "You have checked that above already.\n\nThis sections need a comment (or content needs to be moved up), otherwise you think that this is still part of:\n\n  // verify ported thread is not returned if original thread will be shown",
       "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

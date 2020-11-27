@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8231d81_47520efc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-27T14:15:46Z",
+      "side": 1,
+      "message": "Can someone from Google provide the LC +1? (this is an important Jetty upgrade to fix an NPE found by Tony on Gerrit stable-3.3)",
+      "revId": "9b076ae734a9417a43f2fa367e584a4076aaf434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f588063c_ff75679b",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-28T10:11:48Z",
+      "side": 1,
+      "message": "CI maintainer, because release manager might not be the one who maintains the CI.",
+      "range": {
+        "startLine": 303,
+        "startChar": 71,
+        "endLine": 304,
+        "endChar": 15
+      },
+      "revId": "8dd569835523e893588ce28555446a960d75da51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

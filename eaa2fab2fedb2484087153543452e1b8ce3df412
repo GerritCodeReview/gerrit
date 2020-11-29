@@ -22,6 +22,30 @@
       },
       "revId": "eaa2fab2fedb2484087153543452e1b8ce3df412",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64ec22cc_50dc4809",
+        "filename": "java/com/google/gerrit/pgm/init/InitJGitConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-29T20:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b4cb92d_5363613d",
+      "range": {
+        "startLine": 90,
+        "startChar": 82,
+        "endLine": 90,
+        "endChar": 91
+      },
+      "revId": "eaa2fab2fedb2484087153543452e1b8ce3df412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

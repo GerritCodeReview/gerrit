@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "645b8c21_371bf62c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-30T16:36:45Z",
+      "side": 1,
+      "message": "Rebase on [1] https://gerrit-review.googlesource.com/c/gerrit/+/290302 first?",
+      "revId": "62ebb20164833e29f8a4038dedd79d2a24a825da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

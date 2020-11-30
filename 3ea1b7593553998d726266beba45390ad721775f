@@ -34,6 +34,29 @@
       "parentUuid": "76b43eec_d3012810",
       "revId": "3ea1b7593553998d726266beba45390ad721775f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92c8d1af_33ef0b95",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-11-30T11:34:46Z",
+      "side": 1,
+      "message": "Nit: Maybe add a reasoning, something like:\n\nOnly collapse if the lines to be hidden take up more space than the context expander\n\nOr something like that. Otherwise the content does not add much info on top of the code.",
+      "range": {
+        "startLine": 86,
+        "startChar": 62,
+        "endLine": 86,
+        "endChar": 63
+      },
+      "revId": "3ea1b7593553998d726266beba45390ad721775f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

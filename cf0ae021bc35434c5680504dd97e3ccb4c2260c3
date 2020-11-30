@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "55c47657_2dadea39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-30T14:33:49Z",
+      "side": 1,
+      "message": "Do you want all occurrences of \"any\" removed then?\nI\u0027m not sure I understand the use case of replacing warning with error(if it means still keeping the usages in the codebase).",
+      "parentUuid": "72014528_a153bf57",
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "68dc2894_b6415023",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
         "patchSetId": 4

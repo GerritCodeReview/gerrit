@@ -34,6 +34,24 @@
       "parentUuid": "7c0bdb41_2ea45c62",
       "revId": "f296211a260c9874726197d1dda40f0ead29f0ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be822626_45703a82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-30T17:36:29Z",
+      "side": 1,
+      "message": "I did not add you to the attention set, because I am typically trying to avoid distractions to others as much as possible. I had addressed both your comments and I needed the +2 from Dmitrii. So I did not expect that you wanted to have another look.",
+      "parentUuid": "50d3f83c_db10e58b",
+      "revId": "f296211a260c9874726197d1dda40f0ead29f0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

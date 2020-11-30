@@ -106,6 +106,7 @@ import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SinonSpyMember<F extends (...args: any) => any> = SinonSpy<
   Parameters<F>,
   ReturnType<F>
@@ -2826,8 +2827,11 @@ suite('gr-change-view tests', () => {
         'http://some/plugins/url.html'
       );
       flush(() => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         assert.strictEqual((hookEl as any).plugin, plugin);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         assert.strictEqual((hookEl as any).change, element._change);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         assert.strictEqual((hookEl as any).revision, element._selectedRevision);
         done();
       });

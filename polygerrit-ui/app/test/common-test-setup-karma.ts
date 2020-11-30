@@ -89,6 +89,7 @@ function flushImpl(callback?: () => void): Promise<void> | void {
   // The type is used only in one place, disable eslint warning instead of
   // creating an interface
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as any).Polymer.dom.flush();
   if (callback) {
     nativeSetTimeout(callback, 0);

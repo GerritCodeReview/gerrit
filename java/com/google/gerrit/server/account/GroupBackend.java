@@ -19,7 +19,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Collection;
 
@@ -42,7 +42,7 @@ public interface GroupBackend {
   Collection<GroupReference> suggest(String name, @Nullable ProjectState project);
 
   /** @return the group membership checker for the backend. */
-  GroupMembership membershipsOf(IdentifiedUser user);
+  GroupMembership membershipsOf(CurrentUser user);
 
   /** @return {@code true} if the group with the given UUID is visible to all registered users. */
   boolean isVisibleToAll(AccountGroup.UUID uuid);

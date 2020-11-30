@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.db.Groups;
@@ -97,7 +97,7 @@ public class InternalGroupBackend implements GroupBackend {
   }
 
   @Override
-  public GroupMembership membershipsOf(IdentifiedUser user) {
+  public GroupMembership membershipsOf(CurrentUser user) {
     return groupMembershipFactory.create(user);
   }
 

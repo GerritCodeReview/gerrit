@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StartupCheck;
 import com.google.gerrit.server.StartupException;
@@ -182,8 +183,11 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   }
 
   @Override
-  public GroupMembership membershipsOf(IdentifiedUser user) {
-    return new ListGroupMembership(ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS));
+  public GroupMembership membershipsOf(CurrentUser user) {
+    if (user instanceof IdentifiedUser) {
+      return new ListGroupMembership(ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS));
+    }
+    return new ListGroupMembership(ImmutableSet.of(ANONYMOUS_USERS));
   }
 
   public static class NameCheck implements StartupCheck {

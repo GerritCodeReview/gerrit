@@ -24,7 +24,12 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-host_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {rangesEqual} from '../gr-diff/gr-diff-utils';
+import {
+  getLine,
+  getRange,
+  getSide,
+  rangesEqual,
+} from '../gr-diff/gr-diff-utils';
 import {appContext} from '../../../services/app-context';
 import {
   getParentIndex,
@@ -808,11 +813,7 @@ export class GrDiffHost extends GestureEventListeners(
       throw new Error(`Unknown side: ${commentSide}`);
     }
     function matchesRange(threadEl: GrCommentThread) {
-      const rangeAtt = threadEl.getAttribute('range');
-      const threadRange = rangeAtt
-        ? (JSON.parse(rangeAtt) as CommentRange)
-        : undefined;
-      return rangesEqual(threadRange, range);
+      return rangesEqual(getRange(threadEl), range);
     }
 
     const filteredThreadEls = this._filterThreadElsForLocation(
@@ -830,21 +831,18 @@ export class GrDiffHost extends GestureEventListeners(
   ) {
     function matchesLeftLine(threadEl: GrCommentThread) {
       return (
-        threadEl.getAttribute('comment-side') === Side.LEFT &&
-        threadEl.getAttribute('line-num') === String(lineInfo.beforeNumber)
+        getSide(threadEl) === Side.LEFT &&
+        getLine(threadEl) === String(lineInfo.beforeNumber)
       );
     }
     function matchesRightLine(threadEl: GrCommentThread) {
       return (
-        threadEl.getAttribute('comment-side') === Side.RIGHT &&
-        threadEl.getAttribute('line-num') === String(lineInfo.afterNumber)
+        getSide(threadEl) === Side.RIGHT &&
+        getLine(threadEl) === String(lineInfo.afterNumber)
       );
     }
     function matchesFileComment(threadEl: GrCommentThread) {
-      return (
-        threadEl.getAttribute('comment-side') === side &&
-        threadEl.getAttribute('line-num') === FILE
-      );
+      return getSide(threadEl) === side && getLine(threadEl) === FILE;
     }
 
     // Select the appropriate matchers for the desired side and line

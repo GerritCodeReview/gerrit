@@ -83,8 +83,8 @@ export function hideInContextControl(
 
   const numHidden = hiddenEnd - hiddenStart;
 
-  // Only collapse if there is more than 1 line to be hidden.
-  if (numHidden > 1) {
+  // Only collapse if there are more than 3 lines to be hidden.
+  if (numHidden > 3) {
     if (hiddenStart) {
       [before, hidden] = _splitCommonGroups(hidden, hiddenStart);
     }

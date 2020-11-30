@@ -270,6 +270,7 @@ module.exports = {
           name: "@polymer/decorators/lib/decorators",
           message: "Use @polymer/decorators instead",
         }],
+        "@typescript-eslint/no-explicit-any": "error",
         // The following rules is required to match internal google rules
         "@typescript-eslint/restrict-plus-operands": "error",
         "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],

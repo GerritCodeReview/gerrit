@@ -44,6 +44,7 @@ const eventCallbacks: {[key: string]: EventCallback[]} = {};
 export class GrJsApiInterface
   extends GestureEventListeners(LegacyElementMixin(PolymerElement))
   implements JsApiService {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleEvent(type: EventType, detail: any) {
     getPluginLoader()
       .awaitPluginsLoaded()

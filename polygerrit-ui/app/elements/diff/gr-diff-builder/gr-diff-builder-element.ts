@@ -306,7 +306,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     return this.getContentTdByLine(line, side, row);
   }
 
-  getLineElByNumber(lineNumber: string | number, side?: Side) {
+  getLineElByNumber(lineNumber: LineNumber, side?: Side) {
     const sideSelector = side ? '.' + side : '';
     return this.diffElement.querySelector(
       `.lineNum[data-value="${lineNumber}"]${sideSelector}`

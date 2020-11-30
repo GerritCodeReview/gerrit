@@ -30,6 +30,7 @@ import {customElement, property, observe} from '@polymer/decorators';
 import {DiffInfo} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
+import {getSide, isThreadEl} from '../gr-diff/gr-diff-utils';
 
 /**
  * Possible CSS classes indicating the state of selection. Dynamically added/
@@ -96,10 +97,10 @@ export class GrDiffSelection extends GestureEventListeners(
   }
 
   _handleDownOnRangeComment(node: Element) {
-    if (node?.nodeName?.toLowerCase() === 'gr-comment-thread') {
+    if (isThreadEl(node)) {
       this._setClasses([
         SelectionClass.COMMENT,
-        node.getAttribute('comment-side') === Side.LEFT
+        getSide(node) === Side.LEFT
           ? SelectionClass.LEFT
           : SelectionClass.RIGHT,
       ]);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "261ca81a_e80f1dec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-11-30T10:32:10Z",
+      "side": 1,
+      "message": "Giving +2 because Milutin looked at the FE code",
+      "revId": "56f7e79153f0ee17d7ac3192d75481015e83e773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

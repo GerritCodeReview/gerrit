@@ -773,6 +773,7 @@ export enum Modifier {
 
 interface IronA11yKeysMixinConstructor {
   // Note: this is needed to have same interface as other mixins
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new (...args: any[]): IronA11yKeysBehavior;
 }
 /**
@@ -1008,6 +1009,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
         const handler = this._shortcut_v_table.get(e.detail.key);
         if (handler) {
           // TODO(TS): should fix this
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (this as any)[handler](e);
         }
       }
@@ -1044,6 +1046,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
         const handler = this._shortcut_go_table.get(e.detail.key);
         if (handler) {
           // TODO(TS): should fix this
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (this as any)[handler](e);
         }
       }
@@ -1067,6 +1070,7 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
   return InternalKeyboardShortcutMixin(
     // TODO(TS): mixinBehaviors in some lib is returning: `new () => T` instead
     // which will fail the type check due to missing IronA11yKeysBehavior interface
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mixinBehaviors([IronA11yKeysBehavior], superClass) as any
   );
 };

@@ -153,6 +153,7 @@ export function initErrorReporter(appContext: AppContext) {
     return true;
   };
   // TODO(dmfilippov): TS-fix-any unclear what is context
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const catchErrors = function (opt_context?: any) {
     const context = opt_context || window;
     const oldOnError = context.onerror;
@@ -360,6 +361,7 @@ export class GrReporting implements ReportingService {
       eventDetails
     );
     if (type === ERROR.TYPE && category === ERROR.CATEGORY.EXCEPTION) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error((eventValue && (eventValue as any).error) || eventName);
     }
 

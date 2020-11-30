@@ -30,6 +30,7 @@ import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior';
 // TODO(TS): Update once GrCursorManager is upated
 export interface GrAutocompleteDropdown {
   $: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     cursor: any;
     suggestions: Element;
   };

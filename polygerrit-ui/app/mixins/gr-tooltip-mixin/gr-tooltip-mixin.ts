@@ -78,7 +78,7 @@ export const TooltipMixin = dedupingMixin(
       // Hanlder for hiding the tooltip, will be attached to certain events
       private readonly hideHandler: () => void;
 
-      // tslint:disable-next-line:no-any Required for constructor signature.
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
       constructor(..._: any[]) {
         super();
         this.windowScrollHandler = () => this._handleWindowScroll();

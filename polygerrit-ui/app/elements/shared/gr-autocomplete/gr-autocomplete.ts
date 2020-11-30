@@ -57,6 +57,7 @@ export interface AutocompleteSuggestion {
   label?: string;
   // TODO(TS): this value can be string or arbitrary object (in gr-create-repo-dialog)
   // probably should limit it to string only as it seems not used
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value?: any;
   text?: string;
 }

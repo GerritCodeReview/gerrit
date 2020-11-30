@@ -272,6 +272,7 @@ module.exports = {
         }],
         // See https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
         "@typescript-eslint/ban-ts-ignore": "off",
+        "@typescript-eslint/no-explicit-any": "error",
         // The following rules is required to match internal google rules
         "@typescript-eslint/restrict-plus-operands": "error",
         "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
@@ -293,6 +294,12 @@ module.exports = {
       "parserOptions": {
         "project": path.resolve(__dirname, "./tsconfig_eslint.json"),
       }
+    },
+    {
+      "files": ["*_test.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
+      },
     },
     {
       "files": ["*.html", "test.js", "test-infra.js"],

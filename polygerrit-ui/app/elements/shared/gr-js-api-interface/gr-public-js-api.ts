@@ -170,6 +170,7 @@ export class Plugin implements PluginApi {
     return document.createElement('gr-rest-api-interface').getConfig();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   on(eventName: EventType, callback: (...args: any[]) => any) {
     this.sharedApiElement.addEventCallback(eventName, callback);
   }

@@ -340,12 +340,14 @@ export class GrRepo extends GestureEventListeners(
       if (key === 'plugin_config') {
         configInputObj.plugin_config_values = repoConfig.plugin_config;
       } else if (typeof repoConfig[key] === 'object') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const repoConfigObj: any = repoConfig[key];
         if (repoConfigObj.configured_value) {
           configInputObj[key as keyof ConfigInput] =
             repoConfigObj.configured_value;
         }
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         configInputObj[key as keyof ConfigInput] = repoConfig[key] as any;
       }
     }

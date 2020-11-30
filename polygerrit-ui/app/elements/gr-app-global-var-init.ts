@@ -168,6 +168,7 @@ export function initGlobalVariables() {
   window.Gerrit._endpoints = getPluginEndpoints();
 
   // TODO(TS): seems not used, probably just remove
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   window.Gerrit.slotToContent = (slot: any) => slot;
   window.Gerrit.rangesEqual = rangesEqual;
   window.Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES = SUGGESTIONS_PROVIDERS_USERS_TYPES;

@@ -213,6 +213,7 @@ export class GrComment extends KeyboardShortcutMixin(
   _isAdmin = false;
 
   @property({type: Object})
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _xhrPromise?: Promise<any>; // Used for testing.
 
   @property({type: String, observer: '_messageTextChanged'})

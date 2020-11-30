@@ -426,6 +426,7 @@ export class PluginLoader {
     if (!this._loadingPromise) {
       // TODO(TS): Should be a number, but TS thinks that is must be some weird
       // NodeJS.Timeout object.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let timerId: any;
       this._loadingPromise = Promise.race([
         new Promise(resolve => (this._loadingResolver = resolve)),

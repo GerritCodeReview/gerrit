@@ -69,6 +69,7 @@ export interface RegisterOptions {
 
 export interface PanelInfo {
   body: Element;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   p: {[key: string]: any};
   onUnload: () => void;
 }
@@ -89,6 +90,7 @@ export interface PluginApi {
   popup(moduleName?: string): Promise<GrPopupInterface | null>;
   hook(endpointName: string, opt_options?: RegisterOptions): HookApi;
   getPluginName(): string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   on(eventName: string, target: any): void;
   attributeHelper(element: Element): GrAttributeHelper;
   restApi(): GrPluginRestApi;

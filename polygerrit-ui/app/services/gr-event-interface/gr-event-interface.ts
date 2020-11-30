@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EventCallback = (...args: any) => void;
 export type UnsubscribeMethod = () => void;
 
@@ -51,11 +52,13 @@ export interface EventEmitterService {
    *
    * @returns true if the event had listeners, false otherwise.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emit(eventName: string, detail: any): boolean;
 
   /**
    * Alias to emit.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dispatch(eventName: string, detail: any): boolean;
 
   /**

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68dc2894_b6415023",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-30T14:06:19Z",
+      "side": 1,
+      "message": "What if we disable no-explicit-any on all test files?",
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d59258b_bd7daf18",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-30T14:06:19Z",
+      "side": 1,
+      "message": "Twice",
+      "range": {
+        "startLine": 30,
+        "startChar": 29,
+        "endLine": 30,
+        "endChar": 39
+      },
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcd7b23a_90122c1c",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-30T14:06:19Z",
+      "side": 1,
+      "message": "twice",
+      "range": {
+        "startLine": 38,
+        "startChar": 29,
+        "endLine": 38,
+        "endChar": 39
+      },
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "970b678b_2813b52f",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-30T14:06:19Z",
+      "side": 1,
+      "message": "It\u0027s twice here?",
+      "range": {
+        "startLine": 34,
+        "startChar": 10,
+        "endLine": 34,
+        "endChar": 17
+      },
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52ef62e4_59477dd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-11-30T13:10:56Z",
+      "side": 1,
+      "message": "verified that init configures protocol.version\u003d2 and that it emits a warning if it\u0027s configured to a different value",
+      "revId": "4f43759cdf4df22ea1033d68617dae6dfeca3894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

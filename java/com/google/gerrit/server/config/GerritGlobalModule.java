@@ -179,6 +179,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
+import com.google.gerrit.server.query.change.ExternalUser;
 import com.google.gerrit.server.quota.QuotaEnforcer;
 import com.google.gerrit.server.restapi.change.SuggestReviewers;
 import com.google.gerrit.server.restapi.group.GroupModule;
@@ -278,6 +279,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectState.Factory.class);
     factory(RevisionJson.Factory.class);
     factory(InboundEmailRejectionSender.Factory.class);
+    factory(ExternalUser.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
     AccountDefaultDisplayName accountDefaultDisplayName =

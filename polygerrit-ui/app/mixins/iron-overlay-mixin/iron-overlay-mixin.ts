@@ -33,6 +33,7 @@ import {Constructor} from '../../utils/common-util';
 // IronOverlayBehavior defined as an object, not as IronOverlayBehavior instance.
 export const IronOverlayMixin = <T extends Constructor<PolymerElement>>(
   superClass: T,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _: IronOverlayBehavior
 ): T & Constructor<IronOverlayBehavior> =>
   // TODO(TS): mixinBehaviors in some lib is returning: `new () => T`

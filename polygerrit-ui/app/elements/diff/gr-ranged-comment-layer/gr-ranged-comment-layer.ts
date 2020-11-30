@@ -103,6 +103,7 @@ export class GrRangedCommentLayer
    *
    * @param el The DIV.contentText element to apply the annotation to.
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   annotate(el: HTMLElement, _: HTMLElement, line: GrDiffLine) {
     let ranges: CommentRangeLineLayer[] = [];
     if (

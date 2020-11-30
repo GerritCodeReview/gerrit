@@ -1158,6 +1158,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   /**
    * The newAttentionSet param is only used to force re-computation.
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _removeServiceUsers(accounts: AccountInfo[], _: Set<AccountId>) {
     return removeServiceUsers(accounts);
   }

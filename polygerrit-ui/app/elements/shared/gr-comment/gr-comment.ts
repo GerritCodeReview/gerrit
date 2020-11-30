@@ -616,6 +616,7 @@ export class GrComment extends KeyboardShortcutMixin(
     this._messageText = message || '';
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _messageTextChanged(_: string, oldValue: string) {
     if (!this.comment || (this.comment && this.comment.id)) {
       return;

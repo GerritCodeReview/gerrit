@@ -18,6 +18,7 @@
 export type EventValue = string | number | {error?: Error};
 
 // TODO(dmfilippov): TS-fix-any use more specific type instead if possible
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EventDetails = any;
 
 export const PORTING_COMMENTS_DIFF_LATENCY_LABEL = 'PortingCommentsDiffLatency';

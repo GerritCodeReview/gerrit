@@ -31,6 +31,7 @@ export interface ShowRevisionActionsDetail {
   revisionActions: {[key: string]: ActionInfo};
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EventCallback = (...args: any[]) => any;
 
 export interface JsApiService {
@@ -41,6 +42,7 @@ export interface JsApiService {
     revertSubmissionMsg: string,
     origMsg: string
   ): string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleEvent(eventName: EventType, detail: any): void;
   modifyRevertMsg(
     change: ChangeInfo,

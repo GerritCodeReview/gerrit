@@ -123,9 +123,7 @@ public class IndexPreloadingUtil {
     options.add(ListChangesOption.LABELS);
     options.add(ListChangesOption.DETAILED_ACCOUNTS);
 
-    if (isEnabledAttentionSet(serverApi)) {
-      options.add(ListChangesOption.DETAILED_LABELS);
-    } else {
+    if (!isEnabledAttentionSet(serverApi)) {
       options.add(ListChangesOption.REVIEWED);
     }
     return ListOption.toHex(options);

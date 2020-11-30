@@ -127,6 +127,7 @@ class GrEndpointDecorator extends GestureEventListeners(
     });
     // TODO(TS): Should be a number, but TS thinks that is must be some weird
     // NodeJS.Timeout object.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let timeoutId: any;
     const timeout = new Promise(
       () =>

@@ -27,6 +27,7 @@
  * Wrapper for the Object.prototype.hasOwnProperty method
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function hasOwnProperty(obj: any, prop: PropertyKey) {
   // Typescript rules don't allow to use obj.hasOwnProperty directly
   return Object.prototype.hasOwnProperty.call(obj, prop);
@@ -34,6 +35,7 @@ export function hasOwnProperty(obj: any, prop: PropertyKey) {
 
 // TODO(TS): move to common types once we have type utils
 //  Required for constructor signature.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Constructor<T> = new (...args: any[]) => T;
 

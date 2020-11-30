@@ -2512,6 +2512,18 @@ Valid values are `true` and `false`. The default is `true`.
 [[groups]]
 === Section groups
 
+[[groups.includeExternalUsersInRegisteredUsersGroup]]groups.includeExternalUsersInRegisteredUsersGroup::
++
+Controls whether external users (these are users we have sufficient
+knowledge about but who don't yet have a Gerrit account) are considered
+to be members of the `REGISTERED_USERS` group.
++
+This setting only makes sense if you run custom code (e.g. from a plugin
+or a custom authentication backend). By default, Gerrit core always requires
+users to register and doesn't use external users.
++
+By default, true.
+
 [[groups.newGroupsVisibleToAll]]groups.newGroupsVisibleToAll::
 +
 Controls whether newly created groups should be by default visible to

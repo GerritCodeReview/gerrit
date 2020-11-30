@@ -16,6 +16,24 @@
       "message": "Generally, I wonder if this should be dependent on the context setting used around changes, e.g. as a percentage. If as a user I want to see 10 lines of context in both directions, hiding 5 lines probably seems unnecessary; if I instead have a very aggressive setting of only 2 lines of context in either direction, hiding 5 lines is probably expected.\n\nBut also LGTM as is; most users probably never tweak those settings anyway, so my point might be moot / too complicated to be worth it.",
       "revId": "3ea1b7593553998d726266beba45390ad721775f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1eae7f3d_2052556c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-30T11:30:53Z",
+      "side": 1,
+      "message": "Yeah, I agree. That is why I only dared to change the threshold from 1 to 3.\n\nI am just trying to pick low hanging fruit here. :-)",
+      "parentUuid": "76b43eec_d3012810",
+      "revId": "3ea1b7593553998d726266beba45390ad721775f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

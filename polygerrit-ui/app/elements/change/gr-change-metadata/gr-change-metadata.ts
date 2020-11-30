@@ -109,7 +109,7 @@ const SubmitTypeLabel = new Map<SubmitType, string>([
 
 const NOT_CURRENT_MESSAGE = 'Not current - rebase possible';
 
-interface PushCertifacteValidationInfo {
+interface PushCertificateValidationInfo {
   class: string;
   icon: string;
   message: string;
@@ -118,6 +118,7 @@ interface PushCertifacteValidationInfo {
 export interface GrChangeMetadata {
   $: {
     restAPI: RestApiService & Element;
+    webLinks: HTMLElement;
   };
 }
 
@@ -178,7 +179,7 @@ export class GrChangeMetadata extends GestureEventListeners(
     type: Object,
     computed: '_computePushCertificateValidation(serverConfig, change)',
   })
-  _pushCertificateValidation?: PushCertifacteValidationInfo;
+  _pushCertificateValidation?: PushCertificateValidationInfo;
 
   @property({type: Boolean, computed: '_computeShowRequirements(change)'})
   _showRequirements = false;
@@ -323,7 +324,7 @@ export class GrChangeMetadata extends GestureEventListeners(
   }
 
   _showAddTopic(
-    changeRecord: ElementPropertyDeepChange<GrChangeMetadata, 'change'>,
+    changeRecord?: ElementPropertyDeepChange<GrChangeMetadata, 'change'>,
     settingTopic?: boolean
   ) {
     const hasTopic = !!changeRecord?.base?.topic;
@@ -331,7 +332,7 @@ export class GrChangeMetadata extends GestureEventListeners(
   }
 
   _showTopicChip(
-    changeRecord: ElementPropertyDeepChange<GrChangeMetadata, 'change'>,
+    changeRecord?: ElementPropertyDeepChange<GrChangeMetadata, 'change'>,
     settingTopic?: boolean
   ) {
     const hasTopic = !!changeRecord?.base?.topic;
@@ -412,7 +413,7 @@ export class GrChangeMetadata extends GestureEventListeners(
   _computePushCertificateValidation(
     serverConfig?: ServerInfo,
     change?: ParsedChangeInfo
-  ): PushCertifacteValidationInfo | undefined {
+  ): PushCertificateValidationInfo | undefined {
     if (!change || !serverConfig?.receive?.enable_signed_push) return undefined;
 
     const rev = change.revisions[change.current_revision];

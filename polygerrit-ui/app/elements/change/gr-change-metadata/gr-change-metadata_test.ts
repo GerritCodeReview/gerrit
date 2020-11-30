@@ -15,116 +15,220 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import '../../core/gr-router/gr-router.js';
-import './gr-change-metadata.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import '../../../test/common-test-setup-karma';
+import '../../core/gr-router/gr-router';
+import './gr-change-metadata';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+// import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+// import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit';
+import {GrChangeMetadata} from './gr-change-metadata';
+import {
+  createServerInfo,
+  createUserConfig,
+  createParsedChange,
+  createAccountWithId,
+  createRequirement,
+  createCommitInfoWithRequiredCommit,
+  createWebLinkInfo,
+  createGerritInfo,
+  createGitPerson,
+  createCommit,
+  createRevision,
+} from '../../../test/test-data-generators';
+import {
+  ChangeStatus,
+  SubmitType,
+  RequirementStatus,
+  GpgKeyInfoStatus,
+} from '../../../constants/constants';
+import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {
+  EmailAddress,
+  AccountId,
+  CommitId,
+  ServerInfo,
+  RevisionInfo,
+  ParentCommitInfo,
+  TopicName,
+  ElementPropertyDeepChange,
+} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-change-metadata');
 
-const pluginApi = _testOnly_initGerritPluginApi();
+// const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-change-metadata tests', () => {
-  let element;
+  let element: GrChangeMetadata;
 
   setup(() => {
     stub('gr-rest-api-interface', {
-      getConfig() { return Promise.resolve({}); },
-      getLoggedIn() { return Promise.resolve(false); },
+      getConfig() {
+        return Promise.resolve({
+          ...createServerInfo(),
+          user: {
+            ...createUserConfig(),
+            anonymous_coward_name: 'test coward name',
+          },
+        });
+      },
+      getLoggedIn() {
+        return Promise.resolve(false);
+      },
     });
 
     element = basicFixture.instantiate();
   });
 
   test('computed fields', () => {
-    assert.isFalse(element._computeHideStrategy({status: 'NEW'}));
-    assert.isTrue(element._computeHideStrategy({status: 'MERGED'}));
-    assert.isTrue(element._computeHideStrategy({status: 'ABANDONED'}));
-    assert.equal(element._computeStrategy({submit_type: 'CHERRY_PICK'}),
-        'Cherry Pick');
-    assert.equal(element._computeStrategy({submit_type: 'REBASE_ALWAYS'}),
-        'Rebase Always');
+    assert.isFalse(
+      element._computeHideStrategy({
+        ...createParsedChange(),
+        status: ChangeStatus.NEW,
+      })
+    );
+    assert.isTrue(
+      element._computeHideStrategy({
+        ...createParsedChange(),
+        status: ChangeStatus.MERGED,
+      })
+    );
+    assert.isTrue(
+      element._computeHideStrategy({
+        ...createParsedChange(),
+        status: ChangeStatus.ABANDONED,
+      })
+    );
+    assert.equal(
+      element._computeStrategy({
+        ...createParsedChange(),
+        submit_type: SubmitType.CHERRY_PICK,
+      }),
+      'Cherry Pick'
+    );
+    assert.equal(
+      element._computeStrategy({
+        ...createParsedChange(),
+        submit_type: SubmitType.REBASE_ALWAYS,
+      }),
+      'Rebase Always'
+    );
   });
 
   test('computed fields requirements', () => {
-    assert.isFalse(element._computeShowRequirements({status: 'MERGED'}));
-    assert.isFalse(element._computeShowRequirements({status: 'ABANDONED'}));
+    assert.isFalse(
+      element._computeShowRequirements({
+        ...createParsedChange(),
+        status: ChangeStatus.MERGED,
+      })
+    );
+    assert.isFalse(
+      element._computeShowRequirements({
+        ...createParsedChange(),
+        status: ChangeStatus.ABANDONED,
+      })
+    );
 
     // No labels and no requirements: submit status is useless
-    assert.isFalse(element._computeShowRequirements({
-      status: 'NEW',
-      labels: {},
-    }));
+    assert.isFalse(
+      element._computeShowRequirements({
+        ...createParsedChange(),
+        status: ChangeStatus.NEW,
+        labels: {},
+      })
+    );
 
     // Work in Progress: submit status should be present
-    assert.isTrue(element._computeShowRequirements({
-      status: 'NEW',
-      labels: {},
-      work_in_progress: true,
-    }));
+    assert.isTrue(
+      element._computeShowRequirements({
+        ...createParsedChange(),
+        status: ChangeStatus.NEW,
+        labels: {},
+        work_in_progress: true,
+      })
+    );
 
     // We have at least one reason to display Submit Status
-    assert.isTrue(element._computeShowRequirements({
-      status: 'NEW',
-      labels: {
-        Verified: {
-          approved: false,
+    assert.isTrue(
+      element._computeShowRequirements({
+        ...createParsedChange(),
+        status: ChangeStatus.NEW,
+        labels: {
+          Verified: {
+            approved: createAccountWithId(),
+          },
         },
-      },
-      requirements: [],
-    }));
-    assert.isTrue(element._computeShowRequirements({
-      status: 'NEW',
-      labels: {},
-      requirements: [{
-        fallback_text: 'Resolve all comments',
-        status: 'OK',
-      }],
-    }));
+        requirements: [],
+      })
+    );
+    assert.isTrue(
+      element._computeShowRequirements({
+        ...createParsedChange(),
+        status: ChangeStatus.NEW,
+        labels: {},
+        requirements: [
+          {
+            ...createRequirement(),
+            fallbackText: 'Resolve all comments',
+            status: RequirementStatus.OK,
+          },
+        ],
+      })
+    );
   });
 
   test('show strategy for open change', () => {
-    element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {}};
+    element.change = {
+      ...createParsedChange(),
+      status: ChangeStatus.NEW,
+      submit_type: SubmitType.CHERRY_PICK,
+      labels: {},
+    };
     flush();
-    const strategy = element.shadowRoot
-        .querySelector('.strategy');
+    const strategy = element.shadowRoot?.querySelector('.strategy');
     assert.ok(strategy);
-    assert.isFalse(strategy.hasAttribute('hidden'));
-    assert.equal(strategy.children[1].innerHTML, 'Cherry Pick');
+    assert.isFalse(strategy?.hasAttribute('hidden'));
+    assert.equal(strategy?.children[1].innerHTML, 'Cherry Pick');
   });
 
   test('hide strategy for closed change', () => {
-    element.change = {status: 'MERGED', labels: {}};
+    element.change = {
+      ...createParsedChange(),
+      status: ChangeStatus.MERGED,
+      labels: {},
+    };
     flush();
-    assert.isTrue(element.shadowRoot
-        .querySelector('.strategy').hasAttribute('hidden'));
+    assert.isTrue(
+      element.shadowRoot?.querySelector('.strategy')?.hasAttribute('hidden')
+    );
   });
 
   test('weblinks use GerritNav interface', () => {
-    const weblinksStub = sinon.stub(GerritNav, '_generateWeblinks')
-        .returns([{name: 'stubb', url: '#s'}]);
-    element.commitInfo = {};
-    element.serverConfig = {};
+    const weblinksStub = sinon
+      .stub(GerritNav, '_generateWeblinks')
+      .returns([{name: 'stubb', url: '#s'}]);
+    element.commitInfo = createCommitInfoWithRequiredCommit();
+    element.serverConfig = createServerInfo();
     flush();
     const webLinks = element.$.webLinks;
     assert.isTrue(weblinksStub.called);
     assert.isFalse(webLinks.hasAttribute('hidden'));
-    assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
+    assert.equal(element._computeWebLinks(element.commitInfo)?.length, 1);
   });
 
   test('weblinks hidden when no weblinks', () => {
-    element.commitInfo = {};
-    element.serverConfig = {};
+    element.commitInfo = createCommitInfoWithRequiredCommit();
+    element.serverConfig = createServerInfo();
     flush();
     const webLinks = element.$.webLinks;
     assert.isTrue(webLinks.hasAttribute('hidden'));
   });
 
   test('weblinks hidden when only gitiles weblink', () => {
-    element.commitInfo = {web_links: [{name: 'gitiles', url: '#'}]};
-    element.serverConfig = {};
+    element.commitInfo = {
+      ...createCommitInfoWithRequiredCommit(),
+      web_links: [{...createWebLinkInfo(), name: 'gitiles', url: '#'}],
+    };
+    element.serverConfig = createServerInfo();
     flush();
     const webLinks = element.$.webLinks;
     assert.isTrue(webLinks.hasAttribute('hidden'));
@@ -133,9 +237,14 @@ suite('gr-change-metadata tests', () => {
 
   test('weblinks hidden when sole weblink is set as primary', () => {
     const browser = 'browser';
-    element.commitInfo = {web_links: [{name: browser, url: '#'}]};
+    element.commitInfo = {
+      ...createCommitInfoWithRequiredCommit(),
+      web_links: [{...createWebLinkInfo(), name: browser, url: '#'}],
+    };
     element.serverConfig = {
+      ...createServerInfo(),
       gerrit: {
+        ...createGerritInfo(),
         primary_weblink_name: browser,
       },
     };
@@ -146,637 +255,713 @@ suite('gr-change-metadata tests', () => {
 
   test('weblinks are visible when other weblinks', () => {
     const router = document.createElement('gr-router');
-    sinon.stub(GerritNav, '_generateWeblinks').callsFake(
-        router._generateWeblinks.bind(router));
+    sinon
+      .stub(GerritNav, '_generateWeblinks')
+      .callsFake(router._generateWeblinks.bind(router));
 
-    element.commitInfo = {web_links: [{name: 'test', url: '#'}]};
+    element.commitInfo = {
+      ...createCommitInfoWithRequiredCommit(),
+      web_links: [{...createWebLinkInfo(), name: 'test', url: '#'}],
+    };
     flush();
     const webLinks = element.$.webLinks;
     assert.isFalse(webLinks.hasAttribute('hidden'));
-    assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
+    assert.equal(element._computeWebLinks(element.commitInfo)?.length, 1);
     // With two non-gitiles weblinks, there are two returned.
     element.commitInfo = {
-      web_links: [{name: 'test', url: '#'}, {name: 'test2', url: '#'}]};
-    assert.equal(element._computeWebLinks(element.commitInfo).length, 2);
+      ...createCommitInfoWithRequiredCommit(),
+      web_links: [
+        {...createWebLinkInfo(), name: 'test', url: '#'},
+        {...createWebLinkInfo(), name: 'test2', url: '#'},
+      ],
+    };
+    assert.equal(element._computeWebLinks(element.commitInfo)?.length, 2);
   });
 
   test('weblinks are visible when gitiles and other weblinks', () => {
     const router = document.createElement('gr-router');
-    sinon.stub(GerritNav, '_generateWeblinks').callsFake(
-        router._generateWeblinks.bind(router));
+    sinon
+      .stub(GerritNav, '_generateWeblinks')
+      .callsFake(router._generateWeblinks.bind(router));
 
     element.commitInfo = {
-      web_links: [{name: 'test', url: '#'}, {name: 'gitiles', url: '#'}]};
+      ...createCommitInfoWithRequiredCommit(),
+      web_links: [
+        {...createWebLinkInfo(), name: 'test', url: '#'},
+        {...createWebLinkInfo(), name: 'gitiles', url: '#'},
+      ],
+    };
     flush();
     const webLinks = element.$.webLinks;
     assert.isFalse(webLinks.hasAttribute('hidden'));
     // Only the non-gitiles weblink is returned.
-    assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
+    assert.equal(element._computeWebLinks(element.commitInfo)?.length, 1);
   });
 
   suite('_getNonOwnerRole', () => {
-    let change;
+    let change: ParsedChangeInfo | undefined;
 
     setup(() => {
       change = {
+        ...createParsedChange(),
         owner: {
-          email: 'abc@def',
-          _account_id: 1019328,
+          ...createAccountWithId(),
+          email: 'abc@def' as EmailAddress,
+          _account_id: 1019328 as AccountId,
         },
         revisions: {
           rev1: {
-            _number: 1,
+            ...createRevision(),
             uploader: {
-              email: 'ghi@def',
-              _account_id: 1011123,
+              ...createAccountWithId(),
+              email: 'ghi@def' as EmailAddress,
+              _account_id: 1011123 as AccountId,
             },
             commit: {
-              author: {email: 'jkl@def'},
-              committer: {email: 'ghi@def'},
+              ...createCommit(),
+              author: {...createGitPerson(), email: 'jkl@def'},
+              committer: {...createGitPerson(), email: 'ghi@def'},
             },
           },
         },
-        current_revision: 'rev1',
+        current_revision: 'rev1' as CommitId,
       };
     });
 
     suite('role=uploader', () => {
       test('_getNonOwnerRole for uploader', () => {
         assert.deepEqual(
-            element._getNonOwnerRole(change, element._CHANGE_ROLE.UPLOADER),
-            {email: 'ghi@def', _account_id: 1011123});
+          element._getNonOwnerRole(change, element._CHANGE_ROLE.UPLOADER),
+          {
+            ...createAccountWithId(),
+            email: 'ghi@def' as EmailAddress,
+            _account_id: 1011123 as AccountId,
+          }
+        );
       });
 
-      test('_getNonOwnerRole that it does not return uploader', () => {
-        // Set the uploader email to be the same as the owner.
-        change.revisions.rev1.uploader._account_id = 1019328;
-        assert.isNotOk(element._getNonOwnerRole(change,
-            element._CHANGE_ROLE.UPLOADER));
-      });
+      //     test('_getNonOwnerRole that it does not return uploader', () => {
+      //       // Set the uploader email to be the same as the owner.
+      //       change.revisions.rev1.uploader._account_id = 1019328;
+      //       assert.isNotOk(element._getNonOwnerRole(change,
+      //           element._CHANGE_ROLE.UPLOADER));
+      //     });
 
-      test('_getNonOwnerRole null for uploader with no current rev', () => {
-        delete change.current_revision;
-        assert.isNotOk(element._getNonOwnerRole(change,
-            element._CHANGE_ROLE.UPLOADER));
-      });
+      //     test('_getNonOwnerRole null for uploader with no current rev', () => {
+      //       delete change.current_revision;
+      //       assert.isNotOk(element._getNonOwnerRole(change,
+      //           element._CHANGE_ROLE.UPLOADER));
+      //     });
 
-      test('_computeShowRoleClass show uploader', () => {
-        assert.equal(element._computeShowRoleClass(
-            change, element._CHANGE_ROLE.UPLOADER), '');
-      });
+      //     test('_computeShowRoleClass show uploader', () => {
+      //       assert.equal(element._computeShowRoleClass(
+      //           change, element._CHANGE_ROLE.UPLOADER), '');
+      //     });
 
-      test('_computeShowRoleClass hide uploader', () => {
-        // Set the uploader email to be the same as the owner.
-        change.revisions.rev1.uploader._account_id = 1019328;
-        assert.equal(element._computeShowRoleClass(change,
-            element._CHANGE_ROLE.UPLOADER), 'hideDisplay');
-      });
+      //     test('_computeShowRoleClass hide uploader', () => {
+      //       // Set the uploader email to be the same as the owner.
+      //       change.revisions.rev1.uploader._account_id = 1019328;
+      //       assert.equal(element._computeShowRoleClass(change,
+      //           element._CHANGE_ROLE.UPLOADER), 'hideDisplay');
+      //     });
     });
 
     suite('role=committer', () => {
       test('_getNonOwnerRole for committer', () => {
-        change.revisions.rev1.uploader.email = 'ghh@def';
+        change!.revisions.rev1.uploader!.email = 'ghh@def' as EmailAddress;
         assert.deepEqual(
-            element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER),
-            {email: 'ghi@def'});
+          element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER),
+          {...createGitPerson(), email: 'ghi@def'}
+        );
       });
 
       test('_getNonOwnerRole is null if committer is same as uploader', () => {
-        assert.isNotOk(element._getNonOwnerRole(change,
-            element._CHANGE_ROLE.COMMITTER));
+        assert.isNotOk(
+          element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER)
+        );
       });
 
       test('_getNonOwnerRole that it does not return committer', () => {
         // Set the committer email to be the same as the owner.
-        change.revisions.rev1.commit.committer.email = 'abc@def';
-        assert.isNotOk(element._getNonOwnerRole(change,
-            element._CHANGE_ROLE.COMMITTER));
+        change!.revisions.rev1.commit!.committer.email = 'abc@def';
+        assert.isNotOk(
+          element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER)
+        );
       });
 
       test('_getNonOwnerRole null for committer with no current rev', () => {
-        delete change.current_revision;
-        assert.isNotOk(element._getNonOwnerRole(change,
-            element._CHANGE_ROLE.COMMITTER));
+        delete change!.current_revision;
+        assert.isNotOk(
+          element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER)
+        );
       });
 
       test('_getNonOwnerRole null for committer with no commit', () => {
-        delete change.revisions.rev1.commit;
-        assert.isNotOk(element._getNonOwnerRole(change,
-            element._CHANGE_ROLE.COMMITTER));
+        delete change!.revisions.rev1.commit;
+        assert.isNotOk(
+          element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER)
+        );
       });
 
       test('_getNonOwnerRole null for committer with no committer', () => {
-        delete change.revisions.rev1.commit.committer;
-        assert.isNotOk(element._getNonOwnerRole(change,
-            element._CHANGE_ROLE.COMMITTER));
+        delete change!.revisions.rev1.commit!.committer;
+        assert.isNotOk(
+          element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER)
+        );
       });
     });
 
     suite('role=author', () => {
       test('_getNonOwnerRole for author', () => {
         assert.deepEqual(
-            element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR),
-            {email: 'jkl@def'});
+          element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR),
+          {...createGitPerson(), email: 'jkl@def'}
+        );
       });
 
       test('_getNonOwnerRole that it does not return author', () => {
         // Set the author email to be the same as the owner.
-        change.revisions.rev1.commit.author.email = 'abc@def';
-        assert.isNotOk(element._getNonOwnerRole(change,
-            element._CHANGE_ROLE.AUTHOR));
+        change!.revisions.rev1.commit!.author.email = 'abc@def';
+        assert.isNotOk(
+          element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR)
+        );
       });
 
       test('_getNonOwnerRole null for author with no current rev', () => {
-        delete change.current_revision;
-        assert.isNotOk(element._getNonOwnerRole(change,
-            element._CHANGE_ROLE.AUTHOR));
+        delete change!.current_revision;
+        assert.isNotOk(
+          element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR)
+        );
       });
 
       test('_getNonOwnerRole null for author with no commit', () => {
-        delete change.revisions.rev1.commit;
-        assert.isNotOk(element._getNonOwnerRole(change,
-            element._CHANGE_ROLE.AUTHOR));
+        delete change!.revisions.rev1.commit;
+        assert.isNotOk(
+          element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR)
+        );
       });
 
       test('_getNonOwnerRole null for author with no author', () => {
-        delete change.revisions.rev1.commit.author;
-        assert.isNotOk(element._getNonOwnerRole(change,
-            element._CHANGE_ROLE.AUTHOR));
+        delete change!.revisions.rev1.commit!.author;
+        assert.isNotOk(
+          element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR)
+        );
       });
     });
   });
 
-  test('Push Certificate Validation test BAD', () => {
-    const serverConfig = {
-      receive: {
-        enable_signed_push: true,
-      },
-    };
-    const change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-      owner: {
-        _account_id: 1019328,
-      },
-      revisions: {
-        rev1: {
-          _number: 1,
-          push_certificate: {
-            key: {
-              status: 'BAD',
-              problems: [
-                'No public keys found for key ID E5E20E52',
-              ],
+  suite('Push Certificate Validation', () => {
+    let serverConfig: ServerInfo | undefined;
+    let change: ParsedChangeInfo | undefined;
+
+    setup(() => {
+      serverConfig = {
+        ...createServerInfo(),
+        receive: {
+          enable_signed_push: 'true',
+        },
+      };
+      change = {
+        ...createParsedChange(),
+        revisions: {
+          rev1: {
+            ...createRevision(1),
+            push_certificate: {
+              certificate: 'Push certificate',
+              key: {
+                status: GpgKeyInfoStatus.BAD,
+                problems: ['No public keys found for key ID E5E20E52'],
+              },
             },
           },
         },
-      },
-      current_revision: 'rev1',
-      status: 'NEW',
-      labels: {},
-      mergeable: true,
-    };
-    const result =
-        element._computePushCertificateValidation(serverConfig, change);
-    assert.equal(result.message,
+        current_revision: 'rev1' as CommitId,
+        status: ChangeStatus.NEW,
+        labels: {},
+        mergeable: true,
+      };
+    });
+
+    test('Push Certificate Validation test BAD', () => {
+      change!.revisions.rev1!.push_certificate = {
+        certificate: 'Push certificate',
+        key: {
+          status: GpgKeyInfoStatus.BAD,
+          problems: ['No public keys found for key ID E5E20E52'],
+        },
+      };
+      const result = element._computePushCertificateValidation(
+        serverConfig,
+        change
+      );
+      assert.equal(
+        result?.message,
         'Push certificate is invalid:\n' +
-        'No public keys found for key ID E5E20E52');
-    assert.equal(result.icon, 'gr-icons:close');
-    assert.equal(result.class, 'invalid');
-  });
+          'No public keys found for key ID E5E20E52'
+      );
+      assert.equal(result?.icon, 'gr-icons:close');
+      assert.equal(result?.class, 'invalid');
+    });
 
-  test('Push Certificate Validation test TRUSTED', () => {
-    const serverConfig = {
-      receive: {
-        enable_signed_push: true,
-      },
-    };
-    const change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-      owner: {
-        _account_id: 1019328,
-      },
-      revisions: {
-        rev1: {
-          _number: 1,
-          push_certificate: {
-            key: {
-              status: 'TRUSTED',
-            },
-          },
+    test('Push Certificate Validation test TRUSTED', () => {
+      change!.revisions.rev1!.push_certificate = {
+        certificate: 'Push certificate',
+        key: {
+          status: GpgKeyInfoStatus.TRUSTED,
         },
-      },
-      current_revision: 'rev1',
-      status: 'NEW',
-      labels: {},
-      mergeable: true,
-    };
-    const result =
-        element._computePushCertificateValidation(serverConfig, change);
-    assert.equal(result.message,
-        'Push certificate is valid and key is trusted');
-    assert.equal(result.icon, 'gr-icons:check');
-    assert.equal(result.class, 'trusted');
-  });
+      };
+      const result = element._computePushCertificateValidation(
+        serverConfig,
+        change
+      );
+      assert.equal(
+        result?.message,
+        'Push certificate is valid and key is trusted'
+      );
+      assert.equal(result?.icon, 'gr-icons:check');
+      assert.equal(result?.class, 'trusted');
+    });
 
-  test('Push Certificate Validation is missing test', () => {
-    const serverConfig = {
-      receive: {
-        enable_signed_push: true,
-      },
-    };
-    const change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-      owner: {
-        _account_id: 1019328,
-      },
-      revisions: {
-        rev1: {
-          _number: 1,
-        },
-      },
-      current_revision: 'rev1',
-      status: 'NEW',
-      labels: {},
-      mergeable: true,
-    };
-    const result =
-        element._computePushCertificateValidation(serverConfig, change);
-    assert.equal(result.message,
-        'This patch set was created without a push certificate');
-    assert.equal(result.icon, 'gr-icons:help');
-    assert.equal(result.class, 'help');
+    test('Push Certificate Validation is missing test', () => {
+      change!.revisions.rev1! = createRevision(1);
+      const result = element._computePushCertificateValidation(
+        serverConfig,
+        change
+      );
+      assert.equal(
+        result?.message,
+        'This patch set was created without a push certificate'
+      );
+      assert.equal(result?.icon, 'gr-icons:help');
+      assert.equal(result?.class, 'help');
+    });
   });
 
   test('_computeParents', () => {
-    const parents = [{commit: '123', subject: 'abc'}];
-    const revision = {commit: {parents}};
-    assert.deepEqual(element._computeParents({}, {}), []);
-    assert.equal(element._computeParents(null, revision), parents);
-    const change = current_revision => {
-      return {current_revision, revisions: {456: revision}};
+    const parents: ParentCommitInfo[] = [
+      {...createCommit(), commit: '123' as CommitId, subject: 'abc'},
+    ];
+    const revision: RevisionInfo = {
+      ...createRevision(1),
+      commit: {...createCommit(), parents},
     };
-    assert.deepEqual(element._computeParents(change(null), null), []);
-    const change_bad_revision = change('789');
-    assert.deepEqual(element._computeParents(change_bad_revision, {}), []);
-    const change_no_commit = {current_revision: '456', revisions: {456: {}}};
-    assert.deepEqual(element._computeParents(change_no_commit, null), []);
-    const change_good = change('456');
-    assert.equal(element._computeParents(change_good, null), parents);
+    assert.equal(element._computeParents(undefined, revision), parents);
+    const change = (current_revision: CommitId): ParsedChangeInfo => {
+      return {
+        ...createParsedChange(),
+        current_revision,
+        revisions: {456: revision},
+      };
+    };
+    const change_bad_revision = change('789' as CommitId);
+    assert.deepEqual(
+      element._computeParents(change_bad_revision, createRevision()),
+      []
+    );
+    const change_no_commit: ParsedChangeInfo = {
+      ...createParsedChange(),
+      current_revision: '456' as CommitId,
+      revisions: {456: createRevision()},
+    };
+    assert.deepEqual(element._computeParents(change_no_commit, undefined), []);
+    const change_good = change('456' as CommitId);
+    assert.equal(element._computeParents(change_good, undefined), parents);
   });
 
   test('_currentParents', () => {
-    const revision = parent => {
-      return {commit: {parents: [{commit: parent, subject: 'abc'}]}};
+    const revision = (parent: CommitId): RevisionInfo => {
+      return {
+        ...createRevision(),
+        commit: {
+          ...createCommit(),
+          parents: [{...createCommit(), commit: parent, subject: 'abc'}],
+        },
+      };
     };
     element.change = {
-      current_revision: '456',
-      revisions: {456: revision('111')},
+      ...createParsedChange(),
+      current_revision: '456' as CommitId,
+      revisions: {456: revision('111' as CommitId)},
       owner: {},
     };
-    element.revision = revision('222');
+    element.revision = revision('222' as CommitId);
     assert.equal(element._currentParents[0].commit, '222');
-    element.revision = revision('333');
+    element.revision = revision('333' as CommitId);
     assert.equal(element._currentParents[0].commit, '333');
-    element.revision = null;
+    element.revision = undefined;
     assert.equal(element._currentParents[0].commit, '111');
-    element.change = {current_revision: null};
+    element.change = createParsedChange();
+    delete element.change.current_revision;
     assert.deepEqual(element._currentParents, []);
   });
 
   test('_computeParentsLabel', () => {
-    const parent = {commit: 'abc123', subject: 'My parent commit'};
+    const parent: ParentCommitInfo = {
+      ...createCommit(),
+      commit: 'abc123' as CommitId,
+      subject: 'My parent commit',
+    };
     assert.equal(element._computeParentsLabel([parent]), 'Parent');
-    assert.equal(element._computeParentsLabel([parent, parent]),
-        'Parents');
+    assert.equal(element._computeParentsLabel([parent, parent]), 'Parents');
   });
 
   test('_computeParentListClass', () => {
-    const parent = {commit: 'abc123', subject: 'My parent commit'};
-    assert.equal(element._computeParentListClass([parent], true),
-        'parentList nonMerge current');
-    assert.equal(element._computeParentListClass([parent], false),
-        'parentList nonMerge notCurrent');
-    assert.equal(element._computeParentListClass([parent, parent], false),
-        'parentList merge notCurrent');
-    assert.equal(element._computeParentListClass([parent, parent], true),
-        'parentList merge current');
+    const parent: ParentCommitInfo = {
+      ...createCommit(),
+      commit: 'abc123' as CommitId,
+      subject: 'My parent commit',
+    };
+    assert.equal(
+      element._computeParentListClass([parent], true),
+      'parentList nonMerge current'
+    );
+    assert.equal(
+      element._computeParentListClass([parent], false),
+      'parentList nonMerge notCurrent'
+    );
+    assert.equal(
+      element._computeParentListClass([parent, parent], false),
+      'parentList merge notCurrent'
+    );
+    assert.equal(
+      element._computeParentListClass([parent, parent], true),
+      'parentList merge current'
+    );
   });
 
   test('_showAddTopic', () => {
-    assert.isTrue(element._showAddTopic(null, false));
-    assert.isTrue(element._showAddTopic({base: {topic: null}}, false));
-    assert.isFalse(element._showAddTopic({base: {topic: null}}, true));
-    assert.isFalse(element._showAddTopic({base: {topic: 'foo'}}, true));
-    assert.isFalse(element._showAddTopic({base: {topic: 'foo'}}, false));
+    const changeRecord: ElementPropertyDeepChange<
+      GrChangeMetadata,
+      'change'
+    > = {
+      base: {...createParsedChange()},
+      path: '',
+      value: undefined,
+    };
+    assert.isTrue(element._showAddTopic(undefined, false));
+    assert.isTrue(element._showAddTopic(changeRecord, false));
+    assert.isFalse(element._showAddTopic(changeRecord, true));
+    changeRecord.base!.topic = 'foo' as TopicName;
+    assert.isFalse(element._showAddTopic(changeRecord, true));
+    assert.isFalse(element._showAddTopic(changeRecord, false));
   });
 
   test('_showTopicChip', () => {
-    assert.isFalse(element._showTopicChip(null, false));
-    assert.isFalse(element._showTopicChip({base: {topic: null}}, false));
-    assert.isFalse(element._showTopicChip({base: {topic: null}}, true));
-    assert.isFalse(element._showTopicChip({base: {topic: 'foo'}}, true));
-    assert.isTrue(element._showTopicChip({base: {topic: 'foo'}}, false));
+    const changeRecord: ElementPropertyDeepChange<
+      GrChangeMetadata,
+      'change'
+    > = {
+      base: {...createParsedChange()},
+      path: '',
+      value: undefined,
+    };
+    assert.isFalse(element._showTopicChip(undefined, false));
+    assert.isFalse(element._showTopicChip(changeRecord, false));
+    assert.isFalse(element._showTopicChip(changeRecord, true));
+    changeRecord.base!.topic = 'foo' as TopicName;
+    assert.isFalse(element._showTopicChip(changeRecord, true));
+    assert.isTrue(element._showTopicChip(changeRecord, false));
   });
 
-  test('_showCherryPickOf', () => {
-    assert.isFalse(element._showCherryPickOf(null));
-    assert.isFalse(element._showCherryPickOf({
-      base: {
-        cherry_pick_of_change: null,
-        cherry_pick_of_patch_set: null,
-      },
-    }));
-    assert.isTrue(element._showCherryPickOf({
-      base: {
-        cherry_pick_of_change: 123,
-        cherry_pick_of_patch_set: 1,
-      },
-    }));
-  });
+  // test('_showCherryPickOf', () => {
+  //   assert.isFalse(element._showCherryPickOf(null));
+  //   assert.isFalse(element._showCherryPickOf({
+  //     base: {
+  //       cherry_pick_of_change: null,
+  //       cherry_pick_of_patch_set: null,
+  //     },
+  //   }));
+  //   assert.isTrue(element._showCherryPickOf({
+  //     base: {
+  //       cherry_pick_of_change: 123,
+  //       cherry_pick_of_patch_set: 1,
+  //     },
+  //   }));
+  // });
 
-  suite('Topic removal', () => {
-    let change;
-    setup(() => {
-      change = {
-        _number: 'the number',
-        actions: {
-          topic: {enabled: false},
-        },
-        change_id: 'the id',
-        topic: 'the topic',
-        status: 'NEW',
-        submit_type: 'CHERRY_PICK',
-        labels: {
-          test: {
-            all: [{_account_id: 1, name: 'bojack', value: 1}],
-            default_value: 0,
-            values: [],
-          },
-        },
-        removable_reviewers: [],
-      };
-    });
+  // suite('Topic removal', () => {
+  //   let change;
+  //   setup(() => {
+  //     change = {
+  //       _number: 'the number',
+  //       actions: {
+  //         topic: {enabled: false},
+  //       },
+  //       change_id: 'the id',
+  //       topic: 'the topic',
+  //       status: 'NEW',
+  //       submit_type: 'CHERRY_PICK',
+  //       labels: {
+  //         test: {
+  //           all: [{_account_id: 1, name: 'bojack', value: 1}],
+  //           default_value: 0,
+  //           values: [],
+  //         },
+  //       },
+  //       removable_reviewers: [],
+  //     };
+  //   });
 
-    test('_computeTopicReadOnly', () => {
-      let mutable = false;
-      assert.isTrue(element._computeTopicReadOnly(mutable, change));
-      mutable = true;
-      assert.isTrue(element._computeTopicReadOnly(mutable, change));
-      change.actions.topic.enabled = true;
-      assert.isFalse(element._computeTopicReadOnly(mutable, change));
-      mutable = false;
-      assert.isTrue(element._computeTopicReadOnly(mutable, change));
-    });
+  //   test('_computeTopicReadOnly', () => {
+  //     let mutable = false;
+  //     assert.isTrue(element._computeTopicReadOnly(mutable, change));
+  //     mutable = true;
+  //     assert.isTrue(element._computeTopicReadOnly(mutable, change));
+  //     change.actions.topic.enabled = true;
+  //     assert.isFalse(element._computeTopicReadOnly(mutable, change));
+  //     mutable = false;
+  //     assert.isTrue(element._computeTopicReadOnly(mutable, change));
+  //   });
 
-    test('topic read only hides delete button', () => {
-      element.account = {};
-      element.change = change;
-      flush();
-      const button = element.shadowRoot
-          .querySelector('gr-linked-chip').shadowRoot
-          .querySelector('gr-button');
-      assert.isTrue(button.hasAttribute('hidden'));
-    });
+  //   test('topic read only hides delete button', () => {
+  //     element.account = {};
+  //     element.change = change;
+  //     flush();
+  //     const button = element.shadowRoot
+  //         .querySelector('gr-linked-chip').shadowRoot
+  //         .querySelector('gr-button');
+  //     assert.isTrue(button.hasAttribute('hidden'));
+  //   });
 
-    test('topic not read only does not hide delete button', () => {
-      element.account = {test: true};
-      change.actions.topic.enabled = true;
-      element.change = change;
-      flush();
-      const button = element.shadowRoot
-          .querySelector('gr-linked-chip').shadowRoot
-          .querySelector('gr-button');
-      assert.isFalse(button.hasAttribute('hidden'));
-    });
-  });
+  //   test('topic not read only does not hide delete button', () => {
+  //     element.account = {test: true};
+  //     change.actions.topic.enabled = true;
+  //     element.change = change;
+  //     flush();
+  //     const button = element.shadowRoot
+  //         .querySelector('gr-linked-chip').shadowRoot
+  //         .querySelector('gr-button');
+  //     assert.isFalse(button.hasAttribute('hidden'));
+  //   });
+  // });
 
-  suite('Hashtag removal', () => {
-    let change;
-    setup(() => {
-      change = {
-        _number: 'the number',
-        actions: {
-          hashtags: {enabled: false},
-        },
-        change_id: 'the id',
-        hashtags: ['test-hashtag'],
-        status: 'NEW',
-        submit_type: 'CHERRY_PICK',
-        labels: {
-          test: {
-            all: [{_account_id: 1, name: 'bojack', value: 1}],
-            default_value: 0,
-            values: [],
-          },
-        },
-        removable_reviewers: [],
-      };
-    });
+  // suite('Hashtag removal', () => {
+  //   let change;
+  //   setup(() => {
+  //     change = {
+  //       _number: 'the number',
+  //       actions: {
+  //         hashtags: {enabled: false},
+  //       },
+  //       change_id: 'the id',
+  //       hashtags: ['test-hashtag'],
+  //       status: 'NEW',
+  //       submit_type: 'CHERRY_PICK',
+  //       labels: {
+  //         test: {
+  //           all: [{_account_id: 1, name: 'bojack', value: 1}],
+  //           default_value: 0,
+  //           values: [],
+  //         },
+  //       },
+  //       removable_reviewers: [],
+  //     };
+  //   });
 
-    test('_computeHashtagReadOnly', () => {
-      flush();
-      let mutable = false;
-      assert.isTrue(element._computeHashtagReadOnly(mutable, change));
-      mutable = true;
-      assert.isTrue(element._computeHashtagReadOnly(mutable, change));
-      change.actions.hashtags.enabled = true;
-      assert.isFalse(element._computeHashtagReadOnly(mutable, change));
-      mutable = false;
-      assert.isTrue(element._computeHashtagReadOnly(mutable, change));
-    });
+  //   test('_computeHashtagReadOnly', () => {
+  //     flush();
+  //     let mutable = false;
+  //     assert.isTrue(element._computeHashtagReadOnly(mutable, change));
+  //     mutable = true;
+  //     assert.isTrue(element._computeHashtagReadOnly(mutable, change));
+  //     change.actions.hashtags.enabled = true;
+  //     assert.isFalse(element._computeHashtagReadOnly(mutable, change));
+  //     mutable = false;
+  //     assert.isTrue(element._computeHashtagReadOnly(mutable, change));
+  //   });
 
-    test('hashtag read only hides delete button', () => {
-      flush();
-      element.account = {};
-      element.change = change;
-      flush();
-      const button = element.shadowRoot
-          .querySelector('gr-linked-chip').shadowRoot
-          .querySelector('gr-button');
-      assert.isTrue(button.hasAttribute('hidden'));
-    });
+  //   test('hashtag read only hides delete button', () => {
+  //     flush();
+  //     element.account = {};
+  //     element.change = change;
+  //     flush();
+  //     const button = element.shadowRoot
+  //         .querySelector('gr-linked-chip').shadowRoot
+  //         .querySelector('gr-button');
+  //     assert.isTrue(button.hasAttribute('hidden'));
+  //   });
 
-    test('hashtag not read only does not hide delete button', () => {
-      flush();
-      element.account = {test: true};
-      change.actions.hashtags.enabled = true;
-      element.change = change;
-      flush();
-      const button = element.shadowRoot
-          .querySelector('gr-linked-chip').shadowRoot
-          .querySelector('gr-button');
-      assert.isFalse(button.hasAttribute('hidden'));
-    });
-  });
+  //   test('hashtag not read only does not hide delete button', () => {
+  //     flush();
+  //     element.account = {test: true};
+  //     change.actions.hashtags.enabled = true;
+  //     element.change = change;
+  //     flush();
+  //     const button = element.shadowRoot
+  //         .querySelector('gr-linked-chip').shadowRoot
+  //         .querySelector('gr-button');
+  //     assert.isFalse(button.hasAttribute('hidden'));
+  //   });
+  // });
 
-  suite('remove reviewer votes', () => {
-    setup(() => {
-      sinon.stub(element, '_computeTopicReadOnly').returns(true);
-      element.change = {
-        _number: 42,
-        change_id: 'the id',
-        actions: [],
-        topic: 'the topic',
-        status: 'NEW',
-        submit_type: 'CHERRY_PICK',
-        labels: {
-          test: {
-            all: [{_account_id: 1, name: 'bojack', value: 1}],
-            default_value: 0,
-            values: [],
-          },
-        },
-        removable_reviewers: [],
-      };
-      flush();
-    });
+  // suite('remove reviewer votes', () => {
+  //   setup(() => {
+  //     sinon.stub(element, '_computeTopicReadOnly').returns(true);
+  //     element.change = {
+  //       _number: 42,
+  //       change_id: 'the id',
+  //       actions: [],
+  //       topic: 'the topic',
+  //       status: 'NEW',
+  //       submit_type: 'CHERRY_PICK',
+  //       labels: {
+  //         test: {
+  //           all: [{_account_id: 1, name: 'bojack', value: 1}],
+  //           default_value: 0,
+  //           values: [],
+  //         },
+  //       },
+  //       removable_reviewers: [],
+  //     };
+  //     flush();
+  //   });
 
-    suite('assignee field', () => {
-      const dummyAccount = {
-        _account_id: 1,
-        name: 'bojack',
-      };
-      const change = {
-        actions: {
-          assignee: {enabled: false},
-        },
-        assignee: dummyAccount,
-      };
-      let deleteStub;
-      let setStub;
+  //   suite('assignee field', () => {
+  //     const dummyAccount = {
+  //       _account_id: 1,
+  //       name: 'bojack',
+  //     };
+  //     const change = {
+  //       actions: {
+  //         assignee: {enabled: false},
+  //       },
+  //       assignee: dummyAccount,
+  //     };
+  //     let deleteStub;
+  //     let setStub;
 
-      setup(() => {
-        deleteStub = sinon.stub(element.$.restAPI, 'deleteAssignee');
-        setStub = sinon.stub(element.$.restAPI, 'setAssignee');
-        element.serverConfig = {
-          change: {
-            enable_assignee: true,
-          },
-        };
-      });
+  //     setup(() => {
+  //       deleteStub = sinon.stub(element.$.restAPI, 'deleteAssignee');
+  //       setStub = sinon.stub(element.$.restAPI, 'setAssignee');
+  //       element.serverConfig = {
+  //         change: {
+  //           enable_assignee: true,
+  //         },
+  //       };
+  //     });
 
-      test('changing change recomputes _assignee', () => {
-        assert.isFalse(!!element._assignee.length);
-        const change = element.change;
-        change.assignee = dummyAccount;
-        element._changeChanged(change);
-        assert.deepEqual(element._assignee[0], dummyAccount);
-      });
+  //     test('changing change recomputes _assignee', () => {
+  //       assert.isFalse(!!element._assignee.length);
+  //       const change = element.change;
+  //       change.assignee = dummyAccount;
+  //       element._changeChanged(change);
+  //       assert.deepEqual(element._assignee[0], dummyAccount);
+  //     });
 
-      test('modifying _assignee calls API', () => {
-        assert.isFalse(!!element._assignee.length);
-        element.set('_assignee', [dummyAccount]);
-        assert.isTrue(setStub.calledOnce);
-        assert.deepEqual(element.change.assignee, dummyAccount);
-        element.set('_assignee', [dummyAccount]);
-        assert.isTrue(setStub.calledOnce);
-        element.set('_assignee', []);
-        assert.isTrue(deleteStub.calledOnce);
-        assert.equal(element.change.assignee, undefined);
-        element.set('_assignee', []);
-        assert.isTrue(deleteStub.calledOnce);
-      });
+  //     test('modifying _assignee calls API', () => {
+  //       assert.isFalse(!!element._assignee.length);
+  //       element.set('_assignee', [dummyAccount]);
+  //       assert.isTrue(setStub.calledOnce);
+  //       assert.deepEqual(element.change.assignee, dummyAccount);
+  //       element.set('_assignee', [dummyAccount]);
+  //       assert.isTrue(setStub.calledOnce);
+  //       element.set('_assignee', []);
+  //       assert.isTrue(deleteStub.calledOnce);
+  //       assert.equal(element.change.assignee, undefined);
+  //       element.set('_assignee', []);
+  //       assert.isTrue(deleteStub.calledOnce);
+  //     });
 
-      test('_computeAssigneeReadOnly', () => {
-        let mutable = false;
-        assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
-        mutable = true;
-        assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
-        change.actions.assignee.enabled = true;
-        assert.isFalse(element._computeAssigneeReadOnly(mutable, change));
-        mutable = false;
-        assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
-      });
-    });
+  //     test('_computeAssigneeReadOnly', () => {
+  //       let mutable = false;
+  //       assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
+  //       mutable = true;
+  //       assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
+  //       change.actions.assignee.enabled = true;
+  //       assert.isFalse(element._computeAssigneeReadOnly(mutable, change));
+  //       mutable = false;
+  //       assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
+  //     });
+  //   });
 
-    test('changing topic', () => {
-      const newTopic = 'the new topic';
-      sinon.stub(element.$.restAPI, 'setChangeTopic').returns(
-          Promise.resolve(newTopic));
-      element._handleTopicChanged({detail: newTopic});
-      const topicChangedSpy = sinon.spy();
-      element.addEventListener('topic-changed', topicChangedSpy);
-      assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
-          42, newTopic));
-      return element.$.restAPI.setChangeTopic.lastCall.returnValue
-          .then(() => {
-            assert.equal(element.change.topic, newTopic);
-            assert.isTrue(topicChangedSpy.called);
-          });
-    });
+  //   test('changing topic', () => {
+  //     const newTopic = 'the new topic';
+  //     sinon.stub(element.$.restAPI, 'setChangeTopic').returns(
+  //         Promise.resolve(newTopic));
+  //     element._handleTopicChanged({detail: newTopic});
+  //     const topicChangedSpy = sinon.spy();
+  //     element.addEventListener('topic-changed', topicChangedSpy);
+  //     assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
+  //         42, newTopic));
+  //     return element.$.restAPI.setChangeTopic.lastCall.returnValue
+  //         .then(() => {
+  //           assert.equal(element.change.topic, newTopic);
+  //           assert.isTrue(topicChangedSpy.called);
+  //         });
+  //   });
 
-    test('topic removal', () => {
-      sinon.stub(element.$.restAPI, 'setChangeTopic').returns(
-          Promise.resolve());
-      const chip = element.shadowRoot
-          .querySelector('gr-linked-chip');
-      const remove = chip.$.remove;
-      const topicChangedSpy = sinon.spy();
-      element.addEventListener('topic-changed', topicChangedSpy);
-      MockInteractions.tap(remove);
-      assert.isTrue(chip.disabled);
-      assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
-          42));
-      return element.$.restAPI.setChangeTopic.lastCall.returnValue
-          .then(() => {
-            assert.isFalse(chip.disabled);
-            assert.equal(element.change.topic, '');
-            assert.isTrue(topicChangedSpy.called);
-          });
-    });
+  //   test('topic removal', () => {
+  //     sinon.stub(element.$.restAPI, 'setChangeTopic').returns(
+  //         Promise.resolve());
+  //     const chip = element.shadowRoot
+  //         .querySelector('gr-linked-chip');
+  //     const remove = chip.$.remove;
+  //     const topicChangedSpy = sinon.spy();
+  //     element.addEventListener('topic-changed', topicChangedSpy);
+  //     MockInteractions.tap(remove);
+  //     assert.isTrue(chip.disabled);
+  //     assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
+  //         42));
+  //     return element.$.restAPI.setChangeTopic.lastCall.returnValue
+  //         .then(() => {
+  //           assert.isFalse(chip.disabled);
+  //           assert.equal(element.change.topic, '');
+  //           assert.isTrue(topicChangedSpy.called);
+  //         });
+  //   });
 
-    test('changing hashtag', () => {
-      flush();
-      element._newHashtag = 'new hashtag';
-      const newHashtag = ['new hashtag'];
-      sinon.stub(element.$.restAPI, 'setChangeHashtag').returns(
-          Promise.resolve(newHashtag));
-      element._handleHashtagChanged({}, 'new hashtag');
-      assert.isTrue(element.$.restAPI.setChangeHashtag.calledWith(
-          42, {add: ['new hashtag']}));
-      return element.$.restAPI.setChangeHashtag.lastCall.returnValue
-          .then(() => {
-            assert.equal(element.change.hashtags, newHashtag);
-          });
-    });
-  });
+  //   test('changing hashtag', () => {
+  //     flush();
+  //     element._newHashtag = 'new hashtag';
+  //     const newHashtag = ['new hashtag'];
+  //     sinon.stub(element.$.restAPI, 'setChangeHashtag').returns(
+  //         Promise.resolve(newHashtag));
+  //     element._handleHashtagChanged({}, 'new hashtag');
+  //     assert.isTrue(element.$.restAPI.setChangeHashtag.calledWith(
+  //         42, {add: ['new hashtag']}));
+  //     return element.$.restAPI.setChangeHashtag.lastCall.returnValue
+  //         .then(() => {
+  //           assert.equal(element.change.hashtags, newHashtag);
+  //         });
+  //   });
+  // });
 
-  test('editTopic', () => {
-    element.account = {test: true};
-    element.change = {actions: {topic: {enabled: true}}};
-    flush();
+  // test('editTopic', () => {
+  //   element.account = {test: true};
+  //   element.change = {actions: {topic: {enabled: true}}};
+  //   flush();
 
-    const label = element.shadowRoot
-        .querySelector('.topicEditableLabel');
-    assert.ok(label);
-    sinon.stub(label, 'open');
-    element.editTopic();
-    flush();
+  //   const label = element.shadowRoot
+  //       .querySelector('.topicEditableLabel');
+  //   assert.ok(label);
+  //   sinon.stub(label, 'open');
+  //   element.editTopic();
+  //   flush();
 
-    assert.isTrue(label.open.called);
-  });
+  //   assert.isTrue(label.open.called);
+  // });
 
-  suite('plugin endpoints', () => {
-    test('endpoint params', done => {
-      element.change = {labels: {}};
-      element.revision = {};
-      let hookEl;
-      let plugin;
-      pluginApi.install(
-          p => {
-            plugin = p;
-            plugin.hook('change-metadata-item').getLastAttached()
-                .then(el => hookEl = el);
-          },
-          '0.1',
-          'http://some/plugins/url.html');
-      getPluginLoader().loadPlugins([]);
-      flush(() => {
-        assert.strictEqual(hookEl.plugin, plugin);
-        assert.strictEqual(hookEl.change, element.change);
-        assert.strictEqual(hookEl.revision, element.revision);
-        done();
-      });
-    });
-  });
+  // suite('plugin endpoints', () => {
+  //   test('endpoint params', done => {
+  //     element.change = {labels: {}};
+  //     element.revision = {};
+  //     let hookEl;
+  //     let plugin;
+  //     pluginApi.install(
+  //         p => {
+  //           plugin = p;
+  //           plugin.hook('change-metadata-item').getLastAttached()
+  //               .then(el => hookEl = el);
+  //         },
+  //         '0.1',
+  //         'http://some/plugins/url.html');
+  //     getPluginLoader().loadPlugins([]);
+  //     flush(() => {
+  //       assert.strictEqual(hookEl.plugin, plugin);
+  //       assert.strictEqual(hookEl.change, element.change);
+  //       assert.strictEqual(hookEl.revision, element.revision);
+  //       done();
+  //     });
+  //   });
+  // });
 });

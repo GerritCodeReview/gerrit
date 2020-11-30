@@ -16,9 +16,11 @@
  */
 
 export class GrAttributeHelper {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private readonly _promises = new Map<string, Promise<any>>();
 
-  // TOOD(TS): Change any to something more like HTMLElement.
+  // TODO(TS): Change any to something more like HTMLElement.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(public element: any) {}
 
   _getChangedEventName(name: string): string {
@@ -32,6 +34,7 @@ export class GrAttributeHelper {
     return this.element[name] !== undefined;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _reportValue(callback: (value: any) => void, value: any) {
     try {
       callback(value);
@@ -46,6 +49,7 @@ export class GrAttributeHelper {
    * @param name Property name.
    * @return Unbind function.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   bind(name: string, callback: (value: any) => void) {
     const attributeChangedEventName = this._getChangedEventName(name);
     const changedHandler = (e: CustomEvent) =>
@@ -71,6 +75,7 @@ export class GrAttributeHelper {
       return Promise.resolve(this.element[name]);
     }
     if (!this._promises.has(name)) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let resolve: (value: any) => void;
       const promise = new Promise(r => (resolve = r));
       const unbind = this.bind(name, value => {
@@ -85,6 +90,7 @@ export class GrAttributeHelper {
   /**
    * Sets value and dispatches event to force notify.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   set(name: string, value: any) {
     this.element[name] = value;
     this.element.dispatchEvent(

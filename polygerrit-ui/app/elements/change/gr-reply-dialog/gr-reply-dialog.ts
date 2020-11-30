@@ -43,7 +43,6 @@ import {
   ReviewerState,
   SpecialFilePath,
 } from '../../../constants/constants';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {fetchChangeUpdates} from '../../../utils/patch-set-util';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {accountKey, removeServiceUsers} from '../../../utils/account-util';
@@ -422,9 +421,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   /** @override */
   ready() {
     super.ready();
-    this._isPatchsetCommentsExperimentEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.PATCHSET_COMMENTS
-    );
     this.$.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
   }
 
@@ -681,17 +677,13 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     }
 
     if (this.draft) {
-      if (this._isPatchsetCommentsExperimentEnabled) {
-        const comment: CommentInput = {
-          message: this.draft,
-          unresolved: !this._isResolvedPatchsetLevelComment,
-        };
-        reviewInput.comments = {
-          [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [comment],
-        };
-      } else {
-        reviewInput.message = this.draft;
-      }
+      const comment: CommentInput = {
+        message: this.draft,
+        unresolved: !this._isResolvedPatchsetLevelComment,
+      };
+      reviewInput.comments = {
+        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [comment],
+      };
     }
 
     const accountAdditions = new Map<AccountId | EmailAddress, boolean>();

@@ -348,6 +348,7 @@ export class GrMainHeader extends GestureEventListeners(
     // If not, it sets target='_blank' on the menu item. The server
     // makes assumptions that work for the GWT UI, but not PolyGerrit,
     // so we'll just disable it altogether for now.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const {target, ...headerLink} = {...linkObj};
 
     // Normalize all urls to PolyGerrit style.

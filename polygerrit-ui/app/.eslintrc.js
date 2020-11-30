@@ -274,6 +274,7 @@ module.exports = {
         "@typescript-eslint/ban-ts-ignore": "off",
         // The following rules is required to match internal google rules
         "@typescript-eslint/restrict-plus-operands": "error",
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
         // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
         "node/no-unsupported-features/node-builtins": "off",
         // Disable no-invalid-this for ts files, because it incorrectly reports

@@ -67,9 +67,12 @@ const LARGE_DIFF_THRESHOLD_LINES = 10000;
 const FULL_CONTEXT = -1;
 const LIMITED_CONTEXT = 10;
 
-function getSide(threadEl: GrCommentThread): Side {
+function getSide(threadEl: GrCommentThread): Side | undefined {
   const sideAtt = threadEl.getAttribute('comment-side');
-  if (!sideAtt) throw Error('comment thread without side');
+  if (!sideAtt) {
+    console.warn('comment thread without side');
+    return undefined;
+  }
   if (sideAtt !== 'left' && sideAtt !== 'right')
     throw Error(`unexpected value for side: ${sideAtt}`);
   return sideAtt as Side;
@@ -387,7 +390,7 @@ export class GrDiff extends GestureEventListeners(
       threadEl: GrCommentThread
     ): CommentRangeLayer | undefined {
       const side = getSide(threadEl);
-
+      if (!side) return undefined;
       const rangeAtt = threadEl.getAttribute('range');
       if (!rangeAtt) return undefined;
       const range = JSON.parse(rangeAtt) as CommentRange;
@@ -433,6 +436,7 @@ export class GrDiff extends GestureEventListeners(
 
     for (const threadEl of threadEls) {
       const side = getSide(threadEl);
+      if (!side) continue;
       const lineNum = threadEl.getAttribute('line-num') || FILE;
       const commentRange = threadEl.range || {};
       keyLocations[side][lineNum] = true;
@@ -893,6 +897,7 @@ export class GrDiff extends GestureEventListeners(
       for (const threadEl of addedThreadEls) {
         const lineNumString = threadEl.getAttribute('line-num') || 'FILE';
         const commentSide = getSide(threadEl);
+        if (!commentSide) continue;
         const lineEl = this.$.diffBuilder.getLineElByNumber(
           lineNumString,
           commentSide

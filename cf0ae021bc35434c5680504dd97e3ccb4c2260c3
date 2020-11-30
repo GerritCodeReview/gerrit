@@ -20,6 +20,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b304a866_57ce79ad",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-30T14:14:00Z",
+      "side": 1,
+      "message": "I think you just can remove `: Record\u003cstring, any\u003e`",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 16
+      },
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a0e90eb_82e3930c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-11-30T14:14:00Z",
+      "side": 1,
+      "message": "This can be gr-cursor-manager",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 15
+      },
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d59258b_bd7daf18",
         "filename": "polygerrit-ui/app/utils/common-util.ts",
         "patchSetId": 4

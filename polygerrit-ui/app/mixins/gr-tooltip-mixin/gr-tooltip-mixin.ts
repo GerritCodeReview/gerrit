@@ -80,6 +80,7 @@ export const TooltipMixin = dedupingMixin(
 
       // tslint:disable-next-line:no-any Required for constructor signature.
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       constructor(..._: any[]) {
         super();
         this.windowScrollHandler = () => this._handleWindowScroll();

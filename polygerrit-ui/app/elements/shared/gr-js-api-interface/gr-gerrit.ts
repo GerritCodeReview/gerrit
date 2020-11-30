@@ -259,8 +259,10 @@ function initGerritPluginsMethods(globalGerritObj: GerritGlobal) {
    */
   globalGerritObj.addListener = (eventName: string, cb: EventCallback) =>
     eventEmitter.addListener(eventName, cb);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   globalGerritObj.dispatch = (eventName: string, detail: any) =>
     eventEmitter.dispatch(eventName, detail);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   globalGerritObj.emit = (eventName: string, detail: any) =>
     eventEmitter.emit(eventName, detail);
   globalGerritObj.off = (eventName: string, cb: EventCallback) =>

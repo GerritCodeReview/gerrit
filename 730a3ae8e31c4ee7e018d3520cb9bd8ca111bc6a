@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b634c070_f9938122",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-30T16:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d18c0e38_547ebde8",
+      "range": {
+        "startLine": 66,
+        "startChar": 18,
+        "endLine": 66,
+        "endChar": 47
+      },
+      "revId": "730a3ae8e31c4ee7e018d3520cb9bd8ca111bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3e28f7f_e97371bd",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-11-30T14:24:03Z",
       "side": 1,
       "message": "Given we\u0027re checking isNaN(line) and line \u003c 1, I guess this means we are sanity checking the attributes we are getting for \u0027line-num\u0027.\n\nDoes it then also make sense to add some sanity checking for rangeAtt ie it is actually of the type CommentRange.",
+      "range": {
+        "startLine": 74,
+        "startChar": 9,
+        "endLine": 74,
+        "endChar": 45
+      },
+      "revId": "730a3ae8e31c4ee7e018d3520cb9bd8ca111bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a888b103_4a960132",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-11-30T16:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3e28f7f_e97371bd",
       "range": {
         "startLine": 74,
         "startChar": 9,

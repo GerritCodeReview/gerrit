@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5e32fa7_fec8b121",
+        "filename": "java/com/google/gerrit/pgm/init/InitJGitConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-30T13:02:27Z",
+      "side": 1,
+      "message": "INFO or HINT?\nUsing Git Protocol v1 isn\u0027t a worrying thing, but as hint we can suggest to move to v2.",
+      "range": {
+        "startLine": 89,
+        "startChar": 19,
+        "endLine": 89,
+        "endChar": 26
+      },
+      "revId": "58cbe0807960b05adcc625102dbd321883051ec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

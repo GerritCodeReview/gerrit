@@ -27,8 +27,16 @@ import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {htmlTemplate} from './gr-diff_html';
-import {FILE, LineNumber} from './gr-diff-line';
-import {getLineNumber, rangesEqual} from './gr-diff-utils';
+import {LineNumber} from './gr-diff-line';
+import {
+  getLine,
+  getLineNumber,
+  getRange,
+  getSide,
+  GrDiffThreadElement,
+  isThreadEl,
+  rangesEqual,
+} from './gr-diff-utils';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll';
 import {isMergeParent, patchNumEquals} from '../../../utils/patch-set-util';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -53,7 +61,7 @@ import {
   PolymerDomWrapper,
 } from '../../../types/types';
 import {CommentRangeLayer} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
-import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
+import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
@@ -66,30 +74,6 @@ const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
 const LARGE_DIFF_THRESHOLD_LINES = 10000;
 const FULL_CONTEXT = -1;
 const LIMITED_CONTEXT = 10;
-
-function getSide(threadEl: GrCommentThread): Side | undefined {
-  const sideAtt = threadEl.getAttribute('comment-side');
-  if (!sideAtt) {
-    console.warn('comment thread without side');
-    return undefined;
-  }
-  if (sideAtt !== 'left' && sideAtt !== 'right')
-    throw Error(`unexpected value for side: ${sideAtt}`);
-  return sideAtt as Side;
-}
-
-function isThreadEl(node: Node): node is GrCommentThread {
-  return (
-    node.nodeType === Node.ELEMENT_NODE &&
-    (node as Element).classList.contains('comment-thread')
-  );
-}
-
-// TODO(TS): Replace by proper GrCommentThread once converted.
-type GrCommentThread = PolymerElement & {
-  rootId: string;
-  range: CommentRange;
-};
 
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
 /**
@@ -383,17 +367,16 @@ export class GrDiff extends GestureEventListeners(
   // TODO(brohlfs): Rewrite gr-diff to be agnostic of GrCommentThread, because
   // other users of gr-diff may use different comment widgets.
   _updateRanges(
-    addedThreadEls: GrCommentThread[],
-    removedThreadEls: GrCommentThread[]
+    addedThreadEls: GrDiffThreadElement[],
+    removedThreadEls: GrDiffThreadElement[]
   ) {
     function commentRangeFromThreadEl(
-      threadEl: GrCommentThread
+      threadEl: GrDiffThreadElement
     ): CommentRangeLayer | undefined {
       const side = getSide(threadEl);
       if (!side) return undefined;
-      const rangeAtt = threadEl.getAttribute('range');
-      if (!rangeAtt) return undefined;
-      const range = JSON.parse(rangeAtt) as CommentRange;
+      const range = getRange(threadEl);
+      if (!range) return undefined;
 
       return {side, range, hovering: false, rootId: threadEl.rootId};
     }
@@ -437,12 +420,12 @@ export class GrDiff extends GestureEventListeners(
     for (const threadEl of threadEls) {
       const side = getSide(threadEl);
       if (!side) continue;
-      const lineNum = threadEl.getAttribute('line-num') || FILE;
-      const commentRange = threadEl.range || {};
+      const lineNum = getLine(threadEl);
+      const commentRange = getRange(threadEl);
       keyLocations[side][lineNum] = true;
       // Add start_line as well if exists,
       // the being and end of the range should not be collapsed.
-      if (commentRange.start_line) {
+      if (commentRange?.start_line) {
         keyLocations[side][commentRange.start_line] = true;
       }
     }
@@ -450,7 +433,7 @@ export class GrDiff extends GestureEventListeners(
   }
 
   // Dispatch events that are handled by the gr-diff-highlight.
-  _redispatchHoverEvents(addedThreadEls: GrCommentThread[]) {
+  _redispatchHoverEvents(addedThreadEls: HTMLElement[]) {
     for (const threadEl of addedThreadEls) {
       threadEl.addEventListener('mouseenter', () => {
         threadEl.dispatchEvent(
@@ -895,11 +878,11 @@ export class GrDiff extends GestureEventListeners(
       // for each line from the start.
       let lastEl;
       for (const threadEl of addedThreadEls) {
-        const lineNumString = threadEl.getAttribute('line-num') || 'FILE';
+        const lineNum = getLine(threadEl);
         const commentSide = getSide(threadEl);
         if (!commentSide) continue;
         const lineEl = this.$.diffBuilder.getLineElByNumber(
-          lineNumString,
+          lineNum,
           commentSide
         );
         // When the line the comment refers to does not exist, log an error
@@ -909,7 +892,7 @@ export class GrDiff extends GestureEventListeners(
           console.error(
             'thread attached to line ',
             commentSide,
-            lineNumString,
+            lineNum,
             ' which does not exist.'
           );
           continue;

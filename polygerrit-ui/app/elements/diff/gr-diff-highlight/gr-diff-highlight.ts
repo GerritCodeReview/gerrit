@@ -30,6 +30,7 @@ import {CommentRange} from '../../../types/common';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
 import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
 import {FILE} from '../gr-diff/gr-diff-line';
+import {getRange, getSide} from '../gr-diff/gr-diff-utils';
 
 interface SidedRange {
   side: Side;
@@ -199,13 +200,9 @@ export class GrDiffHighlight extends GestureEventListeners(
   }
 
   _indexForThreadEl(threadEl: HTMLElement) {
-    const side = threadEl.getAttribute('comment-side') as Side;
-    const rangeString = threadEl.getAttribute('range');
-    if (!rangeString) return undefined;
-    const range = JSON.parse(rangeString) as CommentRange;
-
-    if (!range) return undefined;
-
+    const side = getSide(threadEl);
+    const range = getRange(threadEl);
+    if (!side || !range) return undefined;
     return this._indexOfCommentRange(side, range);
   }
 

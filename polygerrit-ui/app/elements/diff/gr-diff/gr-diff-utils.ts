@@ -17,6 +17,7 @@
 
 import {CommentRange} from '../../../types/common';
 import {FILE, LineNumber} from './gr-diff-line';
+import {Side} from '../../../constants/constants';
 
 /**
  * Compare two ranges. Either argument may be falsy, but will only return
@@ -45,4 +46,46 @@ export function getLineNumber(lineEl?: Element | null): LineNumber | null {
   if (lineNumberStr === FILE) return FILE;
   const lineNumber = Number(lineNumberStr);
   return Number.isInteger(lineNumber) ? lineNumber : null;
+}
+
+export function getLine(threadEl: HTMLElement): LineNumber {
+  const lineAtt = threadEl.getAttribute('line-num');
+  if (!lineAtt || lineAtt === 'FILE') return FILE;
+  const line = Number(lineAtt);
+  if (isNaN(line)) throw new Error(`cannot parse line number: ${lineAtt}`);
+  if (line < 1) throw new Error(`line number smaller than 1: ${line}`);
+  return line;
+}
+
+export function getSide(threadEl: HTMLElement): Side | undefined {
+  const sideAtt = threadEl.getAttribute('comment-side');
+  if (!sideAtt) {
+    console.warn('comment thread without side');
+    return undefined;
+  }
+  if (sideAtt !== 'left' && sideAtt !== 'right')
+    throw Error(`unexpected value for side: ${sideAtt}`);
+  return sideAtt as Side;
+}
+
+export function getRange(threadEl: HTMLElement): CommentRange | undefined {
+  const rangeAtt = threadEl.getAttribute('range');
+  if (!rangeAtt) return undefined;
+  return JSON.parse(rangeAtt) as CommentRange;
+}
+
+// TODO: This type should be exposed to gr-diff clients in a separate type file.
+// For Gerrit these are instances of GrCommentThread, but other gr-diff users
+// have different HTML elements in use for comment threads.
+// TODO: Also document the required HTML attritbutes that thread elements must
+// have, e.g. 'comment-side', 'range', 'line-num', 'data-value'.
+export interface GrDiffThreadElement extends HTMLElement {
+  rootId: string;
+}
+
+export function isThreadEl(node: Node): node is GrDiffThreadElement {
+  return (
+    node.nodeType === Node.ELEMENT_NODE &&
+    (node as Element).classList.contains('comment-thread')
+  );
 }

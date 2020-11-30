@@ -16,6 +16,138 @@
       "message": "LG, but don\u0027t feel comfortable to +2 a backend change.",
       "revId": "859c478acc9359cc9ed875e7826f47a15825f46f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48882903_20266311",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2999,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-30T17:00:50Z",
+      "side": 1,
+      "message": "with a",
+      "range": {
+        "startLine": 2999,
+        "startChar": 46,
+        "endLine": 2999,
+        "endChar": 51
+      },
+      "revId": "859c478acc9359cc9ed875e7826f47a15825f46f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29611e7c_6ab501df",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3003,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-30T17:00:50Z",
+      "side": 1,
+      "message": "with a",
+      "range": {
+        "startLine": 3003,
+        "startChar": 16,
+        "endLine": 3003,
+        "endChar": 20
+      },
+      "revId": "859c478acc9359cc9ed875e7826f47a15825f46f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbb4e9d3_6f39935e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3004,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-30T17:00:50Z",
+      "side": 1,
+      "message": "it is",
+      "range": {
+        "startLine": 3004,
+        "startChar": 45,
+        "endLine": 3004,
+        "endChar": 49
+      },
+      "revId": "859c478acc9359cc9ed875e7826f47a15825f46f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0403e37_fa7d0250",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3005,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-30T17:00:50Z",
+      "side": 1,
+      "message": "for new plugins to rely",
+      "range": {
+        "startLine": 3004,
+        "startChar": 62,
+        "endLine": 3005,
+        "endChar": 6
+      },
+      "revId": "859c478acc9359cc9ed875e7826f47a15825f46f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48480a0c_e356f0e8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3006,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-30T17:00:50Z",
+      "side": 1,
+      "message": "off the extended",
+      "range": {
+        "startLine": 3005,
+        "startChar": 71,
+        "endLine": 3006,
+        "endChar": 8
+      },
+      "revId": "859c478acc9359cc9ed875e7826f47a15825f46f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be627d7f_b384d021",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3009,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-11-30T17:00:50Z",
+      "side": 1,
+      "message": "I suppose there is no test included in this change because this is about to be removed (eventually soon).",
+      "revId": "859c478acc9359cc9ed875e7826f47a15825f46f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

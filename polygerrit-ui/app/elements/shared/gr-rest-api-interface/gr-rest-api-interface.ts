@@ -1422,9 +1422,7 @@ export class GrRestApiInterface
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
     ];
-    if (config?.change && config.change.enable_attention_set) {
-      options.push(ListChangesOption.DETAILED_LABELS);
-    } else {
+    if (!config?.change?.enable_attention_set) {
       options.push(ListChangesOption.REVIEWED);
     }
 

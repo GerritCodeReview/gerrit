@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ff526d2_97d9830a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-30T13:39:42Z",
+      "side": 1,
+      "message": "I suggest to wait a little bit and don\u0027t submit a change now. I want to take a closer look at this issue, because this fix can hide a real problem in our code\\tests.",
+      "revId": "fdc6a60bc798f46feb38acfbb5d574ba15943d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

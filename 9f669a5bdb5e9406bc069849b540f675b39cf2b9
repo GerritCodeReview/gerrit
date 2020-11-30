@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a869b0e_a8570498",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-30T09:11:52Z",
+      "side": 1,
+      "message": "Agree, I would postpone adding the operators until I have Marian\u0027s opinion.",
+      "parentUuid": "d26a96d1_ef49f012",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "9f669a5bdb5e9406bc069849b540f675b39cf2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44dd7b6f_7af625c4",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-11-23T14:58:12Z",
       "side": 1,
       "message": "comment from the peanut gallery: it might be cleaner to extend to further timestamp fields to use merged:\u0027RELATION\u0027. \n\nMaybe you could do some vetting to see what other systems (critique, gmail) use for their query language? and/or check with Marian if he has an idea which might be preferable.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "9f669a5bdb5e9406bc069849b540f675b39cf2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "047784e2_848aebdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-30T09:11:52Z",
+      "side": 1,
+      "message": "Thank you! I think it is a good idea to have Marian\u0027s opinion before doing anything else.\n\nGiving it another thought, I think that \u0027RELATION\u0027 might be a bit of an overkill, I personally would be annoyed by having to type \u003e\u003c\u003d operators + could add complexity for sorting.\n\nI looked at what Critique is doing, and I think it makes a bit more sense:\n\n1) By default, for submitted CLs, it searches by the submitted date, for pending CLs it searches by created date.\n2) It always sorts on the last update\n3) When passing modifier timespec:lc, it searches by the last comment time (I think it could be last update modifier in our case, I don\u0027t see much of a difference)\n\nI think it should not be too much work, but we would also need to index on createdOn date",
+      "parentUuid": "44dd7b6f_7af625c4",
       "range": {
         "startLine": 12,
         "startChar": 0,

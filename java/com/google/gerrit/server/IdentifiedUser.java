@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.flogger.LazyArgs.lazy;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -386,6 +388,11 @@ public class IdentifiedUser extends CurrentUser {
       loadedAllEmails = true;
     }
     return ImmutableSet.copyOf(validEmails);
+  }
+
+  @Override
+  public ImmutableSet<ExternalId.Key> getExternalIdKeys() {
+    return state().externalIds().stream().map(ExternalId::key).collect(toImmutableSet());
   }
 
   public String getName() {

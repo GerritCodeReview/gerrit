@@ -66,6 +66,7 @@ export class EventEmitter implements EventEmitterService {
    * Attach event handler only once. Automatically removed.
    */
   once(eventName: string, cb: EventCallback): UnsubscribeMethod {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onceWrapper = (...args: any[]) => {
       cb(...args);
       this.off(eventName, onceWrapper);
@@ -96,6 +97,7 @@ export class EventEmitter implements EventEmitterService {
    *
    * @returns true if the event had listeners, false otherwise.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emit(eventName: string, detail: any): boolean {
     const listeners = this._listenersMap.get(eventName) || [];
     for (const listener of listeners) {
@@ -111,6 +113,7 @@ export class EventEmitter implements EventEmitterService {
   /**
    * Alias to emit.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dispatch(eventName: string, detail: any): boolean {
     return this.emit(eventName, detail);
   }

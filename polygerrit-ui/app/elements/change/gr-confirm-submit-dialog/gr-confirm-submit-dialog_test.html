@@ -52,7 +52,10 @@ limitations under the License.
 
     test('display', () => {
       element.action = {label: 'my-label'};
-      element.change = {subject: 'my-subject'};
+      element.change = {
+        subject: 'my-subject',
+        revisions: {},
+      };
       flushAsynchronousOperations();
       const header = element.$$('.header');
       assert.equal(header.textContent.trim(), 'my-label');
@@ -60,6 +63,28 @@ limitations under the License.
       const message = element.$$('.main p');
       assert.notEqual(message.textContent.length, 0);
       assert.notEqual(message.textContent.indexOf('my-subject'), -1);
+    });
+
+    test('_computeHasChangeEdit', () => {
+      const change = {
+        revisions: {
+          d442ff05d6c4f2a3af0eeca1f67374b39f9dc3d8: {
+            _number: 'edit',
+          },
+        },
+        unresolved_comment_count: 0,
+      };
+
+      assert.equal(element._computeHasChangeEdit(change), true);
+
+      const change2 = {
+        revisions: {
+          d442ff05d6c4f2a3af0eeca1f67374b39f9dc3d8: {
+            _number: 2,
+          },
+        },
+      };
+      assert.equal(element._computeHasChangeEdit(change2), false);
     });
   });
 </script>

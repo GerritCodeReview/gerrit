@@ -22,6 +22,30 @@
       },
       "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c32c1f32_f9a96824",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-30T14:05:53Z",
+      "side": 0,
+      "message": "The original code for which this comment was intended is here:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/229092\n\ndelete linkObj.target;\n\nthis line is no longer present so I guess this comment is no longer relevant, so I thought it was safe to remove all this.\nthere are some tests failing, so I\u0027ll take another look at this.",
+      "parentUuid": "f0bae351_d6abb3c0",
+      "range": {
+        "startLine": 344,
+        "startChar": 4,
+        "endLine": 350,
+        "endChar": 51
+      },
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -39,6 +39,30 @@
       },
       "revId": "00fc5f32f4908a05cdba4210f756967ae8259f05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b364d5f_546fdf7a",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-11-30T14:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8ec2a51_8a4eba08",
+      "range": {
+        "startLine": 111,
+        "startChar": 42,
+        "endLine": 111,
+        "endChar": 66
+      },
+      "revId": "00fc5f32f4908a05cdba4210f756967ae8259f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "PTAL",
       "revId": "f296211a260c9874726197d1dda40f0ead29f0ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50d3f83c_db10e58b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-30T17:03:37Z",
+      "side": 1,
+      "message": "I did not get a mail when you replied to the comments.\nWas I not in Attention Set?\nMy current email filter is only for when I\u0027m in the Attention set and I only got mails for CI responses and the change was submitted.",
+      "parentUuid": "7c0bdb41_2ea45c62",
+      "revId": "f296211a260c9874726197d1dda40f0ead29f0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

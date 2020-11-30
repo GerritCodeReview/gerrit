@@ -25,6 +25,7 @@ export class MockTimer implements Timer {
     return this;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   withMaximum(_: number): this {
     return this;
   }

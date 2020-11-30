@@ -79,6 +79,7 @@ export const TooltipMixin = dedupingMixin(
       private readonly hideHandler: () => void;
 
       // tslint:disable-next-line:no-any Required for constructor signature.
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       constructor(..._: any[]) {
         super();
         this.windowScrollHandler = () => this._handleWindowScroll();

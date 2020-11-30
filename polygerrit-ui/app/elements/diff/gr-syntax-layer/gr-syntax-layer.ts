@@ -215,6 +215,7 @@ export class GrSyntaxLayer
    * Annotation layer method to add syntax annotations to the given element
    * for the given line.
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   annotate(el: HTMLElement, _: HTMLElement, line: GrDiffLine) {
     if (!this.enabled) return;
     if (line.beforeNumber === FILE) return;

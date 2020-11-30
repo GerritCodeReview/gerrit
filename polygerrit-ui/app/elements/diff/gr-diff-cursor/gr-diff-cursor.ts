@@ -486,6 +486,7 @@ export class GrDiffCursor extends GestureEventListeners(
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _rowChanged(_: HTMLElement, oldRow: HTMLElement) {
     if (oldRow) {
       oldRow.classList.remove(LEFT_SIDE_CLASS, RIGHT_SIDE_CLASS);

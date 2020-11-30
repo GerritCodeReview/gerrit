@@ -99,6 +99,7 @@ export class GrDiffPreferences extends GestureEventListeners(
   save() {
     if (!this.diffPrefs)
       return Promise.reject(new Error('Missing diff preferences'));
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return this.$.restAPI.saveDiffPreferences(this.diffPrefs).then(_ => {
       this.hasUnsavedChanges = false;
     });

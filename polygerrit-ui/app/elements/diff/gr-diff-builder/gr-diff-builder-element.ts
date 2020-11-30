@@ -439,6 +439,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
       // Take a DIV.contentText element and a line object with intraline
       // differences to highlight and apply them to the element as
       // annotations.
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
         const HL_CLASS = 'style-scope gr-diff intraline';
         for (const highlight of line.highlights) {
@@ -469,6 +470,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
   _createTabIndicatorLayer(): DiffLayer {
     const show = () => this._showTabs;
     return {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
         // If visible tabs are disabled, do nothing.
         if (!show()) {
@@ -504,6 +506,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     };
 
     return {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
         if (!show()) {
           return;

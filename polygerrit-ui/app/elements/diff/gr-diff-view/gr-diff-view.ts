@@ -340,6 +340,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.$.cursor.push('diffs', this.$.diffHost);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     this._onRenderHandler = (_: Event) => {
       this.$.cursor.reInitCursor();
     };
@@ -1441,6 +1442,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
   }
 
   _onLineSelected(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _: Event,
     detail: {side: Side | CommentSide; number: number}
   ) {

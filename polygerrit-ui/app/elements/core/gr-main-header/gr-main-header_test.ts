@@ -37,6 +37,7 @@ suite('gr-main-header tests', () => {
       getConfig() {
         return Promise.resolve(createServerInfo());
       },
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       probePath(_) {
         return Promise.resolve(false);
       },

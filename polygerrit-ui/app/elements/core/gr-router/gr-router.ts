@@ -756,6 +756,7 @@ export class GrRouter extends GestureEventListeners(
   }
 
   /**  Page.js middleware that warms the REST API's logged-in cache line. */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _loadUserMiddleware(_: PageContext, next: PageNextCallback) {
     this.$.restAPI.getLoggedIn().then(() => {
       next();
@@ -1206,6 +1207,7 @@ export class GrRouter extends GestureEventListeners(
    * If not given, window.location.search is used. (Used by tests).
    */
   _handleCustomDashboardRoute(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _: PageContextWithQueryMap,
     qs: string = window.location.search
   ) {
@@ -1275,6 +1277,7 @@ export class GrRouter extends GestureEventListeners(
     this._redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _handleGroupSelfRedirectRoute(_: PageContextWithQueryMap) {
     this._redirect('/settings/#Groups');
   }
@@ -1456,12 +1459,14 @@ export class GrRouter extends GestureEventListeners(
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _handleCreateProjectRoute(_: PageContextWithQueryMap) {
     // Redirects the legacy route to the new route, which displays the project
     // list with a hash 'create'.
     this._redirect('/admin/repos#create');
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _handleCreateGroupRoute(_: PageContextWithQueryMap) {
     // Redirects the legacy route to the new route, which displays the group
     // list with a hash 'create'.
@@ -1503,6 +1508,7 @@ export class GrRouter extends GestureEventListeners(
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _handlePluginListRoute(_: PageContextWithQueryMap) {
     this._setParams({
       view: GerritView.ADMIN,
@@ -1683,6 +1689,7 @@ export class GrRouter extends GestureEventListeners(
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _handleSettingsRoute(_: PageContextWithQueryMap) {
     this._setParams({view: GerritView.SETTINGS});
   }

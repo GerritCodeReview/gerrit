@@ -215,6 +215,7 @@ export class GrThreadList extends GestureEventListeners(
   @observe('threads', 'threads.splices')
   _updateSortedThreads(
     threads: CommentThread[],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _: PolymerSpliceChange<CommentThread[]>
   ) {
     if (!threads || threads.length === 0) {

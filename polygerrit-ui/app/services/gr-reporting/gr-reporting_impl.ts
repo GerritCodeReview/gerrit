@@ -361,8 +361,9 @@ export class GrReporting implements ReportingService {
       eventDetails
     );
     if (type === ERROR.TYPE && category === ERROR.CATEGORY.EXCEPTION) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      console.error((eventValue && (eventValue as any).error) || eventName);
+      console.error(
+        (typeof eventValue === 'object' && eventValue.error) || eventName
+      );
     }
 
     // We report events immediately when metrics plugin is loaded

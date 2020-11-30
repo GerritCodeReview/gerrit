@@ -424,15 +424,15 @@ export class PluginLoader {
       return Promise.resolve();
     }
     if (!this._loadingPromise) {
-      // TODO(TS): Should be a number, but TS thinks that is must be some weird
-      // NodeJS.Timeout object.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      let timerId: any;
+      // specify window here so that TS pulls the correct setTimeout method
+      // if window is not specified, then the function is pulled from node
+      // and the return type is NodeJS.Timeout object
+      let timerId: number;
       this._loadingPromise = Promise.race([
         new Promise(resolve => (this._loadingResolver = resolve)),
         new Promise(
           (_, reject) =>
-            (timerId = setTimeout(() => {
+            (timerId = window.setTimeout(() => {
               reject(new Error(this._timeout()));
             }, PLUGIN_LOADING_TIMEOUT_MS))
         ),

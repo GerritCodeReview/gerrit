@@ -26,12 +26,11 @@ import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/key
 import {IronFitMixin} from '../../../mixins/iron-fit-mixin/iron-fit-mixin';
 import {customElement, property, observe} from '@polymer/decorators';
 import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior';
+import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 
-// TODO(TS): Update once GrCursorManager is upated
 export interface GrAutocompleteDropdown {
   $: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    cursor: any;
+    cursor: GrCursorManager;
     suggestions: Element;
   };
 }
@@ -116,7 +115,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
   }
 
   getCurrentText() {
-    return this.getCursorTarget().dataset['value'];
+    return this.getCursorTarget()?.dataset['value'] || '';
   }
 
   _handleUp(e: Event) {

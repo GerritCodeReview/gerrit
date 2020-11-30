@@ -23,21 +23,13 @@ import java.util.Set;
 /**
  * Representation of a user that does not have a Gerrit account.
  *
- * <p>This user representation is intended to be used for two purposes:
+ * <p>This user representation is intended to be used to check permissions for groups:
  *
- * <ol>
- *   <li>Checking permissions for groups: There are occasions where we need to check if a resource -
- *       such as a change - is accessible by a group. Our entire {@link
- *       com.google.gerrit.server.permissions.PermissionBackend} works solely with {@link
- *       CurrentUser}. This class can be used to check permissions on a synthetic user with the
- *       given group memberships. Any real Gerrit user with the same group memberships would receive
- *       the same permission check results.
- *   <li>Checking permissions for an external user: In installations with external group systems,
- *       one might want to check what Gerrit permissions a user has, before or even without creating
- *       a Gerrit account. Such an external user has external group memberships only as well as
- *       internal groups that contain the user's external groups as subgroups. This class can be
- *       used to represent such an external user.
- * </ol>
+ * <p>There are occasions where we need to check if a resource - such as a change - is accessible by
+ * a group. Our entire {@link com.google.gerrit.server.permissions.PermissionBackend} works solely
+ * with {@link CurrentUser}. This class can be used to check permissions on a synthetic user with
+ * the given group memberships. Any real Gerrit user with the same group memberships would receive
+ * the same permission check results.
  */
 public final class GroupBackedUser extends CurrentUser {
   private final GroupMembership groups;

@@ -341,14 +341,7 @@ export class GrMainHeader extends GestureEventListeners(
   }
 
   _createHeaderLink(linkObj: TopMenuItemInfo): MainHeaderLink {
-    // Delete target property due to complications of
-    // https://bugs.chromium.org/p/gerrit/issues/detail?id=5888
-    //
-    // The server tries to guess whether URL is a view within the UI.
-    // If not, it sets target='_blank' on the menu item. The server
-    // makes assumptions that work for the GWT UI, but not PolyGerrit,
-    // so we'll just disable it altogether for now.
-    const {target, ...headerLink} = {...linkObj};
+    const {...headerLink} = {...linkObj};
 
     // Normalize all urls to PolyGerrit style.
     if (headerLink.url.startsWith('#')) {

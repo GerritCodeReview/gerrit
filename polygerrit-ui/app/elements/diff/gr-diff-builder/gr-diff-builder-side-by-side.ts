@@ -20,15 +20,14 @@ import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {DiffViewMode, Side} from '../../../constants/constants';
+import {DiffLayer} from '../../../types/types';
 
 export class GrDiffBuilderSideBySide extends GrDiffBuilder {
   constructor(
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
-    // TODO(TS): Replace any by a layer interface.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    readonly layers: any[] = [],
+    readonly layers: DiffLayer[] = [],
     useNewContextControls = false
   ) {
     super(diff, prefs, outputEl, layers, useNewContextControls);

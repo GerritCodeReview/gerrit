@@ -125,13 +125,13 @@ class GrEndpointDecorator extends GestureEventListeners(
           )
         );
     });
-    // TODO(TS): Should be a number, but TS thinks that is must be some weird
-    // NodeJS.Timeout object.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let timeoutId: any;
+    let timeoutId: number;
     const timeout = new Promise(
       () =>
-        (timeoutId = setTimeout(() => {
+        // specify window here so that TS pulls the correct setTimeout method
+        // if window is not specified, then the function is pulled from node
+        // and the return type is NodeJS.Timeout object
+        (timeoutId = window.setTimeout(() => {
           console.warn(
             'Timeout waiting for endpoint properties initialization: ' +
               `plugin ${plugin.getPluginName()}, endpoint ${this.name}`

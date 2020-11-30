@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebd138fd_f51f3775",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-30T14:07:05Z",
+      "side": 1,
+      "message": "Change 290287 looks like a better way to do this.\n",
+      "revId": "1a0ce974b436d87701855f62c0e256dbf9e9d14a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

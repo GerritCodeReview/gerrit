@@ -26,6 +26,7 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
     // TODO(TS): Replace any by a layer interface.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     readonly layers: any[] = [],
     useNewContextControls = false
   ) {

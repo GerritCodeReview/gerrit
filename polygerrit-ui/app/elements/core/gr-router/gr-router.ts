@@ -390,6 +390,7 @@ export class GrRouter extends GestureEventListeners(
       case WeblinkType.PATCHSET:
         return this._getPatchSetWeblink(params);
       default:
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         console.warn(`Unsupported weblink ${(params as any).type}!`);
         // TODO(TS): use assertNever(params.type)
         return [];

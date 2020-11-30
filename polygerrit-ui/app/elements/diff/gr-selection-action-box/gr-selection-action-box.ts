@@ -50,8 +50,7 @@ export class GrSelectionActionBox extends GestureEventListeners(
    */
 
   @property({type: Object})
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  keyEventTarget: Record<string, any> = document.body;
+  keyEventTarget = document.body;
 
   @property({type: Boolean})
   positionBelow = false;

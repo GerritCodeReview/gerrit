@@ -44,6 +44,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import javax.naming.InvalidNameException;
@@ -178,23 +179,12 @@ public class LdapGroupBackend implements GroupBackend {
 
   @Override
   public GroupMembership membershipsOf(CurrentUser user) {
-    if (!user.isIdentifiedUser()) {
+    Optional<ExternalId.Key> id =
+        user.getExternalIdKeys().stream().filter(e -> e.isScheme(SCHEME_GERRIT)).findAny();
+    if (!id.isPresent()) {
       return GroupMembership.EMPTY;
     }
-    String id = findId(user.asIdentifiedUser().state().externalIds());
-    if (id == null) {
-      return GroupMembership.EMPTY;
-    }
-    return new LdapGroupMembership(membershipCache, projectCache, id, gerritConfig);
-  }
-
-  private static String findId(Collection<ExternalId> extIds) {
-    for (ExternalId extId : extIds) {
-      if (extId.isScheme(SCHEME_GERRIT)) {
-        return extId.key().id();
-      }
-    }
-    return null;
+    return new LdapGroupMembership(membershipCache, projectCache, id.get().id(), gerritConfig);
   }
 
   private Set<GroupReference> suggestLdap(String name) {

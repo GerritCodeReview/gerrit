@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "72014528_a153bf57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-11-30T14:30:29Z",
+      "side": 1,
+      "message": "(i.e update eslint config)",
+      "parentUuid": "0c0bc995_b66972c7",
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "68dc2894_b6415023",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
         "patchSetId": 4

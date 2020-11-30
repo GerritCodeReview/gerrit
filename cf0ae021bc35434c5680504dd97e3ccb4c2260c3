@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71e6fc20_e455ef39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-30T17:11:07Z",
+      "side": 1,
+      "message": "Do you want to block this change on that or would it be fine if that were a follow up change?\nI would prefer to make a follow up change.",
+      "parentUuid": "b668dbdb_bd2040e0",
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "68dc2894_b6415023",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
         "patchSetId": 4
@@ -91,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0568849_8cfd0712",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-30T17:11:07Z",
+      "side": 1,
+      "message": "Do you mean not throw any warning when using \"any\" on test files?",
+      "parentUuid": "68dc2894_b6415023",
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b304a866_57ce79ad",
         "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.ts",
         "patchSetId": 4
@@ -102,6 +138,30 @@
       "writtenOn": "2020-11-30T14:14:00Z",
       "side": 1,
       "message": "I think you just can remove `: Record\u003cstring, any\u003e`",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 16
+      },
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0b2102c_bb7764a1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-30T17:11:07Z",
+      "side": 1,
+      "message": "Thanks, I was planning to go through all usages of any and see if they be removed in a follow up change.\nI think it would be easier to just fix the warnings in this change and not merge the two.",
+      "parentUuid": "b304a866_57ce79ad",
       "range": {
         "startLine": 54,
         "startChar": 2,
@@ -135,6 +195,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9d73a87_cd2a49c2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-30T17:11:07Z",
+      "side": 1,
+      "message": "Same as above.\nThanks.",
+      "parentUuid": "5a0e90eb_82e3930c",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 15
+      },
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d59258b_bd7daf18",
@@ -148,6 +232,30 @@
       "writtenOn": "2020-11-30T14:06:19Z",
       "side": 1,
       "message": "Twice",
+      "range": {
+        "startLine": 30,
+        "startChar": 29,
+        "endLine": 30,
+        "endChar": 39
+      },
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a5f46e0_e0f96d0e",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-30T17:11:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d59258b_bd7daf18",
       "range": {
         "startLine": 30,
         "startChar": 29,
@@ -181,6 +289,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1694c2df_1debaf14",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-30T17:11:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcd7b23a_90122c1c",
+      "range": {
+        "startLine": 38,
+        "startChar": 29,
+        "endLine": 38,
+        "endChar": 39
+      },
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "970b678b_2813b52f",
@@ -194,6 +326,30 @@
       "writtenOn": "2020-11-30T14:06:19Z",
       "side": 1,
       "message": "It\u0027s twice here?",
+      "range": {
+        "startLine": 34,
+        "startChar": 10,
+        "endLine": 34,
+        "endChar": 17
+      },
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b524f211_09a91d73",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-11-30T17:11:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "970b678b_2813b52f",
       "range": {
         "startLine": 34,
         "startChar": 10,

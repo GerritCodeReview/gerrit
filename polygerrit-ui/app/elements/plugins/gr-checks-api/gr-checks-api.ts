@@ -58,6 +58,14 @@ export class GrChecksApi implements GrChecksApiInterface {
     this.state = State.REGISTERED;
     this.provider = provider;
     this.config = config ?? DEFAULT_CONFIG;
+    setTimeout(() => {
+      provider.fetch(2563048, 4).then(response => {
+        console.log('CHECKS API got response');
+        for (const run of response.runs) {
+          console.log('CHECKS API RUN: ' + JSON.stringify(run, undefined, 2));
+        }
+      });
+    }, 2000);
   }
 
   async fetch(change: number, patchset: number) {

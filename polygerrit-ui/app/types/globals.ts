@@ -36,12 +36,7 @@ declare global {
       Auth?: unknown;
       _pluginLoader?: unknown;
       _endpoints?: unknown;
-      slotToContent?: unknown;
-      rangesEqual?: unknown;
-      SUGGESTIONS_PROVIDERS_USERS_TYPES?: unknown;
       RevisionInfo?: unknown;
-      CoverageType?: unknown;
-      hiddenscroll?: unknown;
       flushPreinstalls?: () => void;
     };
     // TODO(TS): define polymer type
@@ -69,49 +64,16 @@ declare global {
     // TODO(TS): should clean up those and removing them may break certain plugin behaviors
     // TODO(TS): as @brohlfs suggested, to avoid importing anything from elements/ to types/
     // use any for them for now
-    GrDisplayNameUtils: unknown;
     GrAnnotation: unknown;
-    GrAttributeHelper: unknown;
     GrDiffLine: unknown;
     GrDiffLineType: unknown;
     GrDiffGroup: unknown;
     GrDiffGroupType: unknown;
-    GrDiffBuilder: unknown;
-    GrDiffBuilderSideBySide: unknown;
-    GrDiffBuilderImage: unknown;
-    GrDiffBuilderUnified: unknown;
-    GrDiffBuilderBinary: unknown;
-    GrChangeActionsInterface: unknown;
-    GrChangeReplyInterface: unknown;
-    GrEditConstants: unknown;
-    GrDomHooksManager: unknown;
-    GrDomHook: unknown;
-    GrEtagDecorator: unknown;
-    GrThemeApi: unknown;
-    SiteBasedCache: unknown;
-    FetchPromisesCache: unknown;
-    GrRestApiHelper: unknown;
-    GrLinkTextParser: unknown;
-    GrPluginEndpoints: unknown;
-    GrReviewerUpdatesParser: unknown;
-    GrPopupInterface: unknown;
-    GrCountStringFormatter: unknown;
-    GrReviewerSuggestionsProvider: unknown;
     util: unknown;
     Auth: unknown;
     EventEmitter: unknown;
-    GrAdminApi: unknown;
-    GrAnnotationActionsContext: unknown;
-    GrAnnotationActionsInterface: unknown;
-    GrChangeMetadataApi: unknown;
-    GrEmailSuggestionsProvider: unknown;
-    GrGroupSuggestionsProvider: unknown;
-    GrEventHelper: unknown;
-    GrPluginRestApi: unknown;
-    GrRepoApi: unknown;
-    GrSettingsApi: unknown;
-    GrStylesApi: unknown;
     PluginLoader: unknown;
+    // Heads up! There is a known plugin dependency on GrPluginActionContext.
     GrPluginActionContext: unknown;
     _apiUtils: {};
   }

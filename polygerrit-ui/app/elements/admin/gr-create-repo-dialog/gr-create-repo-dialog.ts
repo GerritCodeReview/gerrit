@@ -120,7 +120,7 @@ export class GrCreateRepoDialog extends GestureEventListeners(
         }
         repos.push({
           name: key,
-          value: response[key],
+          value: response[key].id,
         });
       }
       return repos;

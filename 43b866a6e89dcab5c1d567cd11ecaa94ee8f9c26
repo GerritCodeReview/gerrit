@@ -16,6 +16,24 @@
       "message": "target must be removed, otherwise the link is open in a new window",
       "revId": "43b866a6e89dcab5c1d567cd11ecaa94ee8f9c26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e0a3b7a_bf284579",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-01T14:47:27Z",
+      "side": 1,
+      "message": "I mean _createHeaderLink must remove target from linkObj.",
+      "parentUuid": "ec427a39_a294dfd1",
+      "revId": "43b866a6e89dcab5c1d567cd11ecaa94ee8f9c26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

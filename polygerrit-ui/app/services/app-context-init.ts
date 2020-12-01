@@ -19,6 +19,7 @@ import {FlagsServiceImplementation} from './flags/flags_impl';
 import {GrReporting} from './gr-reporting/gr-reporting_impl';
 import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
 import {Auth} from './gr-auth/gr-auth_impl';
+import {GrRestApiInterface} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface';
 
 type ServiceName = keyof AppContext;
 type ServiceCreator<T> = () => T;
@@ -65,5 +66,6 @@ export function initAppContext() {
     reportingService: () => new GrReporting(appContext.flagsService),
     eventEmitter: () => new EventEmitter(),
     authService: () => new Auth(appContext.eventEmitter),
+    restApiService: () => new GrRestApiInterface(appContext.authService),
   });
 }

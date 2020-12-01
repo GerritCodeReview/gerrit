@@ -22,10 +22,7 @@ export {};
 
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<dom-module id="shared-styles">
-  <template>
-    <style>
-
+export const sharedCSS = `
       /* CSS reset */
 
       html, body, button, div, span, applet, object, iframe, h1, h2, h3,
@@ -205,6 +202,12 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         100% { transform: rotate(360deg); }
       }
       /** END: loading spiner */
+`;
+
+$_documentContainer.innerHTML = `<dom-module id="shared-styles">
+  <template>
+    <style>
+    ${sharedCSS}
     </style>
   </template>
 </dom-module>`;

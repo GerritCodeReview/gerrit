@@ -437,6 +437,34 @@ suite('gr-message tests', () => {
       assert.equal(element._computeMessageContent('', undefined, false), '');
     });
 
+    test('loads logged-in', () => {
+      const changeNum = 1234;
+  
+      sinon.stub(element.$.restAPI, 'getLoggedIn')
+          .returns(Promise.resolve(true));
+      sinon.stub(element.$.restAPI, 'getDiffComments')
+          .returns(Promise.resolve({
+            'foo.c': [{id: '123', message: 'foo bar', in_reply_to: '321'}],
+          }));
+      sinon.stub(element.$.restAPI, 'getDiffRobotComments')
+          .returns(Promise.resolve({'foo.c': [{id: '321', message: 'done'}]}));
+      sinon.stub(element.$.restAPI, 'getDiffDrafts')
+          .returns(Promise.resolve({'foo.c': [{id: '555', message: 'ack'}]}));
+  
+      return element.loadAll(changeNum).then(() => {
+        assert.isTrue(element.$.restAPI.getDiffComments.calledWithExactly(
+            changeNum));
+        assert.isTrue(element.$.restAPI.getDiffRobotComments.calledWithExactly(
+            changeNum));
+        assert.isTrue(element.$.restAPI.getDiffDrafts.calledWithExactly(
+            changeNum));
+        assert.isOk(element._changeComments._comments);
+        assert.isOk(element._changeComments._robotComments);
+        assert.notDeepEqual(element._changeComments._drafts, {});
+      });
+    });
+  
+
     test('single patchset comment with reply', () => {
       const threads = [{
         comments: [{

@@ -37,13 +37,12 @@ import {
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {isRobot} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
+import {appContext} from '../../../services/app-context';
 
 export interface GrApplyFixDialog {
   $: {
-    restAPI: RestApiService & Element;
     applyFixOverlay: GrOverlay;
   };
 }
@@ -100,6 +99,8 @@ export class GrApplyFixDialog extends GestureEventListeners(
   _disableApplyFixButton?: boolean;
 
   private refitOverlay?: () => void;
+
+  private restApiService = appContext.restApiService;
 
   /**
    * Given robot comment CustomEvent object, fetch diffs associated
@@ -170,7 +171,7 @@ export class GrApplyFixDialog extends GestureEventListeners(
         new Error('Both _patchNum and changeNum must be set')
       );
     }
-    return this.$.restAPI
+    return this.restApiService
       .getRobotCommentFixPreview(this.changeNum, this._patchNum, fixId)
       .then(res => {
         if (res) {
@@ -290,7 +291,7 @@ export class GrApplyFixDialog extends GestureEventListeners(
       return Promise.reject(new Error('Not all required properties are set.'));
     }
     this._isApplyFixLoading = true;
-    return this.$.restAPI
+    return this.restApiService
       .applyFixSuggestion(changeNum, patchNum, this._currentFix.fix_id)
       .then(res => {
         if (res && res.ok) {

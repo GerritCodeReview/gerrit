@@ -104,6 +104,9 @@ suite('gr-change-actions tests', () => {
           enabled: true,
         },
       };
+      element.account = {
+        _account_id: 123,
+      };
       sinon.stub(element.$.confirmCherrypick.$.restAPI,
           'getRepoBranches').returns(Promise.resolve([]));
       sinon.stub(element.$.confirmMove.$.restAPI,

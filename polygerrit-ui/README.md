@@ -187,6 +187,9 @@ npm run test:single async-foreach-behavior_test.js
 npm run test:debug async-foreach-behavior_test.js
 ```
 
+When converting a test file to typescript, the command for running tests is
+still using the .js suffix and not the new .tx suffix.
+
 Commands `test:debug` and `test:single` assumes that compiled code is located
 in the `./ts-out/polygerrit-ui/app` directory. It's up to you how to achieve it.
 For example, the following options are possible:

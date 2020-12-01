@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 import {
+  AccountInfo,
   ApprovalInfo,
+  DetailedLabelInfo,
   isDetailedLabelInfo,
   LabelInfo,
   VotingRangeInfo,
@@ -41,4 +43,11 @@ export function getMaxAccounts(label?: LabelInfo): ApprovalInfo[] {
   if (!label || !isDetailedLabelInfo(label) || !label.all) return [];
   const votingRange = getVotingRangeOrDefault(label);
   return label.all.filter(account => account.value === votingRange.max);
+}
+
+export function getApprovalInfo(
+  label: DetailedLabelInfo,
+  account: AccountInfo
+): ApprovalInfo | undefined {
+  return label.all?.filter(x => x._account_id === account._account_id)?.[0];
 }

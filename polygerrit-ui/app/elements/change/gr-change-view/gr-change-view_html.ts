@@ -405,6 +405,7 @@ export const htmlTemplate = html`
             has-parent="[[hasParent]]"
             actions="[[_change.actions]]"
             revision-actions="{{_currentRevisionActions}}"
+            account="[[_account]]"
             change-num="[[_changeNum]]"
             change-status="[[_change.status]]"
             commit-num="[[_commitInfo.commit]]"

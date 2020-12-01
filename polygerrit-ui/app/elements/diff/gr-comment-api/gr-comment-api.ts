@@ -411,33 +411,11 @@ export class ChangeComments {
     return comments;
   }
 
-  /**
-   * @param comments Object keyed by file, with a value of an array
-   * of comments left on that file.
-   * @return A flattened list of all comments, where each comment
-   * also includes the file that it was left on, which was the key of the
-   * originall object.
-   */
-  _commentObjToArrayWithFile<T>(comments: {
-    [path: string]: T[];
-  }): Array<T & {__path: string}> {
-    let commentArr: Array<T & {__path: string}> = [];
-    for (const file of Object.keys(comments)) {
-      const commentsForFile: Array<T & {__path: string}> = [];
-      for (const comment of comments[file]) {
-        commentsForFile.push({...comment, __path: file});
-      }
-      commentArr = commentArr.concat(commentsForFile);
-    }
-    return commentArr;
-  }
-
   _commentObjToArray<T>(comments: {[path: string]: T[]}): T[] {
-    let commentArr: T[] = [];
-    for (const file of Object.keys(comments)) {
-      commentArr = commentArr.concat(comments[file]);
-    }
-    return commentArr;
+    return Object.keys(comments).reduce((commentArr: T[], file) => {
+      comments[file].forEach(c => commentArr.push({...c}));
+      return commentArr;
+    }, []);
   }
 
   /**
@@ -491,7 +469,7 @@ export class ChangeComments {
   }
 
   getAllThreadsForChange() {
-    const comments = this._commentObjToArrayWithFile(this.getAllComments(true));
+    const comments = this._commentObjToArray(this.getAllComments(true));
     return createCommentThreads(comments);
   }
 

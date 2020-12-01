@@ -122,13 +122,17 @@ export function stubBaseUrl(newUrl: string) {
  * an animation to finish. This could be considered to be moved to a
  * common-test-setup file.
  */
-export function createIronOverlayBackdropStyleEl() {
-  const ironOverlayBackdropStyleEl = document.createElement('style');
-  document.head.appendChild(ironOverlayBackdropStyleEl);
-  ironOverlayBackdropStyleEl.sheet!.insertRule(
-    'body { --iron-overlay-backdrop-opacity: 0; }'
-  );
-  return ironOverlayBackdropStyleEl;
+export function addIronOverlayBackdropStyleEl() {
+  const el = document.createElement('style');
+  el.setAttribute('id', 'backdrop-style');
+  document.head.appendChild(el);
+  el.sheet!.insertRule('body { --iron-overlay-backdrop-opacity: 0; }');
+}
+
+export function removeIronOverlayBackdropStyleEl() {
+  const el = document.getElementById('backdrop-style');
+  if (!el?.parentNode) throw new Error('Backdrop style element not found.');
+  el.parentNode?.removeChild(el);
 }
 
 /**

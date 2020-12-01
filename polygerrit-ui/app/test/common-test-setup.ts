@@ -27,8 +27,10 @@ import {_testOnlyResetRestApi} from '../elements/shared/gr-js-api-interface/gr-p
 import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface';
 import {
   cleanupTestUtils,
+  createIronOverlayBackdropStyleEl,
   getCleanupsCount,
   registerTestCleanup,
+  removeIronOverlayBackdropStyleEl,
   TestKeyboardShortcutBinder,
 } from './test-utils';
 import {flushDebouncers} from '@polymer/polymer/lib/utils/debounce';
@@ -94,6 +96,7 @@ window.fixture = fixtureImpl;
 setup(() => {
   window.Gerrit = {};
   initGlobalVariables();
+  createIronOverlayBackdropStyleEl();
 
   // If the following asserts fails - then window.stub is
   // overwritten by some other code.
@@ -196,6 +199,7 @@ teardown(() => {
   cleanupTestUtils();
   TestKeyboardShortcutBinder.pop();
   checkGlobalSpace();
+  removeIronOverlayBackdropStyleEl();
   // Clean Polymer debouncer queue, so next tests will not be affected.
   flushDebouncers();
 });

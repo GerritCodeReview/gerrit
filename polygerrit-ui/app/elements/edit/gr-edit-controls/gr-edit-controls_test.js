@@ -19,7 +19,6 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-edit-controls.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {createIronOverlayBackdropStyleEl} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-edit-controls');
 
@@ -29,10 +28,8 @@ suite('gr-edit-controls tests', () => {
   let showDialogSpy;
   let closeDialogSpy;
   let queryStub;
-  let ironOverlayBackdropStyleEl;
 
   setup(() => {
-    ironOverlayBackdropStyleEl = createIronOverlayBackdropStyleEl();
     element = basicFixture.instantiate();
     element.change = {_number: '42'};
     showDialogSpy = sinon.spy(element, '_showDialog');
@@ -41,10 +38,6 @@ suite('gr-edit-controls tests', () => {
     queryStub = sinon.stub(element.$.restAPI, 'queryChangeFiles')
         .returns(Promise.resolve([]));
     flush();
-  });
-
-  teardown(() => {
-    ironOverlayBackdropStyleEl.remove();
   });
 
   test('all actions exist', () => {

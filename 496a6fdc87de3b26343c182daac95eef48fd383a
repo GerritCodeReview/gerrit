@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ea125de_a29bbce2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-01T09:41:44Z",
+      "side": 1,
+      "message": "Maybe also mock restService in polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+      "revId": "496a6fdc87de3b26343c182daac95eef48fd383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ac1e4e57_264a7b93",
         "filename": "polygerrit-ui/app/services/app-context-init.ts",
         "patchSetId": 1
@@ -37,6 +54,30 @@
       "writtenOn": "2020-12-01T09:35:17Z",
       "side": 1,
       "message": "It would be better to pass authService to rest api interface.",
+      "range": {
+        "startLine": 69,
+        "startChar": 30,
+        "endLine": 69,
+        "endChar": 48
+      },
+      "revId": "496a6fdc87de3b26343c182daac95eef48fd383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46af4ae8_45af536b",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-01T09:41:44Z",
+      "side": 1,
+      "message": "Maybe if you are migrating incrementally - it can go like:\n constructor(authService) {\n    super();\n    this.authService \u003d authService || appContext.authService;",
+      "parentUuid": "45f28968_7c5d4c43",
       "range": {
         "startLine": 69,
         "startChar": 30,

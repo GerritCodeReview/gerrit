@@ -29,7 +29,6 @@ import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAdminLinks, NavLink} from '../../../utils/admin-nav-util';
 import {customElement, property, observe} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   AccountDetailInfo,
   RequireProperties,
@@ -40,6 +39,7 @@ import {
 import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
 import {AuthType} from '../../../constants/constants';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
+import {appContext} from '../../../services/app-context';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -105,7 +105,6 @@ const AUTH_TYPES_WITH_REGISTER_URL: Set<AuthType> = new Set([
 
 export interface GrMainHeader {
   $: {
-    restAPI: RestApiService & Element;
     jsAPI: JsApiService & Element;
   };
 }
@@ -160,6 +159,8 @@ export class GrMainHeader extends GestureEventListeners(
 
   @property({type: Boolean})
   mobileSearchHidden = false;
+
+  private readonly restApiService = appContext.restApiService;
 
   /** @override */
   ready() {
@@ -274,8 +275,8 @@ export class GrMainHeader extends GestureEventListeners(
     this.loading = true;
 
     return Promise.all([
-      this.$.restAPI.getAccount(),
-      this.$.restAPI.getTopMenus(),
+      this.restApiService.getAccount(),
+      this.restApiService.getTopMenus(),
       getPluginLoader().awaitPluginsLoaded(),
     ]).then(result => {
       const account = result[0];
@@ -287,7 +288,7 @@ export class GrMainHeader extends GestureEventListeners(
       return getAdminLinks(
         account,
         () =>
-          this.$.restAPI.getAccountCapabilities().then(capabilities => {
+          this.restApiService.getAccountCapabilities().then(capabilities => {
             if (!capabilities) {
               throw new Error('getAccountCapabilities returns undefined');
             }
@@ -301,14 +302,14 @@ export class GrMainHeader extends GestureEventListeners(
   }
 
   _loadConfig() {
-    this.$.restAPI
+    this.restApiService
       .getConfig()
       .then(config => {
         if (!config) {
           throw new Error('getConfig returned undefined');
         }
         this._retrieveRegisterURL(config);
-        return getDocsBaseUrl(config, this.$.restAPI);
+        return getDocsBaseUrl(config, this.restApiService);
       })
       .then(docBaseUrl => {
         this._docBaseUrl = docBaseUrl;
@@ -321,7 +322,7 @@ export class GrMainHeader extends GestureEventListeners(
       return;
     }
 
-    this.$.restAPI.getPreferences().then(prefs => {
+    this.restApiService.getPreferences().then(prefs => {
       this._userLinks =
         prefs && prefs.my ? prefs.my.map(this._createHeaderLink) : [];
     });

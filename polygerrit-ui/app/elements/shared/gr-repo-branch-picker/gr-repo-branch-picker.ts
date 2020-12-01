@@ -33,7 +33,7 @@ import {
   BranchInfo,
 } from '../../../types/common';
 import {GrLabeledAutocomplete} from '../gr-labeled-autocomplete/gr-labeled-autocomplete';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {appContext} from '../../../services/app-context';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -42,7 +42,6 @@ export interface GrRepoBranchPicker {
   $: {
     repoInput: GrLabeledAutocomplete;
     branchInput: GrLabeledAutocomplete;
-    restAPI: RestApiService & Element;
   };
 }
 @customElement('gr-repo-branch-picker')
@@ -67,6 +66,8 @@ export class GrRepoBranchPicker extends GestureEventListeners(
 
   @property({type: Object})
   _repoQuery?: AutocompleteQuery;
+
+  private readonly restApiService = appContext.restApiService;
 
   constructor() {
     super();
@@ -95,13 +96,13 @@ export class GrRepoBranchPicker extends GestureEventListeners(
     if (input.startsWith(REF_PREFIX)) {
       input = input.substring(REF_PREFIX.length);
     }
-    return this.$.restAPI
+    return this.restApiService
       .getRepoBranches(input, this.repo, SUGGESTIONS_LIMIT)
       .then(res => this._branchResponseToSuggestions(res));
   }
 
   _getRepoSuggestions(input: string) {
-    return this.$.restAPI
+    return this.restApiService
       .getRepos(input, SUGGESTIONS_LIMIT)
       .then(res => this._repoResponseToSuggestions(res));
   }

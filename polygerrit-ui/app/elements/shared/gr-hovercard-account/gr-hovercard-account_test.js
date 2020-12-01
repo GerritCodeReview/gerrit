@@ -36,7 +36,7 @@ suite('gr-hovercard-account tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    sinon.stub(element.$.restAPI, 'getAccount').returns(
+    sinon.stub(element.restApiService, 'getAccount').returns(
         new Promise(resolve => { '2'; })
     );
 
@@ -110,7 +110,7 @@ suite('gr-hovercard-account tests', () => {
         [ReviewerState.REVIEWER]: [ACCOUNT],
       },
     };
-    sinon.stub(element.$.restAPI, 'removeChangeReviewer').returns(
+    sinon.stub(element.restApiService, 'removeChangeReviewer').returns(
         Promise.resolve({ok: true}));
     const reloadListener = sinon.spy();
     element._target.addEventListener('reload', reloadListener);
@@ -130,10 +130,10 @@ suite('gr-hovercard-account tests', () => {
         [ReviewerState.REVIEWER]: [ACCOUNT],
       },
     };
-    const saveReviewStub = sinon.stub(element.$.restAPI,
+    const saveReviewStub = sinon.stub(element.restApiService,
         'saveChangeReview').returns(
         Promise.resolve({ok: true}));
-    sinon.stub(element.$.restAPI, 'removeChangeReviewer').returns(
+    sinon.stub(element.restApiService, 'removeChangeReviewer').returns(
         Promise.resolve({ok: true}));
     const reloadListener = sinon.spy();
     element._target.addEventListener('reload', reloadListener);
@@ -157,10 +157,10 @@ suite('gr-hovercard-account tests', () => {
         [ReviewerState.REVIEWER]: [],
       },
     };
-    const saveReviewStub = sinon.stub(element.$.restAPI,
+    const saveReviewStub = sinon.stub(element.restApiService,
         'saveChangeReview').returns(
         Promise.resolve({ok: true}));
-    sinon.stub(element.$.restAPI, 'removeChangeReviewer').returns(
+    sinon.stub(element.restApiService, 'removeChangeReviewer').returns(
         Promise.resolve({ok: true}));
     const reloadListener = sinon.spy();
     element._target.addEventListener('reload', reloadListener);
@@ -184,7 +184,7 @@ suite('gr-hovercard-account tests', () => {
         [ReviewerState.REVIEWER]: [],
       },
     };
-    sinon.stub(element.$.restAPI, 'removeChangeReviewer').returns(
+    sinon.stub(element.restApiService, 'removeChangeReviewer').returns(
         Promise.resolve({ok: true}));
     const reloadListener = sinon.spy();
     element._target.addEventListener('reload', reloadListener);
@@ -206,7 +206,7 @@ suite('gr-hovercard-account tests', () => {
     const apiPromise = new Promise(r => {
       apiResolve = r;
     });
-    sinon.stub(element.$.restAPI, 'addToAttentionSet')
+    sinon.stub(element.restApiService, 'addToAttentionSet')
         .callsFake(() => apiPromise);
     element.highlightAttention = true;
     element._target = document.createElement('div');
@@ -239,7 +239,7 @@ suite('gr-hovercard-account tests', () => {
     const apiPromise = new Promise(r => {
       apiResolve = r;
     });
-    sinon.stub(element.$.restAPI, 'removeFromAttentionSet')
+    sinon.stub(element.restApiService, 'removeFromAttentionSet')
         .callsFake(() => apiPromise);
     element.highlightAttention = true;
     element.change = {attention_set: {31415926535: {}}};

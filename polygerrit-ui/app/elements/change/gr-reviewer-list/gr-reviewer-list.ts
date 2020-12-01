@@ -39,16 +39,10 @@ import {
 } from '../../../types/common';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {isRemovableReviewer} from '../../../utils/change-util';
 import {ReviewerState} from '../../../constants/constants';
-
-export interface GrReviewerList {
-  $: {
-    restAPI: RestApiService & Element;
-  };
-}
+import {appContext} from '../../../services/app-context';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends GestureEventListeners(
@@ -93,6 +87,8 @@ export class GrReviewerList extends GestureEventListeners(
 
   @property({type: Object})
   _xhrPromise?: Promise<Response | undefined>;
+
+  private readonly restApiService = appContext.restApiService;
 
   @computed('ccsOnly')
   get _addLabel() {
@@ -323,6 +319,6 @@ export class GrReviewerList extends GestureEventListeners(
 
   _removeReviewer(id: AccountId | EmailAddress): Promise<Response | undefined> {
     if (!this.change) return Promise.resolve(undefined);
-    return this.$.restAPI.removeChangeReviewer(this.change._number, id);
+    return this.restApiService.removeChangeReviewer(this.change._number, id);
   }
 }

@@ -53,8 +53,8 @@ import {DiffPreferencesInfo} from '../../../types/diff';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {DiffViewMode} from '../../../constants/constants';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {appContext} from '../../../services/app-context';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -69,7 +69,6 @@ declare global {
 export interface GrFileListHeader {
   $: {
     modeSelect: GrDiffModeSelector;
-    restAPI: RestApiService & Element;
     expandBtn: GrButton;
     collapseBtn: GrButton;
   };
@@ -168,6 +167,8 @@ export class GrFileListHeader extends KeyboardShortcutMixin(
 
   @property({type: Object})
   revisionInfo?: RevisionInfo;
+
+  private readonly restApiService = appContext.restApiService;
 
   @computed('loggedIn', 'change', 'account')
   get _descriptionReadOnly(): boolean {
@@ -294,7 +295,7 @@ export class GrFileListHeader extends KeyboardShortcutMixin(
       this.patchNum
     )!;
     const sha = this._getPatchsetHash(this.change.revisions, rev);
-    return this.$.restAPI
+    return this.restApiService
       .setDescription(this.changeNum, this.patchNum, desc)
       .then((res: Response) => {
         if (res.ok) {

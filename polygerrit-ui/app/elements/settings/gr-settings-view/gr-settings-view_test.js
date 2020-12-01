@@ -51,7 +51,7 @@ suite('gr-settings-view tests', () => {
   }
 
   function stubAddAccountEmail(statusCode) {
-    return sinon.stub(element.$.restAPI, 'addAccountEmail').callsFake(
+    return sinon.stub(element.restApiService, 'addAccountEmail').callsFake(
         () => Promise.resolve({status: statusCode}));
   }
 
@@ -481,7 +481,7 @@ suite('gr-settings-view tests', () => {
     setup(() => {
       sinon.stub(element.$.emailEditor, 'loadData');
       sinon.stub(
-          element.$.restAPI,
+          element.restApiService,
           'confirmEmail')
           .callsFake(
               () => new Promise(
@@ -491,8 +491,8 @@ suite('gr-settings-view tests', () => {
     });
 
     test('it is used to confirm email via rest API', () => {
-      assert.isTrue(element.$.restAPI.confirmEmail.calledOnce);
-      assert.isTrue(element.$.restAPI.confirmEmail.calledWith('foo'));
+      assert.isTrue(element.restApiService.confirmEmail.calledOnce);
+      assert.isTrue(element.restApiService.confirmEmail.calledWith('foo'));
     });
 
     test('emails are not loaded initially', () => {

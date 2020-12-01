@@ -94,10 +94,11 @@ suite('gr-download-commands', () => {
         },
       });
       element._loggedIn = true;
-      assert.isTrue(element.$.restAPI.getPreferences.called);
-      return element.$.restAPI.getPreferences.lastCall.returnValue.then(() => {
-        assert.equal(element.selectedScheme, 'repo');
-      });
+      assert.isTrue(element.restApiService.getPreferences.called);
+      return element.restApiService.getPreferences.lastCall.returnValue.then(
+          () => {
+            assert.equal(element.selectedScheme, 'repo');
+          });
     });
 
     test('normalize scheme from preferences', () => {
@@ -107,14 +108,16 @@ suite('gr-download-commands', () => {
         },
       });
       element._loggedIn = true;
-      return element.$.restAPI.getPreferences.lastCall.returnValue.then(() => {
-        assert.equal(element.selectedScheme, 'repo');
-      });
+      return element.restApiService.getPreferences.lastCall.returnValue.then(
+          () => {
+            assert.equal(element.selectedScheme, 'repo');
+          });
     });
 
     test('saves scheme to preferences', () => {
       element._loggedIn = true;
-      const savePrefsStub = sinon.stub(element.$.restAPI, 'savePreferences')
+      const savePrefsStub = sinon.stub(element.restApiService,
+          'savePreferences')
           .callsFake(() => Promise.resolve());
 
       flush();

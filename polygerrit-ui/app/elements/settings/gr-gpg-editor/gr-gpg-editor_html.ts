@@ -133,5 +133,4 @@ export const htmlTemplate = html`
       >
     </fieldset>
   </div>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

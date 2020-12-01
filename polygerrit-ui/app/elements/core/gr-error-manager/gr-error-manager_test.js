@@ -67,7 +67,7 @@ suite('gr-error-manager tests', () => {
               element, '_showAuthErrorAlert'
           );
           const responseText = Promise.resolve('Authentication required\n');
-          sinon.stub(element.$.restAPI, 'getLoggedIn')
+          sinon.stub(element.restApiService, 'getLoggedIn')
               .returns(Promise.resolve(true));
           element.dispatchEvent(
               new CustomEvent('server-error', {
@@ -83,9 +83,9 @@ suite('gr-error-manager tests', () => {
 
     test('recheck auth for 403 with auth error if authed before', done => {
       // starts with authed state
-      element.$.restAPI.getLoggedIn();
+      element.restApiService.getLoggedIn();
       const responseText = Promise.resolve('Authentication required\n');
-      sinon.stub(element.$.restAPI, 'getLoggedIn')
+      sinon.stub(element.restApiService, 'getLoggedIn')
           .returns(Promise.resolve(true));
       element.dispatchEvent(
           new CustomEvent('server-error', {
@@ -94,7 +94,7 @@ suite('gr-error-manager tests', () => {
             composed: true, bubbles: true,
           }));
       flush(() => {
-        assert.isTrue(element.$.restAPI.getLoggedIn.calledOnce);
+        assert.isTrue(element.restApiService.getLoggedIn.calledOnce);
         done();
       });
     });
@@ -241,8 +241,9 @@ suite('gr-error-manager tests', () => {
 
     test('show auth refresh toast', async () => {
       // starts with authed state
-      element.$.restAPI.getLoggedIn();
-      const refreshStub = sinon.stub(element.$.restAPI, 'getAccount').callsFake(
+      element.restApiService.getLoggedIn();
+      const refreshStub = sinon.stub(element.restApiService,
+          'getAccount').callsFake(
           () => Promise.resolve({}));
       const windowOpen = sinon.stub(window, 'open');
       const responseText = Promise.resolve('Authentication required\n');
@@ -313,7 +314,7 @@ suite('gr-error-manager tests', () => {
 
     test('auth toast should dismiss existing toast', async () => {
       // starts with authed state
-      element.$.restAPI.getLoggedIn();
+      element.restApiService.getLoggedIn();
       const responseText = Promise.resolve('Authentication required\n');
 
       // fake an alert
@@ -353,7 +354,7 @@ suite('gr-error-manager tests', () => {
 
     test('regular toast should dismiss regular toast', () => {
       // starts with authed state
-      element.$.restAPI.getLoggedIn();
+      element.restApiService.getLoggedIn();
 
       // fake an alert
       element.dispatchEvent(
@@ -379,7 +380,7 @@ suite('gr-error-manager tests', () => {
 
     test('regular toast should not dismiss auth toast', done => {
       // starts with authed state
-      element.$.restAPI.getLoggedIn();
+      element.restApiService.getLoggedIn();
       const responseText = Promise.resolve('Authentication required\n');
 
       // fake auth
@@ -456,7 +457,7 @@ suite('gr-error-manager tests', () => {
 
     test('refreshes with same credentials', done => {
       const accountPromise = Promise.resolve({_account_id: 1234});
-      sinon.stub(element.$.restAPI, 'getAccount')
+      sinon.stub(element.restApiService, 'getAccount')
           .returns(accountPromise);
       const requestCheckStub = sinon.stub(element, '_requestCheckLoggedIn');
       const handleRefreshStub = sinon.stub(element,
@@ -513,7 +514,7 @@ suite('gr-error-manager tests', () => {
 
     test('reloads when refreshed credentials differ', done => {
       const accountPromise = Promise.resolve({_account_id: 1234});
-      sinon.stub(element.$.restAPI, 'getAccount')
+      sinon.stub(element.restApiService, 'getAccount')
           .returns(accountPromise);
       const requestCheckStub = sinon.stub(
           element,

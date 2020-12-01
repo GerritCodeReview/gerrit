@@ -24,13 +24,12 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-preferences_html';
 import {customElement, property} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrSelect} from '../gr-select/gr-select';
+import {appContext} from '../../../services/app-context';
 
 export interface GrDiffPreferences {
   $: {
-    restAPI: RestApiService & Element;
     lineWrappingInput: HTMLInputElement;
     showTabsInput: HTMLInputElement;
     showTrailingWhitespaceInput: HTMLInputElement;
@@ -55,8 +54,10 @@ export class GrDiffPreferences extends GestureEventListeners(
   @property({type: Object})
   diffPrefs?: DiffPreferencesInfo;
 
+  private readonly restApiService = appContext.restApiService;
+
   loadData() {
-    return this.$.restAPI.getDiffPreferences().then(prefs => {
+    return this.restApiService.getDiffPreferences().then(prefs => {
       this.diffPrefs = prefs;
     });
   }
@@ -99,7 +100,7 @@ export class GrDiffPreferences extends GestureEventListeners(
   save() {
     if (!this.diffPrefs)
       return Promise.reject(new Error('Missing diff preferences'));
-    return this.$.restAPI.saveDiffPreferences(this.diffPrefs).then(_ => {
+    return this.restApiService.saveDiffPreferences(this.diffPrefs).then(_ => {
       this.hasUnsavedChanges = false;
     });
   }

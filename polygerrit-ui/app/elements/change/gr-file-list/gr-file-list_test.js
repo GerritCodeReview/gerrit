@@ -1837,7 +1837,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('_getReviewedFiles does not call API', () => {
-        const apiSpy = sinon.spy(element.$.restAPI, 'getReviewedFiles');
+        const apiSpy = sinon.spy(element.restApiService, 'getReviewedFiles');
         element.editMode = true;
         return element._getReviewedFiles().then(files => {
           assert.equal(files.length, 0);

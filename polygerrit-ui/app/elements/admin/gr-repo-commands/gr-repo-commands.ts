@@ -30,10 +30,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-commands_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
-import {
-  ErrorCallback,
-  RestApiService,
-} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   BranchName,
   ConfigInfo,
@@ -47,6 +44,7 @@ import {
   firePageError,
   fireTitleChange,
 } from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 const GC_MESSAGE = 'Garbage collection completed successfully.';
 const CONFIG_BRANCH = 'refs/meta/config' as BranchName;
@@ -58,7 +56,6 @@ const CREATE_CHANGE_SUCCEEDED_MESSAGE = 'Navigating to change';
 
 export interface GrRepoCommands {
   $: {
-    restAPI: RestApiService & Element;
     createChangeOverlay: GrOverlay;
     createNewChangeModal: GrCreateChangeDialog;
   };
@@ -95,6 +92,8 @@ export class GrRepoCommands extends GestureEventListeners(
   @property({type: Boolean})
   _runningGC = false;
 
+  private restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -111,7 +110,7 @@ export class GrRepoCommands extends GestureEventListeners(
       firePageError(this, response);
     };
 
-    this.$.restAPI.getProjectConfig(this.repo, errFn).then(config => {
+    this.restApiService.getProjectConfig(this.repo, errFn).then(config => {
       if (!config) return;
       // Do not process the response, if the component is not attached to the
       // DOM anymore, which at least in tests can happen.
@@ -131,7 +130,7 @@ export class GrRepoCommands extends GestureEventListeners(
 
   _handleRunningGC() {
     this._runningGC = true;
-    return this.$.restAPI
+    return this.restApiService
       .runRepoGC(this.repo)
       .then(response => {
         if (response?.status === 200) {
@@ -164,7 +163,7 @@ export class GrRepoCommands extends GestureEventListeners(
    */
   _handleEditRepoConfig() {
     this._editingConfig = true;
-    return this.$.restAPI
+    return this.restApiService
       .createChange(
         this.repo,
         CONFIG_BRANCH,

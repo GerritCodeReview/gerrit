@@ -113,7 +113,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
 
     test('cherry pick topic submit', done => {
       element.branch = 'master';
-      const executeChangeActionStub = sinon.stub(element.$.restAPI,
+      const executeChangeActionStub = sinon.stub(element.restApiService,
           'executeChangeAction').returns(Promise.resolve([]));
       MockInteractions.tap(element.shadowRoot.
           querySelector('gr-dialog').$.confirm);

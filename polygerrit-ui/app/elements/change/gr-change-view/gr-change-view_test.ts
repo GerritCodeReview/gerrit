@@ -704,7 +704,7 @@ suite('gr-change-view tests', () => {
         messages: createChangeMessages(1),
       };
       element._change.labels = {};
-      sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(() =>
+      sinon.stub(element.restApiService, 'getChangeDetail').callsFake(() =>
         Promise.resolve({
           ...createChange(),
           // element has latest info
@@ -1474,7 +1474,7 @@ suite('gr-change-view tests', () => {
 
   test('diffMode defaults to side by side without preferences', done => {
     sinon
-      .stub(element.$.restAPI, 'getPreferences')
+      .stub(element.restApiService, 'getPreferences')
       .returns(Promise.resolve(createPreferences()));
     // No user prefs or diff view mode set.
 
@@ -1485,7 +1485,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('diffMode defaults to preference when not already set', done => {
-    sinon.stub(element.$.restAPI, 'getPreferences').returns(
+    sinon.stub(element.restApiService, 'getPreferences').returns(
       Promise.resolve({
         ...createPreferences(),
         default_diff_view: DiffViewMode.UNIFIED,
@@ -1500,7 +1500,7 @@ suite('gr-change-view tests', () => {
 
   test('existing diffMode overrides preference', done => {
     element.viewState.diffMode = DiffViewMode.SIDE_BY_SIDE;
-    sinon.stub(element.$.restAPI, 'getPreferences').returns(
+    sinon.stub(element.restApiService, 'getPreferences').returns(
       Promise.resolve({
         ...createPreferences(),
         default_diff_view: DiffViewMode.UNIFIED,
@@ -1647,7 +1647,7 @@ suite('gr-change-view tests', () => {
     element._change = createChange();
     // Response code is 500, because we want to avoid window reloading
     const putStub = sinon
-      .stub(element.$.restAPI, 'putChangeCommitMessage')
+      .stub(element.restApiService, 'putChangeCommitMessage')
       .returns(Promise.resolve(new Response(null, {status: 500})));
 
     const mockEvent = (content: string) => {
@@ -1764,7 +1764,7 @@ suite('gr-change-view tests', () => {
 
   test('topic is coalesced to null', done => {
     sinon.stub(element, '_changeChanged');
-    sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(() =>
+    sinon.stub(element.restApiService, 'getChangeDetail').callsFake(() =>
       Promise.resolve({
         ...createChange(),
         labels: {},
@@ -1781,7 +1781,7 @@ suite('gr-change-view tests', () => {
 
   test('commit sha is populated from getChangeDetail', done => {
     sinon.stub(element, '_changeChanged');
-    sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(() =>
+    sinon.stub(element.restApiService, 'getChangeDetail').callsFake(() =>
       Promise.resolve({
         ...createChange(),
         labels: {},
@@ -1799,7 +1799,7 @@ suite('gr-change-view tests', () => {
   test('edit is added to change', () => {
     sinon.stub(element, '_changeChanged');
     const changeRevision = createRevision();
-    sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(() =>
+    sinon.stub(element.restApiService, 'getChangeDetail').callsFake(() =>
       Promise.resolve({
         ...createChange(),
         labels: {},
@@ -1957,7 +1957,7 @@ suite('gr-change-view tests', () => {
 
   test('revert dialog opened with revert param', done => {
     sinon
-      .stub(element.$.restAPI, 'getLoggedIn')
+      .stub(element.restApiService, 'getLoggedIn')
       .callsFake(() => Promise.resolve(true));
     const awaitPluginsLoadedStub = sinon
       .stub(getPluginLoader(), 'awaitPluginsLoaded')
@@ -2034,7 +2034,7 @@ suite('gr-change-view tests', () => {
         messages: createChangeMessages(1),
       };
       element._change.labels = {};
-      sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(() =>
+      sinon.stub(element.restApiService, 'getChangeDetail').callsFake(() =>
         Promise.resolve({
           ...createChange(),
           // element has latest info
@@ -2126,7 +2126,7 @@ suite('gr-change-view tests', () => {
         messages: createChangeMessages(1),
       };
       element._change.labels = {};
-      sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(() =>
+      sinon.stub(element.restApiService, 'getChangeDetail').callsFake(() =>
         Promise.resolve({
           ...createChange(),
           // new patchset was uploaded
@@ -2306,7 +2306,7 @@ suite('gr-change-view tests', () => {
 
       test('_startUpdateCheckTimer negative delay', () => {
         const getChangeDetailStub = sinon
-          .stub(element.$.restAPI, 'getChangeDetail')
+          .stub(element.restApiService, 'getChangeDetail')
           .callsFake(() =>
             Promise.resolve({
               ...createChange(),
@@ -2328,7 +2328,7 @@ suite('gr-change-view tests', () => {
 
       test('_startUpdateCheckTimer up-to-date', async () => {
         const getChangeDetailStub = sinon
-          .stub(element.$.restAPI, 'getChangeDetail')
+          .stub(element.restApiService, 'getChangeDetail')
           .callsFake(() =>
             Promise.resolve({
               ...createChange(),
@@ -2351,7 +2351,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer out-of-date shows an alert', done => {
-        sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(() =>
+        sinon.stub(element.restApiService, 'getChangeDetail').callsFake(() =>
           Promise.resolve({
             ...createChange(),
             // new patchset was uploaded
@@ -2374,7 +2374,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer respects _loading', async () => {
-        sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(() =>
+        sinon.stub(element.restApiService, 'getChangeDetail').callsFake(() =>
           Promise.resolve({
             ...createChange(),
             // new patchset was uploaded
@@ -2396,7 +2396,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer new status shows an alert', done => {
-        sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(() =>
+        sinon.stub(element.restApiService, 'getChangeDetail').callsFake(() =>
           Promise.resolve({
             ...createChange(),
             // element has latest info
@@ -2418,7 +2418,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer new messages shows an alert', done => {
-        sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(() =>
+        sinon.stub(element.restApiService, 'getChangeDetail').callsFake(() =>
           Promise.resolve({
             ...createChange(),
             revisions: {rev1: createRevision()},
@@ -2660,7 +2660,7 @@ suite('gr-change-view tests', () => {
   test('_selectedRevision updates when patchNum is changed', () => {
     const revision1: RevisionInfo = createRevision(1);
     const revision2: RevisionInfo = createRevision(2);
-    sinon.stub(element.$.restAPI, 'getChangeDetail').returns(
+    sinon.stub(element.restApiService, 'getChangeDetail').returns(
       Promise.resolve({
         ...createChange(),
         revisions: {
@@ -2689,7 +2689,7 @@ suite('gr-change-view tests', () => {
     const revision1 = createRevision(1);
     const revision2 = createRevision(2);
     const revision3 = createEditRevision();
-    sinon.stub(element.$.restAPI, 'getChangeDetail').returns(
+    sinon.stub(element.restApiService, 'getChangeDetail').returns(
       Promise.resolve({
         ...createChange(),
         revisions: {
@@ -2839,7 +2839,7 @@ suite('gr-change-view tests', () => {
     setup(() => {
       element._change = {...createChange(), labels: {}};
       getMergeableStub = sinon
-        .stub(element.$.restAPI, 'getMergeable')
+        .stub(element.restApiService, 'getMergeable')
         .returns(Promise.resolve({...createMergeable(), mergeable: true}));
     });
 
@@ -2873,7 +2873,7 @@ suite('gr-change-view tests', () => {
   test('_paramsChanged sets in projectLookup', () => {
     sinon.stub(element.$.relatedChanges, 'reload');
     sinon.stub(element, '_reload').returns(Promise.resolve([]));
-    const setStub = sinon.stub(element.$.restAPI, 'setInProjectLookup');
+    const setStub = sinon.stub(element.restApiService, 'setInProjectLookup');
     element._paramsChanged({
       view: GerritNav.View.CHANGE,
       changeNum: 101 as NumericChangeId,

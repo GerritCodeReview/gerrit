@@ -60,7 +60,6 @@ import {
   DiffPreferencesInfo,
   IgnoreWhitespaceType,
 } from '../../../types/diff';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
 import {GrDiff, LineOfInterest} from '../gr-diff/gr-diff';
 import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
@@ -110,7 +109,6 @@ interface LineInfo {
 
 export interface GrDiffHost {
   $: {
-    restAPI: RestApiService & Element;
     jsAPI: JsApiService & Element;
     syntaxLayer: GrSyntaxLayer & Element;
     diff: GrDiff;
@@ -260,6 +258,8 @@ export class GrDiffHost extends GestureEventListeners(
   private readonly reporting = appContext.reportingService;
 
   private readonly flags = appContext.flagsService;
+
+  private readonly restApiService = appContext.restApiService;
 
   /** @override */
   created() {
@@ -508,7 +508,7 @@ export class GrDiffHost extends GestureEventListeners(
     if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
     if (!this.patchRange) throw new Error('Missing required "patchRange".');
     if (!this.path) throw new Error('Missing required "path" property.');
-    return this.$.restAPI
+    return this.restApiService
       .getBlame(this.changeNum, this.patchRange.patchNum, this.path, true)
       .then(blame => {
         if (!blame || !blame.length) {
@@ -542,7 +542,7 @@ export class GrDiffHost extends GestureEventListeners(
   }
 
   _getLoggedIn() {
-    return this.$.restAPI.getLoggedIn();
+    return this.restApiService.getLoggedIn();
   }
 
   _canReload() {
@@ -575,7 +575,7 @@ export class GrDiffHost extends GestureEventListeners(
       if (!this.changeNum) throw new Error('Missing required "changeNum".');
       if (!this.patchRange) throw new Error('Missing required "patchRange".');
       if (!this.path) throw new Error('Missing required "path" property.');
-      this.$.restAPI
+      this.restApiService
         .getDiff(
           this.changeNum,
           this.patchRange.basePatchNum,
@@ -697,7 +697,7 @@ export class GrDiffHost extends GestureEventListeners(
   _getImages(diff: DiffInfo) {
     if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
     if (!this.patchRange) throw new Error('Missing required "patchRange".');
-    return this.$.restAPI.getImagesForDiff(
+    return this.restApiService.getImagesForDiff(
       this.changeNum,
       diff,
       this.patchRange

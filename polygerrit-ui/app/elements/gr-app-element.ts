@@ -53,7 +53,6 @@ import {GerritNav, GerritView} from './core/gr-navigation/gr-navigation';
 import {appContext} from '../services/app-context';
 import {flush} from '@polymer/polymer/lib/utils/flush';
 import {customElement, observe, property} from '@polymer/decorators';
-import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
 import {GrRouter} from './core/gr-router/gr-router';
 import {
   AccountDetailInfo,
@@ -89,7 +88,6 @@ interface ErrorInfo {
 
 export interface GrAppElement {
   $: {
-    restAPI: RestApiService & Element;
     router: GrRouter;
     errorManager: GrErrorManager;
     errorView: HTMLDivElement;
@@ -195,6 +193,8 @@ export class GrAppElement extends KeyboardShortcutMixin(
 
   private reporting = appContext.reportingService;
 
+  private restApiService = appContext.restApiService;
+
   keyboardShortcuts() {
     return {
       [Shortcut.OPEN_SHORTCUT_HELP_DIALOG]: '_showKeyboardShortcuts',
@@ -238,19 +238,19 @@ export class GrAppElement extends KeyboardShortcutMixin(
     this.reporting.appStarted();
     this.$.router.start();
 
-    this.$.restAPI.getAccount().then(account => {
+    this.restApiService.getAccount().then(account => {
       this._account = account;
       const role = account ? 'user' : 'guest';
       this.reporting.reportLifeCycle(`Started as ${role}`);
     });
-    this.$.restAPI.getConfig().then(config => {
+    this.restApiService.getConfig().then(config => {
       this._serverConfig = config;
 
       if (config && config.gerrit && config.gerrit.report_bug_url) {
         this._feedbackUrl = config.gerrit.report_bug_url;
       }
     });
-    this.$.restAPI.getVersion().then(version => {
+    this.restApiService.getVersion().then(version => {
       this._version = version;
       this._logWelcome();
     });
@@ -440,9 +440,9 @@ export class GrAppElement extends KeyboardShortcutMixin(
     if (!account) return;
 
     // Preferences are cached when a user is logged in; warm them.
-    this.$.restAPI.getPreferences();
-    this.$.restAPI.getDiffPreferences();
-    this.$.restAPI.getEditPreferences();
+    this.restApiService.getPreferences();
+    this.restApiService.getDiffPreferences();
+    this.restApiService.getEditPreferences();
     this.$.errorManager.knownAccountId =
       (this._account && this._account._account_id) || null;
   }

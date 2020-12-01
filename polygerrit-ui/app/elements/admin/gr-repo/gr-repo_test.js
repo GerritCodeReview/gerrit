@@ -106,7 +106,7 @@ suite('gr-repo tests', () => {
     });
     element = basicFixture.instantiate();
     repoStub = sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getProjectConfig')
         .callsFake(() => Promise.resolve(repoConf));
   });
@@ -171,7 +171,7 @@ suite('gr-repo tests', () => {
     element.repo = REPO;
     sinon.stub(element, '_getLoggedIn').callsFake(() => Promise.resolve(true));
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getRepoAccess')
         .callsFake(() => Promise.resolve({'test-repo': {}}));
     element._loadRepo().then(() => {
@@ -247,7 +247,7 @@ suite('gr-repo tests', () => {
 
     const response = {status: 404};
     sinon.stub(
-        element.$.restAPI, 'getProjectConfig').callsFake((repo, errFn) => {
+        element.restApiService, 'getProjectConfig').callsFake((repo, errFn) => {
       errFn(response);
     });
     element.addEventListener('page-error', e => {
@@ -264,7 +264,7 @@ suite('gr-repo tests', () => {
       sinon.stub(element, '_getLoggedIn')
           .callsFake(() => Promise.resolve(true));
       sinon.stub(
-          element.$.restAPI,
+          element.restApiService,
           'getRepoAccess')
           .callsFake(() => Promise.resolve({'test-repo': {is_owner: true}}));
     });
@@ -322,7 +322,7 @@ suite('gr-repo tests', () => {
         enable_reviewer_by_email: 'TRUE',
       };
 
-      const saveStub = sinon.stub(element.$.restAPI, 'saveRepoConfig')
+      const saveStub = sinon.stub(element.restApiService, 'saveRepoConfig')
           .callsFake(() => Promise.resolve({}));
 
       const button = element.root.querySelector('gr-button');

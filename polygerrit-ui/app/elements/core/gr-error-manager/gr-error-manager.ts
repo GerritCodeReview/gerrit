@@ -35,7 +35,6 @@ import {EventEmitterService} from '../../../services/gr-event-interface/gr-event
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrErrorDialog} from '../gr-error-dialog/gr-error-dialog';
 import {GrAlert} from '../../shared/gr-alert/gr-alert';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {FetchRequest} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {ErrorType, FixIronA11yAnnouncer} from '../../../types/types';
 import {AccountId} from '../../../types/common';
@@ -72,7 +71,6 @@ export interface GrErrorManager {
     noInteractionOverlay: GrOverlay;
     errorDialog: GrErrorDialog;
     errorOverlay: GrOverlay;
-    restAPI: RestApiService & Element;
   };
 }
 @customElement('gr-error-manager')
@@ -116,11 +114,11 @@ export class GrErrorManager extends GestureEventListeners(
 
   _authErrorHandlerDeregistrationHook?: Function;
 
+  private readonly restApiService = appContext.restApiService;
+
   constructor() {
     super();
-
     this._authService = appContext.authService;
-
     this.reporting = appContext.reportingService;
     this.eventEmitter = appContext.eventEmitter;
   }
@@ -204,7 +202,7 @@ export class GrErrorManager extends GestureEventListeners(
         // This indicates the auth token may no longer valid.
         // Re-check on auth
         this._authService.clearCache();
-        this.$.restAPI.getLoggedIn();
+        this.restApiService.getLoggedIn();
       } else if (!this._shouldSuppressError(errorText)) {
         const trace =
           response.headers && response.headers.get('X-Gerrit-Trace');
@@ -239,7 +237,7 @@ export class GrErrorManager extends GestureEventListeners(
     url,
     trace,
   }: ErrorMsg) {
-    this.$.restAPI.getLoggedIn().then(isLoggedIn => {
+    this.restApiService.getLoggedIn().then(isLoggedIn => {
       const tip = isLoggedIn
         ? 'You might have not enough privileges.'
         : 'You might have not enough privileges. Sign in and try again.';
@@ -422,10 +420,10 @@ export class GrErrorManager extends GestureEventListeners(
     this._lastCredentialCheck = Date.now();
 
     // force to refetch account info
-    this.$.restAPI.invalidateAccountsCache();
+    this.restApiService.invalidateAccountsCache();
     this._authService.clearCache();
 
-    this.$.restAPI.getLoggedIn().then(isLoggedIn => {
+    this.restApiService.getLoggedIn().then(isLoggedIn => {
       // do nothing if its refreshing
       if (!this._refreshingCredentials) return;
 
@@ -437,7 +435,7 @@ export class GrErrorManager extends GestureEventListeners(
         this._requestCheckLoggedIn();
       } else {
         // check account
-        this.$.restAPI.getAccount().then(account => {
+        this.restApiService.getAccount().then(account => {
           if (this._refreshingCredentials) {
             // If the credentials were refreshed but the account is different
             // then reload the page completely.

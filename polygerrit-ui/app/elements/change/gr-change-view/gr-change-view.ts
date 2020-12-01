@@ -76,7 +76,6 @@ import {
 import {changeStatuses, changeStatusString} from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../plugins/gr-plugin-types';
 import {customElement, property, observe} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
@@ -205,7 +204,6 @@ const ROBOT_COMMENTS_LIMIT = 10;
 
 export interface GrChangeView {
   $: {
-    restAPI: RestApiService & Element;
     jsAPI: GrJsApiInterface;
     commentAPI: GrCommentApi;
     applyFixDialog: GrApplyFixDialog;
@@ -538,6 +536,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _isChecksEnabled = false;
 
+  restApiService = appContext.restApiService;
+
   keyboardShortcuts() {
     return {
       [Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
@@ -615,7 +615,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
       if (loggedIn) {
-        this.$.restAPI.getAccount().then(acct => {
+        this.restApiService.getAccount().then(acct => {
           this._account = acct;
         });
       }
@@ -847,7 +847,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this.$.jsAPI.handleCommitMessage(this._change, message);
 
     this.$.commitMessageEditor.disabled = true;
-    this.$.restAPI
+    this.restApiService
       .putChangeCommitMessage(this._changeNum, message)
       .then(resp => {
         this.$.commitMessageEditor.disabled = false;
@@ -1242,7 +1242,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     }
 
     if (value.changeNum && value.project) {
-      this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
+      this.restApiService.setInProjectLookup(value.changeNum, value.project);
     }
 
     const patchChanged =
@@ -1861,16 +1861,16 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _getLoggedIn() {
-    return this.$.restAPI.getLoggedIn();
+    return this.restApiService.getLoggedIn();
   }
 
   _getServerConfig() {
-    return this.$.restAPI.getConfig();
+    return this.restApiService.getConfig();
   }
 
   _getProjectConfig() {
     if (!this._change) throw new Error('missing required change property');
-    return this.$.restAPI
+    return this.restApiService
       .getProjectConfig(this._change.project)
       .then(config => {
         this._projectConfig = config;
@@ -1878,7 +1878,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _getPreferences() {
-    return this.$.restAPI.getPreferences();
+    return this.restApiService.getPreferences();
   }
 
   _prepareCommitMsgForLinkify(msg: string) {
@@ -1928,8 +1928,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
   _getChangeDetail() {
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
-    const detailCompletes = this.$.restAPI.getChangeDetail(this._changeNum, r =>
-      this._handleGetChangeDetailError(r)
+    const detailCompletes = this.restApiService.getChangeDetail(
+      this._changeNum,
+      r => this._handleGetChangeDetailError(r)
     );
     const editCompletes = this._getEdit();
     const prefCompletes = this._getPreferences();
@@ -2018,7 +2019,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   _getEdit() {
     if (!this._changeNum)
       return Promise.reject(new Error('missing required changeNum property'));
-    return this.$.restAPI.getChangeEdit(this._changeNum, true);
+    return this.restApiService.getChangeEdit(this._changeNum, true);
   }
 
   _getLatestCommitMessage() {
@@ -2027,7 +2028,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     const lastpatchNum = computeLatestPatchNum(this._allPatchSets);
     if (lastpatchNum === undefined)
       throw new Error('missing lastPatchNum property');
-    return this.$.restAPI
+    return this.restApiService
       .getChangeCommitInfo(this._changeNum, lastpatchNum)
       .then(commitInfo => {
         if (!commitInfo) return;
@@ -2065,7 +2066,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
       throw new Error('missing required _patchRange property');
     if (this._patchRange.patchNum === undefined)
       throw new Error('missing required patchNum property');
-    return this.$.restAPI
+    return this.restApiService
       .getChangeCommitInfo(this._changeNum, this._patchRange.patchNum)
       .then(commitInfo => {
         this._commitInfo = commitInfo;
@@ -2303,11 +2304,13 @@ export class GrChangeView extends KeyboardShortcutMixin(
     }
 
     this._mergeable = null;
-    return this.$.restAPI.getMergeable(this._changeNum).then(mergableInfo => {
-      if (mergableInfo) {
-        this._mergeable = mergableInfo.mergeable;
-      }
-    });
+    return this.restApiService
+      .getMergeable(this._changeNum)
+      .then(mergableInfo => {
+        if (mergableInfo) {
+          this._mergeable = mergableInfo.mergeable;
+        }
+      });
   }
 
   _computeCanStartReview(change: ChangeInfo) {
@@ -2490,7 +2493,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this._updateCheckTimerHandle = this.async(() => {
       if (!this._change) throw new Error('missing required change property');
       const change = this._change;
-      fetchChangeUpdates(change, this.$.restAPI).then(result => {
+      fetchChangeUpdates(change, this.restApiService).then(result => {
         let toastMessage = null;
         if (!result.isLatest) {
           toastMessage = ReloadToastMessage.NEWER_REVISION;
@@ -2689,7 +2692,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleToggleStar(e: CustomEvent<{change: ChangeInfo; starred: boolean}>) {
-    this.$.restAPI.saveChangeStarred(e.detail.change._number, e.detail.starred);
+    this.restApiService.saveChangeStarred(
+      e.detail.change._number,
+      e.detail.starred
+    );
   }
 
   _getRevisionInfo(change: ChangeInfo | ParsedChangeInfo) {

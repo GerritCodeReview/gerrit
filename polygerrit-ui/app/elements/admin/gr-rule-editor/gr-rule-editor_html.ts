@@ -156,5 +156,4 @@ export const htmlTemplate = html`
       >Undo</gr-button
     >
   </div>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

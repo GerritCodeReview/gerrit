@@ -99,7 +99,8 @@ suite('gr-account-label tests', () => {
     });
 
     test('tap attention button', () => {
-      const apiStub = sinon.stub(element.$.restAPI, 'removeFromAttentionSet')
+      const apiStub = sinon.stub(element.restApiService,
+          'removeFromAttentionSet')
           .callsFake(() => Promise.resolve());
       const button = element.shadowRoot.querySelector('#attentionButton');
       assert.ok(button);

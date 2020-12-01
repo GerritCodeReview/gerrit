@@ -29,12 +29,12 @@ import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mix
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe, computed} from '@polymer/decorators';
 import {AppElementAdminParams} from '../../gr-app-types';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {RepoName, ProjectInfoWithName} from '../../../types/common';
 import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
 import {ProjectState} from '../../../constants/constants';
 import {fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -44,7 +44,6 @@ declare global {
 
 export interface GrRepoList {
   $: {
-    restAPI: RestApiService & Element;
     createOverlay: GrOverlay;
     createNewModal: GrCreateRepoDialog;
   };
@@ -90,6 +89,8 @@ export class GrRepoList extends ListViewMixin(
     return this.computeShownItems(this._repos);
   }
 
+  private restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -125,11 +126,11 @@ export class GrRepoList extends ListViewMixin(
   }
 
   _getCreateRepoCapability() {
-    return this.$.restAPI.getAccount().then(account => {
+    return this.restApiService.getAccount().then(account => {
       if (!account) {
         return;
       }
-      return this.$.restAPI
+      return this.restApiService
         .getAccountCapabilities(['createProject'])
         .then(capabilities => {
           if (capabilities?.createProject) {
@@ -141,18 +142,20 @@ export class GrRepoList extends ListViewMixin(
 
   _getRepos(filter: string, reposPerPage: number, offset?: number) {
     this._repos = [];
-    return this.$.restAPI.getRepos(filter, reposPerPage, offset).then(repos => {
-      // Late response.
-      if (filter !== this._filter || !repos) {
-        return;
-      }
-      this._repos = repos;
-      this._loading = false;
-    });
+    return this.restApiService
+      .getRepos(filter, reposPerPage, offset)
+      .then(repos => {
+        // Late response.
+        if (filter !== this._filter || !repos) {
+          return;
+        }
+        this._repos = repos;
+        this._loading = false;
+      });
   }
 
   _refreshReposList() {
-    this.$.restAPI.invalidateReposCache();
+    this.restApiService.invalidateReposCache();
     return this._getRepos(this._filter, this._reposPerPage, this._offset);
   }
 

@@ -153,5 +153,4 @@ export const htmlTemplate = html`
     </div>
     <!-- end deletedContainer -->
   </fieldset>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

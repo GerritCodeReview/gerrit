@@ -28,15 +28,10 @@ import {
 } from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {getBaseUrl} from '../../../utils/url-util';
 import {customElement, property} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {DocResult} from '../../../types/common';
 import {fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
-export interface GrDocumentationSearch {
-  $: {
-    restAPI: RestApiService & Element;
-  };
-}
 @customElement('gr-documentation-search')
 export class GrDocumentationSearch extends ListViewMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -60,6 +55,8 @@ export class GrDocumentationSearch extends ListViewMixin(
   @property({type: String})
   _filter = '';
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -75,14 +72,16 @@ export class GrDocumentationSearch extends ListViewMixin(
 
   _getDocumentationSearches(filter: string) {
     this._documentationSearches = [];
-    return this.$.restAPI.getDocumentationSearches(filter).then(searches => {
-      // Late response.
-      if (filter !== this._filter || !searches) {
-        return;
-      }
-      this._documentationSearches = searches;
-      this._loading = false;
-    });
+    return this.restApiService
+      .getDocumentationSearches(filter)
+      .then(searches => {
+        // Late response.
+        if (filter !== this._filter || !searches) {
+          return;
+        }
+        this._documentationSearches = searches;
+        this._loading = false;
+      });
   }
 
   _computeSearchUrl(url?: string) {

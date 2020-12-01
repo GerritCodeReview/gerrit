@@ -38,7 +38,6 @@ import {
   UrlEncodedRepoName,
   ProjectAccessGroups,
 } from '../../../types/common';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAccessSection} from '../gr-access-section/gr-access-section';
@@ -53,16 +52,11 @@ import {
   PrimitiveValue,
 } from './gr-repo-access-interfaces';
 import {firePageError, fireAlert} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 const NOTHING_TO_SAVE = 'No changes to save.';
 
 const MAX_AUTOCOMPLETE_RESULTS = 50;
-
-export interface GrRepoAccess {
-  $: {
-    restAPI: RestApiService & Element;
-  };
-}
 
 /**
  * Fired when save is a no-op
@@ -127,6 +121,8 @@ export class GrRepoAccess extends GestureEventListeners(
 
   private _originalInheritsFrom?: ProjectInfo | null;
 
+  private restApiService = appContext.restApiService;
+
   constructor() {
     super();
     this._query = () => this._getInheritFromSuggestions();
@@ -163,7 +159,7 @@ export class GrRepoAccess extends GestureEventListeners(
 
     // Always reset sections when a project changes.
     this._sections = [];
-    const sectionsPromises = this.$.restAPI
+    const sectionsPromises = this.restApiService
       .getRepoAccessRights(repo, errFn)
       .then(res => {
         if (!res) {
@@ -199,7 +195,7 @@ export class GrRepoAccess extends GestureEventListeners(
         return toSortedPermissionsArray(this._local);
       });
 
-    const capabilitiesPromises = this.$.restAPI
+    const capabilitiesPromises = this.restApiService
       .getCapabilities(errFn)
       .then(res => {
         if (!res) {
@@ -209,13 +205,15 @@ export class GrRepoAccess extends GestureEventListeners(
         return res;
       });
 
-    const labelsPromises = this.$.restAPI.getRepo(repo, errFn).then(res => {
-      if (!res) {
-        return Promise.resolve(undefined);
-      }
+    const labelsPromises = this.restApiService
+      .getRepo(repo, errFn)
+      .then(res => {
+        if (!res) {
+          return Promise.resolve(undefined);
+        }
 
-      return res.labels;
-    });
+        return res.labels;
+      });
 
     return Promise.all([
       sectionsPromises,
@@ -247,7 +245,7 @@ export class GrRepoAccess extends GestureEventListeners(
   }
 
   _getInheritFromSuggestions(): Promise<AutocompleteSuggestion[]> {
-    return this.$.restAPI
+    return this.restApiService
       .getRepos(this._inheritFromFilter, MAX_AUTOCOMPLETE_RESULTS)
       .then(response => {
         const projects: AutocompleteSuggestion[] = [];
@@ -537,7 +535,7 @@ export class GrRepoAccess extends GestureEventListeners(
     if (!repo) {
       return Promise.resolve();
     }
-    return this.$.restAPI
+    return this.restApiService
       .setRepoAccessRights(repo, obj)
       .then(() => {
         this._reload(repo);
@@ -562,7 +560,7 @@ export class GrRepoAccess extends GestureEventListeners(
     if (!this.repo) {
       return;
     }
-    return this.$.restAPI
+    return this.restApiService
       .setRepoAccessRightsForReview(this.repo, obj)
       .then(change => {
         GerritNav.navigateToChange(change);

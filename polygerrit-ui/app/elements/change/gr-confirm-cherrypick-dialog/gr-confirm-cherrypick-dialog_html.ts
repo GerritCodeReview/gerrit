@@ -212,5 +212,4 @@ export const htmlTemplate = html`
       </template>
     </div>
   </gr-dialog>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

@@ -24,19 +24,13 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-upload-help-dialog_html';
 import {customElement, property} from '@polymer/decorators';
 import {RevisionInfo} from '../../../types/common';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {appContext} from '../../../services/app-context';
 
 const COMMIT_COMMAND = 'git add . && git commit --amend --no-edit';
 const PUSH_COMMAND_PREFIX = 'git push origin HEAD:refs/for/';
 
 // Command names correspond to download plugin definitions.
 const PREFERRED_FETCH_COMMAND_ORDER = ['checkout', 'cherry pick', 'pull'];
-
-export interface GrUploadHelpDialog {
-  $: {
-    restAPI: RestApiService & Element;
-  };
-}
 
 @customElement('gr-upload-help-dialog')
 export class GrUploadHelpDialog extends GestureEventListeners(
@@ -73,13 +67,17 @@ export class GrUploadHelpDialog extends GestureEventListeners(
   @property({type: String, computed: '_computePushCommand(targetBranch)'})
   _pushCommand?: string;
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
-    this.$.restAPI
+    this.restApiService
       .getLoggedIn()
       .then(loggedIn =>
-        loggedIn ? this.$.restAPI.getPreferences() : Promise.resolve(undefined)
+        loggedIn
+          ? this.restApiService.getPreferences()
+          : Promise.resolve(undefined)
       )
       .then(prefs => {
         if (prefs) {

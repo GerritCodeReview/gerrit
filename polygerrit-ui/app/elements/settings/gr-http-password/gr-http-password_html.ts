@@ -94,5 +94,4 @@ export const htmlTemplate = html`
       >
     </div>
   </gr-overlay>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

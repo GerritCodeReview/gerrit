@@ -39,7 +39,6 @@ import {
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {CommentSide, Side} from '../../../constants/constants';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   Comment,
   CommentMap,
@@ -53,6 +52,7 @@ import {
   createCommentThreads,
 } from '../../../utils/comment-util';
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
+import {appContext} from '../../../services/app-context';
 
 export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
@@ -552,12 +552,6 @@ export class ChangeComments {
 export const _testOnly_findCommentById =
   ChangeComments.prototype.findCommentById;
 
-export interface GrCommentApi {
-  $: {
-    restAPI: RestApiService & Element;
-  };
-}
-
 @customElement('gr-comment-api')
 export class GrCommentApi extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -568,6 +562,8 @@ export class GrCommentApi extends GestureEventListeners(
 
   @property({type: Object})
   _changeComments?: ChangeComments;
+
+  private readonly restApiService = appContext.restApiService;
 
   /** @override */
   created() {
@@ -583,8 +579,8 @@ export class GrCommentApi extends GestureEventListeners(
   getPortedComments(changeNum: NumericChangeId, revision?: RevisionId) {
     if (!revision) revision = CURRENT;
     return Promise.all([
-      this.$.restAPI.getPortedComments(changeNum, revision),
-      this.$.restAPI.getPortedDrafts(changeNum, revision),
+      this.restApiService.getPortedComments(changeNum, revision),
+      this.restApiService.getPortedDrafts(changeNum, revision),
     ]).then(result => {
       return {
         portedComments: result[0],
@@ -600,9 +596,9 @@ export class GrCommentApi extends GestureEventListeners(
    */
   loadAll(changeNum: NumericChangeId) {
     const promises = [];
-    promises.push(this.$.restAPI.getDiffComments(changeNum));
-    promises.push(this.$.restAPI.getDiffRobotComments(changeNum));
-    promises.push(this.$.restAPI.getDiffDrafts(changeNum));
+    promises.push(this.restApiService.getDiffComments(changeNum));
+    promises.push(this.restApiService.getDiffRobotComments(changeNum));
+    promises.push(this.restApiService.getDiffDrafts(changeNum));
 
     return Promise.all(promises).then(([comments, robotComments, drafts]) => {
       this._changeComments = new ChangeComments(
@@ -627,7 +623,7 @@ export class GrCommentApi extends GestureEventListeners(
       return this.loadAll(changeNum);
     }
     const oldChangeComments = this._changeComments;
-    return this.$.restAPI.getDiffDrafts(changeNum).then(drafts => {
+    return this.restApiService.getDiffDrafts(changeNum).then(drafts => {
       this._changeComments = new ChangeComments(
         oldChangeComments.comments,
         (oldChangeComments.robotComments as unknown) as PathToRobotCommentsInfoMap,

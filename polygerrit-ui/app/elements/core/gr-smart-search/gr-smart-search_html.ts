@@ -27,5 +27,4 @@ export const htmlTemplate = html`
     group-suggestions="[[_groupSuggestions]]"
     account-suggestions="[[_accountSuggestions]]"
   ></gr-search-bar>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

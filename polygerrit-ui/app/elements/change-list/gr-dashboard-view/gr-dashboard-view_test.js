@@ -39,7 +39,7 @@ suite('gr-dashboard-view tests', () => {
     });
     element = basicFixture.instantiate();
 
-    getChangesStub = sinon.stub(element.$.restAPI, 'getChanges').callsFake(
+    getChangesStub = sinon.stub(element.restApiService, 'getChanges').callsFake(
         (_, qs) => Promise.resolve(qs.map(() => [])));
 
     let resolver;
@@ -124,14 +124,14 @@ suite('gr-dashboard-view tests', () => {
       const deleteDraftCommentsPromise = new Promise(resolve => {
         deleteDraftCommentsPromiseResolver = resolve;
       });
-      sinon.stub(element.$.restAPI, 'deleteDraftComments')
+      sinon.stub(element.restApiService, 'deleteDraftComments')
           .returns(deleteDraftCommentsPromise);
 
       // Open confirmation dialog and tap confirm button.
       await element.$.confirmDeleteOverlay.open();
       MockInteractions.tap(element.$.confirmDeleteDialog.$.confirm);
       flush();
-      assert.isTrue(element.$.restAPI.deleteDraftComments
+      assert.isTrue(element.restApiService.deleteDraftComments
           .calledWithExactly('-is:open'));
       assert.isTrue(element.$.confirmDeleteDialog.disabled);
       assert.equal(element._reload.callCount, 0);
@@ -254,7 +254,7 @@ suite('gr-dashboard-view tests', () => {
 
   suite('_getProjectDashboard', () => {
     test('dashboard with foreach', () => {
-      sinon.stub(element.$.restAPI, 'getDashboard')
+      sinon.stub(element.restApiService, 'getDashboard')
           .callsFake( () => Promise.resolve({
             title: 'title',
             foreach: 'foreach for ${project}',
@@ -280,7 +280,7 @@ suite('gr-dashboard-view tests', () => {
     });
 
     test('dashboard without foreach', () => {
-      sinon.stub(element.$.restAPI, 'getDashboard').callsFake(
+      sinon.stub(element.restApiService, 'getDashboard').callsFake(
           () => Promise.resolve({
             title: 'title',
             sections: [
@@ -308,7 +308,7 @@ suite('gr-dashboard-view tests', () => {
       {name: 'test2', query: 'test2', hideIfEmpty: true},
     ];
     getChangesStub.restore();
-    sinon.stub(element.$.restAPI, 'getChanges')
+    sinon.stub(element.restApiService, 'getChanges')
         .returns(Promise.resolve([[], ['nonempty']]));
 
     return element._fetchDashboardChanges({sections}, false).then(() => {
@@ -323,7 +323,7 @@ suite('gr-dashboard-view tests', () => {
       {name: 'test2', query: 'test2'},
     ];
     getChangesStub.restore();
-    sinon.stub(element.$.restAPI, 'getChanges')
+    sinon.stub(element.restApiService, 'getChanges')
         .returns(Promise.resolve([[], []]));
 
     return element._fetchDashboardChanges({sections}, false).then(() => {
@@ -374,7 +374,7 @@ suite('gr-dashboard-view tests', () => {
 
   test('404 page', done => {
     const response = {status: 404};
-    sinon.stub(element.$.restAPI, 'getDashboard').callsFake(
+    sinon.stub(element.restApiService, 'getDashboard').callsFake(
         async (project, dashboard, errFn) => {
           errFn(response);
         });

@@ -43,7 +43,6 @@ import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-end
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {changeIsOpen, isOwner} from '../../../utils/change-util';
 import {customElement, property, observe} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {
   AccountInfo,
@@ -69,7 +68,6 @@ export interface ChangeListSection {
 }
 export interface GrChangeList {
   $: {
-    restAPI: RestApiService & Element;
     cursor: GrCursorManager;
   };
 }
@@ -147,6 +145,8 @@ export class GrChangeList extends ChangeTableMixin(
 
   flagsService = appContext.flagsService;
 
+  private restApiService = appContext.restApiService;
+
   keyboardShortcuts() {
     return {
       [Shortcut.CURSOR_NEXT_CHANGE]: '_nextChange',
@@ -169,7 +169,7 @@ export class GrChangeList extends ChangeTableMixin(
   /** @override */
   ready() {
     super.ready();
-    this.$.restAPI.getConfig().then(config => {
+    this.restApiService.getConfig().then(config => {
       this._config = config;
     });
   }

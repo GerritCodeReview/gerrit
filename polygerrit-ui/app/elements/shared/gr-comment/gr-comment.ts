@@ -39,7 +39,6 @@ import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/key
 import {getRootElement} from '../../../scripts/rootElement';
 import {appContext} from '../../../services/app-context';
 import {customElement, observe, property} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 import {GrOverlay} from '../gr-overlay/gr-overlay';
@@ -98,7 +97,6 @@ interface CommentOverlays {
 
 export interface GrComment {
   $: {
-    restAPI: RestApiService & Element;
     storage: GrStorage;
     container: HTMLDivElement;
     resolvedCheckbox: HTMLInputElement;
@@ -270,12 +268,14 @@ export class GrComment extends KeyboardShortcutMixin(
     };
   }
 
+  private readonly restApiService = appContext.restApiService;
+
   reporting = appContext.reportingService;
 
   /** @override */
   attached() {
     super.attached();
-    this.$.restAPI.getAccount().then(account => {
+    this.restApiService.getAccount().then(account => {
       this._selfAccount = account;
     });
     if (this.editing) {
@@ -405,7 +405,7 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   _getIsAdmin() {
-    return this.$.restAPI.getIsAdmin();
+    return this.restApiService.getIsAdmin();
   }
 
   _computeDraftTooltip(unableToSave: boolean) {
@@ -441,7 +441,7 @@ export class GrComment extends KeyboardShortcutMixin(
         }
 
         this._eraseDraftComment();
-        return this.$.restAPI.getResponseObject(response).then(obj => {
+        return this.restApiService.getResponseObject(response).then(obj => {
           const resComment = (obj as unknown) as UIDraft;
           if (!isDraft(this.comment)) throw new Error('Can only save drafts.');
           resComment.__draft = true;
@@ -869,7 +869,7 @@ export class GrComment extends KeyboardShortcutMixin(
       throw new Error('undefined draft or changeNum or patchNum');
     }
     this._showStartRequest();
-    return this.$.restAPI
+    return this.restApiService
       .saveDiffDraft(this.changeNum, this.patchNum, draft)
       .then(result => {
         if (result.ok) {
@@ -894,7 +894,7 @@ export class GrComment extends KeyboardShortcutMixin(
     }
     this._showStartRequest();
     if (!draft.id) throw new Error('Missing id in comment draft.');
-    return this.$.restAPI
+    return this.restApiService
       .deleteDiffDraft(this.changeNum, this.patchNum, {id: draft.id})
       .then(result => {
         if (result.ok) {
@@ -1020,7 +1020,7 @@ export class GrComment extends KeyboardShortcutMixin(
     ) {
       throw new Error('undefined comment or id or changeNum or patchNum');
     }
-    this.$.restAPI
+    this.restApiService
       .deleteComment(
         this.changeNum,
         this.patchNum,

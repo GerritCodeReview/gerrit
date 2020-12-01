@@ -131,7 +131,7 @@ suite('gr-plugin-list tests', () => {
   suite('filter', () => {
     test('_paramsChanged', done => {
       sinon.stub(
-          element.$.restAPI,
+          element.restApiService,
           'getPlugins')
           .callsFake(() => Promise.resolve(plugins));
       const value = {
@@ -139,11 +139,11 @@ suite('gr-plugin-list tests', () => {
         offset: 25,
       };
       element._paramsChanged(value).then(() => {
-        assert.equal(element.$.restAPI.getPlugins.lastCall.args[0],
+        assert.equal(element.restApiService.getPlugins.lastCall.args[0],
             'test');
-        assert.equal(element.$.restAPI.getPlugins.lastCall.args[1],
+        assert.equal(element.restApiService.getPlugins.lastCall.args[1],
             25);
-        assert.equal(element.$.restAPI.getPlugins.lastCall.args[2],
+        assert.equal(element.restApiService.getPlugins.lastCall.args[2],
             25);
         done();
       });
@@ -168,7 +168,7 @@ suite('gr-plugin-list tests', () => {
   suite('404', () => {
     test('fires page-error', done => {
       const response = {status: 404};
-      sinon.stub(element.$.restAPI, 'getPlugins').callsFake(
+      sinon.stub(element.restApiService, 'getPlugins').callsFake(
           (filter, pluginsPerPage, opt_offset, errFn) => {
             errFn(response);
           });

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37931344_3639054a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-01T10:39:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf2f13b9_c8c778a9",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16bcaf8e_e2f0fc83",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-11-20T12:57:32Z",
       "side": 1,
       "message": "You may mention that the new mergedafter/mergedbefore operators are consistent with the existing after/before operators to reason why the current implementation was chosen.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 23
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bbe9fae_cae55493",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-01T10:39:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16bcaf8e_e2f0fc83",
       "range": {
         "startLine": 12,
         "startChar": 0,
@@ -89,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1e98bb1_3279d78b",
+        "filename": "java/com/google/gerrit/server/query/change/AbstractAfterPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-01T10:39:57Z",
+      "side": 1,
+      "message": "I reworked the predicates a bit, as I am reusing the before, after matching on the single field from the index. Let me know if it looks good?\n\nAlso, there is a TODO to change the TimestampRangeOperator to IntegerRangeOperator, I am not going for it in this change.",
+      "parentUuid": "bf33ca82_23fae58f",
+      "range": {
+        "startLine": 22,
+        "startChar": 22,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "508d0389_90e82244",
         "filename": "java/com/google/gerrit/server/query/change/BeforePredicate.java",
         "patchSetId": 3
@@ -100,6 +172,30 @@
       "writtenOn": "2020-11-20T12:33:51Z",
       "side": 1,
       "message": "This is sad that we can\u0027t rename the query \"before\" and \"after\", and we\u0027re stuck with them although they mean \"updatedBefore/updatedAfter\".\n\nIt would be nice to at least rename this class to updatedBefore (same for updatedAfter). You can also rename FIELD_BEFORE to FIELD_UPDATED_BEFORE and add a comment that for legacy reasons the value is still going to be \"before\".",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "799c7a91_1159759e",
+        "filename": "java/com/google/gerrit/server/query/change/BeforePredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-01T10:39:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "508d0389_90e82244",
       "range": {
         "startLine": 20,
         "startChar": 13,

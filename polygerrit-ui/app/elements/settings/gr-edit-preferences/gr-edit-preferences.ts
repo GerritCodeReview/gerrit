@@ -26,6 +26,7 @@ import {htmlTemplate} from './gr-edit-preferences_html';
 import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {EditPreferencesInfo} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
 
 export interface GrEditPreferences {
   $: {
@@ -52,8 +53,10 @@ export class GrEditPreferences extends GestureEventListeners(
   @property({type: Object})
   editPrefs?: EditPreferencesInfo;
 
+  private readonly restApiService = appContext.restApiService;
+
   loadData() {
-    return this.$.restAPI.getEditPreferences().then(prefs => {
+    return this.restApiService.getEditPreferences().then(prefs => {
       this.editPrefs = prefs;
     });
   }
@@ -101,7 +104,7 @@ export class GrEditPreferences extends GestureEventListeners(
   save() {
     if (!this.editPrefs)
       return Promise.reject(new Error('Missing edit preferences'));
-    return this.$.restAPI.saveEditPreferences(this.editPrefs).then(() => {
+    return this.restApiService.saveEditPreferences(this.editPrefs).then(() => {
       this.hasUnsavedChanges = false;
     });
   }

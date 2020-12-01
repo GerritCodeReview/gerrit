@@ -114,9 +114,12 @@ suite('gr-email-editor tests', () => {
   });
 
   test('save changes', done => {
-    const deleteEmailStub = sinon.stub(element.$.restAPI, 'deleteAccountEmail');
+    const deleteEmailStub = sinon.stub(
+      element.restApiService,
+      'deleteAccountEmail'
+    );
     const setPreferredStub = sinon.stub(
-      element.$.restAPI,
+      element.restApiService,
       'setPreferredAccountEmail'
     );
 

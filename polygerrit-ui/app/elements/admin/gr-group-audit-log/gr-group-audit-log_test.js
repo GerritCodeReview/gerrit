@@ -80,7 +80,7 @@ suite('gr-group-audit-log tests', () => {
 
       const response = {status: 404};
       sinon.stub(
-          element.$.restAPI, 'getGroupAuditLog')
+          element.restApiService, 'getGroupAuditLog')
           .callsFake((group, errFn) => {
             errFn(response);
           });

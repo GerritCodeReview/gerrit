@@ -43,6 +43,7 @@ import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api
 import {hasOwnProperty} from '../../../utils/common-util';
 import {isRemovableReviewer} from '../../../utils/change-util';
 import {ReviewerState} from '../../../constants/constants';
+import {appContext} from '../../../services/app-context';
 
 export interface GrReviewerList {
   $: {
@@ -93,6 +94,8 @@ export class GrReviewerList extends GestureEventListeners(
 
   @property({type: Object})
   _xhrPromise?: Promise<Response | undefined>;
+
+  private readonly restApiService = appContext.restApiService;
 
   @computed('ccsOnly')
   get _addLabel() {
@@ -323,6 +326,6 @@ export class GrReviewerList extends GestureEventListeners(
 
   _removeReviewer(id: AccountId | EmailAddress): Promise<Response | undefined> {
     if (!this.change) return Promise.resolve(undefined);
-    return this.$.restAPI.removeChangeReviewer(this.change._number, id);
+    return this.restApiService.removeChangeReviewer(this.change._number, id);
   }
 }

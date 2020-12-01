@@ -276,7 +276,7 @@ suite('gr-comment tests', () => {
 
     test('delete comment', done => {
       sinon.stub(
-          element.$.restAPI, 'deleteComment').returns(Promise.resolve({}));
+          element.restApiService, 'deleteComment').returns(Promise.resolve({}));
       sinon.spy(element.confirmDeleteOverlay, 'open');
       element.changeNum = 42;
       element.patchNum = 0xDEADBEEF;
@@ -293,7 +293,7 @@ suite('gr-comment tests', () => {
                   .querySelector('#confirmDeleteComment');
           dialog.message = 'removal reason';
           element._handleConfirmDeleteComment();
-          assert.isTrue(element.$.restAPI.deleteComment.calledWith(
+          assert.isTrue(element.restApiService.deleteComment.calledWith(
               42, 0xDEADBEEF, 'baf0414d_60047215', 'removal reason'));
           done();
         });
@@ -375,7 +375,7 @@ suite('gr-comment tests', () => {
       element.patchNum = 1;
       const updateRequestStub = sinon.stub(element, '_updateRequestToast');
       const diffDraftStub =
-        sinon.stub(element.$.restAPI, 'saveDiffDraft').returns(
+        sinon.stub(element.restApiService, 'saveDiffDraft').returns(
             Promise.resolve({ok: false}));
       element._saveDraft({id: 'abc_123'});
       flush(() => {
@@ -411,7 +411,7 @@ suite('gr-comment tests', () => {
       element.patchNum = 1;
       const updateRequestStub = sinon.stub(element, '_updateRequestToast');
       const diffDraftStub =
-        sinon.stub(element.$.restAPI, 'saveDiffDraft').returns(
+        sinon.stub(element.restApiService, 'saveDiffDraft').returns(
             Promise.reject(new Error()));
       element._saveDraft({id: 'abc_123'});
       flush(() => {
@@ -803,7 +803,7 @@ suite('gr-comment tests', () => {
     test('storage is cleared only after save success', () => {
       element._messageText = 'test';
       const eraseStub = sinon.stub(element, '_eraseDraftComment');
-      sinon.stub(element.$.restAPI, 'getResponseObject')
+      sinon.stub(element.restApiService, 'getResponseObject')
           .returns(Promise.resolve({}));
 
       sinon.stub(element, '_saveDraft').returns(Promise.resolve({ok: false}));

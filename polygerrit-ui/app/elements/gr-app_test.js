@@ -70,7 +70,7 @@ suite('gr-app tests', () => {
   });
 
   test('passes config to gr-plugin-host', () => {
-    const config = appElement().$.restAPI.getConfig;
+    const config = appElement().restApiService.getConfig;
     return config.lastCall.returnValue.then(config => {
       assert.deepEqual(appElement().$.plugins.config, config);
     });

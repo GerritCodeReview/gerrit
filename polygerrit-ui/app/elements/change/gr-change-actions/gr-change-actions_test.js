@@ -25,6 +25,7 @@ import {
   createChangeMessages,
   createRevisions,
 } from '../../../test/test-data-generators.js';
+import {appContext} from '../../../services/app-context';
 
 const basicFixture = fixtureFromElement('gr-change-actions');
 
@@ -104,10 +105,8 @@ suite('gr-change-actions tests', () => {
           enabled: true,
         },
       };
-      sinon.stub(element.$.confirmCherrypick.$.restAPI,
-          'getRepoBranches').returns(Promise.resolve([]));
-      sinon.stub(element.$.confirmMove.$.restAPI,
-          'getRepoBranches').returns(Promise.resolve([]));
+      sinon.stub(appContext.restApiService, 'getRepoBranches').returns(
+          Promise.resolve([]));
 
       return element.reload();
     });
@@ -143,14 +142,14 @@ suite('gr-change-actions tests', () => {
     });
 
     test('plugin revision actions', done => {
-      sinon.stub(element.$.restAPI, 'getChangeActionURL').returns(
+      sinon.stub(element.restApiService, 'getChangeActionURL').returns(
           Promise.resolve('the-url'));
       element.revisionActions = {
         'plugin~action': {},
       };
       assert.isOk(element.revisionActions['plugin~action']);
       flush(() => {
-        assert.isTrue(element.$.restAPI.getChangeActionURL.calledWith(
+        assert.isTrue(element.restApiService.getChangeActionURL.calledWith(
             element.changeNum, element.latestPatchNum, '/plugin~action'));
         assert.equal(element.revisionActions['plugin~action'].__url, 'the-url');
         done();
@@ -158,14 +157,14 @@ suite('gr-change-actions tests', () => {
     });
 
     test('plugin change actions', async () => {
-      sinon.stub(element.$.restAPI, 'getChangeActionURL').returns(
+      sinon.stub(element.restApiService, 'getChangeActionURL').returns(
           Promise.resolve('the-url'));
       element.actions = {
         'plugin~action': {},
       };
       assert.isOk(element.actions['plugin~action']);
       await flush();
-      assert.isTrue(element.$.restAPI.getChangeActionURL.calledWith(
+      assert.isTrue(element.restApiService.getChangeActionURL.calledWith(
           element.changeNum, undefined, '/plugin~action'));
       assert.equal(element.actions['plugin~action'].__url, 'the-url');
     });
@@ -273,7 +272,7 @@ suite('gr-change-actions tests', () => {
 
     test('submit change', () => {
       const showSpy = sinon.spy(element, '_showActionDialog');
-      sinon.stub(element.$.restAPI, 'getFromProjectLookup')
+      sinon.stub(element.restApiService, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
       sinon.stub(element.$.overlay, 'open').returns(Promise.resolve());
       element.change = {
@@ -295,7 +294,7 @@ suite('gr-change-actions tests', () => {
 
     test('submit change, tap on icon', done => {
       sinon.stub(element.$.confirmSubmitDialog, 'resetFocus').callsFake( done);
-      sinon.stub(element.$.restAPI, 'getFromProjectLookup')
+      sinon.stub(element.restApiService, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
       sinon.stub(element.$.overlay, 'open').returns(Promise.resolve());
       element.change = {
@@ -399,7 +398,7 @@ suite('gr-change-actions tests', () => {
 
     test('rebase change fires reload event', done => {
       const eventStub = sinon.stub(element, 'dispatchEvent');
-      sinon.stub(element.$.restAPI, 'getResponseObject').returns(
+      sinon.stub(element.restApiService, 'getResponseObject').returns(
           Promise.resolve({}));
       element._handleResponse({__key: 'rebase'}, {});
       flush(() => {
@@ -429,24 +428,21 @@ suite('gr-change-actions tests', () => {
       });
     });
 
-    test('two dialogs are not shown at the same time', done => {
+    test('two dialogs are not shown at the same time', async () => {
       element._hasKnownChainState = true;
-      flush(() => {
-        const rebaseButton = element.shadowRoot
-            .querySelector('gr-button[data-action-key="rebase"]');
-        assert.ok(rebaseButton);
-        MockInteractions.tap(rebaseButton);
-        flush();
-        assert.isFalse(element.$.confirmRebase.hidden);
-        sinon.stub(element.$.restAPI, 'getChanges')
-            .returns(Promise.resolve([]));
-        element._handleCherrypickTap();
-        flush(() => {
-          assert.isTrue(element.$.confirmRebase.hidden);
-          assert.isFalse(element.$.confirmCherrypick.hidden);
-          done();
-        });
-      });
+      await flush();
+      const rebaseButton = element.shadowRoot
+          .querySelector('gr-button[data-action-key="rebase"]');
+      assert.ok(rebaseButton);
+      MockInteractions.tap(rebaseButton);
+      await flush();
+      assert.isFalse(element.$.confirmRebase.hidden);
+      sinon.stub(element.restApiService, 'getChanges')
+          .returns(Promise.resolve([]));
+      element._handleCherrypickTap();
+      await flush();
+      assert.isTrue(element.$.confirmRebase.hidden);
+      assert.isFalse(element.$.confirmCherrypick.hidden);
     });
 
     test('fullscreen-overlay-opened hides content', () => {
@@ -473,7 +469,7 @@ suite('gr-change-actions tests', () => {
       const labels = {'Foo': 1, 'Bar-Baz': -2};
       const changeId = 1234;
       sinon.stub(element.$.jsAPI, 'getLabelValuesPostRevert').returns(labels);
-      const saveStub = sinon.stub(element.$.restAPI, 'saveChangeReview')
+      const saveStub = sinon.stub(element.restApiService, 'saveChangeReview')
           .returns(Promise.resolve());
       return element._setLabelValuesOnRevert(changeId).then(() => {
         assert.isTrue(saveStub.calledOnce);
@@ -748,7 +744,7 @@ suite('gr-change-actions tests', () => {
           },
         ];
         setup(done => {
-          sinon.stub(element.$.restAPI, 'getChanges')
+          sinon.stub(element.restApiService, 'getChanges')
               .returns(Promise.resolve(changes));
           element._handleCherrypickTap();
           flush(() => {
@@ -994,7 +990,7 @@ suite('gr-change-actions tests', () => {
         element.change = {
           current_revision: 'abc1234',
         };
-        sinon.stub(element.$.restAPI, 'getChanges')
+        sinon.stub(element.restApiService, 'getChanges')
             .returns(Promise.resolve([
               {change_id: '12345678901234', topic: 'T', subject: 'random'},
               {change_id: '23456', topic: 'T', subject: 'a'.repeat(100)},
@@ -1019,7 +1015,7 @@ suite('gr-change-actions tests', () => {
             submission_id: '199 0',
             current_revision: '2000',
           };
-          getChangesStub = sinon.stub(element.$.restAPI, 'getChanges')
+          getChangesStub = sinon.stub(element.restApiService, 'getChanges')
               .returns(Promise.resolve([
                 {change_id: '12345678901234', topic: 'T', subject: 'random'},
                 {change_id: '23456', topic: 'T', subject: 'a'.repeat(100)},
@@ -1129,7 +1125,7 @@ suite('gr-change-actions tests', () => {
             submission_id: '199',
             current_revision: '2000',
           };
-          sinon.stub(element.$.restAPI, 'getChanges')
+          sinon.stub(element.restApiService, 'getChanges')
               .returns(Promise.resolve([
                 {change_id: '12345678901234', topic: 'T', subject: 'random'},
               ]));
@@ -1810,7 +1806,7 @@ suite('gr-change-actions tests', () => {
         };
 
         test('succeed', () => {
-          sinon.stub(element.$.restAPI, 'getChange')
+          sinon.stub(element.restApiService, 'getChange')
               .callsFake( makeGetChange(5));
           return element._waitForChangeReachable(123).then(success => {
             assert.isTrue(success);
@@ -1818,7 +1814,7 @@ suite('gr-change-actions tests', () => {
         });
 
         test('fail', () => {
-          sinon.stub(element.$.restAPI, 'getChange')
+          sinon.stub(element.restApiService, 'getChange')
               .callsFake( makeGetChange(6));
           return element._waitForChangeReachable(123).then(success => {
             assert.isFalse(success);
@@ -1855,16 +1851,16 @@ suite('gr-change-actions tests', () => {
       suite('happy path', () => {
         let sendStub;
         setup(() => {
-          sinon.stub(element.$.restAPI, 'getChangeDetail')
+          sinon.stub(element.restApiService, 'getChangeDetail')
               .returns(Promise.resolve({
                 ...createChange(),
                 // element has latest info
                 revisions: createRevisions(element.latestPatchNum),
                 messages: createChangeMessages(1),
               }));
-          sendStub = sinon.stub(element.$.restAPI, 'executeChangeAction')
+          sendStub = sinon.stub(element.restApiService, 'executeChangeAction')
               .returns(Promise.resolve({}));
-          getResponseObjectStub = sinon.stub(element.$.restAPI,
+          getResponseObjectStub = sinon.stub(element.restApiService,
               'getResponseObject');
           sinon.stub(GerritNav,
               'navigateToChange').returns(Promise.resolve(true));
@@ -1882,7 +1878,7 @@ suite('gr-change-actions tests', () => {
           setup(() => {
             element.change.submission_id = '199';
             element.change.current_revision = '2000';
-            sinon.stub(element.$.restAPI, 'getChanges')
+            sinon.stub(element.restApiService, 'getChanges')
                 .returns(Promise.resolve([
                   {change_id: '12345678901234', topic: 'T', subject: 'random'},
                   {change_id: '23456', topic: 'T', subject: 'a'.repeat(100)},
@@ -1974,14 +1970,14 @@ suite('gr-change-actions tests', () => {
 
       suite('failure modes', () => {
         test('non-latest', () => {
-          sinon.stub(element.$.restAPI, 'getChangeDetail')
+          sinon.stub(element.restApiService, 'getChangeDetail')
               .returns(Promise.resolve({
                 ...createChange(),
                 // new patchset was uploaded
                 revisions: createRevisions(element.latestPatchNum + 1),
                 messages: createChangeMessages(1),
               }));
-          const sendStub = sinon.stub(element.$.restAPI,
+          const sendStub = sinon.stub(element.restApiService,
               'executeChangeAction');
 
           return element._send('DELETE', payload, '/endpoint', true, cleanup)
@@ -1994,14 +1990,14 @@ suite('gr-change-actions tests', () => {
         });
 
         test('send fails', () => {
-          sinon.stub(element.$.restAPI, 'getChangeDetail')
+          sinon.stub(element.restApiService, 'getChangeDetail')
               .returns(Promise.resolve({
                 ...createChange(),
                 // element has latest info
                 revisions: createRevisions(element.latestPatchNum),
                 messages: createChangeMessages(1),
               }));
-          const sendStub = sinon.stub(element.$.restAPI,
+          const sendStub = sinon.stub(element.restApiService,
               'executeChangeAction').callsFake(
               (num, method, patchNum, endpoint, payload, onErr) => {
                 onErr();
@@ -2062,10 +2058,8 @@ suite('gr-change-actions tests', () => {
       element.changeNum = '42';
       element.latestPatchNum = '2';
 
-      sinon.stub(element.$.confirmCherrypick.$.restAPI,
-          'getRepoBranches').returns(Promise.resolve([]));
-      sinon.stub(element.$.confirmMove.$.restAPI,
-          'getRepoBranches').returns(Promise.resolve([]));
+      sinon.stub(appContext.restApiService, 'getRepoBranches').returns(
+          Promise.resolve([]));
       return element.reload();
     });
 

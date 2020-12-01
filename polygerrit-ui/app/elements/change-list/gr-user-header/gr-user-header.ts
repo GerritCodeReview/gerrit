@@ -31,6 +31,7 @@ import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {AccountDetailInfo, AccountId} from '../../../types/common';
 import {getDisplayName} from '../../../utils/display-name-util';
+import {appContext} from '../../../services/app-context';
 
 export interface GrUserHeader {
   $: {
@@ -61,6 +62,8 @@ export class GrUserHeader extends GestureEventListeners(
   @property({type: String})
   _status = '';
 
+  private restApiService = appContext.restApiService;
+
   _accountChanged(userId?: AccountId) {
     if (!userId) {
       this._accountDetails = null;
@@ -68,7 +71,7 @@ export class GrUserHeader extends GestureEventListeners(
       return;
     }
 
-    this.$.restAPI.getAccountDetails(userId).then(details => {
+    this.restApiService.getAccountDetails(userId).then(details => {
       this._accountDetails = details ?? null;
       this._status = details?.status ?? '';
     });

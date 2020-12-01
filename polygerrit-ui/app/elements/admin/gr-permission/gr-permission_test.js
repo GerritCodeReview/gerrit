@@ -25,7 +25,7 @@ suite('gr-permission tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    sinon.stub(element.$.restAPI, 'getSuggestedGroups').returns(
+    sinon.stub(element.restApiService, 'getSuggestedGroups').returns(
         Promise.resolve({
           'Administrators': {
             id: '4c97682e6ce61b7247f3381b6f1789356666de7f',

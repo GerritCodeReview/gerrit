@@ -65,7 +65,7 @@ suite('gr-ssh-editor tests', () => {
   test('remove key', done => {
     const lastKey = keys[1];
 
-    const saveStub = sinon.stub(element.$.restAPI, 'deleteAccountSSHKey')
+    const saveStub = sinon.stub(element.restApiService, 'deleteAccountSSHKey')
         .callsFake(() => Promise.resolve());
 
     assert.equal(element._keysToRemove.length, 0);
@@ -116,7 +116,8 @@ suite('gr-ssh-editor tests', () => {
       valid: true,
     };
 
-    const addStub = sinon.stub(element.$.restAPI, 'addAccountSSHKey').callsFake(
+    const addStub = sinon.stub(element.restApiService,
+        'addAccountSSHKey').callsFake(
         () => Promise.resolve(newKeyObject));
 
     element._newKey = newKeyString;
@@ -141,7 +142,8 @@ suite('gr-ssh-editor tests', () => {
   test('add invalid key', done => {
     const newKeyString = 'not even close to valid';
 
-    const addStub = sinon.stub(element.$.restAPI, 'addAccountSSHKey').callsFake(
+    const addStub = sinon.stub(element.restApiService,
+        'addAccountSSHKey').callsFake(
         () => Promise.reject(new Error('error')));
 
     element._newKey = newKeyString;

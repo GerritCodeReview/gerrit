@@ -178,6 +178,5 @@ export const htmlTemplate = html`
       <gr-repo-dashboards repo="[[params.repo]]"></gr-repo-dashboards>
     </main>
   </template>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
 `;

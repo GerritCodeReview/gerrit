@@ -26,6 +26,7 @@ import {getBaseUrl} from '../../../utils/url-util';
 import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {ContributorAgreementInfo} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
 
 export interface GrAgreementsList {
   $: {
@@ -43,6 +44,8 @@ export class GrAgreementsList extends GestureEventListeners(
   @property({type: Array})
   _agreements?: ContributorAgreementInfo[];
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -50,7 +53,7 @@ export class GrAgreementsList extends GestureEventListeners(
   }
 
   loadData() {
-    return this.$.restAPI.getAccountAgreements().then(agreements => {
+    return this.restApiService.getAccountAgreements().then(agreements => {
       this._agreements = agreements;
     });
   }

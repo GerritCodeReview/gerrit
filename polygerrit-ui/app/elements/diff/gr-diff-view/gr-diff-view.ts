@@ -319,6 +319,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   flagsService = appContext.flagsService;
 
+  private readonly restApiService = appContext.restApiService;
+
   _throttledToggleFileReviewed?: EventListener;
 
   _onRenderHandler?: EventListener;
@@ -354,19 +356,19 @@ export class GrDiffView extends KeyboardShortcutMixin(
   }
 
   _getLoggedIn() {
-    return this.$.restAPI.getLoggedIn();
+    return this.restApiService.getLoggedIn();
   }
 
   @observe('_change.project')
   _getProjectConfig(project?: RepoName) {
     if (!project) return;
-    return this.$.restAPI.getProjectConfig(project).then(config => {
+    return this.restApiService.getProjectConfig(project).then(config => {
       this._projectConfig = config;
     });
   }
 
   _getChangeDetail(changeNum: NumericChangeId) {
-    return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
+    return this.restApiService.getDiffChangeDetail(changeNum).then(change => {
       if (!change) throw new Error('Missing "change" in API response.');
       this._change = change;
       return change;
@@ -375,7 +377,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   _getChangeEdit() {
     if (!this._changeNum) throw new Error('Missing this._changeNum');
-    return this.$.restAPI.getChangeEdit(this._changeNum);
+    return this.restApiService.getChangeEdit(this._changeNum);
   }
 
   _getSortedFileList(files?: Files) {
@@ -413,7 +415,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     }
 
     const patchRange = patchRangeRecord.base;
-    return this.$.restAPI
+    return this.restApiService
       .getChangeFiles(changeNum, patchRange)
       .then(changeFiles => {
         if (!changeFiles) return;
@@ -428,13 +430,13 @@ export class GrDiffView extends KeyboardShortcutMixin(
   }
 
   _getDiffPreferences() {
-    return this.$.restAPI.getDiffPreferences().then(prefs => {
+    return this.restApiService.getDiffPreferences().then(prefs => {
       this._prefs = prefs;
     });
   }
 
   _getPreferences() {
-    return this.$.restAPI.getPreferences();
+    return this.restApiService.getPreferences();
   }
 
   _getWindowWidth() {
@@ -461,7 +463,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (!this._changeNum) return Promise.resolve(undefined);
     if (!this._patchRange?.patchNum) return Promise.resolve(undefined);
     if (!this._path) return Promise.resolve(undefined);
-    return this.$.restAPI.saveFileReviewed(
+    return this.restApiService.saveFileReviewed(
       this._changeNum,
       this._patchRange?.patchNum,
       this._path,
@@ -843,10 +845,12 @@ export class GrDiffView extends KeyboardShortcutMixin(
     patchNum?: PatchSetNum
   ): Promise<Set<string>> {
     if (!changeNum || !patchNum) return Promise.resolve(new Set<string>());
-    return this.$.restAPI.getReviewedFiles(changeNum, patchNum).then(files => {
-      this._reviewedFiles = new Set(files);
-      return this._reviewedFiles;
-    });
+    return this.restApiService
+      .getReviewedFiles(changeNum, patchNum)
+      .then(files => {
+        this._reviewedFiles = new Set(files);
+        return this._reviewedFiles;
+      });
   }
 
   _getReviewedStatus(
@@ -1031,7 +1035,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     this._focusLineNum = undefined;
 
     if (value.changeNum && value.project) {
-      this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
+      this.restApiService.setInProjectLookup(value.changeNum, value.project);
     }
 
     this._changeNum = value.changeNum;
@@ -1141,7 +1145,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
   _changeViewStateChanged(changeViewState: Partial<ChangeViewState>) {
     if (changeViewState.diffMode === null) {
       // If screen size is small, always default to unified view.
-      this.$.restAPI.getPreferences().then(prefs => {
+      this.restApiService.getPreferences().then(prefs => {
         if (prefs) {
           this.set('changeViewState.diffMode', prefs.default_diff_view);
         }
@@ -1583,7 +1587,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
   _getDiffDrafts() {
     if (!this._changeNum) throw new Error('Missing this._changeNum');
 
-    return this.$.restAPI.getDiffDrafts(this._changeNum);
+    return this.restApiService.getDiffDrafts(this._changeNum);
   }
 
   _computeCommentSkips(

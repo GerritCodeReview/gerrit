@@ -89,7 +89,7 @@ suite('gr-diff-preferences tests', () => {
   });
 
   test('save changes', () => {
-    sinon.stub(element.$.restAPI, 'saveDiffPreferences')
+    sinon.stub(element.restApiService, 'saveDiffPreferences')
         .returns(Promise.resolve());
     const showTrailingWhitespaceCheckbox =
         valueOf('Show trailing whitespace', 'diffPreferences')

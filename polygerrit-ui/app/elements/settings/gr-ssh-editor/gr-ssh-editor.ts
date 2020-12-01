@@ -32,6 +32,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {appContext} from '../../../services/app-context';
 
 export interface GrSshEditor {
   $: {
@@ -70,8 +71,10 @@ export class GrSshEditor extends GestureEventListeners(
   @property({type: Array})
   _keysToRemove: SshKeyInfo[] = [];
 
+  private readonly restApiService = appContext.restApiService;
+
   loadData() {
-    return this.$.restAPI.getAccountSSHKeys().then(keys => {
+    return this.restApiService.getAccountSSHKeys().then(keys => {
       if (!keys) return;
       this._keys = keys;
     });
@@ -79,7 +82,7 @@ export class GrSshEditor extends GestureEventListeners(
 
   save() {
     const promises = this._keysToRemove.map(key =>
-      this.$.restAPI.deleteAccountSSHKey(`${key.seq}`)
+      this.restApiService.deleteAccountSSHKey(`${key.seq}`)
     );
     return Promise.all(promises).then(() => {
       this._keysToRemove = [];
@@ -113,7 +116,7 @@ export class GrSshEditor extends GestureEventListeners(
   _handleAddKey() {
     this.$.addButton.disabled = true;
     this.$.newKey.disabled = true;
-    return this.$.restAPI
+    return this.restApiService
       .addAccountSSHKey(this._newKey.trim())
       .then(key => {
         this.$.newKey.disabled = false;

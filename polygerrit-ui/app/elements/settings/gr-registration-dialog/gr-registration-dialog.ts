@@ -27,6 +27,7 @@ import {customElement, property, observe} from '@polymer/decorators';
 import {ServerInfo, AccountDetailInfo} from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {EditableAccountField} from '../../../constants/constants';
+import {appContext} from '../../../services/app-context';
 
 export interface GrRegistrationDialog {
   $: {
@@ -83,6 +84,8 @@ export class GrRegistrationDialog extends GestureEventListeners(
   })
   _usernameMutable = false;
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   ready() {
     super.ready();
@@ -107,11 +110,11 @@ export class GrRegistrationDialog extends GestureEventListeners(
   loadData() {
     this._loading = true;
 
-    const loadAccount = this.$.restAPI.getAccount().then(account => {
+    const loadAccount = this.restApiService.getAccount().then(account => {
       this._account = {...this._account, ...account};
     });
 
-    const loadConfig = this.$.restAPI.getConfig().then(config => {
+    const loadConfig = this.restApiService.getConfig().then(config => {
       this._serverConfig = config;
     });
 
@@ -123,12 +126,14 @@ export class GrRegistrationDialog extends GestureEventListeners(
   _save() {
     this._saving = true;
     const promises = [
-      this.$.restAPI.setAccountName(this.$.name.value),
-      this.$.restAPI.setPreferredAccountEmail(this.$.email.value || ''),
+      this.restApiService.setAccountName(this.$.name.value),
+      this.restApiService.setPreferredAccountEmail(this.$.email.value || ''),
     ];
 
     if (this._usernameMutable) {
-      promises.push(this.$.restAPI.setAccountUsername(this.$.username.value));
+      promises.push(
+        this.restApiService.setAccountUsername(this.$.username.value)
+      );
     }
 
     return Promise.all(promises).then(() => {

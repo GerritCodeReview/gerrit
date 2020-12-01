@@ -56,7 +56,7 @@ suite('gr-apply-fix-dialog tests', () => {
 
   suite('dialog open', () => {
     setup(() => {
-      sinon.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+      sinon.stub(element.restApiService, 'getRobotCommentFixPreview')
           .returns(Promise.resolve({
             f1: {
               meta_a: {},
@@ -147,7 +147,7 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('next button state updated when suggestions changed', done => {
-    sinon.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+    sinon.stub(element.restApiService, 'getRobotCommentFixPreview')
         .returns(Promise.resolve({}));
     sinon.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
 
@@ -186,13 +186,13 @@ suite('gr-apply-fix-dialog tests', () => {
 
   test('apply fix button should call apply ' +
   'and navigate to change view', () => {
-    sinon.stub(element.$.restAPI, 'applyFixSuggestion')
+    sinon.stub(element.restApiService, 'applyFixSuggestion')
         .returns(Promise.resolve({ok: true}));
     sinon.stub(GerritNav, 'navigateToChange');
     element._currentFix = {fix_id: '123'};
 
     return element._handleApplyFix().then(() => {
-      assert.isTrue(element.$.restAPI.applyFixSuggestion
+      assert.isTrue(element.restApiService.applyFixSuggestion
           .calledWithExactly('1', 2, '123'));
       assert.isTrue(GerritNav.navigateToChange.calledWithExactly({
         _number: '1',
@@ -211,13 +211,13 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('should not navigate to change view if incorect reponse', done => {
-    sinon.stub(element.$.restAPI, 'applyFixSuggestion')
+    sinon.stub(element.restApiService, 'applyFixSuggestion')
         .returns(Promise.resolve({}));
     sinon.stub(GerritNav, 'navigateToChange');
     element._currentFix = {fix_id: '123'};
 
     element._handleApplyFix().then(() => {
-      assert.isTrue(element.$.restAPI.applyFixSuggestion
+      assert.isTrue(element.restApiService.applyFixSuggestion
           .calledWithExactly('1', 2, '123'));
       assert.isTrue(GerritNav.navigateToChange.notCalled);
 
@@ -227,7 +227,7 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('select fix forward and back of multiple suggested fixes', done => {
-    sinon.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+    sinon.stub(element.restApiService, 'getRobotCommentFixPreview')
         .returns(Promise.resolve({
           f1: {
             meta_a: {},

@@ -144,7 +144,7 @@ suite('gr-change-view tests', () => {
     {
       comments: [
         {
-          __path: '/COMMIT_MSG',
+          path: '/COMMIT_MSG',
           author: {
             _account_id: 1000000 as AccountId,
             name: 'user',
@@ -159,7 +159,7 @@ suite('gr-change-view tests', () => {
           unresolved: true,
         },
         {
-          __path: '/COMMIT_MSG',
+          path: '/COMMIT_MSG',
           author: {
             _account_id: 1000000 as AccountId,
             name: 'user',
@@ -195,7 +195,7 @@ suite('gr-change-view tests', () => {
     {
       comments: [
         {
-          __path: '/COMMIT_MSG',
+          path: '/COMMIT_MSG',
           author: {
             _account_id: 1000000 as AccountId,
             name: 'user',
@@ -210,7 +210,7 @@ suite('gr-change-view tests', () => {
           unresolved: true,
         },
         {
-          __path: 'test.txt',
+          path: 'test.txt',
           author: {
             _account_id: 1000000 as AccountId,
             name: 'user',
@@ -232,7 +232,7 @@ suite('gr-change-view tests', () => {
     {
       comments: [
         {
-          __path: '/COMMIT_MSG',
+          path: '/COMMIT_MSG',
           author: {
             _account_id: 1000000 as AccountId,
             name: 'user',
@@ -255,7 +255,7 @@ suite('gr-change-view tests', () => {
     {
       comments: [
         {
-          __path: '/COMMIT_MSG',
+          path: '/COMMIT_MSG',
           author: {
             _account_id: 1000000 as AccountId,
             name: 'user',
@@ -299,7 +299,7 @@ suite('gr-change-view tests', () => {
     {
       comments: [
         {
-          __path: '/COMMIT_MSG',
+          path: '/COMMIT_MSG',
           author: {
             _account_id: 1000000 as AccountId,
             name: 'user',
@@ -323,7 +323,7 @@ suite('gr-change-view tests', () => {
     {
       comments: [
         {
-          __path: '/COMMIT_MSG',
+          path: '/COMMIT_MSG',
           author: {
             _account_id: 1000000 as AccountId,
             name: 'user',
@@ -338,7 +338,7 @@ suite('gr-change-view tests', () => {
           robot_id: 'rc2' as RobotId,
         },
         {
-          __path: '/COMMIT_MSG',
+          path: '/COMMIT_MSG',
           author: {
             _account_id: 1000000 as AccountId,
             name: 'user',

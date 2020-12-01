@@ -43,7 +43,7 @@ suite('gr-thread-list tests', () => {
       {
         comments: [
           {
-            __path: '/COMMIT_MSG',
+            path: '/COMMIT_MSG',
             author: {
               _account_id: 1000000,
               name: 'user',
@@ -79,7 +79,7 @@ suite('gr-thread-list tests', () => {
       {
         comments: [
           {
-            __path: 'test.txt',
+            path: 'test.txt',
             author: {
               _account_id: 1000000,
               name: 'user',
@@ -102,7 +102,7 @@ suite('gr-thread-list tests', () => {
       {
         comments: [
           {
-            __path: '/COMMIT_MSG',
+            path: '/COMMIT_MSG',
             author: {
               _account_id: 1000000,
               name: 'user',
@@ -123,7 +123,7 @@ suite('gr-thread-list tests', () => {
       {
         comments: [
           {
-            __path: '/COMMIT_MSG',
+            path: '/COMMIT_MSG',
             author: {
               _account_id: 1000000,
               name: 'user',
@@ -201,7 +201,7 @@ suite('gr-thread-list tests', () => {
       {
         comments: [
           {
-            __path: '/COMMIT_MSG',
+            path: '/COMMIT_MSG',
             author: {
               _account_id: 1000000,
               name: 'user',
@@ -225,7 +225,7 @@ suite('gr-thread-list tests', () => {
       {
         comments: [
           {
-            __path: '/COMMIT_MSG',
+            path: '/COMMIT_MSG',
             author: {
               _account_id: 1000000,
               name: 'user',
@@ -240,7 +240,7 @@ suite('gr-thread-list tests', () => {
             robot_id: 'rc2',
           },
           {
-            __path: '/COMMIT_MSG',
+            path: '/COMMIT_MSG',
             author: {
               _account_id: 1000000,
               name: 'user',

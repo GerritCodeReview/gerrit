@@ -45,8 +45,6 @@ export interface UIStateCommentProps {
   // diffSide is used by gr-diff to decide which side(left/right) to show
   // the comment
   diffSide?: Side;
-  // TODO(TS): Remove this. Seems to be exactly the same as `path`??
-  __path?: string;
   collapsed?: boolean;
   // TODO(TS): Consider allowing this only for drafts.
   __editing?: boolean;
@@ -117,14 +115,14 @@ export function createCommentThreads(comments: UIComment[]) {
     }
 
     // Otherwise, this comment starts its own thread.
-    if (!comment.__path && !comment.path) {
+    if (!comment.path) {
       throw new Error('Comment missing required "path".');
     }
     const newThread: CommentThread = {
       comments: [comment],
       patchNum: comment.patch_set,
       commentSide: comment.side ?? CommentSide.REVISION,
-      path: comment.__path || comment.path!,
+      path: comment.path,
       line: comment.line,
       range: comment.range,
       rootId: comment.id,

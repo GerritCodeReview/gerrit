@@ -17,11 +17,12 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-key-binding-display.js';
+import {GrKeyBindingDisplay} from './gr-key-binding-display.js';
 
 const basicFixture = fixtureFromElement('gr-key-binding-display');
 
 suite('gr-key-binding-display tests', () => {
-  let element;
+  let element: GrKeyBindingDisplay;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -45,10 +46,10 @@ suite('gr-key-binding-display tests', () => {
 
     test('key with modifiers', () => {
       assert.deepEqual(element._computeModifiers(['Ctrl', 'x']), ['Ctrl']);
-      assert.deepEqual(
-          element._computeModifiers(['Shift', 'Meta', 'x']),
-          ['Shift', 'Meta']);
+      assert.deepEqual(element._computeModifiers(['Shift', 'Meta', 'x']), [
+        'Shift',
+        'Meta',
+      ]);
     });
   });
 });
-

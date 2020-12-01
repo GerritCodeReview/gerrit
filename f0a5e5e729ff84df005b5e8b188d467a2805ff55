@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b752ce8_3c336f09",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-01T21:42:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70570c24_874cbe22",
+      "range": {
+        "startLine": 222,
+        "startChar": 31,
+        "endLine": 222,
+        "endChar": 38
+      },
+      "revId": "f0a5e5e729ff84df005b5e8b188d467a2805ff55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56e9b4c7_8d02dadd",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-01T14:57:37Z",
       "side": 1,
       "message": "nit: if I am not mistaken, it should be possible to define document event in events.ts (with correct Event type)",
+      "range": {
+        "startLine": 223,
+        "startChar": 26,
+        "endLine": 223,
+        "endChar": 41
+      },
+      "revId": "f0a5e5e729ff84df005b5e8b188d467a2805ff55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ce780f2_a08fd9cc",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-01T21:42:09Z",
+      "side": 1,
+      "message": "Interesting. There is a separate DocumentEventMap apart from HTMLElementEventMap. Good to know. Done.",
+      "parentUuid": "56e9b4c7_8d02dadd",
       "range": {
         "startLine": 223,
         "startChar": 26,

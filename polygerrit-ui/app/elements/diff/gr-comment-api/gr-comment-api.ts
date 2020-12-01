@@ -420,12 +420,12 @@ export class ChangeComments {
    */
   _commentObjToArrayWithFile<T>(comments: {
     [path: string]: T[];
-  }): Array<T & {__path: string}> {
-    let commentArr: Array<T & {__path: string}> = [];
+  }): Array<T & {path: string}> {
+    let commentArr: Array<T & {path: string}> = [];
     for (const file of Object.keys(comments)) {
-      const commentsForFile: Array<T & {__path: string}> = [];
+      const commentsForFile: Array<T & {path: string}> = [];
       for (const comment of comments[file]) {
-        commentsForFile.push({...comment, __path: file});
+        commentsForFile.push({...comment, path: file});
       }
       commentArr = commentArr.concat(commentsForFile);
     }

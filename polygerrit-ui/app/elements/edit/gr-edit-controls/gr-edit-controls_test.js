@@ -38,7 +38,7 @@ suite('gr-edit-controls tests', () => {
     showDialogSpy = sinon.spy(element, '_showDialog');
     closeDialogSpy = sinon.spy(element, '_closeDialog');
     sinon.stub(element, '_hideAllDialogs');
-    queryStub = sinon.stub(element.$.restAPI, 'queryChangeFiles')
+    queryStub = sinon.stub(element.restApiService, 'queryChangeFiles')
         .returns(Promise.resolve([]));
     flush();
   });
@@ -121,7 +121,7 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
-      deleteStub = sinon.stub(element.$.restAPI, 'deleteFileInChangeEdit');
+      deleteStub = sinon.stub(element.restApiService, 'deleteFileInChangeEdit');
       deleteAutocomplete =
           element.$.deleteDialog.querySelector('gr-autocomplete');
     });
@@ -205,7 +205,7 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
-      renameStub = sinon.stub(element.$.restAPI, 'renameFileInChangeEdit');
+      renameStub = sinon.stub(element.restApiService, 'renameFileInChangeEdit');
       renameAutocomplete =
           element.$.renameDialog.querySelector('gr-autocomplete');
     });
@@ -298,7 +298,8 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
-      restoreStub = sinon.stub(element.$.restAPI, 'restoreFileInChangeEdit');
+      restoreStub = sinon.stub(element.restApiService,
+          'restoreFileInChangeEdit');
     });
 
     test('restore hidden by default', () => {
@@ -362,7 +363,7 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
-      fileStub = sinon.stub(element.$.restAPI, 'saveFileUploadChangeEdit');
+      fileStub = sinon.stub(element.restApiService, 'saveFileUploadChangeEdit');
     });
 
     test('_handleUploadConfirm', () => {

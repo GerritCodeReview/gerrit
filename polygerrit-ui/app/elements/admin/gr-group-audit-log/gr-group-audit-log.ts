@@ -38,6 +38,7 @@ import {
   GroupAuditEventInfo,
 } from '../../../types/common';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
 
@@ -63,6 +64,8 @@ export class GrGroupAuditLog extends ListViewMixin(
   @property({type: Boolean})
   _loading = true;
 
+  private restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -84,7 +87,7 @@ export class GrGroupAuditLog extends ListViewMixin(
       firePageError(this, response);
     };
 
-    return this.$.restAPI
+    return this.restApiService
       .getGroupAuditLog(this.groupId, errFn)
       .then(auditLog => {
         if (!auditLog) {

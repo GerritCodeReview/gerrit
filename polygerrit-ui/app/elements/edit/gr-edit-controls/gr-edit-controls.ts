@@ -38,6 +38,7 @@ import {
   AutocompleteQuery,
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
+import {appContext} from '../../../services/app-context';
 
 export interface GrEditControls {
   $: {
@@ -78,6 +79,8 @@ export class GrEditControls extends GestureEventListeners(
 
   @property({type: Object})
   _query: AutocompleteQuery;
+
+  private readonly restApiService = appContext.restApiService;
 
   constructor() {
     super();
@@ -221,7 +224,7 @@ export class GrEditControls extends GestureEventListeners(
       this._closeDialog(this.$.openDialog, true);
       return;
     }
-    return this.$.restAPI
+    return this.restApiService
       .saveFileUploadChangeEdit(this.change._number, path, fileData)
       .then(res => {
         if (!res || !res.ok) {
@@ -236,7 +239,7 @@ export class GrEditControls extends GestureEventListeners(
     // Get the dialog before the api call as the event will change during bubbling
     // which will make Polymer.dom(e).path an empty array in polymer 2
     const dialog = this._getDialogFromEvent(e);
-    this.$.restAPI
+    this.restApiService
       .deleteFileInChangeEdit(this.change._number, this._path)
       .then(res => {
         if (!res || !res.ok) {
@@ -249,7 +252,7 @@ export class GrEditControls extends GestureEventListeners(
 
   _handleRestoreConfirm(e: Event) {
     const dialog = this._getDialogFromEvent(e);
-    this.$.restAPI
+    this.restApiService
       .restoreFileInChangeEdit(this.change._number, this._path)
       .then(res => {
         if (!res || !res.ok) {
@@ -262,7 +265,7 @@ export class GrEditControls extends GestureEventListeners(
 
   _handleRenameConfirm(e: Event) {
     const dialog = this._getDialogFromEvent(e);
-    return this.$.restAPI
+    return this.restApiService
       .renameFileInChangeEdit(this.change._number, this._path, this._newPath)
       .then(res => {
         if (!res || !res.ok) {
@@ -274,7 +277,7 @@ export class GrEditControls extends GestureEventListeners(
   }
 
   _queryFiles(input: string): Promise<AutocompleteSuggestion[]> {
-    return this.$.restAPI
+    return this.restApiService
       .queryChangeFiles(this.change._number, this.patchNum, input)
       .then(res => {
         if (!res) throw new Error('Failed to retrieve files. Reponse not set.');

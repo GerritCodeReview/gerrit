@@ -47,10 +47,10 @@ suite('gr-create-group-dialog tests', () => {
   });
 
   test('test for redirecting to group on successful creation', done => {
-    sinon.stub(element.$.restAPI, 'createGroup')
+    sinon.stub(element.restApiService, 'createGroup')
         .returns(Promise.resolve({status: 201}));
 
-    sinon.stub(element.$.restAPI, 'getGroupConfig')
+    sinon.stub(element.restApiService, 'getGroupConfig')
         .returns(Promise.resolve({group_id: 551}));
 
     const showStub = sinon.stub(page, 'show');
@@ -62,10 +62,10 @@ suite('gr-create-group-dialog tests', () => {
   });
 
   test('test for unsuccessful group creation', done => {
-    sinon.stub(element.$.restAPI, 'createGroup')
+    sinon.stub(element.restApiService, 'createGroup')
         .returns(Promise.resolve({status: 409}));
 
-    sinon.stub(element.$.restAPI, 'getGroupConfig')
+    sinon.stub(element.restApiService, 'getGroupConfig')
         .returns(Promise.resolve({group_id: 551}));
 
     const showStub = sinon.stub(page, 'show');

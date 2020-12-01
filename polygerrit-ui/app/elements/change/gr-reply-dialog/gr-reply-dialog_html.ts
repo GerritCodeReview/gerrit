@@ -617,6 +617,5 @@ export const htmlTemplate = html`
     </div>
   </div>
   <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   <gr-storage id="storage"></gr-storage>
 `;

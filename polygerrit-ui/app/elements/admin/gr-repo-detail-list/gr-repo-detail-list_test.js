@@ -118,7 +118,7 @@ suite('gr-repo-detail-list', () => {
 
       test('Edit HEAD button not admin', done => {
         sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-        sinon.stub(element.$.restAPI, 'getRepoAccess').returns(
+        sinon.stub(element.restApiService, 'getRepoAccess').returns(
             Promise.resolve({
               test: {is_owner: false},
             }));
@@ -142,7 +142,7 @@ suite('gr-repo-detail-list', () => {
             .querySelector('.revisionWithEditing');
 
         sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-        sinon.stub(element.$.restAPI, 'getRepoAccess').returns(
+        sinon.stub(element.restApiService, 'getRepoAccess').returns(
             Promise.resolve({
               test: {is_owner: true},
             }));
@@ -219,7 +219,7 @@ suite('gr-repo-detail-list', () => {
       test('_handleSaveRevision with invalid rev', done => {
         const event = {model: {set: sinon.stub()}};
         element._isEditing = true;
-        sinon.stub(element.$.restAPI, 'setRepoHead').returns(
+        sinon.stub(element.restApiService, 'setRepoHead').returns(
             Promise.resolve({
               status: 400,
             })
@@ -235,7 +235,7 @@ suite('gr-repo-detail-list', () => {
       test('_handleSaveRevision with valid rev', done => {
         const event = {model: {set: sinon.stub()}};
         element._isEditing = true;
-        sinon.stub(element.$.restAPI, 'setRepoHead').returns(
+        sinon.stub(element.restApiService, 'setRepoHead').returns(
             Promise.resolve({
               status: 200,
             })
@@ -280,7 +280,7 @@ suite('gr-repo-detail-list', () => {
     suite('filter', () => {
       test('_paramsChanged', done => {
         sinon.stub(
-            element.$.restAPI,
+            element.restApiService,
             'getRepoBranches')
             .callsFake(() => Promise.resolve(branches));
         const params = {
@@ -290,13 +290,13 @@ suite('gr-repo-detail-list', () => {
           offset: 25,
         };
         element._paramsChanged(params).then(() => {
-          assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[0],
+          assert.equal(element.restApiService.getRepoBranches.lastCall.args[0],
               'test');
-          assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[1],
+          assert.equal(element.restApiService.getRepoBranches.lastCall.args[1],
               'test');
-          assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[2],
+          assert.equal(element.restApiService.getRepoBranches.lastCall.args[2],
               25);
-          assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[3],
+          assert.equal(element.restApiService.getRepoBranches.lastCall.args[3],
               25);
           done();
         });
@@ -306,7 +306,7 @@ suite('gr-repo-detail-list', () => {
     suite('404', () => {
       test('fires page-error', done => {
         const response = {status: 404};
-        sinon.stub(element.$.restAPI, 'getRepoBranches').callsFake(
+        sinon.stub(element.restApiService, 'getRepoBranches').callsFake(
             (filter, repo, reposBranchesPerPage, opt_offset, errFn) => {
               errFn(response);
             });
@@ -458,7 +458,7 @@ suite('gr-repo-detail-list', () => {
     suite('filter', () => {
       test('_paramsChanged', done => {
         sinon.stub(
-            element.$.restAPI,
+            element.restApiService,
             'getRepoTags')
             .callsFake(() => Promise.resolve(tags));
         const params = {
@@ -468,13 +468,13 @@ suite('gr-repo-detail-list', () => {
           offset: 25,
         };
         element._paramsChanged(params).then(() => {
-          assert.equal(element.$.restAPI.getRepoTags.lastCall.args[0],
+          assert.equal(element.restApiService.getRepoTags.lastCall.args[0],
               'test');
-          assert.equal(element.$.restAPI.getRepoTags.lastCall.args[1],
+          assert.equal(element.restApiService.getRepoTags.lastCall.args[1],
               'test');
-          assert.equal(element.$.restAPI.getRepoTags.lastCall.args[2],
+          assert.equal(element.restApiService.getRepoTags.lastCall.args[2],
               25);
-          assert.equal(element.$.restAPI.getRepoTags.lastCall.args[3],
+          assert.equal(element.restApiService.getRepoTags.lastCall.args[3],
               25);
           done();
         });
@@ -520,7 +520,7 @@ suite('gr-repo-detail-list', () => {
     suite('404', () => {
       test('fires page-error', done => {
         const response = {status: 404};
-        sinon.stub(element.$.restAPI, 'getRepoTags').callsFake(
+        sinon.stub(element.restApiService, 'getRepoTags').callsFake(
             (filter, repo, reposTagsPerPage, opt_offset, errFn) => {
               errFn(response);
             });

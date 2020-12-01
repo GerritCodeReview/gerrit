@@ -16,6 +16,4 @@
  */
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
-export const htmlTemplate = html`
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-`;
+export const htmlTemplate = html``;

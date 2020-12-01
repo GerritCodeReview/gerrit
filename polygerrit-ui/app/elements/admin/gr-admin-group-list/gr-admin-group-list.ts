@@ -35,6 +35,7 @@ import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrCreateGroupDialog} from '../gr-create-group-dialog/gr-create-group-dialog';
 import {fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -97,6 +98,8 @@ export class GrAdminGroupList extends ListViewMixin(
   @property({type: String})
   _filter = '';
 
+  private restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -131,11 +134,11 @@ export class GrAdminGroupList extends ListViewMixin(
   }
 
   _getCreateGroupCapability() {
-    return this.$.restAPI.getAccount().then(account => {
+    return this.restApiService.getAccount().then(account => {
       if (!account) {
         return;
       }
-      return this.$.restAPI
+      return this.restApiService
         .getAccountCapabilities(['createGroup'])
         .then(capabilities => {
           if (capabilities?.createGroup) {
@@ -147,7 +150,7 @@ export class GrAdminGroupList extends ListViewMixin(
 
   _getGroups(filter: string, groupsPerPage: number, offset?: number) {
     this._groups = [];
-    return this.$.restAPI
+    return this.restApiService
       .getGroups(filter, groupsPerPage, offset)
       .then(groups => {
         if (!groups) {
@@ -163,7 +166,7 @@ export class GrAdminGroupList extends ListViewMixin(
   }
 
   _refreshGroupsList() {
-    this.$.restAPI.invalidateGroupsCache();
+    this.restApiService.invalidateGroupsCache();
     return this._getGroups(this._filter, this._groupsPerPage, this._offset);
   }
 

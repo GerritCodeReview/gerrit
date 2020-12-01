@@ -212,6 +212,8 @@ export class GrChangeMetadata extends GestureEventListeners(
 
   flagsService = appContext.flagsService;
 
+  private restApiService = appContext.restApiService;
+
   /** @override */
   ready() {
     super.ready();
@@ -249,13 +251,13 @@ export class GrChangeMetadata extends GestureEventListeners(
         return;
       }
       this.set(['change', 'assignee'], acct);
-      this.$.restAPI.setAssignee(this.change._number, acct._account_id);
+      this.restApiService.setAssignee(this.change._number, acct._account_id);
     } else {
       if (!this.change.assignee) {
         return;
       }
       this.set(['change', 'assignee'], undefined);
-      this.$.restAPI.deleteAssignee(this.change._number);
+      this.restApiService.deleteAssignee(this.change._number);
     }
   }
 
@@ -308,7 +310,7 @@ export class GrChangeMetadata extends GestureEventListeners(
     const topic = e.detail.length ? e.detail : undefined;
     this._settingTopic = true;
     const topicChangedForChangeNumber = this.change._number;
-    this.$.restAPI
+    this.restApiService
       .setChangeTopic(topicChangedForChangeNumber, topic)
       .then(newTopic => {
         if (this.change?._number !== topicChangedForChangeNumber) return;
@@ -356,7 +358,7 @@ export class GrChangeMetadata extends GestureEventListeners(
     }
     const newHashtag = this._newHashtag;
     this._newHashtag = '' as Hashtag;
-    this.$.restAPI
+    this.restApiService
       .setChangeHashtag(this.change._number, {add: [newHashtag]})
       .then(newHashtag => {
         this.set(['change', 'hashtags'], newHashtag);
@@ -511,7 +513,7 @@ export class GrChangeMetadata extends GestureEventListeners(
     }
     const target = (dom(e) as EventApi).rootTarget as GrLinkedChip;
     target.disabled = true;
-    this.$.restAPI
+    this.restApiService
       .setChangeTopic(this.change._number)
       .then(() => {
         target.disabled = false;
@@ -532,7 +534,7 @@ export class GrChangeMetadata extends GestureEventListeners(
     }
     const target = (dom(e) as EventApi).rootTarget as GrLinkedChip;
     target.disabled = true;
-    this.$.restAPI
+    this.restApiService
       .setChangeHashtag(this.change._number, {remove: [target.text as Hashtag]})
       .then(newHashtags => {
         target.disabled = false;
@@ -676,7 +678,7 @@ export class GrChangeMetadata extends GestureEventListeners(
       return undefined;
     }
     const provider = GrReviewerSuggestionsProvider.create(
-      this.$.restAPI,
+      this.restApiService,
       change._number,
       SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY
     );

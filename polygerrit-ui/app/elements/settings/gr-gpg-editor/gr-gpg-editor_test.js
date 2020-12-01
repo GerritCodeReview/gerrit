@@ -74,7 +74,7 @@ suite('gr-gpg-editor tests', () => {
   test('remove key', done => {
     const lastKey = keys[Object.keys(keys)[1]];
 
-    const saveStub = sinon.stub(element.$.restAPI, 'deleteAccountGPGKey')
+    const saveStub = sinon.stub(element.restApiService, 'deleteAccountGPGKey')
         .callsFake(() => Promise.resolve());
 
     assert.equal(element._keysToRemove.length, 0);
@@ -130,7 +130,8 @@ suite('gr-gpg-editor tests', () => {
       },
     };
 
-    const addStub = sinon.stub(element.$.restAPI, 'addAccountGPGKey').callsFake(
+    const addStub = sinon.stub(element.restApiService,
+        'addAccountGPGKey').callsFake(
         () => Promise.resolve(newKeyObject));
 
     element._newKey = newKeyString;
@@ -155,7 +156,8 @@ suite('gr-gpg-editor tests', () => {
   test('add invalid key', done => {
     const newKeyString = 'not even close to valid';
 
-    const addStub = sinon.stub(element.$.restAPI, 'addAccountGPGKey').callsFake(
+    const addStub = sinon.stub(element.restApiService,
+        'addAccountGPGKey').callsFake(
         () => Promise.reject(new Error('error')));
 
     element._newKey = newKeyString;

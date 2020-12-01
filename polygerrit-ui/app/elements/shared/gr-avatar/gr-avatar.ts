@@ -26,6 +26,7 @@ import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader';
 import {customElement, property} from '@polymer/decorators';
 import {AccountInfo} from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {appContext} from '../../../services/app-context';
 
 export interface GrAvatar {
   $: {
@@ -49,6 +50,8 @@ export class GrAvatar extends GestureEventListeners(
   @property({type: Boolean})
   _hasAvatars = false;
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -63,7 +66,7 @@ export class GrAvatar extends GestureEventListeners(
   }
 
   _getConfig() {
-    return this.$.restAPI.getConfig();
+    return this.restApiService.getConfig();
   }
 
   _accountChanged() {

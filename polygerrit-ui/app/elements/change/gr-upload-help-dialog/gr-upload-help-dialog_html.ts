@@ -66,5 +66,4 @@ export const htmlTemplate = html`
       </ol>
     </div>
   </gr-dialog>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

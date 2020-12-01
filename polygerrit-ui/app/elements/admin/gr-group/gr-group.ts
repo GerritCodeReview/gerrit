@@ -39,6 +39,7 @@ import {
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -127,6 +128,8 @@ export class GrGroup extends GestureEventListeners(
   @property({type: Boolean})
   _isAdmin = false;
 
+  private restApiService = appContext.restApiService;
+
   constructor() {
     super();
     this._query = (input: string) => this._getGroupSuggestions(input);
@@ -149,41 +152,43 @@ export class GrGroup extends GestureEventListeners(
       firePageError(this, response);
     };
 
-    return this.$.restAPI.getGroupConfig(this.groupId, errFn).then(config => {
-      if (!config || !config.name) {
-        return Promise.resolve();
-      }
+    return this.restApiService
+      .getGroupConfig(this.groupId, errFn)
+      .then(config => {
+        if (!config || !config.name) {
+          return Promise.resolve();
+        }
 
-      this._groupName = config.name;
-      this._groupIsInternal = !!config.id.match(INTERNAL_GROUP_REGEX);
+        this._groupName = config.name;
+        this._groupIsInternal = !!config.id.match(INTERNAL_GROUP_REGEX);
 
-      promises.push(
-        this.$.restAPI.getIsAdmin().then(isAdmin => {
-          this._isAdmin = !!isAdmin;
-        })
-      );
+        promises.push(
+          this.restApiService.getIsAdmin().then(isAdmin => {
+            this._isAdmin = !!isAdmin;
+          })
+        );
 
-      promises.push(
-        this.$.restAPI.getIsGroupOwner(config.name).then(isOwner => {
-          this._groupOwner = !!isOwner;
-        })
-      );
+        promises.push(
+          this.restApiService.getIsGroupOwner(config.name).then(isOwner => {
+            this._groupOwner = !!isOwner;
+          })
+        );
 
-      // If visible to all is undefined, set to false. If it is defined
-      // as false, setting to false is fine. If any optional values
-      // are added with a default of true, then this would need to be an
-      // undefined check and not a truthy/falsy check.
-      if (config.options && !config.options.visible_to_all) {
-        config.options.visible_to_all = false;
-      }
-      this._groupConfig = config;
+        // If visible to all is undefined, set to false. If it is defined
+        // as false, setting to false is fine. If any optional values
+        // are added with a default of true, then this would need to be an
+        // undefined check and not a truthy/falsy check.
+        if (config.options && !config.options.visible_to_all) {
+          config.options.visible_to_all = false;
+        }
+        this._groupConfig = config;
 
-      fireTitleChange(this, config.name);
+        fireTitleChange(this, config.name);
 
-      return Promise.all(promises).then(() => {
-        this._loading = false;
+        return Promise.all(promises).then(() => {
+          this._loading = false;
+        });
       });
-    });
   }
 
   _computeLoadingClass(loading: boolean) {
@@ -200,7 +205,7 @@ export class GrGroup extends GestureEventListeners(
       return Promise.reject(new Error('invalid groupId or config name'));
     }
     const groupName = groupConfig.name;
-    return this.$.restAPI
+    return this.restApiService
       .saveGroupName(this.groupId, groupName)
       .then(config => {
         if (config.status === 200) {
@@ -228,7 +233,7 @@ export class GrGroup extends GestureEventListeners(
       owner = decodeURIComponent(this._groupConfigOwner);
     }
     if (!owner) return;
-    return this.$.restAPI.saveGroupOwner(this.groupId, owner).then(() => {
+    return this.restApiService.saveGroupOwner(this.groupId, owner).then(() => {
       this._owner = false;
     });
   }
@@ -236,7 +241,7 @@ export class GrGroup extends GestureEventListeners(
   _handleSaveDescription() {
     if (!this.groupId || !this._groupConfig || !this._groupConfig.description)
       return;
-    return this.$.restAPI
+    return this.restApiService
       .saveGroupDescription(this.groupId, this._groupConfig.description)
       .then(() => {
         this._description = false;
@@ -250,9 +255,11 @@ export class GrGroup extends GestureEventListeners(
 
     const options = {visible_to_all: visible};
 
-    return this.$.restAPI.saveGroupOptions(this.groupId, options).then(() => {
-      this._options = false;
-    });
+    return this.restApiService
+      .saveGroupOptions(this.groupId, options)
+      .then(() => {
+        this._options = false;
+      });
   }
 
   @observe('_groupConfig.name')
@@ -292,7 +299,7 @@ export class GrGroup extends GestureEventListeners(
   }
 
   _getGroupSuggestions(input: string) {
-    return this.$.restAPI.getSuggestedGroups(input).then(response => {
+    return this.restApiService.getSuggestedGroups(input).then(response => {
       const groups: AutocompleteSuggestion[] = [];
       for (const key in response) {
         if (!hasOwnProperty(response, key)) {

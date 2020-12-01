@@ -27,5 +27,4 @@ export const htmlTemplate = html`
     [[_computeDateStr(dateStr, _timeFormat, _dateFormat, _relative,
     showDateAndTime, showYesterday)]]
   </span>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

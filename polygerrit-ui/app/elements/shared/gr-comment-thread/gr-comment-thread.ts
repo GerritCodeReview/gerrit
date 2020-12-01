@@ -184,6 +184,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(
 
   flagsService = appContext.flagsService;
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   created() {
     super.created();
@@ -307,7 +309,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   }
 
   _getLoggedIn() {
-    return this.$.restAPI.getLoggedIn();
+    return this.restApiService.getLoggedIn();
   }
 
   @observe('comments.*')
@@ -636,7 +638,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     if (!name) {
       return;
     }
-    this.$.restAPI.getProjectConfig(name).then(config => {
+    this.restApiService.getProjectConfig(name).then(config => {
       this._projectConfig = config;
     });
   }

@@ -30,5 +30,4 @@ export const htmlTemplate = html`
     <hr />
     <div><span>Detail:</span> <a href$="[[_repoUrl]]">Repo settings</a></div>
   </div>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

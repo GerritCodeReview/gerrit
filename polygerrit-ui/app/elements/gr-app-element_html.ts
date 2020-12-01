@@ -218,7 +218,6 @@ export const htmlTemplate = html`
     id="errorManager"
     login-url="[[_loginUrl]]"
   ></gr-error-manager>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   <gr-router id="router"></gr-router>
   <gr-plugin-host id="plugins" config="[[_serverConfig]]"> </gr-plugin-host>
   <gr-lib-loader id="libLoader"></gr-lib-loader>

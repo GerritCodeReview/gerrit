@@ -33,6 +33,7 @@ import {
   ContributorAgreementInfo,
 } from '../../../types/common';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 export interface GrClaView {
   $: {
@@ -75,6 +76,8 @@ export class GrClaView extends GestureEventListeners(
   @property({type: String})
   _agreementsUrl?: string;
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -86,13 +89,13 @@ export class GrClaView extends GestureEventListeners(
   loadData() {
     const promises = [];
     promises.push(
-      this.$.restAPI.getConfig(true).then(config => {
+      this.restApiService.getConfig(true).then(config => {
         this._serverConfig = config;
       })
     );
 
     promises.push(
-      this.$.restAPI.getAccountGroups().then(groups => {
+      this.restApiService.getAccountGroups().then(groups => {
         if (!groups) return;
         this._groups = groups.sort((a, b) =>
           (a.name || '').localeCompare(b.name || '')
@@ -101,7 +104,7 @@ export class GrClaView extends GestureEventListeners(
     );
 
     promises.push(
-      this.$.restAPI
+      this.restApiService
         .getAccountAgreements()
         .then((agreements: ContributorAgreementInfo[] | undefined) => {
           this._signedAgreements = agreements || [];
@@ -138,7 +141,7 @@ export class GrClaView extends GestureEventListeners(
     this._createToast('Agreement saving...');
 
     const name = this._agreementName;
-    return this.$.restAPI.saveAccountAgreement({name}).then(res => {
+    return this.restApiService.saveAccountAgreement({name}).then(res => {
       let message = 'Agreement failed to be submitted, please try again';
       if (res.status === 200) {
         message = 'Agreement has been successfully submitted.';

@@ -43,6 +43,7 @@ import {
   SubmittedTogetherInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {appContext} from '../../../services/app-context';
 
 export interface GrRelatedChangesList {
   $: {
@@ -117,6 +118,8 @@ export class GrRelatedChangesList extends GestureEventListeners(
   @property({type: Array})
   _sameTopic?: ChangeInfo[] = [];
 
+  private readonly restApiService = appContext.restApiService;
+
   clear() {
     this.loading = true;
     this.hidden = true;
@@ -135,7 +138,7 @@ export class GrRelatedChangesList extends GestureEventListeners(
     const change = this.change;
     this.loading = true;
     const promises: Array<Promise<void>> = [
-      this.$.restAPI
+      this.restApiService
         .getRelatedChanges(change._number, this.patchNum)
         .then(response => {
           if (!response) {
@@ -148,13 +151,13 @@ export class GrRelatedChangesList extends GestureEventListeners(
             response.changes
           );
         }),
-      this.$.restAPI
+      this.restApiService
         .getChangesSubmittedTogether(change._number)
         .then(response => {
           this._submittedTogether = response;
           this._fireReloadEvent();
         }),
-      this.$.restAPI
+      this.restApiService
         .getChangeCherryPicks(change.project, change.change_id, change._number)
         .then(response => {
           this._cherryPicks = response || [];
@@ -165,12 +168,14 @@ export class GrRelatedChangesList extends GestureEventListeners(
     // Get conflicts if change is open and is mergeable.
     if (changeIsOpen(change) && this.mergeable) {
       promises.push(
-        this.$.restAPI.getChangeConflicts(change._number).then(response => {
-          // Because the server doesn't always return a response and the
-          // template expects an array, always return an array.
-          this._conflicts = response ? response : [];
-          this._fireReloadEvent();
-        })
+        this.restApiService
+          .getChangeConflicts(change._number)
+          .then(response => {
+            // Because the server doesn't always return a response and the
+            // template expects an array, always return an array.
+            this._conflicts = response ? response : [];
+            this._fireReloadEvent();
+          })
       );
     }
 
@@ -181,7 +186,7 @@ export class GrRelatedChangesList extends GestureEventListeners(
             throw new Error('_getServerConfig returned undefined ');
           }
           if (!config.change.submit_whole_topic) {
-            return this.$.restAPI
+            return this.restApiService
               .getChangesWithSameTopic(change.topic, change._number)
               .then(response => {
                 this._sameTopic = response;
@@ -222,7 +227,7 @@ export class GrRelatedChangesList extends GestureEventListeners(
   }
 
   _getServerConfig() {
-    return this.$.restAPI.getConfig();
+    return this.restApiService.getConfig();
   }
 
   _computeChangeURL(

@@ -27,6 +27,7 @@ import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {RepoName, BranchName} from '../../../types/common';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {appContext} from '../../../services/app-context';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -73,6 +74,8 @@ export class GrConfirmMoveDialog extends KeyboardShortcutMixin(
     };
   }
 
+  private restApiService = appContext.restApiService;
+
   constructor() {
     super();
     this._query = () => this._getProjectBranchesSuggestions();
@@ -108,7 +111,7 @@ export class GrConfirmMoveDialog extends KeyboardShortcutMixin(
     if (input.startsWith('refs/heads/')) {
       input = input.substring('refs/heads/'.length);
     }
-    return this.$.restAPI
+    return this.restApiService
       .getRepoBranches(input, this.project, SUGGESTIONS_LIMIT)
       .then(response => {
         const branches: AutocompleteSuggestion[] = [];

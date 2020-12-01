@@ -31,7 +31,7 @@ suite('gr-repo-commands tests', () => {
     // Note that this probably does not achieve what it is supposed to, because
     // getProjectConfig() is called as soon as the element is attached, so
     // stubbing it here has not effect anymore.
-    repoStub = sinon.stub(element.$.restAPI, 'getProjectConfig')
+    repoStub = sinon.stub(element.restApiService, 'getProjectConfig')
         .returns(Promise.resolve({}));
   });
 
@@ -68,7 +68,7 @@ suite('gr-repo-commands tests', () => {
     let alertStub;
 
     setup(() => {
-      createChangeStub = sinon.stub(element.$.restAPI, 'createChange');
+      createChangeStub = sinon.stub(element.restApiService, 'createChange');
       urlStub = sinon.stub(GerritNav, 'getEditUrlForDiff');
       sinon.stub(GerritNav, 'navigateToRelativeUrl');
       handleSpy = sinon.spy(element, '_handleEditRepoConfig');
@@ -119,7 +119,7 @@ suite('gr-repo-commands tests', () => {
 
       const response = {status: 404};
       sinon.stub(
-          element.$.restAPI, 'getProjectConfig')
+          element.restApiService, 'getProjectConfig')
           .callsFake((repo, errFn) => {
             errFn(response);
           });

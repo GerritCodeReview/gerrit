@@ -334,8 +334,8 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, '_loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.spy(element, '_paramsChanged');
-      element.$.restAPI.getDiffChangeDetail.restore();
-      sinon.stub(element.$.restAPI, 'getDiffChangeDetail')
+      element.restApiService.getDiffChangeDetail.restore();
+      sinon.stub(element.restApiService, 'getDiffChangeDetail')
           .returns(
               Promise.resolve({
                 ...createChange(),
@@ -1233,7 +1233,7 @@ suite('gr-diff-view tests', () => {
       const prefsPromise = new Promise(resolve => {
         resolvePrefs = resolve;
       });
-      sinon.stub(element.$.restAPI, 'getPreferences')
+      sinon.stub(element.restApiService, 'getPreferences')
           .callsFake(() => prefsPromise);
 
       // Attach a new gr-diff-view so we can intercept the preferences fetch.
@@ -1622,9 +1622,9 @@ suite('gr-diff-view tests', () => {
 
     test('_getReviewedStatus', () => {
       const promises = [];
-      element.$.restAPI.getReviewedFiles.restore();
+      element.restApiService.getReviewedFiles.restore();
 
-      sinon.stub(element.$.restAPI, 'getReviewedFiles')
+      sinon.stub(element.restApiService, 'getReviewedFiles')
           .returns(Promise.resolve(['path']));
 
       promises.push(element._getReviewedStatus(true, null, null, 'path')
@@ -1689,7 +1689,7 @@ suite('gr-diff-view tests', () => {
 
     test('_paramsChanged sets in projectLookup', () => {
       sinon.stub(element, '_initLineOfInterestAndCursor');
-      const setStub = sinon.stub(element.$.restAPI, 'setInProjectLookup');
+      const setStub = sinon.stub(element.restApiService, 'setInProjectLookup');
       element._paramsChanged({
         view: GerritNav.View.DIFF,
         changeNum: 101,

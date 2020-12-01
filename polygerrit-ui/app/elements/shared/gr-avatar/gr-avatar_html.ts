@@ -25,5 +25,4 @@ export const htmlTemplate = html`
       background-color: var(--avatar-background-color, #f1f2f3);
     }
   </style>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

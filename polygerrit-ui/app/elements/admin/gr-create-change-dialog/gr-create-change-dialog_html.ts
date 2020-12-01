@@ -113,5 +113,4 @@ export const htmlTemplate = html`
       </span>
     </section>
   </div>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

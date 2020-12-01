@@ -109,5 +109,4 @@ export const htmlTemplate = html`
       <iron-icon icon="gr-icons:close"></iron-icon>
     </gr-button>
   </div>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

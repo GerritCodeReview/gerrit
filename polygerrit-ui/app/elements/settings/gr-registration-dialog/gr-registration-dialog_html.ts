@@ -129,5 +129,4 @@ export const htmlTemplate = html`
       >
     </footer>
   </div>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

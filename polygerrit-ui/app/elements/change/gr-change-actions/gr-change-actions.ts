@@ -549,6 +549,8 @@ export class GrChangeActions
   @property({type: Object})
   _config?: ServerInfo;
 
+  private restApiService = appContext.restApiService;
+
   /** @override */
   created() {
     super.created();
@@ -564,7 +566,7 @@ export class GrChangeActions
   ready() {
     super.ready();
     this.$.jsAPI.addElement(TargetElement.CHANGE_ACTIONS, this);
-    this.$.restAPI.getConfig().then(config => {
+    this.restApiService.getConfig().then(config => {
       this._config = config;
     });
     this._handleLoadingComplete();
@@ -600,7 +602,7 @@ export class GrChangeActions
     const change = this.change;
 
     this._loading = true;
-    return this.$.restAPI
+    return this.restApiService
       .getChangeRevisionActions(this.changeNum, this.latestPatchNum)
       .then(revisionActions => {
         if (!revisionActions) {
@@ -1086,7 +1088,7 @@ export class GrChangeActions
     if (!this.changeNum) {
       return;
     }
-    this.$.restAPI
+    this.restApiService
       .getChangeActionURL(this.changeNum, patchNum, '/' + action.__key)
       .then(url => (action.__url = url));
   }
@@ -1148,7 +1150,7 @@ export class GrChangeActions
     /* A chromium plugin expects that the modifyRevertMsg hook will only
     be called after the revert button is pressed, hence we populate the
     revert dialog after revert button is pressed. */
-    this.$.restAPI.getChanges(0, query).then(changes => {
+    this.restApiService.getChanges(0, query).then(changes => {
       if (!changes) {
         console.error('changes is undefined');
         return;
@@ -1162,7 +1164,7 @@ export class GrChangeActions
     const change = this.change;
     if (!change) return;
     const query = `submissionid:${change.submission_id}`;
-    this.$.restAPI.getChanges(0, query).then(changes => {
+    this.restApiService.getChanges(0, query).then(changes => {
       if (!changes) {
         console.error('changes is undefined');
         return;
@@ -1594,14 +1596,14 @@ export class GrChangeActions
     if (!labels) {
       return Promise.resolve(undefined);
     }
-    return this.$.restAPI.saveChangeReview(newChangeId, CURRENT, {labels});
+    return this.restApiService.saveChangeReview(newChangeId, CURRENT, {labels});
   }
 
   _handleResponse(action: UIActionInfo, response?: Response) {
     if (!response) {
       return;
     }
-    return this.$.restAPI.getResponseObject(response).then(obj => {
+    return this.restApiService.getResponseObject(response).then(obj => {
       switch (action.__key) {
         case ChangeActions.REVERT: {
           const revertChangeInfo: ChangeInfo = (obj as unknown) as ChangeInfo;
@@ -1729,7 +1731,7 @@ export class GrChangeActions
         new Error('Properties change and changeNum must be set.')
       );
     }
-    return fetchChangeUpdates(change, this.$.restAPI).then(result => {
+    return fetchChangeUpdates(change, this.restApiService).then(result => {
       if (!result.isLatest) {
         this.dispatchEvent(
           new CustomEvent('show-alert', {
@@ -1760,7 +1762,7 @@ export class GrChangeActions
         return Promise.resolve(undefined);
       }
       const patchNum = revisionAction ? this.latestPatchNum : undefined;
-      return this.$.restAPI
+      return this.restApiService
         .executeChangeAction(
           changeNum,
           method,
@@ -1790,14 +1792,16 @@ export class GrChangeActions
       ListChangesOption.MESSAGES,
       ListChangesOption.ALL_REVISIONS
     );
-    this.$.restAPI.getChanges(0, query, undefined, options).then(changes => {
-      if (!changes) {
-        console.error('getChanges returns undefined');
-        return;
-      }
-      this.$.confirmCherrypick.updateChanges(changes);
-      this._showActionDialog(this.$.confirmCherrypick);
-    });
+    this.restApiService
+      .getChanges(0, query, undefined, options)
+      .then(changes => {
+        if (!changes) {
+          console.error('getChanges returns undefined');
+          return;
+        }
+        this.$.confirmCherrypick.updateChanges(changes);
+        this._showActionDialog(this.$.confirmCherrypick);
+      });
   }
 
   _handleMoveTap() {
@@ -2052,7 +2056,7 @@ export class GrChangeActions
       const check = () => {
         attempsRemaining--;
         // Pass a no-op error handler to avoid the "not found" error toast.
-        this.$.restAPI
+        this.restApiService
           .getChange(changeNum, () => {})
           .then(response => {
             // If the response is 404, the response will be undefined.

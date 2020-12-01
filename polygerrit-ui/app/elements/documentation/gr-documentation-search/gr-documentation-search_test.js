@@ -72,14 +72,14 @@ suite('gr-documentation-search tests', () => {
 
     test('_paramsChanged', done => {
       sinon.stub(
-          element.$.restAPI,
+          element.restApiService,
           'getDocumentationSearches')
           .callsFake(() => Promise.resolve(documentationSearches));
       const value = {
         filter: 'test',
       };
       element._paramsChanged(value).then(() => {
-        assert.isTrue(element.$.restAPI.getDocumentationSearches.lastCall
+        assert.isTrue(element.restApiService.getDocumentationSearches.lastCall
             .calledWithExactly('test'));
         done();
       });

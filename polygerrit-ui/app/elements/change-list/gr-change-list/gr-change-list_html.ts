@@ -163,5 +163,4 @@ export const htmlTemplate = html`
     scroll-mode="keep-visible"
     focus-on-move=""
   ></gr-cursor-manager>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

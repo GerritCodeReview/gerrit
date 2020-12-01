@@ -5,7 +5,8 @@
   "dependencies": {
     "@bazel/rollup": "^2.2.2",
     "@bazel/terser": "^2.2.2",
-    "@bazel/typescript": "^2.2.2"
+    "@bazel/typescript": "^2.2.2",
+    "typescript": "4.0.5"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
@@ -17,8 +18,7 @@
     "gts": "^2.0.2",
     "polymer-cli": "^1.9.11",
     "prettier": "2.0.5",
-    "terser": "^4.8.0",
-    "typescript": "3.9.5"
+    "terser": "^4.8.0"
   },
   "scripts": {
     "clean": "git clean -fdx && bazel clean --expunge",

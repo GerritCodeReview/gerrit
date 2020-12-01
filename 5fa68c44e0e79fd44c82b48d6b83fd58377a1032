@@ -39,6 +39,30 @@
       },
       "revId": "5fa68c44e0e79fd44c82b48d6b83fd58377a1032",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58ffae91_f2ce0c89",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-01T15:17:58Z",
+      "side": 1,
+      "message": "Unsupported weblink ${(params as \"any\") is still there. 😞",
+      "parentUuid": "77c84626_140b27e2",
+      "range": {
+        "startLine": 393,
+        "startChar": 31,
+        "endLine": 393,
+        "endChar": 35
+      },
+      "revId": "5fa68c44e0e79fd44c82b48d6b83fd58377a1032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

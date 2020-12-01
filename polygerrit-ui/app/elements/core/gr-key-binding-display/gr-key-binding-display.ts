@@ -15,11 +15,9 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-key-binding-display_html';
-import {customElement, property} from '@polymer/decorators';
+import {html} from 'lit-html';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {customElement, property} from 'lit-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -28,21 +26,35 @@ declare global {
 }
 
 @customElement('gr-key-binding-display')
-export class GrKeyBindingDisplay extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
-  static get template() {
-    return htmlTemplate;
+export class GrKeyBindingDisplay extends GrLitElement {
+  render() {
+    return html`<style include="shared-styles">
+        .key {
+          background-color: var(--chip-background-color);
+          color: var(--primary-text-color);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          display: inline-block;
+          font-weight: var(--font-weight-bold);
+          padding: var(--spacing-xxs) var(--spacing-m);
+          text-align: center;
+        }</style
+      >${this.binding.map(
+        (item, index) =>
+          html`${index > 0 ? 'or' : ''}${this._computeModifiers(item).map(
+              modifier => html`<span class="key modifier">${modifier}</span>`
+            )}<span class="key">${this._computeKey(item)}</span>`
+      )}`;
   }
 
   @property({type: Array})
   binding: string[][] = [];
 
-  _computeModifiers(binding: string[][]) {
+  _computeModifiers(binding: string[]) {
     return binding.slice(0, binding.length - 1);
   }
 
-  _computeKey(binding: string[][]) {
+  _computeKey(binding: string[]) {
     return binding[binding.length - 1];
   }
 }

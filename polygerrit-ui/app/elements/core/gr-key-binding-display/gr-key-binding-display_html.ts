@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {html} from 'lit-html';
 
 export const htmlTemplate = html`
   <style include="shared-styles">

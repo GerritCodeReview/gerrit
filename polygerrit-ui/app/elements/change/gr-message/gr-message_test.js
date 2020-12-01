@@ -418,7 +418,6 @@ suite('gr-message tests', () => {
     test('single patchset comment posted', () => {
       const threads = [{
         comments: [{
-          __path: '/PATCHSET_LEVEL',
           change_message_id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3',
           patch_set: 1,
           id: 'e365b138_bed65caa',
@@ -440,7 +439,6 @@ suite('gr-message tests', () => {
     test('single patchset comment with reply', () => {
       const threads = [{
         comments: [{
-          __path: '/PATCHSET_LEVEL',
           patch_set: 1,
           id: 'e365b138_bed65caa',
           updated: '2020-05-15 13:35:56.000000000',
@@ -449,7 +447,6 @@ suite('gr-message tests', () => {
           path: '/PATCHSET_LEVEL',
           collapsed: false,
         }, {
-          __path: '/PATCHSET_LEVEL',
           change_message_id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3',
           patch_set: 1,
           id: 'd6efcc85_4cbbb6f4',

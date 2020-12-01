@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8f108b6_c07394a1",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-01T21:21:36Z",
+      "side": 1,
+      "message": "test comment",
+      "range": {
+        "startLine": 431,
+        "startChar": 8,
+        "endLine": 433,
+        "endChar": 34
+      },
+      "revId": "9050c997cc51a9ce1619332e3ab3d58a5d2ec18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83885bda_5219e418",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-01T21:21:36Z",
+      "side": 1,
+      "message": "revert",
+      "range": {
+        "startLine": 440,
+        "startChar": 4,
+        "endLine": 465,
+        "endChar": 7
+      },
+      "revId": "9050c997cc51a9ce1619332e3ab3d58a5d2ec18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

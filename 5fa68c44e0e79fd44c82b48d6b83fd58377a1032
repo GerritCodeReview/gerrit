@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97c54c05_9b05976e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-01T15:16:44Z",
+      "side": 1,
+      "message": "Please resolve Milutin\u0027s comment",
+      "revId": "5fa68c44e0e79fd44c82b48d6b83fd58377a1032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77c84626_140b27e2",

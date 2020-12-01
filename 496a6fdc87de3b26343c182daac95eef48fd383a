@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1a05070_27b10c28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-01T13:59:10Z",
+      "side": 1,
+      "message": "That is a huge undertaking that I would like to skip, if not strictly necessary.",
+      "parentUuid": "3ea125de_a29bbce2",
+      "revId": "496a6fdc87de3b26343c182daac95eef48fd383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac1e4e57_264a7b93",
@@ -78,6 +96,30 @@
       "side": 1,
       "message": "Maybe if you are migrating incrementally - it can go like:\n constructor(authService) {\n    super();\n    this.authService \u003d authService || appContext.authService;",
       "parentUuid": "45f28968_7c5d4c43",
+      "range": {
+        "startLine": 69,
+        "startChar": 30,
+        "endLine": 69,
+        "endChar": 48
+      },
+      "revId": "496a6fdc87de3b26343c182daac95eef48fd383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ed90c4c_4f67b9ce",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-01T13:59:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46af4ae8_45af536b",
       "range": {
         "startLine": 69,
         "startChar": 30,

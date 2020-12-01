@@ -252,6 +252,14 @@ export const htmlTemplate = html`
       width: var(--spacing-xl);
     }
 
+    .moveDescription a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .moveDescription a:hover {
+      text-decoration: underline;
+    }
+
     /* ignoredWhitespaceOnly */
     .ignoredWhitespaceOnly .content.add .contentText .intraline,
     .delta.total.ignoredWhitespaceOnly .content.add .contentText,

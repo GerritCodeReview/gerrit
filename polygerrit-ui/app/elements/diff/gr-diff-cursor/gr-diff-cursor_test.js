@@ -326,6 +326,35 @@ suite('gr-diff-cursor tests', () => {
       assert.equal(movedIn.textContent, 'Moved from lines 4 - 6');
       assert.equal(movedOut.textContent, 'Moved to lines 2 - 4');
     });
+
+    test('startLineAnchor of movedIn chunk fires events', done => {
+      const [movedIn] = diffElement.root
+          .querySelectorAll('.dueToMove .moveControls');
+      const [startLineAnchor] = movedIn.querySelectorAll('a');
+
+      const onMovedLinkClicked = e => {
+        assert.deepEqual(e.detail, {number: 4, side: 'left'});
+        done();
+      };
+      assert.equal(startLineAnchor.textContent, '4');
+      startLineAnchor
+          .addEventListener('moved-link-clicked', onMovedLinkClicked);
+      MockInteractions.click(startLineAnchor);
+    });
+
+    test('endLineAnchor of movedOut fires events', done => {
+      const [, movedOut] = diffElement.root
+          .querySelectorAll('.dueToMove .moveControls');
+      const [, endLineAnchor] = movedOut.querySelectorAll('a');
+
+      const onMovedLinkClicked = e => {
+        assert.deepEqual(e.detail, {number: 4, side: 'right'});
+        done();
+      };
+      assert.equal(endLineAnchor.textContent, '4');
+      endLineAnchor.addEventListener('moved-link-clicked', onMovedLinkClicked);
+      MockInteractions.click(endLineAnchor);
+    });
   });
 
   test('navigate to next unreviewed file via moveToNextChunk', () => {

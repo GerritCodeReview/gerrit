@@ -19,6 +19,7 @@ import {importHref} from '../../../scripts/import-href';
 import {HookApi, PluginApi} from '../../plugins/gr-plugin-types';
 import {notUndefined} from '../../../types/types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (value: any) => void;
 
 export interface ModuleInfo {
@@ -42,6 +43,7 @@ interface Options {
 export class GrPluginEndpoints {
   private readonly _endpoints = new Map<string, ModuleInfo[]>();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private readonly _callbacks = new Map<string, ((value: any) => void)[]>();
 
   private readonly _dynamicPlugins = new Map<string, Set<string>>();
@@ -178,6 +180,7 @@ export class GrPluginEndpoints {
   }
 
   importUrl(pluginUrl: URL) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let timerId: any;
     return Promise.race([
       new Promise((resolve, reject) => {

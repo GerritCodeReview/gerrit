@@ -30,6 +30,7 @@ import static java.util.stream.Collectors.toSet;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -177,6 +178,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final PluginSetContext<CommentValidator> commentValidators;
+  private final PluginSetContext<OnPostReview> onPostReviews;
   private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
   private final boolean strictLabels;
 
@@ -202,6 +204,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
       PluginSetContext<CommentValidator> commentValidators,
+      PluginSetContext<OnPostReview> onPostReviews,
       ReplyAttentionSetUpdates replyAttentionSetUpdates) {
     this.updateFactory = updateFactory;
     this.changeResourceFactory = changeResourceFactory;
@@ -222,6 +225,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.commentValidators = commentValidators;
+    this.onPostReviews = onPostReviews;
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
   }
@@ -1413,6 +1417,23 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       } else if (in.ready) {
         buf.append("\n\n" + START_REVIEW_MESSAGE);
       }
+
+      List<String> pluginMessages = new ArrayList<>();
+      onPostReviews.runEach(
+          onPostReview ->
+              onPostReview
+                  .getChangeMessageAddOn(user, ctx.getNotes(), ps, oldApprovals, approvals)
+                  .ifPresent(
+                      pluginMessage ->
+                          pluginMessages.add(
+                              !pluginMessage.endsWith("\n")
+                                  ? pluginMessage + "\n"
+                                  : pluginMessage)));
+      if (!pluginMessages.isEmpty()) {
+        buf.append("\n\n");
+        buf.append(Joiner.on("\n").join(pluginMessages));
+      }
+
       if (buf.length() == 0) {
         return false;
       }

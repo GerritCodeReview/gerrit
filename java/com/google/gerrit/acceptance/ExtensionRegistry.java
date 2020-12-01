@@ -43,6 +43,7 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.logging.PerformanceLogger;
+import com.google.gerrit.server.restapi.change.OnPostReview;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.validators.AccountActivationValidationListener;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
@@ -83,6 +84,7 @@ public class ExtensionRegistry {
   private final DynamicMap<CapabilityDefinition> capabilityDefinitions;
   private final DynamicMap<PluginProjectPermissionDefinition> pluginProjectPermissionDefinitions;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+  private final DynamicSet<OnPostReview> onPostReviews;
 
   @Inject
   ExtensionRegistry(
@@ -113,7 +115,8 @@ public class ExtensionRegistry {
       DynamicSet<WorkInProgressStateChangedListener> workInProgressStateChangedListeners,
       DynamicMap<CapabilityDefinition> capabilityDefinitions,
       DynamicMap<PluginProjectPermissionDefinition> pluginProjectPermissionDefinitions,
-      DynamicMap<ProjectConfigEntry> pluginConfigEntries) {
+      DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      DynamicSet<OnPostReview> onPostReviews) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -142,6 +145,7 @@ public class ExtensionRegistry {
     this.capabilityDefinitions = capabilityDefinitions;
     this.pluginProjectPermissionDefinitions = pluginProjectPermissionDefinitions;
     this.pluginConfigEntries = pluginConfigEntries;
+    this.onPostReviews = onPostReviews;
   }
 
   public Registration newRegistration() {
@@ -268,6 +272,10 @@ public class ExtensionRegistry {
 
     public Registration add(ProjectConfigEntry pluginConfigEntry, String exportName) {
       return add(pluginConfigEntries, pluginConfigEntry, exportName);
+    }
+
+    public Registration add(OnPostReview onPostReview) {
+      return add(onPostReviews, onPostReview);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

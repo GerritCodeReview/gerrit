@@ -29,9 +29,15 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -49,6 +55,9 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.restapi.change.OnPostReview;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.testing.TestCommentHelper;
@@ -58,6 +67,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -69,6 +79,7 @@ public class PostReviewIT extends AbstractDaemonTest {
   @Inject private CommentValidator mockCommentValidator;
   @Inject private TestCommentHelper testCommentHelper;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private static final String COMMENT_TEXT = "The comment text";
   private static final CommentForValidation FILE_COMMENT_FOR_VALIDATION =
@@ -474,6 +485,111 @@ public class PostReviewIT extends AbstractDaemonTest {
     assertThat(reviewer._accountId).isEqualTo(user.id().get());
   }
 
+  @Test
+  public void extendChangeMessageFromPlugin() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    String testMessage = "hello from plugin";
+    TestOnPostReview testOnPostReview = new TestOnPostReview(testMessage);
+    try (Registration registration = extensionRegistry.newRegistration().add(testOnPostReview)) {
+      // Add a new vote.
+      ReviewInput input = new ReviewInput().label("Code-Review", 1);
+      gApi.changes().id(r.getChangeId()).current().review(input);
+      assertThat(testOnPostReview.changeId).isEqualTo(r.getChange().getId());
+      assertThat(testOnPostReview.patchSetId).isEqualTo(r.getPatchSetId());
+      assertThat(testOnPostReview.accountId).isEqualTo(admin.id());
+      assertThat(testOnPostReview.oldApprovals).containsExactly("Code-Review", (short) 0);
+      assertThat(testOnPostReview.approvals).containsExactly("Code-Review", (short) 1);
+      Collection<ChangeMessageInfo> messages = gApi.changes().id(r.getChangeId()).get().messages;
+      assertThat(Iterables.getLast(messages).message)
+          .isEqualTo(String.format("Patch Set 1: Code-Review+1\n\n%s\n", testMessage));
+
+      // Update an existing vote.
+      input = new ReviewInput().label("Code-Review", 2);
+      gApi.changes().id(r.getChangeId()).current().review(input);
+      assertThat(testOnPostReview.changeId).isEqualTo(r.getChange().getId());
+      assertThat(testOnPostReview.patchSetId).isEqualTo(r.getPatchSetId());
+      assertThat(testOnPostReview.accountId).isEqualTo(admin.id());
+      assertThat(testOnPostReview.oldApprovals).containsExactly("Code-Review", (short) 1);
+      assertThat(testOnPostReview.approvals).containsExactly("Code-Review", (short) 2);
+      messages = gApi.changes().id(r.getChangeId()).get().messages;
+      assertThat(Iterables.getLast(messages).message)
+          .isEqualTo(String.format("Patch Set 1: Code-Review+2\n\n%s\n", testMessage));
+
+      // Post without changing the vote.
+      input = new ReviewInput().label("Code-Review", 2);
+      gApi.changes().id(r.getChangeId()).current().review(input);
+      assertThat(testOnPostReview.changeId).isEqualTo(r.getChange().getId());
+      assertThat(testOnPostReview.patchSetId).isEqualTo(r.getPatchSetId());
+      assertThat(testOnPostReview.accountId).isEqualTo(admin.id());
+      assertThat(testOnPostReview.oldApprovals).containsExactly("Code-Review", null);
+      assertThat(testOnPostReview.approvals).containsExactly("Code-Review", (short) 2);
+      messages = gApi.changes().id(r.getChangeId()).get().messages;
+      assertThat(Iterables.getLast(messages).message)
+          .isEqualTo(String.format("Patch Set 1:\n\n%s\n", testMessage));
+
+      // Delete the vote.
+      input = new ReviewInput().label("Code-Review", 0);
+      gApi.changes().id(r.getChangeId()).current().review(input);
+      assertThat(testOnPostReview.changeId).isEqualTo(r.getChange().getId());
+      assertThat(testOnPostReview.patchSetId).isEqualTo(r.getPatchSetId());
+      assertThat(testOnPostReview.accountId).isEqualTo(admin.id());
+      assertThat(testOnPostReview.oldApprovals).containsExactly("Code-Review", (short) 2);
+      assertThat(testOnPostReview.approvals).containsExactly("Code-Review", (short) 0);
+      messages = gApi.changes().id(r.getChangeId()).get().messages;
+      assertThat(Iterables.getLast(messages).message)
+          .isEqualTo(String.format("Patch Set 1: -Code-Review\n\n%s\n", testMessage));
+    }
+  }
+
+  @Test
+  public void onPostReviewExtensionThatDoesntExtendTheChangeMessage() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    TestOnPostReview testOnPostReview = new TestOnPostReview(/* message= */ null);
+    try (Registration registration = extensionRegistry.newRegistration().add(testOnPostReview)) {
+      ReviewInput input = new ReviewInput().label("Code-Review", 1);
+      gApi.changes().id(r.getChangeId()).current().review(input);
+      Collection<ChangeMessageInfo> messages = gApi.changes().id(r.getChangeId()).get().messages;
+      assertThat(Iterables.getLast(messages).message).isEqualTo("Patch Set 1: Code-Review+1");
+    }
+  }
+
+  @Test
+  public void extendChangeMessageFromMultiplePlugins() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    String testMessage1 = "hello from plugin 1";
+    String testMessage2 = "message from plugin 2";
+    TestOnPostReview testOnPostReview1 = new TestOnPostReview(testMessage1);
+    TestOnPostReview testOnPostReview2 = new TestOnPostReview(testMessage2);
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testOnPostReview1).add(testOnPostReview2)) {
+      ReviewInput input = new ReviewInput().label("Code-Review", 1);
+      gApi.changes().id(r.getChangeId()).current().review(input);
+      Collection<ChangeMessageInfo> messages = gApi.changes().id(r.getChangeId()).get().messages;
+      assertThat(Iterables.getLast(messages).message)
+          .isEqualTo(
+              String.format(
+                  "Patch Set 1: Code-Review+1\n\n%s\n\n%s\n", testMessage1, testMessage2));
+    }
+  }
+
+  @Test
+  public void onPostReviewOnOldPatchSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    amendChange(r.getChangeId());
+
+    TestOnPostReview testOnPostReview = new TestOnPostReview(/* message= */ null);
+    try (Registration registration = extensionRegistry.newRegistration().add(testOnPostReview)) {
+      ReviewInput input = new ReviewInput().label("Code-Review", 1);
+      gApi.changes().id(r.getChangeId()).revision(1).review(input);
+      assertThat(testOnPostReview.changeId).isEqualTo(r.getChange().getId());
+      assertThat(testOnPostReview.patchSetId)
+          .isEqualTo(PatchSet.id(r.getChange().change().getId(), 1));
+    }
+  }
+
   private List<RobotCommentInfo> getRobotComments(String changeId) throws RestApiException {
     return gApi.changes().id(changeId).robotComments().values().stream()
         .flatMap(Collection::stream)
@@ -494,5 +610,34 @@ public class PostReviewIT extends AbstractDaemonTest {
     assertThat(captor.getValue())
         .comparingElementsUsing(COMMENT_CORRESPONDENCE)
         .containsExactly(commentsForValidation);
+  }
+
+  private static class TestOnPostReview implements OnPostReview {
+    private final Optional<String> message;
+
+    public Change.Id changeId;
+    public PatchSet.Id patchSetId;
+    public Account.Id accountId;
+    public Map<String, Short> oldApprovals;
+    public Map<String, Short> approvals;
+
+    TestOnPostReview(@Nullable String message) {
+      this.message = Optional.ofNullable(message);
+    }
+
+    @Override
+    public Optional<String> getChangeMessageAddOn(
+        IdentifiedUser user,
+        ChangeNotes changeNotes,
+        PatchSet patchSet,
+        Map<String, Short> oldApprovals,
+        Map<String, Short> approvals) {
+      this.changeId = changeNotes.getChangeId();
+      this.patchSetId = patchSet.id();
+      this.accountId = user.getAccountId();
+      this.oldApprovals = oldApprovals;
+      this.approvals = approvals;
+      return message;
+    }
   }
 }

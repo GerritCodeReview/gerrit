@@ -31,7 +31,9 @@ suite('gr-comment-thread tests', () => {
 
     setup(() => {
       stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
+        getLoggedIn() {
+          return Promise.resolve(false);
+        },
       });
 
       element = basicFixture.instantiate();
@@ -46,25 +48,30 @@ suite('gr-comment-thread tests', () => {
           message: 'i like you, too',
           in_reply_to: 'sallys_confession',
           __date: new Date('2015-12-25'),
-        }, {
+        },
+        {
           id: 'sallys_confession',
           message: 'i like you, jack',
           updated: '2015-12-24 15:00:20.396000000',
-        }, {
+        },
+        {
           id: 'sally_to_dr_finklestein',
           message: 'i’m running away',
           updated: '2015-10-31 09:00:20.396000000',
-        }, {
+        },
+        {
           id: 'sallys_defiance',
           in_reply_to: 'sally_to_dr_finklestein',
           message: 'i will poison you so i can get away',
           updated: '2015-10-31 15:00:20.396000000',
-        }, {
+        },
+        {
           id: 'dr_finklesteins_response',
           in_reply_to: 'sally_to_dr_finklestein',
           message: 'no i will pull a thread and your arm will fall off',
           updated: '2015-10-31 11:00:20.396000000',
-        }, {
+        },
+        {
           id: 'sallys_mission',
           message: 'i have to find santa',
           updated: '2015-12-24 15:00:20.396000000',
@@ -76,25 +83,30 @@ suite('gr-comment-thread tests', () => {
           id: 'sally_to_dr_finklestein',
           message: 'i’m running away',
           updated: '2015-10-31 09:00:20.396000000',
-        }, {
+        },
+        {
           id: 'dr_finklesteins_response',
           in_reply_to: 'sally_to_dr_finklestein',
           message: 'no i will pull a thread and your arm will fall off',
           updated: '2015-10-31 11:00:20.396000000',
-        }, {
+        },
+        {
           id: 'sallys_defiance',
           in_reply_to: 'sally_to_dr_finklestein',
           message: 'i will poison you so i can get away',
           updated: '2015-10-31 15:00:20.396000000',
-        }, {
+        },
+        {
           id: 'sallys_confession',
           message: 'i like you, jack',
           updated: '2015-12-24 15:00:20.396000000',
-        }, {
+        },
+        {
           id: 'sallys_mission',
           message: 'i have to find santa',
           updated: '2015-12-24 15:00:20.396000000',
-        }, {
+        },
+        {
           message: 'i like you, too',
           in_reply_to: 'sallys_confession',
           __date: new Date('2015-12-25'),
@@ -103,15 +115,20 @@ suite('gr-comment-thread tests', () => {
     });
 
     test('addOrEditDraft w/ edit draft', () => {
-      element.comments = [{
-        id: 'jacks_reply',
-        message: 'i like you, too',
-        in_reply_to: 'sallys_confession',
-        updated: '2015-12-25 15:00:20.396000000',
-        __draft: true,
-      }];
-      const commentElStub = sinon.stub(element, '_commentElWithDraftID')
-          .callsFake(() => { return {}; });
+      element.comments = [
+        {
+          id: 'jacks_reply',
+          message: 'i like you, too',
+          in_reply_to: 'sallys_confession',
+          updated: '2015-12-25 15:00:20.396000000',
+          __draft: true,
+        },
+      ];
+      const commentElStub = sinon
+        .stub(element, '_commentElWithDraftID')
+        .callsFake(() => {
+          return {};
+        });
       const addDraftStub = sinon.stub(element, 'addDraft');
 
       element.addOrEditDraft(123);
@@ -122,8 +139,11 @@ suite('gr-comment-thread tests', () => {
 
     test('addOrEditDraft w/o edit draft', () => {
       element.comments = [];
-      const commentElStub = sinon.stub(element, '_commentElWithDraftID')
-          .callsFake(() => { return {}; });
+      const commentElStub = sinon
+        .stub(element, '_commentElWithDraftID')
+        .callsFake(() => {
+          return {};
+        });
       const addDraftStub = sinon.stub(element, 'addDraft');
 
       element.addOrEditDraft(123);
@@ -136,18 +156,26 @@ suite('gr-comment-thread tests', () => {
       let showActions = true;
       const lastComment = {};
       assert.equal(
-          element._shouldDisableAction(showActions, lastComment), false);
+        element._shouldDisableAction(showActions, lastComment),
+        false
+      );
       showActions = false;
       assert.equal(
-          element._shouldDisableAction(showActions, lastComment), true);
+        element._shouldDisableAction(showActions, lastComment),
+        true
+      );
       showActions = true;
       lastComment.__draft = true;
       assert.equal(
-          element._shouldDisableAction(showActions, lastComment), true);
+        element._shouldDisableAction(showActions, lastComment),
+        true
+      );
       const robotComment = {};
       robotComment.robot_id = true;
       assert.equal(
-          element._shouldDisableAction(showActions, robotComment), false);
+        element._shouldDisableAction(showActions, robotComment),
+        false
+      );
     });
 
     test('_hideActions', () => {
@@ -166,8 +194,9 @@ suite('gr-comment-thread tests', () => {
 
     test('setting project name loads the project config', done => {
       const projectName = 'foo/bar/baz';
-      const getProjectStub = sinon.stub(element.$.restAPI, 'getProjectConfig')
-          .returns(Promise.resolve({}));
+      const getProjectStub = sinon
+        .stub(element.$.restAPI, 'getProjectConfig')
+        .returns(Promise.resolve({}));
       element.projectName = projectName;
       flush(() => {
         assert.isTrue(getProjectStub.calledWithExactly(projectName));
@@ -178,8 +207,7 @@ suite('gr-comment-thread tests', () => {
     test('optionally show file path', () => {
       // Path info doesn't exist when showFilePath is false. Because it's in a
       // dom-if it is not yet in the dom.
-      assert.isNotOk(element.shadowRoot
-          .querySelector('.pathInfo'));
+      assert.isNotOk(element.shadowRoot.querySelector('.pathInfo'));
 
       const commentStub = sinon.stub(GerritNav, 'getUrlForComment');
       element.changeNum = 123;
@@ -191,13 +219,18 @@ suite('gr-comment-thread tests', () => {
       element.comments = [{id: 'comment_id'}];
       element.showFilePath = true;
       flush();
-      assert.isOk(element.shadowRoot
-          .querySelector('.pathInfo'));
-      assert.notEqual(getComputedStyle(element.shadowRoot
-          .querySelector('.pathInfo')).display,
-      'none');
-      assert.isTrue(commentStub.calledWithExactly(
-          element.changeNum, element.projectName, 'comment_id'));
+      assert.isOk(element.shadowRoot.querySelector('.pathInfo'));
+      assert.notEqual(
+        getComputedStyle(element.shadowRoot.querySelector('.pathInfo')).display,
+        'none'
+      );
+      assert.isTrue(
+        commentStub.calledWithExactly(
+          element.changeNum,
+          element.projectName,
+          'comment_id'
+        )
+      );
     });
 
     test('_computeDisplayPath', () => {
@@ -232,12 +265,15 @@ suite('comment action tests with unresolved thread', () => {
 
   setup(() => {
     stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(false); },
+      getLoggedIn() {
+        return Promise.resolve(false);
+      },
       saveDiffDraft() {
         return Promise.resolve({
           ok: true,
           text() {
-            return Promise.resolve(')]}\'\n' +
+            return Promise.resolve(
+              ")]}'\n" +
                 JSON.stringify({
                   id: '7afa4931_de3d65bd',
                   path: '/path/to/file.txt',
@@ -245,37 +281,40 @@ suite('comment action tests with unresolved thread', () => {
                   in_reply_to: 'baf0414d_60047215',
                   updated: '2015-12-21 02:01:10.850000000',
                   message: 'Done',
-                }));
+                })
+            );
           },
         });
       },
-      deleteDiffDraft() { return Promise.resolve({ok: true}); },
+      deleteDiffDraft() {
+        return Promise.resolve({ok: true});
+      },
     });
     element = withCommentFixture.instantiate();
     element.patchNum = '1';
     element.changeNum = '1';
-    element.comments = [{
-      author: {
-        name: 'Mr. Peanutbutter',
-        email: 'tenn1sballchaser@aol.com',
+    element.comments = [
+      {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 'baf0414d_60047215',
+        line: 5,
+        message: 'is this a crossover episode!?',
+        updated: '2015-12-08 19:48:33.843000000',
+        path: '/path/to/file.txt',
+        unresolved: true,
+        patch_set: 3,
+        __commentSide: 'left',
       },
-      id: 'baf0414d_60047215',
-      line: 5,
-      message: 'is this a crossover episode!?',
-      updated: '2015-12-08 19:48:33.843000000',
-      path: '/path/to/file.txt',
-      unresolved: true,
-      patch_set: 3,
-      __commentSide: 'left',
-    }];
+    ];
     flush();
   });
 
   test('reply', () => {
-    const commentEl = element.shadowRoot
-        .querySelector('gr-comment');
-    const reportStub = sinon.stub(element.reporting,
-        'recordDraftInteraction');
+    const commentEl = element.shadowRoot.querySelector('gr-comment');
+    const reportStub = sinon.stub(element.reporting, 'recordDraftInteraction');
     assert.ok(commentEl);
 
     const replyBtn = element.$.replyBtn;
@@ -290,10 +329,8 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('quote reply', () => {
-    const commentEl = element.shadowRoot
-        .querySelector('gr-comment');
-    const reportStub = sinon.stub(element.reporting,
-        'recordDraftInteraction');
+    const commentEl = element.shadowRoot.querySelector('gr-comment');
+    const reportStub = sinon.stub(element.reporting, 'recordDraftInteraction');
     assert.ok(commentEl);
 
     const quoteBtn = element.$.quoteBtn;
@@ -308,23 +345,23 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('quote reply multiline', () => {
-    const reportStub = sinon.stub(element.reporting,
-        'recordDraftInteraction');
-    element.comments = [{
-      author: {
-        name: 'Mr. Peanutbutter',
-        email: 'tenn1sballchaser@aol.com',
+    const reportStub = sinon.stub(element.reporting, 'recordDraftInteraction');
+    element.comments = [
+      {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 'baf0414d_60047215',
+        path: 'test',
+        line: 5,
+        message: 'is this a crossover episode!?\nIt might be!',
+        updated: '2015-12-08 19:48:33.843000000',
       },
-      id: 'baf0414d_60047215',
-      path: 'test',
-      line: 5,
-      message: 'is this a crossover episode!?\nIt might be!',
-      updated: '2015-12-08 19:48:33.843000000',
-    }];
+    ];
     flush();
 
-    const commentEl = element.shadowRoot
-        .querySelector('gr-comment');
+    const commentEl = element.shadowRoot.querySelector('gr-comment');
     assert.ok(commentEl);
 
     const quoteBtn = element.$.quoteBtn;
@@ -333,20 +370,20 @@ suite('comment action tests with unresolved thread', () => {
 
     const drafts = element._orderedComments.filter(c => c.__draft == true);
     assert.equal(drafts.length, 1);
-    assert.equal(drafts[0].message,
-        '> is this a crossover episode!?\n> It might be!\n\n');
+    assert.equal(
+      drafts[0].message,
+      '> is this a crossover episode!?\n> It might be!\n\n'
+    );
     assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
     assert.isTrue(reportStub.calledOnce);
   });
 
   test('ack', done => {
-    const reportStub = sinon.stub(element.reporting,
-        'recordDraftInteraction');
+    const reportStub = sinon.stub(element.reporting, 'recordDraftInteraction');
     element.changeNum = '42';
     element.patchNum = '1';
 
-    const commentEl = element.shadowRoot
-        .querySelector('gr-comment');
+    const commentEl = element.shadowRoot.querySelector('gr-comment');
     assert.ok(commentEl);
 
     const ackBtn = element.shadowRoot.querySelector('#ackBtn');
@@ -363,12 +400,10 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('done', done => {
-    const reportStub = sinon.stub(element.reporting,
-        'recordDraftInteraction');
+    const reportStub = sinon.stub(element.reporting, 'recordDraftInteraction');
     element.changeNum = '42';
     element.patchNum = '1';
-    const commentEl = element.shadowRoot
-        .querySelector('gr-comment');
+    const commentEl = element.shadowRoot.querySelector('gr-comment');
     assert.ok(commentEl);
 
     const doneBtn = element.shadowRoot.querySelector('#doneBtn');
@@ -388,22 +423,24 @@ suite('comment action tests with unresolved thread', () => {
     element.changeNum = '42';
     element.patchNum = '1';
     element.path = '/path/to/file.txt';
-    const commentEl = element.shadowRoot
-        .querySelector('gr-comment');
+    const commentEl = element.shadowRoot.querySelector('gr-comment');
     assert.ok(commentEl);
 
     const saveOrDiscardStub = sinon.stub();
     element.addEventListener('thread-changed', saveOrDiscardStub);
-    element.shadowRoot
-        .querySelector('gr-comment')._fireSave();
+    element.shadowRoot.querySelector('gr-comment')._fireSave();
 
     flush(() => {
       assert.isTrue(saveOrDiscardStub.called);
-      assert.equal(saveOrDiscardStub.lastCall.args[0].detail.rootId,
-          'baf0414d_60047215');
+      assert.equal(
+        saveOrDiscardStub.lastCall.args[0].detail.rootId,
+        'baf0414d_60047215'
+      );
       assert.equal(element.rootId, 'baf0414d_60047215');
-      assert.equal(saveOrDiscardStub.lastCall.args[0].detail.path,
-          '/path/to/file.txt');
+      assert.equal(
+        saveOrDiscardStub.lastCall.args[0].detail.path,
+        '/path/to/file.txt'
+      );
       done();
     });
   });
@@ -411,102 +448,117 @@ suite('comment action tests with unresolved thread', () => {
   test('please fix', done => {
     element.changeNum = '42';
     element.patchNum = '1';
-    const commentEl = element.shadowRoot
-        .querySelector('gr-comment');
+    const commentEl = element.shadowRoot.querySelector('gr-comment');
     assert.ok(commentEl);
     commentEl.addEventListener('create-fix-comment', () => {
       const drafts = element._orderedComments.filter(c => c.__draft == true);
       assert.equal(drafts.length, 1);
       assert.equal(
-          drafts[0].message, '> is this a crossover episode!?\n\nPlease fix.');
+        drafts[0].message,
+        '> is this a crossover episode!?\n\nPlease fix.'
+      );
       assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
       assert.isTrue(drafts[0].unresolved);
       done();
     });
     commentEl.dispatchEvent(
-        new CustomEvent('create-fix-comment', {
-          detail: {comment: commentEl.comment},
-          composed: true, bubbles: false,
-        }));
+      new CustomEvent('create-fix-comment', {
+        detail: {comment: commentEl.comment},
+        composed: true,
+        bubbles: false,
+      })
+    );
   });
 
   test('discard', done => {
     element.changeNum = '42';
     element.patchNum = '1';
     element.path = '/path/to/file.txt';
-    element.push('comments', element._newReply(
+    element.push(
+      'comments',
+      element._newReply(
         element.comments[0].id,
         element.comments[0].path,
-        'it’s pronouced jiff, not giff'));
+        'it’s pronouced jiff, not giff'
+      )
+    );
     flush();
 
     const saveOrDiscardStub = sinon.stub();
     element.addEventListener('thread-changed', saveOrDiscardStub);
-    const draftEl =
-        element.root.querySelectorAll('gr-comment')[1];
+    const draftEl = element.root.querySelectorAll('gr-comment')[1];
     assert.ok(draftEl);
     draftEl.addEventListener('comment-discard', () => {
       const drafts = element.comments.filter(c => c.__draft == true);
       assert.equal(drafts.length, 0);
       assert.isTrue(saveOrDiscardStub.called);
-      assert.equal(saveOrDiscardStub.lastCall.args[0].detail.rootId,
-          element.rootId);
-      assert.equal(saveOrDiscardStub.lastCall.args[0].detail.path,
-          element.path);
+      assert.equal(
+        saveOrDiscardStub.lastCall.args[0].detail.rootId,
+        element.rootId
+      );
+      assert.equal(
+        saveOrDiscardStub.lastCall.args[0].detail.path,
+        element.path
+      );
       done();
     });
     draftEl.dispatchEvent(
-        new CustomEvent('comment-discard', {
-          detail: {comment: draftEl.comment},
-          composed: true, bubbles: false,
-        }));
+      new CustomEvent('comment-discard', {
+        detail: {comment: draftEl.comment},
+        composed: true,
+        bubbles: false,
+      })
+    );
   });
 
-  test('discard with a single comment still fires event with previous rootId',
-      done => {
-        element.changeNum = '42';
-        element.patchNum = '1';
-        element.path = '/path/to/file.txt';
-        element.comments = [];
-        element.addOrEditDraft('1');
-        flush();
-        const rootId = element.rootId;
-        assert.isOk(rootId);
+  test('discard with a single comment still fires event with previous rootId', done => {
+    element.changeNum = '42';
+    element.patchNum = '1';
+    element.path = '/path/to/file.txt';
+    element.comments = [];
+    element.addOrEditDraft('1');
+    flush();
+    const rootId = element.rootId;
+    assert.isOk(rootId);
 
-        const saveOrDiscardStub = sinon.stub();
-        element.addEventListener('thread-changed', saveOrDiscardStub);
-        const draftEl =
-        element.root.querySelectorAll('gr-comment')[0];
-        assert.ok(draftEl);
-        draftEl.addEventListener('comment-discard', () => {
-          assert.equal(element.comments.length, 0);
-          assert.isTrue(saveOrDiscardStub.called);
-          assert.equal(saveOrDiscardStub.lastCall.args[0].detail.rootId,
-              rootId);
-          assert.equal(saveOrDiscardStub.lastCall.args[0].detail.path,
-              element.path);
-          done();
-        });
-        draftEl.dispatchEvent(
-            new CustomEvent('comment-discard', {
-              detail: {comment: draftEl.comment},
-              composed: true, bubbles: false,
-            }));
-      });
+    const saveOrDiscardStub = sinon.stub();
+    element.addEventListener('thread-changed', saveOrDiscardStub);
+    const draftEl = element.root.querySelectorAll('gr-comment')[0];
+    assert.ok(draftEl);
+    draftEl.addEventListener('comment-discard', () => {
+      assert.equal(element.comments.length, 0);
+      assert.isTrue(saveOrDiscardStub.called);
+      assert.equal(saveOrDiscardStub.lastCall.args[0].detail.rootId, rootId);
+      assert.equal(
+        saveOrDiscardStub.lastCall.args[0].detail.path,
+        element.path
+      );
+      done();
+    });
+    draftEl.dispatchEvent(
+      new CustomEvent('comment-discard', {
+        detail: {comment: draftEl.comment},
+        composed: true,
+        bubbles: false,
+      })
+    );
+  });
 
   test('first editing comment does not add __otherEditing attribute', () => {
-    element.comments = [{
-      author: {
-        name: 'Mr. Peanutbutter',
-        email: 'tenn1sballchaser@aol.com',
+    element.comments = [
+      {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 'baf0414d_60047215',
+        line: 5,
+        path: 'test',
+        message: 'is this a crossover episode!?',
+        updated: '2015-12-08 19:48:33.843000000',
+        __draft: true,
       },
-      id: 'baf0414d_60047215',
-      line: 5,
-      path: 'test',
-      message: 'is this a crossover episode!?',
-      updated: '2015-12-08 19:48:33.843000000',
-      __draft: true,
-    }];
+    ];
 
     const replyBtn = element.$.replyBtn;
     MockInteractions.tap(replyBtn);
@@ -517,78 +569,84 @@ suite('comment action tests with unresolved thread', () => {
     assert.equal(!!editing[0].__otherEditing, false);
   });
 
-  test('When not editing other comments, local storage not set' +
-      ' after discard', done => {
-    element.changeNum = '42';
-    element.patchNum = '1';
-    element.comments = [{
-      author: {
-        name: 'Mr. Peanutbutter',
-        email: 'tenn1sballchaser@aol.com',
-      },
-      id: 'baf0414d_60047215',
-      path: 'test',
-      line: 5,
-      message: 'is this a crossover episode!?',
-      updated: '2015-12-08 19:48:31.843000000',
-    },
-    {
-      author: {
-        name: 'Mr. Peanutbutter',
-        email: 'tenn1sballchaser@aol.com',
-      },
-      __draftID: '1',
-      in_reply_to: 'baf0414d_60047215',
-      path: 'test',
-      line: 5,
-      message: 'yes',
-      updated: '2015-12-08 19:48:32.843000000',
-      __draft: true,
-      __editing: true,
-    },
-    {
-      author: {
-        name: 'Mr. Peanutbutter',
-        email: 'tenn1sballchaser@aol.com',
-      },
-      __draftID: '2',
-      in_reply_to: 'baf0414d_60047215',
-      path: 'test',
-      line: 5,
-      message: 'no',
-      updated: '2015-12-08 19:48:33.843000000',
-      __draft: true,
-    }];
-    const storageStub = sinon.stub(element.$.storage, 'setDraftComment');
-    flush();
+  test(
+    'When not editing other comments, local storage not set' + ' after discard',
+    done => {
+      element.changeNum = '42';
+      element.patchNum = '1';
+      element.comments = [
+        {
+          author: {
+            name: 'Mr. Peanutbutter',
+            email: 'tenn1sballchaser@aol.com',
+          },
+          id: 'baf0414d_60047215',
+          path: 'test',
+          line: 5,
+          message: 'is this a crossover episode!?',
+          updated: '2015-12-08 19:48:31.843000000',
+        },
+        {
+          author: {
+            name: 'Mr. Peanutbutter',
+            email: 'tenn1sballchaser@aol.com',
+          },
+          __draftID: '1',
+          in_reply_to: 'baf0414d_60047215',
+          path: 'test',
+          line: 5,
+          message: 'yes',
+          updated: '2015-12-08 19:48:32.843000000',
+          __draft: true,
+          __editing: true,
+        },
+        {
+          author: {
+            name: 'Mr. Peanutbutter',
+            email: 'tenn1sballchaser@aol.com',
+          },
+          __draftID: '2',
+          in_reply_to: 'baf0414d_60047215',
+          path: 'test',
+          line: 5,
+          message: 'no',
+          updated: '2015-12-08 19:48:33.843000000',
+          __draft: true,
+        },
+      ];
+      const storageStub = sinon.stub(element.$.storage, 'setDraftComment');
+      flush();
 
-    const draftEl =
-    element.root.querySelectorAll('gr-comment')[1];
-    assert.ok(draftEl);
-    draftEl.addEventListener('comment-discard', () => {
-      assert.isFalse(storageStub.called);
-      storageStub.restore();
-      done();
-    });
-    draftEl.dispatchEvent(
+      const draftEl = element.root.querySelectorAll('gr-comment')[1];
+      assert.ok(draftEl);
+      draftEl.addEventListener('comment-discard', () => {
+        assert.isFalse(storageStub.called);
+        storageStub.restore();
+        done();
+      });
+      draftEl.dispatchEvent(
         new CustomEvent('comment-discard', {
           detail: {comment: draftEl.comment},
-          composed: true, bubbles: false,
-        }));
-  });
+          composed: true,
+          bubbles: false,
+        })
+      );
+    }
+  );
 
   test('comment-update', () => {
-    const commentEl = element.shadowRoot
-        .querySelector('gr-comment');
+    const commentEl = element.shadowRoot.querySelector('gr-comment');
     const updatedComment = {
       id: element.comments[0].id,
       foo: 'bar',
     };
     commentEl.dispatchEvent(
-        new CustomEvent('comment-update', {
-          detail: {comment: updatedComment},
-          composed: true, bubbles: true,
-        }));
+      new CustomEvent('comment-update', {
+        detail: {comment: updatedComment},
+        composed: true,
+        bubbles: true,
+      })
+    );
     assert.strictEqual(element.comments[0], updatedComment);
   });
 
@@ -601,21 +659,25 @@ suite('comment action tests with unresolved thread', () => {
           in_reply_to: 'sallys_confession',
           updated: '2015-12-25 15:00:20.396000000',
           unresolved: false,
-        }, {
+        },
+        {
           id: 'sallys_confession',
           in_reply_to: 'nonexistent_comment',
           message: 'i like you, jack',
           updated: '2015-12-24 15:00:20.396000000',
-        }, {
+        },
+        {
           id: 'sally_to_dr_finklestein',
           in_reply_to: 'nonexistent_comment',
           message: 'i’m running away',
           updated: '2015-10-31 09:00:20.396000000',
-        }, {
+        },
+        {
           id: 'sallys_defiance',
           message: 'i will poison you so i can get away',
           updated: '2015-10-31 15:00:20.396000000',
-        }];
+        },
+      ];
     });
 
     test('orphan replies', () => {
@@ -623,8 +685,7 @@ suite('comment action tests with unresolved thread', () => {
     });
 
     test('keyboard shortcuts', () => {
-      const expandCollapseStub =
-          sinon.stub(element, '_expandCollapseComments');
+      const expandCollapseStub = sinon.stub(element, '_expandCollapseComments');
       MockInteractions.pressAndReleaseKeyOn(element, 69, null, 'e');
       assert.isTrue(expandCollapseStub.lastCall.calledWith(false));
 
@@ -738,38 +799,40 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('draft comments are at the end of orderedComments', () => {
-    element.comments = [{
-      author: {
-        name: 'Mr. Peanutbutter',
-        email: 'tenn1sballchaser@aol.com',
+    element.comments = [
+      {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 2,
+        line: 5,
+        message: 'Earlier draft',
+        updated: '2015-12-08 19:48:33.843000000',
+        __draft: true,
       },
-      id: 2,
-      line: 5,
-      message: 'Earlier draft',
-      updated: '2015-12-08 19:48:33.843000000',
-      __draft: true,
-    },
-    {
-      author: {
-        name: 'Mr. Peanutbutter2',
-        email: 'tenn1sballchaser@aol.com',
+      {
+        author: {
+          name: 'Mr. Peanutbutter2',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 1,
+        line: 5,
+        message: 'This comment was left last but is not a draft',
+        updated: '2015-12-10 19:48:33.843000000',
       },
-      id: 1,
-      line: 5,
-      message: 'This comment was left last but is not a draft',
-      updated: '2015-12-10 19:48:33.843000000',
-    },
-    {
-      author: {
-        name: 'Mr. Peanutbutter2',
-        email: 'tenn1sballchaser@aol.com',
+      {
+        author: {
+          name: 'Mr. Peanutbutter2',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 3,
+        line: 5,
+        message: 'Later draft',
+        updated: '2015-12-09 19:48:33.843000000',
+        __draft: true,
       },
-      id: 3,
-      line: 5,
-      message: 'Later draft',
-      updated: '2015-12-09 19:48:33.843000000',
-      __draft: true,
-    }];
+    ];
     assert.equal(element._orderedComments[0].id, '1');
     assert.equal(element._orderedComments[1].id, '2');
     assert.equal(element._orderedComments[2].id, '3');
@@ -791,9 +854,12 @@ suite('comment action tests with unresolved thread', () => {
       end_character: 7,
     };
 
-    assert.deepEqual(
-        JSON.parse(element.getAttribute('range')),
-        {start_line: 4, end_line: 5, start_character: 6, end_character: 7});
+    assert.deepEqual(JSON.parse(element.getAttribute('range')), {
+      start_line: 4,
+      end_line: 5,
+      start_character: 6,
+      end_character: 7,
+    });
   });
 
   test('removes range attribute if range is unset', () => {
@@ -814,12 +880,15 @@ suite('comment action tests on resolved comments', () => {
 
   setup(() => {
     stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(false); },
+      getLoggedIn() {
+        return Promise.resolve(false);
+      },
       saveDiffDraft() {
         return Promise.resolve({
           ok: true,
           text() {
-            return Promise.resolve(')]}\'\n' +
+            return Promise.resolve(
+              ")]}'\n" +
                 JSON.stringify({
                   id: '7afa4931_de3d65bd',
                   path: '/path/to/file.txt',
@@ -827,27 +896,32 @@ suite('comment action tests on resolved comments', () => {
                   in_reply_to: 'baf0414d_60047215',
                   updated: '2015-12-21 02:01:10.850000000',
                   message: 'Done',
-                }));
+                })
+            );
           },
         });
       },
-      deleteDiffDraft() { return Promise.resolve({ok: true}); },
+      deleteDiffDraft() {
+        return Promise.resolve({ok: true});
+      },
     });
     element = withCommentFixture.instantiate();
     element.patchNum = '1';
     element.changeNum = '1';
-    element.comments = [{
-      author: {
-        name: 'Mr. Peanutbutter',
-        email: 'tenn1sballchaser@aol.com',
+    element.comments = [
+      {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 'baf0414d_60047215',
+        line: 5,
+        message: 'is this a crossover episode!?',
+        updated: '2015-12-08 19:48:33.843000000',
+        path: '/path/to/file.txt',
+        unresolved: false,
       },
-      id: 'baf0414d_60047215',
-      line: 5,
-      message: 'is this a crossover episode!?',
-      updated: '2015-12-08 19:48:33.843000000',
-      path: '/path/to/file.txt',
-      unresolved: false,
-    }];
+    ];
     flush();
   });
 
@@ -855,8 +929,7 @@ suite('comment action tests on resolved comments', () => {
     element.changeNum = '42';
     element.patchNum = '1';
 
-    const commentEl = element.shadowRoot
-        .querySelector('gr-comment');
+    const commentEl = element.shadowRoot.querySelector('gr-comment');
     assert.ok(commentEl);
 
     const ackBtn = element.shadowRoot.querySelector('#ackBtn');
@@ -866,8 +939,7 @@ suite('comment action tests on resolved comments', () => {
   });
 
   test('reply and quote button should be visible', () => {
-    const commentEl = element.shadowRoot
-        .querySelector('gr-comment');
+    const commentEl = element.shadowRoot.querySelector('gr-comment');
     assert.ok(commentEl);
 
     const replyBtn = element.shadowRoot.querySelector('#replyBtn');
@@ -876,4 +948,3 @@ suite('comment action tests on resolved comments', () => {
     assert.ok(quoteBtn);
   });
 });
-

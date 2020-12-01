@@ -22,6 +22,30 @@
       },
       "revId": "e92f6eca87d9b6676cf10b4a5e95219241243bce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4054b0b_3744e7d5",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-01T21:26:22Z",
+      "side": 1,
+      "message": "Honestly, the sentence starts with \"A Googler\" and he should have access to that URL. I am unsure if any of us can request a CVE on behalf of the Gerrit project.",
+      "parentUuid": "3c887386_c3c711dd",
+      "range": {
+        "startLine": 276,
+        "startChar": 20,
+        "endLine": 276,
+        "endChar": 61
+      },
+      "revId": "e92f6eca87d9b6676cf10b4a5e95219241243bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

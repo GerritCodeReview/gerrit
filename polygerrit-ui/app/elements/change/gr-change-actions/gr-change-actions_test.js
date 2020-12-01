@@ -104,6 +104,9 @@ suite('gr-change-actions tests', () => {
           enabled: true,
         },
       };
+      element.account = {
+        _account_id: 123,
+      };
       sinon.stub(element.$.confirmCherrypick.$.restAPI,
           'getRepoBranches').returns(Promise.resolve([]));
       sinon.stub(element.$.confirmMove.$.restAPI,
@@ -1738,9 +1741,62 @@ suite('gr-change-actions tests', () => {
             };
             flush();
             const approveButton =
-              element.shadowRoot
-                  .querySelector('gr-button[data-action-key=\'review\']');
+            element.shadowRoot
+                .querySelector('gr-button[data-action-key=\'review\']');
             assert.isNotNull(approveButton);
+          });
+
+      test('not added when user has already approved',
+          () => {
+            element.change = {
+              current_revision: 'abc1234',
+              labels: {
+                'Code-Review': {
+                  approved: {},
+                  values: {
+                    ' 0': '',
+                    '+1': '',
+                    '+2': '',
+                  },
+                  all: [{_account_id: 123, value: 2}],
+                },
+              },
+              permitted_labels: {
+                'Code-Review': [' 0', '+1', '+2'],
+              },
+            };
+            flush();
+            const approveButton =
+                element.shadowRoot
+                    .querySelector('gr-button[data-action-key=\'review\']');
+            assert.isNull(approveButton);
+          });
+
+      test('not added when user owns the change',
+          () => {
+            element.change = {
+              current_revision: 'abc1234',
+              owner: {_account_id: 123},
+              labels: {
+                'Code-Review': {
+                  approved: {},
+                  values: {
+                    ' 0': '',
+                    '+1': '',
+                    '+2': '',
+                  },
+                  all: [],
+                },
+              },
+              permitted_labels: {
+                'Code-Review': [' 0', '+1', '+2'],
+              },
+            };
+            flush();
+            const approveButton =
+                element.shadowRoot
+                    .querySelector('gr-button[data-action-key=\'review\']');
+            assert.isNull(approveButton);
           });
     });
 

@@ -68,6 +68,7 @@ import {
   RestApiService,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
+  AccountInfo,
   ActionInfo,
   ActionNameToActionInfoMap,
   BranchName,
@@ -404,6 +405,9 @@ export class GrChangeActions
 
   @property({type: Boolean})
   _hideQuickApproveAction = false;
+
+  @property({type: Object})
+  account?: AccountInfo;
 
   @property({type: String})
   changeNum?: NumericChangeId;
@@ -950,14 +954,28 @@ export class GrChangeActions
       }
     }
     // Allow the user to use quick approve to vote the max score on code review
-    // even if it is already granted.
+    // even if it is already granted by someone else.
+    const codeReviewLabel = this.change.labels[CODE_REVIEW];
     if (
       !result &&
-      this.change.labels[CODE_REVIEW] &&
-      this._getLabelStatus(this.change.labels[CODE_REVIEW]) ===
-        LabelStatus.OK &&
-      this.change.permitted_labels[CODE_REVIEW]
+      codeReviewLabel &&
+      this.change.permitted_labels[CODE_REVIEW] &&
+      this.account &&
+      isDetailedLabelInfo(codeReviewLabel) &&
+      this._getLabelStatus(codeReviewLabel) === LabelStatus.OK
     ) {
+      const usersApprovalInfo = codeReviewLabel.all?.filter(
+        x => x._account_id === this.account?._account_id
+      )[0];
+      // Hide quick approve if the user has already voted their highest or if
+      // they are the change owner.
+      if (
+        usersApprovalInfo?.value ===
+          Number(this.change.permitted_labels[CODE_REVIEW].slice(-1)[0]) ||
+        this.account?._account_id === this.change?.owner?._account_id
+      ) {
+        return null;
+      }
       result = CODE_REVIEW;
     }
 

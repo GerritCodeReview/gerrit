@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e12282d0_bf7075db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-01T10:48:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3809f12a_40d4d1bf",
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68dc2894_b6415023",
@@ -157,6 +175,24 @@
       "side": 1,
       "message": "Yes, I mean changing eslintrc.js\nsomething like\n```\n{\n      \"files\": [\"*_test.ts\"],\n      \"rules\": {\n        \"typescript-eslint/no-explicit-any\": \"off\"\n      },\n    },\n```",
       "parentUuid": "a0568849_8cfd0712",
+      "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a351ab7f_12d0ef26",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-01T10:48:29Z",
+      "side": 1,
+      "message": "I don\u0027t understand the use case for it.\nDmitrii\u0027s recent comment suggests we are throwing an error instead of warning so probably we want to be even more aggressive with our usage of \"any\" instead of disallowing for test files.\n@Dmitrii WDYT?",
+      "parentUuid": "5b64b9a6_ae62af03",
       "revId": "cf0ae021bc35434c5680504dd97e3ccb4c2260c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

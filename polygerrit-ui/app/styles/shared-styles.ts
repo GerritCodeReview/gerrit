@@ -22,6 +22,10 @@ export {};
 
 const $_documentContainer = document.createElement('template');
 
+/*
+ * Should be in sync with polygerrit-ui/app/elements/lit/shared-styles.css.ts
+ */
+
 $_documentContainer.innerHTML = `<dom-module id="shared-styles">
   <template>
     <style>

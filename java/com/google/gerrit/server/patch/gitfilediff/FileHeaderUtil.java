@@ -56,7 +56,8 @@ public class FileHeaderUtil {
 
   /**
    * Returns the old file path associated with the {@link FileHeader}, or empty if the file is
-   * {@link Patch.ChangeType#ADDED} or {@link Patch.ChangeType#REWRITE}.
+   * {@link com.google.gerrit.entities.Patch.ChangeType#ADDED} or {@link
+   * com.google.gerrit.entities.Patch.ChangeType#REWRITE}.
    */
   static Optional<String> getOldPath(FileHeader header) {
     Patch.ChangeType changeType = getChangeType(header);
@@ -76,7 +77,7 @@ public class FileHeaderUtil {
 
   /**
    * Returns the new file path associated with the {@link FileHeader}, or empty if the file is
-   * {@link Patch.ChangeType#DELETED}.
+   * {@link com.google.gerrit.entities.Patch.ChangeType#DELETED}.
    */
   static Optional<String> getNewPath(FileHeader header) {
     Patch.ChangeType changeType = getChangeType(header);

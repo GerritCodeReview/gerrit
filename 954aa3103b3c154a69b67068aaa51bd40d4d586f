@@ -46,6 +46,30 @@
       },
       "revId": "954aa3103b3c154a69b67068aaa51bd40d4d586f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9c27e97_20bc29da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-01T17:12:48Z",
+      "side": 1,
+      "message": "\u003e If we are cherry-picking with CommitAPI, the source change is not provided. So even if we could associate the destination change with some cherry-pick change, it is not clear what this change would be. If we don\u0027t reset it, we will end up with the old value from the previous patch set.\n\nWhen you say CommitAPI, do you mean https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#cherry-pick-commit ? If yes, it would be better to reference that or the class+method. This also probably becomes clearer if you squash your changes together as I suggest below.\n\n\u003e \n\u003e In cases when the Cerry-pick creates a new change, we don\u0027t set cherry-pick of.\n\u003e I think the best option would always reset cherry-pick of with CommitAPI.\n\nI agree it likely makes sense to reset cherry-pick-of in this case. We could do some kind of lookup to see if the requested source commit matches a change, but it would be difficult to know what the correct behavior should be if multiple results were returned. That could always be added as an enhancement later too (I think your change is proposed as a correctness fix).\n\n\u003e \n\u003e See the follow up CL.\n\nThis would actually be easier to review in a single change. Typically adding unused code in a change is an anti-pattern (especially when the changes are both so small like this).",
+      "parentUuid": "ec32d32f_9fc34e07",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "954aa3103b3c154a69b67068aaa51bd40d4d586f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

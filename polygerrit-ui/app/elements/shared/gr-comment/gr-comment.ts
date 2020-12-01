@@ -221,7 +221,7 @@ export class GrComment extends KeyboardShortcutMixin(
   _messageText = '';
 
   @property({type: String})
-  commentSide?: Side;
+  diffSide?: Side;
 
   @property({type: String})
   side?: string;
@@ -450,7 +450,7 @@ export class GrComment extends KeyboardShortcutMixin(
           if (this.comment?.__draftID) {
             resComment.__draftID = this.comment.__draftID;
           }
-          resComment.__commentSide = this.commentSide;
+          resComment.diffSide = this.diffSide;
           this.comment = resComment;
           this._fireSave();
           return obj;

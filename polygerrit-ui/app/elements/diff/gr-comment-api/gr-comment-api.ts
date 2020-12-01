@@ -306,7 +306,7 @@ export class ChangeComments {
     for (const side of [Side.LEFT, Side.RIGHT]) {
       // This is needed by the threading.
       for (const comment of comments[side]) {
-        comment.__commentSide = side;
+        comment.diffSide = side;
       }
       allComments.push(...comments[side]);
     }

@@ -58,6 +58,8 @@ import {
   TimezoneOffset,
   UserConfigInfo,
   AccountDetailInfo,
+  Requirement,
+  RequirementType,
 } from '../types/common';
 import {
   AccountsVisibility,
@@ -74,6 +76,7 @@ import {
   RevisionKind,
   SubmitType,
   TimeFormat,
+  RequirementStatus,
 } from '../constants/constants';
 import {formatDate} from '../utils/date-util';
 import {GetDiffCommentsOutput} from '../services/services/gr-rest-api/gr-rest-api';
@@ -83,6 +86,8 @@ import {
   EditRevisionInfo,
   ParsedChangeInfo,
 } from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
+import {WebLinkInfo} from '../types/diff';
 
 export function dateToTimestamp(date: Date): Timestamp {
   const nanosecondSuffix = '.000000000';
@@ -191,6 +196,13 @@ export function createCommit(): CommitInfo {
     committer: createGitPerson(),
     subject: 'Test commit subject',
     message: 'Test commit message',
+  };
+}
+
+export function createCommitInfoWithRequiredCommit(): CommitInfoWithRequiredCommit {
+  return {
+    ...createCommit(),
+    commit: 'commit' as CommitId,
   };
 }
 
@@ -411,5 +423,21 @@ export function createAppElementChangeViewParams(): AppElementChangeViewParams {
     view: GerritView.CHANGE,
     changeNum: TEST_NUMERIC_CHANGE_ID,
     project: TEST_PROJECT_NAME,
+  };
+}
+
+export function createRequirement(): Requirement {
+  return {
+    status: RequirementStatus.OK,
+    fallbackText: '',
+    type: 'wip' as RequirementType,
+  };
+}
+
+export function createWebLinkInfo(): WebLinkInfo {
+  return {
+    name: 'gitiles',
+    url: '#',
+    image_url: 'gitiles.jpg',
   };
 }

@@ -30,7 +30,7 @@ import {HookApi, PluginApi} from '../gr-plugin-types';
 const INIT_PROPERTIES_TIMEOUT_MS = 10000;
 
 @customElement('gr-endpoint-decorator')
-class GrEndpointDecorator extends GestureEventListeners(
+export class GrEndpointDecorator extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

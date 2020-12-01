@@ -22,6 +22,30 @@
       },
       "revId": "5473fe073e2c30222639f72a41f2cac5f2897746",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04167385_78e901b5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-01T10:10:19Z",
+      "side": 1,
+      "message": "Response[key] is of type ProjectInfo which has id required and name non-optional.\nAlso the component is not using value at all, it\u0027s sent on the commit event by gr-autocomplete but it\u0027s not listening to it at all, that\u0027s why it sending an object instead of a string was working all this time.",
+      "parentUuid": "5638f028_9c637284",
+      "range": {
+        "startLine": 123,
+        "startChar": 31,
+        "endLine": 123,
+        "endChar": 33
+      },
+      "revId": "5473fe073e2c30222639f72a41f2cac5f2897746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

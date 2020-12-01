@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af64d64b_77ffc3a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-01T17:18:47Z",
+      "side": 1,
+      "message": "Relying on follow-up\u0027s CS+1 score.",
+      "revId": "9f1e47da87e2ce3a46a3f60e213f1114f65e6973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

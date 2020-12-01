@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5638f028_9c637284",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-01T08:49:49Z",
+      "side": 1,
+      "message": "Are you sure that this must be \u0027id\u0027, not \u0027name\u0027?",
+      "range": {
+        "startLine": 123,
+        "startChar": 31,
+        "endLine": 123,
+        "endChar": 33
+      },
+      "revId": "5473fe073e2c30222639f72a41f2cac5f2897746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -109,21 +109,21 @@ suite('gr-repo-list tests', () => {
     });
 
     test('_paramsChanged', done => {
-      sinon.stub(element.$.restAPI, 'getRepos')
+      sinon.stub(element.restApiService, 'getRepos')
           .callsFake( () => Promise.resolve(repos));
       const value = {
         filter: 'test',
         offset: 25,
       };
       element._paramsChanged(value).then(() => {
-        assert.isTrue(element.$.restAPI.getRepos.lastCall
+        assert.isTrue(element.restApiService.getRepos.lastCall
             .calledWithExactly('test', 25, 25));
         done();
       });
     });
 
     test('latest repos requested are always set', done => {
-      const repoStub = sinon.stub(element.$.restAPI, 'getRepos');
+      const repoStub = sinon.stub(element.restApiService, 'getRepos');
       repoStub.withArgs('test').returns(Promise.resolve(repos));
       repoStub.withArgs('filter').returns(Promise.resolve(reposFiltered));
       element._filter = 'test';

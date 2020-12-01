@@ -229,7 +229,7 @@ suite('gr-router tests', () => {
   });
 
   test('_redirectIfNotLoggedIn while logged in', () => {
-    sinon.stub(element.$.restAPI, 'getLoggedIn')
+    sinon.stub(element.restApiService, 'getLoggedIn')
         .returns(Promise.resolve(true));
     const data = {canonicalPath: ''};
     const redirectStub = sinon.stub(element, '_redirectToLogin');
@@ -239,7 +239,7 @@ suite('gr-router tests', () => {
   });
 
   test('_redirectIfNotLoggedIn while logged out', () => {
-    sinon.stub(element.$.restAPI, 'getLoggedIn')
+    sinon.stub(element.restApiService, 'getLoggedIn')
         .returns(Promise.resolve(false));
     const redirectStub = sinon.stub(element, '_redirectToLogin');
     const data = {canonicalPath: ''};
@@ -524,7 +524,7 @@ suite('gr-router tests', () => {
 
     setup(() => {
       projectLookupStub = sinon
-          .stub(element.$.restAPI, 'getFromProjectLookup');
+          .stub(element.restApiService, 'getFromProjectLookup');
       generateUrlStub = sinon.stub(element, '_generateUrl');
     });
 
@@ -794,7 +794,7 @@ suite('gr-router tests', () => {
       });
 
       test('redirects to dashboard if logged in', () => {
-        sinon.stub(element.$.restAPI, 'getLoggedIn')
+        sinon.stub(element.restApiService, 'getLoggedIn')
             .returns(Promise.resolve(true));
         const data = {
           canonicalPath: '/', path: '/', querystring: '', hash: '',
@@ -807,7 +807,7 @@ suite('gr-router tests', () => {
       });
 
       test('redirects to open changes if not logged in', () => {
-        sinon.stub(element.$.restAPI, 'getLoggedIn')
+        sinon.stub(element.restApiService, 'getLoggedIn')
             .returns(Promise.resolve(false));
         const data = {
           canonicalPath: '/', path: '/', querystring: '', hash: '',
@@ -905,7 +905,7 @@ suite('gr-router tests', () => {
       });
 
       test('own dashboard but signed out redirects to login', () => {
-        sinon.stub(element.$.restAPI, 'getLoggedIn')
+        sinon.stub(element.restApiService, 'getLoggedIn')
             .returns(Promise.resolve(false));
         const data = {canonicalPath: '/dashboard/', params: {0: 'seLF'}};
         return element._handleDashboardRoute(data, '').then(() => {
@@ -916,7 +916,7 @@ suite('gr-router tests', () => {
       });
 
       test('non-self dashboard but signed out does not redirect', () => {
-        sinon.stub(element.$.restAPI, 'getLoggedIn')
+        sinon.stub(element.restApiService, 'getLoggedIn')
             .returns(Promise.resolve(false));
         const data = {canonicalPath: '/dashboard/', params: {0: 'foo'}};
         return element._handleDashboardRoute(data, '').then(() => {
@@ -928,7 +928,7 @@ suite('gr-router tests', () => {
       });
 
       test('dashboard while signed in sets params', () => {
-        sinon.stub(element.$.restAPI, 'getLoggedIn')
+        sinon.stub(element.restApiService, 'getLoggedIn')
             .returns(Promise.resolve(true));
         const data = {canonicalPath: '/dashboard/', params: {0: 'foo'}};
         return element._handleDashboardRoute(data, '').then(() => {
@@ -1444,7 +1444,7 @@ suite('gr-router tests', () => {
         setup(() => {
           normalizeRangeStub = sinon.stub(element,
               '_normalizePatchRangeParams');
-          sinon.stub(element.$.restAPI, 'setInProjectLookup');
+          sinon.stub(element.restApiService, 'setInProjectLookup');
         });
 
         test('needs redirect', () => {
@@ -1498,7 +1498,7 @@ suite('gr-router tests', () => {
         setup(() => {
           normalizeRangeStub = sinon.stub(element,
               '_normalizePatchRangeParams');
-          sinon.stub(element.$.restAPI, 'setInProjectLookup');
+          sinon.stub(element.restApiService, 'setInProjectLookup');
         });
 
         test('needs redirect', () => {
@@ -1551,7 +1551,7 @@ suite('gr-router tests', () => {
       test('_handleDiffEditRoute', () => {
         const normalizeRangeSpy =
             sinon.spy(element, '_normalizePatchRangeParams');
-        sinon.stub(element.$.restAPI, 'setInProjectLookup');
+        sinon.stub(element.restApiService, 'setInProjectLookup');
         const ctx = {
           params: [
             'foo/bar', // 0 Project
@@ -1580,7 +1580,7 @@ suite('gr-router tests', () => {
       test('_handleDiffEditRoute with lineNum', () => {
         const normalizeRangeSpy =
             sinon.spy(element, '_normalizePatchRangeParams');
-        sinon.stub(element.$.restAPI, 'setInProjectLookup');
+        sinon.stub(element.restApiService, 'setInProjectLookup');
         const ctx = {
           params: [
             'foo/bar', // 0 Project
@@ -1610,7 +1610,7 @@ suite('gr-router tests', () => {
       test('_handleChangeEditRoute', () => {
         const normalizeRangeSpy =
             sinon.spy(element, '_normalizePatchRangeParams');
-        sinon.stub(element.$.restAPI, 'setInProjectLookup');
+        sinon.stub(element.restApiService, 'setInProjectLookup');
         const ctx = {
           params: [
             'foo/bar', // 0 Project

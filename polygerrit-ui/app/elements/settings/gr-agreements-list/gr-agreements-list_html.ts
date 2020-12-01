@@ -52,5 +52,4 @@ export const htmlTemplate = html`
     </table>
     <a href$="[[getUrl()]]">New Contributor Agreement</a>
   </div>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

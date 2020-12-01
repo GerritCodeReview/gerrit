@@ -27,6 +27,7 @@ import {htmlTemplate} from './gr-http-password_html';
 import {property, customElement} from '@polymer/decorators';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {appContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -58,6 +59,8 @@ export class GrHttpPassword extends GestureEventListeners(
   @property({type: String})
   _passwordUrl: string | null = null;
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -68,7 +71,7 @@ export class GrHttpPassword extends GestureEventListeners(
     const promises = [];
 
     promises.push(
-      this.$.restAPI.getAccount().then(account => {
+      this.restApiService.getAccount().then(account => {
         if (account) {
           this._username = account.username;
         }
@@ -76,7 +79,7 @@ export class GrHttpPassword extends GestureEventListeners(
     );
 
     promises.push(
-      this.$.restAPI.getConfig().then(info => {
+      this.restApiService.getConfig().then(info => {
         if (info) {
           this._passwordUrl = info.auth.http_password_url || null;
         } else {
@@ -91,7 +94,7 @@ export class GrHttpPassword extends GestureEventListeners(
   _handleGenerateTap() {
     this._generatedPassword = 'Generating...';
     this.$.generatedPasswordOverlay.open();
-    this.$.restAPI.generateAccountHttpPassword().then(newPassword => {
+    this.restApiService.generateAccountHttpPassword().then(newPassword => {
       this._generatedPassword = newPassword;
     });
   }

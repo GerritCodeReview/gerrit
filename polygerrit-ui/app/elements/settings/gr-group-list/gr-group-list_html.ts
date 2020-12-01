@@ -57,5 +57,4 @@ export const htmlTemplate = html`
       </tbody>
     </table>
   </div>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

@@ -30,6 +30,7 @@ import {
   SuggestionProvider,
 } from '../gr-search-bar/gr-search-bar';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {appContext} from '../../../services/app-context';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
@@ -70,10 +71,12 @@ export class GrSmartSearch extends GestureEventListeners(
   @property({type: String})
   label = '';
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
-    this.$.restAPI.getConfig().then(cfg => {
+    this.restApiService.getConfig().then(cfg => {
       this._config = cfg;
     });
   }
@@ -97,7 +100,7 @@ export class GrSmartSearch extends GestureEventListeners(
     predicate: string,
     expression: string
   ): Promise<AutocompleteSuggestion[]> {
-    return this.$.restAPI
+    return this.restApiService
       .getSuggestedProjects(expression, MAX_AUTOCOMPLETE_RESULTS)
       .then(projects => {
         if (!projects) {
@@ -125,7 +128,7 @@ export class GrSmartSearch extends GestureEventListeners(
     if (expression.length === 0) {
       return Promise.resolve([]);
     }
-    return this.$.restAPI
+    return this.restApiService
       .getSuggestedGroups(expression, MAX_AUTOCOMPLETE_RESULTS)
       .then(groups => {
         if (!groups) {
@@ -153,7 +156,7 @@ export class GrSmartSearch extends GestureEventListeners(
     if (expression.length === 0) {
       return Promise.resolve([]);
     }
-    return this.$.restAPI
+    return this.restApiService
       .getSuggestedAccounts(expression, MAX_AUTOCOMPLETE_RESULTS)
       .then(accounts => {
         if (!accounts) {

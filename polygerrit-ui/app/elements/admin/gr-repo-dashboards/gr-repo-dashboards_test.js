@@ -30,7 +30,7 @@ suite('gr-repo-dashboards tests', () => {
 
   suite('dashboard table', () => {
     setup(() => {
-      sinon.stub(element.$.restAPI, 'getRepoDashboards').returns(
+      sinon.stub(element.restApiService, 'getRepoDashboards').returns(
           Promise.resolve([
             {
               id: 'default:contributor',
@@ -124,7 +124,7 @@ suite('gr-repo-dashboards tests', () => {
     test('fires page-error', done => {
       const response = {status: 404};
       sinon.stub(
-          element.$.restAPI, 'getRepoDashboards')
+          element.restApiService, 'getRepoDashboards')
           .callsFake((repo, errFn) => {
             errFn(response);
           });

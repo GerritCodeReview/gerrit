@@ -131,7 +131,7 @@ suite('gr-admin-group-list tests', () => {
   suite('filter', () => {
     test('_paramsChanged', done => {
       sinon.stub(
-          element.$.restAPI,
+          element.restApiService,
           'getGroups')
           .callsFake(() => Promise.resolve(groups));
       const value = {
@@ -139,7 +139,7 @@ suite('gr-admin-group-list tests', () => {
         offset: 25,
       };
       element._paramsChanged(value).then(() => {
-        assert.isTrue(element.$.restAPI.getGroups.lastCall
+        assert.isTrue(element.restApiService.getGroups.lastCall
             .calledWithExactly('test', 25, 25));
         done();
       });

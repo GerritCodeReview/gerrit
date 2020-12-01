@@ -41,6 +41,7 @@ import {
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrButton} from '../gr-button/gr-button';
 import {getVotingRangeOrDefault} from '../../../utils/label-util';
+import {appContext} from '../../../services/app-context';
 
 export interface GrLabelInfo {
   $: {
@@ -89,6 +90,8 @@ export class GrLabelInfo extends GestureEventListeners(
 
   @property({type: Boolean})
   mutable = false;
+
+  private readonly restApiService = appContext.restApiService;
 
   // TODO(TS): not used, remove later
   _xhrPromise?: Promise<void>;
@@ -206,7 +209,7 @@ export class GrLabelInfo extends GestureEventListeners(
     const accountID = Number(
       `${target.getAttribute('data-account-id')}`
     ) as AccountId;
-    this._xhrPromise = this.$.restAPI
+    this._xhrPromise = this.restApiService
       .deleteVote(this.change._number, accountID, this.label)
       .then(response => {
         target.disabled = false;

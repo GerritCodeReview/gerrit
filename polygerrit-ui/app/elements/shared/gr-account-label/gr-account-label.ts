@@ -106,6 +106,8 @@ export class GrAccountLabel extends GestureEventListeners(
 
   reporting: ReportingService;
 
+  private readonly restApiService = appContext.restApiService;
+
   constructor() {
     super();
     this.reporting = appContext.reportingService;
@@ -114,10 +116,10 @@ export class GrAccountLabel extends GestureEventListeners(
   /** @override */
   ready() {
     super.ready();
-    this.$.restAPI.getConfig().then(config => {
+    this.restApiService.getConfig().then(config => {
       this._config = config;
     });
-    this.$.restAPI.getAccount().then(account => {
+    this.restApiService.getAccount().then(account => {
       this._selfAccount = account;
     });
     this.addEventListener('attention-set-updated', () => {
@@ -232,7 +234,7 @@ export class GrAccountLabel extends GestureEventListeners(
       'attention-icon-remove',
       this._reportingDetails()
     );
-    this.$.restAPI
+    this.restApiService
       .removeFromAttentionSet(
         this.change._number,
         this.account._account_id,

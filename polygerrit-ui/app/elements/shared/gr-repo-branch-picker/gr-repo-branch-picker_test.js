@@ -29,7 +29,7 @@ suite('gr-repo-branch-picker tests', () => {
 
   suite('_getRepoSuggestions', () => {
     setup(() => {
-      sinon.stub(element.$.restAPI, 'getRepos')
+      sinon.stub(element.restApiService, 'getRepos')
           .returns(Promise.resolve([
             {
               id: 'plugins%2Favatars-external',
@@ -50,7 +50,7 @@ suite('gr-repo-branch-picker tests', () => {
     test('converts to suggestion objects', () => {
       const input = 'plugins/avatars';
       return element._getRepoSuggestions(input).then(suggestions => {
-        assert.isTrue(element.$.restAPI.getRepos.calledWith(input));
+        assert.isTrue(element.restApiService.getRepos.calledWith(input));
         const unencodedNames = [
           'plugins/avatars-external',
           'plugins/avatars-gravatar',
@@ -65,7 +65,7 @@ suite('gr-repo-branch-picker tests', () => {
 
   suite('_getRepoBranchesSuggestions', () => {
     setup(() => {
-      sinon.stub(element.$.restAPI, 'getRepoBranches')
+      sinon.stub(element.restApiService, 'getRepoBranches')
           .returns(Promise.resolve([
             {ref: 'refs/heads/stable-2.10'},
             {ref: 'refs/heads/stable-2.11'},
@@ -82,7 +82,7 @@ suite('gr-repo-branch-picker tests', () => {
       element.repo = repo;
       return element._getRepoBranchesSuggestions(branchInput)
           .then(suggestions => {
-            assert.isTrue(element.$.restAPI.getRepoBranches.calledWith(
+            assert.isTrue(element.restApiService.getRepoBranches.calledWith(
                 branchInput, repo, 15));
             const refNames = [
               'stable-2.10',
@@ -103,7 +103,7 @@ suite('gr-repo-branch-picker tests', () => {
       element.repo = repo;
       return element._getRepoBranchesSuggestions(branchInput)
           .then(suggestions => {
-            assert.isTrue(element.$.restAPI.getRepoBranches.calledWith(
+            assert.isTrue(element.restApiService.getRepoBranches.calledWith(
                 'stable-2.1', repo, 15));
           });
     });
@@ -111,12 +111,12 @@ suite('gr-repo-branch-picker tests', () => {
     test('does not query when repo is unset', () => element
         ._getRepoBranchesSuggestions('')
         .then(() => {
-          assert.isFalse(element.$.restAPI.getRepoBranches.called);
+          assert.isFalse(element.restApiService.getRepoBranches.called);
           element.repo = 'gerrit';
           return element._getRepoBranchesSuggestions('');
         })
         .then(() => {
-          assert.isTrue(element.$.restAPI.getRepoBranches.called);
+          assert.isTrue(element.restApiService.getRepoBranches.called);
         }));
   });
 });

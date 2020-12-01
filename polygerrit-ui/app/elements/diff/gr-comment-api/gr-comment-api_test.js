@@ -34,23 +34,24 @@ suite('gr-comment-api tests', () => {
   test('loads logged-out', () => {
     const changeNum = 1234;
 
-    sinon.stub(element.$.restAPI, 'getLoggedIn')
+    sinon.stub(element.restApiService, 'getLoggedIn')
         .returns(Promise.resolve(false));
-    sinon.stub(element.$.restAPI, 'getDiffComments')
+    sinon.stub(element.restApiService, 'getDiffComments')
         .returns(Promise.resolve({
           'foo.c': [{id: '123', message: 'foo bar', in_reply_to: '321'}],
         }));
-    sinon.stub(element.$.restAPI, 'getDiffRobotComments')
+    sinon.stub(element.restApiService, 'getDiffRobotComments')
         .returns(Promise.resolve({'foo.c': [{id: '321', message: 'done'}]}));
-    sinon.stub(element.$.restAPI, 'getDiffDrafts')
+    sinon.stub(element.restApiService, 'getDiffDrafts')
         .returns(Promise.resolve({}));
 
     return element.loadAll(changeNum).then(() => {
-      assert.isTrue(element.$.restAPI.getDiffComments.calledWithExactly(
+      assert.isTrue(element.restApiService.getDiffComments.calledWithExactly(
           changeNum));
-      assert.isTrue(element.$.restAPI.getDiffRobotComments.calledWithExactly(
-          changeNum));
-      assert.isTrue(element.$.restAPI.getDiffDrafts.calledWithExactly(
+      assert.isTrue(
+          element.restApiService.getDiffRobotComments.calledWithExactly(
+              changeNum));
+      assert.isTrue(element.restApiService.getDiffDrafts.calledWithExactly(
           changeNum));
       assert.isOk(element._changeComments._comments);
       assert.isOk(element._changeComments._robotComments);
@@ -61,23 +62,24 @@ suite('gr-comment-api tests', () => {
   test('loads logged-in', () => {
     const changeNum = 1234;
 
-    sinon.stub(element.$.restAPI, 'getLoggedIn')
+    sinon.stub(element.restApiService, 'getLoggedIn')
         .returns(Promise.resolve(true));
-    sinon.stub(element.$.restAPI, 'getDiffComments')
+    sinon.stub(element.restApiService, 'getDiffComments')
         .returns(Promise.resolve({
           'foo.c': [{id: '123', message: 'foo bar', in_reply_to: '321'}],
         }));
-    sinon.stub(element.$.restAPI, 'getDiffRobotComments')
+    sinon.stub(element.restApiService, 'getDiffRobotComments')
         .returns(Promise.resolve({'foo.c': [{id: '321', message: 'done'}]}));
-    sinon.stub(element.$.restAPI, 'getDiffDrafts')
+    sinon.stub(element.restApiService, 'getDiffDrafts')
         .returns(Promise.resolve({'foo.c': [{id: '555', message: 'ack'}]}));
 
     return element.loadAll(changeNum).then(() => {
-      assert.isTrue(element.$.restAPI.getDiffComments.calledWithExactly(
+      assert.isTrue(element.restApiService.getDiffComments.calledWithExactly(
           changeNum));
-      assert.isTrue(element.$.restAPI.getDiffRobotComments.calledWithExactly(
-          changeNum));
-      assert.isTrue(element.$.restAPI.getDiffDrafts.calledWithExactly(
+      assert.isTrue(
+          element.restApiService.getDiffRobotComments.calledWithExactly(
+              changeNum));
+      assert.isTrue(element.restApiService.getDiffDrafts.calledWithExactly(
           changeNum));
       assert.isOk(element._changeComments._comments);
       assert.isOk(element._changeComments._robotComments);
@@ -90,11 +92,11 @@ suite('gr-comment-api tests', () => {
     let robotCommentStub;
     let draftStub;
     setup(() => {
-      commentStub = sinon.stub(element.$.restAPI, 'getDiffComments')
+      commentStub = sinon.stub(element.restApiService, 'getDiffComments')
           .returns(Promise.resolve({}));
-      robotCommentStub = sinon.stub(element.$.restAPI,
+      robotCommentStub = sinon.stub(element.restApiService,
           'getDiffRobotComments').returns(Promise.resolve({}));
-      draftStub = sinon.stub(element.$.restAPI, 'getDiffDrafts')
+      draftStub = sinon.stub(element.restApiService, 'getDiffDrafts')
           .returns(Promise.resolve({}));
     });
 

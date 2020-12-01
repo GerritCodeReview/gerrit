@@ -552,5 +552,4 @@ export const htmlTemplate = html`
       <gr-endpoint-decorator name="settings-screen"> </gr-endpoint-decorator>
     </main>
   </div>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

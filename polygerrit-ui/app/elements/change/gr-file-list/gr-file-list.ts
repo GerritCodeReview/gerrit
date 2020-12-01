@@ -334,6 +334,8 @@ export class GrFileList extends KeyboardShortcutMixin(
 
   private readonly reporting = appContext.reportingService;
 
+  private readonly restApiService = appContext.restApiService;
+
   get keyBindings() {
     return {
       esc: '_handleEscKey',
@@ -457,7 +459,7 @@ export class GrFileList extends KeyboardShortcutMixin(
     const promises = [];
 
     promises.push(
-      this.$.restAPI
+      this.restApiService
         .getChangeOrEditFiles(changeNum, patchRange)
         .then(filesByPath => {
           this._filesByPath = filesByPath;
@@ -544,11 +546,11 @@ export class GrFileList extends KeyboardShortcutMixin(
   }
 
   _getDiffPreferences() {
-    return this.$.restAPI.getDiffPreferences();
+    return this.restApiService.getDiffPreferences();
   }
 
   _getPreferences() {
-    return this.$.restAPI.getPreferences();
+    return this.restApiService.getPreferences();
   }
 
   private _toggleFileExpanded(file: PatchSetFile) {
@@ -765,7 +767,7 @@ export class GrFileList extends KeyboardShortcutMixin(
       throw new Error('changeNum and patchRange must be set');
     }
 
-    return this.$.restAPI.saveFileReviewed(
+    return this.restApiService.saveFileReviewed(
       this.changeNum,
       this.patchRange.patchNum,
       path,
@@ -774,14 +776,14 @@ export class GrFileList extends KeyboardShortcutMixin(
   }
 
   _getLoggedIn() {
-    return this.$.restAPI.getLoggedIn();
+    return this.restApiService.getLoggedIn();
   }
 
   _getReviewedFiles(changeNum: NumericChangeId, patchRange: PatchRange) {
     if (this.editMode) {
       return Promise.resolve([]);
     }
-    return this.$.restAPI.getReviewedFiles(changeNum, patchRange.patchNum);
+    return this.restApiService.getReviewedFiles(changeNum, patchRange.patchNum);
   }
 
   _normalizeChangeFilesResponse(

@@ -147,6 +147,8 @@ export class GrChangeList extends ChangeTableMixin(
 
   flagsService = appContext.flagsService;
 
+  private restApiService = appContext.restApiService;
+
   keyboardShortcuts() {
     return {
       [Shortcut.CURSOR_NEXT_CHANGE]: '_nextChange',
@@ -169,7 +171,7 @@ export class GrChangeList extends ChangeTableMixin(
   /** @override */
   ready() {
     super.ready();
-    this.$.restAPI.getConfig().then(config => {
+    this.restApiService.getConfig().then(config => {
       this._config = config;
     });
   }

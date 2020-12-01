@@ -296,7 +296,7 @@ Common errors and fixes are:
 existing helpers to create an object with all required properties:
 ```
 // Before:
-sinon.stub(element.$.restAPI, 'getPreferences').returns(
+sinon.stub(element.restApiService, 'getPreferences').returns(
     Promise.resolve({default_diff_view: 'UNIFIED'}));
 
 // After:

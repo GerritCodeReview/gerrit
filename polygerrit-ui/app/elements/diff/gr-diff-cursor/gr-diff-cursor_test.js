@@ -22,11 +22,11 @@ import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {listenOnce} from '../../../test/test-utils.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
+import {appContext} from '../../../services/app-context.js';
 
 const basicFixture = fixtureFromTemplate(html`
   <gr-diff></gr-diff>
   <gr-diff-cursor></gr-diff-cursor>
-  <gr-rest-api-interface></gr-rest-api-interface>
 `);
 
 const emptyFixture = fixtureFromElement('div');
@@ -40,7 +40,7 @@ suite('gr-diff-cursor tests', () => {
     const fixtureElems = basicFixture.instantiate();
     diffElement = fixtureElems[0];
     cursorElement = fixtureElems[1];
-    const restAPI = fixtureElems[2];
+    const restAPI = appContext.restApiService;
 
     // Register the diff with the cursor.
     cursorElement.push('diffs', diffElement);
@@ -539,7 +539,6 @@ suite('gr-diff-cursor tests', () => {
       <gr-diff></gr-diff>
       <gr-diff></gr-diff>
       <gr-diff-cursor></gr-diff-cursor>
-      <gr-rest-api-interface></gr-rest-api-interface>
     `);
 
     let diffElements;
@@ -548,7 +547,7 @@ suite('gr-diff-cursor tests', () => {
       const fixtureElems = multiDiffFixture.instantiate();
       diffElements = fixtureElems.slice(0, 3);
       cursorElement = fixtureElems[3];
-      const restAPI = fixtureElems[4];
+      const restAPI = appContext.restApiService;
 
       // Register the diff with the cursor.
       cursorElement.push('diffs', ...diffElements);

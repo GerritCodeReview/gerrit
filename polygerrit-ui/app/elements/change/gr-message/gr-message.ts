@@ -44,6 +44,7 @@ import {
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {CommentThread} from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {appContext} from '../../../services/app-context';
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?(?:P|p)atch (?:S|s)et \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
@@ -192,6 +193,8 @@ export class GrMessage extends GestureEventListeners(
   })
   _commentCountText = '';
 
+  private readonly restApiService = appContext.restApiService;
+
   created() {
     super.created();
     this.addEventListener('click', e => this._handleClick(e));
@@ -199,13 +202,13 @@ export class GrMessage extends GestureEventListeners(
 
   attached() {
     super.attached();
-    this.$.restAPI.getConfig().then(config => {
+    this.restApiService.getConfig().then(config => {
       this.config = config;
     });
-    this.$.restAPI.getLoggedIn().then(loggedIn => {
+    this.restApiService.getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
-    this.$.restAPI.getIsAdmin().then(isAdmin => {
+    this.restApiService.getIsAdmin().then(isAdmin => {
       this._isAdmin = !!isAdmin;
     });
   }
@@ -472,7 +475,7 @@ export class GrMessage extends GestureEventListeners(
     e.preventDefault();
     if (!this.message || !this.message.id || !this.changeNum) return;
     this._isDeletingChangeMsg = true;
-    this.$.restAPI
+    this.restApiService
       .deleteChangeCommitMessage(this.changeNum, this.message.id)
       .then(() => {
         this._isDeletingChangeMsg = false;
@@ -488,7 +491,7 @@ export class GrMessage extends GestureEventListeners(
 
   @observe('projectName')
   _projectNameChanged(name: string) {
-    this.$.restAPI.getProjectConfig(name as RepoName).then(config => {
+    this.restApiService.getProjectConfig(name as RepoName).then(config => {
       this._projectConfig = config;
     });
   }

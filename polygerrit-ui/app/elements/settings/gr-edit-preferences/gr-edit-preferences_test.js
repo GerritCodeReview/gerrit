@@ -92,7 +92,7 @@ suite('gr-edit-preferences tests', () => {
   });
 
   test('save changes', () => {
-    sinon.stub(element.$.restAPI, 'saveEditPreferences')
+    sinon.stub(element.restApiService, 'saveEditPreferences')
         .returns(Promise.resolve());
     const showTabsCheckbox = valueOf('Show tabs', 'editPreferences')
         .firstElementChild;

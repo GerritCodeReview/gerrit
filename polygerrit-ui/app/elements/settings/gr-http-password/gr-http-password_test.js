@@ -42,7 +42,7 @@ suite('gr-http-password tests', () => {
     const button = element.$.generateButton;
     const nextPassword = 'the new password';
     let generateResolve;
-    const generateStub = sinon.stub(element.$.restAPI,
+    const generateStub = sinon.stub(element.restApiService,
         'generateAccountHttpPassword')
         .callsFake(() => new Promise(resolve => {
           generateResolve = resolve;

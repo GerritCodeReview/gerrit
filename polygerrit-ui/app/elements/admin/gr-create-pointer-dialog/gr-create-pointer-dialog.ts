@@ -29,6 +29,7 @@ import {page} from '../../../utils/page-wrapper-utils';
 import {customElement, property, observe} from '@polymer/decorators';
 import {BranchName, RepoName} from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {appContext} from '../../../services/app-context';
 
 enum DetailType {
   branches = 'branches',
@@ -75,6 +76,8 @@ export class GrCreatePointerDialog extends GestureEventListeners(
     this.hasNewItemName = !!name;
   }
 
+  private restApiService = appContext.restApiService;
+
   handleCreateItem() {
     if (!this.repoName) {
       throw new Error('repoName name is not set');
@@ -85,7 +88,7 @@ export class GrCreatePointerDialog extends GestureEventListeners(
     const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
     const url = `${getBaseUrl()}/admin/repos/${encodeURL(this.repoName, true)}`;
     if (this.itemDetail === DetailType.branches) {
-      return this.$.restAPI
+      return this.restApiService
         .createRepoBranch(this.repoName, this._itemName, {revision: USE_HEAD})
         .then(itemRegistered => {
           if (itemRegistered.status === 201) {
@@ -93,7 +96,7 @@ export class GrCreatePointerDialog extends GestureEventListeners(
           }
         });
     } else if (this.itemDetail === DetailType.tags) {
-      return this.$.restAPI
+      return this.restApiService
         .createRepoTag(this.repoName, this._itemName, {
           revision: USE_HEAD,
           message: this._itemAnnotation || undefined,

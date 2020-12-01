@@ -21,6 +21,8 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {
+  createAccountWithId,
+  createApproval,
   createChange,
   createChangeMessages,
   createRevisions,
@@ -105,8 +107,18 @@ suite('gr-change-actions tests', () => {
           enabled: true,
         },
       };
+<<<<<<< HEAD
       sinon.stub(appContext.restApiService, 'getRepoBranches').returns(
           Promise.resolve([]));
+=======
+      element.account = {
+        _account_id: 123,
+      };
+      sinon.stub(element.$.confirmCherrypick.$.restAPI,
+          'getRepoBranches').returns(Promise.resolve([]));
+      sinon.stub(element.$.confirmMove.$.restAPI,
+          'getRepoBranches').returns(Promise.resolve([]));
+>>>>>>> Hide quick-approve for your own change or if you have already given max vote
 
       return element.reload();
     });
@@ -1525,9 +1537,6 @@ suite('gr-change-actions tests', () => {
       setup(() => {
         element.change = {
           current_revision: 'abc1234',
-        };
-        element.change = {
-          current_revision: 'abc1234',
           labels: {
             foo: {
               values: {
@@ -1734,10 +1743,66 @@ suite('gr-change-actions tests', () => {
             };
             flush();
             const approveButton =
-              element.shadowRoot
-                  .querySelector('gr-button[data-action-key=\'review\']');
+            element.shadowRoot
+                .querySelector('gr-button[data-action-key=\'review\']');
             assert.isNotNull(approveButton);
           });
+
+      test('not added when the user has already approved', () => {
+        const vote = {
+          ...createApproval(),
+          _account_id: 123,
+          name: 'name',
+          value: 2,
+        };
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            'Code-Review': {
+              approved: {},
+              values: {
+                ' 0': '',
+                '+1': '',
+                '+2': '',
+              },
+              all: [vote],
+            },
+          },
+          permitted_labels: {
+            'Code-Review': [' 0', '+1', '+2'],
+          },
+        };
+        flush();
+        const approveButton =
+          element.shadowRoot
+            .querySelector('gr-button[data-action-key=\'review\']');
+        assert.isNull(approveButton);
+      });
+          
+      test('not added when user owns the change', () => {
+        element.change = {
+          current_revision: 'abc1234',
+          owner: createAccountWithId(123),
+          labels: {
+            'Code-Review': {
+              approved: {},
+              values: {
+                ' 0': '',
+                '+1': '',
+                '+2': '',
+              },
+            },
+          },
+          permitted_labels: {
+            'Code-Review': [' 0', '+1', '+2'],
+          },
+        };
+        flush();
+        const approveButton =
+          element.shadowRoot
+            .querySelector('gr-button[data-action-key=\'review\']');
+        assert.isNull(approveButton);
+      });
     });
 
     test('adds download revision action', () => {

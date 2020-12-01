@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d5bf799_006443c9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-01T15:57:54Z",
+      "side": 1,
+      "message": "Here and below: is it possible to create a real GrComment here (i.e. new GrComment() } ? It would be good to have a correct mocks in tests.",
+      "range": {
+        "startLine": 154,
+        "startChar": 17,
+        "endLine": 154,
+        "endChar": 32
+      },
+      "revId": "0480bd421783a8bfb47fba98d2f187e3562a684a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

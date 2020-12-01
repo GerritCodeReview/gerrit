@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9125adb7_9a918367",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-01T10:39:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da695e66_ad566a35",
+      "range": {
+        "startLine": 11,
+        "startChar": 55,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "297e247077accc915b84646f6c1ed5dbfada61b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f085068b_3fe93701",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "546980da_3d082ff1",
+        "filename": "java/com/google/gerrit/server/query/change/AbstractAfterPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-01T10:39:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f085068b_3fe93701",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "297e247077accc915b84646f6c1ed5dbfada61b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1947d6f9_50637257",
@@ -60,6 +108,30 @@
       "writtenOn": "2020-11-20T12:33:51Z",
       "side": 1,
       "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "297e247077accc915b84646f6c1ed5dbfada61b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ee789b6_b4d1b4bf",
+        "filename": "java/com/google/gerrit/server/query/change/AbstractBeforePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-01T10:39:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1947d6f9_50637257",
       "range": {
         "startLine": 1,
         "startChar": 17,

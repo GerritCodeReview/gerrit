@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf813dc2_8c7985cb",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-01T10:48:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb910650_3678bb30",
+      "range": {
+        "startLine": 22,
+        "startChar": 5,
+        "endLine": 22,
+        "endChar": 9
+      },
+      "revId": "ca6737b27efdb87d20b8dd8954837158521137f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2779fd35_af6769a2",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98fa8362_3c610496",
+        "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-01T10:48:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2779fd35_af6769a2",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 76
+      },
+      "revId": "ca6737b27efdb87d20b8dd8954837158521137f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49fcd7a2_9896faa7",
@@ -60,6 +108,30 @@
       "writtenOn": "2020-11-30T18:59:44Z",
       "side": 1,
       "message": "twice",
+      "range": {
+        "startLine": 92,
+        "startChar": 5,
+        "endLine": 92,
+        "endChar": 11
+      },
+      "revId": "ca6737b27efdb87d20b8dd8954837158521137f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a00bf065_b9200f41",
+        "filename": "polygerrit-ui/app/test/common-test-setup-karma.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-01T10:48:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49fcd7a2_9896faa7",
       "range": {
         "startLine": 92,
         "startChar": 5,

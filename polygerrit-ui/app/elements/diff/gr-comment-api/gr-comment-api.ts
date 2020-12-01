@@ -418,14 +418,12 @@ export class ChangeComments {
    * also includes the file that it was left on, which was the key of the
    * originall object.
    */
-  _commentObjToArrayWithFile<T>(comments: {
-    [path: string]: T[];
-  }): Array<T & {__path: string}> {
-    let commentArr: Array<T & {__path: string}> = [];
+  _commentObjToArrayWithFile<T>(comments: {[path: string]: T[]}): Array<T> {
+    let commentArr: Array<T> = [];
     for (const file of Object.keys(comments)) {
-      const commentsForFile: Array<T & {__path: string}> = [];
+      const commentsForFile: Array<T> = [];
       for (const comment of comments[file]) {
-        commentsForFile.push({...comment, __path: file});
+        commentsForFile.push({...comment});
       }
       commentArr = commentArr.concat(commentsForFile);
     }

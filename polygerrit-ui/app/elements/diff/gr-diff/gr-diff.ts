@@ -281,6 +281,9 @@ export class GrDiff extends GestureEventListeners(
       this._handleCreateRangeComment(e as CustomEvent)
     );
     this.addEventListener('render-content', () => this._handleRenderContent());
+    this.addEventListener('moved-link-clicked', (e: Event) => {
+      this._movedLinkClicked(e as CustomEvent);
+    });
   }
 
   /** @override */
@@ -538,17 +541,27 @@ export class GrDiff extends GestureEventListeners(
   }
 
   _selectLine(el: Element) {
+    const lineNumber = Number(el.getAttribute('data-value'));
+    const side = el.classList.contains('left') ? Side.LEFT : Side.RIGHT;
+    this._dispatchSelectedLine(lineNumber, side);
+  }
+
+  _dispatchSelectedLine(number: number, side: Side) {
     this.dispatchEvent(
       new CustomEvent('line-selected', {
         detail: {
-          side: el.classList.contains('left') ? Side.LEFT : Side.RIGHT,
-          number: el.getAttribute('data-value'),
+          number,
+          side,
           path: this.path,
         },
         composed: true,
         bubbles: true,
       })
     );
+  }
+
+  _movedLinkClicked(e: CustomEvent) {
+    this._dispatchSelectedLine(e.detail.number, e.detail.side);
   }
 
   addDraftAtLine(el: Element) {

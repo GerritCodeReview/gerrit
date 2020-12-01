@@ -22,6 +22,30 @@
       },
       "revId": "0480bd421783a8bfb47fba98d2f187e3562a684a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1509a7ca_a30b477d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-01T16:12:16Z",
+      "side": 1,
+      "message": "Did you mean mock the entire GrComment element with all the necessary properties or just replace with new GrComment()?\nI tried replacing `{} as GrComment` with `new GrComment()` and it seems to be working.",
+      "parentUuid": "9d5bf799_006443c9",
+      "range": {
+        "startLine": 154,
+        "startChar": 17,
+        "endLine": 154,
+        "endChar": 32
+      },
+      "revId": "0480bd421783a8bfb47fba98d2f187e3562a684a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

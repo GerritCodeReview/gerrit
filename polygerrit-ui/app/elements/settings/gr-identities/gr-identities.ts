@@ -30,6 +30,7 @@ import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api
 import {AccountExternalIdInfo, ServerInfo} from '../../../types/common';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {PolymerDomRepeatEvent} from '../../../types/types';
+import {appContext} from '../../../services/app-context';
 
 const AUTH = ['OPENID', 'OAUTH'];
 
@@ -63,8 +64,10 @@ export class GrIdentities extends GestureEventListeners(
   })
   _showLinkAnotherIdentity?: boolean;
 
+  private readonly restApiService = appContext.restApiService;
+
   loadData() {
-    return this.$.restAPI.getExternalIds().then(id => {
+    return this.restApiService.getExternalIds().then(id => {
       this._identities = id ?? [];
     });
   }
@@ -79,9 +82,11 @@ export class GrIdentities extends GestureEventListeners(
 
   _handleDeleteItemConfirm() {
     this.$.overlay.close();
-    return this.$.restAPI.deleteAccountIdentity([this._idName!]).then(() => {
-      this.loadData();
-    });
+    return this.restApiService
+      .deleteAccountIdentity([this._idName!])
+      .then(() => {
+        this.loadData();
+      });
   }
 
   _handleConfirmDialogCancel() {

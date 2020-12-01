@@ -95,6 +95,8 @@ export class GrHovercardAccount extends GestureEventListeners(
 
   reporting: ReportingService;
 
+  private readonly restApiService = appContext.restApiService;
+
   constructor() {
     super();
     this.reporting = appContext.reportingService;
@@ -102,10 +104,10 @@ export class GrHovercardAccount extends GestureEventListeners(
 
   attached() {
     super.attached();
-    this.$.restAPI.getConfig().then(config => {
+    this.restApiService.getConfig().then(config => {
       this._config = config;
     });
-    this.$.restAPI.getAccount().then(account => {
+    this.restApiService.getAccount().then(account => {
       this._selfAccount = account;
     });
   }
@@ -186,7 +188,7 @@ export class GrHovercardAccount extends GestureEventListeners(
       },
     ];
 
-    this.$.restAPI
+    this.restApiService
       .saveChangeReview(this.change._number, CURRENT, reviewInput)
       .then(response => {
         if (!response || !response.ok) {
@@ -205,7 +207,7 @@ export class GrHovercardAccount extends GestureEventListeners(
     this.dispatchEventThroughTarget('show-alert', {
       message: 'Reloading page...',
     });
-    this.$.restAPI
+    this.restApiService
       .removeChangeReviewer(
         this.change._number,
         (this.account?._account_id || this.account?.email)!
@@ -257,7 +259,7 @@ export class GrHovercardAccount extends GestureEventListeners(
       'attention-hovercard-add',
       this._reportingDetails()
     );
-    this.$.restAPI
+    this.restApiService
       .addToAttentionSet(this.change._number, this.account._account_id, reason)
       .then(() => {
         this.dispatchEventThroughTarget('hide-alert');
@@ -284,7 +286,7 @@ export class GrHovercardAccount extends GestureEventListeners(
       'attention-hovercard-remove',
       this._reportingDetails()
     );
-    this.$.restAPI
+    this.restApiService
       .removeFromAttentionSet(
         this.change._number,
         this.account._account_id,

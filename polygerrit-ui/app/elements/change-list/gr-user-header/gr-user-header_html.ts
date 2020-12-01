@@ -66,5 +66,4 @@ export const htmlTemplate = html`
       <a href$="[[_computeDashboardUrl(_accountDetails)]]">View dashboard</a>
     </div>
   </div>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

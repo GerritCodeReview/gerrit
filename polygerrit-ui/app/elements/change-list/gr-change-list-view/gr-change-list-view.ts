@@ -42,6 +42,7 @@ import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-
 import {hasOwnProperty} from '../../../utils/common-util';
 import {ChangeListViewState} from '../../../types/types';
 import {fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 const LookupQueryPatterns = {
   CHANGE_ID: /^\s*i?[0-9a-f]{7,40}\s*$/i,
@@ -113,6 +114,8 @@ export class GrChangeListView extends GestureEventListeners(
   @property({type: String})
   _repo: string | null = null;
 
+  private restApiService = appContext.restApiService;
+
   /** @override */
   created() {
     super.created();
@@ -146,7 +149,7 @@ export class GrChangeListView extends GestureEventListeners(
     // in an async so that attachment to the DOM can take place first.
     this.async(() => fireTitleChange(this, this._query));
 
-    this.$.restAPI
+    this.restApiService
       .getPreferences()
       .then(prefs => {
         if (!prefs) {
@@ -183,9 +186,9 @@ export class GrChangeListView extends GestureEventListeners(
   }
 
   _loadPreferences() {
-    return this.$.restAPI.getLoggedIn().then(loggedIn => {
+    return this.restApiService.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
-        this.$.restAPI.getPreferences().then(preferences => {
+        this.restApiService.getPreferences().then(preferences => {
           this.preferences = preferences;
         });
       } else {
@@ -195,7 +198,7 @@ export class GrChangeListView extends GestureEventListeners(
   }
 
   _getChanges() {
-    return this.$.restAPI.getChanges(
+    return this.restApiService.getChanges(
       this._changesPerPage,
       this._query,
       this._offset
@@ -282,11 +285,14 @@ export class GrChangeListView extends GestureEventListeners(
   }
 
   _handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
-    this.$.restAPI.saveChangeStarred(e.detail.change._number, e.detail.starred);
+    this.restApiService.saveChangeStarred(
+      e.detail.change._number,
+      e.detail.starred
+    );
   }
 
   _handleToggleReviewed(e: CustomEvent<ChangeListToggleReviewedDetail>) {
-    this.$.restAPI.saveChangeReviewed(
+    this.restApiService.saveChangeReviewed(
       e.detail.change._number,
       e.detail.reviewed
     );

@@ -139,7 +139,7 @@ suite('gr-group-members tests', () => {
     stubBaseUrl('https://test/site');
     element.groupId = 1;
     groupStub = sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getGroupConfig')
         .callsFake(() => Promise.resolve(groups));
     return element._loadGroupDetails();
@@ -162,7 +162,7 @@ suite('gr-group-members tests', () => {
 
     const memberName = 'test-admin';
 
-    const saveStub = sinon.stub(element.$.restAPI, 'saveGroupMember')
+    const saveStub = sinon.stub(element.restApiService, 'saveGroupMember')
         .callsFake(() => Promise.resolve({}));
 
     const button = element.$.saveGroupMember;
@@ -188,7 +188,7 @@ suite('gr-group-members tests', () => {
     const includedGroupName = 'testName';
 
     const saveIncludedGroupStub = sinon.stub(
-        element.$.restAPI, 'saveIncludedGroup')
+        element.restApiService, 'saveIncludedGroup')
         .callsFake(() => Promise.resolve({}));
 
     const button = element.$.saveIncludedGroups;
@@ -219,7 +219,7 @@ suite('gr-group-members tests', () => {
       status: 404,
       ok: false,
     };
-    sinon.stub(element.$.restAPI._restApiHelper, 'fetch').callsFake(
+    sinon.stub(element.restApiService._restApiHelper, 'fetch').callsFake(
         () => Promise.resolve(errorResponse));
 
     element.$.groupMemberSearchInput.text = memberName;
@@ -237,7 +237,7 @@ suite('gr-group-members tests', () => {
     const alertStub = sinon.stub();
     element.addEventListener('show-alert', alertStub);
     const err = new Error();
-    sinon.stub(element.$.restAPI._restApiHelper, 'fetch').callsFake(
+    sinon.stub(element.restApiService._restApiHelper, 'fetch').callsFake(
         () => Promise.reject(err));
 
     element.$.groupMemberSearchInput.text = memberName;
@@ -367,7 +367,7 @@ suite('gr-group-members tests', () => {
 
     const response = {status: 404};
     sinon.stub(
-        element.$.restAPI, 'getGroupConfig')
+        element.restApiService, 'getGroupConfig')
         .callsFake((group, errFn) => {
           errFn(response);
         });

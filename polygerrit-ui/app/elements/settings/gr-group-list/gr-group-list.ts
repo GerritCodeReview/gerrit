@@ -25,6 +25,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {customElement, property} from '@polymer/decorators';
 import {GroupInfo, GroupId} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
 
 export interface GrGroupList {
   $: {
@@ -48,8 +49,10 @@ export class GrGroupList extends GestureEventListeners(
   @property({type: Array})
   _groups: GroupInfo[] = [];
 
+  private readonly restApiService = appContext.restApiService;
+
   loadData() {
-    return this.$.restAPI.getAccountGroups().then(groups => {
+    return this.restApiService.getAccountGroups().then(groups => {
       if (!groups) return;
       this._groups = groups.sort((a, b) =>
         (a.name || '').localeCompare(b.name || '')

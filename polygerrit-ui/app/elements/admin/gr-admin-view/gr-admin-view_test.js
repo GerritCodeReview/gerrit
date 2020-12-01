@@ -83,11 +83,11 @@ suite('gr-admin-view tests', () => {
   });
 
   test('_filteredLinks admin', done => {
-    sinon.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
+    sinon.stub(element.restApiService, 'getAccount').returns(Promise.resolve({
       name: 'test-user',
     }));
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getAccountCapabilities')
         .callsFake(() => Promise.resolve({
           createGroup: true,
@@ -111,11 +111,11 @@ suite('gr-admin-view tests', () => {
   });
 
   test('_filteredLinks non admin authenticated', done => {
-    sinon.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
+    sinon.stub(element.restApiService, 'getAccount').returns(Promise.resolve({
       name: 'test-user',
     }));
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getAccountCapabilities')
         .callsFake(() => Promise.resolve({})
         );
@@ -171,11 +171,11 @@ suite('gr-admin-view tests', () => {
 
   test('Repo shows up in nav', done => {
     element._repoName = 'Test Repo';
-    sinon.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
+    sinon.stub(element.restApiService, 'getAccount').returns(Promise.resolve({
       name: 'test-user',
     }));
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getAccountCapabilities')
         .callsFake(() => Promise.resolve({
           createGroup: true,
@@ -202,11 +202,11 @@ suite('gr-admin-view tests', () => {
     element._groupIsInternal = true;
     element._isAdmin = true;
     element._groupOwner = false;
-    sinon.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
+    sinon.stub(element.restApiService, 'getAccount').returns(Promise.resolve({
       name: 'test-user',
     }));
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getAccountCapabilities')
         .callsFake(() => Promise.resolve({
           createGroup: true,
@@ -232,7 +232,7 @@ suite('gr-admin-view tests', () => {
 
   test('Nav is reloaded when repo changes', () => {
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getAccountCapabilities')
         .callsFake(() => Promise.resolve({
           createGroup: true,
@@ -240,7 +240,7 @@ suite('gr-admin-view tests', () => {
           viewPlugins: true,
         }));
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getAccount')
         .callsFake(() => Promise.resolve({_id: 1}));
     sinon.stub(element, 'reload');
@@ -254,7 +254,7 @@ suite('gr-admin-view tests', () => {
   test('Nav is reloaded when group changes', () => {
     sinon.stub(element, '_computeGroupName');
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getAccountCapabilities')
         .callsFake(() => Promise.resolve({
           createGroup: true,
@@ -262,7 +262,7 @@ suite('gr-admin-view tests', () => {
           viewPlugins: true,
         }));
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getAccount')
         .callsFake(() => Promise.resolve({_id: 1}));
     sinon.stub(element, 'reload');
@@ -321,7 +321,7 @@ suite('gr-admin-view tests', () => {
       detail: GerritNav.RepoDetailView.ACCESS,
     };
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getAccountCapabilities')
         .callsFake(() => Promise.resolve({
           createGroup: true,
@@ -329,7 +329,7 @@ suite('gr-admin-view tests', () => {
           viewPlugins: true,
         }));
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getAccount')
         .callsFake(() => Promise.resolve({_id: 1}));
     flush();
@@ -484,7 +484,7 @@ suite('gr-admin-view tests', () => {
   suite('_computeSelectedClass', () => {
     setup(() => {
       sinon.stub(
-          element.$.restAPI,
+          element.restApiService,
           'getAccountCapabilities')
           .callsFake(() => Promise.resolve({
             createGroup: true,
@@ -492,7 +492,7 @@ suite('gr-admin-view tests', () => {
             viewPlugins: true,
           }));
       sinon.stub(
-          element.$.restAPI,
+          element.restApiService,
           'getAccount')
           .callsFake(() => Promise.resolve({_id: 1}));
 
@@ -576,12 +576,12 @@ suite('gr-admin-view tests', () => {
           _loadGroupDetails: () => {},
         });
 
-        sinon.stub(element.$.restAPI, 'getGroupConfig')
+        sinon.stub(element.restApiService, 'getGroupConfig')
             .returns(Promise.resolve({
               name: 'foo',
               id: 'c0f83e941ce90caea30e6ad88f0d4ea0e841a7a9',
             }));
-        sinon.stub(element.$.restAPI, 'getIsGroupOwner')
+        sinon.stub(element.restApiService, 'getIsGroupOwner')
             .returns(Promise.resolve(true));
         return element.reload();
       });
@@ -619,8 +619,8 @@ suite('gr-admin-view tests', () => {
       });
 
       test('external group', () => {
-        element.$.restAPI.getGroupConfig.restore();
-        sinon.stub(element.$.restAPI, 'getGroupConfig')
+        element.restApiService.getGroupConfig.restore();
+        sinon.stub(element.restApiService, 'getGroupConfig')
             .returns(Promise.resolve({
               name: 'foo',
               id: 'external-id',

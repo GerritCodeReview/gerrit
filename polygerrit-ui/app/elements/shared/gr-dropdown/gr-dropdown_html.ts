@@ -165,5 +165,4 @@ export const htmlTemplate = html`
     focus-on-move=""
     stops="[[_listElements]]"
   ></gr-cursor-manager>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

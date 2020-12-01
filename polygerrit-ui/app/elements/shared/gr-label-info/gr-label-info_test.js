@@ -73,7 +73,7 @@ suite('gr-label-info tests', () => {
     test('deletes votes', () => {
       const deleteResponse = Promise.resolve({ok: true});
       const deleteStub = sinon.stub(
-          element.$.restAPI, 'deleteVote').returns(deleteResponse);
+          element.restApiService, 'deleteVote').returns(deleteResponse);
 
       element.change.removable_reviewers = [element.account];
       element.change.labels.test.recommended = {_account_id: 1};

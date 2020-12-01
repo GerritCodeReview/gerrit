@@ -32,6 +32,7 @@ import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api'
 import {PluginInfo} from '../../../types/common';
 import {firePageError} from '../../../utils/event-util';
 import {fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 interface PluginInfoWithName extends PluginInfo {
   name: string;
@@ -83,6 +84,8 @@ export class GrPluginList extends ListViewMixin(
   @property({type: String})
   _filter = '';
 
+  private restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -101,7 +104,7 @@ export class GrPluginList extends ListViewMixin(
     const errFn: ErrorCallback = response => {
       firePageError(this, response);
     };
-    return this.$.restAPI
+    return this.restApiService
       .getPlugins(filter, pluginsPerPage, offset, errFn)
       .then(plugins => {
         if (!plugins) {

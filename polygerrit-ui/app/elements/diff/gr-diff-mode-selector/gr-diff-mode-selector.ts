@@ -28,6 +28,7 @@ import {htmlTemplate} from './gr-diff-mode-selector_html';
 import {customElement, property} from '@polymer/decorators';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {FixIronA11yAnnouncer} from '../../../types/types';
+import {appContext} from '../../../services/app-context';
 
 export interface GrDiffModeSelector {
   $: {
@@ -53,6 +54,8 @@ export class GrDiffModeSelector extends GestureEventListeners(
   @property({type: Boolean})
   saveOnChange = false;
 
+  private readonly restApiService = appContext.restApiService;
+
   attached() {
     ((IronA11yAnnouncer as unknown) as FixIronA11yAnnouncer).requestAvailability();
   }
@@ -62,7 +65,7 @@ export class GrDiffModeSelector extends GestureEventListeners(
    */
   setMode(newMode: DiffViewMode) {
     if (this.saveOnChange && this.mode && this.mode !== newMode) {
-      this.$.restAPI.savePreferences({diff_view: newMode});
+      this.restApiService.savePreferences({diff_view: newMode});
     }
     this.mode = newMode;
     let annoucement;

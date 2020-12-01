@@ -40,7 +40,7 @@ suite('gr-diff-mode-selector tests', () => {
   });
 
   test('setMode', () => {
-    const saveStub = sinon.stub(element.$.restAPI, 'savePreferences');
+    const saveStub = sinon.stub(element.restApiService, 'savePreferences');
 
     // Setting the mode initially does not save prefs.
     element.saveOnChange = true;

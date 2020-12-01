@@ -646,8 +646,8 @@ suite('gr-change-metadata tests', () => {
       let setStub;
 
       setup(() => {
-        deleteStub = sinon.stub(element.$.restAPI, 'deleteAssignee');
-        setStub = sinon.stub(element.$.restAPI, 'setAssignee');
+        deleteStub = sinon.stub(element.restApiService, 'deleteAssignee');
+        setStub = sinon.stub(element.restApiService, 'setAssignee');
         element.serverConfig = {
           change: {
             enable_assignee: true,
@@ -691,14 +691,14 @@ suite('gr-change-metadata tests', () => {
 
     test('changing topic', () => {
       const newTopic = 'the new topic';
-      sinon.stub(element.$.restAPI, 'setChangeTopic').returns(
+      sinon.stub(element.restApiService, 'setChangeTopic').returns(
           Promise.resolve(newTopic));
       element._handleTopicChanged({detail: newTopic});
       const topicChangedSpy = sinon.spy();
       element.addEventListener('topic-changed', topicChangedSpy);
-      assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
+      assert.isTrue(element.restApiService.setChangeTopic.calledWith(
           42, newTopic));
-      return element.$.restAPI.setChangeTopic.lastCall.returnValue
+      return element.restApiService.setChangeTopic.lastCall.returnValue
           .then(() => {
             assert.equal(element.change.topic, newTopic);
             assert.isTrue(topicChangedSpy.called);
@@ -706,7 +706,7 @@ suite('gr-change-metadata tests', () => {
     });
 
     test('topic removal', () => {
-      sinon.stub(element.$.restAPI, 'setChangeTopic').returns(
+      sinon.stub(element.restApiService, 'setChangeTopic').returns(
           Promise.resolve());
       const chip = element.shadowRoot
           .querySelector('gr-linked-chip');
@@ -715,9 +715,9 @@ suite('gr-change-metadata tests', () => {
       element.addEventListener('topic-changed', topicChangedSpy);
       MockInteractions.tap(remove);
       assert.isTrue(chip.disabled);
-      assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
+      assert.isTrue(element.restApiService.setChangeTopic.calledWith(
           42));
-      return element.$.restAPI.setChangeTopic.lastCall.returnValue
+      return element.restApiService.setChangeTopic.lastCall.returnValue
           .then(() => {
             assert.isFalse(chip.disabled);
             assert.equal(element.change.topic, '');
@@ -729,12 +729,12 @@ suite('gr-change-metadata tests', () => {
       flush();
       element._newHashtag = 'new hashtag';
       const newHashtag = ['new hashtag'];
-      sinon.stub(element.$.restAPI, 'setChangeHashtag').returns(
+      sinon.stub(element.restApiService, 'setChangeHashtag').returns(
           Promise.resolve(newHashtag));
       element._handleHashtagChanged({}, 'new hashtag');
-      assert.isTrue(element.$.restAPI.setChangeHashtag.calledWith(
+      assert.isTrue(element.restApiService.setChangeHashtag.calledWith(
           42, {add: ['new hashtag']}));
-      return element.$.restAPI.setChangeHashtag.lastCall.returnValue
+      return element.restApiService.setChangeHashtag.lastCall.returnValue
           .then(() => {
             assert.equal(element.change.hashtags, newHashtag);
           });

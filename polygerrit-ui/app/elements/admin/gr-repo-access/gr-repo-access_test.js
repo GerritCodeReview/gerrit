@@ -104,7 +104,7 @@ suite('gr-repo-access tests', () => {
     stub('gr-rest-api-interface', {
       getAccount() { return Promise.resolve(null); },
     });
-    repoStub = sinon.stub(element.$.restAPI, 'getRepo').returns(
+    repoStub = sinon.stub(element.restApiService, 'getRepo').returns(
         Promise.resolve(repoRes));
     element._loading = false;
     element._ownerOf = [];
@@ -118,14 +118,14 @@ suite('gr-repo-access tests', () => {
   });
 
   test('_repoChanged', done => {
-    const accessStub = sinon.stub(element.$.restAPI,
+    const accessStub = sinon.stub(element.restApiService,
         'getRepoAccessRights');
 
     accessStub.withArgs('New Repo').returns(
         Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
     accessStub.withArgs('Another New Repo')
         .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
-    const capabilitiesStub = sinon.stub(element.$.restAPI,
+    const capabilitiesStub = sinon.stub(element.restApiService,
         'getCapabilities');
     capabilitiesStub.returns(Promise.resolve(capabilitiesRes));
 
@@ -160,9 +160,9 @@ suite('gr-repo-access tests', () => {
         name: 'Access Database',
       },
     };
-    const accessStub = sinon.stub(element.$.restAPI, 'getRepoAccessRights')
+    const accessStub = sinon.stub(element.restApiService, 'getRepoAccessRights')
         .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
-    const capabilitiesStub = sinon.stub(element.$.restAPI,
+    const capabilitiesStub = sinon.stub(element.restApiService,
         'getCapabilities').returns(Promise.resolve(capabilitiesRes));
 
     element._repoChanged().then(() => {
@@ -241,7 +241,7 @@ suite('gr-repo-access tests', () => {
     const response = {status: 404};
 
     sinon.stub(
-        element.$.restAPI, 'getRepoAccessRights')
+        element.restApiService, 'getRepoAccessRights')
         .callsFake((repoName, errFn) => {
           errFn(response);
         });
@@ -378,7 +378,7 @@ suite('gr-repo-access tests', () => {
 
     test('_handleSaveForReview', () => {
       const saveStub =
-          sinon.stub(element.$.restAPI, 'setRepoAccessRightsForReview');
+          sinon.stub(element.restApiService, 'setRepoAccessRightsForReview');
       sinon.stub(element, '_computeAddAndRemove').returns({
         add: {},
         remove: {},
@@ -1161,11 +1161,11 @@ suite('gr-repo-access tests', () => {
           },
         },
       };
-      sinon.stub(element.$.restAPI, 'getRepoAccessRights').returns(
+      sinon.stub(element.restApiService, 'getRepoAccessRights').returns(
           Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
       sinon.stub(GerritNav, 'navigateToChange');
       let resolver;
-      const saveStub = sinon.stub(element.$.restAPI,
+      const saveStub = sinon.stub(element.restApiService,
           'setRepoAccessRights')
           .returns(new Promise(r => resolver = r));
 
@@ -1208,11 +1208,11 @@ suite('gr-repo-access tests', () => {
           },
         },
       };
-      sinon.stub(element.$.restAPI, 'getRepoAccessRights').returns(
+      sinon.stub(element.restApiService, 'getRepoAccessRights').returns(
           Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
       sinon.stub(GerritNav, 'navigateToChange');
       let resolver;
-      const saveForReviewStub = sinon.stub(element.$.restAPI,
+      const saveForReviewStub = sinon.stub(element.restApiService,
           'setRepoAccessRightsForReview')
           .returns(new Promise(r => resolver = r));
 

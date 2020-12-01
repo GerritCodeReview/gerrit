@@ -28,6 +28,7 @@ import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api
 import {RepoName, DashboardId, DashboardInfo} from '../../../types/common';
 import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {firePageError} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 interface DashboardRef {
   section: string;
@@ -56,6 +57,8 @@ export class GrRepoDashboards extends GestureEventListeners(
   @property({type: Array})
   _dashboards?: DashboardRef[];
 
+  private restApiService = appContext.restApiService;
+
   _repoChanged(repo?: RepoName) {
     this._loading = true;
     if (!repo) {
@@ -66,7 +69,7 @@ export class GrRepoDashboards extends GestureEventListeners(
       firePageError(this, response);
     };
 
-    return this.$.restAPI
+    return this.restApiService
       .getRepoDashboards(repo, errFn)
       .then((res?: DashboardInfo[]) => {
         if (!res) {

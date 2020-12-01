@@ -39,6 +39,7 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import {appContext} from '../../../services/app-context';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -93,6 +94,8 @@ export class GrCreateChangeDialog extends GestureEventListeners(
   @property({type: Boolean})
   _privateChangesEnabled?: boolean;
 
+  restApiService = appContext.restApiService;
+
   constructor() {
     super();
     this._query = (input: string) => this._getRepoBranchesSuggestions(input);
@@ -108,14 +111,14 @@ export class GrCreateChangeDialog extends GestureEventListeners(
     const promises = [];
 
     promises.push(
-      this.$.restAPI.getProjectConfig(this.repoName).then(config => {
+      this.restApiService.getProjectConfig(this.repoName).then(config => {
         if (!config) return;
         this.privateByDefault = config.private_by_default;
       })
     );
 
     promises.push(
-      this.$.restAPI.getConfig().then(config => {
+      this.restApiService.getConfig().then(config => {
         if (!config) {
           return;
         }
@@ -143,7 +146,7 @@ export class GrCreateChangeDialog extends GestureEventListeners(
     }
     const isPrivate = this.$.privateChangeCheckBox.checked;
     const isWip = true;
-    return this.$.restAPI
+    return this.restApiService
       .createChange(
         this.repoName,
         this.branch,
@@ -169,7 +172,7 @@ export class GrCreateChangeDialog extends GestureEventListeners(
     if (input.startsWith(REF_PREFIX)) {
       input = input.substring(REF_PREFIX.length);
     }
-    return this.$.restAPI
+    return this.restApiService
       .getRepoBranches(input, this.repoName, SUGGESTIONS_LIMIT)
       .then(response => {
         if (!response) return [];

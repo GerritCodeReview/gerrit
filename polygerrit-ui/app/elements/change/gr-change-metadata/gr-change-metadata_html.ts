@@ -432,5 +432,4 @@ export const htmlTemplate = html`
       ></gr-endpoint-param>
     </gr-endpoint-decorator>
   </gr-external-style>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

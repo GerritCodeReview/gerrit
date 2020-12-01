@@ -166,7 +166,8 @@ suite('gr-comment-thread tests', () => {
 
     test('setting project name loads the project config', done => {
       const projectName = 'foo/bar/baz';
-      const getProjectStub = sinon.stub(element.$.restAPI, 'getProjectConfig')
+      const getProjectStub = sinon.stub(element.restApiService,
+          'getProjectConfig')
           .returns(Promise.resolve({}));
       element.projectName = projectName;
       flush(() => {

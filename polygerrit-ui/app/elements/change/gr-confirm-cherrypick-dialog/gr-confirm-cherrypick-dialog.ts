@@ -142,6 +142,8 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
   @property({type: Object})
   reporting: ReportingService;
 
+  private restApiService = appContext.restApiService;
+
   constructor() {
     super();
     this._statuses = {};
@@ -301,7 +303,7 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
       };
       // revisions and current_revision must exist hence casting
       const patchNum = change.revisions![change.current_revision!]._number;
-      this.$.restAPI
+      this.restApiService
         .executeChangeAction(
           change._number,
           HttpMethod.POST,
@@ -366,7 +368,7 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
     if (input.startsWith('refs/heads/')) {
       input = input.substring('refs/heads/'.length);
     }
-    return this.$.restAPI
+    return this.restApiService
       .getRepoBranches(input, this.project, SUGGESTIONS_LIMIT)
       .then((response: BranchInfo[] | undefined) => {
         const branches = [];

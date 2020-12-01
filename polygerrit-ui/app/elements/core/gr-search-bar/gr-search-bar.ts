@@ -37,6 +37,7 @@ import {
 import {getDocsBaseUrl} from '../../../utils/url-util';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
+import {appContext} from '../../../services/app-context';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -187,6 +188,8 @@ export class GrSearchBar extends KeyboardShortcutMixin(
   @property({type: String})
   docBaseUrl: string | null = null;
 
+  private readonly restApiService = appContext.restApiService;
+
   constructor() {
     super();
     this.query = (input: string) => this._getSearchSuggestions(input);
@@ -194,7 +197,7 @@ export class GrSearchBar extends KeyboardShortcutMixin(
 
   attached() {
     super.attached();
-    this.$.restAPI.getConfig().then((serverConfig?: ServerInfo) => {
+    this.restApiService.getConfig().then((serverConfig?: ServerInfo) => {
       const mergeability =
         serverConfig &&
         serverConfig.change &&
@@ -209,7 +212,7 @@ export class GrSearchBar extends KeyboardShortcutMixin(
         this._addOperator('is:mergeable');
       }
       if (serverConfig) {
-        getDocsBaseUrl(serverConfig, this.$.restAPI).then(baseUrl => {
+        getDocsBaseUrl(serverConfig, this.restApiService).then(baseUrl => {
           this.docBaseUrl = baseUrl;
         });
       }

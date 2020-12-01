@@ -561,3 +561,37 @@ message ModifiedFileProto {
 message ModifiedFilesProto {
   repeated ModifiedFileProto modifiedFile = 1;
 }
+
+// Serialized form of a collection of
+// com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.Key
+// Next ID: 8
+message GitFileDiffKeyProto {
+  string project = 1;
+  bytes a_tree = 2;
+  bytes b_tree = 3;
+  string file_path = 4;
+  int32 rename_score = 5;
+  string diff_algorithm = 6; // ENUM as string
+  string whitepsace = 7; // ENUM as string
+}
+
+// Serialized form of com.google.gerrit.server.patch.gitfilediff.GitFileDiff
+// Next ID: 11
+message GitFileDiffProto {
+  message Edit {
+    int32 begin_a = 1;
+    int32 end_a = 2;
+    int32 begin_b = 3;
+    int32 end_b = 4;
+  }
+  repeated Edit edits = 1;
+  string file_header = 2;
+  string old_path = 3;
+  string new_path = 4;
+  bytes old_id = 5;
+  bytes new_id = 6;
+  string old_mode = 7; // ENUM as string
+  string new_mode = 8; // ENUM as string
+  string change_type = 9; // ENUM as string
+  string patch_type = 10; // ENUM as string
+}

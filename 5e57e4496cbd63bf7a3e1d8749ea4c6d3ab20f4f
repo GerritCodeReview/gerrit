@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d676e0f2_2acadc01",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-01T15:02:57Z",
+      "side": 1,
+      "message": "If exception is not thrown, the catch is not called and test passes.\nOne possible solution:\nlet error \u003d null;\ntry {\n  await element._handleApplyFix();\n} catch(e) {\n error \u003d e;\n}\nassert.isOk(e);",
+      "range": {
+        "startLine": 290,
+        "startChar": 4,
+        "endLine": 292,
+        "endChar": 7
+      },
+      "revId": "5e57e4496cbd63bf7a3e1d8749ea4c6d3ab20f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

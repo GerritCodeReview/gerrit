@@ -18,7 +18,6 @@ import {getBaseUrl} from '../../../../utils/url-util';
 import {
   CancelConditionCallback,
   ErrorCallback,
-  RestApiService,
 } from '../../../../services/services/gr-rest-api/gr-rest-api';
 import {
   AuthRequestInit,
@@ -218,8 +217,7 @@ export class GrRestApiHelper {
   constructor(
     private readonly _cache: SiteBasedCache,
     private readonly _auth: AuthService,
-    private readonly _fetchPromisesCache: FetchPromisesCache,
-    private readonly _restApiInterface: RestApiService
+    private readonly _fetchPromisesCache: FetchPromisesCache
   ) {}
 
   /**
@@ -277,7 +275,7 @@ s   */
         elapsed,
         anonymizedUrl: req.anonymizedUrl,
       };
-      this.dispatchEvent(
+      document.dispatchEvent(
         new CustomEvent('rpc-log', {
           detail,
           composed: true,
@@ -317,7 +315,7 @@ s   */
         if (req.errFn) {
           req.errFn.call(undefined, null, err);
         } else {
-          this.dispatchEvent(
+          document.dispatchEvent(
             new CustomEvent('network-error', {
               detail: {error: err},
               composed: true,
@@ -352,7 +350,7 @@ s   */
           req.errFn.call(null, response);
           return;
         }
-        this.dispatchEvent(
+        document.dispatchEvent(
           new CustomEvent('server-error', {
             detail: {request: req, response},
             composed: true,
@@ -440,10 +438,6 @@ s   */
     return req;
   }
 
-  dispatchEvent(type: Event, detail?: unknown): boolean {
-    return this._restApiInterface.dispatchEvent(type, detail);
-  }
-
   fetchCacheURL(req: FetchJSONRequest): Promise<ParsedJSON | undefined> {
     if (this._fetchPromisesCache.has(req.url)) {
       return this._fetchPromisesCache.get(req.url)!;
@@ -521,7 +515,7 @@ s   */
             req.errFn.call(undefined, response);
             return;
           }
-          this.dispatchEvent(
+          document.dispatchEvent(
             new CustomEvent('server-error', {
               detail: {request: fetchReq, response},
               composed: true,
@@ -532,7 +526,7 @@ s   */
         return response;
       })
       .catch(err => {
-        this.dispatchEvent(
+        document.dispatchEvent(
           new CustomEvent('network-error', {
             detail: {error: err},
             composed: true,

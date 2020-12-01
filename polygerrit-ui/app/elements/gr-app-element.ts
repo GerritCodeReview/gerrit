@@ -219,7 +219,9 @@ export class GrAppElement extends KeyboardShortcutMixin(
     this.addEventListener('location-change', e =>
       this._handleLocationChange(e)
     );
-    this.addEventListener('rpc-log', e => this._handleRpcLog(e));
+    document.addEventListener('rpc-log', e =>
+      this._handleRpcLog(e as RpcLogEvent)
+    );
     this.addEventListener('shortcut-triggered', e =>
       this._handleShortcutTriggered(e)
     );

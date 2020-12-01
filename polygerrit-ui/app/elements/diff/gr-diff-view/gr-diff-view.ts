@@ -972,7 +972,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
           patchNum: latestPatchNum,
           basePatchNum: ParentPatchSetNum,
         };
-        leftSide = comment.__commentSide === 'left';
+        leftSide = comment.diffSide === Side.LEFT;
       } else {
         this._patchRange = {
           patchNum: latestPatchNum,

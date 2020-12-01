@@ -51,6 +51,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
+import {GrButton} from '../gr-button/gr-button';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -59,6 +60,8 @@ export interface GrCommentThread {
   $: {
     restAPI: RestApiService & Element;
     storage: GrStorage;
+    replyBtn: GrButton;
+    quoteBtn: GrButton;
   };
 }
 

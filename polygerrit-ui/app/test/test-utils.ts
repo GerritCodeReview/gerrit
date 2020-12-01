@@ -119,16 +119,19 @@ export function stubBaseUrl(newUrl: string) {
 /**
  * Forcing an opacity of 0 onto the ironOverlayBackdrop is required, because
  * otherwise the backdrop stays around in the DOM for too long waiting for
- * an animation to finish. This could be considered to be moved to a
- * common-test-setup file.
+ * an animation to finish.
  */
-export function createIronOverlayBackdropStyleEl() {
-  const ironOverlayBackdropStyleEl = document.createElement('style');
-  document.head.appendChild(ironOverlayBackdropStyleEl);
-  ironOverlayBackdropStyleEl.sheet!.insertRule(
-    'body { --iron-overlay-backdrop-opacity: 0; }'
-  );
-  return ironOverlayBackdropStyleEl;
+export function addIronOverlayBackdropStyleEl() {
+  const el = document.createElement('style');
+  el.setAttribute('id', 'backdrop-style');
+  document.head.appendChild(el);
+  el.sheet!.insertRule('body { --iron-overlay-backdrop-opacity: 0; }');
+}
+
+export function removeIronOverlayBackdropStyleEl() {
+  const el = document.getElementById('backdrop-style');
+  if (!el?.parentNode) throw new Error('Backdrop style element not found.');
+  el.parentNode?.removeChild(el);
 }
 
 /**

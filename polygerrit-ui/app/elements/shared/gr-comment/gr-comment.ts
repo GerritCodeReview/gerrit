@@ -450,7 +450,7 @@ export class GrComment extends KeyboardShortcutMixin(
           if (this.comment?.__draftID) {
             resComment.__draftID = this.comment.__draftID;
           }
-          resComment.__commentSide = this.commentSide;
+          resComment.diffSide = this.commentSide;
           this.comment = resComment;
           this._fireSave();
           return obj;

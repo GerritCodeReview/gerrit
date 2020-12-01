@@ -120,5 +120,4 @@ export const htmlTemplate = html`
       </tfoot>
     </table>
   </div>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

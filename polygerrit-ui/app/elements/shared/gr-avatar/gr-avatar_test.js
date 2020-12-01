@@ -104,7 +104,7 @@ suite('gr-avatar tests', () => {
       getPluginLoader().loadPlugins([]);
 
       return Promise.all([
-        element.$.restAPI.getConfig(),
+        element.restApiService.getConfig(),
         getPluginLoader().awaitPluginsLoaded(),
       ]).then(() => {
         assert.isFalse(element.hasAttribute('hidden'));
@@ -134,7 +134,7 @@ suite('gr-avatar tests', () => {
       getPluginLoader().loadPlugins([]);
 
       return Promise.all([
-        element.$.restAPI.getConfig(),
+        element.restApiService.getConfig(),
         getPluginLoader().awaitPluginsLoaded(),
       ]).then(() => {
         assert.isTrue(element.hasAttribute('hidden'));
@@ -167,7 +167,7 @@ suite('gr-avatar tests', () => {
       getPluginLoader().loadPlugins([]);
 
       return Promise.all([
-        element.$.restAPI.getConfig(),
+        element.restApiService.getConfig(),
         getPluginLoader().awaitPluginsLoaded(),
       ]).then(() => {
         assert.isTrue(element.hasAttribute('hidden'));

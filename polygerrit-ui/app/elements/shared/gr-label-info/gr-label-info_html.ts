@@ -118,5 +118,4 @@ export const htmlTemplate = html`
       </tr>
     </template>
   </table>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

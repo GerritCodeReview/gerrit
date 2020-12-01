@@ -51,6 +51,7 @@ import {
   firePageError,
   fireTitleChange,
 } from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 const SUGGESTIONS_LIMIT = 15;
 const SAVING_ERROR_TEXT =
@@ -119,6 +120,8 @@ export class GrGroupMembers extends GestureEventListeners(
 
   _itemId?: AccountId | GroupId;
 
+  private restApiService = appContext.restApiService;
+
   constructor() {
     super();
     this._queryMembers = input => this._getAccountSuggestions(input);
@@ -144,41 +147,45 @@ export class GrGroupMembers extends GestureEventListeners(
       firePageError(this, response);
     };
 
-    return this.$.restAPI.getGroupConfig(this.groupId, errFn).then(config => {
-      if (!config || !config.name) {
-        return Promise.resolve();
-      }
+    return this.restApiService
+      .getGroupConfig(this.groupId, errFn)
+      .then(config => {
+        if (!config || !config.name) {
+          return Promise.resolve();
+        }
 
-      this._groupName = config.name;
+        this._groupName = config.name;
 
-      promises.push(
-        this.$.restAPI.getIsAdmin().then(isAdmin => {
-          this._isAdmin = !!isAdmin;
-        })
-      );
+        promises.push(
+          this.restApiService.getIsAdmin().then(isAdmin => {
+            this._isAdmin = !!isAdmin;
+          })
+        );
 
-      promises.push(
-        this.$.restAPI.getIsGroupOwner(this._groupName).then(isOwner => {
-          this._groupOwner = !!isOwner;
-        })
-      );
+        promises.push(
+          this.restApiService.getIsGroupOwner(this._groupName).then(isOwner => {
+            this._groupOwner = !!isOwner;
+          })
+        );
 
-      promises.push(
-        this.$.restAPI.getGroupMembers(this._groupName).then(members => {
-          this._groupMembers = members;
-        })
-      );
+        promises.push(
+          this.restApiService.getGroupMembers(this._groupName).then(members => {
+            this._groupMembers = members;
+          })
+        );
 
-      promises.push(
-        this.$.restAPI.getIncludedGroup(this._groupName).then(includedGroup => {
-          this._includedGroups = includedGroup;
-        })
-      );
+        promises.push(
+          this.restApiService
+            .getIncludedGroup(this._groupName)
+            .then(includedGroup => {
+              this._includedGroups = includedGroup;
+            })
+        );
 
-      return Promise.all(promises).then(() => {
-        this._loading = false;
+        return Promise.all(promises).then(() => {
+          this._loading = false;
+        });
       });
-    });
   }
 
   _computeLoadingClass(loading: boolean) {
@@ -210,13 +217,13 @@ export class GrGroupMembers extends GestureEventListeners(
     if (!this._groupName) {
       return Promise.reject(new Error('group name undefined'));
     }
-    return this.$.restAPI
+    return this.restApiService
       .saveGroupMember(this._groupName, this._groupMemberSearchId as AccountId)
       .then(config => {
         if (!config || !this._groupName) {
           return;
         }
-        this.$.restAPI.getGroupMembers(this._groupName).then(members => {
+        this.restApiService.getGroupMembers(this._groupName).then(members => {
           this._groupMembers = members;
         });
         this._groupMemberSearchName = '';
@@ -230,24 +237,26 @@ export class GrGroupMembers extends GestureEventListeners(
     }
     this.$.overlay.close();
     if (this._itemType === 'member') {
-      return this.$.restAPI
+      return this.restApiService
         .deleteGroupMember(this._groupName, this._itemId! as AccountId)
         .then(itemDeleted => {
           if (itemDeleted.status === 204 && this._groupName) {
-            this.$.restAPI.getGroupMembers(this._groupName).then(members => {
-              this._groupMembers = members;
-            });
+            this.restApiService
+              .getGroupMembers(this._groupName)
+              .then(members => {
+                this._groupMembers = members;
+              });
           }
         });
     } else if (this._itemType === 'includedGroup') {
-      return this.$.restAPI
+      return this.restApiService
         .deleteIncludedGroup(this._groupName, this._itemId! as GroupId)
         .then(itemDeleted => {
           if (
             (itemDeleted.status === 204 || itemDeleted.status === 205) &&
             this._groupName
           ) {
-            this.$.restAPI
+            this.restApiService
               .getIncludedGroup(this._groupName)
               .then(includedGroup => {
                 this._includedGroups = includedGroup;
@@ -283,7 +292,7 @@ export class GrGroupMembers extends GestureEventListeners(
         new Error('group name or includedGroupSearchId undefined')
       );
     }
-    return this.$.restAPI
+    return this.restApiService
       .saveIncludedGroup(
         this._groupName,
         this._includedGroupSearchId.replace(/\+/g, ' ') as GroupId,
@@ -302,9 +311,11 @@ export class GrGroupMembers extends GestureEventListeners(
         if (!config || !this._groupName) {
           return;
         }
-        this.$.restAPI.getIncludedGroup(this._groupName).then(includedGroup => {
-          this._includedGroups = includedGroup;
-        });
+        this.restApiService
+          .getIncludedGroup(this._groupName)
+          .then(includedGroup => {
+            this._includedGroups = includedGroup;
+          });
         this._includedGroupSearchName = '';
         this._includedGroupSearchId = '';
       });
@@ -330,7 +341,7 @@ export class GrGroupMembers extends GestureEventListeners(
     if (input.length === 0) {
       return Promise.resolve([]);
     }
-    return this.$.restAPI
+    return this.restApiService
       .getSuggestedAccounts(input, SUGGESTIONS_LIMIT)
       .then(accounts => {
         const accountSuggestions = [];
@@ -357,7 +368,7 @@ export class GrGroupMembers extends GestureEventListeners(
   }
 
   _getGroupSuggestions(input: string) {
-    return this.$.restAPI.getSuggestedGroups(input).then(response => {
+    return this.restApiService.getSuggestedGroups(input).then(response => {
       const groups = [];
       for (const key in response) {
         if (!hasOwnProperty(response, key)) {

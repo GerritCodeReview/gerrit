@@ -36,6 +36,7 @@ import {TimeFormat, DateFormat} from '../../../constants/constants';
 import {assertNever} from '../../../utils/common-util';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {Timestamp} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
 
 const TimeFormats = {
   TIME_12: 'h:mm A', // 2:14 PM
@@ -134,6 +135,8 @@ export class GrDateFormatter extends TooltipMixin(
   @property({type: Boolean})
   relativeOptionNoAgo = false;
 
+  private readonly restApiService = appContext.restApiService;
+
   constructor() {
     super();
   }
@@ -214,11 +217,11 @@ export class GrDateFormatter extends TooltipMixin(
   }
 
   _getLoggedIn() {
-    return this.$.restAPI.getLoggedIn();
+    return this.restApiService.getLoggedIn();
   }
 
   _getPreferences() {
-    return this.$.restAPI.getPreferences();
+    return this.restApiService.getPreferences();
   }
 
   _computeDateStr(

@@ -25,6 +25,7 @@ import {htmlTemplate} from './gr-download-commands_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {appContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -65,6 +66,8 @@ export class GrDownloadCommands extends GestureEventListeners(
   @property({type: String, notify: true})
   selectedScheme?: string;
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -79,7 +82,7 @@ export class GrDownloadCommands extends GestureEventListeners(
   }
 
   _getLoggedIn() {
-    return this.$.restAPI.getLoggedIn();
+    return this.restApiService.getLoggedIn();
   }
 
   @observe('_loggedIn')
@@ -87,7 +90,7 @@ export class GrDownloadCommands extends GestureEventListeners(
     if (!loggedIn) {
       return;
     }
-    return this.$.restAPI.getPreferences().then(prefs => {
+    return this.restApiService.getPreferences().then(prefs => {
       if (prefs?.download_scheme) {
         // Note (issue 5180): normalize the download scheme with lower-case.
         this.selectedScheme = prefs.download_scheme.toLowerCase();
@@ -100,7 +103,9 @@ export class GrDownloadCommands extends GestureEventListeners(
     if (scheme && scheme !== this.selectedScheme) {
       this.set('selectedScheme', scheme);
       if (this._loggedIn) {
-        this.$.restAPI.savePreferences({download_scheme: this.selectedScheme});
+        this.restApiService.savePreferences({
+          download_scheme: this.selectedScheme,
+        });
       }
     }
   }

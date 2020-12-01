@@ -27,6 +27,7 @@ import {getUserName} from '../../../utils/display-name-util';
 import {customElement, property} from '@polymer/decorators';
 import {AccountInfo, ServerInfo} from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {appContext} from '../../../services/app-context';
 
 const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
 
@@ -71,12 +72,14 @@ export class GrAccountDropdown extends GestureEventListeners(
   @property({type: String})
   _switchAccountUrl = '';
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
     this._handleLocationChange();
     this.listen(window, 'location-change', '_handleLocationChange');
-    this.$.restAPI.getConfig().then(cfg => {
+    this.restApiService.getConfig().then(cfg => {
       this.config = cfg;
 
       if (cfg && cfg.auth && cfg.auth.switch_account_url) {

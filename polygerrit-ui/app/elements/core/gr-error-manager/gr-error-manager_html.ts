@@ -34,5 +34,4 @@ export const htmlTemplate = html`
     no-cancel-on-outside-click=""
   >
   </gr-overlay>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

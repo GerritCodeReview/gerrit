@@ -36,7 +36,7 @@ suite('gr-create-pointer-dialog tests', () => {
 
   test('branch created', done => {
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'createRepoBranch')
         .callsFake(() => Promise.resolve({}));
 
@@ -58,7 +58,7 @@ suite('gr-create-pointer-dialog tests', () => {
 
   test('tag created', done => {
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'createRepoTag')
         .callsFake(() => Promise.resolve({}));
 
@@ -80,7 +80,7 @@ suite('gr-create-pointer-dialog tests', () => {
 
   test('tag created with annotations', done => {
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'createRepoTag')
         .callsFake(() => Promise.resolve({}));
 

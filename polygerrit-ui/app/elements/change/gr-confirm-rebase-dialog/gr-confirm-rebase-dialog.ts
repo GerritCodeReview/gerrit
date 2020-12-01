@@ -31,6 +31,7 @@ import {
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {appContext} from '../../../services/app-context';
 
 interface RebaseChange {
   name: string;
@@ -92,6 +93,8 @@ export class GrConfirmRebaseDialog extends GestureEventListeners(
   @property({type: Array})
   _recentChanges?: RebaseChange[];
 
+  private restApiService = appContext.restApiService;
+
   constructor() {
     super();
     this._query = input => this._getChangeSuggestions(input);
@@ -104,7 +107,7 @@ export class GrConfirmRebaseDialog extends GestureEventListeners(
   // in case there are new/updated changes in the generic query since the
   // last time it was run.
   fetchRecentChanges() {
-    return this.$.restAPI
+    return this.restApiService
       .getChanges(undefined, 'is:open -age:90d')
       .then(response => {
         if (!response) return [];

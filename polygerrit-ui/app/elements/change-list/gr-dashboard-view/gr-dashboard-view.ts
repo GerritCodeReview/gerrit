@@ -120,6 +120,8 @@ export class GrDashboardView extends GestureEventListeners(
 
   private reporting = appContext.reportingService;
 
+  private restApiService = appContext.restApiService;
+
   constructor() {
     super();
   }
@@ -135,9 +137,9 @@ export class GrDashboardView extends GestureEventListeners(
   }
 
   _loadPreferences() {
-    return this.$.restAPI.getLoggedIn().then(loggedIn => {
+    return this.restApiService.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
-        this.$.restAPI.getPreferences().then(preferences => {
+        this.restApiService.getPreferences().then(preferences => {
           this.preferences = preferences;
         });
       } else {
@@ -153,7 +155,7 @@ export class GrDashboardView extends GestureEventListeners(
     const errFn = (response?: Response | null) => {
       firePageError(this, response);
     };
-    return this.$.restAPI
+    return this.restApiService
       .getDashboard(project, dashboard, errFn)
       .then(response => {
         if (!response) {
@@ -206,7 +208,7 @@ export class GrDashboardView extends GestureEventListeners(
     const {project, dashboard, title, user, sections} = params;
     const dashboardPromise: Promise<UserDashboard | undefined> = project
       ? this._getProjectDashboard(project, dashboard)
-      : this.$.restAPI
+      : this.restApiService
           .getConfig()
           .then(config =>
             Promise.resolve(
@@ -272,7 +274,7 @@ export class GrDashboardView extends GestureEventListeners(
       }
     }
 
-    return this.$.restAPI.getChanges(undefined, queries).then(changes => {
+    return this.restApiService.getChanges(undefined, queries).then(changes => {
       if (!changes) {
         throw new Error('getChanges returns undefined');
       }
@@ -351,11 +353,14 @@ export class GrDashboardView extends GestureEventListeners(
   }
 
   _handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
-    this.$.restAPI.saveChangeStarred(e.detail.change._number, e.detail.starred);
+    this.restApiService.saveChangeStarred(
+      e.detail.change._number,
+      e.detail.starred
+    );
   }
 
   _handleToggleReviewed(e: CustomEvent<ChangeListToggleReviewedDetail>) {
-    this.$.restAPI.saveChangeReviewed(
+    this.restApiService.saveChangeReviewed(
       e.detail.change._number,
       e.detail.reviewed
     );
@@ -402,7 +407,7 @@ export class GrDashboardView extends GestureEventListeners(
 
   _handleConfirmDelete() {
     this.$.confirmDeleteDialog.disabled = true;
-    return this.$.restAPI.deleteDraftComments('-is:open').then(() => {
+    return this.restApiService.deleteDraftComments('-is:open').then(() => {
       this._closeConfirmDeleteOverlay();
       this._reload(this.params);
     });

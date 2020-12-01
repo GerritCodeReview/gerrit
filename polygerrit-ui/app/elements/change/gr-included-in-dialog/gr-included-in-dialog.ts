@@ -25,6 +25,7 @@ import {htmlTemplate} from './gr-included-in-dialog_html';
 import {customElement, property} from '@polymer/decorators';
 import {IncludedInInfo, NumericChangeId} from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {appContext} from '../../../services/app-context';
 
 export interface GrIncludedInDialog {
   $: {
@@ -63,18 +64,22 @@ export class GrIncludedInDialog extends GestureEventListeners(
   @property({type: String})
   _filterText = '';
 
+  private readonly restApiService = appContext.restApiService;
+
   loadData() {
     if (!this.changeNum) {
       return Promise.reject(new Error('missing required property changeNum'));
     }
     this._filterText = '';
-    return this.$.restAPI.getChangeIncludedIn(this.changeNum).then(configs => {
-      if (!configs) {
-        return;
-      }
-      this._includedIn = configs;
-      this._loaded = true;
-    });
+    return this.restApiService
+      .getChangeIncludedIn(this.changeNum)
+      .then(configs => {
+        if (!configs) {
+          return;
+        }
+        this._includedIn = configs;
+        this._loaded = true;
+      });
   }
 
   _resetData() {

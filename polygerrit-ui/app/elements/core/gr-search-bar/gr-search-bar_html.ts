@@ -56,5 +56,4 @@ export const htmlTemplate = html`
       </a>
     </gr-autocomplete>
   </form>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

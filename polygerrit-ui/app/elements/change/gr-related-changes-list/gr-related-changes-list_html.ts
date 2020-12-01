@@ -214,5 +214,4 @@ export const htmlTemplate = html`
     </gr-endpoint-decorator>
   </div>
   <div hidden$="[[!loading]]">Loading...</div>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

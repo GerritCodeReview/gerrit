@@ -81,5 +81,4 @@ export const htmlTemplate = html`
       </gr-endpoint-decorator>
     </div>
   </gr-dialog>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

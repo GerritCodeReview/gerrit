@@ -839,8 +839,8 @@ suite('gr-change-metadata tests', () => {
       let setStub: SinonStubbedMember<RestApiService['setAssignee']>;
 
       setup(() => {
-        deleteStub = sinon.stub(element.$.restAPI, 'deleteAssignee');
-        setStub = sinon.stub(element.$.restAPI, 'setAssignee');
+        deleteStub = sinon.stub(element.restApiService, 'deleteAssignee');
+        setStub = sinon.stub(element.restApiService, 'setAssignee');
         element.serverConfig = {
           ...createServerInfo(),
           change: {
@@ -887,7 +887,7 @@ suite('gr-change-metadata tests', () => {
     test('changing topic', () => {
       const newTopic = 'the new topic' as TopicName;
       const setChangeTopicStub = sinon
-        .stub(element.$.restAPI, 'setChangeTopic')
+        .stub(element.restApiService, 'setChangeTopic')
         .returns(Promise.resolve(newTopic));
       element._handleTopicChanged(new CustomEvent('test', {detail: newTopic}));
       const topicChangedSpy = sinon.spy();
@@ -904,7 +904,7 @@ suite('gr-change-metadata tests', () => {
     test('topic removal', () => {
       const newTopic = 'the new topic' as TopicName;
       const setChangeTopicStub = sinon
-        .stub(element.$.restAPI, 'setChangeTopic')
+        .stub(element.restApiService, 'setChangeTopic')
         .returns(Promise.resolve(newTopic));
       const chip = element.shadowRoot!.querySelector('gr-linked-chip');
       const remove = chip!.$.remove;
@@ -925,7 +925,7 @@ suite('gr-change-metadata tests', () => {
       element._newHashtag = 'new hashtag' as Hashtag;
       const newHashtag: Hashtag[] = ['new hashtag' as Hashtag];
       const setChangeHashtagStub = sinon
-        .stub(element.$.restAPI, 'setChangeHashtag')
+        .stub(element.restApiService, 'setChangeHashtag')
         .returns(Promise.resolve(newHashtag));
       element._handleHashtagChanged();
       assert.isTrue(

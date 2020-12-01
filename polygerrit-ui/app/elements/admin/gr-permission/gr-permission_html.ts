@@ -140,5 +140,4 @@ export const htmlTemplate = html`
     </div>
     <!-- end deletedContainer -->
   </section>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

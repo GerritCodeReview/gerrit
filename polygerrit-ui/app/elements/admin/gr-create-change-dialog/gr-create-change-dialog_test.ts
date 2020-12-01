@@ -68,7 +68,7 @@ suite('gr-create-change-dialog tests', () => {
     };
 
     const saveStub = sinon
-      .stub(element.$.restAPI, 'createChange')
+      .stub(element.restApiService, 'createChange')
       .callsFake(() => Promise.resolve(createChange()));
 
     element.branch = 'test-branch' as BranchName;
@@ -104,7 +104,7 @@ suite('gr-create-change-dialog tests', () => {
     };
 
     const saveStub = sinon
-      .stub(element.$.restAPI, 'createChange')
+      .stub(element.restApiService, 'createChange')
       .callsFake(() => Promise.resolve(createChange()));
 
     element.branch = 'test-branch' as BranchName;

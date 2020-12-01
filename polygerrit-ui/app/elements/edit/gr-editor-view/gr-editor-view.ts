@@ -48,6 +48,7 @@ import {
 import {GrStorage} from '../../shared/gr-storage/gr-storage';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -126,6 +127,8 @@ export class GrEditorView extends KeyboardShortcutMixin(
   @property({type: Number})
   _lineNum?: number;
 
+  private readonly restApiService = appContext.restApiService;
+
   get keyBindings() {
     return {
       'ctrl+s meta+s': '_handleSaveShortcut',
@@ -153,11 +156,11 @@ export class GrEditorView extends KeyboardShortcutMixin(
   }
 
   _getLoggedIn() {
-    return this.$.restAPI.getLoggedIn();
+    return this.restApiService.getLoggedIn();
   }
 
   _getEditPrefs() {
-    return this.$.restAPI.getEditPreferences();
+    return this.restApiService.getEditPreferences();
   }
 
   _paramsChanged(value: GenerateUrlEditViewParameters) {
@@ -190,7 +193,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
   }
 
   _getChangeDetail(changeNum: NumericChangeId) {
-    return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
+    return this.restApiService.getDiffChangeDetail(changeNum).then(change => {
       this._change = change;
     });
   }
@@ -204,7 +207,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
     if (path === this._path) {
       return Promise.resolve();
     }
-    return this.$.restAPI
+    return this.restApiService
       .renameFileInChangeEdit(this._changeNum, this._path, path)
       .then(res => {
         if (!res || !res.ok) {
@@ -241,7 +244,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
       this.storageKey
     );
 
-    return this.$.restAPI
+    return this.restApiService
       .getFileContent(changeNum, path, patchNum)
       .then(res => {
         const content = (res && (res as Base64FileContent).content) || '';
@@ -278,7 +281,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
     this.$.storage.eraseEditableContentItem(this.storageKey);
     if (!this._newContent)
       return Promise.reject(new Error('new content undefined'));
-    return this.$.restAPI
+    return this.restApiService
       .saveChangeEdit(this._changeNum, this._path, this._newContent)
       .then(res => {
         this._saving = false;
@@ -336,7 +339,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
 
       this._showAlert(PUBLISHING_EDIT_MSG);
 
-      this.$.restAPI
+      this.restApiService
         .executeChangeAction(
           changeNum,
           HttpMethod.POST,

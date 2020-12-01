@@ -54,6 +54,7 @@ import {AppElementRepoParams} from '../../gr-app-types';
 import {PolymerDomRepeatEvent} from '../../../types/types';
 import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
 import {firePageError} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
@@ -121,8 +122,10 @@ export class GrRepoDetailList extends ListViewMixin(
   @property({type: String})
   _revisedRef?: GitRef;
 
+  private readonly restApiService = appContext.restApiService;
+
   _determineIfOwner(repo: RepoName) {
-    return this.$.restAPI
+    return this.restApiService
       .getRepoAccess(repo)
       .then(access => (this._isOwner = !!access && !!access[repo].is_owner));
   }
@@ -187,7 +190,7 @@ export class GrRepoDetailList extends ListViewMixin(
     };
 
     if (detailType === RepoDetailView.BRANCHES) {
-      return this.$.restAPI
+      return this.restApiService
         .getRepoBranches(filter, repo, itemsPerPage, offset, errFn)
         .then(items => {
           if (!items) {
@@ -197,7 +200,7 @@ export class GrRepoDetailList extends ListViewMixin(
           this._loading = false;
         });
     } else if (detailType === RepoDetailView.TAGS) {
-      return this.$.restAPI
+      return this.restApiService
         .getRepoTags(filter, repo, itemsPerPage, offset, errFn)
         .then(items => {
           if (!items) {
@@ -245,7 +248,7 @@ export class GrRepoDetailList extends ListViewMixin(
   }
 
   _getLoggedIn() {
-    return this.$.restAPI.getLoggedIn();
+    return this.restApiService.getLoggedIn();
   }
 
   _computeEditingClass(isEditing: boolean) {
@@ -273,7 +276,7 @@ export class GrRepoDetailList extends ListViewMixin(
   }
 
   _setRepoHead(repo: RepoName, ref: GitRef, e: PolymerDomRepeatEvent<GitRef>) {
-    return this.$.restAPI.setRepoHead(repo, ref).then(res => {
+    return this.restApiService.setRepoHead(repo, ref).then(res => {
       if (res.status < 400) {
         this._isEditing = false;
         e.model.set('item.revision', ref);
@@ -305,7 +308,7 @@ export class GrRepoDetailList extends ListViewMixin(
       return Promise.reject(new Error('undefined repo or refName'));
     }
     if (this.detailType === RepoDetailView.BRANCHES) {
-      return this.$.restAPI
+      return this.restApiService
         .deleteRepoBranches(this._repo, this._refName)
         .then(itemDeleted => {
           if (itemDeleted.status === 204) {
@@ -319,7 +322,7 @@ export class GrRepoDetailList extends ListViewMixin(
           }
         });
     } else if (this.detailType === RepoDetailView.TAGS) {
-      return this.$.restAPI
+      return this.restApiService
         .deleteRepoTags(this._repo, this._refName)
         .then(itemDeleted => {
           if (itemDeleted.status === 204) {

@@ -52,5 +52,4 @@ export const htmlTemplate = html`
   >
     <iron-icon icon="gr-icons:unified"></iron-icon>
   </gr-button>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

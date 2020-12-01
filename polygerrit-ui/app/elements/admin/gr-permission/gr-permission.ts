@@ -56,6 +56,7 @@ import {
   EditableProjectAccessGroups,
 } from '../gr-repo-access/gr-repo-access-interfaces';
 import {PolymerDomRepeatEvent} from '../../../types/types';
+import {appContext} from '../../../services/app-context';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
 
@@ -141,6 +142,8 @@ export class GrPermission extends GestureEventListeners(
 
   @property({type: Boolean})
   _originalExclusiveValue?: boolean;
+
+  private restApiService = appContext.restApiService;
 
   constructor() {
     super();
@@ -337,7 +340,7 @@ export class GrPermission extends GestureEventListeners(
   }
 
   _getGroupSuggestions(): Promise<AutocompleteSuggestion[]> {
-    return this.$.restAPI
+    return this.restApiService
       .getSuggestedGroups(this._groupFilter || '', MAX_AUTOCOMPLETE_RESULTS)
       .then(response => {
         const groups: GroupSuggestion[] = [];

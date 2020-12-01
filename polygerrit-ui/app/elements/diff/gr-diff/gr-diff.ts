@@ -67,6 +67,7 @@ import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {AbortStop} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {fireAlert} from '../../../utils/event-util';
+import {MovedChunkGoToLineEvent} from '../../../types/events';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -281,6 +282,7 @@ export class GrDiff extends GestureEventListeners(
       this._handleCreateRangeComment(e as CustomEvent)
     );
     this.addEventListener('render-content', () => this._handleRenderContent());
+    this.addEventListener('moved-link-clicked', e => this._movedLinkClicked(e));
   }
 
   /** @override */
@@ -538,17 +540,27 @@ export class GrDiff extends GestureEventListeners(
   }
 
   _selectLine(el: Element) {
+    const lineNumber = Number(el.getAttribute('data-value'));
+    const side = el.classList.contains('left') ? Side.LEFT : Side.RIGHT;
+    this._dispatchSelectedLine(lineNumber, side);
+  }
+
+  _dispatchSelectedLine(number: LineNumber, side: Side) {
     this.dispatchEvent(
       new CustomEvent('line-selected', {
         detail: {
-          side: el.classList.contains('left') ? Side.LEFT : Side.RIGHT,
-          number: el.getAttribute('data-value'),
+          number,
+          side,
           path: this.path,
         },
         composed: true,
         bubbles: true,
       })
     );
+  }
+
+  _movedLinkClicked(e: MovedChunkGoToLineEvent) {
+    this._dispatchSelectedLine(e.detail.line, e.detail.side);
   }
 
   addDraftAtLine(el: Element) {

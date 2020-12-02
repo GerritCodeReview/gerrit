@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7092e61_dc6ea911",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-02T08:26:21Z",
+      "side": 1,
+      "message": "I am wondering whether __commentSide is needed at all as a property on the Comment. Maybe it is sufficient that the thread and the gr-comment-thread component know about the diff side? Feel free to postpone that, but I wanted to give you ideas for maybe continuing on this refactoring path, because I like it very much. :-)",
+      "revId": "edcffdbc6a6f150780b0c7dd41cc29fe64a45320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2338e050_736df55d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-02T08:26:21Z",
+      "side": 1,
+      "message": "Next refactoring? :-)",
+      "range": {
+        "startLine": 453,
+        "startChar": 37,
+        "endLine": 453,
+        "endChar": 48
+      },
+      "revId": "edcffdbc6a6f150780b0c7dd41cc29fe64a45320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77af69d2_5f755b7c",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-02T08:26:21Z",
+      "side": 1,
+      "message": "Maybe remove the comment?\nMaybe add a comment about this property only being set when the comment is used in the context of a diff?",
+      "revId": "edcffdbc6a6f150780b0c7dd41cc29fe64a45320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

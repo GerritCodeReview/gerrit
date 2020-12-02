@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2489061_f76a88a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-02T09:12:21Z",
+      "side": 1,
+      "message": "I\u0027ll take a look and send a change.",
+      "parentUuid": "f7092e61_dc6ea911",
+      "revId": "edcffdbc6a6f150780b0c7dd41cc29fe64a45320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2338e050_736df55d",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f342675_7a9b5df4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-02T09:12:21Z",
+      "side": 1,
+      "message": "On it. :D",
+      "parentUuid": "2338e050_736df55d",
+      "range": {
+        "startLine": 453,
+        "startChar": 37,
+        "endLine": 453,
+        "endChar": 48
+      },
+      "revId": "edcffdbc6a6f150780b0c7dd41cc29fe64a45320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77af69d2_5f755b7c",
@@ -54,6 +96,24 @@
       "writtenOn": "2020-12-02T08:26:21Z",
       "side": 1,
       "message": "Maybe remove the comment?\nMaybe add a comment about this property only being set when the comment is used in the context of a diff?",
+      "revId": "edcffdbc6a6f150780b0c7dd41cc29fe64a45320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee05f775_6dafdba7",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-02T09:12:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77af69d2_5f755b7c",
       "revId": "edcffdbc6a6f150780b0c7dd41cc29fe64a45320",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -16,7 +16,6 @@
  */
 import '@polymer/paper-tabs/paper-tabs';
 import '../../../styles/shared-styles';
-import '../../diff/gr-comment-api/gr-comment-api';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-account-link/gr-account-link';
@@ -110,10 +109,6 @@ import {GrReplyDialog, FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
-import {
-  GrCommentApi,
-  ChangeComments,
-} from '../../diff/gr-comment-api/gr-comment-api';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
@@ -153,6 +148,7 @@ import {PORTING_COMMENTS_CHANGE_LATENCY_LABEL} from '../../../services/gr-report
 import {fireAlert, firePageError} from '../../../utils/event-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {fireTitleChange} from '../../../utils/event-util';
+import {ChangeComments} from '../../../services/gr-comment-api/gr-comment-api_impl';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -204,7 +200,6 @@ const ROBOT_COMMENTS_LIMIT = 10;
 export interface GrChangeView {
   $: {
     jsAPI: GrJsApiInterface;
-    commentAPI: GrCommentApi;
     applyFixDialog: GrApplyFixDialog;
     fileList: GrFileList & Element;
     fileListHeader: GrFileListHeader;
@@ -536,6 +531,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
   _isChecksEnabled = false;
 
   restApiService = appContext.restApiService;
+
+  commentApiService = appContext.commentApiService;
 
   keyboardShortcuts() {
     return {
@@ -2091,10 +2088,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
 
-    const portedCommentsPromise = this.$.commentAPI.getPortedComments(
+    const portedCommentsPromise = this.commentApiService.getPortedComments(
       this._changeNum
     );
-    const commentsPromise = this.$.commentAPI
+    const commentsPromise = this.commentApiService
       .loadAll(this._changeNum)
       .then(comments => {
         this.reporting.time(PORTING_COMMENTS_CHANGE_LATENCY_LABEL);
@@ -2117,7 +2114,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   _reloadDrafts() {
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
-    return this.$.commentAPI
+    return this.commentApiService
       .reloadDrafts(this._changeNum)
       .then(comments => this._recomputeComments(comments));
   }

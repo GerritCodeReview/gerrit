@@ -23,7 +23,6 @@ import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-select/gr-select';
 import '../../shared/revision-info/revision-info';
-import '../gr-comment-api/gr-comment-api';
 import '../gr-diff-cursor/gr-diff-cursor';
 import '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-diff-host/gr-diff-host';
@@ -64,7 +63,6 @@ import {
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {ChangeComments, GrCommentApi} from '../gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
 import {
   ChangeInfo,
@@ -97,6 +95,7 @@ import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {PORTING_COMMENTS_DIFF_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
+import {ChangeComments} from '../../../services/gr-comment-api/gr-comment-api_impl';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -114,7 +113,6 @@ interface CommentSkips {
 
 export interface GrDiffView {
   $: {
-    commentAPI: GrCommentApi;
     cursor: GrDiffCursor;
     diffHost: GrDiffHost;
     reviewed: HTMLInputElement;
@@ -315,6 +313,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
   reporting = appContext.reportingService;
 
   flagsService = appContext.flagsService;
+
+  commentApiService = appContext.commentApiService;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -1047,7 +1047,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
       return;
     }
 
-    const portedCommentsPromise = this.$.commentAPI.getPortedComments(
+    const portedCommentsPromise = this.commentApiService.getPortedComments(
       value.changeNum,
       value.patchNum || CURRENT
     );
@@ -1549,7 +1549,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   _loadComments() {
     if (!this._changeNum) throw new Error('Missing this._changeNum');
-    return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
+    return this.commentApiService.loadAll(this._changeNum).then(comments => {
       this._changeComments = comments;
     });
   }

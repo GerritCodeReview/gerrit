@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8612011d_c11a24ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-02T18:57:27Z",
+      "side": 1,
+      "message": "I found several other files with \u0027gr-rest-api-interface\u0027 import, for example gr-account-label.ts and it seems these imports can be removed too. Could you please take a look?",
+      "revId": "88cc6fc0ea472f361bea0dd8a7c32081b3dfcd85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

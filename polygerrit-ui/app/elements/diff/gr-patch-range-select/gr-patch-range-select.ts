@@ -45,13 +45,13 @@ import {
 } from '../../../types/common';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {
   DropdownItem,
   DropDownValueChangeEvent,
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GeneratedWebLink} from '../../core/gr-navigation/gr-navigation';
+import {ChangeComments} from '../../../services/gr-comment-api/gr-comment-api_impl';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;

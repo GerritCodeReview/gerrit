@@ -101,7 +101,7 @@ import {
 } from '../../../utils/comment-util';
 import 'lodash/lodash';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
-import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
+import {ChangeComments} from '../../../services/gr-comment-api/gr-comment-api_impl';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -915,7 +915,7 @@ suite('gr-change-view tests', () => {
   });
 
   suite('reloading drafts', () => {
-    let reloadStub: SinonStubbedMember<typeof element.$.commentAPI.reloadDrafts>;
+    let reloadStub: SinonStubbedMember<typeof element.commentApiService.reloadDrafts>;
     const drafts: {[path: string]: UIDraft[]} = {
       'testfile.txt': [
         {
@@ -931,13 +931,15 @@ suite('gr-change-view tests', () => {
     setup(() => {
       // Fake computeDraftCount as its required for ChangeComments,
       // see gr-comment-api#reloadDrafts.
-      reloadStub = sinon.stub(element.$.commentAPI, 'reloadDrafts').returns(
-        Promise.resolve({
-          drafts,
-          getAllThreadsForChange: () => [] as CommentThread[],
-          computeDraftCount: () => 1,
-        } as ChangeComments)
-      );
+      reloadStub = sinon
+        .stub(element.commentApiService, 'reloadDrafts')
+        .returns(
+          Promise.resolve({
+            drafts,
+            getAllThreadsForChange: () => [] as CommentThread[],
+            computeDraftCount: () => 1,
+          } as ChangeComments)
+        );
       element._changeNum = 1 as NumericChangeId;
     });
 
@@ -975,7 +977,7 @@ suite('gr-change-view tests', () => {
       flush();
       // Fake computeDraftCount as its required for ChangeComments,
       // see gr-comment-api#reloadDrafts.
-      sinon.stub(element.$.commentAPI, 'reloadDrafts').returns(
+      sinon.stub(element.commentApiService, 'reloadDrafts').returns(
         Promise.resolve({
           drafts: {},
           getAllThreadsForChange: () => THREADS,

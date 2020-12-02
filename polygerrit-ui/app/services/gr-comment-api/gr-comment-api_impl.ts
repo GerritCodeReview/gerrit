@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2020 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-comment-api_html';
-import {patchNumEquals, CURRENT} from '../../../utils/patch-set-util';
-import {customElement, property} from '@polymer/decorators';
+import {
+  patchNumEquals,
+  CURRENT,
+} from '../../utils/patch-set-util';
 import {
   CommentBasics,
   PatchRange,
@@ -29,8 +27,8 @@ import {
   UrlEncodedCommentId,
   NumericChangeId,
   RevisionId,
-} from '../../../types/common';
-import {hasOwnProperty} from '../../../utils/common-util';
+} from '../../types/common';
+import {hasOwnProperty} from '../../utils/common-util';
 import {
   Comment,
   CommentMap,
@@ -42,10 +40,10 @@ import {
   UIHuman,
   UIRobot,
   createCommentThreads,
-  isInPatchRange,
-} from '../../../utils/comment-util';
-import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
-import {appContext} from '../../../services/app-context';
+} from '../../utils/comment-util';
+import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../types/types';
+import {CommentApiService} from './gr-comment-api';
+import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 
 export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
@@ -427,23 +425,14 @@ export class ChangeComments {
 export const _testOnly_findCommentById =
   ChangeComments.prototype.findCommentById;
 
-@customElement('gr-comment-api')
-export class GrCommentApi extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrCommentApi implements CommentApiService {
+  private _changeComments?: ChangeComments;
 
-  @property({type: Object})
-  _changeComments?: ChangeComments;
+  private readonly restApiService: RestApiService;
 
-  private readonly restApiService = appContext.restApiService;
-
-  /** @override */
-  created() {
-    super.created();
-    this.addEventListener('reload-drafts', changeNum =>
+  constructor(restApiService: RestApiService) {
+    this.restApiService = restApiService;
+    document.addEventListener('reload-drafts', changeNum =>
       // TODO(TS): This is a wrong code, however keep it as is for now
       // If changeNum param in ChangeComments is removed, this also must be
       // removed
@@ -506,11 +495,5 @@ export class GrCommentApi extends GestureEventListeners(
       );
       return this._changeComments;
     });
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-comment-api': GrCommentApi;
   }
 }

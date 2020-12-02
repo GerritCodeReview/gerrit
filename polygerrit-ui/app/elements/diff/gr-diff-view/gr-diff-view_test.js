@@ -22,13 +22,13 @@ import {ChangeStatus, Side} from '../../../constants/constants.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {_testOnly_findCommentById} from '../gr-comment-api/gr-comment-api.js';
 import {appContext} from '../../../services/app-context.js';
 import {GerritView} from '../../core/gr-navigation/gr-navigation.js';
 import {
   createChange,
   createRevisions,
 } from '../../../test/test-data-generators.js';
+import {_testOnly_findCommentById} from '../../../services/gr-comment-api/gr-comment-api_impl.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -132,7 +132,7 @@ suite('gr-diff-view tests', () => {
         patchNum: 77,
         basePatchNum: 'PARENT',
       };
-      sinon.stub(element.$.commentAPI, 'loadAll').returns(Promise.resolve({
+      sinon.stub(element.commentApiService, 'loadAll').returns(Promise.resolve({
         _comments: {'/COMMIT_MSG': [
           {
             id: 'c1',
@@ -903,7 +903,7 @@ suite('gr-diff-view tests', () => {
 
     test('_computeCommentString', done => {
       const path = '/test';
-      element.$.commentAPI.loadAll().then(comments => {
+      element.commentApiService.loadAll().then(comments => {
         const commentThreadCountStub =
             sinon.stub(comments, 'computeCommentThreadCount');
         const unresolvedCountStub =

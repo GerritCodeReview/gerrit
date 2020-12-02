@@ -702,6 +702,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1aa1de93_532f2d10",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-02T08:18:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d99baeb7_48f61c1e",
+      "range": {
+        "startLine": 1732,
+        "startChar": 0,
+        "endLine": 1734,
+        "endChar": 0
+      },
+      "revId": "8aff0c037bfba1ccf6137bebf398b577e17ba3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ed5147e0_8a3fab18",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 3

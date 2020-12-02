@@ -508,8 +508,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       if (rootComment.patch_set !== undefined)
         d.patch_set = rootComment.patch_set;
       if (rootComment.side !== undefined) d.side = rootComment.side;
-      if (rootComment.__commentSide !== undefined)
-        d.__commentSide = rootComment.__commentSide;
+      if (rootComment.diffSide !== undefined) d.diffSide = rootComment.diffSide;
       if (rootComment.line !== undefined) d.line = rootComment.line;
       if (rootComment.range !== undefined) d.range = rootComment.range;
       if (rootComment.parent !== undefined) d.parent = rootComment.parent;
@@ -518,7 +517,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       d.path = this.path;
       d.patch_set = this.patchNum;
       d.side = this._getSide(this.isOnParent);
-      d.__commentSide = this.commentSide;
+      d.diffSide = this.commentSide;
 
       if (lineNum && lineNum !== FILE) {
         d.line = lineNum;

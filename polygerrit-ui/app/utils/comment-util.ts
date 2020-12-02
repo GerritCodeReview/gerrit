@@ -42,10 +42,9 @@ export type DraftInfo = CommentBasics & DraftCommentProps;
 export type Comment = DraftInfo | CommentInfo | RobotCommentInfo;
 
 export interface UIStateCommentProps {
-  // The `side` of the comment is PARENT or REVISION, but this is LEFT or RIGHT.
-  // TODO(TS): Remove the naming confusion of commentSide being of type of Side,
-  // but side being of type CommentSide. :-)
-  __commentSide?: Side;
+  // diffSide is used by gr-diff to decide which side(left/right) to show
+  // the comment
+  diffSide?: Side;
   // TODO(TS): Remove this. Seems to be exactly the same as `path`??
   __path?: string;
   collapsed?: boolean;
@@ -129,7 +128,7 @@ export function createCommentThreads(comments: UIComment[]) {
       line: comment.line,
       range: comment.range,
       rootId: comment.id,
-      diffSide: comment.__commentSide,
+      diffSide: comment.diffSide,
     };
     if (!comment.line && !comment.range) {
       newThread.line = 'FILE';

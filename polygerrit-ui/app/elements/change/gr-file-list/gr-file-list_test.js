@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import {listenOnce} from '../../../test/test-utils.js';
-import '../../diff/gr-comment-api/gr-comment-api.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-file-list.js';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api.js';
@@ -28,7 +27,7 @@ import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api.js';
+import { ChangeComments } from '../../../services/gr-comment-api/gr-comment-api_impl.js';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`

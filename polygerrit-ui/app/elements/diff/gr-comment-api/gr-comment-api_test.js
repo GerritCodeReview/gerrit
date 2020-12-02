@@ -16,9 +16,8 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import './gr-comment-api.js';
-import {ChangeComments} from './gr-comment-api.js';
 import {CommentSide} from '../../../constants/constants.js';
+import { ChangeComments } from '../../../services/gr-comment-api/gr-comment-api_impl.js';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
 

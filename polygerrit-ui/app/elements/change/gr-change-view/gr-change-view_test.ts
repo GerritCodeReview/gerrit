@@ -101,7 +101,7 @@ import {
 } from '../../../utils/comment-util';
 import 'lodash/lodash';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
-import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
+import { ChangeComments } from '../../../services/gr-comment-api/gr-comment-api_impl';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');

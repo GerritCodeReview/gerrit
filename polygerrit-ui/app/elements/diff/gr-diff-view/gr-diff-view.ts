@@ -317,6 +317,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   flagsService = appContext.flagsService;
 
+  commentApiService = appContext.commentApiService;
+
   private readonly restApiService = appContext.restApiService;
 
   _throttledToggleFileReviewed?: EventListener;
@@ -1048,7 +1050,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
       return;
     }
 
-    const portedCommentsPromise = this.$.commentAPI.getPortedComments(
+    const portedCommentsPromise = this.commentApiService.getPortedComments(
       value.changeNum,
       value.patchNum || CURRENT
     );
@@ -1550,7 +1552,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   _loadComments() {
     if (!this._changeNum) throw new Error('Missing this._changeNum');
-    return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
+    return this.commentApiService.loadAll(this._changeNum).then(comments => {
       this._changeComments = comments;
     });
   }

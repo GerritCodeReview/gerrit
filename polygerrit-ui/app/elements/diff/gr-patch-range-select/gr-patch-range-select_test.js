@@ -16,7 +16,6 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import '../gr-comment-api/gr-comment-api.js';
 import '../../shared/revision-info/revision-info.js';
 import './gr-patch-range-select.js';
 import '../../../test/mocks/comment-api.js';
@@ -25,7 +24,7 @@ import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
-import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
+import { ChangeComments } from '../../../services/gr-comment-api/gr-comment-api_impl.js';
 
 const commentApiMockElement = createCommentApiMockWithTemplateElement(
     'gr-patch-range-select-comment-api-mock', html`

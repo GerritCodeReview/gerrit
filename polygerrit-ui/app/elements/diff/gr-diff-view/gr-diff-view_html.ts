@@ -430,5 +430,4 @@ export const htmlTemplate = html`
     id="cursor"
     on-navigate-to-next-unreviewed-file="_handleNextUnreviewedFile"
   ></gr-diff-cursor>
-  <gr-comment-api id="commentAPI"></gr-comment-api>
 `;

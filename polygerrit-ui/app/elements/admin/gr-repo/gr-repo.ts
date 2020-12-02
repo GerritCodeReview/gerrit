@@ -31,10 +31,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe} from '@polymer/decorators';
-import {
-  RestApiService,
-  ErrorCallback,
-} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   ConfigInfo,
   RepoName,
@@ -49,6 +46,7 @@ import {ProjectState} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 const STATES = {
   active: {value: ProjectState.ACTIVE, label: 'Active'},
@@ -84,11 +82,6 @@ const SUBMIT_TYPES = {
   },
 };
 
-export interface GrRepo {
-  $: {
-    restAPI: RestApiService & Element;
-  };
-}
 @customElement('gr-repo')
 export class GrRepo extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -145,6 +138,8 @@ export class GrRepo extends GestureEventListeners(
   @property({type: Object})
   _schemesObj?: SchemesInfoMap;
 
+  private restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -186,7 +181,7 @@ export class GrRepo extends GestureEventListeners(
         if (loggedIn) {
           const repo = this.repo;
           if (!repo) throw new Error('undefined repo');
-          this.$.restAPI.getRepoAccess(repo).then(access => {
+          this.restApiService.getRepoAccess(repo).then(access => {
             if (!access || this.repo !== repo) {
               return;
             }
@@ -199,7 +194,7 @@ export class GrRepo extends GestureEventListeners(
     );
 
     promises.push(
-      this.$.restAPI.getProjectConfig(this.repo, errFn).then(config => {
+      this.restApiService.getProjectConfig(this.repo, errFn).then(config => {
         if (!config) {
           return;
         }
@@ -221,7 +216,7 @@ export class GrRepo extends GestureEventListeners(
     );
 
     promises.push(
-      this.$.restAPI.getConfig().then(config => {
+      this.restApiService.getConfig().then(config => {
         if (!config) {
           return;
         }
@@ -245,7 +240,7 @@ export class GrRepo extends GestureEventListeners(
     if (!_loggedIn) {
       return;
     }
-    this.$.restAPI.getPreferences().then(prefs => {
+    this.restApiService.getPreferences().then(prefs => {
       if (prefs?.download_scheme) {
         // Note (issue 5180): normalize the download scheme with lower-case.
         this._selectedScheme = prefs.download_scheme.toLowerCase();
@@ -313,7 +308,7 @@ export class GrRepo extends GestureEventListeners(
   }
 
   _getLoggedIn() {
-    return this.$.restAPI.getLoggedIn();
+    return this.restApiService.getLoggedIn();
   }
 
   _formatRepoConfigForSave(repoConfig: ConfigInfo): ConfigInput {
@@ -346,7 +341,7 @@ export class GrRepo extends GestureEventListeners(
   _handleSaveRepoConfig() {
     if (!this._repoConfig || !this.repo)
       return Promise.reject(new Error('undefined repoConfig or repo'));
-    return this.$.restAPI
+    return this.restApiService
       .saveRepoConfig(
         this.repo,
         this._formatRepoConfigForSave(this._repoConfig)

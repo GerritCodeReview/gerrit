@@ -22,15 +22,9 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-group-list_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {customElement, property} from '@polymer/decorators';
 import {GroupInfo, GroupId} from '../../../types/common';
-
-export interface GrGroupList {
-  $: {
-    restAPI: RestApiService & Element;
-  };
-}
+import {appContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -48,8 +42,10 @@ export class GrGroupList extends GestureEventListeners(
   @property({type: Array})
   _groups: GroupInfo[] = [];
 
+  private readonly restApiService = appContext.restApiService;
+
   loadData() {
-    return this.$.restAPI.getAccountGroups().then(groups => {
+    return this.restApiService.getAccountGroups().then(groups => {
       if (!groups) return;
       this._groups = groups.sort((a, b) =>
         (a.name || '').localeCompare(b.name || '')

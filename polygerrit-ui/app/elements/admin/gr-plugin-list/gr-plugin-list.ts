@@ -27,19 +27,14 @@ import {
   ListViewParams,
 } from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {customElement, property} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {PluginInfo} from '../../../types/common';
 import {firePageError} from '../../../utils/event-util';
 import {fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 interface PluginInfoWithName extends PluginInfo {
   name: string;
-}
-export interface GrPluginList {
-  $: {
-    restAPI: RestApiService & Element;
-  };
 }
 @customElement('gr-plugin-list')
 export class GrPluginList extends ListViewMixin(
@@ -83,6 +78,8 @@ export class GrPluginList extends ListViewMixin(
   @property({type: String})
   _filter = '';
 
+  private restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -101,7 +98,7 @@ export class GrPluginList extends ListViewMixin(
     const errFn: ErrorCallback = response => {
       firePageError(this, response);
     };
-    return this.$.restAPI
+    return this.restApiService
       .getPlugins(filter, pluginsPerPage, offset, errFn)
       .then(plugins => {
         if (!plugins) {

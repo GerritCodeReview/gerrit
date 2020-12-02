@@ -63,7 +63,6 @@ import {
   ServerInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   AppElement,
   AppElementParams,
@@ -267,12 +266,6 @@ if (!app) {
   });
 })();
 
-export interface GrRouter {
-  $: {
-    restAPI: RestApiService & Element;
-  };
-}
-
 export interface PageContextWithQueryMap extends PageContext {
   queryMap: Map<string, string> | URLSearchParams;
 }
@@ -313,6 +306,8 @@ export class GrRouter extends GestureEventListeners(
   _isInitialLoad = true;
 
   private readonly reporting = appContext.reportingService;
+
+  private readonly restApiService = appContext.restApiService;
 
   constructor() {
     super();
@@ -658,7 +653,7 @@ export class GrRouter extends GestureEventListeners(
       return Promise.resolve();
     }
 
-    return this.$.restAPI
+    return this.restApiService
       .getFromProjectLookup(params.changeNum)
       .then(project => {
         // Show a 404 and terminate if the lookup request failed. Attempting
@@ -745,7 +740,7 @@ export class GrRouter extends GestureEventListeners(
    * (if it resolves).
    */
   _redirectIfNotLoggedIn(data: PageContext) {
-    return this.$.restAPI.getLoggedIn().then(loggedIn => {
+    return this.restApiService.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
         return Promise.resolve();
       } else {
@@ -757,7 +752,7 @@ export class GrRouter extends GestureEventListeners(
 
   /**  Page.js middleware that warms the REST API's logged-in cache line. */
   _loadUserMiddleware(_: PageContext, next: PageNextCallback) {
-    this.$.restAPI.getLoggedIn().then(() => {
+    this.restApiService.getLoggedIn().then(() => {
       next();
     });
   }
@@ -1125,7 +1120,7 @@ export class GrRouter extends GestureEventListeners(
       this._redirect(newUrl);
       return null;
     }
-    return this.$.restAPI.getLoggedIn().then(loggedIn => {
+    return this.restApiService.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
         this._redirect('/dashboard/self');
       } else {
@@ -1183,7 +1178,7 @@ export class GrRouter extends GestureEventListeners(
     // User dashboard. We require viewing user to be logged in, else we
     // redirect to login for self dashboard or simple owner search for
     // other user dashboard.
-    return this.$.restAPI.getLoggedIn().then(loggedIn => {
+    return this.restApiService.getLoggedIn().then(loggedIn => {
       if (!loggedIn) {
         if (data.params[0].toLowerCase() === 'self') {
           this._redirectToLogin(data.canonicalPath);

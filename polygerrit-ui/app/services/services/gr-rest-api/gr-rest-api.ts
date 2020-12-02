@@ -144,9 +144,6 @@ export interface GetDiffRobotCommentsOutput {
 }
 
 export interface RestApiService {
-  // TODO(TS): unclear what is a second parameter. Looks like it is a mistake
-  // and it must be removed
-  dispatchEvent(event: Event, detail?: unknown): boolean;
   getConfig(noCache?: boolean): Promise<ServerInfo | undefined>;
   getLoggedIn(): Promise<boolean>;
   getPreferences(): Promise<PreferencesInfo | undefined>;

@@ -52,7 +52,6 @@ import {
   SubsectionInterface,
 } from '../../../utils/admin-nav-util';
 import {customElement, observe, property} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   AppElementAdminParams,
   AppElementGroupParams,
@@ -67,12 +66,12 @@ import {
 import {GroupNameChangedDetail} from '../gr-group/gr-group';
 import {ValueChangeDetail} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
+import {appContext} from '../../../services/app-context';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
 export interface GrAdminView {
   $: {
-    restAPI: RestApiService & Element;
     jsAPI: GrJsApiInterface;
   };
 }
@@ -183,6 +182,8 @@ export class GrAdminView extends GestureEventListeners(
   @property({type: Boolean})
   _showPluginList?: boolean;
 
+  private restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -191,7 +192,7 @@ export class GrAdminView extends GestureEventListeners(
 
   reload() {
     const promises: [Promise<AccountDetailInfo | undefined>, Promise<void>] = [
-      this.$.restAPI.getAccount(),
+      this.restApiService.getAccount(),
       getPluginLoader().awaitPluginsLoaded(),
     ];
     return Promise.all(promises).then(result => {
@@ -212,7 +213,7 @@ export class GrAdminView extends GestureEventListeners(
       return getAdminLinks(
         this._account,
         () =>
-          this.$.restAPI.getAccountCapabilities().then(capabilities => {
+          this.restApiService.getAccountCapabilities().then(capabilities => {
             if (!capabilities) {
               throw new Error('getAccountCapabilities returns undefined');
             }
@@ -423,7 +424,7 @@ export class GrAdminView extends GestureEventListeners(
     if (!groupId) return;
 
     const promises: Array<Promise<void>> = [];
-    this.$.restAPI.getGroupConfig(groupId).then(group => {
+    this.restApiService.getGroupConfig(groupId).then(group => {
       if (!group || !group.name) {
         return;
       }
@@ -433,13 +434,13 @@ export class GrAdminView extends GestureEventListeners(
       this.reload();
 
       promises.push(
-        this.$.restAPI.getIsAdmin().then(isAdmin => {
+        this.restApiService.getIsAdmin().then(isAdmin => {
           this._isAdmin = !!isAdmin;
         })
       );
 
       promises.push(
-        this.$.restAPI.getIsGroupOwner(group.name).then(isOwner => {
+        this.restApiService.getIsGroupOwner(group.name).then(isOwner => {
           this._groupOwner = isOwner;
         })
       );

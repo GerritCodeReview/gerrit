@@ -19,7 +19,6 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-edit-controls.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {createIronOverlayBackdropStyleEl} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-edit-controls');
 
@@ -29,22 +28,16 @@ suite('gr-edit-controls tests', () => {
   let showDialogSpy;
   let closeDialogSpy;
   let queryStub;
-  let ironOverlayBackdropStyleEl;
 
   setup(() => {
-    ironOverlayBackdropStyleEl = createIronOverlayBackdropStyleEl();
     element = basicFixture.instantiate();
     element.change = {_number: '42'};
     showDialogSpy = sinon.spy(element, '_showDialog');
     closeDialogSpy = sinon.spy(element, '_closeDialog');
     sinon.stub(element, '_hideAllDialogs');
-    queryStub = sinon.stub(element.$.restAPI, 'queryChangeFiles')
+    queryStub = sinon.stub(element.restApiService, 'queryChangeFiles')
         .returns(Promise.resolve([]));
     flush();
-  });
-
-  teardown(() => {
-    ironOverlayBackdropStyleEl.remove();
   });
 
   test('all actions exist', () => {
@@ -121,7 +114,7 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
-      deleteStub = sinon.stub(element.$.restAPI, 'deleteFileInChangeEdit');
+      deleteStub = sinon.stub(element.restApiService, 'deleteFileInChangeEdit');
       deleteAutocomplete =
           element.$.deleteDialog.querySelector('gr-autocomplete');
     });
@@ -205,7 +198,7 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
-      renameStub = sinon.stub(element.$.restAPI, 'renameFileInChangeEdit');
+      renameStub = sinon.stub(element.restApiService, 'renameFileInChangeEdit');
       renameAutocomplete =
           element.$.renameDialog.querySelector('gr-autocomplete');
     });
@@ -298,7 +291,8 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
-      restoreStub = sinon.stub(element.$.restAPI, 'restoreFileInChangeEdit');
+      restoreStub = sinon.stub(element.restApiService,
+          'restoreFileInChangeEdit');
     });
 
     test('restore hidden by default', () => {
@@ -362,7 +356,7 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
-      fileStub = sinon.stub(element.$.restAPI, 'saveFileUploadChangeEdit');
+      fileStub = sinon.stub(element.restApiService, 'saveFileUploadChangeEdit');
     });
 
     test('_handleUploadConfirm', () => {

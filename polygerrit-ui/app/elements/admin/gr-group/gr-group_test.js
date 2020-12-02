@@ -41,7 +41,7 @@ suite('gr-group tests', () => {
     });
     element = basicFixture.instantiate();
     groupStub = sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getGroupConfig')
         .callsFake(() => Promise.resolve(group));
   });
@@ -56,7 +56,7 @@ suite('gr-group tests', () => {
 
   test('default values are populated with internal group', done => {
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getIsGroupOwner')
         .callsFake(() => Promise.resolve(true));
     element.groupId = 1;
@@ -72,11 +72,11 @@ suite('gr-group tests', () => {
     groupExternal.id = 'external-group-id';
     groupStub.restore();
     groupStub = sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getGroupConfig')
         .callsFake(() => Promise.resolve(groupExternal));
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getIsGroupOwner')
         .callsFake(() => Promise.resolve(true));
     element.groupId = 1;
@@ -97,12 +97,12 @@ suite('gr-group tests', () => {
     element._groupName = groupName;
 
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getIsGroupOwner')
         .callsFake(() => Promise.resolve(true));
 
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'saveGroupName')
         .callsFake(() => Promise.resolve({status: 200}));
 
@@ -136,7 +136,7 @@ suite('gr-group tests', () => {
     element._groupOwner = true;
 
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getIsGroupOwner')
         .callsFake(() => Promise.resolve({status: 200}));
 
@@ -163,7 +163,7 @@ suite('gr-group tests', () => {
     groupStub.restore();
 
     sinon.stub(
-        element.$.restAPI,
+        element.restApiService,
         'getGroupConfig')
         .callsFake(() => Promise.resolve({}));
 
@@ -189,7 +189,7 @@ suite('gr-group tests', () => {
       name: 'test-group',
     };
     element.groupId = 'gg';
-    sinon.stub(element.$.restAPI, 'saveGroupName')
+    sinon.stub(element.restApiService, 'saveGroupName')
         .returns(Promise.resolve({status: 200}));
 
     const showStub = sinon.stub(element, 'dispatchEvent');
@@ -240,7 +240,7 @@ suite('gr-group tests', () => {
 
     const response = {status: 404};
     sinon.stub(
-        element.$.restAPI, 'getGroupConfig').callsFake((group, errFn) => {
+        element.restApiService, 'getGroupConfig').callsFake((group, errFn) => {
       errFn(response);
     });
 

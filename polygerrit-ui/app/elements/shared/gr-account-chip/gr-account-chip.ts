@@ -25,13 +25,8 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-account-chip_html';
 import {customElement, property} from '@polymer/decorators';
 import {AccountInfo, ChangeInfo} from '../../../types/common';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {appContext} from '../../../services/app-context';
 
-export interface GrAccountChip {
-  $: {
-    restAPI: RestApiService & Element;
-  };
-}
 @customElement('gr-account-chip')
 export class GrAccountChip extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -94,6 +89,8 @@ export class GrAccountChip extends GestureEventListeners(
   @property({type: Boolean})
   transparentBackground = false;
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   ready() {
     super.ready();
@@ -118,7 +115,7 @@ export class GrAccountChip extends GestureEventListeners(
   }
 
   _getHasAvatars() {
-    return this.$.restAPI
+    return this.restApiService
       .getConfig()
       .then(cfg =>
         Promise.resolve(!!(cfg && cfg.plugin && cfg.plugin.has_avatars))

@@ -28,21 +28,15 @@ import {htmlTemplate} from './gr-create-repo-dialog_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {customElement, observe, property} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {ProjectInput, RepoName} from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {appContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-create-repo-dialog': GrCreateRepoDialog;
   }
-}
-
-export interface GrCreateRepoDialog {
-  $: {
-    restAPI: RestApiService & Element;
-  };
 }
 
 @customElement('gr-create-repo-dialog')
@@ -78,6 +72,8 @@ export class GrCreateRepoDialog extends GestureEventListeners(
   @property({type: Object})
   _queryGroups: AutocompleteQuery;
 
+  private restApiService = appContext.restApiService;
+
   constructor() {
     super();
     this._query = (input: string) => this._getRepoSuggestions(input);
@@ -103,16 +99,18 @@ export class GrCreateRepoDialog extends GestureEventListeners(
   }
 
   handleCreateRepo() {
-    return this.$.restAPI.createRepo(this._repoConfig).then(repoRegistered => {
-      if (repoRegistered.status === 201) {
-        this._repoCreated = true;
-        page.show(this._computeRepoUrl(this._repoConfig.name));
-      }
-    });
+    return this.restApiService
+      .createRepo(this._repoConfig)
+      .then(repoRegistered => {
+        if (repoRegistered.status === 201) {
+          this._repoCreated = true;
+          page.show(this._computeRepoUrl(this._repoConfig.name));
+        }
+      });
   }
 
   _getRepoSuggestions(input: string) {
-    return this.$.restAPI.getSuggestedProjects(input).then(response => {
+    return this.restApiService.getSuggestedProjects(input).then(response => {
       const repos = [];
       for (const key in response) {
         if (!hasOwnProperty(response, key)) {
@@ -128,7 +126,7 @@ export class GrCreateRepoDialog extends GestureEventListeners(
   }
 
   _getGroupSuggestions(input: string) {
-    return this.$.restAPI.getSuggestedGroups(input).then(response => {
+    return this.restApiService.getSuggestedGroups(input).then(response => {
       const groups = [];
       for (const key in response) {
         if (!hasOwnProperty(response, key)) {

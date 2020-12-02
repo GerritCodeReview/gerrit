@@ -28,7 +28,7 @@ suite('gr-user-header tests', () => {
   });
 
   test('loads and clears account info', done => {
-    sinon.stub(element.$.restAPI, 'getAccountDetails')
+    sinon.stub(element.restApiService, 'getAccountDetails')
         .returns(Promise.resolve({
           name: 'foo',
           email: 'bar',

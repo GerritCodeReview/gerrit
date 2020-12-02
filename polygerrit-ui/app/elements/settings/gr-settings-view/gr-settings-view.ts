@@ -57,7 +57,6 @@ import {GrGroupList} from '../gr-group-list/gr-group-list';
 import {GrIdentities} from '../gr-identities/gr-identities';
 import {GrEditPreferences} from '../gr-edit-preferences/gr-edit-preferences';
 import {GrDiffPreferences} from '../../shared/gr-diff-preferences/gr-diff-preferences';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   PreferencesInput,
   ServerInfo,
@@ -69,6 +68,7 @@ import {GerritView} from '../../core/gr-navigation/gr-navigation';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'changes_per_page',
@@ -102,7 +102,6 @@ type LocalMenuItemInfo = Omit<TopMenuItemInfo, 'id'>;
 
 export interface GrSettingsView {
   $: {
-    restAPI: RestApiService & Element;
     accountInfo: GrAccountInfo;
     watchedProjectsEditor: GrWatchedProjectsEditor;
     groupList: GrGroupList;
@@ -214,6 +213,8 @@ export class GrSettingsView extends ChangeTableMixin(
 
   public _testOnly_loadingPromise?: Promise<void>;
 
+  private readonly restApiService = appContext.restApiService;
+
   /** @override */
   attached() {
     super.attached();
@@ -234,7 +235,7 @@ export class GrSettingsView extends ChangeTableMixin(
     ];
 
     promises.push(
-      this.$.restAPI.getPreferences().then(prefs => {
+      this.restApiService.getPreferences().then(prefs => {
         if (!prefs) {
           throw new Error('getPreferences returned undefined');
         }
@@ -247,7 +248,7 @@ export class GrSettingsView extends ChangeTableMixin(
     );
 
     promises.push(
-      this.$.restAPI.getConfig().then(config => {
+      this.restApiService.getConfig().then(config => {
         this._serverConfig = config;
         const configPromises: Array<Promise<void>> = [];
 
@@ -264,7 +265,7 @@ export class GrSettingsView extends ChangeTableMixin(
         }
 
         configPromises.push(
-          getDocsBaseUrl(config, this.$.restAPI).then(baseUrl => {
+          getDocsBaseUrl(config, this.restApiService).then(baseUrl => {
             this._docsBaseUrl = baseUrl;
           })
         );
@@ -279,12 +280,14 @@ export class GrSettingsView extends ChangeTableMixin(
       this.params.emailToken
     ) {
       promises.push(
-        this.$.restAPI.confirmEmail(this.params.emailToken).then(message => {
-          if (message) {
-            fireAlert(this, message);
-          }
-          this.$.emailEditor.loadData();
-        })
+        this.restApiService
+          .confirmEmail(this.params.emailToken)
+          .then(message => {
+            if (message) {
+              fireAlert(this, message);
+            }
+            this.$.emailEditor.loadData();
+          })
       );
     } else {
       promises.push(this.$.emailEditor.loadData());
@@ -427,7 +430,7 @@ export class GrSettingsView extends ChangeTableMixin(
   _handleSavePreferences() {
     this._copyPrefs(CopyPrefsDirection.LocalPrefsToPrefs);
 
-    return this.$.restAPI.savePreferences(this.prefs).then(() => {
+    return this.restApiService.savePreferences(this.prefs).then(() => {
       this._prefsChanged = false;
     });
   }
@@ -436,7 +439,7 @@ export class GrSettingsView extends ChangeTableMixin(
     this.set('prefs.change_table', this._localChangeTableColumns);
     this.set('prefs.legacycid_in_change_table', this._showNumber);
     this._cloneChangeTableColumns(this._localChangeTableColumns);
-    return this.$.restAPI.savePreferences(this.prefs).then(() => {
+    return this.restApiService.savePreferences(this.prefs).then(() => {
       this._changeTableChanged = false;
     });
   }
@@ -452,13 +455,13 @@ export class GrSettingsView extends ChangeTableMixin(
   _handleSaveMenu() {
     this.set('prefs.my', this._localMenu);
     this._cloneMenu(this._localMenu);
-    return this.$.restAPI.savePreferences(this.prefs).then(() => {
+    return this.restApiService.savePreferences(this.prefs).then(() => {
       this._menuChanged = false;
     });
   }
 
   _handleResetMenuButton() {
-    return this.$.restAPI.getDefaultPreferences().then(data => {
+    return this.restApiService.getDefaultPreferences().then(data => {
       if (data?.my) {
         this._cloneMenu(data.my);
       }
@@ -497,7 +500,7 @@ export class GrSettingsView extends ChangeTableMixin(
     if (!this._isNewEmailValid(this._newEmail)) return;
 
     this._addingEmail = true;
-    this.$.restAPI.addAccountEmail(this._newEmail).then(response => {
+    this.restApiService.addAccountEmail(this._newEmail).then(response => {
       this._addingEmail = false;
 
       // If it was unsuccessful.

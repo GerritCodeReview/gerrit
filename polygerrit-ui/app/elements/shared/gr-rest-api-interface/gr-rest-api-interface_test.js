@@ -262,7 +262,7 @@ suite('gr-rest-api-interface tests', () => {
     const getResponseObjectStub = sinon.stub(element, 'getResponseObject');
     window.fetch.returns(Promise.resolve({ok: false}));
     const serverErrorEventPromise = new Promise(resolve => {
-      element.addEventListener('server-error', resolve);
+      document.addEventListener('server-error', resolve);
     });
 
     return Promise.all([element._restApiHelper.fetchJSON({}).then(response => {
@@ -1281,7 +1281,7 @@ suite('gr-rest-api-interface tests', () => {
   test('getFileContent suppresses 404s', () => {
     const res = {status: 404};
     const spy = sinon.spy();
-    element.addEventListener('server-error', spy);
+    document.addEventListener('server-error', spy);
     sinon.stub(appContext.authService, 'fetch').returns(Promise.resolve(res));
     sinon.stub(element, '_changeBaseURL').returns(Promise.resolve(''));
     return element.getFileContent('1', 'tst/path', '1')
@@ -1334,7 +1334,7 @@ suite('gr-rest-api-interface tests', () => {
   test('_logCall only reports requests with anonymized URLss', () => {
     sinon.stub(Date, 'now').returns(200);
     const handler = sinon.stub();
-    element.addEventListener('rpc-log', handler);
+    document.addEventListener('gr-rpc-log', handler);
 
     element._restApiHelper._logCall({url: 'url'}, 100, 200);
     assert.isFalse(handler.called);
@@ -1347,13 +1347,15 @@ suite('gr-rest-api-interface tests', () => {
 
   test('ported comment errors do not trigger error dialog', () => {
     const change = createChange();
-    const dispatchStub = sinon.stub(element._restApiHelper, 'dispatchEvent');
+    const handler = sinon.stub();
+    document.addEventListener('server-error', handler);
     sinon.stub(element._restApiHelper, 'fetchJSON').returns(Promise.resolve({
       ok: false}));
 
     element.getPortedComments(change._number, CURRENT);
 
-    assert.isFalse(dispatchStub.called);
+    assert.isFalse(handler.called);
+    document.removeEventListener('server-error', handler);
   });
 
   test('ported drafts are not requested user is not logged in', () => {

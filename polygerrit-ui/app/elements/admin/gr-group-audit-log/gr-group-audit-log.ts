@@ -27,10 +27,7 @@ import {htmlTemplate} from './gr-group-audit-log_html';
 import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
-import {
-  ErrorCallback,
-  RestApiService,
-} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   GroupInfo,
   AccountInfo,
@@ -38,14 +35,10 @@ import {
   GroupAuditEventInfo,
 } from '../../../types/common';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
 
-export interface GrGroupAuditLog {
-  $: {
-    restAPI: RestApiService & Element;
-  };
-}
 @customElement('gr-group-audit-log')
 export class GrGroupAuditLog extends ListViewMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -62,6 +55,8 @@ export class GrGroupAuditLog extends ListViewMixin(
 
   @property({type: Boolean})
   _loading = true;
+
+  private restApiService = appContext.restApiService;
 
   /** @override */
   attached() {
@@ -84,7 +79,7 @@ export class GrGroupAuditLog extends ListViewMixin(
       firePageError(this, response);
     };
 
-    return this.$.restAPI
+    return this.restApiService
       .getGroupAuditLog(this.groupId, errFn)
       .then(auditLog => {
         if (!auditLog) {

@@ -131,7 +131,7 @@ suite('gr-reply-dialog tests', () => {
           try {
             const result = jsonResponseProducer(review) || {};
             const resultStr =
-            element.$.restAPI.JSON_PREFIX + JSON.stringify(result);
+            element.restApiService.JSON_PREFIX + JSON.stringify(result);
             resolve({
               ok: true,
               text() {
@@ -977,7 +977,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('_removeAccount', done => {
-    sinon.stub(element.$.restAPI, 'removeChangeReviewer')
+    sinon.stub(element.restApiService, 'removeChangeReviewer')
         .returns(Promise.resolve({ok: true}));
     const arr = [makeAccount(), makeAccount()];
     element.change.reviewers = {
@@ -1283,7 +1283,7 @@ suite('gr-reply-dialog tests', () => {
 
     setup(() => {
       startReviewStub = sinon.stub(
-          element.$.restAPI,
+          element.restApiService,
           'startReview')
           .callsFake(() => Promise.resolve());
     });
@@ -1371,8 +1371,9 @@ suite('gr-reply-dialog tests', () => {
         const refreshHandler = sinon.stub();
 
         element.addEventListener('comment-refresh', refreshHandler);
-        sinon.stub(element.$.restAPI, 'hasPendingDiffDrafts').returns(true);
-        element.$.restAPI._pendingRequests.sendDiffDraft = [promise];
+        sinon.stub(element.restApiService, 'hasPendingDiffDrafts').returns(
+            true);
+        element.restApiService._pendingRequests.sendDiffDraft = [promise];
         element.open();
 
         assert.isFalse(refreshHandler.called);
@@ -1380,14 +1381,15 @@ suite('gr-reply-dialog tests', () => {
 
         promise.resolve();
 
-        return element.$.restAPI.awaitPendingDiffDrafts().then(() => {
+        return element.restApiService.awaitPendingDiffDrafts().then(() => {
           assert.isTrue(refreshHandler.called);
           assert.isFalse(element._savingComments);
         });
       });
 
       test('no', () => {
-        sinon.stub(element.$.restAPI, 'hasPendingDiffDrafts').returns(false);
+        sinon.stub(element.restApiService, 'hasPendingDiffDrafts').returns(
+            false);
         element.open();
         assert.notOk(element._savingComments);
       });

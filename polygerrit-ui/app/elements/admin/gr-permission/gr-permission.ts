@@ -34,7 +34,6 @@ import {
   PermissionArray,
 } from '../../../utils/access-util';
 import {customElement, property, observe} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
   LabelNameToLabelTypeInfoMap,
@@ -56,6 +55,7 @@ import {
   EditableProjectAccessGroups,
 } from '../gr-repo-access/gr-repo-access-interfaces';
 import {PolymerDomRepeatEvent} from '../../../types/types';
+import {appContext} from '../../../services/app-context';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
 
@@ -65,7 +65,6 @@ type GroupsWithRulesMap = {[ruleId: string]: boolean};
 
 export interface GrPermission {
   $: {
-    restAPI: RestApiService & Element;
     groupAutocomplete: GrAutocomplete;
   };
 }
@@ -141,6 +140,8 @@ export class GrPermission extends GestureEventListeners(
 
   @property({type: Boolean})
   _originalExclusiveValue?: boolean;
+
+  private restApiService = appContext.restApiService;
 
   constructor() {
     super();
@@ -337,7 +338,7 @@ export class GrPermission extends GestureEventListeners(
   }
 
   _getGroupSuggestions(): Promise<AutocompleteSuggestion[]> {
-    return this.$.restAPI
+    return this.restApiService
       .getSuggestedGroups(this._groupFilter || '', MAX_AUTOCOMPLETE_RESULTS)
       .then(response => {
         const groups: GroupSuggestion[] = [];

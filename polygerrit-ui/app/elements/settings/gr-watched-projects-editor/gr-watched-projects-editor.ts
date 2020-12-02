@@ -31,9 +31,9 @@ import {
   GrAutocomplete,
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {ProjectWatchInfo} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
 
 const NOTIFICATION_TYPES = [
   {name: 'Changes', key: 'notify_new_changes'},
@@ -45,7 +45,6 @@ const NOTIFICATION_TYPES = [
 
 export interface GrWatchedProjectsEditor {
   $: {
-    restAPI: RestApiService & Element;
     newFilter: HTMLInputElement;
     newProject: GrAutocomplete;
   };
@@ -70,13 +69,15 @@ export class GrWatchedProjectsEditor extends GestureEventListeners(
   @property({type: Object})
   _query?: AutocompleteQuery;
 
+  private readonly restApiService = appContext.restApiService;
+
   constructor() {
     super();
     this._query = input => this._getProjectSuggestions(input);
   }
 
   loadData() {
-    return this.$.restAPI.getWatchedProjects().then(projs => {
+    return this.restApiService.getWatchedProjects().then(projs => {
       this._projects = projs;
     });
   }
@@ -84,7 +85,7 @@ export class GrWatchedProjectsEditor extends GestureEventListeners(
   save() {
     let deletePromise;
     if (this._projectsToRemove.length) {
-      deletePromise = this.$.restAPI.deleteWatchedProjects(
+      deletePromise = this.restApiService.deleteWatchedProjects(
         this._projectsToRemove
       );
     } else {
@@ -94,7 +95,7 @@ export class GrWatchedProjectsEditor extends GestureEventListeners(
     return deletePromise
       .then(() => {
         if (this._projects) {
-          return this.$.restAPI.saveWatchedProjects(this._projects);
+          return this.restApiService.saveWatchedProjects(this._projects);
         } else {
           return Promise.resolve(undefined);
         }
@@ -119,7 +120,7 @@ export class GrWatchedProjectsEditor extends GestureEventListeners(
   }
 
   _getProjectSuggestions(input: string) {
-    return this.$.restAPI.getSuggestedProjects(input).then(response => {
+    return this.restApiService.getSuggestedProjects(input).then(response => {
       const projects: AutocompleteSuggestion[] = [];
       for (const key in response) {
         if (!hasOwnProperty(response, key)) {

@@ -18,11 +18,7 @@
 import '../../test/common-test-setup-karma.js';
 import '../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {GrEmailSuggestionsProvider} from './gr-email-suggestions-provider.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
-const basicFixture = fixtureFromTemplate(html`
-<gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-`);
+import {appContext} from '../../services/app-context.js';
 
 suite('GrEmailSuggestionsProvider tests', () => {
   let restAPI;
@@ -40,7 +36,7 @@ suite('GrEmailSuggestionsProvider tests', () => {
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
     });
-    restAPI = basicFixture.instantiate();
+    restAPI = appContext.restApiService;
     provider = new GrEmailSuggestionsProvider(restAPI);
   });
 

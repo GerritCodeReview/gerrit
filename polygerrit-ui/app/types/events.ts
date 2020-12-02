@@ -65,8 +65,8 @@ export interface RpcLogEventDetail {
 export type RpcLogEvent = CustomEvent<RpcLogEventDetail>;
 
 declare global {
-  interface HTMLElementEventMap {
-    'rpc-log': RpcLogEvent;
+  interface DocumentEventMap {
+    'gr-rpc-log': RpcLogEvent;
   }
 }
 

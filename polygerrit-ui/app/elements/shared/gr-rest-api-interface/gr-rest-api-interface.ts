@@ -303,23 +303,6 @@ export class GrRestApiInterface
   extends GestureEventListeners(LegacyElementMixin(PolymerElement))
   implements RestApiService {
   readonly JSON_PREFIX = JSON_PREFIX;
-  /**
-   * Fired when an server error occurs.
-   *
-   * @event server-error
-   */
-
-  /**
-   * Fired when a network error occurs.
-   *
-   * @event network-error
-   */
-
-  /**
-   * Fired after an RPC completes.
-   *
-   * @event rpc-log
-   */
 
   @property({type: Object})
   readonly _cache = siteBasedCache; // Shared across instances.
@@ -342,14 +325,15 @@ export class GrRestApiInterface
   // The value is set in created, before any other actions
   private readonly _restApiHelper: GrRestApiHelper;
 
-  constructor() {
+  constructor(authService?: AuthService) {
     super();
-    this.authService = appContext.authService;
+    // TODO: Make the authService constructor parameter required when we have
+    // changed all usages of this class to not instantiate via createElement().
+    this.authService = authService ?? appContext.authService;
     this._restApiHelper = new GrRestApiHelper(
       this._cache,
       this.authService,
-      this._sharedFetchPromises,
-      this
+      this._sharedFetchPromises
     );
   }
 
@@ -1510,7 +1494,7 @@ export class GrRestApiInterface
             if (errFn) {
               errFn.call(null, response);
             } else {
-              this.dispatchEvent(
+              document.dispatchEvent(
                 new CustomEvent('server-error', {
                   detail: {request: req, response},
                   composed: true,
@@ -2224,7 +2208,7 @@ export class GrRestApiInterface
     // them.
     const suppress404s: ErrorCallback = res => {
       if (res?.status !== 404) {
-        this.dispatchEvent(
+        document.dispatchEvent(
           new CustomEvent('server-error', {
             detail: {res},
             composed: true,

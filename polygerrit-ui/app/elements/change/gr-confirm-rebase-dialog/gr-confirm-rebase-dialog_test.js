@@ -118,7 +118,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
         },
       ];
 
-      sinon.stub(element.$.restAPI, 'getChanges').returns(Promise.resolve(
+      sinon.stub(element.restApiService, 'getChanges').returns(Promise.resolve(
           [
             {
               _number: 123,
@@ -141,13 +141,13 @@ suite('gr-confirm-rebase-dialog tests', () => {
       return element._getRecentChanges()
           .then(() => {
             assert.deepEqual(element._recentChanges, recentChanges);
-            assert.equal(element.$.restAPI.getChanges.callCount, 1);
+            assert.equal(element.restApiService.getChanges.callCount, 1);
             // When called a second time, should not re-request recent changes.
             element._getRecentChanges();
           })
           .then(() => {
             assert.equal(element._getRecentChanges.callCount, 2);
-            assert.equal(element.$.restAPI.getChanges.callCount, 1);
+            assert.equal(element.restApiService.getChanges.callCount, 1);
           });
     });
 

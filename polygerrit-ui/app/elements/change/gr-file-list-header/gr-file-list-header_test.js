@@ -86,7 +86,7 @@ suite('gr-file-list-header tests', () => {
   });
 
   test('description editing', () => {
-    const putDescStub = sinon.stub(element.$.restAPI, 'setDescription')
+    const putDescStub = sinon.stub(element.restApiService, 'setDescription')
         .returns(Promise.resolve({ok: true}));
 
     element.changeNum = '42';

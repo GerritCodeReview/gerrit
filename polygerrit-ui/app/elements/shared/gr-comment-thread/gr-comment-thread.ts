@@ -37,7 +37,6 @@ import {appContext} from '../../../services/app-context';
 import {CommentSide, Side, SpecialFilePath} from '../../../constants/constants';
 import {computeDisplayPath} from '../../../utils/path-list-util';
 import {customElement, observe, property} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   CommentRange,
   ConfigInfo,
@@ -58,7 +57,6 @@ const NEWLINE_PATTERN = /\n/g;
 
 export interface GrCommentThread {
   $: {
-    restAPI: RestApiService & Element;
     storage: GrStorage;
     replyBtn: GrButton;
     quoteBtn: GrButton;
@@ -187,6 +185,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(
 
   flagsService = appContext.flagsService;
 
+  readonly restApiService = appContext.restApiService;
+
   /** @override */
   created() {
     super.created();
@@ -310,7 +310,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   }
 
   _getLoggedIn() {
-    return this.$.restAPI.getLoggedIn();
+    return this.restApiService.getLoggedIn();
   }
 
   @observe('comments.*')
@@ -639,7 +639,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     if (!name) {
       return;
     }
-    this.$.restAPI.getProjectConfig(name).then(config => {
+    this.restApiService.getProjectConfig(name).then(config => {
       this._projectConfig = config;
     });
   }

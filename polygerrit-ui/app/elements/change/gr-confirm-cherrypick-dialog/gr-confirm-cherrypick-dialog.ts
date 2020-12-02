@@ -35,7 +35,6 @@ import {
 } from '../../../types/common';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {customElement, property, observe} from '@polymer/decorators';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   GrAutocomplete,
   AutocompleteSuggestion,
@@ -68,7 +67,6 @@ declare global {
 // is converted
 export interface GrConfirmCherrypickDialog {
   $: {
-    restAPI: RestApiService & Element;
     branchInput: GrAutocomplete;
   };
 }
@@ -141,6 +139,8 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
 
   @property({type: Object})
   reporting: ReportingService;
+
+  private restApiService = appContext.restApiService;
 
   constructor() {
     super();
@@ -301,7 +301,7 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
       };
       // revisions and current_revision must exist hence casting
       const patchNum = change.revisions![change.current_revision!]._number;
-      this.$.restAPI
+      this.restApiService
         .executeChangeAction(
           change._number,
           HttpMethod.POST,
@@ -366,7 +366,7 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
     if (input.startsWith('refs/heads/')) {
       input = input.substring('refs/heads/'.length);
     }
-    return this.$.restAPI
+    return this.restApiService
       .getRepoBranches(input, this.project, SUGGESTIONS_LIMIT)
       .then((response: BranchInfo[] | undefined) => {
         const branches = [];

@@ -51,10 +51,7 @@ import {getDisplayName} from '../../../utils/display-name-util';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {TargetElement} from '../../plugins/gr-plugin-types';
 import {customElement, observe, property} from '@polymer/decorators';
-import {
-  ErrorCallback,
-  RestApiService,
-} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {
   AccountAddition,
@@ -158,7 +155,6 @@ const PENDING_REMOVAL_KEYS: (keyof PendingRemovals)[] = [
 
 export interface GrReplyDialog {
   $: {
-    restAPI: RestApiService & Element;
     jsAPI: JsApiService & Element;
     reviewers: GrAccountList;
     ccs: GrAccountList;
@@ -374,6 +370,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   @property({type: Array, computed: '_computeAllReviewers(_reviewers.*)'})
   _allReviewers: (AccountInfo | GroupInfo)[] = [];
 
+  private readonly restApiService = appContext.restApiService;
+
   get keyBindings() {
     return {
       esc: '_handleEscKey',
@@ -431,7 +429,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   open(focusTarget?: FocusTarget) {
     if (!this.change) throw new Error('missing required change property');
     this.knownLatestState = LatestPatchState.CHECKING;
-    fetchChangeUpdates(this.change, this.$.restAPI).then(result => {
+    fetchChangeUpdates(this.change, this.restApiService).then(result => {
       this.knownLatestState = result.isLatest
         ? LatestPatchState.LATEST
         : LatestPatchState.NOT_LATEST;
@@ -446,9 +444,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       // Otherwise, check for an unsaved draft in localstorage.
       this.draft = this._loadStoredDraft();
     }
-    if (this.$.restAPI.hasPendingDiffDrafts()) {
+    if (this.restApiService.hasPendingDiffDrafts()) {
       this._savingComments = true;
-      this.$.restAPI.awaitPendingDiffDrafts().then(() => {
+      this.restApiService.awaitPendingDiffDrafts().then(() => {
         this.dispatchEvent(
           new CustomEvent('comment-refresh', {
             composed: true,
@@ -611,7 +609,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       return;
     }
 
-    return this.$.restAPI
+    return this.restApiService
       .removeChangeReviewer(this.change._number, accountKey(account))
       .then((response?: Response) => {
         if (!response?.ok || !this.change) return;
@@ -811,7 +809,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     // Using response.clone() here, because getResponseObject() and
     // potentially the generic error handler will want to call text() on the
     // response object, which can only be done once per object.
-    const jsonPromise = this.$.restAPI.getResponseObject(response.clone());
+    const jsonPromise = this.restApiService.getResponseObject(response.clone());
     return jsonPromise.then((parsed: ParsedJSON) => {
       const result = parsed as ReviewResult;
       // Only perform custom error handling for 400s and a parseable
@@ -1224,7 +1222,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   _getAccount() {
-    return this.$.restAPI.getAccount();
+    return this.restApiService.getAccount();
   }
 
   _cancelTapHandler(e: Event) {
@@ -1291,7 +1289,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   _saveReview(review: ReviewInput, errFn?: ErrorCallback) {
     if (!this.change) throw new Error('missing required change property');
     if (!this.patchNum) throw new Error('missing required patchNum property');
-    return this.$.restAPI.saveChangeReview(
+    return this.restApiService.saveChangeReview(
       this.change._number,
       this.patchNum,
       review,
@@ -1467,7 +1465,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
 
   _getReviewerSuggestionsProvider(change: ChangeInfo) {
     const provider = GrReviewerSuggestionsProvider.create(
-      this.$.restAPI,
+      this.restApiService,
       change._number,
       SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER
     );
@@ -1477,7 +1475,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
 
   _getCcSuggestionsProvider(change: ChangeInfo) {
     const provider = GrReviewerSuggestionsProvider.create(
-      this.$.restAPI,
+      this.restApiService,
       change._number,
       SUGGESTIONS_PROVIDERS_USERS_TYPES.CC
     );

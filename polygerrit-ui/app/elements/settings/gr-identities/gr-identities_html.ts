@@ -103,5 +103,4 @@ export const htmlTemplate = html`
       item-type="id"
     ></gr-confirm-delete-item-dialog>
   </gr-overlay>
-  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

@@ -16,6 +16,24 @@
       "message": "Can you explain this use case in more detail? How would someone in the community use this feature?",
       "revId": "bd10b50fc9db7c733bc4d8af5d77beafbf3f8e8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9ce7d92_ddf0f6ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-02T10:20:09Z",
+      "side": 1,
+      "message": "Done. WDYT?\n\nFrom what I see now, this is the only required change for this use case, so complexity seems really low to me.",
+      "parentUuid": "a29aa2bf_d604fa17",
+      "revId": "bd10b50fc9db7c733bc4d8af5d77beafbf3f8e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

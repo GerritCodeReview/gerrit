@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57da6469_2a69fa06",
+        "filename": "java/com/google/gerrit/server/query/change/ExternalUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-02T16:34:29Z",
+      "side": 1,
+      "message": "I don\u0027t see this kind of comment in any other Gerrit classes. Is this is a new pattern you\u0027re suggesting?",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "430a56d0a705d1a3ffed4de8ae0aeca0ed1cde92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "560e76a2_5bbde741",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/ExternalUserPermissionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-02T16:34:29Z",
+      "side": 1,
+      "message": "Make this a constant?",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 48
+      },
+      "revId": "430a56d0a705d1a3ffed4de8ae0aeca0ed1cde92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e832484f_69d0e40e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/ExternalUserPermissionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-02T16:34:29Z",
+      "side": 1,
+      "message": "Thinking on coming back and reading the tests below later, the bits where you get an ExternalUser would be clearer if you were calling a helper provided by this custom group backend. Something like:\n\n ExternalUser createUserInGroup(String uid, String group) {\n     return externalUserFactory.create(\n         ImmutableSet.of(ExternalId.Key.parse(group + \"-\" + uid)));\n }",
+      "revId": "430a56d0a705d1a3ffed4de8ae0aeca0ed1cde92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

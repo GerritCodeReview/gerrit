@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import {CommentSide} from '../../../constants/constants.js';
-import {ChangeComments} from '../../../services/gr-comment-api/gr-comment-api_impl.js';
+import '../../test/common-test-setup-karma.js';
+import {CommentSide} from '../../constants/constants.js';
+import {ChangeComments} from './gr-comment-api_impl.js';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
 
@@ -318,7 +318,7 @@ suite('gr-comment-api tests', () => {
           ],
         };
         element._changeComments =
-            new ChangeComments(comments, robotComments, drafts, 1234);
+             new ChangeComments(comments, robotComments, drafts, 1234);
       });
 
       test('getPaths', () => {

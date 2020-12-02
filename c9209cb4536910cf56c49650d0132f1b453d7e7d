@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f5b25e8_4bd83496",
+        "filename": "polygerrit-ui/app/elements/core/gr-key-binding-display/gr-key-binding-display.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-02T15:24:53Z",
+      "side": 1,
+      "message": "Maybe I am too conservative,but it is quite hard to understand what is the output of the code, I need to jump between different functions.\nI can suggest the following 2 options, both allows to read the code from top to bottom:\nOption1:\nconst items \u003d this.binding.map((bind, index) \u003d\u003e [\n      index \u003e 0 ? html` or ` : html``,\n      this._computeModifiers(bind).map(\n        modifier \u003d\u003e html`\u003cspan class\u003d\"key modifier\"\u003e${modifier}\u003c/span\u003e `\n      ),\n      html`\u003cspan class\u003d\"key\"\u003e${this._computeKey(bind)}\u003c/span\u003e`,\n    ]);\n\n    return html`${items}`;\n\nOption 2:\nconst itemsTemplates \u003d [];\n    for (const bind of this.binding) {\n      if (itemsTemplates.length \u003e 0) {\n        itemsTemplates.push(html` or `);\n      }\n      for (const modifier of this._computeModifiers(bind)) {\n        itemsTemplates.push(\n          html`\u003cspan class\u003d\"key modifier\"\u003e${modifier}\u003c/span\u003e`\n        );\n      }\n      itemsTemplates.push(\n        html`\u003cspan class\u003d\"key\"\u003e${this._computeKey(bind)}\u003c/span\u003e`\n      );\n    }\nreturn html`${itemsTemplates}`;\n\nWDYT?",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 8
+      },
+      "revId": "c9209cb4536910cf56c49650d0132f1b453d7e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

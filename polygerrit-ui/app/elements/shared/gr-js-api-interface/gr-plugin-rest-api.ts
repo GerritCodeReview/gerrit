@@ -120,6 +120,10 @@ export class GrPluginRestApi {
     errFn?: ErrorCallback,
     contentType?: string
   ) {
+    // Plugins typically don't want Gerrit to show error dialogs for failed
+    // requests. So we are defining a default errFn here, even if it is not
+    // explicitly set by the caller.
+    errFn = errFn ?? defaultErrFn;
     return this.fetch(method, url, payload, errFn, contentType).then(
       response => {
         if (!response) {
@@ -179,4 +183,15 @@ export class GrPluginRestApi {
       return response;
     });
   }
+}
+
+// This errFn always throws such that the rest-api promise will always be
+// rejected.
+const defaultErrFn: ErrorCallback = (
+  response: Response | null | undefined,
+  error?: Error
+) => {
+  if (error) throw error;
+  if (response) throw new Error(`${response.status}`);
+  throw new Error('Generic REST API error.');
 }

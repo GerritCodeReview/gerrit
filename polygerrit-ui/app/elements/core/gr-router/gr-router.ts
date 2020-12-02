@@ -387,7 +387,6 @@ export class GrRouter extends GestureEventListeners(
       default:
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         assertNever(params, `Unsupported weblink ${(params as any).type}!`);
-        return [];
     }
   }
 

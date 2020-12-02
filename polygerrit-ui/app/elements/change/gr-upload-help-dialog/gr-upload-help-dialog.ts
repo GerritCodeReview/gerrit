@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../shared/gr-dialog/gr-dialog';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../shared/gr-shell-command/gr-shell-command';
 import '../../../styles/shared-styles';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';

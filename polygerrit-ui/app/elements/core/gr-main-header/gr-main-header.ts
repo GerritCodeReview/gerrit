@@ -18,7 +18,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-js-api-interface/gr-js-api-interface';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';

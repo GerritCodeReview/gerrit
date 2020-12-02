@@ -28,7 +28,6 @@ import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-linked-chip/gr-linked-chip';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-change-requirements/gr-change-requirements';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-reviewer-list/gr-reviewer-list';

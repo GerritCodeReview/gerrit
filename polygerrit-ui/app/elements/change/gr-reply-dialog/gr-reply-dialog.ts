@@ -22,7 +22,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import '../../shared/gr-overlay/gr-overlay';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../shared/gr-storage/gr-storage';
 import '../../shared/gr-account-list/gr-account-list';
 import '../gr-label-scores/gr-label-scores';

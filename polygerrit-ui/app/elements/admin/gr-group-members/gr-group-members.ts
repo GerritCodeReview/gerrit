@@ -349,7 +349,7 @@ export class GrGroupMembers extends GestureEventListeners(
           }
           accountSuggestions.push({
             name: nameAndEmail,
-            value: accounts[key]._account_id,
+            value: accounts[key]._account_id?.toString(),
           });
         }
         return accountSuggestions;

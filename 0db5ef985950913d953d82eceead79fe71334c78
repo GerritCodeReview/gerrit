@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4efa40c8_e8cf5673",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-02T10:20:57Z",
+      "side": 1,
+      "message": "Replaced with _commentObjToArray which I think is a good name for the function.",
+      "parentUuid": "437b2de3_93c6dba2",
+      "range": {
+        "startLine": 421,
+        "startChar": 2,
+        "endLine": 421,
+        "endChar": 28
+      },
+      "revId": "0db5ef985950913d953d82eceead79fe71334c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c480298d_28faa7bf",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3df82de_e33863ca",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-02T10:20:57Z",
+      "side": 1,
+      "message": "Actually we don\u0027t need this function at all. After removing the __path addition, it is basically similar to _commentObjToArray.\nOnly difference was that _commentObjToArrayWithFile was creating a copy so I updated _commentObjToArray to create a copy too.",
+      "parentUuid": "c480298d_28faa7bf",
+      "range": {
+        "startLine": 423,
+        "startChar": 4,
+        "endLine": 423,
+        "endChar": 47
+      },
+      "revId": "0db5ef985950913d953d82eceead79fe71334c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59a0f8a0_4dbf7c40",
@@ -60,6 +108,30 @@
       "writtenOn": "2020-12-02T09:51:37Z",
       "side": 1,
       "message": "Can this be simplified with this?\n\n  comments[file].map(comment \u003d\u003e {...comment})",
+      "range": {
+        "startLine": 424,
+        "startChar": 6,
+        "endLine": 427,
+        "endChar": 0
+      },
+      "revId": "0db5ef985950913d953d82eceead79fe71334c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab25c26b_598e014a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-02T10:20:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59a0f8a0_4dbf7c40",
       "range": {
         "startLine": 424,
         "startChar": 6,

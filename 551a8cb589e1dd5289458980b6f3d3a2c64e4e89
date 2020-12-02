@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9fd612b_a649259e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-02T16:25:43Z",
+      "side": 1,
+      "message": "Required by this change in the code-owners plugin:\nhttps://gerrit-review.googlesource.com/c/plugins/code-owners/+/290574",
+      "revId": "551a8cb589e1dd5289458980b6f3d3a2c64e4e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a27791d5_bdd70e54",
+        "filename": "polygerrit-ui/app/elements/core/gr-key-binding-display/gr-key-binding-display.css.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-02T11:20:22Z",
+      "side": 1,
+      "message": "What does that mean?",
+      "revId": "343fe13b03179ba79aefcdbd07bbbf77ee1862c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad3ac7c2_cff94cf1",
+        "filename": "polygerrit-ui/app/elements/core/gr-key-binding-display/gr-key-binding-display.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-02T11:20:22Z",
+      "side": 1,
+      "message": "I find this unreadable. :-) Maybe break down like this?\n\n  render() {\n    return html`${this.binding.map(renderBinding)}`;\n  }\n\n  function renderBinding(binding, index) {\n    const or \u003d ${index \u003e 0 ? \u0027 or \u0027 : \u0027\u0027};\n    return html`${or}\n      ${_computeModifiers(binding).map(renderModifier)}\n      \u003cspan class\u003d\"key\"\u003e${_computeKey(binding)}\u003c/span\u003e`\n  }\n\n  function renderModifier(modifier) {\n    return html`\u003cspan class\u003d\"key modifier\"\u003e${modifier}\u003c/span\u003e `;\n  }",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 0
+      },
+      "revId": "343fe13b03179ba79aefcdbd07bbbf77ee1862c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fbd9793_4b9ed657",
+        "filename": "polygerrit-ui/app/elements/lit/shared-styles.css.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-02T11:20:22Z",
+      "side": 1,
+      "message": "I think it would be really nice to share the same string, because we will probably have LitElement and Polymer for quite a while.\n\nI would be willing to accept usage of unsafeCSS, if the benefit is that we can share the same css string.",
+      "revId": "343fe13b03179ba79aefcdbd07bbbf77ee1862c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

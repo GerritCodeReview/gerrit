@@ -70,6 +70,30 @@
       },
       "revId": "e92f6eca87d9b6676cf10b4a5e95219241243bce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b027aa5a_7090429d",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-02T08:05:53Z",
+      "side": 1,
+      "message": "Made it more clear that this is a link that only works for Googlers.",
+      "parentUuid": "f83b401b_ec587214",
+      "range": {
+        "startLine": 276,
+        "startChar": 20,
+        "endLine": 276,
+        "endChar": 61
+      },
+      "revId": "e92f6eca87d9b6676cf10b4a5e95219241243bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

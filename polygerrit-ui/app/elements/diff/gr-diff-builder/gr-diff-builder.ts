@@ -27,6 +27,7 @@ import {BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
+import {MovedChunkGoToLineDetail} from '../../../types/events';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -898,15 +899,51 @@ export abstract class GrDiffBuilder {
     }
   }
 
-  _createMoveDescription(movedIn: boolean, group: GrDiffGroup) {
+  _createMovedLineAnchor(line: number, side: Side) {
+    const anchor = this._createElementWithText('a', `${line}`);
+
+    // href is not actually used but important for Screen Readers
+    anchor.setAttribute('href', `#${line}`);
+    anchor.addEventListener('click', e => {
+      e.preventDefault();
+      anchor.dispatchEvent(
+        new CustomEvent<MovedChunkGoToLineDetail>('moved-link-clicked', {
+          detail: {
+            line,
+            side,
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+    });
+    return anchor;
+  }
+
+  _createElementWithText(tagName: string, textContent: string) {
+    const element = this._createElement(tagName);
+    element.textContent = textContent;
+    return element;
+  }
+
+  _createMoveDescriptionDiv(movedIn: boolean, group: GrDiffGroup) {
+    const div = this._createElement('div');
     if (group.moveDetails?.range) {
       const {changed, range} = group.moveDetails;
-      const moveLabel = 'Moved' + (changed ? ' and changed' : '');
+      const otherSide = movedIn ? Side.LEFT : Side.RIGHT;
+      const andChangedLabel = changed ? 'and changed ' : '';
       const direction = movedIn ? 'from' : 'to';
-      const lineDetails = `lines ${range.start} - ${range.end}`;
-      return `${moveLabel} ${direction} ${lineDetails}`;
+      const textLabel = `Moved ${andChangedLabel}${direction} lines `;
+      div.appendChild(this._createElementWithText('span', textLabel));
+      div.appendChild(this._createMovedLineAnchor(range.start, otherSide));
+      div.appendChild(this._createElementWithText('span', ' - '));
+      div.appendChild(this._createMovedLineAnchor(range.end, otherSide));
+    } else {
+      div.appendChild(
+        this._createElementWithText('span', movedIn ? 'Moved in' : 'Moved out')
+      );
     }
-    return movedIn ? 'Moved in' : 'Moved out';
+    return div;
   }
 
   _buildMoveControls(group: GrDiffGroup) {
@@ -919,7 +956,7 @@ export abstract class GrDiffBuilder {
 
     let controlsClass;
     let descriptionIndex;
-    const descriptionText = this._createMoveDescription(movedIn, group);
+    const descriptionTextDiv = this._createMoveDescriptionDiv(movedIn, group);
     if (movedIn) {
       controlsClass = 'movedIn';
       descriptionIndex = movedInIndex;
@@ -935,10 +972,8 @@ export abstract class GrDiffBuilder {
     const moveDescriptionDiv = this._createElement('div', 'moveDescription');
     const icon = this._createElement('iron-icon');
     icon.setAttribute('icon', 'gr-icons:move-item');
-    const span = this._createElement('span', '');
-    span.textContent = descriptionText;
     moveDescriptionDiv.appendChild(icon);
-    moveDescriptionDiv.appendChild(span);
+    moveDescriptionDiv.appendChild(descriptionTextDiv);
     cells[descriptionIndex].appendChild(moveDescriptionDiv);
     cells[descriptionIndex].classList.add('moveLabel');
     cells.forEach(c => {

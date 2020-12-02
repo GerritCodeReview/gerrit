@@ -17,6 +17,8 @@
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PatchSetNum} from './common';
 import {UIComment} from '../utils/comment-util';
+import {Side} from '../constants/constants';
+import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
 
 export interface TitleChangeEventDetail {
   title: string;
@@ -135,6 +137,19 @@ export interface ReloadEventDetail {
 }
 
 export type ReloadEvent = CustomEvent<ReloadEventDetail>;
+
+export interface MovedChunkGoToLineDetail {
+  side: Side;
+  line: LineNumber;
+}
+
+export type MovedChunkGoToLineEvent = CustomEvent<MovedChunkGoToLineDetail>;
+
+declare global {
+  interface HTMLElementEventMap {
+    'moved-link-clicked': MovedChunkGoToLineEvent;
+  }
+}
 
 declare global {
   interface HTMLElementEventMap {

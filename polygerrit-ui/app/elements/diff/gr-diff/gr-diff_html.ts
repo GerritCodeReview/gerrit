@@ -252,6 +252,10 @@ export const htmlTemplate = html`
       width: var(--spacing-xl);
     }
 
+    .moveDescription a {
+      color: inherit;
+    }
+
     /* ignoredWhitespaceOnly */
     .ignoredWhitespaceOnly .content.add .contentText .intraline,
     .delta.total.ignoredWhitespaceOnly .content.add .contentText,

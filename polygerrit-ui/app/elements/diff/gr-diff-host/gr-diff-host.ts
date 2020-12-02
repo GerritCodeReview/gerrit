@@ -763,7 +763,7 @@ export class GrDiffHost extends GestureEventListeners(
     threadEl.className = 'comment-thread';
     threadEl.setAttribute('slot', `${thread.diffSide}-${thread.line}`);
     threadEl.comments = thread.comments;
-    threadEl.commentSide = thread.diffSide;
+    threadEl.diffSide = thread.diffSide;
     threadEl.isOnParent = thread.commentSide === CommentSide.PARENT;
     threadEl.parentIndex = this._parentIndex;
     // Use path before renmaing when comment added on the left when comparing

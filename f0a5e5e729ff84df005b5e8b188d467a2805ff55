@@ -93,6 +93,30 @@
       },
       "revId": "f0a5e5e729ff84df005b5e8b188d467a2805ff55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a238b69d_597ccd28",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-02T09:09:34Z",
+      "side": 1,
+      "message": "\u0027as RpcLogEvent\u0027 - can it be removed now?",
+      "parentUuid": "3ce780f2_a08fd9cc",
+      "range": {
+        "startLine": 223,
+        "startChar": 26,
+        "endLine": 223,
+        "endChar": 41
+      },
+      "revId": "f0a5e5e729ff84df005b5e8b188d467a2805ff55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

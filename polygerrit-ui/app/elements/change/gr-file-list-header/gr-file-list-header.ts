@@ -20,7 +20,6 @@ import '../../diff/gr-patch-range-select/gr-patch-range-select';
 import '../../edit/gr-edit-controls/gr-edit-controls';
 import '../../shared/gr-editable-label/gr-editable-label';
 import '../../shared/gr-linked-chip/gr-linked-chip';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';

@@ -23,7 +23,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
 import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-linked-text/gr-linked-text';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';

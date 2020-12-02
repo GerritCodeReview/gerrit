@@ -30,7 +30,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-diff-preferences/gr-diff-preferences';
 import '../../shared/gr-page-nav/gr-page-nav';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../shared/gr-select/gr-select';
 import '../gr-account-info/gr-account-info';
 import '../gr-agreements-list/gr-agreements-list';

@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7127c86_68559e0c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-02T08:37:47Z",
+      "side": 1,
+      "message": "Maybe use type `Side`.",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 24
+      },
+      "revId": "e0a4ebbff96e0989bc25711188dd11c2f8a4c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d7ed951_ffb0404c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-02T08:37:47Z",
+      "side": 1,
+      "message": "Maybe use type `LineNumber`.",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 14
+      },
+      "revId": "e0a4ebbff96e0989bc25711188dd11c2f8a4c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf2b18a6_5f193b15",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-02T08:37:47Z",
+      "side": 1,
+      "message": "Optional: We are trying to type events (see events.ts) and use HTMLElementEventMap.",
+      "range": {
+        "startLine": 285,
+        "startChar": 29,
+        "endLine": 285,
+        "endChar": 45
+      },
+      "revId": "e0a4ebbff96e0989bc25711188dd11c2f8a4c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1e8f7f6_61c3efc4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-02T08:37:47Z",
+      "side": 1,
+      "message": "Maybe just inline the call?",
+      "revId": "e0a4ebbff96e0989bc25711188dd11c2f8a4c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f313d676_694d8a43",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-02T08:37:47Z",
+      "side": 1,
+      "message": "Type should be LineNumber, which can also be \u0027FILE\u0027.",
+      "range": {
+        "startLine": 549,
+        "startChar": 32,
+        "endLine": 549,
+        "endChar": 38
+      },
+      "revId": "e0a4ebbff96e0989bc25711188dd11c2f8a4c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

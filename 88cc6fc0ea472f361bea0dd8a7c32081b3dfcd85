@@ -16,6 +16,24 @@
       "message": "I found several other files with \u0027gr-rest-api-interface\u0027 import, for example gr-account-label.ts and it seems these imports can be removed too. Could you please take a look?",
       "revId": "88cc6fc0ea472f361bea0dd8a7c32081b3dfcd85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71f53ded_b44efd18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-02T19:24:30Z",
+      "side": 1,
+      "message": "There are usages remaining in test files but they are also stubbing methods of gr-rest-api-interface which also needs be cleaned up.\nWill send a follow-up change for that.",
+      "parentUuid": "8612011d_c11a24ea",
+      "revId": "88cc6fc0ea472f361bea0dd8a7c32081b3dfcd85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

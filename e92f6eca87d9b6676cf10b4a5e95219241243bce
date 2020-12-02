@@ -46,6 +46,30 @@
       },
       "revId": "e92f6eca87d9b6676cf10b4a5e95219241243bce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f83b401b_ec587214",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-02T08:02:05Z",
+      "side": 1,
+      "message": "Yes, unfortunately only Googlers can trigger this CVE creation.\nSince we are anyway involved in investigating security issues, I think it\u0027s fine if a Googler needs to do this. If you are very opposed to having this internal link here, then we can drop it, but then we will likely have trouble finding it again when we need it.",
+      "parentUuid": "b4054b0b_3744e7d5",
+      "range": {
+        "startLine": 276,
+        "startChar": 20,
+        "endLine": 276,
+        "endChar": 61
+      },
+      "revId": "e92f6eca87d9b6676cf10b4a5e95219241243bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

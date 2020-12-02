@@ -70,6 +70,30 @@
       },
       "revId": "954aa3103b3c154a69b67068aaa51bd40d4d586f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba546e1f_e27496ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-02T07:12:38Z",
+      "side": 1,
+      "message": "Thanks for the follow up! I updated the commit message with the doc link so hope it is more clear now.\n\nI would avoid over complicating things with the lookup. If the caller wants to cherry-pick a change revision, there is https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#cherry-pick\n\nI decided to split the changes:\n1) in case there will be alternative suggestion fo  fixing NPE. Also I added more tests and that change seemed to be well-scoped.\n2) in case there is strong objection against resetting cherry-pick of (also, seemed well-scoped).\n\n\nSorry for removing your vote! It was not intentional, I was just curious to see why I can do it (I am a new contributor and still learning about Gerrit and how it works). Please, feel free to revote.\n\nFor now, I will keep the changes separate, if you don\u0027t mind. I would wait for other opinions/reviews.",
+      "parentUuid": "a9c27e97_20bc29da",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "954aa3103b3c154a69b67068aaa51bd40d4d586f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

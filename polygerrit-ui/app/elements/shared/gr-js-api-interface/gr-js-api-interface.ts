@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-rest-api-interface/gr-rest-api-interface';
 import './gr-js-api-interface-element';
 import './gr-public-js-api';
 import './gr-gerrit';

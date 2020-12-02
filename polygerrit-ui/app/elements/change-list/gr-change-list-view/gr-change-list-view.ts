@@ -16,7 +16,6 @@
  */
 
 import '../../shared/gr-icons/gr-icons';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-change-list/gr-change-list';
 import '../gr-repo-header/gr-repo-header';
 import '../gr-user-header/gr-user-header';

@@ -16,7 +16,6 @@
  */
 import '../../../styles/shared-styles';
 import '../gr-js-api-interface/gr-js-api-interface';
-import '../gr-rest-api-interface/gr-rest-api-interface';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';

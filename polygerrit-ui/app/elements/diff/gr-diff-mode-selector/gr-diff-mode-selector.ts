@@ -18,7 +18,6 @@ import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import {DiffViewMode} from '../../../constants/constants';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';

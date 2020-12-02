@@ -21,7 +21,6 @@ import '../../../styles/gr-menu-page-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-rule-editor/gr-rule-editor';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';

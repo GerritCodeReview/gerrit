@@ -16,7 +16,6 @@
  */
 import '@polymer/paper-tabs/paper-tabs';
 import '../gr-shell-command/gr-shell-command';
-import '../gr-rest-api-interface/gr-rest-api-interface';
 import '../../../styles/shared-styles';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';

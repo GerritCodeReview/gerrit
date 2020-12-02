@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import '../gr-diff/gr-diff';

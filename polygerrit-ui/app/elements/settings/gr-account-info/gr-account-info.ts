@@ -17,7 +17,6 @@
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';

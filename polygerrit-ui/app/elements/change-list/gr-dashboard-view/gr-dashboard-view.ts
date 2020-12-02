@@ -19,7 +19,6 @@ import '../gr-change-list/gr-change-list';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-create-commands-dialog/gr-create-commands-dialog';
 import '../gr-create-change-help/gr-create-change-help';
 import '../gr-create-destination-dialog/gr-create-destination-dialog';

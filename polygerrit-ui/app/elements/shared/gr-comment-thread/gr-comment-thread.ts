@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import '../gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-storage/gr-storage';
 import '../gr-comment/gr-comment';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';

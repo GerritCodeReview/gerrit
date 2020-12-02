@@ -19,7 +19,6 @@ import '@polymer/iron-icon/iron-icon';
 import '../../../styles/shared-styles';
 import '../gr-avatar/gr-avatar';
 import '../gr-button/gr-button';
-import '../gr-rest-api-interface/gr-rest-api-interface';
 import {hovercardBehaviorMixin} from '../gr-hovercard/gr-hovercard-behavior';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';

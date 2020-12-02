@@ -17,7 +17,6 @@
 import '@polymer/iron-icon/iron-icon';
 import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-dialog/gr-dialog';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../../styles/shared-styles';

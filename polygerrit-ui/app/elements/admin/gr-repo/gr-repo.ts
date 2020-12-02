@@ -19,7 +19,6 @@ import '@polymer/iron-input/iron-input';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-download-commands/gr-download-commands';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../shared/gr-select/gr-select';
 import '../../../styles/gr-form-styles';
 import '../../../styles/gr-subpage-styles';

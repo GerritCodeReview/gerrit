@@ -18,7 +18,6 @@ import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../shared/gr-select/gr-select';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';

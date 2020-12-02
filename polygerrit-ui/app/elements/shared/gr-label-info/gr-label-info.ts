@@ -21,7 +21,6 @@ import '../gr-account-link/gr-account-link';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import '../gr-label/gr-label';
-import '../gr-rest-api-interface/gr-rest-api-interface';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';

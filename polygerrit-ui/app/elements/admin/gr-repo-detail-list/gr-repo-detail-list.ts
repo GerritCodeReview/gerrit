@@ -25,7 +25,6 @@ import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-overlay/gr-overlay';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-create-pointer-dialog/gr-create-pointer-dialog';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';

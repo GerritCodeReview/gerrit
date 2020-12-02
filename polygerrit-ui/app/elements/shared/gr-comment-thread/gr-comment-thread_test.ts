@@ -348,7 +348,6 @@ suite('comment action tests with unresolved thread', () => {
         path: '/path/to/file.txt',
         unresolved: true,
         patch_set: 3 as PatchSetNum,
-        diffSide: Side.LEFT,
       },
     ];
     flush();
@@ -833,7 +832,6 @@ suite('comment action tests with unresolved thread', () => {
 
   test('_newDraft with root', () => {
     const draft = element._newDraft();
-    assert.equal(draft.diffSide, Side.LEFT);
     assert.equal(draft.patch_set, 3 as PatchSetNum);
   });
 
@@ -842,7 +840,6 @@ suite('comment action tests with unresolved thread', () => {
     element.diffSide = Side.RIGHT;
     element.patchNum = 2 as PatchSetNum;
     const draft = element._newDraft();
-    assert.equal(draft.diffSide, Side.RIGHT);
     assert.equal(draft.patch_set, 2 as PatchSetNum);
   });
 

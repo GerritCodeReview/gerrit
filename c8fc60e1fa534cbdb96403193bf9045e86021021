@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f0d0564_a99fe88a",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-02T08:50:21Z",
+      "side": 1,
+      "message": "I think Nasser is right, an internal link is not a good fit.\n\nHow about just stating here that we want to file a CVE and that organizations that can request CVE numbers, such as Google, should do that.\n\nWe could document internally how to issue a CVE, but I think we don\u0027t have to because it\u0027s trivial to pull this up in internal search.",
+      "revId": "c8fc60e1fa534cbdb96403193bf9045e86021021",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

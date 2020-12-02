@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-comment-api.js';
 import {ChangeComments} from './gr-comment-api.js';
 import {CommentSide} from '../../../constants/constants.js';
+import {isInRevisionOfPatchRange, isInBaseOfPatchRange} from '../../../utils/comment-util.js';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
 
@@ -146,72 +147,48 @@ suite('gr-comment-api tests', () => {
       });
     });
 
-    test('_isInBaseOfPatchRange', () => {
+    test('isInBaseOfPatchRange', () => {
       const comment = {patch_set: 1};
       const patchRange = {basePatchNum: 1, patchNum: 2};
-      assert.isTrue(element._changeComments._isInBaseOfPatchRange(comment,
+      assert.isTrue(isInBaseOfPatchRange(comment,
           patchRange));
 
       patchRange.basePatchNum = PARENT;
-      assert.isFalse(element._changeComments._isInBaseOfPatchRange(comment,
+      assert.isFalse(isInBaseOfPatchRange(comment,
           patchRange));
 
       comment.side = PARENT;
-      assert.isFalse(element._changeComments._isInBaseOfPatchRange(comment,
+      assert.isFalse(isInBaseOfPatchRange(comment,
           patchRange));
 
       comment.patch_set = 2;
-      assert.isTrue(element._changeComments._isInBaseOfPatchRange(comment,
+      assert.isTrue(isInBaseOfPatchRange(comment,
           patchRange));
 
       patchRange.basePatchNum = -2;
       comment.side = PARENT;
       comment.parent = 1;
-      assert.isFalse(element._changeComments._isInBaseOfPatchRange(comment,
+      assert.isFalse(isInBaseOfPatchRange(comment,
           patchRange));
 
       comment.parent = 2;
-      assert.isTrue(element._changeComments._isInBaseOfPatchRange(comment,
+      assert.isTrue(isInBaseOfPatchRange(comment,
           patchRange));
     });
 
-    test('_isInRevisionOfPatchRange', () => {
+    test('isInRevisionOfPatchRange', () => {
       const comment = {patch_set: 123};
       const patchRange = {basePatchNum: 122, patchNum: 124};
-      assert.isFalse(element._changeComments._isInRevisionOfPatchRange(
+      assert.isFalse(isInRevisionOfPatchRange(
           comment, patchRange));
 
       patchRange.patchNum = 123;
-      assert.isTrue(element._changeComments._isInRevisionOfPatchRange(
+      assert.isTrue(isInRevisionOfPatchRange(
           comment, patchRange));
 
       comment.side = PARENT;
-      assert.isFalse(element._changeComments._isInRevisionOfPatchRange(
+      assert.isFalse(isInRevisionOfPatchRange(
           comment, patchRange));
-    });
-
-    test('_isInPatchRange', () => {
-      const patchRange1 = {basePatchNum: 122, patchNum: 124};
-      const patchRange2 = {basePatchNum: 123, patchNum: 125};
-      const patchRange3 = {basePatchNum: 124, patchNum: 125};
-
-      const isInBasePatchStub = sinon.stub(element._changeComments,
-          '_isInBaseOfPatchRange');
-      const isInRevisionPatchStub = sinon.stub(element._changeComments,
-          '_isInRevisionOfPatchRange');
-
-      isInBasePatchStub.withArgs({}, patchRange1).returns(true);
-      isInBasePatchStub.withArgs({}, patchRange2).returns(false);
-      isInBasePatchStub.withArgs({}, patchRange3).returns(false);
-
-      isInRevisionPatchStub.withArgs({}, patchRange1).returns(false);
-      isInRevisionPatchStub.withArgs({}, patchRange2).returns(true);
-      isInRevisionPatchStub.withArgs({}, patchRange3).returns(false);
-
-      assert.isTrue(element._changeComments._isInPatchRange({}, patchRange1));
-      assert.isTrue(element._changeComments._isInPatchRange({}, patchRange2));
-      assert.isFalse(element._changeComments._isInPatchRange({},
-          patchRange3));
     });
 
     suite('comment ranges and paths', () => {
@@ -349,32 +326,40 @@ suite('gr-comment-api tests', () => {
         assert.property(paths, 'file/four');
       });
 
-      test('getCommentsBySideForPath', () => {
+      test('getCommentsForPath', () => {
         const patchRange = {basePatchNum: 1, patchNum: 3};
         let path = 'file/one';
-        let comments = element._changeComments.getCommentsBySideForPath(path,
+        let comments = element._changeComments.getCommentsForPath(path,
             patchRange);
-        assert.equal(comments.left.length, 0);
-        assert.equal(comments.right.length, 0);
+        assert.equal(comments.filter(c => isInBaseOfPatchRange(c, patchRange))
+            .length, 0);
+        assert.equal(comments.filter(c => isInRevisionOfPatchRange(c,
+            patchRange)).length, 0);
 
         path = 'file/two';
-        comments = element._changeComments.getCommentsBySideForPath(path,
+        comments = element._changeComments.getCommentsForPath(path,
             patchRange);
-        assert.equal(comments.left.length, 0);
-        assert.equal(comments.right.length, 2);
+        assert.equal(comments.filter(c => isInBaseOfPatchRange(c, patchRange))
+            .length, 0);
+        assert.equal(comments.filter(c => isInRevisionOfPatchRange(c,
+            patchRange)).length, 2);
 
         patchRange.basePatchNum = 2;
-        comments = element._changeComments.getCommentsBySideForPath(path,
+        comments = element._changeComments.getCommentsForPath(path,
             patchRange);
-        assert.equal(comments.left.length, 1);
-        assert.equal(comments.right.length, 2);
+        assert.equal(comments.filter(c => isInBaseOfPatchRange(c,
+            patchRange)).length, 1);
+        assert.equal(comments.filter(c => isInRevisionOfPatchRange(c,
+            patchRange)).length, 2);
 
         patchRange.basePatchNum = PARENT;
         path = 'file/three';
-        comments = element._changeComments.getCommentsBySideForPath(path,
+        comments = element._changeComments.getCommentsForPath(path,
             patchRange);
-        assert.equal(comments.left.length, 0);
-        assert.equal(comments.right.length, 1);
+        assert.equal(comments.filter(c => isInBaseOfPatchRange(c, patchRange))
+            .length, 0);
+        assert.equal(comments.filter(c => isInRevisionOfPatchRange(c,
+            patchRange)).length, 1);
       });
 
       test('getAllCommentsForPath', () => {
@@ -539,7 +524,6 @@ suite('gr-comment-api tests', () => {
                 path: 'file/one',
               },
             ],
-            diffSide: undefined,
             commentSide: 'PARENT',
             patchNum: 2,
             path: 'file/one',
@@ -566,7 +550,6 @@ suite('gr-comment-api tests', () => {
             path: 'file/one',
             line: 2,
             range: undefined,
-            diffSide: undefined,
             commentSide: CommentSide.PARENT,
             rootId: '03',
           }, {
@@ -602,7 +585,6 @@ suite('gr-comment-api tests', () => {
             line: 1,
             rootId: '04',
             range: undefined,
-            diffSide: undefined,
             commentSide: CommentSide.REVISION,
           }, {
             comments: [
@@ -619,7 +601,6 @@ suite('gr-comment-api tests', () => {
             line: 2,
             rootId: '05',
             range: undefined,
-            diffSide: undefined,
             commentSide: CommentSide.REVISION,
           }, {
             comments: [
@@ -636,7 +617,6 @@ suite('gr-comment-api tests', () => {
             line: 2,
             rootId: '06',
             range: undefined,
-            diffSide: undefined,
             commentSide: CommentSide.REVISION,
           }, {
             comments: [
@@ -666,7 +646,6 @@ suite('gr-comment-api tests', () => {
             line: 1,
             rootId: '07',
             range: undefined,
-            diffSide: undefined,
           }, {
             comments: [
               {
@@ -682,7 +661,6 @@ suite('gr-comment-api tests', () => {
             line: 1,
             rootId: '09',
             range: undefined,
-            diffSide: undefined,
             commentSide: CommentSide.REVISION,
           }, {
             comments: [
@@ -701,7 +679,6 @@ suite('gr-comment-api tests', () => {
             line: 1,
             rootId: '10',
             range: undefined,
-            diffSide: undefined,
           }, {
             comments: [
               {
@@ -717,7 +694,6 @@ suite('gr-comment-api tests', () => {
             path: 'file/four',
             line: 1,
             range: undefined,
-            diffSide: undefined,
             commentSide: CommentSide.REVISION,
           }, {
             comments: [
@@ -735,7 +711,6 @@ suite('gr-comment-api tests', () => {
             path: 'file/two',
             line: 1,
             range: undefined,
-            diffSide: undefined,
             commentSide: CommentSide.REVISION,
           }, {
             comments: [
@@ -755,7 +730,6 @@ suite('gr-comment-api tests', () => {
             path: 'file/one',
             line: 1,
             range: undefined,
-            diffSide: undefined,
           },
         ];
         const threads = element._changeComments.getAllThreadsForChange();

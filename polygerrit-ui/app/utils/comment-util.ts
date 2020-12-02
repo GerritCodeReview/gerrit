@@ -22,11 +22,14 @@ import {
   Timestamp,
   UrlEncodedCommentId,
   CommentRange,
+  PatchRange,
+  ParentPatchSetNum,
 } from '../types/common';
 import {CommentSide, Side} from '../constants/constants';
 import {parseDate} from './date-util';
 import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
 import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
+import {isMergeParent, getParentIndex, patchNumEquals} from './patch-set-util';
 
 export interface DraftCommentProps {
   __draft?: boolean;
@@ -42,9 +45,6 @@ export type DraftInfo = CommentBasics & DraftCommentProps;
 export type Comment = DraftInfo | CommentInfo | RobotCommentInfo;
 
 export interface UIStateCommentProps {
-  // diffSide is used by gr-diff to decide which side(left/right) to show
-  // the comment
-  diffSide?: Side;
   collapsed?: boolean;
   // TODO(TS): Consider allowing this only for drafts.
   __editing?: boolean;
@@ -97,7 +97,10 @@ export function sortComments<T extends SortableComment>(comments: T[]): T[] {
   });
 }
 
-export function createCommentThreads(comments: UIComment[]) {
+export function createCommentThreads(
+  comments: UIComment[],
+  patchRange?: PatchRange
+) {
   const sortedComments = sortComments(comments);
   const threads: CommentThread[] = [];
   const idThreadMap: CommentIdToCommentThreadMap = {};
@@ -126,8 +129,14 @@ export function createCommentThreads(comments: UIComment[]) {
       line: comment.line,
       range: comment.range,
       rootId: comment.id,
-      diffSide: comment.diffSide,
     };
+    if (patchRange) {
+      if (isInBaseOfPatchRange(comment, patchRange))
+        newThread.diffSide = Side.LEFT;
+      else if (isInRevisionOfPatchRange(comment, patchRange))
+        newThread.diffSide = Side.RIGHT;
+      else throw new Error('comment does not belong in given patchrange');
+    }
     if (!comment.line && !comment.range) {
       newThread.line = 'FILE';
     }
@@ -161,4 +170,65 @@ export function isUnresolved(thread?: CommentThread): boolean {
 
 export function isDraftThread(thread?: CommentThread): boolean {
   return isDraft(getLastComment(thread));
+}
+
+/**
+ * Whether the given comment should be included in the base side of the
+ * given patch range.
+ */
+export function isInBaseOfPatchRange(
+  comment: CommentBasics,
+  range: PatchRange
+) {
+  // If the base of the patch range is a parent of a merge, and the comment
+  // appears on a specific parent then only show the comment if the parent
+  // index of the comment matches that of the range.
+  if (comment.parent && comment.side === CommentSide.PARENT) {
+    return (
+      isMergeParent(range.basePatchNum) &&
+      comment.parent === getParentIndex(range.basePatchNum)
+    );
+  }
+
+  // If the base of the range is the parent of the patch:
+  if (
+    range.basePatchNum === ParentPatchSetNum &&
+    comment.side === CommentSide.PARENT &&
+    patchNumEquals(comment.patch_set, range.patchNum)
+  ) {
+    return true;
+  }
+  // If the base of the range is not the parent of the patch:
+  return (
+    range.basePatchNum !== ParentPatchSetNum &&
+    comment.side !== CommentSide.PARENT &&
+    patchNumEquals(comment.patch_set, range.basePatchNum)
+  );
+}
+
+/**
+ * Whether the given comment should be included in the revision side of the
+ * given patch range.
+ */
+export function isInRevisionOfPatchRange(
+  comment: CommentBasics,
+  range: PatchRange
+) {
+  return (
+    comment.side !== CommentSide.PARENT &&
+    patchNumEquals(comment.patch_set, range.patchNum)
+  );
+}
+
+/**
+ * Whether the given comment should be included in the given patch range.
+ */
+export function isInPatchRange(
+  comment: CommentBasics,
+  range: PatchRange
+): boolean {
+  return (
+    isInBaseOfPatchRange(comment, range) ||
+    isInRevisionOfPatchRange(comment, range)
+  );
 }

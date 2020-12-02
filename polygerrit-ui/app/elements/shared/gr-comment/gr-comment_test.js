@@ -910,7 +910,6 @@ suite('gr-comment tests', () => {
 
         assert.deepEqual(dispatchEventStub.lastCall.args[0].detail, {
           comment: {
-            diffSide: Side.RIGHT,
             __draft: true,
             __draftID: 'temp_draft_id',
             id: 'baf0414d_40572e03',

@@ -26,7 +26,7 @@ import {
 import {CommentSide, Side} from '../constants/constants';
 import {parseDate} from './date-util';
 import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
-import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
+import {CommentIdToCommentThreadMap} from '../services/gr-comment-api/gr-comment-api_impl';
 
 export interface DraftCommentProps {
   __draft?: boolean;

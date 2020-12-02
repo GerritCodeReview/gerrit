@@ -29,6 +29,7 @@ import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api.js';
+import { createCommentThreads } from '../../../utils/comment-util.js';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
@@ -106,8 +107,6 @@ suite('gr-file-list tests', () => {
       // been initialized.
       commentApiWrapper.loadComments().then(() => {
         sinon.stub(element.changeComments, 'getPaths').returns({});
-        sinon.stub(element.changeComments, 'getCommentsBySideForPath')
-            .returns({meta: {}, left: [], right: []});
         done();
       });
       element._loading = false;
@@ -1527,17 +1526,8 @@ suite('gr-file-list tests', () => {
     ];
 
     async function setupDiff(diff) {
-      diff.comments = {
-        left: diff.path === '/COMMIT_MSG' ? commitMsgComments : [],
-        right: [],
-        meta: {
-          changeNum: 1,
-          patchRange: {
-            basePatchNum: 'PARENT',
-            patchNum: 2,
-          },
-        },
-      };
+      diff.threads = diff.path === '/COMMIT_MSG' ?
+        createCommentThreads(commitMsgComments) : [];
       diff.prefs = {
         context: 10,
         tab_size: 8,
@@ -1556,7 +1546,7 @@ suite('gr-file-list tests', () => {
       };
       diff.diff = getMockDiffResponse();
       commentApiWrapper.loadComments().then(() => {
-        sinon.stub(element.changeComments, 'getCommentsBySideForPath')
+        sinon.stub(element.changeComments, 'getCommentsForPath')
             .withArgs('/COMMIT_MSG', {
               basePatchNum: 'PARENT',
               patchNum: 2,
@@ -1608,8 +1598,6 @@ suite('gr-file-list tests', () => {
       // been initialized.
       commentApiWrapper.loadComments().then(() => {
         sinon.stub(element.changeComments, 'getPaths').returns({});
-        sinon.stub(element.changeComments, 'getCommentsBySideForPath')
-            .returns({meta: {}, left: [], right: []});
         done();
       });
       element._loading = false;

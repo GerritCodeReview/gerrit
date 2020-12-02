@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad2b2045_45e22e0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0047d7f_1b4c8e83",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "572518be_477fbeff",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "Can we remove one of these two conversion methods?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 3
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa5753ab_6bf0b481",
+        "filename": "java/com/google/gerrit/server/patch/filediff/Edit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "We need to do this conversion between the types that we get from jgit and those we surface at our APIs. I think having this method in this class is the best place for it. WDYT?",
+      "parentUuid": "572518be_477fbeff",
       "range": {
         "startLine": 35,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fac794c_7720298c",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e11ce383_f8a6ed98",
+      "range": {
+        "startLine": 74,
+        "startChar": 36,
+        "endLine": 74,
+        "endChar": 40
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7db29d0a_0698a4f7",
@@ -83,6 +155,24 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "I was thrown a bit by the \"...Type\" suffix at first, as if \"COMMIT\" is a type of magic path when in fact it\u0027s an instance. Maybe just \"MagicPath\"?",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "246e78fc_7ae4580d",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "I agree with your point. Done.",
+      "parentUuid": "7db29d0a_0698a4f7",
       "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67b604a6_a7a12301",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "I am respecting the signature of the base method https://guava.dev/releases/18.0/api/docs/com/google/common/cache/CacheLoader.html#loadAll(java.lang.Iterable).\n\nI think the upper bounded wildcard is making the method able to operate on any subtypes of the given type.",
+      "parentUuid": "a2f473be_0873f2d6",
+      "range": {
+        "startLine": 154,
+        "startChar": 66,
+        "endLine": 154,
+        "endChar": 76
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd4b0769_1830294f",
@@ -127,6 +241,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39fc16e0_b28b6ae9",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd4b0769_1830294f",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a08adb3_7e28f36a",
@@ -140,6 +272,30 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "opt: use ternary operator, or drop \"else\"",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 9
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cf9d2ea_fb6a399b",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a08adb3_7e28f36a",
       "range": {
         "startLine": 213,
         "startChar": 0,
@@ -173,6 +329,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e425a6e_7f1e4205",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f605d834_1e5dd5dd",
+      "range": {
+        "startLine": 271,
+        "startChar": 26,
+        "endLine": 271,
+        "endChar": 29
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa23c169_b1d133ad",
@@ -186,6 +366,24 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "nit: It seems StringBuilder is faster: https://www.baeldung.com/java-string-builder-string-buffer",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1b2e169_023f8ae0",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "The code is using StringBuilder already, isn\u0027t it?",
+      "parentUuid": "aa23c169_b1d133ad",
       "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -213,6 +411,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "256c918f_6c8f3756",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "994b6ba0_c7e422a9",
+      "range": {
+        "startLine": 523,
+        "startChar": 18,
+        "endLine": 523,
+        "endChar": 35
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7ebde6d_ea43e335",
@@ -226,6 +448,24 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "Using an ImmutableMap would clarify the intent that this result is not intended to be modified.",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5270a10d_3cc637b4",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7ebde6d_ea43e335",
       "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -253,6 +493,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1a06dce_099d67db",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Agree. I generally prefer to chop variable names to avoid long lines for more readability, but it sometimes comes with the trade-off of decreasing understandability.\n\nDone.",
+      "parentUuid": "d24056b3_88fdad94",
+      "range": {
+        "startLine": 549,
+        "startChar": 50,
+        "endLine": 549,
+        "endChar": 53
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b816ae3d_1768ac87",
@@ -270,6 +534,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3691d48_d73e7e18",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b816ae3d_1768ac87",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f09b5aa6_e53e1f6b",
@@ -283,6 +565,30 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "int?",
+      "range": {
+        "startLine": 46,
+        "startChar": 18,
+        "endLine": 46,
+        "endChar": 25
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "986e782d_6a59776d",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheKey.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f09b5aa6_e53e1f6b",
       "range": {
         "startLine": 46,
         "startChar": 18,
@@ -316,6 +622,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5558f1f_eebf80f1",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheKey.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0fea2f_c41cbf27",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 43
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "194e4e0c_f3dcad84",
@@ -329,6 +659,30 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "nit: Optional",
+      "range": {
+        "startLine": 30,
+        "startChar": 55,
+        "endLine": 30,
+        "endChar": 63
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bd7c0f1_b570752e",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "194e4e0c_f3dcad84",
       "range": {
         "startLine": 30,
         "startChar": 55,
@@ -362,6 +716,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef1b996e_45445ffb",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c55a98e_03ecd216",
+      "range": {
+        "startLine": 65,
+        "startChar": 28,
+        "endLine": 65,
+        "endChar": 79
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02248417_b0bd2aba",
@@ -375,6 +753,24 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "Add javadoc.",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05630566_93318307",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02248417_b0bd2aba",
       "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -402,6 +798,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fda099e8_479d07dd",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3dfb91_59780441",
+      "range": {
+        "startLine": 88,
+        "startChar": 63,
+        "endLine": 88,
+        "endChar": 69
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7726400f_a97b16ce",
@@ -415,6 +835,24 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "Add javadoc. E.g. does this consider edits due to rebase?",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21db2553_c91cf672",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done.\n\nNote: If a file is unchanged between two commits, it doesn\u0027t have any edits and consequently it doesn\u0027t have any rebase edits as well.",
+      "parentUuid": "7726400f_a97b16ce",
       "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -436,6 +874,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70b837be_4660770d",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "mmm, i can also add the check for empty edits.\n\nreturn headerLines().isEmpty() \u0026\u0026 edits().isEmpty()\n\nDone.",
+      "parentUuid": "2dcb5db6_5b27d293",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "746dc1c5_b4f5ca32",
@@ -453,6 +909,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5355b34c_5d6c3507",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "746dc1c5_b4f5ca32",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac7c0ed5_f118de41",
@@ -466,6 +940,24 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "Add javadoc.",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa0617f0_9eade1b1",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffWeigher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac7c0ed5_f118de41",
       "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -493,6 +985,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87129e72_fb591674",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b683d2c5_b028a31b",
+      "range": {
+        "startLine": 25,
+        "startChar": 56,
+        "endLine": 25,
+        "endChar": 57
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c0d539f_4ef9406d",
@@ -510,6 +1026,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "414c5662_84ede10b",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileSizeElaluator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "That\u0027s a typo. I fixed it.",
+      "parentUuid": "4c0d539f_4ef9406d",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58c3be43_cb902a76",
@@ -523,6 +1057,30 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "nit: remove",
+      "range": {
+        "startLine": 32,
+        "startChar": 35,
+        "endLine": 32,
+        "endChar": 39
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0aff53b_19e51f1f",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileSizeElaluator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58c3be43_cb902a76",
       "range": {
         "startLine": 32,
         "startChar": 35,
@@ -556,6 +1114,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fcbedfc_cb5fa2fc",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileSizeElaluator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "mmm, I think otherwise this can be written as Constants.OBJ_BLOB which is also not very clear. I\u0027d prefer to keep it as is.",
+      "parentUuid": "1e8fc987_a784e9c8",
+      "range": {
+        "startLine": 55,
+        "startChar": 40,
+        "endLine": 55,
+        "endChar": 48
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "439d60dd_87f31cd9",
@@ -569,6 +1151,30 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "Add @Nullable",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 21
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2912f4a_f8c4d31a",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileSizeElaluator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "439d60dd_87f31cd9",
       "range": {
         "startLine": 69,
         "startChar": 8,
@@ -625,6 +1231,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e90b35af_2be44f7f",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileSizeElaluator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "I think so.\n\nNote: This whole file is also legacy and I just copied it over.",
+      "parentUuid": "e2fcc593_1775edbc",
+      "range": {
+        "startLine": 72,
+        "startChar": 67,
+        "endLine": 75,
+        "endChar": 22
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03df34f2_9efe40c6",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileSizeElaluator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67567df2_78358035",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 22
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23b1023e_76936a3d",
@@ -638,6 +1292,30 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "to",
+      "range": {
+        "startLine": 43,
+        "startChar": 48,
+        "endLine": 43,
+        "endChar": 50
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c19dc983_ebb11ad8",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23b1023e_76936a3d",
       "range": {
         "startLine": 43,
         "startChar": 48,
@@ -665,6 +1343,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd4b189_e8654faf",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "834a8c82_fd1817a7",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8733cf60_39185710",
@@ -688,6 +1384,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97498283_94c60873",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "Done.\n\nNote: that was also legacy code that I copied over.",
+      "parentUuid": "8733cf60_39185710",
+      "range": {
+        "startLine": 70,
+        "startChar": 18,
+        "endLine": 70,
+        "endChar": 19
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "087b997b_2323f735",
@@ -701,6 +1421,30 @@
       "writtenOn": "2020-11-23T15:12:55Z",
       "side": 1,
       "message": "Isn\u0027t that guaranteed? Is this only to account for the case of a single-line file w/o a terminating newline?",
+      "range": {
+        "startLine": 76,
+        "startChar": 27,
+        "endLine": 76,
+        "endChar": 32
+      },
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50ddbbf6_4532170a",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-02T14:09:27Z",
+      "side": 1,
+      "message": "mmm, probably this is not guaranteed for the last line.\n\nNote: this is also legacy code that is copied over from the old implementation and was probably added for some reason, so I\u0027d prefer keeping it as is for now.",
+      "parentUuid": "087b997b_2323f735",
       "range": {
         "startLine": 76,
         "startChar": 27,

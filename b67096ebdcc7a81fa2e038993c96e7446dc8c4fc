@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c12248_1de9a67f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-02T22:59:58Z",
+      "side": 1,
+      "message": "That happened with Change-Id: I1a1bdbbcd49b0, hence from v3.2.0 onwards.",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "b67096ebdcc7a81fa2e038993c96e7446dc8c4fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f66b42f3_0ea67dad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-02T22:59:58Z",
+      "side": 1,
+      "message": "The REST-API docs were updated, but not the SSH-API command.\nOther flags also are missing, as you mentioned.",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 33
+      },
+      "revId": "b67096ebdcc7a81fa2e038993c96e7446dc8c4fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f948a318_3724fb76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-02T22:59:58Z",
+      "side": 1,
+      "message": "Good catch, Clark, thanks again for the contribution.\nCan you move the change to the stable-3.2 branch, so that next release will include this fix as well?",
+      "revId": "b67096ebdcc7a81fa2e038993c96e7446dc8c4fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

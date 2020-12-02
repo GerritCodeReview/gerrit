@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d28c34a0_f9aeed01",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-12-02T09:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7127c86_68559e0c",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 24
+      },
+      "revId": "e0a4ebbff96e0989bc25711188dd11c2f8a4c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d7ed951_ffb0404c",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-02T08:37:47Z",
       "side": 1,
       "message": "Maybe use type `LineNumber`.",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 14
+      },
+      "revId": "e0a4ebbff96e0989bc25711188dd11c2f8a4c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18c2c254_28b82b35",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-12-02T09:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d7ed951_ffb0404c",
       "range": {
         "startLine": 71,
         "startChar": 8,
@@ -87,6 +135,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c1e6ea4_c25ee480",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-12-02T09:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1e8f7f6_61c3efc4",
+      "revId": "e0a4ebbff96e0989bc25711188dd11c2f8a4c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3de6b513_b899df04",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-12-02T09:48:47Z",
+      "side": 1,
+      "message": "That is nice!",
+      "parentUuid": "bf2b18a6_5f193b15",
+      "range": {
+        "startLine": 285,
+        "startChar": 29,
+        "endLine": 285,
+        "endChar": 45
+      },
+      "revId": "e0a4ebbff96e0989bc25711188dd11c2f8a4c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f313d676_694d8a43",
@@ -100,6 +190,30 @@
       "writtenOn": "2020-12-02T08:37:47Z",
       "side": 1,
       "message": "Type should be LineNumber, which can also be \u0027FILE\u0027.",
+      "range": {
+        "startLine": 549,
+        "startChar": 32,
+        "endLine": 549,
+        "endChar": 38
+      },
+      "revId": "e0a4ebbff96e0989bc25711188dd11c2f8a4c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d50c476a_ce568459",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-12-02T09:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f313d676_694d8a43",
       "range": {
         "startLine": 549,
         "startChar": 32,

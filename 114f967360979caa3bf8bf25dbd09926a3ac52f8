@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20feba92_85c619a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-12-02T09:48:47Z",
+      "side": 1,
+      "message": "Thanks for the comments. I completely agree it looks much better now.",
+      "revId": "114f967360979caa3bf8bf25dbd09926a3ac52f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

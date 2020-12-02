@@ -14,6 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
+import {
+  PortedCommentsAndDrafts,
+  NumericChangeId,
+  RevisionId,
+} from '../../types/common';
 
-export const htmlTemplate = html``;
+export interface GrCommentApiService {
+  getPortedComments(
+    changeNum: NumericChangeId,
+    revision?: RevisionId
+  ): PortedCommentsAndDrafts;
+
+  loadAll(changeNum: NumericChangeId): Promise<ChangeComments>;
+
+  reloadDrafts(changeNum: NumericChangeId): Promise<ChangeComments>;
+}

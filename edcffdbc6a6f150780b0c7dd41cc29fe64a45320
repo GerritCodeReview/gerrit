@@ -83,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7fdd05b_41f67e82",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-02T09:35:05Z",
+      "side": 1,
+      "message": "Was small enough so I just merged in into this change.",
+      "parentUuid": "6f342675_7a9b5df4",
+      "range": {
+        "startLine": 453,
+        "startChar": 37,
+        "endLine": 453,
+        "endChar": 48
+      },
+      "revId": "edcffdbc6a6f150780b0c7dd41cc29fe64a45320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77af69d2_5f755b7c",

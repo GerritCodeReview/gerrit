@@ -509,22 +509,6 @@ s   */
       anonymizedUrl: req.reportUrlAsIs ? url : req.anonymizedUrl,
     };
     const xhr = this.fetch(fetchReq)
-      .then(response => {
-        if (!response.ok) {
-          if (req.errFn) {
-            req.errFn.call(undefined, response);
-            return;
-          }
-          document.dispatchEvent(
-            new CustomEvent('server-error', {
-              detail: {request: fetchReq, response},
-              composed: true,
-              bubbles: true,
-            })
-          );
-        }
-        return response;
-      })
       .catch(err => {
         document.dispatchEvent(
           new CustomEvent('network-error', {
@@ -538,6 +522,22 @@ s   */
         } else {
           throw err;
         }
+      })
+      .then(response => {
+        if (response && !response.ok) {
+          if (req.errFn) {
+            req.errFn.call(undefined, response);
+            return;
+          }
+          document.dispatchEvent(
+            new CustomEvent('server-error', {
+              detail: {request: fetchReq, response},
+              composed: true,
+              bubbles: true,
+            })
+          );
+        }
+        return response;
       });
 
     if (req.parseResponse) {

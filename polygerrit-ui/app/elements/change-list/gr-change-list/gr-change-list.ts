@@ -17,7 +17,6 @@
 
 import '../../../styles/gr-change-list-styles';
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-change-list-item/gr-change-list-item';
 import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';

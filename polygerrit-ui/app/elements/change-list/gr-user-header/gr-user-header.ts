@@ -20,7 +20,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../../styles/dashboard-header-styles';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';

@@ -17,7 +17,6 @@
 import '../../../styles/gr-menu-page-styles';
 import '../../../styles/gr-subpage-styles';
 import '../../../styles/shared-styles';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-access-section/gr-access-section';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';

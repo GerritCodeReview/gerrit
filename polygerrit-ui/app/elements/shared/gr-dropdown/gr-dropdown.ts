@@ -17,7 +17,6 @@
 import '@polymer/iron-dropdown/iron-dropdown';
 import '../gr-button/gr-button';
 import '../gr-cursor-manager/gr-cursor-manager';
-import '../gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';

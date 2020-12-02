@@ -21,7 +21,6 @@ import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import '../../shared/gr-page-nav/gr-page-nav';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-admin-group-list/gr-admin-group-list';
 import '../gr-group/gr-group';
 import '../gr-group-audit-log/gr-group-audit-log';

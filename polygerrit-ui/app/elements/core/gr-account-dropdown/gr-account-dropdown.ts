@@ -16,7 +16,6 @@
  */
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dropdown/gr-dropdown';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../../styles/shared-styles';
 import '../../shared/gr-avatar/gr-avatar';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';

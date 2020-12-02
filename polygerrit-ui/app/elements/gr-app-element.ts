@@ -38,7 +38,6 @@ import './settings/gr-cla-view/gr-cla-view';
 import './settings/gr-registration-dialog/gr-registration-dialog';
 import './settings/gr-settings-view/gr-settings-view';
 import './shared/gr-lib-loader/gr-lib-loader';
-import './shared/gr-rest-api-interface/gr-rest-api-interface';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';

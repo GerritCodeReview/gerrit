@@ -16,7 +16,6 @@
  */
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-date-formatter/gr-date-formatter';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../../styles/shared-styles';
 import '../../../styles/gr-form-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';

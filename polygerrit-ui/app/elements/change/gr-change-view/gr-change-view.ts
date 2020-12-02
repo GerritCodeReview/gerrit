@@ -28,7 +28,6 @@ import '../../shared/gr-editable-content/gr-editable-content';
 import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import '../../shared/gr-linked-text/gr-linked-text';
 import '../../shared/gr-overlay/gr-overlay';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-change-actions/gr-change-actions';
 import '../gr-change-metadata/gr-change-metadata';

@@ -24,7 +24,6 @@ import '../gr-date-formatter/gr-date-formatter';
 import '../gr-formatted-text/gr-formatted-text';
 import '../gr-icons/gr-icons';
 import '../gr-overlay/gr-overlay';
-import '../gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-storage/gr-storage';
 import '../gr-textarea/gr-textarea';
 import '../gr-tooltip-content/gr-tooltip-content';

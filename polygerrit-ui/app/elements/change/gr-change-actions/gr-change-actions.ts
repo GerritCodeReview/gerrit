@@ -21,7 +21,6 @@ import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import '../../shared/gr-overlay/gr-overlay';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
 import '../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog';
 import '../gr-confirm-cherrypick-conflict-dialog/gr-confirm-cherrypick-conflict-dialog';

@@ -34,6 +34,24 @@
       "parentUuid": "0ff1ba2d_e8793228",
       "revId": "c33a1b401dc9591454504e87def3cb963fbca88a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dfa537d_e0b67fb4",
+        "filename": "plugins/singleusergroup",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-03T14:00:54Z",
+      "side": 0,
+      "message": "I see. That\u0027s the SHA-1 of your newly added commit of https://gerrit-review.googlesource.com/c/plugins/singleusergroup/+/290349. \n\nThanks.",
+      "parentUuid": "befa2809_7d3030b3",
+      "revId": "c33a1b401dc9591454504e87def3cb963fbca88a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

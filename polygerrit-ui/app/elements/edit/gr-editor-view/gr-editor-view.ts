@@ -330,7 +330,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
     this._saveEdit().then(() => {
       const handleError: ErrorCallback = response => {
         this._showAlert(PUBLISH_FAILED_MSG);
-        console.error(response);
+        this.reporting.reportError(new Error(response));
       };
 
       this._showAlert(PUBLISHING_EDIT_MSG);

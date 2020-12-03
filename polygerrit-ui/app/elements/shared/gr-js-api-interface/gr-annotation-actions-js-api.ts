@@ -24,6 +24,7 @@ import {
 import {Side} from '../../../constants/constants';
 import {PluginApi} from '../../plugins/gr-plugin-types';
 import {ChangeInfo, NumericChangeId} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
 
 type AddLayerFunc = (ctx: GrAnnotationActionsContext) => void;
 
@@ -51,6 +52,8 @@ export class GrAnnotationActionsInterface {
 
   // Default impl is a no-op.
   private addLayerFunc: AddLayerFunc = () => {};
+
+  reporting = appContext.reportingService;
 
   constructor(private readonly plugin: PluginApi) {
     // Return this instance when there is an annotatediff event.
@@ -134,12 +137,16 @@ export class GrAnnotationActionsInterface {
   ) {
     this.plugin.hook('annotation-toggler').onAttached(element => {
       if (!element.content) {
-        console.error('plugin endpoint without content.');
+        this.reporting.reportError(
+          new Error('plugin endpoint without content.')
+        );
         return;
       }
       if (!element.content.hidden) {
-        console.error(
-          element.content.id + ' is already enabled. Cannot re-enable.'
+        this.reporting.reportError(
+          new Error(
+            `${element.content.id} is already enabled. Cannot re-enable.`
+          )
         );
         return;
       }

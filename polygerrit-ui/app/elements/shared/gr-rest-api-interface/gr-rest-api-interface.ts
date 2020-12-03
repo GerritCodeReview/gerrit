@@ -157,7 +157,7 @@ import {
   HttpMethod,
   ReviewerState,
 } from '../../../constants/constants';
-import {firePageError} from '../../../utils/event-util';
+import {firePageError, fireServerError} from '../../../utils/event-util';
 
 const JSON_PREFIX = ")]}'";
 const MAX_PROJECT_RESULTS = 25;
@@ -1494,13 +1494,7 @@ export class GrRestApiInterface
             if (errFn) {
               errFn.call(null, response);
             } else {
-              document.dispatchEvent(
-                new CustomEvent('server-error', {
-                  detail: {request: req, response},
-                  composed: true,
-                  bubbles: true,
-                })
-              );
+              fireServerError(response, req);
             }
             return undefined;
           }
@@ -2207,14 +2201,8 @@ export class GrRestApiInterface
     // 404s indicate the file does not exist yet in the revision, so suppress
     // them.
     const suppress404s: ErrorCallback = res => {
-      if (res?.status !== 404) {
-        document.dispatchEvent(
-          new CustomEvent('server-error', {
-            detail: {res},
-            composed: true,
-            bubbles: true,
-          })
-        );
+      if (res && res?.status !== 404) {
+        fireServerError(res);
       }
       return res;
     };

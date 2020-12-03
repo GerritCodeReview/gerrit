@@ -19,14 +19,9 @@ import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announce
 import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {
-  ChangeId,
-  CommitId,
-  NumericChangeId,
-  PatchRange,
-  PatchSetNum,
-} from './common';
+import {ChangeId, CommitId, NumericChangeId, PatchRange, PatchSetNum,} from './common';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
+import {AuthRequestInit} from '../services/gr-auth/gr-auth';
 
 export function notUndefined<T>(x: T | undefined): x is T {
   return x !== undefined;
@@ -236,4 +231,10 @@ export function isPolymerSpliceChange<
   U extends Array<{} | null | undefined>
 >(x: T | PolymerSpliceChange<U>): x is PolymerSpliceChange<U> {
   return (x as PolymerSpliceChange<U>).indexSplices !== undefined;
+}
+
+export interface FetchRequest {
+  url: string;
+  fetchOptions?: AuthRequestInit;
+  anonymizedUrl?: string;
 }

@@ -27,6 +27,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.Request;
@@ -128,8 +129,17 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
 
   private RestClient build() {
     RestClientBuilder builder = RestClient.builder(cfg.getHosts());
+    setConfiguredTimeouts(builder);
     setConfiguredCredentialsIfAny(builder);
     return builder.build();
+  }
+
+  private void setConfiguredTimeouts(RestClientBuilder builder) {
+    builder.setRequestConfigCallback(
+        (RequestConfig.Builder requestConfigBuilder) ->
+            requestConfigBuilder
+                .setConnectTimeout(cfg.connectTimeout)
+                .setSocketTimeout(cfg.socketTimeout));
   }
 
   private void setConfiguredCredentialsIfAny(RestClientBuilder builder) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc0ff5a1_58b66908",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-03T17:08:58Z",
+      "side": 1,
+      "message": "Why don\u0027t we move commons-io to the non-Google dependencies?\nGoogle doesn\u0027t use the replication plugin, isn\u0027t it?",
+      "revId": "c73215db674a7c11e7ff9bd020ca5af62e1fc688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

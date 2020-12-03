@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f24da5c2_4689380e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T14:20:09Z",
+      "side": 1,
+      "message": "I am not convinced that this is a sufficient reason for this never happening. What about two comment thread components in two different places in the UI that each create a reply?\n\nAlso, how do we ensure that there is ever only one *draft*, not even considering whether it is being added or not?\n\nI am very much willing and interested into improving this, but I would feel uneasy approving this change. We have a similar situation with the question of whether comments and threads must be copied/cloned when being retrieved from the model. Ideally we would just have *one* model for all, but then we would have to separate UI state like \"collapsed\".\n\nAnyway, maybe proceed with adding some this.reporting.shouldNeverHappen() calls, letting that run for a week and then being sure that this actually never happens (and convert the call into throwing an error).",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "2e9b69533f673bb9c82a7df33aefa61c4c31e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

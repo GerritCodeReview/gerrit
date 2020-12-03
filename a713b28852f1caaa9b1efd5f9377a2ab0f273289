@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fdc6c53_ecf4ab56",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-03T11:40:23Z",
+      "side": 1,
+      "message": "I changed it to reporting.error. new Error gives us stack, so it is better than just message.",
+      "parentUuid": "fd098a0e_3c1807be",
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36bb8577_7c15c23e",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79fe7d61_4db97b12",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-03T11:40:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36bb8577_7c15c23e",
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec7e60e0_10b158cf",
@@ -65,6 +101,24 @@
       "writtenOn": "2020-12-03T09:48:23Z",
       "side": 1,
       "message": "Why not initialize the field in the definition?",
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a22f866f_d526b0f5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-03T11:40:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec7e60e0_10b158cf",
       "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -115,6 +169,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c75326bd_d8945c3f",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-03T11:40:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "973326ba_eb82148b",
+      "range": {
+        "startLine": 784,
+        "startChar": 28,
+        "endLine": 784,
+        "endChar": 36
+      },
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24721f16_3a166ddc",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-03T11:40:23Z",
+      "side": 1,
+      "message": "Unfortunately it can be many different things. I read sometimes it is throw as string, or sometimes a different structured object. I will see from logs.",
+      "parentUuid": "7cbcd971_a0490e56",
+      "range": {
+        "startLine": 784,
+        "startChar": 19,
+        "endLine": 784,
+        "endChar": 26
+      },
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d88cd9d1_68a96869",
@@ -128,6 +230,24 @@
       "writtenOn": "2020-12-03T09:48:23Z",
       "side": 1,
       "message": "Maybe move this logic to above where the msg is assembled.",
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9da5f29_313316ac",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-03T11:40:23Z",
+      "side": 1,
+      "message": "I don\u0027t want to put reporter name to Error message on line 796 - which is also want is sent to console.error.",
+      "parentUuid": "d88cd9d1_68a96869",
       "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

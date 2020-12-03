@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc4d272c_39ad5158",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-03T20:19:32Z",
+      "side": 1,
+      "message": "That\u0027s incorrect. It is also used in delete-project plugin to archive git directory using: [1], but in this CL I removed the commons-io dependency from replication plugin.\n\n[1] http://commons.apache.org/proper/commons-io/apidocs/org/apache/commons/io/FileUtils.html#copyDirectory-java.io.File-java.io.File-\n[2] https://gerrit-review.googlesource.com/c/plugins/replication/+/290723",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "c73215db674a7c11e7ff9bd020ca5af62e1fc688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bc0ff5a1_58b66908",

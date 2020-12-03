@@ -22,6 +22,30 @@
       },
       "revId": "0bb5462134f7ff18019653cb0697c51979b46548",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34f81fb3_fbea0467",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-03T14:18:36Z",
+      "side": 1,
+      "message": "Sorry, we got this feature in v3.2 that\u0027s why I assumed it was introduced there, but we skipped v3.0, v3.1... 😊\nI will move it there...",
+      "parentUuid": "5da6cc6c_24c5a39f",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "0bb5462134f7ff18019653cb0697c51979b46548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

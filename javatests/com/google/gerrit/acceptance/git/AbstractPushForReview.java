@@ -2732,6 +2732,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertPushOk(r, "refs/for/otherBranch");
   }
 
+  @Test
+  public void pushWithVoteDoesNotAddToAttentionSet() throws Exception {
+    String pushSpec = "refs/for/master%l=Code-Review+1";
+    PushOneCommit.Result r = pushTo(pushSpec);
+    r.assertOkStatus();
+    assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
   private DraftInput newDraft(String path, int line, String message) {
     DraftInput d = new DraftInput();
     d.path = path;

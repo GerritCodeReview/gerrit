@@ -408,19 +408,10 @@ export class GrRestApiInterface
     }) as Promise<DashboardInfo[] | undefined>;
   }
 
-  saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response>;
-
   saveRepoConfig(
     repo: RepoName,
-    config: ConfigInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  saveRepoConfig(
-    repo: RepoName,
-    config: ConfigInput,
-    errFn?: ErrorCallback
-  ): Promise<Response | undefined> {
+    config: ConfigInput
+  ): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const url = `/projects/${encodeURIComponent(repo)}/config`;
@@ -429,23 +420,11 @@ export class GrRestApiInterface
       method: HttpMethod.PUT,
       url,
       body: config,
-      errFn,
       anonymizedUrl: '/projects/*/config',
     });
   }
 
-  runRepoGC(repo: RepoName): Promise<Response>;
-
-  runRepoGC(
-    repo: RepoName,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  runRepoGC(repo: RepoName, errFn?: ErrorCallback) {
-    if (!repo) {
-      // TODO(TS): fix return value
-      return '';
-    }
+  runRepoGC(repo: RepoName): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(repo);
@@ -453,7 +432,6 @@ export class GrRestApiInterface
       method: HttpMethod.POST,
       url: `/projects/${encodeName}/gc`,
       body: '',
-      errFn,
       anonymizedUrl: '/projects/*/gc',
     });
   }

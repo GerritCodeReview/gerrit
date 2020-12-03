@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81cc84fd_295b3bd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:46:30Z",
+      "side": 1,
+      "message": "Can you mention that the intention of this change is to support the master -\u003e main migration for users in that admins can decide that they move over all open changes from one branch to the other using a simple script?",
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3e3aef6_f997e0bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:46:30Z",
+      "side": 1,
+      "message": "Nice! Also very good test coverage :-)",
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f106ea36_9744a5d5",
+        "filename": "java/com/google/gerrit/extensions/api/changes/MoveInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:46:30Z",
+      "side": 1,
+      "message": "nit: insert \u003cp\u003e for readability",
+      "range": {
+        "startLine": 25,
+        "startChar": 24,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c982426_4aa7311a",
+        "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:46:30Z",
+      "side": 1,
+      "message": "s/the admins/administrators/ to be consistent with the rest of comments in Gerrit",
+      "range": {
+        "startLine": 147,
+        "startChar": 12,
+        "endLine": 147,
+        "endChar": 22
+      },
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bf6f09c_aa2f3f8f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:46:30Z",
+      "side": 1,
+      "message": "nit:\n\nI\u0027d rather do:\n\nrequestScopeOperations.setApiUser(admin.id());\n\nThat\u0027s also more consistent with the rest of the tests.",
+      "range": {
+        "startLine": 306,
+        "startChar": 4,
+        "endLine": 306,
+        "endChar": 55
+      },
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d07c02b_1e981316",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:46:30Z",
+      "side": 1,
+      "message": "nit: we don\u0027t use final inside methods",
+      "range": {
+        "startLine": 397,
+        "startChar": 4,
+        "endLine": 397,
+        "endChar": 9
+      },
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b426477_fbc95cd3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:46:30Z",
+      "side": 1,
+      "message": "nit: add a comment:\n\n// This is working as intended since administrators have to factor this in. It\u0027s the same behavior as when a project owner reduces a user\u0027s permission to vote on a label.\n\nMaybe you want to check if my statement here is actually correct :-) From what I recall from LabelNormalizer, we only downgrade votes if the label has a lower range on the target, not by user permissions.",
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0305dceb_85c153a7",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:46:30Z",
+      "side": 1,
+      "message": "optional nit: I usually use toImmutableList() (import statically) to form a habit of only using immutable data structures",
+      "range": {
+        "startLine": 482,
+        "startChar": 25,
+        "endLine": 482,
+        "endChar": 44
+      },
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,10 +34,10 @@ import {EventEmitterService} from '../../../services/gr-event-interface/gr-event
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrErrorDialog} from '../gr-error-dialog/gr-error-dialog';
 import {GrAlert} from '../../shared/gr-alert/gr-alert';
-import {FetchRequest} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {ErrorType, FixIronA11yAnnouncer} from '../../../types/types';
 import {AccountId} from '../../../types/common';
 import {EventType} from '../../../utils/event-util';
+import {ServerErrorEvent} from '../../../types/events';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -125,7 +125,7 @@ export class GrErrorManager extends GestureEventListeners(
   /** @override */
   attached() {
     super.attached();
-    this.listen(document, 'server-error', '_handleServerError');
+    this.listen(document, EventType.SERVER_ERROR, '_handleServerError');
     this.listen(document, 'network-error', '_handleNetworkError');
     this.listen(document, EventType.SHOW_ALERT, '_handleShowAlert');
     this.listen(document, 'hide-alert', '_hideAlert');
@@ -147,7 +147,7 @@ export class GrErrorManager extends GestureEventListeners(
   detached() {
     super.detached();
     this._clearHideAlertHandle();
-    this.unlisten(document, 'server-error', '_handleServerError');
+    this.unlisten(document, EventType.SERVER_ERROR, '_handleServerError');
     this.unlisten(document, 'network-error', '_handleNetworkError');
     this.unlisten(document, EventType.SHOW_ALERT, '_handleShowAlert');
     this.unlisten(document, 'hide-alert', '_hideAlert');
@@ -177,9 +177,7 @@ export class GrErrorManager extends GestureEventListeners(
     });
   }
 
-  _handleServerError(
-    e: CustomEvent<{response: Response; request: FetchRequest}>
-  ) {
+  _handleServerError(e: ServerErrorEvent) {
     const {request, response} = e.detail;
     response.text().then(errorText => {
       const url = request && (request.anonymizedUrl || request.url);

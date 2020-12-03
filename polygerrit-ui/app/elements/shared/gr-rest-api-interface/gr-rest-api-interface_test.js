@@ -1294,7 +1294,7 @@ suite('gr-rest-api-interface tests', () => {
         })
         .then(() => {
           assert.isTrue(spy.called);
-          assert.notEqual(spy.lastCall.args[0].detail.res.status, 404);
+          assert.notEqual(spy.lastCall.args[0].detail.response.status, 404);
         });
   });
 

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c33dceb_9142d3b4",
+        "filename": "java/com/google/gerrit/server/query/change/ExternalUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:32:46Z",
+      "side": 1,
+      "message": "I didn\u0027t include the dash. If you search for \"thread-safe\" you\u0027ll find quite a number of these comments.",
+      "parentUuid": "57da6469_2a69fa06",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "430a56d0a705d1a3ffed4de8ae0aeca0ed1cde92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "560e76a2_5bbde741",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bb1f0bb_97b74402",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/ExternalUserPermissionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:32:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "560e76a2_5bbde741",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 48
+      },
+      "revId": "430a56d0a705d1a3ffed4de8ae0aeca0ed1cde92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e832484f_69d0e40e",
@@ -60,6 +108,24 @@
       "writtenOn": "2020-12-02T16:34:29Z",
       "side": 1,
       "message": "Thinking on coming back and reading the tests below later, the bits where you get an ExternalUser would be clearer if you were calling a helper provided by this custom group backend. Something like:\n\n ExternalUser createUserInGroup(String uid, String group) {\n     return externalUserFactory.create(\n         ImmutableSet.of(ExternalId.Key.parse(group + \"-\" + uid)));\n }",
+      "revId": "430a56d0a705d1a3ffed4de8ae0aeca0ed1cde92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fc7e611_7e7b7daf",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/ExternalUserPermissionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:32:46Z",
+      "side": 1,
+      "message": "Done.\n\nI made this a static function, though, because otherwise we\u0027d have to hold onto a reference of that group backend in a private member in the test, which we can avoid this way.",
+      "parentUuid": "e832484f_69d0e40e",
       "revId": "430a56d0a705d1a3ffed4de8ae0aeca0ed1cde92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

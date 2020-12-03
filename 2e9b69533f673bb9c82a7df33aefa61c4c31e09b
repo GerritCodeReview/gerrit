@@ -46,6 +46,30 @@
       },
       "revId": "2e9b69533f673bb9c82a7df33aefa61c4c31e09b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b749255_4707cb18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T19:56:20Z",
+      "side": 1,
+      "message": "If you are sure that this never happens and you are willing to handle rollbacks, then I am fine with approving the change.\n\nBut then please add checks and throw errors:\n\nEither when `_newDraft()` is called or when `this.push(\u0027comments\u0027, ...)` is called you should check that there is no existing draft in the thread.\n\n`createCommentThreads` in comment-util should then also throw an error when it encounters two drafts.\n\nNote that the ChangeComments instance might be shared across the app and if you don\u0027t *deep* clone the threads, then multiple instances of \u003cgr-comment-thread\u003e for the same thread may appear in the UI and they might be operating on the same array of comment objects.\n\nAlso note that a user could potentially open two Gerrit tabs for the same change and create replies for the same thread in both tabs. What happens then?\n\nAgain, I am happy to approve the change, if you feel confident that you have covered all these cases and are willing to handle potential consequences. Adding log statements is cheap and verifying your assumptions in one week is super easy. So the only price you have to pay is that you have to wait ~a week.",
+      "parentUuid": "ea1ea3ff_1bbaf380",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "2e9b69533f673bb9c82a7df33aefa61c4c31e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

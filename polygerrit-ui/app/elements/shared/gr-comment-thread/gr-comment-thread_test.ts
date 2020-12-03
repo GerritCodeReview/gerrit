@@ -606,31 +606,6 @@ suite('comment action tests with unresolved thread', () => {
     );
   });
 
-  test('first editing comment does not add __otherEditing attribute', () => {
-    element.comments = [
-      {
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: ('tenn1sballchaser@aol.com' as EmailAddress) as EmailAddress,
-        },
-        id: 'baf0414d_60047215' as UrlEncodedCommentId,
-        line: 5,
-        path: 'test',
-        message: 'is this a crossover episode!?',
-        updated: '2015-12-08 19:48:33.843000000' as Timestamp,
-        __draft: true,
-      },
-    ];
-
-    const replyBtn = element.$.replyBtn;
-    tap(replyBtn);
-    flush();
-
-    const editing = element._orderedComments.filter(c => c.__editing === true);
-    assert.equal(editing.length, 1);
-    assert.equal(!!editing[0].__otherEditing, false);
-  });
-
   test(
     'When not editing other comments, local storage not set' + ' after discard',
     done => {

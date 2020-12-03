@@ -927,17 +927,7 @@ export class GrComment extends KeyboardShortcutMixin(
 
     // Only apply local drafts to comments that haven't been saved
     // remotely, and haven't been given a default message already.
-    //
-    // Don't get local draft if there is another comment that is currently
-    // in an editing state.
-    if (
-      !comment ||
-      comment.id ||
-      comment.message ||
-      comment.__otherEditing ||
-      !comment.path
-    ) {
-      if (comment) delete comment.__otherEditing;
+    if (!comment || comment.id || comment.message || !comment.path) {
       return;
     }
 

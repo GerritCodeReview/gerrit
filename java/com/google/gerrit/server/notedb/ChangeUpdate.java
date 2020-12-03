@@ -782,21 +782,25 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
     Set<AttentionSetUpdate> updates = new HashSet<>();
     for (Map.Entry<Account.Id, ReviewerStateInternal> reviewer : reviewers.entrySet()) {
-      // Only add new reviewers to the attention set.
-      if (reviewer.getValue().equals(ReviewerStateInternal.REVIEWER)
-          && !currentReviewers.contains(reviewer.getKey())) {
+      Account.Id reviewerId = reviewer.getKey();
+      ReviewerStateInternal reviewerState = reviewer.getValue();
+      // Only add new reviewers to the attention set. Also, don't add the owner because the owner
+      // can only be a "dummy" reviewer for legacy reasons.
+      if (reviewerState.equals(ReviewerStateInternal.REVIEWER)
+          && !currentReviewers.contains(reviewerId)
+          && !reviewerId.equals(getChange().getOwner())) {
         updates.add(
             AttentionSetUpdate.createForWrite(
-                reviewer.getKey(), AttentionSetUpdate.Operation.ADD, "Reviewer was added"));
+                reviewerId, AttentionSetUpdate.Operation.ADD, "Reviewer was added"));
       }
       boolean reviewerRemoved =
-          !reviewer.getValue().equals(ReviewerStateInternal.REVIEWER)
-              && currentReviewers.contains(reviewer.getKey());
-      boolean ccRemoved = reviewer.getValue().equals(ReviewerStateInternal.REMOVED);
+          !reviewerState.equals(ReviewerStateInternal.REVIEWER)
+              && currentReviewers.contains(reviewerId);
+      boolean ccRemoved = reviewerState.equals(ReviewerStateInternal.REMOVED);
       if (reviewerRemoved || ccRemoved) {
         updates.add(
             AttentionSetUpdate.createForWrite(
-                reviewer.getKey(), AttentionSetUpdate.Operation.REMOVE, "Reviewer/Cc was removed"));
+                reviewerId, AttentionSetUpdate.Operation.REMOVE, "Reviewer/Cc was removed"));
       }
     }
     addToPlannedAttentionSetUpdates(updates);

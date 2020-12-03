@@ -106,7 +106,7 @@ import {GrStorage, StorageLocation} from '../../shared/gr-storage/gr-storage';
 import {isAttentionSetEnabled} from '../../../utils/attention-set-util';
 import {CODE_REVIEW, getMaxAccounts} from '../../../utils/label-util';
 import {isUnresolved} from '../../../utils/comment-util';
-import {fireAlert} from '../../../utils/event-util';
+import {fireAlert, fireServerError} from '../../../utils/event-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -721,13 +721,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
           return new Map<AccountId | EmailAddress, boolean>();
         }
         if (!response.ok) {
-          this.dispatchEvent(
-            new CustomEvent('server-error', {
-              detail: {response},
-              composed: true,
-              bubbles: true,
-            })
-          );
+          fireServerError(response);
           return new Map<AccountId | EmailAddress, boolean>();
         }
 
@@ -811,9 +805,10 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     const jsonPromise = this.restApiService.getResponseObject(response.clone());
     return jsonPromise.then((parsed: ParsedJSON) => {
       const result = parsed as ReviewResult;
+      if (!response) throw new Error('Reponse is empty.');
       // Only perform custom error handling for 400s and a parseable
       // ReviewResult response.
-      if (response && response.status === 400 && result && result.reviewers) {
+      if (response.status === 400 && result && result.reviewers) {
         const errors: string[] = [];
         const addReviewers = Object.values(result.reviewers);
         addReviewers.forEach(r => errors.push(r.error ?? 'no explanation'));
@@ -823,13 +818,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
           text: () => Promise.resolve(errors.join(', ')),
         };
       }
-      this.dispatchEvent(
-        new CustomEvent('server-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireServerError(response);
     });
   }
 

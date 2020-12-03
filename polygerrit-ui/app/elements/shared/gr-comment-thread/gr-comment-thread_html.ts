@@ -117,7 +117,6 @@ export const htmlTemplate = html`
         draft="[[_isDraft(comment)]]"
         show-actions="[[_showActions]]"
         show-patchset="[[showPatchset]]"
-        diff-side="[[comment.diffSide]]"
         side="[[comment.side]]"
         project-config="[[_projectConfig]]"
         on-create-fix-comment="_handleCommentFix"

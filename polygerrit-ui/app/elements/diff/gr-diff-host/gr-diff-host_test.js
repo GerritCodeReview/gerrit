@@ -973,14 +973,12 @@ suite('gr-diff-host tests', () => {
         message: 'i like you, jack',
         updated: '2015-12-23 15:00:20.396000000',
         line: 1,
-        diffSide: Side.LEFT,
         patch_set: 1,
         path: 'some/path',
       }, {
         id: 'jacks_reply',
         message: 'i like you, too',
         updated: '2015-12-24 15:01:20.396000000',
-        diffSide: Side.LEFT,
         line: 1,
         in_reply_to: 'sallys_confession',
         patch_set: 1,
@@ -989,7 +987,6 @@ suite('gr-diff-host tests', () => {
       {
         id: 'new_draft',
         message: 'i do not like either of you',
-        diffSide: Side.LEFT,
         __draft: true,
         updated: '2015-12-20 15:01:20.396000000',
         patch_set: 1,
@@ -997,7 +994,8 @@ suite('gr-diff-host tests', () => {
       },
     ];
 
-    const actualThreads = createCommentThreads(comments);
+    const actualThreads = createCommentThreads(comments,
+        {basePatchNum: 1, patchNum: 4});
 
     assert.equal(actualThreads.length, 2);
 
@@ -1015,7 +1013,7 @@ suite('gr-diff-host tests', () => {
     assert.equal(actualThreads[1].line, FILE);
   });
 
-  test('_createThreads inherits patchNum and range', () => {
+  test('_createThreads derives patchNum and range', () => {
     const comments = [{
       id: 'betsys_confession',
       message: 'i like you, jack',
@@ -1028,7 +1026,6 @@ suite('gr-diff-host tests', () => {
       },
       patch_set: 5,
       path: '/p',
-      diffSide: Side.LEFT,
       line: 1,
     }];
 
@@ -1050,7 +1047,6 @@ suite('gr-diff-host tests', () => {
             end_character: 2,
           },
           patch_set: 5,
-          diffSide: Side.LEFT,
           line: 1,
         }],
         patchNum: 5,
@@ -1065,7 +1061,7 @@ suite('gr-diff-host tests', () => {
     ];
 
     assert.deepEqual(
-        createCommentThreads(comments),
+        createCommentThreads(comments, {basePatchNum: 5, patchNum: 10}),
         expectedThreads);
   });
 

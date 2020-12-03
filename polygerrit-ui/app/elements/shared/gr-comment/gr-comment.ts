@@ -50,7 +50,6 @@ import {
 import {GrButton} from '../gr-button/gr-button';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {GrDialog} from '../gr-dialog/gr-dialog';
-import {Side} from '../../../constants/constants';
 import {
   isDraft,
   UIComment,
@@ -216,9 +215,6 @@ export class GrComment extends KeyboardShortcutMixin(
 
   @property({type: String, observer: '_messageTextChanged'})
   _messageText = '';
-
-  @property({type: String})
-  diffSide?: Side;
 
   @property({type: String})
   side?: string;
@@ -449,7 +445,6 @@ export class GrComment extends KeyboardShortcutMixin(
           if (this.comment?.__draftID) {
             resComment.__draftID = this.comment.__draftID;
           }
-          resComment.diffSide = this.diffSide;
           this.comment = resComment;
           this._fireSave();
           return obj;

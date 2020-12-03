@@ -92,7 +92,7 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {LineOfInterest} from '../gr-diff/gr-diff';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
-import {CommentMap} from '../../../utils/comment-util';
+import {CommentMap, isInBaseOfPatchRange} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {PORTING_COMMENTS_DIFF_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
@@ -973,7 +973,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
           patchNum: latestPatchNum,
           basePatchNum: ParentPatchSetNum,
         };
-        leftSide = comment.diffSide === Side.LEFT;
+        leftSide = isInBaseOfPatchRange(comment, this._patchRange);
       } else {
         this._patchRange = {
           patchNum: latestPatchNum,

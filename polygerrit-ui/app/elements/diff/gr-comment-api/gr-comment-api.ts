@@ -18,16 +18,10 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment-api_html';
-import {
-  getParentIndex,
-  isMergeParent,
-  patchNumEquals,
-  CURRENT,
-} from '../../../utils/patch-set-util';
+import {patchNumEquals, CURRENT} from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {
   CommentBasics,
-  ParentPatchSetNum,
   PatchRange,
   PatchSetNum,
   PathToRobotCommentsInfoMap,
@@ -37,7 +31,6 @@ import {
   RevisionId,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {CommentSide, Side} from '../../../constants/constants';
 import {
   Comment,
   CommentMap,
@@ -49,6 +42,7 @@ import {
   UIHuman,
   UIRobot,
   createCommentThreads,
+  isInPatchRange,
 } from '../../../utils/comment-util';
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
@@ -56,11 +50,6 @@ import {appContext} from '../../../services/app-context';
 export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
 };
-
-export interface TwoSidesComments {
-  left: UIComment[];
-  right: UIComment[];
-}
 
 export class ChangeComments {
   private readonly _comments: {[path: string]: UIHuman[]};
@@ -160,7 +149,7 @@ export class ChangeComments {
             if (!patchRange) {
               return true;
             }
-            return this._isInPatchRange(c, patchRange);
+            return isInPatchRange(c, patchRange);
           })
         ) {
           commentMap[path] = true;
@@ -300,25 +289,11 @@ export class ChangeComments {
     return allDrafts;
   }
 
-  _addCommentSide(comments: TwoSidesComments) {
-    const allComments = [];
-    for (const side of [Side.LEFT, Side.RIGHT]) {
-      // This is needed by the threading.
-      for (const comment of comments[side]) {
-        comment.diffSide = side;
-      }
-      allComments.push(...comments[side]);
-    }
-    return allComments;
-  }
-
   getThreadsBySideForPath(
     path: string,
     patchRange: PatchRange
   ): CommentThread[] {
-    return createCommentThreads(
-      this._addCommentSide(this.getCommentsBySideForPath(path, patchRange))
-    );
+    return createCommentThreads(this.getCommentsForPath(path, patchRange));
   }
 
   /**
@@ -331,10 +306,7 @@ export class ChangeComments {
    * @param projectConfig Optional project config object to
    * include in the meta sub-object.
    */
-  getCommentsBySideForPath(
-    path: string,
-    patchRange: PatchRange
-  ): TwoSidesComments {
+  getCommentsForPath(path: string, patchRange: PatchRange): Comment[] {
     let comments: Comment[] = [];
     let drafts: DraftInfo[] = [];
     let robotComments: RobotCommentInfo[] = [];
@@ -352,33 +324,20 @@ export class ChangeComments {
       d.__draft = true;
     });
 
-    const all: Comment[] = comments
+    return comments
       .concat(drafts)
       .concat(robotComments)
+      .filter(c => isInPatchRange(c, patchRange))
       .map(c => {
         return {...c};
       });
-
-    const baseComments = all.filter(c =>
-      this._isInBaseOfPatchRange(c, patchRange)
-    );
-    const revisionComments = all.filter(c =>
-      this._isInRevisionOfPatchRange(c, patchRange)
-    );
-
-    return {
-      left: baseComments,
-      right: revisionComments,
-    };
   }
 
   getThreadsBySideForFile(
     file: PatchSetFile,
     patchRange: PatchRange
   ): CommentThread[] {
-    return createCommentThreads(
-      this._addCommentSide(this.getCommentsBySideForFile(file, patchRange))
-    );
+    return createCommentThreads(this.getCommentsForFile(file, patchRange));
   }
 
   /**
@@ -393,19 +352,10 @@ export class ChangeComments {
    * @param projectConfig Optional project config object to
    * include in the meta sub-object.
    */
-  getCommentsBySideForFile(
-    file: PatchSetFile,
-    patchRange: PatchRange
-  ): TwoSidesComments {
-    const comments = this.getCommentsBySideForPath(file.path, patchRange);
+  getCommentsForFile(file: PatchSetFile, patchRange: PatchRange): Comment[] {
+    const comments = this.getCommentsForPath(file.path, patchRange);
     if (file.basePath) {
-      const commentsForBasePath = this.getCommentsBySideForPath(
-        file.basePath,
-        patchRange
-      );
-      // merge in the left and right
-      comments.left = comments.left.concat(commentsForBasePath.left);
-      comments.right = comments.right.concat(commentsForBasePath.right);
+      comments.push(...this.getCommentsForPath(file.basePath, patchRange));
     }
     return comments;
   }
@@ -470,58 +420,6 @@ export class ChangeComments {
   getAllThreadsForChange() {
     const comments = this._commentObjToArray(this.getAllComments(true));
     return createCommentThreads(comments);
-  }
-
-  /**
-   * Whether the given comment should be included in the base side of the
-   * given patch range.
-   */
-  _isInBaseOfPatchRange(comment: CommentBasics, range: PatchRange) {
-    // If the base of the patch range is a parent of a merge, and the comment
-    // appears on a specific parent then only show the comment if the parent
-    // index of the comment matches that of the range.
-    if (comment.parent && comment.side === CommentSide.PARENT) {
-      return (
-        isMergeParent(range.basePatchNum) &&
-        comment.parent === getParentIndex(range.basePatchNum)
-      );
-    }
-
-    // If the base of the range is the parent of the patch:
-    if (
-      range.basePatchNum === ParentPatchSetNum &&
-      comment.side === CommentSide.PARENT &&
-      patchNumEquals(comment.patch_set, range.patchNum)
-    ) {
-      return true;
-    }
-    // If the base of the range is not the parent of the patch:
-    return (
-      range.basePatchNum !== ParentPatchSetNum &&
-      comment.side !== CommentSide.PARENT &&
-      patchNumEquals(comment.patch_set, range.basePatchNum)
-    );
-  }
-
-  /**
-   * Whether the given comment should be included in the revision side of the
-   * given patch range.
-   */
-  _isInRevisionOfPatchRange(comment: CommentBasics, range: PatchRange) {
-    return (
-      comment.side !== CommentSide.PARENT &&
-      patchNumEquals(comment.patch_set, range.patchNum)
-    );
-  }
-
-  /**
-   * Whether the given comment should be included in the given patch range.
-   */
-  _isInPatchRange(comment: CommentBasics, range: PatchRange): boolean {
-    return (
-      this._isInBaseOfPatchRange(comment, range) ||
-      this._isInRevisionOfPatchRange(comment, range)
-    );
   }
 }
 

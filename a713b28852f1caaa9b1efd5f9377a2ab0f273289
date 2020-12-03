@@ -241,6 +241,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d52c349_d1ec5167",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-03T13:28:25Z",
+      "side": 1,
+      "message": "good idea.",
+      "parentUuid": "88d0fc76_a913ce60",
+      "range": {
+        "startLine": 784,
+        "startChar": 19,
+        "endLine": 784,
+        "endChar": 26
+      },
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d88cd9d1_68a96869",

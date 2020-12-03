@@ -128,6 +128,24 @@
       "parentUuid": "e832484f_69d0e40e",
       "revId": "430a56d0a705d1a3ffed4de8ae0aeca0ed1cde92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cce9dcbd_24b1bbda",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/ExternalUserPermissionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-03T19:09:07Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s fine. I was thinking static inside the custom GroupBackend class, so that it\u0027s tied to its logic, but that could be done later if someone adds a different custom GroupBackend class to this test.",
+      "parentUuid": "6fc7e611_7e7b7daf",
+      "revId": "430a56d0a705d1a3ffed4de8ae0aeca0ed1cde92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

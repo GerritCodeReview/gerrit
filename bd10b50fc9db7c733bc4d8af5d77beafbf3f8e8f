@@ -70,6 +70,24 @@
       "parentUuid": "a5007c23_85552e73",
       "revId": "bd10b50fc9db7c733bc4d8af5d77beafbf3f8e8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "171e5618_e8e9ecee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-03T19:09:07Z",
+      "side": 1,
+      "message": "That\u0027s good background info, again, thank you! Would it be worth including some of that text as well as hints at how LDAP could be adapted to this in the commit message? Right now it only talks about custom backends and TBD auth backend abstraction. It would help a future reader understand why LDAP isn\u0027t being changed now.",
+      "parentUuid": "b5f7af87_2bcc1708",
+      "revId": "bd10b50fc9db7c733bc4d8af5d77beafbf3f8e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

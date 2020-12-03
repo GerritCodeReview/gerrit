@@ -120,14 +120,28 @@ export class GrPluginRestApi {
     errFn?: ErrorCallback,
     contentType?: string
   ) {
+    // Plugins typically don't want Gerrit to show error dialogs for failed
+    // requests. So we are defining a default errFn here, even if it is not
+    // explicitly set by the caller.
+    // TODO: We are soon getting rid of the `errFn` altogether. There are only
+    // 2 known usages of errFn in plugins: delete-project and verify-status.
+    errFn =
+      errFn ??
+      ((response: Response | null | undefined, error?: Error) => {
+        if (error) throw error;
+        if (response) throw new Error(`${response.status}`);
+        throw new Error('Generic REST API error.');
+      });
     return this.fetch(method, url, payload, errFn, contentType).then(
       response => {
+        // Will typically not happen. The response can only be unset, if the
+        // errFn handles the error and then returns void or undefined or null.
+        // But the errFn above always throws.
         if (!response) {
-          // TODO(TS): Fix method definition
-          // If errFn exists and doesn't throw an exception, the fetch method
-          // returns empty response
-          throw new Error('errFn must throw an exception');
+          throw new Error('plugin rest-api call failed');
         }
+        // Will typically not happen. errFn will have dealt with that and the
+        // caller will get a rejected promise already.
         if (response.status < 200 || response.status >= 300) {
           return response.text().then(text => {
             if (text) {

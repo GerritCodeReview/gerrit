@@ -52,6 +52,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -140,6 +141,18 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     // Not allowed to move if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
+    // Keeping all votes can be confusing in the context of the destination branch, see the
+    // discussion in
+    // https://gerrit-review.googlesource.com/c/gerrit/+/129171
+    // Only the admins are allowed to keep all labels at their own risk.
+    try {
+      if (input.keepAllVotes) {
+        permissionBackend.user(caller).check(GlobalPermission.ADMINISTRATE_SERVER);
+      }
+    } catch (AuthException denied) {
+      throw new AuthException("move is not permitted with keepAllVotes option", denied);
+    }
+
     // Move requires abandoning this change, and creating a new change.
     try {
       rsrc.permissions().check(ABANDON);
@@ -226,7 +239,9 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
       update.setBranch(newDestKey.branch());
       change.setDest(newDestKey);
 
-      updateApprovals(ctx, update, psId, projectKey);
+      if (!input.keepAllVotes) {
+        updateApprovals(ctx, update, psId, projectKey);
+      }
 
       StringBuilder msgBuf = new StringBuilder();
       msgBuf.append("Change destination moved from ");

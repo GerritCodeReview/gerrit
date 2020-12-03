@@ -52,6 +52,24 @@
       "parentUuid": "b9ce7d92_ddf0f6ed",
       "revId": "bd10b50fc9db7c733bc4d8af5d77beafbf3f8e8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5f7af87_2bcc1708",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:32:46Z",
+      "side": 1,
+      "message": "You\u0027re right, this would work for LDAP as well.\n\nThe approach is currently limited by:\n1) Only read actions are supported because ExternalUser doesn\u0027t expose an Account.Id, so any write would fail. I hope that this is something we fix in the future iteratively. We could rework Gerrit\u0027s account logic to work with an Account.UUID whose first part is the auth backend used to authenticate the user. This way, a Gerrit-internal account would not be required anymore if you run LDAP or some other company-specific user and group management system.\n2) I provided explicit tests for the actions that a source browser will trigger to make sure they work. I bet most Gerrit READ endpoints would work with this logic, but I don\u0027t feel comfortable just opening that up right now. That\u0027s also why I\u0027d rather not tweak the LDAP backend in this series.\n\nWe do have a desire to move towards (1) for which this change could be a tiny first step. In this new Account UUID world, Gerrit\u0027s internal account system would be one implementation of many possible and you can choose to use that or LDAP or whatever, but there is no need anymore to have accounts in both systems.",
+      "parentUuid": "a5007c23_85552e73",
+      "revId": "bd10b50fc9db7c733bc4d8af5d77beafbf3f8e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

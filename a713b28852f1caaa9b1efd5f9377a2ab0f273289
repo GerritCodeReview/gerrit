@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "273f4d91_6fee8471",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T09:48:23Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd098a0e_3c1807be",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T09:48:23Z",
+      "side": 1,
+      "message": "It would be nice to have as much space as possible for the actual error message and still have the command only consume one line. Two ideas for that:\n\nMaybe just `error` instead of `reportError`?\n\nMaybe use string as a parameter instead of Error? Or are we getting nicer stacktraces/data when instantiating the Error here?",
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36bb8577_7c15c23e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T09:48:23Z",
+      "side": 1,
+      "message": "Nit: I have started using \u0027private readonly\u0027 for service fields.",
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec7e60e0_10b158cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T09:48:23Z",
+      "side": 1,
+      "message": "Why not initialize the field in the definition?",
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cbcd971_a0490e56",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T09:48:23Z",
+      "side": 1,
+      "message": "Can this be Error?",
+      "range": {
+        "startLine": 784,
+        "startChar": 19,
+        "endLine": 784,
+        "endChar": 26
+      },
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "973326ba_eb82148b",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T09:48:23Z",
+      "side": 1,
+      "message": "`reporter` is a weird name. Maybe `errorSource` or something?",
+      "range": {
+        "startLine": 784,
+        "startChar": 28,
+        "endLine": 784,
+        "endChar": 36
+      },
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d88cd9d1_68a96869",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T09:48:23Z",
+      "side": 1,
+      "message": "Maybe move this logic to above where the msg is assembled.",
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

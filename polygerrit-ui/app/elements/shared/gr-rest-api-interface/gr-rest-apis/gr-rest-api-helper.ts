@@ -32,6 +32,8 @@ import {
 } from '../../../../types/common';
 import {HttpMethod} from '../../../../constants/constants';
 import {RpcLogEventDetail} from '../../../../types/events';
+import {fireServerError} from '../../../../utils/event-util';
+import {FetchRequest} from '../../../../types/types';
 
 const JSON_PREFIX = ")]}'";
 
@@ -187,12 +189,6 @@ export interface SendJSONRequest extends SendRequestBase {
 }
 
 export type SendRequest = SendRawRequest | SendJSONRequest;
-
-export interface FetchRequest {
-  url: string;
-  fetchOptions?: AuthRequestInit;
-  anonymizedUrl?: string;
-}
 
 export interface FetchJSONRequest extends FetchRequest {
   reportUrlAsIs?: boolean;
@@ -350,13 +346,7 @@ s   */
           req.errFn.call(null, response);
           return;
         }
-        document.dispatchEvent(
-          new CustomEvent('server-error', {
-            detail: {request: req, response},
-            composed: true,
-            bubbles: true,
-          })
-        );
+        fireServerError(response, req);
         return;
       }
       return this.getResponseObject(response);
@@ -529,13 +519,7 @@ s   */
             req.errFn.call(undefined, response);
             return;
           }
-          document.dispatchEvent(
-            new CustomEvent('server-error', {
-              detail: {request: fetchReq, response},
-              composed: true,
-              bubbles: true,
-            })
-          );
+          fireServerError(response, fetchReq);
         }
         return response;
       });

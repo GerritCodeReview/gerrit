@@ -105,6 +105,25 @@ export function registerTestCleanup(cleanupCallback: CleanupCallback) {
   cleanups.push(cleanupCallback);
 }
 
+export function addListenerForTest(
+  el: Document | HTMLElement,
+  type: string,
+  listener: EventListenerOrEventListenerObject
+) {
+  el.addEventListener(type, listener);
+  registerListenerCleanup(el, type, listener);
+}
+
+export function registerListenerCleanup(
+  el: Document | HTMLElement,
+  type: string,
+  listener: EventListenerOrEventListenerObject
+) {
+  registerTestCleanup(() => {
+    el.removeEventListener(type, listener);
+  });
+}
+
 export function cleanupTestUtils() {
   cleanups.forEach(cleanup => cleanup());
   cleanups.splice(0);

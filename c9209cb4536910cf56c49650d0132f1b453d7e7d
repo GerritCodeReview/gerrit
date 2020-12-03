@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ea524dd_6d2a120c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-03T09:20:02Z",
+      "side": 1,
+      "message": "I don\u0027t see any problem with this change (except the question \"how should we write template?\"). I prefer Ben makes the final vote, because he has more experience with LitElement.",
+      "revId": "c9209cb4536910cf56c49650d0132f1b453d7e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f5b25e8_4bd83496",

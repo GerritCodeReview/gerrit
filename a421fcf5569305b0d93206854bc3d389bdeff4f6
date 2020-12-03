@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c698a712_12afc294",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-03T15:38:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81cc84fd_295b3bd0",
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e3e3aef6_f997e0bf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d4a9a37_80c8f561",
+        "filename": "java/com/google/gerrit/extensions/api/changes/MoveInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-03T15:38:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f106ea36_9744a5d5",
+      "range": {
+        "startLine": 25,
+        "startChar": 24,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c982426_4aa7311a",
@@ -71,6 +113,30 @@
       "writtenOn": "2020-12-03T13:46:30Z",
       "side": 1,
       "message": "s/the admins/administrators/ to be consistent with the rest of comments in Gerrit",
+      "range": {
+        "startLine": 147,
+        "startChar": 12,
+        "endLine": 147,
+        "endChar": 22
+      },
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54397487_bab1c2ca",
+        "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-03T15:38:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c982426_4aa7311a",
       "range": {
         "startLine": 147,
         "startChar": 12,
@@ -104,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c5cf73d_e27c9980",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-03T15:38:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bf6f09c_aa2f3f8f",
+      "range": {
+        "startLine": 306,
+        "startChar": 4,
+        "endLine": 306,
+        "endChar": 55
+      },
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d07c02b_1e981316",
@@ -117,6 +207,30 @@
       "writtenOn": "2020-12-03T13:46:30Z",
       "side": 1,
       "message": "nit: we don\u0027t use final inside methods",
+      "range": {
+        "startLine": 397,
+        "startChar": 4,
+        "endLine": 397,
+        "endChar": 9
+      },
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d57c6388_91a6a343",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-03T15:38:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d07c02b_1e981316",
       "range": {
         "startLine": 397,
         "startChar": 4,
@@ -144,6 +258,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "948ff6f6_0fecc2dd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-03T15:38:52Z",
+      "side": 1,
+      "message": "Actually it looks like it wouldn\u0027t be possible to have different range configurations on different branches.\n\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/project/ProjectConfig.java#513\n\nThe normalizer would only squash the votes if the label definition has changed:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/change/LabelNormalizer.java#119\n\nAlso tried to add a duplicate definition to the project config on the UI and it failed to publish, it is possible to have a label on one branch but not the other though:\nhttps://gerrit-review.googlesource.com/Documentation/config-labels.html#label_branch\n\nSo I added a test for the missing label instead.",
+      "parentUuid": "9b426477_fbc95cd3",
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0305dceb_85c153a7",
@@ -157,6 +289,30 @@
       "writtenOn": "2020-12-03T13:46:30Z",
       "side": 1,
       "message": "optional nit: I usually use toImmutableList() (import statically) to form a habit of only using immutable data structures",
+      "range": {
+        "startLine": 482,
+        "startChar": 25,
+        "endLine": 482,
+        "endChar": 44
+      },
+      "revId": "a421fcf5569305b0d93206854bc3d389bdeff4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ebcc21c_769a5144",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-03T15:38:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0305dceb_85c153a7",
       "range": {
         "startLine": 482,
         "startChar": 25,

@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-key-binding-display_html';
-import {customElement, property} from '@polymer/decorators';
+import {html} from 'lit-html';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {customElement, property} from 'lit-element';
+import {cssTemplate} from './gr-key-binding-display.css';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -28,21 +27,30 @@ declare global {
 }
 
 @customElement('gr-key-binding-display')
-export class GrKeyBindingDisplay extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
-  static get template() {
-    return htmlTemplate;
+export class GrKeyBindingDisplay extends GrLitElement {
+  static get styles() {
+    return [sharedStyles, cssTemplate];
+  }
+
+  render() {
+    const items = this.binding.map((binding, index) => [
+      index > 0 ? html` or ` : html``,
+      this._computeModifiers(binding).map(
+        modifier => html`<span class="key modifier">${modifier}</span> `
+      ),
+      html`<span class="key">${this._computeKey(binding)}</span>`,
+    ]);
+    return html`${items}`;
   }
 
   @property({type: Array})
   binding: string[][] = [];
 
-  _computeModifiers(binding: string[][]) {
+  _computeModifiers(binding: string[]) {
     return binding.slice(0, binding.length - 1);
   }
 
-  _computeKey(binding: string[][]) {
+  _computeKey(binding: string[]) {
     return binding[binding.length - 1];
   }
 }

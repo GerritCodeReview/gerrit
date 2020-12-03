@@ -114,7 +114,7 @@ const SLOW_RPC_THRESHOLD = 500;
 
 export function initErrorReporter(appContext: AppContext) {
   const reportingService = appContext.reportingService;
-  // TODO(dmfilippo): TS-fix-any oldOnError - define correct type
+  // TODO(dmfilippov): TS-fix-any oldOnError - define correct type
   const onError = function (
     oldOnError: Function,
     msg: Event | string,
@@ -127,29 +127,10 @@ export function initErrorReporter(appContext: AppContext) {
       oldOnError(msg, url, line, column, error);
     }
     if (error) {
-      line = line || error.lineNumber;
-      column = column || error.columnNumber;
-      let shortenedErrorStack = msg;
-      if (error.stack) {
-        const errorStackLines = error.stack.split('\n');
-        shortenedErrorStack = errorStackLines
-          .slice(0, Math.min(3, errorStackLines.length))
-          .join('\n');
-      }
-      msg = shortenedErrorStack || error.toString();
+      line = line ?? error.lineNumber;
+      column = column ?? error.columnNumber;
     }
-    const payload = {
-      url,
-      line,
-      column,
-      error,
-    };
-    reportingService.reporter(
-      ERROR.TYPE,
-      ERROR.CATEGORY.EXCEPTION,
-      `${msg}`,
-      payload
-    );
+    reportingService.reportError(error, 'onError', {line, column, url, msg});
     return true;
   };
   // TODO(dmfilippov): TS-fix-any unclear what is context
@@ -169,16 +150,7 @@ export function initErrorReporter(appContext: AppContext) {
     context.addEventListener(
       'unhandledrejection',
       (e: PromiseRejectionEvent) => {
-        const msg = e.reason.message;
-        const payload = {
-          error: e.reason,
-        };
-        reportingService.reporter(
-          ERROR.TYPE,
-          ERROR.CATEGORY.EXCEPTION,
-          msg,
-          payload
-        );
+        reportingService.reportError(e.reason, 'unhandledrejection');
       }
     );
   };
@@ -807,6 +779,28 @@ export class GrReporting implements ReportingService {
 
     // Mark the time and reinitialize the timer.
     timer.end().reset();
+  }
+
+  reportError(err: unknown, reporter?: string, details?: EventDetails) {
+    let msg = '';
+    let eventDetails = details ?? {};
+    if (err instanceof Error) {
+      msg += err.message;
+      eventDetails = {...eventDetails, stack: err.stack};
+    } else if (typeof err === 'string') {
+      msg += err;
+    } else {
+      msg += JSON.stringify(err);
+    }
+
+    const error = err instanceof Error ? err : new Error(msg);
+    this.reporter(
+      ERROR.TYPE,
+      ERROR.CATEGORY.EXCEPTION,
+      `${reporter ? reporter + ': ' : ''}${msg}`,
+      {error},
+      eventDetails
+    );
   }
 
   reportErrorDialog(message: string) {

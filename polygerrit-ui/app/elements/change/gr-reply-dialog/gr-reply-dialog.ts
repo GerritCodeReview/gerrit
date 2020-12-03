@@ -561,7 +561,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     for (const splice of indexSplices) {
       for (const account of splice.removed) {
         if (!this._reviewersPendingRemove[type]) {
-          console.error('Invalid type ' + type + ' for reviewer.');
+          this.reporting.reportError(
+            new Error(`Invalid type ${type} for reviewer.`)
+          );
           return;
         }
         this._reviewersPendingRemove[type].push(account);
@@ -1120,8 +1122,11 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     if (containsAll(currentAttentionSet, newAttentionSet)) {
       return 'No additions to the attention set.';
     }
-    console.error(
-      '_computeDoNotUpdateMessage() should not be called when users were added to the attention set.'
+    this.reporting.reportError(
+      new Error(
+        '_computeDoNotUpdateMessage()' +
+          'should not be called when users were added to the attention set.'
+      )
     );
     return '';
   }
@@ -1318,7 +1323,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       this._focusOn(FocusTarget.REVIEWERS);
       return;
     }
-    console.error('_confirmPendingReviewer called without pending confirm');
+    this.reporting.reportError(
+      new Error('_confirmPendingReviewer called without pending confirm')
+    );
   }
 
   _cancelPendingReviewer() {

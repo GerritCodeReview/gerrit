@@ -22,6 +22,30 @@
       },
       "revId": "c9209cb4536910cf56c49650d0132f1b453d7e7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea57852f_f507a62e",
+        "filename": "polygerrit-ui/app/elements/core/gr-key-binding-display/gr-key-binding-display.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T08:22:05Z",
+      "side": 1,
+      "message": "I am fine with any of this for the moment. I think I need some time until I can decide what the best practice for the entire project should be.",
+      "parentUuid": "2f5b25e8_4bd83496",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 8
+      },
+      "revId": "c9209cb4536910cf56c49650d0132f1b453d7e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

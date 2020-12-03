@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6996bf04_eb19a73e",
+        "filename": "java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-03T09:55:59Z",
+      "side": 1,
+      "message": "Optional:\n\nreturn user instanceof IdentifiedUser? new ListGroupMembership(ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS)) : new ListGroupMembership(ImmutableSet.of(ANONYMOUS_USERS));",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 187,
+        "endChar": 41
+      },
+      "revId": "8f322b9079e7010a04128c23500f0ea272f10e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

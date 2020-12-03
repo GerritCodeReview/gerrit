@@ -25,10 +25,10 @@ import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -39,8 +39,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -69,7 +70,6 @@ public class MergedByPushOp implements BatchUpdateOp {
   private final ChangeMessagesUtil cmUtil;
   private final MergedSender.Factory mergedSenderFactory;
   private final PatchSetUtil psUtil;
-  private final ExecutorService sendEmailExecutor;
   private final ChangeMerged changeMerged;
   private final MessageIdGenerator messageIdGenerator;
 
@@ -90,7 +90,6 @@ public class MergedByPushOp implements BatchUpdateOp {
       ChangeMessagesUtil cmUtil,
       MergedSender.Factory mergedSenderFactory,
       PatchSetUtil psUtil,
-      @SendEmailExecutor ExecutorService sendEmailExecutor,
       ChangeMerged changeMerged,
       MessageIdGenerator messageIdGenerator,
       @Assisted RequestScopePropagator requestScopePropagator,
@@ -102,7 +101,6 @@ public class MergedByPushOp implements BatchUpdateOp {
     this.cmUtil = cmUtil;
     this.mergedSenderFactory = mergedSenderFactory;
     this.psUtil = psUtil;
-    this.sendEmailExecutor = sendEmailExecutor;
     this.changeMerged = changeMerged;
     this.messageIdGenerator = messageIdGenerator;
     this.requestScopePropagator = requestScopePropagator;
@@ -177,38 +175,22 @@ public class MergedByPushOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public List<OutgoingEmail> postUpdate(Context ctx) {
     if (!correctBranch) {
-      return;
+      return new ArrayList<>();
     }
-    @SuppressWarnings("unused") // Runnable already handles errors
-    Future<?> possiblyIgnoredError =
-        sendEmailExecutor.submit(
-            requestScopePropagator.wrap(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    try {
-                      MergedSender emailSender =
-                          mergedSenderFactory.create(ctx.getProject(), psId.changeId());
-                      emailSender.setFrom(ctx.getAccountId());
-                      emailSender.setPatchSet(patchSet, info);
-                      emailSender.setMessageId(
-                          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-                      emailSender.send();
-                    } catch (Exception e) {
-                      logger.atSevere().withCause(e).log(
-                          "Cannot send email for submitted patch set %s", psId);
-                    }
-                  }
-
-                  @Override
-                  public String toString() {
-                    return "send-email merged";
-                  }
-                }));
-
     changeMerged.fire(change, patchSet, ctx.getAccount(), mergeResultRevId, ctx.getWhen());
+    try {
+      MergedSender emailSender = mergedSenderFactory.create(ctx.getProject(), psId.changeId());
+      emailSender.setFrom(ctx.getAccountId());
+      emailSender.setPatchSet(patchSet, info);
+      emailSender.setMessageId(
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
+      return Arrays.asList(emailSender);
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log("Cannot send email for submitted patch set %s", psId);
+    }
+    return new ArrayList<>();
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {

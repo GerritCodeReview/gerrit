@@ -37,6 +37,7 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.ChangeRestored;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -53,6 +54,9 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Singleton
 public class Restore
@@ -148,7 +152,9 @@ public class Restore
     }
 
     @Override
-    public void postUpdate(Context ctx) {
+    public List<OutgoingEmail> postUpdate(Context ctx) {
+      changeRestored.fire(
+          change, patchSet, ctx.getAccount(), Strings.emptyToNull(input.message), ctx.getWhen());
       try {
         ReplyToChangeSender emailSender =
             restoredSenderFactory.create(ctx.getProject(), change.getId());
@@ -156,12 +162,11 @@ public class Restore
         emailSender.setChangeMessage(message.getMessage(), ctx.getWhen());
         emailSender.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-        emailSender.send();
+        return Arrays.asList(emailSender);
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
       }
-      changeRestored.fire(
-          change, patchSet, ctx.getAccount(), Strings.emptyToNull(input.message), ctx.getWhen());
+      return new ArrayList<>();
     }
   }
 

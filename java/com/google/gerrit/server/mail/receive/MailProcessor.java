@@ -58,6 +58,7 @@ import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -352,24 +353,11 @@ public class MailProcessor {
     }
 
     @Override
-    public void postUpdate(Context ctx) throws Exception {
+    public List<OutgoingEmail> postUpdate(Context ctx) throws Exception {
       String patchSetComment = null;
       if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
         patchSetComment = parsedComments.get(0).getMessage();
       }
-      // Send email notifications
-      outgoingMailFactory
-          .create(
-              ctx.getNotify(notes.getChangeId()),
-              notes,
-              patchSet,
-              ctx.getUser().asIdentifiedUser(),
-              changeMessage,
-              comments,
-              patchSetComment,
-              ImmutableList.of(),
-              ctx.getRepoView())
-          .sendAsync();
       // Get previous approvals from this user
       Map<String, Short> approvals = new HashMap<>();
       approvalsUtil
@@ -386,6 +374,20 @@ public class MailProcessor {
           approvals,
           approvals,
           ctx.getWhen());
+
+      // Send email notifications
+      return outgoingMailFactory
+          .create(
+              ctx.getNotify(notes.getChangeId()),
+              notes,
+              patchSet,
+              ctx.getUser().asIdentifiedUser(),
+              changeMessage,
+              comments,
+              patchSetComment,
+              ImmutableList.of(),
+              ctx.getRepoView())
+          .createEmailSender();
     }
 
     private ChangeMessage generateChangeMessage(ChangeContext ctx) {

@@ -28,6 +28,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -217,8 +219,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
-    patchSetInserter.postUpdate(ctx);
+  public List<OutgoingEmail> postUpdate(Context ctx) {
+    return patchSetInserter.postUpdate(ctx);
   }
 
   public RevCommit getRebasedCommit() {

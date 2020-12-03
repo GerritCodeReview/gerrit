@@ -40,6 +40,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -48,6 +49,7 @@ import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -238,7 +240,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws Exception {
+  public List<OutgoingEmail> postUpdate(Context ctx) throws Exception {
     opResult =
         Result.builder()
             .setAddedReviewers(addedReviewers)
@@ -246,16 +248,6 @@ public class AddReviewersOp implements BatchUpdateOp {
             .setAddedCCs(addedCCs)
             .setAddedCCsByEmail(addedCCsByEmail)
             .build();
-    if (sendEmail) {
-      addReviewersEmail.emailReviewersAsync(
-          ctx.getUser().asIdentifiedUser(),
-          change,
-          Lists.transform(addedReviewers, PatchSetApproval::accountId),
-          addedCCs,
-          addedReviewersByEmail,
-          addedCCsByEmail,
-          ctx.getNotify(change.getId()));
-    }
     if (!addedReviewers.isEmpty()) {
       List<AccountState> reviewers =
           addedReviewers.stream()
@@ -264,6 +256,17 @@ public class AddReviewersOp implements BatchUpdateOp {
               .collect(toList());
       reviewerAdded.fire(change, patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
     }
+    if (sendEmail) {
+      return addReviewersEmail.emailReviewers(
+          ctx.getUser().asIdentifiedUser(),
+          change,
+          Lists.transform(addedReviewers, PatchSetApproval::accountId),
+          addedCCs,
+          addedReviewersByEmail,
+          addedCCsByEmail,
+          ctx.getNotify(change.getId()));
+    }
+    return new ArrayList<>();
   }
 
   public Result getResult() {

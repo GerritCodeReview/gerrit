@@ -31,6 +31,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeTip;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -270,10 +271,11 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     }
 
     @Override
-    public void postUpdateImpl(Context ctx) {
+    public List<OutgoingEmail> postUpdateImpl(Context ctx) {
       if (rebaseOp != null) {
-        rebaseOp.postUpdate(ctx);
+        return rebaseOp.postUpdate(ctx);
       }
+      return new ArrayList<>();
     }
   }
 

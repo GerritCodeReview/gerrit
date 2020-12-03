@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.HashtagsUtil.InvalidHashtagException;
 import com.google.gerrit.server.extensions.events.HashtagsEdited;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -41,8 +42,10 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class SetHashtagsOp implements BatchUpdateOp {
@@ -144,11 +147,12 @@ public class SetHashtagsOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public List<OutgoingEmail> postUpdate(Context ctx) {
     if (updated() && fireEvent) {
       hashtagsEdited.fire(
           change, ctx.getAccount(), updatedHashtags, toAdd, toRemove, ctx.getWhen());
     }
+    return new ArrayList<>();
   }
 
   public ImmutableSortedSet<String> getUpdatedHashtags() {

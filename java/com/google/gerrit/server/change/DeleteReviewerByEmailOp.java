@@ -22,12 +22,16 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -73,11 +77,11 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public List<OutgoingEmail> postUpdate(Context ctx) {
     try {
       NotifyResolver.Result notify = ctx.getNotify(change.getId());
       if (!notify.shouldNotify()) {
-        return;
+        return new ArrayList<>();
       }
       DeleteReviewerSender emailSender =
           deleteReviewerSenderFactory.create(ctx.getProject(), change.getId());
@@ -87,9 +91,10 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
       emailSender.setNotify(notify);
       emailSender.setMessageId(
           messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-      emailSender.send();
+      return Arrays.asList(emailSender);
     } catch (Exception err) {
       logger.atSevere().withCause(err).log("Cannot email update for change %s", change.getId());
     }
+    return new ArrayList<>();
   }
 }

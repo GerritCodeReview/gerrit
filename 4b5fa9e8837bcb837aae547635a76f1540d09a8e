@@ -70,6 +70,30 @@
       },
       "revId": "4b5fa9e8837bcb837aae547635a76f1540d09a8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4515042_6f80352d",
+        "filename": "modules/jgit",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-03T21:34:55Z",
+      "side": 1,
+      "message": "Not sure how often, or if there is any documented rule about this. If we want to merge what happened downstream up to master now (this change), then this is it. We usually don\u0027t wait and merge upstream as soon as we can. But I\u0027m adding Google colleagues now to further review this (and this change).",
+      "parentUuid": "a11bcdec_e0dd0974",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "4b5fa9e8837bcb837aae547635a76f1540d09a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb9dc137_fc2abc62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T14:10:00Z",
+      "side": 1,
+      "message": "Super nice!",
+      "revId": "543f27f4224e3cca94948da1312231c945f433c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "705eaf93_fcaa4d5b",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T14:10:00Z",
+      "side": 1,
+      "message": "You do not need !! here, because isDraft cannot return undefined.",
+      "range": {
+        "startLine": 402,
+        "startChar": 17,
+        "endLine": 402,
+        "endChar": 19
+      },
+      "revId": "543f27f4224e3cca94948da1312231c945f433c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0a3fc9e_3db0dcb7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T14:10:00Z",
+      "side": 1,
+      "message": "Maybe add `isDraft(comment)` to the if-clause, then you can drop the `as` casting.",
+      "revId": "543f27f4224e3cca94948da1312231c945f433c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

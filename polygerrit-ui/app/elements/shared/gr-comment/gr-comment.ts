@@ -157,10 +157,10 @@ export class GrComment extends KeyboardShortcutMixin(
   changeNum?: NumericChangeId;
 
   @property({type: Object, notify: true, observer: '_commentChanged'})
-  comment?: UIComment | UIRobot;
+  comment?: UIComment;
 
   @property({type: Array})
-  comments?: (UIComment | UIRobot)[];
+  comments?: UIComment[];
 
   @property({type: Boolean, reflectToAttribute: true})
   isRobotComment = false;
@@ -483,7 +483,7 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   _commentChanged(comment: UIComment) {
-    this.editing = !!comment.__editing;
+    this.editing = isDraft(comment) && !!comment.__editing;
     this.resolved = !comment.unresolved;
     if (this.editing) {
       // It's a new draft/reply, notify.
@@ -553,7 +553,7 @@ export class GrComment extends KeyboardShortcutMixin(
         cancelButton.hidden = !editing;
       }
     }
-    if (this.comment) {
+    if (isDraft(this.comment)) {
       this.comment.__editing = this.editing;
     }
     if (!!editing !== !!previousValue) {

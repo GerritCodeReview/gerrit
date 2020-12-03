@@ -559,7 +559,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     // Check to see if there are any other open comments getting edited and
     // set the local storage value to its message value.
     for (const changeComment of this.comments) {
-      if (changeComment.__editing) {
+      if (isDraft(changeComment) && changeComment.__editing) {
         const commentLocation: StorageLocation = {
           changeNum: this.changeNum,
           patchNum: this.patchNum,

@@ -46,11 +46,13 @@ export interface UIStateCommentProps {
   // the comment
   diffSide?: Side;
   collapsed?: boolean;
-  // TODO(TS): Consider allowing this only for drafts.
+}
+
+export interface UIStateDraftProps {
   __editing?: boolean;
 }
 
-export type UIDraft = DraftInfo & UIStateCommentProps;
+export type UIDraft = DraftInfo & UIStateCommentProps & UIStateDraftProps;
 
 export type UIHuman = CommentInfo & UIStateCommentProps;
 

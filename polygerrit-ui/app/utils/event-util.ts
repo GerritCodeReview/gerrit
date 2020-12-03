@@ -21,6 +21,7 @@ export enum EventType {
   SHOW_ALERT = 'show-alert',
   PAGE_ERROR = 'page-error',
   SERVER_ERROR = 'server-error',
+  NETWORK_ERROR = 'network-error',
   TITLE_CHANGE = 'title-change',
 }
 
@@ -48,6 +49,17 @@ export function fireServerError(response: Response, request?: FetchRequest) {
   document.dispatchEvent(
     new CustomEvent(EventType.SERVER_ERROR, {
       detail: {response, request},
+      composed: true,
+      bubbles: true,
+    })
+  );
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function fireNetworkError(error: any) {
+  document.dispatchEvent(
+    new CustomEvent(EventType.NETWORK_ERROR, {
+      detail: {error},
       composed: true,
       bubbles: true,
     })

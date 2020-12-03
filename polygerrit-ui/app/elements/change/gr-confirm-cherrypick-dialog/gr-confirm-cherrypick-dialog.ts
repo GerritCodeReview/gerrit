@@ -359,7 +359,7 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
     input: string
   ): Promise<AutocompleteSuggestion[]> {
     if (!this.project) {
-      console.error('no project specified');
+      this.reporting.error(new Error('no project specified'));
       return Promise.resolve([]);
     }
     if (input.startsWith('refs/heads/')) {

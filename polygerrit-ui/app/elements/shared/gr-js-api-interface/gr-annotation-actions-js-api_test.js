@@ -133,12 +133,9 @@ suite('gr-annotation-actions-js-api tests', () => {
     // Assert that error is shown if we try to enable checkbox again.
     onAttachedFuncCalled = false;
     annotationActions.enableToggleCheckbox('test label2', onAttachedFunc);
-    const errorStub = sinon.stub(
-        console, 'error').callsFake((msg, err) => undefined);
+    const errorStub = sinon.stub(annotationActions.reporting, 'error');
     emulateAttached();
-    assert.isTrue(
-        errorStub.calledWith(
-            'annotation-span is already enabled. Cannot re-enable.'));
+    assert.isTrue(errorStub.called);
     // Assert that onAttachedFunc is not called and the label has not changed.
     assert.isFalse(onAttachedFuncCalled);
     assert.equal(document.getElementById('annotation-label').textContent,

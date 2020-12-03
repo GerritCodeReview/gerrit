@@ -18,6 +18,7 @@
 import {GrAnnotation} from '../../diff/gr-diff-highlight/gr-annotation';
 import {GrStyleObject} from '../../plugins/gr-styles-api/gr-styles-api';
 import {GrDiffLine} from '../../diff/gr-diff/gr-diff-line';
+import {appContext} from '../../../services/app-context';
 
 /**
  * Used to create a context for GrAnnotationActionsInterface.
@@ -42,6 +43,8 @@ export class GrAnnotationActionsContext {
 
   changeNum: number;
 
+  private readonly reporting = appContext.reportingService;
+
   constructor(
     contentEl: HTMLElement,
     lineNumberEl: HTMLElement,
@@ -56,8 +59,8 @@ export class GrAnnotationActionsContext {
     this.path = path;
     this.changeNum = Number(changeNum);
     if (isNaN(this.changeNum)) {
-      console.error(
-        `GrAnnotationActionsContext: Invalid changeNum: ${changeNum}`
+      this.reporting.error(
+        new Error(`GrAnnotationActionsContext: Invalid changeNum: ${changeNum}`)
       );
     }
   }

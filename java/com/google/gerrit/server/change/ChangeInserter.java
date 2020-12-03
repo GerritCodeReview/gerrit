@@ -52,7 +52,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
-import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.CommentAdded;
@@ -62,6 +61,7 @@ import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -84,8 +84,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -106,7 +104,6 @@ public class ChangeInserter implements InsertChangeOp {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final CreateChangeSender.Factory createChangeSenderFactory;
-  private final ExecutorService sendEmailExecutor;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
@@ -156,7 +153,6 @@ public class ChangeInserter implements InsertChangeOp {
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       CreateChangeSender.Factory createChangeSenderFactory,
-      @SendEmailExecutor ExecutorService sendEmailExecutor,
       CommitValidators.Factory commitValidatorsFactory,
       CommentAdded commentAdded,
       RevisionCreated revisionCreated,
@@ -173,7 +169,6 @@ public class ChangeInserter implements InsertChangeOp {
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.createChangeSenderFactory = createChangeSenderFactory;
-    this.sendEmailExecutor = sendEmailExecutor;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
@@ -312,11 +307,6 @@ public class ChangeInserter implements InsertChangeOp {
 
   public ChangeInserter setSendMail(boolean sendMail) {
     this.sendMail = sendMail;
-    return this;
-  }
-
-  public ChangeInserter setRequestScopePropagator(RequestScopePropagator r) {
-    this.requestScopePropagator = r;
     return this;
   }
 
@@ -461,52 +451,9 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws Exception {
-    reviewerAdditions.postUpdate(ctx);
+  public List<OutgoingEmail> postUpdate(Context ctx) throws Exception {
+    List<OutgoingEmail> emails = reviewerAdditions.postUpdate(ctx);
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
-    if (sendMail && notify.shouldNotify()) {
-      Runnable sender =
-          new Runnable() {
-            @Override
-            public void run() {
-              try {
-                CreateChangeSender emailSender =
-                    createChangeSenderFactory.create(change.getProject(), change.getId());
-                emailSender.setFrom(change.getOwner());
-                emailSender.setPatchSet(patchSet, patchSetInfo);
-                emailSender.setNotify(notify);
-                emailSender.addReviewers(
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
-                        .map(PatchSetApproval::accountId)
-                        .collect(toImmutableSet()));
-                emailSender.addReviewersByEmail(
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewersByEmail));
-                emailSender.addExtraCC(
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs));
-                emailSender.addExtraCCByEmail(
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCsByEmail));
-                emailSender.setMessageId(
-                    messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-                emailSender.send();
-              } catch (Exception e) {
-                logger.atSevere().withCause(e).log(
-                    "Cannot send email for new change %s", change.getId());
-              }
-            }
-
-            @Override
-            public String toString() {
-              return "send-email newchange";
-            }
-          };
-      if (requestScopePropagator != null) {
-        @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError =
-            sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
-      } else {
-        sender.run();
-      }
-    }
 
     /* For labels that are not set in this operation, show the "current" value
      * of 0, and no oldValue as the value was not modified by this operation.
@@ -533,6 +480,27 @@ public class ChangeInserter implements InsertChangeOp {
             change, patchSet, ctx.getAccount(), null, allApprovals, oldApprovals, ctx.getWhen());
       }
     }
+
+    if (sendMail && notify.shouldNotify()) {
+      CreateChangeSender emailSender =
+          createChangeSenderFactory.create(change.getProject(), change.getId());
+      emailSender.setFrom(change.getOwner());
+      emailSender.setPatchSet(patchSet, patchSetInfo);
+      emailSender.setNotify(notify);
+      emailSender.addReviewers(
+          reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
+              .map(PatchSetApproval::accountId)
+              .collect(toImmutableSet()));
+      emailSender.addReviewersByEmail(
+          reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewersByEmail));
+      emailSender.addExtraCC(reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs));
+      emailSender.addExtraCCByEmail(
+          reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCsByEmail));
+      emailSender.setMessageId(
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
+      emails.add(emailSender);
+    }
+    return emails;
   }
 
   private void validate(RepoContext ctx) throws IOException, ResourceConflictException {

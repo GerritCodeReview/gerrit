@@ -40,6 +40,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -451,7 +452,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   @Override
-  public final void postUpdate(Context ctx) throws Exception {
+  public final List<OutgoingEmail> postUpdate(Context ctx) throws Exception {
     if (changeAlreadyMerged) {
       // TODO(dborowitz): This is suboptimal behavior in the presence of retries: postUpdate steps
       // will never get run for changes that submitted successfully on any but the final attempt.
@@ -463,11 +464,11 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       // processes run at the same time.
       logger.atFine().log(
           "Skipping post-update steps for change %s; submitter is %s", getId(), submitter);
-      return;
+      return new ArrayList<>();
     }
     logger.atFine().log(
         "Begin post-update steps for change %s; submitter is %s", getId(), submitter);
-    postUpdateImpl(ctx);
+    List<OutgoingEmail> emails = postUpdateImpl(ctx);
 
     if (command != null) {
       args.tagCache.updateFastForward(
@@ -491,18 +492,6 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
     // Assume the change must have been merged at this point, otherwise we would
     // have failed fast in one of the other steps.
-    try {
-      args.mergedSenderFactory
-          .create(
-              ctx.getProject(),
-              toMerge.change(),
-              submitter.accountId(),
-              ctx.getNotify(getId()),
-              ctx.getRepoView())
-          .sendAsync();
-    } catch (Exception e) {
-      logger.atSevere().withCause(e).log("Cannot email merged notification for %s", getId());
-    }
     if (mergeResultRev != null && !args.dryrun) {
       args.changeMerged.fire(
           updatedChange,
@@ -511,6 +500,19 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
           args.mergeTip.getCurrentTip().name(),
           ctx.getWhen());
     }
+    try {
+      return args.mergedSenderFactory
+          .create(
+              ctx.getProject(),
+              toMerge.change(),
+              submitter.accountId(),
+              ctx.getNotify(getId()),
+              ctx.getRepoView())
+          .createEmailSender();
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log("Cannot email merged notification for %s", getId());
+    }
+    return new ArrayList<>();
   }
 
   /**
@@ -532,7 +534,9 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
    * @see #postUpdate(Context)
    * @param ctx
    */
-  protected void postUpdateImpl(Context ctx) throws Exception {}
+  protected List<OutgoingEmail> postUpdateImpl(Context ctx) throws Exception {
+    return new ArrayList<>();
+  }
 
   /**
    * Amend the commit with gitlink update

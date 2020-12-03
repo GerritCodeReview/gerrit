@@ -59,6 +59,7 @@ import com.google.gerrit.server.extensions.events.ChangeReverted;
 import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
@@ -614,7 +615,7 @@ public class RevertSubmission
     }
 
     @Override
-    public void postUpdate(Context ctx) throws Exception {
+    public List<OutgoingEmail> postUpdate(Context ctx) throws Exception {
       changeReverted.fire(
           change,
           changeNotesFactory.createChecked(ctx.getProject(), revertChangeId).getChange(),
@@ -625,11 +626,12 @@ public class RevertSubmission
         emailSender.setNotify(ctx.getNotify(change.getId()));
         emailSender.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-        emailSender.send();
+        return Arrays.asList(emailSender);
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(
             "Cannot send email for revert change %s", change.getId());
       }
+      return new ArrayList<>();
     }
   }
 

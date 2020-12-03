@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -39,6 +40,8 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
@@ -116,8 +119,9 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
     }
 
     @Override
-    public void postUpdate(Context ctx) {
+    public List<OutgoingEmail> postUpdate(Context ctx) {
       assigneeChanged.fire(change, ctx.getAccount(), deletedAssignee, ctx.getWhen());
+      return new ArrayList<>();
     }
   }
 }

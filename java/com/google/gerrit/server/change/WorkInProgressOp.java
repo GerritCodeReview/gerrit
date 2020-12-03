@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -35,6 +36,8 @@ import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /* Set work in progress or ready for review state on a change */
 public class WorkInProgressOp implements BatchUpdateOp {
@@ -126,13 +129,13 @@ public class WorkInProgressOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public List<OutgoingEmail> postUpdate(Context ctx) {
     stateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (workInProgress
         || notify.handling().compareTo(NotifyHandling.OWNER_REVIEWERS) < 0
         || !sendEmail) {
-      return;
+      return new ArrayList<>();
     }
     RepoView repoView;
     try {
@@ -141,7 +144,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
       throw new StorageException(
           String.format("Repository %s not found", ctx.getProject().get()), ex);
     }
-    email
+    return email
         .create(
             notify,
             notes,
@@ -152,6 +155,6 @@ public class WorkInProgressOp implements BatchUpdateOp {
             cmsg.getMessage(),
             ImmutableList.of(),
             repoView)
-        .sendAsync();
+        .createEmailSender();
   }
 }

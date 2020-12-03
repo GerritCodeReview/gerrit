@@ -143,6 +143,7 @@ import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -2586,7 +2587,6 @@ class ReceiveCommits {
                       magicBranch.getCombinedCcs(fromFooters))
                   .setApprovals(approvals)
                   .setMessage(msg.toString())
-                  .setRequestScopePropagator(requestScopePropagator)
                   .setSendMail(true)
                   .setPatchSetDescription(magicBranch.message));
           if (!magicBranch.hashtags.isEmpty()) {
@@ -3090,7 +3090,7 @@ class ReceiveCommits {
     }
 
     @Override
-    public void postUpdate(Context ctx) {
+    public List<OutgoingEmail> postUpdate(Context ctx) {
       String refName = cmd.getRefName();
       if (cmd.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
         logger.atFine().log("Updating tag cache on fast-forward of %s", cmd.getRefName());
@@ -3115,6 +3115,7 @@ class ReceiveCommits {
           }
         }
       }
+      return new ArrayList<>();
     }
   }
 

@@ -293,7 +293,10 @@ export class ChangeComments {
     path: string,
     patchRange: PatchRange
   ): CommentThread[] {
-    return createCommentThreads(this.getCommentsForPath(path, patchRange));
+    return createCommentThreads(
+      this.getCommentsForPath(path, patchRange),
+      patchRange
+    );
   }
 
   /**
@@ -337,7 +340,10 @@ export class ChangeComments {
     file: PatchSetFile,
     patchRange: PatchRange
   ): CommentThread[] {
-    return createCommentThreads(this.getCommentsForFile(file, patchRange));
+    return createCommentThreads(
+      this.getCommentsForFile(file, patchRange),
+      patchRange
+    );
   }
 
   /**

@@ -889,7 +889,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     GitUtil.fetch(user2Repo, r.getPatchSet().refName() + ":ps");
     user2Repo.reset("ps");
     r = amendChange(r.getChangeId(), "refs/for/master%ready", user2, user2Repo);
-    r.assertErrorStatus(ReceiveConstants.ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
+    r.assertErrorStatus(ReceiveConstants.ONLY_USERS_WITH_TOGGLE_WIP_STATE_PERM_CAN_MODIFY_WIP);
+
+    // Non owner, non admin and non project owner with toggleWipState should succeed.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allow(Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS))
+        .update();
+    r = amendChange(r.getChangeId(), "refs/for/master%ready", user2, user2Repo);
+    r.assertOkStatus();
 
     // Project owner trying to move from WIP to ready should succeed.
     projectOperations

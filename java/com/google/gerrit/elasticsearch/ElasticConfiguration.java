@@ -26,8 +26,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpHost;
 import org.eclipse.jgit.lib.Config;
+import org.elasticsearch.client.RestClientBuilder;
 
 @Singleton
 class ElasticConfiguration {
@@ -41,12 +43,16 @@ class ElasticConfiguration {
   static final String KEY_NUMBER_OF_SHARDS = "numberOfShards";
   static final String KEY_NUMBER_OF_REPLICAS = "numberOfReplicas";
   static final String KEY_MAX_RESULT_WINDOW = "maxResultWindow";
+  static final String KEY_CONNECT_TIMEOUT = "connectTimeout";
+  static final String KEY_SOCKET_TIMEOUT = "socketTimeout";
 
   static final String DEFAULT_PORT = "9200";
   static final String DEFAULT_USERNAME = "elastic";
   static final int DEFAULT_NUMBER_OF_SHARDS = 1;
   static final int DEFAULT_NUMBER_OF_REPLICAS = 1;
   static final int DEFAULT_MAX_RESULT_WINDOW = 10000;
+  static final int DEFAULT_CONNECT_TIMEOUT = RestClientBuilder.DEFAULT_CONNECT_TIMEOUT_MILLIS;
+  static final int DEFAULT_SOCKET_TIMEOUT = RestClientBuilder.DEFAULT_SOCKET_TIMEOUT_MILLIS;
 
   private final Config cfg;
   private final List<HttpHost> hosts;
@@ -56,6 +62,8 @@ class ElasticConfiguration {
   final int numberOfShards;
   final int numberOfReplicas;
   final int maxResultWindow;
+  final int connectTimeout;
+  final int socketTimeout;
   final String prefix;
 
   @Inject
@@ -74,6 +82,22 @@ class ElasticConfiguration {
         cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_NUMBER_OF_REPLICAS, DEFAULT_NUMBER_OF_REPLICAS);
     this.maxResultWindow =
         cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_MAX_RESULT_WINDOW, DEFAULT_MAX_RESULT_WINDOW);
+    this.connectTimeout =
+        (int)
+            cfg.getTimeUnit(
+                SECTION_ELASTICSEARCH,
+                null,
+                KEY_CONNECT_TIMEOUT,
+                DEFAULT_CONNECT_TIMEOUT,
+                TimeUnit.MILLISECONDS);
+    this.socketTimeout =
+        (int)
+            cfg.getTimeUnit(
+                SECTION_ELASTICSEARCH,
+                null,
+                KEY_SOCKET_TIMEOUT,
+                DEFAULT_SOCKET_TIMEOUT,
+                TimeUnit.MILLISECONDS);
     this.hosts = new ArrayList<>();
     for (String server : cfg.getStringList(SECTION_ELASTICSEARCH, null, KEY_SERVER)) {
       try {

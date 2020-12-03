@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.CommentAdded;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -108,25 +109,13 @@ public class PublishCommentsOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public List<OutgoingEmail> postUpdate(Context ctx) {
     if (message == null || comments.isEmpty()) {
-      return;
+      return new ArrayList<>();
     }
     ChangeNotes changeNotes = changeNotesFactory.createChecked(projectNameKey, psId.changeId());
     PatchSet ps = psUtil.get(changeNotes, psId);
     NotifyResolver.Result notify = ctx.getNotify(changeNotes.getChangeId());
-    if (notify.shouldNotify()) {
-      RepoView repoView;
-      try {
-        repoView = ctx.getRepoView();
-      } catch (IOException ex) {
-        throw new StorageException(
-            String.format("Repository %s not found", ctx.getProject().get()), ex);
-      }
-      email
-          .create(notify, changeNotes, ps, user, message, comments, null, labelDelta, repoView)
-          .sendAsync();
-    }
     commentAdded.fire(
         changeNotes.getChange(),
         ps,
@@ -135,6 +124,20 @@ public class PublishCommentsOp implements BatchUpdateOp {
         ImmutableMap.of(),
         ImmutableMap.of(),
         ctx.getWhen());
+
+    if (notify.shouldNotify()) {
+      RepoView repoView;
+      try {
+        repoView = ctx.getRepoView();
+      } catch (IOException ex) {
+        throw new StorageException(
+            String.format("Repository %s not found", ctx.getProject().get()), ex);
+      }
+      return email
+          .create(notify, changeNotes, ps, user, message, comments, null, labelDelta, repoView)
+          .createEmailSender();
+    }
+    return new ArrayList<>();
   }
 
   private boolean insertMessage(ChangeContext ctx, ChangeUpdate changeUpdate) {

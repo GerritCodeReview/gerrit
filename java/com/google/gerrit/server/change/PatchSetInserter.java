@@ -40,6 +40,7 @@ import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -57,6 +58,8 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
@@ -283,8 +286,16 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public List<OutgoingEmail> postUpdate(Context ctx) {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
+    if (fireRevisionCreated) {
+      revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
+    }
+
+    if (workInProgress != null && oldWorkInProgressState != workInProgress) {
+      wipStateChanged.fire(change, patchSet, ctx.getAccount(), ctx.getWhen());
+    }
+
     if (notify.shouldNotify() && sendEmail) {
       requireNonNull(changeMessage);
       try {
@@ -298,20 +309,13 @@ public class PatchSetInserter implements BatchUpdateOp {
         emailSender.setNotify(notify);
         emailSender.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-        emailSender.send();
+        return Arrays.asList(emailSender);
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(
             "Cannot send email for new patch set on change %s", change.getId());
       }
     }
-
-    if (fireRevisionCreated) {
-      revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
-    }
-
-    if (workInProgress != null && oldWorkInProgressState != workInProgress) {
-      wipStateChanged.fire(change, patchSet, ctx.getAccount(), ctx.getWhen());
-    }
+    return new ArrayList<>();
   }
 
   private void validate(RepoContext ctx)

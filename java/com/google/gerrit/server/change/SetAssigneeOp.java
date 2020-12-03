@@ -25,6 +25,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.SetAssigneeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -36,6 +37,9 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SetAssigneeOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -120,7 +124,9 @@ public class SetAssigneeOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public List<OutgoingEmail> postUpdate(Context ctx) {
+    assigneeChanged.fire(
+        change, ctx.getAccount(), oldAssignee != null ? oldAssignee.state() : null, ctx.getWhen());
     try {
       SetAssigneeSender emailSender =
           setAssigneeSenderFactory.create(
@@ -128,12 +134,11 @@ public class SetAssigneeOp implements BatchUpdateOp {
       emailSender.setFrom(user.get().getAccountId());
       emailSender.setMessageId(
           messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-      emailSender.send();
+      return Arrays.asList(emailSender);
     } catch (Exception err) {
       logger.atSevere().withCause(err).log(
           "Cannot send email to new assignee of change %s", change.getId());
     }
-    assigneeChanged.fire(
-        change, ctx.getAccount(), oldAssignee != null ? oldAssignee.state() : null, ctx.getWhen());
+    return new ArrayList<>();
   }
 }

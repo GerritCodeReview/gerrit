@@ -3323,6 +3323,19 @@ Elasticsearch documentation,role=external,window=_blank] for details.
 +
 Defaults to 10000.
 
+[[elasticsearch.connectTimeout]]elasticsearch.connectTimeout::
++
+Sets the timeout for connecting to elasticsearch.
++
+Defaults to `1 second`.
+
+[[elasticsearch.socketTimeout]]elasticsearch.socketTimeout::
++
+Sets the timeout for the underlying connection. For more information, refer to
+link:#httpd.idleTimeout[`httpd.idleTimeout`].
++
+Defaults to `30 seconds`.
+
 ==== Elasticsearch Security
 
 When security is enabled in Elasticsearch, the username and password must be provided.

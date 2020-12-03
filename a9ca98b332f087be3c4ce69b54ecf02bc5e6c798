@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "398855cb_08a57fe0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-03T09:32:16Z",
+      "side": 0,
+      "message": "Just FYI, this code is incorrect since we actually hide the reply button for drafts and hence this button is hidden but the test is still clicking it.\nThat\u0027s a separate issue with the tests. I\u0027ll tackle that in a follow up change.",
+      "range": {
+        "startLine": 625,
+        "startChar": 4,
+        "endLine": 627,
+        "endChar": 12
+      },
+      "revId": "a9ca98b332f087be3c4ce69b54ecf02bc5e6c798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

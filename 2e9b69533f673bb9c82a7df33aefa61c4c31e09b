@@ -70,6 +70,30 @@
       },
       "revId": "2e9b69533f673bb9c82a7df33aefa61c4c31e09b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f49b0a32_c9148293",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-03T20:09:36Z",
+      "side": 1,
+      "message": "I agree with all of the points you are making but what I don\u0027t fully understand is how this __otherEditing is supposed to help with these.\n\nRe: Deep cloning of thee threads\nTotally valid point. It\u0027s good that you raised it during fix-it week. I\u0027m also not sure if we have any mechanism to verify that two different copies of threads should. not create two replies. But even in this case, we are not actually creating a reply to a draft so __otherEditing will never be true(we might face some nasty bugs sure).\n\n\u003e\u003e Also note that a user could potentially open two Gerrit tabs for the same change and create replies for the same thread in both tabs.\nI agree that we could get into a mess here potentially and we should probably verify what happens. But opening two Gerrit tabs will not set __otherEditing to true(the two tabs won\u0027t be sharing any information).\n\nI don\u0027t think this __otherEditing property is helping prevent any bugs at all.\nWhat I\u0027m thinking is that even if everything goes wrong, there is no code-path in which _createReplyComment is called for a draft comment.\nIt might be possible that 2 drafts are being created in the same thread, but even if that happens it won\u0027t be through _createReplyComment and hence __otherEditing will never be true.\n\nLMK if that makes sense.\nAdding checks and logs will help to capture issues we might have with threads and I\u0027ll add some logging in our codebase.\nI don\u0027t think this change is super important that it cannot wait 1 week.\nI just think this property isn\u0027t helping us prevent those bugs anyway.",
+      "parentUuid": "4b749255_4707cb18",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "2e9b69533f673bb9c82a7df33aefa61c4c31e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

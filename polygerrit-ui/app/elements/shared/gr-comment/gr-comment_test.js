@@ -129,7 +129,6 @@ suite('gr-comment tests', () => {
           email: 'tenn1sballchaser@aol.com',
         },
         line: 5,
-        __otherEditing: true,
       };
       flush(() => {
         assert.isTrue(loadSpy.called);

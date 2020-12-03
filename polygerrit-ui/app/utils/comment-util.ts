@@ -48,7 +48,6 @@ export interface UIStateCommentProps {
   collapsed?: boolean;
   // TODO(TS): Consider allowing this only for drafts.
   __editing?: boolean;
-  __otherEditing?: boolean;
 }
 
 export type UIDraft = DraftInfo & UIStateCommentProps;

@@ -19,6 +19,7 @@ import static com.google.common.base.Strings.nullToEmpty;
 
 import com.google.gerrit.entities.StoredCommentLinkInfo;
 import com.google.gerrit.server.cache.proto.Cache;
+import java.util.Optional;
 
 /** Helper to (de)serialize values for caches. */
 public class StoredCommentLinkInfoSerializer {
@@ -38,7 +39,7 @@ public class StoredCommentLinkInfoSerializer {
         .setMatch(nullToEmpty(autoValue.getMatch()))
         .setLink(nullToEmpty(autoValue.getLink()))
         .setHtml(nullToEmpty(autoValue.getHtml()))
-        .setEnabled(autoValue.getEnabled())
+        .setEnabled(Optional.ofNullable(autoValue.getEnabled()).orElse(true))
         .setOverrideOnly(autoValue.getOverrideOnly())
         .build();
   }

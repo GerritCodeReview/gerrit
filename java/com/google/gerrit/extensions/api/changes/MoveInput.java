@@ -17,4 +17,14 @@ package com.google.gerrit.extensions.api.changes;
 public class MoveInput {
   public String message;
   public String destinationBranch;
+  /**
+   * Whether or not to keep all votes in the destination branch. Keeping the votes can be confusing
+   * in the context of the destination branch, see
+   * https://gerrit-review.googlesource.com/c/gerrit/+/129171. That is why only the users with
+   * {@link com.google.gerrit.server.permissions.GlobalPermission#ADMINISTRATE_SERVER} permissions
+   * can use this option.
+   *
+   * <p>By default, only the veto votes that are blocking the change from submission are moved.
+   */
+  public boolean keepAllVotes;
 }

@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.extensions.events.ChangeAbandoned;
 import com.google.gerrit.server.mail.send.AbandonedSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -35,6 +36,9 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class AbandonOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -111,8 +115,9 @@ public class AbandonOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public List<OutgoingEmail> postUpdate(Context ctx) {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
+    changeAbandoned.fire(change, patchSet, accountState, msgTxt, ctx.getWhen(), notify.handling());
     try {
       ReplyToChangeSender emailSender =
           abandonedSenderFactory.create(ctx.getProject(), change.getId());
@@ -123,10 +128,10 @@ public class AbandonOp implements BatchUpdateOp {
       emailSender.setNotify(notify);
       emailSender.setMessageId(
           messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-      emailSender.send();
+      return Arrays.asList(emailSender);
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }
-    changeAbandoned.fire(change, patchSet, accountState, msgTxt, ctx.getWhen(), notify.handling());
+    return new ArrayList<>();
   }
 }

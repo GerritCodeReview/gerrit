@@ -104,6 +104,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.DiffSummary;
@@ -304,6 +305,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return Response.withStatusCode(SC_BAD_REQUEST, output);
     }
     output.labels = input.labels;
+    NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
 
     try (BatchUpdate bu =
         updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
@@ -378,7 +380,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           revision.getChange().getId(), new Op(projectState, revision.getPatchSet().id(), input));
 
       // Notify based on ReviewInput, ignoring the notify settings from any AddReviewerInputs.
-      NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
       bu.setNotify(notify);
 
       // Adjust the attention set based on the input
@@ -391,11 +392,19 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (ReviewerAddition reviewerResult : reviewerResults) {
         reviewerResult.gatherResults(cd);
       }
-
-      // Sending from AddReviewersOp was suppressed so we can send a single batch email here.
-      batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
     }
-
+    // This is needed to send async emails, and since we're currently using the reviewerResults, we
+    // must do it in a separate BatchUpdate.
+    try (BatchUpdate bu =
+        updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
+      bu.addOp(
+          revision.getChange().getId(),
+          new BatchEmailSendOp(
+              batchEmailReviewers(
+                  revision.getUser(), revision.getChange(), reviewerResults, notify)));
+      bu.setNotify(notify);
+      bu.execute();
+    }
     return Response.ok(output);
   }
 
@@ -423,7 +432,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     return NotifyHandling.ALL;
   }
 
-  private void batchEmailReviewers(
+  private List<OutgoingEmail> batchEmailReviewers(
       CurrentUser user,
       Change change,
       List<ReviewerAddition> reviewerAdditions,
@@ -447,7 +456,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ccByEmail.addAll(addition.reviewersByEmail);
         }
       }
-      addReviewersEmail.emailReviewersAsync(
+      return addReviewersEmail.emailReviewers(
           user.asIdentifiedUser(), change, to, cc, toByEmail, ccByEmail, notify);
     }
   }
@@ -871,6 +880,19 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     abstract Comment.Range range();
   }
 
+  private static class BatchEmailSendOp implements BatchUpdateOp {
+    private final List<OutgoingEmail> emails;
+
+    private BatchEmailSendOp(List<OutgoingEmail> emails) {
+      this.emails = emails;
+    }
+
+    @Override
+    public List<OutgoingEmail> postUpdate(Context ctx) {
+      return emails;
+    }
+  }
+
   private class Op implements BatchUpdateOp {
     private final ProjectState projectState;
     private final PatchSet.Id psId;
@@ -917,14 +939,22 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     @Override
-    public void postUpdate(Context ctx) {
+    public List<OutgoingEmail> postUpdate(Context ctx) {
       if (message == null) {
-        return;
+        return new ArrayList<>();
       }
       NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
+      commentAdded.fire(
+          notes.getChange(),
+          ps,
+          user.state(),
+          message.getMessage(),
+          approvals,
+          oldApprovals,
+          ctx.getWhen());
       if (notify.shouldNotify()) {
         try {
-          email
+          return email
               .create(
                   notify,
                   notes,
@@ -935,20 +965,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                   in.message,
                   labelDelta,
                   ctx.getRepoView())
-              .sendAsync();
+              .createEmailSender();
         } catch (IOException ex) {
           throw new StorageException(
               String.format("Repository %s not found", ctx.getProject().get()), ex);
         }
       }
-      commentAdded.fire(
-          notes.getChange(),
-          ps,
-          user.state(),
-          message.getMessage(),
-          approvals,
-          oldApprovals,
-          ctx.getWhen());
+      return new ArrayList<>();
     }
 
     private boolean insertComments(ChangeContext ctx, List<RobotComment> newRobotComments)

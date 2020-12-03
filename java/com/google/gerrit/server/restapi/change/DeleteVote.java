@@ -45,6 +45,7 @@ import com.google.gerrit.server.change.VoteResource;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -60,7 +61,10 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -220,28 +224,12 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     }
 
     @Override
-    public void postUpdate(Context ctx) {
+    public List<OutgoingEmail> postUpdate(Context ctx) {
       if (changeMessage == null) {
-        return;
+        return new ArrayList<>();
       }
 
       IdentifiedUser user = ctx.getIdentifiedUser();
-      try {
-        NotifyResolver.Result notify = ctx.getNotify(change.getId());
-        if (notify.shouldNotify()) {
-          ReplyToChangeSender emailSender =
-              deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
-          emailSender.setFrom(user.getAccountId());
-          emailSender.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
-          emailSender.setNotify(notify);
-          emailSender.setMessageId(
-              messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-          emailSender.send();
-        }
-      } catch (Exception e) {
-        logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
-      }
-
       voteDeleted.fire(
           change,
           ps,
@@ -252,6 +240,23 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
           changeMessage.getMessage(),
           user.state(),
           ctx.getWhen());
+
+      try {
+        NotifyResolver.Result notify = ctx.getNotify(change.getId());
+        if (notify.shouldNotify()) {
+          ReplyToChangeSender emailSender =
+              deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
+          emailSender.setFrom(user.getAccountId());
+          emailSender.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
+          emailSender.setNotify(notify);
+          emailSender.setMessageId(
+              messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
+          return Arrays.asList(emailSender);
+        }
+      } catch (Exception e) {
+        logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
+      }
+      return new ArrayList<>();
     }
   }
 }

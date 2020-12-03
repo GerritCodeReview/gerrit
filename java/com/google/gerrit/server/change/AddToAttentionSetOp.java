@@ -21,17 +21,20 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.util.AttentionSetEmail;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /** Add a specified user to the attention set. */
 public class AddToAttentionSetOp implements BatchUpdateOp {
@@ -44,7 +47,6 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final MessageIdGenerator messageIdGenerator;
   private final AddToAttentionSetSender.Factory addToAttentionSetSender;
-  private final AttentionSetEmail.Factory attentionSetEmailFactory;
 
   private final Account.Id attentionUserId;
   private final String reason;
@@ -64,14 +66,12 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
       ChangeData.Factory changeDataFactory,
       AddToAttentionSetSender.Factory addToAttentionSetSender,
       MessageIdGenerator messageIdGenerator,
-      AttentionSetEmail.Factory attentionSetEmailFactory,
       @Assisted Account.Id attentionUserId,
       @Assisted String reason,
       @Assisted boolean notify) {
     this.changeDataFactory = changeDataFactory;
     this.addToAttentionSetSender = addToAttentionSetSender;
     this.messageIdGenerator = messageIdGenerator;
-    this.attentionSetEmailFactory = attentionSetEmailFactory;
 
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
@@ -101,22 +101,27 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public List<OutgoingEmail> postUpdate(Context ctx) {
     if (!notify) {
-      return;
+      return new ArrayList<>();
     }
     try {
-      attentionSetEmailFactory
-          .create(
-              addToAttentionSetSender.create(ctx.getProject(), change.getId()),
-              ctx,
-              change,
-              reason,
-              messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()),
-              attentionUserId)
-          .sendAsync();
-    } catch (IOException e) {
-      logger.atSevere().withCause(e).log(e.getMessage(), change.getId());
+      AddToAttentionSetSender sender =
+          addToAttentionSetSender.create(ctx.getProject(), change.getId());
+      AccountState accountState =
+          ctx.getUser().isIdentifiedUser() ? ctx.getUser().asIdentifiedUser().state() : null;
+      if (accountState != null) {
+        sender.setFrom(accountState.account().id());
+      }
+      sender.setNotify(ctx.getNotify(change.getId()));
+      sender.setAttentionSetUser(attentionUserId);
+      sender.setReason(reason);
+      sender.setMessageId(
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
+      return Arrays.asList(sender);
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }
+    return new ArrayList<>();
   }
 }

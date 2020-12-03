@@ -26,6 +26,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.PrivateStateChanged;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -33,6 +34,8 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SetPrivateOp implements BatchUpdateOp {
   public interface Factory {
@@ -88,10 +91,11 @@ public class SetPrivateOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public List<OutgoingEmail> postUpdate(Context ctx) {
     if (!isNoOp) {
       privateStateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
     }
+    return new ArrayList<>();
   }
 
   private void addMessage(ChangeContext ctx, ChangeUpdate update) {

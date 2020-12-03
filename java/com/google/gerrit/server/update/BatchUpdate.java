@@ -49,6 +49,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
@@ -56,6 +57,7 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.LimitExceededException;
@@ -64,6 +66,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
@@ -77,6 +80,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -353,6 +357,8 @@ public class BatchUpdate implements AutoCloseable {
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeIndexer indexer;
   private final GitReferenceUpdated gitRefUpdated;
+  private final ThreadLocalRequestContext requestContext;
+  private final ExecutorService executorService;
 
   private final Project.NameKey project;
   private final CurrentUser user;
@@ -382,6 +388,8 @@ public class BatchUpdate implements AutoCloseable {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
+      ThreadLocalRequestContext requestContext,
+      @SendEmailExecutor ExecutorService executorService,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
@@ -391,6 +399,8 @@ public class BatchUpdate implements AutoCloseable {
     this.updateManagerFactory = updateManagerFactory;
     this.indexer = indexer;
     this.gitRefUpdated = gitRefUpdated;
+    this.requestContext = requestContext;
+    this.executorService = executorService;
     this.project = project;
     this.user = user;
     this.when = when;
@@ -687,21 +697,36 @@ public class BatchUpdate implements AutoCloseable {
     return new ChangeContextImpl(notes);
   }
 
-  private void executePostOps() throws Exception {
+  private void executePostOps() {
     ContextImpl ctx = new ContextImpl();
     for (BatchUpdateOp op : ops.values()) {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        op.postUpdate(ctx);
-      }
+      // Copy the list to ensure the async threads have unique objects.
+      List<OutgoingEmail> outgoingEmails = postUpdate(ctx, op);
+      outgoingEmails.stream().forEach(e -> asyncSendEmail(ctx, e));
     }
 
     for (RepoOnlyOp op : repoOnlyOps) {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        op.postUpdate(ctx);
-      }
+      // Copy the list to ensure the async threads have unique objects.
+      List<OutgoingEmail> outgoingEmails = new ArrayList<>(postUpdate(ctx, op));
+      outgoingEmails.stream().forEach(e -> asyncSendEmail(ctx, e));
     }
+  }
+
+  /** Invoke the postUpdate methods synchronously. */
+  private List<OutgoingEmail> postUpdate(ContextImpl ctx, RepoOnlyOp op) {
+    try (TraceContext.TraceTimer ignored =
+        TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+      return op.postUpdate(ctx);
+    } catch (Exception ex) {
+      logDebug(
+          String.format(
+              "postUpdate for project %s failed for user %s", ctx.getProject(), ctx.getUser()));
+    }
+    return new ArrayList<>();
+  }
+
+  private void asyncSendEmail(ContextImpl ctx, OutgoingEmail outgoingEmail) {
+    executorService.execute(new ExecuteAsyncSendEmail(ctx, user, requestContext, outgoingEmail));
   }
 
   private static void logDebug(String msg) {

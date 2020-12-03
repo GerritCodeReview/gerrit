@@ -32,7 +32,7 @@ import {
 } from '../../../../types/common';
 import {HttpMethod} from '../../../../constants/constants';
 import {RpcLogEventDetail} from '../../../../types/events';
-import {fireServerError} from '../../../../utils/event-util';
+import {fireNetworkError, fireServerError} from '../../../../utils/event-util';
 import {FetchRequest} from '../../../../types/types';
 
 const JSON_PREFIX = ")]}'";
@@ -311,13 +311,7 @@ s   */
         if (req.errFn) {
           req.errFn.call(undefined, null, err);
         } else {
-          document.dispatchEvent(
-            new CustomEvent('network-error', {
-              detail: {error: err},
-              composed: true,
-              bubbles: true,
-            })
-          );
+          fireNetworkError(err);
         }
         throw err;
       });
@@ -500,13 +494,7 @@ s   */
     };
     const xhr = this.fetch(fetchReq)
       .catch(err => {
-        document.dispatchEvent(
-          new CustomEvent('network-error', {
-            detail: {error: err},
-            composed: true,
-            bubbles: true,
-          })
-        );
+        fireNetworkError(err);
         if (req.errFn) {
           return req.errFn.call(undefined, null, err);
         } else {

@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.update;
 
+import com.google.gerrit.server.mail.send.OutgoingEmail;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Base interface for operations performed as part of a {@link BatchUpdate}.
  *
@@ -30,10 +34,13 @@ public interface RepoOnlyOp {
   default void updateRepo(RepoContext ctx) throws Exception {}
 
   /**
-   * Override this method to do something after the update e.g. send email or run hooks
+   * Override this method to do something after the update e.g. run hooks. This method will
+   * <strong>NOT</strong> be invoked asynchronously. However, the returned OutgoingEmail class will
+   * call {@link OutgoingEmail#send()} asynchronously (when not empty).
    *
    * @param ctx context
    */
-  // TODO(dborowitz): Support async operations?
-  default void postUpdate(Context ctx) throws Exception {}
+  default List<OutgoingEmail> postUpdate(Context ctx) throws Exception {
+    return new ArrayList<>();
+  }
 }

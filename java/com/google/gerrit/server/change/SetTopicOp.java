@@ -21,6 +21,7 @@ import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.extensions.events.TopicEdited;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -28,6 +29,8 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SetTopicOp implements BatchUpdateOp {
   public interface Factory {
@@ -81,9 +84,10 @@ public class SetTopicOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public List<OutgoingEmail> postUpdate(Context ctx) {
     if (change != null) {
       topicEdited.fire(change, ctx.getAccount(), oldTopicName, ctx.getWhen());
     }
+    return new ArrayList<>();
   }
 }

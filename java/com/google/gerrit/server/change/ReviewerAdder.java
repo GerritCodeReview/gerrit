@@ -59,6 +59,7 @@ import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -586,12 +587,14 @@ public class ReviewerAdder {
       }
     }
 
-    public void postUpdate(Context ctx) throws Exception {
+    public List<OutgoingEmail> postUpdate(Context ctx) throws Exception {
+      List<OutgoingEmail> emails = new ArrayList<>();
       for (ReviewerAddition addition : additions()) {
         if (addition.op != null) {
-          addition.op.postUpdate(ctx);
+          emails.addAll(addition.op.postUpdate(ctx));
         }
       }
+      return emails;
     }
 
     public <T> ImmutableSet<T> flattenResults(

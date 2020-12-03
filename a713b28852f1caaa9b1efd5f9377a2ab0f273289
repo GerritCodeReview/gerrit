@@ -219,6 +219,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88d0fc76_a913ce60",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-03T12:25:27Z",
+      "side": 1,
+      "message": "This comes from the onerror and the uncauchtrejection handlers, right? Can we somehow move this to the calls or have another method in between? Then the \"normal\" callers from the app are forced to send an error (or a string).",
+      "parentUuid": "24721f16_3a166ddc",
+      "range": {
+        "startLine": 784,
+        "startChar": 19,
+        "endLine": 784,
+        "endChar": 26
+      },
+      "revId": "a713b28852f1caaa9b1efd5f9377a2ab0f273289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d88cd9d1_68a96869",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
         "patchSetId": 2

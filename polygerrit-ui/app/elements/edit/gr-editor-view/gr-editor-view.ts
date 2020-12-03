@@ -125,6 +125,8 @@ export class GrEditorView extends KeyboardShortcutMixin(
 
   private readonly restApiService = appContext.restApiService;
 
+  reporting = appContext.reportingService;
+
   get keyBindings() {
     return {
       'ctrl+s meta+s': '_handleSaveShortcut',
@@ -330,7 +332,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
     this._saveEdit().then(() => {
       const handleError: ErrorCallback = response => {
         this._showAlert(PUBLISH_FAILED_MSG);
-        console.error(response);
+        this.reporting.error(new Error(response?.statusText));
       };
 
       this._showAlert(PUBLISHING_EDIT_MSG);

@@ -24,6 +24,7 @@ import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {getPluginLoader} from './gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
+import sinon from 'sinon/pkg/sinon-esm';
 
 const basicFixture = fixtureFromElement('gr-js-api-interface');
 
@@ -57,7 +58,7 @@ suite('gr-js-api-interface tests', () => {
       },
     });
     element = basicFixture.instantiate();
-    errorStub = sinon.stub(console, 'error');
+    errorStub = sinon.stub(element.reporting, 'error');
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     getPluginLoader().loadPlugins([]);
@@ -404,6 +405,7 @@ suite('gr-js-api-interface tests', () => {
 
   suite('popup', () => {
     test('popup(element) is deprecated', () => {
+      sinon.stub(console, 'error');
       plugin.popup(document.createElement('div'));
       assert.isTrue(console.error.calledOnce);
     });

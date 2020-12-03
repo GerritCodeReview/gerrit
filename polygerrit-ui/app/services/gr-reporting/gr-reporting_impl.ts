@@ -114,7 +114,22 @@ const SLOW_RPC_THRESHOLD = 500;
 
 export function initErrorReporter(appContext: AppContext) {
   const reportingService = appContext.reportingService;
-  // TODO(dmfilippo): TS-fix-any oldOnError - define correct type
+
+  const normalizeError = (err: Error | unknown) => {
+    if (err instanceof Error) {
+      return err;
+    }
+    let msg = '';
+    if (typeof err === 'string') {
+      msg += err;
+    } else {
+      msg += JSON.stringify(err);
+    }
+    const error = new Error(msg);
+    error.stack = 'unknown';
+    return error;
+  };
+  // TODO(dmfilippov): TS-fix-any oldOnError - define correct type
   const onError = function (
     oldOnError: Function,
     msg: Event | string,
@@ -127,29 +142,15 @@ export function initErrorReporter(appContext: AppContext) {
       oldOnError(msg, url, line, column, error);
     }
     if (error) {
-      line = line || error.lineNumber;
-      column = column || error.columnNumber;
-      let shortenedErrorStack = msg;
-      if (error.stack) {
-        const errorStackLines = error.stack.split('\n');
-        shortenedErrorStack = errorStackLines
-          .slice(0, Math.min(3, errorStackLines.length))
-          .join('\n');
-      }
-      msg = shortenedErrorStack || error.toString();
+      line = line ?? error.lineNumber;
+      column = column ?? error.columnNumber;
     }
-    const payload = {
-      url,
+    reportingService.error(normalizeError(error), 'onError', {
       line,
       column,
-      error,
-    };
-    reportingService.reporter(
-      ERROR.TYPE,
-      ERROR.CATEGORY.EXCEPTION,
-      `${msg}`,
-      payload
-    );
+      url,
+      msg,
+    });
     return true;
   };
   // TODO(dmfilippov): TS-fix-any unclear what is context
@@ -169,16 +170,7 @@ export function initErrorReporter(appContext: AppContext) {
     context.addEventListener(
       'unhandledrejection',
       (e: PromiseRejectionEvent) => {
-        const msg = e.reason.message;
-        const payload = {
-          error: e.reason,
-        };
-        reportingService.reporter(
-          ERROR.TYPE,
-          ERROR.CATEGORY.EXCEPTION,
-          msg,
-          payload
-        );
+        reportingService.error(normalizeError(e.reason), 'unhandledrejection');
       }
     );
   };
@@ -807,6 +799,19 @@ export class GrReporting implements ReportingService {
 
     // Mark the time and reinitialize the timer.
     timer.end().reset();
+  }
+
+  error(error: Error, errorSource?: string, details?: EventDetails) {
+    const eventDetails = details ?? {};
+    const message = `${errorSource ? errorSource + ': ' : ''}${error.message}`;
+
+    this.reporter(
+      ERROR.TYPE,
+      ERROR.CATEGORY.EXCEPTION,
+      message,
+      {error},
+      {...eventDetails, stack: error.stack}
+    );
   }
 
   reportErrorDialog(message: string) {

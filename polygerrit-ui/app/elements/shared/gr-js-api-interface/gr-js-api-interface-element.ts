@@ -36,6 +36,7 @@ import {
 import {EventType, TargetElement} from '../../plugins/gr-plugin-types';
 import {DiffLayer, HighlightJS} from '../../../types/types';
 import {ParsedChangeInfo} from '../gr-rest-api-interface/gr-reviewer-updates-parser';
+import {appContext} from '../../../services/app-context';
 
 const elements: {[key: string]: HTMLElement} = {};
 const eventCallbacks: {[key: string]: EventCallback[]} = {};
@@ -44,6 +45,8 @@ const eventCallbacks: {[key: string]: EventCallback[]} = {};
 export class GrJsApiInterface
   extends GestureEventListeners(LegacyElementMixin(PolymerElement))
   implements JsApiService {
+  private readonly reporting = appContext.reportingService;
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleEvent(type: EventType, detail: any) {
     getPluginLoader()
@@ -99,7 +102,7 @@ export class GrJsApiInterface
       try {
         return callback(change, revision) === false;
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
       return false;
     });
@@ -120,7 +123,7 @@ export class GrJsApiInterface
       try {
         cb(detail.path);
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
     }
   }
@@ -161,7 +164,7 @@ export class GrJsApiInterface
       try {
         cb(change, revision, info);
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
     }
   }
@@ -174,7 +177,7 @@ export class GrJsApiInterface
       try {
         cb(detail.revisionActions, detail.change);
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
     }
   }
@@ -184,7 +187,7 @@ export class GrJsApiInterface
       try {
         cb(change, msg);
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
     }
   }
@@ -195,7 +198,7 @@ export class GrJsApiInterface
       try {
         cb(detail.node);
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
     }
   }
@@ -205,7 +208,7 @@ export class GrJsApiInterface
       try {
         cb(detail.change);
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
     }
   }
@@ -215,7 +218,7 @@ export class GrJsApiInterface
       try {
         cb(detail.hljs);
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
     }
   }
@@ -225,7 +228,7 @@ export class GrJsApiInterface
       try {
         revertMsg = cb(change, revertMsg, origMsg) as string;
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
     }
     return revertMsg;
@@ -244,7 +247,7 @@ export class GrJsApiInterface
           origMsg
         ) as string;
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
     }
     return revertSubmissionMsg;
@@ -258,7 +261,7 @@ export class GrJsApiInterface
         const layer = annotationApi.getLayer(path, changeNum);
         layers.push(layer);
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
     }
     return layers;
@@ -270,7 +273,7 @@ export class GrJsApiInterface
         const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
         annotationApi.disposeLayer(path);
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
     }
   }
@@ -311,7 +314,7 @@ export class GrJsApiInterface
       try {
         labels = cb(change);
       } catch (err) {
-        console.error(err);
+        this.reporting.error(err);
       }
     }
     return labels;

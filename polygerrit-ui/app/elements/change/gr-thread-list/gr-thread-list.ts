@@ -399,7 +399,7 @@ export class GrThreadList extends GestureEventListeners(
       hasRobotComment,
       hasHumanReplyToRobotComment,
       unresolved: !!lastComment && !!lastComment.unresolved,
-      isEditing: !!lastComment && !!lastComment.__editing,
+      isEditing: !!isDraft(lastComment) && !!lastComment.__editing,
       hasDraft: !!lastComment && isDraft(lastComment),
       updated,
     };

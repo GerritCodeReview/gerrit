@@ -22,6 +22,30 @@
       },
       "revId": "8f322b9079e7010a04128c23500f0ea272f10e91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd936d4b_923c948b",
+        "filename": "java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:12:32Z",
+      "side": 1,
+      "message": "I actually think that the current code is more readable. I am a fan of the short-hand if that you suggest, but only if the clauses are short enough :-).",
+      "parentUuid": "6996bf04_eb19a73e",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 187,
+        "endChar": 41
+      },
+      "revId": "8f322b9079e7010a04128c23500f0ea272f10e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

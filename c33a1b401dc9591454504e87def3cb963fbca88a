@@ -16,6 +16,24 @@
       "message": "What is this used for?",
       "revId": "c33a1b401dc9591454504e87def3cb963fbca88a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "befa2809_7d3030b3",
+        "filename": "plugins/singleusergroup",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-03T13:12:32Z",
+      "side": 0,
+      "message": "This is links in the change in the singleuser plugin so that the CI runs with these changes included. Otherwise, CI would fail, because the changes in this change are incompatible with the existing singleusergroup plugin.",
+      "parentUuid": "0ff1ba2d_e8793228",
+      "revId": "c33a1b401dc9591454504e87def3cb963fbca88a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

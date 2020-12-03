@@ -185,7 +185,7 @@ suite('gr-watched-projects-editor tests', () => {
     assert.equal(element._projectsToRemove, 0);
     const button = element.shadowRoot
         .querySelector('table tbody tr:nth-child(2) gr-button');
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
 
     flush();
 

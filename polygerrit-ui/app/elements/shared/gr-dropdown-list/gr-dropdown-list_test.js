@@ -50,7 +50,7 @@ suite('gr-dropdown-list tests', () => {
     sinon.stub(element, 'open')
         .callsFake(() => { element.$.dropdown.open(); });
     assert.isFalse(element.$.dropdown.opened);
-    MockInteractions.tap(element.$.trigger);
+    checkIfVisibleAndTap(element.$.trigger);
     assert.isTrue(element.$.dropdown.opened);
   });
 
@@ -154,7 +154,7 @@ suite('gr-dropdown-list tests', () => {
     assert.equal(mobileItems[2].text, element.items[2].mobileText);
 
     // Select a new item.
-    MockInteractions.tap(items[0]);
+    checkIfVisibleAndTap(items[0]);
     flush();
     assert.equal(element.value, 1);
     assert.isTrue(items[0].classList.contains('iron-selected'));

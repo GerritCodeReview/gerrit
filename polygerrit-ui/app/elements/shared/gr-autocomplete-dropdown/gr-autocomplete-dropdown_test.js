@@ -106,7 +106,7 @@ suite('gr-autocomplete-dropdown', () => {
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
 
-    MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[1]);
+    checkIfVisibleAndTap(element.$.suggestions.querySelectorAll('li')[1]);
     flush();
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
       trigger: 'click',
@@ -118,7 +118,7 @@ suite('gr-autocomplete-dropdown', () => {
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
 
-    MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[0]
+    checkIfVisibleAndTap(element.$.suggestions.querySelectorAll('li')[0]
         .lastElementChild);
     flush();
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {

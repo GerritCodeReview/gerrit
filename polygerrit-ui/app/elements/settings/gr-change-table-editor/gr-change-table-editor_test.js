@@ -65,7 +65,7 @@ suite('gr-change-table-editor tests', () => {
     const displayedLength = element.displayedColumns.length;
     assert.isTrue(isChecked);
 
-    MockInteractions.tap(checkbox);
+    checkIfVisibleAndTap(checkbox);
     flush();
 
     assert.equal(element.displayedColumns.length, displayedLength - 1);
@@ -89,7 +89,7 @@ suite('gr-change-table-editor tests', () => {
     assert.equal(element.shadowRoot
         .querySelector('table').style.display, '');
 
-    MockInteractions.tap(checkbox);
+    checkIfVisibleAndTap(checkbox);
     flush();
 
     assert.equal(element.displayedColumns.length,
@@ -98,7 +98,7 @@ suite('gr-change-table-editor tests', () => {
 
   test('_getDisplayedColumns', () => {
     assert.deepEqual(element._getDisplayedColumns(), columns);
-    MockInteractions.tap(
+    checkIfVisibleAndTap(
         element.shadowRoot
             .querySelector('.checkboxContainer input[name=Assignee]'));
     assert.deepEqual(element._getDisplayedColumns(),
@@ -109,13 +109,13 @@ suite('gr-change-table-editor tests', () => {
     sinon.stub(element, '_handleNumberCheckboxClick');
     sinon.stub(element, '_handleTargetClick');
 
-    MockInteractions.tap(
+    checkIfVisibleAndTap(
         element.shadowRoot
             .querySelector('table tr:first-of-type .checkboxContainer'));
     assert.isTrue(element._handleNumberCheckboxClick.calledOnce);
     assert.isFalse(element._handleTargetClick.called);
 
-    MockInteractions.tap(
+    checkIfVisibleAndTap(
         element.shadowRoot
             .querySelector('table tr:last-of-type .checkboxContainer'));
     assert.isTrue(element._handleNumberCheckboxClick.calledOnce);

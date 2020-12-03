@@ -43,7 +43,7 @@ suite('gr-menu-editor tests', () => {
             .querySelector('tbody').querySelector(selector)
             .shadowRoot
             .querySelector('paper-button');
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
   }
 
   setup(done => {
@@ -136,7 +136,7 @@ suite('gr-menu-editor tests', () => {
         ['first name', 'second name', 'third name']);
 
     // Tap the delete button for the middle item.
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('tbody')
         .querySelector('tr:nth-child(2) .remove-button')
         .shadowRoot
@@ -146,7 +146,7 @@ suite('gr-menu-editor tests', () => {
 
     // Delete remaining items.
     for (let i = 0; i < 2; i++) {
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('tbody')
           .querySelector('tr:first-child .remove-button')
           .shadowRoot

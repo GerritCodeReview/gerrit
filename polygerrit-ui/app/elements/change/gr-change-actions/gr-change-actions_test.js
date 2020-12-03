@@ -286,7 +286,7 @@ suite('gr-change-actions tests', () => {
       const submitButton = element.shadowRoot
           .querySelector('gr-button[data-action-key="submit"]');
       assert.ok(submitButton);
-      MockInteractions.tap(submitButton);
+      checkIfVisibleAndTap(submitButton);
 
       flush();
       assert.isTrue(showSpy.calledWith(element.$.confirmSubmitDialog));
@@ -309,7 +309,7 @@ suite('gr-change-actions tests', () => {
           element.shadowRoot
               .querySelector('gr-button[data-action-key="submit"] iron-icon');
       assert.ok(submitIcon);
-      MockInteractions.tap(submitIcon);
+      checkIfVisibleAndTap(submitIcon);
     });
 
     test('_handleSubmitConfirm', () => {
@@ -336,7 +336,7 @@ suite('gr-change-actions tests', () => {
         const submitButton = element.shadowRoot
             .querySelector('gr-button[data-action-key="submit"]');
         assert.ok(submitButton);
-        MockInteractions.tap(submitButton);
+        checkIfVisibleAndTap(submitButton);
         assert.equal(fireActionStub.callCount, 0);
 
         done();
@@ -378,7 +378,7 @@ suite('gr-change-actions tests', () => {
       flush(() => {
         const rebaseButton = element.shadowRoot
             .querySelector('gr-button[data-action-key="rebase"]');
-        MockInteractions.tap(rebaseButton);
+        checkIfVisibleAndTap(rebaseButton);
         const rebaseAction = {
           __key: 'rebase',
           __type: 'revision',
@@ -414,7 +414,7 @@ suite('gr-change-actions tests', () => {
       element._hasKnownChainState = true;
       const rebaseButton = element.shadowRoot
           .querySelector('gr-button[data-action-key="rebase"]');
-      MockInteractions.tap(rebaseButton);
+      checkIfVisibleAndTap(rebaseButton);
       assert.isTrue(fetchChangesStub.calledOnce);
 
       flush(() => {
@@ -422,7 +422,7 @@ suite('gr-change-actions tests', () => {
             new CustomEvent('cancel', {
               composed: true, bubbles: true,
             }));
-        MockInteractions.tap(rebaseButton);
+        checkIfVisibleAndTap(rebaseButton);
         assert.isTrue(fetchChangesStub.calledTwice);
         done();
       });
@@ -434,7 +434,7 @@ suite('gr-change-actions tests', () => {
       const rebaseButton = element.shadowRoot
           .querySelector('gr-button[data-action-key="rebase"]');
       assert.ok(rebaseButton);
-      MockInteractions.tap(rebaseButton);
+      checkIfVisibleAndTap(rebaseButton);
       await flush();
       assert.isFalse(element.$.confirmRebase.hidden);
       sinon.stub(element.restApiService, 'getChanges')
@@ -505,7 +505,7 @@ suite('gr-change-actions tests', () => {
         const fireActionStub = sinon.stub(element, '_fireAction');
         element._handleDeleteEditTap();
         assert.isFalse(element.$.confirmDeleteEditDialog.hidden);
-        MockInteractions.tap(
+        checkIfVisibleAndTap(
             element.shadowRoot
                 .querySelector('#confirmDeleteEditDialog')
                 .shadowRoot
@@ -627,7 +627,7 @@ suite('gr-change-actions tests', () => {
         const editButton = element.shadowRoot
             .querySelector('gr-button[data-action-key="edit"]');
         assert.isOk(editButton);
-        MockInteractions.tap(editButton);
+        checkIfVisibleAndTap(editButton);
       });
     });
 
@@ -751,7 +751,7 @@ suite('gr-change-actions tests', () => {
             const radioButtons = element.$.confirmCherrypick.shadowRoot.
                 querySelectorAll(`input[name='cherryPickOptions']`);
             assert.equal(radioButtons.length, 2);
-            MockInteractions.tap(radioButtons[1]);
+            checkIfVisibleAndTap(radioButtons[1]);
             flush(() => {
               done();
             });
@@ -855,7 +855,7 @@ suite('gr-change-actions tests', () => {
         });
       });
       flush(() => {
-        MockInteractions.tap(element.shadowRoot
+        checkIfVisibleAndTap(element.shadowRoot
             .querySelector('[data-action-key="' + key + '"]'));
       });
     });
@@ -919,7 +919,7 @@ suite('gr-change-actions tests', () => {
           const abandonButton =
               element.shadowRoot
                   .querySelector('gr-button[data-action-key="abandon"]');
-          MockInteractions.tap(abandonButton);
+          checkIfVisibleAndTap(abandonButton);
 
           assert.equal(element.$.confirmAbandonDialog.message, newAbandonMsg);
           done();
@@ -931,7 +931,7 @@ suite('gr-change-actions tests', () => {
           const abandonButton =
               element.shadowRoot
                   .querySelector('gr-button[data-action-key="abandon"]');
-          MockInteractions.tap(abandonButton);
+          checkIfVisibleAndTap(abandonButton);
 
           assert.isUndefined(element.$.confirmAbandonDialog.message);
           done();
@@ -943,7 +943,7 @@ suite('gr-change-actions tests', () => {
         const restoreButton =
             element.shadowRoot
                 .querySelector('gr-button[data-action-key="abandon"]');
-        MockInteractions.tap(restoreButton);
+        checkIfVisibleAndTap(restoreButton);
 
         element.$.confirmAbandonDialog.message = 'foo message';
         element._handleAbandonDialogConfirm();
@@ -1000,7 +1000,7 @@ suite('gr-change-actions tests', () => {
         flush(() => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
-          MockInteractions.tap(revertButton);
+          checkIfVisibleAndTap(revertButton);
           flush(() => {
             assert.equal(element.$.confirmRevertDialog._message, newRevertMsg);
             done();
@@ -1025,7 +1025,7 @@ suite('gr-change-actions tests', () => {
         test('confirm revert dialog shows both options', done => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
-          MockInteractions.tap(revertButton);
+          checkIfVisibleAndTap(revertButton);
           flush(() => {
             assert.equal(getChangesStub.args[0][1], 'submissionid: "199 0"');
             const confirmRevertDialog = element.$.confirmRevertDialog;
@@ -1046,7 +1046,7 @@ suite('gr-change-actions tests', () => {
             assert.equal(confirmRevertDialog._message, expectedMsg);
             const radioInputs = confirmRevertDialog.shadowRoot
                 .querySelectorAll('input[name="revertOptions"]');
-            MockInteractions.tap(radioInputs[0]);
+            checkIfVisibleAndTap(radioInputs[0]);
             flush(() => {
               expectedMsg = 'Revert "random commit message"\n\nThis reverts '
                + 'commit 2000.\n\nReason'
@@ -1061,13 +1061,13 @@ suite('gr-change-actions tests', () => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
           const confirmRevertDialog = element.$.confirmRevertDialog;
-          MockInteractions.tap(revertButton);
+          checkIfVisibleAndTap(revertButton);
           const fireStub = sinon.stub(confirmRevertDialog, 'dispatchEvent');
           flush(() => {
             const confirmButton = element.$.confirmRevertDialog.shadowRoot
                 .querySelector('gr-dialog')
                 .shadowRoot.querySelector('#confirm');
-            MockInteractions.tap(confirmButton);
+            checkIfVisibleAndTap(confirmButton);
             flush(() => {
               assert.isTrue(confirmRevertDialog._showErrorMessage);
               assert.isFalse(fireStub.called);
@@ -1080,7 +1080,7 @@ suite('gr-change-actions tests', () => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
           const confirmRevertDialog = element.$.confirmRevertDialog;
-          MockInteractions.tap(revertButton);
+          checkIfVisibleAndTap(revertButton);
           flush(() => {
             const radioInputs = confirmRevertDialog.shadowRoot
                 .querySelectorAll('input[name="revertOptions"]');
@@ -1098,14 +1098,14 @@ suite('gr-change-actions tests', () => {
             const newRevertMsg = revertSubmissionMsg + 'random';
             const newSingleChangeMsg = singleChangeMsg + 'random';
             confirmRevertDialog._message = newRevertMsg;
-            MockInteractions.tap(radioInputs[0]);
+            checkIfVisibleAndTap(radioInputs[0]);
             flush(() => {
               assert.equal(confirmRevertDialog._message, singleChangeMsg);
               confirmRevertDialog._message = newSingleChangeMsg;
-              MockInteractions.tap(radioInputs[1]);
+              checkIfVisibleAndTap(radioInputs[1]);
               flush(() => {
                 assert.equal(confirmRevertDialog._message, newRevertMsg);
-                MockInteractions.tap(radioInputs[0]);
+                checkIfVisibleAndTap(radioInputs[0]);
                 flush(() => {
                   assert.equal(
                       confirmRevertDialog._message,
@@ -1135,13 +1135,13 @@ suite('gr-change-actions tests', () => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
           const confirmRevertDialog = element.$.confirmRevertDialog;
-          MockInteractions.tap(revertButton);
+          checkIfVisibleAndTap(revertButton);
           const fireStub = sinon.stub(confirmRevertDialog, 'dispatchEvent');
           flush(() => {
             const confirmButton = element.$.confirmRevertDialog.shadowRoot
                 .querySelector('gr-dialog')
                 .shadowRoot.querySelector('#confirm');
-            MockInteractions.tap(confirmButton);
+            checkIfVisibleAndTap(confirmButton);
             flush(() => {
               assert.isTrue(confirmRevertDialog._showErrorMessage);
               assert.isFalse(fireStub.called);
@@ -1153,7 +1153,7 @@ suite('gr-change-actions tests', () => {
         test('confirm revert dialog shows no radio button', done => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
-          MockInteractions.tap(revertButton);
+          checkIfVisibleAndTap(revertButton);
           flush(() => {
             const confirmRevertDialog = element.$.confirmRevertDialog;
             const radioInputs = confirmRevertDialog.shadowRoot
@@ -1168,7 +1168,7 @@ suite('gr-change-actions tests', () => {
             const confirmButton = element.$.confirmRevertDialog.shadowRoot
                 .querySelector('gr-dialog')
                 .shadowRoot.querySelector('#confirm');
-            MockInteractions.tap(confirmButton);
+            checkIfVisibleAndTap(confirmButton);
             flush(() => {
               assert.equal(fireActionStub.getCall(0).args[0], '/revert');
               assert.equal(fireActionStub.getCall(0).args[1].__key, 'revert');
@@ -1312,7 +1312,7 @@ suite('gr-change-actions tests', () => {
         element._handleDeleteTap();
         assert.isFalse(element.shadowRoot
             .querySelector('#confirmDeleteDialog').hidden);
-        MockInteractions.tap(
+        checkIfVisibleAndTap(
             element.shadowRoot
                 .querySelector('#confirmDeleteDialog')
                 .shadowRoot
@@ -1323,7 +1323,7 @@ suite('gr-change-actions tests', () => {
 
       test('hides delete confirm on cancel', () => {
         element._handleDeleteTap();
-        MockInteractions.tap(
+        checkIfVisibleAndTap(
             element.shadowRoot
                 .querySelector('#confirmDeleteDialog')
                 .shadowRoot
@@ -1613,7 +1613,7 @@ suite('gr-change-actions tests', () => {
 
       test('approves when tapped', () => {
         const fireActionStub = sinon.stub(element, '_fireAction');
-        MockInteractions.tap(
+        checkIfVisibleAndTap(
             element.shadowRoot
                 .querySelector('gr-button[data-action-key=\'review\']'));
         flush();

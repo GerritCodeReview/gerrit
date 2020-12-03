@@ -29,7 +29,7 @@ suite('gr-error-dialog tests', () => {
 
   test('dismiss tap fires event', done => {
     element.addEventListener('dismiss', () => { done(); });
-    MockInteractions.tap(element.$.dialog.$.confirm);
+    checkIfVisibleAndTap(element.$.dialog.$.confirm);
   });
 });
 

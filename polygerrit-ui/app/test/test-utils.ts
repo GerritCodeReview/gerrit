@@ -22,6 +22,7 @@ import {
   _testOnly_getShortcutManagerInstance,
   Shortcut,
 } from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 
 export interface MockPromise extends Promise<unknown> {
   resolve: (value?: unknown) => void;
@@ -154,4 +155,14 @@ export function listenOnce(el: EventTarget, eventType: string) {
     };
     registerTestCleanup(removeEventListener);
   });
+}
+
+export function checkIfVisibleAndTap(el: HTMLElement) {
+  if (
+    el.offsetParent === null ||
+    getComputedStyle(el).visibility === 'hidden'
+  ) {
+    throw new Error('tapping a button that is not visible on the dom');
+  }
+  tap(el);
 }

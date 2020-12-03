@@ -69,7 +69,7 @@ suite('gr-edit-controls tests', () => {
     });
 
     test('open', () => {
-      MockInteractions.tap(element.shadowRoot.querySelector('#open'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('#open'));
       element.patchNum = 1;
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element._hideAllDialogs.called);
@@ -82,7 +82,7 @@ suite('gr-edit-controls tests', () => {
         openAutoCcmplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
         assert.isFalse(element.$.openDialog.disabled);
-        MockInteractions.tap(element.$.openDialog.shadowRoot
+        checkIfVisibleAndTap(element.$.openDialog.shadowRoot
             .querySelector('gr-button[primary]'));
         for (const stub of navStubs) { assert.isTrue(stub.called); }
         assert.deepEqual(GerritNav.getEditUrlForDiff.lastCall.args,
@@ -92,13 +92,13 @@ suite('gr-edit-controls tests', () => {
     });
 
     test('cancel', () => {
-      MockInteractions.tap(element.shadowRoot.querySelector('#open'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('#open'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.openDialog.disabled);
         openAutoCcmplete.noDebounce = true;
         openAutoCcmplete.text = 'src/test.cpp';
         assert.isFalse(element.$.openDialog.disabled);
-        MockInteractions.tap(element.$.openDialog.shadowRoot
+        checkIfVisibleAndTap(element.$.openDialog.shadowRoot
             .querySelector('gr-button'));
         for (const stub of navStubs) { assert.isFalse(stub.called); }
         assert.isTrue(closeDialogSpy.called);
@@ -121,7 +121,7 @@ suite('gr-edit-controls tests', () => {
 
     test('delete', () => {
       deleteStub.returns(Promise.resolve({ok: true}));
-      MockInteractions.tap(element.shadowRoot.querySelector('#delete'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('#delete'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.deleteDialog.disabled);
         assert.isFalse(queryStub.called);
@@ -132,7 +132,7 @@ suite('gr-edit-controls tests', () => {
         deleteAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
         assert.isFalse(element.$.deleteDialog.disabled);
-        MockInteractions.tap(element.$.deleteDialog.shadowRoot
+        checkIfVisibleAndTap(element.$.deleteDialog.shadowRoot
             .querySelector('gr-button[primary]'));
         flush();
 
@@ -148,7 +148,7 @@ suite('gr-edit-controls tests', () => {
 
     test('delete fails', () => {
       deleteStub.returns(Promise.resolve({ok: false}));
-      MockInteractions.tap(element.shadowRoot.querySelector('#delete'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('#delete'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.deleteDialog.disabled);
         assert.isFalse(queryStub.called);
@@ -159,7 +159,7 @@ suite('gr-edit-controls tests', () => {
         deleteAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
         assert.isFalse(element.$.deleteDialog.disabled);
-        MockInteractions.tap(element.$.deleteDialog.shadowRoot
+        checkIfVisibleAndTap(element.$.deleteDialog.shadowRoot
             .querySelector('gr-button[primary]'));
         flush();
 
@@ -173,13 +173,13 @@ suite('gr-edit-controls tests', () => {
     });
 
     test('cancel', () => {
-      MockInteractions.tap(element.shadowRoot.querySelector('#delete'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('#delete'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.deleteDialog.disabled);
         element.$.deleteDialog.querySelector('gr-autocomplete').text =
             'src/test.cpp';
         assert.isFalse(element.$.deleteDialog.disabled);
-        MockInteractions.tap(element.$.deleteDialog.shadowRoot
+        checkIfVisibleAndTap(element.$.deleteDialog.shadowRoot
             .querySelector('gr-button'));
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
@@ -205,7 +205,7 @@ suite('gr-edit-controls tests', () => {
 
     test('rename', () => {
       renameStub.returns(Promise.resolve({ok: true}));
-      MockInteractions.tap(element.shadowRoot.querySelector('#rename'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('#rename'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.renameDialog.disabled);
         assert.isFalse(queryStub.called);
@@ -221,7 +221,7 @@ suite('gr-edit-controls tests', () => {
             'src/test.newPath';
 
         assert.isFalse(element.$.renameDialog.disabled);
-        MockInteractions.tap(element.$.renameDialog.shadowRoot
+        checkIfVisibleAndTap(element.$.renameDialog.shadowRoot
             .querySelector('gr-button[primary]'));
         flush();
 
@@ -237,7 +237,7 @@ suite('gr-edit-controls tests', () => {
 
     test('rename fails', () => {
       renameStub.returns(Promise.resolve({ok: false}));
-      MockInteractions.tap(element.shadowRoot.querySelector('#rename'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('#rename'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.renameDialog.disabled);
         assert.isFalse(queryStub.called);
@@ -253,7 +253,7 @@ suite('gr-edit-controls tests', () => {
             'src/test.newPath';
 
         assert.isFalse(element.$.renameDialog.disabled);
-        MockInteractions.tap(element.$.renameDialog.shadowRoot
+        checkIfVisibleAndTap(element.$.renameDialog.shadowRoot
             .querySelector('gr-button[primary]'));
         flush();
 
@@ -267,7 +267,7 @@ suite('gr-edit-controls tests', () => {
     });
 
     test('cancel', () => {
-      MockInteractions.tap(element.shadowRoot.querySelector('#rename'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('#rename'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.renameDialog.disabled);
         element.$.renameDialog.querySelector('gr-autocomplete').text =
@@ -275,7 +275,7 @@ suite('gr-edit-controls tests', () => {
         element.$.renameDialog.querySelector(inputSelector).bindValue =
             'src/test.newPath';
         assert.isFalse(element.$.renameDialog.disabled);
-        MockInteractions.tap(element.$.renameDialog.shadowRoot
+        checkIfVisibleAndTap(element.$.renameDialog.shadowRoot
             .querySelector('gr-button'));
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
@@ -303,9 +303,9 @@ suite('gr-edit-controls tests', () => {
     test('restore', () => {
       restoreStub.returns(Promise.resolve({ok: true}));
       element._path = 'src/test.cpp';
-      MockInteractions.tap(element.shadowRoot.querySelector('#restore'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('#restore'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        MockInteractions.tap(element.$.restoreDialog.shadowRoot
+        checkIfVisibleAndTap(element.$.restoreDialog.shadowRoot
             .querySelector('gr-button[primary]'));
         flush();
 
@@ -322,9 +322,9 @@ suite('gr-edit-controls tests', () => {
     test('restore fails', () => {
       restoreStub.returns(Promise.resolve({ok: false}));
       element._path = 'src/test.cpp';
-      MockInteractions.tap(element.shadowRoot.querySelector('#restore'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('#restore'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        MockInteractions.tap(element.$.restoreDialog.shadowRoot
+        checkIfVisibleAndTap(element.$.restoreDialog.shadowRoot
             .querySelector('gr-button[primary]'));
         flush();
 
@@ -339,9 +339,9 @@ suite('gr-edit-controls tests', () => {
 
     test('cancel', () => {
       element._path = 'src/test.cpp';
-      MockInteractions.tap(element.shadowRoot.querySelector('#restore'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('#restore'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        MockInteractions.tap(element.$.restoreDialog.shadowRoot
+        checkIfVisibleAndTap(element.$.restoreDialog.shadowRoot
             .querySelector('gr-button'));
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
@@ -395,20 +395,20 @@ suite('gr-edit-controls tests', () => {
     const spy = sinon.spy(element, '_getDialogFromEvent');
     element.addEventListener('tap', element._getDialogFromEvent);
 
-    MockInteractions.tap(element.$.openDialog);
+    checkIfVisibleAndTap(element.$.openDialog);
     flush();
     assert.equal(spy.lastCall.returnValue.id, 'openDialog');
 
-    MockInteractions.tap(element.$.deleteDialog);
+    checkIfVisibleAndTap(element.$.deleteDialog);
     flush();
     assert.equal(spy.lastCall.returnValue.id, 'deleteDialog');
 
-    MockInteractions.tap(
+    checkIfVisibleAndTap(
         element.$.deleteDialog.querySelector('gr-autocomplete'));
     flush();
     assert.equal(spy.lastCall.returnValue.id, 'deleteDialog');
 
-    MockInteractions.tap(element);
+    checkIfVisibleAndTap(element);
     flush();
     assert.notOk(spy.lastCall.returnValue);
   });

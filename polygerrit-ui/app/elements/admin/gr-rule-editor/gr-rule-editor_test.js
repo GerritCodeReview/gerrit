@@ -252,12 +252,12 @@ suite('gr-rule-editor tests', () => {
       element.rule = {id: 123, value: {action: 'ALLOW'}};
       assert.isFalse(
           element.$.deletedContainer.classList.contains('deleted'));
-      MockInteractions.tap(element.$.removeBtn);
+      checkIfVisibleAndTap(element.$.removeBtn);
       assert.isTrue(element.$.deletedContainer.classList.contains('deleted'));
       assert.isTrue(element._deleted);
       assert.isTrue(element.rule.value.deleted);
 
-      MockInteractions.tap(element.$.undoRemoveBtn);
+      checkIfVisibleAndTap(element.$.undoRemoveBtn);
       assert.isFalse(element._deleted);
       assert.isNotOk(element.rule.value.deleted);
     });
@@ -269,7 +269,7 @@ suite('gr-rule-editor tests', () => {
           'none');
 
       element.rule = {id: 123, value: {action: 'ALLOW'}};
-      MockInteractions.tap(element.$.removeBtn);
+      checkIfVisibleAndTap(element.$.removeBtn);
       assert.notEqual(getComputedStyle(element.$.removeBtn).display, 'none');
       assert.notEqual(getComputedStyle(element.$.deletedContainer).display,
           'none');
@@ -341,7 +341,7 @@ suite('gr-rule-editor tests', () => {
       element.editing = true;
       const removeStub = sinon.stub();
       element.addEventListener('added-rule-removed', removeStub);
-      MockInteractions.tap(element.$.removeBtn);
+      checkIfVisibleAndTap(element.$.removeBtn);
       flush();
       assert.isTrue(removeStub.called);
     });

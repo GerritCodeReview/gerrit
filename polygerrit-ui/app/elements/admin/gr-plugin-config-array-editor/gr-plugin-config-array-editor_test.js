@@ -74,12 +74,12 @@ suite('gr-plugin-config-array-editor tests', () => {
 
     test('with add btn', () => {
       element._newValue = '';
-      MockInteractions.tap(element.$.addButton);
+      checkIfVisibleAndTap(element.$.addButton);
       flush();
 
       assert.isFalse(dispatchStub.called);
       element._newValue = 'test';
-      MockInteractions.tap(element.$.addButton);
+      checkIfVisibleAndTap(element.$.addButton);
       flush();
 
       assert.isTrue(dispatchStub.called);
@@ -97,7 +97,7 @@ suite('gr-plugin-config-array-editor tests', () => {
     assert.equal(rows.length, 2);
     const button = rows[0].querySelector('gr-button');
 
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
     flush();
 
     assert.isFalse(dispatchStub.called);
@@ -105,7 +105,7 @@ suite('gr-plugin-config-array-editor tests', () => {
     element.notifyPath('pluginOption.info.editable');
     flush();
 
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
     flush();
 
     assert.isTrue(dispatchStub.called);

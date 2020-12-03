@@ -44,7 +44,7 @@ suite('gr-alert tests', () => {
     element.show();
     element._actionCallback = spy;
     assert.isFalse(spy.called);
-    MockInteractions.tap(element.shadowRoot.querySelector('.action'));
+    checkIfVisibleAndTap(element.shadowRoot.querySelector('.action'));
     assert.isTrue(spy.called);
   });
 });

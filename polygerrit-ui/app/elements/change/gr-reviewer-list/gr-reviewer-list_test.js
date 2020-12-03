@@ -48,7 +48,7 @@ suite('gr-reviewer-list tests', () => {
     element.addEventListener('show-reply-dialog', () => {
       done();
     });
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('.addReviewer'));
   });
 
@@ -347,7 +347,7 @@ suite('gr-reviewer-list tests', () => {
     assert.isFalse(element.shadowRoot
         .querySelector('.hiddenReviewers').hidden);
 
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('.hiddenReviewers'));
 
     assert.equal(element._hiddenReviewerCount, 0);

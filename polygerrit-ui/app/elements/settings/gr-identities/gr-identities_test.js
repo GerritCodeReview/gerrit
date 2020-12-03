@@ -102,7 +102,7 @@ suite('gr-identities tests', () => {
     const deleteBtn =
         element.root.querySelector('.deleteButton');
     const deleteItem = sinon.stub(element, '_handleDeleteItem');
-    MockInteractions.tap(deleteBtn);
+    checkIfVisibleAndTap(deleteBtn);
     assert.isTrue(deleteItem.called);
   });
 

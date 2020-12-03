@@ -747,7 +747,7 @@ suite('gr-diff-view tests', () => {
         const editBtn = element.shadowRoot
             .querySelector('.editButton gr-button');
         assert.isTrue(!!editBtn);
-        MockInteractions.tap(editBtn);
+        checkIfVisibleAndTap(editBtn);
         assert.isTrue(redirectStub.called);
         assert.isTrue(redirectStub.lastCall.calledWithExactly(
             GerritNav.getEditUrlForDiff(
@@ -783,7 +783,7 @@ suite('gr-diff-view tests', () => {
         const editBtn = element.shadowRoot
             .querySelector('.editButton gr-button');
         assert.isTrue(!!editBtn);
-        MockInteractions.tap(editBtn);
+        checkIfVisibleAndTap(editBtn);
         assert.isTrue(redirectStub.called);
         assert.isTrue(redirectStub.lastCall.calledWithExactly(
             GerritNav.getEditUrlForDiff(
@@ -895,7 +895,7 @@ suite('gr-diff-view tests', () => {
       const prefsButton =
           element.root.querySelector('.prefsButton');
 
-      MockInteractions.tap(prefsButton);
+      checkIfVisibleAndTap(prefsButton);
 
       assert.isTrue(handlePrefsTapSpy.called);
       assert.isTrue(overlayOpenStub.called);
@@ -1156,11 +1156,11 @@ suite('gr-diff-view tests', () => {
           'input[type="checkbox"]');
 
       assert.isTrue(commitMsg.checked);
-      MockInteractions.tap(commitMsg);
+      checkIfVisibleAndTap(commitMsg);
       assert.isFalse(commitMsg.checked);
       assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(false));
 
-      MockInteractions.tap(commitMsg);
+      checkIfVisibleAndTap(commitMsg);
       assert.isTrue(commitMsg.checked);
       assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(true));
       const callCount = saveReviewedStub.callCount;
@@ -1654,7 +1654,7 @@ suite('gr-diff-view tests', () => {
         const toggleBlame = sinon.stub(
             element.$.diffHost, 'loadBlame')
             .callsFake(() => Promise.resolve());
-        MockInteractions.tap(element.$.toggleBlame);
+        checkIfVisibleAndTap(element.$.toggleBlame);
         assert.isTrue(toggleBlame.calledOnce);
       });
       test('toggle blame with shortcut', () => {

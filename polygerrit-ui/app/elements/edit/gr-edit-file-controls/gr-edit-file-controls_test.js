@@ -39,7 +39,7 @@ suite('gr-edit-file-controls tests', () => {
     actions._open();
     flush();
 
-    MockInteractions.tap(actions.shadowRoot
+    checkIfVisibleAndTap(actions.shadowRoot
         .querySelector('li [data-id="open"]'));
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
@@ -52,7 +52,7 @@ suite('gr-edit-file-controls tests', () => {
     actions._open();
     flush();
 
-    MockInteractions.tap(actions.shadowRoot
+    checkIfVisibleAndTap(actions.shadowRoot
         .querySelector('li [data-id="delete"]'));
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
@@ -65,7 +65,7 @@ suite('gr-edit-file-controls tests', () => {
     actions._open();
     flush();
 
-    MockInteractions.tap(actions.shadowRoot
+    checkIfVisibleAndTap(actions.shadowRoot
         .querySelector('li [data-id="restore"]'));
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
@@ -78,7 +78,7 @@ suite('gr-edit-file-controls tests', () => {
     actions._open();
     flush();
 
-    MockInteractions.tap(actions.shadowRoot
+    checkIfVisibleAndTap(actions.shadowRoot
         .querySelector('li [data-id="rename"]'));
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail,

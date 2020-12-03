@@ -80,7 +80,7 @@ suite('gr-repo-commands tests', () => {
     test('successful creation of change', () => {
       const change = {_number: '1'};
       createChangeStub.returns(Promise.resolve(change));
-      MockInteractions.tap(element.$.editRepoConfig);
+      checkIfVisibleAndTap(element.$.editRepoConfig);
       assert.isTrue(element.$.editRepoConfig.loading);
       return handleSpy.lastCall.returnValue.then(() => {
         flush();
@@ -97,7 +97,7 @@ suite('gr-repo-commands tests', () => {
 
     test('unsuccessful creation of change', () => {
       createChangeStub.returns(Promise.resolve(null));
-      MockInteractions.tap(element.$.editRepoConfig);
+      checkIfVisibleAndTap(element.$.editRepoConfig);
       assert.isTrue(element.$.editRepoConfig.loading);
       return handleSpy.lastCall.returnValue.then(() => {
         flush();

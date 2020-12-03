@@ -64,7 +64,7 @@ suite('gr-repo-api tests', () => {
       assert.isOk(btn);
       assert.equal(btn.textContent, 'foo');
       assert.isFalse(tapStub.called);
-      MockInteractions.tap(btn);
+      checkIfVisibleAndTap(btn);
       assert.isTrue(tapStub.called);
       done();
     });

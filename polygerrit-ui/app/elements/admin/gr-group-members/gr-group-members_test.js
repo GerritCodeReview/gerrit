@@ -311,16 +311,16 @@ suite('gr-group-members tests', () => {
   test('delete member', () => {
     const deleteBtns = dom(element.root)
         .querySelectorAll('.deleteMembersButton');
-    MockInteractions.tap(deleteBtns[0]);
+    checkIfVisibleAndTap(deleteBtns[0]);
     assert.equal(element._itemId, '1000097');
     assert.equal(element._itemName, 'jane');
-    MockInteractions.tap(deleteBtns[1]);
+    checkIfVisibleAndTap(deleteBtns[1]);
     assert.equal(element._itemId, '1000096');
     assert.equal(element._itemName, 'Test User');
-    MockInteractions.tap(deleteBtns[2]);
+    checkIfVisibleAndTap(deleteBtns[2]);
     assert.equal(element._itemId, '1000095');
     assert.equal(element._itemName, 'Gerrit');
-    MockInteractions.tap(deleteBtns[3]);
+    checkIfVisibleAndTap(deleteBtns[3]);
     assert.equal(element._itemId, '1000098');
     assert.equal(element._itemName, '1000098');
   });
@@ -328,13 +328,13 @@ suite('gr-group-members tests', () => {
   test('delete included groups', () => {
     const deleteBtns = dom(element.root)
         .querySelectorAll('.deleteIncludedGroupButton');
-    MockInteractions.tap(deleteBtns[0]);
+    checkIfVisibleAndTap(deleteBtns[0]);
     assert.equal(element._itemId, 'testId');
     assert.equal(element._itemName, 'testName');
-    MockInteractions.tap(deleteBtns[1]);
+    checkIfVisibleAndTap(deleteBtns[1]);
     assert.equal(element._itemId, 'testId2');
     assert.equal(element._itemName, 'testName2');
-    MockInteractions.tap(deleteBtns[2]);
+    checkIfVisibleAndTap(deleteBtns[2]);
     assert.equal(element._itemId, 'testId3');
     assert.equal(element._itemName, 'testName3');
   });

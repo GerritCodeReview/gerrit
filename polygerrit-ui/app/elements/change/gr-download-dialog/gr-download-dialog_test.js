@@ -161,7 +161,7 @@ suite('gr-download-dialog', () => {
       element.addEventListener('close', () => {
         done();
       });
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.closeButtonContainer gr-button'));
     });
   });

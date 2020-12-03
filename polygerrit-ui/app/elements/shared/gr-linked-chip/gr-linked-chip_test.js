@@ -31,7 +31,7 @@ suite('gr-linked-chip tests', () => {
     const spy = sinon.spy();
     element.addEventListener('remove', spy);
     flush();
-    MockInteractions.tap(element.$.remove);
+    checkIfVisibleAndTap(element.$.remove);
     assert.isTrue(spy.called);
   });
 });

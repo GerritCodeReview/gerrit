@@ -110,7 +110,7 @@ suite('gr-dashboard-view tests', () => {
       element._showDraftsBanner = true;
       flush();
 
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.banner .delete'));
       assert.isTrue(element._handleOpenDeleteDialog.called);
     });
@@ -129,7 +129,7 @@ suite('gr-dashboard-view tests', () => {
 
       // Open confirmation dialog and tap confirm button.
       await element.$.confirmDeleteOverlay.open();
-      MockInteractions.tap(element.$.confirmDeleteDialog.$.confirm);
+      checkIfVisibleAndTap(element.$.confirmDeleteDialog.$.confirm);
       flush();
       assert.isTrue(element.restApiService.deleteDraftComments
           .calledWithExactly('-is:open'));

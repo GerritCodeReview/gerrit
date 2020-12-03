@@ -1054,7 +1054,7 @@ suite('gr-diff tests', () => {
       const diffLine = element.shadowRoot.querySelectorAll('.contentText')[2];
       assert.equal(getComputedStyle(diffLine).userSelect, 'none');
       // click to mark it as selected
-      MockInteractions.tap(diffLine);
+      checkIfVisibleAndTap(diffLine);
       assert.equal(getComputedStyle(diffLine).userSelect, 'text');
     });
 
@@ -1073,7 +1073,7 @@ suite('gr-diff tests', () => {
       flush();
       const diffLine = element.shadowRoot.querySelectorAll('.contentText')[2];
       assert.equal(getComputedStyle(diffLine).userSelect, 'none');
-      MockInteractions.tap(diffLine);
+      checkIfVisibleAndTap(diffLine);
       assert.equal(getComputedStyle(diffLine).userSelect, 'text');
     });
   });

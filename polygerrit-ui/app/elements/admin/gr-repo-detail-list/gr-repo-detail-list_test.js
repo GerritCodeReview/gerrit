@@ -169,7 +169,7 @@ suite('gr-repo-detail-list', () => {
             assert.equal(getComputedStyle(item).display, 'none');
           }
 
-          MockInteractions.tap(editBtn);
+          checkIfVisibleAndTap(editBtn);
           flush();
           // The revision and edit button are not visible.
           assert.equal(getComputedStyle(revisionWithEditing).display, 'none');
@@ -196,11 +196,11 @@ suite('gr-repo-detail-list', () => {
 
           // Save button calls handleSave. since this is stubbed, the edit
           // section remains open.
-          MockInteractions.tap(saveBtn);
+          checkIfVisibleAndTap(saveBtn);
           assert.isTrue(element._handleSaveRevision.called);
 
           // When cancel is tapped, the edit secion closes.
-          MockInteractions.tap(cancelBtn);
+          checkIfVisibleAndTap(cancelBtn);
           flush();
 
           // The revision and edit button are visible.

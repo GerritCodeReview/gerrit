@@ -50,7 +50,7 @@ suite('gr-http-password tests', () => {
 
     assert.isNotOk(element._generatedPassword);
 
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
 
     assert.isTrue(generateStub.called);
     assert.equal(element._generatedPassword, 'Generating...');

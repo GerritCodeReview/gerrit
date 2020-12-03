@@ -95,13 +95,13 @@ suite('gr-reply-dialog-it tests', () => {
     sinon.stub(element, '_purgeReviewersPendingRemove');
 
     element.$.ccs.$.entry.setText('test');
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('gr-button.send'));
     assert.isFalse(sendStub.called);
     flush();
 
     element.$.ccs.$.entry.setText('test@test.test');
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('gr-button.send'));
     assert.isTrue(sendStub.called);
   });

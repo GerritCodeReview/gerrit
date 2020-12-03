@@ -87,7 +87,7 @@ suite('gr-change-metadata tests', () => {
 
     assert.ok(element.shadowRoot
         .querySelector('section.optional'));
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('.showHide'));
     flush();
 

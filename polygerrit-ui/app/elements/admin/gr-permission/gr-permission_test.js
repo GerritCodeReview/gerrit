@@ -335,7 +335,7 @@ suite('gr-permission tests', () => {
       element.name = 'Priority';
       element.section = 'refs/*';
       element.permission.value.added = true;
-      MockInteractions.tap(element.$.removeBtn);
+      checkIfVisibleAndTap(element.$.removeBtn);
       assert.isTrue(removeStub.called);
     });
 
@@ -349,10 +349,10 @@ suite('gr-permission tests', () => {
 
       assert.isFalse(element.$.permission.classList.contains('deleted'));
       assert.isFalse(element._deleted);
-      MockInteractions.tap(element.$.removeBtn);
+      checkIfVisibleAndTap(element.$.removeBtn);
       assert.isTrue(element.$.permission.classList.contains('deleted'));
       assert.isTrue(element._deleted);
-      MockInteractions.tap(element.$.undoRemoveBtn);
+      checkIfVisibleAndTap(element.$.undoRemoveBtn);
       assert.isFalse(element.$.permission.classList.contains('deleted'));
       assert.isFalse(element._deleted);
       assert.isFalse(removeStub.called);
@@ -365,7 +365,7 @@ suite('gr-permission tests', () => {
 
       assert.isFalse(element._originalExclusiveValue);
       assert.isNotOk(element.permission.value.modified);
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('#exclusiveToggle'));
       flush();
       assert.isTrue(element.permission.value.exclusive);

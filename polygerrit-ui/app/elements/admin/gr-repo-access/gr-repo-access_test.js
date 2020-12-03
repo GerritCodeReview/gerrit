@@ -271,7 +271,7 @@ suite('gr-repo-access tests', () => {
           .querySelector('#editInheritFromInput'))
           .display, 'none');
 
-      MockInteractions.tap(element.$.editBtn);
+      checkIfVisibleAndTap(element.$.editBtn);
       flush();
 
       // Edit button changes to Cancel button, and Save button is visible but
@@ -756,7 +756,7 @@ suite('gr-repo-access tests', () => {
         },
         remove: {},
       };
-      MockInteractions.tap(element.$.addReferenceBtn);
+      checkIfVisibleAndTap(element.$.addReferenceBtn);
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       expectedInput = {
@@ -990,7 +990,7 @@ suite('gr-repo-access tests', () => {
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Add a new section.
-      MockInteractions.tap(element.$.addReferenceBtn);
+      checkIfVisibleAndTap(element.$.addReferenceBtn);
       let newSection = dom(element.root)
           .querySelectorAll('gr-access-section')[1];
       newSection._handleAddPermission();
@@ -1064,7 +1064,7 @@ suite('gr-repo-access tests', () => {
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Add a second new section.
-      MockInteractions.tap(element.$.addReferenceBtn);
+      checkIfVisibleAndTap(element.$.addReferenceBtn);
       newSection = dom(element.root)
           .querySelectorAll('gr-access-section')[2];
       newSection._handleAddPermission();
@@ -1125,13 +1125,13 @@ suite('gr-repo-access tests', () => {
 
     test('Unsaved added refs are discarded when edit cancelled', () => {
       // Unsaved changes are discarded when editing is cancelled.
-      MockInteractions.tap(element.$.editBtn);
+      checkIfVisibleAndTap(element.$.editBtn);
       assert.equal(element._sections.length, 1);
       assert.equal(Object.keys(element._local).length, 1);
-      MockInteractions.tap(element.$.addReferenceBtn);
+      checkIfVisibleAndTap(element.$.addReferenceBtn);
       assert.equal(element._sections.length, 2);
       assert.equal(Object.keys(element._local).length, 2);
-      MockInteractions.tap(element.$.editBtn);
+      checkIfVisibleAndTap(element.$.editBtn);
       assert.equal(element._sections.length, 1);
       assert.equal(Object.keys(element._local).length, 1);
     });
@@ -1173,7 +1173,7 @@ suite('gr-repo-access tests', () => {
       sinon.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
 
       element._modified = true;
-      MockInteractions.tap(element.$.saveBtn);
+      checkIfVisibleAndTap(element.$.saveBtn);
       assert.equal(element.$.saveBtn.hasAttribute('loading'), true);
       resolver({_number: 1});
       flush(() => {
@@ -1220,7 +1220,7 @@ suite('gr-repo-access tests', () => {
       sinon.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
 
       element._modified = true;
-      MockInteractions.tap(element.$.saveReviewBtn);
+      checkIfVisibleAndTap(element.$.saveReviewBtn);
       assert.equal(element.$.saveReviewBtn.hasAttribute('loading'), true);
       resolver({_number: 1});
       flush(() => {

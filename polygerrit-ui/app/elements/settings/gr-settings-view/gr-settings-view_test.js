@@ -104,12 +104,12 @@ suite('gr-settings-view tests', () => {
     assert.isFalse(window.localStorage.getItem('dark-theme') === 'true');
     const themeToggle = element.shadowRoot
         .querySelector('.darkToggle paper-toggle-button');
-    MockInteractions.tap(themeToggle);
+    checkIfVisibleAndTap(themeToggle);
     assert.isTrue(window.localStorage.getItem('dark-theme') === 'true');
     assert.equal(
         getComputedStyleValue('--primary-text-color', document.body), '#e8eaed'
     );
-    MockInteractions.tap(themeToggle);
+    checkIfVisibleAndTap(themeToggle);
     assert.isFalse(window.localStorage.getItem('dark-theme') === 'true');
   });
 
@@ -174,7 +174,7 @@ suite('gr-settings-view tests', () => {
           composed: true, bubbles: true,
         }));
 
-    MockInteractions.tap(publishOnPush);
+    checkIfVisibleAndTap(publishOnPush);
 
     assert.isTrue(element._prefsChanged);
     assert.isFalse(element._menuChanged);
@@ -199,7 +199,7 @@ suite('gr-settings-view tests', () => {
   test('publish comments on push', done => {
     const publishCommentsOnPush =
       valueOf('Publish comments on push', 'preferences').firstElementChild;
-    MockInteractions.tap(publishCommentsOnPush);
+    checkIfVisibleAndTap(publishCommentsOnPush);
 
     assert.isFalse(element._menuChanged);
     assert.isTrue(element._prefsChanged);
@@ -223,7 +223,7 @@ suite('gr-settings-view tests', () => {
     const newChangesWorkInProgress =
       valueOf('Set new changes to "work in progress" by default',
           'preferences').firstElementChild;
-    MockInteractions.tap(newChangesWorkInProgress);
+    checkIfVisibleAndTap(newChangesWorkInProgress);
 
     assert.isFalse(element._menuChanged);
     assert.isTrue(element._prefsChanged);
@@ -397,7 +397,7 @@ suite('gr-settings-view tests', () => {
   test('test that reset button is called', () => {
     const overlayOpen = sinon.stub(element, '_handleResetMenuButton');
 
-    MockInteractions.tap(element.$.resetMenu);
+    checkIfVisibleAndTap(element.$.resetMenu);
 
     assert.isTrue(overlayOpen.called);
   });

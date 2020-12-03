@@ -58,7 +58,7 @@ suite('gr-message tests', () => {
       assert.isFalse(
           element.shadowRoot.querySelector('.replyActionContainer').hidden
       );
-      MockInteractions.tap(element.shadowRoot.querySelector('.replyBtn'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('.replyBtn'));
     });
 
     test('can see delete button', () => {
@@ -100,7 +100,7 @@ suite('gr-message tests', () => {
         done();
       });
       flush();
-      MockInteractions.tap(element.shadowRoot.querySelector('.deleteBtn'));
+      checkIfVisibleAndTap(element.shadowRoot.querySelector('.deleteBtn'));
       assert.isTrue(element.shadowRoot.querySelector('.deleteBtn').disabled);
     });
 
@@ -222,7 +222,7 @@ suite('gr-message tests', () => {
       const dateEl = element.shadowRoot
           .querySelector('.date');
       assert.ok(dateEl);
-      MockInteractions.tap(dateEl);
+      checkIfVisibleAndTap(dateEl);
 
       assert.isTrue(stub.called);
       assert.deepEqual(stub.lastCall.args[0].detail, {id: element.message.id});

@@ -118,7 +118,7 @@ suite('gr-hovercard-account tests', () => {
     const button = element.shadowRoot.querySelector('.removeReviewerOrCC');
     assert.isOk(button);
     assert.equal(button.innerText, 'Remove Reviewer');
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
     await flush();
     assert.isTrue(reloadListener.called);
   });
@@ -143,7 +143,7 @@ suite('gr-hovercard-account tests', () => {
 
     assert.isOk(button);
     assert.equal(button.innerText, 'Move Reviewer to CC');
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
     await flush();
 
     assert.isTrue(saveReviewStub.called);
@@ -170,7 +170,7 @@ suite('gr-hovercard-account tests', () => {
     assert.isOk(button);
     assert.equal(button.innerText, 'Move CC to Reviewer');
 
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
     await flush();
 
     assert.isTrue(saveReviewStub.called);
@@ -194,7 +194,7 @@ suite('gr-hovercard-account tests', () => {
 
     assert.equal(button.innerText, 'Remove CC');
     assert.isOk(button);
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
 
     await flush();
 
@@ -221,7 +221,7 @@ suite('gr-hovercard-account tests', () => {
     const button = element.shadowRoot.querySelector('.addToAttentionSet');
     assert.isOk(button);
     assert.isTrue(element._isShowing, 'hovercard is showing');
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
 
     assert.equal(Object.keys(element.change.attention_set).length, 1);
     assert.isTrue(showAlertListener.called, 'showAlertListener was called');
@@ -255,7 +255,7 @@ suite('gr-hovercard-account tests', () => {
     const button = element.shadowRoot.querySelector('.removeFromAttentionSet');
     assert.isOk(button);
     assert.isTrue(element._isShowing, 'hovercard is showing');
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
 
     assert.equal(Object.keys(element.change.attention_set).length, 0);
     assert.isTrue(showAlertListener.called, 'showAlertListener was called');

@@ -101,7 +101,7 @@ suite('gr-label-row-score tests', () => {
     const labelsChangedHandler = sinon.stub();
     element.addEventListener('labels-changed', labelsChangedHandler);
     assert.ok(element.$.labelSelector);
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector(
             'gr-button[data-value="-1"]'));
     flush();

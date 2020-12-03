@@ -80,7 +80,7 @@ suite('gr-label-info tests', () => {
       element.mutable = true;
       const button = element.shadowRoot
           .querySelector('gr-button');
-      MockInteractions.tap(button);
+      checkIfVisibleAndTap(button);
       assert.isTrue(button.disabled);
       return deleteResponse.then(() => {
         assert.isFalse(button.disabled);

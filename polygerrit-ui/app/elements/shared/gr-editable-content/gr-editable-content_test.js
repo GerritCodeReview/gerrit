@@ -33,7 +33,7 @@ suite('gr-editable-content tests', () => {
     const handler = sinon.spy();
     element.addEventListener('editable-content-save', handler);
 
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('gr-button[primary]'));
 
     assert.isTrue(handler.called);
@@ -44,7 +44,7 @@ suite('gr-editable-content tests', () => {
     const handler = sinon.spy();
     element.addEventListener('editable-content-cancel', handler);
 
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('gr-button:not([primary])'));
 
     assert.isTrue(handler.called);

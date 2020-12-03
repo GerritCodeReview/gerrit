@@ -88,7 +88,7 @@ suite('gr-comment tests', () => {
       'header middle content is visible');
 
       // When the header row is clicked, the comment should expand
-      MockInteractions.tap(element.$.header);
+      checkIfVisibleA(element.$.header);
       assert.isFalse(element.collapsed);
       assert.isTrue(isVisible(element.shadowRoot
           .querySelector('gr-formatted-text')),
@@ -110,7 +110,7 @@ suite('gr-comment tests', () => {
       const dateEl = element.shadowRoot
           .querySelector('.date');
       assert.ok(dateEl);
-      MockInteractions.tap(dateEl);
+      checkIfVisibleAndTap(dateEl);
 
       assert.isTrue(stub.called);
       assert.deepEqual(stub.lastCall.args[0].detail,
@@ -283,7 +283,7 @@ suite('gr-comment tests', () => {
       assert.isTrue(element.shadowRoot
           .querySelector('.action.delete')
           .classList.contains('showDeleteButtons'));
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.action.delete'));
       flush(() => {
         element.confirmDeleteOverlay.open.lastCall.returnValue.then(() => {
@@ -353,7 +353,7 @@ suite('gr-comment tests', () => {
           'recordDraftInteraction');
       element.draft = true;
       flush();
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.edit'));
       assert.isTrue(reportStub.calledOnce);
     });
@@ -363,7 +363,7 @@ suite('gr-comment tests', () => {
           'recordDraftInteraction');
       element.draft = true;
       flush();
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.discard'));
       assert.isTrue(reportStub.calledOnce);
     });
@@ -610,7 +610,7 @@ suite('gr-comment tests', () => {
           .querySelector('.collapsedContent')),
       'header middle content is visible');
 
-      MockInteractions.tap(element.$.header);
+      checkIfVisibleAndTap(element.$.header);
       assert.isFalse(element.collapsed);
       assert.isTrue(isVisible(element.shadowRoot
           .querySelector('gr-formatted-text')),
@@ -627,7 +627,7 @@ suite('gr-comment tests', () => {
       // and also textarea
       element.draft = true;
       flush();
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.edit'));
       flush();
       assert.isFalse(element.collapsed);
@@ -644,7 +644,7 @@ suite('gr-comment tests', () => {
 
       // When toggle again, everything should be hidden except for textarea
       // and header middle content should be visible
-      MockInteractions.tap(element.$.header);
+      checkIfVisibleAndTap(element.$.header);
       assert.isTrue(element.collapsed);
       assert.isFalse(isVisible(element.shadowRoot
           .querySelector('gr-formatted-text')),
@@ -661,7 +661,7 @@ suite('gr-comment tests', () => {
 
       // When toggle again, textarea should remain open in the state it was
       // before
-      MockInteractions.tap(element.$.header);
+      checkIfVisibleAndTap(element.$.header);
       assert.isFalse(isVisible(element.shadowRoot
           .querySelector('gr-formatted-text')),
       'gr-formatted-text is not visible');
@@ -732,7 +732,7 @@ suite('gr-comment tests', () => {
         range: undefined};
       element.comment = comment;
       flushAsynchronousOperations();
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.edit'));
       assert.isTrue(element.editing);
 
@@ -751,7 +751,7 @@ suite('gr-comment tests', () => {
       assert.isFalse(element.editing);
       element.draft = true;
       flush();
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.edit'));
       assert.isTrue(element.editing);
 
@@ -779,7 +779,7 @@ suite('gr-comment tests', () => {
           done();
         }
       });
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.cancel'));
       element.flushDebouncer('fire-update');
       element._messageText = '';
@@ -884,7 +884,7 @@ suite('gr-comment tests', () => {
 
       element.draft = true;
       flush();
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.edit'));
       element._messageText = 'good news, everyone!';
       element.flushDebouncer('fire-update');
@@ -897,7 +897,7 @@ suite('gr-comment tests', () => {
       element.flushDebouncer('store');
       assert.isTrue(dispatchEventStub.calledTwice);
 
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.save'));
 
       assert.isTrue(element.disabled,
@@ -925,11 +925,11 @@ suite('gr-comment tests', () => {
         assert.equal(draft.message, 'saved!');
         assert.isFalse(element.editing);
       }).then(() => {
-        MockInteractions.tap(element.shadowRoot
+        checkIfVisibleAndTap(element.shadowRoot
             .querySelector('.edit'));
         element._messageText = 'You’ll be delivering a package to Chapek 9, ' +
             'a world where humans are killed on sight.';
-        MockInteractions.tap(element.shadowRoot
+        checkIfVisibleAndTap(element.shadowRoot
             .querySelector('.save'));
         assert.isTrue(element.disabled,
             'Element should be disabled when updating draft.');
@@ -950,20 +950,20 @@ suite('gr-comment tests', () => {
       element.showActions = true;
       element.draft = true;
       flush();
-      MockInteractions.tap(element.$.header);
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.$.header);
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.edit'));
       element._messageText = 'good news, everyone!';
       element.flushDebouncer('fire-update');
       element.flushDebouncer('store');
 
       element.disabled = true;
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.save'));
       assert.isFalse(saveStub.called);
 
       element.disabled = false;
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.save'));
       assert.isTrue(saveStub.calledOnce);
     });
@@ -975,7 +975,7 @@ suite('gr-comment tests', () => {
         assert.isFalse(save.called);
         done();
       });
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.resolve input'));
     });
 
@@ -1000,7 +1000,7 @@ suite('gr-comment tests', () => {
       assert.isFalse(element.shadowRoot
           .querySelector('.resolve input').checked);
       assert.isFalse(save.called);
-      MockInteractions.tap(element.$.resolvedCheckbox);
+      checkIfVisibleAndTap(element.$.resolvedCheckbox);
       assert.isTrue(element.shadowRoot
           .querySelector('.resolve input').checked);
       assert.isTrue(save.called);
@@ -1081,7 +1081,7 @@ suite('gr-comment tests', () => {
       element.comments = [element.comment];
       flush();
 
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.fix'));
     });
 
@@ -1231,7 +1231,7 @@ suite('gr-comment tests', () => {
       element.isRobotComment = true;
       flush();
 
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.show-fix'));
     });
   });
@@ -1296,7 +1296,7 @@ suite('gr-comment tests', () => {
             !!element.shadowRoot.querySelector('.respectfulReviewTip')
         );
 
-        MockInteractions.tap(element.shadowRoot
+        checkIfVisibleAndTap(element.shadowRoot
             .querySelector('.respectfulReviewTip .close'));
         flush();
         assert.isTrue(respectfulSetStub.lastCall.args[0] === 14);

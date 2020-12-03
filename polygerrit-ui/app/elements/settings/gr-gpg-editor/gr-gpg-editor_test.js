@@ -84,7 +84,7 @@ suite('gr-gpg-editor tests', () => {
     const button = element.root.querySelector(
         'tbody tr:last-of-type td:nth-child(6) gr-button');
 
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
 
     assert.equal(element._keys.length, 1);
     assert.equal(element._keysToRemove.length, 1);
@@ -108,7 +108,7 @@ suite('gr-gpg-editor tests', () => {
     const button = element.root.querySelector(
         'tbody tr:last-of-type td:nth-child(4) gr-button');
 
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
 
     assert.equal(element._keyToView, keys[Object.keys(keys)[1]]);
     assert.isTrue(openSpy.called);

@@ -157,17 +157,17 @@ suite('gr-messages-list tests', () => {
       for (const message of allMessageEls) {
         message._expanded = false;
       }
-      MockInteractions.tap(allMessageEls[1]);
+      checkIfVisibleAndTap(allMessageEls[1]);
       assert.isTrue(allMessageEls[1]._expanded);
 
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('#collapse-messages'));
       allMessageEls = getMessages();
       for (const message of allMessageEls) {
         assert.isTrue(message._expanded);
       }
 
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('#collapse-messages'));
       allMessageEls = getMessages();
       for (const message of allMessageEls) {
@@ -481,7 +481,7 @@ suite('gr-messages-list tests', () => {
       element._showAllActivity = true;
       const toggle = element.root.querySelector('.showAllActivityToggle');
       assert.isOk(toggle);
-      MockInteractions.tap(toggle);
+      checkIfVisibleAndTap(toggle);
       flush();
       const displayedMsgs = element.root.querySelectorAll('gr-message');
       assert.equal(displayedMsgs.length, 2);
@@ -491,7 +491,7 @@ suite('gr-messages-list tests', () => {
       element._showAllActivity = false;
       const toggle = element.root.querySelector('.showAllActivityToggle');
       assert.isOk(toggle);
-      MockInteractions.tap(toggle);
+      checkIfVisibleAndTap(toggle);
       flush();
       const displayedMsgs = element.root.querySelectorAll('gr-message');
       assert.equal(displayedMsgs.length, 3);

@@ -34,14 +34,14 @@ suite('gr-diff-preferences-dialog', () => {
     await flush();
     assert.isTrue(element.$.diffPreferences.$.lineWrappingInput.checked);
 
-    MockInteractions.tap(element.$.diffPreferences.$.lineWrappingInput);
+    checkIfVisibleAndTap(element.$.diffPreferences.$.lineWrappingInput);
     await flush();
     assert.isFalse(element.$.diffPreferences.$.lineWrappingInput.checked);
     assert.isTrue(element._diffPrefsChanged);
     assert.isTrue(element.diffPrefs.line_wrapping);
     assert.isTrue(originalDiffPrefs.line_wrapping);
 
-    MockInteractions.tap(element.$.saveButton);
+    checkIfVisibleAndTap(element.$.saveButton);
     await flush();
     // Original prefs must remains unchanged, dialog must expose a new object
     assert.isTrue(originalDiffPrefs.line_wrapping);

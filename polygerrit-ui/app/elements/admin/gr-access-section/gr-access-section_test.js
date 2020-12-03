@@ -375,7 +375,7 @@ suite('gr-access-section tests', () => {
         assert.equal(element._permissions.length, 1);
         assert.equal(Object.keys(element.section.value.permissions).length,
             1);
-        MockInteractions.tap(element.$.addBtn);
+        checkIfVisibleAndTap(element.$.addBtn);
         flush();
 
         // The permission is added to both the permissions array and also
@@ -398,7 +398,7 @@ suite('gr-access-section tests', () => {
             permission.value);
 
         element.$.permissionSelect.value = 'abandon';
-        MockInteractions.tap(element.$.addBtn);
+        checkIfVisibleAndTap(element.$.addBtn);
         flush();
 
         permission = {
@@ -431,7 +431,7 @@ suite('gr-access-section tests', () => {
         element.editing = true;
         assert.isTrue(element.$.section.classList.contains('editing'));
         assert.isFalse(element._editingRef);
-        MockInteractions.tap(element.$.editBtn);
+        checkIfVisibleAndTap(element.$.editBtn);
         element.editRefInput().bindValue='new/ref';
         setTimeout(() => {
           assert.equal(element.section.id, 'new/ref');
@@ -478,19 +478,19 @@ suite('gr-access-section tests', () => {
         element.ownerOf = [];
         assert.isFalse(element._deleted);
         assert.isNotOk(element.section.value.deleted);
-        MockInteractions.tap(element.$.deleteBtn);
+        checkIfVisibleAndTap(element.$.deleteBtn);
         flush();
         assert.isTrue(element._deleted);
         assert.isTrue(element.section.value.deleted);
         assert.isTrue(element.$.section.classList.contains('deleted'));
         assert.isTrue(element.section.value.deleted);
 
-        MockInteractions.tap(element.$.undoRemoveBtn);
+        checkIfVisibleAndTap(element.$.undoRemoveBtn);
         flush();
         assert.isFalse(element._deleted);
         assert.isNotOk(element.section.value.deleted);
 
-        MockInteractions.tap(element.$.deleteBtn);
+        checkIfVisibleAndTap(element.$.deleteBtn);
         assert.isTrue(element._deleted);
         assert.isTrue(element.section.value.deleted);
         element.editing = false;
@@ -515,7 +515,7 @@ suite('gr-access-section tests', () => {
         element.addEventListener('added-section-removed', removeStub);
         element.editing = true;
         element.section.value.added = true;
-        MockInteractions.tap(element.$.deleteBtn);
+        checkIfVisibleAndTap(element.$.deleteBtn);
         assert.isTrue(removeStub.called);
       });
     });

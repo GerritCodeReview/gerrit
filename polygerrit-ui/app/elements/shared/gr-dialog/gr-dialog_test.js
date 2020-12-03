@@ -34,11 +34,11 @@ suite('gr-dialog tests', () => {
     element.addEventListener('confirm', confirm);
     element.addEventListener('cancel', cancel);
 
-    MockInteractions.tap(
+    checkIfVisibleAndTap(
         element.shadowRoot.querySelector('gr-button[primary]'));
     assert.equal(confirm.callCount, 1);
 
-    MockInteractions.tap(
+    checkIfVisibleAndTap(
         element.shadowRoot.querySelector('gr-button:not([primary])'));
     assert.equal(cancel.callCount, 1);
   });

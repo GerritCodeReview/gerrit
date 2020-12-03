@@ -80,7 +80,7 @@ suite('gr-download-commands', () => {
 
     test('tab selection', () => {
       assert.equal(element.$.downloadTabs.selected, '0');
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('[data-scheme="ssh"]'));
       flush();
       assert.equal(element.selectedScheme, 'ssh');
@@ -125,7 +125,7 @@ suite('gr-download-commands', () => {
       const repoTab = element.shadowRoot
           .querySelector('paper-tab[data-scheme="repo"]');
 
-      MockInteractions.tap(repoTab);
+      checkIfVisibleAndTap(repoTab);
 
       assert.isTrue(savePrefsStub.called);
       assert.equal(savePrefsStub.lastCall.args[0].download_scheme,

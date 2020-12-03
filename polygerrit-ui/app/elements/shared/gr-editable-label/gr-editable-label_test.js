@@ -60,7 +60,7 @@ suite('gr-editable-label tests', () => {
     const focusSpy = sinon.spy(input, 'focus');
     const showSpy = sinon.spy(element, '_showDropdown');
 
-    MockInteractions.tap(label);
+    checkIfVisibleAndTap(label);
 
     return showSpy.lastCall.returnValue.then(() => {
       // The dropdown is open (which covers up the label):
@@ -91,7 +91,7 @@ suite('gr-editable-label tests', () => {
     element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
-    MockInteractions.tap(label);
+    checkIfVisibleAndTap(label);
     flush();
 
     assert.isTrue(element.editing);
@@ -112,7 +112,7 @@ suite('gr-editable-label tests', () => {
     element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
-    MockInteractions.tap(label);
+    checkIfVisibleAndTap(label);
     flush();
 
     assert.isTrue(element.editing);
@@ -120,7 +120,7 @@ suite('gr-editable-label tests', () => {
 
     element._inputText = 'new text';
     // Press enter:
-    MockInteractions.tap(element.$.saveBtn, 13);
+    checkIfVisibleAndTap(element.$.saveBtn, 13);
     flush();
 
     assert.isTrue(editedSpy.called);
@@ -133,7 +133,7 @@ suite('gr-editable-label tests', () => {
     element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
-    MockInteractions.tap(label);
+    checkIfVisibleAndTap(label);
     flush();
 
     assert.isTrue(element.editing);
@@ -155,7 +155,7 @@ suite('gr-editable-label tests', () => {
     element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
-    MockInteractions.tap(label);
+    checkIfVisibleAndTap(label);
     flush();
 
     assert.isTrue(element.editing);
@@ -163,7 +163,7 @@ suite('gr-editable-label tests', () => {
 
     element._inputText = 'new text';
     // Press escape:
-    MockInteractions.tap(element.$.cancelBtn);
+    checkIfVisibleAndTap(element.$.cancelBtn);
     flush();
 
     assert.isFalse(editedSpy.called);
@@ -185,7 +185,7 @@ suite('gr-editable-label tests', () => {
     test('disallows edit when read-only', () => {
       // The dropdown is closed.
       assert.isFalse(element.$.dropdown.opened);
-      MockInteractions.tap(label);
+      checkIfVisibleAndTap(label);
 
       flush();
 

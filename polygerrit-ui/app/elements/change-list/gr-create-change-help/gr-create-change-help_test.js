@@ -29,7 +29,7 @@ suite('gr-create-change-help tests', () => {
 
   test('Create change tap', done => {
     element.addEventListener('create-tap', () => done());
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('gr-button'));
   });
 });

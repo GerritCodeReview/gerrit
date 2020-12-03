@@ -50,7 +50,7 @@ suite('gr-change-star tests', () => {
     const promise = new Promise(r => resolve = r);
     element.addEventListener('toggle-star', resolve);
     element.set('change.starred', false);
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('button'));
 
     await promise;
@@ -62,7 +62,7 @@ suite('gr-change-star tests', () => {
     const promise = new Promise(r => resolve = r);
     element.addEventListener('toggle-star', resolve);
     element.set('change.starred', true);
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('button'));
 
     await promise;

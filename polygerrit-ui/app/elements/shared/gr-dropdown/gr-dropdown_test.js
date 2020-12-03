@@ -42,9 +42,9 @@ suite('gr-dropdown tests', () => {
     sinon.stub(element, '_close')
         .callsFake(() => { element.$.dropdown.close(); });
     assert.isFalse(element.$.dropdown.opened);
-    MockInteractions.tap(element.$.trigger);
+    checkIfVisibleAndTap(element.$.trigger);
     assert.isTrue(element.$.dropdown.opened);
-    MockInteractions.tap(element.$.trigger);
+    checkIfVisibleAndTap(element.$.trigger);
     assert.isFalse(element.$.dropdown.opened);
   });
 
@@ -109,7 +109,7 @@ suite('gr-dropdown tests', () => {
     element.addEventListener('tap-item-foo', fooTapped);
     element.addEventListener('tap-item', tapped);
     flush();
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('.itemAction'));
     assert.isTrue(fooTapped.called);
     assert.isTrue(tapped.called);
@@ -125,7 +125,7 @@ suite('gr-dropdown tests', () => {
     element.addEventListener('tap-item-foo', stub);
     element.addEventListener('tap-item', tapped);
     flush();
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('.itemAction'));
     assert.isFalse(stub.called);
     assert.isFalse(tapped.called);

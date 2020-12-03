@@ -518,7 +518,7 @@ suite('gr-autocomplete tests', () => {
       element._suggestions = [{name: 'first suggestion'}];
       flush$0();
       assert.isFalse(element.$.suggestions.isHidden);
-      MockInteractions.tap(element.$.suggestions.shadowRoot
+      checkIfVisibleAndTap(element.$.suggestions.shadowRoot
           .querySelector('li:first-child'));
       flush();
 

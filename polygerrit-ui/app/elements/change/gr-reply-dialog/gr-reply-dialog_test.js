@@ -174,7 +174,7 @@ suite('gr-reply-dialog tests', () => {
         // This is needed on non-Blink engines most likely due to the ways in
         // which the dom-repeat elements are stamped.
         flush(() => {
-          MockInteractions.tap(element.shadowRoot
+          checkIfVisibleAndTap(element.shadowRoot
               .querySelector('.send'));
         });
       });
@@ -187,7 +187,7 @@ suite('gr-reply-dialog tests', () => {
     };
     element._newAttentionSet = new Set([314]);
     const buttonEl = element.shadowRoot.querySelector('.edit-attention-button');
-    MockInteractions.tap(buttonEl);
+    checkIfVisibleAndTap(buttonEl);
     flush();
 
     stubSaveReview(review => {
@@ -199,7 +199,7 @@ suite('gr-reply-dialog tests', () => {
       assert.deepEqual(review.remove_from_attention_set, []);
       done();
     });
-    MockInteractions.tap(element.shadowRoot.querySelector('.send'));
+    checkIfVisibleAndTap(element.shadowRoot.querySelector('.send'));
   });
 
   function checkComputeAttention(status, userId, reviewerIds, ownerId,
@@ -379,7 +379,7 @@ suite('gr-reply-dialog tests', () => {
     // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
     const checkboxEl = element.shadowRoot.querySelector(
         '#resolvedPatchsetLevelCommentCheckbox');
-    MockInteractions.tap(checkboxEl);
+    checkIfVisibleAndTap(checkboxEl);
     flush(() => {
       flush(() => {
         element.draft = 'I wholeheartedly disapprove';
@@ -405,7 +405,7 @@ suite('gr-reply-dialog tests', () => {
         // This is needed on non-Blink engines most likely due to the ways in
         // which the dom-repeat elements are stamped.
         flush(() => {
-          MockInteractions.tap(element.shadowRoot
+          checkIfVisibleAndTap(element.shadowRoot
               .querySelector('.send'));
         });
       });
@@ -413,7 +413,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('keep draft comments with reply', done => {
-    MockInteractions.tap(element.shadowRoot.querySelector('#includeComments'));
+    checkIfVisibleAndTap(element.shadowRoot.querySelector('#includeComments'));
     assert.equal(element._includeComments, false);
 
     // Async tick is needed because iron-selector content is distributed and
@@ -445,7 +445,7 @@ suite('gr-reply-dialog tests', () => {
         // This is needed on non-Blink engines most likely due to the ways in
         // which the dom-repeat elements are stamped.
         flush(() => {
-          MockInteractions.tap(element.shadowRoot
+          checkIfVisibleAndTap(element.shadowRoot
               .querySelector('.send'));
         });
       });
@@ -491,7 +491,7 @@ suite('gr-reply-dialog tests', () => {
     // This is needed on non-Blink engines most likely due to the ways in
     // which the dom-repeat elements are stamped.
     flush(() => {
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.send'));
       assert.isTrue(element.disabled);
     });
@@ -627,7 +627,7 @@ suite('gr-reply-dialog tests', () => {
               element.$.reviewerConfirmationOverlay.innerText
                   .indexOf(expected),
               -1);
-          MockInteractions.tap(noButton); // close the overlay
+          checkIfVisibleAndTap(noButton); // close the overlay
           return observer;
         }).then(() => {
           assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
@@ -661,7 +661,7 @@ suite('gr-reply-dialog tests', () => {
         .then(() => {
           assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
           observer = overlayObserver('closed');
-          MockInteractions.tap(yesButton); // Confirm the group.
+          checkIfVisibleAndTap(yesButton); // Confirm the group.
           return observer;
         })
         .then(() => {
@@ -925,7 +925,7 @@ suite('gr-reply-dialog tests', () => {
         done();
       });
       // Without wrapping this test in flush(), the below two calls to
-      // MockInteractions.tap() cause a race in some situations in shadow DOM.
+      // checkIfVisibleAndTap() cause a race in some situations in shadow DOM.
       // The send button can be tapped before the others, causing the test to
       // fail.
 
@@ -934,7 +934,7 @@ suite('gr-reply-dialog tests', () => {
           .querySelector(
               'gr-label-score-row[name="Verified"]')
           .setSelectedValue(-1);
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.send'));
     });
   });
@@ -1031,13 +1031,13 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [];
     const modifyButton =
         element.shadowRoot.querySelector('.edit-attention-button');
-    MockInteractions.tap(modifyButton);
+    checkIfVisibleAndTap(modifyButton);
     flush();
 
     // "Modify" button disabled, because "Send" button is disabled.
     assert.isFalse(element._attentionExpanded);
     element.draft = 'a test comment';
-    MockInteractions.tap(modifyButton);
+    checkIfVisibleAndTap(modifyButton);
     flush();
     assert.isTrue(element._attentionExpanded);
 
@@ -1053,7 +1053,7 @@ suite('gr-reply-dialog tests', () => {
     // ccs change.
     assert.isFalse(element._attentionExpanded);
 
-    MockInteractions.tap(
+    checkIfVisibleAndTap(
         element.shadowRoot.querySelector('.edit-attention-button'));
     flush();
 
@@ -1067,7 +1067,7 @@ suite('gr-reply-dialog tests', () => {
     element.pop('_ccs', makeAccount());
     element.pop('_ccs', makeAccount());
 
-    MockInteractions.tap(
+    checkIfVisibleAndTap(
         element.shadowRoot.querySelector('.edit-attention-button'));
     flush();
 
@@ -1319,14 +1319,14 @@ suite('gr-reply-dialog tests', () => {
     });
 
     test('start review sets ready', () => {
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.send'));
       flush();
       assert.isTrue(sendStub.calledWith(true, true));
     });
 
     test('save review doesn\'t set ready', () => {
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.save'));
       flush();
       assert.isTrue(sendStub.calledWith(true, false));
@@ -1534,7 +1534,7 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [];
     flush();
 
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('gr-button.send'));
     assert.isFalse(sendStub.called);
 
@@ -1543,7 +1543,7 @@ suite('gr-reply-dialog tests', () => {
     ]}];
     flush();
 
-    MockInteractions.tap(element.shadowRoot
+    checkIfVisibleAndTap(element.shadowRoot
         .querySelector('gr-button.send'));
     assert.isTrue(sendStub.called);
   });

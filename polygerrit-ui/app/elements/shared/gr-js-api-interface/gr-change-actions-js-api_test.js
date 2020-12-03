@@ -112,11 +112,11 @@ suite('gr-change-actions-js-api-interface tests', () => {
       const handler = sinon.spy();
       changeActions.addTapListener(key, handler);
       flush();
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('[data-action-key="' + key + '"]'));
       assert(handler.calledOnce);
       changeActions.removeTapListener(key, handler);
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('[data-action-key="' + key + '"]'));
       assert(handler.calledOnce);
       changeActions.remove(key);

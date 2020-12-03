@@ -104,7 +104,7 @@ suite('gr-account-label tests', () => {
           .callsFake(() => Promise.resolve());
       const button = element.shadowRoot.querySelector('#attentionButton');
       assert.ok(button);
-      MockInteractions.tap(button);
+      checkIfVisibleAndTap(button);
       assert.isTrue(apiStub.calledOnce);
       assert.equal(apiStub.lastCall.args[1], 42);
     });

@@ -530,7 +530,7 @@ suite('gr-diff-cursor tests', () => {
 
   test('expand context updates stops', done => {
     sinon.spy(cursorElement, '_updateStops');
-    MockInteractions.tap(diffElement.shadowRoot
+    checkIfVisibleAndTap(diffElement.shadowRoot
         .querySelector('.showContext'));
     flush(() => {
       assert.isTrue(cursorElement._updateStops.called);

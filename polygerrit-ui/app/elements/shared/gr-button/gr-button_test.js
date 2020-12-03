@@ -67,7 +67,7 @@ suite('gr-button tests', () => {
     });
     const paperBtn = element.shadowRoot.querySelector('paper-button');
     assert.isFalse(paperBtn.disabled);
-    MockInteractions.tap(element);
+    checkIfVisibleAndTap(element);
     assert.isTrue(paperBtn.disabled);
     assert.isTrue(element.hasAttribute('loading'));
     resolve();
@@ -111,13 +111,13 @@ suite('gr-button tests', () => {
 
   test('dispatches tap event', () => {
     const spy = addSpyOn('tap');
-    MockInteractions.tap(element);
+    checkIfVisibleAndTap(element);
     assert.isTrue(spy.calledOnce);
   });
 
   test('dispatches click from tap event', () => {
     const spy = addSpyOn('click');
-    MockInteractions.tap(element);
+    checkIfVisibleAndTap(element);
     assert.isTrue(spy.calledOnce);
   });
 
@@ -149,7 +149,7 @@ suite('gr-button tests', () => {
     for (const eventName of ['tap', 'click']) {
       test('stops ' + eventName + ' event', () => {
         const spy = addSpyOn(eventName);
-        MockInteractions.tap(element);
+        checkIfVisibleAndTap(element);
         assert.isFalse(spy.called);
       });
     }

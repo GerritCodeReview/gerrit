@@ -141,7 +141,7 @@ suite('gr-file-list tests', () => {
       assert.equal(element.$.showAllButton.textContent.trim(),
           'Show all 500 files');
 
-      MockInteractions.tap(element.$.showAllButton);
+      checkIfVisibleAndTap(element.$.showAllButton);
       flush();
 
       assert.equal(element.numFilesShown, 500);
@@ -881,14 +881,14 @@ suite('gr-file-list tests', () => {
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
 
       const clickSpy = sinon.spy(element, '_reviewedClick');
-      MockInteractions.tap(markReviewLabel);
+      checkIfVisibleAndTap(markReviewLabel);
       // assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
       // assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK REVIEWED');
       assert.isTrue(clickSpy.lastCall.args[0].defaultPrevented);
       assert.isTrue(reviewSpy.calledOnce);
 
-      MockInteractions.tap(markReviewLabel);
+      checkIfVisibleAndTap(markReviewLabel);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
       assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
@@ -955,7 +955,7 @@ suite('gr-file-list tests', () => {
       const toggleExpandSpy = sinon.spy(element, '_toggleFileExpanded');
 
       // Tap the edit controls. Should be ignored by _handleFileListClick.
-      MockInteractions.tap(element.shadowRoot
+      checkIfVisibleAndTap(element.shadowRoot
           .querySelector('.editFileControls'));
       assert.isTrue(clickSpy.calledOnce);
       assert.isFalse(toggleExpandSpy.called);
@@ -981,7 +981,7 @@ suite('gr-file-list tests', () => {
           'span.show-hide[role="switch"]');
       const showHideLabel = showHideCheck.querySelector('.show-hide-icon');
       assert.equal(showHideCheck.getAttribute('aria-checked'), 'false');
-      MockInteractions.tap(showHideLabel);
+      checkIfVisibleAndTap(showHideLabel);
       assert.equal(showHideCheck.getAttribute('aria-checked'), 'true');
       assert.notEqual(
           element._expandedFiles.findIndex(f => f.path === 'myfile.txt'),
@@ -1005,7 +1005,7 @@ suite('gr-file-list tests', () => {
       const row = dom(element.root)
           .querySelectorAll('.row:not(.header-row) span.show-hide')[0];
 
-      MockInteractions.tap(row);
+      checkIfVisibleAndTap(row);
       flush();
       const diffDisplay = element.diffs[0];
       element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
@@ -1040,7 +1040,7 @@ suite('gr-file-list tests', () => {
       commitMsgFile.removeAttribute('href');
       const togglePathSpy = sinon.spy(element, '_toggleFileExpanded');
 
-      MockInteractions.tap(commitMsgFile);
+      checkIfVisibleAndTap(commitMsgFile);
       flush();
       assert(togglePathSpy.notCalled, 'file is opened as diff view');
       assert.isNotOk(element.shadowRoot
@@ -1654,7 +1654,7 @@ suite('gr-file-list tests', () => {
       assert.isFalse(diffStops[10].classList.contains('target-row'));
 
       // Tapping content on a line selects the line number.
-      MockInteractions.tap(dom(
+      checkIfVisibleAndTap(dom(
           diffStops[10]).querySelectorAll('.contentText')[0]);
       flush();
       assert.isTrue(diffStops[10].classList.contains('target-row'));
@@ -1696,7 +1696,7 @@ suite('gr-file-list tests', () => {
       assert.isFalse(diffStops[10].classList.contains('target-row'));
 
       // Tapping content on a line selects the line number.
-      MockInteractions.tap(dom(
+      checkIfVisibleAndTap(dom(
           diffStops[10]).querySelectorAll('.contentText')[0]);
       flush();
       assert.isTrue(diffStops[10].classList.contains('target-row'));

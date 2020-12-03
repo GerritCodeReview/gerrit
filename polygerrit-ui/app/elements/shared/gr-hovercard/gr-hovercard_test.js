@@ -153,7 +153,7 @@ suite('gr-hovercard tests', () => {
 
     await enterPromise;
     assert.isTrue(element._isScheduledToShow);
-    MockInteractions.tap(button);
+    checkIfVisibleAndTap(button);
 
     await clickPromise;
     assert.isFalse(element._isScheduledToShow);

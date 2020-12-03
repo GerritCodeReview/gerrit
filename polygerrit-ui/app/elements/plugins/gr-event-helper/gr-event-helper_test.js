@@ -46,14 +46,14 @@ suite('gr-event-helper tests', () => {
     instance.onTap(() => {
       done();
     });
-    MockInteractions.tap(element);
+    checkIfVisibleAndTap(element);
   });
 
   test('onTap() cancel', () => {
     const tapStub = sinon.stub();
     addListener(element.parentElement, 'tap', tapStub);
     instance.onTap(() => false);
-    MockInteractions.tap(element);
+    checkIfVisibleAndTap(element);
     flush();
     assert.isFalse(tapStub.called);
   });
@@ -62,7 +62,7 @@ suite('gr-event-helper tests', () => {
     const tapStub = sinon.stub();
     element.parentElement.addEventListener('click', tapStub);
     instance.onTap(() => false);
-    MockInteractions.tap(element);
+    checkIfVisibleAndTap(element);
     flush();
     assert.isFalse(tapStub.called);
   });
@@ -71,21 +71,21 @@ suite('gr-event-helper tests', () => {
     instance.captureTap(() => {
       done();
     });
-    MockInteractions.tap(element);
+    checkIfVisibleAndTap(element);
   });
 
   test('captureClick()', done => {
     instance.captureClick(() => {
       done();
     });
-    MockInteractions.tap(element);
+    checkIfVisibleAndTap(element);
   });
 
   test('captureTap() cancels tap()', () => {
     const tapStub = sinon.stub();
     addListener(element.parentElement, 'tap', tapStub);
     instance.captureTap(() => false);
-    MockInteractions.tap(element);
+    checkIfVisibleAndTap(element);
     flush();
     assert.isFalse(tapStub.called);
   });
@@ -94,7 +94,7 @@ suite('gr-event-helper tests', () => {
     const tapStub = sinon.stub();
     element.addEventListener('click', tapStub);
     instance.captureTap(() => false);
-    MockInteractions.tap(element);
+    checkIfVisibleAndTap(element);
     flush();
     assert.isFalse(tapStub.called);
   });

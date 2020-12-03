@@ -122,7 +122,7 @@ suite('gr-list-view tests', () => {
     element.addEventListener('create-clicked', clickHandler);
     element.createNew = true;
     flush();
-    MockInteractions.tap(element.shadowRoot.querySelector('#createNew'));
+    checkIfVisibleAndTap(element.shadowRoot.querySelector('#createNew'));
     assert.isTrue(clickHandler.called);
   });
 

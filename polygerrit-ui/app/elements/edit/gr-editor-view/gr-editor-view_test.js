@@ -150,7 +150,7 @@ suite('gr-editor-view tests', () => {
       assert.isFalse(element.$.save.hasAttribute('disabled'));
       assert.isFalse(element._saving);
 
-      MockInteractions.tap(element.$.save);
+      checkIfVisibleAndTap(element.$.save);
       assert.isTrue(saveSpy.called);
       assert.equal(alertStub.lastCall.args[0], 'Saving changes...');
       assert.isTrue(element._saving);
@@ -179,7 +179,7 @@ suite('gr-editor-view tests', () => {
       assert.isFalse(element._saving);
       assert.isFalse(element.$.save.hasAttribute('disabled'));
 
-      MockInteractions.tap(element.$.save);
+      checkIfVisibleAndTap(element.$.save);
       assert.isTrue(saveSpy.called);
       assert.equal(alertStub.lastCall.args[0], 'Saving changes...');
       assert.isTrue(element._saving);
@@ -208,7 +208,7 @@ suite('gr-editor-view tests', () => {
       assert.isFalse(element._saving);
       assert.isFalse(element.$.save.hasAttribute('disabled'));
 
-      MockInteractions.tap(element.$.publish);
+      checkIfVisibleAndTap(element.$.publish);
       assert.isTrue(saveSpy.called);
       assert.equal(alertStub.getCall(0).args[0], 'Saving changes...');
       assert.isTrue(element._saving);
@@ -240,7 +240,7 @@ suite('gr-editor-view tests', () => {
 
       assert.isFalse(element.$.save.hasAttribute('disabled'));
 
-      MockInteractions.tap(element.$.close);
+      checkIfVisibleAndTap(element.$.close);
       assert.isTrue(closeSpy.called);
       assert.isFalse(saveFileStub.called);
       assert.isTrue(navigateStub.called);

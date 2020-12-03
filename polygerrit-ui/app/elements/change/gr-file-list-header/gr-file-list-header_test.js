@@ -158,7 +158,7 @@ suite('gr-file-list-header tests', () => {
     element.shownFileCount = 1;
     flush();
     sinon.stub(element, '_expandAllDiffs');
-    MockInteractions.tap(element.root.querySelector(
+    checkIfVisibleAndTap(element.root.querySelector(
         '#expandBtn'));
     assert.isTrue(element._expandAllDiffs.called);
   });
@@ -167,7 +167,7 @@ suite('gr-file-list-header tests', () => {
     element.shownFileCount = 1;
     flush();
     sinon.stub(element, '_collapseAllDiffs');
-    MockInteractions.tap(element.root.querySelector(
+    checkIfVisibleAndTap(element.root.querySelector(
         '#collapseBtn'));
     assert.isTrue(element._collapseAllDiffs.called);
   });

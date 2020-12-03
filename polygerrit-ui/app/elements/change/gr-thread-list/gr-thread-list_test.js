@@ -549,14 +549,14 @@ suite('gr-thread-list tests', () => {
   });
 
   test('toggle unresolved shows all comments', () => {
-    MockInteractions.tap(element.shadowRoot.querySelector(
+    checkIfVisibleAndTap(element.shadowRoot.querySelector(
         '#unresolvedToggle'));
     flush();
     assert.equal(getVisibleThreads().length, 4);
   });
 
   test('toggle drafts only shows threads with draft comments', () => {
-    MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
+    checkIfVisibleAndTap(element.shadowRoot.querySelector('#draftToggle'));
     flush();
     assert.equal(getVisibleThreads().length, 2);
   });
@@ -571,8 +571,8 @@ suite('gr-thread-list tests', () => {
       __draft: true,
     });
     element.threads = modifiedThreads;
-    MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
-    MockInteractions.tap(element.shadowRoot.querySelector(
+    checkIfVisibleAndTap(element.shadowRoot.querySelector('#draftToggle'));
+    checkIfVisibleAndTap(element.shadowRoot.querySelector(
         '#unresolvedToggle'));
     flush();
     assert.equal(getVisibleThreads().length, 2);
@@ -580,8 +580,8 @@ suite('gr-thread-list tests', () => {
 
   test('toggle drafts and unresolved only shows threads with drafts and ' +
       'publicly unresolved ', () => {
-    MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
-    MockInteractions.tap(element.shadowRoot.querySelector(
+    checkIfVisibleAndTap(element.shadowRoot.querySelector('#draftToggle'));
+    checkIfVisibleAndTap(element.shadowRoot.querySelector(
         '#unresolvedToggle'));
     flush();
     assert.equal(getVisibleThreads().length, 1);

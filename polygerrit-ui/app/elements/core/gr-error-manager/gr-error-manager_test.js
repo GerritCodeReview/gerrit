@@ -283,7 +283,7 @@ suite('gr-error-manager tests', () => {
           noInteractionOverlay.backdropElement.getAttribute('opened'),
           '');
       assert.isFalse(windowOpen.called);
-      MockInteractions.tap(toast.shadowRoot
+      checkIfVisibleAndTap(toast.shadowRoot
           .querySelector('gr-button.action'));
       assert.isTrue(windowOpen.called);
 

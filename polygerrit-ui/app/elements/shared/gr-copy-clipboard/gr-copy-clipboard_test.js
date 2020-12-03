@@ -35,7 +35,7 @@ suite('gr-copy-clipboard tests', () => {
     const clipboardSpy = sinon.spy(element, '_copyToClipboard');
     const copyBtn = element.shadowRoot
         .querySelector('.copyToClipboard');
-    MockInteractions.tap(copyBtn);
+    checkIfVisibleAndTap(copyBtn);
     assert.isTrue(clipboardSpy.called);
   });
 
@@ -53,7 +53,7 @@ suite('gr-copy-clipboard tests', () => {
     assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
 
     const inputElement = element.shadowRoot.querySelector('input');
-    MockInteractions.tap(inputElement);
+    checkIfVisibleAndTap(inputElement);
     assert.equal(inputElement.selectionStart, 0);
     assert.equal(inputElement.selectionEnd, element.text.length - 1);
   });
@@ -77,7 +77,7 @@ suite('gr-copy-clipboard tests', () => {
     divParent.addEventListener('click', clickStub);
     element.stopPropagation = true;
     const copyBtn = element.shadowRoot.querySelector('.copyToClipboard');
-    MockInteractions.tap(copyBtn);
+    checkIfVisibleAndTap(copyBtn);
     assert.isFalse(clickStub.called);
   });
 });

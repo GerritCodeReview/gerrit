@@ -85,7 +85,7 @@ suite('gr-registration-dialog tests', () => {
     if (opt_action) {
       opt_action();
     } else {
-      MockInteractions.tap(element.$.saveButton);
+      checkIfVisibleAndTap(element.$.saveButton);
     }
     return promise;
   }
@@ -95,7 +95,7 @@ suite('gr-registration-dialog tests', () => {
     if (opt_action) {
       opt_action();
     } else {
-      MockInteractions.tap(element.$.closeButton);
+      checkIfVisibleAndTap(element.$.closeButton);
     }
     return promise;
   }
@@ -106,7 +106,7 @@ suite('gr-registration-dialog tests', () => {
 
   test('fires the close event on save', done => {
     close(() => {
-      MockInteractions.tap(element.$.saveButton);
+      checkIfVisibleAndTap(element.$.saveButton);
     }).then(done);
   });
 

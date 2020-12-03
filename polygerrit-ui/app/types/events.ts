@@ -58,6 +58,19 @@ declare global {
   }
 }
 
+export interface NetworkErrorEventDetail {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error: any;
+}
+
+export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
+
+declare global {
+  interface DocumentEventMap {
+    'network-error': NetworkErrorEvent;
+  }
+}
+
 export interface LocationChangeEventDetail {
   hash: string;
   pathname: string;

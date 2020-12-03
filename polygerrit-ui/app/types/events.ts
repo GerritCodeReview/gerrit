@@ -58,6 +58,18 @@ declare global {
   }
 }
 
+export interface NetworkErrorEventDetail {
+  error: any;
+}
+
+export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
+
+declare global {
+  interface DocumentEventMap {
+    'network-error': NetworkErrorEvent;
+  }
+}
+
 export interface LocationChangeEventDetail {
   hash: string;
   pathname: string;

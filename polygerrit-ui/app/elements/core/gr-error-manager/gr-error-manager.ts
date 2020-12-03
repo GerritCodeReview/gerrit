@@ -37,7 +37,7 @@ import {GrAlert} from '../../shared/gr-alert/gr-alert';
 import {ErrorType, FixIronA11yAnnouncer} from '../../../types/types';
 import {AccountId} from '../../../types/common';
 import {EventType} from '../../../utils/event-util';
-import {ServerErrorEvent} from '../../../types/events';
+import {NetworkErrorEvent, ServerErrorEvent} from '../../../types/events';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -126,7 +126,7 @@ export class GrErrorManager extends GestureEventListeners(
   attached() {
     super.attached();
     this.listen(document, EventType.SERVER_ERROR, '_handleServerError');
-    this.listen(document, 'network-error', '_handleNetworkError');
+    this.listen(document, EventType.NETWORK_ERROR, '_handleNetworkError');
     this.listen(document, EventType.SHOW_ALERT, '_handleShowAlert');
     this.listen(document, 'hide-alert', '_hideAlert');
     this.listen(document, 'show-error', '_handleShowErrorDialog');
@@ -148,7 +148,7 @@ export class GrErrorManager extends GestureEventListeners(
     super.detached();
     this._clearHideAlertHandle();
     this.unlisten(document, EventType.SERVER_ERROR, '_handleServerError');
-    this.unlisten(document, 'network-error', '_handleNetworkError');
+    this.unlisten(document, EventType.NETWORK_ERROR, '_handleNetworkError');
     this.unlisten(document, EventType.SHOW_ALERT, '_handleShowAlert');
     this.unlisten(document, 'hide-alert', '_hideAlert');
     this.unlisten(document, 'show-error', '_handleShowErrorDialog');
@@ -294,7 +294,7 @@ export class GrErrorManager extends GestureEventListeners(
     );
   }
 
-  _handleNetworkError(e: CustomEvent) {
+  _handleNetworkError(e: NetworkErrorEvent) {
     this._showAlert('Server unavailable');
     console.error(e.detail.error.message);
   }

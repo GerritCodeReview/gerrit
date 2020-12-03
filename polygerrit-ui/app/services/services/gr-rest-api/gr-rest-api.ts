@@ -690,10 +690,7 @@ export interface RestApiService {
     includedGroup: GroupId
   ): Promise<Response>;
 
-  runRepoGC(
-    repo: RepoName,
-    errFn?: ErrorCallback
-  ): Promise<Response | undefined>;
+  runRepoGC(repo: RepoName): Promise<Response>;
   getFileContent(
     changeNum: NumericChangeId,
     path: string,

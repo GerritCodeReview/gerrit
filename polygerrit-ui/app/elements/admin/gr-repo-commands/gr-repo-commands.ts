@@ -128,6 +128,7 @@ export class GrRepoCommands extends GestureEventListeners(
   }
 
   _handleRunningGC() {
+    if (!this.repo) return;
     this._runningGC = true;
     return this.restApiService
       .runRepoGC(this.repo)

@@ -304,9 +304,13 @@ suite('gr-diff-host tests', () => {
 
       setup(() => {
         serverErrorStub = sinon.stub();
-        element.addEventListener('server-error', serverErrorStub);
+        document.addEventListener('server-error', serverErrorStub);
         pageErrorStub = sinon.stub();
         element.addEventListener('page-error', pageErrorStub);
+      });
+
+      teardown(() => {
+        document.removeEventListener('server-error', serverErrorStub);
       });
 
       test('page error on HTTP-409', () => {

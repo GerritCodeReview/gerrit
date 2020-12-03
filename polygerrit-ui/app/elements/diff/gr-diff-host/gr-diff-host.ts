@@ -68,7 +68,11 @@ import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {LineNumber, FILE} from '../gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {firePageError, fireAlert} from '../../../utils/event-util';
+import {
+  firePageError,
+  fireAlert,
+  fireServerError,
+} from '../../../utils/event-util';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -591,13 +595,7 @@ export class GrDiffHost extends GestureEventListeners(
     // Loading the diff may respond with 409 if the file is too large. In this
     // case, use a toast error..
     if (response.status === 409) {
-      this.dispatchEvent(
-        new CustomEvent('server-error', {
-          detail: {response},
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireServerError(response);
       return;
     }
 

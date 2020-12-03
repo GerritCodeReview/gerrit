@@ -21,6 +21,7 @@ import './gr-reply-dialog.js';
 import {mockPromise} from '../../../test/test-utils.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {appContext} from '../../../services/app-context.js';
+import {addListenerForTest} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
@@ -778,23 +779,23 @@ suite('gr-reply-dialog tests', () => {
     assert.isTrue(eraseDraftCommentStub.calledWith(location));
   });
 
-  test('400 converts to human-readable server-error', async () => {
+  test('400 converts to human-readable server-error', done => {
     sinon.stub(window, 'fetch').callsFake(() => {
       const text = '....{"reviewers":{"id1":{"error":"human readable"}}}';
       return Promise.resolve(cloneableResponse(400, text));
     });
 
-    let resolver;
-    const promise = new Promise(r => resolver = r);
-    element.addEventListener('server-error', resolver);
+    const listener = event => {
+      if (event.target !== document) return;
+      event.detail.response.text().then(body => {
+        if (body === 'human readable') {
+          done();
+        }
+      });
+    };
+    addListenerForTest(document, 'server-error', listener);
 
-    await flush();
-    element.send();
-
-    const event = await promise;
-    assert.equal(event.target, element);
-    const text = await event.detail.response.text();
-    assert.equal(text, 'human readable');
+    flush(() => { element.send(); });
   });
 
   test('non-json 400 is treated as a normal server-error', done => {
@@ -803,15 +804,15 @@ suite('gr-reply-dialog tests', () => {
       return Promise.resolve(cloneableResponse(400, text));
     });
 
-    element.addEventListener('server-error', event => {
-      if (event.target !== element) {
-        return;
-      }
+    const listener = event => {
+      if (event.target !== document) return;
       event.detail.response.text().then(body => {
-        assert.equal(body, 'Comment validation error!');
-        done();
+        if (body === 'Comment validation error!') {
+          done();
+        }
       });
-    });
+    };
+    addListenerForTest(document, 'server-error', listener);
 
     // Async tick is needed because iron-selector content is distributed and
     // distributed content requires an observer to be set up.
@@ -1255,12 +1256,13 @@ suite('gr-reply-dialog tests', () => {
         },
       },
     });
-    element.addEventListener('server-error', e => {
+    const listener = e => {
       e.detail.response.text().then(text => {
         assert.equal(text, [error1, error2, error3].join(', '));
         done();
       });
-    });
+    };
+    addListenerForTest(document, 'server-error', listener);
     element._handle400Error(cloneableResponse(400, text));
   });
 

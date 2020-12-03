@@ -790,7 +790,9 @@ export class GrRouter extends GestureEventListeners(
     authRedirect?: boolean
   ) {
     if (!this[handlerName]) {
-      console.error('Attempted to map route to unknown method: ', handlerName);
+      this.reporting.error(
+        new Error(`Attempted to map route to unknown method: ${handlerName}`)
+      );
       return;
     }
     page(

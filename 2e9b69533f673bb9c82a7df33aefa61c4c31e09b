@@ -22,6 +22,30 @@
       },
       "revId": "2e9b69533f673bb9c82a7df33aefa61c4c31e09b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea1ea3ff_1bbaf380",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-03T18:48:30Z",
+      "side": 1,
+      "message": "\u003e\u003e Also, how do we ensure that there is ever only one *draft*, not even considering whether it is being added or not?\nOnce you create a draft on a comment thread, you cannot create another draft on the same thread. What do we need to ensure?\n\nThis property is being set to true from only one place and there is no possible way for _createReplyComment to be called for a draft comment.\n\n\u003e\u003e What about two comment thread components in two different places in the UI that each create a reply?\nI am not really sure what scenario of a comment thread you are thinking of.\n\nI don\u0027t think this change needs this much safety. If I can test some other scenario or you can see a way this breaks let me know.",
+      "parentUuid": "f24da5c2_4689380e",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "2e9b69533f673bb9c82a7df33aefa61c4c31e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

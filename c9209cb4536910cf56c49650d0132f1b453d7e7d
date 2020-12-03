@@ -63,6 +63,30 @@
       },
       "revId": "c9209cb4536910cf56c49650d0132f1b453d7e7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79f0954b_f291d654",
+        "filename": "polygerrit-ui/app/elements/core/gr-key-binding-display/gr-key-binding-display.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-03T12:37:07Z",
+      "side": 1,
+      "message": "Thanks, I used the first Option.\n\nI think there are several reasons why there was discussion about how to do render:\n1, the syntax highlighting for templates in gerrit is not very good\n2, I couldn\u0027t format better structure of template - we would need to look at linter - if we can make it more flexible in templates.\n3, this render is too complex - which is rare. It\u0027s two dimension array and not much html. I think we will have less problems with other components.",
+      "parentUuid": "ea57852f_f507a62e",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 8
+      },
+      "revId": "c9209cb4536910cf56c49650d0132f1b453d7e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

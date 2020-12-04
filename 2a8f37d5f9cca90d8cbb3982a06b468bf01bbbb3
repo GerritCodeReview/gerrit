@@ -22,6 +22,30 @@
       },
       "revId": "2a8f37d5f9cca90d8cbb3982a06b468bf01bbbb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1165fd4_1d1cef42",
+        "filename": "polygerrit-ui/app/utils/event-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-04T10:08:54Z",
+      "side": 1,
+      "message": "Done, but I am a bit surprised that this works, because the reason from a Promise catch() can be `any`, right?",
+      "parentUuid": "770407ea_a6d74d99",
+      "range": {
+        "startLine": 59,
+        "startChar": 40,
+        "endLine": 59,
+        "endChar": 43
+      },
+      "revId": "2a8f37d5f9cca90d8cbb3982a06b468bf01bbbb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e36b622_d9e5a705",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-04T10:16:35Z",
+      "side": 1,
+      "message": "nit: you can use EventTarget instead",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 28
+      },
+      "revId": "9cee69c4c300d44e62b6e112e5b91436000a68de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

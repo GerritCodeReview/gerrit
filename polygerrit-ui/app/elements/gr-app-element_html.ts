@@ -40,6 +40,8 @@ export const htmlTemplate = html`
       border-left: 0;
       border-top: 0;
       box-shadow: var(--header-box-shadow);
+      /* Make sure the header is above the main content, to preserve box-shadow visibility */
+      z-index: 1;
     }
     footer {
       background: var(

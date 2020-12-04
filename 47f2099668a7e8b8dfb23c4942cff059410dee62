@@ -50,6 +50,24 @@
       "message": "Accept: application/json was removed when implementing preloading https://gerrit-review.googlesource.com/c/gerrit/+/276355/20/polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js\n\nAdding application/json will make preloaded queries not matched with this fetch so it will not use cached one.\n\nThis will make loading dashboard 20% slower on first page load.",
       "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "831af75e_b943c884",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-04T08:28:08Z",
+      "side": 1,
+      "message": "I didn\u0027t know there is compressing application/json. It was added by me a year ago for not getting html as response for 404, 403. https://gerrit-review.googlesource.com/c/gerrit/+/234352 So I removed it that easily since Gerrit was many years without that.\n\nI would remove detailed label first and we can discuss if this is needed. My first idea is to make */* for first render and application/json for rest, if compressing will make impact.",
+      "parentUuid": "34c27c05_f8933df3",
+      "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

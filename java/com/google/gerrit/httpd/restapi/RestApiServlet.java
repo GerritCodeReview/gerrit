@@ -1359,21 +1359,15 @@ public class RestApiServlet extends HttpServlet {
       ListMultimap<String, String> config, @Nullable HttpServletRequest req) {
     GsonBuilder gb = OutputFormat.JSON_COMPACT.newGsonBuilder();
 
-    enablePrettyPrint(gb, config, req);
+    enablePrettyPrint(gb, config);
     enablePartialGetFields(gb, config);
 
     return gb.create();
   }
 
-  private static void enablePrettyPrint(
-      GsonBuilder gb, ListMultimap<String, String> config, @Nullable HttpServletRequest req) {
-    String pp = Iterables.getFirst(config.get("pp"), null);
-    if (pp == null) {
-      pp = Iterables.getFirst(config.get("prettyPrint"), null);
-      if (pp == null && req != null) {
-        pp = acceptsJson(req) ? "0" : "1";
-      }
-    }
+  private static void enablePrettyPrint(GsonBuilder gb, ListMultimap<String, String> config) {
+    String pp =
+        Iterables.getFirst(config.get("pp"), Iterables.getFirst(config.get("prettyPrint"), "0"));
     if ("1".equals(pp) || "true".equals(pp)) {
       gb.setPrettyPrinting();
     }

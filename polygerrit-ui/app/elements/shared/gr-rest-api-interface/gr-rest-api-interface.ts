@@ -479,19 +479,7 @@ export class GrRestApiInterface
     });
   }
 
-  deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response>;
-
-  deleteRepoTags(
-    repo: RepoName,
-    ref: GitRef,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  deleteRepoTags(repo: RepoName, ref: GitRef, errFn?: ErrorCallback) {
-    if (!repo || !ref) {
-      // TODO(TS): fix return type
-      return '';
-    }
+  deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(repo);
@@ -500,7 +488,6 @@ export class GrRestApiInterface
       method: HttpMethod.DELETE,
       url: `/projects/${encodeName}/tags/${encodeRef}`,
       body: '',
-      errFn,
       anonymizedUrl: '/projects/*/tags/*',
     });
   }

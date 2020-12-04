@@ -46,6 +46,30 @@
       },
       "revId": "0bb5462134f7ff18019653cb0697c51979b46548",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6476dd21_1535cd24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-04T07:59:43Z",
+      "side": 1,
+      "message": "Moved it to stable-3.1 since stable-3.0 is EOL",
+      "parentUuid": "34f81fb3_fbea0467",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "0bb5462134f7ff18019653cb0697c51979b46548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

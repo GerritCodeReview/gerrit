@@ -46,6 +46,30 @@
       },
       "revId": "2a8f37d5f9cca90d8cbb3982a06b468bf01bbbb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58d7275f_63307a14",
+        "filename": "polygerrit-ui/app/utils/event-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-04T10:32:56Z",
+      "side": 1,
+      "message": "Oh, you are right. I forgot that i can throw any type in javascript.\nSeems this works because any type can be assigned to all types.\nMaybe it is more correct to use \u0027error:unknown\u0027 here, because \u0027unknown\u0027 forces event handler to always check the type. I.e. with any you can still write error.stack, and it is impossible with unknown type.\nBtw, maybe for our code Error is better - I don\u0027t think we throw something else in Gerrit.",
+      "parentUuid": "b1165fd4_1d1cef42",
+      "range": {
+        "startLine": 59,
+        "startChar": 40,
+        "endLine": 59,
+        "endChar": 43
+      },
+      "revId": "2a8f37d5f9cca90d8cbb3982a06b468bf01bbbb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

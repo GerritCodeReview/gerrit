@@ -1339,7 +1339,7 @@ export class GrRestApiInterface
       })
       .then(
         req =>
-          this._restApiHelper.fetchJSON(req, true) as Promise<
+          this._restApiHelper.fetchJSON(req) as Promise<
             ChangeInfo[] | ChangeInfo[][] | undefined
           >
       )

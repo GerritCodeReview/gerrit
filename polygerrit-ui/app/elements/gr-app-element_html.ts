@@ -40,6 +40,7 @@ export const htmlTemplate = html`
       border-left: 0;
       border-top: 0;
       box-shadow: var(--header-box-shadow);
+      z-index: 100;
     }
     footer {
       background: var(

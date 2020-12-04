@@ -232,26 +232,10 @@ export interface RestApiService {
   getDiffPreferences(): Promise<DiffPreferencesInfo | undefined>;
 
   saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response>;
-  saveDiffPreferences(
-    prefs: DiffPreferenceInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-  saveDiffPreferences(
-    prefs: DiffPreferenceInput,
-    errFn?: ErrorCallback
-  ): Promise<Response>;
 
   getEditPreferences(): Promise<EditPreferencesInfo | undefined>;
 
   saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response>;
-  saveEditPreferences(
-    prefs: EditPreferencesInfo,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-  saveEditPreferences(
-    prefs: EditPreferencesInfo,
-    errFn?: ErrorCallback
-  ): Promise<Response>;
 
   getAccountEmails(): Promise<EmailInfo[] | undefined>;
   deleteAccountEmail(email: string): Promise<Response>;

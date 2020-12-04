@@ -748,14 +748,7 @@ export class GrRestApiInterface
     });
   }
 
-  savePreferences(prefs: PreferencesInput): Promise<Response>;
-
-  savePreferences(
-    prefs: PreferencesInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  savePreferences(prefs: PreferencesInput, errFn?: ErrorCallback) {
+  savePreferences(prefs: PreferencesInput): Promise<Response> {
     // Note (Issue 5142): normalize the download scheme with lower case before
     // saving.
     if (prefs.download_scheme) {
@@ -766,45 +759,28 @@ export class GrRestApiInterface
       method: HttpMethod.PUT,
       url: '/accounts/self/preferences',
       body: prefs,
-      errFn,
       reportUrlAsIs: true,
     });
   }
 
-  saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response>;
-
-  saveDiffPreferences(
-    prefs: DiffPreferenceInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  saveDiffPreferences(prefs: DiffPreferenceInput, errFn?: ErrorCallback) {
+  saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response> {
     // Invalidate the cache.
     this._cache.delete('/accounts/self/preferences.diff');
     return this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: '/accounts/self/preferences.diff',
       body: prefs,
-      errFn,
       reportUrlAsIs: true,
     });
   }
 
-  saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response>;
-
-  saveEditPreferences(
-    prefs: EditPreferencesInfo,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  saveEditPreferences(prefs: EditPreferencesInfo, errFn?: ErrorCallback) {
+  saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response> {
     // Invalidate the cache.
     this._cache.delete('/accounts/self/preferences.edit');
     return this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: '/accounts/self/preferences.edit',
       body: prefs,
-      errFn,
       reportUrlAsIs: true,
     });
   }

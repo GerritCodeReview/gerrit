@@ -466,19 +466,7 @@ export class GrRestApiInterface
     }) as Promise<GroupInfo | undefined>;
   }
 
-  deleteRepoBranches(repo: RepoName, ref: GitRef): Promise<Response>;
-
-  deleteRepoBranches(
-    repo: RepoName,
-    ref: GitRef,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  deleteRepoBranches(repo: RepoName, ref: GitRef, errFn?: ErrorCallback) {
-    if (!repo || !ref) {
-      // TODO(TS): fix return value
-      return '';
-    }
+  deleteRepoBranches(repo: RepoName, ref: GitRef): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(repo);
@@ -487,7 +475,6 @@ export class GrRestApiInterface
       method: HttpMethod.DELETE,
       url: `/projects/${encodeName}/branches/${encodeRef}`,
       body: '',
-      errFn,
       anonymizedUrl: '/projects/*/branches/*',
     });
   }

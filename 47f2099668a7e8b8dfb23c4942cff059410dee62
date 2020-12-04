@@ -139,6 +139,24 @@
       "message": "Moving myself and Dmitrii to CC while Milutin is handling the review. Feel free to add us back, if you need another opinion or +2 or anything.",
       "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a893b97_7d6b4c5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-04T09:57:04Z",
+      "side": 1,
+      "message": "@Milutin I checked the backend code and it looks like it is really a designed behaviour to enable pretty-print if you don\u0027t have \u0027Accept: application/json:\n\n pp \u003d acceptsJson(req) ? \"0\" : \"1\";",
+      "parentUuid": "dae9a3d1_1fa41421",
+      "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -445,24 +445,12 @@ export class GrRestApiInterface
     });
   }
 
-  createGroup(config: GroupInput & {name: string}): Promise<Response>;
-
-  createGroup(
-    config: GroupInput & {name: string},
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  createGroup(config: GroupInput, errFn?: ErrorCallback) {
-    if (!config.name) {
-      // TODO(TS): Fix return value
-      return '';
-    }
+  createGroup(config: GroupInput & {name: string}): Promise<Response> {
     const encodeName = encodeURIComponent(config.name);
     return this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: `/groups/${encodeName}`,
       body: config,
-      errFn,
       anonymizedUrl: '/groups/*',
     });
   }

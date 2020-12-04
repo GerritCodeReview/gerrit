@@ -517,11 +517,6 @@ export interface RestApiService {
     | Promise<PathToCommentsInfoMap | undefined>;
 
   createGroup(config: GroupInput & {name: string}): Promise<Response>;
-  createGroup(
-    config: GroupInput & {name: string},
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-  createGroup(config: GroupInput, errFn?: ErrorCallback): Promise<Response>;
 
   getPlugins(
     filter: string,

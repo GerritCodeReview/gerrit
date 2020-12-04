@@ -568,6 +568,7 @@ suite('gr-thread-list tests', () => {
     modifiedThreads[5].comments.push({
       ...modifiedThreads[5].comments[0],
       __editing: true,
+      __draft: true,
     });
     element.threads = modifiedThreads;
     MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));

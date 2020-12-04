@@ -400,15 +400,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     if (!id) throw new Error('Cannot reply to comment without id.');
     const reply = this._newReply(id, content, unresolved);
 
-    // If there is currently a comment in an editing state, add an attribute
-    // so that the gr-comment knows not to populate the draft text.
-    for (let i = 0; i < this.comments.length; i++) {
-      if (this.comments[i].__editing) {
-        reply.__otherEditing = true;
-        break;
-      }
-    }
-
     if (isEditing) {
       reply.__editing = true;
     }
@@ -565,7 +556,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     // Check to see if there are any other open comments getting edited and
     // set the local storage value to its message value.
     for (const changeComment of this.comments) {
-      if (changeComment.__editing) {
+      if (isDraft(changeComment) && changeComment.__editing) {
         const commentLocation: StorageLocation = {
           changeNum: this.changeNum,
           patchNum: this.patchNum,

@@ -46,12 +46,13 @@ export type Comment = DraftInfo | CommentInfo | RobotCommentInfo;
 
 export interface UIStateCommentProps {
   collapsed?: boolean;
-  // TODO(TS): Consider allowing this only for drafts.
-  __editing?: boolean;
-  __otherEditing?: boolean;
 }
 
-export type UIDraft = DraftInfo & UIStateCommentProps;
+export interface UIStateDraftProps {
+  __editing?: boolean;
+}
+
+export type UIDraft = DraftInfo & UIStateCommentProps & UIStateDraftProps;
 
 export type UIHuman = CommentInfo & UIStateCommentProps;
 

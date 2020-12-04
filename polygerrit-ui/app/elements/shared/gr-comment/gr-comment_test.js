@@ -129,7 +129,6 @@ suite('gr-comment tests', () => {
           email: 'tenn1sballchaser@aol.com',
         },
         line: 5,
-        __otherEditing: true,
       };
       flush(() => {
         assert.isTrue(loadSpy.called);
@@ -1264,7 +1263,7 @@ suite('gr-comment tests', () => {
       element = draftFixture.instantiate();
       // fake random
       element.getRandomNum = () => 0;
-      element.comment = {__editing: true};
+      element.comment = {__editing: true, __draft: true};
       flush(() => {
         assert.isTrue(respectfulGetStub.called);
         assert.isTrue(respectfulSetStub.called);
@@ -1287,7 +1286,7 @@ suite('gr-comment tests', () => {
       element = draftFixture.instantiate();
       // fake random
       element.getRandomNum = () => 0;
-      element.comment = {__editing: true};
+      element.comment = {__editing: true, __draft: true};
       flush(() => {
         assert.isTrue(respectfulGetStub.called);
         assert.isTrue(respectfulSetStub.called);
@@ -1316,7 +1315,7 @@ suite('gr-comment tests', () => {
       element = draftFixture.instantiate();
       // fake random
       element.getRandomNum = () => 3;
-      element.comment = {__editing: true};
+      element.comment = {__editing: true, __draft: true};
       flush(() => {
         assert.isTrue(respectfulGetStub.called);
         assert.isFalse(respectfulSetStub.called);
@@ -1371,7 +1370,7 @@ suite('gr-comment tests', () => {
       element = draftFixture.instantiate();
       // fake random
       element.getRandomNum = () => 0;
-      element.comment = {__editing: true};
+      element.comment = {__editing: true, __draft: true};
       flush(() => {
         assert.isTrue(respectfulGetStub.called);
         assert.isFalse(respectfulSetStub.called);

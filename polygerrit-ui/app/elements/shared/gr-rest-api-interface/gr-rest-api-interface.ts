@@ -537,16 +537,12 @@ export class GrRestApiInterface
     );
   }
 
-  getGroupMembers(
-    groupName: GroupId | GroupName,
-    errFn?: ErrorCallback
-  ): Promise<AccountInfo[] | undefined> {
+  getGroupMembers(groupName: GroupId | GroupName): Promise<AccountInfo[]> {
     const encodeName = encodeURIComponent(groupName);
-    return this._restApiHelper.fetchJSON({
+    return (this._restApiHelper.fetchJSON({
       url: `/groups/${encodeName}/members/`,
-      errFn,
       anonymizedUrl: '/groups/*/members',
-    }) as Promise<AccountInfo[] | undefined>;
+    }) as unknown) as Promise<AccountInfo[]>;
   }
 
   getIncludedGroup(

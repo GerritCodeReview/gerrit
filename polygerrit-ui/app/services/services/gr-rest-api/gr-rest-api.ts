@@ -636,10 +636,7 @@ export interface RestApiService {
     errFn?: ErrorCallback
   ): Promise<GroupAuditEventInfo[] | undefined>;
 
-  getGroupMembers(
-    groupName: GroupId | GroupName,
-    errFn?: ErrorCallback
-  ): Promise<AccountInfo[] | undefined>;
+  getGroupMembers(groupName: GroupId | GroupName): Promise<AccountInfo[]>;
 
   getIncludedGroup(
     groupName: GroupId | GroupName

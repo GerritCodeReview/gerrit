@@ -157,7 +157,7 @@ import {
   HttpMethod,
   ReviewerState,
 } from '../../../constants/constants';
-import {firePageError} from '../../../utils/event-util';
+import {firePageError, fireServerError} from '../../../utils/event-util';
 
 const JSON_PREFIX = ")]}'";
 const MAX_PROJECT_RESULTS = 25;
@@ -408,19 +408,7 @@ export class GrRestApiInterface
     }) as Promise<DashboardInfo[] | undefined>;
   }
 
-  saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response>;
-
-  saveRepoConfig(
-    repo: RepoName,
-    config: ConfigInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  saveRepoConfig(
-    repo: RepoName,
-    config: ConfigInput,
-    errFn?: ErrorCallback
-  ): Promise<Response | undefined> {
+  saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const url = `/projects/${encodeURIComponent(repo)}/config`;
@@ -429,23 +417,11 @@ export class GrRestApiInterface
       method: HttpMethod.PUT,
       url,
       body: config,
-      errFn,
       anonymizedUrl: '/projects/*/config',
     });
   }
 
-  runRepoGC(repo: RepoName): Promise<Response>;
-
-  runRepoGC(
-    repo: RepoName,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  runRepoGC(repo: RepoName, errFn?: ErrorCallback) {
-    if (!repo) {
-      // TODO(TS): fix return value
-      return '';
-    }
+  runRepoGC(repo: RepoName): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(repo);
@@ -453,23 +429,11 @@ export class GrRestApiInterface
       method: HttpMethod.POST,
       url: `/projects/${encodeName}/gc`,
       body: '',
-      errFn,
       anonymizedUrl: '/projects/*/gc',
     });
   }
 
-  createRepo(config: ProjectInput & {name: RepoName}): Promise<Response>;
-
-  createRepo(
-    config: ProjectInput & {name: RepoName},
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  createRepo(config: ProjectInput, errFn?: ErrorCallback) {
-    if (!config.name) {
-      // TODO(TS): Fix return value
-      return '';
-    }
+  createRepo(config: ProjectInput & {name: RepoName}): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(config.name);
@@ -477,29 +441,16 @@ export class GrRestApiInterface
       method: HttpMethod.PUT,
       url: `/projects/${encodeName}`,
       body: config,
-      errFn,
       anonymizedUrl: '/projects/*',
     });
   }
 
-  createGroup(config: GroupInput & {name: string}): Promise<Response>;
-
-  createGroup(
-    config: GroupInput & {name: string},
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  createGroup(config: GroupInput, errFn?: ErrorCallback) {
-    if (!config.name) {
-      // TODO(TS): Fix return value
-      return '';
-    }
+  createGroup(config: GroupInput & {name: string}): Promise<Response> {
     const encodeName = encodeURIComponent(config.name);
     return this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: `/groups/${encodeName}`,
       body: config,
-      errFn,
       anonymizedUrl: '/groups/*',
     });
   }
@@ -515,19 +466,7 @@ export class GrRestApiInterface
     }) as Promise<GroupInfo | undefined>;
   }
 
-  deleteRepoBranches(repo: RepoName, ref: GitRef): Promise<Response>;
-
-  deleteRepoBranches(
-    repo: RepoName,
-    ref: GitRef,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  deleteRepoBranches(repo: RepoName, ref: GitRef, errFn?: ErrorCallback) {
-    if (!repo || !ref) {
-      // TODO(TS): fix return value
-      return '';
-    }
+  deleteRepoBranches(repo: RepoName, ref: GitRef): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(repo);
@@ -536,24 +475,11 @@ export class GrRestApiInterface
       method: HttpMethod.DELETE,
       url: `/projects/${encodeName}/branches/${encodeRef}`,
       body: '',
-      errFn,
       anonymizedUrl: '/projects/*/branches/*',
     });
   }
 
-  deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response>;
-
-  deleteRepoTags(
-    repo: RepoName,
-    ref: GitRef,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  deleteRepoTags(repo: RepoName, ref: GitRef, errFn?: ErrorCallback) {
-    if (!repo || !ref) {
-      // TODO(TS): fix return type
-      return '';
-    }
+  deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(repo);
@@ -562,7 +488,6 @@ export class GrRestApiInterface
       method: HttpMethod.DELETE,
       url: `/projects/${encodeName}/tags/${encodeRef}`,
       body: '',
-      errFn,
       anonymizedUrl: '/projects/*/tags/*',
     });
   }
@@ -571,25 +496,7 @@ export class GrRestApiInterface
     name: RepoName,
     branch: BranchName,
     revision: BranchInput
-  ): Promise<Response>;
-
-  createRepoBranch(
-    name: RepoName,
-    branch: BranchName,
-    revision: BranchInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  createRepoBranch(
-    name: RepoName,
-    branch: BranchName,
-    revision: BranchInput,
-    errFn?: ErrorCallback
-  ) {
-    if (!name || !branch || !revision) {
-      // TODO(TS) fix return type
-      return '';
-    }
+  ): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(name);
@@ -598,7 +505,6 @@ export class GrRestApiInterface
       method: HttpMethod.PUT,
       url: `/projects/${encodeName}/branches/${encodeBranch}`,
       body: revision,
-      errFn,
       anonymizedUrl: '/projects/*/branches/*',
     });
   }
@@ -607,25 +513,7 @@ export class GrRestApiInterface
     name: RepoName,
     tag: string,
     revision: TagInput
-  ): Promise<Response>;
-
-  createRepoTag(
-    name: RepoName,
-    tag: string,
-    revision: TagInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  createRepoTag(
-    name: RepoName,
-    tag: string,
-    revision: TagInput,
-    errFn?: ErrorCallback
-  ) {
-    if (!name || !tag || !revision) {
-      // TODO(TS): Fix return value
-      return '';
-    }
+  ): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(name);
@@ -634,7 +522,6 @@ export class GrRestApiInterface
       method: HttpMethod.PUT,
       url: `/projects/${encodeName}/tags/${encodeTag}`,
       body: revision,
-      errFn,
       anonymizedUrl: '/projects/*/tags/*',
     });
   }
@@ -650,16 +537,12 @@ export class GrRestApiInterface
     );
   }
 
-  getGroupMembers(
-    groupName: GroupId | GroupName,
-    errFn?: ErrorCallback
-  ): Promise<AccountInfo[] | undefined> {
+  getGroupMembers(groupName: GroupId | GroupName): Promise<AccountInfo[]> {
     const encodeName = encodeURIComponent(groupName);
-    return this._restApiHelper.fetchJSON({
+    return (this._restApiHelper.fetchJSON({
       url: `/groups/${encodeName}/members/`,
-      errFn,
       anonymizedUrl: '/groups/*/members',
-    }) as Promise<AccountInfo[] | undefined>;
+    }) as unknown) as Promise<AccountInfo[]>;
   }
 
   getIncludedGroup(
@@ -865,14 +748,7 @@ export class GrRestApiInterface
     });
   }
 
-  savePreferences(prefs: PreferencesInput): Promise<Response>;
-
-  savePreferences(
-    prefs: PreferencesInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  savePreferences(prefs: PreferencesInput, errFn?: ErrorCallback) {
+  savePreferences(prefs: PreferencesInput): Promise<Response> {
     // Note (Issue 5142): normalize the download scheme with lower case before
     // saving.
     if (prefs.download_scheme) {
@@ -883,45 +759,28 @@ export class GrRestApiInterface
       method: HttpMethod.PUT,
       url: '/accounts/self/preferences',
       body: prefs,
-      errFn,
       reportUrlAsIs: true,
     });
   }
 
-  saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response>;
-
-  saveDiffPreferences(
-    prefs: DiffPreferenceInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  saveDiffPreferences(prefs: DiffPreferenceInput, errFn?: ErrorCallback) {
+  saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response> {
     // Invalidate the cache.
     this._cache.delete('/accounts/self/preferences.diff');
     return this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: '/accounts/self/preferences.diff',
       body: prefs,
-      errFn,
       reportUrlAsIs: true,
     });
   }
 
-  saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response>;
-
-  saveEditPreferences(
-    prefs: EditPreferencesInfo,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  saveEditPreferences(prefs: EditPreferencesInfo, errFn?: ErrorCallback) {
+  saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response> {
     // Invalidate the cache.
     this._cache.delete('/accounts/self/preferences.edit');
     return this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: '/accounts/self/preferences.edit',
       body: prefs,
-      errFn,
       reportUrlAsIs: true,
     });
   }
@@ -1494,13 +1353,7 @@ export class GrRestApiInterface
             if (errFn) {
               errFn.call(null, response);
             } else {
-              document.dispatchEvent(
-                new CustomEvent('server-error', {
-                  detail: {request: req, response},
-                  composed: true,
-                  bubbles: true,
-                })
-              );
+              fireServerError(response, req);
             }
             return undefined;
           }
@@ -2207,14 +2060,8 @@ export class GrRestApiInterface
     // 404s indicate the file does not exist yet in the revision, so suppress
     // them.
     const suppress404s: ErrorCallback = res => {
-      if (res?.status !== 404) {
-        document.dispatchEvent(
-          new CustomEvent('server-error', {
-            detail: {res},
-            composed: true,
-            bubbles: true,
-          })
-        );
+      if (res && res?.status !== 404) {
+        fireServerError(res);
       }
       return res;
     };

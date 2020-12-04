@@ -19,6 +19,7 @@ import {PatchSetNum} from './common';
 import {UIComment} from '../utils/comment-util';
 import {Side} from '../constants/constants';
 import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
+import {FetchRequest} from './types';
 
 export interface TitleChangeEventDetail {
   title: string;
@@ -41,6 +42,31 @@ export type PageErrorEvent = CustomEvent<PageErrorEventDetail>;
 declare global {
   interface HTMLElementEventMap {
     'page-error': PageErrorEvent;
+  }
+}
+
+export interface ServerErrorEventDetail {
+  request?: FetchRequest;
+  response: Response;
+}
+
+export type ServerErrorEvent = CustomEvent<ServerErrorEventDetail>;
+
+declare global {
+  interface DocumentEventMap {
+    'server-error': ServerErrorEvent;
+  }
+}
+
+export interface NetworkErrorEventDetail {
+  error: Error;
+}
+
+export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
+
+declare global {
+  interface DocumentEventMap {
+    'network-error': NetworkErrorEvent;
   }
 }
 

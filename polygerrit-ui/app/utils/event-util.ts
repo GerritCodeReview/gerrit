@@ -15,9 +15,13 @@
  * limitations under the License.
  */
 
+import {FetchRequest} from '../types/types';
+
 export enum EventType {
   SHOW_ALERT = 'show-alert',
   PAGE_ERROR = 'page-error',
+  SERVER_ERROR = 'server-error',
+  NETWORK_ERROR = 'network-error',
   TITLE_CHANGE = 'title-change',
 }
 
@@ -35,6 +39,26 @@ export function firePageError(target: EventTarget, response?: Response | null) {
   target.dispatchEvent(
     new CustomEvent(EventType.PAGE_ERROR, {
       detail: {response},
+      composed: true,
+      bubbles: true,
+    })
+  );
+}
+
+export function fireServerError(response: Response, request?: FetchRequest) {
+  document.dispatchEvent(
+    new CustomEvent(EventType.SERVER_ERROR, {
+      detail: {response, request},
+      composed: true,
+      bubbles: true,
+    })
+  );
+}
+
+export function fireNetworkError(error: Error) {
+  document.dispatchEvent(
+    new CustomEvent(EventType.NETWORK_ERROR, {
+      detail: {error},
       composed: true,
       bubbles: true,
     })

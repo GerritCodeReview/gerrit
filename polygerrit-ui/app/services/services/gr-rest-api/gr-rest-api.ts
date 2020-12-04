@@ -232,26 +232,10 @@ export interface RestApiService {
   getDiffPreferences(): Promise<DiffPreferencesInfo | undefined>;
 
   saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response>;
-  saveDiffPreferences(
-    prefs: DiffPreferenceInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-  saveDiffPreferences(
-    prefs: DiffPreferenceInput,
-    errFn?: ErrorCallback
-  ): Promise<Response>;
 
   getEditPreferences(): Promise<EditPreferencesInfo | undefined>;
 
   saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response>;
-  saveEditPreferences(
-    prefs: EditPreferencesInfo,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-  saveEditPreferences(
-    prefs: EditPreferencesInfo,
-    errFn?: ErrorCallback
-  ): Promise<Response>;
 
   getAccountEmails(): Promise<EmailInfo[] | undefined>;
   deleteAccountEmail(email: string): Promise<Response>;
@@ -267,25 +251,11 @@ export interface RestApiService {
     revision: BranchInput
   ): Promise<Response>;
 
-  createRepoBranch(
-    name: RepoName,
-    branch: BranchName,
-    revision: BranchInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
   createRepoTag(
     name: RepoName,
     tag: string,
     revision: TagInput
   ): Promise<Response>;
-
-  createRepoTag(
-    name: RepoName,
-    tag: string,
-    revision: TagInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
   addAccountGPGKey(key: GpgKeysInput): Promise<Record<string, GpgKeyInfo>>;
   deleteAccountGPGKey(id: GpgKeyId): Promise<Response>;
   getAccountGPGKeys(): Promise<Record<string, GpgKeyInfo>>;
@@ -325,11 +295,6 @@ export interface RestApiService {
   ): Promise<ProjectAccessInfo | undefined>;
 
   createRepo(config: ProjectInput & {name: RepoName}): Promise<Response>;
-  createRepo(
-    config: ProjectInput & {name: RepoName},
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-  createRepo(config: ProjectInput, errFn?: ErrorCallback): Promise<Response>;
 
   getRepo(
     repo: RepoName,
@@ -522,11 +487,6 @@ export interface RestApiService {
     | Promise<PathToCommentsInfoMap | undefined>;
 
   createGroup(config: GroupInput & {name: string}): Promise<Response>;
-  createGroup(
-    config: GroupInput & {name: string},
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-  createGroup(config: GroupInput, errFn?: ErrorCallback): Promise<Response>;
 
   getPlugins(
     filter: string,
@@ -660,10 +620,7 @@ export interface RestApiService {
     errFn?: ErrorCallback
   ): Promise<GroupAuditEventInfo[] | undefined>;
 
-  getGroupMembers(
-    groupName: GroupId | GroupName,
-    errFn?: ErrorCallback
-  ): Promise<AccountInfo[] | undefined>;
+  getGroupMembers(groupName: GroupId | GroupName): Promise<AccountInfo[]>;
 
   getIncludedGroup(
     groupName: GroupId | GroupName
@@ -690,10 +647,7 @@ export interface RestApiService {
     includedGroup: GroupId
   ): Promise<Response>;
 
-  runRepoGC(
-    repo: RepoName,
-    errFn?: ErrorCallback
-  ): Promise<Response | undefined>;
+  runRepoGC(repo: RepoName): Promise<Response>;
   getFileContent(
     changeNum: NumericChangeId,
     path: string,

@@ -1371,7 +1371,7 @@ public class RestApiServlet extends HttpServlet {
     if (pp == null) {
       pp = Iterables.getFirst(config.get("prettyPrint"), null);
       if (pp == null && req != null) {
-        pp = acceptsJson(req) ? "0" : "1";
+        pp = "0";
       }
     }
     if ("1".equals(pp) || "true".equals(pp)) {

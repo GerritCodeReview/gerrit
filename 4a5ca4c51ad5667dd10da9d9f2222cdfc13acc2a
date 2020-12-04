@@ -39,6 +39,30 @@
       },
       "revId": "4a5ca4c51ad5667dd10da9d9f2222cdfc13acc2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55c9fac0_f6c42988",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2020-12-04T21:04:41Z",
+      "side": 1,
+      "message": "Oops I believe they got adjusted when I ran eslintfix. Stuff like \u0027Checkout\u0027 doesn\u0027t need to be a string since there\u0027s no space, but \u0027Cherry Pick\u0027 needs to be a string to handle the space. I put them back to strings for consistency.",
+      "parentUuid": "52819890_6c46fb5b",
+      "range": {
+        "startLine": 57,
+        "startChar": 14,
+        "endLine": 57,
+        "endChar": 22
+      },
+      "revId": "4a5ca4c51ad5667dd10da9d9f2222cdfc13acc2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

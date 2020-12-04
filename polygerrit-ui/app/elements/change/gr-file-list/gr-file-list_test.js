@@ -19,26 +19,16 @@ import '../../../test/common-test-setup-karma.js';
 import {listenOnce} from '../../../test/test-utils.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-file-list.js';
-import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {FilesExpandedState} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {ChangeComments} from '../../../services/gr-comment-api/gr-comment-api_impl.js';
 import {createCommentThreads} from '../../../utils/comment-util.js';
 
-const commentApiMock = createCommentApiMockWithTemplateElement(
-    'gr-file-list-comment-api-mock', html`
-    <gr-file-list id="fileList"
-        change-comments="[[_changeComments]]"
-        on-reload-drafts="_reloadDraftsWithCallback"></gr-file-list>
-    <gr-comment-api id="commentAPI"></gr-comment-api>
-`);
-
-const basicFixture = fixtureFromElement(commentApiMock.is);
+const basicFixture = fixtureFromElement('gr-file-list');
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {
@@ -48,10 +38,8 @@ suite('gr-diff a11y test', () => {
 
 suite('gr-file-list tests', () => {
   let element;
-  let commentApiWrapper;
 
   let saveStub;
-  let loadCommentSpy;
 
   suiteSetup(() => {
     const kb = TestKeyboardShortcutBinder.push();
@@ -96,18 +84,14 @@ suite('gr-file-list tests', () => {
         prefetchDiff() {},
       });
 
-      // Element must be wrapped in an element with direct access to the
-      // comment API.
-      commentApiWrapper = basicFixture.instantiate();
-      element = commentApiWrapper.$.fileList;
-      loadCommentSpy = sinon.spy(commentApiWrapper.$.commentAPI, 'loadAll');
+      element = basicFixture.instantiate();
 
-      // Stub methods on the changeComments object after changeComments has
-      // been initialized.
-      commentApiWrapper.loadComments().then(() => {
-        sinon.stub(element.changeComments, 'getPaths').returns({});
-        done();
+      element.addEventListener('reload-drafts', e => {
+        e.detail.resolve();
       });
+
+      element.changeComments = new ChangeComments({}, {}, {});
+      sinon.stub(element.changeComments, 'getPaths').returns({});
       element._loading = false;
       element.diffPrefs = {};
       element.numFilesShown = 200;
@@ -117,6 +101,8 @@ suite('gr-file-list tests', () => {
       };
       saveStub = sinon.stub(element, '_saveReviewedState').callsFake(
           () => Promise.resolve());
+
+      done();
     });
 
     test('correct number of files are shown', () => {
@@ -1190,7 +1176,7 @@ suite('gr-file-list tests', () => {
       ], diffs, 3)
           .then(() => {
             assert.isFalse(reviewStub.called);
-            assert.isTrue(loadCommentSpy.called);
+            // assert.isTrue(loadCommentSpy.called);
             done();
           });
     });
@@ -1544,14 +1530,6 @@ suite('gr-file-list tests', () => {
         ignore_whitespace: 'IGNORE_NONE',
       };
       diff.diff = getMockDiffResponse();
-      commentApiWrapper.loadComments().then(() => {
-        sinon.stub(element.changeComments, 'getCommentsForPath')
-            .withArgs('/COMMIT_MSG', {
-              basePatchNum: 'PARENT',
-              patchNum: 2,
-            })
-            .returns(diff.comments);
-      });
       await listenOnce(diff, 'render');
     }
 
@@ -1584,21 +1562,14 @@ suite('gr-file-list tests', () => {
         prefetchDiff() {},
       });
 
-      // Element must be wrapped in an element with direct access to the
-      // comment API.
-      commentApiWrapper = basicFixture.instantiate();
-      element = commentApiWrapper.$.fileList;
-      loadCommentSpy = sinon.spy(commentApiWrapper.$.commentAPI, 'loadAll');
+      element = basicFixture.instantiate();
       element.diffPrefs = {};
       element.change = {_number: 42, project: 'testRepo'};
       sinon.stub(element, '_reviewFile');
 
-      // Stub methods on the changeComments object after changeComments has
-      // been initialized.
-      commentApiWrapper.loadComments().then(() => {
-        sinon.stub(element.changeComments, 'getPaths').returns({});
-        done();
-      });
+      element.changeComments = new ChangeComments({}, {}, {});
+      sinon.stub(element.changeComments, 'getPaths').returns({});
+
       element._loading = false;
       element.numFilesShown = 75;
       element.selectedIndex = 0;
@@ -1626,6 +1597,7 @@ suite('gr-file-list tests', () => {
       };
       sinon.stub(window, 'fetch').callsFake(() => Promise.resolve());
       flush();
+      done();
     });
 
     test('cursor with individually opened files', async () => {

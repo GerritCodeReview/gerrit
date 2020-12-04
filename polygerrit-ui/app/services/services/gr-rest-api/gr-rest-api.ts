@@ -325,11 +325,6 @@ export interface RestApiService {
   ): Promise<ProjectAccessInfo | undefined>;
 
   createRepo(config: ProjectInput & {name: RepoName}): Promise<Response>;
-  createRepo(
-    config: ProjectInput & {name: RepoName},
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-  createRepo(config: ProjectInput, errFn?: ErrorCallback): Promise<Response>;
 
   getRepo(
     repo: RepoName,

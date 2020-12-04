@@ -33,6 +33,24 @@
       "message": "Would add a blank line above this one, to separate local variables from this \u0027if\u0027 block.\n\nI think it\u0027s ok to not have one though for the following \u0027if\u0027 statement down below.",
       "revId": "96bd9120211467c526ea265e86e4a6e7ecc71900",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd0d37eb_0d554c06",
+        "filename": "java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2020-12-04T21:34:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2eeca866_6bf66794",
+      "revId": "96bd9120211467c526ea265e86e4a6e7ecc71900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

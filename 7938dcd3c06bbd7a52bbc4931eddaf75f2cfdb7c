@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc977e7f_69a4b506",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-04T13:06:34Z",
+      "side": 1,
+      "message": "I believe I am missing *at least* one test, or better two tests:\n\nT1: A REST-API with \u0027Accept: */*\u0027 should received a compacted JSON\nT2: A REST-API with \u0027Accept: */*\u0027 and \u0027pp\u003d1\u0027 should receive a pretty-printed JSON\n\nWithout T1 and T2 in place, I believe we may risk to break this in the future :-(",
+      "revId": "7938dcd3c06bbd7a52bbc4931eddaf75f2cfdb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

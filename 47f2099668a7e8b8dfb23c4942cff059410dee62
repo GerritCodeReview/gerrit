@@ -16,6 +16,23 @@
       "message": "@Davido this is one of the slowdown issue we\u0027ve noticed on GerritHub.io after the migration of the first site.",
       "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b6f092f_6ba90ddf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-04T08:01:40Z",
+      "side": 1,
+      "message": "Good catch! Can we add a test for that? Also, why we havn\u0027t noticed the increased payload on gerrit-review?",
+      "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

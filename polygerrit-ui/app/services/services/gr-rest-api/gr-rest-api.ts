@@ -267,25 +267,11 @@ export interface RestApiService {
     revision: BranchInput
   ): Promise<Response>;
 
-  createRepoBranch(
-    name: RepoName,
-    branch: BranchName,
-    revision: BranchInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
   createRepoTag(
     name: RepoName,
     tag: string,
     revision: TagInput
   ): Promise<Response>;
-
-  createRepoTag(
-    name: RepoName,
-    tag: string,
-    revision: TagInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
   addAccountGPGKey(key: GpgKeysInput): Promise<Record<string, GpgKeyInfo>>;
   deleteAccountGPGKey(id: GpgKeyId): Promise<Response>;
   getAccountGPGKeys(): Promise<Record<string, GpgKeyInfo>>;

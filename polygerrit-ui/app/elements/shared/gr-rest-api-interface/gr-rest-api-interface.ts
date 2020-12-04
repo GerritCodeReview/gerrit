@@ -496,25 +496,7 @@ export class GrRestApiInterface
     name: RepoName,
     branch: BranchName,
     revision: BranchInput
-  ): Promise<Response>;
-
-  createRepoBranch(
-    name: RepoName,
-    branch: BranchName,
-    revision: BranchInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  createRepoBranch(
-    name: RepoName,
-    branch: BranchName,
-    revision: BranchInput,
-    errFn?: ErrorCallback
-  ) {
-    if (!name || !branch || !revision) {
-      // TODO(TS) fix return type
-      return '';
-    }
+  ): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(name);
@@ -523,7 +505,6 @@ export class GrRestApiInterface
       method: HttpMethod.PUT,
       url: `/projects/${encodeName}/branches/${encodeBranch}`,
       body: revision,
-      errFn,
       anonymizedUrl: '/projects/*/branches/*',
     });
   }
@@ -532,25 +513,7 @@ export class GrRestApiInterface
     name: RepoName,
     tag: string,
     revision: TagInput
-  ): Promise<Response>;
-
-  createRepoTag(
-    name: RepoName,
-    tag: string,
-    revision: TagInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  createRepoTag(
-    name: RepoName,
-    tag: string,
-    revision: TagInput,
-    errFn?: ErrorCallback
-  ) {
-    if (!name || !tag || !revision) {
-      // TODO(TS): Fix return value
-      return '';
-    }
+  ): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(name);
@@ -559,7 +522,6 @@ export class GrRestApiInterface
       method: HttpMethod.PUT,
       url: `/projects/${encodeName}/tags/${encodeTag}`,
       body: revision,
-      errFn,
       anonymizedUrl: '/projects/*/tags/*',
     });
   }

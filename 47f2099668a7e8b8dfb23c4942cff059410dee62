@@ -122,6 +122,23 @@
       "parentUuid": "91207ae9_e760b60f",
       "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaca45e6_e568a8f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-04T09:28:07Z",
+      "side": 1,
+      "message": "Moving myself and Dmitrii to CC while Milutin is handling the review. Feel free to add us back, if you need another opinion or +2 or anything.",
+      "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

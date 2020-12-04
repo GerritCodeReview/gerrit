@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d27a8af5_b078320f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-04T08:54:08Z",
+      "side": 1,
+      "message": "Nice!!",
+      "revId": "4a5ca4c51ad5667dd10da9d9f2222cdfc13acc2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52819890_6c46fb5b",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-04T08:54:08Z",
+      "side": 1,
+      "message": "any idea why key being surrounded by strings is inconsistent here and in http{} too?",
+      "range": {
+        "startLine": 57,
+        "startChar": 14,
+        "endLine": 57,
+        "endChar": 22
+      },
+      "revId": "4a5ca4c51ad5667dd10da9d9f2222cdfc13acc2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

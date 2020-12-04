@@ -175,6 +175,24 @@
       "parentUuid": "2a893b97_7d6b4c5a",
       "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61fffbf1_bde019e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-04T10:20:27Z",
+      "side": 1,
+      "message": "That would be great to enable pretty-printed format only when pp\u003d1.\n\nI would explain again that this */* was applied for performance improvement - that on p90 was around 20% and similar in other percentiles.\n\nSo before preloading (numbers are just approximations)\ngetting index.html (100ms)\napp initialization (700ms)\nrest api requesting for dashboard (300ms)\nrendering dashboard according rest api (700ms)\n\nAfter preloading\n\ngetting index.html (100ms)\napp initialization and rest api requesting (700ms)\nrendering dashboard according rest api (700ms)\n\nThis is requesting rest api in index.html (I made a simple router on backend that understand what requested user wants on dashboard, diff and change page)\n\nrequesting, caching and applying cache is done by browser. We just added \u003clink rel\u003d\"preload\" as\u003d\"style\" href\u003d...\u003e to index.html.\nHowever browser always request for */* even when you are asking for json. And since applying caching works only when request are same, we had to request for */* in fetch.\n\n\nBut thanks a lot for looking into this. You are right that we should try to minimize all resources needed for page load.",
+      "parentUuid": "8b2c55ab_9d6d5fbf",
+      "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "770407ea_a6d74d99",
+        "filename": "polygerrit-ui/app/utils/event-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-04T09:46:58Z",
+      "side": 1,
+      "message": "Why it can\u0027t be Error? (the same question for NetworkErrorEventDetail)",
+      "range": {
+        "startLine": 59,
+        "startChar": 40,
+        "endLine": 59,
+        "endChar": 43
+      },
+      "revId": "2a8f37d5f9cca90d8cbb3982a06b468bf01bbbb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

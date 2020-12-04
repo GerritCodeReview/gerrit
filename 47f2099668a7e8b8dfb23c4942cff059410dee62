@@ -157,6 +157,24 @@
       "parentUuid": "dae9a3d1_1fa41421",
       "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b2c55ab_9d6d5fbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-04T10:05:14Z",
+      "side": 1,
+      "message": "That logic has been there since Change-Id: I2014a2209\n\n  commit ec9efd78be147913717d8170d9249b1bf8476d95\n  Author: Shawn Pearce \u003csop@google.com\u003e\n  Date:   Wed Apr 4 20:44:39 2012 -0700\n\n    /projects/: Support JSON output format\n\nTo be honest with you, I believe it would make sense to *always* compress the output, regardless of the accept header.\n\nIf you really want the pretty-printed format, you still have the pp\u003d1 parameter in the query string, isn\u0027t it?\n\nLet me try also that approach.",
+      "parentUuid": "2a893b97_7d6b4c5a",
+      "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

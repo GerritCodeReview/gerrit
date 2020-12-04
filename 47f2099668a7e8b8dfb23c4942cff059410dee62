@@ -68,6 +68,24 @@
       "parentUuid": "34c27c05_f8933df3",
       "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a18ebd0b_b5b6034f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-04T08:32:12Z",
+      "side": 1,
+      "message": "thanks for your feedback.I am wondering why I see the opposite: 30% higher payload and consequently slower page load? does the JSON get compressed for you?",
+      "parentUuid": "831af75e_b943c884",
+      "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

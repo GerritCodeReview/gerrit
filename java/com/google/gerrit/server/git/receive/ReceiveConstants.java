@@ -20,8 +20,8 @@ public final class ReceiveConstants {
   public static final String PUSH_OPTION_SKIP_VALIDATION = "skip-validation";
 
   @VisibleForTesting
-  public static final String ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP =
-      "only change owner or project owner can modify Work-in-Progress";
+  public static final String ONLY_USERS_WITH_TOGGLE_WIP_STATE_PERM_CAN_MODIFY_WIP =
+      "only users with Toogle-Wip-State permission can modify Work-in-Progress";
 
   static final String COMMAND_REJECTION_MESSAGE_FOOTER =
       "Contact an administrator to fix the permissions";

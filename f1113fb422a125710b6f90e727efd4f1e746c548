@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab8d3edb_05ed14e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-04T10:08:58Z",
+      "side": 1,
+      "message": "Yes, but needs reassignment. Done.",
+      "parentUuid": "48981055_d4d5aee2",
+      "range": {
+        "startLine": 808,
+        "startChar": 6,
+        "endLine": 808,
+        "endChar": 58
+      },
+      "revId": "f1113fb422a125710b6f90e727efd4f1e746c548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37ab5959_40a408e5",
@@ -54,6 +78,30 @@
       "writtenOn": "2020-12-04T09:42:46Z",
       "side": 1,
       "message": "There is a chance that removeEventListener is not called:\n- if an unhandled exception is thrown in flush or element/send \n- if listened is not called at all.\n\nYou can use registerTestCleanup to ensure that listener is always removed.\nregisterTestCleanup(() \u003d\u003e {document.removeEventListener(\u0027server-error\u0027, listener)});\ndocument.addEventListener(\u0027server-error\u0027, listener);\n\nThe same for other tests.",
+      "range": {
+        "startLine": 787,
+        "startChar": 0,
+        "endLine": 799,
+        "endChar": 5
+      },
+      "revId": "f1113fb422a125710b6f90e727efd4f1e746c548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b62e1b7e_64ffbed8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-04T10:08:58Z",
+      "side": 1,
+      "message": "registerTestCleanup: Nice!\n\nAdded a `addListenerForTest` function.",
+      "parentUuid": "37ab5959_40a408e5",
       "range": {
         "startLine": 787,
         "startChar": 0,

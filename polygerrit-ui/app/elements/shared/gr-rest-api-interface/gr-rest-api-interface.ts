@@ -433,18 +433,7 @@ export class GrRestApiInterface
     });
   }
 
-  createRepo(config: ProjectInput & {name: RepoName}): Promise<Response>;
-
-  createRepo(
-    config: ProjectInput & {name: RepoName},
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  createRepo(config: ProjectInput, errFn?: ErrorCallback) {
-    if (!config.name) {
-      // TODO(TS): Fix return value
-      return '';
-    }
+  createRepo(config: ProjectInput & {name: RepoName}): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(config.name);
@@ -452,7 +441,6 @@ export class GrRestApiInterface
       method: HttpMethod.PUT,
       url: `/projects/${encodeName}`,
       body: config,
-      errFn,
       anonymizedUrl: '/projects/*',
     });
   }

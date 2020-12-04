@@ -22,6 +22,53 @@
       },
       "revId": "1230c1c225132a94c774d52405377855abfccf72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d6d968f_d9cb0fc5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-04T10:23:51Z",
+      "side": 1,
+      "message": "Use isOwner from change-util for this.\n\nAnd maybe just use that (negated) in the if-clause in line 959.",
+      "range": {
+        "startLine": 975,
+        "startChar": 8,
+        "endLine": 975,
+        "endChar": 69
+      },
+      "revId": "1230c1c225132a94c774d52405377855abfccf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96d9c49a_0c568ca2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-04T10:23:51Z",
+      "side": 1,
+      "message": "Yeah, I think these lines would make sense to move to label-util:\n\n  const usersApprovalInfo \u003d codeReviewLabel.all?.filter(\n    x \u003d\u003e x._account_id \u003d\u003d\u003d this.account?._account_id)[0];\n  usersApprovalInfo?.value \u003d\u003d\u003d\n    Number(this.change.permitted_labels[CODE_REVIEW].slice(-1)[0]) ||",
+      "parentUuid": "d49e8461_8a2f63dc",
+      "range": {
+        "startLine": 973,
+        "startChar": 8,
+        "endLine": 975,
+        "endChar": 69
+      },
+      "revId": "1230c1c225132a94c774d52405377855abfccf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -94,6 +94,30 @@
       },
       "revId": "2e9b69533f673bb9c82a7df33aefa61c4c31e09b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b86ac9e1_94a90b46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-04T10:30:30Z",
+      "side": 1,
+      "message": "Ok, reading the change description of change 93320 I think this comes from a time where it was deliberately allowed to keep two drafts open at the same time. So you are probably right that we can just remove this.\n\nIt would still be great to have errors/logs put into place for ensuring that we always only have one draft.",
+      "parentUuid": "f49b0a32_c9148293",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "2e9b69533f673bb9c82a7df33aefa61c4c31e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

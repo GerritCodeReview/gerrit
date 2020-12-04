@@ -33,15 +33,24 @@ mkdir -p ${destdir}/java
 cp -r {java,javatests}/* ${destdir}/java
 
 mkdir -p ${destdir}/plugins
-for plugin in `find plugins/ -maxdepth 1 -type d`
+for plugin in `find plugins/ -mindepth 1 -maxdepth 1 -type d`
 do
   mkdir -p ${destdir}/${plugin}/java
-  cp -r plugins/*/{java,javatests}/* ${destdir}/${plugin}/java
+  if [ -e ${plugin}/java/ ]
+    then cp -r ${plugin}/java/* ${destdir}/${plugin}/java
+  fi
+  if [ -e ${plugin}/javatests/ ]
+    then cp -r ${plugin}/javatests/* ${destdir}/${plugin}/java
+  fi
 
   # for backwards compatibility support plugins with old file structure
   mkdir -p ${destdir}/${plugin}/src/{main,test}/java
-  cp -r plugins/*/src/main/java/* ${destdir}/${plugin}/src/main/java
-  cp -r plugins/*/src/test/java/* ${destdir}/${plugin}/src/test/java
+  if [ -e ${plugin}/src/main/java/ ]
+    then cp -r ${plugin}/src/main/java/* ${destdir}/${plugin}/src/main/java/
+  fi
+  if [ -e ${plugin}/src/test/java/ ]
+    then cp -r ${plugin}/src/test/java/* ${destdir}/${plugin}/src/test/java/
+  fi
 done
 
 base=$(bazel info bazel-testlogs)

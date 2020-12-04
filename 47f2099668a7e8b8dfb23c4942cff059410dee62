@@ -104,6 +104,24 @@
       "parentUuid": "a18ebd0b_b5b6034f",
       "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dae9a3d1_1fa41421",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-04T09:22:20Z",
+      "side": 1,
+      "message": "\u003e What page load are we discussing? It\u0027s cold page load (full restart) or hot page load (internal navigation)? Do you have performance snapshot that I could look at? \n\nI am looking at the moment at the list of changes in different status (no caching):\n- /q/status:open+-is:wip\n- /q/status:merged\n- /q/status:abandoned\n\n\u003e My assumption was that calculation on back-end for changes is much higher than sending JSON through network. \n\nI believe is a bit of both, also the processing on a larger payload on the browser I believe it would take longer, WDYT?\n\n\u003e What is network connection that you are testing? What actual size is your JSON? On gerrit-review my dashboard request (o\u003d181) is 16kb transfers, where 30% is just 5kb.\n\nYes, the 30% isn\u0027t *that* much, agreed. However, as you know, performance is always a bit of everything: 30% here, 15% there, 10% other there ... and you sum them all together and you get to 30+15+10 \u003d\u003e 55% :-)\n\nAlso, we could manage that on the backend, if the \u0027Accept: */*\u0027 is required by PolyGerrit.\n\nOut of curiosity: I see that some of the REST-API calls are passing \u0027Accept: application/json\u0027 and others are sending \u0027Accept: */*\u0027. Wouldn\u0027t then make sense to always send \u0027Accept: */*\u0027 for all calls?\n\nThanks again for your time reviewing this change.",
+      "parentUuid": "91207ae9_e760b60f",
+      "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

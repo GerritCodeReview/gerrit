@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4170fce_de949d96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-04T22:06:01Z",
+      "side": 1,
+      "message": "mark.bekhet@ericsson.com",
+      "range": {
+        "startLine": 2,
+        "startChar": 25,
+        "endLine": 2,
+        "endChar": 46
+      },
+      "revId": "ebef83fe98dd96254e6e16ea235441c63847c982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

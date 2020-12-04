@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d49e8461_8a2f63dc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-04T08:00:07Z",
+      "side": 1,
+      "message": "It\u0027s very hard to understand code. Maybe put this code to separate methods where method name will describe what is calculating?",
+      "range": {
+        "startLine": 973,
+        "startChar": 8,
+        "endLine": 975,
+        "endChar": 69
+      },
+      "revId": "1230c1c225132a94c774d52405377855abfccf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

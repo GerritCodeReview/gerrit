@@ -33,6 +33,23 @@
       "message": "Good catch! Can we add a test for that? Also, why we havn\u0027t noticed the increased payload on gerrit-review?",
       "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34c27c05_f8933df3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-04T08:11:03Z",
+      "side": 1,
+      "message": "Accept: application/json was removed when implementing preloading https://gerrit-review.googlesource.com/c/gerrit/+/276355/20/polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js\n\nAdding application/json will make preloaded queries not matched with this fetch so it will not use cached one.\n\nThis will make loading dashboard 20% slower on first page load.",
+      "revId": "47f2099668a7e8b8dfb23c4942cff059410dee62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

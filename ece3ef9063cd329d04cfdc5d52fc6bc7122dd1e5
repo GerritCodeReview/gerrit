@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e23604ce_00f36d21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2020-12-04T21:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc698082_f3c93875",
+      "range": {
+        "startLine": 2,
+        "startChar": 25,
+        "endLine": 4,
+        "endChar": 46
+      },
+      "revId": "ece3ef9063cd329d04cfdc5d52fc6bc7122dd1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e41150e8_971b6186",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-12-04T21:49:47Z",
       "side": 1,
       "message": "Missing a space after the colon.",
+      "revId": "ece3ef9063cd329d04cfdc5d52fc6bc7122dd1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1594ff7b_b55dcc9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2020-12-04T21:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e41150e8_971b6186",
       "revId": "ece3ef9063cd329d04cfdc5d52fc6bc7122dd1e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

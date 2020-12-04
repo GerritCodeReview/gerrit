@@ -99,6 +99,24 @@
       "parentUuid": "1594ff7b_b55dcc9a",
       "revId": "ece3ef9063cd329d04cfdc5d52fc6bc7122dd1e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3288e2c1_cc4bff59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2020-12-04T22:50:50Z",
+      "side": 1,
+      "message": "yes, I pushed it",
+      "parentUuid": "2707d68b_aec246b3",
+      "revId": "ece3ef9063cd329d04cfdc5d52fc6bc7122dd1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

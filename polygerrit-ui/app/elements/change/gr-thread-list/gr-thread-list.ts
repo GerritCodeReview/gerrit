@@ -32,6 +32,7 @@ import {
 } from '@polymer/polymer/interfaces';
 import {ChangeInfo} from '../../../types/common';
 import {CommentThread, isDraft, UIRobot} from '../../../utils/comment-util';
+import {pluralize} from '../../../utils/formatter-util';
 
 interface CommentThreadWithInfo {
   thread: CommentThread;
@@ -116,10 +117,7 @@ export class GrThreadList extends GestureEventListeners(
     unresolvedOnly: boolean
   ) {
     if (unresolvedOnly && threads.length && !displayedThreads.length) {
-      return (
-        `Show ${threads.length} resolved comment` +
-        (threads.length > 1 ? 's' : '')
-      );
+      return `Show ${pluralize(threads.length, 'resolved comment')}`;
     }
     return '';
   }

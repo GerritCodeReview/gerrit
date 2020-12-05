@@ -107,6 +107,7 @@ import {isAttentionSetEnabled} from '../../../utils/attention-set-util';
 import {CODE_REVIEW, getMaxAccounts} from '../../../utils/label-util';
 import {isUnresolved} from '../../../utils/comment-util';
 import {fireAlert, fireServerError} from '../../../utils/event-util';
+import {pluralize} from '../../../utils/formatter-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -828,13 +829,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
 
   _computeDraftsTitle(draftCommentThreads?: CommentThread[]) {
     const total = draftCommentThreads ? draftCommentThreads.length : 0;
-    if (total === 0) {
-      return '';
-    }
-    if (total === 1) {
-      return '1 Draft';
-    }
-    return `${total} Drafts`;
+    return pluralize(total, 'Draft');
   }
 
   _computeMessagePlaceholder(canBeStarted: boolean) {

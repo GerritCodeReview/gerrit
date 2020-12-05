@@ -28,6 +28,7 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 import {MovedChunkGoToLineDetail} from '../../../types/events';
+import {pluralize} from '../../../utils/formatter-util';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -563,16 +564,16 @@ export abstract class GrDiffBuilder {
     let requiresLoad = false;
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
       if (this.useNewContextControls) {
-        text = `+${numLines} common line`;
-        button.setAttribute('aria-label', `Show ${numLines} common lines`);
+        text = `+${pluralize(numLines, 'common line')}`;
+        button.setAttribute(
+          'aria-label',
+          `Show ${pluralize(numLines, 'common line')}`
+        );
       } else {
-        text = `Show ${numLines} common line`;
+        text = `Show ${pluralize(numLines, 'common line')}`;
         const icon = this._createElement('iron-icon', 'showContext');
         icon.setAttribute('icon', 'gr-icons:unfold-more');
         button.appendChild(icon);
-      }
-      if (numLines > 1) {
-        text += 's';
       }
       requiresLoad = contextGroups.find(c => !!c.skip) !== undefined;
       if (requiresLoad) {

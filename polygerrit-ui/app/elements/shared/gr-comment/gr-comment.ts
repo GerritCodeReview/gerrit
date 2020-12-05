@@ -58,13 +58,11 @@ import {
 } from '../../../utils/comment-util';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {fireAlert} from '../../../utils/event-util';
+import {pluralize} from '../../../utils/formatter-util';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
 
-const SAVING_MESSAGE = 'Saving';
-const DRAFT_SINGULAR = 'draft...';
-const DRAFT_PLURAL = 'drafts...';
 const SAVED_MESSAGE = 'All changes saved';
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -809,11 +807,7 @@ export class GrComment extends KeyboardShortcutMixin(
     if (numPending === 0) {
       return SAVED_MESSAGE;
     }
-    return [
-      SAVING_MESSAGE,
-      numPending,
-      numPending === 1 ? DRAFT_SINGULAR : DRAFT_PLURAL,
-    ].join(' ');
+    return `Saving ${pluralize(numPending, 'draft')}...`;
   }
 
   _showStartRequest() {

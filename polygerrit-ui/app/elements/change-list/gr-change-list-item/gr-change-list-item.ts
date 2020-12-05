@@ -49,6 +49,7 @@ import {
   Timestamp,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {pluralize} from '../../../utils/formatter-util';
 
 enum ChangeSize {
   XS = 10,
@@ -155,8 +156,7 @@ export class GrChangeListItem extends ChangeTableMixin(
     const titleParts: string[] = [];
     if (category === LabelCategory.UNRESOLVED_COMMENTS) {
       const num = change?.unresolved_comment_count ?? 0;
-      const plural = num > 1 ? 's' : '';
-      titleParts.push(`${num} unresolved comment${plural}`);
+      titleParts.push(pluralize(num, 'unresolved comment'));
     }
     const significantLabel =
       label.rejected || label.approved || label.disliked || label.recommended;

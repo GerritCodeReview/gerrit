@@ -43,6 +43,7 @@ import {
 import {CommentThread} from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {appContext} from '../../../services/app-context';
+import {pluralize} from '../../../utils/formatter-util';
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?(?:P|p)atch (?:S|s)et \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
@@ -215,13 +216,11 @@ export class GrMessage extends GestureEventListeners(
   }
 
   _computeCommentCountText(threadsLength?: number) {
-    if (threadsLength === 0) {
+    if (!threadsLength) {
       return undefined;
-    } else if (threadsLength === 1) {
-      return '1 comment';
-    } else {
-      return `${threadsLength} comments`;
     }
+
+    return pluralize(threadsLength, 'comment');
   }
 
   _onThreadListModified() {

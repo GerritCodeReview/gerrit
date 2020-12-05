@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dc23124_df9e72b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-05T01:00:50Z",
+      "side": 1,
+      "message": "Change-Id: I85f77cab03453ec51d33b226804ed7f2a454ae6f\n\n(There is still a space missing after the colon.)",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 51
+      },
+      "revId": "311eab1ccb115f43c1c92cbcfb34e4464d2b63ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9f0ca15_3ef5a5eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-05T01:00:50Z",
+      "side": 1,
+      "message": "Once you are done applying this comment, I will add a few more reviewers.",
+      "revId": "311eab1ccb115f43c1c92cbcfb34e4464d2b63ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

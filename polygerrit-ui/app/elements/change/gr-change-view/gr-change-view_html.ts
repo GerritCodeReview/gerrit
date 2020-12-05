@@ -572,7 +572,10 @@ export const htmlTemplate = html`
                   </gr-button>
                 </div>
               </template>
-              <gr-change-summary></gr-change-summary>
+              <gr-comment-summary
+                change="[[_change]]"
+                comment-threads="[[_commentThreads]]"
+              ></gr-comment-summary>
               <gr-endpoint-decorator name="commit-container">
                 <gr-endpoint-param name="change" value="[[_change]]">
                 </gr-endpoint-param>

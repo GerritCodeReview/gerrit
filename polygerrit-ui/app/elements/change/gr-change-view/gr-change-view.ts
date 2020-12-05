@@ -32,6 +32,7 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-change-actions/gr-change-actions';
 import '../gr-change-summary/gr-change-summary';
 import '../gr-change-metadata/gr-change-metadata';
+import '../gr-comment-summary/gr-comment-summary';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-download-dialog/gr-download-dialog';

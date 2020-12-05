@@ -506,6 +506,7 @@ export const htmlTemplate = html`
                   [[_computeCollapseText(_commitCollapsed)]]
                 </gr-button>
               </div>
+              <gr-comment-summary></gr-comment-summary>
               <gr-endpoint-decorator name="commit-container">
                 <gr-endpoint-param name="change" value="[[_change]]">
                 </gr-endpoint-param>

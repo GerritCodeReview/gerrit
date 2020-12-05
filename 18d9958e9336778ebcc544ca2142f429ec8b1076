@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3c88084_ca257043",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-05T21:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f629a567_8f882ecf",
+      "range": {
+        "startLine": 1359,
+        "startChar": 43,
+        "endLine": 1359,
+        "endChar": 75
+      },
+      "revId": "18d9958e9336778ebcc544ca2142f429ec8b1076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56a99a2b_e2e41f73",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1496f5a9_4e367982",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-05T21:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56a99a2b_e2e41f73",
+      "revId": "18d9958e9336778ebcc544ca2142f429ec8b1076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82f04007_7a145e87",
@@ -54,6 +96,30 @@
       "writtenOn": "2020-12-05T15:20:12Z",
       "side": 1,
       "message": "Also test that another variant works: \"?prettyPrint\u003d1\", or alternatively, why we actually supporting both way? Wouldn\u0027t it be sufficient to support only one way to force prettified JSON result?",
+      "range": {
+        "startLine": 43,
+        "startChar": 55,
+        "endLine": 43,
+        "endChar": 60
+      },
+      "revId": "18d9958e9336778ebcc544ca2142f429ec8b1076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d39c2f60_7c93eb38",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-05T21:31:25Z",
+      "side": 1,
+      "message": "I also need to test ?pp\u003d0.",
+      "parentUuid": "82f04007_7a145e87",
       "range": {
         "startLine": 43,
         "startChar": 55,

@@ -53,7 +53,7 @@ import {
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
-import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter';
+import {GrCountStringFormatter} from '../../../utils/count-string-util';
 import {getComputedStyleValue} from '../../../utils/dom-util';
 import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';

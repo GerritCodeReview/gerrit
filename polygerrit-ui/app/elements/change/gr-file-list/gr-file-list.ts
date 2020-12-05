@@ -38,7 +38,11 @@ import {
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {FilesExpandedState} from '../gr-file-list-constants';
-import {GrCountStringFormatter} from '../../../utils/count-string-util';
+import {
+  computePluralString,
+  computeString,
+  computeShortString,
+} from '../../../utils/count-string-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -645,14 +649,8 @@ export class GrFileList extends KeyboardShortcutMixin(
         patchNum: patchRange.patchNum,
         path,
       });
-    const commentString = GrCountStringFormatter.computePluralString(
-      commentThreadCount,
-      'comment'
-    );
-    const unresolvedString = GrCountStringFormatter.computeString(
-      unresolvedCount,
-      'unresolved'
-    );
+    const commentString = computePluralString(commentThreadCount, 'comment');
+    const unresolvedString = computeString(unresolvedCount, 'unresolved');
 
     return (
       commentString +
@@ -687,7 +685,7 @@ export class GrFileList extends KeyboardShortcutMixin(
         patchNum: patchRange.patchNum,
         path,
       });
-    return GrCountStringFormatter.computePluralString(draftCount, 'draft');
+    return computePluralString(draftCount, 'draft');
   }
 
   /**
@@ -714,7 +712,7 @@ export class GrFileList extends KeyboardShortcutMixin(
         patchNum: patchRange.patchNum,
         path,
       });
-    return GrCountStringFormatter.computeShortString(draftCount, 'd');
+    return computeShortString(draftCount, 'd');
   }
 
   /**
@@ -741,7 +739,7 @@ export class GrFileList extends KeyboardShortcutMixin(
         patchNum: patchRange.patchNum,
         path,
       });
-    return GrCountStringFormatter.computeShortString(commentThreadCount, 'c');
+    return computeShortString(commentThreadCount, 'c');
   }
 
   private _reviewFile(path: string, reviewed?: boolean) {

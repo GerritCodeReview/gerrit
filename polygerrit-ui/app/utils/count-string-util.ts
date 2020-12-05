@@ -14,31 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const GrCountStringFormatter = {
-  /**
-   * Returns a count plus string that is pluralized when necessary.
-   */
-  computePluralString(count: number, noun: string): string {
-    return this.computeString(count, noun) + (count > 1 ? 's' : '');
-  },
 
-  /**
-   * Returns a count plus string that is not pluralized.
-   */
-  computeString(count: number, noun: string): string {
-    if (count === 0) {
-      return '';
-    }
-    return `${count} ${noun}`;
-  },
+/**
+ * Returns a count plus string that is pluralized when necessary.
+ */
+export function computePluralString(count: number, noun: string): string {
+  return computeString(count, noun) + (count > 1 ? 's' : '');
+}
 
-  /**
-   * Returns a count plus arbitrary text.
-   */
-  computeShortString(count: number, text: string): string {
-    if (count === 0) {
-      return '';
-    }
-    return `${count}${text}`;
-  },
-};
+/**
+ * Returns a count plus string that is not pluralized.
+ */
+export function computeString(count: number, noun: string): string {
+  if (count === 0) {
+    return '';
+  }
+  return `${count} ${noun}`;
+}
+
+/**
+ * Returns a count plus arbitrary text.
+ */
+export function computeShortString(count: number, text: string): string {
+  if (count === 0) {
+    return '';
+  }
+  return `${count}${text}`;
+}

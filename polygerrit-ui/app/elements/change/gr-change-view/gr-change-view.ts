@@ -53,7 +53,10 @@ import {
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
-import {GrCountStringFormatter} from '../../../utils/count-string-util';
+import {
+  computeString,
+  computePluralString,
+} from '../../../utils/count-string-util';
 import {getComputedStyleValue} from '../../../utils/dom-util';
 import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
@@ -1023,14 +1026,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
   ) {
     if (!changeComments) return undefined;
     const draftCount = changeComments.computeDraftCount();
-    const unresolvedString = GrCountStringFormatter.computeString(
-      unresolvedCount,
-      'unresolved'
-    );
-    const draftString = GrCountStringFormatter.computePluralString(
-      draftCount,
-      'draft'
-    );
+    const unresolvedString = computeString(unresolvedCount, 'unresolved');
+    const draftString = computePluralString(draftCount, 'draft');
 
     return (
       unresolvedString +

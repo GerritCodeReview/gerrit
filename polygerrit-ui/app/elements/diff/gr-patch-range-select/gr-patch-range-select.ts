@@ -22,7 +22,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-patch-range-select_html';
-import {GrCountStringFormatter} from '../../../utils/count-string-util';
+import {} from '../../../utils/count-string-util';
 import {appContext} from '../../../services/app-context';
 import {
   computeLatestPatchNum,
@@ -378,16 +378,13 @@ export class GrPatchRangeSelect extends GestureEventListeners(
     const commentThreadCount = changeComments.computeCommentThreadCount({
       patchNum,
     });
-    const commentThreadString = GrCountStringFormatter.computePluralString(
+    const commentThreadString = computePluralString(
       commentThreadCount,
       'comment'
     );
 
     const unresolvedCount = changeComments.computeUnresolvedNum({patchNum});
-    const unresolvedString = GrCountStringFormatter.computeString(
-      unresolvedCount,
-      'unresolved'
-    );
+    const unresolvedString = computeString(unresolvedCount, 'unresolved');
 
     if (!commentThreadString.length && !unresolvedString.length) {
       return '';

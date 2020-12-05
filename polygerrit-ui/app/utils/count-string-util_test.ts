@@ -15,33 +15,32 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import {GrCountStringFormatter} from './gr-count-string-formatter.js';
+import '../test/common-test-setup-karma';
+import {
+  computePluralString,
+  computeString,
+  computeShortString,
+} from './count-string-util';
 
-suite('gr-count-string-formatter tests', () => {
+suite('count-string tests', () => {
   test('computeString', () => {
     const noun = 'unresolved';
-    assert.equal(GrCountStringFormatter.computeString(0, noun), '');
-    assert.equal(GrCountStringFormatter.computeString(1, noun),
-        '1 unresolved');
-    assert.equal(GrCountStringFormatter.computeString(2, noun),
-        '2 unresolved');
+    assert.equal(computeString(0, noun), '');
+    assert.equal(computeString(1, noun), '1 unresolved');
+    assert.equal(computeString(2, noun), '2 unresolved');
   });
 
   test('computeShortString', () => {
     const noun = 'c';
-    assert.equal(GrCountStringFormatter.computeShortString(0, noun), '');
-    assert.equal(GrCountStringFormatter.computeShortString(1, noun), '1c');
-    assert.equal(GrCountStringFormatter.computeShortString(2, noun), '2c');
+    assert.equal(computeShortString(0, noun), '');
+    assert.equal(computeShortString(1, noun), '1c');
+    assert.equal(computeShortString(2, noun), '2c');
   });
 
   test('computePluralString', () => {
     const noun = 'comment';
-    assert.equal(GrCountStringFormatter.computePluralString(0, noun), '');
-    assert.equal(GrCountStringFormatter.computePluralString(1, noun),
-        '1 comment');
-    assert.equal(GrCountStringFormatter.computePluralString(2, noun),
-        '2 comments');
+    assert.equal(computePluralString(0, noun), '');
+    assert.equal(computePluralString(1, noun), '1 comment');
+    assert.equal(computePluralString(2, noun), '2 comments');
   });
 });
-

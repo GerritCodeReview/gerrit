@@ -39,7 +39,7 @@ import {
   KeyboardShortcutMixin,
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {GrCountStringFormatter} from '../../../utils/count-string-util';
+import {} from '../../../utils/count-string-util';
 import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
 import {
@@ -1353,14 +1353,11 @@ export class GrDiffView extends KeyboardShortcutMixin(
       patchNum,
       path,
     });
-    const commentThreadString = GrCountStringFormatter.computePluralString(
+    const commentThreadString = computePluralString(
       commentThreadCount,
       'comment'
     );
-    const unresolvedString = GrCountStringFormatter.computeString(
-      unresolvedCount,
-      'unresolved'
-    );
+    const unresolvedString = computeString(unresolvedCount, 'unresolved');
 
     const unmodifiedString = changeFileInfo.status === 'U' ? 'no changes' : '';
 

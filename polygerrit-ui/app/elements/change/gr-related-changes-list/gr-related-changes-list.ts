@@ -42,6 +42,7 @@ import {
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {appContext} from '../../../services/app-context';
+import {pluralize} from '../../../utils/string-util';
 
 function getEmptySubmitTogetherInfo(): SubmittedTogetherInfo {
   return {changes: [], non_visible_changes: 0};
@@ -450,8 +451,7 @@ export class GrRelatedChangesList extends GestureEventListeners(
   }
 
   _computeNonVisibleChangesNote(n: number) {
-    const noun = n === 1 ? 'change' : 'changes';
-    return `(+ ${n} non-visible ${noun})`;
+    return `(+ ${pluralize(n, 'non-visible change')})`;
   }
 }
 

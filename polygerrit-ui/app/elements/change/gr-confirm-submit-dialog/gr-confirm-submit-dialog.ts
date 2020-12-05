@@ -27,6 +27,7 @@ import {htmlTemplate} from './gr-confirm-submit-dialog_html';
 import {customElement, property} from '@polymer/decorators';
 import {ChangeInfo, ActionInfo} from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
+import {pluralize} from '../../../utils/string-util';
 
 export interface GrConfirmSubmitDialog {
   $: {
@@ -73,8 +74,8 @@ export class GrConfirmSubmitDialog extends GestureEventListeners(
 
   _computeUnresolvedCommentsWarning(change: ChangeInfo) {
     const unresolvedCount = change.unresolved_comment_count;
-    const plural = unresolvedCount && unresolvedCount > 1 ? 's' : '';
-    return `Heads Up! ${unresolvedCount} unresolved comment${plural}.`;
+    if (!unresolvedCount) throw new Error('unresolved comments undefined or 0');
+    return `Heads Up! ${pluralize(unresolvedCount, 'unresolved comment')}.`;
   }
 
   _handleConfirmTap(e: MouseEvent) {

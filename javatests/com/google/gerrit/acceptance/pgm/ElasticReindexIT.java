@@ -25,11 +25,6 @@ import org.eclipse.jgit.lib.Config;
 public class ElasticReindexIT extends AbstractReindexTests {
 
   @ConfigSuite.Default
-  public static Config elasticsearchV6() {
-    return getConfig(ElasticVersion.V6_8);
-  }
-
-  @ConfigSuite.Config
   public static Config elasticsearchV7() {
     return getConfig(ElasticVersion.V7_8);
   }

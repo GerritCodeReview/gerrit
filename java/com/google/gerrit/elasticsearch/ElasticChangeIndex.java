@@ -14,8 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
-import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
@@ -23,7 +21,6 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
@@ -50,7 +47,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
-import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.JsonArray;
@@ -59,7 +55,6 @@ import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.apache.http.HttpStatus;
@@ -82,8 +77,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   }
 
   private static final String CHANGES = "changes";
-  private static final String OPEN_CHANGES = "open_" + CHANGES;
-  private static final String CLOSED_CHANGES = "closed_" + CHANGES;
 
   private final ChangeMapping mapping;
   private final ChangeData.Factory changeDataFactory;
@@ -109,7 +102,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   public void replace(ChangeData cd) {
     BulkRequest bulk = new IndexRequest(getId(cd), indexName).add(new UpdateRequest<>(schema, cd));
 
-    String uri = getURI(type, BULK);
+    String uri = getURI(BULK);
     Response response = postRequest(uri, bulk, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
@@ -122,27 +115,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   @Override
   public DataSource<ChangeData> getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
-    Set<Change.Status> statuses = ChangeIndexRewriter.getPossibleStatus(p);
-    List<String> indexes = Lists.newArrayListWithCapacity(2);
-    if (!client.adapter().omitType()) {
-      if (client.adapter().useV6Type()) {
-        if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()
-            || !Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
-          indexes.add(ElasticQueryAdapter.V6_TYPE);
-        }
-      } else {
-        if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
-          indexes.add(OPEN_CHANGES);
-        }
-        if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
-          indexes.add(CLOSED_CHANGES);
-        }
-      }
-    }
-
     QueryOptions filteredOpts =
         opts.filterFields(o -> IndexUtils.changeFields(o, schema.useLegacyNumericFields()));
-    return new ElasticQuerySource(p, filteredOpts, getURI(indexes), getSortArray());
+    return new ElasticQuerySource(p, filteredOpts, getSortArray());
   }
 
   private JsonArray getSortArray() {
@@ -155,10 +130,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     return sortArray;
   }
 
-  private String getURI(List<String> types) {
-    return String.join(",", types);
-  }
-
   @Override
   protected String getDeleteActions(Change.Id c) {
     return getDeleteRequest(c);
@@ -166,7 +137,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
   @Override
   protected String getMappings() {
-    return getMappingsFor(client.adapter().getType(), mapping.changes);
+    return getMappingsFor(mapping.changes);
   }
 
   @Override

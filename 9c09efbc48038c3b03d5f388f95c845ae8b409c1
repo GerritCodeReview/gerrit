@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27e2e925_042d4229",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-06T09:49:32Z",
+      "side": 1,
+      "message": "tested on GerritHub.io and the latency times are much better now !",
+      "revId": "9c09efbc48038c3b03d5f388f95c845ae8b409c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

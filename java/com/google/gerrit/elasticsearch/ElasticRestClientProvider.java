@@ -65,7 +65,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
           client = build();
           ElasticVersion version = getVersion();
           logger.atInfo().log("Elasticsearch integration version %s", version);
-          adapter = new ElasticQueryAdapter(version);
+          adapter = new ElasticQueryAdapter();
         }
       }
     }

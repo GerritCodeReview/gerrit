@@ -18,6 +18,8 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo-dashboards.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {addListenerForTest} from '../../../test/test-utils.js';
+import {ResponseError} from '../../../services/services/gr-rest-api/gr-rest-api.js';
 
 const basicFixture = fixtureFromElement('gr-repo-dashboards');
 
@@ -125,11 +127,9 @@ suite('gr-repo-dashboards tests', () => {
       const response = {status: 404};
       sinon.stub(
           element.restApiService, 'getRepoDashboards')
-          .callsFake((repo, errFn) => {
-            errFn(response);
-          });
+          .rejects(new ResponseError(response));
 
-      element.addEventListener('page-error', e => {
+      addListenerForTest(document, 'page-error', e => {
         assert.deepEqual(e.detail.response, response);
         done();
       });

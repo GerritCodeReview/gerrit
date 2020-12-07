@@ -34,6 +34,7 @@ import java.util.function.Function;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.lib.Config;
 
 public class IndexServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -42,6 +43,7 @@ public class IndexServlet extends HttpServlet {
   @Nullable private final String cdnPath;
   @Nullable private final String faviconPath;
   private final GerritApi gerritApi;
+  private final Config gerritServerConfig;
   private final SoySauce soySauce;
   private final Function<String, SanitizedContent> urlOrdainer;
 
@@ -49,11 +51,13 @@ public class IndexServlet extends HttpServlet {
       @Nullable String canonicalUrl,
       @Nullable String cdnPath,
       @Nullable String faviconPath,
-      GerritApi gerritApi) {
+      GerritApi gerritApi,
+      Config gerritServerConfig) {
     this.canonicalUrl = canonicalUrl;
     this.cdnPath = cdnPath;
     this.faviconPath = faviconPath;
     this.gerritApi = gerritApi;
+    this.gerritServerConfig = gerritServerConfig;
     this.soySauce =
         SoyFileSet.builder()
             .add(Resources.getResource("com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy"))
@@ -74,7 +78,14 @@ public class IndexServlet extends HttpServlet {
       // TODO(hiesel): Remove URL ordainer as parameter once Soy is consistent
       ImmutableMap<String, Object> templateData =
           IndexHtmlUtil.templateData(
-              gerritApi, canonicalUrl, cdnPath, faviconPath, parameterMap, urlOrdainer, requestUrl);
+              gerritApi,
+              gerritServerConfig,
+              canonicalUrl,
+              cdnPath,
+              faviconPath,
+              parameterMap,
+              urlOrdainer,
+              requestUrl);
       renderer = soySauce.renderTemplate("com.google.gerrit.httpd.raw.Index").setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);

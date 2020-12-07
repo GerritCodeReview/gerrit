@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eecaf1ba_8362d7ea",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-07T14:57:15Z",
+      "side": 1,
+      "message": "Done for the rename.\n\nIf you feel strongly about the merging of changes I am happy to do it, but otherwise I\u0027d leave as-is.",
+      "parentUuid": "92f8470b_df419a6a",
+      "range": {
+        "startLine": 51,
+        "startChar": 68,
+        "endLine": 51,
+        "endChar": 79
+      },
+      "revId": "0b7d3f4027d5afd6a45ffef802c784e3fd2b2dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7253d24_787cae4b",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20d5e13d_1ec00a1d",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-07T14:57:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7253d24_787cae4b",
+      "range": {
+        "startLine": 64,
+        "startChar": 45,
+        "endLine": 64,
+        "endChar": 89
+      },
+      "revId": "0b7d3f4027d5afd6a45ffef802c784e3fd2b2dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b6e5c7c_00c9f303",
@@ -60,6 +108,30 @@
       "writtenOn": "2020-12-07T14:42:13Z",
       "side": 1,
       "message": "if you use regex, you can avoid checking the entire string, so we don\u0027t have to adjust for every release.",
+      "range": {
+        "startLine": 91,
+        "startChar": 61,
+        "endLine": 91,
+        "endChar": 74
+      },
+      "revId": "0b7d3f4027d5afd6a45ffef802c784e3fd2b2dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9b95459_2247fce5",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-07T14:57:15Z",
+      "side": 1,
+      "message": "Done. I do want to assert on defaults.",
+      "parentUuid": "4b6e5c7c_00c9f303",
       "range": {
         "startLine": 91,
         "startChar": 61,

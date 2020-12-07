@@ -16,6 +16,24 @@
       "message": "Should this also be mentioned in the release notes?",
       "revId": "f8b02d15621693e78a5968d347fd322bc8eda25f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc0ae979_a8a0fa04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-07T17:07:25Z",
+      "side": 1,
+      "message": "Done already, see co-topic change [2] https://gerrit-review.googlesource.com/c/homepage/+/290943",
+      "parentUuid": "4069d357_35f77cd6",
+      "revId": "f8b02d15621693e78a5968d347fd322bc8eda25f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

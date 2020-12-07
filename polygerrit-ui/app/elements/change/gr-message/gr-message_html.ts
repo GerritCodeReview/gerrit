@@ -256,7 +256,6 @@ export const htmlTemplate = html`
               change-num="[[changeNum]]"
               logged-in="[[_loggedIn]]"
               hide-toggle-buttons
-              on-thread-list-modified="_onThreadListModified"
             >
             </gr-thread-list>
           </template>

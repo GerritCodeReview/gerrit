@@ -51,6 +51,10 @@ export const htmlTemplate = html`
     .hashtagChip {
       margin-bottom: var(--spacing-m);
     }
+    .new-change-summary-feature-true:last-of-type {
+      display: inline;
+      vertical-align: top;
+    }
     #externalStyle {
       display: block;
     }
@@ -340,6 +344,7 @@ export const htmlTemplate = html`
             placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
             read-only="[[_topicReadOnly]]"
             on-changed="_handleTopicChanged"
+            show-as-edit-pencil="true"
           ></gr-editable-label>
         </template>
       </span>
@@ -377,7 +382,7 @@ export const htmlTemplate = html`
       <span class="value">
         <template is="dom-repeat" items="[[change.hashtags]]">
           <gr-linked-chip
-            class="hashtagChip"
+            class$="hashtagChip new-change-summary-feature-[[_isNewChangeSummaryUiEnabled]]"
             text="[[item]]"
             href="[[_computeHashtagUrl(item)]]"
             removable="[[!_hashtagReadOnly]]"
@@ -394,6 +399,7 @@ export const htmlTemplate = html`
             placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
             read-only="[[_hashtagReadOnly]]"
             on-changed="_handleHashtagChanged"
+            show-as-edit-pencil="true"
           ></gr-editable-label>
         </template>
       </span>

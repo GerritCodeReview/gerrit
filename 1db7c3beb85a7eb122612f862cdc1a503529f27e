@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf5f427e_6244c3c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-07T08:08:08Z",
+      "side": 1,
+      "message": "Optional bike-shedding:\n\n  const codeReviewLabelPermitted \u003d this.change.permitted_labels[CODE_REVIEW]",
+      "range": {
+        "startLine": 968,
+        "startChar": 6,
+        "endLine": 968,
+        "endChar": 47
+      },
+      "revId": "1db7c3beb85a7eb122612f862cdc1a503529f27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b942b69_7ba7c066",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-07T08:08:08Z",
+      "side": 1,
+      "message": "Optional bike-shedding:\n\n  const labelInfoPermitted \u003d this.change.permitted_labels[result];\n  const maxScorePermitted \u003d getVotingRange(labelInfoPermitted)?.max;",
+      "revId": "1db7c3beb85a7eb122612f862cdc1a503529f27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55dd36c5_aca1cb85",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-07T08:08:08Z",
+      "side": 1,
+      "message": "Optional bike-shedding:\n\nMaybe rename to `getApprovalInfo`, because ApprovalInfo is always tied to a user.\n\nMaybe use AccountInfo instead of AccountId as a parameter. Makes it easier/shorter for the caller.",
+      "revId": "1db7c3beb85a7eb122612f862cdc1a503529f27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f9b789a_949378b5",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-07T08:08:08Z",
+      "side": 1,
+      "message": "filter() might return an empty array, right? Then [0] would throw an error?\n\nMaybe add a test for that.",
+      "range": {
+        "startLine": 52,
+        "startChar": 20,
+        "endLine": 52,
+        "endChar": 26
+      },
+      "revId": "1db7c3beb85a7eb122612f862cdc1a503529f27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

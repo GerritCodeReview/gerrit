@@ -54,7 +54,6 @@ import {
 } from '../../../utils/path-list-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
-  ConfigInfo,
   ElementPropertyDeepChange,
   FileInfo,
   FileNameToFileInfoMap,
@@ -72,7 +71,6 @@ import {GrDiffCursor} from '../../diff/gr-diff-cursor/gr-diff-cursor';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
-import {UIDraft} from '../../../utils/comment-util';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {PatchSetFile} from '../../../types/types';
 import {CustomKeyboardEvent} from '../../../types/events';
@@ -206,14 +204,8 @@ export class GrFileList extends KeyboardShortcutMixin(
   @property({type: Object})
   changeComments?: ChangeComments;
 
-  @property({type: Object})
-  drafts?: {[path: string]: UIDraft[]};
-
   @property({type: Array})
   revisions?: {[revisionId: string]: RevisionInfo};
-
-  @property({type: Object})
-  projectConfig?: ConfigInfo;
 
   @property({type: Number, notify: true})
   selectedIndex = -1;

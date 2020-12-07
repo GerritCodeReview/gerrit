@@ -748,10 +748,38 @@ export class GrDiffHost extends GestureEventListeners(
     this.$.diff.appendChild(threadEl);
   }
 
+  _shouldUpdateThreadEl(threadEl: GrCommentThread, thread: CommentThread) {
+    if (threadEl.comments[0].id !== thread.comments[0].id) return false;
+    // new draft was created
+    if (threadEl.comments.length !== thread.comments.length) return true;
+    // draft message updated
+    return (
+      threadEl.comments[threadEl.comments.length - 1].message !==
+      thread.comments[threadEl.comments.length - 1].message
+    );
+  }
+
+  _updateThreadWithDraft(threads: CommentThread[]) {
+    this.getThreadEls().forEach((threadEl: GrCommentThread) => {
+      const thread = threads.find(
+        thread => thread.comments[0].id === threadEl.comments[0].id
+      );
+      if (!thread) return;
+      if (this._shouldUpdateThreadEl(threadEl, thread)) {
+        this._clearThread(threadEl);
+        this._attachThreadElement(this._createThreadElement(thread));
+      }
+    });
+  }
+
+  _clearThread(threadEl: GrCommentThread) {
+    const parent = threadEl.parentNode;
+    if (parent) parent.removeChild(threadEl);
+  }
+
   _clearThreads() {
     for (const threadEl of this.getThreadEls()) {
-      const parent = threadEl.parentNode;
-      if (parent) parent.removeChild(threadEl);
+      this._clearThread(threadEl);
     }
   }
 

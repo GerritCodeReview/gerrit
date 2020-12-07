@@ -28,7 +28,7 @@ public class ElasticIndexIT extends AbstractIndexTests {
 
   @ConfigSuite.Default
   public static Config elasticsearchV7() {
-    return getConfig(ElasticVersion.V7_9);
+    return getConfig(ElasticVersion.V7_10);
   }
 
   @Override

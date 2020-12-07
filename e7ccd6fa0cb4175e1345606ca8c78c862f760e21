@@ -319,6 +319,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c56136f_91221399",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T17:44:21Z",
+      "side": 1,
+      "message": "yeah it\u0027s unresolved so that I don\u0027t lose track of this.\nwill work on this.",
+      "parentUuid": "6df2d798_39441de6",
+      "range": {
+        "startLine": 341,
+        "startChar": 2,
+        "endLine": 341,
+        "endChar": 25
+      },
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79953950_df9b088a",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 64

@@ -622,7 +622,6 @@ export const htmlTemplate = html`
           change-num="[[_changeNum]]"
           patch-range="{{_patchRange}}"
           change-comments="[[_changeComments]]"
-          drafts="[[_diffDrafts]]"
           revisions="[[_change.revisions]]"
           project-config="[[_projectConfig]]"
           selected-index="{{viewState.selectedFileIndex}}"

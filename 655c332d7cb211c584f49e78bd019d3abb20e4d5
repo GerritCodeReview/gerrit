@@ -16,6 +16,24 @@
       "message": "Use 1. That should be sufficient.\n\n100 could conflict with z-index in gr-autocomplete-dropdown.\n\nAlso add a comment about what the z-index is for.",
       "revId": "655c332d7cb211c584f49e78bd019d3abb20e4d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b45933f6_220e7ada",
+        "filename": "polygerrit-ui/app/elements/gr-app-element_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-07T15:19:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "098936db_eab24621",
+      "revId": "655c332d7cb211c584f49e78bd019d3abb20e4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

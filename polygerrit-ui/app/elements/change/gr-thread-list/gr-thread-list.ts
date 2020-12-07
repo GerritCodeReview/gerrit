@@ -422,6 +422,8 @@ export class GrThreadList extends GestureEventListeners(
     this.dispatchEvent(
       new CustomEvent('thread-list-modified', {
         detail: {rootId: e.detail.rootId, path: e.detail.path},
+        bubbles: true,
+        composed: true,
       })
     );
   }

@@ -357,7 +357,6 @@ export const htmlTemplate = html`
         change-num="[[change._number]]"
         logged-in="true"
         hide-toggle-buttons=""
-        on-thread-list-modified="_onThreadListModified"
       >
       </gr-thread-list>
       <span

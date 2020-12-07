@@ -224,15 +224,6 @@ export class GrMessage extends GestureEventListeners(
     return pluralize(threadsLength, 'comment');
   }
 
-  _onThreadListModified() {
-    // TODO(taoalpha): this won't propagate the changes to the files
-    // should consider replacing this with either top level events
-    // or gerrit level events
-
-    // emit the event so change-view can also get updated with latest changes
-    fireEvent(this, 'comment-refresh');
-  }
-
   _computeMessageContentExpanded(content?: string, tag?: ReviewInputTag) {
     return this._computeMessageContent(content, tag, true);
   }

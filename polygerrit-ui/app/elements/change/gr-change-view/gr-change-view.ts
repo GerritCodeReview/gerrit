@@ -145,6 +145,7 @@ import {
   EditableContentSaveEvent,
   OpenFixPreviewEvent,
   SwitchTabEvent,
+  ThreadListModifiedEvent,
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
@@ -598,6 +599,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
     this.addEventListener('diff-comments-modified', () =>
       this._handleReloadCommentThreads()
+    );
+
+    this.addEventListener(
+      'thread-list-modified',
+      (e: ThreadListModifiedEvent) => this._handleReloadDiffComments(e)
     );
 
     this.addEventListener('open-reply-dialog', () => this._openReplyDialog());

@@ -1459,15 +1459,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     return provider;
   }
 
-  _onThreadListModified() {
-    // TODO(taoalpha): this won't propogate the changes to the files
-    // should consider replacing this with either top level events
-    // or gerrit level events
-
-    // emit the event so change-view can also get updated with latest changes
-    fireEvent(this, 'comment-refresh');
-  }
-
   reportAttentionSetChanges(
     modified: boolean,
     addedSet?: AttentionSetInput[],

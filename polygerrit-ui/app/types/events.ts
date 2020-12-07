@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PatchSetNum} from './common';
+import {PatchSetNum, UrlEncodedCommentId} from './common';
 import {UIComment} from '../utils/comment-util';
 import {Side} from '../constants/constants';
 import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
@@ -212,4 +212,17 @@ export interface CustomKeyboardEvent extends CustomEvent, EventApi {
   readonly shiftKey: boolean;
   readonly keyCode: number;
   readonly repeat: boolean;
+}
+
+export interface ThreadListModifiedDetail {
+  rootId: UrlEncodedCommentId;
+  path: string;
+}
+
+export type ThreadListModifiedEvent = CustomEvent<ThreadListModifiedDetail>;
+
+declare global {
+  interface HTMLElementEventMap {
+    'thread-list-modified': ThreadListModifiedEvent;
+  }
 }

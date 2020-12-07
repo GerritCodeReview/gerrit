@@ -16,15 +16,19 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -190,7 +194,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
         .update();
     AuthException thrown =
         assertThrows(AuthException.class, () -> move(r.getChangeId(), newBranch.branch()));
-    assertThat(thrown).hasMessageThat().contains("move not permitted");
+    assertThat(thrown).hasMessageThat().isEqualTo("move not permitted");
   }
 
   @Test
@@ -210,7 +214,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
         assertThrows(AuthException.class, () -> move(r.getChangeId(), newBranch.branch()));
-    assertThat(thrown).hasMessageThat().contains("move not permitted");
+    assertThat(thrown).hasMessageThat().isEqualTo("move not permitted");
   }
 
   @Test
@@ -266,6 +270,224 @@ public class MoveChangeIT extends AbstractDaemonTest {
         .hasMessageThat()
         .contains(
             String.format("The current patch set of change %s is locked", r.getChange().getId()));
+  }
+
+  @Test
+  public void moveChangeKeepAllVotesOnlyAllowedForAdmins() throws Exception {
+    // Keep all votes options is only permitted for admins.
+    BranchNameKey destinationBranch = BranchNameKey.create(project, "dest");
+    createBranch(destinationBranch);
+    BranchNameKey sourceBranch = BranchNameKey.create(project, "source");
+    createBranch(sourceBranch);
+    String changeId = createChangeInBranch(sourceBranch.branch()).getChangeId();
+
+    // Grant change permissions to the registered users.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref(destinationBranch.branch()).group(REGISTERED_USERS))
+        .update();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.ABANDON).ref(sourceBranch.branch()).group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    AuthException thrown =
+        assertThrows(
+            AuthException.class, () -> move(changeId, destinationBranch.shortName(), true));
+    assertThat(thrown).hasMessageThat().isEqualTo("move is not permitted with keepAllVotes option");
+
+    requestScopeOperations.setApiUser(admin.id());
+
+    move(changeId, destinationBranch.branch(), true);
+    assertThat(info(changeId).branch).isEqualTo(destinationBranch.shortName());
+  }
+
+  @Test
+  public void moveChangeKeepAllVotesNoLabelInDestination() throws Exception {
+    BranchNameKey destinationBranch = BranchNameKey.create(project, "dest");
+    createBranch(destinationBranch);
+    BranchNameKey sourceBranch = BranchNameKey.create(project, "source");
+    createBranch(sourceBranch);
+
+    String testLabelA = "Label-A";
+    // The label has the range [-1; 1]
+    configLabel(testLabelA, LabelFunction.NO_BLOCK, ImmutableList.of(sourceBranch.branch()));
+    // Registered users have permissions for the entire range [-1; 1] on all branches.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(testLabelA).ref("refs/heads/*").group(REGISTERED_USERS).range(-1, +1))
+        .update();
+
+    String changeId = createChangeInBranch(sourceBranch.branch()).getChangeId();
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput userReviewInput = new ReviewInput();
+    userReviewInput.label(testLabelA, 1);
+    gApi.changes().id(changeId).current().review(userReviewInput);
+
+    assertLabelVote(user, changeId, testLabelA, (short) 1);
+
+    requestScopeOperations.setApiUser(admin.id());
+    assertThat(atrScope.get().getUser().getAccountId()).isEqualTo(admin.id());
+
+    // Move the change to the destination branch.
+    assertThat(info(changeId).branch).isEqualTo(sourceBranch.shortName());
+    move(changeId, destinationBranch.shortName(), true);
+    assertThat(info(changeId).branch).isEqualTo(destinationBranch.shortName());
+
+    // Label is missing in the destination branch.
+    assertThat(gApi.changes().id(changeId).current().reviewer(user.email()).votes()).isEmpty();
+
+    // Move the change back to the source, the label is kept.
+    move(changeId, sourceBranch.shortName(), true);
+    assertThat(info(changeId).branch).isEqualTo(sourceBranch.shortName());
+    assertLabelVote(user, changeId, testLabelA, (short) 1);
+  }
+
+  @Test
+  public void moveChangeKeepAllVotesOutOfUserPermissionRange() throws Exception {
+    BranchNameKey destinationBranch = BranchNameKey.create(project, "dest");
+    createBranch(destinationBranch);
+    BranchNameKey sourceBranch = BranchNameKey.create(project, "source");
+    createBranch(sourceBranch);
+
+    String testLabelA = "Label-A";
+    // The label has the range [-2; 2]
+    configLabel(
+        project,
+        testLabelA,
+        LabelFunction.NO_BLOCK,
+        value(2, "Passes"),
+        value(1, "Mostly ok"),
+        value(0, "No score"),
+        value(-1, "Needs work"),
+        value(-2, "Failed"));
+    // Registered users have [-2; 2] permissions on the source.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(testLabelA).ref(sourceBranch.branch()).group(REGISTERED_USERS).range(-2, +2))
+        .update();
+
+    // Registered users have [-1; 1] permissions on the destination.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(testLabelA)
+                .ref(destinationBranch.branch())
+                .group(REGISTERED_USERS)
+                .range(-1, +1))
+        .update();
+
+    String changeId = createChangeInBranch(sourceBranch.branch()).getChangeId();
+    requestScopeOperations.setApiUser(user.id());
+    // Vote within the range of the source branch.
+    ReviewInput userReviewInput = new ReviewInput();
+    userReviewInput.label(testLabelA, 2);
+    gApi.changes().id(changeId).current().review(userReviewInput);
+
+    assertLabelVote(user, changeId, testLabelA, (short) 2);
+
+    requestScopeOperations.setApiUser(admin.id());
+    assertThat(atrScope.get().getUser().getAccountId()).isEqualTo(admin.id());
+
+    // Move the change to the destination branch.
+    assertThat(info(changeId).branch).isEqualTo(sourceBranch.shortName());
+    move(changeId, destinationBranch.branch(), true);
+    // User does not have label permissions for the same vote on the destination branch.
+    requestScopeOperations.setApiUser(user.id());
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(changeId).current().review(userReviewInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(String.format("Applying label \"%s\": 2 is restricted", testLabelA));
+
+    // Label is kept even though the user's permission range is different from the source.
+    // Since we do not squash users votes based on the destination branch access label
+    // configuration, this is working as intended.
+    // It's the same behavior as when a project owner reduces user's permission range on label.
+    // Administrators should take this into account.
+    assertThat(info(changeId).branch).isEqualTo(destinationBranch.shortName());
+    assertLabelVote(user, changeId, testLabelA, (short) 2);
+
+    requestScopeOperations.setApiUser(admin.id());
+    // Move the change back to the source, the label is kept.
+    move(changeId, sourceBranch.shortName(), true);
+    assertThat(info(changeId).branch).isEqualTo(sourceBranch.shortName());
+    assertLabelVote(user, changeId, testLabelA, (short) 2);
+  }
+
+  @Test
+  public void moveKeepAllVotesCanMoveAllInRange() throws Exception {
+    BranchNameKey destinationBranch = BranchNameKey.create(project, "dest");
+    createBranch(destinationBranch);
+    BranchNameKey sourceBranch = BranchNameKey.create(project, "source");
+    createBranch(sourceBranch);
+
+    // The non-block label has the range [-2; 2]
+    String testLabelA = "Label-A";
+    configLabel(
+        project,
+        testLabelA,
+        LabelFunction.NO_BLOCK,
+        value(2, "Passes"),
+        value(1, "Mostly ok"),
+        value(0, "No score"),
+        value(-1, "Needs work"),
+        value(-2, "Failed"));
+
+    // Registered users have [-2; 2] permissions on all branches.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(testLabelA).ref("refs/heads/*").group(REGISTERED_USERS).range(-2, +2))
+        .update();
+
+    String changeId = createChangeInBranch(sourceBranch.branch()).getChangeId();
+
+    for (int vote = -2; vote <= 2; vote++) {
+      TestAccount testUser = accountCreator.create("TestUser" + vote);
+      requestScopeOperations.setApiUser(testUser.id());
+      ReviewInput userReviewInput = new ReviewInput();
+      userReviewInput.label(testLabelA, vote);
+      gApi.changes().id(changeId).current().review(userReviewInput);
+    }
+
+    assertThat(
+            gApi.changes().id(changeId).current().votes().get(testLabelA).stream()
+                .map(approvalInfo -> approvalInfo.value)
+                .collect(ImmutableList.toImmutableList()))
+        .containsExactly(-2, -1, 1, 2);
+
+    requestScopeOperations.setApiUser(admin.id());
+    // Move the change to the destination branch.
+    assertThat(info(changeId).branch).isEqualTo(sourceBranch.shortName());
+    move(changeId, destinationBranch.shortName(), true);
+    assertThat(info(changeId).branch).isEqualTo(destinationBranch.shortName());
+
+    // All votes are kept
+    assertThat(
+            gApi.changes().id(changeId).current().votes().get(testLabelA).stream()
+                .map(approvalInfo -> approvalInfo.value)
+                .collect(ImmutableList.toImmutableList()))
+        .containsExactly(-2, -1, 1, 2);
+
+    // Move the change back to the source, the label is kept.
+    move(changeId, sourceBranch.shortName(), true);
+    assertThat(info(changeId).branch).isEqualTo(sourceBranch.shortName());
+    assertThat(
+            gApi.changes().id(changeId).current().votes().get(testLabelA).stream()
+                .map(approvalInfo -> approvalInfo.value)
+                .collect(ImmutableList.toImmutableList()))
+        .containsExactly(-2, -1, 1, 2);
   }
 
   @Test
@@ -394,10 +616,28 @@ public class MoveChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).move(in);
   }
 
+  private void move(String changeId, String destination, boolean keepAllVotes)
+      throws RestApiException {
+    MoveInput in = new MoveInput();
+    in.destinationBranch = destination;
+    in.keepAllVotes = keepAllVotes;
+    gApi.changes().id(changeId).move(in);
+  }
+
   private PushOneCommit.Result createChange(String branch, String changeId) throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, changeId);
     PushOneCommit.Result result = push.to("refs/for/" + branch);
     result.assertOkStatus();
     return result;
+  }
+
+  private PushOneCommit.Result createChangeInBranch(String branch) throws Exception {
+    return createChange("refs/for/" + branch);
+  }
+
+  private void assertLabelVote(TestAccount user, String changeId, String label, short vote)
+      throws Exception {
+    assertThat(gApi.changes().id(changeId).current().reviewer(user.email()).votes())
+        .containsEntry(label, vote);
   }
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03905735_13082e5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-07T14:20:17Z",
+      "side": 1,
+      "message": "stable-3.1",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "79cdecd52daa88c202033c2a23c3db4b297e2b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3474231_b6447d59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-07T14:20:17Z",
+      "side": 1,
+      "message": "Just a nit.",
+      "revId": "79cdecd52daa88c202033c2a23c3db4b297e2b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "144bc39a_0abe78a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T21:09:16Z",
+      "side": 1,
+      "message": "Surprising that TS did not catch this assignment.",
+      "revId": "34c7c46321bef269c19dc4d59c10c0ceca2d3c2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

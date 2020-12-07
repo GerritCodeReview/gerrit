@@ -16,6 +16,24 @@
       "message": "Nice, please ignore my early comments in this series to suggest to upgrade right away to 7.10. What I am asking: do we really need all the intermediate ES releases?",
       "revId": "2839df1391c83b21a7d52056fb372f3984a9b387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3db5d0c4_320abdd6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-07T22:59:25Z",
+      "side": 1,
+      "message": "\u003e Nice, please ignore my early comments in this series to suggest to upgrade right away to 7.10.\n\nThat\u0027s fine. I replied to some in their context still, for in-thread clarification purposes (for the other reviewers).\n\n\u003e What I am asking: do we really need all the intermediate ES releases?\n\nYes, as that is (was) how we\u0027ve been supporting ES so far. But I\u0027m trying to answer that maybe better in that other change review thread down there.",
+      "parentUuid": "392b8d98_57b5d247",
+      "revId": "2839df1391c83b21a7d52056fb372f3984a9b387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

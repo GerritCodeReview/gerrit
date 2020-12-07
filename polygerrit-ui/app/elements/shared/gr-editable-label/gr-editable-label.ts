@@ -28,6 +28,8 @@ import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PaperInputElementExt} from '../../../types/types';
 import {CustomKeyboardEvent} from '../../../types/events';
+import {appContext} from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -89,10 +91,21 @@ export class GrEditableLabel extends KeyboardShortcutMixin(
   @property({type: Number})
   readonly _verticalOffset = -30;
 
+  @property({type: Boolean})
+  showAsEditPencil = false;
+
+  @property({type: Boolean})
+  _isNewChangeSummaryUiEnabled = false;
+
+  private readonly flagsService = appContext.flagsService;
+
   /** @override */
   ready() {
     super.ready();
     this._ensureAttribute('tabindex', '0');
+    this.showAsEditPencil =
+      this.showAsEditPencil &&
+      this.flagsService.isEnabled(KnownExperimentId.NEW_CHANGE_SUMMARY_UI);
   }
 
   get keyBindings() {

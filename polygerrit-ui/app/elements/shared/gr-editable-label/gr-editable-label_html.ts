@@ -68,13 +68,27 @@ export const htmlTemplate = html`
       }
       --paper-input-container-focus-color: var(--link-color);
     }
+    gr-button iron-icon {
+      color: inherit;
+    }
   </style>
-  <label
-    class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
-    title$="[[_computeLabel(value, placeholder)]]"
-    on-click="_showDropdown"
-    >[[_computeLabel(value, placeholder)]]</label
-  >
+  <template is="dom-if" if="[[!showAsEditPencil]]">
+    <label
+      class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
+      title$="[[_computeLabel(value, placeholder)]]"
+      on-click="_showDropdown"
+      >[[_computeLabel(value, placeholder)]]</label
+    >
+  </template>
+  <template is="dom-if" if="[[showAsEditPencil]]">
+    <gr-button
+      link=""
+      class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
+      on-click="_showDropdown"
+      title="[[_computeLabel(value, placeholder)]]"
+      ><iron-icon icon="gr-icons:edit"></iron-icon
+    ></gr-button>
+  </template>
   <iron-dropdown
     id="dropdown"
     vertical-align="auto"

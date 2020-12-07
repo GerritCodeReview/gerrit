@@ -340,6 +340,7 @@ export const htmlTemplate = html`
             placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
             read-only="[[_topicReadOnly]]"
             on-changed="_handleTopicChanged"
+            show-as-edit-pencil="true"
           ></gr-editable-label>
         </template>
       </span>
@@ -394,6 +395,7 @@ export const htmlTemplate = html`
             placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
             read-only="[[_hashtagReadOnly]]"
             on-changed="_handleHashtagChanged"
+            show-as-edit-pencil="true"
           ></gr-editable-label>
         </template>
       </span>

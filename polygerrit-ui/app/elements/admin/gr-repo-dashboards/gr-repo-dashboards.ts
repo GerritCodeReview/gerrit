@@ -24,8 +24,7 @@ import {htmlTemplate} from './gr-repo-dashboards_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
 import {RepoName, DashboardId, DashboardInfo} from '../../../types/common';
-import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
-import {firePageError} from '../../../utils/event-util';
+import {handleAsPageError} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {appContext} from '../../../services/app-context';
 
 interface DashboardRef {
@@ -58,12 +57,8 @@ export class GrRepoDashboards extends GestureEventListeners(
       return Promise.resolve();
     }
 
-    const errFn: ErrorCallback = response => {
-      firePageError(this, response);
-    };
-
     return this.restApiService
-      .getRepoDashboards(repo, errFn)
+      .getRepoDashboards(repo)
       .then((res?: DashboardInfo[]) => {
         if (!res) {
           return;
@@ -94,7 +89,8 @@ export class GrRepoDashboards extends GestureEventListeners(
         this._dashboards = dashboardBuilder;
         this._loading = false;
         flush();
-      });
+      })
+      .catch(handleAsPageError);
   }
 
   _getUrl(project: RepoName, id: DashboardId) {

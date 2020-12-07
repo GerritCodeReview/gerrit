@@ -45,7 +45,6 @@ import {CommentThread} from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {appContext} from '../../../services/app-context';
 import {pluralize} from '../../../utils/string-util';
-import {fireEvent} from '../../../utils/event-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?(?:P|p)atch (?:S|s)et \d+:\s*(.*)/;
@@ -224,15 +223,6 @@ export class GrMessage extends GestureEventListeners(
     }
 
     return pluralize(threadsLength, 'comment');
-  }
-
-  _onThreadListModified() {
-    // TODO(taoalpha): this won't propagate the changes to the files
-    // should consider replacing this with either top level events
-    // or gerrit level events
-
-    // emit the event so change-view can also get updated with latest changes
-    fireEvent(this, 'comment-refresh');
   }
 
   _computeMessageContentExpanded(content?: string, tag?: ReviewInputTag) {

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1204d392_fbf8ad57",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 78
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T17:14:04Z",
+      "side": 1,
+      "message": "Yeah it\u0027s still serving it\u0027s purpose of making API calls for ported comments and drafts.\nWhat are you suggesting? Remove the method and just make 2 API calls here?\nIf so, then I find the current option a bit cleaner.",
+      "parentUuid": "c4710ea5_871206e4",
+      "range": {
+        "startLine": 593,
+        "startChar": 11,
+        "endLine": 593,
+        "endChar": 28
+      },
+      "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bf873f7_ab432da9",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
         "patchSetId": 78
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-07T12:20:30Z",
       "side": 1,
       "message": "Can you maybe write those tests without using the \u003cgr-comment-api\u003e element?",
+      "range": {
+        "startLine": 152,
+        "startChar": 8,
+        "endLine": 152,
+        "endChar": 15
+      },
+      "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb5f5e4_4d9b93f4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 78
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T17:14:04Z",
+      "side": 1,
+      "message": "We are writing a test in gr-comment-api_test.js.\nI\u0027m not sure if writing a test without using the element is really easy.\n\nI did rewrite the tests to create proper ChangeComment objects so we don\u0027t have to stub individual methods if that helps with readibility.",
+      "parentUuid": "6bf873f7_ab432da9",
       "range": {
         "startLine": 152,
         "startChar": 8,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4409db86_dff93be4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 78
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T17:14:04Z",
+      "side": 1,
+      "message": "I wasn\u0027t assigning all properties to ChangeComments object, only adding properties that were being accessed in getPortedCommentThreads.\n\nI created a complete ChangeComments object now so we don\u0027t need to stub this method now.",
+      "parentUuid": "bae525d2_07fb4f75",
+      "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d32f7cbc_1086d7bf",
@@ -77,6 +143,24 @@
       "writtenOn": "2020-12-07T12:20:30Z",
       "side": 1,
       "message": "Maybe add a comment to each comment entity and explain why it is part of this test and what the expectations are. That makes the test much easier to understand.",
+      "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be84f3aa_ea0e006c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 78
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T17:14:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d32f7cbc_1086d7bf",
       "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

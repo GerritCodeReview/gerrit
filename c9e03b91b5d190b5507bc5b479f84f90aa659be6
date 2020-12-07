@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceb7a0d2_19c5ecec",
+        "filename": "polygerrit-ui/app/utils/formatter-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-07T07:53:04Z",
+      "side": 1,
+      "message": "Opt: Maybe `string-util` instead? But only do that, if you also think that is a better name. :-)",
+      "revId": "c9e03b91b5d190b5507bc5b479f84f90aa659be6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

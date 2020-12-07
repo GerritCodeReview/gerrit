@@ -1633,14 +1633,9 @@ export class GrFileList extends KeyboardShortcutMixin(
       return;
     }
 
-    // Comments are not returned with the commentSide attribute from
-    // the api, but it's necessary to be stored on the diff's
-    // comments due to use in the _handleCommentUpdate function.
-    // The comment thread already has a side associated with it, so
-    // set the comment's side to match.
-    threadEl.comments = newComments.map(c =>
-      Object.assign(c, {diffSide: threadEl.diffSide})
-    );
+    threadEl.comments = newComments.map(c => {
+      return {...c};
+    });
     flush();
   }
 

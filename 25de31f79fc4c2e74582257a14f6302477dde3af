@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8d0e2ed_010cf590",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 78
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T17:44:21Z",
+      "side": 1,
+      "message": "Which part why?\nServing the purpose of API calls is still there I think.\nIf why for finding it cleaner, not sure how to justify that.\nI don\u0027t have a strong opinion so if you prefer the other option I can change it.",
+      "parentUuid": "0c5747b3_77e64f24",
+      "range": {
+        "startLine": 593,
+        "startChar": 11,
+        "endLine": 593,
+        "endChar": 28
+      },
+      "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bf873f7_ab432da9",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
         "patchSetId": 78
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "What is the difference between setting\n\n  element._changeComments\n\nand setting a local variable in the test?\n\n  let changeComments;",
       "parentUuid": "cfb5f5e4_4d9b93f4",
+      "range": {
+        "startLine": 152,
+        "startChar": 8,
+        "endLine": 152,
+        "endChar": 15
+      },
+      "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "295efaed_655eca3a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 78
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T17:44:21Z",
+      "side": 1,
+      "message": "Ahh you meant replace `element._changeComments` with `let changeComments`.\nYeah that\u0027s a trivial change. I thought you meant not using the ChangeComments entity at all.",
+      "parentUuid": "af2d43a6_eb8df7c7",
       "range": {
         "startLine": 152,
         "startChar": 8,

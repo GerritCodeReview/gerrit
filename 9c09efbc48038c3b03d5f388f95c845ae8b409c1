@@ -16,6 +16,24 @@
       "message": "tested on GerritHub.io and the latency times are much better now !",
       "revId": "9c09efbc48038c3b03d5f388f95c845ae8b409c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "459d9002_6b364335",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-07T07:44:35Z",
+      "side": 1,
+      "message": "It seems, that the JSON compaction is still not activated on GET change details request, e.g.:\n\n   \u003cgerrit_site\u003e/changes/gerrit~XYZ/detail?O\u003d916314",
+      "parentUuid": "27e2e925_042d4229",
+      "revId": "9c09efbc48038c3b03d5f388f95c845ae8b409c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

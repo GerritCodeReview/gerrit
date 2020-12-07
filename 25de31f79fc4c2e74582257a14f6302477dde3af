@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15afac42_1d0faea0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 78
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-07T21:05:28Z",
+      "side": 1,
+      "message": "I think it is important to have these kinds of discussion, because otherwise you don\u0027t learn enough about better coding and design. But I am happy to just discuss that in person tomorrow. Maybe you can think of some pros and cons and we can discuss them in 1:1.",
+      "parentUuid": "497f38ec_aaaa2663",
+      "range": {
+        "startLine": 593,
+        "startChar": 11,
+        "endLine": 593,
+        "endChar": 28
+      },
+      "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bf873f7_ab432da9",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
         "patchSetId": 78

@@ -39,6 +39,7 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {isRobot} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
 import {appContext} from '../../../services/app-context';
+import {fireEvent} from '../../../utils/event-util';
 
 export interface GrApplyFixDialog {
   $: {
@@ -129,12 +130,7 @@ export class GrApplyFixDialog extends GestureEventListeners(
     );
     return Promise.all(promises).then(() => {
       // ensures gr-overlay repositions overlay in center
-      this.$.applyFixOverlay.dispatchEvent(
-        new CustomEvent('iron-resize', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireEvent(this.$.applyFixOverlay, 'iron-resize');
     });
   }
 
@@ -142,12 +138,7 @@ export class GrApplyFixDialog extends GestureEventListeners(
     super.attached();
     this.refitOverlay = () => {
       // re-center the dialog as content changed
-      this.$.applyFixOverlay.dispatchEvent(
-        new CustomEvent('iron-resize', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireEvent(this.$.applyFixOverlay, 'iron-resize');
     };
     this.addEventListener('diff-context-expanded', this.refitOverlay);
   }
@@ -242,12 +233,7 @@ export class GrApplyFixDialog extends GestureEventListeners(
     this._currentPreviews = [];
     this._isApplyFixLoading = false;
 
-    this.dispatchEvent(
-      new CustomEvent('close-fix-preview', {
-        bubbles: true,
-        composed: true,
-      })
-    );
+    fireEvent(this, 'close-fix-preview');
     this.$.applyFixOverlay.close();
   }
 

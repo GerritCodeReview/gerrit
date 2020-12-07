@@ -55,6 +55,7 @@ import {
 } from '../gr-repo-access/gr-repo-access-interfaces';
 import {PolymerDomRepeatEvent} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
+import {fireEvent} from '../../../utils/event-util';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
 
@@ -222,9 +223,7 @@ export class GrPermission extends GestureEventListeners(
     }
     this.permission.value.modified = true;
     // Allows overall access page to know a change has been made.
-    this.dispatchEvent(
-      new CustomEvent('access-modified', {bubbles: true, composed: true})
-    );
+    fireEvent(this, 'access-modified');
   }
 
   _handleRemovePermission() {
@@ -232,18 +231,11 @@ export class GrPermission extends GestureEventListeners(
       return;
     }
     if (this.permission.value.added) {
-      this.dispatchEvent(
-        new CustomEvent('added-permission-removed', {
-          bubbles: true,
-          composed: true,
-        })
-      );
+      fireEvent(this, 'added-permission-removed');
     }
     this._deleted = true;
     this.permission.value.deleted = true;
-    this.dispatchEvent(
-      new CustomEvent('access-modified', {bubbles: true, composed: true})
-    );
+    fireEvent(this, 'access-modified');
   }
 
   @observe('_rules.splices')
@@ -407,9 +399,7 @@ export class GrPermission extends GestureEventListeners(
     value.added = true;
     // See comment above for why we cannot use "this.set(...)" here.
     this.permission.value.rules[groupId] = value;
-    this.dispatchEvent(
-      new CustomEvent('access-modified', {bubbles: true, composed: true})
-    );
+    fireEvent(this, 'access-modified');
   }
 
   _computeHasRange(name: string) {

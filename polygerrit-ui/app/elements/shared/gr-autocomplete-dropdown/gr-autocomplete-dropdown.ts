@@ -27,6 +27,7 @@ import {IronFitMixin} from '../../../mixins/iron-fit-mixin/iron-fit-mixin';
 import {customElement, property, observe} from '@polymer/decorators';
 import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
+import {fireEvent} from '../../../utils/event-util';
 
 export interface GrAutocompleteDropdown {
   $: {
@@ -204,12 +205,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
   }
 
   _fireClose() {
-    this.dispatchEvent(
-      new CustomEvent('dropdown-closed', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'dropdown-closed');
   }
 
   getCursorTarget() {

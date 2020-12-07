@@ -23,6 +23,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement} from '@polymer/decorators';
 import {htmlTemplate} from './gr-create-change-help_html';
+import {fireEvent} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -43,8 +44,6 @@ class GrCreateChangeHelp extends GestureEventListeners(
    */
   _handleCreateTap(e: Event) {
     e.preventDefault();
-    this.dispatchEvent(
-      new CustomEvent('create-tap', {bubbles: true, composed: true})
-    );
+    fireEvent(this, 'create-tap');
   }
 }

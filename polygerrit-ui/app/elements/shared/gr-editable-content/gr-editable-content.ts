@@ -24,7 +24,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-editable-content_html';
-import {fireAlert} from '../../../utils/event-util';
+import {fireAlert, fireEvent} from '../../../utils/event-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -188,11 +188,6 @@ export class GrEditableContent extends GestureEventListeners(
   _handleCancel(e: Event) {
     e.preventDefault();
     this.editing = false;
-    this.dispatchEvent(
-      new CustomEvent('editable-content-cancel', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'editable-content-cancel');
   }
 }

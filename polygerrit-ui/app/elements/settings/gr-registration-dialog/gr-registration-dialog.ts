@@ -26,6 +26,7 @@ import {customElement, property, observe} from '@polymer/decorators';
 import {ServerInfo, AccountDetailInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
 import {appContext} from '../../../services/app-context';
+import {fireEvent} from '../../../utils/event-util';
 
 export interface GrRegistrationDialog {
   $: {
@@ -135,12 +136,7 @@ export class GrRegistrationDialog extends GestureEventListeners(
 
     return Promise.all(promises).then(() => {
       this._saving = false;
-      this.dispatchEvent(
-        new CustomEvent('account-detail-update', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireEvent(this, 'account-detail-update');
     });
   }
 
@@ -156,12 +152,7 @@ export class GrRegistrationDialog extends GestureEventListeners(
 
   close() {
     this._saving = true; // disable buttons indefinitely
-    this.dispatchEvent(
-      new CustomEvent('close', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'close');
   }
 
   _computeSaveDisabled(name?: string, email?: string, saving?: boolean) {

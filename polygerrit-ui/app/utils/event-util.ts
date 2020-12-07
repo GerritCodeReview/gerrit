@@ -25,6 +25,15 @@ export enum EventType {
   TITLE_CHANGE = 'title-change',
 }
 
+export function fireEvent(target: EventTarget, type: string) {
+  target.dispatchEvent(
+    new CustomEvent(type, {
+      composed: true,
+      bubbles: true,
+    })
+  );
+}
+
 export function fireAlert(target: EventTarget, message: string) {
   target.dispatchEvent(
     new CustomEvent(EventType.SHOW_ALERT, {

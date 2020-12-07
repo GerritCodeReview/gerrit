@@ -42,6 +42,7 @@ import {
   LabelNameToLabelTypeInfoMap,
 } from '../../../types/common';
 import {PolymerDomRepeatEvent} from '../../../types/types';
+import {fireEvent} from '../../../utils/event-util';
 
 /**
  * Fired when the section has been modified or removed.
@@ -140,9 +141,7 @@ export class GrAccessSection extends GestureEventListeners(
       // For a new section, this is not fired because new permissions and
       // rules have to be added in order to save, modifying the ref is not
       // enough.
-      this.dispatchEvent(
-        new CustomEvent('access-modified', {bubbles: true, composed: true})
-      );
+      fireEvent(this, 'access-modified');
     }
     this.section.value.updatedId = this.section.id;
   }
@@ -275,18 +274,11 @@ export class GrAccessSection extends GestureEventListeners(
       return;
     }
     if (this.section.value.added) {
-      this.dispatchEvent(
-        new CustomEvent('added-section-removed', {
-          bubbles: true,
-          composed: true,
-        })
-      );
+      fireEvent(this, 'added-section-removed');
     }
     this._deleted = true;
     this.section.value.deleted = true;
-    this.dispatchEvent(
-      new CustomEvent('access-modified', {bubbles: true, composed: true})
-    );
+    fireEvent(this, 'access-modified');
   }
 
   _handleUndoRemove() {

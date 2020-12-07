@@ -54,6 +54,7 @@ import {
   isAttentionSetEnabled,
 } from '../../../utils/attention-set-util';
 import {CustomKeyboardEvent} from '../../../types/events';
+import {fireEvent} from '../../../utils/event-util';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -423,12 +424,7 @@ export class GrChangeList extends ChangeTableMixin(
     }
 
     e.preventDefault();
-    this.dispatchEvent(
-      new CustomEvent('next-page', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'next-page');
   }
 
   _prevPage(e: CustomKeyboardEvent) {

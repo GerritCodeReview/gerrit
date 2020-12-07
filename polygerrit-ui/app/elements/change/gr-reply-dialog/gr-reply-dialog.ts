@@ -106,8 +106,8 @@ import {GrStorage, StorageLocation} from '../../shared/gr-storage/gr-storage';
 import {isAttentionSetEnabled} from '../../../utils/attention-set-util';
 import {CODE_REVIEW, getMaxAccounts} from '../../../utils/label-util';
 import {isUnresolved} from '../../../utils/comment-util';
-import {fireAlert, fireServerError} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
+import {fireAlert, fireEvent, fireServerError} from '../../../utils/event-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -447,12 +447,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     if (this.restApiService.hasPendingDiffDrafts()) {
       this._savingComments = true;
       this.restApiService.awaitPendingDiffDrafts().then(() => {
-        this.dispatchEvent(
-          new CustomEvent('comment-refresh', {
-            composed: true,
-            bubbles: true,
-          })
-        );
+        fireEvent(this, 'comment-refresh');
         this._savingComments = false;
       });
     }
@@ -888,9 +883,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   _onAttentionExpandedChange() {
     // If the attention-detail section is expanded without dispatching this
     // event, then the dialog may expand beyond the screen's bottom border.
-    this.dispatchEvent(
-      new CustomEvent('iron-resize', {composed: true, bubbles: true})
-    );
+    fireEvent(this, 'iron-resize');
   }
 
   _showAttentionSummary(config?: ServerInfo, attentionExpanded?: boolean) {
@@ -1361,12 +1354,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   _handleHeightChanged() {
-    this.dispatchEvent(
-      new CustomEvent('autogrow', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'autogrow');
   }
 
   _handleLabelsChanged() {
@@ -1477,12 +1465,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     // or gerrit level events
 
     // emit the event so change-view can also get updated with latest changes
-    this.dispatchEvent(
-      new CustomEvent('comment-refresh', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'comment-refresh');
   }
 
   reportAttentionSetChanges(

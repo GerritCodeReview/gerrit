@@ -54,6 +54,7 @@ import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-
 import {DiffViewMode} from '../../../constants/constants';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {appContext} from '../../../services/app-context';
+import {fireEvent} from '../../../utils/event-util';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -190,21 +191,11 @@ export class GrFileListHeader extends KeyboardShortcutMixin(
   }
 
   _expandAllDiffs() {
-    this.dispatchEvent(
-      new CustomEvent('expand-diffs', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'expand-diffs');
   }
 
   _collapseAllDiffs() {
-    this.dispatchEvent(
-      new CustomEvent('collapse-diffs', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'collapse-diffs');
   }
 
   _computeExpandedClass(filesExpanded: FilesExpandedState) {
@@ -341,22 +332,12 @@ export class GrFileListHeader extends KeyboardShortcutMixin(
 
   _handlePrefsTap(e: Event) {
     e.preventDefault();
-    this.dispatchEvent(
-      new CustomEvent('open-diff-prefs', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'open-diff-prefs');
   }
 
   _handleIncludedInTap(e: Event) {
     e.preventDefault();
-    this.dispatchEvent(
-      new CustomEvent('open-included-in-dialog', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'open-included-in-dialog');
   }
 
   _handleDownloadTap(e: Event) {

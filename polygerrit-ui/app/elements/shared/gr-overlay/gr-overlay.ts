@@ -23,6 +23,7 @@ import {IronOverlayMixin} from '../../../mixins/iron-overlay-mixin/iron-overlay-
 import {customElement, property} from '@polymer/decorators';
 import {IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior';
 import {findActiveElement} from '../../../utils/dom-util';
+import {fireEvent} from '../../../utils/event-util';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -98,12 +99,7 @@ export class GrOverlay extends IronOverlayMixin(
     return new Promise((resolve, reject) => {
       super.open.apply(this);
       if (this._isMobile()) {
-        this.dispatchEvent(
-          new CustomEvent('fullscreen-overlay-opened', {
-            composed: true,
-            bubbles: true,
-          })
-        );
+        fireEvent(this, 'fullscreen-overlay-opened');
         this._fullScreenOpen = true;
       }
       this._awaitOpen(resolve, reject);
@@ -118,12 +114,7 @@ export class GrOverlay extends IronOverlayMixin(
   _overlayClosed() {
     window.removeEventListener('popstate', this._boundHandleClose);
     if (this._fullScreenOpen) {
-      this.dispatchEvent(
-        new CustomEvent('fullscreen-overlay-closed', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireEvent(this, 'fullscreen-overlay-closed');
       this._fullScreenOpen = false;
     }
     if (this.returnFocusTo) {

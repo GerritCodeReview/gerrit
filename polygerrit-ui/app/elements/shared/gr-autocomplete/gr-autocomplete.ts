@@ -30,6 +30,7 @@ import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplet
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {PaperInputElementExt} from '../../../types/types';
 import {CustomKeyboardEvent} from '../../../types/events';
+import {fireEvent} from '../../../utils/event-util';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -404,12 +405,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
     if (this._suggestions.length) {
       this.set('_suggestions', []);
     } else {
-      this.dispatchEvent(
-        new CustomEvent('cancel', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireEvent(this, 'cancel');
     }
   }
 

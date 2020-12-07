@@ -25,6 +25,7 @@ import {htmlTemplate} from './gr-list-view_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {property, customElement} from '@polymer/decorators';
+import {fireEvent} from '../../../utils/event-util';
 
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 
@@ -96,12 +97,7 @@ class GrListView extends GestureEventListeners(
   }
 
   _createNewItem() {
-    this.dispatchEvent(
-      new CustomEvent('create-clicked', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'create-clicked');
   }
 
   _computeNavLink(

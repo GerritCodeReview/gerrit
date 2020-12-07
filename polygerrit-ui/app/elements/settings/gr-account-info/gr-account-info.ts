@@ -27,6 +27,7 @@ import {customElement, property, observe} from '@polymer/decorators';
 import {AccountInfo, ServerInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
 import {appContext} from '../../../services/app-context';
+import {fireEvent} from '../../../utils/event-util';
 
 @customElement('gr-account-info')
 export class GrAccountInfo extends GestureEventListeners(
@@ -151,12 +152,7 @@ export class GrAccountInfo extends GestureEventListeners(
         this._hasDisplayNameChange = false;
         this._hasStatusChange = false;
         this._saving = false;
-        this.dispatchEvent(
-          new CustomEvent('account-detail-update', {
-            composed: true,
-            bubbles: true,
-          })
-        );
+        fireEvent(this, 'account-detail-update');
       });
   }
 

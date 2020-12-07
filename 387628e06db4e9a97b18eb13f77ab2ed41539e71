@@ -16,6 +16,24 @@
       "message": "And 7.10.*, because it is going to be supported until mid of 2022:\n\n  7.10.x\t2022-05-11\t7.11.0",
       "revId": "387628e06db4e9a97b18eb13f77ab2ed41539e71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80f8d13a_2698ee9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-07T23:02:15Z",
+      "side": 1,
+      "message": "This change is the 7.9 step. The follow-up change [1] does the 7.10 step which is based on this very one (7.9.3 in fact, which is the latest 7.9 minor version).\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/291062\n\nWe still need to support a 7.9 version alongside the other 7.x ones, which (through that follow-up [1]) includes 7.10 yes.",
+      "parentUuid": "f66e5a66_be9b9a1f",
+      "revId": "387628e06db4e9a97b18eb13f77ab2ed41539e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

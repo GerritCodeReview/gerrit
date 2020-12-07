@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef9ee375_b16cbaa8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 78
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-07T18:24:20Z",
+      "side": 1,
+      "message": "I was hoping that if you find something cleaner, then you could maybe argue for it and discuss the pros and cons? What do you generally make decisions like that? \"Serving the purpose of API calls\" sounds like \"it does what it does\". :-)",
+      "parentUuid": "a8d0e2ed_010cf590",
+      "range": {
+        "startLine": 593,
+        "startChar": 11,
+        "endLine": 593,
+        "endChar": 28
+      },
+      "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bf873f7_ab432da9",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
         "patchSetId": 78
@@ -181,6 +205,30 @@
       "side": 1,
       "message": "Ahh you meant replace `element._changeComments` with `let changeComments`.\nYeah that\u0027s a trivial change. I thought you meant not using the ChangeComments entity at all.",
       "parentUuid": "af2d43a6_eb8df7c7",
+      "range": {
+        "startLine": 152,
+        "startChar": 8,
+        "endLine": 152,
+        "endChar": 15
+      },
+      "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7ce56bc_ee721b8a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 78
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-07T18:24:20Z",
+      "side": 1,
+      "message": "Yes. :-) The test does not depend on \u003cgr-comment-api\u003e anymore, so suppose we want to split this file up into two files (which I think we should), then we have an easier time with this test.",
+      "parentUuid": "295efaed_655eca3a",
       "range": {
         "startLine": 152,
         "startChar": 8,

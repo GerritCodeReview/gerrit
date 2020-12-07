@@ -646,7 +646,6 @@ export const htmlTemplate = html`
           change-num="[[_changeNum]]"
           logged-in="[[_loggedIn]]"
           only-show-robot-comments-with-human-reply=""
-          on-thread-list-modified="_handleReloadDiffComments"
           unresolved-only
         ></gr-thread-list>
       </template>
@@ -674,7 +673,6 @@ export const htmlTemplate = html`
           logged-in="[[_loggedIn]]"
           hide-toggle-buttons
           empty-thread-msg="[[_messages.NO_ROBOT_COMMENTS_THREADS_MSG]]"
-          on-thread-list-modified="_handleReloadDiffComments"
         >
         </gr-thread-list>
         <template is="dom-if" if="[[_showRobotCommentsButton]]">

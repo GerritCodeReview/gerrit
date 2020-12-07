@@ -1101,6 +1101,7 @@ suite('gr-file-list tests', () => {
 
     test('_expandedFilesChanged', done => {
       sinon.stub(element, '_reviewFile');
+      sinon.stub(element, '_changeCommentsUpdated');
       const path = 'path/to/my/file.txt';
       const diffs = [{
         path,

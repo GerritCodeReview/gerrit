@@ -17,7 +17,7 @@
 import {getBaseUrl} from '../../../../utils/url-util';
 import {
   CancelConditionCallback,
-  ErrorCallback,
+  ErrorCallback, ResponseError,
 } from '../../../../services/services/gr-rest-api/gr-rest-api';
 import {
   AuthRequestInit,
@@ -178,6 +178,15 @@ interface SendRequestBase {
   reportUrlAsIs?: boolean;
   anonymizedUrl?: string;
   errFn?: ErrorCallback;
+  /**
+   * Non-200 response codes and network erros typically just result in error
+   * dialogs being shown to the user. When this option is being used, then
+   * these dialogs are suppressed and instead errors are thrown that the caller
+   * can catch individually. The advantage apart from custom error handling is
+   * that the return value is always reliably present and parseable (instead of
+   * an undefined value that signals 'error was handled'.
+   */
+  suppressErrorDialogs?: boolean;
 }
 
 export interface SendRawRequest extends SendRequestBase {
@@ -195,6 +204,15 @@ export interface FetchJSONRequest extends FetchRequest {
   params?: FetchParams;
   cancelCondition?: CancelConditionCallback;
   errFn?: ErrorCallback;
+  /**
+   * Non-200 response codes and network erros typically just result in error
+   * dialogs being shown to the user. When this option is being used, then
+   * these dialogs are suppressed and instead errors are thrown that the caller
+   * can catch individually. The advantage apart from custom error handling is
+   * that the return value is always reliably present and parseable (instead of
+   * an undefined value that signals 'error was handled'.
+   */
+  suppressErrorDialogs?: boolean;
 }
 
 // export function isRequestWithCancel<T extends FetchJSONRequest>(
@@ -308,6 +326,9 @@ s   */
         return res;
       })
       .catch(err => {
+        if (req.suppressErrorDialogs) {
+          throw err;
+        }
         if (req.errFn) {
           req.errFn.call(undefined, null, err);
           return undefined;
@@ -336,6 +357,9 @@ s   */
       // This can only happen when errFn has handled the error.
       if (!response) return;
       if (!response.ok) {
+        if (req.suppressErrorDialogs) {
+          throw new ResponseError(response);
+        }
         if (req.errFn) {
           req.errFn.call(undefined, response);
           return;
@@ -494,6 +518,9 @@ s   */
     };
     const xhr = this.fetch(fetchReq)
       .catch(err => {
+        if (req.suppressErrorDialogs) {
+          throw err;
+        }
         if (req.errFn) {
           req.errFn.call(undefined, null, err);
           return undefined;
@@ -506,6 +533,9 @@ s   */
         // This can only happen when errFn has handled an error above.
         if (!response) return;
         if (!response.ok) {
+          if (req.suppressErrorDialogs) {
+            throw new ResponseError(response);
+          }
           if (req.errFn) {
             req.errFn.call(undefined, response);
             return;

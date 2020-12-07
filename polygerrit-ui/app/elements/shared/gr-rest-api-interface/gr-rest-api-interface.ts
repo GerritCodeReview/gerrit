@@ -396,17 +396,14 @@ export class GrRestApiInterface
     }) as Promise<ProjectAccessInfoMap>;
   }
 
-  getRepoDashboards(
-    repo: RepoName,
-    errFn?: ErrorCallback
-  ): Promise<DashboardInfo[] | undefined> {
+  getRepoDashboards(repo: RepoName): Promise<DashboardInfo[]> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._fetchSharedCacheURL({
+    return (this._fetchSharedCacheURL({
       url: `/projects/${encodeURIComponent(repo)}/dashboards?inherited`,
-      errFn,
       anonymizedUrl: '/projects/*/dashboards?inherited',
-    }) as Promise<DashboardInfo[] | undefined>;
+      suppressErrorDialogs: true,
+    }) as unknown) as Promise<DashboardInfo[]>;
   }
 
   saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response> {

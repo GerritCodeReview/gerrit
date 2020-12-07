@@ -37,9 +37,11 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import org.eclipse.jgit.lib.Config;
 
 /** Helper for generating parts of {@code index.html}. */
 @UsedAt(Project.GOOGLE)
@@ -53,6 +55,7 @@ public class IndexHtmlUtil {
    */
   public static ImmutableMap<String, Object> templateData(
       GerritApi gerritApi,
+      Config gerritServerConfig,
       String canonicalURL,
       String cdnPath,
       String faviconPath,
@@ -66,7 +69,9 @@ public class IndexHtmlUtil {
                 canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
         .putAll(dynamicTemplateData(gerritApi, requestedURL));
 
-    Set<String> enabledExperiments = experimentData(urlParameterMap);
+    Set<String> enabledExperiments = new HashSet<>(experimentData(urlParameterMap));
+    Arrays.stream(gerritServerConfig.getStringList("experiments", null, "enabled"))
+        .forEach(enabledExperiments::add);
     if (!enabledExperiments.isEmpty()) {
       data.put("enabledExperiments", serializeObject(GSON, enabledExperiments).toString());
     }

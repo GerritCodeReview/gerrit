@@ -15,27 +15,44 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-download-dialog.js';
+import '../../../test/common-test-setup-karma';
+import {tap} from '@polymer/iron-test-helpers/mock-interactions';
+import {
+  createChange,
+  createCommit,
+  createRevision,
+  createRevisions,
+  createServerInfo,
+} from '../../../test/test-data-generators';
+import {
+  CommitId,
+  NumericChangeId,
+  PatchSetNum,
+  RepoName,
+} from '../../../types/common';
+import {GrDownloadDialog} from './gr-download-dialog';
 
 const basicFixture = fixtureFromElement('gr-download-dialog');
 
 function getChangeObject() {
   return {
-    current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72',
+    ...createChange(),
+    current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72' as CommitId,
     revisions: {
       '34685798fe548b6d17d1e8e5edc43a26d055cc72': {
-        _number: 1,
-        commit: {
-          parents: [],
-        },
+        ...createRevision(),
+        commit: createCommit(),
         fetch: {
           repo: {
+            url: 'my.url',
+            ref: 'refs/changes/5/6/1',
             commands: {
               repo: 'repo download test-project 5/1',
             },
           },
           ssh: {
+            url: 'my.url',
+            ref: 'refs/changes/5/6/1',
             commands: {
               'Checkout':
                 'git fetch ' +
@@ -57,6 +74,8 @@ function getChangeObject() {
             },
           },
           http: {
+            url: 'my.url',
+            ref: 'refs/changes/5/6/1',
             commands: {
               'Checkout':
                 'git fetch ' +
@@ -85,41 +104,24 @@ function getChangeObject() {
 
 function getChangeObjectNoFetch() {
   return {
-    current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72',
-    revisions: {
-      '34685798fe548b6d17d1e8e5edc43a26d055cc72': {
-        _number: 1,
-        commit: {
-          parents: [],
-        },
-        fetch: {},
-      },
-    },
+    ...createChange(),
+    current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72' as CommitId,
+    revisions: createRevisions(1),
   };
 }
 
 suite('gr-download-dialog', () => {
-  let element;
+  let element: GrDownloadDialog;
 
   setup(() => {
     element = basicFixture.instantiate();
-    element.patchNum = '1';
-    element.config = {
-      schemes: {
-        'anonymous http': {},
-        'http': {},
-        'repo': {},
-        'ssh': {},
-      },
-      archives: ['tgz', 'tar', 'tbz2', 'txz'],
-    };
-
+    element.patchNum = 1 as PatchSetNum;
+    element.config = createServerInfo();
     flush();
   });
 
   test('anchors use download attribute', () => {
-    const anchors = Array.from(
-        element.root.querySelectorAll('a'));
+    const anchors = Array.from(element.root?.querySelectorAll('a')!);
     assert.isTrue(!anchors.some(a => !a.hasAttribute('download')));
   });
 
@@ -152,17 +154,28 @@ suite('gr-download-dialog', () => {
     });
 
     test('computed fields', () => {
-      assert.equal(element._computeArchiveDownloadLink(
-          {project: 'test/project', _number: 123}, 2, 'tgz'),
-      '/changes/test%2Fproject~123/revisions/2/archive?format=tgz');
+      assert.equal(
+        element._computeArchiveDownloadLink(
+          {
+            ...createChange(),
+            project: 'test/project' as RepoName,
+            _number: 123 as NumericChangeId,
+          },
+          2 as PatchSetNum,
+          'tgz'
+        ),
+        '/changes/test%2Fproject~123/revisions/2/archive?format=tgz'
+      );
     });
 
     test('close event', done => {
       element.addEventListener('close', () => {
         done();
       });
-      MockInteractions.tap(element.shadowRoot
-          .querySelector('.closeButtonContainer gr-button'));
+      const closeButton = element.shadowRoot!.querySelector(
+        '.closeButtonContainer gr-button'
+      );
+      tap(closeButton!);
     });
   });
 
@@ -172,35 +185,49 @@ suite('gr-download-dialog', () => {
   });
 
   test('_computeHidePatchFile', () => {
-    const patchNum = '1';
+    const patchNum = 1 as PatchSetNum;
 
     const changeWithNoParent = {
+      ...createChange(),
       revisions: {
-        r1: {_number: 1, commit: {parents: []}},
+        r1: {...createRevision(), commit: createCommit()},
       },
     };
     assert.isTrue(element._computeHidePatchFile(changeWithNoParent, patchNum));
 
     const changeWithOneParent = {
+      ...createChange(),
       revisions: {
-        r1: {_number: 1, commit: {parents: [
-          {commit: 'p1'},
-        ]}},
+        r1: {
+          ...createRevision(),
+          commit: {
+            ...createCommit(),
+            parents: [{commit: 'p1' as CommitId, subject: 'subject1'}],
+          },
+        },
       },
     };
     assert.isFalse(
-        element._computeHidePatchFile(changeWithOneParent, patchNum));
+      element._computeHidePatchFile(changeWithOneParent, patchNum)
+    );
 
     const changeWithMultipleParents = {
+      ...createChange(),
       revisions: {
-        r1: {_number: 1, commit: {parents: [
-          {commit: 'p1'},
-          {commit: 'p2'},
-        ]}},
+        r1: {
+          ...createRevision(),
+          commit: {
+            ...createCommit(),
+            parents: [
+              {commit: 'p1' as CommitId, subject: 'subject1'},
+              {commit: 'p2' as CommitId, subject: 'subject2'},
+            ],
+          },
+        },
       },
     };
     assert.isTrue(
-        element._computeHidePatchFile(changeWithMultipleParents, patchNum));
+      element._computeHidePatchFile(changeWithMultipleParents, patchNum)
+    );
   });
 });
-

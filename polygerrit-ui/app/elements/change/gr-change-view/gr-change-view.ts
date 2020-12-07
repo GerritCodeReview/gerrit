@@ -150,7 +150,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {PORTING_COMMENTS_CHANGE_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
-import {fireAlert, firePageError} from '../../../utils/event-util';
+import {fireAlert, fireEvent, firePageError} from '../../../utils/event-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {fireTitleChange} from '../../../utils/event-util';
 
@@ -1616,12 +1616,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     }
     this._getLoggedIn().then(isLoggedIn => {
       if (!isLoggedIn) {
-        this.dispatchEvent(
-          new CustomEvent('show-auth-required', {
-            composed: true,
-            bubbles: true,
-          })
-        );
+        fireEvent(this, 'show-auth-required');
         return;
       }
 
@@ -2169,12 +2164,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     const loadingFlagSet = detailCompletes
       .then(() => {
         this._loading = false;
-        this.dispatchEvent(
-          new CustomEvent('change-details-loaded', {
-            bubbles: true,
-            composed: true,
-          })
-        );
+        fireEvent(this, 'change-details-loaded');
       })
       .then(() => {
         this.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);

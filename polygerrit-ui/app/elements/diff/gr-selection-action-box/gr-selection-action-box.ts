@@ -22,6 +22,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-selection-action-box_html';
+import {fireEvent} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -122,11 +123,6 @@ export class GrSelectionActionBox extends GestureEventListeners(
     } // 0 = main button
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('create-comment-requested', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'create-comment-requested');
   }
 }

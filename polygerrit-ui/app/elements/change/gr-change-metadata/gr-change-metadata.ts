@@ -81,6 +81,7 @@ import {
   isSectionSet,
   DisplayRules,
 } from '../../../utils/change-metadata-util';
+import {fireEvent} from '../../../utils/event-util';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -315,9 +316,7 @@ export class GrChangeMetadata extends GestureEventListeners(
         this._settingTopic = false;
         this.set(['change', 'topic'], newTopic);
         if (newTopic !== lastTopic) {
-          this.dispatchEvent(
-            new CustomEvent('topic-changed', {bubbles: true, composed: true})
-          );
+          fireEvent(this, 'topic-changed');
         }
       });
   }
@@ -360,12 +359,7 @@ export class GrChangeMetadata extends GestureEventListeners(
       .setChangeHashtag(this.change._number, {add: [newHashtag]})
       .then(newHashtag => {
         this.set(['change', 'hashtags'], newHashtag);
-        this.dispatchEvent(
-          new CustomEvent('hashtag-changed', {
-            bubbles: true,
-            composed: true,
-          })
-        );
+        fireEvent(this, 'hashtag-changed');
       });
   }
 
@@ -516,9 +510,7 @@ export class GrChangeMetadata extends GestureEventListeners(
       .then(() => {
         target.disabled = false;
         this.set(['change', 'topic'], '');
-        this.dispatchEvent(
-          new CustomEvent('topic-changed', {bubbles: true, composed: true})
-        );
+        fireEvent(this, 'topic-changed');
       })
       .catch(() => {
         target.disabled = false;

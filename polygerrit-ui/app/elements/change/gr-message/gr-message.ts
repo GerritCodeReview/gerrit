@@ -44,6 +44,7 @@ import {CommentThread} from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {appContext} from '../../../services/app-context';
 import {pluralize} from '../../../utils/string-util';
+import {fireEvent} from '../../../utils/event-util';
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?(?:P|p)atch (?:S|s)et \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
@@ -229,12 +230,7 @@ export class GrMessage extends GestureEventListeners(
     // or gerrit level events
 
     // emit the event so change-view can also get updated with latest changes
-    this.dispatchEvent(
-      new CustomEvent('comment-refresh', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'comment-refresh');
   }
 
   _computeMessageContentExpanded(content?: string, tag?: ReviewInputTag) {

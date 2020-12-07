@@ -29,6 +29,7 @@ import {customElement, property} from '@polymer/decorators';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {fireEvent} from '../../../utils/event-util';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends GestureEventListeners(
@@ -234,9 +235,7 @@ export class GrAccountLabel extends GestureEventListeners(
         reason
       )
       .then(() => {
-        this.dispatchEvent(
-          new CustomEvent('hide-alert', {bubbles: true, composed: true})
-        );
+        fireEvent(this, 'hide-alert');
       });
   }
 

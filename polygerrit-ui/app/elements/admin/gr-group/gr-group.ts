@@ -34,7 +34,11 @@ import {
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {firePageError, fireTitleChange} from '../../../utils/event-util';
+import {
+  fireEvent,
+  firePageError,
+  fireTitleChange,
+} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
@@ -209,6 +213,7 @@ export class GrGroup extends GestureEventListeners(
             name: groupName,
             external: !this._groupIsInternal,
           };
+          fireEvent(this, 'name-changed');
           this.dispatchEvent(
             new CustomEvent('name-changed', {
               detail,

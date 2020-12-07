@@ -17,6 +17,7 @@
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-plugin-repo-command_html';
 import {customElement, property} from '@polymer/decorators';
+import {fireEvent} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,8 +34,6 @@ export class GrPluginRepoCommand extends PolymerElement {
   }
 
   _handleClick() {
-    this.dispatchEvent(
-      new CustomEvent('command-tap', {composed: true, bubbles: true})
-    );
+    fireEvent(this, 'command-tap');
   }
 }

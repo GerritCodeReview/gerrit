@@ -66,7 +66,7 @@ import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {AbortStop} from '../../shared/gr-cursor-manager/gr-cursor-manager';
-import {fireAlert} from '../../../utils/event-util';
+import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {MovedChunkGoToLineEvent} from '../../../types/events';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
@@ -438,20 +438,10 @@ export class GrDiff extends GestureEventListeners(
   _redispatchHoverEvents(addedThreadEls: HTMLElement[]) {
     for (const threadEl of addedThreadEls) {
       threadEl.addEventListener('mouseenter', () => {
-        threadEl.dispatchEvent(
-          new CustomEvent('comment-thread-mouseenter', {
-            bubbles: true,
-            composed: true,
-          })
-        );
+        fireEvent(threadEl, 'comment-thread-mouseenter');
       });
       threadEl.addEventListener('mouseleave', () => {
-        threadEl.dispatchEvent(
-          new CustomEvent('comment-thread-mouseleave', {
-            bubbles: true,
-            composed: true,
-          })
-        );
+        fireEvent(threadEl, 'comment-thread-mouseleave');
       });
     }
   }
@@ -604,12 +594,7 @@ export class GrDiff extends GestureEventListeners(
 
   _isValidElForComment(el: Element) {
     if (!this.loggedIn) {
-      this.dispatchEvent(
-        new CustomEvent('show-auth-required', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireEvent(this, 'show-auth-required');
       return false;
     }
     if (!this.patchRange) {
@@ -843,9 +828,7 @@ export class GrDiff extends GestureEventListeners(
 
   _renderDiffTable() {
     if (!this.prefs) {
-      this.dispatchEvent(
-        new CustomEvent('render', {bubbles: true, composed: true})
-      );
+      fireEvent(this, 'render');
       return;
     }
     if (
@@ -855,9 +838,7 @@ export class GrDiff extends GestureEventListeners(
       this._safetyBypass === null
     ) {
       this._showWarning = true;
-      this.dispatchEvent(
-        new CustomEvent('render', {bubbles: true, composed: true})
-      );
+      fireEvent(this, 'render');
       return;
     }
 

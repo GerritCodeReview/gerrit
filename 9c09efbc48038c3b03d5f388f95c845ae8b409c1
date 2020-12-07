@@ -34,6 +34,24 @@
       "parentUuid": "27e2e925_042d4229",
       "revId": "9c09efbc48038c3b03d5f388f95c845ae8b409c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09d5254d_69894cb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-07T15:22:11Z",
+      "side": 1,
+      "message": "I\u0027ve deployed this change onto review-eu.gerrithub.io and it works for me. Can you check there and provide a sample URL?",
+      "parentUuid": "459d9002_6b364335",
+      "revId": "9c09efbc48038c3b03d5f388f95c845ae8b409c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

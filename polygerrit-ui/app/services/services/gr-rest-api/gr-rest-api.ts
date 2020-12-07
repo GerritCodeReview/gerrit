@@ -106,13 +106,22 @@ import {
   IgnoreWhitespaceType,
 } from '../../../types/diff';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {fireNetworkError, fireServerError} from '../../../utils/event-util';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 export type CancelConditionCallback = () => boolean;
 
 export class ResponseError extends Error {
-  constructor(response: Response) {
+  constructor(readonly response: Response) {
     super(`HTTP response error, code ${response.status}`);
+  }
+}
+
+export function handleApiError(error: Error) {
+  if (error instanceof ResponseError) {
+    fireServerError(error.response);
+  } else {
+    fireNetworkError(error);
   }
 }
 
@@ -312,7 +321,7 @@ export interface RestApiService {
     errFn?: ErrorCallback
   ): Promise<DashboardInfo[] | undefined>;
 
-  getRepoAccess(repo: RepoName): Promise<ProjectAccessInfoMap | undefined>;
+  getRepoAccess(repo: RepoName): Promise<ProjectAccessInfoMap>;
 
   getProjectConfig(
     repo: RepoName,

@@ -386,13 +386,14 @@ export class GrRestApiInterface
     }) as Promise<ConfigInfo | undefined>;
   }
 
-  getRepoAccess(repo: RepoName): Promise<ProjectAccessInfoMap | undefined> {
+  getRepoAccess(repo: RepoName): Promise<ProjectAccessInfoMap> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._fetchSharedCacheURL({
       url: '/access/?project=' + encodeURIComponent(repo),
       anonymizedUrl: '/access/?project=*',
-    }) as Promise<ProjectAccessInfoMap | undefined>;
+      suppressErrorDialogs: true,
+    }) as Promise<ProjectAccessInfoMap>;
   }
 
   getRepoDashboards(

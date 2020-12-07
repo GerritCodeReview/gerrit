@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f66e5a66_be9b9a1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-07T21:09:53Z",
+      "side": 1,
+      "message": "And 7.10.*, because it is going to be supported until mid of 2022:\n\n  7.10.x\t2022-05-11\t7.11.0",
+      "revId": "387628e06db4e9a97b18eb13f77ab2ed41539e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

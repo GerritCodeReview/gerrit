@@ -24,8 +24,7 @@ import {htmlTemplate} from './gr-repo-dashboards_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
 import {RepoName, DashboardId, DashboardInfo} from '../../../types/common';
-import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
-import {firePageError} from '../../../utils/event-util';
+import {handleAsPageError} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {appContext} from '../../../services/app-context';
 
 interface DashboardRef {
@@ -54,21 +53,11 @@ export class GrRepoDashboards extends GestureEventListeners(
 
   _repoChanged(repo?: RepoName) {
     this._loading = true;
-    if (!repo) {
-      return Promise.resolve();
-    }
-
-    const errFn: ErrorCallback = response => {
-      firePageError(this, response);
-    };
+    if (!repo) return Promise.resolve();
 
     return this.restApiService
-      .getRepoDashboards(repo, errFn)
-      .then((res?: DashboardInfo[]) => {
-        if (!res) {
-          return;
-        }
-
+      .getRepoDashboards(repo)
+      .then((res: DashboardInfo[]) => {
         // Group by ref and sort by id.
         const dashboards = res.concat
           .apply([], res)
@@ -94,7 +83,8 @@ export class GrRepoDashboards extends GestureEventListeners(
         this._dashboards = dashboardBuilder;
         this._loading = false;
         flush();
-      });
+      })
+      .catch(handleAsPageError);
   }
 
   _getUrl(project: RepoName, id: DashboardId) {

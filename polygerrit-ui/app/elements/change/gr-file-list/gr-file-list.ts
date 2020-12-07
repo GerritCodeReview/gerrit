@@ -206,14 +206,8 @@ export class GrFileList extends KeyboardShortcutMixin(
   @property({type: Object})
   changeComments?: ChangeComments;
 
-  @property({type: Object})
-  drafts?: {[path: string]: UIDraft[]};
-
   @property({type: Array})
   revisions?: {[revisionId: string]: RevisionInfo};
-
-  @property({type: Object})
-  projectConfig?: ConfigInfo;
 
   @property({type: Number, notify: true})
   selectedIndex = -1;

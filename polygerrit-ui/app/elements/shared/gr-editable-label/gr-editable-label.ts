@@ -89,6 +89,12 @@ export class GrEditableLabel extends KeyboardShortcutMixin(
   @property({type: Number})
   readonly _verticalOffset = -30;
 
+  @property({type: Boolean})
+  showAsEditPencil = false;
+
+  @property({type: Boolean})
+  _isNewChangeSummaryUiEnabled = false;
+
   /** @override */
   ready() {
     super.ready();

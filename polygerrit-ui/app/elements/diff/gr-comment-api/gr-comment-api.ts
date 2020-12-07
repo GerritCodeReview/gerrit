@@ -449,12 +449,6 @@ export class GrCommentApi extends GestureEventListeners(
   /** @override */
   created() {
     super.created();
-    this.addEventListener('reload-drafts', changeNum =>
-      // TODO(TS): This is a wrong code, however keep it as is for now
-      // If changeNum param in ChangeComments is removed, this also must be
-      // removed
-      this.reloadDrafts((changeNum as unknown) as NumericChangeId)
-    );
   }
 
   getPortedComments(changeNum: NumericChangeId, revision?: RevisionId) {

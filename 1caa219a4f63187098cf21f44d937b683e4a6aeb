@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "962ebb69_5af0f752",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 73
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c9c1d6a_c68a620c",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "595f54c4_a8d08003",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-11-27T10:52:20Z",
       "side": 1,
       "message": "You can also drop this now.",
+      "range": {
+        "startLine": 129,
+        "startChar": 2,
+        "endLine": 131,
+        "endChar": 3
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e57c547_bdca2088",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 73
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "595f54c4_a8d08003",
       "range": {
         "startLine": 129,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a8d9d4f_be791e74",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 73
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc0e9ed7_3e35942f",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 3
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efd122f2_fb4effe3",
@@ -83,6 +155,30 @@
       "writtenOn": "2020-11-27T10:52:20Z",
       "side": 1,
       "message": "You can also use the _ version of these two.",
+      "range": {
+        "startLine": 298,
+        "startChar": 6,
+        "endLine": 299,
+        "endChar": 25
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc7305ff_53273c95",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 73
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efd122f2_fb4effe3",
       "range": {
         "startLine": 298,
         "startChar": 6,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "352d5402_59f88825",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 73
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82523787_ae6f8436",
+      "range": {
+        "startLine": 433,
+        "startChar": 55,
+        "endLine": 433,
+        "endChar": 75
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db8aab6e_b681c85e",
@@ -129,6 +249,30 @@
       "writtenOn": "2020-11-27T11:09:50Z",
       "side": 1,
       "message": "that was removed",
+      "range": {
+        "startLine": 450,
+        "startChar": 5,
+        "endLine": 452,
+        "endChar": 36
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c212bfd_3990e4dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 73
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db8aab6e_b681c85e",
       "range": {
         "startLine": 450,
         "startChar": 5,
@@ -156,6 +300,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b77bbbb_700b418a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 73
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3eff9c5_375652c9",
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18299158_331d8fc4",
@@ -169,6 +331,30 @@
       "writtenOn": "2020-11-27T10:52:20Z",
       "side": 1,
       "message": "Maybe rename to `cloneWithUpdatedDrafts`?",
+      "range": {
+        "startLine": 787,
+        "startChar": 51,
+        "endLine": 787,
+        "endChar": 64
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ba58c57_42c695dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 73
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18299158_331d8fc4",
       "range": {
         "startLine": 787,
         "startChar": 51,
@@ -202,6 +388,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "effc3cb5_277eef07",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 73
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "Was being passed before.\nDidn\u0027t look too closely. Turns out to be an unused property.\nRemoved in change 290163",
+      "parentUuid": "812fb8e9_6de0e53e",
+      "range": {
+        "startLine": 789,
+        "startChar": 8,
+        "endLine": 789,
+        "endChar": 17
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a7e73ff_a139c980",
@@ -215,6 +425,30 @@
       "writtenOn": "2020-11-27T11:09:50Z",
       "side": 1,
       "message": "I thought drafts are not handled by this change?",
+      "range": {
+        "startLine": 175,
+        "startChar": 34,
+        "endLine": 175,
+        "endChar": 40
+      },
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ae1295c_63a05361",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "yeah, just wrote these in a flow.\nremoved and will move to the drafts change.",
+      "parentUuid": "8a7e73ff_a139c980",
       "range": {
         "startLine": 175,
         "startChar": 34,
@@ -242,6 +476,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69b2f506_b1e55650",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5d2a56d9_0c036eec",
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e70f6906_6cb5bbbf",
@@ -259,6 +511,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a17f1d12_0105760f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "I took the data from thread-list-test.\nYeah having both path and __path doesn\u0027t make sense.\nCreated change 290415 to remove usage of __path.",
+      "parentUuid": "e70f6906_6cb5bbbf",
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ac60a06_9b02dd6a",
@@ -272,6 +542,24 @@
       "writtenOn": "2020-11-27T11:09:50Z",
       "side": 1,
       "message": "You have checked that above already.\n\nThis sections need a comment (or content needs to be moved up), otherwise you think that this is still part of:\n\n  // verify ported thread is not returned if original thread will be shown",
+      "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f722732d_4c2c700f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-07T10:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ac60a06_9b02dd6a",
       "revId": "1caa219a4f63187098cf21f44d937b683e4a6aeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

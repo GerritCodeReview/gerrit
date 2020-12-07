@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d58f26c9_92830602",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-07T20:57:42Z",
+      "side": 1,
+      "message": "Have you considered to also remove ES versions that will be discontinued in the next days and months?\n\n  7.2.x\t2020-12-25\t7.3.0\n  7.3.x\t2021-01-31\t7.4.0\n  7.4.x\t2021-04-01\t7.5.0",
+      "revId": "f8b02d15621693e78a5968d347fd322bc8eda25f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4069d357_35f77cd6",

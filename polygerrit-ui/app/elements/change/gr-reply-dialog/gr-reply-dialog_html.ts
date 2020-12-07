@@ -303,14 +303,16 @@ export const htmlTemplate = html`
       </gr-endpoint-decorator>
     </section>
     <section class="previewContainer">
-      <label>
-        <input
-          id="resolvedPatchsetLevelCommentCheckbox"
-          type="checkbox"
-          checked="{{_isResolvedPatchsetLevelComment::change}}"
-        />
-        Resolved
-      </label>
+      <template is="dom-if" if="[[_isPatchsetCommentsExperimentEnabled]]">
+        <label>
+          <input
+            id="resolvedPatchsetLevelCommentCheckbox"
+            type="checkbox"
+            checked="{{_isResolvedPatchsetLevelComment::change}}"
+          />
+          Resolved
+        </label>
+      </template>
       <label class="preview-formatting">
         <input type="checkbox" checked="{{_previewFormatting::change}}" />
         Preview formatting

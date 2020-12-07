@@ -310,10 +310,11 @@ s   */
       .catch(err => {
         if (req.errFn) {
           req.errFn.call(undefined, null, err);
+          return undefined;
         } else {
           fireNetworkError(err);
+          throw err;
         }
-        throw err;
       });
   }
 
@@ -332,12 +333,11 @@ s   */
       req = this.addAcceptJsonHeader(req);
     }
     return this.fetchRawJSON(req).then(response => {
-      if (!response) {
-        return;
-      }
+      // This can only happen when errFn has handled the error.
+      if (!response) return;
       if (!response.ok) {
         if (req.errFn) {
-          req.errFn.call(null, response);
+          req.errFn.call(undefined, response);
           return;
         }
         fireServerError(response, req);
@@ -494,20 +494,24 @@ s   */
     };
     const xhr = this.fetch(fetchReq)
       .catch(err => {
-        fireNetworkError(err);
         if (req.errFn) {
-          return req.errFn.call(undefined, null, err);
+          req.errFn.call(undefined, null, err);
+          return undefined;
         } else {
+          fireNetworkError(err);
           throw err;
         }
       })
       .then(response => {
-        if (response && !response.ok) {
+        // This can only happen when errFn has handled an error above.
+        if (!response) return;
+        if (!response.ok) {
           if (req.errFn) {
             req.errFn.call(undefined, response);
             return;
           }
           fireServerError(response, fetchReq);
+          // TODO: This should return `undefined` or throw here.
         }
         return response;
       });

@@ -1280,36 +1280,6 @@ suite('gr-reply-dialog tests', () => {
     });
   });
 
-  suite('post review API', () => {
-    let startReviewStub;
-
-    setup(() => {
-      startReviewStub = sinon.stub(
-          element.restApiService,
-          'startReview')
-          .callsFake(() => Promise.resolve());
-    });
-
-    test('ready property in review input on start review', () => {
-      stubSaveReview(review => {
-        assert.isTrue(review.ready);
-        return {ready: true};
-      });
-      return element.send(true, true).then(() => {
-        assert.isFalse(startReviewStub.called);
-      });
-    });
-
-    test('no ready property in review input on save review', () => {
-      stubSaveReview(review => {
-        assert.isUndefined(review.ready);
-      });
-      return element.send(true, false).then(() => {
-        assert.isFalse(startReviewStub.called);
-      });
-    });
-  });
-
   suite('start review and save buttons', () => {
     let sendStub;
 

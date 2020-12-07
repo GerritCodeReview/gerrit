@@ -182,23 +182,19 @@ export interface RestApiService {
 
   getChangeSuggestedReviewers(
     changeNum: NumericChangeId,
-    input: string,
-    errFn?: ErrorCallback
+    input: string
   ): Promise<SuggestedReviewerInfo[] | undefined>;
   getChangeSuggestedCCs(
     changeNum: NumericChangeId,
-    input: string,
-    errFn?: ErrorCallback
+    input: string
   ): Promise<SuggestedReviewerInfo[] | undefined>;
   getSuggestedAccounts(
     input: string,
-    n?: number,
-    errFn?: ErrorCallback
+    n?: number
   ): Promise<AccountInfo[] | undefined>;
   getSuggestedGroups(
     input: string,
-    n?: number,
-    errFn?: ErrorCallback
+    n?: number
   ): Promise<GroupNameToGroupInfoMap | undefined>;
   executeChangeAction(
     changeNum: NumericChangeId,
@@ -239,7 +235,7 @@ export interface RestApiService {
 
   getAccountEmails(): Promise<EmailInfo[] | undefined>;
   deleteAccountEmail(email: string): Promise<Response>;
-  setPreferredAccountEmail(email: string, errFn?: ErrorCallback): Promise<void>;
+  setPreferredAccountEmail(email: string): Promise<void>;
 
   getAccountSSHKeys(): Promise<SshKeyInfo[] | undefined>;
   deleteAccountSSHKey(key: string): void;
@@ -417,9 +413,7 @@ export interface RestApiService {
   ): Promise<Response>;
 
   getDiffChangeDetail(
-    changeNum: NumericChangeId,
-    errFn?: ErrorCallback,
-    cancelCondition?: CancelConditionCallback
+    changeNum: NumericChangeId
   ): Promise<ChangeInfo | undefined | null>;
 
   getPortedComments(
@@ -534,33 +528,21 @@ export interface RestApiService {
 
   generateAccountHttpPassword(): Promise<Password>;
 
-  setAccountName(name: string, errFn?: ErrorCallback): Promise<void>;
+  setAccountName(name: string): Promise<void>;
 
-  setAccountUsername(username: string, errFn?: ErrorCallback): Promise<void>;
+  setAccountUsername(username: string): Promise<void>;
 
   getWatchedProjects(): Promise<ProjectWatchInfo[] | undefined>;
 
   saveWatchedProjects(
-    projects: ProjectWatchInfo[],
-    errFn?: ErrorCallback
+    projects: ProjectWatchInfo[]
   ): Promise<ProjectWatchInfo[]>;
 
-  deleteWatchedProjects(
-    projects: ProjectWatchInfo[]
-  ): Promise<Response | undefined>;
-  deleteWatchedProjects(
-    projects: ProjectWatchInfo[],
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-  deleteWatchedProjects(
-    projects: ProjectWatchInfo[],
-    errFn?: ErrorCallback
-  ): Promise<Response | undefined>;
+  deleteWatchedProjects(projects: ProjectWatchInfo[]): Promise<Response>;
 
   getSuggestedProjects(
     inputVal: string,
-    n?: number,
-    errFn?: ErrorCallback
+    n?: number
   ): Promise<NameToProjectInfoMap | undefined>;
 
   invalidateGroupsCache(): void;
@@ -576,11 +558,8 @@ export interface RestApiService {
     user: AccountId | undefined | null,
     reason: string
   ): Promise<Response>;
-  setAccountDisplayName(
-    displayName: string,
-    errFn?: ErrorCallback
-  ): Promise<void>;
-  setAccountStatus(status: string, errFn?: ErrorCallback): Promise<void>;
+  setAccountDisplayName(displayName: string): Promise<void>;
+  setAccountStatus(status: string): Promise<void>;
   getAvatarChangeUrl(): Promise<string | undefined>;
   setDescription(
     changeNum: NumericChangeId,
@@ -744,11 +723,6 @@ export interface RestApiService {
 
   addAccountEmail(email: string): Promise<Response>;
 
-  addAccountEmail(
-    email: string,
-    errFn?: ErrorCallback
-  ): Promise<Response | undefined>;
-
   saveChangeReviewed(
     changeNum: NumericChangeId,
     reviewed: boolean
@@ -803,15 +777,7 @@ export interface RestApiService {
     reviewed: boolean
   ): Promise<Response>;
 
-  saveFileReviewed(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
-    path: string,
-    reviewed: boolean,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  getTopMenus(errFn?: ErrorCallback): Promise<TopMenuEntryInfo[] | undefined>;
+  getTopMenus(): Promise<TopMenuEntryInfo[] | undefined>;
 
   setInProjectLookup(changeNum: NumericChangeId, project: RepoName): void;
   getMergeable(changeNum: NumericChangeId): Promise<MergeableInfo | undefined>;

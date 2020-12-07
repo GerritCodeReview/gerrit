@@ -82,7 +82,7 @@ export class GrWatchedProjectsEditor extends GestureEventListeners(
   }
 
   save() {
-    let deletePromise;
+    let deletePromise: Promise<Response | undefined>;
     if (this._projectsToRemove.length) {
       deletePromise = this.restApiService.deleteWatchedProjects(
         this._projectsToRemove

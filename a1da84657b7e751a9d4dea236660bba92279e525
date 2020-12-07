@@ -34,6 +34,46 @@
       "parentUuid": "1150a7e4_d9ab16f0",
       "revId": "a1da84657b7e751a9d4dea236660bba92279e525",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d74bcb23_c47d4511",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-07T20:54:25Z",
+      "side": 1,
+      "message": "Thanks for the removal for support for EOL versions of ES. What about applying this change on stable-3.0 branch (or even earlier?), even though those branches are EOL now?",
+      "revId": "a1da84657b7e751a9d4dea236660bba92279e525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9da4515a_d62a96f3",
+        "filename": "java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-07T20:54:25Z",
+      "side": 1,
+      "message": "Isn\u0027t it the same return value in both if branches? encodedIndexName isn\u0027t actually needed and can be inlined:\n\n  return URLEncoder.encode(indexName, UTF_8.toString()) + \"/\" + request;",
+      "range": {
+        "startLine": 301,
+        "startChar": 6,
+        "endLine": 304,
+        "endChar": 46
+      },
+      "revId": "a1da84657b7e751a9d4dea236660bba92279e525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

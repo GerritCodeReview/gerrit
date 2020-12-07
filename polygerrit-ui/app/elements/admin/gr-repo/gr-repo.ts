@@ -30,7 +30,10 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe} from '@polymer/decorators';
-import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {
+  ErrorCallback,
+  handleApiError,
+} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   ConfigInfo,
   RepoName,
@@ -180,14 +183,15 @@ export class GrRepo extends GestureEventListeners(
         if (loggedIn) {
           const repo = this.repo;
           if (!repo) throw new Error('undefined repo');
-          this.restApiService.getRepoAccess(repo).then(access => {
-            if (!access || this.repo !== repo) {
-              return;
-            }
+          this.restApiService
+            .getRepoAccess(repo)
+            .then(access => {
+              if (this.repo !== repo) return;
 
-            // If the user is not an owner, is_owner is not a property.
-            this._readOnly = !access[repo].is_owner;
-          });
+              // If the user is not an owner, is_owner is not a property.
+              this._readOnly = !access[repo].is_owner;
+            })
+            .catch(handleApiError);
         }
       })
     );

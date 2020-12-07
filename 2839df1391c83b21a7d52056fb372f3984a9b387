@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "392b8d98_57b5d247",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-07T21:12:31Z",
+      "side": 1,
+      "message": "Nice, please ignore my early comments in this series to suggest to upgrade right away to 7.10. What I am asking: do we really need all the intermediate ES releases?",
+      "revId": "2839df1391c83b21a7d52056fb372f3984a9b387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

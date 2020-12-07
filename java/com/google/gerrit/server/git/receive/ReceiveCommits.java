@@ -25,7 +25,7 @@ import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.COMMAND_REJECTION_MESSAGE_FOOTER;
-import static com.google.gerrit.server.git.receive.ReceiveConstants.ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP;
+import static com.google.gerrit.server.git.receive.ReceiveConstants.ONLY_USERS_WITH_TOGGLE_WIP_STATE_PERM_CAN_MODIFY_WIP;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.SAME_CHANGE_ID_IN_MULTIPLE_CHANGES;
 import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
@@ -2865,9 +2865,9 @@ class ReceiveCommits {
 
         if (!hasWriteConfigPermission) {
           try {
-            permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+            permissions.change(notes).check(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE);
           } catch (AuthException e1) {
-            reject(inputCommand, ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
+            reject(inputCommand, ONLY_USERS_WITH_TOGGLE_WIP_STATE_PERM_CAN_MODIFY_WIP);
           }
         }
       }

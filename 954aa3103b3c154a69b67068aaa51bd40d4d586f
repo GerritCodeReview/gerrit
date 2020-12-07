@@ -94,6 +94,30 @@
       },
       "revId": "954aa3103b3c154a69b67068aaa51bd40d4d586f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af8736b7_ec3458a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-07T13:09:05Z",
+      "side": 1,
+      "message": "I share Nasser\u0027s confusion, still.\n\nHere is what I understood so far:\n\nIf you cherry pick using the commit API you\u0027ll get an NPE in case there already is a change with the same Change-Id as in the commit\u0027s footer that you want to cherry pick.\n\nIs that correct so far?\n\nIf so, I am stuck at why we need to remove cherryPickOf. The field gets set and establishes a relation between two changes and doesn\u0027t usually get updated. You can cherry pick a change, modify it (\u003d upload new PS) and that releationship will still be there under the assumption that your new change is a cherry pick of the other change/commit and you just made modifications to make it fit into the target branch.",
+      "parentUuid": "ba546e1f_e27496ea",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "954aa3103b3c154a69b67068aaa51bd40d4d586f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

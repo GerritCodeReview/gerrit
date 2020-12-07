@@ -30,6 +30,7 @@ import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api.js';
 import {createCommentThreads} from '../../../utils/comment-util.js';
+import sinon from 'sinon/pkg/sinon-esm';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
@@ -1101,6 +1102,7 @@ suite('gr-file-list tests', () => {
 
     test('_expandedFilesChanged', done => {
       sinon.stub(element, '_reviewFile');
+      sinon.stub(element, '_changeCommentsUpdated');
       const path = 'path/to/my/file.txt';
       const diffs = [{
         path,

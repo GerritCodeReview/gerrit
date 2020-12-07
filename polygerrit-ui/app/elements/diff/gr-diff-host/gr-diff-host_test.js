@@ -22,7 +22,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {sortComments, createCommentThreads} from '../../../utils/comment-util.js';
 import {Side, CommentSide} from '../../../constants/constants.js';
-import {createChange} from '../../../test/test-data-generators.js';
+import {createChange, createThread, createDraft} from '../../../test/test-data-generators.js';
 import {FILE} from '../gr-diff/gr-diff-line.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
@@ -684,6 +684,61 @@ suite('gr-diff-host tests', () => {
     element.toggleLeftDiff();
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
+  });
+
+  suite('_shouldUpdateThreadEl', () => {
+    let thread;
+    let threadEl;
+    setup(() => {
+      thread = createThread();
+      threadEl = element._createThreadElement(thread);
+    });
+
+    test('adding a draft updates thread element', () => {
+      const newThread = {...thread, comments: thread.comments.map(
+          c => { return {...c}; })};
+      newThread.comments.push({
+        ...createDraft(),
+        id: '3',
+      });
+      assert.isTrue(element._shouldUpdateThreadEl(newThread, threadEl));
+    });
+
+    test('discarding a draft updates thread element', () => {
+      thread.comments.push({
+        ...createDraft(),
+        id: '3',
+      });
+      threadEl = element._createThreadElement(thread);
+      assert.isFalse(element._shouldUpdateThreadEl(thread, threadEl));
+
+      const newThread = {...thread, comments: thread.comments.map(
+          c => { return {...c}; })};
+      newThread.comments.pop();
+
+      assert.isTrue(element._shouldUpdateThreadEl(newThread, threadEl));
+    });
+
+    test('thread not updated if root ids do not match', () => {
+      const newThread = {...thread, comments: thread.comments.map(
+          c => { return {...c}; })};
+      newThread.comments[0].id = '4';
+      assert.isFalse(element._shouldUpdateThreadEl(thread, threadEl));
+    });
+
+    test('updating draft text updates thread element', () => {
+      thread.comments.push({
+        ...createDraft(),
+        id: '3',
+      });
+      threadEl = element._createThreadElement(thread);
+      assert.isFalse(element._shouldUpdateThreadEl(thread, threadEl));
+
+      const newThread = {...thread, comments: thread.comments.map(
+          c => { return {...c}; })};
+      newThread.comments[newThread.comments.length - 1].message = 'new message';
+      assert.isTrue(element._shouldUpdateThreadEl(newThread, threadEl));
+    });
   });
 
   suite('blame', () => {

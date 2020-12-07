@@ -1253,6 +1253,18 @@ export class GrFileList extends KeyboardShortcutMixin(
       : 'gr-icons:expand-more';
   }
 
+  @observe('changeComments')
+  _changeCommentsUpdated(changeComments: ChangeComments) {
+    this.diffs.forEach(diff => {
+      if (!this.patchRange || !diff.path) return;
+      const threads = changeComments?.getThreadsBySideForPath(
+        diff.path,
+        this.patchRange
+      );
+      diff._updateThreadWithDraft(threads);
+    });
+  }
+
   @observe(
     '_filesByPath',
     'changeComments',

@@ -16,6 +16,24 @@
       "message": "This method is duplicated.",
       "revId": "a9d18222b2b8672096bd8f172fdcfa1c748a4658",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd24bffc_b90f0ac1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-07T15:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "424a2fd2_bdbd99b8",
+      "revId": "a9d18222b2b8672096bd8f172fdcfa1c748a4658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

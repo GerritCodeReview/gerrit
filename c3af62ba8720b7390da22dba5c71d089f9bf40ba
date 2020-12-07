@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2707ef71_33bbbb96",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-07T13:21:41Z",
+      "side": 1,
+      "message": "This is the part that I don\u0027t yet fully understand. Why would we reset this here using a database operation (*Op are DB ops).\n\nThis whole flow will create a new change, right (\u003d a cherry pick of a commit). If we don\u0027t want to set cherryPickOf, we can just not set it instead of set it and then remove it. I feel I am missing something obvious here :-)",
+      "range": {
+        "startLine": 479,
+        "startChar": 6,
+        "endLine": 479,
+        "endChar": 54
+      },
+      "revId": "c3af62ba8720b7390da22dba5c71d089f9bf40ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

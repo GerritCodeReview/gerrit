@@ -70,6 +70,24 @@
       "parentUuid": "09d5254d_69894cb7",
       "revId": "9c09efbc48038c3b03d5f388f95c845ae8b409c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a93d24a_2408ba4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-07T15:58:03Z",
+      "side": 1,
+      "message": "Cool, thanks again for the reviews, looks good.",
+      "parentUuid": "65cb0321_09f661c6",
+      "revId": "9c09efbc48038c3b03d5f388f95c845ae8b409c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

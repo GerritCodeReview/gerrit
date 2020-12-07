@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "db287877_257e2df9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-07T22:59:25Z",
+      "side": 1,
+      "message": "Yes, and I already back-logged those for myself (God willing) internally.\n\nI think we should not remove versions before their EOL dates though. So for the 25th one that is next (7.2), I\u0027ll be on vacation and able to remove it only once back so during the course of January; unless somebody else does it prior. I\u0027m planning to keep doing those removals as the following ones unfold calendar-wise. Contributions welcome, of course. I\u0027d otherwise be as happy to review.",
+      "parentUuid": "d58f26c9_92830602",
+      "revId": "f8b02d15621693e78a5968d347fd322bc8eda25f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4069d357_35f77cd6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

@@ -26,6 +26,7 @@ import {htmlTemplate} from './gr-rule-editor_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {AccessPermissionId} from '../../../utils/access-util';
 import {property, customElement, observe} from '@polymer/decorators';
+import {fireEvent} from '../../../utils/event-util';
 
 /**
  * Fired when the rule has been modified or removed.
@@ -267,15 +268,11 @@ export class GrRuleEditor extends GestureEventListeners(
   _handleRemoveRule() {
     if (!this.rule) return;
     if (this.rule.value.added) {
-      this.dispatchEvent(
-        new CustomEvent('added-rule-removed', {bubbles: true, composed: true})
-      );
+      fireEvent(this, 'added-rule-removed');
     }
     this._deleted = true;
     this.rule.value.deleted = true;
-    this.dispatchEvent(
-      new CustomEvent('access-modified', {bubbles: true, composed: true})
-    );
+    fireEvent(this, 'access-modified');
   }
 
   _handleUndoRemove() {
@@ -304,9 +301,7 @@ export class GrRuleEditor extends GestureEventListeners(
     }
     this.rule.value.modified = true;
     // Allows overall access page to know a change has been made.
-    this.dispatchEvent(
-      new CustomEvent('access-modified', {bubbles: true, composed: true})
-    );
+    fireEvent(this, 'access-modified');
   }
 
   _setOriginalRuleValues(value: RuleValue) {

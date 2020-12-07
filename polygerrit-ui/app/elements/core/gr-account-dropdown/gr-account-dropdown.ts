@@ -26,6 +26,7 @@ import {getUserName} from '../../../utils/display-name-util';
 import {customElement, property} from '@polymer/decorators';
 import {AccountInfo, ServerInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
+import {fireEvent} from '../../../utils/event-util';
 
 const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
 
@@ -115,12 +116,7 @@ export class GrAccountDropdown extends GestureEventListeners(
   }
 
   _handleShortcutsTap() {
-    this.dispatchEvent(
-      new CustomEvent('show-keyboard-shortcuts', {
-        bubbles: true,
-        composed: true,
-      })
-    );
+    fireEvent(this, 'show-keyboard-shortcuts');
   }
 
   _handleLocationChange() {

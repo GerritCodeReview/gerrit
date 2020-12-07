@@ -24,6 +24,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-linked-chip_html';
+import {fireEvent} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -64,11 +65,6 @@ export class GrLinkedChip extends GestureEventListeners(
 
   _handleRemoveTap(e: Event) {
     e.preventDefault();
-    this.dispatchEvent(
-      new CustomEvent('remove', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'remove');
   }
 }

@@ -71,7 +71,7 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   firePageError,
   fireAlert,
-  fireServerError,
+  fireServerError, fireEvent,
 } from '../../../utils/event-util';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
@@ -913,9 +913,7 @@ export class GrDiffHost extends GestureEventListeners(
   }
 
   _handleCommentSaveOrDiscard() {
-    this.dispatchEvent(
-      new CustomEvent('diff-comments-modified', {bubbles: true, composed: true})
-    );
+    fireEvent(this, 'diff-comments-modified');
   }
 
   _isSyntaxHighlightingEnabled(

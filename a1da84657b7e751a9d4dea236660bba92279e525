@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf1fe8e9_19ee6558",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-07T22:59:25Z",
+      "side": 1,
+      "message": "Maybe through cherry-picks once this 3.1 review series gets completed, yes. I just rebased [2]\u0027s own series on this, so that we don\u0027t review based on an EOL branch. I\u0027d personally prefer not to have to undo all of that and review again on an EOL base.\n\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/280760",
+      "parentUuid": "d74bcb23_c47d4511",
+      "revId": "a1da84657b7e751a9d4dea236660bba92279e525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9da4515a_d62a96f3",
@@ -66,6 +84,30 @@
       "writtenOn": "2020-12-07T20:54:25Z",
       "side": 1,
       "message": "Isn\u0027t it the same return value in both if branches? encodedIndexName isn\u0027t actually needed and can be inlined:\n\n  return URLEncoder.encode(indexName, UTF_8.toString()) + \"/\" + request;",
+      "range": {
+        "startLine": 301,
+        "startChar": 6,
+        "endLine": 304,
+        "endChar": 46
+      },
+      "revId": "a1da84657b7e751a9d4dea236660bba92279e525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5b16ba3_af136922",
+        "filename": "java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-07T22:59:25Z",
+      "side": 1,
+      "message": "Thanks for the catch. Done.",
+      "parentUuid": "9da4515a_d62a96f3",
       "range": {
         "startLine": 301,
         "startChar": 6,

@@ -110,6 +110,12 @@ import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/g
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 export type CancelConditionCallback = () => boolean;
 
+export class ResponseError extends Error {
+  constructor(response: Response) {
+    super(`HTTP response error, code ${response.status}`);
+  }
+}
+
 // TODO(TS): remove when GrReplyDialog converted to typescript
 export interface GrReplyDialog {
   getLabelValue(label: string): string;

@@ -63,6 +63,24 @@
       "message": "Once you are done applying this comment, I will add a few more reviewers.",
       "revId": "311eab1ccb115f43c1c92cbcfb34e4464d2b63ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a25726a4_8e87bcf3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2020-12-07T13:29:07Z",
+      "side": 1,
+      "message": "I applied the comment",
+      "parentUuid": "a9f0ca15_3ef5a5eb",
+      "revId": "311eab1ccb115f43c1c92cbcfb34e4464d2b63ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

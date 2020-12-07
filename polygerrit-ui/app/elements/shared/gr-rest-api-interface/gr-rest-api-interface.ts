@@ -840,48 +840,28 @@ export class GrRestApiInterface
     }) as Promise<EmailInfo[] | undefined>;
   }
 
-  addAccountEmail(email: string): Promise<Response>;
-
-  addAccountEmail(
-    email: string,
-    errFn?: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  addAccountEmail(email: string, errFn?: ErrorCallback) {
+  addAccountEmail(email: string): Promise<Response> {
     return this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: '/accounts/self/emails/' + encodeURIComponent(email),
-      errFn,
       anonymizedUrl: '/account/self/emails/*',
     });
   }
 
-  deleteAccountEmail(email: string): Promise<Response>;
-
-  deleteAccountEmail(
-    email: string,
-    errFn?: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  deleteAccountEmail(email: string, errFn?: ErrorCallback) {
+  deleteAccountEmail(email: string): Promise<Response> {
     return this._restApiHelper.send({
       method: HttpMethod.DELETE,
       url: '/accounts/self/emails/' + encodeURIComponent(email),
-      errFn,
       anonymizedUrl: '/accounts/self/email/*',
     });
   }
 
-  setPreferredAccountEmail(
-    email: string,
-    errFn?: ErrorCallback
-  ): Promise<void> {
+  setPreferredAccountEmail(email: string): Promise<void> {
     // TODO(TS): add correct error handling
     const encodedEmail = encodeURIComponent(email);
     const req = {
       method: HttpMethod.PUT,
       url: `/accounts/self/emails/${encodedEmail}/preferred`,
-      errFn,
       anonymizedUrl: '/accounts/self/emails/*/preferred',
     };
     return this._restApiHelper.send(req).then(() => {
@@ -911,13 +891,12 @@ export class GrRestApiInterface
     }
   }
 
-  setAccountName(name: string, errFn?: ErrorCallback): Promise<void> {
+  setAccountName(name: string): Promise<void> {
     // TODO(TS): add correct error handling
     const req: SendJSONRequest = {
       method: HttpMethod.PUT,
       url: '/accounts/self/name',
       body: {name},
-      errFn,
       parseResponse: true,
       reportUrlAsIs: true,
     };
@@ -928,13 +907,12 @@ export class GrRestApiInterface
       );
   }
 
-  setAccountUsername(username: string, errFn?: ErrorCallback): Promise<void> {
+  setAccountUsername(username: string): Promise<void> {
     // TODO(TS): add correct error handling
     const req: SendJSONRequest = {
       method: HttpMethod.PUT,
       url: '/accounts/self/username',
       body: {username},
-      errFn,
       parseResponse: true,
       reportUrlAsIs: true,
     };
@@ -945,16 +923,12 @@ export class GrRestApiInterface
       );
   }
 
-  setAccountDisplayName(
-    displayName: string,
-    errFn?: ErrorCallback
-  ): Promise<void> {
+  setAccountDisplayName(displayName: string): Promise<void> {
     // TODO(TS): add correct error handling
     const req: SendJSONRequest = {
       method: HttpMethod.PUT,
       url: '/accounts/self/displayname',
       body: {display_name: displayName},
-      errFn,
       parseResponse: true,
       reportUrlAsIs: true,
     };
@@ -965,13 +939,12 @@ export class GrRestApiInterface
     );
   }
 
-  setAccountStatus(status: string, errFn?: ErrorCallback): Promise<void> {
+  setAccountStatus(status: string): Promise<void> {
     // TODO(TS): add correct error handling
     const req: SendJSONRequest = {
       method: HttpMethod.PUT,
       url: '/accounts/self/status',
       body: {status},
-      errFn,
       parseResponse: true,
       reportUrlAsIs: true,
     };
@@ -1096,34 +1069,22 @@ export class GrRestApiInterface
   }
 
   saveWatchedProjects(
-    projects: ProjectWatchInfo[],
-    errFn?: ErrorCallback
+    projects: ProjectWatchInfo[]
   ): Promise<ProjectWatchInfo[]> {
     return (this._restApiHelper.send({
       method: HttpMethod.POST,
       url: '/accounts/self/watched.projects',
       body: projects,
-      errFn,
       parseResponse: true,
       reportUrlAsIs: true,
     }) as unknown) as Promise<ProjectWatchInfo[]>;
   }
 
-  deleteWatchedProjects(
-    projects: ProjectWatchInfo[]
-  ): Promise<Response | undefined>;
-
-  deleteWatchedProjects(
-    projects: ProjectWatchInfo[],
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  deleteWatchedProjects(projects: ProjectWatchInfo[], errFn?: ErrorCallback) {
+  deleteWatchedProjects(projects: ProjectWatchInfo[]): Promise<Response> {
     return this._restApiHelper.send({
       method: HttpMethod.POST,
       url: '/accounts/self/watched.projects:delete',
       body: projects,
-      errFn,
       reportUrlAsIs: true,
     });
   }
@@ -1302,11 +1263,7 @@ export class GrRestApiInterface
     return listChangesOptionsToHex(...options);
   }
 
-  getDiffChangeDetail(
-    changeNum: NumericChangeId,
-    errFn?: ErrorCallback,
-    cancelCondition?: CancelConditionCallback
-  ) {
+  getDiffChangeDetail(changeNum: NumericChangeId) {
     let optionsHex = '';
     if (window.DEFAULT_DETAIL_HEXES?.diffPage) {
       optionsHex = window.DEFAULT_DETAIL_HEXES.diffPage;
@@ -1317,7 +1274,7 @@ export class GrRestApiInterface
         ListChangesOption.SKIP_DIFFSTAT
       );
     }
-    return this._getChangeDetail(changeNum, optionsHex, errFn, cancelCondition);
+    return this._getChangeDetail(changeNum, optionsHex);
   }
 
   /**
@@ -1467,37 +1424,22 @@ export class GrRestApiInterface
     >;
   }
 
-  getChangeSuggestedReviewers(
-    changeNum: NumericChangeId,
-    inputVal: string,
-    errFn?: ErrorCallback
-  ) {
+  getChangeSuggestedReviewers(changeNum: NumericChangeId, inputVal: string) {
     return this._getChangeSuggestedGroup(
       ReviewerState.REVIEWER,
       changeNum,
-      inputVal,
-      errFn
+      inputVal
     );
   }
 
-  getChangeSuggestedCCs(
-    changeNum: NumericChangeId,
-    inputVal: string,
-    errFn?: ErrorCallback
-  ) {
-    return this._getChangeSuggestedGroup(
-      ReviewerState.CC,
-      changeNum,
-      inputVal,
-      errFn
-    );
+  getChangeSuggestedCCs(changeNum: NumericChangeId, inputVal: string) {
+    return this._getChangeSuggestedGroup(ReviewerState.CC, changeNum, inputVal);
   }
 
   _getChangeSuggestedGroup(
     reviewerState: ReviewerState,
     changeNum: NumericChangeId,
-    inputVal: string,
-    errFn?: ErrorCallback
+    inputVal: string
   ): Promise<SuggestedReviewerInfo[] | undefined> {
     // More suggestions may obscure content underneath in the reply dialog,
     // see issue 10793.
@@ -1511,7 +1453,6 @@ export class GrRestApiInterface
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/suggest_reviewers',
-      errFn,
       params,
       reportEndpointAsIs: true,
     }) as Promise<SuggestedReviewerInfo[] | undefined>;
@@ -1732,8 +1673,7 @@ export class GrRestApiInterface
 
   getSuggestedGroups(
     inputVal: string,
-    n?: number,
-    errFn?: ErrorCallback
+    n?: number
   ): Promise<GroupNameToGroupInfoMap | undefined> {
     const params: QueryGroupsParams = {s: inputVal};
     if (n) {
@@ -1741,7 +1681,6 @@ export class GrRestApiInterface
     }
     return this._restApiHelper.fetchJSON({
       url: '/groups/',
-      errFn,
       params,
       reportUrlAsIs: true,
     }) as Promise<GroupNameToGroupInfoMap | undefined>;
@@ -1749,8 +1688,7 @@ export class GrRestApiInterface
 
   getSuggestedProjects(
     inputVal: string,
-    n?: number,
-    errFn?: ErrorCallback
+    n?: number
   ): Promise<NameToProjectInfoMap | undefined> {
     const params = {
       m: inputVal,
@@ -1762,7 +1700,6 @@ export class GrRestApiInterface
     }
     return this._restApiHelper.fetchJSON({
       url: '/projects/',
-      errFn,
       params,
       reportUrlAsIs: true,
     });
@@ -1770,8 +1707,7 @@ export class GrRestApiInterface
 
   getSuggestedAccounts(
     inputVal: string,
-    n?: number,
-    errFn?: ErrorCallback
+    n?: number
   ): Promise<AccountInfo[] | undefined> {
     if (!inputVal) {
       return Promise.resolve([]);
@@ -1782,7 +1718,6 @@ export class GrRestApiInterface
     }
     return this._restApiHelper.fetchJSON({
       url: '/accounts/',
-      errFn,
       params,
       anonymizedUrl: '/accounts/?n=*',
     }) as Promise<AccountInfo[] | undefined>;
@@ -1943,29 +1878,12 @@ export class GrRestApiInterface
     patchNum: PatchSetNum,
     path: string,
     reviewed: boolean
-  ): Promise<Response>;
-
-  saveFileReviewed(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
-    path: string,
-    reviewed: boolean,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  saveFileReviewed(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
-    path: string,
-    reviewed: boolean,
-    errFn?: ErrorCallback
-  ) {
+  ): Promise<Response> {
     return this._getChangeURLAndSend({
       changeNum,
       method: reviewed ? HttpMethod.PUT : HttpMethod.DELETE,
       patchNum,
       endpoint: `/files/${encodeURIComponent(path)}/reviewed`,
-      errFn,
       anonymizedEndpoint: '/files/*/reviewed',
     });
   }
@@ -3085,10 +3003,9 @@ export class GrRestApiInterface
     }) as Promise<CapabilityInfoMap | undefined>;
   }
 
-  getTopMenus(errFn?: ErrorCallback): Promise<TopMenuEntryInfo[] | undefined> {
+  getTopMenus(): Promise<TopMenuEntryInfo[] | undefined> {
     return this._fetchSharedCacheURL({
       url: '/config/server/top-menus',
-      errFn,
       reportUrlAsIs: true,
     }) as Promise<TopMenuEntryInfo[] | undefined>;
   }
@@ -3139,21 +3056,6 @@ export class GrRestApiInterface
         return 'Change marked as Work In Progress.';
       }
       return undefined;
-    });
-  }
-
-  startReview(
-    changeNum: NumericChangeId,
-    body?: RequestPayload,
-    errFn?: ErrorCallback
-  ) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.POST,
-      endpoint: '/ready',
-      body,
-      errFn,
-      reportUrlAsIs: true,
     });
   }
 

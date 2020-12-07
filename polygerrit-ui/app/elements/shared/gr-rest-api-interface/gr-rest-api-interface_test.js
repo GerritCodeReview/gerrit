@@ -649,19 +649,6 @@ suite('gr-rest-api-interface tests', () => {
         {message: 'revising...'});
   });
 
-  test('startReview', () => {
-    const sendStub = sinon.stub(element, '_getChangeURLAndSend')
-        .returns(Promise.resolve({}));
-    element.startReview('42', {message: 'Please review.'});
-    assert.isTrue(sendStub.calledOnce);
-    assert.equal(sendStub.lastCall.args[0].changeNum, '42');
-    assert.equal(sendStub.lastCall.args[0].method, 'POST');
-    assert.isNotOk(sendStub.lastCall.args[0].patchNum);
-    assert.equal(sendStub.lastCall.args[0].endpoint, '/ready');
-    assert.deepEqual(sendStub.lastCall.args[0].body,
-        {message: 'Please review.'});
-  });
-
   test('deleteComment', () => {
     const sendStub = sinon.stub(element, '_getChangeURLAndSend')
         .returns(Promise.resolve('some response'));

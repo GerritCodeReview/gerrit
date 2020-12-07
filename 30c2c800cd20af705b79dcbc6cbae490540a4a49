@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3766973f_574032e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-07T21:07:52Z",
+      "side": 1,
+      "message": "The latest ES client atm is 7.10.0, may be mention the upgrade to this version?",
+      "range": {
+        "startLine": 17,
+        "startChar": 64,
+        "endLine": 17,
+        "endChar": 69
+      },
+      "revId": "30c2c800cd20af705b79dcbc6cbae490540a4a49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46474bbc_82f71c98",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-07T21:07:52Z",
+      "side": 1,
+      "message": "Can you elaborate on that statement?",
+      "range": {
+        "startLine": 800,
+        "startChar": 55,
+        "endLine": 801,
+        "endChar": 65
+      },
+      "revId": "30c2c800cd20af705b79dcbc6cbae490540a4a49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

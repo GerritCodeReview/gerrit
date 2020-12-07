@@ -16,6 +16,24 @@
       "message": "Making a comment to try and update index.",
       "revId": "e50419cba438cf79e5459080ada1ae439e015310",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e488a47_f19adfa3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-07T14:27:25Z",
+      "side": 1,
+      "message": "Good idea. Did so also for the surrounding changes.",
+      "parentUuid": "a38f544e_42711156",
+      "revId": "e50419cba438cf79e5459080ada1ae439e015310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

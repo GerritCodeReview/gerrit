@@ -36,6 +36,7 @@ suite('gr-reviewer-list tests', () => {
   });
 
   test('controls hidden on immutable element', () => {
+    flush();
     element.mutable = false;
     assert.isTrue(element.shadowRoot
         .querySelector('.controlsContainer').hasAttribute('hidden'));
@@ -48,6 +49,7 @@ suite('gr-reviewer-list tests', () => {
     element.addEventListener('show-reply-dialog', () => {
       done();
     });
+    flush();
     MockInteractions.tap(element.shadowRoot
         .querySelector('.addReviewer'));
   });

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d54fd428_774bc289",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-07T18:47:00Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be optional",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 17
+      },
+      "revId": "e5b03de791ff611a2d7e96754c9941447d53fc32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "655a9b1e_1322fc50",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-07T18:47:00Z",
+      "side": 1,
+      "message": "In this change you suggests to use exceptions and catch blocks for handling errors. This is one of a wide-using approach. Another wide-using approach is a return code.\n\nBelow I am trying to summarize pros/cons of both solutions:\n------------\nExceptions:\nPros:\n1) the main code path is clean\n2) A error is catched only at the point where it is clear what to do with the error, a SWE shouldn\u0027t care about the problem in the intermediate code\n\nCons: \n1) A SWE can forget to catch an exception; typescript can\u0027t help with that.\n2) It is always a question, where to catch an exception. In this change you catch an exception after the .then(...) block. As a result, if a code inside then generates an exceptions, this exception is shown as pageError, though it can be an internal error/bug in the code.\n3) minor problem: using it with async/await is not elegant:\nOption 1: \ntry {\n  const res \u003d await getRepoDashboards();\n  ....actions with res...\n} catch(e) {\n  handleAsPageError(e); // Problem: any exceptions after getRepoDashboards also goes here \n}\n\nOption 2:\nlet res: SomeType; // Problem 1: type is always required\ntry {\n  res \u003d getRepoDashboards(); \n} catch(e) {\n   handleAsPageError(e);\n   return; // Proble 2: this return is required\n}\nother code...\n------------------\n\nReturn code:\nPros:\n1) It is impossible to forget to check the result\n2) If method is changed to return a code - compiler automatically shows all places where changes should be done. With try/catch a SWE should manually search for all usages.\n3) async/await code looks better (discussable)\n\nCons:\n1) Code should care about the result at each level. However, usually it is a simple check.\n\nHow it can look in Typescript:\n\ntype RestApiResult\u003cT\u003e \u003d SuccessResult\u003cT\u003e | RestApiError;\n\ninterface SuccessResult\u003cT\u003e \u003d {\n    data: T;\n}\ninterface RestApiError {\n    err: Error;\n}\n\n\nexport isRestApiFailed\u003cT\u003e(x: RestApiResult\u003cT\u003e): x is RestApiError {...}\n...\n\nthis.restApiService.getRepoDashboards(repo).then(result \u003d\u003e {\n    if(isRestApiFailed(result)) {\n        handleAsPageError(result);\n        return; //or return result, if you want to propogate error\n    }\n    ... // Some action with result.data\n});\n\n// OR with async/await:\nconst result \u003d await this.restApiService.getRepoDashboards(repo);\nif(isRestApiFaild(result)) {\n   handleAsPageError(result);\n   return;\n}\n... // Some action with result.data\n----\n\nIn this solution, Typescript ensures that result.data is not accessible until you check for a error (or explicitly make a type conversion);\nAlso, if you forget a return inside if block, typescript again fails with a error.\n\nMy personal preferences for typescript is a \u0027return code\u0027 approach: compiler enforces correct error handling everywhere in code.",
+      "range": {
+        "startLine": 93,
+        "startChar": 7,
+        "endLine": 93,
+        "endChar": 32
+      },
+      "revId": "e5b03de791ff611a2d7e96754c9941447d53fc32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

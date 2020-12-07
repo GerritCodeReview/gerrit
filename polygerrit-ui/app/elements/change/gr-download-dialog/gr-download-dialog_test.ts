@@ -54,7 +54,7 @@ function getChangeObject() {
             url: 'my.url',
             ref: 'refs/changes/5/6/1',
             commands: {
-              'Checkout':
+              Checkout:
                 'git fetch ' +
                 'ssh://andybons@localhost:29418/test-project ' +
                 'refs/changes/05/5/1 && git checkout FETCH_HEAD',
@@ -67,7 +67,7 @@ function getChangeObject() {
                 'ssh://andybons@localhost:29418/test-project ' +
                 'refs/changes/05/5/1 ' +
                 '&& git format-patch -1 --stdout FETCH_HEAD',
-              'Pull':
+              Pull:
                 'git pull ' +
                 'ssh://andybons@localhost:29418/test-project ' +
                 'refs/changes/05/5/1',
@@ -77,7 +77,7 @@ function getChangeObject() {
             url: 'my.url',
             ref: 'refs/changes/5/6/1',
             commands: {
-              'Checkout':
+              Checkout:
                 'git fetch ' +
                 'http://andybons@localhost:8080/a/test-project ' +
                 'refs/changes/05/5/1 && git checkout FETCH_HEAD',
@@ -90,7 +90,7 @@ function getChangeObject() {
                 'http://andybons@localhost:8080/a/test-project ' +
                 'refs/changes/05/5/1 && ' +
                 'git format-patch -1 --stdout FETCH_HEAD',
-              'Pull':
+              Pull:
                 'git pull ' +
                 'http://andybons@localhost:8080/a/test-project ' +
                 'refs/changes/05/5/1',

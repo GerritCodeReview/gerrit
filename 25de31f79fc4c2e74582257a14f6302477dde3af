@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c5747b3_77e64f24",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 78
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-07T17:35:03Z",
+      "side": 1,
+      "message": "Why?",
+      "parentUuid": "1204d392_fbf8ad57",
+      "range": {
+        "startLine": 593,
+        "startChar": 11,
+        "endLine": 593,
+        "endChar": 28
+      },
+      "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bf873f7_ab432da9",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
         "patchSetId": 78
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "We are writing a test in gr-comment-api_test.js.\nI\u0027m not sure if writing a test without using the element is really easy.\n\nI did rewrite the tests to create proper ChangeComment objects so we don\u0027t have to stub individual methods if that helps with readibility.",
       "parentUuid": "6bf873f7_ab432da9",
+      "range": {
+        "startLine": 152,
+        "startChar": 8,
+        "endLine": 152,
+        "endChar": 15
+      },
+      "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af2d43a6_eb8df7c7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 78
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-07T17:35:03Z",
+      "side": 1,
+      "message": "What is the difference between setting\n\n  element._changeComments\n\nand setting a local variable in the test?\n\n  let changeComments;",
+      "parentUuid": "cfb5f5e4_4d9b93f4",
       "range": {
         "startLine": 152,
         "startChar": 8,

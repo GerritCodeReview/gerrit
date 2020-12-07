@@ -36,7 +36,7 @@ import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {PolymerDomWrapper} from '../../../types/types';
 import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiff} from '../gr-diff/gr-diff';
-import {fireAlert} from '../../../utils/event-util';
+import {fireAlert, fireEvent} from '../../../utils/event-util';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -220,12 +220,7 @@ export class GrDiffCursor extends GestureEventListeners(
       ) {
         // reset for next file
         this.lastDisplayedNavigateToNextFileToast = null;
-        this.dispatchEvent(
-          new CustomEvent('navigate-to-next-unreviewed-file', {
-            composed: true,
-            bubbles: true,
-          })
-        );
+        fireEvent(this, 'navigate-to-next-unreviewed-file');
       } else {
         this.lastDisplayedNavigateToNextFileToast = Date.now();
         fireAlert(this, 'Press n again to navigate to next unreviewed file');

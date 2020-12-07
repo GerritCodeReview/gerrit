@@ -48,7 +48,7 @@ import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {getLineNumber} from '../gr-diff/gr-diff-utils';
-import {fireAlert} from '../../../utils/event-util';
+import {fireAlert, fireEvent} from '../../../utils/event-util';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -219,17 +219,13 @@ export class GrDiffBuilderElement extends GestureEventListeners(
 
     const isBinary = !!(this.isImageDiff || this.diff.binary);
 
-    this.dispatchEvent(
-      new CustomEvent('render-start', {bubbles: true, composed: true})
-    );
+    fireEvent(this, 'render-start');
     this._cancelableRenderPromise = util.makeCancelable(
       this.$.processor.process(this.diff.content, isBinary).then(() => {
         if (this.isImageDiff) {
           (this._builder as GrDiffBuilderImage).renderDiff();
         }
-        this.dispatchEvent(
-          new CustomEvent('render-content', {bubbles: true, composed: true})
-        );
+        fireEvent(this, 'render-content');
       })
     );
     return (
@@ -336,16 +332,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
       sectionEl.parentNode.removeChild(sectionEl);
     }
 
-    this.async(
-      () =>
-        this.dispatchEvent(
-          new CustomEvent('render-content', {
-            composed: true,
-            bubbles: true,
-          })
-        ),
-      1
-    );
+    this.async(() => fireEvent(this, 'render-content'), 1);
   }
 
   cancel() {

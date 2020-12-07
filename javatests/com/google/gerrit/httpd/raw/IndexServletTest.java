@@ -53,8 +53,11 @@ public class IndexServletTest {
     String testCanonicalUrl = "foo-url";
     String testCdnPath = "bar-cdn";
     String testFaviconURL = "zaz-url";
+
+    org.eclipse.jgit.lib.Config serverConfig = new org.eclipse.jgit.lib.Config();
+    serverConfig.setStringList("experiments", null, "enabled", ImmutableList.of("NewFeature"));
     IndexServlet servlet =
-        new IndexServlet(testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi);
+        new IndexServlet(testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi, serverConfig);
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 
@@ -76,6 +79,9 @@ public class IndexServletTest {
                 + "'\\x7b\\x22\\/config\\/server\\/version\\x22: \\x22123\\x22, "
                 + "\\x22\\/config\\/server\\/info\\x22: \\x7b\\x22default_theme\\x22:"
                 + "\\x22my-default-theme\\x22\\x7d, \\x22\\/config\\/server\\/top-menus\\x22: "
-                + "\\x5b\\x5d\\x7d');</script>");
+                + "\\x5b\\x5d\\x7d');");
+    assertThat(output)
+        .contains(
+            "window.ENABLED_EXPERIMENTS = JSON.parse('\\x5b\\x22NewFeature\\x22\\x5d');</script>");
   }
 }

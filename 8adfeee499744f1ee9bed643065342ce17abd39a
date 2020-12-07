@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0780bdfd_cdefd1fd",
+        "filename": "polygerrit-ui/app/services/flags/flags.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-07T15:01:35Z",
+      "side": 1,
+      "message": "maybe drop this one",
+      "revId": "8adfeee499744f1ee9bed643065342ce17abd39a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

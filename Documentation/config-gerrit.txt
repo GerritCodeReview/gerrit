@@ -3380,6 +3380,17 @@ available experiments.
   enabled = ExperimentKey
 ----
 
+[[experiments.disabled]]experiments.disabled::
++
+List of experiments that are currently disabled. The release notes contain currently
+available experiments. This list disables experiments with the given key that are
+either enabled by default or explicitly in the config.
+
+----
+[experiments]
+  disabled = ExperimentKey
+----
+
 [[ldap]]
 === Section ldap
 

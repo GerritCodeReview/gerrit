@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -47,6 +48,9 @@ import org.eclipse.jgit.lib.Config;
 @UsedAt(Project.GOOGLE)
 public class IndexHtmlUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final ImmutableSet<String> DEFAULT_EXPERIMENTS_FOR_OPEN_SOURCE_RELEASE =
+      ImmutableSet.of(
+          "UiFeature__patchset_comments", "UiFeature__patchset_choice_for_comment_links");
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
   /**
@@ -69,9 +73,13 @@ public class IndexHtmlUtil {
                 canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
         .putAll(dynamicTemplateData(gerritApi, requestedURL));
 
-    Set<String> enabledExperiments = new HashSet<>(experimentData(urlParameterMap));
+    Set<String> enabledExperiments = new HashSet<>();
     Arrays.stream(gerritServerConfig.getStringList("experiments", null, "enabled"))
         .forEach(enabledExperiments::add);
+    DEFAULT_EXPERIMENTS_FOR_OPEN_SOURCE_RELEASE.forEach(enabledExperiments::add);
+    Arrays.stream(gerritServerConfig.getStringList("experiments", null, "disabled"))
+        .forEach(enabledExperiments::remove);
+    experimentData(urlParameterMap).forEach(enabledExperiments::add);
     if (!enabledExperiments.isEmpty()) {
       data.put("enabledExperiments", serializeObject(GSON, enabledExperiments).toString());
     }

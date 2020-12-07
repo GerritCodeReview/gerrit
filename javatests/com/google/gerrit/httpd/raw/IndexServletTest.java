@@ -55,7 +55,13 @@ public class IndexServletTest {
     String testFaviconURL = "zaz-url";
 
     org.eclipse.jgit.lib.Config serverConfig = new org.eclipse.jgit.lib.Config();
-    serverConfig.setStringList("experiments", null, "enabled", ImmutableList.of("NewFeature"));
+    serverConfig.setStringList(
+        "experiments", null, "enabled", ImmutableList.of("NewFeature", "DisabledFeature"));
+    serverConfig.setStringList(
+        "experiments",
+        null,
+        "disabled",
+        ImmutableList.of("DisabledFeature", "UiFeature__patchset_choice_for_comment_links"));
     IndexServlet servlet =
         new IndexServlet(testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi, serverConfig);
 
@@ -82,6 +88,6 @@ public class IndexServletTest {
                 + "\\x5b\\x5d\\x7d');");
     assertThat(output)
         .contains(
-            "window.ENABLED_EXPERIMENTS = JSON.parse('\\x5b\\x22NewFeature\\x22\\x5d');</script>");
+            "window.ENABLED_EXPERIMENTS = JSON.parse('\\x5b\\x22NewFeature\\x22,\\x22UiFeature__patchset_comments\\x22\\x5d');</script>");
   }
 }

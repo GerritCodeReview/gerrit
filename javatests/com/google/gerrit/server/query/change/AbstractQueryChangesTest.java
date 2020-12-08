@@ -85,6 +85,7 @@ import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -110,6 +111,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.ProjectCache;
@@ -1573,6 +1575,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(nowMs - lastUpdatedMs(change2)).isEqualTo(thirtyHoursInMs);
     assertThat(TimeUtil.nowMs()).isEqualTo(nowMs);
 
+    // Change1 was last updated on 2009-09-30 21:00:00 -0000
+    // Change2 was last updated on 2009-10-02 03:00:00 -0000
+    // The endpoint is 2009-10-03 09:00:00 -0000
+
     assertQuery("-age:1d");
     assertQuery("-age:" + (30 * 60 - 1) + "m");
     assertQuery("-age:2d", change2);
@@ -1580,6 +1586,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("age:3d");
     assertQuery("age:2d", change1);
     assertQuery("age:1d", change2, change1);
+
+    // Same test as above, but using filter code path.
+    assertQuery(makeIndexedPredicateFilterQuery("-age:1d"));
+    assertQuery(makeIndexedPredicateFilterQuery("-age:" + (30 * 60 - 1) + "m"));
+    assertQuery(makeIndexedPredicateFilterQuery("-age:2d"), change2);
+    assertQuery(makeIndexedPredicateFilterQuery("-age:3d"), change2, change1);
+    assertQuery(makeIndexedPredicateFilterQuery("age:3d"));
+    assertQuery(makeIndexedPredicateFilterQuery("age:2d"), change1);
+    assertQuery(makeIndexedPredicateFilterQuery("age:1d"), change2, change1);
   }
 
   @Test
@@ -1591,6 +1606,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert(repo, newChange(repo), null, new Timestamp(startMs));
     Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
+
+    // Change1 was last updated on 2009-09-30 21:00:00 -0000
+    // Change2 was last updated on 2009-10-02 03:00:00 -0000
 
     for (String predicate : Lists.newArrayList("before:", "until:")) {
       assertQuery(predicate + "2009-09-29");
@@ -1604,6 +1622,22 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       assertQuery(predicate + "2009-10-01", change1);
       assertQuery(predicate + "2009-10-03", change2, change1);
     }
+
+    // Same test as above, but using filter code path.
+    for (String predicate : Lists.newArrayList("before:", "until:")) {
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-09-29"));
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-09-30"));
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-09-30 16:59:00 -0400\""));
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-09-30 20:59:00 -0000\""));
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-09-30 20:59:00\""));
+      assertQuery(
+          makeIndexedPredicateFilterQuery(predicate + "\"2009-09-30 17:02:00 -0400\""), change1);
+      assertQuery(
+          makeIndexedPredicateFilterQuery(predicate + "\"2009-10-01 21:02:00 -0000\""), change1);
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-10-01 21:02:00\""), change1);
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-10-01"), change1);
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-10-03"), change2, change1);
+    }
   }
 
   @Test
@@ -1616,12 +1650,25 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
+    // Change1 was last updated on 2009-09-30 21:00:00 -0000
+    // Change2 was last updated on 2009-10-02 03:00:00 -0000
     for (String predicate : Lists.newArrayList("after:", "since:")) {
       assertQuery(predicate + "2009-10-03");
       assertQuery(predicate + "\"2009-10-01 20:59:59 -0400\"", change2);
       assertQuery(predicate + "\"2009-10-01 20:59:59 -0000\"", change2);
       assertQuery(predicate + "2009-10-01", change2);
       assertQuery(predicate + "2009-09-30", change2, change1);
+    }
+
+    // Same test as above, but using filter code path.
+    for (String predicate : Lists.newArrayList("after:", "since:")) {
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-10-03"));
+      assertQuery(
+          makeIndexedPredicateFilterQuery(predicate + "\"2009-10-01 20:59:59 -0400\""), change2);
+      assertQuery(
+          makeIndexedPredicateFilterQuery(predicate + "\"2009-10-01 20:59:59 -0000\""), change2);
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-10-01"), change2);
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-09-30"), change2, change1);
     }
   }
 
@@ -3587,6 +3634,48 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected static long lastUpdatedMs(Change c) {
     return c.getLastUpdatedOn().getTime();
+  }
+
+  /**
+   * Generates a search query to test {@link com.google.gerrit.index.query.Matchable} implementation
+   * of change {@link IndexPredicate}
+   *
+   * <p>This code path requires triggering the condition, when
+   *
+   * <ol>
+   *   <li>The query is rewritten into multiple {@link IndexedChangeQuery} by {@link
+   *       com.google.gerrit.server.index.change.ChangeIndexRewriter#rewrite}
+   *   <li>The changes are returned from the index by the first {@link IndexedChangeQuery}
+   *   <li>Then constrained in {@link com.google.gerrit.index.query.AndSource#match} by applying all
+   *       parsed predicates from the search query
+   *   <li>Thus, the rest of {@link IndexedChangeQuery} work as filters on the index results, see
+   *       {@link IndexedChangeQuery#match}
+   * </ol>
+   *
+   * The constructed query only constrains by the passed searchTerm for the operator that is being
+   * tested (for all changes without a reviewer):
+   *
+   * <ul>
+   *   <li>The search term 'status:new OR status:merged OR status:abandoned' is used to return all
+   *       changes from the search index.
+   *   <li>The non-indexed search term 'reviewerin:"Empty Group"' is only used to make the right AND
+   *       operand work as a filter (not a data source).
+   *   <li>See how it is rewritten in {@link
+   *       com.google.gerrit.server.index.change.ChangeIndexRewriterTest#threeLevelTreeWithMultipleSources}
+   * </ul>
+   *
+   * @param searchTerm change search term that maps to {@link IndexPredicate} and needs to be tested
+   *     as filter
+   * @return a search query that allows to test the {@code searchTerm} as a filter.
+   */
+  protected String makeIndexedPredicateFilterQuery(String searchTerm) throws Exception {
+    String emptyGroupName = "Empty Group";
+    if (gApi.groups().query(emptyGroupName).get().isEmpty()) {
+      createGroup(emptyGroupName, "Administrators");
+    }
+    String queryPattern =
+        "(status:new OR status:merged OR status:abandoned) AND (reviewerin:\"%s\" OR %s)";
+    return String.format(queryPattern, emptyGroupName, searchTerm);
   }
 
   private void addComment(int changeId, String message, Boolean unresolved) throws Exception {

@@ -1673,6 +1673,186 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void mergedOperatorSupportedByIndexVersion() throws Exception {
+    if (getSchemaVersion() < 61) {
+      assertMissingField(ChangeField.MERGED_ON);
+      assertFailingQuery(
+          "mergedbefore:2009-10-01",
+          "'mergedbefore' operator is not supported by change index version");
+      assertFailingQuery(
+          "mergedafter:2009-10-01",
+          "'mergedafter' operator is not supported by change index version");
+    } else {
+      assertThat(getSchema().hasField(ChangeField.MERGED_ON)).isTrue();
+    }
+  }
+
+  @Test
+  public void byMergedBefore() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.MERGED_ON)).isTrue();
+    long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
+
+    // Stop the clock, will set time to specific test values.
+    resetTimeWithClockStep(0, MILLISECONDS);
+    TestRepository<Repo> repo = createProject("repo");
+    long startMs = TestTimeUtil.START.toEpochMilli();
+    TestTimeUtil.setClock(new Timestamp(startMs));
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+    Change change3 = insert(repo, newChange(repo));
+
+    TestTimeUtil.setClock(new Timestamp(startMs + thirtyHoursInMs));
+    submit(change3);
+    TestTimeUtil.setClock(new Timestamp(startMs + 2 * thirtyHoursInMs));
+    submit(change2);
+    TestTimeUtil.setClock(new Timestamp(startMs + 3 * thirtyHoursInMs));
+    // Put another approval on the change, just to update it.
+    approve(change1);
+    approve(change3);
+
+    assertThat(TimeUtil.nowMs()).isEqualTo(startMs + 3 * thirtyHoursInMs);
+    assertThat(lastUpdatedMsApi(change3)).isEqualTo(startMs + 3 * thirtyHoursInMs);
+    assertThat(lastUpdatedMsApi(change2)).isEqualTo(startMs + 2 * thirtyHoursInMs);
+    assertThat(lastUpdatedMsApi(change1)).isEqualTo(startMs + 3 * thirtyHoursInMs);
+
+    // Verify that:
+    // 1. Change1 was not submitted and should be never returned.
+    // 2. Change2 was merged on 2009-10-02 03:00:00 -0000
+    // 3. Change3 was merged on 2009-10-03 09:00:00.0 -0000
+    assertQuery("mergedbefore:2009-10-01");
+    // Changes excluded on the date submitted.
+    assertQuery("mergedbefore:2009-10-02");
+    assertQuery("mergedbefore:\"2009-10-01 22:59:00 -0400\"");
+    assertQuery("mergedbefore:\"2009-10-01 02:59:00\"");
+    assertQuery("mergedbefore:\"2009-10-01 23:02:00 -0400\"", change3);
+    assertQuery("mergedbefore:\"2009-10-02 03:02:00 -0000\"", change3);
+    assertQuery("mergedbefore:\"2009-10-02 03:02:00\"", change3);
+    assertQuery("mergedbefore:2009-10-03", change3);
+    // Changes are sorted by lastUpdatedOn first, then by mergedOn.
+    // Even though Change2 was merged after Change3, Change3 is returned first.
+    assertQuery("mergedbefore:2009-10-04", change3, change2);
+
+    // Same test as above, but using filter code path.
+    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:2009-10-01"));
+    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:2009-10-02"));
+    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:\"2009-10-01 22:59:00 -0400\""));
+    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:\"2009-10-01 02:59:00\""));
+    assertQuery(
+        makeIndexedPredicateFilterQuery("mergedbefore:\"2009-10-01 23:02:00 -0400\""), change3);
+    assertQuery(
+        makeIndexedPredicateFilterQuery("mergedbefore:\"2009-10-02 03:02:00 -0000\""), change3);
+    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:\"2009-10-02 03:02:00\""), change3);
+    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:2009-10-03"), change3);
+    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:2009-10-04"), change3, change2);
+  }
+
+  @Test
+  public void byMergedAfter() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.MERGED_ON)).isTrue();
+    long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
+
+    // Stop the clock, will set time to specific test values.
+    resetTimeWithClockStep(0, MILLISECONDS);
+    TestRepository<Repo> repo = createProject("repo");
+    long startMs = TestTimeUtil.START.toEpochMilli();
+    TestTimeUtil.setClock(new Timestamp(startMs));
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+    Change change3 = insert(repo, newChange(repo));
+    assertThat(TimeUtil.nowMs()).isEqualTo(startMs);
+
+    TestTimeUtil.setClock(new Timestamp(startMs + thirtyHoursInMs));
+    submit(change3);
+
+    TestTimeUtil.setClock(new Timestamp(startMs + 2 * thirtyHoursInMs));
+    submit(change2);
+
+    TestTimeUtil.setClock(new Timestamp(startMs + 3 * thirtyHoursInMs));
+    // Put another approval on the change, just to update it.
+    approve(change1);
+    approve(change3);
+
+    assertThat(TimeUtil.nowMs()).isEqualTo(startMs + 3 * thirtyHoursInMs);
+
+    assertThat(lastUpdatedMsApi(change3)).isEqualTo(startMs + 3 * thirtyHoursInMs);
+    assertThat(lastUpdatedMsApi(change2)).isEqualTo(startMs + 2 * thirtyHoursInMs);
+    assertThat(lastUpdatedMsApi(change1)).isEqualTo(startMs + 3 * thirtyHoursInMs);
+
+    // Verify that:
+    // 1. Change1 was not submitted and should be never returned.
+    // 2. Change2 was merged on 2009-10-02 03:00:00 -0000
+    // 3. Change3 was merged on 2009-10-03 09:00:00.0 -0000
+    assertQuery("mergedafter:2009-10-01", change3, change2);
+    // Changes are sorted by lastUpdatedOn first, then by mergedOn.
+    // Even though Change2 was merged after Change3, Change3 is returned first.
+    assertQuery("mergedafter:\"2009-10-01 22:59:00 -0400\"", change3, change2);
+    assertQuery("mergedafter:\"2009-10-02 02:59:00 -0000\"", change3, change2);
+    assertQuery("mergedafter:\"2009-10-01 23:02:00 -0400\"", change2);
+    assertQuery("mergedafter:\"2009-10-02 03:02:00 -0000\"", change2);
+    // Changes included on the date submitted.
+    assertQuery("mergedafter:2009-10-02", change3, change2);
+    assertQuery("mergedafter:2009-10-03", change2);
+
+    // Same test as above, but using filter code path.
+
+    assertQuery(makeIndexedPredicateFilterQuery("mergedafter:2009-10-01"), change3, change2);
+    // Changes are sorted by lastUpdatedOn first, then by mergedOn.
+    // Even though Change2 was merged after Change3, Change3 is returned first.
+    assertQuery(
+        makeIndexedPredicateFilterQuery("mergedafter:\"2009-10-01 22:59:00 -0400\""),
+        change3,
+        change2);
+    assertQuery(
+        makeIndexedPredicateFilterQuery("mergedafter:\"2009-10-02 02:59:00 -0000\""),
+        change3,
+        change2);
+    assertQuery(
+        makeIndexedPredicateFilterQuery("mergedafter:\"2009-10-01 23:02:00 -0400\""), change2);
+    assertQuery(
+        makeIndexedPredicateFilterQuery("mergedafter:\"2009-10-02 03:02:00 -0000\""), change2);
+    // Changes included on the date submitted.
+    assertQuery(makeIndexedPredicateFilterQuery("mergedafter:2009-10-02"), change3, change2);
+    assertQuery(makeIndexedPredicateFilterQuery("mergedafter:2009-10-03"), change2);
+  }
+
+  @Test
+  public void updatedThenMergedOrder() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.MERGED_ON)).isTrue();
+    long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
+
+    // Stop the clock, will set time to specific test values.
+    resetTimeWithClockStep(0, MILLISECONDS);
+    TestRepository<Repo> repo = createProject("repo");
+    long startMs = TestTimeUtil.START.toEpochMilli();
+    TestTimeUtil.setClock(new Timestamp(startMs));
+
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+    Change change3 = insert(repo, newChange(repo));
+
+    TestTimeUtil.setClock(new Timestamp(startMs + thirtyHoursInMs));
+    submit(change2);
+    submit(change3);
+    TestTimeUtil.setClock(new Timestamp(startMs + 2 * thirtyHoursInMs));
+    // Approve post submit just to update lastUpdatedOn
+    approve(change3);
+    approve(change2);
+    submit(change1);
+
+    // All Changes were last updated at the same time.
+    assertThat(lastUpdatedMsApi(change3)).isEqualTo(startMs + 2 * thirtyHoursInMs);
+    assertThat(lastUpdatedMsApi(change2)).isEqualTo(startMs + 2 * thirtyHoursInMs);
+    assertThat(lastUpdatedMsApi(change1)).isEqualTo(startMs + 2 * thirtyHoursInMs);
+
+    // Changes are sorted by lastUpdatedOn first, then by mergedOn, then by Id in reverse order.
+    // 1. Change3 and Change2 were merged at the same time, but Change3 ID > Change2 ID.
+    // 2. Change1 ID < Change3 ID & Change2 ID but it was merged last.
+    assertQuery("mergedbefore:2009-10-06", change1, change3, change2);
+    assertQuery("mergedafter:2009-09-30", change1, change3, change2);
+    assertQuery("status:merged", change1, change3, change2);
+  }
+
+  @Test
   public void bySize() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
 
@@ -3634,6 +3814,20 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected static long lastUpdatedMs(Change c) {
     return c.getLastUpdatedOn().getTime();
+  }
+
+  // Get the last  updated time from ChangeApi
+  protected long lastUpdatedMsApi(Change c) throws Exception {
+    return gApi.changes().id(c.getChangeId()).get().updated.getTime();
+  }
+
+  protected void approve(Change change) throws Exception {
+    gApi.changes().id(change.getChangeId()).current().review(ReviewInput.approve());
+  }
+
+  protected void submit(Change change) throws Exception {
+    approve(change);
+    gApi.changes().id(change.getChangeId()).current().submit();
   }
 
   /**

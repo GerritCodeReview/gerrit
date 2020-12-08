@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b5b108b_f51ef4dd",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-08T10:21:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adcca8a5_84524895",
+      "range": {
+        "startLine": 132,
+        "startChar": 10,
+        "endLine": 132,
+        "endChar": 57
+      },
+      "revId": "74888a5be5957674837e407dbe09fac15434e343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fad6cd22_46f20e48",
@@ -226,6 +250,30 @@
       "side": 1,
       "message": "Thanks for catching this!\n\nWe have the test coverage in AbstractQueryChangesTest.\n\nI will have to do some investigation why it was not caught and address separately.",
       "parentUuid": "62cd248c_c623ba1f",
+      "range": {
+        "startLine": 51,
+        "startChar": 10,
+        "endLine": 51,
+        "endChar": 93
+      },
+      "revId": "74888a5be5957674837e407dbe09fac15434e343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "177d8137_367650aa",
+        "filename": "java/com/google/gerrit/server/query/change/AfterPredicate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-08T10:21:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fd9ed9c_9481f904",
       "range": {
         "startLine": 51,
         "startChar": 10,

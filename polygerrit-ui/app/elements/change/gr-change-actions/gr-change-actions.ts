@@ -45,6 +45,7 @@ import {
 } from '../../../utils/patch-set-util';
 import {
   changeIsOpen,
+  isOwner,
   ListChangesOption,
   listChangesOptionsToHex,
 } from '../../../utils/change-util';
@@ -66,6 +67,7 @@ import {
   ErrorCallback,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
+  AccountInfo,
   ActionInfo,
   ActionNameToActionInfoMap,
   BranchName,
@@ -113,7 +115,11 @@ import {
   UIActionInfo,
 } from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
 import {fireAlert} from '../../../utils/event-util';
-import {CODE_REVIEW} from '../../../utils/label-util';
+import {
+  CODE_REVIEW,
+  getApprovalInfo,
+  getVotingRange,
+} from '../../../utils/label-util';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -401,6 +407,9 @@ export class GrChangeActions
 
   @property({type: Boolean})
   _hideQuickApproveAction = false;
+
+  @property({type: Object})
+  account?: AccountInfo;
 
   @property({type: String})
   changeNum?: NumericChangeId;
@@ -949,29 +958,38 @@ export class GrChangeActions
       }
     }
     // Allow the user to use quick approve to vote the max score on code review
-    // even if it is already granted.
+    // even if it is already granted by someone else. Does not apply if the
+    // user owns the change or has already granted the max score themselves.
+    const codeReviewLabel = this.change.labels[CODE_REVIEW];
+    const codeReviewPermittedValues = this.change.permitted_labels[CODE_REVIEW];
     if (
       !result &&
-      this.change.labels[CODE_REVIEW] &&
-      this._getLabelStatus(this.change.labels[CODE_REVIEW]) ===
-        LabelStatus.OK &&
-      this.change.permitted_labels[CODE_REVIEW]
+      codeReviewLabel &&
+      codeReviewPermittedValues &&
+      this.account?._account_id &&
+      isDetailedLabelInfo(codeReviewLabel) &&
+      this._getLabelStatus(codeReviewLabel) === LabelStatus.OK &&
+      !isOwner(this.change, this.account) &&
+      getApprovalInfo(codeReviewLabel, this.account)?.value !==
+        getVotingRange(codeReviewLabel)?.max
     ) {
       result = CODE_REVIEW;
     }
 
     if (result) {
-      const score = this.change.permitted_labels[result].slice(-1)[0];
       const labelInfo = this.change.labels[result];
       if (!isDetailedLabelInfo(labelInfo)) {
         return null;
       }
-      const maxScore = Object.keys(labelInfo.values).slice(-1)[0];
-      if (score === maxScore) {
+      const permittedValues = this.change.permitted_labels[result];
+      const usersMaxPermittedScore =
+        permittedValues[permittedValues.length - 1];
+      const maxScoreForLabel = getVotingRange(labelInfo)?.max;
+      if (Number(usersMaxPermittedScore) === maxScoreForLabel) {
         // Allow quick approve only for maximal score.
         return {
           label: result,
-          score,
+          score: usersMaxPermittedScore,
         };
       }
     }

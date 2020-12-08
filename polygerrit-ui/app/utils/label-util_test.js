@@ -20,6 +20,7 @@ import {
   getVotingRange,
   getVotingRangeOrDefault,
   getMaxAccounts,
+  getApprovalInfo,
 } from './label-util.js';
 
 const VALUES_1 = {
@@ -86,5 +87,30 @@ suite('label-util', () => {
     assert.isEmpty(getMaxAccounts());
     assert.isEmpty(getMaxAccounts({}));
     assert.isEmpty(getMaxAccounts({values: VALUES_2}));
+  });
+
+  test('getApprovalInfo', () => {
+    const myAccountInfo = {_account_id: 314};
+    const myApprovalInfo = {value: 2, _account_id: 314};
+    const label = {
+      values: VALUES_2,
+      all: [myApprovalInfo, {value: 1, _account_id: 777}],
+    };
+    assert.equal(
+        getApprovalInfo(label, myAccountInfo),
+        myApprovalInfo
+    );
+  });
+
+  test('getApprovalInfo no approval for user', () => {
+    const myAccountInfo = {_account_id: 123};
+    const label = {
+      values: VALUES_2,
+      all: [
+        {value: 2, _account_id: 314},
+        {value: 1, _account_id: 777},
+      ],
+    };
+    assert.isUndefined(getApprovalInfo(label, myAccountInfo));
   });
 });

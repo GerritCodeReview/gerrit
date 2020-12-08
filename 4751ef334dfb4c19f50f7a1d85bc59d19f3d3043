@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75d910cb_d6dcc25a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-08T09:37:48Z",
+      "side": 1,
+      "message": "Would it make sense to make this a parameter of `getRepoDashboards`, so that we can determine at first glance if the API call wants to suppress the dialogs or not, similar to errFn parameter?\n\nRight now the only way is to look at the definition of the method and there is no indication looking at the function call.",
+      "range": {
+        "startLine": 405,
+        "startChar": 6,
+        "endLine": 405,
+        "endChar": 32
+      },
+      "revId": "4751ef334dfb4c19f50f7a1d85bc59d19f3d3043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

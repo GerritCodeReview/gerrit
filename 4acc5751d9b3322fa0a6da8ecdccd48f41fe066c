@@ -80,6 +80,30 @@
       },
       "revId": "4acc5751d9b3322fa0a6da8ecdccd48f41fe066c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f44b692_415d5ebd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 1092381
+      },
+      "writtenOn": "2020-12-08T18:40:37Z",
+      "side": 1,
+      "message": "Sorry, Ben was faster with the merge. :) \nThanks for fixing!",
+      "parentUuid": "1c82da25_d1245d07",
+      "range": {
+        "startLine": 1326,
+        "startChar": 8,
+        "endLine": 1326,
+        "endChar": 24
+      },
+      "revId": "4acc5751d9b3322fa0a6da8ecdccd48f41fe066c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

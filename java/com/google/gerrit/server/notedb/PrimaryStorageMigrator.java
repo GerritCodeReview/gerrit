@@ -177,24 +177,24 @@ public class PrimaryStorageMigrator {
 
   public boolean migrateToNoteDbPrimary(Collection<Change.Id> changes) {
     boolean result = true;
-    for (Change.Id id : changes) {
-      try {
-        try {
-          migrateToNoteDbPrimary(id);
-        } catch (NoNoteDbStateException e) {
-          if (canSkipPrimaryStorageMigration(db(), id)) {
-            logger.atWarning().withCause(e).log(
-                "Change %s previously failed to rebuild;" + " skipping primary storage migration",
-                id);
-          } else {
-            throw e;
-          }
-        }
-      } catch (Exception e) {
-        logger.atSevere().withCause(e).log("Error migrating primary storage for %s", id);
-        result = false;
-      }
-    }
+//    for (Change.Id id : changes) {
+//      try {
+//        try {
+//          migrateToNoteDbPrimary(id);
+//        } catch (NoNoteDbStateException e) {
+//          if (canSkipPrimaryStorageMigration(db(), id)) {
+//            logger.atWarning().withCause(e).log(
+//                "Change %s previously failed to rebuild;" + " skipping primary storage migration",
+//                id);
+//          } else {
+//            throw e;
+//          }
+//        }
+//      } catch (Exception e) {
+//        logger.atSevere().withCause(e).log("Error migrating primary storage for %s", id);
+//        result = false;
+//      }
+//    }
     return result;
   }
 

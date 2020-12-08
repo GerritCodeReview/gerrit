@@ -1026,9 +1026,9 @@ public class NoteDbMigrator implements AutoCloseable {
                 c, totalChangeCount, (100.0 * c) / totalChangeCount);
           }
           pc = ctx.changesMigratedCount.incrementAndGet();
-          if (pc % GC_INTERVAL == 0) {
-            gc(project, changeRepo, ctx.gcLock);
-          }
+//          if (pc % GC_INTERVAL == 0) {
+//            gc(project, changeRepo, ctx.gcLock);
+//          }
           pm.update(1);
         }
         logger.atInfo().log(

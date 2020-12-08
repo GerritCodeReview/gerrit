@@ -716,9 +716,11 @@ export abstract class GrDiffBuilder {
       }
 
       if (lineNumberEl) {
-        for (const layer of this.layers) {
-          if (typeof layer.annotate === 'function') {
-            layer.annotate(contentText, lineNumberEl, line);
+        if (line.text.length < 1000) {
+          for (const layer of this.layers) {
+            if (typeof layer.annotate === 'function') {
+              layer.annotate(contentText, lineNumberEl, line);
+            }
           }
         }
       } else {

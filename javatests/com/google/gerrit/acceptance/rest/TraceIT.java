@@ -18,6 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_OK;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.timeout;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -52,7 +59,6 @@ import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -370,37 +376,31 @@ public class TraceIT extends AbstractDaemonTest {
 
   @Test
   public void performanceLoggingForRestCall() throws Exception {
-    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+    PerformanceLogger testPerformanceLogger = mock(PerformanceLogger.class);
     try (Registration registration =
         extensionRegistry.newRegistration().add(testPerformanceLogger)) {
       RestResponse response = adminRestSession.put("/projects/new10");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-
-      // This assertion assumes that the server invokes the PerformanceLogger plugins before it
-      // sends
-      // the response to the client. If this assertion gets flaky it's likely that this got changed
-      // on
-      // server-side.
-      assertThat(testPerformanceLogger.logEntries()).isNotEmpty();
+      verify(testPerformanceLogger, timeout(5000).atLeastOnce()).log(anyString(), anyLong(), any());
     }
   }
 
   @Test
   public void performanceLoggingForPush() throws Exception {
-    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+    PerformanceLogger testPerformanceLogger = mock(PerformanceLogger.class);
     try (Registration registration =
         extensionRegistry.newRegistration().add(testPerformanceLogger)) {
       PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
       PushOneCommit.Result r = push.to("refs/heads/master");
       r.assertOkStatus();
-      assertThat(testPerformanceLogger.logEntries()).isNotEmpty();
+      verify(testPerformanceLogger, timeout(5000).atLeastOnce()).log(anyString(), anyLong(), any());
     }
   }
 
   @Test
   @GerritConfig(name = "tracing.performanceLogging", value = "false")
   public void noPerformanceLoggingIfDisabled() throws Exception {
-    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+    PerformanceLogger testPerformanceLogger = mock(PerformanceLogger.class);
     try (Registration registration =
         extensionRegistry.newRegistration().add(testPerformanceLogger)) {
       RestResponse response = adminRestSession.put("/projects/new11");
@@ -410,7 +410,7 @@ public class TraceIT extends AbstractDaemonTest {
       PushOneCommit.Result r = push.to("refs/heads/master");
       r.assertOkStatus();
 
-      assertThat(testPerformanceLogger.logEntries()).isEmpty();
+      verifyZeroInteractions(testPerformanceLogger);
     }
   }
 
@@ -841,19 +841,6 @@ public class TraceIT extends AbstractDaemonTest {
       SubmitRecord submitRecord = new SubmitRecord();
       submitRecord.status = SubmitRecord.Status.OK;
       return Optional.of(submitRecord);
-    }
-  }
-
-  private static class TestPerformanceLogger implements PerformanceLogger {
-    private List<PerformanceLogEntry> logEntries = new ArrayList<>();
-
-    @Override
-    public void log(String operation, long durationMs, Metadata metadata) {
-      logEntries.add(PerformanceLogEntry.create(operation, metadata));
-    }
-
-    ImmutableList<PerformanceLogEntry> logEntries() {
-      return ImmutableList.copyOf(logEntries);
     }
   }
 

@@ -117,6 +117,30 @@
       },
       "revId": "e5b03de791ff611a2d7e96754c9941447d53fc32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84ee71b1_a27efcba",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-08T10:26:58Z",
+      "side": 1,
+      "message": "In overall, I think the main questions are:\na) do we want to ensure, that all errors are catched in the code and spend less time in review (\"return code approach\"). Downside: additional if blocks in the code.\n\nb) do we want to have more freedom in error handling. Downside: some errors can be uncatched; if method returns undefined - does it mean error or something else? (see bellow)\n\n\nI think, everything else is a discussion about how to write/organized code. That is important, but we should first make a decision about the first part.\nBelow my answers: \n\n\u003e\u003e Generally I would be interested in whether you would also argue to never use Exceptions in Java.\u003c\u003c\n\nI think Java is out of scope for this discussion. Go doesn\u0027t have exceptions and was developed after Java. Weak argument :) Typescript has nice features and makes the “return code” approach much nicer and safer than in other languages. (shortly - i will not argue against exceptions in Java).\n\n\u003e\u003eSure, but you are also forcing the caller to caller to deal with two different scenarios with a split type and an if-clause. Why is this better ...\n  apiCall.then(result \u003d\u003e {\n    if(isRestApiFailed(result)) {\n      // handle error\n      return;\n    }\n    // handle success\n  });\n\n... than that?\n  apiCall.catch(error \u003d\u003e {\n    // handle error\n  })\n  .then(result \u003d\u003e {\n    // handle success\n  });\n\n\u003c\u003c\n\nIn the code with exceptions the if clause is also required:\n apiCall.catch(error \u003d\u003e {\n    // handle error\n  })\n  .then(result \u003d\u003e {\n     if(!result) return; //If error is catched, the result is empty\n      // handle success\n  });\n\nAnd then undefined return value should be propagated through all the methods that calls this code. This is similar to propagating result/error object in the \"return code\" approach.\n\n\u003e\u003eNote that catch() can also return something, if you want to. If you want to avoid the try-catch for async-await, then you could keep the catch() for error handling and only replace then() by await:\n\n  const result \u003d await apiCall.catch(error \u003d\u003e {\n    // handle error\n  });\n\u003c\u003c\n\nI would like to avoid this code - this is a mix of callbacks and async/await code.(in tests it might be ok). Btw, this code can be refactored to fix it - (extract apiCall.catch into a separate method with try/catch block).\n\n\u003e\u003e Note also that we already have an error code in the HTTP response. And it does not help us at all, because in the api-helper we cannot deal with it. We have to convert it into an exception to make sense of it. And we also have the interesting problem of server errors (codes) vs network errors (exceptions) coming from different layers that we want to aggregate. IMO that also demonstrates the advantage of exceptions.\n\u003c\u003c\n\nNot sure, that I understand this point. With exceptions we have to convert server errors(codes) into exceptions, while with \"return code\" approach we have to convert exceptions into \"return code\".\n\n\n\u003e\u003e How do you deal with error codes when you are making multiple API calls in parallel (think Promise.all)?\u003c\u003c\n\nI think, we shouldn\u0027t make parallel API calls with a raw Promise.all.\nThe Promise.all rejects as soon as one of the requests throws an exceptions.\nWe should stop/abort all other parallel requests to avoid race conditions with future requests. In other world, we should have some util method\n\n  parallelExecution(...): [...] { // or RestApiResponse\u003c[...]\u003e for \"return code\"\n     ... send requests, if one fails - abort other     \n  }\n\n\nThis method should be written once and can be written for both approaches.\n\n\u003e\u003eI think sometimes you want to deal with an HTTP response code in the service layer, e.g. getAccount() 404 meaning not-logged-in, or generally error conditions that are expected to happen. And at other times in UI components you just want to deal with *all* kinds of errors at the same time, because every error is unexpected.\u003c\u003c\n\nHere I also don\u0027t see a big difference. Special handling for 404 is possible in both cases.",
+      "parentUuid": "6d5b7e3c_a4cc925e",
+      "range": {
+        "startLine": 93,
+        "startChar": 7,
+        "endLine": 93,
+        "endChar": 32
+      },
+      "revId": "e5b03de791ff611a2d7e96754c9941447d53fc32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

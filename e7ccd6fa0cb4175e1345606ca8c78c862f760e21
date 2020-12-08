@@ -461,6 +461,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba83c1aa_87609985",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 64
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-08T15:00:10Z",
+      "side": 1,
+      "message": "I think I was referring to the latest patchset instead of ps 64.\nApologies.\nUpdated the code with the fix you suggested.",
+      "parentUuid": "30cd9015_42ac29b9",
+      "range": {
+        "startLine": 341,
+        "startChar": 2,
+        "endLine": 341,
+        "endChar": 25
+      },
+      "revId": "e7ccd6fa0cb4175e1345606ca8c78c862f760e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79953950_df9b088a",

@@ -22,6 +22,30 @@
       },
       "revId": "af0a9d48b816fa87adbea866b88d2d86b3f3aaf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d12012bc_0e609ca3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-08T11:55:19Z",
+      "side": 1,
+      "message": "I adapted the change accordingly.\n\nIs this because refs/for is only meant to be used for uploading patchsets? But before this change, users could read refs/for because they had read permissions on refs/*. If we only allow permissions on refs/heads in this change, this is no longer possible.",
+      "parentUuid": "d666d27b_f370baea",
+      "range": {
+        "startLine": 17,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 45
+      },
+      "revId": "af0a9d48b816fa87adbea866b88d2d86b3f3aaf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

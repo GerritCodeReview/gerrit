@@ -362,15 +362,16 @@ suite('gr-comment-api tests', () => {
             patchRange)).length, 1);
       });
 
-      test('getAllCommentsForPath', () => {
+      test('getAllCommentsForFile', () => {
         let path = 'file/one';
-        let comments = element._changeComments.getAllCommentsForPath(path);
+        let comments = element._changeComments.getAllCommentsForFile({path});
         assert.equal(comments.length, 4);
         path = 'file/two';
-        comments = element._changeComments.getAllCommentsForPath(path, 2);
+        comments = element._changeComments.getAllCommentsForFile({
+          path, patchNum: 2});
         assert.equal(comments.length, 1);
         const aCopyOfComments = element._changeComments
-            .getAllCommentsForPath(path, 2);
+            .getAllCommentsForFile({path, patchNum: 2});
         assert.deepEqual(comments, aCopyOfComments);
         assert.notEqual(comments[0], aCopyOfComments[0]);
       });

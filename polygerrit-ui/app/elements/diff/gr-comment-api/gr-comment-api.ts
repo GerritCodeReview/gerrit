@@ -187,9 +187,8 @@ export class ChangeComments {
     const paths = this.getPaths();
     const publishedComments: {[path: string]: CommentBasics[]} = {};
     for (const path of Object.keys(paths)) {
-      publishedComments[path] = this.getAllCommentsForPath(
-        path,
-        patchNum,
+      publishedComments[path] = this.getAllCommentsForFile(
+        {path, patchNum},
         includeDrafts
       );
     }
@@ -209,53 +208,34 @@ export class ChangeComments {
   }
 
   /**
-   * Get the comments (robot comments) for a path and optional patch num.
+   * Get the comments (robot comments) for a file.
    *
    * This method will always return a new shallow copy of all comments,
    * so manipulation on one copy won't affect other copies.
-   *
-   */
-  getAllCommentsForPath(
-    path: string,
-    patchNum?: PatchSetNum,
-    includeDrafts?: boolean
-  ): Comment[] {
-    const comments: Comment[] = this._comments[path] || [];
-    const robotComments = this._robotComments[path] || [];
-    let allComments = comments.concat(robotComments);
-    if (includeDrafts) {
-      const drafts = this.getAllDraftsForPath(path);
-      allComments = allComments.concat(drafts);
-    }
-    if (patchNum) {
-      allComments = allComments.filter(c =>
-        patchNumEquals(c.patch_set, patchNum)
-      );
-    }
-    return allComments.map(c => {
-      return {...c};
-    });
-  }
-
-  /**
-   * Get the comments (robot comments) for a file.
-   *
-   * // TODO(taoalpha): maybe merge in *ForPath
    */
   getAllCommentsForFile(file: PatchSetFile, includeDrafts?: boolean) {
-    let allComments = this.getAllCommentsForPath(
-      file.path,
-      file.patchNum,
-      includeDrafts
-    );
+    const patchNum = file.patchNum;
 
-    if (file.basePath) {
-      allComments = allComments.concat(
-        this.getAllCommentsForPath(file.basePath, file.patchNum, includeDrafts)
-      );
-    }
+    const getComments = (path?: string) => {
+      if (!path) return [];
+      const comments: Comment[] = this._comments[path] || [];
+      const robotComments = this._robotComments[path] || [];
+      let allComments = comments.concat(robotComments);
+      if (includeDrafts) {
+        const drafts = this.getAllDraftsForPath(path);
+        allComments = allComments.concat(drafts);
+      }
+      if (patchNum) {
+        allComments = allComments.filter(c =>
+          patchNumEquals(c.patch_set, patchNum)
+        );
+      }
+      return allComments.map(c => {
+        return {...c};
+      });
+    };
 
-    return allComments;
+    return [...getComments(file.path), ...getComments(file.basePath)];
   }
 
   /**

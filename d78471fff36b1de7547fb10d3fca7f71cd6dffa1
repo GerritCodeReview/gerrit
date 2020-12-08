@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20b14339_d21689f9",
+        "filename": "modules/jgit",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-12-08T16:08:31Z",
+      "side": 1,
+      "message": "This is implicitly updating jgit to its current tip of stable-5.9.\nCan this be mentioned in the commit message if there is a need to do this in this change?",
+      "revId": "d78471fff36b1de7547fb10d3fca7f71cd6dffa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -47,6 +47,7 @@ DEPLOY_ENV = [
     "//lib/guice",
     "//lib/guice:guice-assistedinject",
     "//lib/guice:guice-servlet",
+    "//lib/log:log4j",
     "//lib/mail",
     "//lib/mina:sshd",
     "//lib:guava",

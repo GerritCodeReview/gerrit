@@ -16,7 +16,6 @@ package com.google.gerrit.server.util;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
-import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.Layout;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -38,12 +37,11 @@ public abstract class PluginLogFile implements LifecycleListener {
 
   @Override
   public void start() {
-    AsyncAppender asyncAppender = systemLog.createAsyncAppender(logName, layout, true, true);
     Logger logger = LogManager.getLogger(logName);
     if (logger.getAppender(logName) == null) {
-      synchronized (this) {
+      synchronized (systemLog) {
         if (logger.getAppender(logName) == null) {
-          logger.addAppender(asyncAppender);
+          logger.addAppender(systemLog.createAsyncAppender(logName, layout, true, true));
         }
       }
     }

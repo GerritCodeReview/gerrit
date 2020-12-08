@@ -29,6 +29,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.After;
 import org.junit.Test;
@@ -57,6 +59,21 @@ public class StreamEventsIT extends AbstractDaemonTest {
   public void closeStreamEvents() throws IOException {
     streamEventsReader.close();
     streamEventsSshChannel.disconnect();
+  }
+
+  @Test
+  public void commentOnPatchSetShowsUpInStreamEvents() throws Exception {
+    ChangeData change = createChange().getChange();
+
+    ChangeApi changeApi = gApi.changes().id(change.getId().get());
+    ReviewInput reviewInput = new ReviewInput();
+    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    comment.message = TEST_REVIEW_COMMENT;
+    reviewInput.comments = Collections.singletonMap("/PATCHSET_LEVEL", Arrays.asList(comment));
+    changeApi.current().review(reviewInput);
+    changeApi.abandon();
+
+    assertThat(findReviewComment(streamEventsReader, TEST_REVIEW_COMMENT)).isNotEmpty();
   }
 
   @Test

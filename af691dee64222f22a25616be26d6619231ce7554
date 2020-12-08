@@ -16,6 +16,24 @@
       "message": "I still don\u0027t understand it. I saw you verified your change in 50 runs, but what is the bad code path taken? I stepped through this and didn\u0027t see the behavior you\u0027re describing.",
       "revId": "af691dee64222f22a25616be26d6619231ce7554",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87e7a146_23a43a0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-08T14:49:45Z",
+      "side": 1,
+      "message": "I can only explain this with two threads (test/client, server) where server might actually already send a response and only after that call AutoClosable#close.\n\nIt it weren\u0027t that it would either persistently work or not work IMO.\n\nI did not debug into the bad code path, because the situation doesn\u0027t matter in production: Internally, there is another auto-closeable that writes the logs to the log destination. We don\u0027t really care if the client at that point thinks we\u0027re done processing or not. It just matters that we write logs. Which is also why I did not dig deeper here.",
+      "parentUuid": "d884deb9_08ada949",
+      "revId": "af691dee64222f22a25616be26d6619231ce7554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

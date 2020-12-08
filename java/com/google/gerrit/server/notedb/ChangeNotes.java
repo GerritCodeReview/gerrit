@@ -138,8 +138,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     /**
-     * Create change notes based on a {@link Change.Id}. This requires using the Change index and
-     * should only be used when {@link Project.NameKey} and the numeric change ID are not available.
+     * Create change notes based on a {@link com.google.gerrit.entities.Change.Id}. This requires
+     * using the Change index and should only be used when {@link
+     * com.google.gerrit.entities.Project.NameKey} and the numeric change ID are not available.
      */
     public ChangeNotes createCheckedUsingIndexLookup(Change.Id changeId) {
       InternalChangeQuery query = queryProvider.get().noFields();
@@ -155,9 +156,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     /**
-     * Create change notes based on a list of {@link Change.Id}s. This requires using the Change
-     * index and should only be used when {@link Project.NameKey} and the numeric change ID are not
-     * available.
+     * Create change notes based on a list of {@link com.google.gerrit.entities.Change.Id}s. This
+     * requires using the Change index and should only be used when {@link
+     * com.google.gerrit.entities.Project.NameKey} and the numeric change ID are not available.
      */
     public List<ChangeNotes> createUsingIndexLookup(Collection<Change.Id> changeIds) {
       List<ChangeNotes> notes = new ArrayList<>();

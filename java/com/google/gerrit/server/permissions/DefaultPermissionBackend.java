@@ -99,8 +99,8 @@ public class DefaultPermissionBackend extends PermissionBackend {
   }
 
   /**
-   * Returns the {@link Account.Id} of the current user if a user is signed in. Catches exceptions
-   * so that background jobs don't get impacted.
+   * Returns the {@link com.google.gerrit.entities.Account.Id} of the current user if a user is
+   * signed in. Catches exceptions so that background jobs don't get impacted.
    */
   private Optional<Account.Id> getAccountIdOfIdentifiedUser() {
     try {

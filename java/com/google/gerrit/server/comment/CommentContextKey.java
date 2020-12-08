@@ -6,11 +6,10 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
-import java.util.Collection;
 
 /**
  * An identifier of a comment that should be used to load the comment context using {@link
- * CommentContextCache#get(CommentContextKey)}, or {@link CommentContextCache#getAll(Collection)}.
+ * CommentContextCache#get(CommentContextKey)}, or {@link CommentContextCache#getAll(Iterable)}.
  *
  * <p>The {@link CommentContextCacheImpl} implementation uses this class as the cache key, while
  * replacing the {@link #path()} field with the hashed path.

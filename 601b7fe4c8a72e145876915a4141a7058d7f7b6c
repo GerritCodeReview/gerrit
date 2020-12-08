@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "688e0050_c4625c21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-12-08T12:43:54Z",
+      "side": 1,
+      "message": "nice, thanks for improving the test coverage here.",
+      "revId": "601b7fe4c8a72e145876915a4141a7058d7f7b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a0ea32c_088e2362",
+        "filename": "java/com/google/gerrit/server/query/change/AfterPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-12-08T12:43:54Z",
+      "side": 1,
+      "message": "We don\u0027t need to change this year for old files, only try to make new files have the correct year.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "601b7fe4c8a72e145876915a4141a7058d7f7b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08dbcad7_0bfb6828",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3655,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-12-08T12:43:54Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 3655,
+        "startChar": 71,
+        "endLine": 3655,
+        "endChar": 73
+      },
+      "revId": "601b7fe4c8a72e145876915a4141a7058d7f7b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df70e6c9_f24d8b25",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3656,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-12-08T12:43:54Z",
+      "side": 1,
+      "message": "typo?",
+      "range": {
+        "startLine": 3656,
+        "startChar": 13,
+        "endLine": 3656,
+        "endChar": 16
+      },
+      "revId": "601b7fe4c8a72e145876915a4141a7058d7f7b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c82d864c_759cfa34",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3660,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-12-08T12:43:54Z",
+      "side": 1,
+      "message": "while this is true right now, this might be used incorrectly at some point. \nCan you add a warning that this must only be used with new changes and with a reviewer that is in the administrators group? \n\nOr better, can you think of a query that is always true? Something like \"status:new OR status:closed OR is:wip\" may work for the search term.",
+      "range": {
+        "startLine": 3659,
+        "startChar": 28,
+        "endLine": 3660,
+        "endChar": 64
+      },
+      "revId": "601b7fe4c8a72e145876915a4141a7058d7f7b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c857c37_fc0e018f",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3660,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-12-08T12:43:54Z",
+      "side": 1,
+      "message": "reviewer",
+      "range": {
+        "startLine": 3660,
+        "startChar": 40,
+        "endLine": 3660,
+        "endChar": 47
+      },
+      "revId": "601b7fe4c8a72e145876915a4141a7058d7f7b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

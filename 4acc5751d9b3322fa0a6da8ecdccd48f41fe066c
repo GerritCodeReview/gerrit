@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a31b2f3b_e5cff7e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1092381
+      },
+      "writtenOn": "2020-12-08T15:33:53Z",
+      "side": 1,
+      "message": "Hi Dhruv,\nI\u0027m sending a few tests for the coverage layer/coverage provider, as mentioned in the email.\nBest,\nGosia\n\n",
+      "revId": "4acc5751d9b3322fa0a6da8ecdccd48f41fe066c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

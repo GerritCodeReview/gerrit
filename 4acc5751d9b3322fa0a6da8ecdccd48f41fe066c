@@ -16,6 +16,29 @@
       "message": "Hi Dhruv,\nI\u0027m sending a few tests for the coverage layer/coverage provider, as mentioned in the email.\nBest,\nGosia\n\n",
       "revId": "4acc5751d9b3322fa0a6da8ecdccd48f41fe066c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e04f3ca6_a7c62ff0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-08T16:04:42Z",
+      "side": 1,
+      "message": "optional:\nWe have a enum CoverageType defined in types.ts.\nCan you please use that?",
+      "range": {
+        "startLine": 1326,
+        "startChar": 8,
+        "endLine": 1326,
+        "endChar": 24
+      },
+      "revId": "4acc5751d9b3322fa0a6da8ecdccd48f41fe066c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

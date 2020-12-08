@@ -107,6 +107,32 @@ public class ChangeIndexRewriterTest {
   }
 
   @Test
+  public void threeLevelTreeWithMultipleSources() throws Exception {
+    Predicate<ChangeData> in = parse("-status:abandoned (foo:a OR file:b)");
+    Predicate<ChangeData> out = rewrite(in);
+    assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
+
+    Predicate<ChangeData> firstIndexedSubQuery = parse("-status:abandoned");
+
+    assertThat(out.getChild(0)).isEqualTo(query(firstIndexedSubQuery));
+
+    assertThat(out.getChild(1).getClass()).isSameInstanceAs(OrSource.class);
+    OrSource indexedSubTree = (OrSource) out.getChild(1);
+
+    Predicate<ChangeData> secondIndexedSubQuery = parse("foo:a OR file:b");
+    assertThat(indexedSubTree.getChildren())
+        .containsExactly(
+            query(secondIndexedSubQuery.getChild(1)), secondIndexedSubQuery.getChild(0))
+        .inOrder();
+
+    // Same at the assertions above, that were added for readability
+    assertThat(out.getChild(0)).isEqualTo(query(in.getChild(0)));
+    assertThat(indexedSubTree.getChildren())
+        .containsExactly(query(in.getChild(1).getChild(1)), in.getChild(1).getChild(0))
+        .inOrder();
+  }
+
+  @Test
   public void threeLevelTreeWithSomeIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("-foo:a (file:b OR file:c)");
     Predicate<ChangeData> out = rewrite(in);

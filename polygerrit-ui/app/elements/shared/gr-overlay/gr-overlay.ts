@@ -56,7 +56,6 @@ export class GrOverlay extends IronOverlayMixin(
    * @event fullscreen-overlay-opened
    */
 
-  @property({type: Boolean})
   private _fullScreenOpen = false;
 
   private _boundHandleClose: () => void = () => super.close();

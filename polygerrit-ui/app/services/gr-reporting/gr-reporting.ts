@@ -21,10 +21,6 @@ export type EventValue = string | number | {error?: Error};
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EventDetails = any;
 
-export const PORTING_COMMENTS_DIFF_LATENCY_LABEL = 'PortingCommentsDiffLatency';
-export const PORTING_COMMENTS_CHANGE_LATENCY_LABEL =
-  'PortingCommentsChangeLatency';
-
 export interface Timer {
   reset(): this;
   end(): this;

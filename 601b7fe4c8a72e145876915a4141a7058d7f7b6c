@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fa684d3_2d11dbc9",
+        "filename": "java/com/google/gerrit/server/query/change/AfterPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-08T16:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a0ea32c_088e2362",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "601b7fe4c8a72e145876915a4141a7058d7f7b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08dbcad7_0bfb6828",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f23e950b_f2baea19",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3655,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-08T16:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08dbcad7_0bfb6828",
+      "range": {
+        "startLine": 3655,
+        "startChar": 71,
+        "endLine": 3655,
+        "endChar": 73
+      },
+      "revId": "601b7fe4c8a72e145876915a4141a7058d7f7b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df70e6c9_f24d8b25",
@@ -77,6 +125,30 @@
       "writtenOn": "2020-12-08T12:43:54Z",
       "side": 1,
       "message": "typo?",
+      "range": {
+        "startLine": 3656,
+        "startChar": 13,
+        "endLine": 3656,
+        "endChar": 16
+      },
+      "revId": "601b7fe4c8a72e145876915a4141a7058d7f7b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8176490_361c5e21",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3656,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-08T16:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df70e6c9_f24d8b25",
       "range": {
         "startLine": 3656,
         "startChar": 13,
@@ -123,6 +195,54 @@
       "writtenOn": "2020-12-08T12:43:54Z",
       "side": 1,
       "message": "reviewer",
+      "range": {
+        "startLine": 3660,
+        "startChar": 40,
+        "endLine": 3660,
+        "endChar": 47
+      },
+      "revId": "601b7fe4c8a72e145876915a4141a7058d7f7b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cf0d752_015c7b6f",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3660,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-08T16:20:49Z",
+      "side": 1,
+      "message": "Good point, also the assumption that there is no reviewer from Administrators broke my merge tests.\n\nEnded up stealing the default query from ChangeIndexRewriter,status:new OR status:merged OR status:abandoned",
+      "parentUuid": "c82d864c_759cfa34",
+      "range": {
+        "startLine": 3659,
+        "startChar": 28,
+        "endLine": 3660,
+        "endChar": 64
+      },
+      "revId": "601b7fe4c8a72e145876915a4141a7058d7f7b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5429e8d_869ebe27",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3660,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-08T16:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c857c37_fc0e018f",
       "range": {
         "startLine": 3660,
         "startChar": 40,

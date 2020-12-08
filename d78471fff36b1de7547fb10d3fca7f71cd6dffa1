@@ -34,6 +34,24 @@
       "parentUuid": "20b14339_d21689f9",
       "revId": "d78471fff36b1de7547fb10d3fca7f71cd6dffa1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7b5c55c_61fcc5c6",
+        "filename": "modules/jgit",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-12-08T16:25:29Z",
+      "side": 1,
+      "message": "Ack, sorry I looked at the wrong side of the merge",
+      "parentUuid": "26f2b431_b46c4516",
+      "revId": "d78471fff36b1de7547fb10d3fca7f71cd6dffa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

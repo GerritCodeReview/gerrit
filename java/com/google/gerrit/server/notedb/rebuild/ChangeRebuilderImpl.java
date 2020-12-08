@@ -225,57 +225,57 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       throw new NoSuchChangeException(changeId);
     }
 
-    String oldNoteDbStateStr = change.getNoteDbState();
+//    String oldNoteDbStateStr = change.getNoteDbState();
     Result r = manager.stageAndApplyDelta(change);
-    String newNoteDbStateStr = change.getNoteDbState();
-    if (newNoteDbStateStr == null) {
-      throw new OrmException(
-          String.format(
-              "Rebuilding change %s produced no writes to NoteDb: %s",
-              changeId, bundleReader.fromReviewDb(db, changeId)));
-    }
-    NoteDbChangeState newNoteDbState =
-        requireNonNull(NoteDbChangeState.parse(changeId, newNoteDbStateStr));
-    try {
-      db.changes()
-          .atomicUpdate(
-              changeId,
-              new AtomicUpdate<Change>() {
-                @Override
-                public Change update(Change change) {
-                  if (checkReadOnly) {
-                    NoteDbChangeState.checkNotReadOnly(change, skewMs);
-                  }
-                  String currNoteDbStateStr = change.getNoteDbState();
-                  if (Objects.equals(currNoteDbStateStr, newNoteDbStateStr)) {
-                    // Another thread completed the same rebuild we were about to.
-                    throw new AbortUpdateException();
-                  } else if (!Objects.equals(oldNoteDbStateStr, currNoteDbStateStr)) {
-                    // Another thread updated the state to something else.
-                    throw new ConflictingUpdateRuntimeException(change, oldNoteDbStateStr);
-                  }
-                  change.setNoteDbState(newNoteDbStateStr);
-                  return change;
-                }
-              });
-    } catch (ConflictingUpdateRuntimeException e) {
-      // Rethrow as an OrmException so the caller knows to use staged results. Strictly speaking
-      // they are not completely up to date, but result we send to the caller is the same as if this
-      // rebuild had executed before the other thread.
-      throw new ConflictingUpdateException(e);
-    } catch (AbortUpdateException e) {
-      if (newNoteDbState.isUpToDate(
-          manager.getChangeRepo().cmds.getRepoRefCache(),
-          manager.getAllUsersRepo().cmds.getRepoRefCache())) {
-        // If the state in ReviewDb matches NoteDb at this point, it means another thread
-        // successfully completed this rebuild. It's ok to not execute the update in this case,
-        // since the object referenced in the Result was flushed to the repo by whatever thread won
-        // the race.
-        return r;
-      }
-      // If the state doesn't match, that means another thread attempted this rebuild, but
-      // failed. Fall through and try to update the ref again.
-    }
+//    String newNoteDbStateStr = change.getNoteDbState();
+//    if (newNoteDbStateStr == null) {
+//      throw new OrmException(
+//          String.format(
+//              "Rebuilding change %s produced no writes to NoteDb: %s",
+//              changeId, bundleReader.fromReviewDb(db, changeId)));
+//    }
+//    NoteDbChangeState newNoteDbState =
+//        requireNonNull(NoteDbChangeState.parse(changeId, newNoteDbStateStr));
+//    try {
+//      db.changes()
+//          .atomicUpdate(
+//              changeId,
+//              new AtomicUpdate<Change>() {
+//                @Override
+//                public Change update(Change change) {
+//                  if (checkReadOnly) {
+//                    NoteDbChangeState.checkNotReadOnly(change, skewMs);
+//                  }
+//                  String currNoteDbStateStr = change.getNoteDbState();
+//                  if (Objects.equals(currNoteDbStateStr, newNoteDbStateStr)) {
+//                    // Another thread completed the same rebuild we were about to.
+//                    throw new AbortUpdateException();
+//                  } else if (!Objects.equals(oldNoteDbStateStr, currNoteDbStateStr)) {
+//                    // Another thread updated the state to something else.
+//                    throw new ConflictingUpdateRuntimeException(change, oldNoteDbStateStr);
+//                  }
+//                  change.setNoteDbState(newNoteDbStateStr);
+//                  return change;
+//                }
+//              });
+//    } catch (ConflictingUpdateRuntimeException e) {
+//      // Rethrow as an OrmException so the caller knows to use staged results. Strictly speaking
+//      // they are not completely up to date, but result we send to the caller is the same as if this
+//      // rebuild had executed before the other thread.
+//      throw new ConflictingUpdateException(e);
+//    } catch (AbortUpdateException e) {
+//      if (newNoteDbState.isUpToDate(
+//          manager.getChangeRepo().cmds.getRepoRefCache(),
+//          manager.getAllUsersRepo().cmds.getRepoRefCache())) {
+//        // If the state in ReviewDb matches NoteDb at this point, it means another thread
+//        // successfully completed this rebuild. It's ok to not execute the update in this case,
+//        // since the object referenced in the Result was flushed to the repo by whatever thread won
+//        // the race.
+//        return r;
+//      }
+//      // If the state doesn't match, that means another thread attempted this rebuild, but
+//      // failed. Fall through and try to update the ref again.
+//    }
     if (migration.failChangeWrites()) {
       // Don't even attempt to execute if read-only, it would fail anyway. But do throw an exception
       // to the caller so they know to use the staged results instead of reading from the repo.

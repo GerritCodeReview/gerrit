@@ -16,6 +16,24 @@
       "message": "As discussed, let\u0027s focus on the parent change first.\n\nRemoving myself and Dmitrii from the attention set.",
       "revId": "3a7dff269f0c4dcba25fdb44e5f1420c191d6a26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40ce6413_0d368913",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-08T18:59:31Z",
+      "side": 1,
+      "message": "PTAL.\nParent change has been submitted.",
+      "parentUuid": "c603a01c_e6f5f496",
+      "revId": "3a7dff269f0c4dcba25fdb44e5f1420c191d6a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,7 @@ import {sortComments, createCommentThreads} from '../../../utils/comment-util.js
 import {Side, CommentSide} from '../../../constants/constants.js';
 import {createChange} from '../../../test/test-data-generators.js';
 import {FILE} from '../gr-diff/gr-diff-line.js';
+import {CoverageType} from '../../../types/types.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
@@ -1003,14 +1004,14 @@ suite('gr-diff-host tests', () => {
 
     assert.equal(actualThreads.length, 2);
 
-    assert.equal(actualThreads[0].diffSide, 'left');
+    assert.equal(actualThreads[0].diffSide, Side.LEFT);
     assert.equal(actualThreads[0].comments.length, 2);
     assert.deepEqual(actualThreads[0].comments[0], comments[0]);
     assert.deepEqual(actualThreads[0].comments[1], comments[1]);
     assert.equal(actualThreads[0].patchNum, 1);
     assert.equal(actualThreads[0].line, 1);
 
-    assert.equal(actualThreads[1].diffSide, 'left');
+    assert.equal(actualThreads[1].diffSide, Side.LEFT);
     assert.equal(actualThreads[1].comments.length, 1);
     assert.deepEqual(actualThreads[1].comments[0], comments[2]);
     assert.equal(actualThreads[1].patchNum, 1);
@@ -1035,7 +1036,7 @@ suite('gr-diff-host tests', () => {
 
     const expectedThreads = [
       {
-        diffSide: 'left',
+        diffSide: Side.LEFT,
         commentSide: CommentSide.REVISION,
         path: '/p',
         rootId: 'betsys_confession',
@@ -1090,7 +1091,7 @@ suite('gr-diff-host tests', () => {
       });
 
   test('_getOrCreateThread', () => {
-    const diffSide = 'left';
+    const diffSide = Side.LEFT;
     const commentSide = CommentSide.PARENT;
 
     assert.isOk(element._getOrCreateThread('2', 3,
@@ -1126,7 +1127,7 @@ suite('gr-diff-host tests', () => {
 
   test('thread should use old file path if first created ' +
    'on patch set (left) before renaming', () => {
-    const diffSide = 'left';
+    const diffSide = Side.LEFT;
     element.file = {basePath: 'file_renamed.txt', path: element.path};
 
     assert.isOk(element._getOrCreateThread('2', 3,
@@ -1142,7 +1143,7 @@ suite('gr-diff-host tests', () => {
 
   test('thread should use new file path if first created' +
    'on patch set (right) after renaming', () => {
-    const diffSide = 'right';
+    const diffSide = Side.RIGHT;
     element.file = {basePath: 'file_renamed.txt', path: element.path};
 
     assert.isOk(element._getOrCreateThread('2', 3,
@@ -1158,7 +1159,7 @@ suite('gr-diff-host tests', () => {
 
   test('thread should use new file path if first created' +
    'on patch set (left) but is base', () => {
-    const diffSide = 'left';
+    const diffSide = Side.LEFT;
     element.file = {basePath: 'file_renamed.txt', path: element.path};
 
     assert.isOk(element._getOrCreateThread('2', 3,
@@ -1188,19 +1189,19 @@ suite('gr-diff-host tests', () => {
 
     const l3 = document.createElement('div');
     l3.setAttribute('line-num', 3);
-    l3.setAttribute('diff-side', 'left');
+    l3.setAttribute('diff-side', Side.LEFT);
 
     const l5 = document.createElement('div');
     l5.setAttribute('line-num', 5);
-    l5.setAttribute('diff-side', 'left');
+    l5.setAttribute('diff-side', Side.LEFT);
 
     const r3 = document.createElement('div');
     r3.setAttribute('line-num', 3);
-    r3.setAttribute('diff-side', 'right');
+    r3.setAttribute('diff-side', Side.RIGHT);
 
     const r5 = document.createElement('div');
     r5.setAttribute('line-num', 5);
-    r5.setAttribute('diff-side', 'right');
+    r5.setAttribute('diff-side', Side.RIGHT);
 
     const threadEls = [l3, l5, r3, r5];
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
@@ -1213,11 +1214,11 @@ suite('gr-diff-host tests', () => {
     const line = {beforeNumber: 'FILE', afterNumber: 'FILE'};
 
     const l = document.createElement('div');
-    l.setAttribute('diff-side', 'left');
+    l.setAttribute('diff-side', Side.LEFT);
     l.setAttribute('line-num', 'FILE');
 
     const r = document.createElement('div');
-    r.setAttribute('diff-side', 'right');
+    r.setAttribute('diff-side', Side.RIGHT);
     r.setAttribute('line-num', 'FILE');
 
     const threadEls = [l, r];
@@ -1323,16 +1324,16 @@ suite('gr-diff-host tests', () => {
     let coverageProviderStub;
     const exampleRanges = [
       {
-        type: 'COVERED',
-        side: 'right',
+        type: CoverageType.COVERED,
+        side: Side.RIGHT,
         code_range: {
           start_line: 1,
           end_line: 2,
         },
       },
       {
-        type: 'NOT_COVERED',
-        side: 'right',
+        type: CoverageType.NOT_COVERED,
+        side: Side.RIGHT,
         code_range: {
           start_line: 3,
           end_line: 4,
@@ -1386,8 +1387,10 @@ suite('gr-diff-host tests', () => {
       element.reload();
       flush(() => {
         assert.equal(notifyStub.callCount, 2);
-        assert.isTrue(notifyStub.calledWithExactly('some/path', 1, 2, 'right'));
-        assert.isTrue(notifyStub.calledWithExactly('some/path', 3, 4, 'right'));
+        assert.isTrue(notifyStub.calledWithExactly(
+            'some/path', 1, 2, Side.RIGHT));
+        assert.isTrue(notifyStub.calledWithExactly(
+            'some/path', 3, 4, Side.RIGHT));
         done();
       });
     });

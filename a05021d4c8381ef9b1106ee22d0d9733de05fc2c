@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e50cd3fe_a7ba1077",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-08T16:10:14Z",
+      "side": 1,
+      "message": "\u003e Alternative suggestion that would have helped me understand better:\n\nThanks for restating it, helps to see your view.\n\n\u003e \n\u003e ----\n\u003e Support resetting cherryPickOf in NoteDb\n\u003e \n\u003e The commit API allows users to cherry pick a change onto an already existing change in a different branch. This operation will just create a new patch set on the existing change.\n\nIt seems like the child change is saying this doesn\u0027t currently work? \"This fixes a NPE when the Change-ID is provided in the commit message and the change with this Change-ID exists in the destination branch.\" Is the intent of this series to make that work? (and then this whole deal with clearing cherry-pick-of is a side effect that was noticed and should be improved?) If I\u0027m reading the child change correctly, I would expect this line to be stated differently to make it clear this change provides a path to that functionality.\n\n\u003e \n\u003e In cases where the existing change has cherryPickOf set and we use the commit API to create a cherry pick of a commit that is not associated with the change, we want to reset cherryPickOf.\n\u003e \n\u003e Subsequent changes will use this functionality to cover the aforementioned case.\n\nI like small changes, but I also like changes to mostly stand on their own. I\u0027m not sure this change does.\n\nI\u0027m still not seeing a good reason why these changes aren\u0027t squashed together. The \"problem\" here can\u0027t happen until the child change is implemented. These aren\u0027t very big changes (tiny when you exclude the test code) and the commit message / change motivation are much clearer when combined. For example a combined commit message would be:\n\n----\nAllow updating existing change on cherry-pick with CommitApi\n\nThis previously would NPE when the Change-ID was provided in the commit message and the change with this Change-ID existed in the destination branch. This operation will now create a new patch set on the existing change.\n\nIn cases where the existing change has cherryPickOf set we want to reset cherryPickOf since we don\u0027t know a source change that matches the given commit.\n----",
+      "parentUuid": "c140c585_cd39ec9c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "476ce376_374dbfc4",
         "filename": "java/com/google/gerrit/server/change/ResetCherryPickOp.java",
         "patchSetId": 5

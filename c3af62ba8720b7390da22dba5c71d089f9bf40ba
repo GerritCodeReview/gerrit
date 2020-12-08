@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f2b874e3_f3a420bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-08T13:30:16Z",
+      "side": 1,
+      "message": "In cases where we cherry pick a commit instead of a change onto an already existing change (creating a new patch set), reset the cherryPickOf field in NoteDb to match reality.",
+      "revId": "c3af62ba8720b7390da22dba5c71d089f9bf40ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2707ef71_33bbbb96",
         "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
         "patchSetId": 5
@@ -38,6 +55,53 @@
       "side": 1,
       "message": "So this code path updates the existing change with the new patch set (cherry-pick of a commit). It will not result in creating a new change, see the tests I added:\ncherryPickCommitToExistingChange\ncherryPickCommitToExistingCherryPickedChange\n\nPreviously, it would always result in NPE.\n\nFor the new changes, we just don\u0027t set cherry-pick of.\nI suggest to reset the cherry pick of in case we update the existing change.\n* If the user wants to keep the relation, they can use https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#cherry-pick to provide the source change\n* Otherwise, the source change is not provided, but they want to update existing destination.\n* If we don\u0027t reset it, we will end up with the old value from the previous patch set.\n* This is consistent with the API behaviour for new changes (no cherry-pick of set).",
       "parentUuid": "2707ef71_33bbbb96",
+      "range": {
+        "startLine": 479,
+        "startChar": 6,
+        "endLine": 479,
+        "endChar": 54
+      },
+      "revId": "c3af62ba8720b7390da22dba5c71d089f9bf40ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7e6cbc8_68eefc3c",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-08T13:30:16Z",
+      "side": 1,
+      "message": "new CherryPickOp()\n\nThat spares you piping through the object as member from the constructor via a private member to this place.",
+      "range": {
+        "startLine": 479,
+        "startChar": 35,
+        "endLine": 479,
+        "endChar": 52
+      },
+      "revId": "c3af62ba8720b7390da22dba5c71d089f9bf40ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fee980f_a3c383a9",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-08T13:30:16Z",
+      "side": 1,
+      "message": "Thank you, this helped :-)",
+      "parentUuid": "65085b6b_54c1a575",
       "range": {
         "startLine": 479,
         "startChar": 6,

@@ -17,6 +17,7 @@ package com.google.gerrit.lucene;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.lucene.LuceneChangeIndex.ID2_SORT_FIELD;
 import static com.google.gerrit.lucene.LuceneChangeIndex.ID_SORT_FIELD;
+import static com.google.gerrit.lucene.LuceneChangeIndex.MERGED_ON_SORT_FIELD;
 import static com.google.gerrit.lucene.LuceneChangeIndex.UPDATED_SORT_FIELD;
 import static com.google.gerrit.server.index.change.ChangeSchemaDefinitions.NAME;
 
@@ -110,6 +111,9 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     } else if (f == ChangeField.UPDATED) {
       long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
       doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));
+    } else if (f == ChangeField.MERGED_ON) {
+      long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
+      doc.add(new NumericDocValuesField(MERGED_ON_SORT_FIELD, t));
     }
     super.add(doc, values);
   }

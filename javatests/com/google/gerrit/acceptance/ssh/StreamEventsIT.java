@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.ssh;
 
-
 import static com.google.gerrit.acceptance.WaitUtil.waitUntil;
 
 import com.google.common.base.Splitter;
@@ -25,7 +24,6 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
 import java.io.Reader;
 import java.time.Duration;
@@ -58,14 +56,24 @@ public class StreamEventsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void commentOnChangeShowsUpInStreamEvents() throws Exception {
-    ChangeData change = createChange().getChange();
-    ChangeApi changeApi = gApi.changes().id(change.getId().get());
-    changeApi.current().review(new ReviewInput().message(TEST_REVIEW_COMMENT));
-
+  public void commentOnPatchSetShowsUpInStreamEvents() throws Exception {
+    reviewChange(new ReviewInput().patchSetLevelComment(TEST_REVIEW_COMMENT));
     StringBuilder eventsOutput = new StringBuilder();
     waitUntil(
         () -> readEventsContaining(eventsOutput, TEST_REVIEW_COMMENT).size() == 1, TEST_TIMEOUT);
+  }
+
+  @Test
+  public void commentOnChangeShowsUpInStreamEvents() throws Exception {
+    reviewChange(new ReviewInput().message(TEST_REVIEW_COMMENT));
+    StringBuilder eventsOutput = new StringBuilder();
+    waitUntil(
+        () -> readEventsContaining(eventsOutput, TEST_REVIEW_COMMENT).size() == 1, TEST_TIMEOUT);
+  }
+
+  private void reviewChange(ReviewInput reviewInput) throws Exception {
+    ChangeApi changeApi = gApi.changes().id(createChange().getChange().getId().get());
+    changeApi.current().review(reviewInput);
   }
 
   private List<String> readEventsContaining(StringBuilder eventsOutput, String reviewComment) {

@@ -23,7 +23,6 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.server.query.change.ChangeData;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,13 +53,21 @@ public class StreamEventsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void commentOnChangeShowsUpInStreamEvents() throws Exception {
-    ChangeData change = createChange().getChange();
-    ChangeApi changeApi = gApi.changes().id(change.getId().get());
-    changeApi.current().review(new ReviewInput().message(TEST_REVIEW_COMMENT));
-    changeApi.abandon(); // Just for triggering one more stream event after the review() call
-
+  public void commentOnPatchSetShowsUpInStreamEvents() throws Exception {
+    reviewChangeAndAbandon(new ReviewInput().patchSetLevelComment(TEST_REVIEW_COMMENT));
     assertThat(getEventsContaining(TEST_REVIEW_COMMENT)).hasSize(1);
+  }
+
+  @Test
+  public void commentOnChangeShowsUpInStreamEvents() throws Exception {
+    reviewChangeAndAbandon(new ReviewInput().message(TEST_REVIEW_COMMENT));
+    assertThat(getEventsContaining(TEST_REVIEW_COMMENT)).hasSize(1);
+  }
+
+  private void reviewChangeAndAbandon(ReviewInput reviewInput) throws Exception {
+    ChangeApi changeApi = gApi.changes().id(createChange().getChange().getId().get());
+    changeApi.current().review(reviewInput);
+    changeApi.abandon(); // Just for triggering one more stream event after the review() call
   }
 
   private List<String> getEventsContaining(String reviewComment) throws IOException {

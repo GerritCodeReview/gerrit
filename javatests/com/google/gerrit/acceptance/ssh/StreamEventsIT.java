@@ -60,6 +60,21 @@ public class StreamEventsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void commentOnPatchSetShowsUpInStreamEvents() throws Exception {
+    ChangeData change = createChange().getChange();
+
+    ChangeApi changeApi = gApi.changes().id(change.getId().get());
+    ReviewInput reviewInput = new ReviewInput();
+    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    comment.message = TEST_REVIEW_COMMENT;
+    reviewInput.comments = Collections.singletonMap("/PATCHSET_LEVEL", Arrays.asList(comment));
+    changeApi.current().review(reviewInput);
+    changeApi.abandon();
+
+    assertThat(findReviewComment(streamEventsReader, TEST_REVIEW_COMMENT)).isNotEmpty();
+  }
+
+  @Test
   public void commentOnChangeShowsUpInStreamEvents() throws Exception {
     ChangeData change = createChange().getChange();
 

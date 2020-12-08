@@ -20,7 +20,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-overlay_html';
 import {IronOverlayMixin} from '../../../mixins/iron-overlay-mixin/iron-overlay-mixin';
-import {customElement, property} from '@polymer/decorators';
+import {customElement} from '@polymer/decorators';
 import {IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior';
 import {findActiveElement} from '../../../utils/dom-util';
 import {fireEvent} from '../../../utils/event-util';
@@ -56,7 +56,6 @@ export class GrOverlay extends IronOverlayMixin(
    * @event fullscreen-overlay-opened
    */
 
-  @property({type: Boolean})
   private _fullScreenOpen = false;
 
   private _boundHandleClose: () => void = () => super.close();

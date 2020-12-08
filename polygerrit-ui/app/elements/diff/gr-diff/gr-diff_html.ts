@@ -552,9 +552,9 @@ export const htmlTemplate = html`
 
     /** Make comments selectable when selected */
     .selected-left.selected-comment
-      ::slotted(gr-comment-thread[comment-side='left']),
+      ::slotted(gr-comment-thread[diff-side='left']),
     .selected-right.selected-comment
-      ::slotted(gr-comment-thread[comment-side='right']) {
+      ::slotted(gr-comment-thread[diff-side='right']) {
       -webkit-user-select: text;
       -moz-user-select: text;
       -ms-user-select: text;

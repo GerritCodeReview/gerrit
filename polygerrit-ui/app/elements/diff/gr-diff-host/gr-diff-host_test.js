@@ -1320,31 +1320,37 @@ suite('gr-diff-host tests', () => {
 
   suite('coverage layer', () => {
     let notifyStub;
+    let coverageProviderStub;
+    const exampleRanges = [
+      {
+        type: 'COVERED',
+        side: 'right',
+        code_range: {
+          start_line: 1,
+          end_line: 2,
+        },
+      },
+      {
+        type: 'NOT_COVERED',
+        side: 'right',
+        code_range: {
+          start_line: 3,
+          end_line: 4,
+        },
+      },
+    ];
+
     setup(() => {
       notifyStub = sinon.stub();
+      coverageProviderStub = sinon.stub().returns(
+          Promise.resolve(exampleRanges));
+
       stub('gr-js-api-interface', {
         getCoverageAnnotationApis() {
           return Promise.resolve([{
             notify: notifyStub,
             getCoverageProvider() {
-              return () => Promise.resolve([
-                {
-                  type: 'COVERED',
-                  side: 'right',
-                  code_range: {
-                    start_line: 1,
-                    end_line: 2,
-                  },
-                },
-                {
-                  type: 'NOT_COVERED',
-                  side: 'right',
-                  code_range: {
-                    start_line: 3,
-                    end_line: 4,
-                  },
-                },
-              ]);
+              return coverageProviderStub;
             },
           }]);
         },
@@ -1380,9 +1386,36 @@ suite('gr-diff-host tests', () => {
       element.reload();
       flush(() => {
         assert.equal(notifyStub.callCount, 2);
+        assert.isTrue(notifyStub.calledWithExactly('some/path', 1, 2, 'right'));
+        assert.isTrue(notifyStub.calledWithExactly('some/path', 3, 4, 'right'));
         done();
       });
     });
+
+    test('provider is called with appropriate params', done => {
+      element.patchRange.basePatchNum = 1;
+      element.patchRange.patchNum = 3;
+
+      element.reload();
+      flush(() => {
+        assert.isTrue(coverageProviderStub.calledWithExactly(
+            123, 'some/path', 1, 3, element.change));
+        done();
+      });
+    });
+
+    test('provider is called with appropriate params - special patchset values',
+        done => {
+          element.patchRange.basePatchNum = 'PARENT';
+          element.patchRange.patchNum = 'invalid';
+
+          element.reload();
+          flush(() => {
+            assert.isTrue(coverageProviderStub.calledWithExactly(
+                123, 'some/path', undefined, undefined, element.change));
+            done();
+          });
+        });
   });
 
   suite('trailing newlines', () => {

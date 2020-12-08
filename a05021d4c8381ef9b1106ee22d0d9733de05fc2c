@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c140c585_cd39ec9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-08T13:20:24Z",
+      "side": 1,
+      "message": "Alternative suggestion that would have helped me understand better:\n\n----\nSupport resetting cherryPickOf in NoteDb\n\nThe commit API allows users to cherry pick a change onto an already existing change in a different branch. This operation will just create a new patch set on the existing change.\n\nIn cases where the existing change has cherryPickOf set and we use the commit API to create a cherry pick of a commit that is not associated with the change, we want to reset cherryPickOf.\n\nSubsequent changes will use this functionality to cover the aforementioned case.\n----",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f3f63e8_05eea0df",
+        "filename": "java/com/google/gerrit/server/change/ResetCherryPickOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-08T13:20:24Z",
+      "side": 1,
+      "message": "nit: missing JavaDoc",
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb73b734_06ba5827",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-08T13:20:24Z",
+      "side": 1,
+      "message": "Why do we need three states here? Do we need to care about \"unparsed\" vs unset? NoteDb is always parsed from oldest to newest entry. So a newer \"unset\" would trump any older \"set\" of a value.\n\nresult: unset\nc5 still unset\nc4 unset cherry pick of\nc3 set cherryPickOf to y\nc2 do not change cherry pick of\nc1 set cherryPickOf to x",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 55
+      },
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c3a0cd6_74a2dd48",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-08T13:20:24Z",
+      "side": 1,
+      "message": "How about using a second variable here to signal that we want to delete cherryPickOf?\n\nprivate String cherryPickOf; // If set, sets or overrides the cherryPickOf field\nprivate Boolean removeCherryPickOf; // If set, removes any existing cherryPickOf\n\nIt seems this class is pretty much used to @Nullable values - the way I read it is that any field that\u0027s null won\u0027t be touched. I don\u0027t think that\u0027s a very good way of representing updates - Optionals are much better (see InternalAccountUpdate for a good example), but I\u0027d rather not change the pattern for just a single field. In that case, IMO it\u0027s better to follow what\u0027s already there and use two fields.\n\nI would also remove the @Nullable annotation here. All fields are nullable (adding the annotation to all fields would work, but I am not sure that really increases readability).",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 50
+      },
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

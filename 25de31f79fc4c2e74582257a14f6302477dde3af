@@ -168,6 +168,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48971e5e_047298d4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 78
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-08T15:00:10Z",
+      "side": 1,
+      "message": "Thanks for explaining.\nRemoved the function call.",
+      "parentUuid": "15afac42_1d0faea0",
+      "range": {
+        "startLine": 593,
+        "startChar": 11,
+        "endLine": 593,
+        "endChar": 28
+      },
+      "revId": "25de31f79fc4c2e74582257a14f6302477dde3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bf873f7_ab432da9",

@@ -26,8 +26,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPairGenerator;
@@ -119,6 +122,12 @@ public class SshSessionMina extends SshSession {
     }
   }
 
+  @Override
+  public Reader execAndReturnReader(String command) throws Exception {
+    return new InputStreamReader(
+        getMinaSession().exec(command, 0).getInputStream(), StandardCharsets.UTF_8);
+  }
+
   private SshdSession getMinaSession() throws Exception {
     if (session == null) {
       String username = getUsername();
@@ -133,7 +142,7 @@ public class SshSessionMina extends SshSession {
                   + addr.getPort());
 
       // TODO(davido): Switch to memory only key resolving mode.
-      File userhome = Files.createTempDir();
+      File userhome = java.nio.file.Files.createTempDirectory("_home").toFile();
 
       FS fs = FS.DETECTED.setUserHome(userhome);
       File sshDir = new File(userhome, ".ssh");

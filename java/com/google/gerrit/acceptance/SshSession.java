@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
+import java.io.Reader;
 import java.net.InetSocketAddress;
 
 public abstract class SshSession {
@@ -40,6 +41,8 @@ public abstract class SshSession {
   public abstract String exec(String command) throws Exception;
 
   public abstract int execAndReturnStatus(String command) throws Exception;
+
+  public abstract Reader execAndReturnReader(String command) throws Exception;
 
   private boolean hasError() {
     return error != null;

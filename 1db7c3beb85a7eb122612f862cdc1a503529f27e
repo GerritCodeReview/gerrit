@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80d18110_1d5f2380",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2020-12-08T00:33:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf5f427e_6244c3c0",
+      "range": {
+        "startLine": 968,
+        "startChar": 6,
+        "endLine": 968,
+        "endChar": 47
+      },
+      "revId": "1db7c3beb85a7eb122612f862cdc1a503529f27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b942b69_7ba7c066",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-12-07T08:08:08Z",
       "side": 1,
       "message": "Optional bike-shedding:\n\n  const labelInfoPermitted \u003d this.change.permitted_labels[result];\n  const maxScorePermitted \u003d getVotingRange(labelInfoPermitted)?.max;",
+      "revId": "1db7c3beb85a7eb122612f862cdc1a503529f27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd0bd80f_d36733da",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2020-12-08T00:33:25Z",
+      "side": 1,
+      "message": "permitted_labels[x] isn\u0027t a LabelInfo, it\u0027s just a string[] of values this user is allowed to vote. Added some names that should help.",
+      "parentUuid": "3b942b69_7ba7c066",
       "revId": "1db7c3beb85a7eb122612f862cdc1a503529f27e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f40e2d8_71d3ae11",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2020-12-08T00:33:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55dd36c5_aca1cb85",
+      "revId": "1db7c3beb85a7eb122612f862cdc1a503529f27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f9b789a_949378b5",
@@ -71,6 +131,30 @@
       "writtenOn": "2020-12-07T08:08:08Z",
       "side": 1,
       "message": "filter() might return an empty array, right? Then [0] would throw an error?\n\nMaybe add a test for that.",
+      "range": {
+        "startLine": 52,
+        "startChar": 20,
+        "endLine": 52,
+        "endChar": 26
+      },
+      "revId": "1db7c3beb85a7eb122612f862cdc1a503529f27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a2ece23_9e9c089f",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2020-12-08T00:33:25Z",
+      "side": 1,
+      "message": "undefined[0] throws an error. [][0] is just undefined. Added a test for found and not-found cases.",
+      "parentUuid": "4f9b789a_949378b5",
       "range": {
         "startLine": 52,
         "startChar": 20,

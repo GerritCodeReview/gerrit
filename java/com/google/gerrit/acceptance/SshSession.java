@@ -81,6 +81,13 @@ public class SshSession {
     }
   }
 
+  public ChannelExec execAndReturnChannel(String command) throws Exception {
+    ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
+    channel.setCommand(command);
+    channel.connect();
+    return channel;
+  }
+
   private boolean hasError() {
     return error != null;
   }

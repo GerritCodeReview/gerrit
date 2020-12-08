@@ -45,6 +45,30 @@
       },
       "revId": "e5b03de791ff611a2d7e96754c9941447d53fc32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73472758_25c6116e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-08T08:08:53Z",
+      "side": 1,
+      "message": "Thanks for looking deeply into this. I like design discussions. :-)\n\nMy personal preference is to prefer exceptions over error codes.\n\n\u003e Exceptions: A SWE can forget to catch an exception; typescript can\u0027t help with that.\n\nI don\u0027t think that is a big problem, because:\n1. We have uncaught exception handlers. We should just act on the data more.\n2. The bigger problem is that SWEs deal with errors in the wrong way, which is even worse than not dealing with the error at all (see 1).\n3. It is good to have the liberty of not dealing with an exception.\n\n\u003e Exceptions: It is always a question, where to catch an exception.\n\nThat is a feature, not a bug. :-) It is indeed a question, but has different answers. Sometimes I want to catch before and sometimes after then() for example. Same applies to async/await.\n\n\u003e Error Codes: It is impossible to forget to check the result.\n\nSure, but you are also forcing the caller to caller to deal with two different scenarios with a split type and an if-clause. Why is this better ...\n\n  apiCall.then(result \u003d\u003e {\n    if(isRestApiFailed(result)) {\n      // handle error\n      return;\n    }\n    // handle success\n  });\n\n... than that?\n\n  apiCall.catch(error \u003d\u003e {\n    // handle error\n  })\n  .then(result \u003d\u003e {\n    // handle success\n  });\n\nNote that catch() can also return something, if you want to. If you want to avoid the try-catch for async-await, then you could keep the catch() for error handling and only replace then() by await:\n\n  const result \u003d await apiCall.catch(error \u003d\u003e {\n    // handle error\n  });\n\nGenerally I would be interested in whether you would also argue to never use Exceptions in Java. There is also a related Java design discussion with regards to checked vs unchecked exceptions, where I am strongly leaning towards unchecked for 99% of the cases.\n\nNote also that we already have an error code in the HTTP response. And it does not help us at all, because in the api-helper we cannot deal with it. We have to convert it into an exception to make sense of it. And we also have the interesting problem of server errors (codes) vs network errors (exceptions) coming from different layers that we want to aggregate. IMO that also demonstrates the advantage of exceptions.\n\nHow do you deal with error codes when you are making multiple API calls in parallel (think Promise.all)?\n\nI think sometimes you want to deal with an HTTP response code in the service layer, e.g. getAccount() 404 meaning not-logged-in, or generally error conditions that are expected to happen. And at other times in UI components you just want to deal with *all* kinds of errors at the same time, because every error is unexpected.\n\nOK. Now we have a lot of arguments for both sides. Great that we have a team meeting later today. Then we can maybe continue the discussion in person. WDYT?",
+      "parentUuid": "655a9b1e_1322fc50",
+      "range": {
+        "startLine": 93,
+        "startChar": 7,
+        "endLine": 93,
+        "endChar": 32
+      },
+      "revId": "e5b03de791ff611a2d7e96754c9941447d53fc32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

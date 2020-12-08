@@ -142,7 +142,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_ASSIGNEE = "assignee";
   public static final String FIELD_AUTHOR = "author";
   public static final String FIELD_EXACTAUTHOR = "exactauthor";
-  public static final String FIELD_BEFORE = "before";
+
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_CHANGE_ID = "change_id";
   public static final String FIELD_COMMENT = "comment";
@@ -204,6 +204,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String ARG_ID_GROUP = "group";
   public static final String ARG_ID_OWNER = "owner";
   public static final Account.Id OWNER_ACCOUNT_ID = Account.id(0);
+
+  // Operators to match on the last time the change was updated. Naming for legacy reasons.
+  public static final String OPERATOR_BEFORE = "before";
+  public static final String OPERATOR_AFTER = "after";
 
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ChangeQueryBuilder.class);
@@ -471,7 +475,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> before(String value) throws QueryParseException {
-    return new BeforePredicate(value);
+    return new BeforePredicate(ChangeField.UPDATED, ChangeQueryBuilder.OPERATOR_BEFORE, value);
   }
 
   @Operator
@@ -481,7 +485,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> after(String value) throws QueryParseException {
-    return new AfterPredicate(value);
+    return new AfterPredicate(ChangeField.UPDATED, ChangeQueryBuilder.OPERATOR_AFTER, value);
   }
 
   @Operator

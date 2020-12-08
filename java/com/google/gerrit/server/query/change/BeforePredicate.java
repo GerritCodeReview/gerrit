@@ -14,15 +14,21 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.index.change.ChangeField;
+import java.sql.Timestamp;
 import java.util.Date;
 
+/**
+ * Predicate that matches a {@link Timestamp} field from the index in a range from the the epoch to
+ * the passed {@code String} representation of the Timestamp value.
+ */
 public class BeforePredicate extends TimestampRangeChangePredicate {
   protected final Date cut;
 
-  public BeforePredicate(String value) throws QueryParseException {
-    super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_BEFORE, value);
+  public BeforePredicate(FieldDef<ChangeData, Timestamp> def, String name, String value)
+      throws QueryParseException {
+    super(def, name, value);
     cut = parse(value);
   }
 
@@ -38,6 +44,10 @@ public class BeforePredicate extends TimestampRangeChangePredicate {
 
   @Override
   public boolean match(ChangeData cd) {
-    return cd.change().getLastUpdatedOn().getTime() <= cut.getTime();
+    Timestamp valueTimestamp = this.getValueTimestamp(cd);
+    if (valueTimestamp == null) {
+      return false;
+    }
+    return valueTimestamp.getTime() <= cut.getTime();
   }
 }

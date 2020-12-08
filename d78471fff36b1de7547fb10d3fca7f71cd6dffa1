@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c426b81f_768973fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-08T19:01:26Z",
+      "side": 1,
+      "message": "Merge branch \u0027stable-3.3\u0027 into master\n\n* stable-3.3:",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "d78471fff36b1de7547fb10d3fca7f71cd6dffa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39835a81_8deecbe4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-08T19:01:26Z",
+      "side": 1,
+      "message": "Nit left.",
+      "revId": "d78471fff36b1de7547fb10d3fca7f71cd6dffa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "20b14339_d21689f9",
         "filename": "modules/jgit",
         "patchSetId": 3

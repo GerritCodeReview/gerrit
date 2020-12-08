@@ -94,6 +94,30 @@
       },
       "revId": "4b5fa9e8837bcb837aae547635a76f1540d09a8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4b6e21c_9652ef67",
+        "filename": "modules/jgit",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-08T19:01:26Z",
+      "side": 1,
+      "message": "Seems like this thread got resolved in the latest review round. We then stick to this originally proposed jgit version change, for now or until a jgit release is swapped in.",
+      "parentUuid": "d4515042_6f80352d",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "4b5fa9e8837bcb837aae547635a76f1540d09a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

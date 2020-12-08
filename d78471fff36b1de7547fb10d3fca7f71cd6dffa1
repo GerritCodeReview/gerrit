@@ -16,6 +16,24 @@
       "message": "This is implicitly updating jgit to its current tip of stable-5.9.\nCan this be mentioned in the commit message if there is a need to do this in this change?",
       "revId": "d78471fff36b1de7547fb10d3fca7f71cd6dffa1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26f2b431_b46c4516",
+        "filename": "modules/jgit",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-08T16:14:01Z",
+      "side": 1,
+      "message": "This update is merged into master from stable-3.3, it\u0027s mentioned in the merge-log in the commit-message.\nShould we not merge jgit updates?",
+      "parentUuid": "20b14339_d21689f9",
+      "revId": "d78471fff36b1de7547fb10d3fca7f71cd6dffa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

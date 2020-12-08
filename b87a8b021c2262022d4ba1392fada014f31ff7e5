@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffa92a03_0703eda7",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-08T13:49:18Z",
+      "side": 1,
+      "message": "Can we put this into a helper method? (getDestinationChangeId)\n\nThen your comment about different cases could go into a JavaDoc.\n\nOr even two methods. getCommitMessage and getDestinationChangeId",
+      "revId": "b87a8b021c2262022d4ba1392fada014f31ff7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "255d85e3_6c468a67",
+        "filename": "java/com/google/gerrit/server/util/CommitMessageUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-08T13:49:18Z",
+      "side": 1,
+      "message": "Do we need this behavior?\n\nWe could just reject commits with more than one change Id. That sounds like a user error to me. It would also allow us to spare the regex pattern.",
+      "range": {
+        "startLine": 91,
+        "startChar": 32,
+        "endLine": 91,
+        "endChar": 65
+      },
+      "revId": "b87a8b021c2262022d4ba1392fada014f31ff7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

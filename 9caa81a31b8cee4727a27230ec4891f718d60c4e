@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8c0fd6f_e952c193",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-08T20:25:05Z",
+      "side": 1,
+      "message": "Can we now remove exclusive tag from ES test rules? I did the test on my laptop, and only ran ES tests with and without exclusive tag and can confirm that non exclusive mode is faster (around 146 seconds difference): [1].\n\n[1] http://paste.openstack.org/show/800868",
+      "revId": "9caa81a31b8cee4727a27230ec4891f718d60c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

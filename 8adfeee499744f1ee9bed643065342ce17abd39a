@@ -16,6 +16,24 @@
       "message": "maybe drop this one",
       "revId": "8adfeee499744f1ee9bed643065342ce17abd39a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76f332b1_ecdd01d3",
+        "filename": "polygerrit-ui/app/services/flags/flags.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-08T10:07:58Z",
+      "side": 1,
+      "message": "I\u0027ll leave it in, just so that folks can disable if they have a problem with that. It\u0027s on by default, so no disruption for others.",
+      "parentUuid": "0780bdfd_cdefd1fd",
+      "revId": "8adfeee499744f1ee9bed643065342ce17abd39a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

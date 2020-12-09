@@ -87,6 +87,30 @@
       },
       "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "584f0de0_db6a12f4",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-09T10:16:32Z",
+      "side": 1,
+      "message": "\u003e stream event integration part is still missing\n\nAh, sorry. I didn\u0027t know. Yeah, in that case let\u0027s not make it a default just yet. I was under the impression that the feature is 100% done.",
+      "parentUuid": "f09f7cf0_8909b38f",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 88
+      },
+      "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

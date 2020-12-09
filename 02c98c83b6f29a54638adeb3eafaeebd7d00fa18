@@ -16,6 +16,29 @@
       "message": "ping",
       "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c44acaf0_4456ee0b",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-09T05:53:36Z",
+      "side": 1,
+      "message": "Document these keys in release notes in this series, and amend the change from change 288131?\n\nIs it really a good idea to declare patchset_comments as default experiment feature? What if we declare that feature as not production ready in release 3.3 yet (as it\u0027s breaking CI integrations) but still allow to enable it, using: \"experiments.enabled\" configuration section? This should be already possible without this change.\n\nThe majority of Gerrit sites use Jenkins Gerrit Trigger plugin or Zuul or similar CI integrations that rely on stream events. Until patch set comment feature fully supports those it can not replace change messages per default. I don\u0027t think it\u0027s a good idea to write in the release notes something like this:\n\n  Given that patchset_comments feature is activated per default but broke the\n  CI integration, you have to disable it to fix the CI integration again\n  in $gerrit_site/etc/gerrit.config:\n\n  [experiments]\n    disabled \u003d UiFeature__patchset_comments",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 88
+      },
+      "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {CommentRange} from '../api/core';
+import {BrandType, CommentRange, PatchRange, PatchSetNum} from '../api/core';
 import {
   ChangeStatus,
   DefaultDisplayNameConfig,
@@ -52,10 +52,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
 import {DiffInfo, IgnoreWhitespaceType, WebLinkInfo} from './diff';
 
-export {CommentRange};
-
-export type BrandType<T, BrandName extends string> = T &
-  {[__brand in BrandName]: never};
+export {BrandType, CommentRange, PatchRange, PatchSetNum};
 
 /*
  * In T, make a set of properties whose keys are in the union K required
@@ -74,8 +71,6 @@ export type ElementPropertyDeepChange<
  * Type alias for parsed json object to make code cleaner
  */
 export type ParsedJSON = BrandType<unknown, '_parsedJSON'>;
-
-export type PatchSetNum = BrandType<'PARENT' | 'edit' | number, '_patchSet'>;
 
 export const EditPatchSetNum = 'edit' as PatchSetNum;
 // TODO(TS): This is not correct, it is better to have a separate ApiPatchSetNum
@@ -1601,15 +1596,6 @@ export interface SshKeyInfo {
 export interface HashtagsInput {
   add?: Hashtag[];
   remove?: Hashtag[];
-}
-
-/**
- * Defines a patch ranges. Used as input for gr-rest-api methods,
- * doesn't exist in Rest API
- */
-export interface PatchRange {
-  patchNum: PatchSetNum;
-  basePatchNum: PatchSetNum;
 }
 
 /**

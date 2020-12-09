@@ -20,6 +20,28 @@
  */
 
 /**
+ * Prevents "Duck-typing" and forces providing the
+ * correct named type and not anything compatible.
+ */
+export type BrandType<T, BrandName extends string> = T &
+  {[__brand in BrandName]: never};
+
+/** Identifier for a patch set. */
+export declare type PatchSetNum = BrandType<
+  'PARENT' | 'edit' | number,
+  '_patchSet'
+>;
+
+/**
+ * Defines a patch ranges. Used as input for gr-rest-api-interface methods,
+ * doesn't exist in Rest API
+ */
+export declare interface PatchRange {
+  patchNum: PatchSetNum;
+  basePatchNum: PatchSetNum;
+}
+
+/**
  * The CommentRange entity describes the range of an inline comment.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-range
  */

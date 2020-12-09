@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f443f5e4_0968bd5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-09T18:05:29Z",
+      "side": 1,
+      "message": "Adjusted a comment that was placed incorrectly in Patchset 19.",
+      "revId": "52e7f15260b2c23573867d03553c4861f7d2205b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

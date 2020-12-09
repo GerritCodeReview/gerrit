@@ -3358,6 +3358,16 @@ Defaults to all available options minus `CHANGE_ACTIONS`,
 config is backwards compatible with what the default was before the config
 was added.
 
+[[event.comment-added.publishPatchSetLevelComment]][event.comment-added.publishPatchSetLevelComment::
++
+Add patch set level comment as event comment. Without this option, patch set
+level comment will not be included in the event comment attribute. Given that
+currently patch set level, file and robot comments are not exposed in the
+`comment-added` event type, those comments will be lost. One particular use
+case is to re-trigger CI build from the change screen by adding a comment with
+specific content, e.g.: `recheck`.
++
+By default, true.
 
 [[ldap]]
 === Section ldap

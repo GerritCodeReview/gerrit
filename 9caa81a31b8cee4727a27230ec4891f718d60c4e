@@ -34,6 +34,24 @@
       "parentUuid": "d8c0fd6f_e952c193",
       "revId": "9caa81a31b8cee4727a27230ec4891f718d60c4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "844828c0_8c1f4e6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-09T23:03:23Z",
+      "side": 1,
+      "message": "I wouldn\u0027t remove the exclusive mode though: the CI executors will be doing also other builds in parallel. Having the ES tests running on multiple versions in parallel would result in an overload of the Docker daemon because of excessive number of containers.",
+      "parentUuid": "d9f72c63_e3d13fb1",
+      "revId": "9caa81a31b8cee4727a27230ec4891f718d60c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

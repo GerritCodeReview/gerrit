@@ -29,7 +29,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-dashboard-view_html';
 import {
   GerritNav,
-  GerritView,
   UserDashboard,
   YOUR_TURN,
 } from '../../core/gr-navigation/gr-navigation';
@@ -57,6 +56,7 @@ import {ChangeListToggleReviewedDetail} from '../gr-change-list-item/gr-change-l
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {DashboardViewState} from '../../../types/types';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
+import {GerritView} from '../../../services/router/router-model';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 

@@ -1,0 +1,67 @@
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import {ParentPatchSetNum, PatchSetNum} from '../../types/common';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
+import {distinctUntilChanged, map} from 'rxjs/operators';
+import {patchNum$} from '../router/router-model';
+import {
+  computeAllPatchSets,
+  computeLatestPatchNum,
+} from '../../utils/patch-set-util';
+import {ParsedChangeInfo} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+
+export interface ChangeState {
+  change: ParsedChangeInfo | undefined;
+}
+
+export const initialState: ChangeState = {
+  change: undefined,
+};
+
+// Must only we used by the router service or whatever is in control of this
+// model.
+export const privateState$ = new BehaviorSubject(initialState);
+
+// Re-exporting as Observable so that you can only subscribe, but not emit.
+export const changeState$: Observable<ChangeState> = privateState$;
+
+export const change$ = changeState$.pipe(
+  map(state => state.change),
+  distinctUntilChanged()
+);
+
+/**
+ * Emits the current patchset number. If the route does not define the current
+ * patchset num, then this selector waits for the change to be defined and
+ * returns the number of the latest patchset.
+ *
+ * TODO: It would be good to assert/enforce somehow that currentPatchNum$ cannot
+ * emit 'PARENT'.
+ */
+export const currentPatchNum$: Observable<
+  PatchSetNum | undefined
+> = combineLatest([patchNum$, change$]).pipe(
+  map(([routerPatchNum, change]) => {
+    if (routerPatchNum && routerPatchNum !== ParentPatchSetNum) {
+      return routerPatchNum;
+    }
+    const patchsets = computeAllPatchSets(change);
+    return computeLatestPatchNum(patchsets);
+  }),
+  distinctUntilChanged()
+);

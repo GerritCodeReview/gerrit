@@ -1,0 +1,67 @@
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import {NumericChangeId, PatchSetNum} from '../../types/common';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {distinctUntilChanged, map} from 'rxjs/operators';
+
+export enum GerritView {
+  ADMIN = 'admin',
+  AGREEMENTS = 'agreements',
+  CHANGE = 'change',
+  DASHBOARD = 'dashboard',
+  DIFF = 'diff',
+  DOCUMENTATION_SEARCH = 'documentation-search',
+  EDIT = 'edit',
+  GROUP = 'group',
+  PLUGIN_SCREEN = 'plugin-screen',
+  REPO = 'repo',
+  ROOT = 'root',
+  SEARCH = 'search',
+  SETTINGS = 'settings',
+}
+
+export interface RouterState {
+  view: GerritView | undefined;
+  changeNum: NumericChangeId | undefined;
+  patchNum: PatchSetNum | undefined;
+}
+
+export const initialState: RouterState = {
+  view: undefined,
+  changeNum: undefined,
+  patchNum: undefined,
+}
+
+// Must only we used by the router service or whatever is in control of this
+// model.
+export const privateState$ = new BehaviorSubject(initialState);
+
+// Re-exporting as Observable so that you can only subscribe, but not emit.
+export const routerState$: Observable<RouterState> = privateState$;
+
+// TODO: Consider creating a createSelector() utility that provides memoizing
+// and distinctUntilChanged.
+export const changeNum$ = routerState$.pipe(
+  map(state => state.changeNum),
+  distinctUntilChanged()
+);
+
+export const patchNum$ = routerState$.pipe(
+  map(state => state.patchNum),
+  distinctUntilChanged()
+);

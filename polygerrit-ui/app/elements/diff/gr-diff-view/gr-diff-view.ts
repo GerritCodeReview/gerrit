@@ -40,7 +40,7 @@ import {
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {pluralize} from '../../../utils/string-util';
-import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
@@ -97,6 +97,7 @@ import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {GerritView} from '../../../services/router/router-model';
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
 const MSG_LOADED_BLAME = 'Blame loaded';

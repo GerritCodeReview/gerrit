@@ -25,7 +25,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-list-view_html';
 import {page} from '../../../utils/page-wrapper-utils';
-import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
 import {AppElementParams} from '../../gr-app-types';
 import {
@@ -41,6 +41,7 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {ChangeListViewState} from '../../../types/types';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {GerritView} from '../../../services/router/router-model';
 
 const LookupQueryPatterns = {
   CHANGE_ID: /^\s*i?[0-9a-f]{7,40}\s*$/i,

@@ -26,6 +26,7 @@ import {htmlTemplate} from './gr-router_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {
   DashboardSection,
+  GeneratedWebLink,
   GenerateUrlChangeViewParameters,
   GenerateUrlDashboardViewParameters,
   GenerateUrlDiffViewParameters,
@@ -38,18 +39,16 @@ import {
   GenerateWebLinksFileParameters,
   GenerateWebLinksParameters,
   GenerateWebLinksPatchsetParameters,
-  GerritView,
+  GerritNav,
+  GroupDetailView,
   isGenerateUrlDiffViewParameters,
   RepoDetailView,
   WeblinkType,
-  GroupDetailView,
-  GerritNav,
-  GeneratedWebLink,
 } from '../gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
 import {
-  patchNumEquals,
   convertToPatchSetNum,
+  patchNumEquals,
 } from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {assertNever} from '../../../utils/common-util';
@@ -64,10 +63,17 @@ import {
 } from '../../../types/common';
 import {
   AppElement,
-  AppElementParams,
   AppElementAgreementParam,
+  AppElementChangeViewParams,
+  AppElementDiffViewParam,
+  AppElementParams,
 } from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
+import {
+  GerritView,
+  initialState,
+  privateState$,
+} from '../../../services/router/router-model';
 
 const RoutePattern = {
   ROOT: '/',
@@ -218,6 +224,26 @@ const RoutePattern = {
   DOCUMENTATION: /^\/Documentation(\/)?(.+)?/,
 };
 
+function hasChangeNum(
+  params: AppElementParams | GenerateUrlParameters
+): params is
+  | AppElementChangeViewParams
+  | AppElementDiffViewParam
+  | GenerateUrlChangeViewParameters
+  | GenerateUrlDiffViewParameters {
+  return 'changeNum' in params;
+}
+
+function hasPatchNum(
+  params: AppElementParams | GenerateUrlParameters
+): params is
+  | AppElementChangeViewParams
+  | AppElementDiffViewParam
+  | GenerateUrlChangeViewParameters
+  | GenerateUrlDiffViewParameters {
+  return 'patchNum' in params;
+}
+
 export const _testOnly_RoutePattern = RoutePattern;
 
 /**
@@ -304,6 +330,8 @@ export class GrRouter extends GestureEventListeners(
   @property({type: Boolean})
   _isInitialLoad = true;
 
+  _state = initialState;
+
   private readonly reporting = appContext.reportingService;
 
   private readonly restApiService = appContext.restApiService;
@@ -321,6 +349,16 @@ export class GrRouter extends GestureEventListeners(
 
   _setParams(params: AppElementParams | GenerateUrlParameters) {
     this._appElement().params = params;
+  }
+
+  _updateState(params: AppElementParams | GenerateUrlParameters) {
+    this._state = {
+      ...this._state,
+      view: params.view,
+      changeNum: hasChangeNum(params) ? params.changeNum : undefined,
+      patchNum: hasPatchNum(params) ? params.patchNum ?? undefined : undefined,
+    };
+    privateState$.next(this._state);
   }
 
   _appElement(): AppElement {

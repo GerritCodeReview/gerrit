@@ -941,14 +941,18 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               String.format("Repository %s not found", ctx.getProject().get()), ex);
         }
       }
+      // For backwards compatibility, patchset level comment has a higher priority than change
+      // message and should be used as comment in comment-added event.
+      String comment = message.getMessage();
+      if (in.comments != null && in.comments.containsKey(PATCHSET_LEVEL)) {
+        List<CommentInput> patchSetLevelComments = in.comments.get(PATCHSET_LEVEL);
+        if (patchSetLevelComments != null && !patchSetLevelComments.isEmpty()) {
+          CommentInput firstComment = patchSetLevelComments.get(0);
+          if (!Strings.isNullOrEmpty(firstComment.message)) comment = firstComment.message;
+        }
+      }
       commentAdded.fire(
-          notes.getChange(),
-          ps,
-          user.state(),
-          message.getMessage(),
-          approvals,
-          oldApprovals,
-          ctx.getWhen());
+          notes.getChange(), ps, user.state(), comment, approvals, oldApprovals, ctx.getWhen());
     }
 
     private boolean insertComments(ChangeContext ctx, List<RobotComment> newRobotComments)

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cc7d8c7_2ab263ef",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-09T21:05:21Z",
+      "side": 1,
+      "message": "I like a lot this backward-compatibility fix, should this be configurable?\n\nI believe the commentsMap should just be exposed in the stream-events, as this workaround is actually not really exposing the event as-is and the other applications just consume it.",
+      "range": {
+        "startLine": 944,
+        "startChar": 0,
+        "endLine": 953,
+        "endChar": 7
+      },
+      "revId": "cceabd2c4f1f91db14a7a67e650d9e5311e4c837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,6 +26,7 @@ import {htmlTemplate} from './gr-router_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {
   DashboardSection,
+  GeneratedWebLink,
   GenerateUrlChangeViewParameters,
   GenerateUrlDashboardViewParameters,
   GenerateUrlDiffViewParameters,
@@ -38,18 +39,16 @@ import {
   GenerateWebLinksFileParameters,
   GenerateWebLinksParameters,
   GenerateWebLinksPatchsetParameters,
-  GerritView,
+  GerritNav,
+  GroupDetailView,
   isGenerateUrlDiffViewParameters,
   RepoDetailView,
   WeblinkType,
-  GroupDetailView,
-  GerritNav,
-  GeneratedWebLink,
 } from '../gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
 import {
-  patchNumEquals,
   convertToPatchSetNum,
+  patchNumEquals,
 } from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {assertNever} from '../../../utils/common-util';
@@ -64,10 +63,11 @@ import {
 } from '../../../types/common';
 import {
   AppElement,
-  AppElementParams,
   AppElementAgreementParam,
+  AppElementParams,
 } from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
+import {GerritView, updateState} from '../../../services/router/router-model';
 
 const RoutePattern = {
   ROOT: '/',
@@ -320,6 +320,11 @@ export class GrRouter extends GestureEventListeners(
   }
 
   _setParams(params: AppElementParams | GenerateUrlParameters) {
+    updateState(
+      params.view,
+      'changeNum' in params ? params.changeNum : undefined,
+      'patchNum' in params ? params.patchNum ?? undefined : undefined
+    );
     this._appElement().params = params;
   }
 

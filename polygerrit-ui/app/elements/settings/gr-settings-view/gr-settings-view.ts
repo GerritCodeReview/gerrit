@@ -63,11 +63,11 @@ import {
 } from '../../../types/common';
 import {GrSshEditor} from '../gr-ssh-editor/gr-ssh-editor';
 import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
-import {GerritView} from '../../core/gr-navigation/gr-navigation';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {GerritView} from '../../../services/router/router-model';
 
 const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'changes_per_page',

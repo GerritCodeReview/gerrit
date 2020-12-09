@@ -534,6 +534,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _isChecksEnabled = false;
 
+  @property({type: Boolean})
+  _isNewChangeSummaryUiEnabled = false;
+
   restApiService = appContext.restApiService;
 
   keyboardShortcuts() {
@@ -565,6 +568,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this._isChecksEnabled = this.flagsService.isEnabled(
       KnownExperimentId.CI_REBOOT_CHECKS
     );
+    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(KnownExperimentId.NEW_CHANGE_SUMMARY_UI);
   }
 
   /** @override */
@@ -910,7 +914,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
       editing ||
       (change && change.status === ChangeStatus.MERGED) ||
       editMode ||
-      (collapsed && collapsible)
+      (!this._isNewChangeSummaryUiEnabled && collapsed && collapsible)
     ) {
       return true;
     }
@@ -2333,6 +2337,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _computeCollapseText(collapsed: boolean) {
+    if (this._isNewChangeSummaryUiEnabled) {
+      return collapsed ? 'Show all' : 'Show less';
+    }
     // Symbols are up and down triangles.
     return collapsed ? '\u25bc Show more' : '\u25b2 Show less';
   }
@@ -2367,7 +2374,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!commitMessage) {
       return false;
     }
-    return commitMessage.split('\n').length >= MIN_LINES_FOR_COMMIT_COLLAPSE;
+    const MIN_LINES = this._isNewChangeSummaryUiEnabled
+      ? 12
+      : MIN_LINES_FOR_COMMIT_COLLAPSE;
+    return commitMessage.split('\n').length >= MIN_LINES;
   }
 
   _getOffsetHeight(element: HTMLElement) {

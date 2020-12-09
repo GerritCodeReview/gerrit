@@ -135,6 +135,30 @@
       },
       "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0df81607_5a49b8da",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-09T13:46:40Z",
+      "side": 1,
+      "message": "\u003e Maybe we should have a schema migration that checks that the experiment is not disabled before the upgrade to 3.4 completes?\n\nDon\u0027t we have that implicitly by disabling it on 3.3 (\u003d not enabling it by default)? On master we won\u0027t disable the experiment, so 3.4 will ship with it.\n\nI don\u0027t expect anyone to come in and tweak this setting on stable 3.3.",
+      "parentUuid": "b2093d29_d293fb71",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 88
+      },
+      "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

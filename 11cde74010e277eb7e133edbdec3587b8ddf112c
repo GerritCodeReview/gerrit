@@ -16,6 +16,24 @@
       "message": "LGTM so far, but the CI failure seems to point out another test that needs to be adapted.",
       "revId": "11cde74010e277eb7e133edbdec3587b8ddf112c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a76ba57f_f16975f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-09T16:41:26Z",
+      "side": 1,
+      "message": "Thanks Edwin. The changes seem to not play well with the newly added GetBranchIT, specifically with All-Users repo where the user can have readability over refs/draft-comments, refs/starred-changes, etc...\nLooking further into this.",
+      "parentUuid": "2bab33e5_27a37b07",
+      "revId": "11cde74010e277eb7e133edbdec3587b8ddf112c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

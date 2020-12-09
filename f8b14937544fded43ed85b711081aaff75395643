@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "26b238ed_d79a0837",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-09T11:17:17Z",
+      "side": 1,
+      "message": "Do you mean create a local var for the comment being created say \n\nc1 \u003d {\n ...createDraft(),\nid: \u0027db977012_e1f13828\u0027,\nline: 4,\npatch_set: 2,\n}\n\nthen create the ported draft as \n{\n ...c1,\n patch_set: 4,\n line: 5\n}",
+      "parentUuid": "6066bc81_a3561552",
+      "revId": "f8b14937544fded43ed85b711081aaff75395643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff62e39c_16bbc14b",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
         "patchSetId": 15

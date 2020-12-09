@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "15852422_047fe525",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-09T12:32:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f447140_43f44148",
+      "revId": "61e76ccfd33b2e68fdfa4b82636c8c4a36717cbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "25263cc7_c90f4c27",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -82,6 +100,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76a46312_329b40dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-09T12:32:00Z",
+      "side": 1,
+      "message": "If you don\u0027t mind, I will prefer to stay with this. I found it more easy to read just from html template.",
+      "parentUuid": "2f188ed9_ee6bb9e9",
+      "range": {
+        "startLine": 385,
+        "startChar": 32,
+        "endLine": 385,
+        "endChar": 83
+      },
+      "revId": "61e76ccfd33b2e68fdfa4b82636c8c4a36717cbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e180878_0d0ba1d9",
@@ -105,6 +147,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3e8fc44_9fdf335f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-09T12:32:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e180878_0d0ba1d9",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 28
+      },
+      "revId": "61e76ccfd33b2e68fdfa4b82636c8c4a36717cbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4599a6a3_6d2a20e3",
@@ -118,6 +184,30 @@
       "writtenOn": "2020-12-09T08:10:55Z",
       "side": 1,
       "message": "you can probably also replace this with \"new-change-summary\".",
+      "range": {
+        "startLine": 67,
+        "startChar": 29,
+        "endLine": 67,
+        "endChar": 52
+      },
+      "revId": "61e76ccfd33b2e68fdfa4b82636c8c4a36717cbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3ee5eb8_cfe87190",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-09T12:32:00Z",
+      "side": 1,
+      "message": "I would like to be consistent to with new-change-summary-[[_isNewChangeSummaryUiEnabled]]. \n\nI will clean up all these when I will be cleaning feature flag",
+      "parentUuid": "4599a6a3_6d2a20e3",
       "range": {
         "startLine": 67,
         "startChar": 29,
@@ -165,6 +255,30 @@
       "side": 1,
       "message": "I agree. Why check this twice from outside the component and from inside?",
       "parentUuid": "cd906041_c4ae50d3",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 30
+      },
+      "revId": "61e76ccfd33b2e68fdfa4b82636c8c4a36717cbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d56ab14d_b54518e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-09T12:32:00Z",
+      "side": 1,
+      "message": "Oh, that\u0027s good idea. I don\u0027t know why I implemented it that complicated 😊",
+      "parentUuid": "95e60508_5ea2c29a",
       "range": {
         "startLine": 106,
         "startChar": 4,

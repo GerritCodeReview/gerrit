@@ -306,7 +306,8 @@ public class RefNames {
         || ref.startsWith(REFS_GROUPNAMES)
         || ref.startsWith(REFS_USERS)
         || ref.startsWith(REFS_STARRED_CHANGES)
-        || ref.startsWith(REFS_REJECT_COMMITS);
+        || ref.startsWith(REFS_REJECT_COMMITS)
+        || ref.startsWith(REFS_VERSION);
   }
 
   static Integer parseShardedRefPart(String name) {

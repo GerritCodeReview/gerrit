@@ -39,6 +39,7 @@ import '../gr-file-list-header/gr-file-list-header';
 import '../gr-included-in-dialog/gr-included-in-dialog';
 import '../gr-messages-list/gr-messages-list';
 import '../gr-related-changes-list/gr-related-changes-list';
+import '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
 import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
@@ -221,15 +222,12 @@ export interface GrChangeView {
     replyOverlay: GrOverlay;
     replyDialog: GrReplyDialog;
     mainContent: HTMLDivElement;
-    relatedChanges: GrRelatedChangesList;
     changeStar: GrChangeStar;
     actions: GrChangeActions;
     commitMessage: HTMLDivElement;
     commitAndRelated: HTMLDivElement;
     metadata: GrChangeMetadata;
-    relatedChangesToggle: HTMLDivElement;
     mainChangeInfo: HTMLDivElement;
-    relatedChangesToggleButton: GrButton;
     replyBtn: GrButton;
   };
 }
@@ -1314,8 +1312,12 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
     this._initialLoadComplete = false;
     this._changeNum = value.changeNum;
-    this.$.relatedChanges.clear();
-
+    const relatedChanges = this.shadowRoot!.querySelector(
+      '#relatedChanges'
+    ) as GrRelatedChangesList | null;
+    if (relatedChanges) {
+      relatedChanges.clear();
+    }
     this._reload(true).then(() => {
       this._performPostLoadTasks();
     });
@@ -2282,9 +2284,14 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
     if (isLocationChange) {
       this._editingCommitMessage = false;
-      const relatedChangesLoaded = coreDataPromise.then(() =>
-        this.$.relatedChanges.reload()
-      );
+      const relatedChangesLoaded = coreDataPromise.then(() => {
+        const relatedChanges = this.shadowRoot!.querySelector(
+          '#relatedChanges'
+        ) as GrRelatedChangesList | null;
+        if (relatedChanges) {
+          relatedChanges.reload();
+        }
+      });
       allDataPromises.push(relatedChangesLoaded);
     }
 
@@ -2471,9 +2478,12 @@ export class GrChangeView extends KeyboardShortcutMixin(
     }
     const stylesToUpdate: {[key: string]: string} = {};
 
+    const relatedChanges = this.shadowRoot!.querySelector(
+      '#relatedChanges'
+    ) as GrRelatedChangesList | null;
     // Get the line height of related changes, and convert it to the nearest
     // integer.
-    const lineHeight = this._getLineHeight(this.$.relatedChanges);
+    const lineHeight = this._getLineHeight(relatedChanges!);
 
     // Figure out a new height that is divisible by the rounded line height.
     const remainder = newHeight % lineHeight;
@@ -2497,14 +2507,17 @@ export class GrChangeView extends KeyboardShortcutMixin(
     }
     // Prevents showMore from showing when click on related change, since the
     // line height would be positive, but related changes height is 0.
-    if (!this._getScrollHeight(this.$.relatedChanges)) {
+    const relatedChanges = this.shadowRoot!.querySelector(
+      '#relatedChanges'
+    ) as GrRelatedChangesList;
+    if (!this._getScrollHeight(relatedChanges)) {
       return (this._showRelatedToggle = false);
     }
 
     if (
-      this._getScrollHeight(this.$.relatedChanges) >
-      this._getOffsetHeight(this.$.relatedChanges) +
-        this._getLineHeight(this.$.relatedChanges)
+      this._getScrollHeight(relatedChanges) >
+      this._getOffsetHeight(relatedChanges) +
+        this._getLineHeight(relatedChanges)
     ) {
       return (this._showRelatedToggle = true);
     }
@@ -2512,10 +2525,16 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _updateToggleContainerClass(showRelatedToggle: boolean) {
+    const relatedChangesToggle = this.shadowRoot!.querySelector(
+      '#relatedChangesToggle'
+    ) as HTMLDivElement | null;
+    if (!relatedChangesToggle) {
+      return;
+    }
     if (showRelatedToggle) {
-      this.$.relatedChangesToggle.classList.add('showToggle');
+      relatedChangesToggle.classList.add('showToggle');
     } else {
-      this.$.relatedChangesToggle.classList.remove('showToggle');
+      relatedChangesToggle.classList.remove('showToggle');
     }
   }
 
@@ -2598,7 +2617,12 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleTopicChanged() {
-    this.$.relatedChanges.reload();
+    const relatedChanges = this.shadowRoot!.querySelector(
+      '#relatedChanges'
+    ) as GrRelatedChangesList | null;
+    if (relatedChanges) {
+      relatedChanges.reload();
+    }
   }
 
   _computeHeaderClass(editMode?: boolean) {

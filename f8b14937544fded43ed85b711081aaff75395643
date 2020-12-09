@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5f88fe2d_ca5f0df0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-09T13:17:29Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "26b238ed_d79a0837",
+      "revId": "f8b14937544fded43ed85b711081aaff75395643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff62e39c_16bbc14b",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
         "patchSetId": 15

@@ -49,7 +49,11 @@ import {
 } from '../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
+import {PatchRange, PatchSetNum} from './core';
 import {DiffInfo, IgnoreWhitespaceType, WebLinkInfo} from './diff';
+
+// TODO(oler): Clean up this indirection once the file structure of the types has stabilized
+export {PatchRange, PatchSetNum};
 
 export type BrandType<T, BrandName extends string> = T &
   {[__brand in BrandName]: never};
@@ -71,8 +75,6 @@ export type ElementPropertyDeepChange<
  * Type alias for parsed json object to make code cleaner
  */
 export type ParsedJSON = BrandType<unknown, '_parsedJSON'>;
-
-export type PatchSetNum = BrandType<'PARENT' | 'edit' | number, '_patchSet'>;
 
 export const EditPatchSetNum = 'edit' as PatchSetNum;
 // TODO(TS): This is not correct, it is better to have a separate ApiPatchSetNum
@@ -1610,15 +1612,6 @@ export interface SshKeyInfo {
 export interface HashtagsInput {
   add?: Hashtag[];
   remove?: Hashtag[];
-}
-
-/**
- * Defines a patch ranges. Used as input for gr-rest-api-interface methods,
- * doesn't exist in Rest API
- */
-export interface PatchRange {
-  patchNum: PatchSetNum;
-  basePatchNum: PatchSetNum;
 }
 
 /**

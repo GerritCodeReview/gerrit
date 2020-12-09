@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b16c5d88_66e8fe23",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-09T15:31:35Z",
+      "side": 1,
+      "message": "If we add \u0027changeNum\u0027 to other Params or add a new Params, it is very easy to forget update this method.\nInstead you can use Extract:\n  function hasChangeNum(\n    params: AppElementParams | GenerateUrlParameters\n  ): params is Extract\u003c\n    AppElementParams | GenerateUrlParameters,\n    {changeNum: NumericChangeId}\n  \u003e {\n    return \u0027changeNum\u0027 in params;\n  }\n\nOr maybe just inline this method?\n\nThe same for hasPatchNum.",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 33
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b938801a_4f984296",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-09T15:31:35Z",
+      "side": 1,
+      "message": "Let\u0027s not use \u0027_\u0027 prefix for new non-polymer properties and use private modifier instead.\nThe ts style guide doesn\u0027t allow it, so we shouldn\u0027t add it in a new code.",
+      "range": {
+        "startLine": 333,
+        "startChar": 2,
+        "endLine": 333,
+        "endChar": 8
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e418a1ef_12784fe9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-09T15:31:35Z",
+      "side": 1,
+      "message": "Can\u0027t find any call/reference to this method.",
+      "range": {
+        "startLine": 354,
+        "startChar": 2,
+        "endLine": 354,
+        "endChar": 14
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88fcb481_61c7e32d",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-09T15:31:35Z",
+      "side": 1,
+      "message": "Same comments as for router-model",
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8460427_3a08a201",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-09T15:31:35Z",
+      "side": 1,
+      "message": "If I understand this code correctly, there is a race condition here:\nif patchNum is set first and a change is loaded later, the currentPatchNum can\u0027t be used with a change in the model, because it can point to a non-existing patch.\n\nOne options is too pass the whole RouterState and ensure that change is valid:\n  currentPathNum \u003d combineLatest(routerState, change).pipe(\n    map([routerState, change] \u003d\u003e {\n       if(!change || change.id !\u003d\u003d routerState.changeNum) return undefined;\n       ...\n    });  \n\nBut maybe there are another solutions/recommended approach for this problem.",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 45
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e29accf_1e110912",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-09T15:31:35Z",
+      "side": 1,
+      "message": "You should wrap getChangeDetail in a cancelable promise, not the whole promise.\nWhen you wrap the chain of promises, only the last Promise in the chain is rejected.\nIn this code this means, that an ongoing request assigns change even if changeLoadingPromise.cancel() were called.\n\nP.S. Seems the same problem can be solved with switchMap (example: https://medium.com/@teebszet/recurse-with-rxjs-observables-and-switchmap-de5942532ea). Can we use it instead of cancallable promise?",
+      "range": {
+        "startLine": 45,
+        "startChar": 37,
+        "endLine": 45,
+        "endChar": 51
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ff4ac8b_74cf0e1e",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-09T15:31:35Z",
+      "side": 1,
+      "message": "Maybe initialState: Readonly\u003cRouterState\u003e\nAlso, maybe we should try to adapt this https://stackoverflow.com/questions/41879327/deepreadonly-object-typescript for nested objects",
+      "range": {
+        "startLine": 44,
+        "startChar": 27,
+        "endLine": 44,
+        "endChar": 38
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df79ccbd_7aa7e862",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-09T15:31:35Z",
+      "side": 1,
+      "message": "Why not \n  export interface RouterState {\n    view?: GerritView;\n    changeNum?: NumericChangeId;\n    patchNum?: PatchSetNum;\n  }\n\n  export const initialState: RouterState \u003d {};",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

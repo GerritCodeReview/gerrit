@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "16e6b76a_76513de7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-09T06:07:20Z",
+      "side": 1,
+      "message": "tested",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 4
+      },
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "08bccaa2_1a69bd8a",
@@ -14,6 +37,52 @@
       "writtenOn": "2020-12-09T05:33:40Z",
       "side": 1,
       "message": "Thanks Luca for getting tests added for this! Looks good, just a couple questions.",
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a0be21b_c5d37b06",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-09T06:07:20Z",
+      "side": 1,
+      "message": "Ssh session should not leak internal SSH channel implementation from JSch library.\n\nAs you know, I removed outdated and not supported JSch library in change 269976, and replaced it with Apache MINA SSH client.",
+      "range": {
+        "startLine": 84,
+        "startChar": 9,
+        "endLine": 84,
+        "endChar": 20
+      },
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "354a63c9_736e9dff",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-09T06:07:20Z",
+      "side": 1,
+      "message": "We gave up to try to read the SSH channel in other tests and extracted this kind of tests as integration tests. There are two existing tests:\n\n  javatests/com/google/gerrit/integration/git/UploadArchiveIT.java\n  javatests/com/google/gerrit/integration/ssh/PeerKeysAuthIT.java\n\nCan you design this test as external integration test? That way it wouldn\u0027t rely on JSch library.\n\nOtherwise, we should be sure, that this current approach would also work after removal of JSch library.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 100
+      },
       "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

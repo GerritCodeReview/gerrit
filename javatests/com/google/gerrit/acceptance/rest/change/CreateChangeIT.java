@@ -38,6 +38,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
@@ -74,6 +75,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -666,6 +669,51 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInput in = newMergeChangeInput("master", c0.getName(), "");
     assertCreateFails(
         in, ChangeAlreadyMergedException.class, "'" + c0.getName() + "' has already been merged");
+  }
+
+  @Test
+  public void dependentMergeChangesCanBeSubmittedTogether() throws Exception {
+    changeInTwoBranches("branch1", "foo.txt", "branch2", "bar.txt");
+    ChangeInput in1 = newMergeChangeInput("master", "branch1", "");
+    ChangeInfo change1 = assertCreateSucceeds(in1);
+    // Create the second change manually using Git. This is necessary because Gerrit would not allow
+    // us to rebase
+    // a merge commit onto change1.
+    TestRepository<InMemoryRepository> repo = cloneProject(project);
+    repo.git()
+        .fetch()
+        .setRefSpecs(
+            RefNames.patchSetRef(PatchSet.id(Change.id(change1._number), 1)) + ":c1",
+            "refs/heads/branch2:refs/heads/branch2",
+            "refs/heads/master:refs/heads/master")
+        .call();
+
+    RevCommit parent1 =
+        repo.getRepository().parseCommit(ObjectId.fromString(change1.currentRevision));
+    RevCommit parent2 =
+        repo.getRepository()
+            .parseCommit(repo.getRepository().exactRef("refs/heads/branch2").getObjectId());
+    RevCommit change2 =
+        repo.commit()
+            .parent(parent1)
+            .parent(parent2)
+            .message("Latest merge")
+            .insertChangeId()
+            .create();
+    String changeId2 = Iterables.getOnlyElement(change2.getFooterLines("Change-Id"));
+    repo.reset(change2);
+    repo.git().push().add("HEAD:refs/for/master").call();
+
+    assertThat(gApi.changes().id(change1.id).current().files().keySet())
+        .containsExactly("/COMMIT_MSG", "/MERGE_LIST");
+    assertThat(gApi.changes().id(changeId2).current().files().keySet())
+        .containsExactly("/COMMIT_MSG", "/MERGE_LIST", "bar.txt");
+
+    approve(change1.id);
+    approve(changeId2);
+    gApi.changes().id(changeId2).current().submit();
+    assertThat(gApi.changes().id(changeId2).get().status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(gApi.changes().id(change1.id).get().status).isEqualTo(ChangeStatus.MERGED);
   }
 
   @Test

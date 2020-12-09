@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d25e288_47b01719",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-09T16:52:22Z",
+      "side": 1,
+      "message": "Coincidentally GetBranchIT#getVersionMetaRef used to pass, but is now failing with change https://gerrit-review.googlesource.com/c/gerrit/+/287351, which reduces refs visibility to refs/heads/* instead of refs/*",
+      "revId": "875576ea5722cf7ac556aeb4766add367b267429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

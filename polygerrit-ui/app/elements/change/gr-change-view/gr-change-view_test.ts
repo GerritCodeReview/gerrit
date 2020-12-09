@@ -2193,9 +2193,10 @@ suite('gr-change-view tests', () => {
     });
 
     test('relatedChangesToggle shown height greater than changeInfo height', () => {
-      assert.isFalse(
-        element.$.relatedChangesToggle.classList.contains('showToggle')
+      const relatedChangesToggle = element.shadowRoot!.querySelector(
+        '#relatedChangesToggle'
       );
+      assert.isFalse(relatedChangesToggle!.classList.contains('showToggle'));
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getScrollHeight').callsFake(() => 60);
       sinon.stub(element, '_getLineHeight').callsFake(() => 5);
@@ -2205,16 +2206,15 @@ suite('gr-change-view tests', () => {
       element.$.relatedChanges.dispatchEvent(
         new CustomEvent('new-section-loaded')
       );
-      assert.isTrue(
-        element.$.relatedChangesToggle.classList.contains('showToggle')
-      );
+      assert.isTrue(relatedChangesToggle!.classList.contains('showToggle'));
       assert.equal(updateHeightSpy.callCount, 1);
     });
 
     test('relatedChangesToggle hidden height less than changeInfo height', () => {
-      assert.isFalse(
-        element.$.relatedChangesToggle.classList.contains('showToggle')
+      const relatedChangesToggle = element.shadowRoot!.querySelector(
+        '#relatedChangesToggle'
       );
+      assert.isFalse(relatedChangesToggle!.classList.contains('showToggle'));
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getScrollHeight').callsFake(() => 40);
       sinon.stub(element, '_getLineHeight').callsFake(() => 5);
@@ -2224,9 +2224,7 @@ suite('gr-change-view tests', () => {
       element.$.relatedChanges.dispatchEvent(
         new CustomEvent('new-section-loaded')
       );
-      assert.isFalse(
-        element.$.relatedChangesToggle.classList.contains('showToggle')
-      );
+      assert.isFalse(relatedChangesToggle!.classList.contains('showToggle'));
       assert.equal(updateHeightSpy.callCount, 1);
     });
 
@@ -2236,8 +2234,11 @@ suite('gr-change-view tests', () => {
         return {matches: false} as MediaQueryList;
       });
       assert.isTrue(element._relatedChangesCollapsed);
+      const relatedChangesToggleButton = element.shadowRoot!.querySelector(
+        '#relatedChangesToggleButton'
+      );
       assert.isTrue(element.$.relatedChanges.classList.contains('collapsed'));
-      tap(element.$.relatedChangesToggleButton);
+      tap(relatedChangesToggleButton!);
       assert.isFalse(element._relatedChangesCollapsed);
       assert.isFalse(element.$.relatedChanges.classList.contains('collapsed'));
     });

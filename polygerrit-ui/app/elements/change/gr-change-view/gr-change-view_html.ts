@@ -583,29 +583,34 @@ export const htmlTemplate = html`
                 </gr-endpoint-param>
               </gr-endpoint-decorator>
             </div>
-            <div class="relatedChanges">
-              <gr-related-changes-list
-                id="relatedChanges"
-                class$="[[_computeRelatedChangesClass(_relatedChangesCollapsed)]]"
-                change="[[_change]]"
-                mergeable="[[_mergeable]]"
-                has-parent="{{hasParent}}"
-                on-update="_updateRelatedChangeMaxHeight"
-                patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
-                on-new-section-loaded="_computeShowRelatedToggle"
-              >
-              </gr-related-changes-list>
-              <div id="relatedChangesToggle" class="collapseToggleContainer">
-                <gr-button
-                  link=""
-                  id="relatedChangesToggleButton"
-                  class="collapseToggleButton"
-                  on-click="_toggleRelatedChangesCollapsed"
+            <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
+              <gr-related-changes-list-experimental></gr-related-changes-list-experimental>
+            </template>
+            <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
+              <div class="relatedChanges">
+                <gr-related-changes-list
+                  id="relatedChanges"
+                  class$="[[_computeRelatedChangesClass(_relatedChangesCollapsed)]]"
+                  change="[[_change]]"
+                  mergeable="[[_mergeable]]"
+                  has-parent="{{hasParent}}"
+                  on-update="_updateRelatedChangeMaxHeight"
+                  patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
+                  on-new-section-loaded="_computeShowRelatedToggle"
                 >
-                  [[_computeCollapseText(_relatedChangesCollapsed)]]
-                </gr-button>
+                </gr-related-changes-list>
+                <div id="relatedChangesToggle" class="collapseToggleContainer">
+                  <gr-button
+                    link=""
+                    id="relatedChangesToggleButton"
+                    class="collapseToggleButton"
+                    on-click="_toggleRelatedChangesCollapsed"
+                  >
+                    [[_computeCollapseText(_relatedChangesCollapsed)]]
+                  </gr-button>
+                </div>
               </div>
-            </div>
+            </template>
           </div>
         </div>
       </div>

@@ -159,6 +159,30 @@
       },
       "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f4dc517_8783a314",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-09T17:09:11Z",
+      "side": 1,
+      "message": "\u003e \u003e Maybe we should have a schema migration that checks that the experiment is not disabled before the upgrade to 3.4 completes?\n\u003e \n\u003e Don\u0027t we have that implicitly by disabling it on 3.3 (\u003d not enabling it by default)? On master we won\u0027t disable the experiment, so 3.4 will ship with it.\n\u003e \n\u003e I don\u0027t expect anyone to come in and tweak this setting on stable 3.3.\n\n+1\n\nI know that the feature is *incomplete* because we (all of us) missed the E2E testing side of the stream events, and I started working on filling the gap.\n\nI am planning to finalise that change, include the extra data into the stream events, and fix the Jenkins CI integration.\n\nIn that way, the feature can be left enabled in v3.3.1 and fully working.",
+      "parentUuid": "0df81607_5a49b8da",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 88
+      },
+      "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

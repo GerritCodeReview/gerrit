@@ -46,6 +46,30 @@
       },
       "revId": "af0a9d48b816fa87adbea866b88d2d86b3f3aaf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "158f1c47_f41745c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-09T13:15:26Z",
+      "side": 1,
+      "message": "Yes, refs/for/ is only used for uploading. Read permission shouldn\u0027t be needed there.",
+      "parentUuid": "d12012bc_0e609ca3",
+      "range": {
+        "startLine": 17,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 45
+      },
+      "revId": "af0a9d48b816fa87adbea866b88d2d86b3f3aaf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

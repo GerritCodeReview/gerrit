@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "706214b6_d1b86357",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3365,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-09T23:41:06Z",
+      "side": 1,
+      "message": "I do not like the name, maybe it\u0027s just me :-)\nWhat about features?",
+      "range": {
+        "startLine": 3365,
+        "startChar": 2,
+        "endLine": 3365,
+        "endChar": 13
+      },
+      "revId": "b005980e7eef293ea8e4ee6623f936f781570a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

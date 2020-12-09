@@ -21,9 +21,11 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /** Input passed to {@code POST /changes/[id]/revisions/[id]/review}. */
 public class ReviewInput {
@@ -114,6 +116,15 @@ public class ReviewInput {
 
   public ReviewInput message(String msg) {
     message = msg != null && !msg.isEmpty() ? msg : null;
+    return this;
+  }
+
+  public ReviewInput patchSetLevelComment(String message) {
+    Objects.requireNonNull(message);
+    CommentInput comment = new CommentInput();
+    comment.message = message;
+    // TODO(davido): Because of cyclic dependency, we cannot use here Patch.PATCHSET_LEVEL constant
+    comments = Collections.singletonMap("/PATCHSET_LEVEL", Collections.singletonList(comment));
     return this;
   }
 

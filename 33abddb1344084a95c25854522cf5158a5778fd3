@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b34edd3_aee46518",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-09T09:49:10Z",
+      "side": 1,
+      "message": "Maybe annotate each parameter with /* comments */ or something similar.",
+      "revId": "33abddb1344084a95c25854522cf5158a5778fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c50b97c_b47e799a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-09T09:49:10Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "33abddb1344084a95c25854522cf5158a5778fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed4b399f_61cf52c5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-09T09:49:10Z",
+      "side": 1,
+      "message": "The other one is also ported over. Should it also get a comment?",
+      "revId": "33abddb1344084a95c25854522cf5158a5778fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9770083d_6fdf29d4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-09T09:49:10Z",
+      "side": 1,
+      "message": "These test object instantiations are hard to digest. Maybe create methods for creating them with meaningful names, e.g. createResolvedDraft(). And then below use the spread operator to copy and then only set the line and patchset.\n\nNote that I am a bit more pedantic than usual about tests, because I anticipate that we will want to add quite a few more tests for ported comments.",
+      "revId": "33abddb1344084a95c25854522cf5158a5778fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2da13bc9_afc8545a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-09T09:49:10Z",
+      "side": 1,
+      "message": "Maybe use a different line here. 5 is used twice, for the origin of one comment, and for the destination of another.",
+      "revId": "33abddb1344084a95c25854522cf5158a5778fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

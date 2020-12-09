@@ -105,9 +105,14 @@ export const htmlTemplate = html`
       font-size: var(--font-size-mono);
       line-height: var(--line-height-mono);
       margin-right: var(--spacing-l);
-      margin-bottom: var(--spacing-l);
       /* Account for border and padding and rounding errors. */
       max-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
+    }
+    .commitMessage .new-change-summary-false {
+      margin-bottom: var(--spacing-l);
+    }
+    .commitMessage .new-change-summary-true {
+      margin-bottom: 0;
     }
     .commitMessage gr-linked-text {
       word-break: break-word;
@@ -455,7 +460,7 @@ export const htmlTemplate = html`
                   >[[_replyButtonLabel]]</gr-button
                 >
               </div>
-              <div id="commitMessage" class="commitMessage">
+              <div id="commitMessage" class$="commitMessage new-change-summary-[[_isNewChangeSummaryUiEnabled]]">
                 <gr-editable-content
                   id="commitMessageEditor"
                   editing="[[_editingCommitMessage]]"
@@ -471,6 +476,9 @@ export const htmlTemplate = html`
                     remove-zero-width-space=""
                   ></gr-linked-text>
                 </gr-editable-content>
+                <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
+                </template>
+                <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
                 <gr-button
                   link=""
                   class="editCommitMessage"
@@ -493,20 +501,23 @@ export const htmlTemplate = html`
                   </span>
                 </div>
               </div>
-              <div
-                id="commitCollapseToggle"
-                class="collapseToggleContainer"
-                hidden$="[[!_commitCollapsible]]"
-              >
-                <gr-button
-                  link=""
-                  id="commitCollapseToggleButton"
-                  class="collapseToggleButton"
-                  on-click="_toggleCommitCollapsed"
+              <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
+                <div
+                  id="commitCollapseToggle"
+                  class="collapseToggleContainer"
+                  hidden$="[[!_commitCollapsible]]"
                 >
-                  [[_computeCollapseText(_commitCollapsed)]]
-                </gr-button>
-              </div>
+                  <gr-button
+                    link=""
+                    id="commitCollapseToggleButton"
+                    class="collapseToggleButton"
+                    on-click="_toggleCommitCollapsed"
+                  >
+                    [[_computeCollapseText(_commitCollapsed)]]
+                  </gr-button>
+                </div>
+              </template>
+
               <gr-endpoint-decorator name="commit-container">
                 <gr-endpoint-param name="change" value="[[_change]]">
                 </gr-endpoint-param>

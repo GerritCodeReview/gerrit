@@ -534,6 +534,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _isChecksEnabled = false;
 
+  @property({type: Boolean})
+  _isNewChangeSummaryUiEnabled = false;
+
   restApiService = appContext.restApiService;
 
   keyboardShortcuts() {
@@ -565,6 +568,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this._isChecksEnabled = this.flagsService.isEnabled(
       KnownExperimentId.CI_REBOOT_CHECKS
     );
+    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(KnownExperimentId.NEW_CHANGE_SUMMARY_UI);
   }
 
   /** @override */

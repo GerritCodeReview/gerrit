@@ -63,6 +63,30 @@
       },
       "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f09f7cf0_8909b38f",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-09T10:12:17Z",
+      "side": 1,
+      "message": "I also would like to see people migrating to new features ASAP.\n\nDon\u0027t get me wrong: I like patch set comment feature and I\u0027m looking forward to see performance improvement on change screen load. However, patch set comment feature is not complete yet: stream event integration part is still missing. And that why working change message feature cannot be replaced by default (!) with non complete feature.\n\nGerrit 3.3.0 is broken anyway, so that we have two options for upcoming 3.3.1 fix release:\n\n* 1. Fix mssing stream event integration for patch set comment feature and let it enabled per default (then we don\u0027t need this change)\n* 2. Disable patch set comment feature per default\n\nI don\u0027t see option 3, what this change is currently doing:\n\n* 3. Confirm that patch set comment feature is not complete, but enable it per default anyway and force gerrit users to disable it",
+      "parentUuid": "f1fe5f81_fe2afbd8",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 88
+      },
+      "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

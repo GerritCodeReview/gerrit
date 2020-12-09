@@ -105,6 +105,7 @@ import 'lodash/lodash';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
+import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -1104,7 +1105,10 @@ suite('gr-change-view tests', () => {
           },
         },
       };
-      sinon.stub(element.$.relatedChanges, 'reload');
+      const relatedChanges = element.shadowRoot!.querySelector(
+        '#relatedChanges'
+      ) as GrRelatedChangesList;
+      sinon.stub(relatedChanges, 'reload');
       sinon.stub(element, '_reload').returns(Promise.resolve([]));
       sinon.spy(element, '_paramsChanged');
       element.params = createAppElementChangeViewParams();
@@ -1512,7 +1516,11 @@ suite('gr-change-view tests', () => {
     const reloadPatchDependentStub = sinon
       .stub(element, '_reloadPatchNumDependentResources')
       .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
-    const relatedClearSpy = sinon.spy(element.$.relatedChanges, 'clear');
+    flush();
+    const relatedChanges = element.shadowRoot!.querySelector(
+      '#relatedChanges'
+    ) as GrRelatedChangesList;
+    const relatedClearSpy = sinon.spy(relatedChanges, 'clear');
     const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
 
     const value: AppElementChangeViewParams = {
@@ -1539,11 +1547,15 @@ suite('gr-change-view tests', () => {
     sinon.stub(element, '_reload').callsFake(() => Promise.resolve([]));
     sinon.stub(element, '_getCommitInfo');
     sinon.stub(element.$.fileList, 'reload');
+    flush();
     const reloadPortedCommentsStub = sinon.stub(
       element.$.commentAPI,
       'reloadPortedComments'
     );
-    sinon.spy(element.$.relatedChanges, 'clear');
+    const relatedChanges = element.shadowRoot!.querySelector(
+      '#relatedChanges'
+    ) as GrRelatedChangesList;
+    sinon.spy(relatedChanges, 'clear');
     sinon.stub(element.$.fileList, 'collapseAllDiffs');
 
     const value: AppElementChangeViewParams = {
@@ -1577,7 +1589,11 @@ suite('gr-change-view tests', () => {
 
   test('related changes are not updated after other action', done => {
     sinon.stub(element, '_reload').callsFake(() => Promise.resolve([]));
-    sinon.stub(element.$.relatedChanges, 'reload');
+    flush();
+    const relatedChanges = element.shadowRoot!.querySelector(
+      '#relatedChanges'
+    ) as GrRelatedChangesList;
+    sinon.stub(relatedChanges, 'reload');
     element._reload(true).then(() => {
       assert.isFalse(navigateToChangeStub.called);
       done();
@@ -2193,40 +2209,40 @@ suite('gr-change-view tests', () => {
     });
 
     test('relatedChangesToggle shown height greater than changeInfo height', () => {
-      assert.isFalse(
-        element.$.relatedChangesToggle.classList.contains('showToggle')
+      const relatedChangesToggle = element.shadowRoot!.querySelector(
+        '#relatedChangesToggle'
       );
+      assert.isFalse(relatedChangesToggle!.classList.contains('showToggle'));
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getScrollHeight').callsFake(() => 60);
       sinon.stub(element, '_getLineHeight').callsFake(() => 5);
       sinon.stub(window, 'matchMedia').callsFake(() => {
         return {matches: true} as MediaQueryList;
       });
-      element.$.relatedChanges.dispatchEvent(
-        new CustomEvent('new-section-loaded')
-      );
-      assert.isTrue(
-        element.$.relatedChangesToggle.classList.contains('showToggle')
-      );
+      const relatedChanges = element.shadowRoot!.querySelector(
+        '#relatedChanges'
+      ) as GrRelatedChangesList;
+      relatedChanges.dispatchEvent(new CustomEvent('new-section-loaded'));
+      assert.isTrue(relatedChangesToggle!.classList.contains('showToggle'));
       assert.equal(updateHeightSpy.callCount, 1);
     });
 
     test('relatedChangesToggle hidden height less than changeInfo height', () => {
-      assert.isFalse(
-        element.$.relatedChangesToggle.classList.contains('showToggle')
+      const relatedChangesToggle = element.shadowRoot!.querySelector(
+        '#relatedChangesToggle'
       );
+      assert.isFalse(relatedChangesToggle!.classList.contains('showToggle'));
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getScrollHeight').callsFake(() => 40);
       sinon.stub(element, '_getLineHeight').callsFake(() => 5);
       sinon.stub(window, 'matchMedia').callsFake(() => {
         return {matches: true} as MediaQueryList;
       });
-      element.$.relatedChanges.dispatchEvent(
-        new CustomEvent('new-section-loaded')
-      );
-      assert.isFalse(
-        element.$.relatedChangesToggle.classList.contains('showToggle')
-      );
+      const relatedChanges = element.shadowRoot!.querySelector(
+        '#relatedChanges'
+      ) as GrRelatedChangesList;
+      relatedChanges.dispatchEvent(new CustomEvent('new-section-loaded'));
+      assert.isFalse(relatedChangesToggle!.classList.contains('showToggle'));
       assert.equal(updateHeightSpy.callCount, 1);
     });
 
@@ -2236,10 +2252,16 @@ suite('gr-change-view tests', () => {
         return {matches: false} as MediaQueryList;
       });
       assert.isTrue(element._relatedChangesCollapsed);
-      assert.isTrue(element.$.relatedChanges.classList.contains('collapsed'));
-      tap(element.$.relatedChangesToggleButton);
+      const relatedChangesToggleButton = element.shadowRoot!.querySelector(
+        '#relatedChangesToggleButton'
+      );
+      const relatedChanges = element.shadowRoot!.querySelector(
+        '#relatedChanges'
+      ) as GrRelatedChangesList;
+      assert.isTrue(relatedChanges.classList.contains('collapsed'));
+      tap(relatedChangesToggleButton!);
       assert.isFalse(element._relatedChangesCollapsed);
-      assert.isFalse(element.$.relatedChanges.classList.contains('collapsed'));
+      assert.isFalse(relatedChanges.classList.contains('collapsed'));
     });
 
     test('_updateRelatedChangeMaxHeight without commit toggle', () => {
@@ -2510,7 +2532,11 @@ suite('gr-change-view tests', () => {
   });
 
   test('topic update reloads related changes', () => {
-    const reloadStub = sinon.stub(element.$.relatedChanges, 'reload');
+    flush();
+    const relatedChanges = element.shadowRoot!.querySelector(
+      '#relatedChanges'
+    ) as GrRelatedChangesList;
+    const reloadStub = sinon.stub(relatedChanges, 'reload');
     element.dispatchEvent(new CustomEvent('topic-changed'));
     assert.isTrue(reloadStub.calledOnce);
   });
@@ -2895,7 +2921,11 @@ suite('gr-change-view tests', () => {
   });
 
   test('_paramsChanged sets in projectLookup', () => {
-    sinon.stub(element.$.relatedChanges, 'reload');
+    flush();
+    const relatedChanges = element.shadowRoot!.querySelector(
+      '#relatedChanges'
+    ) as GrRelatedChangesList;
+    sinon.stub(relatedChanges, 'reload');
     sinon.stub(element, '_reload').returns(Promise.resolve([]));
     const setStub = stubRestApi('setInProjectLookup');
     element._paramsChanged({

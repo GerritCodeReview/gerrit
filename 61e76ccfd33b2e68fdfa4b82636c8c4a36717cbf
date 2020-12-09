@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25263cc7_c90f4c27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-09T06:09:01Z",
+      "side": 1,
+      "message": "I will fix tests after first round of reviews",
+      "revId": "61e76ccfd33b2e68fdfa4b82636c8c4a36717cbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -39,6 +39,30 @@
       },
       "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1fe5f81_fe2afbd8",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-09T08:22:53Z",
+      "side": 1,
+      "message": "\u003e Document these keys in release notes in this series, and amend the change from change 288131?\n\nYes. Will do. Since release notes are in the homepage repo, I\u0027ll send a separate change for that.\n\n\u003e Is it really a good idea to declare patchset_comments as default experiment feature?\n\nI understand your concern, but I feel strongly about avoiding having to tweak gerrit.config for any of these experiments. That\u0027s why we decided to go this way of declaring a set of defaults in the binary where we don\u0027t need any kind of migration and allow users to enable/disable in gerrit.config.\n\nThe experiment is already a default now in 3.3 right now because the keys were removed and hence the feature is in by default and you can\u0027t turn it off.\n\nI think that\u0027s the best way of getting people to migrate: Turn the new behavior on by default but allow them to revert using a simple setting. By that, they are forced to learn about a change that will break them in the next release when the setting will be gone and there\u0027s now way to revert. IMO this is better than release notes or other types of announcements that might or might not get read.\n\nWDYT?",
+      "parentUuid": "c44acaf0_4456ee0b",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 88
+      },
+      "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

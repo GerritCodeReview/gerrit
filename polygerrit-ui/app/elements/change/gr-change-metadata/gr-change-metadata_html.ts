@@ -49,7 +49,15 @@ export const htmlTemplate = html`
       pointer-events: none;
     }
     .hashtagChip {
-      margin-bottom: var(--spacing-m);
+      padding-bottom: var(--spacing-s);
+    }
+    /* consistent with section .title, .value */
+    .hashtagChip.new-change-summary-true:not(last-of-type) {
+      padding-bottom: var(--spacing-s);
+    }
+    .hashtagChip.new-change-summary-true:last-of-type {
+      display: inline;
+      vertical-align: top;
     }
     #externalStyle {
       display: block;
@@ -340,6 +348,7 @@ export const htmlTemplate = html`
             placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
             read-only="[[_topicReadOnly]]"
             on-changed="_handleTopicChanged"
+            show-as-edit-pencil="[[_isNewChangeSummaryUiEnabled]]"
           ></gr-editable-label>
         </template>
       </span>
@@ -377,7 +386,7 @@ export const htmlTemplate = html`
       <span class="value">
         <template is="dom-repeat" items="[[change.hashtags]]">
           <gr-linked-chip
-            class="hashtagChip"
+            class$="hashtagChip new-change-summary-[[_isNewChangeSummaryUiEnabled]]"
             text="[[item]]"
             href="[[_computeHashtagUrl(item)]]"
             removable="[[!_hashtagReadOnly]]"
@@ -394,6 +403,7 @@ export const htmlTemplate = html`
             placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
             read-only="[[_hashtagReadOnly]]"
             on-changed="_handleHashtagChanged"
+            show-as-edit-pencil="[[_isNewChangeSummaryUiEnabled]]"
           ></gr-editable-label>
         </template>
       </span>

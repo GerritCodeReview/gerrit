@@ -45,6 +45,7 @@ suite('gr-editable-label tests', () => {
   setup(async () => {
     element = basicFixture.instantiate();
     elementNoPlaceholder = noPlaceholderFixture.instantiate();
+    flush();
     label = element.shadowRoot.querySelector('label');
 
     await flush();
@@ -178,6 +179,7 @@ suite('gr-editable-label tests', () => {
 
     setup(() => {
       element = readOnlyFixture.instantiate();
+      flush();
       label = element.shadowRoot
           .querySelector('label');
     });

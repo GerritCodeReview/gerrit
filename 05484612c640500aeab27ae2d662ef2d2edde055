@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5364039_2fa9cac8",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-09T15:35:21Z",
+      "side": 1,
+      "message": "Changed the exception to a log statement because the existing test ChangeOperationsImplTest#createdChangeCanHaveMoreThanTwoParentsWhenBasedOnFirst relies on the old logic not throwing an exception.",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 92,
+        "endChar": 31
+      },
+      "revId": "05484612c640500aeab27ae2d662ef2d2edde055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4bb1ced_4ce0f080",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-09T15:35:21Z",
+      "side": 1,
+      "message": "minor fix: value GITLINK was missing in this map.",
+      "range": {
+        "startLine": 51,
+        "startChar": 10,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "05484612c640500aeab27ae2d662ef2d2edde055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

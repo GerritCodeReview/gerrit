@@ -553,7 +553,8 @@ export class GrCommentApi extends GestureEventListeners(
       ([comments, robotComments, drafts, portedComments]) => {
         this._changeComments = new ChangeComments(
           comments,
-          robotComments,
+          // TS 4.0.5 fails without 'as'
+          robotComments as PathToRobotCommentsInfoMap | undefined,
           drafts,
           portedComments
         );

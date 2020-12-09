@@ -19,4 +19,24 @@
  * limitations under the License.
  */
 
-// TODO(oler): Copy/move types here.
+/**
+ * Prevents "Duck-typing" and forces providing the
+ * correct named type and not anything compatible.
+ */
+export type BrandType<T, BrandName extends string> = T &
+  {[__brand in BrandName]: never};
+
+/** Identifier for a patch set. */
+export declare type PatchSetNum = BrandType<
+  'PARENT' | 'edit' | number,
+  '_patchSet'
+>;
+
+/**
+ * Defines a patch ranges. Used as input for gr-rest-api-interface methods,
+ * doesn't exist in Rest API
+ */
+export declare interface PatchRange {
+  patchNum: PatchSetNum;
+  basePatchNum: PatchSetNum;
+}

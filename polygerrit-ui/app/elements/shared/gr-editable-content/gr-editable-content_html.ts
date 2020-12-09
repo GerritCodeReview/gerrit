@@ -32,7 +32,7 @@ export const htmlTemplate = html`
       padding: var(--spacing-m);
     }
     :host([collapsed]) .viewer {
-      max-height: 36em;
+      max-height: var(--collapsed-max-height, 300px);
       overflow: hidden;
     }
     .editor iron-autogrow-textarea {

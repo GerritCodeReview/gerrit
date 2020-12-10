@@ -68,6 +68,24 @@
       "parentUuid": "1de2bc51_663fdff2",
       "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca4295d6_b6ddc1cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-10T09:54:07Z",
+      "side": 1,
+      "message": "It just makes it easier to find the types that are relevant to folks embedding gr-diff, and to ensure they are not renamed (by adding the declare keyword) in bundles that do use property renaming.\nIt also makes it easier for the Gerrit team to know which types they can change at will (because they are sort of internal to the Gerrit repository) and which types make up the API of the embedable gr-diff and should not be changed unless when versioned etc.",
+      "parentUuid": "7561e66e_633a4eef",
+      "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

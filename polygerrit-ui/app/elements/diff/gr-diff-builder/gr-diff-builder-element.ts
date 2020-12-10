@@ -43,17 +43,12 @@ import {
   GrRangedCommentLayer,
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
-import {Side} from '../../../constants/constants';
+import {DiffViewMode, Side} from '../../../constants/constants';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {getLineNumber} from '../gr-diff/gr-diff-utils';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
-
-const DiffViewMode = {
-  SIDE_BY_SIDE: 'SIDE_BY_SIDE',
-  UNIFIED: 'UNIFIED_DIFF',
-};
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 

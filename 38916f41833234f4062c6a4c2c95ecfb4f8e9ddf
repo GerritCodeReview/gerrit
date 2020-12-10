@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bde91fc2_4bd5277c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-10T11:58:34Z",
+      "side": 1,
+      "message": "Yes, params is {changeNum: NumericChangeId} works here too (argument type must also be adjusted a little bit).\nThe Extract doesn\u0027t add anything in this change, but in some situations it doesn\u0027t \"delete\" type information. Example:\n  if(hasChangeEnum(param)) {\n    // With Extract, other properties of param are accessible\n    // With  {changeNum: NumericChangeId} only changeNum are accessible\n  }",
+      "parentUuid": "d0fc4e6c_30193673",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 33
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b938801a_4f984296",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 1

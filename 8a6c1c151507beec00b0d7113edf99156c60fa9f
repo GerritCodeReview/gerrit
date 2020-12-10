@@ -16,6 +16,29 @@
       "message": "Could this change be cherry-picked to stable-3.3 branch (there is no conflicst)? The reason is: some plugins were adapted to this change (e.g. checks plugin) are not building any more against gerrit stable-3.3 branch. Of course another option would be to create stable-3.3 branch for those plugins.",
       "revId": "8a6c1c151507beec00b0d7113edf99156c60fa9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4957fc0f_533d8361",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2695,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-10T20:09:19Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be needed to use secondary index in this use case, as you have both Project.NameKey and Change.Id. The only missing part is ChangeNotes.Factory method that is accepting those parameters with collection of Change.Id. There is already another similar method that is also accepting Predicate in addition, so it can be used or a dedicated method without predicate can be created in ChangeNotes class:\n\n  notesFactory.create(\n      project.getNameKey(),\n      replaceByChange.values().stream().map(r -\u003e r.ontoChange).collect(toList()),\n      x -\u003e true);\n\nI tried the above change and all tests are passing. Given that we are handling here a collection of changes, it would be especially advantageous to avoid secondary index lookup for all those changes.",
+      "range": {
+        "startLine": 2695,
+        "startChar": 23,
+        "endLine": 2695,
+        "endChar": 45
+      },
+      "revId": "8a6c1c151507beec00b0d7113edf99156c60fa9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3bf04a4_20ddd8d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-10T20:52:02Z",
+      "side": 1,
+      "message": "Failing test in the CI is UploadArchiveIT. I did run the test locally and it passed. It seems unrelated to the change.",
+      "revId": "1ea2cb5737001fa448f485d3948aaa3352fd07b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

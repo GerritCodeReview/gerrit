@@ -22,6 +22,30 @@
       },
       "revId": "8ec363d6c0d225de230994609452538d202712f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00c6619c_9297ee52",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3673,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-10T09:11:05Z",
+      "side": 1,
+      "message": "This makes sure I only create a group if it exists (So I can call this many times in the same test). I can move the group to the method parameter though (require the empty group from the test instead).\n\nI just really wanted to make calling this method as easy as possible, providing the javadoc is already a bit too long.",
+      "parentUuid": "1ccd53ee_2e3d3973",
+      "range": {
+        "startLine": 3673,
+        "startChar": 8,
+        "endLine": 3673,
+        "endChar": 59
+      },
+      "revId": "8ec363d6c0d225de230994609452538d202712f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

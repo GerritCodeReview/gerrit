@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8249bfd0_206e43c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-10T10:57:19Z",
+      "side": 1,
+      "message": "Thanks for the explanation, Edwin.\n\nYes I think this change is not contradicting with what you wrote. Having the \"Access Database\" implies having read access to any NoteDb ref, but that doesn\u0027t mean that this ref is only visible to people with the \"Administrate Database\" authority.\n\nOn a separate note, looking at the javadocs of RefNames#isGerritRef\n\u003e Whether the ref is managed by Gerrrit. Covers all Gerrit-internal refs ...\n\nThis is true for refs/meta/version, so should be added to the list IIUC",
+      "parentUuid": "b5e0543f_fd55c858",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "875576ea5722cf7ac556aeb4766add367b267429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b294faad_4b20a392",

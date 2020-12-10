@@ -87,6 +87,23 @@
       "parentUuid": "5b08f5d4_48b34e46",
       "revId": "bbb1c2efd4f36c10aae1a181013c6cefb8da3885",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9994f93_b4a10b1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-10T18:24:59Z",
+      "side": 1,
+      "message": "We are on 2.4 at google. It\u0027s used in a number of plugins that we do use (find-owners, uploadvalidator), but do not own. I suppose it is fair game if the uploadvalidator folks start requiring newer versions of this (but it might be somewhat painful for us).",
+      "revId": "bbb1c2efd4f36c10aae1a181013c6cefb8da3885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

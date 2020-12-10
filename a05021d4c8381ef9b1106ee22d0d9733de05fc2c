@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "713c6910_8356a1da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-10T09:03:46Z",
+      "side": 1,
+      "message": "I\u0027d be OK with combining, but I do think the changes can stand on their own just by reading the subjects:\n\nFor example: \"Add support to reset cherryPickOf in NoteDb\". That\u0027s a unit you can ship. I think the commit message creates a bit of confusion because as Nasser says, it should state that this helps fix a bug on a subsequent change.\n\n\"Update existing change on cherry-pick with CommitApi\" is also a unit you can ship. It\u0027s a bugfix for an NPE.\n\n\"Verify destination change of cherry-pick before trying to update it\" is also a unit you can ship. It\u0027s a bugfix to improve the error messages for wrongly provided change-ids.\n\nIn any case, it\u0027s bikeshedding. I would leave it up to Marija to decide if she wants to squash or not.",
+      "parentUuid": "e50cd3fe_a7ba1077",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "476ce376_374dbfc4",
         "filename": "java/com/google/gerrit/server/change/ResetCherryPickOp.java",
         "patchSetId": 5

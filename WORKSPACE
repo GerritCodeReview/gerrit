@@ -920,12 +920,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "commons-io",
-    artifact = "commons-io:commons-io:2.4",
-    sha1 = "b1b6ea3b7e4aa4f492509a4952029cd8e48019ad",
-)
-
-maven_jar(
     name = "asciidoctor",
     artifact = "org.asciidoctor:asciidoctorj:1.5.7",
     sha1 = "8e8c1d8fc6144405700dd8df3b177f2801ac5987",

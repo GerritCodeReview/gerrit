@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0fc4e6c_30193673",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-10T09:45:17Z",
+      "side": 1,
+      "message": "If you really just want to have a type guard that will reject any type that does not have a field of this type and name, would it not be even simpler to just say:\n\nparams is {changeNum: NumericChangeId}\n\nWhat does the Extract add?",
+      "parentUuid": "b16c5d88_66e8fe23",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 33
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b938801a_4f984296",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 1
@@ -72,6 +96,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c48e5ed_206971fe",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-10T09:45:17Z",
+      "side": 1,
+      "message": "Is this the only place you would ever want to write this? If not, I think I would move this method to the model file, call it privateUpdateState or something like that, and then pass in some kind of changes object. Otherwise it will be easy to forget not to mutate and to always call next afterwards.",
+      "range": {
+        "startLine": 354,
+        "startChar": 2,
+        "endLine": 354,
+        "endChar": 14
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88fcb481_61c7e32d",
         "filename": "polygerrit-ui/app/services/change/change-model.ts",
         "patchSetId": 1
@@ -83,6 +130,29 @@
       "writtenOn": "2020-12-09T15:31:35Z",
       "side": 1,
       "message": "Same comments as for router-model",
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1aa7d60_c37ce95c",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-10T09:45:17Z",
+      "side": 1,
+      "message": "change service?",
+      "range": {
+        "startLine": 36,
+        "startChar": 28,
+        "endLine": 36,
+        "endChar": 42
+      },
       "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -112,6 +182,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb6f59d0_aaaabd2f",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-10T09:45:17Z",
+      "side": 1,
+      "message": "In NGRX we often make sure that the action that changes the changeNum also clears the change from the changeState. But the check you recommend here should work, too.",
+      "parentUuid": "e8460427_3a08a201",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 45
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3e29accf_1e110912",
         "filename": "polygerrit-ui/app/services/change/change-service.ts",
         "patchSetId": 1
@@ -129,6 +223,23 @@
         "endLine": 45,
         "endChar": 51
       },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cb58c5b_c9987c3f",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-10T09:45:17Z",
+      "side": 1,
+      "message": "I wonder what the rule is for when to put stuff into the model vs constants/constants. I actually like in the model better (I would completely remove constants/constants.ts because it creates this central dumping ground for stuff and defeats encapsulation and layering), but that is a tangential discussion.",
       "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

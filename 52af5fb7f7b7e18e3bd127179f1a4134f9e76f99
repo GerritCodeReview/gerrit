@@ -140,6 +140,24 @@
       "parentUuid": "bbe38046_a7b3fe6c",
       "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "274fb34a_352cb2f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-10T11:47:14Z",
+      "side": 1,
+      "message": "I would say this is a non-standard way of sharing types in the npm ecosystem.\nThe traditional way is to write all code as .ts files, then compile the code to .js and .d.ts file and distribute only .js + .d.ts files.\n\nAnother issue - it is impossible to define enums in .d.ts files. You made a workaround with union types instead of enum, but this is not good - we have to write string literals everywhere.\n\nI can suggest the following: let\u0027s commit this change but don\u0027t make more changes until it really necessary. And then let\u0027s together invest time in updating build rules (I am ready to spend some time on it together with someone from you team).\n\nWDYT?",
+      "parentUuid": "7df1d5e8_c3d12fd5",
+      "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

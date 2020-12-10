@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26b0d96b_97ece6b4",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-10T13:03:12Z",
+      "side": 1,
+      "message": "Nice, did not know about Extract\u003c\u003e. And surprised that inlining also works fine. Inlined. :-)",
+      "parentUuid": "b16c5d88_66e8fe23",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 33
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b938801a_4f984296",
@@ -109,6 +133,30 @@
       "writtenOn": "2020-12-09T15:31:35Z",
       "side": 1,
       "message": "Let\u0027s not use \u0027_\u0027 prefix for new non-polymer properties and use private modifier instead.\nThe ts style guide doesn\u0027t allow it, so we shouldn\u0027t add it in a new code.",
+      "range": {
+        "startLine": 333,
+        "startChar": 2,
+        "endLine": 333,
+        "endChar": 8
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7caba5d5_f42db809",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-10T13:03:12Z",
+      "side": 1,
+      "message": "Yeah, was just doing that for consistency, but maybe it is better to start using private. Done.",
+      "parentUuid": "b938801a_4f984296",
       "range": {
         "startLine": 333,
         "startChar": 2,
@@ -165,6 +213,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb0878e9_0098f972",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-10T13:03:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c48e5ed_206971fe",
+      "range": {
+        "startLine": 354,
+        "startChar": 2,
+        "endLine": 354,
+        "endChar": 14
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57f7d3a3_444b0fc3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-10T13:03:12Z",
+      "side": 1,
+      "message": "Oops, should be called from _setParams().",
+      "parentUuid": "e418a1ef_12784fe9",
+      "range": {
+        "startLine": 354,
+        "startChar": 2,
+        "endLine": 354,
+        "endChar": 14
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88fcb481_61c7e32d",
@@ -182,6 +278,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2923628a_4caac627",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-10T13:03:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88fcb481_61c7e32d",
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1aa7d60_c37ce95c",
@@ -195,6 +309,30 @@
       "writtenOn": "2020-12-10T09:45:17Z",
       "side": 1,
       "message": "change service?",
+      "range": {
+        "startLine": 36,
+        "startChar": 28,
+        "endLine": 36,
+        "endChar": 42
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d993239_f2759d98",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-10T13:03:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1aa7d60_c37ce95c",
       "range": {
         "startLine": 36,
         "startChar": 28,
@@ -252,6 +390,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b36cbc9_d4553cce",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-10T13:03:12Z",
+      "side": 1,
+      "message": "patchNum being available before the change is loaded was done on purpose. For example the Checks API calls just need the patchset number, not the change. So if you just need that, then you can kick off calling/processing before the change info is even loaded. Added a comment for that.\n\nI have also added `!change` to the if-clause, such we avoid inconsistencies: Change is still loaded/set (old change) and route already has new change number and new patchset number. So only accept the patchNum from the route, if change is undefined.",
+      "parentUuid": "e8460427_3a08a201",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 45
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e29accf_1e110912",
@@ -265,6 +427,30 @@
       "writtenOn": "2020-12-09T15:31:35Z",
       "side": 1,
       "message": "You should wrap getChangeDetail in a cancelable promise, not the whole promise.\nWhen you wrap the chain of promises, only the last Promise in the chain is rejected.\nIn this code this means, that an ongoing request assigns change even if changeLoadingPromise.cancel() were called.\n\nP.S. Seems the same problem can be solved with switchMap (example: https://medium.com/@teebszet/recurse-with-rxjs-observables-and-switchmap-de5942532ea). Can we use it instead of cancallable promise?",
+      "range": {
+        "startLine": 45,
+        "startChar": 37,
+        "endLine": 45,
+        "endChar": 51
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a36d12e2_f1b10c94",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-10T13:03:12Z",
+      "side": 1,
+      "message": "Good catch wrapping the wrong portion of the promise! Changed that.\n\nYes, once we change API calls to be observables instead of promises I agree, we should be using switchMap. That is the easier and better way than the fairly ugly makeCancelable() util. But I would like to defer this and make that in a separate change. Otherwise I am turning too much upside down. :-)",
+      "parentUuid": "3e29accf_1e110912",
       "range": {
         "startLine": 45,
         "startChar": 37,
@@ -292,6 +478,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8da3f038_cc3247b7",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-10T13:03:12Z",
+      "side": 1,
+      "message": "Totally agree. That is one benefit of adding models: We can also put all the relevant types here. Alternative: router-types.ts file in the same directory. But yeah, common.ts and constants.ts are dumping grounds that are not well thought out.",
+      "parentUuid": "9cb58c5b_c9987c3f",
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ff4ac8b_74cf0e1e",
@@ -315,6 +519,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b5c763c_f90457d7",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-10T13:03:12Z",
+      "side": 1,
+      "message": "Yeah, I don\u0027t want to enforce immutability somewhere and not everywhere. All states should be immutable, not just the initial state. And deeply too. DeepReadOnly is an interesting option, but maybe we should also consider a library like Immer. Added a TODO for that.",
+      "parentUuid": "8ff4ac8b_74cf0e1e",
+      "range": {
+        "startLine": 44,
+        "startChar": 27,
+        "endLine": 44,
+        "endChar": 38
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df79ccbd_7aa7e862",
@@ -328,6 +556,30 @@
       "writtenOn": "2020-12-09T15:31:35Z",
       "side": 1,
       "message": "Why not \n  export interface RouterState {\n    view?: GerritView;\n    changeNum?: NumericChangeId;\n    patchNum?: PatchSetNum;\n  }\n\n  export const initialState: RouterState \u003d {};",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eab4859_47da5e60",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-10T13:03:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df79ccbd_7aa7e862",
       "range": {
         "startLine": 38,
         "startChar": 0,

@@ -112,6 +112,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f470011_7961b768",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-10T10:53:19Z",
+      "side": 1,
+      "message": "The frontend parses only links in change messages, so it shouldn\u0027t be a problem until the content somehow matches regexps.\nWith provided example I don\u0027t see any problem.",
+      "parentUuid": "a9f40c41_f8cabe8d",
+      "range": {
+        "startLine": 505,
+        "startChar": 36,
+        "endLine": 505,
+        "endChar": 70
+      },
+      "revId": "551a8cb589e1dd5289458980b6f3d3a2c64e4e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88d6b026_ad23c9cb",

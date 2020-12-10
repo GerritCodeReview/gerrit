@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aaa0c4a_18a267a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-10T15:26:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2b874e3_f3a420bc",
+      "revId": "c3af62ba8720b7390da22dba5c71d089f9bf40ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2707ef71_33bbbb96",
@@ -107,6 +125,30 @@
         "startChar": 6,
         "endLine": 479,
         "endChar": 54
+      },
+      "revId": "c3af62ba8720b7390da22dba5c71d089f9bf40ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0693a324_b8ac83bf",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-10T15:26:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7e6cbc8_68eefc3c",
+      "range": {
+        "startLine": 479,
+        "startChar": 35,
+        "endLine": 479,
+        "endChar": 52
       },
       "revId": "c3af62ba8720b7390da22dba5c71d089f9bf40ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

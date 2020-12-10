@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6755f642_d3db3586",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-10T11:22:06Z",
+      "side": 1,
+      "message": "Could this change be cherry-picked to stable-3.3 branch (there is no conflicst)? The reason is: some plugins were adapted to this change (e.g. checks plugin) are not building any more against gerrit stable-3.3 branch. Of course another option would be to create stable-3.3 branch for those plugins.",
+      "revId": "8a6c1c151507beec00b0d7113edf99156c60fa9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

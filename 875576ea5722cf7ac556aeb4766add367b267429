@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f393a7a4_1965d2f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-10T13:09:00Z",
+      "side": 1,
+      "message": "typo: \"Access Database\" not \"Administrate Database\" in the previous comment.",
+      "parentUuid": "1e971a09_034c57ad",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "875576ea5722cf7ac556aeb4766add367b267429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b294faad_4b20a392",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

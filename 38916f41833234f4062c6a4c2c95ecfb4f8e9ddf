@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ab529f3_8b26e985",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-10T12:01:07Z",
+      "side": 1,
+      "message": "That is a good point.\nIt does add some odd dependencies, where something called `hasChangeEnum` actually tests whether it\u0027s one of a specific set of types that happen to be narrowed down by requiring them to have the changeNum...\nBut maybe that is useful in this case, I am not sure.",
+      "parentUuid": "bde91fc2_4bd5277c",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 33
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b938801a_4f984296",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 1

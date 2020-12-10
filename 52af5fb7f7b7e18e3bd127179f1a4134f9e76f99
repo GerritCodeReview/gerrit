@@ -122,6 +122,24 @@
       "parentUuid": "510ccc36_7385c5de",
       "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7df1d5e8_c3d12fd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-10T10:34:17Z",
+      "side": 1,
+      "message": "For enums, I would have to use `import type` to be sure as the type and the value has the same name, but I guess I could do that, otherwise decide that I don\u0027t mind having the enum values imported in both packages.\n\nOne more thing this makes a bit more tricky is setting up build rules: Code bases that embed gr-diff need a separate build target to depend on which has only the types. I could potentially achieve this by creating a build target that has types/ and constants/ as sources, and exclude those two folders from the main build target, adding a dep on the types/constants build target instead. Right now I do something similar by excluding d.ts files and having a separate build target for the d.ts files. The current approach has the advantage that we could decide to put the relevant API files together with he source code, e.g. into elements/diff/gr-diff-api/ or something like that. I was not sure if that would not eventually be desirable to avoid having a parallel hierarchy of files.\n\nAsking the other way around: What is the benefit of using ts only files? \nIn the end, I think we could make both approaches work - so if you have a strong preference for having only *.ts files, I can rename them back and try to adjust the build rules accordingly.",
+      "parentUuid": "bbe38046_a7b3fe6c",
+      "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

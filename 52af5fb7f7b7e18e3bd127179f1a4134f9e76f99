@@ -86,6 +86,42 @@
       "parentUuid": "7561e66e_633a4eef",
       "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fc92a31_2ef2c825",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-10T10:15:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ca4295d6_b6ddc1cb",
+      "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbe38046_a7b3fe6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-10T10:15:21Z",
+      "side": 1,
+      "message": "\u003e\u003eIt\u0027s a way to ensure that there are only types in the file.\nYes, I remember we discussed it. I\u0027ve read about it and made some tests. If a file A.ts has a code and types and another B.ts file imports type only, the generated B.js file doesn\u0027t import A.js file. \nSo, if we add a code into the file, the code shouldn\u0027t affect others in any way.\n\nDoes it work for you (i.e. do not use .d.ts files) ?",
+      "parentUuid": "510ccc36_7385c5de",
+      "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

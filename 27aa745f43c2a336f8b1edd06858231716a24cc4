@@ -209,6 +209,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a480cd5d_a951b1d3",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-10T23:50:11Z",
+      "side": 1,
+      "message": "Ack. Leaving unresolved so David can Ack.",
+      "parentUuid": "abab95ff_1e150273",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 100
+      },
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9064969d_6b5851e9",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 5
@@ -274,6 +298,24 @@
       "side": 1,
       "message": "We\u0027re reading in this test using a BufferedInputStream, which returns the data in lines.\nIf you don\u0027t have a final \u0027\\n\u0027 you cannot consume the line.",
       "parentUuid": "e127499a_0dbb8207",
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63724ff8_8a0f78a0",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-10T23:50:11Z",
+      "side": 1,
+      "message": "Ok. Can you update your comment to be clearer that this could be fixed in the test setup (maybe even add a FIXME or TODO?)?",
+      "parentUuid": "ef271dc7_e90372dd",
       "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

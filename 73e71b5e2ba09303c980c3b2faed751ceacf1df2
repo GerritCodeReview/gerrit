@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8df4f10b_99284e7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-10T10:49:43Z",
+      "side": 1,
+      "message": "Patch Set 1: Code-Review+1\n\nmessage from plugin\n",
+      "revId": "73e71b5e2ba09303c980c3b2faed751ceacf1df2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83a03ebc_c7c4cf02",
+        "filename": "polygerrit-ui/app/types/gr-diff.d.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-10T09:13:27Z",
+      "side": 1,
+      "message": "How is this different from core.d.ts?",
+      "revId": "a27a9600b6bbc4683bb3e9aaaec7d908cf8230d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

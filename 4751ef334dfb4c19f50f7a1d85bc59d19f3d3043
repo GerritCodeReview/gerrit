@@ -45,6 +45,30 @@
       },
       "revId": "4751ef334dfb4c19f50f7a1d85bc59d19f3d3043",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67d1707e_a1645808",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-10T12:32:51Z",
+      "side": 1,
+      "message": "I think, it\u0027s fine to put it there. It already has properties that are not intended for request (for example anonymizedUrl). I don\u0027t think we need to introduce new parameter.",
+      "parentUuid": "75d910cb_d6dcc25a",
+      "range": {
+        "startLine": 405,
+        "startChar": 6,
+        "endLine": 405,
+        "endChar": 32
+      },
+      "revId": "4751ef334dfb4c19f50f7a1d85bc59d19f3d3043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

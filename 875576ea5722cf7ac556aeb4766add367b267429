@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5e0543f_fd55c858",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-10T09:58:32Z",
+      "side": 1,
+      "message": "FYI, when writing this test I was wondering whether refs/meta/version should be considered as a protected NoteDb ref. I think I convinced myself that this ref is intentional visible to normal users (assuming they have READ permissions on it) and that it shouldn\u0027t require the Access Database capability. The reason is that users are allowed to fetch the NoteDb meta ref of changes that are visible to them, but to parse information from the NoteDb data they need to know the NoteDb version, which is what is stored in refs/meta/version. So I think if you can see NoteDb data, you should also be able to see the NoteDb version. Just my 2 cents :) \n\nOf course any user with Access Database should always be able to see this ref. Maybe this is what you are trying to fix?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "875576ea5722cf7ac556aeb4766add367b267429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b294faad_4b20a392",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

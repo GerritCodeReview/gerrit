@@ -76,7 +76,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
         new IndexRequest(projectState.getProject().getName(), indexName)
             .add(new UpdateRequest<>(schema, projectState));
 
-    String uri = getURI(type, BULK);
+    String uri = getURI(BULK);
     Response response = postRequest(uri, bulk, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
@@ -91,7 +91,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
   public DataSource<ProjectData> getSource(Predicate<ProjectData> p, QueryOptions opts)
       throws QueryParseException {
     JsonArray sortArray = getSortArray(ProjectField.NAME.getName());
-    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::projectFields), type, sortArray);
+    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::projectFields), sortArray);
   }
 
   @Override

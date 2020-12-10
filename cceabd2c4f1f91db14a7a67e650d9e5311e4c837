@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d175b4c1_ce289761",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-10T22:18:30Z",
+      "side": 1,
+      "message": "Actually it we have already extensive tests for CommentAddedEvent. I extended the tests to reflect the problem and the fix. Done.",
+      "parentUuid": "164ff970_313a5702",
+      "revId": "cceabd2c4f1f91db14a7a67e650d9e5311e4c837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cc7d8c7_2ab263ef",

@@ -50,6 +50,24 @@
       "message": "Any technical reason to split the common.ts file?\nI.e. I see the point to split types by usages, but depending on common.ts doesn\u0027t increase the size of .js file until you execute some code from this file - but there are no code in this file.",
       "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "510ccc36_7385c5de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-10T09:49:54Z",
+      "side": 1,
+      "message": "It\u0027s a way to ensure that there are only types in the file.\n\nI could use a regular ts file and a regular ts_library, but that would allow people to import Values such as constants/constants.ts - and that defeats the idea that this is only types - the API of gr-diff, to be pulled into a separately compiled bundle.\n\nd.ts can be used to describe the type shape of other code, and one important use case is describing the types of a JS file, but I don\u0027t think that is the only way it should be used.",
+      "parentUuid": "1de2bc51_663fdff2",
+      "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

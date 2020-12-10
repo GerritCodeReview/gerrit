@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22767c02_8a86330b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-10T18:28:46Z",
+      "side": 1,
+      "message": "sensitive?",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "a9e8e02b34ce580b6efa68ffd7f5c8fd036a1892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4625c3bc_b3436398",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-10T18:28:46Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "a9e8e02b34ce580b6efa68ffd7f5c8fd036a1892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a5bfaaf_86d0b88b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-10T18:28:46Z",
+      "side": 1,
+      "message": "this is not included in the change :-)",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 2
+      },
+      "revId": "a9e8e02b34ce580b6efa68ffd7f5c8fd036a1892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d0910e3_486c961a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-10T18:28:46Z",
+      "side": 1,
+      "message": "nits",
+      "revId": "a9e8e02b34ce580b6efa68ffd7f5c8fd036a1892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06fc5864_26aedfb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-10T13:07:55Z",
+      "side": 1,
+      "message": "See follow-up change. Withouut this change the follow-up change is red, with this test it\u0027s green. We could squash those changes, though.",
+      "parentUuid": "adf8485d_a1954cd4",
+      "revId": "cceabd2c4f1f91db14a7a67e650d9e5311e4c837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cc7d8c7_2ab263ef",

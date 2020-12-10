@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9f6a6f40_617d8227",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-10T22:48:15Z",
+      "side": 1,
+      "message": "I generally don\u0027t think commits like \"Add support to \u003cdo some backend thing\u003e\" stand on their own because if no future change comes along to use that new backend thing, it\u0027s just bloat and there\u0027s no point merging it. I have exceptions to that for significantly large backend things that are difficult to review, but even then I look for ways to break them up so that I\u0027m shipping something a customer can use in each change. I do understand that others draw that line differently than I do, so I\u0027m not trying to impose my bar on Marija here.\n\nThis conversation came from me trying to understand the intent of *this* change. I think at this point I understand the intent to be \"Provide a way to reset cherryPickOf in NodeDb so that it can be used by the child change which fixes bugs in a mechanism where users would expect this feature\". That\u0027s hard to describe in a commit message (and bravo to Marija for trying several times to get it right!). I think if you reversed the first two commits and did the NPE bug fix first (acknowledging/ignoring that it would do the \"wrong thing\" for cherryPickOf since this was really an oversight when cherryPickOf was added), then this commit is much easier to describe: \"Reset cherryPickOf when using the cherry-pick CommitAPI\" and this commit naturally would add support for reseting cherryPickOf in NoteDb. Then your series is 1) Bug fix for NPE, 2) Behavior fix for cherryPickOf, 3) Bug/behavior fix for error messages. I would find that much easier to review.",
+      "parentUuid": "4ce32e0f_a05987ed",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "476ce376_374dbfc4",
         "filename": "java/com/google/gerrit/server/change/ResetCherryPickOp.java",
         "patchSetId": 5

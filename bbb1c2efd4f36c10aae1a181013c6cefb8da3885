@@ -16,6 +16,23 @@
       "message": "@Edwin is this something that Google can accept with a LC +1?\n(Gerrit core doesn\u0027t use it anyway, it is just needed by the delete-project plugin)",
       "revId": "bbb1c2efd4f36c10aae1a181013c6cefb8da3885",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9880dec_70773bc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-10T16:20:52Z",
+      "side": 1,
+      "message": "Alternative proposal: *getting rid* of commons-io altogether :-)",
+      "revId": "bbb1c2efd4f36c10aae1a181013c6cefb8da3885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

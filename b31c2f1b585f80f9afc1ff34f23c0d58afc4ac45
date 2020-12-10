@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b497095c_9391ba42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-10T19:37:42Z",
+      "side": 1,
+      "message": "This is needed to build checks plugins from main branch against gerrit stable-3.3 branch. Of course the alternative would be to create stable-3.3 branch in checks repository.",
+      "revId": "b31c2f1b585f80f9afc1ff34f23c0d58afc4ac45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

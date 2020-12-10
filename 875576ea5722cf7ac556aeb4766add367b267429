@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea74e4eb_bbfec0d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-10T13:20:46Z",
+      "side": 1,
+      "message": "Access Database should grant you access to all refs. If this is unclear in the documentation, we should update it.\n\n\u003e Now that I changed the default permissions to refs/heads/* instead of refs/*\n\u003e (in change https://gerrit-review.googlesource.com/c/gerrit/+/287351), that test was broken.\n\nI guess it makes sense if we keep the READ permission for refs/meta/version for anonymous users by default (grant READ on refs/heads/* and READ on refs/meta/version on init, instead of READ on refs/*). Alternatively the test could be adapted to grant READ on refs/meta/version and then check that it makes this ref accessible.",
+      "parentUuid": "f393a7a4_1965d2f9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "875576ea5722cf7ac556aeb4766add367b267429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b294faad_4b20a392",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

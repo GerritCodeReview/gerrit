@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d58b2b5f_e4530d1d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-10T09:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbc4f6a_7147febe",
+      "range": {
+        "startLine": 1463,
+        "startChar": 0,
+        "endLine": 1463,
+        "endChar": 5
+      },
+      "revId": "551a8cb589e1dd5289458980b6f3d3a2c64e4e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "350fcadd_4dcda909",
@@ -54,6 +78,30 @@
       "writtenOn": "2020-12-04T15:59:01Z",
       "side": 1,
       "message": "The change looks good from a backend perspective but I am concerned this will break the UI, as I see the parsing for change messages is non-trivial in the frontend logic, just based on how I see the \"Patch Set 1: Code-Review+1\\n\\n(4 comments)\" presented in the UI.\n\nCan you check with the someone from the frontend if this will look OK? Alternatively, we could extend ChangeUpdate to allow multiple change messages (but I would prefer the current solution + a frontend change if needed to ensure it looks good).\n\ncc @dmfilippov for input.",
+      "range": {
+        "startLine": 505,
+        "startChar": 36,
+        "endLine": 505,
+        "endChar": 70
+      },
+      "revId": "551a8cb589e1dd5289458980b6f3d3a2c64e4e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9f40c41_f8cabe8d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-10T09:44:25Z",
+      "side": 1,
+      "message": "Oh, thanks for pointing this out. I was not aware about any parsing logic in the frontend.",
+      "parentUuid": "350fcadd_4dcda909",
       "range": {
         "startLine": 505,
         "startChar": 36,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3388b12e_9d1ee418",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-10T09:44:25Z",
+      "side": 1,
+      "message": "I wanted to test that the callback gets the right data.\nI agree that these assertions are not super important and could be dropped. But let me try to rewrite the tests to make the intent more clear. Let me know if the new tests look ok to you now.",
+      "parentUuid": "88d6b026_ad23c9cb",
+      "range": {
+        "startLine": 534,
+        "startChar": 0,
+        "endLine": 539,
+        "endChar": 0
+      },
+      "revId": "551a8cb589e1dd5289458980b6f3d3a2c64e4e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c942f32_0a496980",
@@ -100,6 +172,30 @@
       "writtenOn": "2020-12-04T15:59:01Z",
       "side": 1,
       "message": "I don\u0027t understand this test - did you maybe forget an assertion?",
+      "range": {
+        "startLine": 587,
+        "startChar": 0,
+        "endLine": 590,
+        "endChar": 0
+      },
+      "revId": "551a8cb589e1dd5289458980b6f3d3a2c64e4e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0040600e_86bfdda9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-10T09:44:25Z",
+      "side": 1,
+      "message": "It\u0027s testing that the callback gets patch set 1 as input, if the request is done for patch set 1 but a newer patch set already exists. I rewrote this and hope it\u0027s clearer now.",
+      "parentUuid": "3c942f32_0a496980",
       "range": {
         "startLine": 587,
         "startChar": 0,

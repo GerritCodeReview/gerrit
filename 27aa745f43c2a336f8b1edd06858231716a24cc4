@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "630f6c6e_bf5e206e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-10T23:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16e6b76a_76513de7",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 4
+      },
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "08bccaa2_1a69bd8a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -316,6 +340,24 @@
       "side": 1,
       "message": "Ok. Can you update your comment to be clearer that this could be fixed in the test setup (maybe even add a FIXME or TODO?)?",
       "parentUuid": "ef271dc7_e90372dd",
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80bdb43e_6529aec3",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-10T23:52:21Z",
+      "side": 1,
+      "message": "Do you have any suggestions on how to fix it in the setup?",
+      "parentUuid": "63724ff8_8a0f78a0",
       "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

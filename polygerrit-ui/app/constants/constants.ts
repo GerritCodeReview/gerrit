@@ -18,6 +18,7 @@
 /**
  * @desc Tab names for primary tabs on change view page.
  */
+import {DiffViewMode} from '../api/diff';
 import {DiffPreferencesInfo} from '../types/diff';
 import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
 
@@ -291,14 +292,7 @@ export enum TimeFormat {
   HHMM_24 = 'HHMM_24',
 }
 
-/**
- * Diff type in preferences
- * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
- */
-export enum DiffViewMode {
-  SIDE_BY_SIDE = 'SIDE_BY_SIDE',
-  UNIFIED = 'UNIFIED_DIFF',
-}
+export {DiffViewMode};
 
 /**
  * The type of email strategy to use.

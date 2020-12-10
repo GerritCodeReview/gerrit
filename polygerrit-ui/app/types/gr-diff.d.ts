@@ -30,3 +30,6 @@
 
 // Needs to be kept compatible with DiffViewMode from constants/constants.ts
 export declare type DiffViewModeType = 'SIDE_BY_SIDE' | 'UNIFIED_DIFF';
+
+// Needs to be kept compatible with Side from constants/constants.ts
+export declare type SideType = 'left' | 'right';

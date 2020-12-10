@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ce32e0f_a05987ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-10T15:26:40Z",
+      "side": 1,
+      "message": "I tried my best to update the change description with all the suggestions.\nLet me know if it is more readable now?\n\nI am still keeping the changes separate though.",
+      "parentUuid": "713c6910_8356a1da",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "476ce376_374dbfc4",
         "filename": "java/com/google/gerrit/server/change/ResetCherryPickOp.java",
         "patchSetId": 5
@@ -85,6 +109,30 @@
       "writtenOn": "2020-12-08T13:26:47Z",
       "side": 1,
       "message": "This class needs no injected fields, so I\u0027d remove the @Singleton and just create a new instance when needed using the default constructor (new ResetCherryPickOp)",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 10
+      },
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f50edaa_a943ede4",
+        "filename": "java/com/google/gerrit/server/change/ResetCherryPickOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-10T15:26:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "476ce376_374dbfc4",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -112,6 +160,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f0eda1d_c8bd1ba9",
+        "filename": "java/com/google/gerrit/server/change/ResetCherryPickOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-10T15:26:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f3f63e8_05eea0df",
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb73b734_06ba5827",
@@ -135,6 +201,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c046cde4_848ee413",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-10T15:26:40Z",
+      "side": 1,
+      "message": "We actually parse Note Db from the tip (newest commit) to the oldest, in parse,\nhttps://gerrit.googlesource.com/gerrit/+/refs/changes/69/290069/5/java/com/google/gerrit/server/notedb/ChangeNotesParser.java#329\n\nFor many fields (e.g. changeId), we only parse the newest value so \u0027null\u0027 represents unparsed.\n\nSo parsing in reverse order c5 -\u003e c1, without the \u0027unparsed\u0027 state, in your example the result would be x (Also, the test would fail).",
+      "parentUuid": "fb73b734_06ba5827",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 55
+      },
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c3a0cd6_74a2dd48",
@@ -148,6 +238,30 @@
       "writtenOn": "2020-12-08T13:20:24Z",
       "side": 1,
       "message": "How about using a second variable here to signal that we want to delete cherryPickOf?\n\nprivate String cherryPickOf; // If set, sets or overrides the cherryPickOf field\nprivate Boolean removeCherryPickOf; // If set, removes any existing cherryPickOf\n\nIt seems this class is pretty much used to @Nullable values - the way I read it is that any field that\u0027s null won\u0027t be touched. I don\u0027t think that\u0027s a very good way of representing updates - Optionals are much better (see InternalAccountUpdate for a good example), but I\u0027d rather not change the pattern for just a single field. In that case, IMO it\u0027s better to follow what\u0027s already there and use two fields.\n\nI would also remove the @Nullable annotation here. All fields are nullable (adding the annotation to all fields would work, but I am not sure that really increases readability).",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 50
+      },
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a083ca4_cfca014f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-10T15:26:40Z",
+      "side": 1,
+      "message": "I actually have used the idea of Optional from assignee update:\nhttps://gerrit.googlesource.com/gerrit/+/refs/changes/69/290069/5/java/com/google/gerrit/server/notedb/ChangeUpdate.java#648\n\nI would keep all cherry-pick related updates tied to a single variable, so I won\u0027t need to deal with the situation when both removeCherryPickOf and cherryPickOf are present somehow. WDYT?\n\nI removed @Nullable, It might be redundant with the comment and the way this class uses null.",
+      "parentUuid": "4c3a0cd6_74a2dd48",
       "range": {
         "startLine": 158,
         "startChar": 0,

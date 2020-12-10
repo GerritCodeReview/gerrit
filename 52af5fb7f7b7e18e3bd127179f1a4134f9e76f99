@@ -16,6 +16,23 @@
       "message": "Dmitrii, can you also have a look and +2 if you are ok with this approach?",
       "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1de2bc51_663fdff2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-10T09:27:25Z",
+      "side": 1,
+      "message": "Why can\u0027t we have ordinary .ts file instead .d.ts?\nAs I know, the manually written .d.ts file is used for .js code.",
+      "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

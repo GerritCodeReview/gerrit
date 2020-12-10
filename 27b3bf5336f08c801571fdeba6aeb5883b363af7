@@ -16,6 +16,24 @@
       "message": "This needs LC +1, @Ben @Han-Wen @Patrick can anyone help?\n(Gerrit core doesn\u0027t use commons-io anyway, and we are try to get rid of it on all core plugins in the meantime)",
       "revId": "27b3bf5336f08c801571fdeba6aeb5883b363af7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8235a7f6_bb5f7494",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-10T18:26:13Z",
+      "side": 1,
+      "message": "+1 to dropping from plugins.",
+      "parentUuid": "628e6fba_5c2e17e9",
+      "revId": "27b3bf5336f08c801571fdeba6aeb5883b363af7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

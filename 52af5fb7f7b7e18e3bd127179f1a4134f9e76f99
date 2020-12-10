@@ -158,6 +158,24 @@
       "parentUuid": "7df1d5e8_c3d12fd5",
       "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd8bb9ae_8d62d581",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-10T11:57:05Z",
+      "side": 1,
+      "message": "I would prefer to spend the time to find the good solution now - I am not in a rush with this change - it\u0027s a cleanup that is not urgent, but has been on my backburner for a while already.\n\nOne small remark regarding enums: You don\u0027t actually have to change your code to use string literals - so long as the interfaces I plan to introduce use string literals which are compatible with your enums, this works in TS: https://www.typescriptlang.org/play?#code/PTAEHUFMBsGMHsC2lQBd5oBYoCoE8AHSAZVgCcBLA1UABWgEM8BzM+AVwDsATAGiwoBnUENANQAd0gAjQRVSQAUCEmYKsTKGYUAbpGF4OY0BoadYKdJMoL+gzAzIoz3UNEiPOofEVKVqAHSKymAAmkYI7NCuqGqcANag8ABmIjQUXrFOKBJMggBcISGgoAC0oACCoASMFmgY7p7ehCTkVOle4jUMdRLYTqCc8LEZzCZmoNJODPHFZZXVtZYYkAAeRJTInDQS8po+rf40gnjbDKv8LqD2jpbYoACqAEoAMsK7sUmxkGSCc+VVQQuaTwVb1UBrDYULY7PagbgUZLJH6QbYmJAECjuMigZEMVDsJzCFLNXxtajBBCcQQ0MwAUVWDEQNUgADVHBQGNJ3KAALygABEAAkYNAMOB4GRogLFFTBPB3AExcwABT0xnM9zsyhc9wASmCKhwDQ8ZC8iElzhB7Bo3zcZmY7AYzEg-Fg0HUiS58D0Ii8AoZTJZggFSRxAvADlQAHJhAA5SASAVBFQAeW+ZF2gldWkgx1QjgUrmkeFATgtOlGWH0KAQiBhwiudokkuiIgMHBx3RYbC43CCwVQLVArIoiYAsvBuJADnzQNHiABJAAidIA+gAhUJrper6MAH2jDzji4AYou6cvowBuYKo9iIEdjiST6egADeihKJV3663O5XOk5wXQDN23X9o14L9v2PM8L2XYDYPPS9o0UABfYJZXgakaErCcp0gfIn3wt9+VHEjIACX8wIA1dbzlXDn1fSAXnkH4GGgIjyJfAjZ35PCeOnW8SkURFQBVATmNYhQyA4vleTIpiCKo0D-1-PUP2gko5QVSjlRVaM6wIfEKG5SBoz1W8MNE7YfmSHoUAAcTIZdEWSWdPxKSSCK4pTpwOKzKUYQRhGc1ykRETVIAbUAwrcjytNAbzp18ii5245iVNXGjfysoA\n\nBut you are right, it does add some duplication in that you have to create those string literals and keep them up to date.\n\nMaybe can we first discuss the question of where we want these files to live long term (in a separate types/ hierarchy or along side the implementations in the main hierarchy)? I find in the main hierarchy slightly cleaner, but can live with either.  Once we have an agreement on that, I think we can revisit the d.ts files - I am okay to move to ts files, just want to make sure we have a good solution for the build targets.",
+      "parentUuid": "274fb34a_352cb2f8",
+      "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

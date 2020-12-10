@@ -137,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09f63935_47dd7680",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-10T21:37:51Z",
+      "side": 1,
+      "message": "You can always copy+paste first and then refactor to share later (especially for test code).",
+      "parentUuid": "40d47c7c_e6428287",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 100
+      },
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9064969d_6b5851e9",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 5
@@ -166,6 +190,24 @@
       "side": 1,
       "message": "Because you need the previous line to be flushed with a newline in the stream events output.\nIt doesn\u0027t have to be an abandon() but just \"something\" that triggers a new event.",
       "parentUuid": "9064969d_6b5851e9",
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e127499a_0dbb8207",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-10T21:37:51Z",
+      "side": 1,
+      "message": "That seems strange? If I connect to stream-events via command line, it doesn\u0027t have this problem, correct?",
+      "parentUuid": "5828af0d_9f88b6ec",
       "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -230,6 +272,30 @@
       "side": 1,
       "message": "The string could be contained more than once.",
       "parentUuid": "1eca47d2_d56a32c7",
+      "range": {
+        "startLine": 80,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 38
+      },
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1f534d3_ad430cad",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-10T21:37:51Z",
+      "side": 1,
+      "message": "Maybe rename this method then? getEventsContaining(String reviewComment)? // you can skip passing streamEventsReader and just use it from the class",
+      "parentUuid": "3f418dfc_820fc5ca",
       "range": {
         "startLine": 80,
         "startChar": 8,

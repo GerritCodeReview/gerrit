@@ -231,6 +231,30 @@
       },
       "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24ad0d71_ebbeb9cc",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-10T18:19:09Z",
+      "side": 1,
+      "message": "the plan sounds OK.  But we will still submit this change, right? There might be other CI system that rely on this feature.\n\nMy earlier remark is just about upgrades: we want to avoid the situation where someone upgrades, and only then discovers their CI is broken, because they might not have way to downgrade gerrit again. Hence my idea to check if the feature is enabled.",
+      "parentUuid": "ce39fbc1_da102182",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 88
+      },
+      "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

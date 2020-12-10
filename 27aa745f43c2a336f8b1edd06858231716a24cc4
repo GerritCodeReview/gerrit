@@ -214,6 +214,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef271dc7_e90372dd",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-10T23:37:32Z",
+      "side": 1,
+      "message": "We\u0027re reading in this test using a BufferedInputStream, which returns the data in lines.\nIf you don\u0027t have a final \u0027\\n\u0027 you cannot consume the line.",
+      "parentUuid": "e127499a_0dbb8207",
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a63cfdf0_6a22ff9d",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 5
@@ -225,6 +243,30 @@
       "writtenOn": "2020-12-09T23:52:35Z",
       "side": 1,
       "message": "I should assert the size of the collection, rather than just not empty",
+      "range": {
+        "startLine": 71,
+        "startChar": 74,
+        "endLine": 71,
+        "endChar": 87
+      },
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd4e483d_1fa128f2",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-10T23:37:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a63cfdf0_6a22ff9d",
       "range": {
         "startLine": 71,
         "startChar": 74,
@@ -296,6 +338,30 @@
       "side": 1,
       "message": "Maybe rename this method then? getEventsContaining(String reviewComment)? // you can skip passing streamEventsReader and just use it from the class",
       "parentUuid": "3f418dfc_820fc5ca",
+      "range": {
+        "startLine": 80,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 38
+      },
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "492678b4_555ba2b0",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-10T23:37:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a1f534d3_ad430cad",
       "range": {
         "startLine": 80,
         "startChar": 8,

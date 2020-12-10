@@ -29,6 +29,7 @@ import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
 import {GrDiffBuilder} from './gr-diff-builder.js';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {DiffViewMode} from '../../../api/diff-types.js';
 
 const basicFixture = fixtureFromTemplate(html`
     <gr-diff-builder>
@@ -45,11 +46,6 @@ const mockDiffFixture = fixtureFromTemplate(html`
       <table id="diffTable"></table>
     </gr-diff-builder>
 `);
-
-const DiffViewMode = {
-  SIDE_BY_SIDE: 'SIDE_BY_SIDE',
-  UNIFIED: 'UNIFIED_DIFF',
-};
 
 suite('gr-diff-builder tests', () => {
   let prefs;

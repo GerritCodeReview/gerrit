@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c60cb0c_b77b2b31",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-10T16:04:00Z",
+      "side": 1,
+      "message": "sorry for the delay in looking at this.\n\nAt google, we\u0027re on 4.5.2 - would it work to upgrade to that version instead?",
+      "range": {
+        "startLine": 804,
+        "startChar": 16,
+        "endLine": 804,
+        "endChar": 24
+      },
+      "revId": "e0520a99a933aca17274aa23f1eab5c1fd11a41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

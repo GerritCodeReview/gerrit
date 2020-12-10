@@ -416,6 +416,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8b642a33_7037f0c5",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-10T14:55:35Z",
+      "side": 1,
+      "message": "Let\u0027s assume there is an element:\n  class GrElement extends GrLitElement {\n    private currentPatchNum;\n    private change;\n    render() {\n       return getShaForPatchset(this.change, this.currentPatchNum);\n    }\n    connectedCallback() {\n      subscribe(\u0027currentPatchNum\u0027, currentPatchNum$);\n      subscribe(\u0027change\u0027, change$);\n    }\n  }\n\nAssign a new params to router.\npatchNum$ is updated, change is loading;\nthe currentPatchNum$ combines the *new* patchNum and the *old* change and returns the new patchNum.\nIt triggers render and passes the old change and the new currentPatchNum to the getShaForPatchset, that\u0027s not we want.\n\nPlease correct me where I am wrong.",
+      "parentUuid": "2b36cbc9_d4553cce",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 45
+      },
+      "revId": "38916f41833234f4062c6a4c2c95ecfb4f8e9ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3e29accf_1e110912",
         "filename": "polygerrit-ui/app/services/change/change-service.ts",
         "patchSetId": 1

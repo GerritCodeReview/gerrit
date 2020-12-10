@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea757e2c_2609e921",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-10T00:03:12Z",
+      "side": 1,
+      "message": "I know, however, the JSch library internals are already used in this file:\n  import com.jcraft.jsch.ChannelExec;\n  import com.jcraft.jsch.JSch;\n  import com.jcraft.jsch.KeyPair;\n  import com.jcraft.jsch.Session;\n\nWhat would you suggest to do instead?",
+      "parentUuid": "9a0be21b_c5d37b06",
+      "range": {
+        "startLine": 84,
+        "startChar": 9,
+        "endLine": 84,
+        "endChar": 20
+      },
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "354a63c9_736e9dff",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 5
@@ -77,6 +101,30 @@
       "writtenOn": "2020-12-09T06:07:20Z",
       "side": 1,
       "message": "We gave up to try to read the SSH channel in other tests and extracted this kind of tests as integration tests. There are two existing tests:\n\n  javatests/com/google/gerrit/integration/git/UploadArchiveIT.java\n  javatests/com/google/gerrit/integration/ssh/PeerKeysAuthIT.java\n\nCan you design this test as external integration test? That way it wouldn\u0027t rely on JSch library.\n\nOtherwise, we should be sure, that this current approach would also work after removal of JSch library.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 100
+      },
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40d47c7c_e6428287",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-10T00:03:12Z",
+      "side": 1,
+      "message": "Yes, but I would avoid copying and pasting lots of boilerplate code for that, as it is currently done in UploadArchiveIT and PeerKeysAuthIT.\n\nAbstractDaemonTest should do it, NOT StreamEventsIT. WDYT?",
+      "parentUuid": "354a63c9_736e9dff",
       "range": {
         "startLine": 52,
         "startChar": 4,

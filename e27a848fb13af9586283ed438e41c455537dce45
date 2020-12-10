@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9da3ee0_1dcce7a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-10T23:49:39Z",
+      "side": 1,
+      "message": "LGTM, to merge this change we need:\n1. Documentation update (same change)\n2. Release notes update (different change)\n\nLet me do 2. and add a topic so that the whole series can be merged together.\n\nThanks Davido for the fix.",
+      "revId": "e27a848fb13af9586283ed438e41c455537dce45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

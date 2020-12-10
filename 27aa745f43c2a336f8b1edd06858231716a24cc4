@@ -88,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af15d475_aca415cf",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-10T23:44:35Z",
+      "side": 1,
+      "message": "Done, no internal implementations are leaked outside anymore. Thanks for the suggestion!",
+      "parentUuid": "ea757e2c_2609e921",
+      "range": {
+        "startLine": 84,
+        "startChar": 9,
+        "endLine": 84,
+        "endChar": 20
+      },
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "354a63c9_736e9dff",
@@ -149,6 +173,30 @@
       "side": 1,
       "message": "You can always copy+paste first and then refactor to share later (especially for test code).",
       "parentUuid": "40d47c7c_e6428287",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 100
+      },
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abab95ff_1e150273",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-10T23:44:35Z",
+      "side": 1,
+      "message": "Actually, I believe this test shouldn\u0027t really care about *how* the stream events are coming through but rather just test their content and do assertions on it.\n\nI would prefer to address the separate concern of the SSH connectivity in a separate change on the adminSshSession.\n\nIn this test, we do not really make any reference to JSch anymore.",
+      "parentUuid": "09f63935_47dd7680",
       "range": {
         "startLine": 52,
         "startChar": 4,

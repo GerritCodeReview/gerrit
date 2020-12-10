@@ -51,6 +51,24 @@
       "parentUuid": "f9880dec_70773bc0",
       "revId": "bbb1c2efd4f36c10aae1a181013c6cefb8da3885",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b08f5d4_48b34e46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-10T16:30:32Z",
+      "side": 1,
+      "message": "\u003e Download-project is using one method: copyDirectory. We could coy/paste the code into download-project plugin.\n\nYeah, looks really simple IMHO. Not worth the pain of one dependency for that.\n\n\u003e Can anyone provide feedback what version is used by Google: 2.2 - 2.8.0?\n\u003e \n\u003e Another question is why would that version matter, if gerrit.war doesn\u0027t ship commons-io, and Google doesn\u0027t use delete-project plugin? IOW, can we excempt this library from LC label?\n\n+1",
+      "parentUuid": "0bbb7449_2cbc7d76",
+      "revId": "bbb1c2efd4f36c10aae1a181013c6cefb8da3885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

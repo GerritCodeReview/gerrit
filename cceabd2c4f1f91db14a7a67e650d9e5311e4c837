@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5041af3c_d1fcdcfa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-10T09:05:38Z",
+      "side": 1,
+      "message": "Thanks for tackling this right away, David!!",
+      "revId": "cceabd2c4f1f91db14a7a67e650d9e5311e4c837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cc7d8c7_2ab263ef",
@@ -14,6 +31,30 @@
       "writtenOn": "2020-12-09T21:05:21Z",
       "side": 1,
       "message": "I like a lot this backward-compatibility fix, should this be configurable?\n\nI believe the commentsMap should just be exposed in the stream-events, as this workaround is actually not really exposing the event as-is and the other applications just consume it.",
+      "range": {
+        "startLine": 944,
+        "startChar": 0,
+        "endLine": 953,
+        "endChar": 7
+      },
+      "revId": "cceabd2c4f1f91db14a7a67e650d9e5311e4c837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09c14fc3_4f1040cf",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-10T09:05:38Z",
+      "side": 1,
+      "message": "+1 I would make this configurable (with the default being \"send as comment\").\n\nThis is the same thinking as for the FE experiment where we want the default to change, but give folks a simple option to revert back temporarily.",
+      "parentUuid": "3cc7d8c7_2ab263ef",
       "range": {
         "startLine": 944,
         "startChar": 0,

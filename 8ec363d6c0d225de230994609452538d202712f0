@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ccd53ee_2e3d3973",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3673,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-12-10T09:00:12Z",
+      "side": 1,
+      "message": "I think this is just always true - just omit?",
+      "range": {
+        "startLine": 3673,
+        "startChar": 8,
+        "endLine": 3673,
+        "endChar": 59
+      },
+      "revId": "8ec363d6c0d225de230994609452538d202712f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

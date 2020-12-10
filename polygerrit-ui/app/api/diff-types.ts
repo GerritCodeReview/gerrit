@@ -19,3 +19,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * Diff type in preferences
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
+ */
+export enum DiffViewMode {
+  SIDE_BY_SIDE = 'SIDE_BY_SIDE',
+  UNIFIED = 'UNIFIED_DIFF',
+}

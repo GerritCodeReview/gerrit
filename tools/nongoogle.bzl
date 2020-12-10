@@ -106,6 +106,12 @@ def declare_nongoogle_deps():
         sha1 = "c2351800432bdbdd8284c3f5a7f0782a352aa84a",
     )
 
+    maven_jar(
+        name = "commons-io",
+        artifact = "commons-io:commons-io:2.2",
+        sha1 = "83b5b8a7ba1c08f9e8c8ff2373724e33d3c1e22a",
+    )
+
     # Google internal dependencies: these are developed at Google, so there is
     # no concern about version skew.
 

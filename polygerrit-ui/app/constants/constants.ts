@@ -294,7 +294,7 @@ export enum TimeFormat {
  */
 export enum DiffViewMode {
   SIDE_BY_SIDE = 'SIDE_BY_SIDE',
-  UNIFIED = 'UNIFIED_DIFF',
+  UNIFIED = 'UNIFIED',
 }
 
 /**

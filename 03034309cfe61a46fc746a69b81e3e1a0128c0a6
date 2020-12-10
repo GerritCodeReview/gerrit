@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6534f4e_d7eeb0f5",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-10T16:46:42Z",
+      "side": 1,
+      "message": "Actually I am not sure, so may be let it as is, sorry for the confusion. I gave up on this script and used built-in Bazel feature for merging LCOV files.\n\nNow, that the test coverage is working for you, can you verify, that LCOV file merging is working also witrh this script?",
+      "parentUuid": "e4ae189a_9de0d392",
+      "range": {
+        "startLine": 43,
+        "startChar": 58,
+        "endLine": 43,
+        "endChar": 62
+      },
+      "revId": "03034309cfe61a46fc746a69b81e3e1a0128c0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eec49a97_f6f3475b",
         "filename": "tools/coverage.sh",
         "patchSetId": 1

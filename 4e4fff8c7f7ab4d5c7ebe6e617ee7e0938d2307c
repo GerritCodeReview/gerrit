@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63463be1_8651a3f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-10T17:01:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bd82b36_2122d81b",
+      "range": {
+        "startLine": 7,
+        "startChar": 32,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "4e4fff8c7f7ab4d5c7ebe6e617ee7e0938d2307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d48e5f76_b053686e",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-10-26T18:23:20Z",
       "side": 1,
       "message": "Do we need this support for REFS_USERS_DEFAULT too?",
+      "revId": "4e4fff8c7f7ab4d5c7ebe6e617ee7e0938d2307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef94754f_ccfb96b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-10T17:01:26Z",
+      "side": 1,
+      "message": "Is this a magic branch too? Unlike refs/users/self which has to be resolved to another ref, REFS_USERS_DEFAULT is an actual ref that doesn\u0027t need to be resolved to something else.",
+      "parentUuid": "d48e5f76_b053686e",
       "revId": "4e4fff8c7f7ab4d5c7ebe6e617ee7e0938d2307c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13f15655_bfd6f21b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-10T17:01:26Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "86468df2_91d827fa",
+      "revId": "4e4fff8c7f7ab4d5c7ebe6e617ee7e0938d2307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10d89051_2d76a6f3",
@@ -71,6 +131,30 @@
       "writtenOn": "2020-10-26T18:23:20Z",
       "side": 1,
       "message": "This duplicates the code from ReceiveCommits, can it be shared instead?",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 7
+      },
+      "revId": "4e4fff8c7f7ab4d5c7ebe6e617ee7e0938d2307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf903f11_c5052959",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-10T17:01:26Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "10d89051_2d76a6f3",
       "range": {
         "startLine": 147,
         "startChar": 6,

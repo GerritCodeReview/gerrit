@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1e971a09_034c57ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-10T13:07:40Z",
+      "side": 1,
+      "message": "I looked again at the documentation https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_accessDatabase\n\n\u003e Access Database: Allow users to view **code review metadata** refs in repositories.\n\nEdwin, do you know if this capability should include having access to all NoteDb refs, or just the ones for code review (refs/changes/... et al.)? \n\n(Depending on what \"code review\" means. If it means just code review, then refs/meta/* should be excluded as they are related to the repo settings, not code review. But it could also mean all \"Gerrit\" refs, so this will include all NoteDb refs).\n\nUpdate: I found that GetBranchIT#getVersionMetaRef used to pass because we currently grant visibility to refs/* to anonymous users https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/schema/testing/AllProjectsCreatorTestUtil.java#57, not because of the AdministrateDatabase granted by the test.\nNow that I changed the default permissions to refs/heads/* instead of refs/* (in change https://gerrit-review.googlesource.com/c/gerrit/+/287351), that test was broken.",
+      "parentUuid": "23946721_9e057ef5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "875576ea5722cf7ac556aeb4766add367b267429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b294faad_4b20a392",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

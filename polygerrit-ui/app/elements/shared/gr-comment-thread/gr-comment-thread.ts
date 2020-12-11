@@ -245,20 +245,24 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     );
   }
 
-  _getDiffUrlForPath(path: string) {
-    if (!this.changeNum) throw new Error('changeNum is missing');
-    if (!this.projectName) throw new Error('projectName is missing');
+  _getDiffUrlForPath(
+    projectName?: RepoName,
+    changeNum?: NumericChangeId,
+    path?: string,
+    patchNum?: PatchSetNum
+  ) {
+    if (!changeNum || !projectName || !path) return undefined;
     if (isDraft(this.comments[0])) {
       return GerritNav.getUrlForDiffById(
-        this.changeNum,
-        this.projectName,
+        changeNum,
+        projectName,
         path,
-        this.patchNum
+        patchNum
       );
     }
     const id = this.comments[0].id;
     if (!id) throw new Error('A published comment is missing the id.');
-    return GerritNav.getUrlForComment(this.changeNum, this.projectName, id);
+    return GerritNav.getUrlForComment(changeNum, projectName, id);
   }
 
   _getDiffUrlForComment(

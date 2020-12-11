@@ -44,6 +44,7 @@ import {
   tap,
   pressAndReleaseKeyOn,
 } from '@polymer/iron-test-helpers/mock-interactions';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');
 
@@ -64,6 +65,14 @@ suite('gr-comment-thread tests', () => {
       element.patchNum = 3 as PatchSetNum;
       element.changeNum = 1 as NumericChangeId;
       flush();
+    });
+
+    test('renders without patchNum and changeNum', async () => {
+      const fixture = fixtureFromTemplate(
+        html`<gr-comment-thread show-file-path="" path="path/to/file"></gr-change-metadata>`
+      );
+      fixture.instantiate();
+      await flush();
     });
 
     test('comments are sorted correctly', () => {

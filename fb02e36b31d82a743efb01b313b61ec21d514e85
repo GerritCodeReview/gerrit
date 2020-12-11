@@ -22,6 +22,30 @@
       },
       "revId": "fb02e36b31d82a743efb01b313b61ec21d514e85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3454ccb9_da4a3825",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-11T08:35:20Z",
+      "side": 1,
+      "message": "UPDATED is present in all docs, MERGED_ON only for merged changes. So open_changes index does not have the mapping and the docs are missing values. Elastic would fail the query in this case.\n\nI basically had tests failing with this \nhttps://stackoverflow.com/q/17051709\nhttps://www.elastic.co/guide/en/elasticsearch/reference/6.8/search-request-sort.html#_ignoring_unmapped_fields",
+      "parentUuid": "2bf669f2_570baa2f",
+      "range": {
+        "startLine": 176,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 80
+      },
+      "revId": "fb02e36b31d82a743efb01b313b61ec21d514e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

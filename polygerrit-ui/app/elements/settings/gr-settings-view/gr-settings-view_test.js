@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import './gr-settings-view.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GerritView} from '../../core/gr-navigation/gr-navigation.js';
+import {GerritView} from '../../../services/router/router-model.js';
 
 const basicFixture = fixtureFromElement('gr-settings-view');
 const blankFixture = fixtureFromElement('div');

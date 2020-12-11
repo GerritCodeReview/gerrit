@@ -48,7 +48,7 @@ import {
   Shortcut,
   SPECIAL_SHORTCUT,
 } from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {GerritNav, GerritView} from './core/gr-navigation/gr-navigation';
+import {GerritNav} from './core/gr-navigation/gr-navigation';
 import {appContext} from '../services/app-context';
 import {flush} from '@polymer/polymer/lib/utils/flush';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -78,6 +78,7 @@ import {
 } from '../types/events';
 import {ViewState} from '../types/types';
 import {EventType} from '../utils/event-util';
+import {GerritView} from '../services/router/router-model';
 
 interface ErrorInfo {
   text: string;

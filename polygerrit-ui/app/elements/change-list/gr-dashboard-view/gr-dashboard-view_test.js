@@ -18,7 +18,8 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-dashboard-view.js';
 import {isHidden} from '../../../test/test-utils.js';
-import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {GerritView} from '../../../services/router/router-model.js';
 import {changeIsOpen} from '../../../utils/change-util.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {createAccountWithId} from '../../../test/test-data-generators.js';

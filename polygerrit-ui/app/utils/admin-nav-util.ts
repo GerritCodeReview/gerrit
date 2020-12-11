@@ -16,7 +16,6 @@
  */
 import {
   GerritNav,
-  GerritView,
   RepoDetailView,
   GroupDetailView,
 } from '../elements/core/gr-navigation/gr-navigation';
@@ -28,6 +27,7 @@ import {
 } from '../types/common';
 import {MenuLink} from '../elements/plugins/gr-admin-api/gr-admin-api';
 import {hasOwnProperty} from './common-util';
+import {GerritView} from '../services/router/router-model';
 
 const ADMIN_LINKS: NavLink[] = [
   {

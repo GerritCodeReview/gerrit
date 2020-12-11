@@ -16,23 +16,24 @@
  */
 import {
   BranchName,
+  ChangeConfigInfo,
   ChangeInfo,
+  CommentLinks,
+  CommitId,
+  DashboardId,
+  EditPatchSetNum,
+  GroupId,
+  Hashtag,
+  NumericChangeId,
+  ParentPatchSetNum,
   PatchSetNum,
   RepoName,
-  TopicName,
-  GroupId,
-  DashboardId,
-  NumericChangeId,
-  EditPatchSetNum,
-  ChangeConfigInfo,
-  CommitId,
-  Hashtag,
-  UrlEncodedCommentId,
-  CommentLinks,
-  ParentPatchSetNum,
   ServerInfo,
+  TopicName,
+  UrlEncodedCommentId,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {GerritView} from '../../../services/router/router-model';
 
 // Navigation parameters object format:
 //
@@ -394,22 +395,6 @@ export interface GeneratedWebLink {
   name?: string;
   label?: string;
   url?: string;
-}
-
-export enum GerritView {
-  ADMIN = 'admin',
-  AGREEMENTS = 'agreements',
-  CHANGE = 'change',
-  DASHBOARD = 'dashboard',
-  DIFF = 'diff',
-  DOCUMENTATION_SEARCH = 'documentation-search',
-  EDIT = 'edit',
-  GROUP = 'group',
-  PLUGIN_SCREEN = 'plugin-screen',
-  REPO = 'repo',
-  ROOT = 'root',
-  SEARCH = 'search',
-  SETTINGS = 'settings',
 }
 
 export enum GroupDetailView {

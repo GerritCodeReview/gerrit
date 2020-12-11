@@ -545,6 +545,7 @@ public class ChangeInserter implements InsertChangeOp {
             patchSet,
             ctx.getAccount(),
             null,
+            Collections.emptyMap(),
             allApprovals,
             oldApprovals,
             ctx.getWhen());

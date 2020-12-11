@@ -1540,7 +1540,7 @@ suite('gr-router tests', () => {
           ]);
           assertDataToParams({params: groups.slice(1)}, '_handleCommentRoute', {
             project: 'gerrit',
-            changeNum: '264833',
+            changeNum: 264833,
             commentId: '00049681_f34fd6a9',
             commentLink: true,
             view: GerritNav.View.DIFF,

@@ -39,7 +39,6 @@ import {htmlTemplate} from './gr-admin-view_html';
 import {getBaseUrl} from '../../../utils/url-util';
 import {
   GerritNav,
-  GerritView,
   GroupDetailView,
   RepoDetailView,
 } from '../../core/gr-navigation/gr-navigation';
@@ -66,6 +65,7 @@ import {GroupNameChangedDetail} from '../gr-group/gr-group';
 import {ValueChangeDetail} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
 import {appContext} from '../../../services/app-context';
+import {GerritView} from '../../../services/router/router-model';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 

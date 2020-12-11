@@ -23,7 +23,7 @@ import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {_testOnly_findCommentById} from '../gr-comment-api/gr-comment-api.js';
-import {GerritView} from '../../core/gr-navigation/gr-navigation.js';
+import {GerritView} from '../../../services/router/router-model.js';
 import {
   createChange,
   createRevisions,

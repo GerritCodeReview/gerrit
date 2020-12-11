@@ -55,7 +55,7 @@ import {
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
 import {getComputedStyleValue} from '../../../utils/dom-util';
-import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
@@ -152,6 +152,7 @@ import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {fireAlert, fireEvent, firePageError} from '../../../utils/event-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {fireTitleChange} from '../../../utils/event-util';
+import {GerritView} from '../../../services/router/router-model';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',

@@ -198,11 +198,9 @@ export function sortRevisions<T extends RevisionInfo | EditRevisionInfo>(
  *     above
  */
 export function computeAllPatchSets(
-  change: ChangeInfo | ParsedChangeInfo
+  change: ChangeInfo | ParsedChangeInfo | undefined
 ): PatchSet[] {
-  if (!change) {
-    return [];
-  }
+  if (!change) return [];
 
   let patchNums: PatchSet[] = [];
   if (change.revisions && Object.keys(change.revisions).length) {

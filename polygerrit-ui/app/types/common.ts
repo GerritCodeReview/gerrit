@@ -262,7 +262,6 @@ export interface ChangeInfo {
   deletions: number; // Number of deleted lines
   total_comment_count?: number;
   unresolved_comment_count?: number;
-  // TODO(TS): Use changed_id everywhere in code instead of (legacy) _number
   _number: NumericChangeId;
   owner: AccountInfo;
   actions?: ActionNameToActionInfoMap;

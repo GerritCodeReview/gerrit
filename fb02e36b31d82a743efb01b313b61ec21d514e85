@@ -70,6 +70,30 @@
       },
       "revId": "fb02e36b31d82a743efb01b313b61ec21d514e85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd26df99_49a2bccc",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-11T12:17:36Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "7c12e99a_6cb9e9b5",
+      "range": {
+        "startLine": 176,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 80
+      },
+      "revId": "fb02e36b31d82a743efb01b313b61ec21d514e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

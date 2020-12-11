@@ -120,6 +120,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c98c796e_547da09e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-11T07:19:01Z",
+      "side": 1,
+      "message": "I am squashing the changes to close this thread. Hopefully, the combined commit message is clear enough. I will try to accommodate if it is not.",
+      "parentUuid": "9f6a6f40_617d8227",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "a05021d4c8381ef9b1106ee22d0d9733de05fc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "476ce376_374dbfc4",

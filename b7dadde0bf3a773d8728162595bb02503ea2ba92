@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cca8fb5_1f241fa5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-11T09:11:40Z",
+      "side": 1,
+      "message": "Just a little surprised that we can have threads being rendered without changeNum.\nSeems like a basic property that should be set.\nWill investigate and see what\u0027s going on.\nThanks for the fix! 😄",
+      "revId": "b7dadde0bf3a773d8728162595bb02503ea2ba92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

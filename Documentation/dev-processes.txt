@@ -271,6 +271,15 @@ bug-fixes anymore.
 It's also possible that the ESC decides that an issue is not a security issue
 and the embargo is lifted immediately.
 
+. Filing a CVE
++
+For every security issue a CVE that describes the issue and lists the affected
+releases should be filed. Filing a CVE can be done by any maintainer that works
+for an organization that can request CVE numbers (e.g. Googlers). The CVE
+number must be included in the release notes. The CVE itself is only made
+public after fixed released have been published and the embargo has been
+lifted.
+
 . Implementation of the security fix:
 +
 To keep the embargo intact, security fixes cannot be developed and reviewed in
@@ -315,6 +324,8 @@ link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,w
 +
 This ends the embargo and any issue that discusses the security vulnerability
 should be made public.
+
+. Publish the CVE
 
 . Follow-Up
 +

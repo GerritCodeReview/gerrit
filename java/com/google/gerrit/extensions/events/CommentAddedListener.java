@@ -15,7 +15,9 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
+import java.util.List;
 import java.util.Map;
 
 /** Notified whenever a comment is added to a change. */
@@ -23,6 +25,8 @@ import java.util.Map;
 public interface CommentAddedListener {
   interface Event extends RevisionEvent {
     String getComment();
+
+    Map<String, List<CommentInput>> getPatchSetComments();
 
     Map<String, ApprovalInfo> getApprovals();
 

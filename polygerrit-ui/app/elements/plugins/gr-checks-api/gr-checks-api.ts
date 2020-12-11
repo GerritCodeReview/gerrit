@@ -19,8 +19,8 @@ import {
   ChecksApiConfig,
   ChecksProvider,
   GrChecksApiInterface,
-  ResponseCode,
 } from './gr-checks-api-types';
+import {appContext} from '../../../services/app-context';
 
 const DEFAULT_CONFIG: ChecksApiConfig = {
   fetchPollingIntervalSeconds: 60,
@@ -29,7 +29,6 @@ const DEFAULT_CONFIG: ChecksApiConfig = {
 enum State {
   NOT_REGISTERED,
   REGISTERED,
-  FETCHING,
 }
 
 /**
@@ -40,35 +39,24 @@ enum State {
  * fetch() being called on the provider interface.
  */
 export class GrChecksApi implements GrChecksApiInterface {
-  private provider?: ChecksProvider;
-
-  config?: ChecksApiConfig;
-
   private state = State.NOT_REGISTERED;
+
+  private readonly checksService = appContext.checksService;
 
   constructor(readonly plugin: PluginApi) {}
 
   announceUpdate() {
-    // TODO(brohlfs): Implement!
+    this.checksService.announceUpdate(this.plugin.getPluginName());
   }
 
   register(provider: ChecksProvider, config?: ChecksApiConfig): void {
-    if (this.state !== State.NOT_REGISTERED || this.provider)
+    if (this.state === State.REGISTERED)
       throw new Error('Only one provider can be registered per plugin.');
     this.state = State.REGISTERED;
-    this.provider = provider;
-    this.config = config ?? DEFAULT_CONFIG;
-  }
-
-  async fetch(change: number, patchset: number) {
-    if (this.state === State.NOT_REGISTERED || !this.provider)
-      throw new Error('Cannot fetch checks without a registered provider.');
-    if (this.state === State.FETCHING) return;
-    this.state = State.FETCHING;
-    const response = await this.provider.fetch(change, patchset);
-    this.state = State.REGISTERED;
-    if (response.responseCode === ResponseCode.OK) {
-      // TODO(brohlfs): Do something with the response.
-    }
+    this.checksService.register(
+      this.plugin.getPluginName(),
+      provider,
+      config ?? DEFAULT_CONFIG
+    );
   }
 }

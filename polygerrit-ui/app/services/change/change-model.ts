@@ -22,7 +22,6 @@ import {
   filter,
   withLatestFrom,
   distinctUntilChanged,
-  tap,
 } from 'rxjs/operators';
 import {routerPatchNum$, routerState$} from '../router/router-model';
 import {
@@ -65,11 +64,6 @@ export const changeAndRouterConsistent$ = combineLatest([
   filter(([routerState, changeState]) => {
     const changeNum = changeState.change?._number;
     const routerChangeNum = routerState.changeNum;
-    console.log(
-      `tap changeAndRouterConsistent$ filter: ${changeNum} ${routerChangeNum} ${
-        changeNum === routerChangeNum
-      }`
-    );
     return changeNum === undefined || changeNum === routerChangeNum;
   }),
   distinctUntilChanged()

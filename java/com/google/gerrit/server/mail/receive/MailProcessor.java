@@ -77,6 +77,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -383,6 +384,7 @@ public class MailProcessor {
           patchSet,
           ctx.getAccount(),
           changeMessage.getMessage(),
+          Collections.emptyMap(),
           approvals,
           approvals,
           ctx.getWhen());

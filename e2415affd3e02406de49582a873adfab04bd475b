@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84a99b0b_cb91403e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-11T10:29:40Z",
+      "side": 1,
+      "message": "GetBranchIT.getOwnUserRef has a TODO about this. I guess this TODO can be resolved now?",
+      "revId": "e2415affd3e02406de49582a873adfab04bd475b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

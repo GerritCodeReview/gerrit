@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aedb6a67_36ce2e22",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-11T15:27:11Z",
+      "side": 1,
+      "message": "How is this different from \u0027dest\u0027? (I know you just re-arranged this code, so maybe this is a cleanup that should go into a different change)",
+      "range": {
+        "startLine": 301,
+        "startChar": 20,
+        "endLine": 301,
+        "endChar": 27
+      },
+      "revId": "ffc3582979470bdc135234fe018d97f4da309eb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "736bf5a6_66e006b3",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-11T15:27:11Z",
+      "side": 1,
+      "message": "Another cleanup for future would be to rename this to \u0027topic\u0027.",
+      "range": {
+        "startLine": 355,
+        "startChar": 15,
+        "endLine": 355,
+        "endChar": 23
+      },
+      "revId": "ffc3582979470bdc135234fe018d97f4da309eb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

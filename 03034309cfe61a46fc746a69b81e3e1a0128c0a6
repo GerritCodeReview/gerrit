@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8ada64a_0b6b6e91",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-11T10:01:57Z",
+      "side": 1,
+      "message": "OK, let\u0027s leave this for now.\n\nYes, I will verify this script when I look further into the test coverage. But it\u0027s rather low prio for me. In the meantime there are a few other things that require my attention first. But as soon as there is some time I\u0027ll come back to this.",
+      "parentUuid": "d6534f4e_d7eeb0f5",
+      "range": {
+        "startLine": 43,
+        "startChar": 58,
+        "endLine": 43,
+        "endChar": 62
+      },
+      "revId": "03034309cfe61a46fc746a69b81e3e1a0128c0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eec49a97_f6f3475b",
@@ -95,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5836537e_7e83c8c1",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-11T10:01:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eec49a97_f6f3475b",
+      "range": {
+        "startLine": 49,
+        "startChar": 62,
+        "endLine": 49,
+        "endChar": 66
+      },
+      "revId": "03034309cfe61a46fc746a69b81e3e1a0128c0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "458b192c_cbb17c2c",
@@ -108,6 +156,30 @@
       "writtenOn": "2020-12-10T16:20:14Z",
       "side": 1,
       "message": "I guess this should stay \"src/test/java\", at least I didn\u0027t intent to change this (copy\u0026paste mistake).",
+      "range": {
+        "startLine": 52,
+        "startChar": 62,
+        "endLine": 52,
+        "endChar": 66
+      },
+      "revId": "03034309cfe61a46fc746a69b81e3e1a0128c0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10872416_e7f4b384",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-11T10:01:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "458b192c_cbb17c2c",
       "range": {
         "startLine": 52,
         "startChar": 62,

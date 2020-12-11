@@ -989,6 +989,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ps,
           user.state(),
           comment,
+          in.comments,
           approvals,
           oldApprovals,
           ctx.getWhen());

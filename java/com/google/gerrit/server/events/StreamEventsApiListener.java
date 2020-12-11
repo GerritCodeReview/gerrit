@@ -390,6 +390,7 @@ public class StreamEventsApiListener
       event.author = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, ps);
       event.comment = ev.getComment();
+      event.patchSetComments = ev.getPatchSetComments();
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
       dispatcher.run(d -> d.postEvent(change, event));

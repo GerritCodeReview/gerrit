@@ -1007,7 +1007,10 @@ export class GrChangeActions
   }
 
   _getQuickApproveAction(): QuickApproveUIActionInfo | null {
-    if (this._hideQuickApproveAction) {
+    if (
+      this._hideQuickApproveAction ||
+      (this.change && this.change.status === ChangeStatus.MERGED)
+    ) {
       return null;
     }
     const approval = this._getTopMissingApproval();

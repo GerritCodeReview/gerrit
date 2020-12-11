@@ -69,6 +69,30 @@
       },
       "revId": "b341e674f97aafcc7a9c29cd67ce2d5a846283db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e21b6d88_a5bb0c4d",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-11T13:33:01Z",
+      "side": 1,
+      "message": "I guess we *could* remove it in this change, because we have only one test. We\u0027ll have to put it back anyway in the next follow-up change that is adding the second test, otherwise the two tests would interfere with each other because they are sharing the same server and potentially be flaky because they both are consuming the live events produced.\n\nIt\u0027s basically a precaution to make sure that the test isn\u0027t impacted by any pending events from other tests\u0027 executions.",
+      "parentUuid": "ba1e0484_68dba87f",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 10
+      },
+      "revId": "b341e674f97aafcc7a9c29cd67ce2d5a846283db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

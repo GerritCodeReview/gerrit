@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import java.io.IOException;
@@ -55,9 +56,14 @@ public class StreamEventsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void commentOnPatchSetShowsUpInStreamEvents() throws Exception {
-    reviewChange(new ReviewInput().patchSetLevelComment(TEST_REVIEW_COMMENT));
-    waitForEvent(() -> readEventsContaining(TEST_REVIEW_COMMENT).size() == 1);
+  public void commentOnPatchSetShowsUpTwiceInStreamEventsAsLegacyMessage() throws Exception {
+    checkPatchsetLevelCommentContainedInStreamEvents("\"comment\":\"Patch Set 1:\\n\\n");
+  }
+
+  @Test
+  @GerritConfig(name = "change.publishPatchSetLevelCommentAsLegacyChangeMessage", value = "false")
+  public void commentOnPatchSetShowsUpOnceInStreamEventsAsPatchsetMessage() throws Exception {
+    checkPatchsetLevelCommentContainedInStreamEvents("\"message\":\"");
   }
 
   @Test
@@ -68,6 +74,11 @@ public class StreamEventsIT extends AbstractDaemonTest {
 
   private void waitForEvent(Supplier<Boolean> waitCondition) throws InterruptedException {
     waitUntil(() -> waitCondition.get(), MAX_DURATION_FOR_RECEIVING_EVENTS);
+  }
+
+  private void checkPatchsetLevelCommentContainedInStreamEvents(String prefix) throws Exception {
+    reviewChange(new ReviewInput().patchSetLevelComment(TEST_REVIEW_COMMENT));
+    waitForEvent(() -> readEventsContaining(prefix + TEST_REVIEW_COMMENT).size() == 1);
   }
 
   private void reviewChange(ReviewInput reviewInput) throws Exception {

@@ -20,6 +20,7 @@ import {ReportingService} from './gr-reporting/gr-reporting';
 import {AuthService} from './gr-auth/gr-auth';
 import {RestApiService} from './services/gr-rest-api/gr-rest-api';
 import {ChangeService} from './change/change-service';
+import {ChecksService} from './checks/checks-service';
 
 export interface AppContext {
   flagsService: FlagsService;
@@ -28,6 +29,7 @@ export interface AppContext {
   authService: AuthService;
   restApiService: RestApiService;
   changeService: ChangeService;
+  checksService: ChecksService;
 }
 
 /**

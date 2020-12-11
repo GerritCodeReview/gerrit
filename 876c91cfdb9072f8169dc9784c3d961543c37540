@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ef4e98b_ee3eb03c",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-11T12:33:08Z",
+      "side": 1,
+      "message": "nit: field",
+      "range": {
+        "startLine": 176,
+        "startChar": 23,
+        "endLine": 176,
+        "endChar": 28
+      },
+      "revId": "876c91cfdb9072f8169dc9784c3d961543c37540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

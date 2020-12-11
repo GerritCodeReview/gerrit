@@ -78,6 +78,9 @@ public class AccessIT extends AbstractDaemonTest {
 
   private static final String REFS_ALL = Constants.R_REFS + "*";
   private static final String REFS_HEADS = Constants.R_HEADS + "*";
+  private static final String REFS_META_VERSION = "refs/meta/version";
+  private static final String REFS_DRAFTS = "refs/draft-comments/*";
+  private static final String REFS_STARRED_CHANGES = "refs/starred-changes/*";
 
   private static final String LABEL_CODE_REVIEW = "Code-Review";
 
@@ -496,7 +499,10 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo = createAccessSectionInfoDenyAll();
 
     // Disallow READ
-    accessInput.add.put(REFS_ALL, accessSectionInfo);
+    accessInput.add.put(REFS_META_VERSION, accessSectionInfo);
+    accessInput.add.put(REFS_DRAFTS, accessSectionInfo);
+    accessInput.add.put(REFS_STARRED_CHANGES, accessSectionInfo);
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
     pApi().access(accessInput);
 
     requestScopeOperations.setApiUser(user.id());
@@ -510,7 +516,10 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo = createAccessSectionInfoDenyAll();
 
     // Disallow READ
-    accessInput.add.put(REFS_ALL, accessSectionInfo);
+    accessInput.add.put(REFS_META_VERSION, accessSectionInfo);
+    accessInput.add.put(REFS_DRAFTS, accessSectionInfo);
+    accessInput.add.put(REFS_STARRED_CHANGES, accessSectionInfo);
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
     pApi().access(accessInput);
 
     // Create a change to apply

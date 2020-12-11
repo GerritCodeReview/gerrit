@@ -118,9 +118,14 @@ class RefVisibilityControl {
     Account.Id accountId;
     if ((accountId = Account.Id.fromRef(refName)) != null) {
       // Account ref is visible only to the corresponding account.
-      if (accountId.equals(currentUserAccountId)
-          && projectControl.controlForRef(refName).hasReadPermissionOnRef(true)) {
-        return true;
+      if (accountId.equals(currentUserAccountId)) {
+        // Always allow visibility to refs/draft-comments and refs/starred-changes. For all other
+        // refs, check if the user has read permissions.
+        if (RefNames.isRefsDraftsComments(refName)
+            || RefNames.isRefsStarredChanges(refName)
+            || projectControl.controlForRef(refName).hasReadPermissionOnRef(true)) {
+          return true;
+        }
       }
       return false;
     }

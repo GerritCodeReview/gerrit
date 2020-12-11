@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.entities.Permission.READ;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
@@ -708,6 +709,9 @@ public class CreateChangeIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
+        // Allow reading for refs/meta/config so that the project is visible to the user. Otherwise
+        // the request will fail with an UnprocessableEntityException "Project not found:".
+        .add(allow(READ).ref("refs/meta/config").group(REGISTERED_USERS))
         .add(block(READ).ref("refs/heads/*").group(REGISTERED_USERS))
         .update();
     requestScopeOperations.setApiUser(user.id());
@@ -731,6 +735,9 @@ public class CreateChangeIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
+        // Allow reading for refs/meta/config so that the project is visible to the user. Otherwise
+        // the request will fail with an UnprocessableEntityException "Project not found:".
+        .add(allow(READ).ref("refs/meta/config").group(REGISTERED_USERS))
         .add(block(READ).ref("refs/heads/*").group(REGISTERED_USERS))
         .update();
     requestScopeOperations.setApiUser(user.id());

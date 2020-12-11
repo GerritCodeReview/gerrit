@@ -275,6 +275,16 @@ public class RefNames {
     return ref.startsWith(REFS_DELETED_GROUPS);
   }
 
+  /** Returns true if the provided ref is for draft comments. */
+  public static boolean isRefsDraftsComments(String ref) {
+    return ref.startsWith(REFS_DRAFT_COMMENTS);
+  }
+
+  /** Returns true if the provided ref is for starred changes. */
+  public static boolean isRefsStarredChanges(String ref) {
+    return ref.startsWith(REFS_STARRED_CHANGES);
+  }
+
   /**
    * Whether the ref is used for storing group data in NoteDb. Returns {@code true} for all group
    * branches, refs/meta/group-names and deleted group branches.

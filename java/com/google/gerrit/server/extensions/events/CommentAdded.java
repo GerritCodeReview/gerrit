@@ -19,6 +19,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -34,6 +35,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
 /** Helper class to fire an event when a comment or vote has been added to a change. */
@@ -55,6 +57,7 @@ public class CommentAdded {
       PatchSet ps,
       AccountState author,
       String comment,
+      Map<String, List<CommentInput>> patchSetComments,
       Map<String, Short> approvals,
       Map<String, Short> oldApprovals,
       Timestamp when) {
@@ -68,6 +71,7 @@ public class CommentAdded {
               util.revisionInfo(change.getProject(), ps),
               util.accountInfo(author),
               comment,
+              patchSetComments,
               util.approvals(author, approvals, when),
               util.approvals(author, oldApprovals, when),
               when);
@@ -89,17 +93,20 @@ public class CommentAdded {
     private final String comment;
     private final Map<String, ApprovalInfo> approvals;
     private final Map<String, ApprovalInfo> oldApprovals;
+    private final Map<String, List<CommentInput>> patchSetComments;
 
     Event(
         ChangeInfo change,
         RevisionInfo revision,
         AccountInfo author,
         String comment,
+        Map<String, List<CommentInput>> patchSetComments,
         Map<String, ApprovalInfo> approvals,
         Map<String, ApprovalInfo> oldApprovals,
         Timestamp when) {
       super(change, revision, author, when, NotifyHandling.ALL);
       this.comment = comment;
+      this.patchSetComments = patchSetComments;
       this.approvals = approvals;
       this.oldApprovals = oldApprovals;
     }
@@ -117,6 +124,11 @@ public class CommentAdded {
     @Override
     public Map<String, ApprovalInfo> getOldApprovals() {
       return oldApprovals;
+    }
+
+    @Override
+    public Map<String, List<CommentInput>> getPatchSetComments() {
+      return patchSetComments;
     }
   }
 }

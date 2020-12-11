@@ -38,6 +38,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -132,6 +133,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
         ps,
         ctx.getAccount(),
         message.getMessage(),
+        Collections.emptyMap(),
         ImmutableMap.of(),
         ImmutableMap.of(),
         ctx.getWhen());

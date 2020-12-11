@@ -934,6 +934,9 @@ export class GrChangeActions
     if (!this.change || !this.change.labels || !this.change.permitted_labels) {
       return null;
     }
+    if (this.change && this.change.status === ChangeStatus.MERGED) {
+      return null;
+    }
     let result;
     for (const label in this.change.labels) {
       if (!(label in this.change.permitted_labels)) {

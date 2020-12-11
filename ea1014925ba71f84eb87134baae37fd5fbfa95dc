@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4db6a044_10dbf8f3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-12-11T07:50:47Z",
+      "side": 1,
+      "message": "I would put this check to getTopMissingAproval.\n\nIf status \u003d\u003d\u003d merged, you get null, because you don\u0027t miss approval.",
+      "range": {
+        "startLine": 1016,
+        "startChar": 26,
+        "endLine": 1016,
+        "endChar": 48
+      },
+      "revId": "ea1014925ba71f84eb87134baae37fd5fbfa95dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

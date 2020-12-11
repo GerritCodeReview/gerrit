@@ -364,6 +364,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "461d88cb_2c079b3f",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-11T14:59:35Z",
+      "side": 1,
+      "message": "No, but I haven\u0027t looked into it either. It just doesn\u0027t seem ideal that we have to trigger actions unrelated to our test to verify success.",
+      "parentUuid": "80bdb43e_6529aec3",
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a63cfdf0_6a22ff9d",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 5

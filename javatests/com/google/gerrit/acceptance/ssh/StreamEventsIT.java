@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -56,7 +57,17 @@ public class StreamEventsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void commentOnPatchSetShowsUpInStreamEvents() throws Exception {
+  public void commentOnPatchSetShowsUpTwiceInStreamEventsAsLegacyMessage() throws Exception {
+    checkPatchsetLevelCommentContainedInStreamEvents("\"comment\":\"Patch Set 1:\\n\\n");
+  }
+
+  @Test
+  @GerritConfig(name = "change.publishPatchSetLevelCommentAsLegacyChangeMessage", value = "false")
+  public void commentOnPatchSetShowsUpOnceInStreamEventsAsPatchsetMessage() throws Exception {
+    checkPatchsetLevelCommentContainedInStreamEvents("\"message\":\"");
+  }
+
+  private void checkPatchsetLevelCommentContainedInStreamEvents(String prefix) throws Exception {
     ChangeData change = createChange().getChange();
 
     ChangeApi changeApi = gApi.changes().id(change.getId().get());
@@ -67,7 +78,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
     changeApi.current().review(reviewInput);
     changeApi.abandon();
 
-    assertThat(getEventsContaining(TEST_REVIEW_COMMENT)).hasSize(1);
+    assertThat(getEventsContaining(prefix + TEST_REVIEW_COMMENT)).hasSize(1);
   }
 
   @Test

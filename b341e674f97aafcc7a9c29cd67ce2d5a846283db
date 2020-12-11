@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6935fd96_66a38cba",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-11T12:48:56Z",
+      "side": 1,
+      "message": "Nit: Can be inlined.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 10
+      },
+      "revId": "b341e674f97aafcc7a9c29cd67ce2d5a846283db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba1e0484_68dba87f",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-11T12:48:56Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 10
+      },
+      "revId": "b341e674f97aafcc7a9c29cd67ce2d5a846283db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

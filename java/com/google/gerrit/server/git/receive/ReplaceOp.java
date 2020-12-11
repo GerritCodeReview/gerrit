@@ -81,6 +81,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.util.Providers;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -592,6 +593,7 @@ public class ReplaceOp implements BatchUpdateOp {
         newPatchSet,
         ctx.getAccount(),
         null,
+        Collections.emptyMap(),
         allApprovals,
         oldApprovals,
         ctx.getWhen());

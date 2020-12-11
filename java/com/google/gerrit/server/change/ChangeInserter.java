@@ -544,7 +544,14 @@ public class ChangeInserter implements InsertChangeOp {
           }
         }
         commentAdded.fire(
-            change, patchSet, ctx.getAccount(), null, allApprovals, oldApprovals, ctx.getWhen());
+            change,
+            patchSet,
+            ctx.getAccount(),
+            null,
+            Collections.emptyMap(),
+            allApprovals,
+            oldApprovals,
+            ctx.getWhen());
       }
     }
   }

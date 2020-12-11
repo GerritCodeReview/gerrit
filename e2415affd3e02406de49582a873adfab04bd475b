@@ -16,6 +16,24 @@
       "message": "GetBranchIT.getOwnUserRef has a TODO about this. I guess this TODO can be resolved now?",
       "revId": "e2415affd3e02406de49582a873adfab04bd475b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e338dcc6_37ed65b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-11T11:23:52Z",
+      "side": 1,
+      "message": "Perfect! Removed the TODO and uncommented the lines.",
+      "parentUuid": "84a99b0b_cb91403e",
+      "revId": "e2415affd3e02406de49582a873adfab04bd475b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

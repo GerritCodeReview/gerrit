@@ -46,6 +46,30 @@
       },
       "revId": "fb02e36b31d82a743efb01b313b61ec21d514e85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c12e99a_6cb9e9b5",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-11T08:40:41Z",
+      "side": 1,
+      "message": "Thanks for explaining. Optionally, you may add a comment here saying that this ignores the search field if it doesn\u0027t exist.",
+      "parentUuid": "3454ccb9_da4a3825",
+      "range": {
+        "startLine": 176,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 80
+      },
+      "revId": "fb02e36b31d82a743efb01b313b61ec21d514e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

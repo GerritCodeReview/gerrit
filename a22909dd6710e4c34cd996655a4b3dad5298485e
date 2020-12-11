@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27b5b47e_3ff97483",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-11T15:27:11Z",
+      "side": 0,
+      "message": "It looks like this trim() and the one on line 294 below are dropped in your new version. Is that intentional?",
+      "range": {
+        "startLine": 285,
+        "startChar": 57,
+        "endLine": 285,
+        "endChar": 65
+      },
+      "revId": "a22909dd6710e4c34cd996655a4b3dad5298485e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

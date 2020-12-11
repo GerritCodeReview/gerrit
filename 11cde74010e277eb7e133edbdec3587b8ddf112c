@@ -34,6 +34,24 @@
       "parentUuid": "2bab33e5_27a37b07",
       "revId": "11cde74010e277eb7e133edbdec3587b8ddf112c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3da4bb93_087df8a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-11T13:56:09Z",
+      "side": 1,
+      "message": "So I added read permissions to \"refs/draft-comments\" and \"refs/starred-changes\" to anonymous users by default, on All-Projects initialization.\n\nI then re-treated and preferred to allow implicit visibility in code to these refs. That won\u0027t hurt anyway because we are only allow users to access their own refs (example: user cannot view drafts of another user). This is needed for now so that we preserve the current behaviour for refs visibility, but in a later change, we can remove visibility to these refs because they are not needed.",
+      "parentUuid": "a76ba57f_f16975f0",
+      "revId": "11cde74010e277eb7e133edbdec3587b8ddf112c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

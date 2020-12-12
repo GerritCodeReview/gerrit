@@ -46,6 +46,30 @@
       },
       "revId": "7f93d532721996edec376e6bf592bac1ee8742e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b2b8e55_2fdce23e",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-12T01:04:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "495fb539_2cbb539e",
+      "range": {
+        "startLine": 44,
+        "startChar": 32,
+        "endLine": 44,
+        "endChar": 44
+      },
+      "revId": "7f93d532721996edec376e6bf592bac1ee8742e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

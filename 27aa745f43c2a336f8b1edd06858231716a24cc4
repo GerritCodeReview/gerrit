@@ -380,6 +380,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f9bee1f_87395d33",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-12T00:21:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "461d88cb_2c079b3f",
+      "revId": "27aa745f43c2a336f8b1edd06858231716a24cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a63cfdf0_6a22ff9d",

@@ -534,6 +534,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _isChecksEnabled = false;
 
+  private _isPortingCommentsExperimentEnabled = false;
+
   restApiService = appContext.restApiService;
 
   keyboardShortcuts() {
@@ -557,6 +559,13 @@ export class GrChangeView extends KeyboardShortcutMixin(
       [Shortcut.DIFF_RIGHT_AGAINST_LATEST]: '_handleDiffRightAgainstLatest',
       [Shortcut.DIFF_BASE_AGAINST_LATEST]: '_handleDiffBaseAgainstLatest',
     };
+  }
+
+  constructor() {
+    super();
+    this._isPortingCommentsExperimentEnabled = this.flagsService?.isEnabled(
+      KnownExperimentId.PORTING_COMMENTS
+    );
   }
 
   /** @override */
@@ -2080,7 +2089,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
       throw new Error('missing required changeNum property');
 
     return this.$.commentAPI
-      .loadAll(this._changeNum, this._patchRange?.patchNum)
+      .loadAll(
+        this._changeNum,
+        this._patchRange?.patchNum,
+        this._isPortingCommentsExperimentEnabled
+      )
       .then(comments => {
         this._recomputeComments(comments);
       });

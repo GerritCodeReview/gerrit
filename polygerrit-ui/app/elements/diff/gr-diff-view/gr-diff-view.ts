@@ -95,8 +95,6 @@ import {CommentMap, isInBaseOfPatchRange} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
-
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {GerritView} from '../../../services/router/router-model';
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -264,8 +262,6 @@ export class GrDiffView extends KeyboardShortcutMixin(
   @property({type: Number})
   _focusLineNum?: number;
 
-  private _isPortingCommentsExperimentEnabled = false;
-
   get keyBindings() {
     return {
       esc: '_handleEscKey',
@@ -345,9 +341,6 @@ export class GrDiffView extends KeyboardShortcutMixin(
       this.$.cursor.reInitCursor();
     };
     this.$.diffHost.addEventListener('render', this._onRenderHandler);
-    this._isPortingCommentsExperimentEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.PORTING_COMMENTS
-    );
   }
 
   /** @override */
@@ -1084,8 +1077,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
         // TODO(dhruvsri): check if basePath should be set here
         this.$.diffHost.threads = this._changeComments.getThreadsBySideForFile(
           {path: this._path},
-          this._patchRange,
-          this._isPortingCommentsExperimentEnabled
+          this._patchRange
         );
 
         const edit = r[4] as EditInfo | undefined;

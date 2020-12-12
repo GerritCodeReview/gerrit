@@ -74,7 +74,6 @@ import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {PatchSetFile} from '../../../types/types';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -322,13 +321,9 @@ export class GrFileList extends KeyboardShortcutMixin(
   @property({type: Array})
   _dynamicPrependedContentEndpoints?: string[];
 
-  private _isPortingCommentsExperimentEnabled = false;
-
   private readonly reporting = appContext.reportingService;
 
   private readonly restApiService = appContext.restApiService;
-
-  private readonly flagsService = appContext.flagsService;
 
   get keyBindings() {
     return {
@@ -372,9 +367,6 @@ export class GrFileList extends KeyboardShortcutMixin(
   /** @override */
   attached() {
     super.attached();
-    this._isPortingCommentsExperimentEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.PORTING_COMMENTS
-    );
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
@@ -1555,8 +1547,7 @@ export class GrFileList extends KeyboardShortcutMixin(
 
         diffElem.threads = this.changeComments.getThreadsBySideForFile(
           file,
-          this.patchRange,
-          this._isPortingCommentsExperimentEnabled
+          this.patchRange
         );
         const promises: Array<Promise<unknown>> = [diffElem.reload()];
         if (this._loggedIn && !this.diffPrefs.manual_review) {

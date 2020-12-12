@@ -50,6 +50,7 @@ import {
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
 import {CommentSide, Side} from '../../../constants/constants';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
@@ -419,17 +420,13 @@ export class ChangeComments {
 
   getThreadsBySideForFile(
     file: PatchSetFile,
-    patchRange: PatchRange,
-    includePortedComments?: boolean
+    patchRange: PatchRange
   ): CommentThread[] {
     const threads = createCommentThreads(
       this.getCommentsForFile(file, patchRange),
       patchRange
     );
-
-    if (includePortedComments) {
-      threads.push(...this._getPortedCommentThreads(file, patchRange));
-    }
+    threads.push(...this._getPortedCommentThreads(file, patchRange));
     return threads;
   }
 
@@ -533,9 +530,20 @@ export class GrCommentApi extends GestureEventListeners(
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly flagsService = appContext.flagsService;
+
+  private _isPortingCommentsExperimentEnabled = false;
+
   /** @override */
   created() {
     super.created();
+  }
+
+  constructor() {
+    super();
+    this._isPortingCommentsExperimentEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.PORTING_COMMENTS
+    );
   }
 
   /**
@@ -545,18 +553,16 @@ export class GrCommentApi extends GestureEventListeners(
    */
   loadAll(changeNum: NumericChangeId, patchNum?: PatchSetNum) {
     const revision = patchNum || CURRENT;
-    const commentsPromise: [
-      Promise<PathToCommentsInfoMap | undefined>,
-      Promise<PathToRobotCommentsInfoMap | undefined>,
-      Promise<PathToCommentsInfoMap | undefined>,
-      Promise<PathToCommentsInfoMap | undefined>,
-      Promise<PathToCommentsInfoMap | undefined>
-    ] = [
+    const commentsPromise = [
       this.restApiService.getDiffComments(changeNum),
       this.restApiService.getDiffRobotComments(changeNum),
       this.restApiService.getDiffDrafts(changeNum),
-      this.restApiService.getPortedComments(changeNum, revision),
-      this.restApiService.getPortedDrafts(changeNum, revision),
+      this._isPortingCommentsExperimentEnabled
+        ? this.restApiService.getPortedComments(changeNum, revision)
+        : Promise.resolve({}),
+      this._isPortingCommentsExperimentEnabled
+        ? this.restApiService.getPortedDrafts(changeNum, revision)
+        : Promise.resolve({}),
     ];
 
     return Promise.all(commentsPromise).then(

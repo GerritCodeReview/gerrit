@@ -419,17 +419,13 @@ export class ChangeComments {
 
   getThreadsBySideForFile(
     file: PatchSetFile,
-    patchRange: PatchRange,
-    includePortedComments?: boolean
+    patchRange: PatchRange
   ): CommentThread[] {
     const threads = createCommentThreads(
       this.getCommentsForFile(file, patchRange),
       patchRange
     );
-
-    if (includePortedComments) {
-      threads.push(...this._getPortedCommentThreads(file, patchRange));
-    }
+    threads.push(...this._getPortedCommentThreads(file, patchRange));
     return threads;
   }
 
@@ -543,35 +539,46 @@ export class GrCommentApi extends GestureEventListeners(
    * number. The returned promise resolves when the comments have loaded, but
    * does not yield the comment data.
    */
-  loadAll(changeNum: NumericChangeId, patchNum?: PatchSetNum) {
+  loadAll(
+    changeNum: NumericChangeId,
+    patchNum?: PatchSetNum,
+    includePortedComments?: boolean
+  ) {
     const revision = patchNum || CURRENT;
-    const commentsPromise: [
-      Promise<PathToCommentsInfoMap | undefined>,
-      Promise<PathToRobotCommentsInfoMap | undefined>,
-      Promise<PathToCommentsInfoMap | undefined>,
-      Promise<PathToCommentsInfoMap | undefined>,
-      Promise<PathToCommentsInfoMap | undefined>
-    ] = [
+    const commentsPromise = [
       this.restApiService.getDiffComments(changeNum),
       this.restApiService.getDiffRobotComments(changeNum),
       this.restApiService.getDiffDrafts(changeNum),
-      this.restApiService.getPortedComments(changeNum, revision),
-      this.restApiService.getPortedDrafts(changeNum, revision),
     ];
+    if (includePortedComments) {
+      commentsPromise.push(
+        ...[
+          this.restApiService.getPortedComments(changeNum, revision),
+          this.restApiService.getPortedDrafts(changeNum, revision),
+        ]
+      );
+    }
 
-    return Promise.all(commentsPromise).then(
-      ([comments, robotComments, drafts, portedComments, portedDrafts]) => {
-        this._changeComments = new ChangeComments(
-          comments,
-          // TS 4.0.5 fails without 'as'
-          robotComments as PathToRobotCommentsInfoMap | undefined,
-          drafts,
-          portedComments,
-          portedDrafts
-        );
-        return this._changeComments;
+    return Promise.all(commentsPromise).then(result => {
+      const comments = result[0];
+      const robotComments = result[1];
+      const drafts = result[2];
+      let portedComments;
+      let portedDrafts;
+      if (includePortedComments) {
+        portedComments = result[3];
+        portedDrafts = result[4];
       }
-    );
+      this._changeComments = new ChangeComments(
+        comments,
+        // TS 4.0.5 fails without 'as'
+        robotComments as PathToRobotCommentsInfoMap | undefined,
+        drafts,
+        portedComments,
+        portedDrafts
+      );
+      return this._changeComments;
+    });
   }
 
   /**

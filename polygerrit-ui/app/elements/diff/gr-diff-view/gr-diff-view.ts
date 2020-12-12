@@ -1083,8 +1083,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
         // TODO(dhruvsri): check if basePath should be set here
         this.$.diffHost.threads = this._changeComments.getThreadsBySideForFile(
           {path: this._path},
-          this._patchRange,
-          this._isPortingCommentsExperimentEnabled
+          this._patchRange
         );
 
         const edit = r[4] as EditInfo | undefined;
@@ -1547,7 +1546,11 @@ export class GrDiffView extends KeyboardShortcutMixin(
   _loadComments(patchSet?: PatchSetNum) {
     if (!this._changeNum) throw new Error('Missing this._changeNum');
     return this.$.commentAPI
-      .loadAll(this._changeNum, patchSet)
+      .loadAll(
+        this._changeNum,
+        patchSet,
+        this._isPortingCommentsExperimentEnabled
+      )
       .then(comments => {
         this._changeComments = comments;
       });

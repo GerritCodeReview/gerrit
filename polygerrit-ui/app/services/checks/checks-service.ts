@@ -40,10 +40,6 @@ export class ChecksService {
 
   private changeAndPatchNum$ = change$.pipe(withLatestFrom(currentPatchNum$));
 
-  constructor() {
-    console.log('ChecksService constructor');
-  }
-
   announceUpdate(pluginName: string) {
     this.anouncementSubjects[pluginName].next();
   }
@@ -53,29 +49,19 @@ export class ChecksService {
     provider: ChecksProvider,
     config: ChecksApiConfig
   ) {
-    console.log('ChecksService register: ' + pluginName);
     this.providers[pluginName] = provider;
     this.anouncementSubjects[pluginName] = new BehaviorSubject<void>(undefined);
     updateStateSetProvider(pluginName, config);
-    this.changeAndPatchNum$.subscribe(([change, patchNum]) =>
-      console.log(`tap changeAndPatchNum ${change?._number} ${patchNum}`)
-    );
-    this.anouncementSubjects[pluginName].subscribe(_ =>
-      console.log(`tap anouncementSubjects ${pluginName}`)
-    );
     // Both, changed numbers and and announceUpdate request should trigger.
     combineLatest([
       this.changeAndPatchNum$,
       this.anouncementSubjects[pluginName],
     ])
       .pipe(
-        tap(_ => console.log('tap1')),
         takeWhile(_ => !!this.providers[pluginName]),
         switchMap(
           ([[change, patchNum], _]: any[]): Observable<FetchResponse> => {
-            console.log(`tap2 ${change?._number} ${patchNum}`);
             if (!change || !patchNum) {
-              console.log('tap2a return empty');
               return of({
                 responseCode: ResponseCode.OK,
                 runs: [],
@@ -88,12 +74,9 @@ export class ChecksService {
           }
         ),
         tap(response => {
-          console.log('tap3 ' + response.runs.length);
           updateStateSetResults(pluginName, response.runs);
         })
       )
-      .subscribe(() => {
-        console.log('subscribe');
-      });
+      .subscribe(() => {});
   }
 }

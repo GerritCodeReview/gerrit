@@ -233,9 +233,9 @@ export interface ActionResult {
 }
 
 export enum RunStatus {
-  RUNNABLE,
-  RUNNING,
-  COMPLETED,
+  RUNNABLE = 'RUNNABLE',
+  RUNNING = 'RUNNING',
+  COMPLETED = 'COMPLETED',
 }
 
 export interface CheckResult {

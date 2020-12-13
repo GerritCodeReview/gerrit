@@ -16,7 +16,7 @@
  */
 import {LitElement} from 'lit-element';
 import {Observable, Subject} from 'rxjs';
-import {takeUntil, tap} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * Base class for Gerrit's lit-elements.
@@ -38,16 +38,11 @@ export abstract class GrLitElement extends LitElement {
    * TODO: Maybe distinctUntilChanged should be applied to obs$?
    */
   subscribe<Key extends keyof this>(prop: Key, obs$: Observable<this[Key]>) {
-    obs$
-      .pipe(
-        takeUntil(this.disconnected$),
-        tap(_ => console.log('lit-element tap: ' + prop))
-      )
-      .subscribe(value => {
-        const oldValue = this[prop];
-        this[prop] = value;
-        this.requestUpdate(prop, oldValue);
-      });
+    obs$.pipe(takeUntil(this.disconnected$)).subscribe(value => {
+      const oldValue = this[prop];
+      this[prop] = value;
+      this.requestUpdate(prop, oldValue);
+    });
   }
 
   disconnectedCallback() {

@@ -76,7 +76,6 @@ export function updateStateSetProvider(
   pluginName: string,
   config?: ChecksApiConfig
 ) {
-  console.log('updateStateSetProvider: ' + pluginName);
   const nextState = {...privateState$.getValue()};
   nextState[pluginName] = {
     pluginName,
@@ -87,7 +86,6 @@ export function updateStateSetProvider(
 }
 
 export function updateStateSetResults(pluginName: string, runs: CheckRun[]) {
-  console.log('updateStateSetResults: ' + pluginName);
   const nextState = {...privateState$.getValue()};
   nextState[pluginName] = {
     ...nextState[pluginName],

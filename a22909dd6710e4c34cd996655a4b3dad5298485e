@@ -22,6 +22,30 @@
       },
       "revId": "a22909dd6710e4c34cd996655a4b3dad5298485e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56314733_acaad68e",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-13T13:40:59Z",
+      "side": 0,
+      "message": "This trim is not needed, I sanitize the final commit message below (CommitMessageUtil.checkAndSanitizeCommitMessage)",
+      "parentUuid": "27b5b47e_3ff97483",
+      "range": {
+        "startLine": 285,
+        "startChar": 57,
+        "endLine": 285,
+        "endChar": 65
+      },
+      "revId": "a22909dd6710e4c34cd996655a4b3dad5298485e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

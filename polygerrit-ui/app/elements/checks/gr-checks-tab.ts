@@ -15,25 +15,16 @@
  * limitations under the License.
  */
 import {html} from 'lit-html';
-import {css, customElement} from 'lit-element';
+import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {
   CheckResult,
   CheckRun,
 } from '../plugins/gr-checks-api/gr-checks-api-types';
 import {allResults$, allRuns$} from '../../services/checks/checks-model';
-
-function renderRun(run: CheckRun) {
-  return html`<div>
-    <span>${run.checkName}</span>, <span>${run.status}</span>
-  </div>`;
-}
-
-function renderResult(result: CheckResult) {
-  return html`<div>
-    <span>${result.summary}</span>
-  </div>`;
-}
+import './gr-checks-runs';
+import './gr-checks-results';
+import {sharedStyles} from '../../styles/shared-styles';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -41,6 +32,7 @@ function renderResult(result: CheckResult) {
  */
 @customElement('gr-checks-tab')
 export class GrChecksTab extends GrLitElement {
+  @property()
   runs: CheckRun[] = [];
 
   results: CheckResult[] = [];
@@ -52,20 +44,54 @@ export class GrChecksTab extends GrLitElement {
   }
 
   static get styles() {
-    return css`
-      :host {
-        display: block;
-        padding: var(--spacing-m);
-      }
-    `;
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+        }
+        .header {
+          display: block;
+          padding: var(--spacing-m) var(--spacing-l);
+          border-bottom: 1px solid var(--border-color);
+        }
+        .header span {
+          display: inline-block;
+          color: var(--link-color);
+          padding: var(--spacing-s) var(--spacing-m);
+          margin-right: var(--spacing-l);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+        }
+        .container {
+          display: flex;
+        }
+        .runs {
+          min-width: 250px;
+          min-height: 400px;
+          border-right: 1px solid var(--border-color);
+        }
+        .results {
+          background-color: var(--background-color-secondary);
+          flex-grow: 1;
+        }
+      `,
+    ];
   }
 
   render() {
     return html`
-      <div><h2>Runs</h2></div>
-      ${this.runs.map(renderRun)}
-      <div><h2>Results</h2></div>
-      ${this.results.map(renderResult)}
+      <div class="header">
+        <span>Patchset-Dropdown</span>
+        <span>Filter-Dropdown</span>
+      </div>
+      <div class="container">
+        <gr-checks-runs class="runs" .runs="${this.runs}"></gr-checks-runs>
+        <gr-checks-results
+          class="results"
+          .runs="${this.runs}"
+        ></gr-checks-results>
+      </div>
     `;
   }
 }

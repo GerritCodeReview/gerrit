@@ -17,9 +17,11 @@
 
 import {BehaviorSubject, Observable} from 'rxjs';
 import {
+  Category,
   CheckResult,
   CheckRun,
   ChecksApiConfig,
+  RunStatus,
 } from '../../elements/plugins/gr-checks-api/gr-checks-api-types';
 import {map} from 'rxjs/operators';
 
@@ -60,7 +62,7 @@ export const allResults$ = checksState$.pipe(
           ...allResults,
           ...providerState.runs.reduce(
             (results: CheckResult[], run: CheckRun) =>
-              results.concat(run.results),
+              results.concat(run.results ?? []),
             []
           ),
         ],
@@ -85,11 +87,43 @@ export function updateStateSetProvider(
   privateState$.next(nextState);
 }
 
+const fakeRun1: CheckRun = {
+  checkName: 'Super Check',
+  results: [
+    {
+      category: Category.WARNING,
+      summary: 'We think that you could improve this.',
+    },
+  ],
+  status: RunStatus.COMPLETED,
+};
+
+const fakeRun2: CheckRun = {
+  checkName: 'Mega Analysis',
+  results: [
+    {
+      category: Category.INFO,
+      summary: 'This is looking a bit to large.',
+    },
+  ],
+  status: RunStatus.COMPLETED,
+};
+
+const fakeRun3: CheckRun = {
+  checkName: 'Critical Observations',
+  status: RunStatus.RUNNABLE,
+};
+
+const fakeRun4: CheckRun = {
+  checkName: 'TODO Elimination',
+  status: RunStatus.COMPLETED,
+};
+
 export function updateStateSetResults(pluginName: string, runs: CheckRun[]) {
   const nextState = {...privateState$.getValue()};
   nextState[pluginName] = {
     ...nextState[pluginName],
-    runs,
+    runs: [...runs, fakeRun1, fakeRun2, fakeRun3, fakeRun4],
   };
   privateState$.next(nextState);
 }

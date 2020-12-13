@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "210d6bd1_b4264e4e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-13T09:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ef51a72_d87f05fa",
+      "range": {
+        "startLine": 1029,
+        "startChar": 69,
+        "endLine": 1029,
+        "endChar": 74
+      },
+      "revId": "a22909dd6710e4c34cd996655a4b3dad5298485e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aaabb53f_d6c2491d",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-11T08:18:06Z",
       "side": 1,
       "message": "nit: Could be just Optional.of(cherryPickOf) now that we disallow null above.",
+      "range": {
+        "startLine": 481,
+        "startChar": 24,
+        "endLine": 481,
+        "endChar": 57
+      },
+      "revId": "a22909dd6710e4c34cd996655a4b3dad5298485e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f595909_df4952bb",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-13T09:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaabb53f_d6c2491d",
       "range": {
         "startLine": 481,
         "startChar": 24,

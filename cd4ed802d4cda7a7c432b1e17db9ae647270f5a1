@@ -16,6 +16,24 @@
       "message": "We could rebase this update it out of the series?",
       "revId": "cd4ed802d4cda7a7c432b1e17db9ae647270f5a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7162138f_eac62075",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-14T19:23:29Z",
+      "side": 1,
+      "message": "\u003e We could rebase this update it out of the series?\n\nI was keeping it on top of the ES 7.10 introduction, as [1] mentions the latter for an internal dependency update of theirs. I think the elastic tests still pass without that, though. But, WDYT?",
+      "parentUuid": "719e29ae_5d832db6",
+      "revId": "cd4ed802d4cda7a7c432b1e17db9ae647270f5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

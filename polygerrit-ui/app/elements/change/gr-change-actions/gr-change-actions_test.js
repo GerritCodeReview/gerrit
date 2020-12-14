@@ -28,6 +28,7 @@ import {
   createRevisions,
 } from '../../../test/test-data-generators.js';
 import {appContext} from '../../../services/app-context.js';
+import {ChangeStatus} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-change-actions');
 
@@ -1574,6 +1575,16 @@ suite('gr-change-actions tests', () => {
         const approveButton = element.$.secondaryActions
             .querySelector('gr-button');
         assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
+      });
+
+      test('not added when change is merged', () => {
+        element.change.status = ChangeStatus.MERGED;
+        flush(() => {
+          const approveButton =
+          element.shadowRoot
+              .querySelector('gr-button[data-action-key=\'review\']');
+          assert.isNull(approveButton);
+        });
       });
 
       test('not added when already approved', () => {

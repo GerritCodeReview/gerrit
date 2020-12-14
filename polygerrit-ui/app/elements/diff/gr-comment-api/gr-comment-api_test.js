@@ -20,7 +20,7 @@ import './gr-comment-api.js';
 import {ChangeComments} from './gr-comment-api.js';
 import {CommentSide} from '../../../constants/constants.js';
 import {isInRevisionOfPatchRange, isInBaseOfPatchRange, createCommentThreads, isDraftThread, isUnresolved} from '../../../utils/comment-util.js';
-import {createDraft, createComment} from '../../../test/test-data-generators.js';
+import {createDraft, createComment, createChangeComments} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
 
@@ -192,7 +192,7 @@ suite('gr-comment-api tests', () => {
         portedComments = {
           'karma.conf.js': [{
             ...comment1,
-            patchNum: 4,
+            patch_set: 4,
             range: {
               start_line: 136,
               start_character: 16,
@@ -276,6 +276,16 @@ suite('gr-comment-api tests', () => {
         assert.equal(changeComments._getPortedCommentThreads(
             {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'}
         ).length, 0);
+      });
+
+      test('ported comments contribute to comment count', () => {
+        assert.equal(changeComments.computeCommentsString(
+            {basePatchNum: 'PARENT', patchNum: 2}, 'karma.conf.js',
+            {__path: 'karma.conf.js'}), '2 comments (1 unresolved)');
+        // comment is not ported over to patchset 4
+        assert.equal(changeComments.computeCommentsString(
+            {basePatchNum: 'PARENT', patchNum: 4}, 'karma.conf.js',
+            {__path: 'karma.conf.js'}), '1 comment (1 unresolved)');
       });
 
       test('drafts are ported over', () => {
@@ -610,6 +620,78 @@ suite('gr-comment-api tests', () => {
         element._changeComments = new ChangeComments(comments, {}, {}, 1234);
         assert.equal(
             element._changeComments.computeUnresolvedNum(1, 'path'), 0);
+      });
+
+      test('computeCommentsString', () => {
+        const changeComments = createChangeComments();
+        const parentTo1 = {
+          basePatchNum: 'PARENT',
+          patchNum: 1,
+        };
+        const parentTo2 = {
+          basePatchNum: 'PARENT',
+          patchNum: 2,
+        };
+        const _1To2 = {
+          basePatchNum: 1,
+          patchNum: 2,
+        };
+
+        assert.equal(
+            changeComments.computeCommentsString(parentTo1, '/COMMIT_MSG',
+                {__path: '/COMMIT_MSG'}), '2 comments (1 unresolved)');
+        assert.equal(
+            changeComments.computeCommentsString(parentTo1, '/COMMIT_MSG',
+                {__path: '/COMMIT_MSG', status: 'U'}, true),
+            '2 comments (1 unresolved)(no changes)');
+        assert.equal(
+            changeComments.computeCommentsString(_1To2, '/COMMIT_MSG',
+                {__path: '/COMMIT_MSG'}), '3 comments (1 unresolved)');
+
+        assert.equal(
+            changeComments.computeCommentsString(parentTo1, 'myfile.txt',
+                {__path: 'myfile.txt'}), '1 comment');
+        assert.equal(
+            changeComments.computeCommentsString(_1To2, 'myfile.txt',
+                {__path: 'myfile.txt'}), '3 comments');
+
+        assert.equal(
+            changeComments.computeCommentsString(parentTo1,
+                'file_added_in_rev2.txt',
+                {__path: 'file_added_in_rev2.txt'}), '');
+        assert.equal(
+            changeComments.computeCommentsString(_1To2,
+                'file_added_in_rev2.txt',
+                {__path: 'file_added_in_rev2.txt'}), '');
+
+        assert.equal(
+            changeComments.computeCommentsString(parentTo2, '/COMMIT_MSG',
+                {__path: '/COMMIT_MSG'}), '1 comment');
+        assert.equal(
+            changeComments.computeCommentsString(_1To2, '/COMMIT_MSG',
+                {__path: '/COMMIT_MSG'}), '3 comments (1 unresolved)');
+
+        assert.equal(
+            changeComments.computeCommentsString(parentTo2, 'myfile.txt',
+                {__path: 'myfile.txt'}), '2 comments');
+        assert.equal(
+            changeComments.computeCommentsString(_1To2, 'myfile.txt',
+                {__path: 'myfile.txt'}), '3 comments');
+
+        assert.equal(
+            changeComments.computeCommentsString(parentTo2,
+                'file_added_in_rev2.txt',
+                {__path: 'file_added_in_rev2.txt'}), '');
+        assert.equal(
+            changeComments.computeCommentsString(_1To2,
+                'file_added_in_rev2.txt',
+                {__path: 'file_added_in_rev2.txt'}), '');
+        assert.equal(
+            changeComments.computeCommentsString(parentTo2, 'unresolved.file',
+                {__path: 'unresolved.file'}), '2 comments (1 unresolved)');
+        assert.equal(
+            changeComments.computeCommentsString(_1To2, 'unresolved.file',
+                {__path: 'unresolved.file'}), '2 comments (1 unresolved)');
       });
 
       test('computeCommentThreadCount', () => {

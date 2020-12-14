@@ -18,7 +18,11 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment-api_html';
-import {patchNumEquals, CURRENT} from '../../../utils/patch-set-util';
+import {
+  patchNumEquals,
+  CURRENT,
+  isMergeParent,
+} from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {
   CommentBasics,
@@ -30,6 +34,7 @@ import {
   NumericChangeId,
   PathToCommentsInfoMap,
   FileInfo,
+  ParentPatchSetNum,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
@@ -369,6 +374,10 @@ export class ChangeComments {
    * does not return the range of the ported thread and it becomes a file level
    * thread.
    *
+   * If a comment was created with Side=PARENT, then we only show this ported
+   * comment if either Base or the Parent of a merge is part of the patch
+   * range, always on the left side of the diff.
+   *
    * @return only the ported threads for the specified file and patch range
    */
   _getPortedCommentThreads(
@@ -407,15 +416,21 @@ export class ChangeComments {
         return false;
       }
 
-      // TODO(dhruvsri): Add handling for thread.commentSide = PARENT
-      if (thread.commentSide === CommentSide.PARENT) return false;
+      thread.diffSide = Side.RIGHT;
+      if (thread.commentSide === CommentSide.PARENT) {
+        if (
+          !patchNumEquals(patchRange.basePatchNum, ParentPatchSetNum) &&
+          !isMergeParent(patchRange.basePatchNum)
+        )
+          return false;
+        thread.diffSide = Side.LEFT;
+      }
 
       if (!isUnresolved(thread) && !isDraftThread(thread)) return false;
 
       thread.range = portedComment.range;
       thread.line = portedComment.line;
       thread.ported = true;
-      thread.diffSide = Side.RIGHT;
       return true;
     });
   }

@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-comment-api.js';
 import {ChangeComments} from './gr-comment-api.js';
-import {CommentSide} from '../../../constants/constants.js';
+import {CommentSide, Side} from '../../../constants/constants.js';
 import {isInRevisionOfPatchRange, isInBaseOfPatchRange, createCommentThreads, isDraftThread, isUnresolved} from '../../../utils/comment-util.js';
 import {createDraft, createComment, createChangeComments} from '../../../test/test-data-generators.js';
 
@@ -154,7 +154,7 @@ suite('gr-comment-api tests', () => {
       const comment1 = {
         ...createComment(),
         unresolved: true,
-        id: 'db977012_e1f13818',
+        id: '1',
         line: 136,
         patch_set: 2,
         range: {
@@ -168,8 +168,20 @@ suite('gr-comment-api tests', () => {
       const comment2 = {
         ...createComment(),
         patch_set: 2,
-        id: 'ecf0b9fa_fe1a5f62',
+        id: '2',
         line: 5,
+      };
+
+      const comment3 = {
+        ...createComment(),
+        side: CommentSide.PARENT,
+        line: 10,
+        unresolved: true,
+      };
+
+      const comment4 = {
+        ...comment3,
+        parent: -2,
       };
 
       const draft1 = {
@@ -275,6 +287,74 @@ suite('gr-comment-api tests', () => {
             .getAllCommentsForPath('karma.conf.js')).length, 1);
         assert.equal(changeComments._getPortedCommentThreads(
             {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'}
+        ).length, 0);
+      });
+
+      test('comments with side=PARENT are ported over', () => {
+        changeComments = new ChangeComments(
+            {/* comments */
+              // comment left on Base
+              'karma.conf.js': [comment3],
+            },
+            {}/* robot comments */,
+            {/* drafts */
+              'karma.conf.js': [draft2],
+            },
+            {/* ported comments */
+              'karma.conf.js': [{
+                ...comment3,
+                line: 31,
+                patch_set: 4,
+              }],
+            },
+            {}/* ported drafts */
+        );
+
+        const portedThreads = changeComments._getPortedCommentThreads(
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'});
+        assert.equal(portedThreads.length, 1);
+        assert.equal(portedThreads[0].line, 31);
+        assert.equal(portedThreads[0].diffSide, Side.LEFT);
+
+        assert.equal(changeComments._getPortedCommentThreads(
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: -2}
+        ).length, 0);
+
+        assert.equal(changeComments._getPortedCommentThreads(
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 2}
+        ).length, 0);
+      });
+
+      test('comments left on merge parent is not ported over', () => {
+        changeComments = new ChangeComments(
+            {/* comments */
+              // comment left on Base
+              'karma.conf.js': [comment4],
+            },
+            {}/* robot comments */,
+            {/* drafts */
+              'karma.conf.js': [draft2],
+            },
+            {/* ported comments */
+              'karma.conf.js': [{
+                ...comment4,
+                line: 31,
+                patch_set: 4,
+              }],
+            },
+            {}/* ported drafts */
+        );
+
+        const portedThreads = changeComments._getPortedCommentThreads(
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'});
+        assert.equal(portedThreads.length, 0);
+
+        assert.equal(changeComments._getPortedCommentThreads(
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: -2}
+        ).length, 0);
+
+        assert.equal(changeComments._getPortedCommentThreads(
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 2}
         ).length, 0);
       });
 

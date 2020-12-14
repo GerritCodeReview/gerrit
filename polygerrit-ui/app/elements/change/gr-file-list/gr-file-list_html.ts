@@ -456,8 +456,7 @@ export const htmlTemplate = html`
               >
               <span
                 ><!--
-              -->[[_computeCommentsString(changeComments, patchRange,
-                file.__path)]]<!--
+              -->[[_computeCommentsString(changeComments, patchRange, file)]]<!--
            --></span
               >
               <span class="noCommentsScreenReaderText">

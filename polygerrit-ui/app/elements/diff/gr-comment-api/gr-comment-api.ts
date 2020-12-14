@@ -30,6 +30,7 @@ import {
   NumericChangeId,
   PathToCommentsInfoMap,
   FileInfo,
+  ParentPatchSetNum,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
@@ -367,6 +368,10 @@ export class ChangeComments {
    * does not return the range of the ported thread and it becomes a file level
    * thread.
    *
+   * If a comment was created with Side=PARENT, then we only show this ported
+   * comment if Base is part of the patch range, always on the left side of
+   * the diff.
+   *
    * @return only the ported threads for the specified file and patch range
    */
   _getPortedCommentThreads(
@@ -405,15 +410,22 @@ export class ChangeComments {
         return false;
       }
 
-      // TODO(dhruvsri): Add handling for thread.commentSide = PARENT
-      if (thread.commentSide === CommentSide.PARENT) return false;
+      thread.diffSide = Side.RIGHT;
+      if (thread.commentSide === CommentSide.PARENT) {
+        // TODO(dhruvsri): Add handling for merge parents
+        if (
+          patchRange.basePatchNum !== ParentPatchSetNum ||
+          !!thread.mergeParentNum
+        )
+          return false;
+        thread.diffSide = Side.LEFT;
+      }
 
       if (!isUnresolved(thread) && !isDraftThread(thread)) return false;
 
       thread.range = portedComment.range;
       thread.line = portedComment.line;
       thread.ported = true;
-      thread.diffSide = Side.RIGHT;
       return true;
     });
   }

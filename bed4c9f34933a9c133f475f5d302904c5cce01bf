@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8748bd8b_6e474455",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-14T18:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4f6efa0_aa9926b9",
+      "revId": "bed4c9f34933a9c133f475f5d302904c5cce01bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48e0c205_ebe6f40f",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3dc1478_4b4f4027",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-14T18:12:27Z",
+      "side": 1,
+      "message": "Yeah much better.",
+      "parentUuid": "48e0c205_ebe6f40f",
+      "range": {
+        "startLine": 548,
+        "startChar": 4,
+        "endLine": 552,
+        "endChar": 6
+      },
+      "revId": "bed4c9f34933a9c133f475f5d302904c5cce01bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11cfe21e_09d14748",
@@ -54,6 +96,24 @@
       "writtenOn": "2020-12-14T14:58:05Z",
       "side": 1,
       "message": "What is the purpose of creating an array and then spreading it? Is this\n\n  ...[a,b]\n\nthe same as this?\n\n  a,b",
+      "revId": "bed4c9f34933a9c133f475f5d302904c5cce01bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f604a356_d34aff08",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-14T18:12:27Z",
+      "side": 1,
+      "message": "Yes.\nUsed the suggestion from above.",
+      "parentUuid": "11cfe21e_09d14748",
       "revId": "bed4c9f34933a9c133f475f5d302904c5cce01bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

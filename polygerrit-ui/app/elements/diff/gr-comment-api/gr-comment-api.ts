@@ -404,15 +404,16 @@ export class ChangeComments {
         return false;
       }
 
-      // TODO(dhruvsri): Add handling for thread.commentSide = PARENT
-      if (thread.commentSide === CommentSide.PARENT) return false;
+      thread.diffSide = Side.RIGHT;
+      if (thread.commentSide === CommentSide.PARENT) {
+        thread.diffSide = Side.LEFT;
+      }
 
       if (!isUnresolved(thread) && !isDraftThread(thread)) return false;
 
       thread.range = portedComment.range;
       thread.line = portedComment.line;
       thread.ported = true;
-      thread.diffSide = Side.RIGHT;
       return true;
     });
   }

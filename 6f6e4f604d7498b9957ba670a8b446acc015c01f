@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1912cbe_1986d744",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2519,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-14T14:00:40Z",
+      "side": 1,
+      "message": "As the name says Registered-Users are the users that have registered at Gerrit (aka created a Gerrit account). Semantically it seems wrong to include external users (users who didn\u0027t register) into that group. It would be quite confusing for everyone if Registered-Users can contain non-registered users. Can we avoid this confusion somehow? E.g. should we have another group for this, or should the group be renamed first?",
+      "range": {
+        "startLine": 2515,
+        "startChar": 0,
+        "endLine": 2519,
+        "endChar": 46
+      },
+      "revId": "6f6e4f604d7498b9957ba670a8b446acc015c01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

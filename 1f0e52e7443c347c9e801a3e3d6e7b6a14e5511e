@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f729aaf9_c812a562",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-14T17:47:46Z",
+      "side": 1,
+      "message": "  $ bazel test //Documentation:check_licenses\n\nis failing now:\n\nERROR: /home/davido/projects/gerrit2/tools/node_tools/node_modules_licenses/BUILD:7:11: Compiling TypeScript (devmode) //tools/node_tools/node_modules_licenses:licenses-map [for host] failed: (Exit 1): tsc_wrapped-bin.sh failed: error executing command bazel-out/host/bin/tools/node_tools/tsc_wrapped-bin.sh @@bazel-out/host/bin/tools/node_tools/node_modules_licenses/licenses-map_es5_tsconfig.json\ntools/node_tools/node_modules_licenses/installed-node-modules-map.ts:75:25 - error TS21231: [tsetse] type assert `JSON.parse() as SomeExplicitType` for type \u0026 optimization safety.\n\tSee http://tsetse.info/must-type-assert-json-parse.\n\n75         const version \u003d JSON.parse(fs.readFileSync(packageJsonFile, {encoding: \u0027utf-8\u0027}))[\"version\"];\n                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n",
+      "revId": "1f0e52e7443c347c9e801a3e3d6e7b6a14e5511e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

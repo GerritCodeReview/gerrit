@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4e2794d_caeeb129",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-14T08:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a414b964_9d72ce40",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "92520cb8dfe6da1e81a17e6d1740a7b667c5295c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "beb88005_2d6dfaf3",
@@ -184,6 +208,24 @@
       "side": 1,
       "message": "See my comment above, I need to pass an empty value to ChangeNotesState in case \n1) cherryPickOf was never set and parsed, then it is null\n2) It was explicitly reset at some point, then it is Optional.empty\nI could change ChangeNotesState to accept Optional instead and would have something like:\n\ncherryPickOf !\u003d null ? cherryPickOf : Optional.empty()",
       "parentUuid": "5f14bc5d_1092198b",
+      "revId": "92520cb8dfe6da1e81a17e6d1740a7b667c5295c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3adc9e7_dacbe56b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-14T08:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8c1f030_bc4745e3",
       "revId": "92520cb8dfe6da1e81a17e6d1740a7b667c5295c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

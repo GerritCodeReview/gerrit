@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-diff-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {ChangeStatus, Side} from '../../../constants/constants.js';
+import {ChangeStatus} from '../../../constants/constants.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
@@ -27,6 +27,7 @@ import {GerritView} from '../../../services/router/router-model.js';
 import {
   createChange,
   createRevisions,
+  createComment,
 } from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
@@ -136,16 +137,16 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element.$.commentAPI, 'loadAll').returns(Promise.resolve({
         _comments: {'/COMMIT_MSG': [
           {
+            ...createComment(),
             id: 'c1',
             line: 10,
             patch_set: 2,
-            diffSide: Side.LEFT,
             path: '/COMMIT_MSG',
           }, {
+            ...createComment(),
             id: 'c3',
             line: 10,
             patch_set: 'PARENT',
-            diffSide: Side.LEFT,
             path: '/COMMIT_MSG',
           },
         ]},
@@ -185,39 +186,44 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    test('comment route', () => {
-      const initLineOfInterestAndCursorStub =
+    suite('comment route', () => {
+      let initLineOfInterestAndCursorStub; let getUrlStub; let replaceStateStub;
+      setup(() => {
+        initLineOfInterestAndCursorStub =
         sinon.stub(element, '_initLineOfInterestAndCursor');
-      const getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
-      const replaceStateStub = sinon.stub(history, 'replaceState');
-      sinon.stub(element, '_getFiles');
-      sinon.stub(element.reporting, 'diffViewDisplayed');
-      sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-      sinon.spy(element, '_paramsChanged');
-      sinon.stub(element, '_getChangeDetail').returns(Promise.resolve({
-        ...createChange(),
-        revisions: createRevisions(11),
-      }));
-      element.params = {
-        view: GerritNav.View.DIFF,
-        changeNum: '42',
-        commentLink: true,
-        commentId: 'c1',
-      };
-      element._change = {
-        ...createChange(),
-        revisions: createRevisions(11),
-      };
-      return element._paramsChanged.returnValues[0].then(() => {
-        assert.isTrue(initLineOfInterestAndCursorStub.
-            calledWithExactly(true));
-        assert.equal(element._focusLineNum, 10);
-        assert.equal(element._patchRange.patchNum, 11);
-        assert.equal(element._patchRange.basePatchNum, 2);
+        getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
+        replaceStateStub = sinon.stub(history, 'replaceState');
+        sinon.stub(element, '_getFiles');
+        sinon.stub(element.reporting, 'diffViewDisplayed');
+        sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+        sinon.spy(element, '_paramsChanged');
+        sinon.stub(element, '_getChangeDetail').returns(Promise.resolve({
+          ...createChange(),
+          revisions: createRevisions(11),
+        }));
+      });
 
-        assert.isTrue(replaceStateStub.called);
-        assert.isTrue(getUrlStub.calledWithExactly('42', 'test-project',
-            '/COMMIT_MSG', 11, 2, 10, true));
+      test('comment url resolves to comment.patch_set vs latest', () => {
+        element.params = {
+          view: GerritNav.View.DIFF,
+          changeNum: '42',
+          commentLink: true,
+          commentId: 'c1',
+        };
+        element._change = {
+          ...createChange(),
+          revisions: createRevisions(11),
+        };
+        return element._paramsChanged.returnValues[0].then(() => {
+          assert.isTrue(initLineOfInterestAndCursorStub.
+              calledWithExactly(true));
+          assert.equal(element._focusLineNum, 10);
+          assert.equal(element._patchRange.patchNum, 11);
+          assert.equal(element._patchRange.basePatchNum, 2);
+          assert.isTrue(replaceStateStub.called);
+          assert.isTrue(getUrlStub.calledWithExactly('42', 'test-project',
+              '/COMMIT_MSG', 11, 2, 10, true));
+        });
       });
     });
 

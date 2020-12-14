@@ -234,3 +234,28 @@ export function isInPatchRange(
     isInRevisionOfPatchRange(comment, range)
   );
 }
+
+export function getPatchRangeForCommentUrl(
+  comment: UIComment,
+  latestPatchNum: PatchSetNum
+) {
+  if (!comment.patch_set) throw new Error('Missing comment.patch_set');
+
+  // TODO(dhruvsri): Add handling for comment left on parents of merge commits
+  if (comment.side === CommentSide.PARENT) {
+    return {
+      patchNum: comment.patch_set,
+      basePatchNum: ParentPatchSetNum,
+    };
+  } else if (patchNumEquals(latestPatchNum, comment.patch_set)) {
+    return {
+      patchNum: latestPatchNum,
+      basePatchNum: ParentPatchSetNum,
+    };
+  } else {
+    return {
+      patchNum: latestPatchNum,
+      basePatchNum: comment.patch_set,
+    };
+  }
+}

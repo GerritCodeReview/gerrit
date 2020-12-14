@@ -34,6 +34,24 @@
       "parentUuid": "719e29ae_5d832db6",
       "revId": "cd4ed802d4cda7a7c432b1e17db9ae647270f5a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a40453a_524a9e65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-14T19:36:47Z",
+      "side": 1,
+      "message": "OK, let us keep it here then.",
+      "parentUuid": "7162138f_eac62075",
+      "revId": "cd4ed802d4cda7a7c432b1e17db9ae647270f5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

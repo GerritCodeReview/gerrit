@@ -30,7 +30,7 @@ import {
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getComputedStyleValue} from '../../../utils/dom-util';
-import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit';
 import {EventType, PluginApi} from '../../plugins/gr-plugin-types';
@@ -102,6 +102,7 @@ import {
 import 'lodash/lodash';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
+import {GerritView} from '../../../services/router/router-model';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');

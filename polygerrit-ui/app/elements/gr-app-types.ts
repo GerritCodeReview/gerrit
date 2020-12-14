@@ -16,7 +16,6 @@
  */
 import {
   GenerateUrlParameters,
-  GerritView,
   GroupDetailView,
   RepoDetailView,
 } from './core/gr-navigation/gr-navigation';
@@ -28,6 +27,7 @@ import {
   RepoName,
   UrlEncodedCommentId,
 } from '../types/common';
+import {GerritView} from '../services/router/router-model';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;

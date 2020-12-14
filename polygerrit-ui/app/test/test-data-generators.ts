@@ -91,6 +91,7 @@ import {
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
 import {UIComment, UIDraft} from '../utils/comment-util';
+import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 
 export function dateToTimestamp(date: Date): Timestamp {
   const nanosecondSuffix = '.000000000';
@@ -464,4 +465,107 @@ export function createDraft(): UIDraft {
     __draft: true,
     __editing: false,
   };
+}
+
+export function createChangeComments(): ChangeComments {
+  const comments = {
+    '/COMMIT_MSG': [
+      {
+        ...createComment(),
+        message: 'Done',
+        updated: '2017-02-08 16:40:49' as Timestamp,
+        id: '1' as UrlEncodedCommentId,
+      },
+      {
+        ...createComment(),
+        message: 'oh hay',
+        updated: '2017-02-09 16:40:49' as Timestamp,
+        id: '2' as UrlEncodedCommentId,
+      },
+      {
+        ...createComment(),
+        patch_set: 2 as PatchSetNum,
+        message: 'hello',
+        updated: '2017-02-10 16:40:49' as Timestamp,
+        id: '3' as UrlEncodedCommentId,
+      },
+    ],
+    'myfile.txt': [
+      {
+        ...createComment(),
+        message: 'good news!',
+        updated: '2017-02-08 16:40:49' as Timestamp,
+        id: '4' as UrlEncodedCommentId,
+      },
+      {
+        ...createComment(),
+        patch_set: 2 as PatchSetNum,
+        message: 'wat!?',
+        updated: '2017-02-09 16:40:49' as Timestamp,
+        id: '5' as UrlEncodedCommentId,
+      },
+      {
+        ...createComment(),
+        patch_set: 2 as PatchSetNum,
+        message: 'hi',
+        updated: '2017-02-10 16:40:49' as Timestamp,
+        id: '6' as UrlEncodedCommentId,
+      },
+    ],
+    'unresolved.file': [
+      {
+        ...createComment(),
+        patch_set: 2 as PatchSetNum,
+        message: 'wat!?',
+        updated: '2017-02-09 16:40:49' as Timestamp,
+        id: '7' as UrlEncodedCommentId,
+        unresolved: true,
+      },
+      {
+        ...createComment(),
+        patch_set: 2 as PatchSetNum,
+        message: 'hi',
+        updated: '2017-02-10 16:40:49' as Timestamp,
+        id: '8' as UrlEncodedCommentId,
+        in_reply_to: '7' as UrlEncodedCommentId,
+        unresolved: false,
+      },
+      {
+        ...createComment(),
+        patch_set: 2 as PatchSetNum,
+        message: 'good news!',
+        updated: '2017-02-08 16:40:49' as Timestamp,
+        id: '9' as UrlEncodedCommentId,
+        unresolved: true,
+      },
+    ],
+  };
+  const drafts = {
+    '/COMMIT_MSG': [
+      {
+        ...createDraft(),
+        message: 'hi',
+        updated: '2017-02-15 16:40:49' as Timestamp,
+        id: '10' as UrlEncodedCommentId,
+        unresolved: true,
+      },
+      {
+        ...createDraft(),
+        message: 'fyi',
+        updated: '2017-02-15 16:40:49' as Timestamp,
+        id: '11' as UrlEncodedCommentId,
+        unresolved: false,
+      },
+    ],
+    'unresolved.file': [
+      {
+        ...createDraft(),
+        message: 'hi',
+        updated: '2017-02-11 16:40:49' as Timestamp,
+        id: '12' as UrlEncodedCommentId,
+        unresolved: false,
+      },
+    ],
+  };
+  return new ChangeComments(comments, {}, drafts, {}, {});
 }

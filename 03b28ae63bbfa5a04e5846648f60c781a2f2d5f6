@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a4176cb_3f597902",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1375,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-14T11:17:32Z",
+      "side": 0,
+      "message": "this statement should be restored",
+      "range": {
+        "startLine": 1375,
+        "startChar": 10,
+        "endLine": 1375,
+        "endChar": 15
+      },
+      "revId": "03b28ae63bbfa5a04e5846648f60c781a2f2d5f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -610,44 +610,17 @@ export class GrFileList extends KeyboardShortcutMixin(
   _computeCommentsString(
     changeComments?: ChangeComments,
     patchRange?: PatchRange,
-    path?: string
+    file?: NormalizedFileInfo
   ) {
     if (
       changeComments === undefined ||
       patchRange === undefined ||
-      path === undefined
+      file === undefined ||
+      file.__path === undefined
     ) {
       return '';
     }
-    const unresolvedCount =
-      changeComments.computeUnresolvedNum({
-        patchNum: patchRange.basePatchNum,
-        path,
-      }) +
-      changeComments.computeUnresolvedNum({
-        patchNum: patchRange.patchNum,
-        path,
-      });
-    const commentThreadCount =
-      changeComments.computeCommentThreadCount({
-        patchNum: patchRange.basePatchNum,
-        path,
-      }) +
-      changeComments.computeCommentThreadCount({
-        patchNum: patchRange.patchNum,
-        path,
-      });
-    const commentString = pluralize(commentThreadCount, 'comment');
-    const unresolvedString =
-      unresolvedCount === 0 ? '' : `${unresolvedCount} unresolved`;
-
-    return (
-      commentString +
-      // Add a space if both comments and unresolved
-      (commentString && unresolvedString ? ' ' : '') +
-      // Add parentheses around unresolved if it exists.
-      (unresolvedString ? `(${unresolvedString})` : '')
-    );
+    return changeComments.computeCommentsString(patchRange, file.__path, file);
   }
 
   /**

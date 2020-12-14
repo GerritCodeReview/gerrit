@@ -39,7 +39,6 @@ import {
   KeyboardShortcutMixin,
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {pluralize} from '../../../utils/string-util';
 import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
 import {
@@ -182,9 +181,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   @property({
     type: Array,
-    computed:
-      '_formatFilesForDropdown(_files, ' +
-      '_patchRange.patchNum, _changeComments)',
+    computed: '_formatFilesForDropdown(_files, _patchRange, _changeComments)',
   })
   _formattedFiles?: DropdownItem[];
 
@@ -1312,11 +1309,11 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   _formatFilesForDropdown(
     files?: Files,
-    patchNum?: PatchSetNum,
+    patchRange?: PatchRange,
     changeComments?: ChangeComments
   ): DropdownItem[] {
     if (!files) return [];
-    if (!patchNum) return [];
+    if (!patchRange) return [];
     if (!changeComments) return [];
 
     const dropdownContent: DropdownItem[] = [];
@@ -1325,44 +1322,16 @@ export class GrDiffView extends KeyboardShortcutMixin(
         text: computeDisplayPath(path),
         mobileText: computeTruncatedPath(path),
         value: path,
-        bottomText: this._computeCommentString(
-          changeComments,
-          patchNum,
+        bottomText: changeComments.computeCommentsString(
+          patchRange,
           path,
-          files.changeFilesByPath[path]
+          files.changeFilesByPath[path],
+          /* includeUnmodified= */ true,
+          patchRange.patchNum
         ),
       });
     }
     return dropdownContent;
-  }
-
-  _computeCommentString(
-    changeComments?: ChangeComments,
-    patchNum?: PatchSetNum,
-    path?: string,
-    changeFileInfo?: FileInfo
-  ) {
-    if (!changeComments) return '';
-    if (!path) return '';
-    if (!changeFileInfo) return '';
-
-    const unresolvedCount = changeComments.computeUnresolvedNum({
-      patchNum,
-      path,
-    });
-    const commentThreadCount = changeComments.computeCommentThreadCount({
-      patchNum,
-      path,
-    });
-    const commentThreadString = pluralize(commentThreadCount, 'comment');
-    const unresolvedString =
-      unresolvedCount === 0 ? '' : `${unresolvedCount} unresolved`;
-
-    const unmodifiedString = changeFileInfo.status === 'U' ? 'no changes' : '';
-
-    return [unmodifiedString, commentThreadString, unresolvedString]
-      .filter(v => v && v.length > 0)
-      .join(', ');
   }
 
   _computePrefsButtonHidden(

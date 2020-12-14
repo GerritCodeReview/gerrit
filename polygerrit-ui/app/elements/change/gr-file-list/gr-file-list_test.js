@@ -28,8 +28,8 @@ import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api.js';
 import {createCommentThreads} from '../../../utils/comment-util.js';
+import {createChangeComments} from '../../../test/test-data-generators.js';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
@@ -352,101 +352,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('comment filtering', () => {
-      const comments = {
-        '/COMMIT_MSG': [
-          {
-            patch_set: 1,
-            message: 'Done',
-            updated: '2017-02-08 16:40:49',
-            id: '1',
-          },
-          {
-            patch_set: 1,
-            message: 'oh hay',
-            updated: '2017-02-09 16:40:49',
-            id: '2',
-          },
-          {
-            patch_set: 2,
-            message: 'hello',
-            updated: '2017-02-10 16:40:49',
-            id: '3',
-          },
-        ],
-        'myfile.txt': [
-          {
-            patch_set: 1,
-            message: 'good news!',
-            updated: '2017-02-08 16:40:49',
-            id: '4',
-          },
-          {
-            patch_set: 2,
-            message: 'wat!?',
-            updated: '2017-02-09 16:40:49',
-            id: '5',
-          },
-          {
-            patch_set: 2,
-            message: 'hi',
-            updated: '2017-02-10 16:40:49',
-            id: '6',
-          },
-        ],
-        'unresolved.file': [
-          {
-            patch_set: 2,
-            message: 'wat!?',
-            updated: '2017-02-09 16:40:49',
-            id: '7',
-            unresolved: true,
-          },
-          {
-            patch_set: 2,
-            message: 'hi',
-            updated: '2017-02-10 16:40:49',
-            id: '8',
-            in_reply_to: '7',
-            unresolved: false,
-          },
-          {
-            patch_set: 2,
-            message: 'good news!',
-            updated: '2017-02-08 16:40:49',
-            id: '9',
-            unresolved: true,
-          },
-        ],
-      };
-      const drafts = {
-        '/COMMIT_MSG': [
-          {
-            patch_set: 1,
-            message: 'hi',
-            updated: '2017-02-15 16:40:49',
-            id: '10',
-            unresolved: true,
-          },
-          {
-            patch_set: 1,
-            message: 'fyi',
-            updated: '2017-02-15 16:40:49',
-            id: '11',
-            unresolved: false,
-          },
-        ],
-        'unresolved.file': [
-          {
-            patch_set: 1,
-            message: 'hi',
-            updated: '2017-02-11 16:40:49',
-            id: '12',
-            unresolved: false,
-          },
-        ],
-      };
-      element.changeComments = new ChangeComments(comments, {}, drafts, 123);
-
+      element.changeComments = createChangeComments();
       const parentTo1 = {
         basePatchNum: 'PARENT',
         patchNum: 1,
@@ -462,12 +368,6 @@ suite('gr-file-list tests', () => {
         patchNum: 2,
       };
 
-      assert.equal(
-          element._computeCommentsString(element.changeComments, parentTo1,
-              '/COMMIT_MSG', 'comment'), '2 comments (1 unresolved)');
-      assert.equal(
-          element._computeCommentsString(element.changeComments, _1To2,
-              '/COMMIT_MSG', 'comment'), '3 comments (1 unresolved)');
       assert.equal(
           element._computeCommentsStringMobile(element.changeComments, parentTo1
               , '/COMMIT_MSG'), '2c');
@@ -486,12 +386,6 @@ suite('gr-file-list tests', () => {
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, _1To2,
               'unresolved.file'), '1d');
-      assert.equal(
-          element._computeCommentsString(element.changeComments, parentTo1,
-              'myfile.txt', 'comment'), '1 comment');
-      assert.equal(
-          element._computeCommentsString(element.changeComments, _1To2,
-              'myfile.txt', 'comment'), '3 comments');
       assert.equal(
           element._computeCommentsStringMobile(
               element.changeComments,
@@ -514,12 +408,6 @@ suite('gr-file-list tests', () => {
           element._computeDraftsStringMobile(element.changeComments, _1To2,
               'myfile.txt'), '');
       assert.equal(
-          element._computeCommentsString(element.changeComments, parentTo1,
-              'file_added_in_rev2.txt', 'comment'), '');
-      assert.equal(
-          element._computeCommentsString(element.changeComments, _1To2,
-              'file_added_in_rev2.txt', 'comment'), '');
-      assert.equal(
           element._computeCommentsStringMobile(
               element.changeComments,
               parentTo1,
@@ -540,12 +428,6 @@ suite('gr-file-list tests', () => {
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, _1To2,
               'file_added_in_rev2.txt'), '');
-      assert.equal(
-          element._computeCommentsString(element.changeComments, parentTo2,
-              '/COMMIT_MSG', 'comment'), '1 comment');
-      assert.equal(
-          element._computeCommentsString(element.changeComments, _1To2,
-              '/COMMIT_MSG', 'comment'), '3 comments (1 unresolved)');
       assert.equal(
           element._computeCommentsStringMobile(
               element.changeComments,
@@ -571,12 +453,6 @@ suite('gr-file-list tests', () => {
           element._computeDraftsStringMobile(element.changeComments, _1To2,
               '/COMMIT_MSG'), '2d');
       assert.equal(
-          element._computeCommentsString(element.changeComments, parentTo2,
-              'myfile.txt', 'comment'), '2 comments');
-      assert.equal(
-          element._computeCommentsString(element.changeComments, _1To2,
-              'myfile.txt', 'comment'), '3 comments');
-      assert.equal(
           element._computeCommentsStringMobile(
               element.changeComments,
               parentTo2,
@@ -591,18 +467,6 @@ suite('gr-file-list tests', () => {
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, _1To2,
               'myfile.txt'), '');
-      assert.equal(
-          element._computeCommentsString(element.changeComments, parentTo2,
-              'file_added_in_rev2.txt', 'comment'), '');
-      assert.equal(
-          element._computeCommentsString(element.changeComments, _1To2,
-              'file_added_in_rev2.txt', 'comment'), '');
-      assert.equal(
-          element._computeCommentsString(element.changeComments, parentTo2,
-              'unresolved.file', 'comment'), '2 comments (1 unresolved)');
-      assert.equal(
-          element._computeCommentsString(element.changeComments, _1To2,
-              'unresolved.file', 'comment'), '2 comments (1 unresolved)');
     });
 
     test('_reviewedTitle', () => {

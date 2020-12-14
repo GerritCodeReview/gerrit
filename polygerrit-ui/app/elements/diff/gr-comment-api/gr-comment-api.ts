@@ -29,6 +29,7 @@ import {
   UrlEncodedCommentId,
   NumericChangeId,
   PathToCommentsInfoMap,
+  FileInfo,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
@@ -51,6 +52,7 @@ import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
 import {CommentSide, Side} from '../../../constants/constants';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {pluralize} from '../../../utils/string-util';
 
 export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
@@ -483,6 +485,45 @@ export class ChangeComments {
     }
     const allDrafts = this.getAllDrafts(file && file.patchNum);
     return this._commentObjToArray(allDrafts).length;
+  }
+
+  /**
+   * @param includeUnmodified Included unmodified status of the file in the
+   * comment string or not. For files we opt of chip instead of a string.
+   * @param filterPatchset Only count threads which belong to this patchset
+   */
+  computeCommentsString(
+    patchRange?: PatchRange,
+    path?: string,
+    changeFileInfo?: FileInfo,
+    includeUnmodified?: boolean
+  ) {
+    if (!path) return '';
+    if (!patchRange) return '';
+
+    const threads = this.getThreadsBySideForFile({path}, patchRange);
+    const commentThreadCount = threads.filter(thread => !isDraftThread(thread))
+      .length;
+    const unresolvedCount = threads.reduce((cnt, thread) => {
+      if (isUnresolved(thread)) cnt += 1;
+      return cnt;
+    }, 0);
+
+    const commentThreadString = pluralize(commentThreadCount, 'comment');
+    const unresolvedString =
+      unresolvedCount === 0 ? '' : `${unresolvedCount} unresolved`;
+
+    const unmodifiedString =
+      includeUnmodified && changeFileInfo?.status === 'U' ? 'no changes' : '';
+
+    return (
+      commentThreadString +
+      // Add a space if both comments and unresolved
+      (commentThreadString && unresolvedString ? ' ' : '') +
+      // Add parentheses around unresolved if it exists.
+      (unresolvedString ? `(${unresolvedString})` : '') +
+      (unmodifiedString ? `(${unmodifiedString})` : '')
+    );
   }
 
   /**

@@ -91,7 +91,11 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {LineOfInterest} from '../gr-diff/gr-diff';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
-import {CommentMap, isInBaseOfPatchRange} from '../../../utils/comment-util';
+import {
+  CommentMap,
+  isInBaseOfPatchRange,
+  UIComment,
+} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
@@ -949,6 +953,34 @@ export class GrDiffView extends KeyboardShortcutMixin(
     history.replaceState(null, '', url);
   }
 
+  _getPatchRangeForCommentUrl(comment: UIComment) {
+    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+    if (!comment.patch_set) throw new Error('Missing comment.patch_set');
+    if (!latestPatchNum) throw new Error('Missing _allPatchSets');
+
+    if (comment.side === CommentSide.PARENT) {
+      // comment was created with side = PARENT on comment.patch_set
+      // which means navigating to comment.patch_set vs latest will mean
+      // comment is not rendered
+      return {
+        patchNum: comment.patch_set,
+        basePatchNum: ParentPatchSetNum,
+      };
+    } else if (patchNumEquals(latestPatchNum, comment.patch_set)) {
+      // comment is already on latest patchset with side = REVISION, hence
+      // show Base vs Latest instead of Latest vs Latest
+      return {
+        patchNum: latestPatchNum,
+        basePatchNum: ParentPatchSetNum,
+      };
+    } else {
+      return {
+        patchNum: latestPatchNum,
+        basePatchNum: comment.patch_set,
+      };
+    }
+  }
+
   _initPatchRange() {
     let leftSide = false;
     if (!this._change) return;
@@ -963,24 +995,10 @@ export class GrDiffView extends KeyboardShortcutMixin(
         return;
       }
       this._path = comment.path;
-      const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
-      if (!comment.patch_set) throw new Error('Missing comment.patch_set');
-      if (!latestPatchNum) throw new Error('Missing _allPatchSets');
-      if (patchNumEquals(latestPatchNum, comment.patch_set)) {
-        this._patchRange = {
-          patchNum: latestPatchNum,
-          basePatchNum: ParentPatchSetNum,
-        };
-        leftSide = isInBaseOfPatchRange(comment, this._patchRange);
-      } else {
-        this._patchRange = {
-          patchNum: latestPatchNum,
-          basePatchNum: comment.patch_set,
-        };
-        // comment is now on the left side since we are showing
-        // comment.patch_set vs latest
-        leftSide = true;
-      }
+
+      this._patchRange = this._getPatchRangeForCommentUrl(comment);
+      leftSide = isInBaseOfPatchRange(comment, this._patchRange);
+
       this._focusLineNum = comment.line;
     } else {
       if (this.params.path) {

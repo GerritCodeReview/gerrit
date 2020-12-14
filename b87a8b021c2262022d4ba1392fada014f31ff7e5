@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7cf52c7f_c061cae4",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-14T18:01:20Z",
+      "side": 1,
+      "message": "I like the helper you added. Patrick?",
+      "parentUuid": "e57a7096_c28717c4",
+      "revId": "b87a8b021c2262022d4ba1392fada014f31ff7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "255d85e3_6c468a67",
         "filename": "java/com/google/gerrit/server/util/CommitMessageUtil.java",
         "patchSetId": 5

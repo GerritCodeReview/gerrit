@@ -966,7 +966,16 @@ export class GrDiffView extends KeyboardShortcutMixin(
       const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
       if (!comment.patch_set) throw new Error('Missing comment.patch_set');
       if (!latestPatchNum) throw new Error('Missing _allPatchSets');
-      if (patchNumEquals(latestPatchNum, comment.patch_set)) {
+      if (comment.side === CommentSide.PARENT) {
+        // comment was created with side = PARENT on comment.patch_set
+        // which means navigating to comment.patch_set vs latest will mean
+        // comment is not rendered
+        this._patchRange = {
+          patchNum: comment.patch_set,
+          basePatchNum: ParentPatchSetNum,
+        };
+        leftSide = true;
+      } else if (patchNumEquals(latestPatchNum, comment.patch_set)) {
         this._patchRange = {
           patchNum: latestPatchNum,
           basePatchNum: ParentPatchSetNum,

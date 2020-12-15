@@ -77,7 +77,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
         new IndexRequest(getId(as), indexName)
             .add(new UpdateRequest<>(schema, as, ImmutableSet.of()));
 
-    String uri = getURI(type, BULK);
+    String uri = getURI(BULK);
     Response response = postRequest(uri, bulk, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
@@ -99,7 +99,6 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
     return new ElasticQuerySource(
         p,
         opts.filterFields(o -> IndexUtils.accountFields(o, schema.useLegacyNumericFields())),
-        type,
         sortArray);
   }
 

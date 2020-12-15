@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01dfd344_06001ab0",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-15T16:39:31Z",
+      "side": 1,
+      "message": "removed comment.",
+      "parentUuid": "b20bcec0_69bf7c45",
+      "range": {
+        "startLine": 246,
+        "startChar": 7,
+        "endLine": 246,
+        "endChar": 66
+      },
+      "revId": "9ad2ed9d070b8cc2b61777d84662254c249ff950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27d12ff7_713aa8c9",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-15T10:28:55Z",
       "side": 1,
       "message": "Isn\u0027t that obvious?",
+      "range": {
+        "startLine": 247,
+        "startChar": 7,
+        "endLine": 248,
+        "endChar": 30
+      },
+      "revId": "9ad2ed9d070b8cc2b61777d84662254c249ff950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee2464db_2b1bc9be",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-15T16:39:31Z",
+      "side": 1,
+      "message": "Removed comment.",
+      "parentUuid": "27d12ff7_713aa8c9",
       "range": {
         "startLine": 247,
         "startChar": 7,

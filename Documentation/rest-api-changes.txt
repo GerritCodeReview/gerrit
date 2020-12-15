@@ -7356,7 +7356,7 @@ The `MoveInput` entity contains information for moving a change to a new branch.
 |`destination_branch`||Destination branch
 |`message`           |optional|
 A message to be posted in this change's comments
-|`keep_all_labels`   |optional, defaults to false|
+|`keep_all_votes`    |optional, defaults to false|
 By default, only veto votes that are blocking the change from submission are moved to
 the destination branch. Using this option is only allowed for administrators,
 because it can affect the submission behaviour of the change (depending on the label access

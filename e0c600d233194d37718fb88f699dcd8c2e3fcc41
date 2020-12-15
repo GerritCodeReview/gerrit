@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37a337f5_d28c5150",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7359,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-15T07:38:27Z",
+      "side": 1,
+      "message": "super-nit: Insert a space here to keep the columns aligned",
+      "range": {
+        "startLine": 7359,
+        "startChar": 19,
+        "endLine": 7359,
+        "endChar": 20
+      },
+      "revId": "e0c600d233194d37718fb88f699dcd8c2e3fcc41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

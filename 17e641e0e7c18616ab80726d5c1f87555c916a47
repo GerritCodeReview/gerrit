@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f26377fb_addc3086",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-15T08:34:31Z",
+      "side": 1,
+      "message": "Move this method into comment-util (make latestPatchNum an input parameter of the function).",
+      "range": {
+        "startLine": 956,
+        "startChar": 2,
+        "endLine": 956,
+        "endChar": 29
+      },
+      "revId": "17e641e0e7c18616ab80726d5c1f87555c916a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d74485a8_cc89b06f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-15T08:34:31Z",
+      "side": 1,
+      "message": "This is not handling comments on parents of merge commits (see CommentInfo.parent). Maybe add a TODO for that.",
+      "revId": "17e641e0e7c18616ab80726d5c1f87555c916a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "933a59f4_dfd15ec6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-15T08:34:31Z",
+      "side": 1,
+      "message": "I think you can remove this comment.",
+      "range": {
+        "startLine": 962,
+        "startChar": 6,
+        "endLine": 964,
+        "endChar": 32
+      },
+      "revId": "17e641e0e7c18616ab80726d5c1f87555c916a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "334bb4cf_1ffa4dde",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-15T08:34:31Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 970,
+        "startChar": 6,
+        "endLine": 971,
+        "endChar": 56
+      },
+      "revId": "17e641e0e7c18616ab80726d5c1f87555c916a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

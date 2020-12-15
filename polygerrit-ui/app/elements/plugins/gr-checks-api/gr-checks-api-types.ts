@@ -68,6 +68,7 @@ export interface FetchResponse {
   loginCallback?: () => void;
 
   runs: CheckRun[];
+  results: CheckResult[];
 }
 
 export enum ResponseCode {

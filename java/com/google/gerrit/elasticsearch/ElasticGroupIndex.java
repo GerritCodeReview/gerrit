@@ -77,7 +77,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
         new IndexRequest(getId(group), indexName)
             .add(new UpdateRequest<>(schema, group, ImmutableSet.of()));
 
-    String uri = getURI(type, BULK);
+    String uri = getURI(BULK);
     Response response = postRequest(uri, bulk, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
@@ -92,7 +92,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   public DataSource<InternalGroup> getSource(Predicate<InternalGroup> p, QueryOptions opts)
       throws QueryParseException {
     JsonArray sortArray = getSortArray(GroupField.UUID.getName());
-    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::groupFields), type, sortArray);
+    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::groupFields), sortArray);
   }
 
   @Override

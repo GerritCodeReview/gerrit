@@ -3201,10 +3201,6 @@ WARNING: Support for Elasticsearch is still experimental and is not recommended
 for production use. For compatibility information, please refer to the
 link:https://www.gerritcodereview.com/elasticsearch.html[project homepage,role=external,window=_blank].
 
-In Elasticsearch version 6.2 or later, the open and closed changes are merged
-into the default `_doc` type. The latter is also used for the accounts and groups
-indices starting with Elasticsearch 6.2.
-
 Note that when Gerrit is configured to use Elasticsearch, the Elasticsearch
 server(s) must be reachable during the site initialization.
 
@@ -3234,7 +3230,7 @@ Sets the number of shards to use per index. Refer to the
 link:https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#_static_index_settings[
 Elasticsearch documentation,role=external,window=_blank] for details.
 +
-Defaults to 5 for Elasticsearch versions 5 and 6, and to 1 starting with Elasticsearch 7.
+Defaults to 1.
 
 [[elasticsearch.numberOfReplicas]]elasticsearch.numberOfReplicas::
 +

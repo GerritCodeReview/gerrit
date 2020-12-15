@@ -1329,7 +1329,7 @@ public class RestApiServlet extends HttpServlet {
     TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
     buf.write(JSON_MAGIC);
     Writer w = new BufferedWriter(new OutputStreamWriter(buf, UTF_8));
-    Gson gson = newGson(config, req);
+    Gson gson = newGson(config);
     if (result instanceof JsonElement) {
       gson.toJson((JsonElement) result, w);
     } else {
@@ -1356,25 +1356,18 @@ public class RestApiServlet extends HttpServlet {
         req, res, asBinaryResult(buf).setContentType(JSON_TYPE).setCharacterEncoding(UTF_8));
   }
 
-  private static Gson newGson(
-      ListMultimap<String, String> config, @Nullable HttpServletRequest req) {
+  private static Gson newGson(ListMultimap<String, String> config) {
     GsonBuilder gb = OutputFormat.JSON_COMPACT.newGsonBuilder();
 
-    enablePrettyPrint(gb, config, req);
+    enablePrettyPrint(gb, config);
     enablePartialGetFields(gb, config);
 
     return gb.create();
   }
 
-  private static void enablePrettyPrint(
-      GsonBuilder gb, ListMultimap<String, String> config, @Nullable HttpServletRequest req) {
-    String pp = Iterables.getFirst(config.get("pp"), null);
-    if (pp == null) {
-      pp = Iterables.getFirst(config.get("prettyPrint"), null);
-      if (pp == null && req != null) {
-        pp = acceptsJson(req) ? "0" : "1";
-      }
-    }
+  private static void enablePrettyPrint(GsonBuilder gb, ListMultimap<String, String> config) {
+    String pp =
+        Iterables.getFirst(config.get("pp"), Iterables.getFirst(config.get("prettyPrint"), "0"));
     if ("1".equals(pp) || "true".equals(pp)) {
       gb.setPrettyPrinting();
     }
@@ -1885,10 +1878,6 @@ public class RestApiServlet extends HttpServlet {
 
   private static boolean isMaybeHTML(String text) {
     return CharMatcher.anyOf("<&").matchesAnyOf(text);
-  }
-
-  private static boolean acceptsJson(HttpServletRequest req) {
-    return req != null && isType(JSON_TYPE, req.getHeader(HttpHeaders.ACCEPT));
   }
 
   private static boolean acceptsGzip(HttpServletRequest req) {

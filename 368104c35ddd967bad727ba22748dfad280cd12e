@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d691de36_7089835e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-15T11:30:48Z",
+      "side": 1,
+      "message": "@ekempin I addressed your feedback here \u0026 I think this change is ready to go.\nWould appreciate if you could take another look and approve this change when you have time.",
+      "revId": "368104c35ddd967bad727ba22748dfad280cd12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

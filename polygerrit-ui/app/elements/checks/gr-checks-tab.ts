@@ -15,25 +15,8 @@
  * limitations under the License.
  */
 import {html} from 'lit-html';
-import {css, customElement} from 'lit-element';
+import {customElement} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
-import {
-  CheckResult,
-  CheckRun,
-} from '../plugins/gr-checks-api/gr-checks-api-types';
-import {allResults$, allRuns$} from '../../services/checks/checks-model';
-
-function renderRun(run: CheckRun) {
-  return html`<div>
-    <span>${run.checkName}</span>, <span>${run.status}</span>
-  </div>`;
-}
-
-function renderResult(result: CheckResult) {
-  return html`<div>
-    <span>${result.summary}</span>
-  </div>`;
-}
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -41,32 +24,8 @@ function renderResult(result: CheckResult) {
  */
 @customElement('gr-checks-tab')
 export class GrChecksTab extends GrLitElement {
-  runs: CheckRun[] = [];
-
-  results: CheckResult[] = [];
-
-  constructor() {
-    super();
-    this.subscribe('runs', allRuns$);
-    this.subscribe('results', allResults$);
-  }
-
-  static get styles() {
-    return css`
-      :host {
-        display: block;
-        padding: var(--spacing-m);
-      }
-    `;
-  }
-
   render() {
-    return html`
-      <div><h2>Runs</h2></div>
-      ${this.runs.map(renderRun)}
-      <div><h2>Results</h2></div>
-      ${this.results.map(renderResult)}
-    `;
+    return html`<span>Hello Checks!</span>`;
   }
 }
 

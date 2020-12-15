@@ -21,7 +21,6 @@ import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
 import {Auth} from './gr-auth/gr-auth_impl';
 import {GrRestApiInterface} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface';
 import {ChangeService} from './change/change-service';
-import {ChecksService} from './checks/checks-service';
 
 type ServiceName = keyof AppContext;
 type ServiceCreator<T> = () => T;
@@ -70,6 +69,5 @@ export function initAppContext() {
     authService: () => new Auth(appContext.eventEmitter),
     restApiService: () => new GrRestApiInterface(appContext.authService),
     changeService: () => new ChangeService(appContext.restApiService),
-    checksService: () => new ChecksService(),
   });
 }

@@ -16,6 +16,24 @@
       "message": "this is \"keep_all_labels\" but the code is using \"keep_all_votes\", and the API only works with the latter.  which name do you want to use ?",
       "revId": "cee6a8fed1150fe8114aeb28c2e321aab918b85c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15852ad3_4ddf2fac",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7359,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-15T06:52:02Z",
+      "side": 1,
+      "message": "Thank you for catching this!\n\nI intended to have keep_all_votes (vote \u003d label + review)\n\nI went ahead fixing the documentation: https://gerrit-review.googlesource.com/c/gerrit/+/291542",
+      "parentUuid": "af6cdc61_5b9a55d2",
+      "revId": "cee6a8fed1150fe8114aeb28c2e321aab918b85c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

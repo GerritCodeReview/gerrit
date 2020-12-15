@@ -91,7 +91,11 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {LineOfInterest} from '../gr-diff/gr-diff';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
-import {CommentMap, isInBaseOfPatchRange} from '../../../utils/comment-util';
+import {
+  CommentMap,
+  isInBaseOfPatchRange,
+  getPatchRangeForCommentUrl,
+} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
@@ -963,24 +967,12 @@ export class GrDiffView extends KeyboardShortcutMixin(
         return;
       }
       this._path = comment.path;
+
       const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
-      if (!comment.patch_set) throw new Error('Missing comment.patch_set');
       if (!latestPatchNum) throw new Error('Missing _allPatchSets');
-      if (patchNumEquals(latestPatchNum, comment.patch_set)) {
-        this._patchRange = {
-          patchNum: latestPatchNum,
-          basePatchNum: ParentPatchSetNum,
-        };
-        leftSide = isInBaseOfPatchRange(comment, this._patchRange);
-      } else {
-        this._patchRange = {
-          patchNum: latestPatchNum,
-          basePatchNum: comment.patch_set,
-        };
-        // comment is now on the left side since we are showing
-        // comment.patch_set vs latest
-        leftSide = true;
-      }
+      this._patchRange = getPatchRangeForCommentUrl(comment, latestPatchNum);
+      leftSide = isInBaseOfPatchRange(comment, this._patchRange);
+
       this._focusLineNum = comment.line;
     } else {
       if (this.params.path) {

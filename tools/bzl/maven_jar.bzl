@@ -126,18 +126,6 @@ java_import(
 """.format(srcjar = srcjar)
     ctx.file("%s/BUILD" % ctx.path("jar"), contents, False)
 
-    # Compatibility layer for java_import_external from rules_closure
-    contents = """
-{header}
-package(default_visibility = ['//visibility:public'])
-
-alias(
-    name = "{rule_name}",
-    actual = "@{rule_name}//jar",
-)
-\n""".format(rule_name = ctx.name, header = header)
-    ctx.file("BUILD", contents, False)
-
 def _maven_jar_impl(ctx):
     """rule to download a Maven archive."""
     coordinates = _create_coordinates(ctx.attr.artifact)

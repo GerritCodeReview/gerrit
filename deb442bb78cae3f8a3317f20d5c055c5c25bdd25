@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1befdffb_b4e969e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-15T20:41:15Z",
+      "side": 1,
+      "message": "That\u0027s a bit trickier since the current two counts I am having ported threads contribute to are associated with a specific path and not the entire patchset.\nI added a TODO to tackle this.",
+      "parentUuid": "696a3b2e_a896da1f",
+      "revId": "deb442bb78cae3f8a3317f20d5c055c5c25bdd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8d074f62_5507ed6c",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
         "patchSetId": 9
@@ -31,6 +49,24 @@
       "writtenOn": "2020-12-14T21:38:36Z",
       "side": 1,
       "message": "If a thread was made on ps5 and then ported to ps7, then will it be counted for both, ps5 and ps7?\n\nCan you clarify that in the commit message?",
+      "revId": "deb442bb78cae3f8a3317f20d5c055c5c25bdd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4bc0e20_4fd82354",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-15T20:41:15Z",
+      "side": 1,
+      "message": "Depends on the patchRange that is set.\nCurrently I am only adding them to file list counts which means we already have a path and patchRange predefined.\nThen the normal rules of porting comments applies.\nIf the original thread can be seen then the ported thread is filtered out.\na) Base vs 5 contribute 1 to the count as the original thread\nb) Base vs 7 contribute 1 to the count as the ported thread.\nc) 5 vs 7 : ported thread is filtered out and only the original thread contributes 1 to the count.\nThe ported thread is only contributing once as expected, it\u0027s not being counted twice.\n\nI edited the commit message to specify that the ported thread contributes to the count only if it is being rendered.\nLet me know if I need to add more details.",
+      "parentUuid": "8d074f62_5507ed6c",
       "revId": "deb442bb78cae3f8a3317f20d5c055c5c25bdd25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

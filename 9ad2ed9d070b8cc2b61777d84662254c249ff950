@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b20bcec0_69bf7c45",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-15T10:28:55Z",
+      "side": 1,
+      "message": "This is just rephrasing the if clause.",
+      "range": {
+        "startLine": 246,
+        "startChar": 7,
+        "endLine": 246,
+        "endChar": 66
+      },
+      "revId": "9ad2ed9d070b8cc2b61777d84662254c249ff950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27d12ff7_713aa8c9",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-15T10:28:55Z",
+      "side": 1,
+      "message": "Isn\u0027t that obvious?",
+      "range": {
+        "startLine": 247,
+        "startChar": 7,
+        "endLine": 248,
+        "endChar": 30
+      },
+      "revId": "9ad2ed9d070b8cc2b61777d84662254c249ff950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

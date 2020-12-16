@@ -130,6 +130,7 @@ export function createCommentThreads(
       line: comment.line,
       range: comment.range,
       rootId: comment.id,
+      parent: comment.parent,
     };
     if (patchRange) {
       if (isInBaseOfPatchRange(comment, patchRange))
@@ -158,6 +159,7 @@ export interface CommentThread {
   rootId?: UrlEncodedCommentId;
   diffSide?: Side;
   range?: CommentRange;
+  parent?: number;
   ported?: boolean; // is the comment ported over from a previous patchset
 }
 

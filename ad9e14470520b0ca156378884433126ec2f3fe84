@@ -16,6 +16,24 @@
       "message": "I don\u0027t think that dealing with merge parents can be as simple as this. How do we know if R2 from the backend has a meaning for merge parent 1 or 2?\n\nFor now I would just not deal with ported comment on merge parents.",
       "revId": "ad9e14470520b0ca156378884433126ec2f3fe84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "798cd172_c7e8fadd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-16T09:45:50Z",
+      "side": 1,
+      "message": "Added a TODO to handle it later.",
+      "parentUuid": "a41b8f70_9991401e",
+      "revId": "ad9e14470520b0ca156378884433126ec2f3fe84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

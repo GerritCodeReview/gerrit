@@ -75,7 +75,13 @@ export const htmlTemplate = html`
     .fileName {
       padding: var(--spacing-m) var(--spacing-s) var(--spacing-m);
     }
+    .rangeDescription {
+      text-align: right;
+    }
   </style>
+  <template is="dom-if" if="[[_computeShowRangeChip()]]">
+    <div class="rangeDescription">[[_computeRangeDescription()]]</div>
+  </template>
   <template is="dom-if" if="[[showFilePath]]">
     <template is="dom-if" if="[[showFileName]]">
       <div class="fileName">

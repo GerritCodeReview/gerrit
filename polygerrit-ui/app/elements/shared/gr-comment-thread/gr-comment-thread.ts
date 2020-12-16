@@ -290,6 +290,16 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     return path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
   }
 
+  _computeShowRangeChip() {
+    if (!this.range) return false;
+    return this.range?.end_line - this.range.start_line > 5;
+  }
+
+  _computeRangeDescription() {
+    if (!this.range) return '';
+    return `Long comment range ${this.range.end_line} - ${this.range.start_line}`;
+  }
+
   _computeShowPortedComment(comment: UIComment) {
     if (this._orderedComments.length === 0) return false;
     return this.showPortedComment && comment.id === this._orderedComments[0].id;

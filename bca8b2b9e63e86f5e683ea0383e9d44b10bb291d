@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f93ecb22_d1458c66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-16T11:27:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69b0ec3d_ac7c6a2c",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "bca8b2b9e63e86f5e683ea0383e9d44b10bb291d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "358b5e32_f4713487",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-16T10:13:16Z",
       "side": 1,
       "message": "specific",
+      "range": {
+        "startLine": 71,
+        "startChar": 54,
+        "endLine": 71,
+        "endChar": 62
+      },
+      "revId": "bca8b2b9e63e86f5e683ea0383e9d44b10bb291d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f59d859_ef25dba6",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api-types.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-16T11:27:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "358b5e32_f4713487",
       "range": {
         "startLine": 71,
         "startChar": 54,

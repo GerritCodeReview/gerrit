@@ -19,7 +19,6 @@ import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff.js';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import {_setHiddenScroll} from '../../../scripts/hiddenscroll.js';
@@ -677,6 +676,64 @@ suite('gr-diff tests', () => {
       assert.isTrue(alertSpy.called);
       assert.isFalse(element._createComment.called);
     });
+
+    test('adds long range comment chip', async () => {
+      const range = {
+        start_line: 1,
+        end_line: 7,
+        start_character: 0,
+        end_character: 0,
+      };
+      const threadEl = document.createElement('div');
+      threadEl.className = 'comment-thread';
+      threadEl.setAttribute('diff-side', 'right');
+      threadEl.setAttribute('line-num', 1);
+      threadEl.setAttribute('range', JSON.stringify(range));
+      threadEl.setAttribute('slot', 'right-1');
+      const content = [{
+        a: [],
+        b: [],
+      }, {
+        ab: Array(8).fill('text'),
+      }];
+      setupSampleDiff({content});
+
+      element.appendChild(threadEl);
+      await flush();
+
+      assert.deepEqual(
+          element.querySelector('gr-ranged-comment-chip').range, range);
+    });
+
+    test('removes long range comment chip when comment is discarded',
+        async () => {
+          const range = {
+            start_line: 1,
+            end_line: 7,
+            start_character: 0,
+            end_character: 0,
+          };
+          const threadEl = document.createElement('div');
+          threadEl.className = 'comment-thread';
+          threadEl.setAttribute('diff-side', 'right');
+          threadEl.setAttribute('line-num', 1);
+          threadEl.setAttribute('range', JSON.stringify(range));
+          threadEl.setAttribute('slot', 'right-1');
+          const content = [{
+            a: [],
+            b: [],
+          }, {
+            ab: Array(8).fill('text'),
+          }];
+          setupSampleDiff({content});
+          element.appendChild(threadEl);
+          await flush();
+
+          threadEl.remove();
+          await flush();
+
+          assert.isEmpty(element.querySelectorAll('gr-ranged-comment-chip'));
+        });
 
     suite('change in preferences', () => {
       setup(() => {

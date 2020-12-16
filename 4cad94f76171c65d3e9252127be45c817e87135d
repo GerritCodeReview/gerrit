@@ -16,6 +16,29 @@
       "message": "The situation here seems reasonable for me already. I seems to not block UI behavior on long lines on tests.",
       "revId": "4cad94f76171c65d3e9252127be45c817e87135d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "299c335a_31dd2656",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-12-16T14:01:10Z",
+      "side": 1,
+      "message": "maybe just explain in a comment why we do it?\n\n(also maybe add a test).",
+      "range": {
+        "startLine": 719,
+        "startChar": 8,
+        "endLine": 719,
+        "endChar": 36
+      },
+      "revId": "4cad94f76171c65d3e9252127be45c817e87135d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

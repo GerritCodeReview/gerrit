@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fec199c7_1041b155",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T16:00:41Z",
+      "side": 1,
+      "message": "If my fix is rebased out of this series, then this change could be squashed in your previous change where you started to add integration tests for stream events.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "5e7bd9da5a5cfa07c1be66752e2a3e768d7bef07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "567c7cc4_ccfc65bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T16:00:41Z",
+      "side": 1,
+      "message": "Remove version number? patch set level comments feature was added in 3.3. release itself and we fix it in 3.3 (previous change).",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "5e7bd9da5a5cfa07c1be66752e2a3e768d7bef07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

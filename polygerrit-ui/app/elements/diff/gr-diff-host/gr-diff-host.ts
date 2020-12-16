@@ -736,7 +736,7 @@ export class GrDiffHost extends GestureEventListeners(
         path,
         diffSide,
         commentSide,
-        patchNum,
+        patch_set: patchNum,
         line: lineNum,
         range,
       });
@@ -777,7 +777,7 @@ export class GrDiffHost extends GestureEventListeners(
       threadEl.path = this.path;
     }
     threadEl.changeNum = this.changeNum;
-    threadEl.patchNum = thread.patchNum;
+    threadEl.patchNum = thread.patch_set;
     threadEl.showPatchset = false;
     threadEl.showPortedComment = !!thread.ported;
     // GrCommentThread does not understand 'FILE', but requires undefined.

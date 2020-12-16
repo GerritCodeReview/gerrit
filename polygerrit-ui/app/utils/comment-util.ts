@@ -124,7 +124,7 @@ export function createCommentThreads(
     }
     const newThread: CommentThread = {
       comments: [comment],
-      patchNum: comment.patch_set,
+      patch_set: comment.patch_set,
       commentSide: comment.side ?? CommentSide.REVISION,
       path: comment.path,
       line: comment.line,
@@ -151,7 +151,7 @@ export interface CommentThread {
   comments: UIComment[];
   path: string;
   commentSide: CommentSide;
-  patchNum?: PatchSetNum;
+  patch_set?: PatchSetNum;
   line?: LineNumber;
   /* rootId is optional since we create a empty comment thread element for
      drafts and then create the draft which becomes the root */

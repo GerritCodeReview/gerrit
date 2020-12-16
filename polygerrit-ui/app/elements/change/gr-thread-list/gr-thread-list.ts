@@ -156,11 +156,11 @@ export class GrThreadList extends GestureEventListeners(
       return c1.thread.line < c2.thread.line ? -1 : 1;
     }
 
-    if (c1.thread.patchNum !== c2.thread.patchNum) {
-      if (!c1.thread.patchNum) return 1;
-      if (!c2.thread.patchNum) return -1;
+    if (c1.thread.patch_set !== c2.thread.patch_set) {
+      if (!c1.thread.patch_set) return 1;
+      if (!c2.thread.patch_set) return -1;
       // TODO(TS): Explicit comparison for 'edit' and 'PARENT' missing?
-      return c1.thread.patchNum > c2.thread.patchNum ? -1 : 1;
+      return c1.thread.patch_set > c2.thread.patch_set ? -1 : 1;
     }
 
     if (c2.unresolved !== c1.unresolved) {

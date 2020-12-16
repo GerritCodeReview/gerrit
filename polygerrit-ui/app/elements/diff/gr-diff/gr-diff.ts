@@ -34,6 +34,7 @@ import {
   getRange,
   getSide,
   GrDiffThreadElement,
+  isLongCommentRange,
   isThreadEl,
   rangesEqual,
 } from './gr-diff-utils';
@@ -873,6 +874,7 @@ export class GrDiff extends GestureEventListeners(
       for (const threadEl of addedThreadEls) {
         const lineNum = getLine(threadEl);
         const commentSide = getSide(threadEl);
+        const range = getRange(threadEl);
         if (!commentSide) continue;
         const lineEl = this.$.diffBuilder.getLineElByNumber(
           lineNum,
@@ -902,8 +904,20 @@ export class GrDiff extends GestureEventListeners(
         // The thread group may already have a slot with the right name, but
         // that is okay because the first matching slot is used and the rest
         // are ignored.
-        const slot = document.createElement('slot') as HTMLSlotElement;
         const slotAtt = threadEl.getAttribute('slot');
+        // Before attaching the thread element, optionally create and attach
+        // the comment range chip if the range is long enough.
+        if (range && isLongCommentRange(range)) {
+          const longRangeCommentChip = document.createElement('div');
+          longRangeCommentChip.style.textAlign = 'right';
+          longRangeCommentChip.innerText = `Long comment range ${range.end_line} - ${range.start_line}`;
+          if (slotAtt) {
+            longRangeCommentChip.setAttribute('slot', slotAtt);
+            // The chip should be above the corresponding thread element.
+            this.insertBefore(longRangeCommentChip, threadEl);
+          }          
+        }
+        const slot = document.createElement('slot') as HTMLSlotElement;
         if (slotAtt) slot.name = slotAtt;
         threadGroupEl.appendChild(slot);
         lastEl = threadEl;

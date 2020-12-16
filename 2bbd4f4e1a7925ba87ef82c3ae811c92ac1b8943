@@ -249,6 +249,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "be2fa3e9_31c62fbd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-16T17:12:36Z",
+      "side": 1,
+      "message": "Yes makes sense. If reverts always generate new IDs then no collisions will happen.",
+      "parentUuid": "f4bb63e6_072862a5",
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "da0b345a_6fac82b4",
         "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
         "patchSetId": 8

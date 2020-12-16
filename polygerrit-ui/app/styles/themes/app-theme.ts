@@ -55,6 +55,7 @@ const styleSheet = safeStyleSheet`
     --tooltip-text-color: white;
     --negative-red-text-color: #d93025;
     --positive-green-text-color: #188038;
+    --highlight-chip-text-color: #feefe3;
 
     /* background colors */
     /* primary background colors */
@@ -78,6 +79,7 @@ const styleSheet = safeStyleSheet`
     /* TODO: Find a nicer way to combine the --assignee-highlight-color and the
        --selection-background-color than to just invent another unique color. */
     --assignee-highlight-selection-color: #f6f4d0;
+    --highlight-chip-background-color: #b06000;
     --chip-selected-background-color: #e8f0fe;
     --edit-mode-background-color: #ebf5fb;
     --emphasis-color: #fff9c4;

@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "194159bb_29820cb9",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T15:51:16Z",
+      "side": 1,
+      "message": "Nit: unneeded new line.",
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6d58538_fd26739c",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T15:51:16Z",
+      "side": 1,
+      "message": "2 seconds would also do the job? Tried multiple times and it worked for me. But, the test is not actually waiting for 10 seconds, if the event with the right content arrived, we are done.",
+      "range": {
+        "startLine": 41,
+        "startChar": 87,
+        "endLine": 41,
+        "endChar": 89
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2192d1df_6657b40f",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T15:51:16Z",
+      "side": 1,
+      "message": "After the refactoring this is not needed any more as instance variable.",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 37
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c92dd0ad_eb1460dc",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T15:51:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to overwrite this method. The contract is that the base class is calling initSsh(), if SSH test is enabled, and then JUnit\u0027s setUp() is called.\n\nSo just add setUp() method with one liner instead:\n\n  @Before\n  public void setUp() throws Exception {\n    streamEventsReader \u003d adminSshSession.execAndReturnReader(\"gerrit stream-events\");\n  }",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 45
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7348094_14e7fb67",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T15:51:16Z",
+      "side": 1,
+      "message": "Remove.",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 39
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "138ed9cb_0b00efc0",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T15:51:16Z",
+      "side": 1,
+      "message": "It was tricky to understand that this method is called multiple times. So may be rename it pollEventsContaining?",
+      "range": {
+        "startLine": 64,
+        "startChar": 23,
+        "endLine": 64,
+        "endChar": 43
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c852057e_4284784a",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T15:51:16Z",
+      "side": 1,
+      "message": "This should be increased to 1024 or 2048, both worked for me.",
+      "range": {
+        "startLine": 73,
+        "startChar": 29,
+        "endLine": 73,
+        "endChar": 30
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

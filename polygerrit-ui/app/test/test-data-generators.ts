@@ -89,7 +89,7 @@ import {
 } from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
-import {UIComment, UIDraft} from '../utils/comment-util';
+import {UIComment, UIDraft, createCommentThreads} from '../utils/comment-util';
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 
@@ -568,4 +568,12 @@ export function createChangeComments(): ChangeComments {
     ],
   };
   return new ChangeComments(comments, {}, drafts, {}, {});
+}
+
+export function createCommentThread(comments: UIComment[]) {
+  comments = comments.map(comment => {
+    return {...createComment(), ...comment};
+  });
+  const threads = createCommentThreads(comments);
+  return threads.length > 0 ? threads[0] : {};
 }

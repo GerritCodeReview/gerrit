@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bbdbe6d_87074856",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-12-16T14:00:37Z",
+      "side": 1,
+      "message": "The situation here seems reasonable for me already. I seems to not block UI behavior on long lines on tests.",
+      "revId": "4cad94f76171c65d3e9252127be45c817e87135d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

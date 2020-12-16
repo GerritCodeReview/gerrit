@@ -1040,6 +1040,7 @@ suite('gr-diff-host tests', () => {
         commentSide: CommentSide.REVISION,
         path: '/p',
         rootId: 'betsys_confession',
+        mergeParentNum: undefined,
         comments: [{
           id: 'betsys_confession',
           path: '/p',

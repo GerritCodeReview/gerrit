@@ -126,6 +126,7 @@ export function createCommentThreads(
       comments: [comment],
       patchNum: comment.patch_set,
       commentSide: comment.side ?? CommentSide.REVISION,
+      mergeParentNum: comment.parent,
       path: comment.path,
       line: comment.line,
       range: comment.range,
@@ -151,6 +152,11 @@ export interface CommentThread {
   comments: UIComment[];
   path: string;
   commentSide: CommentSide;
+  /* mergeParentNum is the merge parent number only valid for merge commits
+     when commentSide is PARENT.
+     mergeParentNum is undefined for auto merge commits
+  */
+  mergeParentNum?: number;
   patchNum?: PatchSetNum;
   line?: LineNumber;
   /* rootId is optional since we create a empty comment thread element for

@@ -1037,6 +1037,7 @@ suite('gr-diff-host tests', () => {
     const expectedThreads = [
       {
         diffSide: Side.LEFT,
+        isOnMergeParent: false,
         commentSide: CommentSide.REVISION,
         path: '/p',
         rootId: 'betsys_confession',

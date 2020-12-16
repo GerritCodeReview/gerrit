@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "729a703b_e8236523",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T11:42:15Z",
+      "side": 1,
+      "message": "Yes. I clarified this in the commit message. Done.",
+      "parentUuid": "9e8ad638_5af9bac9",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "57cd3cb9a7145356fc181b14404503148dbb3fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ffbe35a_b2b14104",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-16T11:22:25Z",
       "side": 1,
       "message": "this is too low for production use, but since this is test code, why not pick 512 ?  key generation is quite expensive.",
+      "range": {
+        "startLine": 120,
+        "startChar": 21,
+        "endLine": 120,
+        "endChar": 25
+      },
+      "revId": "57cd3cb9a7145356fc181b14404503148dbb3fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "296b1b44_c2d0d64a",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T11:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ffbe35a_b2b14104",
       "range": {
         "startLine": 120,
         "startChar": 21,

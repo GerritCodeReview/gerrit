@@ -16,6 +16,24 @@
       "message": "This change now contains own tests, so that we  could move it out of this series?",
       "revId": "e7421e2b708b5ce6fc7dfe2a3e0ed06af4f36e81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6580a7fa_bef62e31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-16T17:52:27Z",
+      "side": 1,
+      "message": "Sure, +1",
+      "parentUuid": "506ee25b_7dfc334e",
+      "revId": "e7421e2b708b5ce6fc7dfe2a3e0ed06af4f36e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

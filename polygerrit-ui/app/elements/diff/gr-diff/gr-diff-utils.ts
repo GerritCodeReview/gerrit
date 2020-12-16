@@ -39,6 +39,10 @@ export function rangesEqual(a?: CommentRange, b?: CommentRange): boolean {
   );
 }
 
+export function isLongCommentRange(range: CommentRange): boolean {
+  return range.end_line - range.start_line > 5;
+}
+
 export function getLineNumber(lineEl?: Element | null): LineNumber | null {
   if (!lineEl) return null;
   const lineNumberStr = lineEl.getAttribute('data-value');

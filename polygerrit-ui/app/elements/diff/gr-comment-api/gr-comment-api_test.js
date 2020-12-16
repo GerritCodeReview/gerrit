@@ -18,9 +18,8 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-comment-api.js';
 import {ChangeComments} from './gr-comment-api.js';
-import {CommentSide} from '../../../constants/constants.js';
-import {isInRevisionOfPatchRange, isInBaseOfPatchRange, createCommentThreads, isDraftThread, isUnresolved} from '../../../utils/comment-util.js';
-import {createDraft, createComment, createChangeComments} from '../../../test/test-data-generators.js';
+import {isInRevisionOfPatchRange, isInBaseOfPatchRange, isDraftThread, isUnresolved, createCommentThreads} from '../../../utils/comment-util.js';
+import {createDraft, createComment, createChangeComments, createCommentThread} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
 
@@ -380,111 +379,164 @@ suite('gr-comment-api tests', () => {
     });
 
     suite('comment ranges and paths', () => {
+      const comments = {};
       function makeTime(mins) {
         return `2013-02-26 15:0${mins}:43.986000000`;
       }
 
       setup(() => {
+        comments['12'] = {
+          ...createComment(),
+          id: '12',
+          patch_set: 2,
+          side: PARENT,
+          line: 1,
+          updated: makeTime(3),
+        };
+
+        comments['13'] = {
+          ...createComment(),
+          id: '13',
+          in_reply_to: '04',
+          patch_set: 2,
+          line: 1,
+          // Draft gets lower timestamp than published comment, because we
+          // want to test that the draft still gets sorted to the end.
+          updated: makeTime(2),
+        };
+
+        comments['05'] ={
+          ...createComment(),
+          id: '05',
+          patch_set: 3,
+          line: 1,
+          updated: makeTime(3),
+        };
+
+        comments['01'] = {
+          ...createComment(),
+          id: '01',
+          patch_set: 2,
+          side: PARENT,
+          line: 1,
+          updated: makeTime(1),
+          range: {
+            start_line: 1,
+            start_character: 2,
+            end_line: 2,
+            end_character: 2,
+          },
+        };
+
+        comments['02'] = {
+          ...createComment(),
+          id: '02',
+          in_reply_to: '04',
+          patch_set: 2,
+          unresolved: true,
+          line: 1,
+          updated: makeTime(3),
+        };
+
+        comments['03'] = {
+          ...createComment(),
+          id: '03',
+          patch_set: 2,
+          side: PARENT,
+          line: 2,
+          updated: makeTime(1),
+        };
+
+        comments['04'] = {
+          ...createComment(),
+          id: '04',
+          patch_set: 2,
+          line: 1,
+          updated: makeTime(1),
+        };
+
+        comments['05'] = {
+          ...createComment(),
+          id: '05',
+          patch_set: 2,
+          line: 2,
+          updated: makeTime(1),
+        };
+
+        comments['06'] = {
+          ...createComment(),
+          id: '06',
+          patch_set: 3,
+          line: 2,
+          updated: makeTime(1),
+        };
+
+        comments['07'] = {
+          ...createComment(),
+          id: '07',
+          patch_set: 2,
+          side: PARENT,
+          unresolved: false,
+          line: 1,
+          updated: makeTime(1),
+        };
+
+        comments['08'] = {
+          ...createComment(),
+          id: '08',
+          patch_set: 2,
+          side: PARENT,
+          unresolved: true,
+          in_reply_to: '07',
+          line: 1,
+          updated: makeTime(1),
+        };
+
+        comments['09'] = {
+          ...createComment(),
+          id: '09',
+          patch_set: 3,
+          line: 1,
+          updated: makeTime(1),
+        };
+
+        comments['10'] = {
+          ...createComment(),
+          id: '10',
+          patch_set: 5,
+          side: PARENT,
+          line: 1,
+          updated: makeTime(1),
+        };
+
+        comments['11'] = {
+          ...createComment(),
+          id: '11',
+          patch_set: 5,
+          line: 1,
+          updated: makeTime(1),
+        };
+
         const drafts = {
           'file/one': [
-            {
-              id: '12',
-              patch_set: 2,
-              side: PARENT,
-              line: 1,
-              updated: makeTime(3),
-            },
-            {
-              id: '13',
-              in_reply_to: '04',
-              patch_set: 2,
-              line: 1,
-              // Draft gets lower timestamp than published comment, because we
-              // want to test that the draft still gets sorted to the end.
-              updated: makeTime(2),
-            },
+            comments['12'],
+            comments['13'],
           ],
-          'file/two': [
-            {
-              id: '05',
-              patch_set: 3,
-              line: 1,
-              updated: makeTime(3),
-            },
-          ],
+          'file/two': [comments['5']],
         };
         const robotComments = {
           'file/one': [
-            {
-              id: '01',
-              patch_set: 2,
-              side: PARENT,
-              line: 1,
-              updated: makeTime(1),
-              range: {
-                start_line: 1,
-                start_character: 2,
-                end_line: 2,
-                end_character: 2,
-              },
-            }, {
-              id: '02',
-              in_reply_to: '04',
-              patch_set: 2,
-              unresolved: true,
-              line: 1,
-              updated: makeTime(3),
-            },
+            comments['01'], comments['02'],
           ],
         };
         const comments = {
-          'file/one': [
-            {
-              id: '03',
-              patch_set: 2,
-              side: PARENT,
-              line: 2,
-              updated: makeTime(1),
-            },
-            {id: '04', patch_set: 2, line: 1, updated: makeTime(1)},
-          ],
-          'file/two': [
-            {id: '05', patch_set: 2, line: 2, updated: makeTime(1)},
-            {id: '06', patch_set: 3, line: 2, updated: makeTime(1)},
-          ],
-          'file/three': [
-            {
-              id: '07',
-              patch_set: 2,
-              side: PARENT,
-              unresolved: false,
-              line: 1,
-              updated: makeTime(1),
-            },
-            {
-              id: '08',
-              patch_set: 2,
-              side: PARENT,
-              unresolved: true,
-              in_reply_to: '07',
-              line: 1,
-              updated: makeTime(1),
-            },
-            {id: '09', patch_set: 3, line: 1, updated: makeTime(1)},
-          ],
-          'file/four': [
-            {
-              id: '10',
-              patch_set: 5,
-              side: PARENT,
-              line: 1,
-              updated: makeTime(1),
-            },
-            {id: '11', patch_set: 5, line: 1, updated: makeTime(1)},
-          ],
+          'file/one': [comments['03'], comments['04']],
+          'file/two': [comments['05'], comments['06']],
+          'file/three': [comments['07'], comments['08'], comments['09']],
+          'file/four': [comments['10'], comments['11']],
         };
         element._changeComments =
-            new ChangeComments(comments, robotComments, drafts, {}, 1234);
+            new ChangeComments(comments, robotComments, drafts, {}, {});
       });
 
       test('getPaths', () => {
@@ -768,13 +820,13 @@ suite('gr-comment-api tests', () => {
       test('computeAllThreads', () => {
         const expectedThreads = [
           {
-            comments: [
+            ...createCommentThread([
               {
+                ...createComment(),
                 id: '01',
                 patch_set: 2,
                 side: 'PARENT',
                 line: 1,
-                updated: '2013-02-26 15:01:43.986000000',
                 range: {
                   start_line: 1,
                   start_character: 2,
@@ -782,44 +834,28 @@ suite('gr-comment-api tests', () => {
                   end_character: 2,
                 },
                 path: 'file/one',
+                updated: makeTime(1),
               },
-            ],
-            commentSide: 'PARENT',
-            patchNum: 2,
-            path: 'file/one',
-            line: 1,
-            rootId: '01',
-            range: {
-              start_line: 1,
-              start_character: 2,
-              end_line: 2,
-              end_character: 2,
-            },
+            ]),
           }, {
-            comments: [
+            ...createCommentThread([
               {
                 id: '03',
                 patch_set: 2,
                 side: 'PARENT',
                 line: 2,
                 path: 'file/one',
-                updated: '2013-02-26 15:01:43.986000000',
+                updated: makeTime(1),
               },
-            ],
-            patchNum: 2,
-            path: 'file/one',
-            line: 2,
-            range: undefined,
-            commentSide: CommentSide.PARENT,
-            rootId: '03',
+            ]),
           }, {
-            comments: [
+            ...createCommentThread([
               {
                 id: '04',
                 patch_set: 2,
                 line: 1,
                 path: 'file/one',
-                updated: '2013-02-26 15:01:43.986000000',
+                updated: makeTime(1),
               },
               {
                 id: '02',
@@ -828,58 +864,32 @@ suite('gr-comment-api tests', () => {
                 unresolved: true,
                 line: 1,
                 path: 'file/one',
-                updated: '2013-02-26 15:03:43.986000000',
+                updated: makeTime(3),
               },
-              {
-                id: '13',
-                in_reply_to: '04',
-                patch_set: 2,
-                line: 1,
-                path: 'file/one',
-                __draft: true,
-                updated: '2013-02-26 15:02:43.986000000',
-              },
-            ],
-            patchNum: 2,
-            path: 'file/one',
-            line: 1,
-            rootId: '04',
-            range: undefined,
-            commentSide: CommentSide.REVISION,
+              comment13,
+            ]),
           }, {
-            comments: [
+            ...createCommentThread([
               {
                 id: '05',
                 patch_set: 2,
                 line: 2,
                 path: 'file/two',
-                updated: '2013-02-26 15:01:43.986000000',
+                updated: makeTime(3),
               },
-            ],
-            patchNum: 2,
-            path: 'file/two',
-            line: 2,
-            rootId: '05',
-            range: undefined,
-            commentSide: CommentSide.REVISION,
+            ]),
           }, {
-            comments: [
+            ...createCommentThread([
               {
                 id: '06',
                 patch_set: 3,
                 line: 2,
                 path: 'file/two',
-                updated: '2013-02-26 15:01:43.986000000',
+                updated: makeTime(1),
               },
-            ],
-            patchNum: 3,
-            path: 'file/two',
-            line: 2,
-            rootId: '06',
-            range: undefined,
-            commentSide: CommentSide.REVISION,
+            ]),
           }, {
-            comments: [
+            ...createCommentThread([
               {
                 id: '07',
                 patch_set: 2,
@@ -887,7 +897,7 @@ suite('gr-comment-api tests', () => {
                 unresolved: false,
                 line: 1,
                 path: 'file/three',
-                updated: '2013-02-26 15:01:43.986000000',
+                updated: makeTime(1),
               },
               {
                 id: '08',
@@ -897,99 +907,53 @@ suite('gr-comment-api tests', () => {
                 unresolved: true,
                 line: 1,
                 path: 'file/three',
-                updated: '2013-02-26 15:01:43.986000000',
+                updated: makeTime(1),
               },
-            ],
-            commentSide: 'PARENT',
-            patchNum: 2,
-            path: 'file/three',
-            line: 1,
-            rootId: '07',
-            range: undefined,
+            ]),
           }, {
-            comments: [
+            ...createCommentThread([
               {
                 id: '09',
                 patch_set: 3,
                 line: 1,
                 path: 'file/three',
-                updated: '2013-02-26 15:01:43.986000000',
+                updated: makeTime(1),
               },
-            ],
-            patchNum: 3,
-            path: 'file/three',
-            line: 1,
-            rootId: '09',
-            range: undefined,
-            commentSide: CommentSide.REVISION,
+            ]),
           }, {
-            comments: [
+            ...createCommentThread([
               {
                 id: '10',
                 patch_set: 5,
                 side: 'PARENT',
                 line: 1,
                 path: 'file/four',
-                updated: '2013-02-26 15:01:43.986000000',
+                updated: makeTime(1),
               },
-            ],
-            commentSide: 'PARENT',
-            patchNum: 5,
-            path: 'file/four',
-            line: 1,
-            rootId: '10',
-            range: undefined,
+            ]),
           }, {
-            comments: [
+            ...createCommentThread([
               {
                 id: '11',
                 patch_set: 5,
                 line: 1,
                 path: 'file/four',
-                updated: '2013-02-26 15:01:43.986000000',
+                updated: makeTime(1),
               },
-            ],
-            rootId: '11',
-            patchNum: 5,
-            path: 'file/four',
-            line: 1,
-            range: undefined,
-            commentSide: CommentSide.REVISION,
+            ]),
           }, {
-            comments: [
+            ...createCommentThread([
               {
                 id: '05',
                 patch_set: 3,
                 line: 1,
                 path: 'file/two',
                 __draft: true,
-                updated: '2013-02-26 15:03:43.986000000',
+                updated: makeTime(3),
               },
-            ],
-            rootId: '05',
-            patchNum: 3,
-            path: 'file/two',
-            line: 1,
-            range: undefined,
-            commentSide: CommentSide.REVISION,
+            ]),
           }, {
-            comments: [
-              {
-                id: '12',
-                patch_set: 2,
-                side: 'PARENT',
-                line: 1,
-                path: 'file/one',
-                __draft: true,
-                updated: '2013-02-26 15:03:43.986000000',
-              },
-            ],
-            rootId: '12',
-            commentSide: 'PARENT',
-            patchNum: 2,
-            path: 'file/one',
-            line: 1,
-            range: undefined,
+            ...createCommentThread([comment12]),
           },
         ];
         const threads = element._changeComments.getAllThreadsForChange();
@@ -999,7 +963,6 @@ suite('gr-comment-api tests', () => {
       test('getCommentsForThreadGroup', () => {
         let expectedComments = [
           {
-
             path: 'file/one',
             id: '04',
             patch_set: 2,

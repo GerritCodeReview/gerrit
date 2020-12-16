@@ -25,11 +25,11 @@ const $_documentContainer = document.createElement('template');
 $_documentContainer.innerHTML = `<dom-module id="gr-ranged-comment-theme">
   <template>
     <style>
-      .range {
+      .rangeHighlight {
         background-color: var(--diff-highlight-range-color);
         display: inline;
       }
-      .rangeHighlight {
+      .rangeHoverHighlight {
         background-color: var(--diff-highlight-range-hover-color);
         display: inline;
       }

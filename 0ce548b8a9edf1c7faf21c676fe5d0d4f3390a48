@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd0e92b3_893badb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-12-16T18:22:16Z",
+      "side": 1,
+      "message": "Luca/Matthias/David/Patrick, Kaushik sent mail about this [1] but didn\u0027t hear back from anyone. Do you 4 have thoughts on this?\n\n[1] https://groups.google.com/g/repo-discuss/c/N30dpVC_OJk",
+      "revId": "0ce548b8a9edf1c7faf21c676fe5d0d4f3390a48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

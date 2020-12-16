@@ -162,17 +162,35 @@ export class GrDiffHighlight extends GestureEventListeners(
           `.range.${strToClassName(threadEl.rootId)}`
         );
         rangeNodes.forEach(rangeNode => {
-          rangeNode.classList.add('rangeHighlight');
-          rangeNode.classList.remove('range');
+          rangeNode.classList.add('rangeHoverHighlight');
         });
+        const chipNode = threadEl.parentElement?.querySelector(
+          `gr-ranged-comment-chip[threadElRootId="${threadEl.rootId}"]`
+        );
+        if (chipNode) {
+          chipNode.shadowRoot
+            ?.querySelectorAll('.rangeHighlight')
+            .forEach(highlightNode =>
+              highlightNode.classList.add('rangeHoverHighlight')
+            );
+        }
       } else {
         const rangeNodes = curNode.querySelectorAll(
-          `.rangeHighlight.${strToClassName(threadEl.rootId)}`
+          `.rangeHoverHighlight.${strToClassName(threadEl.rootId)}`
         );
         rangeNodes.forEach(rangeNode => {
-          rangeNode.classList.remove('rangeHighlight');
-          rangeNode.classList.add('range');
+          rangeNode.classList.remove('rangeHoverHighlight');
         });
+        const chipNode = threadEl.parentElement?.querySelector(
+          `gr-ranged-comment-chip[threadElRootId="${threadEl.rootId}"]`
+        );
+        if (chipNode) {
+          chipNode.shadowRoot
+            ?.querySelectorAll('.rangeHoverHighlight')
+            .forEach(highlightNode =>
+              highlightNode.classList.remove('rangeHoverHighlight')
+            );
+        }
       }
     }
   }

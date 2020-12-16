@@ -29,6 +29,7 @@ import {
 } from '@polymer/polymer/interfaces';
 import {CommentRange} from '../../../types/common';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
+import {isLongCommentRange} from '../gr-diff/gr-diff-utils';
 
 /**
  * Enhanced CommentRange by UI state. Interface for incoming ranges set from the
@@ -49,6 +50,7 @@ export interface CommentRangeLayer {
  */
 interface CommentRangeLineLayer {
   hovering: boolean;
+  longRange: boolean;
   rootId: string;
   start: number;
   end: number;
@@ -65,8 +67,9 @@ type RangesMap = {
 // Polymer 1 adds # before array's key, while Polymer 2 doesn't
 const HOVER_PATH_PATTERN = /^(commentRanges\.#?\d+)\.hovering$/;
 
-const RANGE_HIGHLIGHT = 'style-scope gr-diff range';
-const HOVER_HIGHLIGHT = 'style-scope gr-diff rangeHighlight';
+const RANGE_BASE_ONLY = 'style-scope gr-diff range';
+const RANGE_HIGHLIGHT = 'style-scope gr-diff range rangeHighlight';
+const HOVER_HIGHLIGHT = 'style-scope gr-diff range rangeHoverHighlight';
 
 @customElement('gr-ranged-comment-layer')
 export class GrRangedCommentLayer
@@ -125,8 +128,11 @@ export class GrRangedCommentLayer
         el,
         range.start,
         range.end - range.start,
-        (range.hovering ? HOVER_HIGHLIGHT : RANGE_HIGHLIGHT) +
-          ` ${strToClassName(range.rootId)}`
+        (range.hovering
+          ? HOVER_HIGHLIGHT
+          : range.longRange
+          ? RANGE_BASE_ONLY
+          : RANGE_HIGHLIGHT) + ` ${strToClassName(range.rootId)}`
       );
     }
   }
@@ -169,12 +175,13 @@ export class GrRangedCommentLayer
       const value = record.value as CommentRangeLayer[];
       this._rangesMap = {left: {}, right: {}};
       for (const {side, range, rootId, hovering} of value) {
+        const longRange = isLongCommentRange(range);
         this._updateRangesMap({
           side,
           range,
           hovering,
           operation: (forLine, start, end, hovering) => {
-            forLine.push({start, end, hovering, rootId});
+            forLine.push({start, end, hovering, rootId, longRange});
           },
         });
       }
@@ -228,12 +235,13 @@ export class GrRangedCommentLayer
           indexSplice.index + indexSplice.addedCount
         );
         for (const {side, range, hovering, rootId} of added) {
+          const longRange = isLongCommentRange(range);
           this._updateRangesMap({
             side,
             range,
             hovering,
             operation: (forLine, start, end, hovering) => {
-              forLine.push({start, end, hovering, rootId});
+              forLine.push({start, end, hovering, rootId, longRange});
             },
           });
         }

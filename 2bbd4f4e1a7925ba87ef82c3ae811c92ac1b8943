@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0763d5f3_1d415d23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-16T15:30:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2fd362d_a6cc4fba",
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a17f8f2f_7d00c654",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-12-16T11:45:28Z",
       "side": 1,
       "message": "Could you please add javadoc to this method? IMO @param verifyIsMissing is the only thing that needs explanation (and probably renamed). The remaining is clear.",
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03ae3457_8fb6f8ad",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-16T15:30:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a17f8f2f_7d00c654",
       "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +117,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "861091fc_d3e984f5",
+        "filename": "java/com/google/gerrit/server/util/CommitMessageUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-16T15:30:15Z",
+      "side": 1,
+      "message": "It should be used. Thanks for catching it!\n\nThe only caller of this paths (revertOf) is always providing the new change ID and gives it as changeIdForNewChange, so the tests did not catch this.\n\nI would still keep this paths for the verification purposes.",
+      "parentUuid": "cc5f2e1b_30190fa1",
+      "range": {
+        "startLine": 83,
+        "startChar": 23,
+        "endLine": 83,
+        "endChar": 46
+      },
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b09b391a_c19b4879",
+        "filename": "java/com/google/gerrit/server/util/CommitMessageUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-16T15:30:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e3833335_1581a7bb",
+      "range": {
+        "startLine": 83,
+        "startChar": 56,
+        "endLine": 83,
+        "endChar": 64
+      },
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "168b4d74_2d4a2c7e",
@@ -104,6 +188,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dafaa7c_fd8efe54",
+        "filename": "java/com/google/gerrit/server/util/CommitMessageUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-16T15:30:15Z",
+      "side": 1,
+      "message": "This method is parsing from RevCommit, I could not reuse  ChangeUtil#getChangeIdsFromFooter (using RevCommit#getFooterLines) for the same reason.\nI need to parse the raw text message (e.g. provided from the CherryPickInput), before I have the commit.",
+      "parentUuid": "168b4d74_2d4a2c7e",
+      "range": {
+        "startLine": 96,
+        "startChar": 33,
+        "endLine": 96,
+        "endChar": 67
+      },
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0647382f_1d6f132b",
@@ -117,6 +225,24 @@
       "writtenOn": "2020-12-16T11:45:28Z",
       "side": 1,
       "message": "Thanks for adding the tests for reverts. \n\nOptional: I think the revert tests are not directly to the commit message. I\u0027d preferably add them with a separate change instead, but it\u0027s also fine to leave them.\n\nIt\u0027s interesting why cherry picks honour the Change-Id but reverts don\u0027t. Is there a reason for that?",
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4bb63e6_072862a5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-16T15:30:15Z",
+      "side": 1,
+      "message": "The revert is implemented as a cherry-pick operation, so I added the tests (to make sure I am not breaking it).\n\nThe revert always generates the new ID, I think it is by design.",
+      "parentUuid": "0647382f_1d6f132b",
       "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

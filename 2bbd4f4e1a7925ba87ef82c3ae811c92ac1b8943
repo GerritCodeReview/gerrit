@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2fd362d_a6cc4fba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-16T11:45:28Z",
+      "side": 1,
+      "message": "nit: long line. Please wrap the text to 72 chars per line.",
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a17f8f2f_7d00c654",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-16T11:45:28Z",
+      "side": 1,
+      "message": "Could you please add javadoc to this method? IMO @param verifyIsMissing is the only thing that needs explanation (and probably renamed). The remaining is clear.",
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc5f2e1b_30190fa1",
+        "filename": "java/com/google/gerrit/server/util/CommitMessageUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-16T11:45:28Z",
+      "side": 1,
+      "message": "nit: If the objectId parameter is unused, I\u0027d prefer to rename to \"createChangeId\", or otherwise you can get rid of this method and inline at the caller (having two methods generateChangeId and createChangeId is a bit confusing).",
+      "range": {
+        "startLine": 83,
+        "startChar": 23,
+        "endLine": 83,
+        "endChar": 46
+      },
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3833335_1581a7bb",
+        "filename": "java/com/google/gerrit/server/util/CommitMessageUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-16T11:45:28Z",
+      "side": 1,
+      "message": "nit: remove unused variable.\n\nUpdate: should this variable be used inside the method?",
+      "range": {
+        "startLine": 83,
+        "startChar": 56,
+        "endLine": 83,
+        "endChar": 64
+      },
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "168b4d74_2d4a2c7e",
+        "filename": "java/com/google/gerrit/server/util/CommitMessageUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-16T11:45:28Z",
+      "side": 1,
+      "message": "Parsing of commit footer lines is also done in ChangeNotesParser#parseChangeId. Can this be reused?",
+      "range": {
+        "startLine": 96,
+        "startChar": 33,
+        "endLine": 96,
+        "endChar": 67
+      },
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0647382f_1d6f132b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-16T11:45:28Z",
+      "side": 1,
+      "message": "Thanks for adding the tests for reverts. \n\nOptional: I think the revert tests are not directly to the commit message. I\u0027d preferably add them with a separate change instead, but it\u0027s also fine to leave them.\n\nIt\u0027s interesting why cherry picks honour the Change-Id but reverts don\u0027t. Is there a reason for that?",
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da0b345a_6fac82b4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-16T11:45:28Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "2bbd4f4e1a7925ba87ef82c3ae811c92ac1b8943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

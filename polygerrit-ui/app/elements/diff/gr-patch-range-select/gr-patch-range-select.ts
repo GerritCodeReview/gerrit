@@ -367,6 +367,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
     );
   }
 
+  // TODO(dhruvsri): have ported comments contribute to this count
   _computePatchSetCommentsString(
     changeComments: ChangeComments,
     patchNum: PatchSetNum

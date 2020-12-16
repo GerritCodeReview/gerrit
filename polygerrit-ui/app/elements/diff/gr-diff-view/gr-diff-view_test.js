@@ -151,6 +151,7 @@ suite('gr-diff-view tests', () => {
           },
         ]},
         computeCommentThreadCount: () => {},
+        computeCommentsString: () => '',
         computeUnresolvedNum: () => {},
         getPaths: () => {},
         getThreadsBySideForFile: () => [],
@@ -911,44 +912,6 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(overlayOpenStub.called);
     });
 
-    test('_computeCommentString', done => {
-      const path = '/test';
-      element.$.commentAPI.loadAll().then(comments => {
-        const commentThreadCountStub =
-            sinon.stub(comments, 'computeCommentThreadCount');
-        const unresolvedCountStub =
-            sinon.stub(comments, 'computeUnresolvedNum');
-        commentThreadCountStub.withArgs({patchNum: 1, path}).returns(0);
-        commentThreadCountStub.withArgs({patchNum: 2, path}).returns(1);
-        commentThreadCountStub.withArgs({patchNum: 3, path}).returns(2);
-        commentThreadCountStub.withArgs({patchNum: 4, path}).returns(0);
-        unresolvedCountStub.withArgs({patchNum: 1, path}).returns(1);
-        unresolvedCountStub.withArgs({patchNum: 2, path}).returns(0);
-        unresolvedCountStub.withArgs({patchNum: 3, path}).returns(2);
-        unresolvedCountStub.withArgs({patchNum: 4, path}).returns(0);
-
-        assert.equal(element._computeCommentString(comments, 1, path, {}),
-            '1 unresolved');
-        assert.equal(
-            element._computeCommentString(comments, 2, path, {status: 'M'}),
-            '1 comment');
-        assert.equal(
-            element._computeCommentString(comments, 2, path, {status: 'U'}),
-            'no changes, 1 comment');
-        assert.equal(
-            element._computeCommentString(comments, 3, path, {status: 'A'}),
-            '2 comments, 2 unresolved');
-        assert.equal(
-            element._computeCommentString(
-                comments, 4, path, {status: 'M'}
-            ), '');
-        assert.equal(
-            element._computeCommentString(comments, 4, path, {status: 'U'}),
-            'no changes');
-        done();
-      });
-    });
-
     suite('url params', () => {
       setup(() => {
         sinon.stub(element, '_getFiles');
@@ -968,9 +931,6 @@ suite('gr-diff-view tests', () => {
           basePatchNum: PARENT,
           patchNum: 10,
         };
-        // computeCommentThreadCount is an empty function hence stubbing
-        // function that depends on it's return value
-        sinon.stub(element, '_computeCommentString').returns('');
         element._change = {_number: 42};
         element._files = getFilesFromFileList(
             ['chell.go', 'glados.txt', 'wheatley.md',

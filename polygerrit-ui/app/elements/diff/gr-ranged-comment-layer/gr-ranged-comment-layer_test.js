@@ -110,7 +110,10 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'style-scope gr-diff range generated_a');
+      assert.equal(
+          lastCall.args[3],
+          'style-scope gr-diff range rangeHighlight generated_a'
+      );
     });
 
     test('type=Remove has-comment hovering', () => {
@@ -129,7 +132,8 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
       assert.equal(
-          lastCall.args[3], 'style-scope gr-diff rangeHighlight generated_a'
+          lastCall.args[3],
+          'style-scope gr-diff range rangeHoverHighlight generated_a'
       );
     });
 
@@ -147,7 +151,10 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'style-scope gr-diff range generated_a');
+      assert.equal(
+          lastCall.args[3],
+          'style-scope gr-diff range rangeHighlight generated_a'
+      );
     });
 
     test('type=Both has-comment off side', () => {
@@ -175,7 +182,10 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'style-scope gr-diff range generated_b');
+      assert.equal(
+          lastCall.args[3],
+          'style-scope gr-diff range rangeHighlight generated_b'
+      );
     });
   });
 
@@ -261,9 +271,13 @@ suite('gr-ranged-comment-layer', () => {
   test('_computeCommentMap creates maps correctly', () => {
     // There is only one ranged comment on the left, but it spans ll.36-39.
     const leftKeys = [];
-    for (let i = 36; i <= 39; i++) { leftKeys.push('' + i); }
-    assert.deepEqual(Object.keys(element._rangesMap.left).sort(),
-        leftKeys.sort());
+    for (let i = 36; i <= 39; i++) {
+      leftKeys.push('' + i);
+    }
+    assert.deepEqual(
+        Object.keys(element._rangesMap.left).sort(),
+        leftKeys.sort()
+    );
 
     assert.equal(element._rangesMap.left[36].length, 1);
     assert.equal(element._rangesMap.left[36][0].start, 6);
@@ -284,10 +298,14 @@ suite('gr-ranged-comment-layer', () => {
     // The right has two ranged comments, one spanning ll.10-12 and the other
     // on line 100.
     const rightKeys = [];
-    for (let i = 10; i <= 12; i++) { rightKeys.push('' + i); }
+    for (let i = 10; i <= 12; i++) {
+      rightKeys.push('' + i);
+    }
     rightKeys.push('55', '100');
-    assert.deepEqual(Object.keys(element._rangesMap.right).sort(),
-        rightKeys.sort());
+    assert.deepEqual(
+        Object.keys(element._rangesMap.right).sort(),
+        rightKeys.sort()
+    );
 
     assert.equal(element._rangesMap.right[10].length, 1);
     assert.equal(element._rangesMap.right[10][0].start, 10);
@@ -318,4 +336,3 @@ suite('gr-ranged-comment-layer', () => {
     assert.equal(range.end, line.text.length);
   });
 });
-

@@ -19,7 +19,6 @@ import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff.js';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import {_setHiddenScroll} from '../../../scripts/hiddenscroll.js';
@@ -40,9 +39,7 @@ suite('gr-diff tests', () => {
 
   const MINIMAL_PREFS = {tab_size: 2, line_length: 80};
 
-  setup(() => {
-
-  });
+  setup(() => {});
 
   suite('selectionchange event handling', () => {
     const emulateSelection = function() {
@@ -102,36 +99,46 @@ suite('gr-diff tests', () => {
       test('right side', () => {
         element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
         lineEl.classList.add('right');
-        assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-            4);
+        assert.equal(
+            element._getPatchNumByLineAndContent(lineEl, contentEl),
+            4
+        );
       });
 
       test('left side parent by linenum', () => {
         element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
         lineEl.classList.add('left');
-        assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-            4);
+        assert.equal(
+            element._getPatchNumByLineAndContent(lineEl, contentEl),
+            4
+        );
       });
 
       test('left side parent by content', () => {
         element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
         contentEl.classList.add('remove');
-        assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-            4);
+        assert.equal(
+            element._getPatchNumByLineAndContent(lineEl, contentEl),
+            4
+        );
       });
 
       test('left side merge parent', () => {
         element.patchRange = {patchNum: 4, basePatchNum: -2};
         contentEl.classList.add('remove');
-        assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-            4);
+        assert.equal(
+            element._getPatchNumByLineAndContent(lineEl, contentEl),
+            4
+        );
       });
 
       test('left side non parent', () => {
         element.patchRange = {patchNum: 4, basePatchNum: 3};
         contentEl.classList.add('remove');
-        assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-            3);
+        assert.equal(
+            element._getPatchNumByLineAndContent(lineEl, contentEl),
+            3
+        );
       });
     });
 
@@ -140,35 +147,40 @@ suite('gr-diff tests', () => {
         element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
         lineEl.classList.add('right');
         assert.isFalse(
-            element._getIsParentCommentByLineAndContent(lineEl, contentEl));
+            element._getIsParentCommentByLineAndContent(lineEl, contentEl)
+        );
       });
 
       test('left side parent by linenum', () => {
         element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
         lineEl.classList.add('left');
         assert.isTrue(
-            element._getIsParentCommentByLineAndContent(lineEl, contentEl));
+            element._getIsParentCommentByLineAndContent(lineEl, contentEl)
+        );
       });
 
       test('left side parent by content', () => {
         element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
         contentEl.classList.add('remove');
         assert.isTrue(
-            element._getIsParentCommentByLineAndContent(lineEl, contentEl));
+            element._getIsParentCommentByLineAndContent(lineEl, contentEl)
+        );
       });
 
       test('left side merge parent', () => {
         element.patchRange = {patchNum: 4, basePatchNum: -2};
         contentEl.classList.add('remove');
         assert.isTrue(
-            element._getIsParentCommentByLineAndContent(lineEl, contentEl));
+            element._getIsParentCommentByLineAndContent(lineEl, contentEl)
+        );
       });
 
       test('left side non parent', () => {
         element.patchRange = {patchNum: 4, basePatchNum: 3};
         contentEl.classList.add('remove');
         assert.isFalse(
-            element._getIsParentCommentByLineAndContent(lineEl, contentEl));
+            element._getIsParentCommentByLineAndContent(lineEl, contentEl)
+        );
       });
     });
   });
@@ -177,7 +189,9 @@ suite('gr-diff tests', () => {
     setup(() => {
       const getLoggedInPromise = Promise.resolve(false);
       stub('gr-rest-api-interface', {
-        getLoggedIn() { return getLoggedInPromise; },
+        getLoggedIn() {
+          return getLoggedInPromise;
+        },
       });
       element = basicFixture.instantiate();
       return getLoggedInPromise;
@@ -202,8 +216,8 @@ suite('gr-diff tests', () => {
       assert.isFalse(
           element.shadowRoot
               .querySelector('.diffContainer')
-              .classList
-              .contains('displayLine'));
+              .classList.contains('displayLine')
+      );
     });
 
     test('displayLine class added called when displayLine is true', () => {
@@ -213,8 +227,8 @@ suite('gr-diff tests', () => {
       assert.isTrue(
           element.shadowRoot
               .querySelector('.diffContainer')
-              .classList
-              .contains('displayLine'));
+              .classList.contains('displayLine')
+      );
     });
 
     test('thread groups', () => {
@@ -225,7 +239,9 @@ suite('gr-diff tests', () => {
       element.path = 'file.txt';
 
       element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder(
-          getMockDiffResponse(), {...MINIMAL_PREFS});
+          getMockDiffResponse(),
+          {...MINIMAL_PREFS}
+      );
 
       // No thread groups.
       assert.isNotOk(element._getThreadGroupForLine(contentEl));
@@ -245,13 +261,15 @@ suite('gr-diff tests', () => {
       let mockFile2;
       setup(() => {
         mockFile1 = {
-          body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
-          'wsAAAAAAAAAAAAAAAAA/w==',
+          body:
+            'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
+            'wsAAAAAAAAAAAAAAAAA/w==',
           type: 'image/bmp',
         };
         mockFile2 = {
-          body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
-          'wsAAAAAAAAAAAAA/////w==',
+          body:
+            'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
+            'wsAAAAAAAAAAAAA/////w==',
           type: 'image/bmp',
         };
 
@@ -279,20 +297,18 @@ suite('gr-diff tests', () => {
         const rendered = () => {
           // Recognizes that it should be an image diff.
           assert.isTrue(element.isImageDiff);
-          assert.instanceOf(
-              element.$.diffBuilder._builder, GrDiffBuilderImage);
+          assert.instanceOf(element.$.diffBuilder._builder, GrDiffBuilderImage);
 
           // Left image rendered with the parent commit's version of the file.
           const leftImage = element.$.diffTable.querySelector('td.left img');
-          const leftLabel =
-              element.$.diffTable.querySelector('td.left label');
+          const leftLabel = element.$.diffTable.querySelector('td.left label');
           const leftLabelContent = leftLabel.querySelector('.label');
           const leftLabelName = leftLabel.querySelector('.name');
 
-          const rightImage =
-              element.$.diffTable.querySelector('td.right img');
+          const rightImage = element.$.diffTable.querySelector('td.right img');
           const rightLabel = element.$.diffTable.querySelector(
-              'td.right label');
+              'td.right label'
+          );
           const rightLabelContent = rightLabel.querySelector('.label');
           const rightLabelName = rightLabel.querySelector('.name');
 
@@ -304,9 +320,11 @@ suite('gr-diff tests', () => {
 
           leftImage.addEventListener('load', () => {
             assert.isOk(leftImage);
-            assert.equal(leftImage.getAttribute('src'),
-                'data:image/bmp;base64, ' + mockFile1.body);
-            assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
+            assert.equal(
+                leftImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile1.body
+            );
+            assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp'); // \u00d7 - '×'
             leftLoaded = true;
             if (rightLoaded) {
               element.removeEventListener('render', rendered);
@@ -316,9 +334,11 @@ suite('gr-diff tests', () => {
 
           rightImage.addEventListener('load', () => {
             assert.isOk(rightImage);
-            assert.equal(rightImage.getAttribute('src'),
-                'data:image/bmp;base64, ' + mockFile2.body);
-            assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
+            assert.equal(
+                rightImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile2.body
+            );
+            assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp'); // \u00d7 - '×'
 
             rightLoaded = true;
             if (leftLoaded) {
@@ -334,8 +354,11 @@ suite('gr-diff tests', () => {
         element.revisionImage = mockFile2;
         element.diff = {
           meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-            lines: 560},
+          meta_b: {
+            name: 'carrot.jpg',
+            content_type: 'image/jpeg',
+            lines: 560,
+          },
           intraline_status: 'OK',
           change_type: 'MODIFIED',
           diff_header: [
@@ -353,8 +376,11 @@ suite('gr-diff tests', () => {
       test('renders image diffs with a different file name', done => {
         const mockDiff = {
           meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-          meta_b: {name: 'carrot2.jpg', content_type: 'image/jpeg',
-            lines: 560},
+          meta_b: {
+            name: 'carrot2.jpg',
+            content_type: 'image/jpeg',
+            lines: 560,
+          },
           intraline_status: 'OK',
           change_type: 'MODIFIED',
           diff_header: [
@@ -371,20 +397,18 @@ suite('gr-diff tests', () => {
         const rendered = () => {
           // Recognizes that it should be an image diff.
           assert.isTrue(element.isImageDiff);
-          assert.instanceOf(
-              element.$.diffBuilder._builder, GrDiffBuilderImage);
+          assert.instanceOf(element.$.diffBuilder._builder, GrDiffBuilderImage);
 
           // Left image rendered with the parent commit's version of the file.
           const leftImage = element.$.diffTable.querySelector('td.left img');
-          const leftLabel =
-              element.$.diffTable.querySelector('td.left label');
+          const leftLabel = element.$.diffTable.querySelector('td.left label');
           const leftLabelContent = leftLabel.querySelector('.label');
           const leftLabelName = leftLabel.querySelector('.name');
 
-          const rightImage =
-              element.$.diffTable.querySelector('td.right img');
+          const rightImage = element.$.diffTable.querySelector('td.right img');
           const rightLabel = element.$.diffTable.querySelector(
-              'td.right label');
+              'td.right label'
+          );
           const rightLabelContent = rightLabel.querySelector('.label');
           const rightLabelName = rightLabel.querySelector('.name');
 
@@ -398,9 +422,11 @@ suite('gr-diff tests', () => {
 
           leftImage.addEventListener('load', () => {
             assert.isOk(leftImage);
-            assert.equal(leftImage.getAttribute('src'),
-                'data:image/bmp;base64, ' + mockFile1.body);
-            assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
+            assert.equal(
+                leftImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile1.body
+            );
+            assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp'); // \u00d7 - '×'
             leftLoaded = true;
             if (rightLoaded) {
               element.removeEventListener('render', rendered);
@@ -410,9 +436,11 @@ suite('gr-diff tests', () => {
 
           rightImage.addEventListener('load', () => {
             assert.isOk(rightImage);
-            assert.equal(rightImage.getAttribute('src'),
-                'data:image/bmp;base64, ' + mockFile2.body);
-            assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
+            assert.equal(
+                rightImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile2.body
+            );
+            assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp'); // \u00d7 - '×'
 
             rightLoaded = true;
             if (leftLoaded) {
@@ -433,8 +461,11 @@ suite('gr-diff tests', () => {
 
       test('renders added image', done => {
         const mockDiff = {
-          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-            lines: 560},
+          meta_b: {
+            name: 'carrot.jpg',
+            content_type: 'image/jpeg',
+            lines: 560,
+          },
           intraline_status: 'OK',
           change_type: 'ADDED',
           diff_header: [
@@ -451,8 +482,7 @@ suite('gr-diff tests', () => {
         function rendered() {
           // Recognizes that it should be an image diff.
           assert.isTrue(element.isImageDiff);
-          assert.instanceOf(
-              element.$.diffBuilder._builder, GrDiffBuilderImage);
+          assert.instanceOf(element.$.diffBuilder._builder, GrDiffBuilderImage);
 
           const leftImage = element.$.diffTable.querySelector('td.left img');
           const rightImage = element.$.diffTable.querySelector('td.right img');
@@ -470,8 +500,11 @@ suite('gr-diff tests', () => {
 
       test('renders removed image', done => {
         const mockDiff = {
-          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg',
-            lines: 560},
+          meta_a: {
+            name: 'carrot.jpg',
+            content_type: 'image/jpeg',
+            lines: 560,
+          },
           intraline_status: 'OK',
           change_type: 'DELETED',
           diff_header: [
@@ -488,8 +521,7 @@ suite('gr-diff tests', () => {
         function rendered() {
           // Recognizes that it should be an image diff.
           assert.isTrue(element.isImageDiff);
-          assert.instanceOf(
-              element.$.diffBuilder._builder, GrDiffBuilderImage);
+          assert.instanceOf(element.$.diffBuilder._builder, GrDiffBuilderImage);
 
           const leftImage = element.$.diffTable.querySelector('td.left img');
           const rightImage = element.$.diffTable.querySelector('td.right img');
@@ -507,8 +539,11 @@ suite('gr-diff tests', () => {
 
       test('does not render disallowed image type', done => {
         const mockDiff = {
-          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg-evil',
-            lines: 560},
+          meta_a: {
+            name: 'carrot.jpg',
+            content_type: 'image/jpeg-evil',
+            lines: 560,
+          },
           intraline_status: 'OK',
           change_type: 'DELETED',
           diff_header: [
@@ -526,8 +561,7 @@ suite('gr-diff tests', () => {
         function rendered() {
           // Recognizes that it should be an image diff.
           assert.isTrue(element.isImageDiff);
-          assert.instanceOf(
-              element.$.diffBuilder._builder, GrDiffBuilderImage);
+          assert.instanceOf(element.$.diffBuilder._builder, GrDiffBuilderImage);
           const leftImage = element.$.diffTable.querySelector('td.left img');
           assert.isNotOk(leftImage);
           done();
@@ -554,8 +588,7 @@ suite('gr-diff tests', () => {
     });
 
     test('_handleTap context', done => {
-      const showContextStub =
-          sinon.stub(element.$.diffBuilder, 'showContext');
+      const showContextStub = sinon.stub(element.$.diffBuilder, 'showContext');
       const el = document.createElement('div');
       el.className = 'showContext';
       el.addEventListener('click', e => {
@@ -571,7 +604,8 @@ suite('gr-diff tests', () => {
       const lineEl = document.createElement('div');
 
       const selectStub = sinon.stub(element, '_selectLine');
-      sinon.stub(element.$.diffBuilder, 'getLineElByChild')
+      sinon
+          .stub(element.$.diffBuilder, 'getLineElByChild')
           .callsFake(() => lineEl);
 
       content.className = 'content';
@@ -627,8 +661,10 @@ suite('gr-diff tests', () => {
     test('adds .hiddenscroll', () => {
       _setHiddenScroll(true);
       element.displayLine = true;
-      assert.include(element.shadowRoot
-          .querySelector('.diffContainer').className, 'hiddenscroll');
+      assert.include(
+          element.shadowRoot.querySelector('.diffContainer').className,
+          'hiddenscroll'
+      );
     });
   });
 
@@ -651,8 +687,7 @@ suite('gr-diff tests', () => {
       sinon.stub(element, '_selectLine');
       sinon.stub(element, '_createComment');
       element.addDraftAtLine(fakeLineEl);
-      assert.isTrue(element._createComment
-          .calledWithExactly(fakeLineEl, 42));
+      assert.isTrue(element._createComment.calledWithExactly(fakeLineEl, 42));
     });
 
     test('addDraftAtLine on an edit', () => {
@@ -678,12 +713,72 @@ suite('gr-diff tests', () => {
       assert.isFalse(element._createComment.called);
     });
 
+    test('adds long range comment chip', async () => {
+      const range = {
+        start_line: 1,
+        end_line: 7,
+        start_character: 0,
+        end_character: 0,
+      };
+      const threadEl = document.createElement('div');
+      threadEl.className = 'comment-thread';
+      threadEl.setAttribute('diff-side', 'right');
+      threadEl.setAttribute('line-num', 1);
+      threadEl.setAttribute('range', JSON.stringify(range));
+      threadEl.setAttribute('slot', 'right-1');
+      const content = [{
+        a: [],
+        b: [],
+      }, {
+        ab: Array(8).fill('text'),
+      }];
+      setupSampleDiff({content});
+
+      element.appendChild(threadEl);
+
+      await flush();
+      assert.deepEqual(
+          element.querySelector('gr-ranged-comment-chip').range, range);
+    });
+
+    test('removes long range comment chip when comment is discarded',
+        async () => {
+          const range = {
+            start_line: 1,
+            end_line: 7,
+            start_character: 0,
+            end_character: 0,
+          };
+          const threadEl = document.createElement('div');
+          threadEl.className = 'comment-thread';
+          threadEl.setAttribute('diff-side', 'right');
+          threadEl.setAttribute('line-num', 1);
+          threadEl.setAttribute('range', JSON.stringify(range));
+          threadEl.setAttribute('slot', 'right-1');
+          const content = [{
+            a: [],
+            b: [],
+          }, {
+            ab: Array.from({length: 8}, (_, i) => i.toString()),
+          }];
+          setupSampleDiff({content});
+
+          element.appendChild(threadEl);
+          await flush();
+          threadEl.remove();
+          await flush();
+          assert.isEmpty(element.querySelectorAll('gr-ranged-comment-chip'));
+        });
+
     suite('change in preferences', () => {
       setup(() => {
         element.diff = {
           meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-            lines: 560},
+          meta_b: {
+            name: 'carrot.jpg',
+            content_type: 'image/jpeg',
+            lines: 560,
+          },
           diff_header: [],
           intraline_status: 'OK',
           change_type: 'MODIFIED',
@@ -695,15 +790,16 @@ suite('gr-diff tests', () => {
       test('change in preferences re-renders diff', () => {
         sinon.stub(element, '_renderDiffTable');
         element.prefs = {
-          ...MINIMAL_PREFS, time_format: 'HHMM_12'};
+          ...MINIMAL_PREFS,
+          time_format: 'HHMM_12',
+        };
         element.flushDebouncer('renderDiffTable');
         assert.isTrue(element._renderDiffTable.called);
       });
 
       test('adding/removing property in preferences re-renders diff', () => {
         const stub = sinon.stub(element, '_renderDiffTable');
-        const newPrefs1 = {...MINIMAL_PREFS,
-          line_wrapping: true};
+        const newPrefs1 = {...MINIMAL_PREFS, line_wrapping: true};
         element.prefs = newPrefs1;
         element.flushDebouncer('renderDiffTable');
         assert.isTrue(element._renderDiffTable.called);
@@ -716,15 +812,20 @@ suite('gr-diff tests', () => {
         assert.isTrue(element._renderDiffTable.called);
       });
 
-      test('change in preferences does not re-renders diff with ' +
-          'noRenderOnPrefsChange', () => {
-        sinon.stub(element, '_renderDiffTable');
-        element.noRenderOnPrefsChange = true;
-        element.prefs = {
-          ...MINIMAL_PREFS, time_format: 'HHMM_12'};
-        element.flushDebouncer('renderDiffTable');
-        assert.isFalse(element._renderDiffTable.called);
-      });
+      test(
+          'change in preferences does not re-renders diff with ' +
+          'noRenderOnPrefsChange',
+          () => {
+            sinon.stub(element, '_renderDiffTable');
+            element.noRenderOnPrefsChange = true;
+            element.prefs = {
+              ...MINIMAL_PREFS,
+              time_format: 'HHMM_12',
+            };
+            element.flushDebouncer('renderDiffTable');
+            assert.isFalse(element._renderDiffTable.called);
+          }
+      );
     });
   });
 
@@ -733,8 +834,7 @@ suite('gr-diff tests', () => {
       element = basicFixture.instantiate();
       element.diff = {
         meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-        meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-          lines: 560},
+        meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
         diff_header: [],
         intraline_status: 'OK',
         change_type: 'MODIFIED',
@@ -776,12 +876,12 @@ suite('gr-diff tests', () => {
 
     setup(() => {
       element = basicFixture.instantiate();
-      renderStub = sinon.stub(element.$.diffBuilder, 'render').callsFake(
-          () => {
-            element.$.diffBuilder.dispatchEvent(
-                new CustomEvent('render', {bubbles: true, composed: true}));
-            return Promise.resolve({});
-          });
+      renderStub = sinon.stub(element.$.diffBuilder, 'render').callsFake(() => {
+        element.$.diffBuilder.dispatchEvent(
+            new CustomEvent('render', {bubbles: true, composed: true})
+        );
+        return Promise.resolve({});
+      });
       sinon.stub(element, 'getDiffLength').returns(10000);
       element.diff = getMockDiffResponse();
       element.noRenderOnPrefsChange = true;
@@ -861,8 +961,10 @@ suite('gr-diff tests', () => {
     test('shows combined warning if both sides set to warn', () => {
       element.showNewlineWarningLeft = true;
       element.showNewlineWarningRight = true;
-      assert.include(getWarning(element),
-          NO_NEWLINE_BASE + ' \u2014 ' + NO_NEWLINE_REVISION);// \u2014 - '—'
+      assert.include(
+          getWarning(element),
+          NO_NEWLINE_BASE + ' \u2014 ' + NO_NEWLINE_REVISION
+      ); // \u2014 - '—'
     });
 
     suite('showNewlineWarningLeft', () => {
@@ -914,14 +1016,17 @@ suite('gr-diff tests', () => {
       assert.isTrue(element._prefsEqual({}, {}));
       assert.isTrue(element._prefsEqual({x: 1}, {x: 1}));
       assert.isTrue(
-          element._prefsEqual({x: 1, abc: 'def'}, {x: 1, abc: 'def'}));
+          element._prefsEqual({x: 1, abc: 'def'}, {x: 1, abc: 'def'})
+      );
       const somePref = {abc: 'def', p: true};
       assert.isTrue(element._prefsEqual(somePref, somePref));
 
       assert.isFalse(element._prefsEqual({}, null));
       assert.isFalse(element._prefsEqual(null, {}));
       assert.isFalse(element._prefsEqual({x: 1}, {x: 2}));
-      assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1, y: 'abcd'}));
+      assert.isFalse(
+          element._prefsEqual({x: 1, y: 'abc'}, {x: 1, y: 'abcd'})
+      );
       assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1}));
       assert.isFalse(element._prefsEqual({x: 1}, {x: 1, y: 'abc'}));
     });
@@ -933,7 +1038,8 @@ suite('gr-diff tests', () => {
     setup(() => {
       element = basicFixture.instantiate();
       element.prefs = {};
-      renderStub = sinon.stub(element.$.diffBuilder, 'render')
+      renderStub = sinon
+          .stub(element.$.diffBuilder, 'render')
           .returns(new Promise(() => {}));
     });
 
@@ -1017,13 +1123,14 @@ suite('gr-diff tests', () => {
   };
 
   test('clear diff table content as soon as diff changes', () => {
-    const content = [{
-      a: ['all work and no play make andybons a dull boy'],
-    }, {
-      b: [
-        'Non eram nescius, Brute, cum, quae summis ingeniis ',
-      ],
-    }];
+    const content = [
+      {
+        a: ['all work and no play make andybons a dull boy'],
+      },
+      {
+        b: ['Non eram nescius, Brute, cum, quae summis ingeniis '],
+      },
+    ];
     function assertDiffTableWithContent() {
       assert.isTrue(element.$.diffTable.innerText.includes(content[0].a));
     }
@@ -1040,15 +1147,18 @@ suite('gr-diff tests', () => {
 
   suite('selection test', () => {
     test('user-select set correctly on side-by-side view', () => {
-      const content = [{
-        a: ['all work and no play make andybons a dull boy'],
-        b: ['elgoog elgoog elgoog'],
-      }, {
-        ab: [
-          'Non eram nescius, Brute, cum, quae summis ingeniis ',
-          'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-        ],
-      }];
+      const content = [
+        {
+          a: ['all work and no play make andybons a dull boy'],
+          b: ['elgoog elgoog elgoog'],
+        },
+        {
+          ab: [
+            'Non eram nescius, Brute, cum, quae summis ingeniis ',
+            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+          ],
+        },
+      ];
       setupSampleDiff({content});
       flush();
       const diffLine = element.shadowRoot.querySelectorAll('.contentText')[2];
@@ -1059,15 +1169,18 @@ suite('gr-diff tests', () => {
     });
 
     test('user-select set correctly on unified view', () => {
-      const content = [{
-        a: ['all work and no play make andybons a dull boy'],
-        b: ['elgoog elgoog elgoog'],
-      }, {
-        ab: [
-          'Non eram nescius, Brute, cum, quae summis ingeniis ',
-          'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-        ],
-      }];
+      const content = [
+        {
+          a: ['all work and no play make andybons a dull boy'],
+          b: ['elgoog elgoog elgoog'],
+        },
+        {
+          ab: [
+            'Non eram nescius, Brute, cum, quae summis ingeniis ',
+            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+          ],
+        },
+      ];
       setupSampleDiff({content});
       element.viewMode = 'UNIFIED_DIFF';
       flush();
@@ -1081,71 +1194,87 @@ suite('gr-diff tests', () => {
   suite('whitespace changes only message', () => {
     test('show the message if ignore_whitespace is criteria matches', () => {
       setupSampleDiff({content: [{skip: 100}]});
-      assert.isTrue(element.showNoChangeMessage(
+      assert.isTrue(
+          element.showNoChangeMessage(
           /* loading= */ false,
-          element.prefs,
-          element._diffLength,
-          element.diff
-      ));
+              element.prefs,
+              element._diffLength,
+              element.diff
+          )
+      );
     });
 
     test('do not show the message for binary files', () => {
       setupSampleDiff({content: [{skip: 100}], binary: true});
-      assert.isFalse(element.showNoChangeMessage(
+      assert.isFalse(
+          element.showNoChangeMessage(
           /* loading= */ false,
-          element.prefs,
-          element._diffLength,
-          element.diff
-      ));
+              element.prefs,
+              element._diffLength,
+              element.diff
+          )
+      );
     });
 
     test('do not show the message if still loading', () => {
       setupSampleDiff({content: [{skip: 100}]});
-      assert.isFalse(element.showNoChangeMessage(
+      assert.isFalse(
+          element.showNoChangeMessage(
           /* loading= */ true,
-          element.prefs,
-          element._diffLength,
-          element.diff
-      ));
+              element.prefs,
+              element._diffLength,
+              element.diff
+          )
+      );
     });
 
     test('do not show the message if contains valid changes', () => {
-      const content = [{
-        a: ['all work and no play make andybons a dull boy'],
-        b: ['elgoog elgoog elgoog'],
-      }, {
-        ab: [
-          'Non eram nescius, Brute, cum, quae summis ingeniis ',
-          'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-        ],
-      }];
+      const content = [
+        {
+          a: ['all work and no play make andybons a dull boy'],
+          b: ['elgoog elgoog elgoog'],
+        },
+        {
+          ab: [
+            'Non eram nescius, Brute, cum, quae summis ingeniis ',
+            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+          ],
+        },
+      ];
       setupSampleDiff({content});
       assert.equal(element._diffLength, 3);
-      assert.isFalse(element.showNoChangeMessage(
+      assert.isFalse(
+          element.showNoChangeMessage(
           /* loading= */ false,
-          element.prefs,
-          element._diffLength,
-          element.diff
-      ));
+              element.prefs,
+              element._diffLength,
+              element.diff
+          )
+      );
     });
 
     test('do not show message if ignore whitespace is disabled', () => {
-      const content = [{
-        a: ['all work and no play make andybons a dull boy'],
-        b: ['elgoog elgoog elgoog'],
-      }, {
-        ab: [
-          'Non eram nescius, Brute, cum, quae summis ingeniis ',
-          'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-        ],
-      }];
+      const content = [
+        {
+          a: ['all work and no play make andybons a dull boy'],
+          b: ['elgoog elgoog elgoog'],
+        },
+        {
+          ab: [
+            'Non eram nescius, Brute, cum, quae summis ingeniis ',
+            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+          ],
+        },
+      ];
       setupSampleDiff({ignore_whitespace: 'IGNORE_NONE', content});
-      assert.isFalse(element.showNoChangeMessage(
+      assert.isFalse(
+          element.showNoChangeMessage(
           /* loading= */ false,
-          element.prefs,
-          element._diffLength,
-          element.diff
-      ));
+              element.prefs,
+              element._diffLength,
+              element.diff
+          )
+      );
     });
   });
 
@@ -1157,8 +1286,7 @@ suite('gr-diff tests', () => {
   test('`render` event has contentRendered field in detail', done => {
     element = basicFixture.instantiate();
     element.prefs = {};
-    sinon.stub(element.$.diffBuilder, 'render')
-        .returns(Promise.resolve());
+    sinon.stub(element.$.diffBuilder, 'render').returns(Promise.resolve());
     element.addEventListener('render', event => {
       assert.isTrue(event.detail.contentRendered);
       done();
@@ -1171,14 +1299,18 @@ suite('gr-diff tests', () => {
     assert.isTrue(element._prefsEqual(null, null));
     assert.isTrue(element._prefsEqual({}, {}));
     assert.isTrue(element._prefsEqual({x: 1}, {x: 1}));
-    assert.isTrue(element._prefsEqual({x: 1, abc: 'def'}, {x: 1, abc: 'def'}));
+    assert.isTrue(
+        element._prefsEqual({x: 1, abc: 'def'}, {x: 1, abc: 'def'})
+    );
     const somePref = {abc: 'def', p: true};
     assert.isTrue(element._prefsEqual(somePref, somePref));
 
     assert.isFalse(element._prefsEqual({}, null));
     assert.isFalse(element._prefsEqual(null, {}));
     assert.isFalse(element._prefsEqual({x: 1}, {x: 2}));
-    assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1, y: 'abcd'}));
+    assert.isFalse(
+        element._prefsEqual({x: 1, y: 'abc'}, {x: 1, y: 'abcd'})
+    );
     assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1}));
     assert.isFalse(element._prefsEqual({x: 1}, {x: 1, y: 'abc'}));
   });

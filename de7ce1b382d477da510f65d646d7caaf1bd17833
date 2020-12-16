@@ -22,6 +22,30 @@
       },
       "revId": "de7ce1b382d477da510f65d646d7caaf1bd17833",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f0be163_8d081322",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T15:38:33Z",
+      "side": 1,
+      "message": "Multiple events. If you dump the content of streamEventsReader in readEventsContaining() method you would see these events showing up:\n\n  ref-updated\n  project-created\n  ref-updated\n  ref-updated\n  patchset-created\n  ref-updated\n  ref-updated\n  comment-added",
+      "parentUuid": "3d316202_0f0eafea",
+      "range": {
+        "startLine": 41,
+        "startChar": 32,
+        "endLine": 41,
+        "endChar": 65
+      },
+      "revId": "de7ce1b382d477da510f65d646d7caaf1bd17833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

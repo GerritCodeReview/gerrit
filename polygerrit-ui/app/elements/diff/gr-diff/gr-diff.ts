@@ -22,6 +22,7 @@ import '../gr-diff-highlight/gr-diff-highlight';
 import '../gr-diff-selection/gr-diff-selection';
 import '../gr-syntax-themes/gr-syntax-theme';
 import '../gr-ranged-comment-themes/gr-ranged-comment-theme';
+import '../gr-ranged-comment-chip/gr-ranged-comment-chip';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
@@ -34,6 +35,7 @@ import {
   getRange,
   getSide,
   GrDiffThreadElement,
+  isLongCommentRange,
   isThreadEl,
   rangesEqual,
 } from './gr-diff-utils';
@@ -68,6 +70,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {AbortStop} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {MovedChunkGoToLineEvent} from '../../../types/events';
+import {GrRangedCommentChip} from '../gr-ranged-comment-chip/gr-ranged-comment-chip';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -873,6 +876,7 @@ export class GrDiff extends GestureEventListeners(
       for (const threadEl of addedThreadEls) {
         const lineNum = getLine(threadEl);
         const commentSide = getSide(threadEl);
+        const range = getRange(threadEl);
         if (!commentSide) continue;
         const lineEl = this.$.diffBuilder.getLineElByNumber(
           lineNum,
@@ -896,6 +900,19 @@ export class GrDiff extends GestureEventListeners(
           contentEl,
           commentSide
         );
+
+        const slotAtt = threadEl.getAttribute('slot');
+        if (range && isLongCommentRange(range)) {
+          const longRangeCommentChip = document.createElement(
+            'gr-ranged-comment-chip'
+          );
+          longRangeCommentChip.range = range;
+          if (slotAtt) {
+            longRangeCommentChip.setAttribute('slot', slotAtt);
+            this.insertBefore(longRangeCommentChip, threadEl);
+          }
+        }
+
         // Create a slot for the thread and attach it to the thread group.
         // The Polyfill has some bugs and this only works if the slot is
         // attached to the group after the group is attached to the DOM.
@@ -903,7 +920,6 @@ export class GrDiff extends GestureEventListeners(
         // that is okay because the first matching slot is used and the rest
         // are ignored.
         const slot = document.createElement('slot') as HTMLSlotElement;
-        const slotAtt = threadEl.getAttribute('slot');
         if (slotAtt) slot.name = slotAtt;
         threadGroupEl.appendChild(slot);
         lastEl = threadEl;
@@ -914,6 +930,24 @@ export class GrDiff extends GestureEventListeners(
       // @see Issue 11182
       if (lastEl && lastEl.replaceWith) {
         lastEl.replaceWith(lastEl);
+      }
+
+      const removedThreadEls = info.removedNodes.filter(isThreadEl);
+      for (const threadEl of removedThreadEls) {
+        const range = getRange(threadEl);
+        const slotAtt = threadEl.getAttribute('slot');
+        const slot = this.shadowRoot?.querySelector<HTMLSlotElement>(
+          `slot[name="${slotAtt}"`
+        );
+        if (!slot) continue;
+        slot
+          .assignedElements()
+          .filter(
+            element =>
+              element.tagName === 'GR-RANGED-COMMENT-CHIP' &&
+              rangesEqual((element as GrRangedCommentChip).range, range)
+          )
+          .forEach(element => element.remove());
       }
     });
   }

@@ -68,6 +68,15 @@ suite('gr-ranged-comment-layer', () => {
         },
         rootId: 'd',
       },
+      {
+        side: 'right',
+        range: {
+          end_character: 1,
+          end_line: 70,
+          start_character: 1,
+          start_line: 60,
+        },
+      },
     ];
 
     element = basicFixture.instantiate();
@@ -110,7 +119,10 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'style-scope gr-diff range generated_a');
+      assert.equal(
+          lastCall.args[3],
+          'style-scope gr-diff range rangeHighlight generated_a'
+      );
     });
 
     test('type=Remove has-comment hovering', () => {
@@ -129,7 +141,8 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
       assert.equal(
-          lastCall.args[3], 'style-scope gr-diff rangeHighlight generated_a'
+          lastCall.args[3],
+          'style-scope gr-diff range rangeHoverHighlight generated_a'
       );
     });
 
@@ -147,7 +160,10 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'style-scope gr-diff range generated_a');
+      assert.equal(
+          lastCall.args[3],
+          'style-scope gr-diff range rangeHighlight generated_a'
+      );
     });
 
     test('type=Both has-comment off side', () => {
@@ -175,7 +191,24 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'style-scope gr-diff range generated_b');
+      assert.equal(
+          lastCall.args[3],
+          'style-scope gr-diff range rangeHighlight generated_b'
+      );
+    });
+
+    test('long range comment', () => {
+      line.type = GrDiffLineType.ADD;
+      line.afterNumber = 65;
+      el.setAttribute('data-side', 'right');
+
+      element.annotate(el, lineNumberEl, line);
+
+      assert.isTrue(annotateElementStub.called);
+      assert.equal(
+          annotateElementStub.lastCall.args[3],
+          'style-scope gr-diff range generated_'
+      );
     });
   });
 
@@ -281,10 +314,10 @@ suite('gr-ranged-comment-layer', () => {
     assert.equal(element._rangesMap.left[39][0].start, 0);
     assert.equal(element._rangesMap.left[39][0].end, 9);
 
-    // The right has two ranged comments, one spanning ll.10-12 and the other
-    // on line 100.
+    // The right has four ranged comments: 10-12, 55-55, 60-70, 100-100
     const rightKeys = [];
     for (let i = 10; i <= 12; i++) { rightKeys.push('' + i); }
+    for (let i = 60; i <= 70; i++) { rightKeys.push('' + i); }
     rightKeys.push('55', '100');
     assert.deepEqual(Object.keys(element._rangesMap.right).sort(),
         rightKeys.sort());
@@ -318,4 +351,3 @@ suite('gr-ranged-comment-layer', () => {
     assert.equal(range.end, line.text.length);
   });
 });
-

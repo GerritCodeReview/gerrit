@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c68f92f4_e4e505b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-16T08:50:23Z",
+      "side": 1,
+      "message": "I think the change looks good. We just have to coordinate with other users of gr-diff that are not using our comment widget.",
+      "revId": "8a1bb887d4ced615ed1486671350404eb26f6857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "977bf83c_ab72df6f",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
         "patchSetId": 3

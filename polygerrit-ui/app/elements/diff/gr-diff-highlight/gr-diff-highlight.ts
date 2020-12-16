@@ -162,16 +162,14 @@ export class GrDiffHighlight extends GestureEventListeners(
           `.range.${strToClassName(threadEl.rootId)}`
         );
         rangeNodes.forEach(rangeNode => {
-          rangeNode.classList.add('rangeHighlight');
-          rangeNode.classList.remove('range');
+          rangeNode.classList.add('rangeHoverHighlight');
         });
       } else {
         const rangeNodes = curNode.querySelectorAll(
-          `.rangeHighlight.${strToClassName(threadEl.rootId)}`
+          `.rangeHoverHighlight.${strToClassName(threadEl.rootId)}`
         );
         rangeNodes.forEach(rangeNode => {
-          rangeNode.classList.remove('rangeHighlight');
-          rangeNode.classList.add('range');
+          rangeNode.classList.remove('rangeHoverHighlight');
         });
       }
     }

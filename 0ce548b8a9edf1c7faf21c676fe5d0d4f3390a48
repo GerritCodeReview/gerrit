@@ -16,6 +16,24 @@
       "message": "Luca/Matthias/David/Patrick, Kaushik sent mail about this [1] but didn\u0027t hear back from anyone. Do you 4 have thoughts on this?\n\n[1] https://groups.google.com/g/repo-discuss/c/N30dpVC_OJk",
       "revId": "0ce548b8a9edf1c7faf21c676fe5d0d4f3390a48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "885a53f1_dc827741",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-16T22:12:53Z",
+      "side": 1,
+      "message": "This is interesting hack. I think it could work for offline NoteDb migrations.\n\nTake into consideration, that original implementation for ReviewDb to NoteDb migration has reach feature set: online migration, trial migration, parallel operation, updating of NoteDb and ReviewDb storage in parallel, auto stale detection and rebuilding NoteDb on the fly to name a few.\n\nDisadvantage of your hack: deactivated change corruption detection, in the last step:\n\n  try {\n//        try {\n//          migrateToNoteDbPrimary(id);\n//        } catch (NoNoteDbStateException e) {\n//          if (canSkipPrimaryStorageMigration(db(), id)) {\n//            logger.atWarning().withCause(e).log(\n//                \"Change %s previously failed to rebuild;\" + \" skipping primary storage migration\",\n//                id);\n//          } else {\n//            throw e;\n//          }\n//        }\n\nYou probably do want this per change check, for change corruption detection. Or, if you detect and understand the kind of corruption, you may want to extend change type corruption exception and exempt it from flagging the whole migration attempt as failed.\n\nGiven that Quallcom is one of the first Gerrit users, I would expect to see all possible kinds of change corruption in ReviewDb. That probably were missed to exempt from the \"known\" Review-Db corruption exceptions.\n\nRight now we support two known kinds of corruption (that I am aware of), see: [1], [2], [3], [4], [5].\n\nSee also very descriptive Javadoc for canSkipPrimaryStorageMigration() method.\n\nGiven that you are not writing down change state into the ReviewDb, you wouldn\u0027t be able to perform the per change check after the fact. It could be that you would lose some changes with all possible kind of corruptions.\n\nOne could think to provide safety net to your hack:\n\n* 1. Backup the whole production data to a staging site\n* 2. Perform offline NoteDb migration with vanilla 2.16.x gerrit.war version \n* 3. Confirm that there is no change corruption detected, or the corrupted changes are well understood, exempt from flagging as corrupted changes, or even fixed\n* 4. Perform accelerated NoteDb migration without writing NoteDb state in ReviewDb in production\n* 5. Optional: Pray, that between steps 3 and 4 no new change corruptions types were introduced with new/unknown kind of corruptions.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/166191\n[2] https://crbug.com/gerrit/8445\n[3] https://groups.google.com/g/repo-discuss/c/clQjA8sFwqQ/m/nRLuHQPoAQAJ\n[4] https://gerrit-review.googlesource.com/c/gerrit/+/235928\n[5] https://crbug.com/gerrit/12097",
+      "parentUuid": "cd0e92b3_893badb2",
+      "revId": "0ce548b8a9edf1c7faf21c676fe5d0d4f3390a48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

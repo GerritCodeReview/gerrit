@@ -902,8 +902,8 @@ export class GrDiff extends GestureEventListeners(
         // The thread group may already have a slot with the right name, but
         // that is okay because the first matching slot is used and the rest
         // are ignored.
-        const slot = document.createElement('slot') as HTMLSlotElement;
         const slotAtt = threadEl.getAttribute('slot');
+        const slot = document.createElement('slot') as HTMLSlotElement;
         if (slotAtt) slot.name = slotAtt;
         threadGroupEl.appendChild(slot);
         lastEl = threadEl;

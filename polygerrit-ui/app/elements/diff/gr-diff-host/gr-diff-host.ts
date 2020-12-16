@@ -27,6 +27,7 @@ import {
   getLine,
   getRange,
   getSide,
+  isLongCommentRange,
   rangesEqual,
 } from '../gr-diff/gr-diff-utils';
 import {appContext} from '../../../services/app-context';
@@ -684,7 +685,7 @@ export class GrDiffHost extends GestureEventListeners(
     this._clearThreads();
     for (const thread of threads) {
       const threadEl = this._createThreadElement(thread);
-      this._attachThreadElement(threadEl);
+      this._attachThreadElement(threadEl, thread.range);
     }
   }
 
@@ -740,12 +741,25 @@ export class GrDiffHost extends GestureEventListeners(
         line: lineNum,
         range,
       });
-      this._attachThreadElement(threadEl);
+      this._attachThreadElement(threadEl, range);
     }
     return threadEl;
   }
 
-  _attachThreadElement(threadEl: Element) {
+  _attachThreadElement(threadEl: Element, range?: CommentRange) {
+    // Before attaching the thread element, optionally create and attach the
+    // comment range chip if the range is long enough.
+    if (range && isLongCommentRange(range)) {
+      const longRangeCommentChip = document.createElement('div');
+      longRangeCommentChip.style.textAlign = 'right';
+      longRangeCommentChip.innerText = `Long comment range ${range.end_line} - ${range.start_line}`;
+      const slotAtt = threadEl.getAttribute('slot');
+      if (slotAtt) {
+        longRangeCommentChip.setAttribute('slot', slotAtt);
+      }
+      this.$.diff.appendChild(longRangeCommentChip);
+    }
+
     this.$.diff.appendChild(threadEl);
   }
 

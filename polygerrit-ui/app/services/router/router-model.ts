@@ -35,7 +35,7 @@ export enum GerritView {
   SETTINGS = 'settings',
 }
 
-interface RouterState {
+export interface RouterState {
   view?: GerritView;
   changeNum?: NumericChangeId;
   patchNum?: PatchSetNum;

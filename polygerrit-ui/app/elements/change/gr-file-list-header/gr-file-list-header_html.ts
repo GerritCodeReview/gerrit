@@ -29,7 +29,6 @@ export const htmlTemplate = html`
     }
     .patchInfo-header {
       align-items: center;
-      border-top: 1px solid var(--border-color);
       display: flex;
       padding: var(--spacing-s) var(--spacing-l);
     }

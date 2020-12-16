@@ -24,7 +24,6 @@ export const htmlTemplate = html`
     }
     .header {
       align-items: center;
-      border-top: 1px solid var(--border-color);
       border-bottom: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;

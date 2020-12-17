@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36924217_6015c049",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-17T07:24:37Z",
+      "side": 1,
+      "message": "Google\u0027s build fixed. Ready for another attempt.",
+      "revId": "d0bf5319c802c484e7bbcefa150ea141046f4872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -44,6 +44,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -309,6 +310,11 @@ public class RefControlTest {
         .update();
 
     assertAllRefsAreNotVisible(user(allUsersName, DEVS));
+  }
+
+  @Test
+  public void userRefIsVisibleForInternalUser() throws Exception {
+    internalUser(localKey).controlForRef("refs/users/default").asForRef().check(RefPermission.READ);
   }
 
   @Test
@@ -1217,6 +1223,10 @@ public class RefControlTest {
 
   private ProjectState getProjectState(Project.NameKey nameKey) throws Exception {
     return projectCache.checkedGet(nameKey, true);
+  }
+
+  private ProjectControl internalUser(Project.NameKey localKey) throws Exception {
+    return projectControlFactory.create(new InternalUser(), getProjectState(localKey));
   }
 
   private ProjectControl user(Project.NameKey localKey, AccountGroup.UUID... memberOf)

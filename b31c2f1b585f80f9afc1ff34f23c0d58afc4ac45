@@ -16,6 +16,23 @@
       "message": "This is needed to build checks plugins from main branch against gerrit stable-3.3 branch. Of course the alternative would be to create stable-3.3 branch in checks repository.",
       "revId": "b31c2f1b585f80f9afc1ff34f23c0d58afc4ac45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c5e8c1a_fda8c2a0",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2695,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T17:50:38Z",
+      "side": 1,
+      "message": "Didn\u0027t you want to change this as per [1]?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/288345/3/java/com/google/gerrit/server/git/receive/ReceiveCommits.java#2695",
+      "revId": "b31c2f1b585f80f9afc1ff34f23c0d58afc4ac45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

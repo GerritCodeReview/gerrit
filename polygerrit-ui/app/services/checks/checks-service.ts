@@ -65,7 +65,6 @@ export class ChecksService {
               return of({
                 responseCode: ResponseCode.OK,
                 runs: [],
-                results: [],
               });
             }
             return from(
@@ -74,7 +73,7 @@ export class ChecksService {
           }
         ),
         tap(response => {
-          updateStateSetResults(pluginName, response.runs);
+          updateStateSetResults(pluginName, response.runs ?? []);
         })
       )
       .subscribe(() => {});

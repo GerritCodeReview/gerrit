@@ -71,8 +71,8 @@ export interface FetchResponse {
    * Top-level actions that are not associated with a specific run or result.
    * Will be shown as buttons in the header of the Checks tab.
    */
-  actions: Action[];
-  runs: CheckRun[];
+  actions?: Action[];
+  runs?: CheckRun[];
 }
 
 export enum ResponseCode {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ff42b26_d9f80830",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T21:01:29Z",
+      "side": 1,
+      "message": "Done. Thanks Joerg, yes I think this is more robust.\n\nYes I used it in a couple of serializers before, e.g. for ModifiedFile and GitFileDiff. I modified them with this change as well.",
+      "parentUuid": "c1c27cd1_d3577b9c",
+      "range": {
+        "startLine": 166,
+        "startChar": 44,
+        "endLine": 166,
+        "endChar": 59
+      },
+      "revId": "6bac73e2b839eb795bccdaa26440d56bbb16ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a69ac88f_c41b9742",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b20a10f7_1442267d",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/FileDiffCacheKeySerializerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T21:01:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a69ac88f_c41b9742",
+      "revId": "6bac73e2b839eb795bccdaa26440d56bbb16ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c7dadfc_587edd69",
@@ -54,6 +96,24 @@
       "writtenOn": "2020-12-17T16:52:33Z",
       "side": 1,
       "message": "For consistency this should also have a \"next id\" comment, same as GitFileDiffProto.Edit. Or could those two be combined?",
+      "revId": "6bac73e2b839eb795bccdaa26440d56bbb16ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0286eca4_e54a484b",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T21:01:29Z",
+      "side": 1,
+      "message": "I thought about combining them but retreated because we don\u0027t need to define Edit as a top level message anyway.\n\nDone adding next id.",
+      "parentUuid": "3c7dadfc_587edd69",
       "revId": "6bac73e2b839eb795bccdaa26440d56bbb16ef2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

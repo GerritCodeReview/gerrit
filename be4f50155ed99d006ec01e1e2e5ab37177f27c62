@@ -22,6 +22,30 @@
       },
       "revId": "be4f50155ed99d006ec01e1e2e5ab37177f27c62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ec342c9_dca31aab",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T14:12:13Z",
+      "side": 1,
+      "message": "I will still need to catch RestApiException instead of the more specific ResourceNotFoundException for the code to compile. I can check if the thrown exception class is instance of ResourceNotFoundException though, but I don\u0027t think it\u0027s needed. I\u0027m assuming that failures to get the branch info imply the branch is not visible or doesn\u0027t exist. Please LMK if I need to adjust that.\n\nI agree on renaming the method. Done.",
+      "parentUuid": "f98b3f0d_8b4fa0db",
+      "range": {
+        "startLine": 830,
+        "startChar": 13,
+        "endLine": 830,
+        "endChar": 29
+      },
+      "revId": "be4f50155ed99d006ec01e1e2e5ab37177f27c62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

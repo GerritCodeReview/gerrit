@@ -44,6 +44,7 @@ const LIFECYCLE = {
     EXTENSION_DETECTED: 'Extension detected',
     PLUGINS_INSTALLED: 'Plugins installed',
     VISIBILITY: 'Visibility',
+    EXECUTION: 'Execution',
   },
 };
 
@@ -777,6 +778,17 @@ export class GrReporting implements ReportingService {
       undefined,
       details,
       true
+    );
+  }
+
+  reportExecution(id: string, details: EventDetails) {
+    this.reporter(
+      LIFECYCLE.TYPE,
+      LIFECYCLE.CATEGORY.EXECUTION,
+      id,
+      undefined,
+      details,
+      false
     );
   }
 

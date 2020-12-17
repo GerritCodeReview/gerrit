@@ -51,6 +51,7 @@ export const grReportingMock: ReportingService = {
   reporter: () => {},
   reportErrorDialog: () => {},
   error: () => {},
+  reportExecution: () => {},
   reportExtension: () => {},
   reportInteraction: () => {},
   reportLifeCycle: () => {},
@@ -58,5 +59,5 @@ export const grReportingMock: ReportingService = {
   setRepoName: () => {},
   time: () => {},
   timeEnd: () => {},
-  timeEndWithAverage: () => {},
+  timeEndWithAverage: () => {}
 };

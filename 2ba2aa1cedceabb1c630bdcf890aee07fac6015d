@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c04f5cd1_6b4a52ed",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-12-17T14:50:12Z",
+      "side": 1,
+      "message": "I think that we should also whitelist the dashboard ref? refs/meta/dashboards/*?\n\nhttps://gerrit-review.googlesource.com/Documentation/user-dashboards.html",
+      "revId": "2ba2aa1cedceabb1c630bdcf890aee07fac6015d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

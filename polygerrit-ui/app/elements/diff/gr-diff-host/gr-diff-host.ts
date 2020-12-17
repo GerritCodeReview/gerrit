@@ -1077,7 +1077,8 @@ declare global {
 // TODO(TS): Be more specific than CustomEvent, which has detail:any.
 declare global {
   interface HTMLElementEventMap {
-    render: CustomEvent;
+    /* prettier-ignore */
+    'render': CustomEvent;
     'normalize-range': CustomEvent;
     'diff-context-expanded': CustomEvent;
     'create-comment': CustomEvent;

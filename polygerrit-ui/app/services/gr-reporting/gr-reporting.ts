@@ -88,6 +88,14 @@ export interface ReportingService {
    */
   reportRpcTiming(anonymizedUrl: string, elapsed: number): void;
   reportLifeCycle(eventName: string, details?: EventDetails): void;
+
+  /**
+   * Use this method, if you want to check/count how often a certain code path
+   * is executed. For example you can use this method to prove that certain code
+   * paths are dead: Add reportExecution(), check the logs a week later, then
+   * safely remove the coe.
+   */
+  reportExecution(id: string, details: EventDetails): void;
   reportInteraction(eventName: string, details?: EventDetails): void;
   /**
    * A draft interaction was started. Update the time-betweeen-draft-actions

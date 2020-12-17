@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9de9d3b3_fd8bbbcf",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "Thanks. Done.",
+      "parentUuid": "13ae1599_81c66ba3",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c21ae56b_baa115fe",
@@ -70,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0abff5af_85afcff5",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "No worries. I agree with you, four is better \u003d) \nDone.",
+      "parentUuid": "c21ae56b_baa115fe",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "962dc13e_452396be",
@@ -83,6 +119,24 @@
       "writtenOn": "2020-12-17T16:34:05Z",
       "side": 1,
       "message": "Is this needed?",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46e2fd0e_eda2fe18",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "No. I removed it.\n\nI didn\u0027t add this manually. That was added after I did google-java-format.",
+      "parentUuid": "962dc13e_452396be",
       "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -110,6 +164,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa13ad3c_570e94fb",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "I agree. get() looks a bit misleading, and this operation is rather retrieving the values from the underlying git cache.\n\nDone.",
+      "parentUuid": "6d5a7b16_c04bf237",
+      "range": {
+        "startLine": 155,
+        "startChar": 47,
+        "endLine": 155,
+        "endChar": 50
+      },
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51fdc6e4_f6501a09",
@@ -127,6 +205,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38c58bd3_7a52cab9",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "I think I use both notations\n  * oldCommit, newCommit\n  * aCommit, bCommit\nWhile I\u0027m referring to the same thing in both. I should probably unify the naming across all classes.\n\nI renamed the parameters to aCommitFn and bCommitFn according to your suggestion.",
+      "parentUuid": "51fdc6e4_f6501a09",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4d895c9_5eeff5da",
@@ -140,6 +236,24 @@
       "writtenOn": "2020-12-17T16:34:05Z",
       "side": 1,
       "message": "Is this the right place to handle this exception? Doesn\u0027t this mean the calling code has to check for completeness of the returned data?",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f83afd2f_de3eb869",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "Yes, the calling code should do that. The whole idea of not propagating the exception at this point is that we are computing the git diff for many keys, so we don\u0027t want a failure for a single key screw the whole operation. I need to think about what we should do exactly in this case, e.g. should a failure for one key result in the whole operation to fail.\n\nUpdate: I tried this with a toy example. It depends on the cache backend:\n  * caffeine allows a call to the getAll(Iterable\u003c..\u003e keys) that can return a map with a less number of keys than the input list.\n  * guava does not allow that. The getAll should exactly return the same number of elements of the input list, otherwise the method throws an InvalidCacheLoadException.\n\nWe would anyway need to propagate a proper error message to the caller. I added a TODO here so that I follow up on handling of exceptions for this case later.",
+      "parentUuid": "b4d895c9_5eeff5da",
       "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -167,6 +281,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48c90815_28f3411e",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllFileGitDiffs.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6050843a_33f79e60",
+      "range": {
+        "startLine": 21,
+        "startChar": 72,
+        "endLine": 21,
+        "endChar": 74
+      },
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69f2941e_f7051db8",
@@ -180,6 +318,24 @@
       "writtenOn": "2020-12-17T16:34:05Z",
       "side": 1,
       "message": "Par -\u003e Parent",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7316669_dca03cef",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllFileGitDiffs.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69f2941e_f7051db8",
       "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -207,6 +363,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dc0ac5a_703c97d9",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "Yes. I removed it.",
+      "parentUuid": "7e720c03_87dd5929",
+      "range": {
+        "startLine": 72,
+        "startChar": 50,
+        "endLine": 72,
+        "endChar": 54
+      },
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a90a11bf_b372fd88",
@@ -220,6 +400,24 @@
       "writtenOn": "2020-12-17T16:34:05Z",
       "side": 1,
       "message": "par -\u003e parent",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca99a01a_1b80ba2e",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a90a11bf_b372fd88",
       "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -247,6 +445,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4826c11b_5d921780",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheKey.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "This was needed for the code to compile, because of the cache declaration in FileDiffCacheImpl#module.\n\nI think I can safely remove it now since this change does not add that module to the Guice stack. In a later change I\u0027m implementing the protobuf serializer for the cache key and declaring it explicitly with the cache module declaration.\n\nDone.",
+      "parentUuid": "14d119d9_b4f9daa6",
+      "range": {
+        "startLine": 30,
+        "startChar": 39,
+        "endLine": 30,
+        "endChar": 62
+      },
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a309d400_73b130c2",
@@ -264,6 +486,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b01a7f98_2ef473d8",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "I think having an added weight for only existing strings is sufficient here. Weights are anyway used for objects comparison.",
+      "parentUuid": "a309d400_73b130c2",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f195762_e85f4957",
@@ -277,6 +517,24 @@
       "writtenOn": "2020-12-17T16:34:05Z",
       "side": 1,
       "message": "I wonder if the Optional doesn\u0027t already take up 4 bytes itself :-) Line 128 says a boolean is also 4 bytes. I\u0027m not sure how accurate this needs to be in practice, but maybe just doing +4 unconditionally would be good enough?",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13a3b1ce_4f17e66f",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "The idea of weights here is to compare different cache entries, so the variable fields are the ones that matter.\n\nI think adding 4 for boolean is reasonable.",
+      "parentUuid": "1f195762_e85f4957",
       "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -304,6 +562,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2422ab37_d3a54d85",
+        "filename": "java/com/google/gerrit/server/patch/filediff/TaggedEdit.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "Done. I removed other.",
+      "parentUuid": "106ecd09_1aefa918",
+      "range": {
+        "startLine": 20,
+        "startChar": 64,
+        "endLine": 20,
+        "endChar": 75
+      },
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6237f371_07c931ae",
@@ -321,6 +603,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1abc70b4_8b6d45e3",
+        "filename": "java/com/google/gerrit/server/patch/filediff/WrappedKey.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "WrappedKey is not the best choice. I renamed it to AugmentedFileDiffCacheKey.\n\nThis class is package private anyway and is not meant to be visible to diff cache callers.",
+      "parentUuid": "6237f371_07c931ae",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5996c89_5b6c3640",
@@ -334,6 +634,24 @@
       "writtenOn": "2020-12-17T16:34:05Z",
       "side": 1,
       "message": "Rather than repeat the term \"header lines\" from the method name in the comment, this could add information by saying what those are, e.g. \"Returns the first ... lines ...\"",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0921acb_b019a74f",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T20:42:57Z",
+      "side": 1,
+      "message": "From the implementation, this seems to return all the header lines not just the first ones.\n\nI rephrased the description.",
+      "parentUuid": "f5996c89_5b6c3640",
       "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

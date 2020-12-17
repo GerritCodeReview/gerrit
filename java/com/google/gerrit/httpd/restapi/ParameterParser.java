@@ -43,6 +43,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashSet;
@@ -153,6 +154,12 @@ public class ParameterParser {
     this.parserFactory = pf;
   }
 
+  /**
+   * Parses query parameters ({@code in}) into annotated option fields of {@code param}.
+   *
+   * @return true if parsing was successful. Requesting help is considered failure and returns
+   *     false.
+   */
   <T> boolean parse(
       T param,
       DynamicOptions pluginOptions,
@@ -160,6 +167,10 @@ public class ParameterParser {
       HttpServletRequest req,
       HttpServletResponse res)
       throws IOException {
+    if (param.getClass().getAnnotation(Singleton.class) != null) {
+      // Command-line parsing mutates the object, so we can't have options on @Singleton.
+      return true;
+    }
     CmdLineParser clp = parserFactory.create(param);
     pluginOptions.setBean(param);
     pluginOptions.startLifecycleListeners();

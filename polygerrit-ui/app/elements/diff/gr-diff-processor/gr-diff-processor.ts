@@ -679,15 +679,18 @@ export class GrDiffProcessor extends GestureEventListeners(
    */
   _breakdownChunk(chunk: DiffContent): DiffContent[] {
     let key: 'a' | 'b' | 'ab' | null = null;
-    if (chunk.a && !chunk.b) {
+    const {a, b, ab, move_details} = chunk;
+    if (a?.length && !b?.length) {
       key = 'a';
-    } else if (chunk.b && !chunk.a) {
+    } else if (b?.length && !a?.length) {
       key = 'b';
-    } else if (chunk.ab) {
+    } else if (ab?.length) {
       key = 'ab';
     }
 
-    if (!key) {
+    // Move chunks should not be divided because of move label
+    // positioned in the top of the chunk
+    if (!key || move_details) {
       return [chunk];
     }
 

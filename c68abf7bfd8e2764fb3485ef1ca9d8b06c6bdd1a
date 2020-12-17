@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f57388f_7bec4e18",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3330,
+      "author": {
+        "id": 1064086
+      },
+      "writtenOn": "2020-12-17T19:29:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41d33fee_d04af247",
+      "range": {
+        "startLine": 3330,
+        "startChar": 15,
+        "endLine": 3330,
+        "endChar": 16
+      },
+      "revId": "c68abf7bfd8e2764fb3485ef1ca9d8b06c6bdd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e43ce2a9_6ed0e0fb",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b0dbc02_a220cb96",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3336,
+      "author": {
+        "id": 1064086
+      },
+      "writtenOn": "2020-12-17T19:29:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e43ce2a9_6ed0e0fb",
+      "range": {
+        "startLine": 3336,
+        "startChar": 16,
+        "endLine": 3336,
+        "endChar": 17
+      },
+      "revId": "c68abf7bfd8e2764fb3485ef1ca9d8b06c6bdd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "badbb577_7444a389",
@@ -60,6 +108,24 @@
       "writtenOn": "2020-12-17T18:27:42Z",
       "side": 1,
       "message": "Is there a relationship between these two parameters? I mean, in terms of properly setting their respective values when compared together. If so, would mention how.",
+      "revId": "c68abf7bfd8e2764fb3485ef1ca9d8b06c6bdd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed6a01d8_c3bd4d1f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3337,
+      "author": {
+        "id": 1064086
+      },
+      "writtenOn": "2020-12-17T19:29:51Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem like there is a relationship between these two parameters.",
+      "parentUuid": "badbb577_7444a389",
       "revId": "c68abf7bfd8e2764fb3485ef1ca9d8b06c6bdd1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

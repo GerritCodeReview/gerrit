@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50b29103_5733133d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-17T18:55:05Z",
+      "side": 1,
+      "message": "I think this can\u0027t work correctly. CurrentUser and @Option are tied to request scopes, so they aren\u0027t available when instantiating the gApi object. So it\u0027s very much possible that you don\u0027t get an object that would trigger on the reflective check.",
+      "revId": "b8357967334347cb3e7120e37d1bc8a3aaa58d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

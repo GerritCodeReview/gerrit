@@ -138,6 +138,7 @@ const ButtonTooltips = {
   SAVE: 'Save but do not send notification or change review state',
   START_REVIEW: 'Mark as ready for review and send reply',
   SEND: 'Send reply',
+  DISABLED_COMMENT_EDITING: 'Disabled - a comment has unfinished editing',
 };
 
 const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
@@ -1383,7 +1384,10 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       : ButtonLabels.SEND;
   }
 
-  _computeSendButtonTooltip(canBeStarted: boolean) {
+  _computeSendButtonTooltip(canBeStarted: boolean, _commentEditing?: boolean) {
+    if (_commentEditing) {
+      return ButtonTooltips.DISABLED_COMMENT_EDITING;
+    }
     return canBeStarted ? ButtonTooltips.START_REVIEW : ButtonTooltips.SEND;
   }
 

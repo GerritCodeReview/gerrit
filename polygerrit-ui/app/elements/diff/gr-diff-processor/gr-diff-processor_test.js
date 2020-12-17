@@ -590,6 +590,43 @@ suite('gr-diff-processor tests', () => {
       assert.deepEqual(result[1].ab, content[0].ab.slice(120));
     });
 
+    test('breaks down added chunks', () => {
+      const size = 120 * 2 + 5;
+      const content = _.times(size, () => `${Math.random()}`);
+      element.context = 5;
+      const splitContent = element._splitLargeChunks([{a: [], b: content}])
+          .map(r => r.b);
+      assert.equal(splitContent.length, 3);
+      assert.deepEqual(splitContent[0], content.slice(0, 5));
+      assert.deepEqual(splitContent[1], content.slice(5, 125));
+      assert.deepEqual(splitContent[2], content.slice(125));
+    });
+
+    test('breaks down removed chunks', () => {
+      const size = 120 * 2 + 5;
+      const content = _.times(size, () => `${Math.random()}`);
+      element.context = 5;
+      const splitContent = element._splitLargeChunks([{a: content, b: []}])
+          .map(r => r.a);
+      assert.equal(splitContent.length, 3);
+      assert.deepEqual(splitContent[0], content.slice(0, 5));
+      assert.deepEqual(splitContent[1], content.slice(5, 125));
+      assert.deepEqual(splitContent[2], content.slice(125));
+    });
+
+    test('does not break down moved chunks', () => {
+      const size = 120 * 2 + 5;
+      const content = _.times(size, () => `${Math.random()}`);
+      element.context = 5;
+      const splitContent = element._splitLargeChunks([{
+        a: content,
+        b: [],
+        move_details: {changed: false},
+      }]).map(r => r.a);
+      assert.equal(splitContent.length, 1);
+      assert.deepEqual(splitContent[0], content);
+    });
+
     test('does not break-down common chunks w/ context', () => {
       const content = [{
         ab: _.times(75, () => `${Math.random()}`),

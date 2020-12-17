@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1c27cd1_d3577b9c",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:52:33Z",
+      "side": 1,
+      "message": "If you use findFieldByNumber() the code will be robust against field renames. The number of a field will, in practice, never change, but the name can. Unless the name is explicitly stored anywhere (proto serialization itself only uses the number) it\u0027s actually easy to change even for persisted protos, which is a nice property.\n\nAre there other serializers that this would apply to?",
+      "range": {
+        "startLine": 166,
+        "startChar": 44,
+        "endLine": 166,
+        "endChar": 59
+      },
+      "revId": "6bac73e2b839eb795bccdaa26440d56bbb16ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a69ac88f_c41b9742",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/FileDiffCacheKeySerializerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:52:33Z",
+      "side": 1,
+      "message": "nit: Add a link to the tested class.",
+      "revId": "6bac73e2b839eb795bccdaa26440d56bbb16ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c7dadfc_587edd69",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:52:33Z",
+      "side": 1,
+      "message": "For consistency this should also have a \"next id\" comment, same as GitFileDiffProto.Edit. Or could those two be combined?",
+      "revId": "6bac73e2b839eb795bccdaa26440d56bbb16ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

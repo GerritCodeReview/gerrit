@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82a56b4b_bdca95a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-17T16:10:16Z",
+      "side": 1,
+      "message": "that was too optimistic. Can you work with 4.5.2 ?",
+      "parentUuid": "0b4a6979_9448a11e",
+      "revId": "e0520a99a933aca17274aa23f1eab5c1fd11a41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c60cb0c_b77b2b31",

@@ -179,7 +179,8 @@ declare global {
 
 declare global {
   interface HTMLElementEventMap {
-    reload: ReloadEvent;
+    /* prettier-ignore */
+    'reload': ReloadEvent;
   }
 }
 

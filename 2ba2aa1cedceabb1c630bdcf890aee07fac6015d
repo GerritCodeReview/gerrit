@@ -34,6 +34,24 @@
       "parentUuid": "c04f5cd1_6b4a52ed",
       "revId": "2ba2aa1cedceabb1c630bdcf890aee07fac6015d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3283b8f9_64776bd6",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-17T17:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adefd6e0_46e1fe6e",
+      "revId": "2ba2aa1cedceabb1c630bdcf890aee07fac6015d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

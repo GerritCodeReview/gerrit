@@ -179,7 +179,7 @@ declare global {
 
 declare global {
   interface HTMLElementEventMap {
-    reload: ReloadEvent;
+    'reload': ReloadEvent;
   }
 }
 

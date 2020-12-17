@@ -51,6 +51,7 @@ export const grReportingMock: ReportingService = {
   reporter: () => {},
   reportErrorDialog: () => {},
   error: () => {},
+  reportExecution: () => {},
   reportExtension: () => {},
   reportInteraction: () => {},
   reportLifeCycle: () => {},

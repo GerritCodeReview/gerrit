@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41d33fee_d04af247",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3330,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-17T18:27:42Z",
+      "side": 1,
+      "message": "second, rather? Would follow a style similar to line 101 further above. Also, line 100 above it could be added here too.",
+      "range": {
+        "startLine": 3330,
+        "startChar": 15,
+        "endLine": 3330,
+        "endChar": 16
+      },
+      "revId": "c68abf7bfd8e2764fb3485ef1ca9d8b06c6bdd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e43ce2a9_6ed0e0fb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3336,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-17T18:27:42Z",
+      "side": 1,
+      "message": "Same proposal as above, here seconds (with an \u0027s\u0027).",
+      "range": {
+        "startLine": 3336,
+        "startChar": 16,
+        "endLine": 3336,
+        "endChar": 17
+      },
+      "revId": "c68abf7bfd8e2764fb3485ef1ca9d8b06c6bdd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "badbb577_7444a389",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3337,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-17T18:27:42Z",
+      "side": 1,
+      "message": "Is there a relationship between these two parameters? I mean, in terms of properly setting their respective values when compared together. If so, would mention how.",
+      "revId": "c68abf7bfd8e2764fb3485ef1ca9d8b06c6bdd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       },
       "revId": "be4f50155ed99d006ec01e1e2e5ab37177f27c62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee2c3085_5a09461b",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-17T14:15:10Z",
+      "side": 1,
+      "message": "\u003e I will still need to catch RestApiException instead of the more specific \n\u003e ResourceNotFoundException for the code to compile.\n\nWhy? Couldn\u0027t you just add \"throws RestApiException\" to the method signature?",
+      "parentUuid": "8ec342c9_dca31aab",
+      "range": {
+        "startLine": 830,
+        "startChar": 13,
+        "endLine": 830,
+        "endChar": 29
+      },
+      "revId": "be4f50155ed99d006ec01e1e2e5ab37177f27c62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

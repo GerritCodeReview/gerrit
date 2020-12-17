@@ -43,6 +43,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashSet;
@@ -160,6 +161,10 @@ public class ParameterParser {
       HttpServletRequest req,
       HttpServletResponse res)
       throws IOException {
+    if (param.getClass().getAnnotation(Singleton.class) != null) {
+      // Command-line parsing mutates the object, so we can't have options on @Singleton.
+      return true;
+    }
     CmdLineParser clp = parserFactory.create(param);
     pluginOptions.setBean(param);
     pluginOptions.startLifecycleListeners();

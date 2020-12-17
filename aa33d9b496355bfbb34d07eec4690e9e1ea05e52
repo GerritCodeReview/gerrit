@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f7e49d3_4f377193",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-17T08:28:00Z",
+      "side": 1,
+      "message": "Thanks for tackling this!",
+      "revId": "aa33d9b496355bfbb34d07eec4690e9e1ea05e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b17095_4c6494aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-17T08:28:00Z",
+      "side": 1,
+      "message": "\"unfinished editing\" sound a bit weird, but I am also not a native speaker, so not sure.\n\nMaybe \"Disabled - Unsaved comment edit\"?\nOr \"Disabled while comments are being edited\"?",
+      "range": {
+        "startLine": 141,
+        "startChar": 54,
+        "endLine": 141,
+        "endChar": 72
+      },
+      "revId": "aa33d9b496355bfbb34d07eec4690e9e1ea05e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a67c9757_57b89988",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1387,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-17T08:28:00Z",
+      "side": 1,
+      "message": "Parameters names should not have underscores.",
+      "range": {
+        "startLine": 1387,
+        "startChar": 51,
+        "endLine": 1387,
+        "endChar": 66
+      },
+      "revId": "aa33d9b496355bfbb34d07eec4690e9e1ea05e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75104507_6bb2e5ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1387,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-12-17T08:28:00Z",
+      "side": 1,
+      "message": "When you are changing compute methods from one parameter to two parameter, then the first parameter also becomes optional.",
+      "range": {
+        "startLine": 1387,
+        "startChar": 28,
+        "endLine": 1387,
+        "endChar": 40
+      },
+      "revId": "aa33d9b496355bfbb34d07eec4690e9e1ea05e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

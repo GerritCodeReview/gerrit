@@ -608,7 +608,7 @@ export const htmlTemplate = html`
             disabled="[[_sendDisabled]]"
             class="action send"
             has-tooltip=""
-            title$="[[_computeSendButtonTooltip(canBeStarted)]]"
+            title$="[[_computeSendButtonTooltip(canBeStarted, _commentEditing)]]"
             on-click="_sendTapHandler"
             >[[_sendButtonLabel]]</gr-button
           >

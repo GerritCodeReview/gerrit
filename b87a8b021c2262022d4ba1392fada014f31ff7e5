@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c60736f_322c876c",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-17T13:32:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cf52c7f_c061cae4",
+      "revId": "b87a8b021c2262022d4ba1392fada014f31ff7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "255d85e3_6c468a67",
@@ -91,6 +109,30 @@
       "side": 1,
       "message": "We can have multiple Change-ID footers in a change (tested on UI). As the ChangeIdUtil from jgit supports this behaviour and the message can be taken from the commit message, I decided to stick to what is already here.",
       "parentUuid": "255d85e3_6c468a67",
+      "range": {
+        "startLine": 91,
+        "startChar": 32,
+        "endLine": 91,
+        "endChar": 65
+      },
+      "revId": "b87a8b021c2262022d4ba1392fada014f31ff7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "149952cd_18e37f8d",
+        "filename": "java/com/google/gerrit/server/util/CommitMessageUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2020-12-17T13:32:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2d1fbda4_84fbae44",
       "range": {
         "startLine": 91,
         "startChar": 32,

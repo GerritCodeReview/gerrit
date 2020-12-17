@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f98b3f0d_8b4fa0db",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-17T13:43:33Z",
+      "side": 1,
+      "message": "Should this only catch ResourceNotFoundException?\n\nAs it is now the method would also return false if the branch exists but isn\u0027t visible, which is surprising given the method name.",
+      "range": {
+        "startLine": 830,
+        "startChar": 13,
+        "endLine": 830,
+        "endChar": 29
+      },
+      "revId": "be4f50155ed99d006ec01e1e2e5ab37177f27c62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

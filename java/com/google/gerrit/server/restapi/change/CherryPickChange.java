@@ -282,20 +282,36 @@ public class CherryPickChange {
                 input.parent, commitToCherryPick.getParentCount()));
       }
 
-      String message = Strings.nullToEmpty(input.message).trim();
-      message = message.isEmpty() ? commitToCherryPick.getFullMessage() : message;
+      // If the commit message is not set, the commit message of the source commit will be used.
+      String commitMessage = Strings.nullToEmpty(input.message);
+      commitMessage = commitMessage.isEmpty() ? commitToCherryPick.getFullMessage() : commitMessage;
 
-      PersonIdent committerIdent = identifiedUser.newCommitterIdent(timestamp, serverTimeZone);
+      String destChangeId = getDestinationChangeId(commitMessage, changeIdForNewChange);
 
-      final ObjectId generatedChangeId =
-          changeIdForNewChange != null
-              ? changeIdForNewChange
-              : CommitMessageUtil.generateChangeId();
-      String commitMessage = ChangeIdUtil.insertId(message, generatedChangeId).trim() + '\n';
+      ChangeData destChange = null;
+      if (destChangeId != null) {
+        // If "idForNewChange" is not null we must fail, since we are not expecting an already
+        // existing change.
+        destChange = getDestChangeWithVerification(destChangeId, dest, idForNewChange != null);
+      }
+
+      if (changeIdForNewChange != null) {
+        // If Change-Id was explicitly provided for the new change, override the value in commit
+        // message.
+        commitMessage = ChangeIdUtil.insertId(commitMessage, changeIdForNewChange, true);
+      } else if (destChangeId == null) {
+        // If commit message did not specify Change-Id, generate a new one and insert to the
+        // message.
+        commitMessage =
+            ChangeIdUtil.insertId(commitMessage, CommitMessageUtil.generateChangeId(), true);
+      }
+      commitMessage = CommitMessageUtil.checkAndSanitizeCommitMessage(commitMessage);
 
       CodeReviewCommit cherryPickCommit;
       ProjectState projectState =
           projectCache.get(dest.project()).orElseThrow(noSuchProject(dest.project()));
+      PersonIdent committerIdent = identifiedUser.newCommitterIdent(timestamp, serverTimeZone);
+
       try {
         MergeUtil mergeUtil;
         if (input.allowConflicts) {
@@ -317,86 +333,54 @@ public class CherryPickChange {
                 input.parent - 1,
                 input.allowEmpty,
                 input.allowConflicts);
-
-        Change.Key changeKey;
-        final List<String> idList =
-            ChangeUtil.getChangeIdsFromFooter(cherryPickCommit, urlFormatter.get());
-        if (!idList.isEmpty()) {
-          final String idStr = idList.get(idList.size() - 1).trim();
-          changeKey = Change.key(idStr);
-        } else {
-          changeKey = Change.key("I" + generatedChangeId.name());
-        }
-
-        BranchNameKey newDest = BranchNameKey.create(project, destRef.getName());
-        List<ChangeData> destChanges =
-            queryProvider.get().setLimit(2).byBranchKey(newDest, changeKey);
-        if (destChanges.size() > 1) {
-          throw new InvalidChangeOperationException(
-              "Several changes with key "
-                  + changeKey
-                  + " reside on the same branch. "
-                  + "Cannot create a new patch set.");
-        }
-        try (BatchUpdate bu = batchUpdateFactory.create(project, identifiedUser, timestamp)) {
-          bu.setRepository(git, revWalk, oi);
-          bu.setNotify(resolveNotify(input));
-          Change.Id changeId;
-          String newTopic = null;
-          if (input.topic != null) {
-            newTopic = Strings.emptyToNull(input.topic.trim());
-          }
-          if (newTopic == null
-              && sourceChange != null
-              && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
-            newTopic = sourceChange.getTopic() + "-" + newDest.shortName();
-          }
-          if (destChanges.size() == 1) {
-            // The change key exists on the destination branch. The cherry pick
-            // will be added as a new patch set. If "idForNewChange" is not null we must fail,
-            // since we are not expecting an already existing change.
-            if (idForNewChange != null) {
-              throw new InvalidChangeOperationException(
-                  String.format(
-                      "Expected that cherry-pick of commit %s with Change-Id %s to branch %s"
-                          + "in project %s creates a new change, but found existing change %d",
-                      sourceCommit.getName(),
-                      changeKey,
-                      dest.branch(),
-                      dest.project(),
-                      destChanges.get(0).getId().get()));
-            }
-            changeId =
-                insertPatchSet(
-                    bu,
-                    git,
-                    destChanges.get(0).notes(),
-                    cherryPickCommit,
-                    sourceChange,
-                    newTopic,
-                    workInProgress);
-          } else {
-            // Change key not found on destination branch. We can create a new
-            // change.
-            changeId =
-                createNewChange(
-                    bu,
-                    cherryPickCommit,
-                    dest.branch(),
-                    newTopic,
-                    project,
-                    sourceChange,
-                    sourceCommit,
-                    input,
-                    revertedChange,
-                    idForNewChange,
-                    workInProgress);
-          }
-          bu.execute();
-          return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
-        }
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
         throw new IntegrationConflictException("Cherry pick failed: " + e.getMessage());
+      }
+
+      try (BatchUpdate bu = batchUpdateFactory.create(project, identifiedUser, timestamp)) {
+        bu.setRepository(git, revWalk, oi);
+        bu.setNotify(resolveNotify(input));
+        Change.Id changeId;
+        String newTopic = null;
+        if (input.topic != null) {
+          newTopic = Strings.emptyToNull(input.topic.trim());
+        }
+        if (newTopic == null
+            && sourceChange != null
+            && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
+          newTopic = sourceChange.getTopic() + "-" + dest.shortName();
+        }
+        if (destChange != null) {
+          // The change key exists on the destination branch. The cherry pick
+          // will be added as a new patch set.
+          changeId =
+              insertPatchSet(
+                  bu,
+                  git,
+                  destChange.notes(),
+                  cherryPickCommit,
+                  sourceChange,
+                  newTopic,
+                  workInProgress);
+        } else {
+          // Change key not found on destination branch. We can create a new
+          // change.
+          changeId =
+              createNewChange(
+                  bu,
+                  cherryPickCommit,
+                  dest.branch(),
+                  newTopic,
+                  project,
+                  sourceChange,
+                  sourceCommit,
+                  input,
+                  revertedChange,
+                  idForNewChange,
+                  workInProgress);
+        }
+        bu.execute();
+        return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
       }
     }
   }
@@ -575,5 +559,83 @@ public class CherryPickChange {
     }
 
     return stringBuilder.toString();
+  }
+
+  /**
+   * Returns the Change-Id of destination change (as intended by the caller of cherry-pick
+   * operation).
+   *
+   * <p>The Change-Id can be provided in one of the following ways:
+   *
+   * <ul>
+   *   <li>Explicitly provided for the new change.
+   *   <li>Provided in the input commit message.
+   *   <li>Taken from the source commit if commit message was not set.
+   * </ul>
+   *
+   * Otherwise should be generated.
+   *
+   * @param commitMessage the commit message, as intended by the caller of cherry-pick operation.
+   * @param changeIdForNewChange the explicitly provided Change-Id for the new change.
+   * @return The Change-Id of destination change, {@code null} if Change-Id was not provided by the
+   *     caller of cherry-pick operation and should be generated.
+   */
+  @Nullable
+  private String getDestinationChangeId(
+      String commitMessage, @Nullable ObjectId changeIdForNewChange) {
+    if (changeIdForNewChange != null) {
+      return CommitMessageUtil.getChangeIdFromObjectId(changeIdForNewChange);
+    } else {
+      return CommitMessageUtil.getChangeIdFromCommitMessageFooter(commitMessage).orElse(null);
+    }
+  }
+
+  /**
+   * Returns the change from the destination branch, if it exists and is valid for the cherry-pick.
+   *
+   * @param destChangeId the Change-ID of the change in the destination branch.
+   * @param destBranch the branch to search by the Change-ID.
+   * @param verifyIsMissing if {@code true}, verifies that the change should be missing in the
+   *     destination branch.
+   * @return the verified change or {@code null} if the change was not found.
+   * @throws InvalidChangeOperationException if the change was found but failed validation
+   */
+  @Nullable
+  private ChangeData getDestChangeWithVerification(
+      String destChangeId, BranchNameKey destBranch, boolean verifyIsMissing)
+      throws InvalidChangeOperationException {
+    List<ChangeData> destChanges =
+        queryProvider.get().setLimit(2).byBranchKey(destBranch, Change.key(destChangeId));
+    if (destChanges.size() > 1) {
+      throw new InvalidChangeOperationException(
+          "Several changes with key "
+              + destChangeId
+              + " reside on the same branch. "
+              + "Cannot create a new patch set.");
+    }
+    if (destChanges.size() == 1 && verifyIsMissing) {
+      throw new InvalidChangeOperationException(
+          String.format(
+              "Expected that cherry-pick with Change-Id %s to branch %s "
+                  + "in project %s creates a new change, but found existing change %d",
+              destChangeId,
+              destBranch.branch(),
+              destBranch.project().get(),
+              destChanges.get(0).getId().get()));
+    }
+    ChangeData destChange = destChanges.size() == 1 ? destChanges.get(0) : null;
+
+    if (destChange != null && destChange.change().isClosed()) {
+      throw new InvalidChangeOperationException(
+          String.format(
+              "Cherry-pick with Change-Id %s could not update the existing change %d "
+                  + "in destination branch %s of project %s, because the change was closed (%s)",
+              destChangeId,
+              destChange.getId().get(),
+              destBranch.branch(),
+              destBranch.project(),
+              destChange.change().getStatus().name()));
+    }
+    return destChange;
   }
 }

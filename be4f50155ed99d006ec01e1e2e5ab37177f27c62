@@ -94,6 +94,30 @@
       },
       "revId": "be4f50155ed99d006ec01e1e2e5ab37177f27c62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d0bf6f3_30f0f4e0",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-17T14:28:22Z",
+      "side": 1,
+      "message": "I meant:\n\n  protected boolean branchExistsAndVisible(BranchNameKey branch) throws RestApiException {\n    try {\n      gApi.projects().name(branch.project().get()).branch(branch.branch()).get();\n    } catch (ResourceNotFoundException e) {\n      return false;\n    }\n    return true;\n  }\n\n\u003e But then I\u0027ll need to handle that exception at the caller \n\nNo need to handle to it there, since test methods can have \u0027throws Exception\u0027\u0027\r\n\n\u003e Update: I did run the test again and figured out I don\u0027t need this method anymore\n\u003e (because I moved ref/meta/config to another test). I can get rid of this method.\n\nIf we don\u0027t need this method, even better :)",
+      "parentUuid": "663deb07_ed1430eb",
+      "range": {
+        "startLine": 830,
+        "startChar": 13,
+        "endLine": 830,
+        "endChar": 29
+      },
+      "revId": "be4f50155ed99d006ec01e1e2e5ab37177f27c62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

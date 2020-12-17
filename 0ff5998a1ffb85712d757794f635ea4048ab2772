@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c8e922e_a60e770d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-17T08:34:06Z",
+      "side": 1,
+      "message": "Move this comment down with the code it refers to?",
+      "revId": "0ff5998a1ffb85712d757794f635ea4048ab2772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17945d4c_f3c2682f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-17T08:34:06Z",
+      "side": 1,
+      "message": "Not in this change, but may be worth checking if we still use the Polyfill. We probably do on old browsers? Or maybe the Polyfill has since been fixed when we upgraded to Polymer 3?",
+      "range": {
+        "startLine": 902,
+        "startChar": 11,
+        "endLine": 902,
+        "endChar": 23
+      },
+      "revId": "0ff5998a1ffb85712d757794f635ea4048ab2772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c102d9b_0297b64d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-17T08:34:06Z",
+      "side": 1,
+      "message": "Can this legitimately be not set?",
+      "range": {
+        "startLine": 914,
+        "startChar": 14,
+        "endLine": 914,
+        "endChar": 21
+      },
+      "revId": "0ff5998a1ffb85712d757794f635ea4048ab2772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ce69ff0_2cd7bdc2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-12-17T08:34:06Z",
+      "side": 1,
+      "message": "Any thoughts on accessibility? Were ranges somehow announced before this change? Is there any semantic way we can make it clear that this refers to the comment below? Screenreader users will have a harder time getting that cue from the positioning...",
+      "revId": "0ff5998a1ffb85712d757794f635ea4048ab2772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

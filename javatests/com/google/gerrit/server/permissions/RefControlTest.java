@@ -47,7 +47,11 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+<<<<<<< HEAD   (74ef12 SshDaemonIT: Perform some refactoring)
 import com.google.gerrit.server.account.CapabilityCollection;
+=======
+import com.google.gerrit.server.InternalUser;
+>>>>>>> CHANGE (23ff2c ForRef#check should permit internal users to read all refs)
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -365,6 +369,11 @@ public class RefControlTest extends GerritBaseTests {
     allow(allUsers, READ, DEVS, "refs/users/default");
 
     assertAllRefsAreNotVisible(user(allUsers, DEVS));
+  }
+
+  @Test
+  public void userRefIsVisibleForInternalUser() throws Exception {
+    internalUser(localKey).controlForRef("refs/users/default").asForRef().check(RefPermission.READ);
   }
 
   @Test
@@ -1013,8 +1022,18 @@ public class RefControlTest extends GerritBaseTests {
     return repo;
   }
 
+<<<<<<< HEAD   (74ef12 SshDaemonIT: Perform some refactoring)
   private ProjectControl user(ProjectConfig local, AccountGroup.UUID... memberOf) {
     return user(local, null, memberOf);
+=======
+  private ProjectControl internalUser(Project.NameKey localKey) throws Exception {
+    return projectControlFactory.create(new InternalUser(), getProjectState(localKey));
+  }
+
+  private ProjectControl user(Project.NameKey localKey, AccountGroup.UUID... memberOf)
+      throws Exception {
+    return user(localKey, null, memberOf);
+>>>>>>> CHANGE (23ff2c ForRef#check should permit internal users to read all refs)
   }
 
   private ProjectControl user(

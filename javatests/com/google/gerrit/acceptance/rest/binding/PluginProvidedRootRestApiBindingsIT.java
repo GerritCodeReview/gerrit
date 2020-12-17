@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.binding;
 
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -48,6 +49,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
+import org.kohsuke.args4j.Option;
 
 /**
  * Tests for checking plugin-provided REST API bindings directly under {@code /}.
@@ -192,8 +194,15 @@ public class PluginProvidedRootRestApiBindingsIT extends AbstractDaemonTest {
 
   @Singleton
   static class TestGet implements RestReadView<TestPluginResource> {
+
+    @Option(name = "--crash")
+    String crash;
+
     @Override
     public Response<String> apply(TestPluginResource resource) throws Exception {
+      if (!Strings.nullToEmpty(crash).isEmpty()) {
+        throw new IllegalStateException();
+      }
       return Response.ok("test");
     }
   }
@@ -202,6 +211,15 @@ public class PluginProvidedRootRestApiBindingsIT extends AbstractDaemonTest {
   public void testEndpoints() throws Exception {
     try (AutoCloseable ignored = installPlugin(PLUGIN_NAME, null, MyPluginHttpModule.class, null)) {
       RestApiCallHelper.execute(adminRestSession, TEST_CALLS.asList());
+    }
+  }
+
+  @Test
+  public void testOptionOnSingletonIsIgnored() throws Exception {
+    try (AutoCloseable ignored = installPlugin(PLUGIN_NAME, null, MyPluginHttpModule.class, null)) {
+      RestApiCallHelper.execute(
+          adminRestSession,
+          RestCall.get("/plugins/" + PLUGIN_NAME + "/test-collection/1/detail?crash=xyz"));
     }
   }
 }

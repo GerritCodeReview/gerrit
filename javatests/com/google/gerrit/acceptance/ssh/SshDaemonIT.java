@@ -14,24 +14,19 @@
 
 package com.google.gerrit.acceptance.ssh;
 
-import com.google.common.flogger.FluentLogger;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseSsh;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.restapi.config.ListTasks;
 import com.google.gerrit.testing.ConfigSuite;
-import com.google.inject.Inject;
 import com.google.inject.Module;
-import java.time.LocalDateTime;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -39,13 +34,7 @@ import org.junit.runner.RunWith;
 @UseSsh
 @Sandboxed
 @RunWith(ConfigSuite.class)
-@SuppressWarnings("unused")
 public class SshDaemonIT extends AbstractDaemonTest {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  @Inject private ListTasks listTasks;
-  @Inject private SitePaths gerritSitePath;
-
   @ConfigSuite.Parameter protected Config config;
 
   @ConfigSuite.Config
@@ -60,41 +49,34 @@ public class SshDaemonIT extends AbstractDaemonTest {
     return new TestSshCommandModule();
   }
 
-  public Future<Integer> startCommand(String command) throws Exception {
-    Callable<Integer> gracefulSession =
-        () -> {
-          int returnCode = -1;
-          logger.atFine().log("Before Command");
-          returnCode = userSshSession.execAndReturnStatus(command);
-          logger.atFine().log("After Command");
-          return returnCode;
-        };
+  @Test
+  public void nonGracefulCommandIsStoppedImmediately() throws Exception {
+    Future<Integer> future = startCommand(false);
+    restart();
+    assertThat(future.get()).isEqualTo(-1);
+  }
 
-    ExecutorService executor = Executors.newFixedThreadPool(1);
-    Future<Integer> future = executor.submit(gracefulSession);
+  @Test
+  public void gracefulCommandIsStoppedGracefully() throws Exception {
+    assume().that(isGracefulStopEnabled()).isTrue();
 
-    LocalDateTime timeout = LocalDateTime.now().plusSeconds(10);
+    Future<Integer> future = startCommand(true);
+    restart();
+    assertThat(future.get()).isEqualTo(0);
+  }
 
+  private Future<Integer> startCommand(boolean graceful) throws Exception {
+    Future<Integer> future =
+        Executors.newFixedThreadPool(1)
+            .submit(
+                () ->
+                    userSshSession.execAndReturnStatus(
+                        String.format("%sgraceful -d 5", graceful ? "" : "non-")));
     TestCommand.syncPoint.await();
-
     return future;
   }
 
-  @Test
-  public void NonGracefulCommandIsStoppedImmediately() throws Exception {
-    Future<Integer> future = startCommand("non-graceful -d 5");
-    restart();
-    Assert.assertTrue(future.get() == -1);
-  }
-
-  @Test
-  public void GracefulCommandIsStoppedGracefully() throws Exception {
-    Future<Integer> future = startCommand("graceful -d 5");
-    restart();
-    if (cfg.getTimeUnit("sshd", null, "gracefulStopTimeout", 0, TimeUnit.SECONDS) == 0) {
-      Assert.assertTrue(future.get() == -1);
-    } else {
-      Assert.assertTrue(future.get() == 0);
-    }
+  private boolean isGracefulStopEnabled() {
+    return cfg.getTimeUnit("sshd", null, "gracefulStopTimeout", 0, TimeUnit.SECONDS) > 0;
   }
 }

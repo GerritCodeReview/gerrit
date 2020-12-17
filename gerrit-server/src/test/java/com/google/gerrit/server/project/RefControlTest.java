@@ -47,6 +47,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
@@ -396,6 +397,11 @@ public class RefControlTest {
     allow(allUsers, READ, DEVS, "refs/users/default");
 
     assertAllRefsAreNotVisible(user(allUsers, DEVS));
+  }
+
+  @Test
+  public void userRefIsVisibleForInternalUser() throws Exception {
+    internalUser(local).controlForRef("refs/users/default").asForRef().check(RefPermission.READ);
   }
 
   @Test
@@ -916,6 +922,23 @@ public class RefControlTest {
             pc));
     return repo;
   }
+
+  private ProjectControl internalUser(ProjectConfig local) throws Exception {
+    return new ProjectControl(
+        Collections.<AccountGroup.UUID>emptySet(),
+        Collections.<AccountGroup.UUID>emptySet(),
+        sectionSorter,
+        null, // commitsCollection
+        changeControlFactory,
+        permissionBackend,
+        refVisibilityControl,
+        gitRepositoryManager,
+        visibleRefFilterFactory,
+        allUsersName,
+        new InternalUser(),
+        newProjectState(local));
+  }
+
 
   private ProjectControl user(ProjectConfig local, AccountGroup.UUID... memberOf) {
     return user(local, null, memberOf);

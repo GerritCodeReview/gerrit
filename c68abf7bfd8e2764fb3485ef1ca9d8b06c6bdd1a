@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "725ed2a7_63a7f2de",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3330,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-17T19:53:25Z",
+      "side": 1,
+      "message": "My comment also had a second part as a suggestion. Up to you to apply it or not; fine either way.",
+      "parentUuid": "9f57388f_7bec4e18",
+      "range": {
+        "startLine": 3330,
+        "startChar": 15,
+        "endLine": 3330,
+        "endChar": 16
+      },
+      "revId": "c68abf7bfd8e2764fb3485ef1ca9d8b06c6bdd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e43ce2a9_6ed0e0fb",
@@ -126,6 +150,24 @@
       "side": 1,
       "message": "It doesn\u0027t seem like there is a relationship between these two parameters.",
       "parentUuid": "badbb577_7444a389",
+      "revId": "c68abf7bfd8e2764fb3485ef1ca9d8b06c6bdd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "673f3850_021a0320",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3337,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-17T19:53:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ed6a01d8_c3bd4d1f",
       "revId": "c68abf7bfd8e2764fb3485ef1ca9d8b06c6bdd1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

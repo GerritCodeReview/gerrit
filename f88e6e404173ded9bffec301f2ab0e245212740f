@@ -16,6 +16,24 @@
       "message": "After talking to Ole we decided to take a look in the _splitLargeChunks behavior. Apparently it would work if it considered \u0027a\u0027 and \u0027b\u0027 as potentially empty arrays, not only undefined.",
       "revId": "f88e6e404173ded9bffec301f2ab0e245212740f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05a5137d_566a9ef1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-12-17T17:28:47Z",
+      "side": 1,
+      "message": "Interestingly enough this is the actual behavior since 2016 (https://gerrit-review.googlesource.com/c/gerrit/+/82491/4/polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js)",
+      "parentUuid": "2b62e59b_e9121ad4",
+      "revId": "f88e6e404173ded9bffec301f2ab0e245212740f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

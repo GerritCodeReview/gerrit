@@ -340,6 +340,7 @@ export class PluginLoader {
     const urlWithAP = this._urlFor(pluginUrl, window.ASSETS_PATH);
     const urlWithoutAP = this._urlFor(pluginUrl);
     let onerror = undefined;
+    this._getReporting().reportExecution('html-plugin', {pluginUrl});
     if (urlWithAP !== urlWithoutAP) {
       onerror = () => this._loadHtmlPlugin(urlWithoutAP, opts.sync);
     }

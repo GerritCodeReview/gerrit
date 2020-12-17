@@ -388,6 +388,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26d42337_42a2a666",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "Of course, sorry.",
+      "parentUuid": "a1b2e169_023f8ae0",
+      "revId": "6a43583b5d9c848db29af0c4c0d4c5379705f411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "994b6ba0_c7e422a9",

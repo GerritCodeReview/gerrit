@@ -34,6 +34,308 @@
       "parentUuid": "6d7da45f_f6c89f11",
       "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13ae1599_81c66ba3",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "nit: reflow the text",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c21ae56b_baa115fe",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "4 -\u003e four\n\nMaybe I\u0027m too OCD about this but I feel it breaks the reading flow.",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "962dc13e_452396be",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d5a7b16_c04bf237",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "A \"get\" prefix suggestst a cheap operation. I realize that the chache API also uses this when it really means \"getOrComputeIfAbsent\", but I think in this private method you could also use computeGitFileDiffs(), like the comment already says.",
+      "range": {
+        "startLine": 155,
+        "startChar": 47,
+        "endLine": 155,
+        "endChar": 50
+      },
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51fdc6e4_f6501a09",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "I find it a bit confusing that these functions are named old... and new... when e.g. newCommitFn is set to k.key().oldCommit() in line 94. How about using \"a\" and \"b\" like in createGitKey() below?",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4d895c9_5eeff5da",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "Is this the right place to handle this exception? Doesn\u0027t this mean the calling code has to check for completeness of the returned data?",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6050843a_33f79e60",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllFileGitDiffs.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "\u003col\u003e",
+      "range": {
+        "startLine": 21,
+        "startChar": 72,
+        "endLine": 21,
+        "endChar": 74
+      },
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69f2941e_f7051db8",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllFileGitDiffs.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "Par -\u003e Parent",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e720c03_87dd5929",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "typo?",
+      "range": {
+        "startLine": 72,
+        "startChar": 50,
+        "endLine": 72,
+        "endChar": 54
+      },
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a90a11bf_b372fd88",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "par -\u003e parent",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14d119d9_b4f9daa6",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheKey.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "Isn\u0027t it sufficient for the AutoValue implementation to declare this?",
+      "range": {
+        "startLine": 30,
+        "startChar": 39,
+        "endLine": 30,
+        "endChar": 62
+      },
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a309d400_73b130c2",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "opt: Add a stringSize() overload for Optional\u003cString\u003e.",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f195762_e85f4957",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "I wonder if the Optional doesn\u0027t already take up 4 bytes itself :-) Line 128 says a boolean is also 4 bytes. I\u0027m not sure how accurate this needs to be in practice, but maybe just doing +4 unconditionally would be good enough?",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "106ecd09_1aefa918",
+        "filename": "java/com/google/gerrit/server/patch/filediff/TaggedEdit.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "I think \"extra\" implies \"other\" in this case.",
+      "range": {
+        "startLine": 20,
+        "startChar": 64,
+        "endLine": 20,
+        "endChar": 75
+      },
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6237f371_07c931ae",
+        "filename": "java/com/google/gerrit/server/patch/filediff/WrappedKey.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "WrappedKey sounds very generic. Can we find a name that describes the additional fields?",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5996c89_5b6c3640",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-17T16:34:05Z",
+      "side": 1,
+      "message": "Rather than repeat the term \"header lines\" from the method name in the comment, this could add information by saying what those are, e.g. \"Returns the first ... lines ...\"",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -608,6 +608,10 @@ class RefControl {
     private boolean can(RefPermission perm) throws PermissionBackendException {
       switch (perm) {
         case READ:
+          /* Internal users such as plugin users should be able to read all refs. */
+          if (getUser().isInternalUser()) {
+            return true;
+          }
           if (refName.startsWith(Constants.R_TAGS)) {
             return isTagVisible();
           }

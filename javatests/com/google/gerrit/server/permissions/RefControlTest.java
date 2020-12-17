@@ -48,6 +48,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
@@ -389,6 +390,11 @@ public class RefControlTest {
     allow(allUsers, READ, DEVS, "refs/users/default");
 
     assertAllRefsAreNotVisible(user(allUsers, DEVS));
+  }
+
+  @Test
+  public void userRefIsVisibleForInternalUser() throws Exception {
+    internalUser(localKey).controlForRef("refs/users/default").asForRef().check(RefPermission.READ);
   }
 
   @Test
@@ -1037,6 +1043,10 @@ public class RefControlTest {
             metricMaker,
             pc));
     return repo;
+  }
+
+  private ProjectControl internalUser(Project.NameKey localKey) throws Exception {
+    return projectControlFactory.create(new InternalUser(), getProjectState(localKey));
   }
 
   private ProjectControl user(ProjectConfig local, AccountGroup.UUID... memberOf) {

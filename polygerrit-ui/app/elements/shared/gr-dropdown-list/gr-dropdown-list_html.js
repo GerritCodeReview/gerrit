@@ -139,7 +139,6 @@ export const htmlTemplate = html`
       slot="dropdown-content"
       attr-for-selected="data-value"
       selected="{{value}}"
-      on-tap="_handleDropdownTap"
     >
       <template
         is="dom-repeat"

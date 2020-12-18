@@ -51,6 +51,24 @@
       "message": "We still need documentation update and we\u0027re good to +2 and merge.",
       "revId": "e7421e2b708b5ce6fc7dfe2a3e0ed06af4f36e81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bb7fb50_464c001f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-18T11:56:28Z",
+      "side": 1,
+      "message": "I thought we can avoid documenting it? It\u0027s mentioned in the commit message, that this option is non-documented, and enabled per default 😊. Or do you think it would be worth documenting it, especially if it should \"survive\" next releases?",
+      "parentUuid": "048d85bb_420b5c8a",
+      "revId": "e7421e2b708b5ce6fc7dfe2a3e0ed06af4f36e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

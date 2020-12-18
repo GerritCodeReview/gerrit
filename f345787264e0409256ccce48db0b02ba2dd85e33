@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39af5cf2_573949b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-18T16:42:11Z",
+      "side": 1,
+      "message": "@Dmitrii can this be merged now? rules_nodejs maintainers would appreciate some feedback before leaving RC?",
+      "revId": "f345787264e0409256ccce48db0b02ba2dd85e33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

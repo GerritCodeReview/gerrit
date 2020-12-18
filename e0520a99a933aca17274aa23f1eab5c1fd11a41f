@@ -99,6 +99,30 @@
       },
       "revId": "e0520a99a933aca17274aa23f1eab5c1fd11a41f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d18b56a5_d024d9cb",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-18T22:17:47Z",
+      "side": 1,
+      "message": "So this change is only missing a renewed L-C consideration after that latest update; thanks again.",
+      "parentUuid": "23fffa4e_71555970",
+      "range": {
+        "startLine": 804,
+        "startChar": 16,
+        "endLine": 804,
+        "endChar": 24
+      },
+      "revId": "e0520a99a933aca17274aa23f1eab5c1fd11a41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

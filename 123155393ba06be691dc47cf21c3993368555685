@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb5ebd11_f620ed53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-18T10:27:24Z",
+      "side": 1,
+      "message": "I don\u0027t know if you should ever call the ForRef API with an Internal User.",
+      "revId": "123155393ba06be691dc47cf21c3993368555685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29e8d990_5a75a3cd",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-18T10:27:24Z",
+      "side": 1,
+      "message": "Or should we just short-circuit all checks if it\u0027s an InternalUser with a warning?\n\n    logger.atWarn().log(\"Unnecessary ref-permission check for internal user: %s\"...",
+      "revId": "123155393ba06be691dc47cf21c3993368555685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -51,6 +51,41 @@
       "message": "Thanks, Sven, for fixing this.\nI believe we missed this use-case because we were missing one test for it.\n\nCan we add this now?\nCan we also move it to the earliest release where the security fix was applied and the replication was then broken?",
       "revId": "d360a0dfa2ca877a32c228b225b1ef5f06999ee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbfe770c_34f4d739",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-18T08:59:23Z",
+      "side": 1,
+      "message": "Test case, absolutely, coming...\n\nI have meant to make a more formal suggestion to the community but I haven\u0027t had the time to do so, but I suggest that we treat bug-fixes of this kind as:\n1. Fix on earliest active branch\n2. Merge up to master\n3. Backport to EOL releases.\n\nThis way:\n1. The fixes have a shorter route to reach all active branches.\n2. We avoid time-consuming and error-prone merges from outdated branches.\n\nWDYT",
+      "parentUuid": "c0e1cb92_cd89af73",
+      "revId": "d360a0dfa2ca877a32c228b225b1ef5f06999ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa911333_a0f5e38a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-18T08:59:23Z",
+      "side": 1,
+      "message": "e",
+      "revId": "d360a0dfa2ca877a32c228b225b1ef5f06999ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

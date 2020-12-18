@@ -44,6 +44,7 @@ const LIFECYCLE = {
     EXTENSION_DETECTED: 'Extension detected',
     PLUGINS_INSTALLED: 'Plugins installed',
     VISIBILITY: 'Visibility',
+    EXECUTION: 'Execution',
   },
 };
 
@@ -302,6 +303,12 @@ export class GrReporting implements ReportingService {
   private _pending: PendingReportInfo[] = [];
 
   private _slowRpcList: SlowRpcCall[] = [];
+
+  /**
+   * Keeps track of which ids were already reported to have been executed.
+   * Execution ids should only be reported once per session.
+   */
+  private executionReported = new Set<string>();
 
   public readonly hiddenDurationTimer = new HiddenDurationTimer();
 
@@ -777,6 +784,19 @@ export class GrReporting implements ReportingService {
       undefined,
       details,
       true
+    );
+  }
+
+  reportExecution(id: string, details: EventDetails) {
+    if (this.executionReported.has(id)) return;
+    this.executionReported.add(id);
+    this.reporter(
+      LIFECYCLE.TYPE,
+      LIFECYCLE.CATEGORY.EXECUTION,
+      id,
+      undefined,
+      details,
+      false
     );
   }
 

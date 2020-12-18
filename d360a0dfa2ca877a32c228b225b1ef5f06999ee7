@@ -104,6 +104,24 @@
       "parentUuid": "fbfe770c_34f4d739",
       "revId": "d360a0dfa2ca877a32c228b225b1ef5f06999ee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a63b740_8ff16db1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-18T09:55:07Z",
+      "side": 1,
+      "message": "Test-case was a bit tricky. ForRef.check(RefPermission) is void and we have Junit 4 which doesn\u0027t include assertDoesNotThrow, i.e. the test doesn\u0027t have any assertions.",
+      "parentUuid": "fbfe770c_34f4d739",
+      "revId": "d360a0dfa2ca877a32c228b225b1ef5f06999ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

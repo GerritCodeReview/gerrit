@@ -23,6 +23,7 @@ public class GitwebConfigTest {
   private static final String SOME_INVALID_CHARACTERS = "09AZaz$-_.+!',";
 
   @Test
+  @SuppressWarnings("LoopOverCharArray")
   public void validPathSeparator() {
     for (char c : VALID_CHARACTERS.toCharArray()) {
       assertWithMessage("valid character rejected: " + c)
@@ -32,6 +33,7 @@ public class GitwebConfigTest {
   }
 
   @Test
+  @SuppressWarnings("LoopOverCharArray")
   public void inalidPathSeparator() {
     for (char c : SOME_INVALID_CHARACTERS.toCharArray()) {
       assertWithMessage("invalid character accepted: " + c)

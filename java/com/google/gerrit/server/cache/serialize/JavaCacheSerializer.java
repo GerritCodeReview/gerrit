@@ -42,8 +42,9 @@ public class JavaCacheSerializer<T> implements CacheSerializer<T> {
     }
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "BanSerializableRead"})
   @Override
+  // TODO(davido): See https://crbug.com/gerrit/14302 for more details.
   public T deserialize(byte[] in) {
     Object object;
     try (ByteArrayInputStream bin = new ByteArrayInputStream(in);

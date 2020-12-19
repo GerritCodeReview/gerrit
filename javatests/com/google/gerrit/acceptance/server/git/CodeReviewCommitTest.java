@@ -49,6 +49,8 @@ public class CodeReviewCommitTest {
     assertThat(deserializedCommit.getStatusMessage().isPresent()).isFalse();
   }
 
+  @SuppressWarnings("BanSerializableRead")
+  // TODO(davido): See https://crbug.com/gerrit/14302 for more details.
   private CodeReviewCommit serializeAndReadBack(CodeReviewCommit codeReviewCommit)
       throws Exception {
     try (ByteArrayOutputStream bos = new ByteArrayOutputStream();

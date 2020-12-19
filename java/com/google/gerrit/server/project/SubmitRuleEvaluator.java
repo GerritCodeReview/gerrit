@@ -165,6 +165,7 @@ public class SubmitRuleEvaluator {
    *
    * @return record from the evaluated rules.
    */
+  @SuppressWarnings("ReturnValueIgnored")
   public SubmitTypeRecord getSubmitType(ChangeData cd) {
     try (Timer0.Context ignored = submitTypeEvaluationLatency.start()) {
       try {

@@ -45,7 +45,9 @@ public class NonUTF8Message extends RawMailMessage {
   public int[] rawChars() {
     int[] arr = new int[raw.length()];
     int i = 0;
-    for (char c : raw.toCharArray()) {
+    // for (char c : raw.toCharArray()) {
+    for (int j = 0; j < raw.length(); j++) {
+      char c = raw.charAt(j);
       arr[i++] = c;
     }
     return arr;

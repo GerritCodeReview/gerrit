@@ -191,8 +191,15 @@ public class MultiProgressMonitor implements RequestStateProvider {
       if (!isTotalFinalized.get()) {
         volatileTotal.addAndGet(workUnits);
       } else {
+        /*
+        error: [FloggerStringConcatenation] Prefer string formatting using printf placeholders (e.g. %s) instead of string concatenation
+                logger.atWarning().log(
+                                      ^
+            (see https://errorprone.info/bugpattern/FloggerStringConcatenation)
+          Did you mean '"Total work has been finalized on sub-task %s and cannot be updated", getName());'?
+          */
         logger.atWarning().log(
-            "Total work has been finalized on sub-task " + getName() + " and cannot be updated");
+            "Total work has been finalized on sub-task %s and cannot be updated", getName());
       }
     }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4da8650_b32283a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-19T07:41:48Z",
+      "side": 1,
+      "message": "This is my first change, so apologies if this should be against master or stable-3.0 instead. Let me know and I\u0027ll abandon this.",
+      "revId": "4f884c878d6df464e3fa96a79b57597eb3f1180b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

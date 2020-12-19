@@ -483,9 +483,16 @@ public class MergeOp implements AutoCloseable {
         List<ChangeData> filteredChanges = new ArrayList<>();
         for (ChangeData changeData : noteDbChangeSet.changes()) {
           if (!changeData.change().getStatus().equals(Status.NEW)) {
+            /*
+               java/com/google/gerrit/server/submit/MergeOp.java:486: error: [FloggerArgumentToString] Use Flogger's printf-style formatting instead of explicitly converting arguments to strings
+                      logger.atFine().log(
+                                         ^
+              (see https://errorprone.info/bugpattern/FloggerArgumentToString)
+            Did you mean '"Change %s has status %s due to stale index, so it is skipped during submit",'?
+            */
             logger.atFine().log(
                 "Change %s has status %s due to stale index, so it is skipped during submit",
-                changeData.getId().toString(), changeData.change().getStatus().name());
+                changeData.getId(), changeData.change().getStatus().name());
             continue;
           }
           filteredChanges.add(changeData);

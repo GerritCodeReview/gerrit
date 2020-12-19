@@ -823,9 +823,16 @@ public class RestApiServlet extends HttpServlet {
               refUpdate.getNewObjectId());
 
       if (isRead(request)) {
+        /*
+        java/com/google/gerrit/httpd/restapi/RestApiServlet.java:826: error: [FloggerArgumentToString] Use Flogger's printf-style formatting instead of explicitly converting arguments to strings
+               logger.atWarning().log(
+                                     ^
+           (see https://errorprone.info/bugpattern/FloggerArgumentToString)
+         Did you mean '"request %s performed a ref update %s although the request is a READ request",'?
+               */
         logger.atWarning().log(
             "request %s performed a ref update %s although the request is a READ request",
-            request.getRequestURL().toString(), refUpdateFormat);
+            request.getRequestURL(), refUpdateFormat);
       }
       response.addHeader(X_GERRIT_UPDATED_REF, refUpdateFormat);
     }

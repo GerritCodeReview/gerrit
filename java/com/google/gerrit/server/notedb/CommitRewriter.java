@@ -480,7 +480,14 @@ public class CommitRewriter {
           }
           detailedVerificationStatus.append("Commit author:\n");
           detailedVerificationStatus.append(fixedAuthorIdent.toString());
-          logger.atWarning().log("%s", detailedVerificationStatus.toString());
+          /*
+           java/com/google/gerrit/server/notedb/CommitRewriter.java:483: error: [FloggerArgumentToString] Use Flogger's printf-style formatting instead of explicitly converting arguments to strings
+                  logger.atWarning().log("%s", detailedVerificationStatus.toString());
+                                        ^
+            (see https://errorprone.info/bugpattern/FloggerArgumentToString)
+          Did you mean 'logger.atWarning().log("%s", detailedVerificationStatus);'?
+          */
+          logger.atWarning().log("%s", detailedVerificationStatus);
         }
       }
       boolean needsFix =

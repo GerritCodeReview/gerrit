@@ -104,7 +104,16 @@ public abstract class BaseCommand implements Command {
 
   @Inject protected Injector injector;
 
+  /*
+  java/com/google/gerrit/sshd/BaseCommand.java:107: error: [UnnecessaryAssignment] Fields annotated with @Inject should not be manually assigned to, as they should be initialized by a framework. Remove the assignment if a framework is being used, or the annotation if one isn't.
   @Inject protected DynamicMap<DynamicOptions.DynamicBean> dynamicBeans = null;
+                                                           ^
+    (see https://errorprone.info/bugpattern/UnnecessaryAssignment)
+  Did you mean '@Inject protected DynamicMap<DynamicOptions.DynamicBean> dynamicBeans ;' or 'protected DynamicMap<DynamicOptions.DynamicBean> dynamicBeans = null;'?
+  */
+  @SuppressWarnings("UnnecessaryAssignment")
+  @Inject
+  protected DynamicMap<DynamicOptions.DynamicBean> dynamicBeans = null;
 
   /** The task, as scheduled on a worker thread. */
   private final AtomicReference<Future<?>> task;

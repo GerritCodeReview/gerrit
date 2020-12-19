@@ -38,7 +38,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 public class SubscriptionGraphTest {
   private static final String TEST_PATH = "test/path";
@@ -51,9 +50,23 @@ public class SubscriptionGraphTest {
   private InMemoryRepositoryManager repoManager = new InMemoryRepositoryManager();
   private MergeOpRepoManager mergeOpRepoManager;
 
+  /*
+  javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java:54: error: [UnnecessaryAssignment] Fields annotated with @Inject/@Mock should not be manually assigned to, as they should be initialized by a framework. Remove the assignment if a framework is being used, or the annotation if one isn't.
   @Mock GitModules.Factory mockGitModulesFactory = mock(GitModules.Factory.class);
-  @Mock ProjectCache mockProjectCache = mock(ProjectCache.class);
-  @Mock ProjectState mockProjectState = mock(ProjectState.class);
+                           ^
+    (see https://errorprone.info/bugpattern/UnnecessaryAssignment)
+  Did you mean 'GitModules.Factory mockGitModulesFactory = mock(GitModules.Factory.class);'?
+  */
+  GitModules.Factory mockGitModulesFactory = mock(GitModules.Factory.class);
+  /*
+    javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java:56: error: [UnnecessaryAssignment] Fields annotated with @Inject/@Mock should not be manually assigned to, as they should be initialized by a framework. Remove the assignment if a framework is being used, or the annotation if one isn't.
+    @Mock ProjectState mockProjectState = mock(ProjectState.class);
+                       ^
+      (see https://errorprone.info/bugpattern/UnnecessaryAssignment)
+    Did you mean 'ProjectState mockProjectState = mock(ProjectState.class);'?
+  */
+  ProjectCache mockProjectCache = mock(ProjectCache.class);
+  ProjectState mockProjectState = mock(ProjectState.class);
 
   @Before
   public void setUp() throws Exception {

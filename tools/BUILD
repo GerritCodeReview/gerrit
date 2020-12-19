@@ -54,6 +54,25 @@ default_java_toolchain(
     visibility = ["//visibility:public"],
 )
 
+# See https://github.com/bazelbuild/bazel/issues/14474 why configuration is needed.
+default_java_toolchain(
+    name = "error_prone_warnings_toolchain_java17",
+    configuration = dict(),
+    java_runtime = "@bazel_tools//tools/jdk:remotejdk_17",
+    misc = [
+        "-XDskipDuplicateBridges=true",
+        "-XDcompilePolicy=simple",
+        "-g",
+        "-parameters",
+    ],
+    package_configuration = [
+        ":error_prone",
+    ],
+    source_version = "17",
+    target_version = "17",
+    visibility = ["//visibility:public"],
+)
+
 # Error Prone errors enabled by default; see ../.bazelrc for how this is
 # enabled. This warnings list is originally based on:
 # https://github.com/bazelbuild/BUILD_file_generator/blob/master/tools/bazel_defs/java.bzl
@@ -148,7 +167,7 @@ java_package_configuration(
         "-Xep:DoNotCallSuggester:ERROR",
         "-Xep:DoNotClaimAnnotations:ERROR",
         "-Xep:DoNotMock:ERROR",
-        "-Xep:DoNotMockAutoValue:ERROR",
+        "-Xep:DoNotMockAutoValue:WARN",
         "-Xep:DoubleBraceInitialization:ERROR",
         "-Xep:DoubleCheckedLocking:ERROR",
         "-Xep:DuplicateMapKeys:ERROR",
@@ -191,7 +210,7 @@ java_package_configuration(
         "-Xep:FromTemporalAccessor:ERROR",
         "-Xep:FunctionalInterfaceClash:ERROR",
         "-Xep:FunctionalInterfaceMethodChanged:ERROR",
-        # "-Xep:FutureReturnValueIgnored:ERROR", // this check has a bug.
+        "-Xep:FutureReturnValueIgnored:ERROR",
         "-Xep:FuturesGetCheckedIllegalExceptionType:ERROR",
         "-Xep:GetClassOnAnnotation:ERROR",
         "-Xep:GetClassOnClass:ERROR",

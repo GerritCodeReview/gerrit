@@ -190,7 +190,14 @@ class OAuthSession {
     } else if (claimedId.isPresent() && !actualId.isPresent()) {
       // Claimed account already exists: link to it.
       //
-      logger.atInfo().log("OAuth2: linking claimed identity to %s", claimedId.get().toString());
+      /*
+          java/com/google/gerrit/httpd/auth/oauth/OAuthSession.java:193: error: [FloggerArgumentToString] Use Flogger's printf-style formatting instead of explicitly converting arguments to strings
+          logger.atInfo().log("OAuth2: linking claimed identity to %s", claimedId.get().toString());
+                             ^
+        (see https://errorprone.info/bugpattern/FloggerArgumentToString)
+      Did you mean 'logger.atInfo().log("OAuth2: linking claimed identity to %s", claimedId.get());'?
+          */
+      logger.atInfo().log("OAuth2: linking claimed identity to %s", claimedId.get());
       try {
         accountManager.link(claimedId.get(), req);
       } catch (ConfigInvalidException e) {

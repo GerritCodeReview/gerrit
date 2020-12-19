@@ -21,6 +21,7 @@ def gerrit_plugin(
         provided_deps = [],
         srcs = [],
         resources = [],
+        resource_jars = [],
         manifest_entries = [],
         dir_name = None,
         target_suffix = "",
@@ -35,7 +36,7 @@ def gerrit_plugin(
         **kwargs
     )
 
-    static_jars = []
+    static_jars = resource_jars
 
     if not dir_name:
         dir_name = name

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1837e689_5ed86fd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122052
+      },
+      "writtenOn": "2020-12-19T22:10:20Z",
+      "side": 1,
+      "message": "Allow multiple threads per line, with different ranges\n\n- Add concept of diff comment thread groups, which are all of the\n  threads at a particular line number.\n\n- The thread group is responsible for breaking up comments into threads\n  based on the range of the comment.\n\n- Thread groups are ordered by the updated time of the first comment in\n  the group.\n\n- Thread groups are given a key, based on comment range, which is used\n  to determine what thread group a new comment should go in (or if it\n  needs a new one).\n\nFeature: Issue 5292\nChange-Id: If544e8bb879262de3ce5397e86124837b66ada04",
+      "revId": "562a30493ebc4cc5a050319f11d765671b2ef540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

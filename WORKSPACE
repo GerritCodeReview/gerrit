@@ -34,11 +34,10 @@ load("//tools:nongoogle.bzl", "TESTCONTAINERS_VERSION", "declare_nongoogle_deps"
 
 http_archive(
     name = "bazel_toolchains",
-    sha256 = "726b5423e1c7a3866a3a6d68e7123b4a955e9fcbe912a51e0f737e6dab1d0af2",
-    strip_prefix = "bazel-toolchains-3.1.0",
+    sha256 = "280bfecacb89b9aeb1eebf41e7af6e5c15db712039c2312b60efe3e19580ee6c",
+    strip_prefix = "bazel-toolchains-0443b9c72e213be090d40a9d1d07dec501d2c351",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/releases/download/3.1.0/bazel-toolchains-3.1.0.tar.gz",
-        "https://github.com/bazelbuild/bazel-toolchains/releases/download/3.1.0/bazel-toolchains-3.1.0.tar.gz",
+        "https://github.com/bazelbuild/bazel-toolchains/archive/0443b9c72e213be090d40a9d1d07dec501d2c351.tar.gz",
     ],
 )
 
@@ -105,6 +104,8 @@ go_repository(
     commit = "441bbc86b167f3c1f4786afae9931403b99fdacf",
     importpath = "github.com/howeyc/fsnotify",
 )
+
+register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
 # JGit external repository consumed from git submodule
 local_repository(

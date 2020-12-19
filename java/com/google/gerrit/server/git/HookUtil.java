@@ -43,12 +43,12 @@ public class HookUtil {
       refs =
           rp.getRepository().getRefDatabase().getRefs().stream()
               .collect(toMap(Ref::getName, r -> r));
+      rp.setAdvertisedRefs(refs, rp.getAdvertisedObjects());
     } catch (ServiceMayNotContinueException e) {
       throw e;
     } catch (IOException e) {
       throw new ServiceMayNotContinueException(e);
     }
-    rp.setAdvertisedRefs(refs, rp.getAdvertisedObjects());
     return refs;
   }
 
@@ -70,12 +70,12 @@ public class HookUtil {
       refs =
           up.getRepository().getRefDatabase().getRefs().stream()
               .collect(toMap(Ref::getName, r -> r));
+      up.setAdvertisedRefs(refs);
     } catch (ServiceMayNotContinueException e) {
       throw e;
     } catch (IOException e) {
       throw new ServiceMayNotContinueException(e);
     }
-    up.setAdvertisedRefs(refs);
     return refs;
   }
 

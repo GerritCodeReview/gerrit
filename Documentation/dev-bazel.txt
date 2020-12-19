@@ -18,7 +18,7 @@ should generate a .war file under `bazel-bin/gerrit.war`.
 To build Gerrit from source, you need:
 
 * A Linux or macOS system (Windows is not supported at this time)
-* A JDK for Java 11|...
+* A JDK for Java 11 or Java 17
 * Python 3
 * link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js (including npm),role=external,window=_blank]
 * Bower (`npm install -g bower`)
@@ -57,52 +57,20 @@ To build Gerrit with Java 11 language level, run:
   $ bazel build --java_toolchain=//tools:error_prone_warnings_toolchain_java11 :release
 ```
 
-[[java-13]]
-==== Java 13 support
+[[java-17]]
+==== Java 17 support
 
-Java 13 (and newer) is supported through vanilla java toolchain
-link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option,role=external,window=_blank].
-To build Gerrit with Java 13 and newer, specify vanilla java toolchain and
-provide the path to JDK home:
+Java 17 is supported. To build Gerrit with Java 17, run:
 
 ```
-  $ bazel build \
-    --define=ABSOLUTE_JAVABASE=<path-to-java-13> \
-    --javabase=@bazel_tools//tools/jdk:absolute_javabase \
-    --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
-    --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
-    --java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
-    :release
+  $ bazel build --config=java17 :release
 ```
 
-To run the tests, `--javabase` option must be passed as well, because
-bazel test runs the test using the target javabase:
+To run the tests with Java 17, run:
 
 ```
-  $ bazel test \
-    --define=ABSOLUTE_JAVABASE=<path-to-java-13> \
-    --javabase=@bazel_tools//tools/jdk:absolute_javabase \
-    --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
-    --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
-    --java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
-    //...
+  $ bazel test --config=java17 //...
 ```
-
-To avoid passing all those options on every Bazel build invocation,
-they could be added to ~/.bazelrc resource file:
-
-```
-$ cat << EOF > ~/.bazelrc
-build --define=ABSOLUTE_JAVABASE=<path-to-java-13>
-build --javabase=@bazel_tools//tools/jdk:absolute_javabase
-build --host_javabase=@bazel_tools//tools/jdk:absolute_javabase
-build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
-build --java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
-EOF
-```
-
-Now, invoking Bazel with just `bazel build :release` would include
-all those options.
 
 === Node.js and npm packages
 See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#installing-node_js-and-npm-packages[Installing Node.js and npm packages,role=external,window=_blank].

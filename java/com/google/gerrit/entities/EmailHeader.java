@@ -157,7 +157,7 @@ public abstract class EmailHeader {
 
     @Override
     public boolean equals(Object o) {
-      return (o instanceof Date) && Objects.equals(value.getTime(), ((Date) o).value.getTime());
+      return (o instanceof Date) && value.getTime() == ((Date) o).value.getTime();
     }
 
     @Override

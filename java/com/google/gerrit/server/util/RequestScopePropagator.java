@@ -168,8 +168,15 @@ public abstract class RequestScopePropagator {
   protected abstract <T> Callable<T> wrapImpl(Callable<T> callable);
 
   protected <T> Callable<T> context(RequestContext context, Callable<T> callable) {
+    /*
+      java/com/google/gerrit/server/util/RequestScopePropagator.java:172: error: [UnnecessaryMethodReference] This method reference is unnecessary, and can be replaced with the variable itself.
+        RequestContext old = local.setContext(context::getUser);
+                                              ^
+      (see https://errorprone.info/bugpattern/UnnecessaryMethodReference)
+    Did you mean 'RequestContext old = local.setContext(context);'?
+      */
     return () -> {
-      RequestContext old = local.setContext(context::getUser);
+      RequestContext old = local.setContext(context);
       try {
         return callable.call();
       } finally {

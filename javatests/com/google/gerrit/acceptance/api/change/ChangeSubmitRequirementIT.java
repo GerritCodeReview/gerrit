@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -33,7 +34,7 @@ import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
@@ -41,6 +42,17 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
       SubmitRequirement.builder().setType("custom_rule").setFallbackText("Fallback text").build();
   private static final SubmitRequirementInfo reqInfo =
       new SubmitRequirementInfo("NOT_READY", "Fallback text", "custom_rule");
+
+  private static Optional<SubmitRecord> submitNotReady;
+
+  @Before
+  public void setUp() {
+    SubmitRecord record = new SubmitRecord();
+    record.labels = new ArrayList<>();
+    record.status = SubmitRecord.Status.NOT_READY;
+    record.requirements = ImmutableList.of(req);
+    submitNotReady = Optional.of(record);
+  }
 
   @Override
   public Module createModule() {
@@ -58,20 +70,20 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
 
   @Test
   public void submitRequirementIsPropagated() throws Exception {
-    rule.block(false);
+    rule.submitRecord(Optional.empty());
     PushOneCommit.Result r = createChange();
 
     ChangeInfo result = gApi.changes().id(r.getChangeId()).get();
     assertThat(result.requirements).isEmpty();
 
-    rule.block(true);
+    rule.submitRecord(submitNotReady);
     result = gApi.changes().id(r.getChangeId()).get();
     assertThat(result.requirements).containsExactly(reqInfo);
   }
 
   @Test
   public void submitRequirementIsPropagatedInQuery() throws Exception {
-    rule.block(false);
+    rule.submitRecord(Optional.empty());
     PushOneCommit.Result r = createChange();
 
     String query = "status:open project:" + project.get();
@@ -81,7 +93,7 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
 
     // Submit rule behavior is changed, but the query still returns
     // the previous result from the index
-    rule.block(true);
+    rule.submitRecord(submitNotReady);
     result = gApi.changes().query(query).get();
     assertThat(result).hasSize(1);
     assertThat(result.get(0).requirements).isEmpty();
@@ -93,24 +105,69 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
     assertThat(result.get(0).requirements).containsExactly(reqInfo);
   }
 
+  @Test
+  public void submittableQuery() throws Exception {
+    SubmitRecord okRecord = new SubmitRecord();
+    okRecord.labels = new ArrayList<>();
+    okRecord.status = SubmitRecord.Status.OK;
+    okRecord.requirements = ImmutableList.of(req);
+    Optional<SubmitRecord> submitOK = Optional.of(okRecord);
+
+    SubmitRecord errRecord = new SubmitRecord();
+    errRecord.labels = new ArrayList<>();
+    errRecord.status = SubmitRecord.Status.RULE_ERROR;
+    errRecord.requirements = ImmutableList.of(req);
+    Optional<SubmitRecord> submitError = Optional.of(errRecord);
+
+    rule.submitRecord(Optional.empty());
+    PushOneCommit.Result r = createChange();
+
+    String query = "status:open is:submittable project:" + project.get();
+
+    // Satisfy the default rule.
+    gApi.changes().id(r.getChange().getId().get()).current().review(ReviewInput.approve());
+
+    // Our custom rule isn't providing any submit records, so is:submittable should return the
+    // change.
+    List<ChangeInfo> result = gApi.changes().query(query).get();
+    assertThat(result).hasSize(1);
+
+    // The custom rule is NOT_READY, so is:submittable should NOT return the change.
+    rule.submitRecord(submitNotReady);
+    gApi.changes().id(r.getChangeId()).index();
+    result = gApi.changes().query(query).get();
+    assertThat(result).hasSize(0);
+
+    // The custom rule is RULE_ERROR, so is:submittable should NOT return the change.
+    rule.submitRecord(submitError);
+    gApi.changes().id(r.getChangeId()).index();
+    result = gApi.changes().query(query).get();
+    assertThat(result).hasSize(0);
+
+    // The custom rule is OK, so is:submittable should return the change.
+    rule.submitRecord(submitOK);
+    gApi.changes().id(r.getChangeId()).index();
+    result = gApi.changes().query(query).get();
+    assertThat(result).hasSize(1);
+
+    // Now make the default rule fail.
+    // is:submittable should not return the change, even though the custom rule is OK.
+    gApi.changes().id(r.getChange().getId().get()).current().review(ReviewInput.reject());
+    result = gApi.changes().query(query).get();
+    assertThat(result).hasSize(0);
+  }
+
   @Singleton
   private static class CustomSubmitRule implements SubmitRule {
-    private final AtomicBoolean block = new AtomicBoolean(true);
+    private Optional<SubmitRecord> submitRecord = Optional.empty();
 
-    public void block(boolean block) {
-      this.block.set(block);
+    public void submitRecord(Optional<SubmitRecord> submitRecord) {
+      this.submitRecord = submitRecord;
     }
 
     @Override
     public Optional<SubmitRecord> evaluate(ChangeData changeData) {
-      if (block.get()) {
-        SubmitRecord record = new SubmitRecord();
-        record.labels = new ArrayList<>();
-        record.status = SubmitRecord.Status.NOT_READY;
-        record.requirements = ImmutableList.of(req);
-        return Optional.of(record);
-      }
-      return Optional.empty();
+      return submitRecord;
     }
   }
 }

@@ -225,6 +225,7 @@ public class AccountManager {
     return autoUpdateAccountActiveStatus && authRequest.authProvidesAccountActiveStatus();
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   private void update(AuthRequest who, ExternalId extId)
       throws IOException, ConfigInvalidException, AccountException {
     IdentifiedUser user = userFactory.create(extId.accountId());

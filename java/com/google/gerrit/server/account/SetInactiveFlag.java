@@ -51,6 +51,7 @@ public class SetInactiveFlag {
     this.accountActivationListeners = accountActivationListeners;
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public Response<?> deactivate(Account.Id accountId)
       throws RestApiException, IOException, ConfigInvalidException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
@@ -90,6 +91,7 @@ public class SetInactiveFlag {
     return Response.none();
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public Response<String> activate(Account.Id accountId)
       throws RestApiException, IOException, ConfigInvalidException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);

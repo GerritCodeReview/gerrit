@@ -61,6 +61,13 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
   }
 
   @Override
+  /*
+  java/com/google/gerrit/server/restapi/change/TestSubmitRule.java:79: error: [ReturnValueIgnored] Return value of 'orElseThrow' must be used
+        .orElseThrow(() -> new BadRequestException("project not found " + rsrc.getProject()));
+                    ^
+    (see https://errorprone.info/bugpattern/ReturnValueIgnored)
+    */
+  @SuppressWarnings("ReturnValueIgnored")
   public Response<TestSubmitRuleInfo> apply(RevisionResource rsrc, TestSubmitRuleInput input)
       throws AuthException, PermissionBackendException, BadRequestException {
     if (input == null) {

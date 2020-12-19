@@ -30,8 +30,6 @@ build:remote --disk_cache=
 
 # Set several flags related to specifying the platform, toolchain and java
 # properties.
-build:remote --host_javabase=@rbe_jdk11//java:jdk
-build:remote --javabase=@rbe_jdk11//java:jdk
 build:remote --crosstool_top=@rbe_jdk11//cc:toolchain
 build:remote --extra_toolchains=@rbe_jdk11//config:cc-toolchain
 build:remote --extra_execution_platforms=@rbe_jdk11//config:platform

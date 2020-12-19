@@ -178,7 +178,14 @@ class OpenIdServiceImpl {
         aReq.addExtension(pape);
       }
     } catch (MessageException | ConsumerException e) {
-      logger.atSevere().withCause(e).log("Cannot create OpenID redirect for %s" + openidIdentifier);
+      /*
+          java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java:181: error: [FloggerStringConcatenation] Prefer string formatting using printf placeholders (e.g. %s) instead of string concatenation
+          logger.atSevere().withCause(e).log("Cannot create OpenID redirect for %s" + openidIdentifier);
+                                            ^
+        (see https://errorprone.info/bugpattern/FloggerStringConcatenation)
+      Did you mean 'logger.atSevere().withCause(e).log("Cannot create OpenID redirect for %s%s", openidIdentifier);'?
+          */
+      logger.atSevere().withCause(e).log("Cannot create OpenID redirect for %s", openidIdentifier);
       return new DiscoveryResult(DiscoveryResult.Status.ERROR);
     }
 

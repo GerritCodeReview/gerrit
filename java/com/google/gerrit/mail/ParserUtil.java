@@ -115,7 +115,15 @@ public class ParserUtil {
     int numConsecutiveDigits = 0;
     int maxConsecutiveDigits = 0;
     int numDigitGroups = 0;
+
+    /*
+    java/com/google/gerrit/mail/ParserUtil.java:118: error: [LoopOverCharArray] toCharArray allocates a new array, using charAt is more efficient
     for (char c : s.toCharArray()) {
+    ^
+    (see https://errorprone.info/bugpattern/LoopOverCharArray)
+    */
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
       if (c >= '0' && c <= '9') {
         numConsecutiveDigits++;
       } else if (numConsecutiveDigits > 0) {

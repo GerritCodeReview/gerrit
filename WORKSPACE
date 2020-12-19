@@ -34,10 +34,10 @@ load("//tools:nongoogle.bzl", "TESTCONTAINERS_VERSION", "declare_nongoogle_deps"
 
 http_archive(
     name = "rbe_jdk11",
-    sha256 = "766796de71916118e528b9f4334c29c9c9b4e926227bf3264dee555e6a4306c8",
-    strip_prefix = "rbe_autoconfig-2.0.0",
+    sha256 = "3c1307c35776dcc8e31c693685d690d9d4ef97b6bb8b55459f9b4b5ad3b8da14",
+    strip_prefix = "rbe_autoconfig-1.0.0",
     urls = [
-        "https://github.com/davido/rbe_autoconfig/archive/v2.0.0.tar.gz",
+        "https://github.com/davido/rbe_autoconfig/archive/v1.0.0.tar.gz",
     ],
 )
 
@@ -95,6 +95,8 @@ go_repository(
     commit = "441bbc86b167f3c1f4786afae9931403b99fdacf",
     importpath = "github.com/howeyc/fsnotify",
 )
+
+register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
 # JGit external repository consumed from git submodule
 local_repository(

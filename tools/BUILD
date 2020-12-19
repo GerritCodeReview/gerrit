@@ -8,60 +8,25 @@ load("@rules_java//java:defs.bzl", "java_package_configuration")
 exports_files(["nongoogle.bzl"])
 
 default_java_toolchain(
-    name = "error_prone_warnings_toolchain",
-    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
-    jvm_opts = JDK9_JVM_OPTS,
+    name = "error_prone_warnings_toolchain_java11",
     package_configuration = [
         ":error_prone",
     ],
+    source_version = "11",
+    target_version = "11",
     visibility = ["//visibility:public"],
 )
 
-JDK11_JVM_OPTS = select({
-    "@bazel_tools//src/conditions:openbsd": ["-Xbootclasspath/p:$(location @bazel_tools//tools/jdk:javac_jar)"],
-    "//conditions:default": [
-        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
-        "--add-opens=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
-        "--patch-module=java.compiler=$(location @bazel_tools//tools/jdk:java_compiler_jar)",
-        "--patch-module=jdk.compiler=$(location @bazel_tools//tools/jdk:jdk_compiler_jar)",
-        "--add-opens=java.base/java.nio=ALL-UNNAMED",
-        "--add-opens=java.base/java.lang=ALL-UNNAMED",
-    ],
-})
-
+# TODO(davido): Downgrade source level to 11, as 17 doen't work on Bazel@HEAD.
+# See https://github.com/bazelbuild/bazel/issues/14474 for more details.
 default_java_toolchain(
-    name = "error_prone_warnings_toolchain_java11",
-    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
-    forcibly_disable_header_compilation = False,
-    genclass = ["@bazel_tools//tools/jdk:genclass"],
-    header_compiler = ["@bazel_tools//tools/jdk:turbine"],
-    header_compiler_direct = ["@bazel_tools//tools/jdk:turbine_direct"],
-    ijar = ["@bazel_tools//tools/jdk:ijar"],
-    javabuilder = ["@bazel_tools//tools/jdk:javabuilder"],
-    javac_supports_workers = True,
-    jvm_opts = JDK11_JVM_OPTS,
-    misc = [
-        "-XDskipDuplicateBridges=true",
-        "-g",
-        "-parameters",
-    ],
+    name = "error_prone_warnings_toolchain_java17",
+    java_runtime = "@bazel_tools//tools/jdk:remotejdk_17",
     package_configuration = [
         ":error_prone",
     ],
-    singlejar = ["@bazel_tools//tools/jdk:singlejar"],
     source_version = "11",
-    target_version = "11",
-    tools = [
-        "@bazel_tools//tools/jdk:java_compiler_jar",
-        "@bazel_tools//tools/jdk:javac_jar",
-        "@bazel_tools//tools/jdk:jdk_compiler_jar",
-    ],
+    target_version = "17",
     visibility = ["//visibility:public"],
 )
 
@@ -159,7 +124,7 @@ java_package_configuration(
         "-Xep:DoNotCallSuggester:ERROR",
         "-Xep:DoNotClaimAnnotations:ERROR",
         "-Xep:DoNotMock:ERROR",
-        "-Xep:DoNotMockAutoValue:ERROR",
+        "-Xep:DoNotMockAutoValue:WARN",
         "-Xep:DoubleBraceInitialization:ERROR",
         "-Xep:DoubleCheckedLocking:ERROR",
         "-Xep:DuplicateMapKeys:ERROR",
@@ -275,7 +240,7 @@ java_package_configuration(
         "-Xep:JavaLocalTimeGetNano:ERROR",
         "-Xep:JavaPeriodGetDays:ERROR",
         "-Xep:JavaTimeDefaultTimeZone:ERROR",
-        "-Xep:JavaUtilDate:ERROR",
+        "-Xep:JavaUtilDate:WARN",
         # "-Xep:JdkObsolete:WARN",
         "-Xep:JodaConstructors:ERROR",
         "-Xep:JodaDateTimeConstants:ERROR",
@@ -385,7 +350,7 @@ java_package_configuration(
         "-Xep:RestrictedApiChecker:ERROR",
         "-Xep:RethrowReflectiveOperationExceptionAsLinkageError:ERROR",
         "-Xep:ReturnFromVoid:ERROR",
-        "-Xep:ReturnValueIgnored:ERROR",
+        "-Xep:ReturnValueIgnored:WARN",
         "-Xep:RxReturnValueIgnored:ERROR",
         "-Xep:SameNameButDifferent:ERROR",
         "-Xep:SelfAssignment:ERROR",

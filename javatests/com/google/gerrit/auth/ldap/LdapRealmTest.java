@@ -44,7 +44,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 public final class LdapRealmTest {
+  /*
+  javatests/com/google/gerrit/auth/ldap/LdapRealmTest.java:47: error: [UnnecessaryAssignment] Fields annotated with @Inject should not be manually assigned to, as they should be initialized by a framework. Remove the assignment if a framework is being used, or the annotation if one isn't.
   @Inject private LdapRealm ldapRealm = null;
+                            ^
+    (see https://errorprone.info/bugpattern/UnnecessaryAssignment)
+  Did you mean '@Inject private LdapRealm ldapRealm ;' or 'private LdapRealm ldapRealm = null;'?
+  */
+  @Inject private LdapRealm ldapRealm;
   @Inject private ExternalIdFactory externalIdFactory;
 
   @Before

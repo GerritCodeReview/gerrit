@@ -2,7 +2,25 @@ build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
-build --java_toolchain=//tools:error_prone_warnings_toolchain_java11
+
+# Builds using remote_jdk11, executes using remote_jdk11 or local_jdk
+build --java_language_version=11
+build --java_runtime_version=11
+build --tool_java_language_version=11
+build --tool_java_runtime_version=11
+
+# Builds using remote_jdk17, executes using remote_jdk17 or local_jdk
+build:java17 --java_language_version=17
+build:java17 --java_runtime_version=17
+build:java17 --tool_java_language_version=17
+build:java17 --tool_java_runtime_version=17
+
+# Builds ane executes using rbe_jdk (JDK from docker image)
+build:remote --java_language_version=11
+build:remote --tool_java_language_version=11
+build:remote --java_runtime_version=rbe_jdk
+build:remote --tool_java_runtime_version=rbe_jdk
+build:remote --extra_toolchains=@rbe_jdk11//java:all
 
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.
@@ -13,12 +31,7 @@ build --incompatible_strict_action_env
 
 build --announce_rc
 
-# Workaround Bazel worker crash (remove after upgrading to 4.1.0)
-# https://github.com/bazelbuild/bazel/issues/13333
-build --experimental_worker_multiplex=false
-
 test --build_tests_only
 test --test_output=all
-test --java_toolchain=//tools:error_prone_warnings_toolchain_java11
 
 import %workspace%/tools/remote-bazelrc

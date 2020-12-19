@@ -35,10 +35,6 @@ build:remote --disk_cache=
 # bazelrc a standalone file that can be copied more easily.
 # These flags should only be used as is for the rbe-ubuntu16-04 container
 # and need to be adapted to work with other toolchain containers.
-build:remote --host_javabase=@bazel_toolchains//configs/ubuntu16_04_clang/1.2:jdk8
-build:remote --javabase=@bazel_toolchains//configs/ubuntu16_04_clang/1.2:jdk8
-build:remote --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
-build:remote --java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
 build:remote --crosstool_top=@bazel_toolchains//configs/ubuntu16_04_clang/1.2/bazel_0.25.0/default:toolchain
 build:remote --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
 # Platform flags:
@@ -59,7 +55,6 @@ build:remote --platforms=@bazel_toolchains//configs/ubuntu16_04_clang/1.2:rbe_ub
 # machine exactly match the host machine.
 build:remote --spawn_strategy=remote,sandboxed
 build:remote --strategy=Javac=remote
-build:remote --strategy=Closure=remote
 build:remote --strategy=Genrule=remote
 build:remote --define=EXECUTOR=remote
 
@@ -86,7 +81,6 @@ build:docker-sandbox --crosstool_top=@bazel_toolchains//configs/ubuntu16_04_clan
 build:docker-sandbox --experimental_docker_image=gcr.io/cloud-marketplace/google/rbe-ubuntu16-04@sha256:da0f21c71abce3bbb92c3a0c44c3737f007a82b60f8bd2930abc55fe64fc2729
 build:docker-sandbox --spawn_strategy=docker
 build:docker-sandbox --strategy=Javac=docker
-build:docker-sandbox --strategy=Closure=docker
 build:docker-sandbox --strategy=Genrule=docker
 build:docker-sandbox --define=EXECUTOR=remote
 build:docker-sandbox --experimental_docker_verbose
@@ -100,5 +94,4 @@ build:remote-cache --remote_timeout=3600
 build:remote-cache --auth_enabled=true
 build:remote-cache --spawn_strategy=standalone
 build:remote-cache --strategy=Javac=standalone
-build:remote-cache --strategy=Closure=standalone
 build:remote-cache --strategy=Genrule=standalone

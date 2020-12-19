@@ -28,38 +28,20 @@
 build:remote --jobs=50
 build:remote --disk_cache=
 
-# Set several flags related to specifying the platform, toolchain and java
-# properties.
-# These flags are duplicated rather than imported from (for example)
-# %workspace%/configs/ubuntu16_04_clang/1.2/toolchain.bazelrc to make this
-# bazelrc a standalone file that can be copied more easily.
-# These flags should only be used as is for the rbe-ubuntu16-04 container
-# and need to be adapted to work with other toolchain containers.
-build:remote --host_javabase=@bazel_toolchains//configs/ubuntu16_04_clang/1.2:jdk8
-build:remote --javabase=@bazel_toolchains//configs/ubuntu16_04_clang/1.2:jdk8
-build:remote --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
-build:remote --java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
-build:remote --crosstool_top=@bazel_toolchains//configs/ubuntu16_04_clang/1.2/bazel_0.25.0/default:toolchain
-build:remote --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
-# Platform flags:
-# The toolchain container used for execution is defined in the target indicated
-# by "extra_execution_platforms", "host_platform" and "platforms".
-# If you are using your own toolchain container, you need to create a platform
-# target with "constraint_values" that allow for the toolchain specified with
-# "extra_toolchains" to be selected (given constraints defined in
-# "exec_compatible_with").
-# More about platforms: https://docs.bazel.build/versions/master/platforms.html
-build:remote --extra_toolchains=@bazel_toolchains//configs/ubuntu16_04_clang/1.2/bazel_0.25.0/cpp:cc-toolchain-clang-x86_64-default
-build:remote --extra_execution_platforms=@bazel_toolchains//configs/ubuntu16_04_clang/1.2:rbe_ubuntu1604
-build:remote --host_platform=@bazel_toolchains//configs/ubuntu16_04_clang/1.2:rbe_ubuntu1604
-build:remote --platforms=@bazel_toolchains//configs/ubuntu16_04_clang/1.2:rbe_ubuntu1604
+# Configuration to build and test Bazel on RBE on Ubuntu 18.04 with Java 11
+build:remote --host_javabase=@rbe_ubuntu1804_java11//java:jdk
+build:remote --javabase=@rbe_ubuntu1804_java11//java:jdk
+build:remote --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java9
+build:remote --java_toolchain=@bazel_tools//tools/jdk:toolchain_java9
+build:remote --crosstool_top=@rbe_ubuntu1804_java11//cc:toolchain
+build:remote --extra_toolchains=@rbe_ubuntu1804_java11//config:cc-toolchain
+build:remote --extra_toolchains=@rbe_ubuntu1804_java11//java:all
 
 # Set various strategies so that all actions execute remotely. Mixing remote
 # and local execution will lead to errors unless the toolchain and remote
 # machine exactly match the host machine.
 build:remote --spawn_strategy=remote,sandboxed
 build:remote --strategy=Javac=remote
-build:remote --strategy=Closure=remote
 build:remote --strategy=Genrule=remote
 build:remote --define=EXECUTOR=remote
 

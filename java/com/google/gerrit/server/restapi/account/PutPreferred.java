@@ -88,10 +88,18 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
     return apply(rsrc.getUser(), rsrc.getEmail());
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public Response<String> apply(IdentifiedUser user, String preferredEmail)
       throws RestApiException, IOException, ConfigInvalidException {
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
     AtomicBoolean alreadyPreferred = new AtomicBoolean(false);
+    /*
+      java/com/google/gerrit/server/restapi/account/PutPreferred.java:158: error: [ReturnValueIgnored] Return value of 'orElseThrow' must be used
+          .orElseThrow(() -> new ResourceNotFoundException("account not found"));
+                      ^
+      (see https://errorprone.info/bugpattern/ReturnValueIgnored)
+    Did you mean to remove this line?
+      */
     accountsUpdateProvider
         .get()
         .update(

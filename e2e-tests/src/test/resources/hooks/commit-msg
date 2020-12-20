@@ -32,8 +32,17 @@ if test ! -s "$1" ; then
   exit 1
 fi
 
+# Use `hostnamectl` to determine the system hostname, falling back to
+# `hostname`, if the command exists. Failing both checks, we fall back to using
+# the RANDOM environment variable.
+if command -v hostnamectl &>/dev/null; then
+  hostname="`hostnamectl status --static`"
+elif command -v hostname &>/dev/null; then
+  hostname="`hostname`"
+fi
+
 # $RANDOM will be undefined if not using bash, so don't use set -u
-random=$( (whoami ; hostname ; date; cat $1 ; echo $RANDOM) | git hash-object --stdin)
+random=$( (whoami ; echo "${hostname:-$RANDOM}"; date; cat $1 ; echo $RANDOM) | git hash-object --stdin)
 dest="$1.tmp.${random}"
 
 # Avoid the --in-place option which only appeared in Git 2.8

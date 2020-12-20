@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+set -u
+
 # avoid [[ which is not POSIX sh.
 if test "$#" != 1 ; then
   echo "$0 requires an argument."
@@ -32,8 +34,7 @@ if test ! -s "$1" ; then
   exit 1
 fi
 
-# $RANDOM will be undefined if not using bash, so don't use set -u
-random=$( (whoami ; hostname ; date; cat $1 ; echo $RANDOM) | git hash-object --stdin)
+random=$({ git var GIT_COMMITTER_IDENT ; git rev-parse HEAD ; git write-tree ; cat "$1" } | git hash-object --stdin)
 dest="$1.tmp.${random}"
 
 # Avoid the --in-place option which only appeared in Git 2.8

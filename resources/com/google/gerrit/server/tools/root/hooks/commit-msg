@@ -31,9 +31,16 @@ fi
 if test "false" = "`git config --bool --get gerrit.createChangeId`" ; then
   exit 0
 fi
-
+# Use `hostnamectl` to determine the system hostname, falling back to
+# `hostname`, if the command exists. Failing both checks, we fall back to using
+# the RANDOM environment variable.
+if command -v hostnamectl &>/dev/null; then
+  hostname="`hostnamectl status --static`"
+elif command -v hostname &>/dev/null; then
+  hostname="`hostname`"
+fi
 # $RANDOM will be undefined if not using bash, so don't use set -u
-random=$( (whoami ; hostname ; date; cat $1 ; echo $RANDOM) | git hash-object --stdin)
+random=$( (whoami ; echo "${hostname:-$RANDOM}"; date; cat $1 ; echo $RANDOM) | git hash-object --stdin)
 dest="$1.tmp.${random}"
 
 trap 'rm -f "${dest}"' EXIT

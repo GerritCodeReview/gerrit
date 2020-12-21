@@ -1,4 +1,6 @@
 load("@rules_java//java:defs.bzl", "java_library")
+load("@rules_java//java:defs.bzl", "java_proto_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
 
 package(
     default_visibility = ["//visibility:public"],
@@ -38,5 +40,6 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//proto:api_entities_java_proto",
     ],
 )

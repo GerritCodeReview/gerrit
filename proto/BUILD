@@ -22,3 +22,14 @@ java_proto_library(
     visibility = ["//visibility:public"],
     deps = [":entities_proto"],
 )
+
+proto_library(
+    name = "api_entities_proto",
+    srcs = ["api.proto"],
+)
+
+java_proto_library(
+    name = "api_entities_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":api_entities_proto"],
+)

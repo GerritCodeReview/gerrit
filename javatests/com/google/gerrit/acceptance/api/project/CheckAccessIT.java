@@ -31,11 +31,11 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.proto.Api.AccessCheckInfo;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import java.util.List;
@@ -269,7 +269,8 @@ public class CheckAccessIT extends AbstractDaemonTest {
                         + "' for ref 'refs/heads/*'",
                     "'user' cannot perform 'read' with force=false on project '"
                         + secretRefProject.get()
-                        + "' for ref 'refs/heads/secret/master' because this permission is blocked")),
+                        + "' for ref 'refs/heads/secret/master' because this permission is"
+                        + " blocked")),
             // Test 5
             TestCase.projectRef(
                 privilegedUser.email(),
@@ -314,7 +315,8 @@ public class CheckAccessIT extends AbstractDaemonTest {
                     "'privilegedUser' can perform 'read' with force=false on project '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/*'",
-                    "'privilegedUser' can perform 'viewPrivateChanges' with force=false on project '"
+                    "'privilegedUser' can perform 'viewPrivateChanges' with force=false on project"
+                        + " '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/master'")),
             // Test 9
@@ -328,7 +330,8 @@ public class CheckAccessIT extends AbstractDaemonTest {
                     "'privilegedUser' can perform 'read' with force=false on project '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/*'",
-                    "'privilegedUser' can perform 'forgeServerAsCommitter' with force=false on project '"
+                    "'privilegedUser' can perform 'forgeServerAsCommitter' with force=false on"
+                        + " project '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/master'")));
 
@@ -344,34 +347,34 @@ public class CheckAccessIT extends AbstractDaemonTest {
       }
 
       int want = tc.want;
-      if (want != info.status) {
+      if (want != info.getStatus()) {
         assertWithMessage(
                 String.format(
-                    "check.access(%s, %s) = %d, want %d", tc.project, in, info.status, want))
+                    "check.access(%s, %s) = %d, want %d", tc.project, in, info.getStatus(), want))
             .fail();
       }
 
       switch (want) {
         case 403:
           if (tc.permission != null) {
-            assertThat(info.message).contains("lacks permission " + tc.permission);
+            assertThat(info.getMessage()).contains("lacks permission " + tc.permission);
           }
           break;
         case 404:
-          assertThat(info.message).contains("does not exist");
+          assertThat(info.getMessage()).contains("does not exist");
           break;
         case 200:
-          assertThat(info.message).isNull();
+          assertThat(info.getMessage()).isEmpty();
           break;
         default:
           assertWithMessage(String.format("unknown code %d", want)).fail();
       }
 
-      if (!info.debugLogs.equals(tc.expectedDebugLogs)) {
+      if (!info.getDebugLogsList().equals(tc.expectedDebugLogs)) {
         assertWithMessage(
                 String.format(
                     "check.access(%s, %s) = %s, want %s",
-                    tc.project, in, info.debugLogs, tc.expectedDebugLogs))
+                    tc.project, in, info.getDebugLogsList(), tc.expectedDebugLogs))
             .fail();
       }
     }
@@ -388,7 +391,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
     input.account = privilegedUser.email();
 
     AccessCheckInfo info = gApi.projects().name(normalProject.get()).checkAccess(input);
-    assertThat(info.status).isEqualTo(200);
-    assertThat(info.message).contains("no branches");
+    assertThat(info.getStatus()).isEqualTo(200);
+    assertThat(info.getMessage()).contains("no branches");
   }
 }

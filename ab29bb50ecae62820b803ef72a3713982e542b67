@@ -16,6 +16,24 @@
       "message": "While you are here, could you explain in JavaDoc what true/false means here?\n\n/** Returns true if \u003c\u003e, false otherwise. */",
       "revId": "ab29bb50ecae62820b803ef72a3713982e542b67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4036b657_f81d8285",
+        "filename": "java/com/google/gerrit/httpd/restapi/ParameterParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T16:55:20Z",
+      "side": 1,
+      "message": "added. Any opinion on tests?  \n\nThere is a ParameterParserTest, but I think I\u0027ll need to setup an injector, and I don\u0027t know where to get a DynamicOptions object.",
+      "parentUuid": "86691839_64c45038",
+      "revId": "ab29bb50ecae62820b803ef72a3713982e542b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

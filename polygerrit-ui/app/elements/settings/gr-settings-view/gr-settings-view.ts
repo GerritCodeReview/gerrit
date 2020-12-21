@@ -114,6 +114,7 @@ export interface GrSettingsView {
     workInProgressByDefault: HTMLInputElement;
     showSizeBarsInFileList: HTMLInputElement;
     publishCommentsOnPush: HTMLInputElement;
+    disableKeyboardShortcuts: HTMLInputElement;
     relativeDateInChangeTable: HTMLInputElement;
   };
 }
@@ -397,6 +398,13 @@ export class GrSettingsView extends ChangeTableMixin(
   }
 
   _handlePublishCommentsOnPushChanged() {
+    this.set(
+      '_localPrefs.publish_comments_on_push',
+      this.$.publishCommentsOnPush.checked
+    );
+  }
+
+  _handleDisableKeyboardShortcutsChanged() {
     this.set(
       '_localPrefs.publish_comments_on_push',
       this.$.publishCommentsOnPush.checked

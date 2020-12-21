@@ -103,6 +103,7 @@ public final class Change {
     return new AutoValue_Change_Id(id);
   }
 
+  /** The numeric change ID */
   @AutoValue
   public abstract static class Id {
     /**

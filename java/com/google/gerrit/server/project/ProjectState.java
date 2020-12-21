@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.PermissionRule.Action.ALLOW;
+import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
@@ -264,7 +266,10 @@ public class ProjectState {
   List<SectionMatcher> getLocalAccessSections() {
     List<SectionMatcher> sm = localAccessSections;
     if (sm == null) {
-      Collection<AccessSection> fromConfig = cachedConfig.getAccessSections().values();
+      ImmutableList<AccessSection> fromConfig =
+          cachedConfig.getAccessSections().values().stream()
+              .sorted(comparing(AccessSection::getName))
+              .collect(toImmutableList());
       sm = new ArrayList<>(fromConfig.size());
       for (AccessSection section : fromConfig) {
         if (isAllProjects) {

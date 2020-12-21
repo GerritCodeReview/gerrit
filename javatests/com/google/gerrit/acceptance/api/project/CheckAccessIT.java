@@ -232,7 +232,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'user' can perform 'read' with force=false on project '"
                         + normalProject.get()
-                        + "' for ref 'refs/meta/version'",
+                        + "' for ref 'refs/heads/*'",
                     "'user' cannot perform 'viewPrivateChanges' with force=false on project '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/master'")),
@@ -244,7 +244,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'user' can perform 'read' with force=false on project '"
                         + normalProject.get()
-                        + "' for ref 'refs/meta/version'")),
+                        + "' for ref 'refs/heads/*'")),
             // Test 3
             TestCase.project(
                 user.email(),
@@ -253,10 +253,10 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'user' cannot perform 'read' with force=false on project '"
                         + secretProject.get()
-                        + "' for ref 'refs/meta/version' because this permission is blocked",
+                        + "' for ref 'refs/heads/*' because this permission is blocked",
                     "'user' cannot perform 'read' with force=false on project '"
                         + secretProject.get()
-                        + "' for ref 'refs/heads/*' because this permission is blocked")),
+                        + "' for ref 'refs/meta/version' because this permission is blocked")),
             // Test 4
             TestCase.projectRef(
                 user.email(),
@@ -292,7 +292,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'privilegedUser' can perform 'read' with force=false on project '"
                         + normalProject.get()
-                        + "' for ref 'refs/meta/version'")),
+                        + "' for ref 'refs/heads/*'")),
             // Test 7
             TestCase.projectRef(
                 privilegedUser.email(),
@@ -313,7 +313,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'privilegedUser' can perform 'read' with force=false on project '"
                         + normalProject.get()
-                        + "' for ref 'refs/meta/version'",
+                        + "' for ref 'refs/heads/*'",
                     "'privilegedUser' can perform 'viewPrivateChanges' with force=false on project '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/master'")),
@@ -327,7 +327,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'privilegedUser' can perform 'read' with force=false on project '"
                         + normalProject.get()
-                        + "' for ref 'refs/meta/version'",
+                        + "' for ref 'refs/heads/*'",
                     "'privilegedUser' can perform 'forgeServerAsCommitter' with force=false on project '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/master'")));

@@ -984,6 +984,19 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(c.labels.get(LabelId.CODE_REVIEW).approved._accountId).isEqualTo(user.id().get());
   }
 
+  @Test
+  public void wipChangeDoesNotExposeReviewersInChangeSearch() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    String changeId = createChange().getChangeId();
+    gApi.changes().id(changeId).setWorkInProgress();
+    gApi.changes().id(changeId).addReviewer(user.email());
+    assertThat(
+            gApi.changes()
+                .query("project:" + project.get() + " AND reviewer:" + user.email() + "")
+                .get())
+        .isEmpty();
+  }
+
   private void assertThatUserIsOnlyReviewer(String changeId) throws Exception {
     AccountInfo userInfo = new AccountInfo(user.fullName(), user.getNameEmail().email());
     userInfo._accountId = user.id().get();

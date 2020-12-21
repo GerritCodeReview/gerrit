@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3b30b90_de83e769",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-21T13:56:01Z",
+      "side": 1,
+      "message": "I think the only way this would happen (next to the replication plugin) is when a plugin uses some existing service class or REST endpoint to perform an action (e.g. from a background thread) and then has to make all the permission checks pass.",
+      "parentUuid": "e4e20ee5_1903d8cd",
+      "revId": "123155393ba06be691dc47cf21c3993368555685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29e8d990_5a75a3cd",

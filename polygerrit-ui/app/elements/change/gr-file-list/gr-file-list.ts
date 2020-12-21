@@ -26,6 +26,7 @@ import '../../shared/gr-linked-text/gr-linked-text';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import '../../shared/gr-file-status-chip/gr-file-status-chip';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
@@ -89,16 +90,6 @@ const RENDER_AVG_TIMING_LABEL = 'FileListRenderTimePerFile';
 const EXPAND_ALL_TIMING_LABEL = 'ExpandAllDiffs';
 const EXPAND_ALL_AVG_TIMING_LABEL = 'ExpandAllPerDiff';
 
-const FileStatus = {
-  A: 'Added',
-  C: 'Copied',
-  D: 'Deleted',
-  M: 'Modified',
-  R: 'Renamed',
-  W: 'Rewritten',
-  U: 'Unchanged',
-};
-
 const FILE_ROW_CLASS = 'file-row';
 
 export interface GrFileList {
@@ -112,7 +103,7 @@ export interface GrFileList {
 interface ReviewedFileInfo extends FileInfo {
   isReviewed?: boolean;
 }
-interface NormalizedFileInfo extends ReviewedFileInfo {
+export interface NormalizedFileInfo extends ReviewedFileInfo {
   __path: string;
 }
 
@@ -1123,12 +1114,6 @@ export class GrFileList extends KeyboardShortcutMixin(
     );
   }
 
-  _computeFileStatus(
-    status?: keyof typeof FileStatus
-  ): keyof typeof FileStatus {
-    return status || 'M';
-  }
-
   _computeDiffURL(
     change?: ParsedChangeInfo,
     patchRange?: PatchRange,
@@ -1201,12 +1186,6 @@ export class GrFileList extends KeyboardShortcutMixin(
       classes.push('invisible');
     }
     return classes.join(' ');
-  }
-
-  _computeStatusClass(file?: NormalizedFileInfo) {
-    if (!file) return '';
-    const classStr = this._computeClass('status', file.__path);
-    return `${classStr} ${this._computeFileStatus(file.status)}`;
   }
 
   _computePathClass(
@@ -1361,17 +1340,6 @@ export class GrFileList extends KeyboardShortcutMixin(
 
   _showAllFiles() {
     this.numFilesShown = this._files.length;
-  }
-
-  /**
-   * Get a descriptive label for use in the status indicator's tooltip and
-   * ARIA label.
-   */
-  _computeFileStatusLabel(status?: keyof typeof FileStatus) {
-    const statusCode = this._computeFileStatus(status);
-    return hasOwnProperty(FileStatus, statusCode)
-      ? FileStatus[statusCode]
-      : 'Status Unknown';
   }
 
   /**

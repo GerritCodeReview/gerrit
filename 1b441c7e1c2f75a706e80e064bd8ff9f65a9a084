@@ -70,6 +70,30 @@
       },
       "revId": "1b441c7e1c2f75a706e80e064bd8ff9f65a9a084",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2fb056f_d50719fb",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T16:00:54Z",
+      "side": 1,
+      "message": "If this is going to be removed in 3.4, can we document this explicitly?\n\nLet\u0027s not introduce a new plugin as a patch on a stable release. (I doubt that your proposal would work for more complex CI systems, but let\u0027s not have this discussion here.)",
+      "parentUuid": "5bffaf96_35073f05",
+      "range": {
+        "startLine": 948,
+        "startChar": 10,
+        "endLine": 948,
+        "endChar": 37
+      },
+      "revId": "1b441c7e1c2f75a706e80e064bd8ff9f65a9a084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

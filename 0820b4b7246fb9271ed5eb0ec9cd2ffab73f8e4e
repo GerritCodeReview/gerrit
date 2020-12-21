@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61a113fd_7e56898d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3368,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-21T15:00:36Z",
+      "side": 1,
+      "message": "You should mention which CI / plugin is making use of that \"mechanism\".",
+      "range": {
+        "startLine": 3366,
+        "startChar": 57,
+        "endLine": 3368,
+        "endChar": 34
+      },
+      "revId": "0820b4b7246fb9271ed5eb0ec9cd2ffab73f8e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -324,6 +324,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13b29cef_219b3c11",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-21T14:47:59Z",
+      "side": 1,
+      "message": "I see this change as largely independent. It doesn\u0027t tweak the default in any way compared to the currently released version. Just gives the option to tweak the feature.",
+      "parentUuid": "c99fd6c3_d590359d",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 88
+      },
+      "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3cef9fe_5d176c7d",
         "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
         "patchSetId": 2
@@ -335,6 +359,30 @@
       "writtenOn": "2020-12-21T13:22:38Z",
       "side": 1,
       "message": "import statically:\n\n  $ git grep Collectors.joining | grep import | wc -l\n  34",
+      "range": {
+        "startLine": 91,
+        "startChar": 21,
+        "endLine": 91,
+        "endChar": 39
+      },
+      "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adc29393_b17b6e26",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-21T14:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3cef9fe_5d176c7d",
       "range": {
         "startLine": 91,
         "startChar": 21,

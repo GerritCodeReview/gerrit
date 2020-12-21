@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2566c10_62da40f2",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T19:20:06Z",
+      "side": 1,
+      "message": "I guess these changes are OK for us, but will this invalidate code that links these structures? (Do plugins generally consume the REST types?)",
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6151065_50f756a0",
+        "filename": "java/com/google/gerrit/server/restapi/project/entities.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T19:20:06Z",
+      "side": 1,
+      "message": "Should we consider consider proto3 ?",
+      "range": {
+        "startLine": 15,
+        "startChar": 10,
+        "endLine": 15,
+        "endChar": 16
+      },
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c3e602c_e79659a3",
+        "filename": "java/com/google/gerrit/server/restapi/project/entities.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T19:20:06Z",
+      "side": 1,
+      "message": "could we keep the existing package to reduce churn?",
+      "range": {
+        "startLine": 19,
+        "startChar": 24,
+        "endLine": 19,
+        "endChar": 63
+      },
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b07bd7f3_259c45ab",
+        "filename": "java/com/google/gerrit/server/restapi/project/entities.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T19:20:06Z",
+      "side": 1,
+      "message": "even though this goes into JSON (so required vs optional) isn\u0027t a big issue, let\u0027s avoid future headaches\nhttps://stackoverflow.com/questions/31801257/why-required-and-optional-is-removed-in-protocol-buffers-3\n\nthere is also a google internal doc about this.",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 10
+      },
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f64532d_f1ae7586",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T19:20:06Z",
+      "side": 1,
+      "message": "I wonder if we should consider nanoproto or protobuf-lite to avoid the churn here. could you use automated refactoring tools? Doing this by hand will be painful.",
+      "range": {
+        "startLine": 367,
+        "startChar": 26,
+        "endLine": 367,
+        "endChar": 36
+      },
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

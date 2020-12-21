@@ -118,6 +118,30 @@
       },
       "revId": "6f6e4f604d7498b9957ba670a8b446acc015c01f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b0e6186_ece894c5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2519,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-21T13:19:38Z",
+      "side": 1,
+      "message": "I didn\u0027t review the full change yet. Will approve only after I\u0027ve done this :)",
+      "parentUuid": "7480bc16_7426d4f3",
+      "range": {
+        "startLine": 2515,
+        "startChar": 0,
+        "endLine": 2519,
+        "endChar": 46
+      },
+      "revId": "6f6e4f604d7498b9957ba670a8b446acc015c01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

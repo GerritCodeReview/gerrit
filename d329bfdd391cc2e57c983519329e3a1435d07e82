@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffcee37e_88352425",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T15:55:22Z",
+      "side": 0,
+      "message": "We\u0027re folding this exception into PatchListNotAvailableException. Wouldn\u0027t that return the wrong error?",
+      "range": {
+        "startLine": 81,
+        "startChar": 18,
+        "endLine": 81,
+        "endChar": 43
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

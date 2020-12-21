@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9345244_30983f78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T17:32:12Z",
+      "side": 1,
+      "message": "Why?\n\nyou always need the secondary index to resolve Ixxx strings to Change.Id (see lookupByChangeKey). Maybe you could reuse the ChangeData from that call to populate the ChangeNotes here.",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "8ec3f252d97016de7664fda2d5b623935d6c87e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

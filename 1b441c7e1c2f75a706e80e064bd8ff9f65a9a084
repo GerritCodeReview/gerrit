@@ -22,6 +22,30 @@
       },
       "revId": "1b441c7e1c2f75a706e80e064bd8ff9f65a9a084",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba7fb1b8_4413b3dc",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-21T14:58:53Z",
+      "side": 1,
+      "message": "\u003e what is the plan here? are we going to keep this around forever? \n\nNo: the plan is to drop the support in v3.4.\n\n\u003e It looks like this also provides backward compatibility for plugins. Is that necessary?\n\nPotentially, yes. You may consume those events with WebHooks (Jenkins plugin does that also).\n\n\u003e If not, could we do this somewhere in the StreamEvents support instead?\n\nNo, for the reason above.",
+      "parentUuid": "f157066d_8bee054b",
+      "range": {
+        "startLine": 948,
+        "startChar": 10,
+        "endLine": 948,
+        "endChar": 37
+      },
+      "revId": "1b441c7e1c2f75a706e80e064bd8ff9f65a9a084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

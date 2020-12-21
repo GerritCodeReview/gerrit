@@ -250,6 +250,17 @@ export const htmlTemplate = html`
           </span>
         </section>
         <section>
+          <span class="title">Disable all keyboard shortcuts</span>
+          <span class="value">
+            <input
+              id="disableKeyboardShortcuts"
+              type="checkbox"
+              checked$="[[_localPrefs.disable_keyboard_shortcuts]]"
+              on-change="_handleDisableKeyboardShortcutsChanged"
+            />
+          </span>
+        </section>
+        <section>
           <span class="title"
             >Set new changes to "work in progress" by default</span
           >

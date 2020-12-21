@@ -699,16 +699,6 @@ suite('gr-file-list tests', () => {
       });
     });
 
-    test('computed properties', () => {
-      assert.equal(element._computeFileStatus('A'), 'A');
-      assert.equal(element._computeFileStatus(undefined), 'M');
-      assert.equal(element._computeFileStatus(null), 'M');
-
-      assert.equal(element._computeClass('clazz', '/foo/bar/baz'), 'clazz');
-      assert.equal(element._computeClass('clazz', '/COMMIT_MSG'),
-          'clazz invisible');
-    });
-
     test('file review status', () => {
       element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element._filesByPath = {
@@ -759,11 +749,6 @@ suite('gr-file-list tests', () => {
       assert.isTrue(reviewSpy.calledTwice);
 
       assert.isFalse(toggleExpandSpy.called);
-    });
-
-    test('_computeFileStatusLabel', () => {
-      assert.equal(element._computeFileStatusLabel('A'), 'Added');
-      assert.equal(element._computeFileStatusLabel('M'), 'Modified');
     });
 
     test('_handleFileListClick', () => {

@@ -158,6 +158,9 @@ export const htmlTemplate = html`
             <template is="dom-if" if="[[item.date]]">
               <gr-date-formatter date-str="[[item.date]]"></gr-date-formatter>
             </template>
+            <template is="dom-if" if="[[item.file]]">
+              <gr-file-status-chip file="[[item.file]]"></gr-file-status-chip>
+            </template>
           </div>
           <template is="dom-if" if="[[item.bottomText]]">
             <div class="bottomContent">

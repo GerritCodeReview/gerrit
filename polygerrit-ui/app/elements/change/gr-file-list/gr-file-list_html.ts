@@ -80,27 +80,6 @@ export const htmlTemplate = html`
       text-align: left;
       width: 1.5em;
     }
-    .status {
-      display: inline-block;
-      border-radius: var(--border-radius);
-      margin-left: var(--spacing-s);
-      padding: 0 var(--spacing-m);
-      color: var(--primary-text-color);
-      font-size: var(--font-size-small);
-      background-color: var(--dark-add-highlight-color);
-    }
-    .status.invisible,
-    .status.M {
-      display: none;
-    }
-    .status.D,
-    .status.R,
-    .status.W {
-      background-color: var(--dark-remove-highlight-color);
-    }
-    .status.U {
-      background-color: var(--comment-background-color);
-    }
     .file-row {
       cursor: pointer;
     }
@@ -421,14 +400,7 @@ export const htmlTemplate = html`
               >
                 [[_computeTruncatedPath(file.__path)]]
               </span>
-              <span
-                class$="[[_computeStatusClass(file)]]"
-                tabindex="0"
-                title$="[[_computeFileStatusLabel(file.status)]]"
-                aria-label$="[[_computeFileStatusLabel(file.status)]]"
-              >
-                [[_computeFileStatusLabel(file.status)]]
-              </span>
+              <gr-file-status-chip file="[[file]]"></gr-file-status-chip>
               <gr-copy-clipboard
                 hide-input=""
                 text="[[file.__path]]"

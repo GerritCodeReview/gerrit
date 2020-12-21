@@ -942,28 +942,43 @@ suite('gr-diff-view tests', () => {
             mobileText: 'chell.go',
             value: 'chell.go',
             bottomText: '',
+            file: {
+              __path: 'chell.go',
+            },
           }, {
             text: 'glados.txt',
             mobileText: 'glados.txt',
             value: 'glados.txt',
             bottomText: '',
+            file: {
+              __path: 'glados.txt',
+            },
           }, {
             text: 'wheatley.md',
             mobileText: 'wheatley.md',
             value: 'wheatley.md',
             bottomText: '',
+            file: {
+              __path: 'wheatley.md',
+            },
           },
           {
             text: 'Commit message',
             mobileText: 'Commit message',
             value: '/COMMIT_MSG',
             bottomText: '',
+            file: {
+              __path: '/COMMIT_MSG',
+            },
           },
           {
             text: 'Merge list',
             mobileText: 'Merge list',
             value: '/MERGE_LIST',
             bottomText: '',
+            file: {
+              __path: '/MERGE_LIST',
+            },
           },
         ];
 

@@ -32,7 +32,7 @@ declare global {
 }
 
 @customElement('gr-create-change-help')
-class GrCreateChangeHelp extends GestureEventListeners(
+export class GrCreateChangeHelp extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

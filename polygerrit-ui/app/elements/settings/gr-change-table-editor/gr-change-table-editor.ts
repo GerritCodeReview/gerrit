@@ -27,7 +27,7 @@ import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-
 import {customElement, property} from '@polymer/decorators';
 
 @customElement('gr-change-table-editor')
-class GrChangeTableEditor extends ChangeTableMixin(
+export class GrChangeTableEditor extends ChangeTableMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
 ) {
   static get template() {

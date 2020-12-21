@@ -36,7 +36,7 @@ declare global {
 }
 
 @customElement('gr-list-view')
-class GrListView extends GestureEventListeners(
+export class GrListView extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

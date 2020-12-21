@@ -29,7 +29,7 @@ declare global {
 }
 
 @customElement('gr-shell-command')
-class GrShellCommand extends GestureEventListeners(
+export class GrShellCommand extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

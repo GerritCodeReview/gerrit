@@ -47,7 +47,9 @@ import {installPolymerResin} from '../scripts/polymer-resin-install';
 installPolymerResin(safeTypesBridge);
 
 @customElement('gr-app')
-class GrApp extends GestureEventListeners(LegacyElementMixin(PolymerElement)) {
+export class GrApp extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
   static get template() {
     return htmlTemplate;
   }

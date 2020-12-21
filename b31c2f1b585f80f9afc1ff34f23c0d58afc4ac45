@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7adf4a85_48f695b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-21T09:45:48Z",
+      "side": 1,
+      "message": "@Jörg, @Patrick, any comment about cherry-picking this change to stable 3.3 branch?",
+      "revId": "b31c2f1b585f80f9afc1ff34f23c0d58afc4ac45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c5e8c1a_fda8c2a0",

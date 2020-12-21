@@ -142,6 +142,53 @@
       },
       "revId": "6f6e4f604d7498b9957ba670a8b446acc015c01f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2dee2c9_d6070480",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2519,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-21T14:45:20Z",
+      "side": 1,
+      "message": "LGTM",
+      "parentUuid": "5b0e6186_ece894c5",
+      "range": {
+        "startLine": 2515,
+        "startChar": 0,
+        "endLine": 2519,
+        "endChar": 46
+      },
+      "revId": "6f6e4f604d7498b9957ba670a8b446acc015c01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a916c5b5_93aee70d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/ExternalUserPermissionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-21T14:45:20Z",
+      "side": 1,
+      "message": "This permission is no longer assigned on refs/* but on refs/heads/* (see [1]). Can you rebase this change?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/287351",
+      "range": {
+        "startLine": 79,
+        "startChar": 51,
+        "endLine": 79,
+        "endChar": 59
+      },
+      "revId": "6f6e4f604d7498b9957ba670a8b446acc015c01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

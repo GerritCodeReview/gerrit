@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13e2c535_c373b049",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-21T12:59:45Z",
+      "side": 1,
+      "message": "Is this still required after https://gerrit-review.googlesource.com/c/plugins/replication/+/291951 ?",
+      "revId": "123155393ba06be691dc47cf21c3993368555685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29e8d990_5a75a3cd",
@@ -31,6 +48,29 @@
       "writtenOn": "2020-12-18T10:27:24Z",
       "side": 1,
       "message": "Or should we just short-circuit all checks if it\u0027s an InternalUser with a warning?\n\n    logger.atWarn().log(\"Unnecessary ref-permission check for internal user: %s\"...",
+      "revId": "123155393ba06be691dc47cf21c3993368555685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13586a28_df1f03ca",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-21T12:59:45Z",
+      "side": 1,
+      "message": "Can you just call getUser()?",
+      "range": {
+        "startLine": 607,
+        "startChar": 14,
+        "endLine": 607,
+        "endChar": 38
+      },
       "revId": "123155393ba06be691dc47cf21c3993368555685",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

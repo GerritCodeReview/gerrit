@@ -803,26 +803,30 @@ maven_jar(
     sha1 = "fd369423346b2f1525c413e33f8cf95b09c92cbd",
 )
 
-# Note that all of the following org.apache.httpcomponents have newer versions,
-# but 4.4.1 is the only version that is available for all of them.
-HTTPCOMP_VERS = "4.4.1"
+# Base the following org.apache.httpcomponents versions on what
+# elasticsearch-rest-client explicitly depends on, except for
+# commons-codec (non-http) which is not necessary yet. Note that
+# below httpcore version(s) differs from the HTTPCOMP_VERS range,
+# upstream: that specific dependency has no HTTPCOMP_VERS version
+# equivalent currently.
+HTTPCOMP_VERS = "4.5.2"
 
 maven_jar(
     name = "fluent-hc",
     artifact = "org.apache.httpcomponents:fluent-hc:" + HTTPCOMP_VERS,
-    sha1 = "96fb842b68a44cc640c661186828b60590c71261",
+    sha1 = "7bfdfa49de6d720ad3c8cedb6a5238eec564dfed",
 )
 
 maven_jar(
     name = "httpclient",
     artifact = "org.apache.httpcomponents:httpclient:" + HTTPCOMP_VERS,
-    sha1 = "016d0bc512222f1253ee6b64d389c84e22f697f0",
+    sha1 = "733db77aa8d9b2d68015189df76ab06304406e50",
 )
 
 maven_jar(
     name = "httpcore",
-    artifact = "org.apache.httpcomponents:httpcore:" + HTTPCOMP_VERS,
-    sha1 = "f5aa318bda4c6c8d688c9d00b90681dcd82ce636",
+    artifact = "org.apache.httpcomponents:httpcore:4.4.12",
+    sha1 = "21ebaf6d532bc350ba95bd81938fa5f0e511c132",
 )
 
 # Test-only dependencies below.

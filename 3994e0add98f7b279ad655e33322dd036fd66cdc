@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87957ca3_4536b4ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-21T09:40:23Z",
+      "side": 1,
+      "message": "We chatted offline for a bit: Gerrit\u0027s permission model doesn\u0027t depend on the order of sections in project.config, so any order is fine. With this change, we guarantee a stable ordering which is certainly better than a random ordering.",
+      "revId": "3994e0add98f7b279ad655e33322dd036fd66cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

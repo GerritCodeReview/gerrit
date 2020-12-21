@@ -94,6 +94,30 @@
       },
       "revId": "6f6e4f604d7498b9957ba670a8b446acc015c01f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7480bc16_7426d4f3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2519,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-21T13:17:03Z",
+      "side": 1,
+      "message": "Thanks. Do you mind +2ing then?",
+      "parentUuid": "a5ce43bd_03aaf8e8",
+      "range": {
+        "startLine": 2515,
+        "startChar": 0,
+        "endLine": 2519,
+        "endChar": 46
+      },
+      "revId": "6f6e4f604d7498b9957ba670a8b446acc015c01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

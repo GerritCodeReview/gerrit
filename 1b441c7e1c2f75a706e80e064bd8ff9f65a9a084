@@ -94,6 +94,30 @@
       },
       "revId": "1b441c7e1c2f75a706e80e064bd8ff9f65a9a084",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21216bc3_c81793fc",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-21T16:22:54Z",
+      "side": 1,
+      "message": "\u003e If this is going to be removed in 3.4, can we document this explicitly?\n\nThe prerequisites to remove this workaround would be:\n\n* 1. Provide other means to trigger the CI rebuild\n* 2. Extend \"comment added\" event and include patch set level comments (and possibly all file comments?);  change 291225 was already uploaded for review that does this\n* 3. Adapt the CI systems to consume the extended \"comment added\" event\n\nI could extend the comment below to clarify this, though.",
+      "parentUuid": "e2fb056f_d50719fb",
+      "range": {
+        "startLine": 948,
+        "startChar": 10,
+        "endLine": 948,
+        "endChar": 37
+      },
+      "revId": "1b441c7e1c2f75a706e80e064bd8ff9f65a9a084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

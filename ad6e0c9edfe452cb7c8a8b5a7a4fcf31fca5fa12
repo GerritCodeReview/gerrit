@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f37712e3_84ce09d1",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T12:25:03Z",
+      "side": 1,
+      "message": "The comment still refers to \"old\" and \"new\".",
+      "range": {
+        "startLine": 172,
+        "startChar": 48,
+        "endLine": 172,
+        "endChar": 51
+      },
+      "revId": "ad6e0c9edfe452cb7c8a8b5a7a4fcf31fca5fa12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

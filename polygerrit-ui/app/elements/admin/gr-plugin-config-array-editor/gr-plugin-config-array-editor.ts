@@ -38,7 +38,7 @@ declare global {
 }
 
 @customElement('gr-plugin-config-array-editor')
-class GrPluginConfigArrayEditor extends GestureEventListeners(
+export class GrPluginConfigArrayEditor extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

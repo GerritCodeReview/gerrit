@@ -24,7 +24,7 @@ import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader
 import {customElement, property} from '@polymer/decorators';
 
 @customElement('gr-external-style')
-class GrExternalStyle extends GestureEventListeners(
+export class GrExternalStyle extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

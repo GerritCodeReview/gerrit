@@ -31,7 +31,7 @@ interface EditAction {
 
 /** @extends PolymerElement */
 @customElement('gr-edit-file-controls')
-class GrEditFileControls extends GestureEventListeners(
+export class GrEditFileControls extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

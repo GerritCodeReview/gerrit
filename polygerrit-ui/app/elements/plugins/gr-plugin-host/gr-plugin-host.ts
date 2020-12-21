@@ -22,7 +22,7 @@ import {customElement, property} from '@polymer/decorators';
 import {ServerInfo} from '../../../types/common';
 
 @customElement('gr-plugin-host')
-class GrPluginHost extends GestureEventListeners(
+export class GrPluginHost extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   @property({type: Object, observer: '_configChanged'})

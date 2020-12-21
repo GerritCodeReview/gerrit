@@ -27,7 +27,7 @@ declare global {
 }
 
 @customElement('gr-settings-item')
-class GrSettingsItem extends GestureEventListeners(
+export class GrSettingsItem extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

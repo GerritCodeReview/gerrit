@@ -28,7 +28,7 @@ import {RepoName} from '../../../types/common';
 
 /** @extends PolymerElement */
 @customElement('gr-repo-header')
-class GrRepoHeader extends GestureEventListeners(
+export class GrRepoHeader extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

@@ -29,7 +29,7 @@ import {ServerInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 
 @customElement('gr-change-table-editor')
-class GrChangeTableEditor extends ChangeTableMixin(
+export class GrChangeTableEditor extends ChangeTableMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
 ) {
   static get template() {

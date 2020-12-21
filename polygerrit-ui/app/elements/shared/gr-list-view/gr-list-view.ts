@@ -38,7 +38,7 @@ declare global {
 const DEBOUNCER_RELOAD = 'reload';
 
 @customElement('gr-list-view')
-class GrListView extends GestureEventListeners(
+export class GrListView extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

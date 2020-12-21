@@ -62,7 +62,7 @@ export interface PluginConfigChangeDetail {
 }
 
 @customElement('gr-repo-plugin-config')
-class GrRepoPluginConfig extends GestureEventListeners(
+export class GrRepoPluginConfig extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

@@ -46,7 +46,7 @@ const PRIVATE_TOOLTIP =
 
 /** @extends PolymerElement */
 @customElement('gr-change-status')
-class GrChangeStatus extends GestureEventListeners(
+export class GrChangeStatus extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

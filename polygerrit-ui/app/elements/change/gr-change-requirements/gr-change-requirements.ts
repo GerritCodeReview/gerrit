@@ -58,7 +58,7 @@ interface Label {
 }
 
 @customElement('gr-change-requirements')
-class GrChangeRequirements extends GestureEventListeners(
+export class GrChangeRequirements extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

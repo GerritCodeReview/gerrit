@@ -26,7 +26,7 @@ import {customElement, property} from '@polymer/decorators';
 import {AccountInfo, ChangeInfo} from '../../../types/common';
 
 @customElement('gr-account-link')
-class GrAccountLink extends GestureEventListeners(
+export class GrAccountLink extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

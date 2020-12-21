@@ -28,7 +28,7 @@ declare global {
 }
 
 @customElement('gr-settings-menu-item')
-class GrSettingsMenuItem extends GestureEventListeners(
+export class GrSettingsMenuItem extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

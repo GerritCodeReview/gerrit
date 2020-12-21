@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4d9c16a_3650cb59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-21T13:56:01Z",
+      "side": 1,
+      "message": "Approving because it follows the docs of InternalUser (JavaDoc):\n\n\u003e An InternalUser has no real identity, it acts as the server and can access anything it wants ...",
+      "revId": "23ff2cfc8ffc00ad3d6e2c752d63394957c8720d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

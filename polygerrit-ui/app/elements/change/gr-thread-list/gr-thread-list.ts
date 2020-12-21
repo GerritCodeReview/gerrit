@@ -159,7 +159,9 @@ export class GrThreadList extends GestureEventListeners(
     if (c1.thread.patchNum !== c2.thread.patchNum) {
       if (!c1.thread.patchNum) return 1;
       if (!c2.thread.patchNum) return -1;
-      // TODO(TS): Explicit comparison for 'edit' and 'PARENT' missing?
+      // Threads left on Base when comparing Base vs X have patchNum = X
+      // and CommentSide = PARENT
+      // Threads left on 'edit' have patchNum set as latestPatchNum
       return c1.thread.patchNum > c2.thread.patchNum ? -1 : 1;
     }
 

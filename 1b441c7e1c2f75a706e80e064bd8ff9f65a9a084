@@ -118,6 +118,30 @@
       },
       "revId": "1b441c7e1c2f75a706e80e064bd8ff9f65a9a084",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16a2e2d4_bc7c928e",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-21T16:43:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21216bc3_c81793fc",
+      "range": {
+        "startLine": 948,
+        "startChar": 10,
+        "endLine": 948,
+        "endChar": 37
+      },
+      "revId": "1b441c7e1c2f75a706e80e064bd8ff9f65a9a084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

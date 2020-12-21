@@ -14,9 +14,12 @@
 
 package com.google.gerrit.json;
 
+import com.google.common.base.CaseFormat;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.protobuf.ProtoTypeAdapter;
+import com.google.protobuf.GeneratedMessageV3;
 import java.sql.Timestamp;
 
 /** Standard output format used by an API call. */
@@ -56,7 +59,13 @@ public enum OutputFormat {
         new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer())
-            .registerTypeAdapterFactory(new EnumTypeAdapterFactory());
+            .registerTypeAdapterFactory(new EnumTypeAdapterFactory())
+            .registerTypeHierarchyAdapter(
+                GeneratedMessageV3.class,
+                ProtoTypeAdapter.newBuilder()
+                    .setFieldNameSerializationFormat(
+                        CaseFormat.LOWER_UNDERSCORE, CaseFormat.LOWER_UNDERSCORE)
+                    .build());
     if (this == OutputFormat.JSON) {
       gb.setPrettyPrinting();
     }

@@ -1,11 +1,10 @@
 load("@rules_java//java:defs.bzl", "java_library")
 
 java_library(
-    name = "json",
-    srcs = glob(["*.java"]),
+    name = "adapter",
+    srcs = ["ProtoTypeAdapter.java"],
     visibility = ["//visibility:public"],
     deps = [
-        "//java/com/google/gson/protobuf:adapter",
         "//lib:gson",
         "//lib:guava",
         "//lib:protobuf",

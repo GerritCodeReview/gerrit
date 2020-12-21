@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "694bb783_27ee0fbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T14:34:15Z",
+      "side": 1,
+      "message": "just a nit.",
+      "revId": "b005980e7eef293ea8e4ee6623f936f781570a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "706214b6_d1b86357",
@@ -44,6 +61,46 @@
         "endLine": 3365,
         "endChar": 13
       },
+      "revId": "b005980e7eef293ea8e4ee6623f936f781570a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f63947e_8bc2cfd9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3369,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T14:34:15Z",
+      "side": 1,
+      "message": "s/UI//",
+      "range": {
+        "startLine": 3369,
+        "startChar": 16,
+        "endLine": 3369,
+        "endChar": 18
+      },
+      "revId": "b005980e7eef293ea8e4ee6623f936f781570a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40cf359b_d1f8972a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3376,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T14:34:15Z",
+      "side": 1,
+      "message": "\"We will not remove experiments in stable patch releases. They are likely to be removed in the next stable version.\"",
       "revId": "b005980e7eef293ea8e4ee6623f936f781570a60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

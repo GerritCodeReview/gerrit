@@ -89,7 +89,9 @@ public class DeleteComment implements RestModifyView<HumanCommentResource, Delet
     }
 
     ChangeNotes updatedNotes =
-        notesFactory.createChecked(rsrc.getRevisionResource().getChange().getId());
+        notesFactory.createChecked(
+            rsrc.getRevisionResource().getProject(),
+            rsrc.getRevisionResource().getChangeResource().getId());
     List<HumanComment> changeComments = commentsUtil.publishedHumanCommentsByChange(updatedNotes);
     Optional<HumanComment> updatedComment =
         changeComments.stream().filter(c -> c.key.equals(rsrc.getComment().key)).findFirst();

@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "08217446_12bca524",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-21T14:01:45Z",
+      "side": 1,
+      "message": "Marking as resolved",
+      "parentUuid": "b2a8577b_b78af339",
+      "revId": "d360a0dfa2ca877a32c228b225b1ef5f06999ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c0e1cb92_cd89af73",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.api.config;
+syntax = "proto3";
 
-import java.util.List;
+package com.google.gerrit.proto;
 
-public class AccessCheckInfo {
-  public String message;
-  // HTTP status code
-  public int status;
+option java_package = "com.google.gerrit.proto";
 
-  /** Debug logs that may help to understand why a permission is denied or allowed. */
-  public List<String> debugLogs;
-
-  // for future extension, we may add inputs / results for bulk checks.
+// Entity detailing the access of a given user for a given project, ref or a
+// certain permission.
+// Next ID: 4
+message AccessCheckInfo {
+  int32 status = 1;
+  string message = 2;
+  repeated string debug_logs = 3;
 }

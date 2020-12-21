@@ -36,6 +36,7 @@ java_library(
         "//lib/auto:auto-value-annotations",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//proto:api_entities_java_proto",
     ],
 )
 

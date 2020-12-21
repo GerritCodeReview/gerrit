@@ -16,7 +16,6 @@ package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
-import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -24,6 +23,7 @@ import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.proto.Api.AccessCheckInfo;
 import java.util.List;
 
 public interface ProjectApi {

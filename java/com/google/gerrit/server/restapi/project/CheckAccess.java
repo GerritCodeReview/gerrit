@@ -1,4 +1,4 @@
-// Copyright (C) 2018 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,16 +17,15 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.entities.RefNames.REFS_HEADS;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
-import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.proto.Api.AccessCheckInfo;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.TraceContext;
@@ -146,15 +145,17 @@ public class CheckAccess implements RestReadView<ProjectResource> {
   }
 
   private AccessCheckInfo createInfo(TraceContext traceContext, int statusCode, String message) {
-    AccessCheckInfo info = new AccessCheckInfo();
-    info.status = statusCode;
-    info.message = message;
-    info.debugLogs = traceContext.getAclLogRecords();
-    if (info.debugLogs.isEmpty()) {
-      info.debugLogs =
-          ImmutableList.of("Found no rules that apply, so defaulting to no permission");
+    AccessCheckInfo.Builder builder = AccessCheckInfo.newBuilder().setStatus(statusCode);
+    if (message != null) {
+      builder.setMessage(message);
     }
-    return info;
+    if (traceContext.getAclLogRecords() != null) {
+      builder.addAllDebugLogs(traceContext.getAclLogRecords());
+    }
+    if (builder.getDebugLogsCount() == 0) {
+      builder.addDebugLogs("Found no rules that apply, so defaulting to no permission");
+    }
+    return builder.build();
   }
 
   @Override

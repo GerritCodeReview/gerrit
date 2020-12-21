@@ -21,5 +21,6 @@ java_library(
         "//lib:servlet-api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//proto:api_entities_java_proto",
     ],
 )

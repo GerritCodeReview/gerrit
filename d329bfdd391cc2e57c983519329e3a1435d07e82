@@ -1,0 +1,340 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5d3e0d6_e0ee737f",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "Please add javadoc.",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da4cd09f_e0cea872",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "This field should also have javadoc; it\u0027s not self-explanatory like the others.",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e180c24b_ba3525d0",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "nit/opt: inline",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1df8478_0ea5bb3f",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "This is missing @Nullable and a description of what passing null means.",
+      "range": {
+        "startLine": 85,
+        "startChar": 12,
+        "endLine": 85,
+        "endChar": 21
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9157bdba_b2ecca04",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "This suggests java.lang.Object; maybe just omit, since the return type is expclicit in the signature?",
+      "range": {
+        "startLine": 87,
+        "startChar": 39,
+        "endLine": 87,
+        "endChar": 45
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dabe920_8335d84f",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "I think this would be more readable as just \"return current.getParent(0)\".",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfb07b12_43c0b5a9",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "Doesn\u0027t this modify the database?",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f38400aa_59a23802",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "I think this comment should explain why the interface exists, and maybe enumerate (planned) implementations.",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5fc6941_c486335a",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "The name is very generic; WDYT about DiffOperations to distinguish it from e.g. the set of diff hunks?",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e9859da_3f08f379",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "Maybe link to the magic filenames?",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4291b49f_2daaced8",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "two",
+      "range": {
+        "startLine": 32,
+        "startChar": 82,
+        "endLine": 32,
+        "endChar": 83
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e96b6270_b49d8d3b",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "I think the comment should also address error handling: What if the specified parent does not exist? In what conditions is the exception thrown?",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d95b6520_15e892f3",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t add information beyond the declaration itself. As a reader I\u0027d assume that there are multiple implementations and would want to know what is special about this one.",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "118fbf06_012ef3c7",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "Why do you wrap the DiffNotAvailableException in itself? Shouldn\u0027t that just propagate?",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98b37aa5_349cda15",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "This is already assigned to fileDiffOutput above.",
+      "range": {
+        "startLine": 152,
+        "startChar": 23,
+        "endLine": 152,
+        "endChar": 29
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22571e61_da8c5cbd",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "Can be static.",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7fa0eca_7e433a63",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "static",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f92640ee_91cead45",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T14:03:36Z",
+      "side": 1,
+      "message": "static",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

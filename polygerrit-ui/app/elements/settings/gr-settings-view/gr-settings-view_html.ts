@@ -278,6 +278,17 @@ export const htmlTemplate = html`
           </span>
         </section>
         <section>
+          <label for="disableKeyboardShortcuts" class="title">Disable all keyboard shortcuts</label>
+          <span class="value">
+            <input
+              id="disableKeyboardShortcuts"
+              type="checkbox"
+              checked$="[[_localPrefs.disable_keyboard_shortcuts]]"
+              on-change="_handleDisableKeyboardShortcutsChanged"
+            />
+          </span>
+        </section>
+        <section>
           <label for="insertSignedOff" class="title">
             Insert Signed-off-by Footer For Inline Edit Changes
           </label>

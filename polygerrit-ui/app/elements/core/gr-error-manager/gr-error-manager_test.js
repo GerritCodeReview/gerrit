@@ -21,6 +21,7 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 import {__testOnly_ErrorType} from './gr-error-manager.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {appContext} from '../../../services/app-context.js';
+import {createPreferences} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-error-manager');
 
@@ -40,6 +41,8 @@ suite('gr-error-manager tests', () => {
           .returns(Promise.resolve({ok: true, status: 204}));
       getLoggedInStub = stubRestApi('getLoggedIn')
           .callsFake(() => appContext.authService.authCheck());
+      stubRestApi('getPreferences').returns(Promise.resolve(
+          createPreferences()));
       element = basicFixture.instantiate();
       element._authService.clearCache();
       toastSpy = sinon.spy(element, '_createToastAlert');

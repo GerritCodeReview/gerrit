@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f157066d_8bee054b",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T14:45:38Z",
+      "side": 1,
+      "message": "what is the plan here? are we going to keep this around forever? \n\nIt looks like this also provides backward compatibility for plugins. Is that necessary? If not, could we do this somewhere in the StreamEvents support instead?",
+      "range": {
+        "startLine": 948,
+        "startChar": 10,
+        "endLine": 948,
+        "endChar": 37
+      },
+      "revId": "1b441c7e1c2f75a706e80e064bd8ff9f65a9a084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

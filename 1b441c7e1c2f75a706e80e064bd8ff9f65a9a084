@@ -46,6 +46,30 @@
       },
       "revId": "1b441c7e1c2f75a706e80e064bd8ff9f65a9a084",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bffaf96_35073f05",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-21T15:05:45Z",
+      "side": 1,
+      "message": "Actually the best choice would be to de-couple CI build trigger workaround from change message or (now) patch set level comment.\n\nThe most straight forward and non-invasive way to do it would be to write a trivial gerrit-build-trigger plugin. That plugin would render a button on change screen, and pushing it woud fire BuildTriggerEvent, that couold be consumed with every notification channel:\n\n* StreamEvents\n* Existing and upcoming pub/sub solution\n\nOf course, the CI would have to be extended to listen to this event.\n\nNote, that checks plugin already has built-in feature to re-trigger the build, but not other CI solutions, liek Jenkins and Zuul (that doesn\u0027t use checks plugin).",
+      "parentUuid": "ba7fb1b8_4413b3dc",
+      "range": {
+        "startLine": 948,
+        "startChar": 10,
+        "endLine": 948,
+        "endChar": 37
+      },
+      "revId": "1b441c7e1c2f75a706e80e064bd8ff9f65a9a084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

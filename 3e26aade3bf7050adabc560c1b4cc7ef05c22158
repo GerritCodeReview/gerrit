@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3c125ec_1baf0db4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T15:55:22Z",
+      "side": 1,
+      "message": "What do you mean by that?",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 12,
+        "endChar": 11
+      },
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6d79456_ac5ce8ce",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T15:55:22Z",
+      "side": 1,
+      "message": "These names suggest that they are just conversions when in fact they perform computations and even DB access. Could we change them to make that clearer?",
+      "range": {
+        "startLine": 44,
+        "startChar": 31,
+        "endLine": 44,
+        "endChar": 45
+      },
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "899844be_39692e8d",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T15:55:22Z",
+      "side": 1,
+      "message": "fileInfo",
+      "range": {
+        "startLine": 92,
+        "startChar": 15,
+        "endLine": 92,
+        "endChar": 16
+      },
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd8c7d4c_4fa154b6",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T15:55:22Z",
+      "side": 1,
+      "message": "Is this safe? Wouldn\u0027t e.g. the UI need to differentiate between normal and special paths?",
+      "range": {
+        "startLine": 97,
+        "startChar": 44,
+        "endLine": 97,
+        "endChar": 50
+      },
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d9b22ce_395dc5bc",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T15:55:22Z",
+      "side": 1,
+      "message": "Why is this no longer an exception?",
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62d825ea_654d2ed3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T15:55:22Z",
+      "side": 1,
+      "message": "Comment is out of date.",
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "284c0557_75ade17d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T15:55:22Z",
+      "side": 1,
+      "message": "Why can\u0027t we fix the test right now? I\u0027d like to avoid submitting a change that breaks an existing test.",
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

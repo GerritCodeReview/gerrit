@@ -46,6 +46,30 @@
       },
       "revId": "6f6e4f604d7498b9957ba670a8b446acc015c01f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68fc62cb_5881ebfb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2519,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-12-21T13:13:28Z",
+      "side": 1,
+      "message": "OK, that\u0027s not what I thought \"Registered Users\" means, but looking at [1] which says that registered users are signed-in users, you may be right. So I\u0027m fine with proceeding with this change. Renaming this group to \"Known Users\" would make this much clearer in my opinion, but I see how this migration is a lot of work...\n\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#registered_users",
+      "parentUuid": "6d646d96_355885ed",
+      "range": {
+        "startLine": 2515,
+        "startChar": 0,
+        "endLine": 2519,
+        "endChar": 46
+      },
+      "revId": "6f6e4f604d7498b9957ba670a8b446acc015c01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

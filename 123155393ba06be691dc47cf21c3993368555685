@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f38dbe62_e4faf526",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-21T15:18:30Z",
+      "side": 1,
+      "message": "Furthermore it only addresses the instance were no authGroup is set.\nBefore the ref-visibility fix it was enough for the authGroup to have READ on \"refs/*\" for replication of Gerrit internal DB-refs to work. So we still have to do some fixes in the replication plugin.",
+      "parentUuid": "e3b30b90_de83e769",
+      "revId": "123155393ba06be691dc47cf21c3993368555685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29e8d990_5a75a3cd",

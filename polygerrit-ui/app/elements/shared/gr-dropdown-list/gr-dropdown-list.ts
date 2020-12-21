@@ -52,6 +52,7 @@ export interface DropdownItem {
   mobileText?: string;
   date?: Timestamp;
   disabled?: boolean;
+  status?: string;
 }
 
 export interface GrDropdownList {
@@ -99,6 +100,9 @@ export class GrDropdownList extends GestureEventListeners(
 
   @property({type: Boolean})
   showCopyForTriggerText = false;
+
+  @property({type: Boolean})
+  showChip = false;
 
   /**
    * Handle a click on the iron-dropdown element.

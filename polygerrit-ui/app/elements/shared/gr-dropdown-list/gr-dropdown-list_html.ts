@@ -164,6 +164,17 @@ export const htmlTemplate = html`
               <div>[[item.bottomText]]</div>
             </div>
           </template>
+          <template is="dom-if" if="[[showChip]]">
+            <span
+              class$="[[_computeStatusClass(file)]]"
+              tabindex="0"
+              title$="[[_computeFileStatusLabel(file.status)]]"
+              aria-label$="[[_computeFileStatusLabel(file.status)]]"
+            >
+              [[_computeFileStatusLabel(file.status)]]
+            </span>
+            [[item.status]]
+          </template>
         </paper-item>
       </template>
     </paper-listbox>

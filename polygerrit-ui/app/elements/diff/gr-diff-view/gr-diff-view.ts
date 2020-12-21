@@ -1314,6 +1314,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
           files.changeFilesByPath[path],
           /* includeUnmodified= */ true
         ),
+        status: files.changeFilesByPath[path].status,
       });
     }
     return dropdownContent;

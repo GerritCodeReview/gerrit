@@ -421,14 +421,6 @@ export const htmlTemplate = html`
               >
                 [[_computeTruncatedPath(file.__path)]]
               </span>
-              <span
-                class$="[[_computeStatusClass(file)]]"
-                tabindex="0"
-                title$="[[_computeFileStatusLabel(file.status)]]"
-                aria-label$="[[_computeFileStatusLabel(file.status)]]"
-              >
-                [[_computeFileStatusLabel(file.status)]]
-              </span>
               <gr-copy-clipboard
                 hide-input=""
                 text="[[file.__path]]"

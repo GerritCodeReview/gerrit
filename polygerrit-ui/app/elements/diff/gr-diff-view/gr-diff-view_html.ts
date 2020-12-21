@@ -240,6 +240,7 @@ export const htmlTemplate = html`
             items="[[_formattedFiles]]"
             initial-count="75"
             show-copy-for-trigger-text
+            show-chip
           >
           </gr-dropdown-list>
         </div>

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4e20ee5_1903d8cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-21T13:45:44Z",
+      "side": 1,
+      "message": "Not for the replication plugin but there might other plugins that relies on the functionality (cannot think of any likely candidates though). It\u0027s clearly a quite significant change in the API but I don\u0027t know that any plugin, other than replication, falls into this corner-case.\n\nThe following are more questions than suggestions:\nI don\u0027t know whether it should be valid to call the check API with an InternalUser or not. Hence my question if we should just check if it\u0027s called with an InternalUser and issue a warning instead, or possibly throw an exception here so that the tests of other plugins will fail if they try to call this API with an InternalUser.",
+      "parentUuid": "13e2c535_c373b049",
+      "revId": "123155393ba06be691dc47cf21c3993368555685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29e8d990_5a75a3cd",
@@ -65,6 +83,30 @@
       "writtenOn": "2020-12-21T12:59:45Z",
       "side": 1,
       "message": "Can you just call getUser()?",
+      "range": {
+        "startLine": 607,
+        "startChar": 14,
+        "endLine": 607,
+        "endChar": 38
+      },
+      "revId": "123155393ba06be691dc47cf21c3993368555685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f02444ca_9622f0d1",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-21T13:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13586a28_df1f03ca",
       "range": {
         "startLine": 607,
         "startChar": 14,

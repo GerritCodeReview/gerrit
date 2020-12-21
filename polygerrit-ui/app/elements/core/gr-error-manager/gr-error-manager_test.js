@@ -34,6 +34,9 @@ suite('gr-error-manager tests', () => {
     setup(() => {
       sinon.stub(window, 'fetch')
           .returns(Promise.resolve({ok: true, status: 204}));
+      stub('gr-rest-api-interface', {
+        getPreferences() { return Promise.resolve({}); },
+      });
       element = basicFixture.instantiate();
       element._authService.clearCache();
       toastSpy = sinon.spy(element, '_createToastAlert');

@@ -168,6 +168,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "775eef3c_855566d1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2519,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-21T15:06:52Z",
+      "side": 1,
+      "message": "Thank you :-)",
+      "parentUuid": "d2dee2c9_d6070480",
+      "range": {
+        "startLine": 2515,
+        "startChar": 0,
+        "endLine": 2519,
+        "endChar": 46
+      },
+      "revId": "6f6e4f604d7498b9957ba670a8b446acc015c01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a916c5b5_93aee70d",
@@ -181,6 +205,30 @@
       "writtenOn": "2020-12-21T14:45:20Z",
       "side": 1,
       "message": "This permission is no longer assigned on refs/* but on refs/heads/* (see [1]). Can you rebase this change?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/287351",
+      "range": {
+        "startLine": 79,
+        "startChar": 51,
+        "endLine": 79,
+        "endChar": 59
+      },
+      "revId": "6f6e4f604d7498b9957ba670a8b446acc015c01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2391033_e67cdd7b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/ExternalUserPermissionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-21T15:06:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a916c5b5_93aee70d",
       "range": {
         "startLine": 79,
         "startChar": 51,

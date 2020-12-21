@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80231683_b6370a42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-21T19:52:14Z",
+      "side": 1,
+      "message": "It looks like this caused a significant slowdown on the benchmark under contrib/benchmark-createchange.go (using reftable as refstorage).",
+      "revId": "bcdbc45e85efe98ea820f5024c5ca566ba0576d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

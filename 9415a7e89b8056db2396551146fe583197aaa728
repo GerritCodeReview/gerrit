@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a3046bf_3bd706fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-21T19:57:08Z",
+      "side": 1,
+      "message": "Reviewers: is a single \"entities\" for the whole REST API better or does this breakdown look good to you?",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "9415a7e89b8056db2396551146fe583197aaa728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c817337c_2d189325",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-21T19:57:08Z",
+      "side": 1,
+      "message": "It\u0027s worth noting that proto fields are never null, so I had to change this to empty.",
+      "range": {
+        "startLine": 367,
+        "startChar": 39,
+        "endLine": 367,
+        "endChar": 50
+      },
+      "revId": "9415a7e89b8056db2396551146fe583197aaa728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

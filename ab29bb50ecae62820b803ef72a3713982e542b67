@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86691839_64c45038",
+        "filename": "java/com/google/gerrit/httpd/restapi/ParameterParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-21T08:09:23Z",
+      "side": 1,
+      "message": "While you are here, could you explain in JavaDoc what true/false means here?\n\n/** Returns true if \u003c\u003e, false otherwise. */",
+      "revId": "ab29bb50ecae62820b803ef72a3713982e542b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

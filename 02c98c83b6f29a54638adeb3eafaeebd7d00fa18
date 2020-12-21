@@ -372,6 +372,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "81c9ef55_b99c7a0b",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-21T15:22:48Z",
+      "side": 1,
+      "message": "\u003e the wrong/broken default must be reverted and has to be explicitly enabled, and not disabled, as currently done by this change.\n\nSure, feel free to send another change on top of this series to do that if you think this is a must-do in the current situation.\n\nYou say that the current behavior is broken and I agree, but I don\u0027t see why any of these three changes necessarily have to change that. They don\u0027t introduce the breakage.\n\nWhat are we gaining if we rebase these three changes on top of change 291144? The behavior continues to be broken until merged with NO option to change that in a config.\n\nCompared to that, these changes do help: One can at least revert the behavior back to what it was before using a config. That question is independent of what the default should be. And hence, a change to that default should be independent as well :-)",
+      "parentUuid": "cb661200_044a0db0",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 88
+      },
+      "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3cef9fe_5d176c7d",
         "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
         "patchSetId": 2

@@ -145,6 +145,13 @@ def declare_nongoogle_deps():
         sha1 = GUAVA_BIN_SHA1,
     )
 
+    # Keep this version of Soy synchronized with the version used in Gitiles.
+    maven_jar(
+        name = "soy",
+        artifact = "com.google.template:soy:2020-08-24",
+        sha1 = "e774bf5cc95923d2685292883fe219e231346e50",
+    )
+
     # Test-only dependencies below.
 
     maven_jar(

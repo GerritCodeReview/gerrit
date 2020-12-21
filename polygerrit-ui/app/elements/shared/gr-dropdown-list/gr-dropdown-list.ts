@@ -21,6 +21,7 @@ import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../gr-date-formatter/gr-date-formatter';
 import '../gr-select/gr-select';
+import '../gr-file-status-chip/gr-file-status-chip';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
@@ -28,6 +29,7 @@ import {htmlTemplate} from './gr-dropdown-list_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {Timestamp} from '../../../types/common';
+import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 
 /**
  * fired when the selected value of the dropdown changes
@@ -52,6 +54,7 @@ export interface DropdownItem {
   mobileText?: string;
   date?: Timestamp;
   disabled?: boolean;
+  file?: NormalizedFileInfo;
 }
 
 export interface GrDropdownList {
@@ -99,6 +102,9 @@ export class GrDropdownList extends GestureEventListeners(
 
   @property({type: Boolean})
   showCopyForTriggerText = false;
+
+  @property({type: Boolean})
+  showChip = false;
 
   /**
    * Handle a click on the iron-dropdown element.

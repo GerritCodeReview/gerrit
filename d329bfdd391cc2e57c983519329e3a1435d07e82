@@ -265,6 +265,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c1f7c7e6_bb162548",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-12-21T15:55:55Z",
+      "side": 1,
+      "message": "Is this necessary for sorting?",
+      "range": {
+        "startLine": 120,
+        "startChar": 44,
+        "endLine": 120,
+        "endChar": 51
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98b37aa5_349cda15",
         "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
         "patchSetId": 10

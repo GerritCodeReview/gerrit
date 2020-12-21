@@ -348,6 +348,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb661200_044a0db0",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-21T15:14:13Z",
+      "side": 1,
+      "message": "\u003e I see this change as largely independent. It doesn\u0027t tweak the default in any way compared to the currently released version. Just gives the option to tweak the feature.\n\nAnd that\u0027s exactly the problem here: unless the fix change 291144 is merged, the wrong/broken default must be reverted and has to be explicitly enabled, and not disabled, as currently done by this change.\n\nIOW: This change can only be approved in its current form on stable-3.3 branch iff the fix is approved/merged (and the most obvious ways to achieve is: To reject this change for now with CRVW-2 or rebase this change on top of the fix change as suggested in my previous comment).\n\nIf change 291144 (or a similar fix) is rejected, the default must be swapped: patch set level comment is disabled per default on stable-3.3 branch, and a new config option is exposed to enable it.",
+      "parentUuid": "13b29cef_219b3c11",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 88
+      },
+      "revId": "02c98c83b6f29a54638adeb3eafaeebd7d00fa18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3cef9fe_5d176c7d",
         "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
         "patchSetId": 2

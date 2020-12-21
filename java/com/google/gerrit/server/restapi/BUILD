@@ -1,4 +1,6 @@
 load("@rules_java//java:defs.bzl", "java_library")
+load("@rules_java//java:defs.bzl", "java_proto_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
 
 package(
     default_visibility = ["//visibility:public"],
@@ -8,6 +10,7 @@ java_library(
     name = "restapi",
     srcs = glob(["**/*.java"]),
     deps = [
+        "project_entities_java_proto",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/entities",
@@ -39,4 +42,15 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
     ],
+)
+
+proto_library(
+    name = "project_entities_proto",
+    srcs = ["project/entities.proto"],
+)
+
+java_proto_library(
+    name = "project_entities_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":project_entities_proto"],
 )

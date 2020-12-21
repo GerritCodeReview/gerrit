@@ -45,7 +45,7 @@ import {installPolymerResin} from '../scripts/polymer-resin-install';
 installPolymerResin(safeTypesBridge);
 
 @customElement('gr-app')
-class GrApp extends PolymerElement {
+export class GrApp extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

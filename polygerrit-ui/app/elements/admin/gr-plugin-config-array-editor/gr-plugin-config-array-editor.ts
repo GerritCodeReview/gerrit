@@ -36,7 +36,7 @@ declare global {
 }
 
 @customElement('gr-plugin-config-array-editor')
-class GrPluginConfigArrayEditor extends PolymerElement {
+export class GrPluginConfigArrayEditor extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

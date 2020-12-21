@@ -35,7 +35,7 @@ declare global {
 }
 
 @customElement('gr-list-view')
-class GrListView extends PolymerElement {
+export class GrListView extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

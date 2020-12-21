@@ -30,7 +30,7 @@ declare global {
 }
 
 @customElement('gr-create-change-help')
-class GrCreateChangeHelp extends PolymerElement {
+export class GrCreateChangeHelp extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

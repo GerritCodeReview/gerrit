@@ -25,7 +25,7 @@ declare global {
 }
 
 @customElement('gr-settings-item')
-class GrSettingsItem extends PolymerElement {
+export class GrSettingsItem extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

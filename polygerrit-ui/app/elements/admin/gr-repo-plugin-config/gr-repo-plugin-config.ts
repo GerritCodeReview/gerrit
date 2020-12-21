@@ -60,7 +60,7 @@ export interface PluginConfigChangeDetail {
 }
 
 @customElement('gr-repo-plugin-config')
-class GrRepoPluginConfig extends PolymerElement {
+export class GrRepoPluginConfig extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

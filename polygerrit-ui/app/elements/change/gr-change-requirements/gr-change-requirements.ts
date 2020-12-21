@@ -56,7 +56,7 @@ interface Label {
 }
 
 @customElement('gr-change-requirements')
-class GrChangeRequirements extends PolymerElement {
+export class GrChangeRequirements extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

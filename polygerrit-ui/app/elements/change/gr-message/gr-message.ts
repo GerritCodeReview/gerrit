@@ -236,7 +236,7 @@ export class GrMessage extends GestureEventListeners(
   }
 
   _computeMessageContentExpanded(content?: string, tag?: ReviewInputTag) {
-    return this._computeMessageContent(content, tag, true);
+    return this._computeMessageContent(true, content, tag);
   }
 
   _patchsetCommentSummary(commentThreads: CommentThread[] = []) {
@@ -268,7 +268,7 @@ export class GrMessage extends GestureEventListeners(
     tag?: ReviewInputTag,
     commentThreads?: CommentThread[]
   ) {
-    const summary = this._computeMessageContent(content, tag, false);
+    const summary = this._computeMessageContent(false, content, tag);
     if (summary || !commentThreads) return summary;
     return this._patchsetCommentSummary(commentThreads);
   }
@@ -293,10 +293,11 @@ export class GrMessage extends GestureEventListeners(
   }
 
   _computeMessageContent(
-    content = '',
-    tag: ReviewInputTag = '' as ReviewInputTag,
-    isExpanded: boolean
+    isExpanded: boolean,
+    content?: string,
+    tag?: ReviewInputTag
   ) {
+    if (!content) return '';
     const isNewPatchSet = this._isNewPatchsetTag(tag);
 
     const lines = content.split('\n');

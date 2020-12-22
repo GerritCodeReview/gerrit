@@ -17,6 +17,7 @@
 
 import {AccountInfo, ChangeInfo} from '../types/common';
 import {isServiceUser} from './account-util';
+import {hasOwnProperty} from './common-util';
 
 // You would typically use a ServerInfo here, but this utility does not care
 // about all the other parameters in that object.
@@ -46,7 +47,8 @@ export function hasAttention(
   return (
     isAttentionSetEnabled(config) &&
     canHaveAttention(account) &&
-    !!change?.attention_set?.hasOwnProperty(account!._account_id!)
+    !!change?.attention_set &&
+    hasOwnProperty(change?.attention_set, account!._account_id!)
   );
 }
 

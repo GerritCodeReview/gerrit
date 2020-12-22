@@ -117,6 +117,9 @@ export class GrDashboardView extends GestureEventListeners(
   @property({type: Boolean})
   _showNewUserHelp = false;
 
+  @property({type: Number})
+  _selectedChangeIndex?: number;
+
   private reporting = appContext.reportingService;
 
   private restApiService = appContext.restApiService;
@@ -204,12 +207,21 @@ export class GrDashboardView extends GestureEventListeners(
     return params.view === GerritView.DASHBOARD;
   }
 
+  @observe('_selectedChangeIndex')
+  _selectedChangeIndexChanged(selectedChangeIndex: number) {
+    if (!this.params || !this._isViewActive(this.params)) return;
+    if (!this.viewState) throw new Error('view state undefined');
+    if (!this.params.user) throw new Error('user for dashboard is undefined');
+    this.viewState[this.params.user] = selectedChangeIndex;
+  }
+
   @observe('params.*')
   _paramsChanged(
     paramsChangeRecord: ElementPropertyDeepChange<GrDashboardView, 'params'>
   ) {
     const params = paramsChangeRecord.base;
-
+    if (params && this._isViewActive(params) && params.user && this.viewState)
+      this._selectedChangeIndex = this.viewState[params.user] || 0;
     return this._reload(params);
   }
 

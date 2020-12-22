@@ -2819,6 +2819,8 @@ Allowed values are `AUTO_MERGE` and `FIRST_PARENT`.
 |`publish_comments_on_push`     |not set if `false`|
 Whether to link:user-upload.html#publish-comments[publish draft comments] on
 push by default.
+|`disable_keyboard_shortcuts`     |not set if `false`|
+Whether to disable all keyboard shortcuts.
 |`work_in_progress_by_default`  |not set if `false`|
 Whether to link:user-upload.html#wip[set work-in-progress] on
 push or on create changes online by default.

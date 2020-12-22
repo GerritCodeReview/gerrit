@@ -202,7 +202,7 @@ export interface ChangeListViewState {
 }
 
 export interface DashboardViewState {
-  selectedChangeIndex: number;
+  [key: string]: number;
 }
 
 export interface ViewState {

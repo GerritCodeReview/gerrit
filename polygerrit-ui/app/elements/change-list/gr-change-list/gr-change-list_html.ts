@@ -159,7 +159,6 @@ export const htmlTemplate = html`
   </table>
   <gr-cursor-manager
     id="cursor"
-    index="{{selectedIndex}}"
     scroll-mode="keep-visible"
     focus-on-move=""
   ></gr-cursor-manager>

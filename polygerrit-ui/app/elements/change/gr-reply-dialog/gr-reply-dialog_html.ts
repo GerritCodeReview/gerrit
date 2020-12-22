@@ -40,6 +40,9 @@ export const htmlTemplate = html`
       padding: var(--spacing-m) var(--spacing-xl);
       width: 100%;
     }
+    section.previewContainer {
+      padding: var(--spacing-s) var(--spacing-xl);
+    }
     section.labelsContainer {
       /* We want the :hover highlight to extend to the border of the dialog. */
       padding: var(--spacing-m) 0;
@@ -98,6 +101,7 @@ export const htmlTemplate = html`
     .textareaContainer {
       min-height: 12em;
       position: relative;
+      border-top: none;
     }
     .textareaContainer,
     #textarea,
@@ -110,6 +114,10 @@ export const htmlTemplate = html`
     }
     #textarea {
       flex: 1;
+      margin-right: var(--spacing-l);
+    }
+    .previewContainer {
+      border-top: none;
     }
     .previewContainer gr-formatted-text {
       background: var(--table-header-background-color);
@@ -143,6 +151,7 @@ export const htmlTemplate = html`
     }
     .preview-formatting {
       margin-left: var(--spacing-m);
+      float: right;
     }
     .attention-icon {
       width: 14px;
@@ -292,10 +301,9 @@ export const htmlTemplate = html`
           autocomplete="on"
           placeholder="[[_messagePlaceholder]]"
           fixed-position-dropdown=""
-          hide-border="true"
           monospace="true"
           disabled="{{disabled}}"
-          rows="4"
+          rows="3"
           text="{{draft}}"
           on-bind-value-changed="_handleHeightChanged"
         >
@@ -307,9 +315,9 @@ export const htmlTemplate = html`
         <input
           id="resolvedPatchsetLevelCommentCheckbox"
           type="checkbox"
-          checked="{{_isResolvedPatchsetLevelComment::change}}"
+          checked="{{!_isResolvedPatchsetLevelComment::change}}"
         />
-        Resolved
+        Mark unresolved
       </label>
       <label class="preview-formatting">
         <input type="checkbox" checked="{{_previewFormatting::change}}" />

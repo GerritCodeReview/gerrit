@@ -32,7 +32,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  *
  * <p>This REST endpoint handles {@code PUT /accounts/<account-identifier>/active} requests.
  *
- * <p>Only active accounts can login into Gerrit.
+ * <p>Only active accounts can login into Gerrit, or are suggested as reviewers.
  *
  * <p>Marking an account as inactive is handled by {@link DeleteActive}.
  */

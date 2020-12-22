@@ -16,6 +16,24 @@
       "message": "It looks like this caused a significant slowdown on the benchmark under contrib/benchmark-createchange.go (using reftable as refstorage).",
       "revId": "bcdbc45e85efe98ea820f5024c5ca566ba0576d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35dc4bfa_c9fcd524",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-22T18:58:41Z",
+      "side": 1,
+      "message": "\u003e It looks like this caused a significant slowdown on the benchmark under contrib/benchmark-createchange.go (using reftable as refstorage).\n\nI\u0027m \"off\" for the Holidays by now, and don\u0027t know how to address this. Maybe revert (or \"amend\") this topic series or so? Feel free, based on what is necessary, of course.",
+      "parentUuid": "80231683_b6370a42",
+      "revId": "bcdbc45e85efe98ea820f5024c5ca566ba0576d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

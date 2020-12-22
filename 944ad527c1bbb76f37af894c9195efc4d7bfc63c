@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1b0a9e1_d4978e53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-22T10:38:23Z",
+      "side": 1,
+      "message": "Thanks for the fix. Should we apply this to latest supported release (3.1) and merge upstream instead?\n\nAlternatively we would cherry-pick the fix so stable-3.1.",
+      "revId": "944ad527c1bbb76f37af894c9195efc4d7bfc63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

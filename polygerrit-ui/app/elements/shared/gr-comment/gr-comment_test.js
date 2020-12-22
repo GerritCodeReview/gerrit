@@ -731,7 +731,7 @@ suite('gr-comment tests', () => {
         path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS, line: undefined,
         range: undefined};
       element.comment = comment;
-      flushAsynchronousOperations();
+      flush();
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
       assert.isTrue(element.editing);

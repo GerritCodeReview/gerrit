@@ -360,13 +360,6 @@ suite('gr-change-metadata tests', () => {
         );
       });
 
-      test('_getNonOwnerRole null for uploader with no current rev', () => {
-        delete change!.current_revision;
-        assert.isNotOk(
-          element._getNonOwnerRole(change, element._CHANGE_ROLE.UPLOADER)
-        );
-      });
-
       test('_computeShowRoleClass show uploader', () => {
         assert.equal(
           element._computeShowRoleClass(change, element._CHANGE_ROLE.UPLOADER),
@@ -407,22 +400,8 @@ suite('gr-change-metadata tests', () => {
         );
       });
 
-      test('_getNonOwnerRole null for committer with no current rev', () => {
-        delete change!.current_revision;
-        assert.isNotOk(
-          element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER)
-        );
-      });
-
       test('_getNonOwnerRole null for committer with no commit', () => {
         delete change!.revisions.rev1.commit;
-        assert.isNotOk(
-          element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER)
-        );
-      });
-
-      test('_getNonOwnerRole null for committer with no committer', () => {
-        delete change!.revisions.rev1.commit!.committer;
         assert.isNotOk(
           element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER)
         );
@@ -445,22 +424,8 @@ suite('gr-change-metadata tests', () => {
         );
       });
 
-      test('_getNonOwnerRole null for author with no current rev', () => {
-        delete change!.current_revision;
-        assert.isNotOk(
-          element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR)
-        );
-      });
-
       test('_getNonOwnerRole null for author with no commit', () => {
         delete change!.revisions.rev1.commit;
-        assert.isNotOk(
-          element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR)
-        );
-      });
-
-      test('_getNonOwnerRole null for author with no author', () => {
-        delete change!.revisions.rev1.commit!.author;
         assert.isNotOk(
           element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR)
         );
@@ -609,7 +574,6 @@ suite('gr-change-metadata tests', () => {
     element.revision = undefined;
     assert.equal(element._currentParents[0].commit, '111');
     element.change = createParsedChange();
-    delete element.change.current_revision;
     assert.deepEqual(element._currentParents, []);
   });
 

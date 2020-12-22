@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f42c17d2_81eede8e",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-22T11:49:04Z",
+      "side": 1,
+      "message": "See https://cs.bazel.build/search?q\u003dimport.%2acom%5c.google%5c.gerrit%5c.extensions%5c.api.%2a%28Input%7cInfo%29%3b%20r%3aplugin\u0026num\u003d150\n\nquite a bit of them; not so many it\u0027s impossible but significant work.",
+      "parentUuid": "8e73bb29_2f5cb7c6",
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d6151065_50f756a0",
         "filename": "java/com/google/gerrit/server/restapi/project/entities.proto",
         "patchSetId": 4
@@ -90,6 +108,30 @@
       "side": 1,
       "message": "Maybe. I couldn\u0027t find a strong reason, but here are some differences.\n  * proto3 removed support for required fields\n  * proto3 does not have custom default values\n  * proto3 enums require an entry with the value 0 to act as default. Proto2 uses the first entry in the enum declaration as the default.\n  * proto3 validates strings are appropriately UTF-8 encoded.\n  * proto3 defines a canonical JSON specification for all features.\n\nI\u0027m not sure if the last point is beneficial to us, since we\u0027ll be converting protos to JSON at the end. \n\nDocs also mentioned that proto3 had shortcomings that were actually resolved.",
       "parentUuid": "d6151065_50f756a0",
+      "range": {
+        "startLine": 15,
+        "startChar": 10,
+        "endLine": 15,
+        "endChar": 16
+      },
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85484bcf_c08c4ed6",
+        "filename": "java/com/google/gerrit/server/restapi/project/entities.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-22T11:49:04Z",
+      "side": 1,
+      "message": "\u003e proto3 defines a canonical JSON specification for all features.\n\nI wonder what that means. (Our timestamp serialization is probably something where we don\u0027t want the \u0027canonical\u0027 JSON)",
+      "parentUuid": "ea57b7e2_7e41284b",
       "range": {
         "startLine": 15,
         "startChar": 10,
@@ -137,6 +179,30 @@
       "side": 1,
       "message": "Done\n\nChanged the package to com.google.gerrit.proto and renamed the file to \"project.proto\".",
       "parentUuid": "3c3e602c_e79659a3",
+      "range": {
+        "startLine": 19,
+        "startChar": 24,
+        "endLine": 19,
+        "endChar": 63
+      },
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d11f0554_bd0cba5b",
+        "filename": "java/com/google/gerrit/server/restapi/project/entities.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-22T11:49:04Z",
+      "side": 1,
+      "message": "but you\u0027d want com.google.gerrit.extensions.api.config instead, no?",
+      "parentUuid": "c92ff8d7_ecfbbf49",
       "range": {
         "startLine": 19,
         "startChar": 24,
@@ -231,6 +297,30 @@
       "side": 1,
       "message": "Yes, doing this by hand is going to be painful.\n\nI assume that nanoproto or protobuf-lite would allow us to do info.message instead of info.getMessage(). I will check these two options.",
       "parentUuid": "5f64532d_f1ae7586",
+      "range": {
+        "startLine": 367,
+        "startChar": 26,
+        "endLine": 367,
+        "endChar": 36
+      },
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57111cc1_7406a5e0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-22T11:49:04Z",
+      "side": 1,
+      "message": "I\u0027m 90% sure nanoproto will let you do that. The downside is that nanoproto deprecated inside google, so it\u0027s likely an uphill battle. The upside is that there was a nano2lite project, that presumably had tooling to rewrite code automatically.",
+      "parentUuid": "7cbe2027_b1f57960",
       "range": {
         "startLine": 367,
         "startChar": 26,

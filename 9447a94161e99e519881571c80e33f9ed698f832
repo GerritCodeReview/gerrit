@@ -46,6 +46,30 @@
       },
       "revId": "9447a94161e99e519881571c80e33f9ed698f832",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ee88285_88a50464",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-22T09:43:12Z",
+      "side": 1,
+      "message": "I just checked the ChangeMessageInfo type and it defines tag to be an optional property.\nI decided to update the parameter to reflect the same.\n\nThe method _computeMessageContent should probably be updated to use optional properties instead of default values.\nI created change 292035 for that.",
+      "parentUuid": "064e0257_2e6723a0",
+      "range": {
+        "startLine": 276,
+        "startChar": 39,
+        "endLine": 276,
+        "endChar": 62
+      },
+      "revId": "9447a94161e99e519881571c80e33f9ed698f832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

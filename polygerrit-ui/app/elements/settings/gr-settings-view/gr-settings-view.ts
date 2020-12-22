@@ -69,21 +69,6 @@ import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
 
-const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
-  'changes_per_page',
-  'date_format',
-  'time_format',
-  'email_strategy',
-  'diff_view',
-  'publish_comments_on_push',
-  'work_in_progress_by_default',
-  'default_base_for_merges',
-  'signed_off_by',
-  'email_format',
-  'size_bar_in_change_table',
-  'relative_date_in_change_table',
-];
-
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
 const GERRIT_DOCS_FILTER_PATH = '/user-notify.html';
@@ -91,11 +76,6 @@ const ABSOLUTE_URL_PATTERN = /^https?:/;
 const TRAILING_SLASH_PATTERN = /\/$/;
 
 const HTTP_AUTH = ['HTTP', 'HTTP_LDAP'];
-
-enum CopyPrefsDirection {
-  PrefsToLocalPrefs,
-  LocalPrefsToPrefs,
-}
 
 type LocalMenuItemInfo = Omit<TopMenuItemInfo, 'id'>;
 
@@ -240,7 +220,7 @@ export class GrSettingsView extends ChangeTableMixin(
         }
         this.prefs = prefs;
         this._showNumber = !!prefs.legacycid_in_change_table;
-        this._copyPrefs(CopyPrefsDirection.PrefsToLocalPrefs);
+        this._localPrefs = {...prefs};
         this._cloneMenu(prefs.my);
         this._cloneChangeTableColumns(prefs.change_table);
       })
@@ -323,21 +303,6 @@ export class GrSettingsView extends ChangeTableMixin(
 
   _isLoading() {
     return this._loading || this._loading === undefined;
-  }
-
-  _copyPrefs(direction: CopyPrefsDirection) {
-    let to;
-    let from;
-    if (direction === CopyPrefsDirection.LocalPrefsToPrefs) {
-      from = this._localPrefs;
-      to = 'prefs';
-    } else {
-      from = this.prefs;
-      to = '_localPrefs';
-    }
-    for (let i = 0; i < PREFS_SECTION_FIELDS.length; i++) {
-      this.set([to, PREFS_SECTION_FIELDS[i]], from[PREFS_SECTION_FIELDS[i]]);
-    }
   }
 
   _cloneMenu(prefs: TopMenuItemInfo[]) {
@@ -427,7 +392,7 @@ export class GrSettingsView extends ChangeTableMixin(
   }
 
   _handleSavePreferences() {
-    this._copyPrefs(CopyPrefsDirection.LocalPrefsToPrefs);
+    this.prefs = {...this._localPrefs};
 
     return this.restApiService.savePreferences(this.prefs).then(() => {
       this._prefsChanged = false;

@@ -365,7 +365,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   draftCommentThreads: CommentThread[] | undefined;
 
   @property({type: Boolean})
-  _isResolvedPatchsetLevelComment = true;
+  _isResolvedPatchsetLevelComment = false;
 
   @property({type: Array, computed: '_computeAllReviewers(_reviewers.*)'})
   _allReviewers: (AccountInfo | GroupInfo)[] = [];

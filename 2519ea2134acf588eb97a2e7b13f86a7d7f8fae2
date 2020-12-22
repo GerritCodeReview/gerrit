@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "936877ec_4dc23549",
+        "filename": "lib/nongoogle_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-22T07:59:14Z",
+      "side": 1,
+      "message": "This was removed upstream. We could upgrade to 5.0.0 later. I uploaded change 288344 to upgrade to guice 5.0.0-BETA-1.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 20
+      },
+      "revId": "2519ea2134acf588eb97a2e7b13f86a7d7f8fae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

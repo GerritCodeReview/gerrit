@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1eb9dbc_dc94c291",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-22T11:48:12Z",
+      "side": 1,
+      "message": "This series needs a test that makes sure field names are translated correctly. We have quite some JSON tests already in com.google.gerrit.acceptance.rest. Maybe there is something there you can piggy bank on there.",
+      "revId": "52cbb20adbef256c5b390ba7314fd9ba0c03c67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94408d58_6b56c026",
+        "filename": "java/com/google/gerrit/server/restapi/project/project.proto",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-22T11:48:12Z",
+      "side": 1,
+      "message": "This should not live under java/, but rather in proto/",
+      "revId": "52cbb20adbef256c5b390ba7314fd9ba0c03c67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ab782ae_8d95809e",
+        "filename": "java/com/google/gerrit/server/restapi/project/project.proto",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-22T11:48:12Z",
+      "side": 1,
+      "message": "I would not be so fine-grained here. Rather have a single \"entities\" (or a better name maybe \u0027api\u0027) proto package where all the API entities reside.",
+      "range": {
+        "startLine": 17,
+        "startChar": 41,
+        "endLine": 17,
+        "endChar": 48
+      },
+      "revId": "52cbb20adbef256c5b390ba7314fd9ba0c03c67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

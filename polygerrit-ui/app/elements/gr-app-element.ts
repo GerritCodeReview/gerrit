@@ -272,9 +272,7 @@ export class GrAppElement extends KeyboardShortcutMixin(
         offset: 0,
         selectedChangeIndex: 0,
       },
-      dashboardView: {
-        selectedChangeIndex: 0,
-      },
+      dashboardView: {},
     };
   }
 

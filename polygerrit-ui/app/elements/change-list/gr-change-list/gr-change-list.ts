@@ -393,6 +393,7 @@ export class GrChangeList extends ChangeTableMixin(
 
     e.preventDefault();
     this.$.cursor.next();
+    this.selectedIndex = this.$.cursor.index;
   }
 
   _prevChange(e: CustomKeyboardEvent) {
@@ -402,6 +403,7 @@ export class GrChangeList extends ChangeTableMixin(
 
     e.preventDefault();
     this.$.cursor.previous();
+    this.selectedIndex = this.$.cursor.index;
   }
 
   _openChange(e: CustomKeyboardEvent) {
@@ -521,6 +523,8 @@ export class GrChangeList extends ChangeTableMixin(
     afterNextRender(this, () => {
       this.$.cursor.stops = this._getListItems();
       this.$.cursor.moveToStart();
+      if (this.selectedIndex)
+        this.$.cursor.setCursorAtIndex(this.selectedIndex);
     });
   }
 

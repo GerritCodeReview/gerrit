@@ -388,6 +388,26 @@ suite('gr-dashboard-view tests', () => {
     };
   });
 
+  test('selectedChangeIndex is derived from the params', () => {
+    stubRestApi('getDashboard').returns(Promise.resolve({
+      title: 'title',
+      sections: [],
+    }));
+    element.viewState = {
+      101001: 23,
+    };
+    element.params = {
+      view: GerritNav.View.DASHBOARD,
+      project: 'project',
+      dashboard: 'dashboard',
+      user: '101001',
+    };
+    sinon.stub(element.reporting, 'dashboardDisplayed');
+    paramsChangedPromise.then(() => {
+      assert.equal(element._selectedChangeIndex, 23);
+    });
+  });
+
   test('params change triggers dashboardDisplayed()', async () => {
     stubRestApi('getDashboard').returns(Promise.resolve({
       title: 'title',

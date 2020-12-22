@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "726ec764_7b8b1560",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-22T15:48:10Z",
+      "side": 1,
+      "message": "Is this property required? Seems like if\u003d\"[[item.file]]\" should work and showChip can be removed",
+      "range": {
+        "startLine": 161,
+        "startChar": 40,
+        "endLine": 161,
+        "endChar": 48
+      },
+      "revId": "dfc9f104b1774561898e9709485de974970f8647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

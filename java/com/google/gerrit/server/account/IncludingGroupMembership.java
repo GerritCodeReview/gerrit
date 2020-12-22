@@ -14,11 +14,12 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -40,18 +41,18 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class IncludingGroupMembership implements GroupMembership {
   public interface Factory {
-    IncludingGroupMembership create(IdentifiedUser user);
+    IncludingGroupMembership create(CurrentUser user);
   }
 
   private final GroupCache groupCache;
   private final GroupIncludeCache includeCache;
-  private final IdentifiedUser user;
+  private final CurrentUser user;
   private final Map<AccountGroup.UUID, Boolean> memberOf;
   private Set<AccountGroup.UUID> knownGroups;
 
   @Inject
   IncludingGroupMembership(
-      GroupCache groupCache, GroupIncludeCache includeCache, @Assisted IdentifiedUser user) {
+      GroupCache groupCache, GroupIncludeCache includeCache, @Assisted CurrentUser user) {
     this.groupCache = groupCache;
     this.includeCache = includeCache;
     this.user = user;
@@ -93,7 +94,7 @@ public class IncludingGroupMembership implements GroupMembership {
         if (!group.isPresent()) {
           continue;
         }
-        if (group.get().getMembers().contains(user.getAccountId())) {
+        if (user.isIdentifiedUser() && group.get().getMembers().contains(user.getAccountId())) {
           memberOf.put(id, true);
           return true;
         }
@@ -124,7 +125,10 @@ public class IncludingGroupMembership implements GroupMembership {
 
   private ImmutableSet<AccountGroup.UUID> computeKnownGroups() {
     GroupMembership membership = user.getEffectiveGroups();
-    Collection<AccountGroup.UUID> direct = includeCache.getGroupsWithMember(user.getAccountId());
+    Collection<AccountGroup.UUID> direct =
+        user.isIdentifiedUser()
+            ? includeCache.getGroupsWithMember(user.getAccountId())
+            : ImmutableList.of();
     direct.forEach(groupUuid -> memberOf.put(groupUuid, true));
     Set<AccountGroup.UUID> r = Sets.newHashSet(direct);
     r.remove(null);

@@ -27,7 +27,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.StartupCheck;
 import com.google.gerrit.server.StartupException;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -94,14 +94,14 @@ public class UniversalGroupBackend implements GroupBackend {
   }
 
   @Override
-  public GroupMembership membershipsOf(IdentifiedUser user) {
+  public GroupMembership membershipsOf(CurrentUser user) {
     return new UniversalGroupMembership(user);
   }
 
   private class UniversalGroupMembership implements GroupMembership {
     private final Map<GroupBackend, GroupMembership> memberships;
 
-    private UniversalGroupMembership(IdentifiedUser user) {
+    private UniversalGroupMembership(CurrentUser user) {
       ImmutableMap.Builder<GroupBackend, GroupMembership> builder = ImmutableMap.builder();
       backends.runEach(g -> builder.put(g, g.membershipsOf(user)));
       this.memberships = builder.build();

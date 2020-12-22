@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -126,6 +127,14 @@ public abstract class CurrentUser {
   public Account.Id getAccountId() {
     throw new UnsupportedOperationException(
         getClass().getSimpleName() + " is not an IdentifiedUser");
+  }
+
+  /**
+   * Returns all {@link ExternalId.Key}s associated with this user. For {@link AnonymousUser} and
+   * other users that don't represent a person user or service account, this set will be empty.
+   */
+  public ImmutableSet<ExternalId.Key> getExternalIdKeys() {
+    return ImmutableSet.of();
   }
 
   /** Check if the CurrentUser is an InternalUser. */

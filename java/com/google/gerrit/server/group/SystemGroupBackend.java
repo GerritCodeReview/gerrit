@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StartupCheck;
 import com.google.gerrit.server.StartupException;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.ExternalUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -90,6 +92,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   private final SortedMap<String, GroupReference> namesToGroups;
   private final ImmutableSet<String> names;
   private final ImmutableMap<AccountGroup.UUID, GroupReference> uuids;
+  private final ImmutableSet<AccountGroup.UUID> externalUserMemberships;
 
   @Inject
   @VisibleForTesting
@@ -114,6 +117,10 @@ public class SystemGroupBackend extends AbstractGroupBackend {
         ImmutableSet.copyOf(
             namesToGroups.values().stream().map(GroupReference::getName).collect(toSet()));
     uuids = u.build();
+    externalUserMemberships =
+        cfg.getBoolean("groups", null, "includeExternalUsersInRegisteredUsersGroup", true)
+            ? ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS)
+            : ImmutableSet.of(ANONYMOUS_USERS);
   }
 
   public GroupReference getGroup(AccountGroup.UUID uuid) {
@@ -182,8 +189,14 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   }
 
   @Override
-  public GroupMembership membershipsOf(IdentifiedUser user) {
-    return new ListGroupMembership(ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS));
+  public GroupMembership membershipsOf(CurrentUser user) {
+    if (user instanceof ExternalUser) {
+      return new ListGroupMembership(externalUserMemberships);
+    }
+    if (user instanceof IdentifiedUser) {
+      return new ListGroupMembership(ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS));
+    }
+    return new ListGroupMembership(ImmutableSet.of(ANONYMOUS_USERS));
   }
 
   public static class NameCheck implements StartupCheck {

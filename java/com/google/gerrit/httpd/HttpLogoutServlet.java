@@ -73,11 +73,10 @@ public class HttpLogoutServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-
-    final String sid = webSession.get().getSessionId();
-    final CurrentUser currentUser = webSession.get().getUser();
-    final String what = "sign out";
-    final long when = TimeUtil.nowMs();
+    String sid = webSession.get().getSessionId();
+    CurrentUser currentUser = webSession.get().getUser();
+    String what = "sign out";
+    long when = TimeUtil.nowMs();
 
     try {
       doLogout(req, rsp);

@@ -30,12 +30,6 @@ import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {Timestamp} from '../../../types/common';
 
 /**
- * fired when the selected value of the dropdown changes
- *
- * @event {change}
- */
-
-/**
  * Requred values are text and value. mobileText and triggerText will
  * fall back to text if not provided.
  *

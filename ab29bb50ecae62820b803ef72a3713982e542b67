@@ -34,6 +34,24 @@
       "parentUuid": "86691839_64c45038",
       "revId": "ab29bb50ecae62820b803ef72a3713982e542b67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f27b63f_e6d9b726",
+        "filename": "java/com/google/gerrit/httpd/restapi/ParameterParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-22T15:48:31Z",
+      "side": 1,
+      "message": "How about a normal integration test?\n\nYou can just define your own little singleton REST handler and make sure it doesn\u0027t parse things. You can find an example here: PluginProvidedRootRestApiBindingsIT\n\n\nThe alternative is to create an injector on your own. From that you can create a\nDynamicOptions: new DynamicOptions(inj, DynamicMap.emptyMap())\n\nThe injector needs a binding for CmdLineParser.Factory, hence OptionHandlers which you could try binding to #empty or an actual class based on a parent injector.",
+      "parentUuid": "4036b657_f81d8285",
+      "revId": "ab29bb50ecae62820b803ef72a3713982e542b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

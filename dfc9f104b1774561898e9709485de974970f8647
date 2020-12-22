@@ -22,6 +22,30 @@
       },
       "revId": "dfc9f104b1774561898e9709485de974970f8647",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7451f279_8ed29ce5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-22T15:57:38Z",
+      "side": 1,
+      "message": "Yeah I thought showChip was better was readability since we might send a file later but not want the chip to be shown(basically sending a file does not necessarily guarantee showing the chip).\n\nUpdated to remove this property now.",
+      "parentUuid": "726ec764_7b8b1560",
+      "range": {
+        "startLine": 161,
+        "startChar": 40,
+        "endLine": 161,
+        "endChar": 48
+      },
+      "revId": "dfc9f104b1774561898e9709485de974970f8647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

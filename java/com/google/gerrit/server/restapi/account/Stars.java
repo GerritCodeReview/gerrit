@@ -46,6 +46,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
+/**
+ * Implements adding label stars to changes.
+ *
+ * <p>This handles {@code PUT /accounts/<account-identifier>/stars.changes/<change ID>}. This does
+ * not check for visibility of the change itself, but as we don't reveal any data of the change
+ * itself, that is OK.
+ */
 @Singleton
 public class Stars implements ChildCollection<AccountResource, AccountResource.Star> {
 

@@ -60,8 +60,7 @@ public class GetSshKeys implements RestReadView<AccountResource> {
 
   @Override
   public Response<List<SshKeyInfo>> apply(AccountResource rsrc)
-      throws AuthException, RepositoryNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws AuthException, IOException, ConfigInvalidException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }

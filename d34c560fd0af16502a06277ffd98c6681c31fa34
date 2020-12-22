@@ -329,6 +329,30 @@
       },
       "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e3a79bb_ca88437a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-22T11:50:07Z",
+      "side": 1,
+      "message": "(so maybe you can look into how they executed the nano2lite migration, and see if there is tooling that would let us do this in one big bang)",
+      "parentUuid": "57111cc1_7406a5e0",
+      "range": {
+        "startLine": 367,
+        "startChar": 26,
+        "endLine": 367,
+        "endChar": 36
+      },
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

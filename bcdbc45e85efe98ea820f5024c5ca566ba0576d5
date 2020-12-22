@@ -34,6 +34,24 @@
       "parentUuid": "80231683_b6370a42",
       "revId": "bcdbc45e85efe98ea820f5024c5ca566ba0576d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "115e9565_5c3205c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-22T19:40:15Z",
+      "side": 1,
+      "message": "we\u0027re tracking this internally as b/176094888; hopefully we can get it fixed in Soy proper.\n\nThe problem is that template rendering went from 9ms to 30ms. We render quite a few templates for a single email, so adds ~120ms to each operation that sends out an email. \n\nFor now, it may be wise to revert this particular upgrade, but given the holiday season, we should wait until the new year.",
+      "parentUuid": "35dc4bfa_c9fcd524",
+      "revId": "bcdbc45e85efe98ea820f5024c5ca566ba0576d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

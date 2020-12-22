@@ -1,4 +1,5 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
 GUAVA_VERSION = "29.0-jre"
 GUAVA_BIN_SHA1 = "801142b4c3d0f0770dd29abea50906cacfddd447"
@@ -143,6 +144,36 @@ def declare_nongoogle_deps():
         name = "guava",
         artifact = "com.google.guava:guava:" + GUAVA_VERSION,
         sha1 = GUAVA_BIN_SHA1,
+    )
+
+    GUICE_VERS = "4.2.3"
+
+    GUICE_LIBRARY_SHA256 = "5168f5e7383f978c1b4154ac777b78edd8ac214bb9f9afdb92921c8d156483d3"
+
+    http_file(
+        name = "guice-library-no-aop",
+        canonical_id = "guice-library-no-aop-" + GUICE_VERS + ".jar-" + GUICE_LIBRARY_SHA256,
+        downloaded_file_path = "guice-library-no-aop.jar",
+        sha256 = GUICE_LIBRARY_SHA256,
+        urls = [
+            "https://repo1.maven.org/maven2/com/google/inject/guice/" +
+            GUICE_VERS +
+            "/guice-" +
+            GUICE_VERS +
+            "-no_aop.jar",
+        ],
+    )
+
+    maven_jar(
+        name = "guice-assistedinject",
+        artifact = "com.google.inject.extensions:guice-assistedinject:" + GUICE_VERS,
+        sha1 = "acbfddc556ee9496293ed1df250cc378f331d854",
+    )
+
+    maven_jar(
+        name = "guice-servlet",
+        artifact = "com.google.inject.extensions:guice-servlet:" + GUICE_VERS,
+        sha1 = "8d6e7e35eac4fb5e7df19c55b3bc23fa51b10a11",
     )
 
     # Test-only dependencies below.

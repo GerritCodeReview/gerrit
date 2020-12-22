@@ -92,15 +92,15 @@ suite('gr-change-table-mixin tests', () => {
     assert.isTrue(element.isColumnHidden(columnToCheck, columnsToDisplay));
   });
 
-  test('getVisibleColumns maps Project to Repo', () => {
+  test('updateProjectColumnNameToRepo maps Project to Repo', () => {
     const columns = [
       'Subject',
       'Status',
       'Owner',
     ];
-    assert.deepEqual(element.getVisibleColumns(columns), columns.slice(0));
+    assert.deepEqual(element.updateProjectColumnNameToRepo(columns), columns.slice(0));
     assert.deepEqual(
-        element.getVisibleColumns(columns.concat(['Project'])),
+        element.updateProjectColumnNameToRepo(columns.concat(['Project'])),
         columns.slice(0).concat(['Repo']));
   });
 });

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e73bb29_2f5cb7c6",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-22T11:19:13Z",
+      "side": 1,
+      "message": "For third party plugins that are available in google3, I couldn\u0027t find any extensions to the APIs interfaces.\nI asked the community about other plugins.",
+      "parentUuid": "c2566c10_62da40f2",
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6151065_50f756a0",
@@ -48,6 +66,30 @@
       "writtenOn": "2020-12-21T19:20:06Z",
       "side": 1,
       "message": "Should we consider consider proto3 ?",
+      "range": {
+        "startLine": 15,
+        "startChar": 10,
+        "endLine": 15,
+        "endChar": 16
+      },
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea57b7e2_7e41284b",
+        "filename": "java/com/google/gerrit/server/restapi/project/entities.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-22T11:19:13Z",
+      "side": 1,
+      "message": "Maybe. I couldn\u0027t find a strong reason, but here are some differences.\n  * proto3 removed support for required fields\n  * proto3 does not have custom default values\n  * proto3 enums require an entry with the value 0 to act as default. Proto2 uses the first entry in the enum declaration as the default.\n  * proto3 validates strings are appropriately UTF-8 encoded.\n  * proto3 defines a canonical JSON specification for all features.\n\nI\u0027m not sure if the last point is beneficial to us, since we\u0027ll be converting protos to JSON at the end. \n\nDocs also mentioned that proto3 had shortcomings that were actually resolved.",
+      "parentUuid": "d6151065_50f756a0",
       "range": {
         "startLine": 15,
         "startChar": 10,
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c92ff8d7_ecfbbf49",
+        "filename": "java/com/google/gerrit/server/restapi/project/entities.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-22T11:19:13Z",
+      "side": 1,
+      "message": "Done\n\nChanged the package to com.google.gerrit.proto and renamed the file to \"project.proto\".",
+      "parentUuid": "3c3e602c_e79659a3",
+      "range": {
+        "startLine": 19,
+        "startChar": 24,
+        "endLine": 19,
+        "endChar": 63
+      },
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b07bd7f3_259c45ab",
@@ -104,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3808a73a_48bcc96a",
+        "filename": "java/com/google/gerrit/server/restapi/project/entities.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-22T11:19:13Z",
+      "side": 1,
+      "message": "OK, I migrated to proto3.",
+      "parentUuid": "b07bd7f3_259c45ab",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 10
+      },
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f64532d_f1ae7586",
@@ -117,6 +207,30 @@
       "writtenOn": "2020-12-21T19:20:06Z",
       "side": 1,
       "message": "I wonder if we should consider nanoproto or protobuf-lite to avoid the churn here. could you use automated refactoring tools? Doing this by hand will be painful.",
+      "range": {
+        "startLine": 367,
+        "startChar": 26,
+        "endLine": 367,
+        "endChar": 36
+      },
+      "revId": "d34c560fd0af16502a06277ffd98c6681c31fa34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cbe2027_b1f57960",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-12-22T11:19:13Z",
+      "side": 1,
+      "message": "Yes, doing this by hand is going to be painful.\n\nI assume that nanoproto or protobuf-lite would allow us to do info.message instead of info.getMessage(). I will check these two options.",
+      "parentUuid": "5f64532d_f1ae7586",
       "range": {
         "startLine": 367,
         "startChar": 26,

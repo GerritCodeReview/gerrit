@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3499f56f_4d9a8a48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2020-12-22T11:46:16Z",
+      "side": 1,
+      "message": "I am preparing Wikimedia upgrade to Gerrit 3.3 and I am very happy to see the attention set feature is documented for the end users audience.  This slightly improve the documentation to give a bit more context when upgrading.  There seems to be an obsolete paragraph about creating \u0027Service Users\u0027 group which can probably be removed, see inline comments for detail :)",
+      "revId": "15c87c6ec28ccf8ca26afee4a95335248e0064cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3cc65d0_55ff7e70",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2020-12-22T11:46:16Z",
+      "side": 1,
+      "message": "That is an AsciiDoc anchor , the syntax is described at https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/#links\n\nIt results in the HTML:\n\n \u003cp\u003e\n  \u003ca href\u003d\"#non-interactive_users\"\u003e\u003c/a\u003e\n \u003c/p\u003e\n\nWhich is essentially empty content which does not show up when browsing the page.\n\n\nWe can\u0027t add two anchors to a header since that is used as the id of the \u003ch3\u003e element and we can\u0027t have two ids on an element.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 30
+      },
+      "revId": "15c87c6ec28ccf8ca26afee4a95335248e0064cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ead0b987_fde82d07",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2020-12-22T11:46:16Z",
+      "side": 1,
+      "message": "That part got added by Gal Paikin most probably while the feature was being developed and before we had a schema upgrade to create or rename the \u0027Non-Interactive Users\u0027 group.  I believe it should be removed entirely since schema 184 takes care of the creation / renaming.",
+      "range": {
+        "startLine": 175,
+        "startChar": 42,
+        "endLine": 178,
+        "endChar": 69
+      },
+      "revId": "15c87c6ec28ccf8ca26afee4a95335248e0064cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

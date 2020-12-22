@@ -241,7 +241,7 @@ export class GrSettingsView extends ChangeTableMixin(
         this.prefs = prefs;
         this._showNumber = !!prefs.legacycid_in_change_table;
         this._copyPrefs(CopyPrefsDirection.PrefsToLocalPrefs);
-        this._cloneMenu(prefs.my);
+        this._localMenu = this._cloneMenu(prefs.my);
         this._cloneChangeTableColumns(prefs.change_table);
       })
     );
@@ -341,15 +341,10 @@ export class GrSettingsView extends ChangeTableMixin(
   }
 
   _cloneMenu(prefs: TopMenuItemInfo[]) {
-    const menu = [];
-    for (const item of prefs) {
-      menu.push({
-        name: item.name,
-        url: item.url,
-        target: item.target,
-      });
-    }
-    this._localMenu = menu;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return prefs.map(({id, ...item}) => {
+      return item;
+    });
   }
 
   _cloneChangeTableColumns(changeTable: string[]) {
@@ -437,7 +432,6 @@ export class GrSettingsView extends ChangeTableMixin(
   _handleSaveChangeTable() {
     this.set('prefs.change_table', this._localChangeTableColumns);
     this.set('prefs.legacycid_in_change_table', this._showNumber);
-    this._cloneChangeTableColumns(this._localChangeTableColumns);
     return this.restApiService.savePreferences(this.prefs).then(() => {
       this._changeTableChanged = false;
     });
@@ -453,7 +447,6 @@ export class GrSettingsView extends ChangeTableMixin(
 
   _handleSaveMenu() {
     this.set('prefs.my', this._localMenu);
-    this._cloneMenu(this._localMenu);
     return this.restApiService.savePreferences(this.prefs).then(() => {
       this._menuChanged = false;
     });
@@ -462,7 +455,7 @@ export class GrSettingsView extends ChangeTableMixin(
   _handleResetMenuButton() {
     return this.restApiService.getDefaultPreferences().then(data => {
       if (data?.my) {
-        this._cloneMenu(data.my);
+        this._localMenu = this._cloneMenu(data.my);
       }
     });
   }

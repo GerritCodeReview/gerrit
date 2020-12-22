@@ -85,7 +85,10 @@ module.exports = {
       capIsNewExceptionPattern: '^.*Mixin$',
     }],
     // https://eslint.org/docs/rules/no-console
-    'no-console': ['error', {allow: ['warn', 'error', 'info', 'assert', 'group', 'groupEnd']}],
+    'no-console': [
+      'error',
+      {allow: ['warn', 'error', 'info', 'assert', 'group', 'groupEnd']},
+    ],
     // https://eslint.org/docs/rules/no-multiple-empty-lines
     'no-multiple-empty-lines': ['error', {max: 1}],
     // https://eslint.org/docs/rules/no-prototype-builtins
@@ -102,11 +105,13 @@ module.exports = {
     'no-restricted-syntax': [
       'error',
       {
-        selector: 'ExpressionStatement > CallExpression > MemberExpression[object.name=\'test\'][property.name=\'only\']',
+        selector: 'ExpressionStatement > CallExpression > ' +
+            'MemberExpression[object.name=\'test\'][property.name=\'only\']',
         message: 'Remove test.only.',
       },
       {
-        selector: 'ExpressionStatement > CallExpression > MemberExpression[object.name=\'suite\'][property.name=\'only\']',
+        selector: 'ExpressionStatement > CallExpression > ' +
+            'MemberExpression[object.name=\'suite\'][property.name=\'only\']',
         message: 'Remove suite.only.',
       },
     ],
@@ -246,6 +251,14 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['.eslintrc.js', '.eslintrc-bazel.js'],
+      env: {
+        browser: false,
+        es6: true,
+        node: true,
+      },
+    },
+    {
       // .js-only rules
       files: ['**/*.js'],
       rules: {
@@ -273,7 +286,10 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'error',
         // The following rules is required to match internal google rules
         '@typescript-eslint/restrict-plus-operands': 'error',
-        '@typescript-eslint/no-unused-vars': ['error', {argsIgnorePattern: '^_'}],
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          {argsIgnorePattern: '^_'},
+        ],
         // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
         'node/no-unsupported-features/node-builtins': 'off',
         // Disable no-invalid-this for ts files, because it incorrectly reports
@@ -324,7 +340,6 @@ module.exports = {
         expect: 'readonly',
         fixture: 'readonly',
         flush: 'readonly',
-        flushAsynchronousOperations: 'readonly',
         setup: 'readonly',
         sinon: 'readonly',
         stub: 'readonly',

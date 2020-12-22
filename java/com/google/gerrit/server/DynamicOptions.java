@@ -137,18 +137,20 @@ public class DynamicOptions implements AutoCloseable {
 
   /**
    * The entity which provided additional options may need a way to receive a reference to the
-   * DynamicBean it provided. To do so, the existing class should implement BeanReceiver (a setter)
-   * and then provide some way for the plugin to request its DynamicBean (a getter.) For example:
+   * DynamicBean it provided (or) to the DynamicBean provided by other plugin. To do so, the
+   * existing class should implement BeanReceiver (a setter) and then provide some way for the
+   * plugin to request for a DynamicBean (a getter.) For example:
    *
    * <pre>
-   *   public class Query extends SshCommand implements DynamicOptions.BeanReceiver {
-   *       public void setDynamicBean(String plugin, DynamicOptions.DynamicBean dynamicBean) {
-   *         dynamicBeans.put(plugin, dynamicBean);
-   *       }
+   *   public class Query extends SshCommand implements DynamicOptions.BeanReceiver,
+   *       DynamicOptions.BeanProvider {
+   *     public void setDynamicBean(String plugin, DynamicOptions.DynamicBean dynamicBean) {
+   *       dynamicBeans.put(plugin, dynamicBean);
+   *     }
    *
-   *       public DynamicOptions.DynamicBean getDynamicBean(String plugin) {
-   *         return dynamicBeans.get(plugin);
-   *       }
+   *     public DynamicOptions.DynamicBean getDynamicBean(String plugin) {
+   *       return dynamicBeans.get(plugin);
+   *     }
    *   ...
    *   }
    * }

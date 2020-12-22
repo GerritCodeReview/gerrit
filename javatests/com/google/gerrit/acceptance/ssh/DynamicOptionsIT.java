@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.ssh;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.query.change.OutputStreamQuery.GSON;
 import static junit.framework.TestCase.assertEquals;
 
@@ -21,9 +22,11 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDynamicOptionsTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Module;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 
@@ -44,6 +47,32 @@ public class DynamicOptionsIT extends AbstractDynamicOptionsTest {
       adminSshSession.assertSuccess();
       assertEquals(Lists.newArrayList("sample1", "sample2"), samples);
     }
+  }
+
+  @Test
+  public void testDynamicBeanProvider() throws Exception {
+    try (AutoCloseable ignored1 =
+            installPlugin(PLUGIN_THREE, AbstractDynamicOptionsTest.PluginThreeModule.class);
+        AutoCloseable ignored2 =
+            installPlugin(PLUGIN_FOUR, AbstractDynamicOptionsTest.PluginFourModule.class)) {
+      createChange();
+      List<ChangeAttribute> changes =
+          getChanges(adminSshSession.exec("gerrit query --format json status:open"));
+      adminSshSession.assertSuccess();
+      assertThat(changes).hasSize(1);
+      assertThat(changes.get(0).plugins).isNotNull();
+      assertThat(changes.get(0).plugins).hasSize(1);
+      assertThat(changes.get(0).plugins.get(0).message).isEqualTo("test_data");
+    }
+  }
+
+  protected static List<ChangeAttribute> getChanges(String rawResponse) {
+    String[] lines = rawResponse.split("\\n");
+    List<ChangeAttribute> changes = new ArrayList<>(lines.length - 1);
+    for (int i = 0; i < lines.length - 1; i++) {
+      changes.add(GSON.fromJson(lines[i], ChangeAttribute.class));
+    }
+    return changes;
   }
 
   protected List<String> getSamplesList(String sshOutput) throws IOException {

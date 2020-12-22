@@ -17,12 +17,18 @@ package com.google.gerrit.acceptance;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.common.PluginDefinedInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.DynamicOptions;
+import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.SshCommand;
+import com.google.gerrit.sshd.commands.Query;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -30,11 +36,18 @@ import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AbstractDynamicOptionsTest extends AbstractDaemonTest {
   protected static final String LS_SAMPLES = "ls-samples";
+  protected static final String PLUGIN_THREE = "plugin-three";
+  protected static final String PLUGIN_FOUR = "plugin-four";
 
   protected interface Bean {
     void setSamples(List<String> samples);
@@ -112,6 +125,59 @@ public class AbstractDynamicOptionsTest extends AbstractDaemonTest {
     @Override
     public String getClassName() {
       return "com.google.gerrit.acceptance.AbstractDynamicOptionsTest$ListSamplesOptions";
+    }
+  }
+
+  protected interface MyBean {
+    public String getData();
+  }
+
+  protected static class MyBeanImpl implements MyBean, DynamicOptions.DynamicBean {
+    @Override
+    public String getData() {
+      return "test_data";
+    }
+  }
+
+  protected static class PluginThreeModule extends AbstractModule {
+    @Override
+    public void configure() {
+      bind(DynamicOptions.DynamicBean.class)
+          .annotatedWith(Exports.named(Query.class))
+          .to(MyBeanImpl.class);
+    }
+  }
+
+  protected static class PluginFourAttributeFactory implements ChangePluginDefinedInfoFactory {
+    @Override
+    public Map<Change.Id, PluginDefinedInfo> createPluginDefinedInfos(
+        Collection<ChangeData> cds, DynamicOptions.BeanProvider beanProvider, String plugin) {
+      Map<Change.Id, PluginDefinedInfo> out = new HashMap<>();
+      PluginDefinedInfo pluginDefinedInfo = new PluginDefinedInfo();
+      pluginDefinedInfo.message = getMyBean(beanProvider).getData();
+      cds.forEach(cd -> out.put(cd.getId(), pluginDefinedInfo));
+      return out;
+    }
+  }
+
+  protected static MyBean getMyBean(DynamicOptions.BeanProvider beanProvider) {
+    Object bean = beanProvider.getDynamicBean(PLUGIN_THREE);
+    return (MyBean)
+        Proxy.newProxyInstance(
+            MyBean.class.getClassLoader(),
+            new Class<?>[] {MyBean.class},
+            (proxy, method, args) -> {
+              Method beanMethod =
+                  bean.getClass().getMethod(method.getName(), method.getParameterTypes());
+              return beanMethod.invoke(bean, args);
+            });
+  }
+
+  protected static class PluginFourModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class)
+          .to(PluginFourAttributeFactory.class);
     }
   }
 }

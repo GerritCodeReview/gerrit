@@ -227,7 +227,7 @@ export class GrChangeList extends ChangeTableMixin(
         preferences && preferences.legacycid_in_change_table
       );
       if (preferences.change_table && preferences.change_table.length > 0) {
-        const prefColumns = this.getVisibleColumns(preferences.change_table);
+        const prefColumns = this.updateProjectColumnNameToRepo(preferences.change_table);
         this.visibleChangeTableColumns = this.getEnabledColumns(
           prefColumns,
           config,

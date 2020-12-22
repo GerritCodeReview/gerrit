@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cd2ee82_d2865413",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-12-22T11:20:21Z",
+      "side": 1,
+      "message": "Use-case: Plugin A provides a dynamic option (lets say --sample) for QueryChanges ssh/http request. Plugin A has custom code specific to org, --sample option uses the org specific logic and wants to invoke a generic plugin logic residing on Plugin B. \n\nThis is the use-case we are trying to address..",
+      "parentUuid": "d87629f3_fd05a914",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f54ed35b_6121eb76",

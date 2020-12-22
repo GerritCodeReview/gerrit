@@ -56,7 +56,6 @@ import org.eclipse.jgit.transport.BundleWriter;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.kohsuke.args4j.Option;
 
-@Singleton
 public class PreviewSubmit implements RestReadView<RevisionResource> {
   private static final int MAX_DEFAULT_BUNDLE_SIZE = 100 * 1024 * 1024;
 

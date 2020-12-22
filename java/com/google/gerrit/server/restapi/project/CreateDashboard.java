@@ -30,7 +30,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import org.kohsuke.args4j.Option;
 
-@Singleton
 public class CreateDashboard
     implements RestCollectionCreateView<ProjectResource, DashboardResource, SetDashboardInput> {
   private final Provider<SetDefaultDashboard> setDefault;

@@ -3394,6 +3394,37 @@ Defaults to all available options minus `CHANGE_ACTIONS`,
 config is backwards compatible with what the default was before the config
 was added.
 
+[[experiments]]
+=== Section experiments
+
+This section covers experimental new features. Gerrit's frontend uses experiments
+to research new behavior. Once the research is done, the experimental feature
+either stays and the experimentation flag gets removed, or the feature as a whole
+gets removed
+
+[[experiments.enabled]]experiments.enabled::
++
+List of experiments that are currently enabled. The release notes contain currently
+available experiments.
++
+We will not remove experiments in stable patch releases. They are likely to be
+removed in the next stable version.
+
+----
+[experiments]
+  enabled = ExperimentKey
+----
+
+[[experiments.disabled]]experiments.disabled::
++
+List of experiments that are currently disabled. The release notes contain currently
+available experiments. This list disables experiments with the given key that are
+either enabled by default or explicitly in the config.
+
+----
+[experiments]
+  disabled = ExperimentKey
+----
 
 [[ldap]]
 === Section ldap

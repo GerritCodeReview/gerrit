@@ -57,9 +57,11 @@ def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = [])
         config,
         ignore,
         "//tools/js/eslint-rules:eslint-rules-srcs",
+        "//tools/js:eslint-chdir.js",
         eslint_rules_toplevel_file,
     ] + plugins + data
     common_templated_args = [
+        "--node_options=--require=$$(rlocation $(rootpath //tools/js:eslint-chdir.js))",
         "--ext",
         ",".join(extensions),
         "-c",
@@ -85,7 +87,7 @@ def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = [])
             "*_test_require_patch.js",
             "--ignore-pattern",
             "*_test_loader.js",
-            native.package_name(),
+            "./", # Relative to the config file location
         ],
         # Should not run sandboxed.
         tags = [

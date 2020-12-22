@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cac74ce_f5aa06f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-12-22T10:32:05Z",
+      "side": 1,
+      "message": "can you kindly help me understand the diamond dependency problem with plugins...\n\n   A                  A\n /   \\              /   \\\nB     C            B     C\n \\   /             |     |\n   D               D     D1\n\nLets suppose, plugin A depends on B and C, plugin B and C depend on D. When a new version of D is release as D1 (lets say D1 has API interface changes which are being used by B and C). Lets say plugin B and C are already deployed onto server and plugin D1 is now deployed onto server in the place of D. So now plugin A, B and C will break as they are not compatible with D1. Is this use-case correct..?\n\nI think we don\u0027t support to deploy newer version of a particular plugin.., rather A1, B1, C1 (which adapts to D1 API changes) and war w1 also needs to be deployed onto the server along with D1..?",
+      "parentUuid": "6e382b6c_4ac1cd81",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f54ed35b_6121eb76",

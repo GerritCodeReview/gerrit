@@ -366,7 +366,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   draftCommentThreads: CommentThread[] | undefined;
 
   @property({type: Boolean})
-  _isResolvedPatchsetLevelComment = true;
+  _isUnresolvedPatchsetLevelComment = false;
 
   @property({type: Array, computed: '_computeAllReviewers(_reviewers.*)'})
   _allReviewers: (AccountInfo | GroupInfo)[] = [];
@@ -678,7 +678,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       if (this._isPatchsetCommentsExperimentEnabled) {
         const comment: CommentInput = {
           message: this.draft,
-          unresolved: !this._isResolvedPatchsetLevelComment,
+          unresolved: this._isUnresolvedPatchsetLevelComment,
         };
         reviewInput.comments = {
           [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [comment],

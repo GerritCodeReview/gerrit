@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e382b6c_4ac1cd81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-22T08:54:46Z",
+      "side": 1,
+      "message": "We don\u0027t support inter-plugin dependency. If it currently works, then it works by accident.\n\nThe problem with inter-plugin dependency - besides complexity - is the diamond dependency problem.\n\nI explored inter-plugin dependency in the past and the conclusion was, that with the current plugin implementation in Guice, there is no good way of supporting it. We briefly considered using more established frameworks, but it wasn\u0027t worth the investment / additional complexity.",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f54ed35b_6121eb76",
@@ -14,6 +37,23 @@
       "writtenOn": "2020-12-22T08:45:37Z",
       "side": 1,
       "message": "Hi Patrick, can you kindly review this change.., Martin and Nasser are out of office till 3rd Jan.",
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bd45184_e7ae6752",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-22T08:54:46Z",
+      "side": 1,
+      "message": "\u003e This feature is helpful in exposing an API from one\nplugin and consuming that API from other plugin.\n\nWe ",
       "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

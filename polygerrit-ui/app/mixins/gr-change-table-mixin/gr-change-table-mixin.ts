@@ -103,7 +103,7 @@ export const ChangeTableMixin = dedupingMixin(
        * @return If the column was renamed, returns a new array
        * with the corrected name. Otherwise, it returns the original param.
        */
-      getVisibleColumns(columns: string[]) {
+      renameProjectToRepoColumn(columns: string[]) {
         const projectIndex = columns.indexOf('Project');
         if (projectIndex === -1) {
           return columns;
@@ -132,5 +132,5 @@ export interface ChangeTableMixinInterface {
     config: ServerInfo,
     experiments: string[]
   ): string[];
-  getVisibleColumns(columns: string[]): string[];
+  renameProjectToRepoColumn(columns: string[]): string[];
 }

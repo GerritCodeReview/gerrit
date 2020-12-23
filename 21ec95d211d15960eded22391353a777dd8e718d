@@ -46,6 +46,30 @@
       },
       "revId": "21ec95d211d15960eded22391353a777dd8e718d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f23c3c32_4d3c4d9c",
+        "filename": "polygerrit-ui/app/mixins/gr-change-table-mixin/gr-change-table-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-12-23T12:09:26Z",
+      "side": 1,
+      "message": "Yeah, the main issue is that its not checking for any visibility at all but just renaming one column and creating a clone so having the word \"visible\" is wrong.\nUpdated to use renameProjectToRepoColumn",
+      "parentUuid": "72161cc0_8a8ec4e4",
+      "range": {
+        "startLine": 106,
+        "startChar": 6,
+        "endLine": 106,
+        "endChar": 33
+      },
+      "revId": "21ec95d211d15960eded22391353a777dd8e718d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

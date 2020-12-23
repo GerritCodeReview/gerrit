@@ -73,6 +73,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d009b353_96d8e42b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-23T13:58:23Z",
+      "side": 1,
+      "message": "\u003e We are definitely missing tests, at least in the core plugins that need to use that library.\n\u003e The HA plugin isn\u0027t core, so we could not possibly detect the breakage during the review of Marco\u0027s changes. Very unfortunate indeed :-(\n\nI\u0027m of course sorry about this too. My goal was obviously not to unknowingly break any plugin, but rather to maintain this codebase. If one does nothing, nothing will break for sure. I (we...) never thought of this during these reviews. We definitely miss CI feedback on such indirect dependencies.\n\nI (again, we) worked hard over time on such changes to maintain this core feature set, definitely not out of bad will -but on the contrary. I hope I\u0027m not reading blame here or out of this. We (many of us) have been breaking things every once in a while by doing things, as opposed to ignoring work required.\n\nThanks Luca and David for having fixed this latest occurrence. Beside core plugins, there are otherwise critical plugins to verify when touching core, I agree. This need is not new, as we know. We could maybe improve CI core builds in early Q1 2021 (say), so they score also based on those few plugins still 1. building and 2. passing their tests.",
+      "parentUuid": "41519da6_3e950c6b",
+      "revId": "7ed84c36b82ca786492c81dbbc2c1d0a431e598a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7a6bd27d_8e9e799f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

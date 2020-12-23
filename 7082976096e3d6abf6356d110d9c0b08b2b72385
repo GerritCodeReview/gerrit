@@ -120,6 +120,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "18ed2cf9_f39cf47d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-12-23T15:03:26Z",
+      "side": 1,
+      "message": "\u003e We don\u0027t support inter-plugin dependency. If it currently works, then it works by accident.\n\nI\u0027m not sure what you specifically mean by this, but several upstream features were introduced to support several inter plugin dependency approaches already.\n\nOne example of inter plugin dependencies might be a plugin designed to access the switches of another plugin on a core command. too support this better we added the @RequiresOptions() https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#_calling_command_options annotation I help ensure that another plugin is installed before exposing functionality which may depend on it.\n\nWe specifically created a class loader which combines the class loader of two different plugins to support a plugin being able to add switches to another plugins command. See here for a bit more in this https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#_calling_command_options\n\n\n\u003e The problem with inter-plugin dependency - besides complexity - is the diamond dependency problem.\n\nI don\u0027t think this applies to the current proposal, perhaps you could give a specific example if you think it does?",
+      "parentUuid": "a55cd161_8f644ae0",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f54ed35b_6121eb76",

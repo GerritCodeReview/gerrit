@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b555833d_774e9ab5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-23T14:16:10Z",
+      "side": 1,
+      "message": "I thought of this too while writing this comment. It\u0027s just that every other merge that we do from downstream always includes (included) that list in here too. Maybe we should change this legacy (yet still current) habit, I don\u0027t know for sure yet.\n\nNote that git itself automatically generates such a commit message when we do the merge locally. It gets formatted a bit differently. -Likely out of some of our local git configs telling it to do so (\u0027merge.log\u0027, IIRC).",
+      "parentUuid": "19136fc7_5dd7dd9f",
+      "range": {
+        "startLine": 8,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 48
+      },
+      "revId": "11c3b181e2f69c3a5622b64018b1cd625284ba1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "180886f2_6ea68877",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "Apologies. Fixed.",
       "parentUuid": "180886f2_6ea68877",
+      "revId": "11c3b181e2f69c3a5622b64018b1cd625284ba1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebc95f93_43bba33d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-12-23T14:16:10Z",
+      "side": 1,
+      "message": "Thanks; no worry.",
+      "parentUuid": "07ca50b2_3504b08d",
       "revId": "11c3b181e2f69c3a5622b64018b1cd625284ba1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

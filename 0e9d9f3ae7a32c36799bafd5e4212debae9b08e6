@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d4414b4_fe38ad3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-23T13:17:34Z",
+      "side": 1,
+      "message": "\u003e The problem seems to be the downgrade from 4.5.10 to 4.5.2 during the review.\n\nYes, exactly. Those two versions, despite the change in their patch-level, are not compatible between themselves. Hierarchy of existing interfaces has changed (e.g. Header) and annotations have been removed.\n\nhttpclient v4.5.10 requires httpcore v4.4.12 *BUT* http client v4.5.2 requires httpcore v4.4.4.\n\nI fixed the issue with Change-Id: I2d4500199580 by downgrading httpcore to v4.4.4, which is the correct version.",
+      "parentUuid": "95e97a18_b2b87355",
+      "revId": "0e9d9f3ae7a32c36799bafd5e4212debae9b08e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a555419_fc33b584",

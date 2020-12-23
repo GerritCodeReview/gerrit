@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f774befd_a2f50230",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-23T13:26:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5d38a668_0b6ed20d",
+      "revId": "7ed84c36b82ca786492c81dbbc2c1d0a431e598a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad081cb1_5c67a7c9",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-12-23T13:19:51Z",
       "side": 1,
       "message": "It\u0027s unfortunate, that we have not discovered this breakage with current tests, and we need HA plugin for that:\n\n    error: cannot access NotThreadSafe\n    class file for org.apache.http.annotation.NotThreadSafe not found",
+      "revId": "7ed84c36b82ca786492c81dbbc2c1d0a431e598a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41519da6_3e950c6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-23T13:26:20Z",
+      "side": 1,
+      "message": "We are definitely missing tests, at least in the core plugins that need to use that library.\nThe HA plugin isn\u0027t core, so we could not possibly detect the breakage during the review of Marco\u0027s changes. Very unfortunate indeed :-(",
+      "parentUuid": "ad081cb1_5c67a7c9",
       "revId": "7ed84c36b82ca786492c81dbbc2c1d0a431e598a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

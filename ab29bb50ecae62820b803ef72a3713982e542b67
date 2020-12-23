@@ -88,6 +88,24 @@
       "parentUuid": "efdbaad4_0719f14a",
       "revId": "ab29bb50ecae62820b803ef72a3713982e542b67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33471732_9db6621b",
+        "filename": "java/com/google/gerrit/httpd/restapi/ParameterParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-23T10:44:18Z",
+      "side": 1,
+      "message": "I hope we already have tests that exercise options.",
+      "parentUuid": "39fc47ad_cceaea06",
+      "revId": "ab29bb50ecae62820b803ef72a3713982e542b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f08063fc_bc427692",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-23T08:03:24Z",
+      "side": 1,
+      "message": "Post-merge -1: this change has broken the httpclient and all plugins that used it.",
+      "revId": "0e9d9f3ae7a32c36799bafd5e4212debae9b08e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a555419_fc33b584",

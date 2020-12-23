@@ -42,12 +42,6 @@ public class ElasticVersionTest {
 
     assertThat(ElasticVersion.forVersion("7.8.0")).isEqualTo(ElasticVersion.V7_8);
     assertThat(ElasticVersion.forVersion("7.8.1")).isEqualTo(ElasticVersion.V7_8);
-
-    assertThat(ElasticVersion.forVersion("7.9.0")).isEqualTo(ElasticVersion.V7_9);
-    assertThat(ElasticVersion.forVersion("7.9.1")).isEqualTo(ElasticVersion.V7_9);
-
-    assertThat(ElasticVersion.forVersion("7.10.0")).isEqualTo(ElasticVersion.V7_10);
-    assertThat(ElasticVersion.forVersion("7.10.1")).isEqualTo(ElasticVersion.V7_10);
   }
 
   @Test

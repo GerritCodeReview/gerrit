@@ -48,14 +48,6 @@ export const ChangeTableMixin = dedupingMixin(
         'Size',
       ];
 
-      /**
-       * Returns the complement to the given column array
-       *
-       */
-      getComplementColumns(columns: string[]) {
-        return this.columnNames.filter(column => !columns.includes(column));
-      }
-
       isColumnHidden(columnToCheck?: string, columnsToDisplay?: string[]) {
         if (!columnsToDisplay || !columnToCheck) {
           return false;
@@ -120,7 +112,6 @@ export const ChangeTableMixin = dedupingMixin(
 
 export interface ChangeTableMixinInterface {
   readonly columnNames: string[];
-  getComplementColumns(columns: string[]): string[];
   isColumnHidden(columnToCheck?: string, columnsToDisplay?: string[]): boolean;
   isColumnEnabled(
     column: string,

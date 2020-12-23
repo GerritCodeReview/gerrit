@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a55cd161_8f644ae0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-23T08:46:12Z",
+      "side": 1,
+      "message": "And plugin A is open-source? Because otherwise you could just mold the two plugins together into one.\n\nCould you solve this at compile time instead of at runtime? For example, provide the functionality of --sample in a Java library that each plugin that needs it can compile in.",
+      "parentUuid": "1cd2ee82_d2865413",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f54ed35b_6121eb76",
@@ -126,6 +150,23 @@
       "writtenOn": "2020-12-22T08:54:46Z",
       "side": 1,
       "message": "\u003e This feature is helpful in exposing an API from one\nplugin and consuming that API from other plugin.\n\nWe ",
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "877e3974_474273a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-23T08:46:12Z",
+      "side": 1,
+      "message": "Adding Han-Wen for a second opinion",
       "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

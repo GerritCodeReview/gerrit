@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "19136fc7_5dd7dd9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-23T08:54:14Z",
+      "side": 1,
+      "message": "Done. But isn\u0027t that what the merge list is for?",
+      "parentUuid": "7d3a4bfd_0ddbc277",
+      "range": {
+        "startLine": 8,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 48
+      },
+      "revId": "11c3b181e2f69c3a5622b64018b1cd625284ba1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "180886f2_6ea68877",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -37,6 +61,24 @@
       "writtenOn": "2020-12-22T19:24:30Z",
       "side": 1,
       "message": "Typo in Jacek\u0027s lastname.",
+      "revId": "11c3b181e2f69c3a5622b64018b1cd625284ba1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07ca50b2_3504b08d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-23T08:54:14Z",
+      "side": 1,
+      "message": "Apologies. Fixed.",
+      "parentUuid": "180886f2_6ea68877",
       "revId": "11c3b181e2f69c3a5622b64018b1cd625284ba1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +96,30 @@
       "writtenOn": "2020-12-22T19:24:30Z",
       "side": 1,
       "message": "Centkowski",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 28
+      },
+      "revId": "11c3b181e2f69c3a5622b64018b1cd625284ba1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6025526d_cabe2a37",
+        "filename": "tools/maven/gerrit-acceptance-framework_pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-23T08:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c242828_b67ffc27",
       "range": {
         "startLine": 47,
         "startChar": 18,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5747bc35_21879fee",
+        "filename": "tools/maven/gerrit-extension-api_pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-23T08:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7be31893_dadbd58f",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 28
+      },
+      "revId": "11c3b181e2f69c3a5622b64018b1cd625284ba1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d3971a3_70881d9e",
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d3e0918_0e0472a7",
+        "filename": "tools/maven/gerrit-plugin-api_pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-23T08:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d3971a3_70881d9e",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 28
+      },
+      "revId": "11c3b181e2f69c3a5622b64018b1cd625284ba1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da5912ed_e6369636",
@@ -123,6 +237,30 @@
       "writtenOn": "2020-12-22T19:24:30Z",
       "side": 1,
       "message": "Centkowski",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 28
+      },
+      "revId": "11c3b181e2f69c3a5622b64018b1cd625284ba1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3ed0d99_5ccf8ff8",
+        "filename": "tools/maven/gerrit-war_pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-23T08:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da5912ed_e6369636",
       "range": {
         "startLine": 47,
         "startChar": 18,

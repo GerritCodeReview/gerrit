@@ -42,7 +42,6 @@ import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
@@ -56,7 +55,6 @@ import org.eclipse.jgit.transport.BundleWriter;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.kohsuke.args4j.Option;
 
-@Singleton
 public class PreviewSubmit implements RestReadView<RevisionResource> {
   private static final int MAX_DEFAULT_BUNDLE_SIZE = 100 * 1024 * 1024;
 

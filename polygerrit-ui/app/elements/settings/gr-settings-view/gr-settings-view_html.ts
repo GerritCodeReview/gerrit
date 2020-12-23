@@ -340,6 +340,7 @@ export const htmlTemplate = html`
       <fieldset id="changeTableColumns">
         <gr-change-table-editor
           show-number="{{_showNumber}}"
+          server-config="[[_serverConfig]]"
           displayed-columns="{{_localChangeTableColumns}}"
         >
         </gr-change-table-editor>

@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d38a668_0b6ed20d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-23T13:19:51Z",
+      "side": 1,
+      "message": "Optional: \"Downgrade httpcore dependency to match httpclient version\n\nwould be easier to understand?",
+      "revId": "7ed84c36b82ca786492c81dbbc2c1d0a431e598a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad081cb1_5c67a7c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-23T13:19:51Z",
+      "side": 1,
+      "message": "It\u0027s unfortunate, that we have not discovered this breakage with current tests, and we need HA plugin for that:\n\n    error: cannot access NotThreadSafe\n    class file for org.apache.http.annotation.NotThreadSafe not found",
+      "revId": "7ed84c36b82ca786492c81dbbc2c1d0a431e598a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7a6bd27d_8e9e799f",

@@ -193,6 +193,29 @@
       "message": "Adding Han-Wen for a second opinion",
       "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b65a6b29_bfddc64b",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDynamicOptionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-23T18:18:08Z",
+      "side": 1,
+      "message": "With reflection you can do anything. \n\nWhat does \u0027formally supported\u0027 mean in this context?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

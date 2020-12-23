@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95e97a18_b2b87355",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-23T13:12:31Z",
+      "side": 1,
+      "message": "The problem seems to be the downgrade from 4.5.10 to 4.5.2 during the review.",
+      "parentUuid": "f08063fc_bc427692",
+      "revId": "0e9d9f3ae7a32c36799bafd5e4212debae9b08e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a555419_fc33b584",

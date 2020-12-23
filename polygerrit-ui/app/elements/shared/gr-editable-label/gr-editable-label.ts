@@ -136,7 +136,7 @@ export class GrEditableLabel extends KeyboardShortcutMixin(
     this._inputText = this.value;
     this.editing = true;
 
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       this._awaitOpen(resolve);
     });
   }

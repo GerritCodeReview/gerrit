@@ -304,7 +304,7 @@ export class GrSyntaxLayer
     this._processPromise = util.makeCancelable(
       this._loadHLJS().then(
         () =>
-          new Promise(resolve => {
+          new Promise<void>(resolve => {
             const nextStep = () => {
               this._processHandle = null;
               this._processNextLine(state, rangesCache);

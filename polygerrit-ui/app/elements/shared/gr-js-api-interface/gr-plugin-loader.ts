@@ -430,7 +430,7 @@ export class PluginLoader {
       // and the return type is NodeJS.Timeout object
       let timerId: number;
       this._loadingPromise = Promise.race([
-        new Promise(resolve => (this._loadingResolver = resolve)),
+        new Promise<void>(resolve => (this._loadingResolver = resolve)),
         new Promise(
           (_, reject) =>
             (timerId = window.setTimeout(() => {

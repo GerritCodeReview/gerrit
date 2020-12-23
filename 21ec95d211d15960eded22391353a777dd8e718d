@@ -22,6 +22,30 @@
       },
       "revId": "21ec95d211d15960eded22391353a777dd8e718d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72161cc0_8a8ec4e4",
+        "filename": "polygerrit-ui/app/mixins/gr-change-table-mixin/gr-change-table-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-12-23T12:02:45Z",
+      "side": 1,
+      "message": "Based on the follow-up change, I think the name is almost ok.\nMaybe remove clone from it: renameProjectToRepoColumn (because it is not always a clone)",
+      "parentUuid": "9bab2cbe_884f10ec",
+      "range": {
+        "startLine": 106,
+        "startChar": 6,
+        "endLine": 106,
+        "endChar": 33
+      },
+      "revId": "21ec95d211d15960eded22391353a777dd8e718d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -348,7 +348,7 @@ export class GrSettingsView extends ChangeTableMixin(
   }
 
   _cloneChangeTableColumns(changeTable: string[]) {
-    let columns = this.getVisibleColumns(changeTable);
+    let columns = this.cloneAndRenameProjectToRepo(changeTable);
 
     if (columns.length === 0) {
       columns = this.columnNames;

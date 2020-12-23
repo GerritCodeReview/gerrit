@@ -70,6 +70,24 @@
       "parentUuid": "7f27b63f_e6d9b726",
       "revId": "ab29bb50ecae62820b803ef72a3713982e542b67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39fc47ad_cceaea06",
+        "filename": "java/com/google/gerrit/httpd/restapi/ParameterParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-23T08:29:30Z",
+      "side": 1,
+      "message": "Nice. Optionally a positive test (non-singleton with option that does get parsed) would boost confidence that we hold this right.",
+      "parentUuid": "efdbaad4_0719f14a",
+      "revId": "ab29bb50ecae62820b803ef72a3713982e542b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37a89f0a_ac93b688",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-23T08:03:24Z",
+      "side": 1,
+      "message": "\u003e Yes, works too; thanks.\n\nUnfortunately, it *doesn\u0027t* work with v4.5.2 because that would require httpcore v4.4.4 which isn\u0027t compatible with elasticsearch 7.8.x and 7.9.x.",
+      "parentUuid": "ef4e6845_84b6c729",
+      "revId": "e0520a99a933aca17274aa23f1eab5c1fd11a41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c60cb0c_b77b2b31",

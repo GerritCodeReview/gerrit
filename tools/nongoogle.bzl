@@ -103,8 +103,8 @@ def declare_nongoogle_deps():
     # org.apache.httpcomponents dependencies in ../WORKSPACE.
     maven_jar(
         name = "elasticsearch-rest-client",
-        artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.10.1",
-        sha1 = "b2e89d266c2c0039a69504f78c9230582ea095ee",
+        artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.9.3",
+        sha1 = "0b621621ecc6a8d9b536334d5f3301940302efd2",
     )
 
     maven_jar(

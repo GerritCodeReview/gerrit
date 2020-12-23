@@ -24,7 +24,9 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-table-editor_html';
 import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin';
-import {customElement, property} from '@polymer/decorators';
+import {customElement, property, observe} from '@polymer/decorators';
+import {ServerInfo} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
 
 @customElement('gr-change-table-editor')
 class GrChangeTableEditor extends ChangeTableMixin(
@@ -39,6 +41,27 @@ class GrChangeTableEditor extends ChangeTableMixin(
 
   @property({type: Boolean, notify: true})
   showNumber?: boolean;
+
+  @property({type: Object})
+  serverConfig?: ServerInfo;
+
+  @property({type: Array})
+  defaultColumns?: string[];
+
+  flagsService = appContext.flagsService;
+
+  @observe('serverConfig')
+  _configChanged(config: ServerInfo) {
+    this.defaultColumns = this.getEnabledColumns(
+      this.columnNames,
+      config,
+      this.flagsService.enabledExperiments
+    );
+    if (!this.displayedColumns) return;
+    this.displayedColumns = this.displayedColumns.filter(column =>
+      this.isColumnEnabled(column, config, this.flagsService.enabledExperiments)
+    );
+  }
 
   /**
    * Get the list of enabled column names from whichever checkboxes are

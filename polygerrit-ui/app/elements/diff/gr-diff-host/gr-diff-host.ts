@@ -588,7 +588,7 @@ export class GrDiffHost extends GestureEventListeners(
           this._getIgnoreWhitespace(),
           reject
         )
-        .then(resolve);
+        .then(diff => resolve(diff!)); // reject is called in case of error, so we can't get undefined here
     });
   }
 

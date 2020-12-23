@@ -95,7 +95,7 @@ export class GrOverlay extends IronOverlayMixin(
   open() {
     this.returnFocusTo = findActiveElement(document, true) ?? undefined;
     window.addEventListener('popstate', this._boundHandleClose);
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       super.open.apply(this);
       if (this._isMobile()) {
         fireEvent(this, 'fullscreen-overlay-opened');

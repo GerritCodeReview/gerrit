@@ -161,7 +161,7 @@ export function removeIronOverlayBackdropStyleEl() {
  *   ...
  */
 export function listenOnce(el: EventTarget, eventType: string) {
-  return new Promise(resolve => {
+  return new Promise<void>(resolve => {
     const listener = () => {
       removeEventListener();
       resolve();

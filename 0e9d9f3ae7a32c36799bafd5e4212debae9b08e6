@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a555419_fc33b584",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-23T00:45:32Z",
+      "side": 1,
+      "message": "httpcore 4.4.12 is incompatible with httpclient 4.5.2 because of annotations removed (see [1]).\n\nThis needs to be downgraded to v4.4.4, the latest release available before the removal of the annotations. Done with Change-Id: I2d45001.\n\n[1] https://hc.apache.org/httpcomponents-core-4.4.x/httpcore/clirr-report.html",
+      "range": {
+        "startLine": 820,
+        "startChar": 51,
+        "endLine": 820,
+        "endChar": 57
+      },
+      "revId": "0e9d9f3ae7a32c36799bafd5e4212debae9b08e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

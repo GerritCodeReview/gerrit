@@ -16,6 +16,23 @@
       "message": "test failure looks like a flake; rerunning.",
       "revId": "cbdfa3865a18fdd8ef00c396c38b2f6e9265e021",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80d1c307_65c38cea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-23T15:50:55Z",
+      "side": 1,
+      "message": "\u003e Patch Set 6:\n\u003e \n\u003e message\n\nsorry, just a test :-)",
+      "revId": "cbdfa3865a18fdd8ef00c396c38b2f6e9265e021",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

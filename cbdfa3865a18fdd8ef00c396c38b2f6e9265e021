@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaf767c9_662b2872",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-12-23T12:56:06Z",
+      "side": 1,
+      "message": "test failure looks like a flake; rerunning.",
+      "revId": "cbdfa3865a18fdd8ef00c396c38b2f6e9265e021",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

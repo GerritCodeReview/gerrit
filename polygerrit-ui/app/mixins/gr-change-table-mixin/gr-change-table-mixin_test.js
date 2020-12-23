@@ -37,35 +37,6 @@ suite('gr-change-table-mixin tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('getComplementColumns', () => {
-    let columns = [
-      'Subject',
-      'Status',
-      'Owner',
-      'Assignee',
-      'Reviewers',
-      'Comments',
-      'Repo',
-      'Branch',
-      'Updated',
-      'Size',
-    ];
-    assert.deepEqual(element.getComplementColumns(columns), []);
-
-    columns = [
-      'Subject',
-      'Status',
-      'Assignee',
-      'Reviewers',
-      'Comments',
-      'Repo',
-      'Branch',
-      'Size',
-    ];
-    assert.deepEqual(element.getComplementColumns(columns),
-        ['Owner', 'Updated']);
-  });
-
   test('isColumnHidden', () => {
     const columnToCheck = 'Repo';
     let columnsToDisplay = [

@@ -18,6 +18,7 @@ import static com.google.gerrit.server.permissions.DefaultPermissionMappings.glo
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.CapabilityScope;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -31,7 +32,12 @@ import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
-/** Global server permissions built into Gerrit. */
+/**
+ * Global server permissions built into Gerrit.
+ *
+ * <p>See also {@link GlobalCapability} which lists the equivalent strings used in the
+ * refs/meta/config settings in All-Projects.
+ */
 public enum GlobalPermission implements GlobalOrPluginPermission {
   ACCESS_DATABASE,
   ADMINISTRATE_SERVER,

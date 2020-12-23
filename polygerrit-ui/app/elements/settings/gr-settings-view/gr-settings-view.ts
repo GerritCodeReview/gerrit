@@ -147,9 +147,6 @@ export class GrSettingsView extends ChangeTableMixin(
   @property({type: Boolean})
   _accountInfoChanged?: boolean;
 
-  @property({type: Array})
-  _changeTableColumnsNotDisplayed?: string[];
-
   @property({type: Object})
   _localPrefs: PreferencesInput = {};
 
@@ -242,7 +239,10 @@ export class GrSettingsView extends ChangeTableMixin(
         this._showNumber = !!prefs.legacycid_in_change_table;
         this._copyPrefs(CopyPrefsDirection.PrefsToLocalPrefs);
         this._localMenu = this._cloneMenu(prefs.my);
-        this._cloneChangeTableColumns(prefs.change_table);
+        this._localChangeTableColumns =
+          prefs.change_table.length === 0
+            ? this.columnNames
+            : this.cloneAndRenameProjectToRepo(prefs.change_table);
       })
     );
 
@@ -347,20 +347,6 @@ export class GrSettingsView extends ChangeTableMixin(
     });
   }
 
-  _cloneChangeTableColumns(changeTable: string[]) {
-    let columns = this.cloneAndRenameProjectToRepo(changeTable);
-
-    if (columns.length === 0) {
-      columns = this.columnNames;
-      this._changeTableColumnsNotDisplayed = [];
-    } else {
-      this._changeTableColumnsNotDisplayed = this.getComplementColumns(
-        changeTable
-      );
-    }
-    this._localChangeTableColumns = columns;
-  }
-
   @observe('_localChangeTableColumns', '_showNumber')
   _handleChangeTableChanged() {
     if (this._isLoading()) {
@@ -432,7 +418,6 @@ export class GrSettingsView extends ChangeTableMixin(
   _handleSaveChangeTable() {
     this.set('prefs.change_table', this._localChangeTableColumns);
     this.set('prefs.legacycid_in_change_table', this._showNumber);
-    this._cloneChangeTableColumns(this._localChangeTableColumns);
     return this.restApiService.savePreferences(this.prefs).then(() => {
       this._changeTableChanged = false;
     });

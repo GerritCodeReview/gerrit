@@ -22,6 +22,53 @@
       },
       "revId": "8ec3f252d97016de7664fda2d5b623935d6c87e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64646d2a_fa6f73c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-23T08:42:11Z",
+      "side": 1,
+      "message": "We have the numeric IDs and the project here, so an index lookup is not required anymore.\n\nI bet you are right that we did do the lookup before to resolve from I-Hash to change number (aka Change.Id).",
+      "parentUuid": "c9345244_30983f78",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "8ec3f252d97016de7664fda2d5b623935d6c87e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4e567b6_ca6aff04",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2698,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-12-23T08:42:11Z",
+      "side": 1,
+      "message": "Using the predicate here like this feels like wrong API usage.\n\nWhat if we do:\n\nfor (Change.Id id : allIds) {\n   ChangeNotes \u003d notesFactory.create(project, id);\n   ...\n}",
+      "range": {
+        "startLine": 2698,
+        "startChar": 13,
+        "endLine": 2698,
+        "endChar": 23
+      },
+      "revId": "8ec3f252d97016de7664fda2d5b623935d6c87e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

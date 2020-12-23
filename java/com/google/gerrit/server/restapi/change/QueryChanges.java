@@ -27,13 +27,17 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.index.query.QueryResult;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -46,6 +50,8 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   private final ChangeJson.Factory json;
   private final ChangeQueryBuilder qb;
   private final ChangeQueryProcessor imp;
+  private final Provider<CurrentUser> userProvider;
+  private final PermissionBackend permissionBackend;
   private EnumSet<ListChangesOption> options;
 
   @Option(
@@ -88,16 +94,32 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     imp.setNoLimit(on);
   }
 
+  @Option(name = "--skip-visibility", usage = "Skip visibility check, only for administrators")
+  public void skipVisibility(boolean on) throws AuthException, PermissionBackendException {
+    if (on) {
+      CurrentUser user = userProvider.get();
+      permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+      imp.enforceVisibility(false);
+    }
+  }
+
   @Override
   public void setDynamicBean(String plugin, DynamicOptions.DynamicBean dynamicBean) {
     imp.setDynamicBean(plugin, dynamicBean);
   }
 
   @Inject
-  QueryChanges(ChangeJson.Factory json, ChangeQueryBuilder qb, ChangeQueryProcessor qp) {
+  QueryChanges(
+      ChangeJson.Factory json,
+      ChangeQueryBuilder qb,
+      ChangeQueryProcessor qp,
+      Provider<CurrentUser> userProvider,
+      PermissionBackend permissionBackend) {
     this.json = json;
     this.qb = qb;
     this.imp = qp;
+    this.userProvider = userProvider;
+    this.permissionBackend = permissionBackend;
 
     options = EnumSet.noneOf(ListChangesOption.class);
   }

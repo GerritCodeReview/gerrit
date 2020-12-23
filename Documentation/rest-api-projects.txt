@@ -1848,8 +1848,9 @@ The content is returned as base64 encoded string.
 
 Gets whether the source is mergeable with the target branch.
 
-The `source` query parameter is required, which can be anything that could be
-resolved to a commit, see examples of the `source` attribute in
+The `source` query parameter is required, which can be anything that
+could be resolved to a commit, and is visible to the caller. See
+examples of the `source` attribute in
 link:rest-api-changes.html#merge-input[MergeInput].
 
 Also takes an optional parameter `strategy`, which can be `recursive`, `resolve`,

@@ -41,6 +41,9 @@ suite('gr-change-table-editor tests', () => {
 
     element.set('displayedColumns', columns);
     element.showNumber = false;
+    element.serverConfig = {
+      change: {},
+    };
     flush();
   });
 
@@ -51,10 +54,10 @@ suite('gr-change-table-editor tests', () => {
 
     // The `+ 1` is for the number column, which isn't included in the change
     // table behavior's list.
-    assert.equal(rows.length, element.columnNames.length + 1);
-    for (let i = 0; i < columns.length; i++) {
+    assert.equal(rows.length, element.defaultColumns.length + 1);
+    for (let i = 0; i < element.defaultColumns.length; i++) {
       tds = rows[i + 1].querySelectorAll('td');
-      assert.equal(tds[0].textContent, columns[i]);
+      assert.equal(tds[0].textContent, element.defaultColumns[i]);
     }
   });
 

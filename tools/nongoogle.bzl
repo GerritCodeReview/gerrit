@@ -99,8 +99,7 @@ def declare_nongoogle_deps():
     )
 
     # When upgrading elasticsearch-rest-client, also upgrade httpcore-nio
-    # and httpasyncclient as necessary. Consider also the other
-    # org.apache.httpcomponents dependencies in ../WORKSPACE.
+    # and httpasyncclient as necessary.
     maven_jar(
         name = "elasticsearch-rest-client",
         artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.8.1",

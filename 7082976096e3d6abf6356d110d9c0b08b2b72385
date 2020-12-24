@@ -216,6 +216,30 @@
       },
       "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00067f97_98310ad2",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDynamicOptionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2020-12-24T04:33:24Z",
+      "side": 1,
+      "message": "BeanReceiver and BeanProvider interfaces were providing a functionality to set and get a dynamic bean based on plugin name. But this feature was allowed to get its own dynamic bean for a plugin. In this change we are formally allowing to fetch other plugin\u0027s dynamic bean.",
+      "parentUuid": "b65a6b29_bfddc64b",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b1f21b1_64d091fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-12-28T11:00:29Z",
+      "side": 1,
+      "message": "@ponch I\u0027d suggest to try this again and see if this is still an issue.\nI am pretty sure I have reindexed a mirror of gerrit recently and, even though I got some DateTimeParseException, the reindexing process didn\u0027t bail out.\n\nWorth checking perhaps?",
+      "revId": "e6bdd59e0e3979f3a55fb25757624b01164db378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a747a8f_7a765f84",

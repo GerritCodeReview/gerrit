@@ -2470,6 +2470,32 @@ from Markdown to HTML.
 Macros that start with `\` such as `\@KEEP@` will render as `@KEEP@`
 even if there is an expansion for `KEEP` in the future.
 
+Documentation should typically contain the following content:
+
+[width="40%",options="header"]
+|===================================================
+|File         | Content
+|README.md   | Home page of the plugin when browsing its source code on Git
+|LICENSE     | Open-source license
+|resources/Documentation/about.md | Overview of the plugin and its purpose
+|resources/Documentation/config.md | Plugin configuration settings and sample configs
+|resources/Documentation/build.md | How to build the plugin
+|resources/Documentation/cmd-<command>.md | SSH commands
+|resources/Documentation/rest-api-<api>.md | REST API
+|resources/Documentation/servlet-<servlet>.md | HTTP Servlets
+|===================================================
+
+The documentation under /src/main/resource/Documentation/ may contain macro that
+will be included and its macros expanded by Gerrit once the plugin is loaded.
+
+The files in the root directory are not included in the plugin package
+and must not have any macro for expansion. It may also collect
+additional information that would make the plugin more discoverable, such as
+a more user-friendly description of its use-cases.
+
+The documentation can also include images that can help understanding more
+visually how the plugin can interact with the other Gerrit components.
+
 [[auto-index]]
 === Automatic Index
 

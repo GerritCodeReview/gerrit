@@ -16,6 +16,24 @@
       "message": "Should be rather cherry-picked from stable-2.15 branch.",
       "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68882c63_b9e4c8ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-29T08:18:53Z",
+      "side": 1,
+      "message": "Why?\nThat\u0027s not were the fix originated!\nThe content would be the same!",
+      "parentUuid": "7aedebbe_9881c22a",
+      "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

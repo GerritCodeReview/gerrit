@@ -124,6 +124,24 @@
       "parentUuid": "0520fa62_8cb6004d",
       "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfc26a70_71b02b4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-29T11:18:38Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e The agreed workflow for applying change to recent branches and applying them to older branches, as I understand it is as following:\n\u003e \u003e \u003e \n\u003e \u003e \u003e * apply change to master branch\n\u003e \u003e \u003e * cherry-pick the change only once from master to the oldest branch we still care about, say 2.14 branch.\n\u003e \u003e \u003e * merge-up to master\n\u003e \u003e \n\u003e \u003e I can honestly say that I haven\u0027t encountered a bugfix workflow were you fix bugs on master branch, ever, in Gerrit or other projects.\n\u003e \u003e The basic idea, that seems to be globally accepted, is that master is for new features, release branches are for bug-fixes.\n\u003e \u003e So it comes as a surprise to me when you say that this is the agreed workflow.\n\u003e \n\u003e You are right about the preferred workflow to always fix on the latest supported branch and merge up to master. However, as we know, it happens, that it\u0027s done differently for reasons. One reason is that some gerrit developers just don\u0027t care about stable branches. So that we would need to apply the workflow I mentioned above.\n\u003e \n\u003e \u003e \u003e \n\u003e \u003e \u003e With this cherry-pick series you are coming with yet another workflow:\n\u003e \u003e \u003e \n\u003e \u003e \u003e * apply change to master branch (or last supported branch)\n\u003e \u003e \u003e * cherry-pick that change to all old branches a single cherry-pick\n\u003e \u003e \u003e * merge up to master\n\u003e \u003e \u003e \n\u003e \u003e \u003e I don\u0027t like this ambiguity: one is doing one workflow, another is doing another workflow.\n\u003e \u003e \n\u003e \u003e More or less correct. To not spend unnecessary amount of time fixing bugs on EOL branches I proposed that we:\n\u003e \u003e * Fix the bug on oldest active branch.\n\u003e \u003e * Merge back to master\n\u003e \u003e * If necessary backport the fix to EOL branches.\n\u003e \n\u003e I think the disagreement is the last point: the backporting procedure. I prefer to cherry-pick only once and merge up, while you are saying: cherry-pick N-times to every stable branch and merge-up.\n\nNot quite. I say *never* merge up from EOL branches.",
+      "parentUuid": "13840a4f_f2071ad3",
+      "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

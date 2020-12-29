@@ -70,6 +70,24 @@
       "parentUuid": "f131b697_2d1d6e13",
       "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9a7bd82_8f5d1140",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-29T09:20:31Z",
+      "side": 1,
+      "message": "The agreed workflow for applying change to recent branches and applying them to older branches, as I understand it is as following:\n\n* apply change to master branch\n* cherry-pick the change only once from master to the oldest branch we still care about, say 2.14 branch.\n* merge-up to master\n\nIf I understand you correctly, you only agreed with the following workflow:\n\n* apply change to the oldest branch, say stable-2.14\n* merge 2.14 branch up to master\n\nWith this cherry-pick series you are coming with yet another workflow:\n\n* apply change to master branch (or last supported branch)\n* cherry-pick that change to all old branches a single cherry-pick\n* merge up to master\n\nI don\u0027t like this ambiguity: one is doing one workflow, another is doing another workflow.",
+      "parentUuid": "2ae07e04_65b72291",
+      "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

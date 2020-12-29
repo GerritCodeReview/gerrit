@@ -52,6 +52,24 @@
       "parentUuid": "68882c63_b9e4c8ad",
       "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ae07e04_65b72291",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-12-29T08:58:26Z",
+      "side": 1,
+      "message": "It\u0027s a backport of https://gerrit-review.googlesource.com/c/gerrit/+/291686.\nWhy would I pretend to cherry-pick it from a backport of another branch?",
+      "parentUuid": "f131b697_2d1d6e13",
+      "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

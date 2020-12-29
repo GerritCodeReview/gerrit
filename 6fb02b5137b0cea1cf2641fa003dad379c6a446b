@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aed7f3da_e5ebac93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-12-29T10:15:46Z",
+      "side": 1,
+      "message": "verified that with the old soy version the benchmark is faster:\n\nwith soy update v3.1.11-2-g4600b1ed6e\n\nrefdir:\n2020/12/29 10:42:33 min 237.112726ms max 554.672231ms median 298.200996ms avg 310.206611ms\n\nreftable:\n2020/12/29 11:05:16 min 56.625722ms max 96.903709ms median 66.115133ms avg 67.154674ms\n\nrevert soy update v3.1.11-3-g6fb02b5137\n\nrefdir:\n2020/12/29 10:45:55 min 183.769999ms max 705.77177ms median 283.825229ms avg 301.847649ms\n\n-\u003e avg 3% faster\n\nreftable:\n2020/12/29 11:09:24 min 43.840431ms max 150.086237ms median 57.7807ms avg 59.603748ms\n\n-\u003e avg 11% faster",
+      "revId": "6fb02b5137b0cea1cf2641fa003dad379c6a446b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0a8db5e_5a7f9687",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2488,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-29T16:40:27Z",
+      "side": 1,
+      "message": "Nit: Remove /src/main/-prefix to make it consistent with the above listing.",
+      "range": {
+        "startLine": 2488,
+        "startChar": 24,
+        "endLine": 2488,
+        "endChar": 57
+      },
+      "revId": "99a9559689558a14ca213a82ceec9e7f0bf11d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

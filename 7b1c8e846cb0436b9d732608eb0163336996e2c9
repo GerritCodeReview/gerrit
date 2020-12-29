@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ddf8891_ecc8f5cf",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2478,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-29T15:23:00Z",
+      "side": 1,
+      "message": "Remove the \"/\"-prefix for all files?",
+      "range": {
+        "startLine": 2478,
+        "startChar": 1,
+        "endLine": 2478,
+        "endChar": 2
+      },
+      "revId": "7b1c8e846cb0436b9d732608eb0163336996e2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9ed1e73_2553c926",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2480,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-29T15:23:00Z",
+      "side": 1,
+      "message": "Optional: src/main-Prefix is a left over of Maven era, and is not strictly needed.\nThe recent plugins: checks and code-owners don\u0027t have them. Put it in parenthesis to emphasize that thes prefix is optional, or just remove them altogether?",
+      "range": {
+        "startLine": 2480,
+        "startChar": 1,
+        "endLine": 2480,
+        "endChar": 11
+      },
+      "revId": "7b1c8e846cb0436b9d732608eb0163336996e2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ef35509_5760a9f2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2484,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-29T15:23:00Z",
+      "side": 1,
+      "message": "You are missing servlet-\u003cservlet\u003e.md files, that is gathered by HttpPluginServlet:\n\n  resources/Documentation/servlet-\u003cservlet\u003e.md | HTTP Servlets\n\nHere is example from cookbook-plugin: [1].\n\n[1] https://gerrit.googlesource.com/plugins/cookbook-plugin/+/refs/heads/master/src/main/resources/Documentation/servlet-hello.md",
+      "revId": "7b1c8e846cb0436b9d732608eb0163336996e2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb024cbe_03635f5e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2493,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-29T15:23:00Z",
+      "side": 1,
+      "message": "Mention that it could also include images to better explain plugin scenarios?",
+      "revId": "7b1c8e846cb0436b9d732608eb0163336996e2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

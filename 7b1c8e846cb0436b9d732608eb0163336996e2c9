@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "328477f5_38012bef",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2478,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-29T16:22:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ddf8891_ecc8f5cf",
+      "range": {
+        "startLine": 2478,
+        "startChar": 1,
+        "endLine": 2478,
+        "endChar": 2
+      },
+      "revId": "7b1c8e846cb0436b9d732608eb0163336996e2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9ed1e73_2553c926",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-29T15:23:00Z",
       "side": 1,
       "message": "Optional: src/main-Prefix is a left over of Maven era, and is not strictly needed.\nThe recent plugins: checks and code-owners don\u0027t have them. Put it in parenthesis to emphasize that thes prefix is optional, or just remove them altogether?",
+      "range": {
+        "startLine": 2480,
+        "startChar": 1,
+        "endLine": 2480,
+        "endChar": 11
+      },
+      "revId": "7b1c8e846cb0436b9d732608eb0163336996e2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1673a52d_558be775",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2480,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-29T16:22:05Z",
+      "side": 1,
+      "message": "Yeah, best to remove them altogether. I\u0027ll just mention resources/Documentation instead.",
+      "parentUuid": "e9ed1e73_2553c926",
       "range": {
         "startLine": 2480,
         "startChar": 1,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dded106b_99807da3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2484,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-29T16:22:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ef35509_5760a9f2",
+      "revId": "7b1c8e846cb0436b9d732608eb0163336996e2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb024cbe_03635f5e",
@@ -77,6 +143,24 @@
       "writtenOn": "2020-12-29T15:23:00Z",
       "side": 1,
       "message": "Mention that it could also include images to better explain plugin scenarios?",
+      "revId": "7b1c8e846cb0436b9d732608eb0163336996e2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49bc8d3f_91009069",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2493,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-29T16:22:05Z",
+      "side": 1,
+      "message": "Good idea +1",
+      "parentUuid": "cb024cbe_03635f5e",
       "revId": "7b1c8e846cb0436b9d732608eb0163336996e2c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

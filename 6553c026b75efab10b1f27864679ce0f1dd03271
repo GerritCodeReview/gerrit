@@ -142,6 +142,24 @@
       "parentUuid": "13840a4f_f2071ad3",
       "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73e9a52e_593506e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-29T11:39:13Z",
+      "side": 1,
+      "message": "\u003e Not quite. I say *never* merge up from EOL branches.\n\nBut why should we handle EOL branches differently as not EOL branches? To summarize what you are saying:\n\nIf a fix was applied to master, the backport workflow is:\n\n* cherry-pick to stable-3.1 only once\n* merge up to master\n\nIf a fix was applied to stable-3.1, the backport workflow is:\n\n* cherry-pick to every single EOL branch\n* merge up to master\n\nWhat if a fix is that important, and was (erroneously) applied to master, and say you would have to backport it to stable-2.6. Now what? Single cherry-pick to stable-3.1 and then 17 cherry-picks to all EOL branches? Why? Where are these different workflows documented?",
+      "parentUuid": "dfc26a70_71b02b4e",
+      "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

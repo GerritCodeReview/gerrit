@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63374411_bde78ae5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T17:49:15Z",
+      "side": 1,
+      "message": "Nit: CodeReview:-2 or Verified:-1",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c252f4e0_5d00bf69",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T17:49:15Z",
+      "side": 1,
+      "message": "This is now repeated many times in the tests: you could DRY them out.\n\nExample:\n  private ChangeApi newChangeApi() {\n    return gApi.changes().id(createChange().getChangeId());\n  }",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 58
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92f9695e_7ded5b8f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T17:49:15Z",
+      "side": 1,
+      "message": "This is now repeated many times in the tests: you could DRY them out.\n\nExample:\n  private void approveChange(ChangeApi changeApi) {\n    changeApi.current().review(ReviewInput.approve());\n  }",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 51
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "973e2e9a_92f3a4d0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T17:49:15Z",
+      "side": 1,
+      "message": "Suggestion:\n  assertThat(queryIsSubmittable()).isEmpty()\n\nMore compact and readable, so that the above comment isn\u0027t needed anymore as the code tells what it does.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bed2ccf_f6ce1ad9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T17:49:15Z",
+      "side": 1,
+      "message": "Suggestion:\n  assertThat(queryIsSubmittable()).isEmpty()\n\nMore compact and readable, so that the above comment isn\u0027t needed anymore as the code tells what it does.",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 34
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af8ff2e3_37cf963a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T17:49:15Z",
+      "side": 1,
+      "message": "Suggestion:\n  assertThat(queryIsSubmittable()).isEmpty()\n\nMore compact and readable, so that the above comment isn\u0027t needed anymore as the code tells what it does.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 34
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f651621f_abef1a1a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T17:49:15Z",
+      "side": 1,
+      "message": "Suggestion:\n  assertThat(queryIsSubmittable()).isNotEmpty()\n\nMore compact and readable, so that the above comment isn\u0027t needed anymore as the code tells what it does.",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 34
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09fd9a77_0365a085",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T17:49:15Z",
+      "side": 1,
+      "message": "Suggestion:\n  assertThat(queryIsSubmittable()).isNotEmpty()\n\nMore compact and readable, so that the above comment isn\u0027t needed anymore as the code tells what it does.",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 34
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

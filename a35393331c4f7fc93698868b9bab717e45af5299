@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4c87b3b_6dc148b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T17:49:15Z",
+      "side": 1,
+      "message": "Thanks, it\u0027s a lot clearer now.",
+      "parentUuid": "8ed2501c_d85d794d",
+      "range": {
+        "startLine": 18,
+        "startChar": 16,
+        "endLine": 18,
+        "endChar": 23
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db174e09_bff1f7bf",
@@ -173,6 +197,24 @@
       "side": 1,
       "message": "Done: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13884\n\nAlso moved to 3.1",
       "parentUuid": "db174e09_bff1f7bf",
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a07db4bd_5e7587ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T17:49:15Z",
+      "side": 1,
+      "message": "I\u0027ve moved this to stable-3.2. The stable-3.1 should still be managed through a cherry-pick now, unfortunately :-(",
+      "parentUuid": "daa1b00d_03341d01",
       "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

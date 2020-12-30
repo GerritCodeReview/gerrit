@@ -52,6 +52,24 @@
       "parentUuid": "f90c5863_5b148121",
       "revId": "8ba95315992923af1cd00727c759e314f8b7fb00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51c2be65_885db5c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T17:24:32Z",
+      "side": 1,
+      "message": "There was a \u0027...\u0027 button on the top-right of the change screen, which opened the extra actions. One of the actions is \"Move Change\". I\u0027ll move at least the original change to stable-3.2 and we can finalise it and merge there.\n\nOnce merged, we can then cherry-pick that into stable-3.1 and re-merge.\n\nUnfortunately, it isn\u0027t possible anymore to move the original change to stable-3.1 because *this* change now exists and it would conflict with it.",
+      "parentUuid": "b203979a_d02be016",
+      "revId": "8ba95315992923af1cd00727c759e314f8b7fb00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

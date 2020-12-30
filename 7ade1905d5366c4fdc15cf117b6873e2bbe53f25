@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba309f15_2bda2888",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-12-30T11:47:27Z",
+      "side": 1,
+      "message": "see the discussion about raising minimum required Java version to 11 for jgit\nhttps://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d569917#c15",
+      "revId": "7ade1905d5366c4fdc15cf117b6873e2bbe53f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

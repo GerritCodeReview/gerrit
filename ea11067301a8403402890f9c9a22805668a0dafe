@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96564fc2_09d4b462",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:32:43Z",
+      "side": 1,
+      "message": "I pushed the change for stable-3.1 as well, but I also updated this review to make it easier for you to see the changes. Let me know if we should abandon this one.",
+      "revId": "ea11067301a8403402890f9c9a22805668a0dafe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

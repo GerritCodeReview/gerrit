@@ -621,7 +621,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("submittable".equalsIgnoreCase(value)) {
-      return new SubmittablePredicate(SubmitRecord.Status.OK);
+      // SubmittablePredicate will match if *any* of the submit records are OK,
+      // but we need to check that they're *all* OK, so check that none of the
+      // submit records match any of the negative cases. To avoid checking yet
+      // more negative cases for CLOSED and FORCED, instead make sure at least
+      // one submit record is OK.
+      return Predicate.and(
+          new SubmittablePredicate(SubmitRecord.Status.OK),
+          Predicate.not(new SubmittablePredicate(SubmitRecord.Status.NOT_READY)),
+          Predicate.not(new SubmittablePredicate(SubmitRecord.Status.RULE_ERROR)));
     }
 
     if ("ignored".equalsIgnoreCase(value)) {

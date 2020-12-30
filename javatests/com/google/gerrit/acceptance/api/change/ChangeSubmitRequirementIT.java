@@ -22,6 +22,8 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -33,7 +35,6 @@ import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.Test;
 
 public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
@@ -93,20 +94,113 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
     assertThat(result.get(0).requirements).containsExactly(reqInfo);
   }
 
+  @Test
+  public void submittableQueryRuleNotReady() throws Exception {
+    ChangeApi change = newChangeApi();
+
+    // Satisfy the default rule.
+    approveChange(change);
+
+    // The custom rule is NOT_READY.
+    rule.block(true);
+    change.index();
+
+    assertThat(queryIsSubmittable()).isEmpty();
+  }
+
+  @Test
+  public void submittableQueryRuleError() throws Exception {
+    ChangeApi change = newChangeApi();
+
+    // Satisfy the default rule.
+    approveChange(change);
+
+    rule.status(Optional.of(SubmitRecord.Status.RULE_ERROR));
+    change.index();
+
+    assertThat(queryIsSubmittable()).isEmpty();
+  }
+
+  @Test
+  public void submittableQueryDefaultRejected() throws Exception {
+    ChangeApi change = newChangeApi();
+
+    // CodeReview:-2 the change, causing the default rule to fail.
+    rejectChange(change);
+
+    rule.status(Optional.of(SubmitRecord.Status.OK));
+    change.index();
+
+    assertThat(queryIsSubmittable()).isEmpty();
+  }
+
+  @Test
+  public void submittableQueryRuleOk() throws Exception {
+    ChangeApi change = newChangeApi();
+
+    // Satisfy the default rule.
+    approveChange(change);
+
+    rule.status(Optional.of(SubmitRecord.Status.OK));
+    change.index();
+
+    List<ChangeInfo> result = queryIsSubmittable();
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0).changeId).isEqualTo(change.info().changeId);
+  }
+
+  @Test
+  public void submittableQueryRuleNoRecord() throws Exception {
+    ChangeApi change = newChangeApi();
+
+    // Satisfy the default rule.
+    approveChange(change);
+
+    // Our custom rule isn't providing any submit records.
+    rule.status(Optional.empty());
+    change.index();
+
+    // is:submittable should return the change, since it was approved and the custom rule is not
+    // blocking it.
+    List<ChangeInfo> result = queryIsSubmittable();
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0).changeId).isEqualTo(change.info().changeId);
+  }
+
+  private List<ChangeInfo> queryIsSubmittable() throws Exception {
+    return gApi.changes().query("is:submittable project:" + project.get()).get();
+  }
+
+  private ChangeApi newChangeApi() throws Exception {
+    return gApi.changes().id(createChange().getChangeId());
+  }
+
+  private void approveChange(ChangeApi changeApi) throws Exception {
+    changeApi.current().review(ReviewInput.approve());
+  }
+
+  private void rejectChange(ChangeApi changeApi) throws Exception {
+    changeApi.current().review(ReviewInput.reject());
+  }
+
   @Singleton
   private static class CustomSubmitRule implements SubmitRule {
-    private final AtomicBoolean block = new AtomicBoolean(true);
+    private Optional<SubmitRecord.Status> recordStatus = Optional.empty();
 
     public void block(boolean block) {
-      this.block.set(block);
+      this.status(block ? Optional.of(SubmitRecord.Status.NOT_READY) : Optional.empty());
+    }
+
+    public void status(Optional<SubmitRecord.Status> status) {
+      this.recordStatus = status;
     }
 
     @Override
     public Optional<SubmitRecord> evaluate(ChangeData changeData) {
-      if (block.get()) {
+      if (this.recordStatus.isPresent()) {
         SubmitRecord record = new SubmitRecord();
         record.labels = new ArrayList<>();
-        record.status = SubmitRecord.Status.NOT_READY;
+        record.status = this.recordStatus.get();
         record.requirements = ImmutableList.of(req);
         return Optional.of(record);
       }

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dd18a02_e1b30af9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T22:01:48Z",
+      "side": 1,
+      "message": "\u003e Sure, sorry the test code was messy. There\u0027s a tendency to treat it as not as important as the actual code, as long as it\u0027s testing what needs to get tested, but that\u0027s problematic for the long term health of the project.\n\nNo worries, and thanks for addressing all the issues.\nTest code is more critical than actual code, because it is the only piece of code that will never be tested and we assume to be correct.\n\nThe only way to minimise the risks of having bugs in the test code, is making it tidy, readable and consistent, so that a human eye can read it and validate it.\n\nAlso, test code is really good to understand what the actual code is supposed to do and therefore is executable documentation.",
+      "parentUuid": "9b89977d_7768ed46",
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "750a8577_cb997c0d",

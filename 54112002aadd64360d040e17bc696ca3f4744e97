@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "741f7c6b_d2e91283",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T18:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63374411_bde78ae5",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c252f4e0_5d00bf69",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-30T17:49:15Z",
       "side": 1,
       "message": "This is now repeated many times in the tests: you could DRY them out.\n\nExample:\n  private ChangeApi newChangeApi() {\n    return gApi.changes().id(createChange().getChangeId());\n  }",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 58
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "805da86c_c987945c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T18:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c252f4e0_5d00bf69",
       "range": {
         "startLine": 103,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84524a4a_080972d9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T18:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92f9695e_7ded5b8f",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 51
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "973e2e9a_92f3a4d0",
@@ -83,6 +155,30 @@
       "writtenOn": "2020-12-30T17:49:15Z",
       "side": 1,
       "message": "Suggestion:\n  assertThat(queryIsSubmittable()).isEmpty()\n\nMore compact and readable, so that the above comment isn\u0027t needed anymore as the code tells what it does.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f4e0c14_2f1e48f6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T18:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "973e2e9a_92f3a4d0",
       "range": {
         "startLine": 113,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "590b06e3_9135d6d1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T18:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bed2ccf_f6ce1ad9",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 34
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af8ff2e3_37cf963a",
@@ -129,6 +249,30 @@
       "writtenOn": "2020-12-30T17:49:15Z",
       "side": 1,
       "message": "Suggestion:\n  assertThat(queryIsSubmittable()).isEmpty()\n\nMore compact and readable, so that the above comment isn\u0027t needed anymore as the code tells what it does.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 34
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bec34a7c_0ec2cb72",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T18:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af8ff2e3_37cf963a",
       "range": {
         "startLine": 147,
         "startChar": 0,
@@ -162,6 +306,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9354b08_1e06cc34",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T18:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f651621f_abef1a1a",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 34
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09fd9a77_0365a085",
@@ -175,6 +343,30 @@
       "writtenOn": "2020-12-30T17:49:15Z",
       "side": 1,
       "message": "Suggestion:\n  assertThat(queryIsSubmittable()).isNotEmpty()\n\nMore compact and readable, so that the above comment isn\u0027t needed anymore as the code tells what it does.",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 34
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fc4aa5d_975d3575",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T18:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09fd9a77_0365a085",
       "range": {
         "startLine": 184,
         "startChar": 0,

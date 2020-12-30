@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "279b1689_ab7a116a",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T01:03:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "194159bb_29820cb9",
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6d58538_fd26739c",
@@ -31,6 +49,30 @@
       "writtenOn": "2020-12-16T15:51:16Z",
       "side": 1,
       "message": "2 seconds would also do the job? Tried multiple times and it worked for me. But, the test is not actually waiting for 10 seconds, if the event with the right content arrived, we are done.",
+      "range": {
+        "startLine": 41,
+        "startChar": 87,
+        "endLine": 41,
+        "endChar": 89
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35bbd4f0_7ccd989c",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T01:03:44Z",
+      "side": 1,
+      "message": "Yes, unless your box is super-duper-slow. I can start with 2 seconds and see if there is any flakiness due to a very slow node.\n\nP.S. Bear in mind that having a lower number make the build fail faster, but not actually succeeding in less time.",
+      "parentUuid": "f6d58538_fd26739c",
       "range": {
         "startLine": 41,
         "startChar": 87,
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22cca1f6_035866e5",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T01:03:44Z",
+      "side": 1,
+      "message": "I believe I should keep it: the eventsOutput accumulates all the lines coming from the events and it should stay as an instance variable.",
+      "parentUuid": "2192d1df_6657b40f",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 37
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c92dd0ad_eb1460dc",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 18
@@ -77,6 +143,30 @@
       "writtenOn": "2020-12-16T15:51:16Z",
       "side": 1,
       "message": "You don\u0027t need to overwrite this method. The contract is that the base class is calling initSsh(), if SSH test is enabled, and then JUnit\u0027s setUp() is called.\n\nSo just add setUp() method with one liner instead:\n\n  @Before\n  public void setUp() throws Exception {\n    streamEventsReader \u003d adminSshSession.execAndReturnReader(\"gerrit stream-events\");\n  }",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 45
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "413d0ccf_a9c576df",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T01:03:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c92dd0ad_eb1460dc",
       "range": {
         "startLine": 46,
         "startChar": 2,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2347d5f1_9f80cb73",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T01:03:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7348094_14e7fb67",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 39
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55d7c9d1_041b3202",
@@ -123,6 +237,30 @@
       "writtenOn": "2020-12-16T15:55:52Z",
       "side": 1,
       "message": "Nit: Inline on the next line, like it\u0027s done in the follow-up change.",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 51
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba5735d7_a2c8006f",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T01:03:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55d7c9d1_041b3202",
       "range": {
         "startLine": 60,
         "startChar": 4,
@@ -156,6 +294,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c89a096_6e866d14",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T01:03:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "138ed9cb_0b00efc0",
+      "range": {
+        "startLine": 64,
+        "startChar": 23,
+        "endLine": 64,
+        "endChar": 43
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c852057e_4284784a",
@@ -169,6 +331,30 @@
       "writtenOn": "2020-12-16T15:51:16Z",
       "side": 1,
       "message": "This should be increased to 1024 or 2048, both worked for me.",
+      "range": {
+        "startLine": 73,
+        "startChar": 29,
+        "endLine": 73,
+        "endChar": 30
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eda6477_15d52853",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T01:03:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c852057e_4284784a",
       "range": {
         "startLine": 73,
         "startChar": 29,

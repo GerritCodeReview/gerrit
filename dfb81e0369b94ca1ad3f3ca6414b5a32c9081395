@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1970803_fdb734b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T22:14:17Z",
+      "side": 1,
+      "message": "Updated with the same version as the stable-3.2 version, since we\u0027re stuck with this one. ",
+      "revId": "dfb81e0369b94ca1ad3f3ca6414b5a32c9081395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

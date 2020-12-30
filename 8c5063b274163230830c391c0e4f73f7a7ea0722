@@ -22,6 +22,30 @@
       },
       "revId": "8c5063b274163230830c391c0e4f73f7a7ea0722",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae80b1e2_a0fa41b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T17:06:36Z",
+      "side": 1,
+      "message": "Most likely, that specific plugin is what lead me to want to fix the problem, but the issue occurs with any java submit rule (if you remove the fix, the new tests will start failing).",
+      "parentUuid": "4a69c9bb_63d8b735",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 40
+      },
+      "revId": "8c5063b274163230830c391c0e4f73f7a7ea0722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

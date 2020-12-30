@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3f5df6d_72cff50d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T14:18:56Z",
+      "side": 1,
+      "message": "Why don\u0027t you just move the target branch of Change-Id: I4878ce13c6 instead?",
+      "revId": "8ba95315992923af1cd00727c759e314f8b7fb00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

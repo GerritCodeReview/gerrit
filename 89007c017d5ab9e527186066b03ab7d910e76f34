@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84a2c391_6fd3391b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T20:52:04Z",
+      "side": 1,
+      "message": "Just nits to tidy up, and then we\u0027re ready to merge.\nThanks again, Luke, for fixing it.",
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "750a8577_cb997c0d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T20:52:04Z",
+      "side": 1,
+      "message": "nit: private methods are typically at the end of the class definition.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 3
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "553fdad4_c15d589c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T20:52:04Z",
+      "side": 1,
+      "message": "Unneeded",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 51
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd720114_983e8b7a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T20:52:04Z",
+      "side": 1,
+      "message": "Unneeded: the code is now readable enough.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 37
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0449699_ca1b215a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T20:52:04Z",
+      "side": 1,
+      "message": "Unneeded: the code is readable enough",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 51
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "275fb17e_081541b4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T20:52:04Z",
+      "side": 1,
+      "message": "Unneeded: the code is now readable enough.",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 28
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a88e2ab5_13eec765",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T20:52:04Z",
+      "side": 1,
+      "message": "Unneeded: the code is readable enough",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 51
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4e2af17_940b4a12",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T20:52:04Z",
+      "side": 1,
+      "message": "Unneeded: the code is readable enough",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 29
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

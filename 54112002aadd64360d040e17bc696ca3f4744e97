@@ -356,6 +356,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "28d0a755_05aa3d02",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T21:55:59Z",
+      "side": 1,
+      "message": "Whoops, sorry, missed the isNotEmpty variant. Thought it was the same comment as for isEmpty.\n\nEqual to 1 is not the same as isNotEmpty, we wouldn\u0027t want it to return 2 somehow and pass. I\u0027ll change it though if you want it to be isNotEmpty, but it is a behavior change not a tidying.",
+      "parentUuid": "25ec8022_9bcd54ef",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 34
+      },
+      "revId": "54112002aadd64360d040e17bc696ca3f4744e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09fd9a77_0365a085",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
         "patchSetId": 9

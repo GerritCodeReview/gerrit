@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4725e04b_6b4ba5ca",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T21:55:59Z",
+      "side": 1,
+      "message": "Sorry about that, missed one.",
+      "parentUuid": "553fdad4_c15d589c",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 51
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dd720114_983e8b7a",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
         "patchSetId": 10
@@ -77,6 +101,30 @@
       "writtenOn": "2020-12-30T20:52:04Z",
       "side": 1,
       "message": "Unneeded: the code is now readable enough.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 37
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc14b405_411a2cf4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T21:55:59Z",
+      "side": 1,
+      "message": "Good point.",
+      "parentUuid": "dd720114_983e8b7a",
       "range": {
         "startLine": 136,
         "startChar": 0,
@@ -110,6 +158,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "decef69c_78c6ad8f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T21:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0449699_ca1b215a",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 51
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "275fb17e_081541b4",
@@ -123,6 +195,30 @@
       "writtenOn": "2020-12-30T20:52:04Z",
       "side": 1,
       "message": "Unneeded: the code is now readable enough.",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 28
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b25d013_ad5ee6aa",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T21:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "275fb17e_081541b4",
       "range": {
         "startLine": 151,
         "startChar": 0,
@@ -156,6 +252,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f37a9616_71c75856",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T21:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a88e2ab5_13eec765",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 51
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4e2af17_940b4a12",
@@ -169,6 +289,30 @@
       "writtenOn": "2020-12-30T20:52:04Z",
       "side": 1,
       "message": "Unneeded: the code is readable enough",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 29
+      },
+      "revId": "89007c017d5ab9e527186066b03ab7d910e76f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11868c28_252f854f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T21:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4e2af17_940b4a12",
       "range": {
         "startLine": 166,
         "startChar": 4,

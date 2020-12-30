@@ -156,6 +156,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17630487_d18a38e6",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T07:24:00Z",
+      "side": 1,
+      "message": "\u003e However, the logic is not really accumulating the result, but instantly searching for the right occurence of string in event stream buffer. so that if it\u0027s found, we are done and if not we continue, so that the content of the previous event stream buffer from the previous is just discarded anyway (not accounting) and thus is unused.\n\nYes, but there is the possibility that what we want to find is split between two attempts: imagine that we are looking for \"foobar\" and in the first try we receive until \"foo\" and the second we get \"bar\". If we don\u0027t keep the buffer between the first and the second, we\u0027ll never find \"foobar\" but first we\u0027ll find \"foo\" and then \"bar\" ... and the test will fail.\n\nI would rather keep it an instance variable and avoid flakiness in the test.\n\n\u003e If you remove the instacne variable and make it method local what would change? The test would still pass.\n\nYes, that\u0027s a second possibility: we do it in the test method and pass it as a parameter. Would that be better in your opinion?",
+      "parentUuid": "608ff04e_d95586ea",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 37
+      },
+      "revId": "b146e862d4d8de1167fe282ac7b9214dec867392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c92dd0ad_eb1460dc",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 18

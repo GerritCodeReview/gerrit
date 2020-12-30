@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a69c9bb_63d8b735",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-30T13:59:31Z",
+      "side": 1,
+      "message": "This plugin is used by Android project, so that the problem should show up there as well?",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 40
+      },
+      "revId": "8c5063b274163230830c391c0e4f73f7a7ea0722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

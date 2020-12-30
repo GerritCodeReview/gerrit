@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b97ae94_05792b1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f5f75aa_40e7f187",
+      "range": {
+        "startLine": 7,
+        "startChar": 53,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9c14fa1_b02f9a1f",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-29T23:41:34Z",
       "side": 1,
       "message": "Can you make a real-life example?",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 55
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d61d29fe_11ebb5a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c14fa1_b02f9a1f",
       "range": {
         "startLine": 13,
         "startChar": 15,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed2501c_d85d794d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21c51acb_61ce8f95",
+      "range": {
+        "startLine": 18,
+        "startChar": 16,
+        "endLine": 18,
+        "endChar": 23
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db174e09_bff1f7bf",
@@ -87,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "daa1b00d_03341d01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13884\n\nAlso moved to 3.1",
+      "parentUuid": "db174e09_bff1f7bf",
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "55bc0bcd_77bea1aa",
@@ -100,6 +190,24 @@
       "writtenOn": "2020-12-29T23:41:34Z",
       "side": 1,
       "message": "Hi Luke, thanks a lot for your contribution. This was indeed a very nasty problem: a non-submittable change was returned by a \u0027is:submittable\u0027 query :-O\n\nCan you also create an issue for that on the Gerrit Issue Tracker?\nhttps://bugs.chromium.org/p/gerrit/issues/entry\n\nNOTE: I am assigning a -1 that means \"I need to do some changes before giving my approval\", which isn\u0027t a negative feedback *at all*. I do really like your change and I am just giving you feedback on how I believe it can be improved to make it mergeable. ",
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b826e72d_796862fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Thanks for the thorough review!",
+      "parentUuid": "55bc0bcd_77bea1aa",
       "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -127,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "266986ab_8686cf5c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71e81da3_cb3036c7",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 3
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7409aee7_3d916033",
@@ -140,6 +272,24 @@
       "writtenOn": "2020-12-29T23:41:34Z",
       "side": 1,
       "message": "Not needed",
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9629b669_895b049f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7409aee7_3d916033",
       "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -161,6 +311,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11892714_bfd621bd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e69435d_cf65e1a6",
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07b353a7_a8975324",
@@ -174,6 +342,24 @@
       "writtenOn": "2020-12-29T23:41:34Z",
       "side": 1,
       "message": "Not needed",
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20017d19_ff651dc7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b353a7_a8975324",
       "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -195,6 +381,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95f677b7_d69c5e2d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2943142_f261264e",
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23faa522_8ffdabd7",
@@ -208,6 +412,30 @@
       "writtenOn": "2020-12-29T23:41:34Z",
       "side": 1,
       "message": "This test is checking many use-cases: one test should fail for just one reason.\nCan you split into multiple test-cases instead?",
+      "range": {
+        "startLine": 109,
+        "startChar": 14,
+        "endLine": 109,
+        "endChar": 30
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d41f0e49_9ffe0aae",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23faa522_8ffdabd7",
       "range": {
         "startLine": 109,
         "startChar": 14,
@@ -241,6 +469,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fba7619_b1eff764",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7acf921b_c5beee0e",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 64
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f50acd0d_230b3e9b",
@@ -254,6 +506,30 @@
       "writtenOn": "2020-12-29T23:41:34Z",
       "side": 1,
       "message": "This would be clearer if moved after L131, adding a reindex after that.\nOtherwise it isn\u0027t immediately visible the reason why the custom rule doesn\u0027t provide any submit record, as the statement was a few lines before that.\n\nAlso, you could keep the existing rule.block(false) which it would also work for your use-case.",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 122,
+        "endChar": 40
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dd64a41_765b0443",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f50acd0d_230b3e9b",
       "range": {
         "startLine": 122,
         "startChar": 4,
@@ -287,6 +563,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4148df0d_fda1c312",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "494cc061_5ad365ee",
+      "range": {
+        "startLine": 125,
+        "startChar": 20,
+        "endLine": 125,
+        "endChar": 32
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc9cf081_9933e599",
@@ -300,6 +600,30 @@
       "writtenOn": "2020-12-29T23:41:34Z",
       "side": 1,
       "message": "This is more for making sure that your change isn\u0027t breaking an existing use-case.\nCan this be a separate test or also a separate change that is making sure that is:submittable works as expected?",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 34
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16879e0b_42b1d13e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc9cf081_9933e599",
       "range": {
         "startLine": 130,
         "startChar": 0,
@@ -333,6 +657,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b22b1a26_6eadb91f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1ed03df_c88c79d1",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 38
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85e28e17_bf9f9e2b",
@@ -350,6 +698,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3a48fad_9c9e425a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85e28e17_bf9f9e2b",
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "432fc86c_5471bc98",
@@ -363,6 +729,30 @@
       "writtenOn": "2020-12-29T23:41:34Z",
       "side": 1,
       "message": "This is really the culprit: without your fix, a non-submittable change (because of the block done at L136) is returned as submittable, even if you have called an explicit reindex.",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 34
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6f9e943_383fb44f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "432fc86c_5471bc98",
       "range": {
         "startLine": 139,
         "startChar": 4,
@@ -396,6 +786,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05282bb1_0b5ac266",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "745a7705_e68ab135",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 34
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c1c29fb_c9023adf",
@@ -419,6 +833,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1a9c1e6_d40860a0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9c1c29fb_c9023adf",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 34
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4880312_51894b26",
@@ -432,6 +870,30 @@
       "writtenOn": "2020-12-29T23:41:34Z",
       "side": 1,
       "message": "This is a valid use-case, it deserves its own separate test",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 34
+      },
+      "revId": "a35393331c4f7fc93698868b9bab717e45af5299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72ff9cf3_38be46ca",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1077610
+      },
+      "writtenOn": "2020-12-30T01:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4880312_51894b26",
       "range": {
         "startLine": 152,
         "startChar": 0,

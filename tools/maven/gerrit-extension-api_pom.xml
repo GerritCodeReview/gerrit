@@ -2,7 +2,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.gerrit</groupId>
   <artifactId>gerrit-extension-api</artifactId>
+<<<<<<< HEAD
   <version>3.4.0-SNAPSHOT</version>
+=======
+  <version>3.3.2-SNAPSHOT</version>
+>>>>>>> stable-3.3
   <packaging>jar</packaging>
   <name>Gerrit Code Review - Extension API</name>
   <description>API for Gerrit Extensions</description>
@@ -42,6 +46,9 @@
     </developer>
     <developer>
       <name>Han-Wen Nienhuys</name>
+    </developer>
+    <developer>
+      <name>Jacek Centkowski</name>
     </developer>
     <developer>
       <name>Joerg Zieren</name>

@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.joining;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -53,8 +54,15 @@ public class IndexServletTest {
     String testCanonicalUrl = "foo-url";
     String testCdnPath = "bar-cdn";
     String testFaviconURL = "zaz-url";
+
+    String disabledDefault = IndexHtmlUtil.DEFAULT_EXPERIMENTS.asList().get(0);
+    org.eclipse.jgit.lib.Config serverConfig = new org.eclipse.jgit.lib.Config();
+    serverConfig.setStringList(
+        "experiments", null, "enabled", ImmutableList.of("NewFeature", "DisabledFeature"));
+    serverConfig.setStringList(
+        "experiments", null, "disabled", ImmutableList.of("DisabledFeature", disabledDefault));
     IndexServlet servlet =
-        new IndexServlet(testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi);
+        new IndexServlet(testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi, serverConfig);
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 
@@ -76,6 +84,15 @@ public class IndexServletTest {
                 + "'\\x7b\\x22\\/config\\/server\\/version\\x22: \\x22123\\x22, "
                 + "\\x22\\/config\\/server\\/info\\x22: \\x7b\\x22default_theme\\x22:"
                 + "\\x22my-default-theme\\x22\\x7d, \\x22\\/config\\/server\\/top-menus\\x22: "
-                + "\\x5b\\x5d\\x7d');</script>");
+                + "\\x5b\\x5d\\x7d');");
+    String enabledDefaults =
+        IndexHtmlUtil.DEFAULT_EXPERIMENTS.stream()
+            .filter(e -> !e.equals(disabledDefault))
+            .collect(joining("\\x22,"));
+    assertThat(output)
+        .contains(
+            "window.ENABLED_EXPERIMENTS = JSON.parse('\\x5b\\x22NewFeature\\x22,\\x22"
+                + enabledDefaults
+                + "\\x22\\x5d');</script>");
   }
 }

@@ -25,7 +25,6 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.transport.TransferConfig;
 import org.eclipse.jgit.util.FS;
 
 /** Initialize the JGit configuration. */
@@ -62,36 +61,6 @@ class InitJGitConfig implements InitStep {
                 + "git-push and updating refs.\n"
                 + "Disable this behavior to avoid the additional load it creates: "
                 + "gc should be configured in gc config section or run as a separate process.");
-      }
-
-      if (!jgitConfig
-          .getNames(ConfigConstants.CONFIG_PROTOCOL_SECTION)
-          .contains(ConfigConstants.CONFIG_KEY_VERSION)) {
-        jgitConfig.setString(
-            ConfigConstants.CONFIG_PROTOCOL_SECTION,
-            null,
-            ConfigConstants.CONFIG_KEY_VERSION,
-            TransferConfig.ProtocolVersion.V2.version());
-        jgitConfig.save();
-        ui.error(
-            String.format(
-                "Auto-configured \"%s.%s = %s\" to activate git wire protocol version 2.",
-                ConfigConstants.CONFIG_PROTOCOL_SECTION,
-                ConfigConstants.CONFIG_KEY_VERSION,
-                TransferConfig.ProtocolVersion.V2.version()));
-      } else {
-        String version =
-            jgitConfig.getString(
-                ConfigConstants.CONFIG_PROTOCOL_SECTION, null, ConfigConstants.CONFIG_KEY_VERSION);
-        if (!TransferConfig.ProtocolVersion.V2.version().equals(version)) {
-          ui.error(
-              String.format(
-                  "HINT: JGit option \"%s.%s = %s\". It's recommended to activate git\n"
-                      + "wire protocol version 2 to improve git fetch performance.",
-                  ConfigConstants.CONFIG_PROTOCOL_SECTION,
-                  ConfigConstants.CONFIG_KEY_VERSION,
-                  version));
-        }
       }
     } catch (IOException e) {
       throw die(String.format("Handling JGit configuration %s failed", sitePaths.jgit_config), e);

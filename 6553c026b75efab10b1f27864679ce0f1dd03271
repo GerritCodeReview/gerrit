@@ -160,6 +160,24 @@
       "parentUuid": "dfc26a70_71b02b4e",
       "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faf048f0_d191f32a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-01-04T08:35:50Z",
+      "side": 1,
+      "message": "\u003e \u003e Not quite. I say *never* merge up from EOL branches.\n\u003e \n\u003e But why should we handle EOL branches differently as not EOL branches? To summarize what you are saying:\nNo, that\u0027s not correct. Please do not claim to summarize what I\u0027m saying without actually reading what I am saying!\n\n\u003e \n\u003e If a fix was applied to master, the backport workflow is:\n\u003e \n\u003e * cherry-pick to stable-3.1 only once\n\u003e * merge up to master\n\n*NEVER* apply a bugfix to master, but if it for some strange reason is then, yes it would need to be backported.\n\n\u003e \n\u003e If a fix was applied to stable-3.1, the backport workflow is:\n\u003e \n\u003e * cherry-pick to every single EOL branch\u0027\nWhat? Which part of what I have wrote previously have you manage to misinterpret as me thinking it\u0027s a good idea to cherry-pick bug-fixes to every EOL branch?\n\n\u003e * merge up to master\n\u003e \n\u003e What if a fix is that important, and was (erroneously) applied to master, and say you would have to backport it to stable-2.6. Now what? Single cherry-pick to stable-3.1 and then 17 cherry-picks to all EOL branches? Why? Where are these different workflows documented?\n\nI don\u0027t feel that this discussion is getting anywhere. I\u0027ll try to state my intentions one last time:\n\n1. Bugfixes should be applied to the earliest active branch the bug affects, and then be merged back into master.\n2. If we decide that we should, as a favor, apply the fix to any EOL branches then we backport it to those through cherry-pick\n\nThere is no documented workflow for how to apply  bug-fixes.\nI have just before Christmas suggested that we introduced one and that it should be the one outlined above.\nYou didn\u0027t seem to look at that link the last time I supplied it but I\u0027ll try again:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13873",
+      "parentUuid": "73e9a52e_593506e2",
+      "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

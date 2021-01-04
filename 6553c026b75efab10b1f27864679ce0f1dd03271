@@ -178,6 +178,24 @@
       "parentUuid": "73e9a52e_593506e2",
       "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b77d78c0_b2e3a1de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-01-04T08:37:13Z",
+      "side": 1,
+      "message": "Oh, and there\u0027s a big difference between EOL and active branches. EOL branches are End Of Life and no longer have active support. Perhaps it\u0027s time we started to treat them as such?",
+      "parentUuid": "faf048f0_d191f32a",
+      "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

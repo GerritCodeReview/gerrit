@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "524aeb04_c9d85dc7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-04T08:24:50Z",
+      "side": 1,
+      "message": "Some tests are failing now. I also see this ISE in the logs: [1].\n\n  DEBUG org.eclipse.jgit.lib.Repository : close() called when useCnt is already zero for Repository[Repo-910505843]\n  java.lang.IllegalStateException\n    at org.eclipse.jgit.lib.Repository.close(Repository.java:948)\n\n[1] http://paste.openstack.org/show/801373",
+      "revId": "92f77a1b9b241b098fc4338e0279b263bf2bde5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

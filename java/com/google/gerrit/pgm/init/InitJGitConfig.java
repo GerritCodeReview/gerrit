@@ -64,22 +64,9 @@ class InitJGitConfig implements InitStep {
                 + "gc should be configured in gc config section or run as a separate process.");
       }
 
-      if (!jgitConfig
+      if (jgitConfig
           .getNames(ConfigConstants.CONFIG_PROTOCOL_SECTION)
           .contains(ConfigConstants.CONFIG_KEY_VERSION)) {
-        jgitConfig.setString(
-            ConfigConstants.CONFIG_PROTOCOL_SECTION,
-            null,
-            ConfigConstants.CONFIG_KEY_VERSION,
-            TransferConfig.ProtocolVersion.V2.version());
-        jgitConfig.save();
-        ui.error(
-            String.format(
-                "Auto-configured \"%s.%s = %s\" to activate git wire protocol version 2.",
-                ConfigConstants.CONFIG_PROTOCOL_SECTION,
-                ConfigConstants.CONFIG_KEY_VERSION,
-                TransferConfig.ProtocolVersion.V2.version()));
-      } else {
         String version =
             jgitConfig.getString(
                 ConfigConstants.CONFIG_PROTOCOL_SECTION, null, ConfigConstants.CONFIG_KEY_VERSION);

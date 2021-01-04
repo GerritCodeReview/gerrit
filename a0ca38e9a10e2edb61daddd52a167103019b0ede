@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6f93dd2_ad5cb2c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-04T17:18:51Z",
+      "side": 1,
+      "message": "Leaving for Joerg to +2 when his comment is resolved.",
+      "revId": "a0ca38e9a10e2edb61daddd52a167103019b0ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -41,6 +41,7 @@ import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -121,6 +122,9 @@ public class GitUtil {
     Config cfg = dest.getConfig();
     cfg.setString("remote", "origin", "url", uri);
     cfg.setString("remote", "origin", "fetch", "+refs/heads/*:refs/remotes/origin/*");
+    // TODO(davido): Enable git wire protocol v2 in test repository
+    cfg.setInt(
+        ConfigConstants.CONFIG_PROTOCOL_SECTION, null, ConfigConstants.CONFIG_KEY_VERSION, 0);
     TestRepository<InMemoryRepository> testRepo = newTestRepository(dest);
     FetchResult result = testRepo.git().fetch().setRemote("origin").call();
     String originMaster = "refs/remotes/origin/master";

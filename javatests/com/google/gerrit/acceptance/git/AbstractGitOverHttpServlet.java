@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.FakeGroupAuditService;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -85,20 +84,21 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     testRepo.git().fetch().call();
 
     ImmutableList<HttpAuditEvent> auditEvents = auditService.drainHttpAuditEvents();
-    assertThat(auditEvents).hasSize(2);
+    assertThat(auditEvents).hasSize(3);
 
     HttpAuditEvent lsRemote = auditEvents.get(0);
-    // Repo URL doesn't include /a, so fetching doesn't cause authentication.
-    assertThat(lsRemote.who).isInstanceOf(AnonymousUser.class);
+    assertThat(lsRemote.who.getUserName().get()).isEqualTo("admin");
     assertThat(lsRemote.what).endsWith("/info/refs?service=git-upload-pack");
     assertThat(lsRemote.params).containsExactly("service", "git-upload-pack");
     assertThat(lsRemote.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
 
-    HttpAuditEvent uploadPack = auditEvents.get(1);
-    assertThat(lsRemote.who).isInstanceOf(AnonymousUser.class);
-    assertThat(uploadPack.what).endsWith("/git-upload-pack");
-    assertThat(uploadPack.params).isEmpty();
-    assertThat(uploadPack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    for (int i = 1; i <= 2; i++) {
+      HttpAuditEvent uploadPack = auditEvents.get(i);
+      assertThat(lsRemote.who.getUserName().get()).isEqualTo("admin");
+      assertThat(uploadPack.what).endsWith("/git-upload-pack");
+      assertThat(uploadPack.params).isEmpty();
+      assertThat(uploadPack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    }
   }
 
   private void createCommit(String message) throws Exception {

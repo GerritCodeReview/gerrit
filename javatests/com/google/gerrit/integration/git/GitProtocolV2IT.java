@@ -42,7 +42,6 @@ import com.google.inject.Inject;
 import java.io.File;
 import java.net.InetSocketAddress;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -97,11 +96,6 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
                   .ref("refs/heads/master")
                   .group(SystemGroupBackend.REGISTERED_USERS))
           .update();
-
-      // Set protocol.version=2 in target repository
-      execute(
-          ImmutableList.of("git", "config", "protocol.version", "2"),
-          sitePaths.site_path.resolve("git").resolve(project.get() + Constants.DOT_GIT).toFile());
 
       // Retrieve HTTP url
       String url = config.getString("gerrit", null, "canonicalweburl");
@@ -217,15 +211,6 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       Project.NameKey allRefsVisibleProject = Project.nameKey("all-refs-visible");
       gApi.projects().create(allRefsVisibleProject.get());
 
-      // Set protocol.version=2 in target repository
-      execute(
-          ImmutableList.of("git", "config", "protocol.version", "2"),
-          sitePaths
-              .site_path
-              .resolve("git")
-              .resolve(allRefsVisibleProject.get() + Constants.DOT_GIT)
-              .toFile());
-
       // Set up project permission to allow reading all refs
       projectOperations
           .project(allRefsVisibleProject)
@@ -279,15 +264,6 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       // Create project
       Project.NameKey privateProject = Project.nameKey("private-project");
       gApi.projects().create(privateProject.get());
-
-      // Set protocol.version=2 in target repository
-      execute(
-          ImmutableList.of("git", "config", "protocol.version", "2"),
-          sitePaths
-              .site_path
-              .resolve("git")
-              .resolve(privateProject.get() + Constants.DOT_GIT)
-              .toFile());
 
       // Disallow general read permissions for anonymous users
       projectOperations

@@ -81,7 +81,7 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     testRepo.git().fetch().call();
 
     ImmutableList<HttpAuditEvent> auditEvents = auditService.drainHttpAuditEvents();
-    assertThat(auditEvents).hasSize(2);
+    assertThat(auditEvents).hasSize(4);
 
     HttpAuditEvent lsRemote = auditEvents.get(0);
     // Repo URL doesn't include /a, so fetching doesn't cause authentication.

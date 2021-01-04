@@ -5516,10 +5516,10 @@ and "never" suppresses expiration altogether.
 [[protocol.version]]protocol.version::
 +
 If set, the server will accept requests from a client attempting to communicate
-using the specified protocol version. Otherwise communication falls back to version 0.
-If set in file `etc/jgit.config` this option will be used for all repositories of
-the site. It can be overridden for a given repository by configuring a different
-value in the repository's `config` file.
+using the specified protocol version. Default is `2`. If set in file
+`etc/jgit.config` this option will be used for all repositories of the site.
+It can be overridden for a given repository by configuring a different value in
+the repository's `config` file.
 +
 Supported versions:
 0:: the original wire protocol.

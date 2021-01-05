@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32ee9fe8_cdd0efe4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-05T13:17:13Z",
+      "side": 1,
+      "message": "Whops, not intended, let me revert to PS8",
+      "revId": "f7e2f84471b5e76859f37197b9cbd02e09a73ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

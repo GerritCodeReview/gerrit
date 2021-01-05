@@ -75,7 +75,13 @@ export default {
   output: {
     format: 'iife',
     compact: true,
-    plugins: [terser()]
+    plugins: [
+      terser({
+        output: {
+          comments: false
+        }
+      })
+    ]
   },
   //Context must be set to window to correctly processing global variables
   context: 'window',

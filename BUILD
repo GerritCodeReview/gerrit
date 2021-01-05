@@ -56,20 +56,35 @@ pkg_war(
 API_DEPS = [
     "//java/com/google/gerrit/acceptance:framework_deploy.jar",
     "//java/com/google/gerrit/acceptance:libframework-lib-src.jar",
-    "//java/com/google/gerrit/acceptance:framework-javadoc",
     "//java/com/google/gerrit/extensions:extension-api_deploy.jar",
     "//java/com/google/gerrit/extensions:libapi-src.jar",
-    "//java/com/google/gerrit/extensions:extension-api-javadoc",
     "//plugins:plugin-api_deploy.jar",
     "//plugins:plugin-api-sources_deploy.jar",
+]
+
+API_JAVADOC_DEPS = [
+    "//java/com/google/gerrit/acceptance:framework-javadoc",
+    "//java/com/google/gerrit/extensions:extension-api-javadoc",
     "//plugins:plugin-api-javadoc",
 ]
 
 genrule2(
     name = "api",
     testonly = True,
-    srcs = API_DEPS,
+    srcs = API_DEPS + API_JAVADOC_DEPS,
     outs = ["api.zip"],
+    cmd = " && ".join([
+        "cp $(SRCS) $$TMP",
+        "cd $$TMP",
+        "zip -qr $$ROOT/$@ .",
+    ]),
+)
+
+genrule2(
+    name = "api-skip-javadoc",
+    testonly = True,
+    srcs = API_DEPS,
+    outs = ["api-skip-javadoc.zip"],
     cmd = " && ".join([
         "cp $(SRCS) $$TMP",
         "cd $$TMP",

@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d8cae2e_94373163",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-01-05T12:13:02Z",
+      "side": 1,
+      "message": "This help text is a bit misleading. On the first read I understood it that when the --netrc option is given then\nthe authentication will be tried in the given order (.netrc, env vars, interactive). However, looking at the code\nI see that env vars and interactive input is used only when --netrc is not set. This could be expressed more clear in this help text",
+      "revId": "7964952ad28a0ce5145912c69bf51447fd0a34f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10e5f22f_b0c25b74",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-01-05T12:13:02Z",
+      "side": 1,
+      "message": "I think it is more natural to yield list of change-ids instead of tuples of change-ids.",
+      "range": {
+        "startLine": 90,
+        "startChar": 16,
+        "endLine": 90,
+        "endChar": 21
+      },
+      "revId": "7964952ad28a0ce5145912c69bf51447fd0a34f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38d7fc89_0b84c0ea",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-01-05T12:13:02Z",
+      "side": 1,
+      "message": "This can be applied to the whole iterable before the loop thus splitting concerns (stripping EOL and chunking) in a cleaner way:\n\n  it \u003d iter(map(lambda s: s.strip(), iterable))\n  while True:\n    chunk \u003d list(islice(it, n))\n    if not chunk:\n      return\n    yield chunk",
+      "range": {
+        "startLine": 90,
+        "startChar": 22,
+        "endLine": 90,
+        "endChar": 46
+      },
+      "revId": "7964952ad28a0ce5145912c69bf51447fd0a34f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e62bb144_2601c3b2",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-01-05T12:13:02Z",
+      "side": 1,
+      "message": "It is unnecessary to materialize the iterator returned from the islice, the map function indeed operates on iterables.",
+      "range": {
+        "startLine": 90,
+        "startChar": 47,
+        "endLine": 90,
+        "endChar": 52
+      },
+      "revId": "7964952ad28a0ce5145912c69bf51447fd0a34f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8010a20_a6837ebf",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-01-05T12:13:02Z",
+      "side": 1,
+      "message": "Forgot to remove this or use logger.debug?",
+      "revId": "7964952ad28a0ce5145912c69bf51447fd0a34f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -88,6 +88,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
   suite('cherry pick topic', () => {
     const changes = [
       {
+        id: '1234',
         change_id: '12345678901234', topic: 'T', subject: 'random',
         project: 'A',
         _number: 1,
@@ -97,6 +98,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
         current_revision: 'a',
       },
       {
+        id: '5678',
         change_id: '23456', topic: 'T', subject: 'a'.repeat(100),
         project: 'B',
         _number: 2,
@@ -109,6 +111,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     setup(() => {
       element.updateChanges(changes);
       element._cherryPickType = CHERRY_PICK_TYPES.TOPIC;
+      flush();
     });
 
     test('cherry pick topic submit', done => {
@@ -127,6 +130,38 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
         assert.isTrue(args[4].allow_empty);
         done();
       });
+    });
+
+    test('deselecting a change removes it from being cherry picked', () => {
+      element.branch = 'master';
+      const executeChangeActionStub = sinon.stub(element.restApiService,
+          'executeChangeAction').returns(Promise.resolve([]));
+      const checkboxes = element.shadowRoot.querySelectorAll(
+          'input[type="checkbox"]');
+      assert.equal(checkboxes.length, 2);
+      assert.isTrue(checkboxes[0].checked);
+      MockInteractions.tap(checkboxes[0]);
+      MockInteractions.tap(element.shadowRoot.
+          querySelector('gr-dialog').$.confirm);
+      flush();
+      assert.equal(executeChangeActionStub.callCount, 1);
+    });
+
+    test('deselecting all change shows error message', () => {
+      element.branch = 'master';
+      const executeChangeActionStub = sinon.stub(element.restApiService,
+          'executeChangeAction').returns(Promise.resolve([]));
+      const checkboxes = element.shadowRoot.querySelectorAll(
+          'input[type="checkbox"]');
+      assert.equal(checkboxes.length, 2);
+      MockInteractions.tap(checkboxes[0]);
+      MockInteractions.tap(checkboxes[1]);
+      MockInteractions.tap(element.shadowRoot.
+          querySelector('gr-dialog').$.confirm);
+      flush();
+      assert.equal(executeChangeActionStub.callCount, 0);
+      assert.equal(element.shadowRoot.querySelector('.error-message').innerText
+          , 'No change selected');
     });
 
     test('_computeStatusClass', () => {

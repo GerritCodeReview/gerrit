@@ -38,7 +38,9 @@ public class ExternalUser extends CurrentUser {
 
   public interface Factory {
     ExternalUser create(
-        Collection<String> emailAddresses, Collection<ExternalId.Key> externalIdKeys);
+        Collection<String> emailAddresses,
+        Collection<ExternalId.Key> externalIdKeys,
+        PropertyMap propertyMap);
   }
 
   private final GroupBackend groupBackend;
@@ -51,7 +53,9 @@ public class ExternalUser extends CurrentUser {
   public ExternalUser(
       GroupBackend groupBackend,
       @Assisted Collection<String> emailAddresses,
-      @Assisted Collection<ExternalId.Key> externalIdKeys) {
+      @Assisted Collection<ExternalId.Key> externalIdKeys,
+      @Assisted PropertyMap propertyMap) {
+    super(propertyMap);
     this.groupBackend = groupBackend;
     this.emailAddresses = ImmutableSet.copyOf(emailAddresses);
     this.externalIdKeys = ImmutableSet.copyOf(externalIdKeys);

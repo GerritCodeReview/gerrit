@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bacb8a3d_fcedb0f5",
+        "filename": "javatests/com/google/gerrit/server/submit/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-05T10:57:54Z",
+      "side": 1,
+      "message": "I removed this dependency and the test still succeeded:\n\n  $ bazel test //javatests/com/google/gerrit/server/submit:submit_tests \n  INFO: Found 1 test target...\nTarget //javatests/com/google/gerrit/server/submit:submit_tests up-to-date:\n  bazel-bin/javatests/com/google/gerrit/server/submit/submit_tests.jar\n  bazel-bin/javatests/com/google/gerrit/server/submit/submit_tests\nINFO: Elapsed time: 39.551s, Critical Path: 11.79s\nINFO: 143 processes: 126 remote cache hit, 14 internal, 2 linux-sandbox, 1 worker.\nINFO: Build completed successfully, 143 total actions\n//javatests/com/google/gerrit/server/submit:submit_tests                 PASSED in 2.6s",
+      "parentUuid": "c15b6651_91c795dc",
+      "range": {
+        "startLine": 19,
+        "startChar": 8,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "e0af8d9b61ec65aad9e3ef479771e72e62cf794a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17720c84_a72bb178",
         "filename": "tools/maven/gerrit-extension-api_pom.xml",
         "patchSetId": 6

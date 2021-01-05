@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfe66acf_18256e56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-01-05T08:23:40Z",
+      "side": 1,
+      "message": "I also don\u0027t understand why 4 requests are used.",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15291006_a5cc20c0",
@@ -20,6 +37,23 @@
         "endLine": 84,
         "endChar": 38
       },
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d719e0b6_503f41e0",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-01-05T08:23:40Z",
+      "side": 1,
+      "message": "Why 4? I would have expected 3 if testRepo and the server-side project differ only by that one commit created in line 76.\n\n1. /info/refs?service\u003dgit-upload-pack\n2. ls-refs\n3. fetch, finding a common commit and server sending the pack",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

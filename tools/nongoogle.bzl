@@ -1,5 +1,5 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 
 GUAVA_VERSION = "29.0-jre"
 GUAVA_BIN_SHA1 = "801142b4c3d0f0770dd29abea50906cacfddd447"

@@ -276,6 +276,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8446ab12_319ab625",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-05T10:34:15Z",
+      "side": 1,
+      "message": "Oh my bad. I added that todo item.\n\n\u003e Do you expect this failure mode to be frequent?\nNo, it shouldn\u0027t be frequent, and will happen if the code fails to parse the commit ID, e.g. for non-existing or bad commits, etc...\n\n\u003e Why I just log and not throw an exception?\nI do that so that other keys are computed and cached. The caller - FileDiffCacheImpl - would check on the result length and throw an exception anyway, but the next time the cache is queried for the same elements, the loader not have to re-compute the cached keys and will only try to re-load the bad keys. This is Caffeine\u0027s behaviour (I tried it with a toy example).\n\n```\n// expecting \"c\" to be skipped: this would implicitly call the loader\u0027s \n// loadAll method with args [a, b, c]. [a, b] will be computed and\n// cached, c will be skipped, and the return value will be a map with \n// [a, b] as keys. The caller may want to throw an exception in this case\ncache.getAll(ImmutableList.of(\"a\", \"b\", \"c\"));\n\n// this second call will invoke loadAll with args \u003d [c] only since\n// [a, b] were previously computed and cached.\ncache.getAll(ImmutableList.of(\"a\", \"b\", \"c\"));\n```",
+      "parentUuid": "0b323784_3accee9b",
+      "revId": "9fbdec71c6a655dbea47916ec6ac0789cca1ee06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6050843a_33f79e60",

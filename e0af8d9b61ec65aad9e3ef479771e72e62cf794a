@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "50186939_5eaf14f4",
+        "filename": "javatests/com/google/gerrit/server/submit/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-05T11:28:48Z",
+      "side": 1,
+      "message": "The problem you are describing has nothing to do with this merge commit and shouldn\u0027t be fixed in this change.\n\nThe missing dependency problem was there from the day one, see original change 267133. Given that this change was included already in stable-3.3 change we should fix it on stable-3.3 in its own change and merge up to master.\n\nCan you build master branch, without this change?\n\nStill, I don\u0027t see this breakae. What version of Bazel you are using? I tried with 3.7.0 and with Bazel@HEAD (cfebb18ad206162c1309962e8d396a5fd0ef234e).\n\nWell, buildozer doesn\u0027t know, that we prefer to us our own guava rule definition and not external repository rule:\n\n  $ git grep \"lib:guava\" | wc -l\n  111\n\nLet\u0027s consistently keep using lib:guava then (but should be done in its own change).",
+      "parentUuid": "7044aee2_dc94c468",
+      "range": {
+        "startLine": 19,
+        "startChar": 8,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "e0af8d9b61ec65aad9e3ef479771e72e62cf794a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17720c84_a72bb178",
         "filename": "tools/maven/gerrit-extension-api_pom.xml",
         "patchSetId": 6

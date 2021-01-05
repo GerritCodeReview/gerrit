@@ -92,6 +92,24 @@
       "parentUuid": "922dbb5c_5c723a90",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f95ed725_ad9076de",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-05T19:35:11Z",
+      "side": 1,
+      "message": "Thanks @Thomas, that is unexpected I think.\n\nThe code does:\n      testRepo.git().fetch().call();\n\nI would expect this to produce a fetch *ONLY* without a clone.\nThere is the draining of the events at the beginning of the method, so the ones associated with the clone of testRepo should not be captured.",
+      "parentUuid": "b4e7fa48_c45ce101",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

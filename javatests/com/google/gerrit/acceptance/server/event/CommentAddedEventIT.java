@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -201,6 +202,25 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
       assertThat(attr.value).isEqualTo(-1);
       assertThat(listener.getLastCommentAddedEvent().getComment())
           .isEqualTo(String.format("Patch Set 1:\n\n%s", label.getName()));
+
+      // review with patch set level comment
+      reviewInput = new ReviewInput().patchSetLevelComment("a patch set level comment");
+      revision(r).review(reviewInput);
+      assertThat(listener.getLastCommentAddedEvent().getComment())
+          .isEqualTo(String.format("Patch Set 1:\n\n%s", "a patch set level comment"));
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "event.comment-added.publishPatchSetLevelComment", value = "false")
+  public void publishPatchSetLevelComment() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestListener listener = new TestListener();
+    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
+      ReviewInput reviewInput = new ReviewInput().patchSetLevelComment("a patch set level comment");
+      revision(r).review(reviewInput);
+      assertThat(listener.getLastCommentAddedEvent().getComment())
+          .isEqualTo(String.format("Patch Set 1:\n\n%s", "(1 comment)"));
     }
   }
 

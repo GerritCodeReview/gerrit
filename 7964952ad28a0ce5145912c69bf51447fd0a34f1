@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbcf492e_de4c1331",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T15:39:05Z",
+      "side": 1,
+      "message": "changed implementation to match your expectation :-)",
+      "parentUuid": "9d8cae2e_94373163",
+      "revId": "7964952ad28a0ce5145912c69bf51447fd0a34f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10e5f22f_b0c25b74",
@@ -87,6 +105,78 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd1a01c4_6d388bcb",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T15:39:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38d7fc89_0b84c0ea",
+      "range": {
+        "startLine": 90,
+        "startChar": 22,
+        "endLine": 90,
+        "endChar": 46
+      },
+      "revId": "7964952ad28a0ce5145912c69bf51447fd0a34f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e499c6b_6ce63e22",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T15:39:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e62bb144_2601c3b2",
+      "range": {
+        "startLine": 90,
+        "startChar": 47,
+        "endLine": 90,
+        "endChar": 52
+      },
+      "revId": "7964952ad28a0ce5145912c69bf51447fd0a34f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d797285_d031fe4c",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T15:39:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10e5f22f_b0c25b74",
+      "range": {
+        "startLine": 90,
+        "startChar": 16,
+        "endLine": 90,
+        "endChar": 21
+      },
+      "revId": "7964952ad28a0ce5145912c69bf51447fd0a34f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8010a20_a6837ebf",
@@ -100,6 +190,24 @@
       "writtenOn": "2021-01-05T12:13:02Z",
       "side": 1,
       "message": "Forgot to remove this or use logger.debug?",
+      "revId": "7964952ad28a0ce5145912c69bf51447fd0a34f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0488fbb7_5b601a95",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T15:39:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8010a20_a6837ebf",
       "revId": "7964952ad28a0ce5145912c69bf51447fd0a34f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

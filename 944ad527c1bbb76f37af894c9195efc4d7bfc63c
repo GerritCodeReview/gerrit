@@ -51,6 +51,24 @@
       "message": "With this change all dashboards shares the same selected index.\nSteps to reproduce:\n1) Use keyboard and navigate to an item in your dashboard\n2) Click on a user name in the dashboard and then click \"View Dashboard\"\n3) The user dashboard is shown and the selection is on the same row as it was at step 1.\n",
       "revId": "944ad527c1bbb76f37af894c9195efc4d7bfc63c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afd0f00a_464132cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-05T13:51:54Z",
+      "side": 1,
+      "message": "I think this was always the case(though certainly not ideal) given that DashboardViewState type has only one parameter selectedChangeIndex.\n\nI added the user account information in the DashboardViewState, so now the index is mapped to the user account id.\nThis fixes the above issue.",
+      "parentUuid": "e4dfd76b_8f8a64f1",
+      "revId": "944ad527c1bbb76f37af894c9195efc4d7bfc63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

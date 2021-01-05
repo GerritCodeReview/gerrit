@@ -48,11 +48,18 @@ enum CherryPickType {
   TOPIC,
 }
 
+// These values are directly displayed in the dialog to show progress of change
+enum ProgressStatus {
+  RUNNING = 'RUNNING',
+  FAILED = 'FAILED',
+  NOT_STARTED = 'NOT STARTED',
+  SUCCESSFUL = 'SUCCESSFUL',
+}
+
 type Statuses = {[changeId: string]: Status};
 
-// TODO(TS): maybe convert status to an enum
 interface Status {
-  status: string;
+  status: ProgressStatus;
   msg?: string;
 }
 
@@ -183,18 +190,19 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
   }
 
   _computeStatus(change: ChangeInfo, statuses: Statuses) {
-    if (!change || !statuses || !statuses[change.id]) return 'NOT STARTED';
+    if (!change || !statuses || !statuses[change.id])
+      return ProgressStatus.NOT_STARTED;
     return statuses[change.id].status;
   }
 
   _computeStatusClass(change: ChangeInfo, statuses: Statuses) {
     if (!change || !statuses || !statuses[change.id]) return '';
-    return statuses[change.id].status === 'FAILED' ? 'error' : '';
+    return statuses[change.id].status === ProgressStatus.FAILED ? 'error' : '';
   }
 
   _computeError(change: ChangeInfo, statuses: Statuses) {
     if (!change || !statuses || !statuses[change.id]) return '';
-    if (statuses[change.id].status === 'FAILED') {
+    if (statuses[change.id].status === ProgressStatus.FAILED) {
       return statuses[change.id].msg;
     }
     return '';
@@ -212,7 +220,7 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
 
   _computeCancelLabel(statuses: Statuses) {
     const isRunningChange = Object.values(statuses).some(
-      v => v.status === 'RUNNING'
+      v => v.status === ProgressStatus.RUNNING
     );
     return isRunningChange ? 'Close' : 'Cancel';
   }
@@ -227,7 +235,7 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
     if (duplicateProject) return true;
     if (!statuses) return false;
     const isRunningChange = Object.values(statuses).some(
-      v => v.status === 'RUNNING'
+      v => v.status === ProgressStatus.RUNNING
     );
     return isRunningChange;
   }
@@ -280,14 +288,14 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
   _handleCherryPickFailed(change: ChangeInfo, response?: Response | null) {
     if (!response) return;
     response.text().then((errText: string) => {
-      this.updateStatus(change, {status: 'FAILED', msg: errText});
+      this.updateStatus(change, {status: ProgressStatus.FAILED, msg: errText});
     });
   }
 
   _handleCherryPickTopic() {
     const topic = this._generateRandomCherryPickTopic(this.changes[0]);
     this.changes.forEach(change => {
-      this.updateStatus(change, {status: 'RUNNING'});
+      this.updateStatus(change, {status: ProgressStatus.RUNNING});
       const payload = {
         destination: this.branch,
         base: null,
@@ -310,9 +318,9 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
           handleError
         )
         .then(() => {
-          this.updateStatus(change, {status: 'SUCCESSFUL'});
+          this.updateStatus(change, {status: ProgressStatus.SUCCESSFUL});
           const failedOrPending = Object.values(this._statuses).find(
-            v => v.status !== 'SUCCESSFUL'
+            v => v.status !== ProgressStatus.SUCCESSFUL
           );
           if (!failedOrPending) {
             /* This needs some more work, as the new topic may not always be

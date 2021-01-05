@@ -110,6 +110,24 @@
       "parentUuid": "b4e7fa48_c45ce101",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a152d76_9bb0107f",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-01-05T21:49:10Z",
+      "side": 1,
+      "message": "Matthias didn\u0027t post the HttpAuditEvents, he posted the debug log, presumably from the whole test run. The test setup performs the clone.",
+      "parentUuid": "f95ed725_ad9076de",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

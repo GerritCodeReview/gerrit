@@ -481,7 +481,7 @@ public class RetryHelper {
                   if (!traceContext.isTracing()) {
                     String traceId = "retry-on-failure-" + new RequestId();
                     traceContext.addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
-                    logger.atFine().withCause(t).log(
+                    logger.atWarning().withCause(t).log(
                         "AutoRetry: %s failed, retry with tracing enabled (cause = %s)",
                         actionName, cause);
                     opts.onAutoTrace().ifPresent(c -> c.accept(traceId));
@@ -492,7 +492,7 @@ public class RetryHelper {
                   // A non-recoverable failure occurred. We retried the operation with tracing
                   // enabled and it failed again. Log the failure so that admin can see if it
                   // differs from the failure that triggered the retry.
-                  logger.atFine().withCause(t).log(
+                  logger.atWarning().withCause(t).log(
                       "AutoRetry: auto-retry of %s has failed (cause = %s)", actionName, cause);
                   metrics.failuresOnAutoRetryCount.increment(actionType, actionName, cause);
                   return false;
@@ -504,7 +504,7 @@ public class RetryHelper {
       return executeWithTimeoutCount(actionType, action, opts, retryerBuilder.build(), listener);
     } finally {
       if (listener.getAttemptCount() > 1) {
-        logger.atFine().log("%s was attempted %d times", actionType, listener.getAttemptCount());
+        logger.atWarning().log("%s was attempted %d times", actionType, listener.getAttemptCount());
         metrics.attemptCounts.incrementBy(
             actionType,
             opts.actionName().orElse("N/A"),

@@ -225,7 +225,7 @@ public class StaticModule extends ServletModule {
       String cdnPath =
           options.useDevCdn() ? options.devCdn() : cfg.getString("gerrit", null, "cdnPath");
       String faviconPath = cfg.getString("gerrit", null, "faviconPath");
-      return new IndexServlet(canonicalUrl, cdnPath, faviconPath, gerritApi);
+      return new IndexServlet(canonicalUrl, cdnPath, faviconPath, gerritApi, cfg);
     }
 
     @Provides

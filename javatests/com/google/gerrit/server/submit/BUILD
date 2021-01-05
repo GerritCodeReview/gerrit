@@ -16,6 +16,7 @@ junit_tests(
         "//lib/truth",
         "//lib/truth:truth-java8-extension",
         "//lib/truth:truth-proto-extension",
+        "@guava//jar",
         "@jgit//org.eclipse.jgit.junit:junit",
     ],
 )

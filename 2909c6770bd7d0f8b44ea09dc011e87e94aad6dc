@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "286813b9_10fff3e2",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T01:39:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83e7032b_98fd1162",
+      "revId": "2909c6770bd7d0f8b44ea09dc011e87e94aad6dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a3706d5_15cf3f27",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-04T13:20:11Z",
       "side": 1,
       "message": "Document explicitly the supported format(s)? Specifically, mention if the time part is mandatory.",
+      "revId": "2909c6770bd7d0f8b44ea09dc011e87e94aad6dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23557d6b_054cb50f",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T01:39:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a3706d5_15cf3f27",
       "revId": "2909c6770bd7d0f8b44ea09dc011e87e94aad6dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0468b0a1_52747709",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T01:39:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c8a395a_d043dd42",
+      "revId": "2909c6770bd7d0f8b44ea09dc011e87e94aad6dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42641bb7_fdfeb43a",
@@ -65,6 +119,30 @@
       "writtenOn": "2021-01-04T13:20:11Z",
       "side": 1,
       "message": "Is is not documented that this script supports getting credentials from the env variables?\nFurther, usually all UPPERCASE names are used for the environment variables (USERNAME/PASSWORD).",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 45
+      },
+      "revId": "2909c6770bd7d0f8b44ea09dc011e87e94aad6dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0761f70f_499734b0",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T01:39:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42641bb7_fdfeb43a",
       "range": {
         "startLine": 130,
         "startChar": 0,
@@ -98,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ee56f55_c9445cd7",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T01:39:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7eb5f888_11328962",
+      "range": {
+        "startLine": 143,
+        "startChar": 62,
+        "endLine": 143,
+        "endChar": 78
+      },
+      "revId": "2909c6770bd7d0f8b44ea09dc011e87e94aad6dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c32a12f_e22a1cd0",
@@ -111,6 +213,24 @@
       "writtenOn": "2021-01-04T13:20:11Z",
       "side": 1,
       "message": "This statement already loads all the lines from the input file into the changes list!\nOnce we have a (materialized) list we do not need to use the itertools which is useful when working with\niterators of unknown size. Instead we can yield chunks with just a for loop and yielding sublists:\n\n     def _chunks(changes, chunks_size):\n        for i in range(0, len(changes), chunk_size):\n            yield changes[i : i + chunk_size]\n\nNote that the above code works also when the number of changes in the list is not dividable by the chunk size as\nthe sublist in python (changes[from:to]) rounds the to index to the largest available in the list i.e.:\n\n  \u003e\u003e\u003e list \u003d [\u0027a\u0027, \u0027b\u0027, \u0027c\u0027]\n  \u003e\u003e\u003e list[2:5]\n  [\u0027c\u0027]\n  \u003e\u003e\u003e",
+      "revId": "2909c6770bd7d0f8b44ea09dc011e87e94aad6dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53f0e0fc_04ea5fda",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T01:39:44Z",
+      "side": 1,
+      "message": "This doesn\u0027t work since len() isn\u0027t available on open file, I guess counting lines requires traversing the file.\nFound a different solution here https://stackoverflow.com/questions/8991506/iterate-an-iterator-by-chunks-of-n-in-python",
+      "parentUuid": "7c32a12f_e22a1cd0",
       "revId": "2909c6770bd7d0f8b44ea09dc011e87e94aad6dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

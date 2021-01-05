@@ -2692,12 +2692,10 @@ class ReceiveCommits {
 
   private void readChangesForReplace() {
     try (TraceTimer traceTimer = newTimer("readChangesForReplace")) {
-      Collection<ChangeNotes> allNotes =
-          notesFactory.createUsingIndexLookup(
-              replaceByChange.values().stream().map(r -> r.ontoChange).collect(toList()));
-      for (ChangeNotes notes : allNotes) {
-        replaceByChange.get(notes.getChangeId()).notes = notes;
-      }
+      replaceByChange.values().stream()
+          .map(r -> r.ontoChange)
+          .map(id -> notesFactory.create(project.getNameKey(), id))
+          .forEach(notes -> replaceByChange.get(notes.getChangeId()).notes = notes);
     }
   }
 

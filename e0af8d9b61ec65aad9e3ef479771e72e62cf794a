@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d99cd2b3_63a12a87",
+        "filename": "javatests/com/google/gerrit/server/submit/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-05T12:51:15Z",
+      "side": 1,
+      "message": "Thanks, updating bazel to 3.7 helped. Removed the line.",
+      "parentUuid": "50186939_5eaf14f4",
+      "range": {
+        "startLine": 19,
+        "startChar": 8,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "e0af8d9b61ec65aad9e3ef479771e72e62cf794a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17720c84_a72bb178",

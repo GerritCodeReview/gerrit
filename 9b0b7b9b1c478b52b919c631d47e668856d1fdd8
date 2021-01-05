@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85ba355b_dcb92b10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-05T20:33:29Z",
+      "side": 1,
+      "message": "Really impressive @DavidO! Well done!\n\nComparison of *this* change vs. v3.2.6 on an *empty* Gerrit on localhost:\n\nv3.2.6\n- Page size: 2.4 MB\n- Load time: 623 ms\n\nthis change:\n- Page size: 2.1 MB (-300 kB / -12.5%)\n- Load time: 589 ms (-5.5%)\n\nThis was on localhost, but I can imagine that being more significant on a slower connection. ",
+      "revId": "9b0b7b9b1c478b52b919c631d47e668856d1fdd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

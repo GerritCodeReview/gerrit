@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12504d38_9cf5076c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T01:38:21Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "9614bd6b_1dd17d68",
+      "revId": "22dd29311ea1834746af5bf7b2805472702cbe8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b826bd19_959f8221",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4119c077_e4dd739a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T01:38:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b826bd19_959f8221",
+      "revId": "22dd29311ea1834746af5bf7b2805472702cbe8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c812ab31_74404d92",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-01-04T11:20:04Z",
       "side": 1,
       "message": "maybe move this line within the if-block and change it to:\n\n  imp.enforceVisibility(false)\n\nThis is easier to read and we have really nothing to do when skipVisibility is false.",
+      "revId": "22dd29311ea1834746af5bf7b2805472702cbe8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7611ea5d_bfe9fca1",
+        "filename": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-05T01:38:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c812ab31_74404d92",
       "revId": "22dd29311ea1834746af5bf7b2805472702cbe8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

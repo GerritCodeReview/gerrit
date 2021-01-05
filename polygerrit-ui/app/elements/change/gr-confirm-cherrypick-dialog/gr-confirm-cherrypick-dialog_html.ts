@@ -179,10 +179,12 @@ export const htmlTemplate = html`
         <table>
           <thead>
             <tr>
+              <th></th>
               <th>Change</th>
+              <th>Status</th>
               <th>Subject</th>
               <th>Project</th>
-              <th>Status</th>
+              <th>Progress</th>
               <!-- Error Message -->
               <th></th>
             </tr>
@@ -190,7 +192,16 @@ export const htmlTemplate = html`
           <tbody>
             <template is="dom-repeat" items="[[changes]]">
               <tr>
+                <td>
+                  <input
+                    type="checkbox"
+                    data-item$="[[item.id]]"
+                    on-change="_toggleChangeSelected"
+                    checked="[[_isChangeSelected(item.id)]]"
+                  />
+                </td>
                 <td><span> [[_getChangeId(item)]] </span></td>
+                <td><span> [[item.status]] </span></td>
                 <td>
                   <span> [[_getTrimmedChangeSubject(item.subject)]] </span>
                 </td>

@@ -40,6 +40,7 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {HttpMethod, ChangeStatus} from '../../../constants/constants';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -146,6 +147,8 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
   @property({type: Object})
   reporting: ReportingService;
 
+  private isChangeSelected: {[key: string]: boolean} = {};
+
   private restApiService = appContext.restApiService;
 
   constructor() {
@@ -161,6 +164,7 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
     const projects: {[projectName: string]: boolean} = {};
     this._duplicateProjectChanges = false;
     changes.forEach(change => {
+      this.isChangeSelected[change.id] = true;
       if (projects[change.project]) {
         this._duplicateProjectChanges = true;
       }
@@ -176,6 +180,17 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
     this._invalidBranch = !!(
       branch && invalidChars.some(c => branch.includes(c))
     );
+  }
+
+  _isChangeSelected(changeId: string) {
+    return this.isChangeSelected[changeId];
+  }
+
+  _toggleChangeSelected(e: Event) {
+    const changeId = ((dom(e) as EventApi).localTarget as HTMLElement).dataset[
+      'item'
+    ]!;
+    this.isChangeSelected[changeId] = !this.isChangeSelected[changeId];
   }
 
   _computeTopicErrorMessage(duplicateProjectChanges: boolean) {
@@ -293,8 +308,16 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
   }
 
   _handleCherryPickTopic() {
-    const topic = this._generateRandomCherryPickTopic(this.changes[0]);
-    this.changes.forEach(change => {
+    const changes = this.changes.filter(
+      change => this.isChangeSelected[change.id]
+    );
+    if (!changes.length) {
+      const errorSpan = this.shadowRoot?.querySelector('.error-message');
+      errorSpan!.innerHTML = 'No change selected';
+      return;
+    }
+    const topic = this._generateRandomCherryPickTopic(changes[0]);
+    changes.forEach(change => {
       this.updateStatus(change, {status: ProgressStatus.RUNNING});
       const payload = {
         destination: this.branch,

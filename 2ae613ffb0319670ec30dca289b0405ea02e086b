@@ -16,6 +16,24 @@
       "message": "I really like it :-)\nCan we move this to stable-3.1? (if possible)",
       "revId": "2ae613ffb0319670ec30dca289b0405ea02e086b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb4ec693_0b7518a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-05T19:48:48Z",
+      "side": 1,
+      "message": "Moved to stable-3.2 branch. Release 3.1 is using rules_closure minification tool chain and not terser plugin of rollup-bundle. Done.",
+      "parentUuid": "69df4ade_e99bf8bf",
+      "revId": "2ae613ffb0319670ec30dca289b0405ea02e086b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

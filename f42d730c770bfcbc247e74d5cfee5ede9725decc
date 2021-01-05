@@ -16,6 +16,23 @@
       "message": "Patrick already started to work on this merge.",
       "revId": "f42d730c770bfcbc247e74d5cfee5ede9725decc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4e6cace_30ead0ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-05T22:41:28Z",
+      "side": 1,
+      "message": "Needs re-merge.",
+      "revId": "f42d730c770bfcbc247e74d5cfee5ede9725decc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

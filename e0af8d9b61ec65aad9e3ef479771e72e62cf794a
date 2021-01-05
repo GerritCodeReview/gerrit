@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7044aee2_dc94c468",
+        "filename": "javatests/com/google/gerrit/server/submit/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-05T11:01:03Z",
+      "side": 1,
+      "message": "Fixed.\n\nFor me it said:\n\nERROR: /Users/hiesel/gerrit/javatests/com/google/gerrit/server/submit/BUILD:3:1: Building javatests/com/google/gerrit/server/submit/submit_tests.jar (3 source files) failed (Exit 1)\njavatests/com/google/gerrit/server/submit/SubmoduleCommitsTest.java:97: error: [strict] Using type com.google.common.collect.ImmutableList from an indirect dependency (TOOL_INFO: \"@guava//jar\"). See command below **\n            BranchNameKey.create(superProject, MASTER), ImmutableList.of(ss));\n                                                        ^\n ** Please add the following dependencies: \n  @guava//jar to //javatests/com/google/gerrit/server/submit:submit_tests \n ** You can use the following buildozer command: \nbuildozer \u0027add deps @guava//jar\u0027 //javatests/com/google/gerrit/server/submit:submit_tests",
+      "parentUuid": "bacb8a3d_fcedb0f5",
+      "range": {
+        "startLine": 19,
+        "startChar": 8,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "e0af8d9b61ec65aad9e3ef479771e72e62cf794a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17720c84_a72bb178",
@@ -61,6 +85,30 @@
       "writtenOn": "2021-01-05T10:55:08Z",
       "side": 1,
       "message": "Bad conflict resolution and CI breakage is related:\n\nI tested it locally:\n\n  $ VERBOSE\u003d1 tools/maven/api.sh install\n  [...]\n  [ERROR] Failed to execute goal org.apache.maven.plugins:maven-install-plugin:2.4:install-file (default-cli) on project standalone-pom: Error parsing POM /home/davido/projects/gerrit2/tools/maven/gerrit-extension-api_pom.xml: Unrecognised tag: \u0027developer\u0027 (position: START_TAG seen ...\u003c/name\u003e\\n    \u003cdeveloper\u003e... @48:16)",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 16
+      },
+      "revId": "e0af8d9b61ec65aad9e3ef479771e72e62cf794a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f10feca8_dd751ffc",
+        "filename": "tools/maven/gerrit-extension-api_pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-05T11:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17720c84_a72bb178",
       "range": {
         "startLine": 46,
         "startChar": 4,

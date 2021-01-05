@@ -224,6 +224,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "593f53c4_e8220653",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-05T11:56:32Z",
+      "side": 1,
+      "message": "Done. This is now handled in AllDiffsEvaluator. We forward the rename scores parameter to the git cache.",
+      "parentUuid": "5ba0d657_e786a2e0",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 30
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5adf2d82_c578a622",

@@ -22,6 +22,30 @@
       },
       "revId": "ad6e0c9edfe452cb7c8a8b5a7a4fcf31fca5fa12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7028f873_db460376",
+        "filename": "java/com/google/gerrit/server/patch/filediff/AllDiffsEvaluator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-05T11:56:32Z",
+      "side": 1,
+      "message": "I think this sentence is explaining what aCommit is. Words like {left, right}, or {old, new} identify the two commits in a diff.\nI thought that old commit is a better explanation, but I changed it anyway.\nDone.",
+      "parentUuid": "f37712e3_84ce09d1",
+      "range": {
+        "startLine": 172,
+        "startChar": 48,
+        "endLine": 172,
+        "endChar": 51
+      },
+      "revId": "ad6e0c9edfe452cb7c8a8b5a7a4fcf31fca5fa12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

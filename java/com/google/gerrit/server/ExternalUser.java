@@ -37,19 +37,29 @@ public class ExternalUser extends CurrentUser {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    ExternalUser create(Collection<ExternalId.Key> externalIdKeys);
+    ExternalUser create(
+        Collection<String> emailAddresses, Collection<ExternalId.Key> externalIdKeys);
   }
 
   private final GroupBackend groupBackend;
+  private final ImmutableSet<String> emailAddresses;
   private final ImmutableSet<ExternalId.Key> externalIdKeys;
 
   private GroupMembership effectiveGroups;
 
   @Inject
   public ExternalUser(
-      GroupBackend groupBackend, @Assisted Collection<ExternalId.Key> externalIdKeys) {
+      GroupBackend groupBackend,
+      @Assisted Collection<String> emailAddresses,
+      @Assisted Collection<ExternalId.Key> externalIdKeys) {
     this.groupBackend = groupBackend;
+    this.emailAddresses = ImmutableSet.copyOf(emailAddresses);
     this.externalIdKeys = ImmutableSet.copyOf(externalIdKeys);
+  }
+
+  @Override
+  public ImmutableSet<String> getEmailAddresses() {
+    return emailAddresses;
   }
 
   @Override

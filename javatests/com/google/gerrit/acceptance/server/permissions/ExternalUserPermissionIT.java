@@ -293,6 +293,7 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
 
   ExternalUser createUserInGroup(String userId, String groupId) {
     return externalUserFactory.create(
+        ImmutableSet.of(),
         ImmutableSet.of(ExternalId.Key.parse("company-auth:" + groupId + "-" + userId)));
   }
 }

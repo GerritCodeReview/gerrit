@@ -181,6 +181,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final PluginSetContext<OnPostReview> onPostReviews;
   private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
   private final boolean strictLabels;
+  private final boolean publishPatchSetLevelComment;
 
   @Inject
   PostReview(
@@ -228,6 +229,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.onPostReviews = onPostReviews;
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
+    this.publishPatchSetLevelComment =
+        gerritConfig.getBoolean("event", "comment-added", "publishPatchSetLevelComment", true);
   }
 
   @Override
@@ -945,14 +948,23 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               String.format("Repository %s not found", ctx.getProject().get()), ex);
         }
       }
+      String comment = message.getMessage();
+      if (publishPatchSetLevelComment) {
+        // TODO(davido): Remove this workaround when patch set level comments are exposed in comment
+        // added event. For backwards compatibility, patchset level comment has a higher priority
+        // than change message and should be used as comment in comment added event.
+        if (in.comments != null && in.comments.containsKey(PATCHSET_LEVEL)) {
+          List<CommentInput> patchSetLevelComments = in.comments.get(PATCHSET_LEVEL);
+          if (patchSetLevelComments != null && !patchSetLevelComments.isEmpty()) {
+            CommentInput firstComment = patchSetLevelComments.get(0);
+            if (!Strings.isNullOrEmpty(firstComment.message)) {
+              comment = String.format("Patch Set %s:\n\n%s", psId.get(), firstComment.message);
+            }
+          }
+        }
+      }
       commentAdded.fire(
-          notes.getChange(),
-          ps,
-          user.state(),
-          message.getMessage(),
-          approvals,
-          oldApprovals,
-          ctx.getWhen());
+          notes.getChange(), ps, user.state(), comment, approvals, oldApprovals, ctx.getWhen());
     }
 
     private boolean insertComments(ChangeContext ctx, List<RobotComment> newRobotComments)

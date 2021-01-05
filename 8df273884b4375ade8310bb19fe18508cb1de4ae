@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c7989b39_bf53c164",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-05T09:30:41Z",
+      "side": 1,
+      "message": "I redid the merge with your commands.",
+      "parentUuid": "5db9e5a6_f508a7cf",
+      "revId": "8df273884b4375ade8310bb19fe18508cb1de4ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c2469e5b_903ce709",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Ok, maybe we should just do a fresh merge then.",
       "parentUuid": "c2469e5b_903ce709",
+      "revId": "8df273884b4375ade8310bb19fe18508cb1de4ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df2a05ba_e455a562",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-05T09:30:41Z",
+      "side": 1,
+      "message": "Should be good now I hope.",
+      "parentUuid": "d4c52b0c_6f047f78",
       "revId": "8df273884b4375ade8310bb19fe18508cb1de4ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

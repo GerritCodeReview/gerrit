@@ -218,6 +218,24 @@
       "parentUuid": "31306e9c_0e958027",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d37f226_d2af06f1",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-01-06T12:06:23Z",
+      "side": 1,
+      "message": "\u003e If C-git with wire protocol v2 enabled communicates with gerrit, the results are the same?\n\nGood question. I\u0027m not set up to build a Gerrit from this patch set and run C git against it.",
+      "parentUuid": "076ac4e7_b34f2a30",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

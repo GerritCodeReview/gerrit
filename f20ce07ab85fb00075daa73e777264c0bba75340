@@ -200,6 +200,24 @@
       "parentUuid": "e80b1d75_79c99e34",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "076ac4e7_b34f2a30",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-06T11:31:33Z",
+      "side": 1,
+      "message": "\u003e Which still doesn\u0027t explain why the server sends ACK-0000 in the third request instead of ACK-ready-0001-packfile.\n\nIf C-git with wire protocol v2 enabled communicates with gerrit, the results are the same?",
+      "parentUuid": "31306e9c_0e958027",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

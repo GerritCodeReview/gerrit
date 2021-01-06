@@ -42,7 +42,7 @@ def polygerrit_bundle(name, srcs, outs, app):
         name = appName,
         srcs = srcs,
         app = app,
-        deps = ["//polygerrit-ui:polygerrit_components.bower_components"],
+        deps = [ "//polygerrit-ui:polygerrit_components.bower_components", ],
     )
 
     native.filegroup(

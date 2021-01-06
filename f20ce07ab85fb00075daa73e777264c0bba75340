@@ -164,6 +164,24 @@
       "parentUuid": "dd8ad6be_3a6308ef",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e80b1d75_79c99e34",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-01-06T10:07:23Z",
+      "side": 1,
+      "message": "Looking again through Matthias\u0027 debug log, I notice that at the end of the fourth request, there is only \"ACK-packfile-0000\" in the log. There should be \"ACK-ready-0001-packfile\". And there\u0027s no record of the client getting this ACK. So I\u0027m not entirely sure this log is really correct... what is clear is that Gerrit sends in the third request only ACK-0000, even though it could have sent the packfile already (ACK-ready-0001-packfile).\n\nBTW, it would help if the log contained the thread id/name. Makes it easier to discern which PacketLineIn/Out occurs on the client and which on the server.",
+      "parentUuid": "d3e78cf4_e9506d14",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

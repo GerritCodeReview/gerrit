@@ -1135,6 +1135,13 @@ bower_archive(
 )
 
 bower_archive(
+    name = "shadow-selection-polyfill",
+    package = "GoogleChromeLabs/shadow-selection-polyfill",
+    sha1 = "6af75e69633941c2491524c095ab0310bc263904",
+    version = "1.1.0",
+)
+
+bower_archive(
     name = "codemirror-minified",
     package = "Dominator008/codemirror-minified",
     sha1 = "e6bda82afc7cf3493f4282c6f17265d40e1485e5",

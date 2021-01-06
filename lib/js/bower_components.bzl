@@ -335,6 +335,10 @@ def define_bower_components():
         seed = True,
     )
     bower_component(
+        name = "shadow-selection-polyfill",
+        license = "//lib:LICENSE-shadow-selection-polyfill",
+    )
+    bower_component(
         name = "shadycss",
         license = "//lib:LICENSE-shadycss",
     )

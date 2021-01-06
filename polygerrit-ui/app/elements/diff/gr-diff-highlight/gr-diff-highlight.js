@@ -163,6 +163,9 @@
      * })|null|!Object}
      */
     _getNormalizedRange(selection) {
+      if (selection instanceof Range) {
+        return this._normalizeRange(selection);
+      }
       const rangeCount = selection.rangeCount;
       if (rangeCount === 0) {
         return null;
@@ -328,7 +331,7 @@
         this._removeActionBox();
         return;
       }
-      const domRange = selection.getRangeAt(0);
+      const domRange = selection instanceof Range ? selection:selection.getRangeAt(0);
       const start = normalizedRange.start;
       const end = normalizedRange.end;
 

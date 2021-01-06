@@ -46,6 +46,7 @@ build:remote --spawn_strategy=remote,sandboxed
 build:remote --strategy=Javac=remote
 build:remote --strategy=Genrule=remote
 build:remote --define=EXECUTOR=remote
+build:remote --remote_instance_name=projects/api-project-164060093628/instances/default_instance
 
 # Enable the remote cache so action results can be shared across machines,
 # developers, and workspaces.

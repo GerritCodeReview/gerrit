@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7765d80a_8a2a2495",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-06T00:28:21Z",
+      "side": 1,
+      "message": "I am still adding tests, but uploading the implementation in the mean time in case there are more concerns found. I had no realized I need to remove the chip manually if the comment thread is removed.",
+      "revId": "7f7e4ce9c096ec6f66d8ae4b6769254641b0b1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

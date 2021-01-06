@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d9a35611_672062d1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-06T00:28:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c8e922e_a60e770d",
+      "revId": "0ff5998a1ffb85712d757794f635ea4048ab2772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "17945d4c_f3c2682f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
         "patchSetId": 8
@@ -31,6 +49,30 @@
       "writtenOn": "2020-12-17T08:34:06Z",
       "side": 1,
       "message": "Not in this change, but may be worth checking if we still use the Polyfill. We probably do on old browsers? Or maybe the Polyfill has since been fixed when we upgraded to Polymer 3?",
+      "range": {
+        "startLine": 902,
+        "startChar": 11,
+        "endLine": 902,
+        "endChar": 23
+      },
+      "revId": "0ff5998a1ffb85712d757794f635ea4048ab2772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29e8dc60_7b10b6d5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-06T00:28:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "17945d4c_f3c2682f",
       "range": {
         "startLine": 902,
         "startChar": 11,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8531f4d3_f331ff12",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-06T00:28:21Z",
+      "side": 1,
+      "message": "We always set it in gr-diff-host, but the type system complains without this check because slotAtt type is \"string | null\" from .getAttribute().\nMaybe something could be done in this TODO to change that, but it would be separate work: https://sourcegraph.com/github.com/GerritCodeReview/gerrit/-/blob/polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts#L85",
+      "parentUuid": "7c102d9b_0297b64d",
+      "range": {
+        "startLine": 914,
+        "startChar": 14,
+        "endLine": 914,
+        "endChar": 21
+      },
+      "revId": "0ff5998a1ffb85712d757794f635ea4048ab2772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ce69ff0_2cd7bdc2",
@@ -77,6 +143,24 @@
       "writtenOn": "2020-12-17T08:34:06Z",
       "side": 1,
       "message": "Any thoughts on accessibility? Were ranges somehow announced before this change? Is there any semantic way we can make it clear that this refers to the comment below? Screenreader users will have a harder time getting that cue from the positioning...",
+      "revId": "0ff5998a1ffb85712d757794f635ea4048ab2772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "903bb84c_db5545de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-06T00:28:21Z",
+      "side": 1,
+      "message": "Could be wrong, but I don\u0027t think ranges were announced in any way. It would probably be better for readers if the range chip was in the same element as the thread but that didn\u0027t work because of custom thread elements.\n\nI wanted to match the range to the comment ID but not all comments have an ID according to: https://sourcegraph.com/github.com/GerritCodeReview/gerrit/-/blob/polygerrit-ui/app/types/common.ts#L1856\n\nIdeas welcome",
+      "parentUuid": "3ce69ff0_2cd7bdc2",
       "revId": "0ff5998a1ffb85712d757794f635ea4048ab2772",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

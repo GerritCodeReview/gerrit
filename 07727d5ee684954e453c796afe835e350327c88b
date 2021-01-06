@@ -14,12 +14,12 @@
       "updated": "2020-10-27T14:15:18Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "RUNNING",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/82%252F285882%252F2/2/console",
+      "state": "FAILED",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/98005/console",
       "started": "2021-01-05T23:21:44Z",
-      "finished": "2020-10-27T14:42:00Z",
+      "finished": "2021-01-06T00:21:02Z",
       "created": "2020-10-27T14:15:19Z",
-      "updated": "2021-01-05T23:21:44Z"
+      "updated": "2021-01-06T00:21:03Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SCHEDULED",

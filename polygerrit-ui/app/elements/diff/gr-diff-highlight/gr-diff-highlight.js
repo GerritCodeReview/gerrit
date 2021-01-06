@@ -163,6 +163,11 @@
      * })|null|!Object}
      */
     _getNormalizedRange(selection) {
+      /* On Safari the ShadowRoot.getSelection() isn't there and the only thing
+         we can get is a single Range */
+      if (selection instanceof Range) {
+        return this._normalizeRange(selection);
+      }
       const rangeCount = selection.rangeCount;
       if (rangeCount === 0) {
         return null;
@@ -328,7 +333,9 @@
         this._removeActionBox();
         return;
       }
-      const domRange = selection.getRangeAt(0);
+      /* On Safari the ShadowRoot.getSelection() isn't there and the only thing
+         we can get is a single Range */
+      const domRange = selection instanceof Range ? selection:selection.getRangeAt(0);
       const start = normalizedRange.start;
       const end = normalizedRange.end;
 

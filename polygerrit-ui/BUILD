@@ -32,6 +32,7 @@ bower_component_bundle(
         "//lib/js:polymer",
         "//lib/js:polymer-resin",
         "//lib/js:shadycss",
+        "//lib/js:shadow-selection-polyfill",
     ],
 )
 

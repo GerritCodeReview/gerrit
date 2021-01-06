@@ -398,6 +398,24 @@
       "parentUuid": "64808847_491c3a6c",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97ef0b57_5efd51d6",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-01-06T16:41:31Z",
+      "side": 1,
+      "message": "The same three requests, but here we have one commit more in the clone. (Evidently the one added in the C git test.)\n\nSo: in real usage we get the expected 3 requests with JGit and with C git. Why do we get 4 in the test?",
+      "parentUuid": "39310115_996c74cd",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

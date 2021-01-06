@@ -254,6 +254,24 @@
       "parentUuid": "1d37f226_d2af06f1",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edc5670d_1e79db77",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-01-06T12:43:27Z",
+      "side": 1,
+      "message": "\u0027Scuse me: is that log complete? I miss 0000/0001 lines at least. Please also either include the thread name in the log pattern config, or also the PacketLineIn logs. Otherwise it gets even harder to be sure what comes from the client and what from the server.",
+      "parentUuid": "909a64c7_66bdc03c",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

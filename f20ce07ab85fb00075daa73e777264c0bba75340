@@ -236,6 +236,24 @@
       "parentUuid": "076ac4e7_b34f2a30",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "909a64c7_66bdc03c",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-06T12:35:41Z",
+      "side": 1,
+      "message": "I applied your logging fix change (https://git.eclipse.org/r/c/jgit/jgit/+/174318 ) in modules/jgit and running this test on this change produced this output:\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e version 2\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e ls-refs\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e fetch\u003dshallow\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e server-option\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e command\u003dls-refs\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e peel\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e symrefs\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e ref-prefix HEAD\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e ref-prefix refs/tags/\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e ref-prefix refs/heads/\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e 215a477390e056adeb6ee6d2546d5bde4b254bb5 HEAD symref-target:refs/heads/master\\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e 215a477390e056adeb6ee6d2546d5bde4b254bb5 refs/heads/master\\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e command\u003dfetch\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e no-progress\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e include-tag\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e ofs-delta\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e thin-pack\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e want 215a477390e056adeb6ee6d2546d5bde4b254bb5\\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e done\\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e packfile\\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e version 2\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e ls-refs\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e fetch\u003dshallow\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e server-option\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e command\u003dls-refs\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e peel\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e symrefs\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e ref-prefix refs/tags/\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e ref-prefix refs/heads/\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e 6afbff37c01d47a82283fe4fe618885105f2cada refs/heads/master\\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e command\u003dfetch\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e no-progress\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e include-tag\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e ofs-delta\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e thin-pack\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e want 6afbff37c01d47a82283fe4fe618885105f2cada\\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e have 215a477390e056adeb6ee6d2546d5bde4b254bb5\\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e acknowledgments\\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e ACK 215a477390e056adeb6ee6d2546d5bde4b254bb5\\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e have 215a477390e056adeb6ee6d2546d5bde4b254bb5\\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e done\\n\n  DEBUG org.eclipse.jgit.transport.PacketLineOut : git\u003e packfile\\n\n\nWill try to run C-Git client on this commit.",
+      "parentUuid": "1d37f226_d2af06f1",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

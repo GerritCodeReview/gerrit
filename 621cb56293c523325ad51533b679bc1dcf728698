@@ -16,6 +16,24 @@
       "message": "@Davido can you do a manual verification? The CI build won\u0027t verify the new target.",
       "revId": "621cb56293c523325ad51533b679bc1dcf728698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb9a3c05_c0f076b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-06T21:35:07Z",
+      "side": 1,
+      "message": "Confirmed that the old rule is still producing the same API artifacts and that the new rule that can be run on RBE is producing API artifacts without javadoc.",
+      "parentUuid": "1641bfbe_89bd6a2a",
+      "revId": "621cb56293c523325ad51533b679bc1dcf728698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

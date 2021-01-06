@@ -296,10 +296,10 @@
       }
 
       if (loggedIn && isAttached) {
-        this.listen(document, 'selectionchange', '_handleSelectionChange');
+        this.listen(document, '-shadow-selectionchange', '_handleSelectionChange');
         this.listen(document, 'mouseup', '_handleMouseUp');
       } else {
-        this.unlisten(document, 'selectionchange', '_handleSelectionChange');
+        this.unlisten(document, '-shadow-selectionchange', '_handleSelectionChange');
         this.unlisten(document, 'mouseup', '_handleMouseUp');
       }
     },
@@ -328,7 +328,8 @@
       // This takes the shadow DOM selection if one exists.
       return this.root.getSelection ?
         this.root.getSelection() :
-        document.getSelection();
+        // This is coming from shadow.js
+        getRange(this.root);
     },
 
     _observeNodes() {

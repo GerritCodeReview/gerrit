@@ -142,6 +142,12 @@ def load_bower_archives():
         sha1 = "6bd17410578b5d4017ccef330393a4b41b1c716e",
     )
     bower_archive(
+        name = "shadow-selection-polyfill",
+        package = "GoogleChromeLabs/shadow-selection-polyfill",
+        version = "1.1.0",
+        sha1 = "6af75e69633941c2491524c095ab0310bc263904",
+    )
+    bower_archive(
         name = "shadycss",
         package = "webcomponents/shadycss",
         version = "1.9.1",

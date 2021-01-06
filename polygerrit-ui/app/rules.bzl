@@ -42,7 +42,10 @@ def polygerrit_bundle(name, srcs, outs, app):
         name = appName,
         srcs = srcs,
         app = app,
-        deps = ["//polygerrit-ui:polygerrit_components.bower_components"],
+        deps = [
+            "//lib/js:shadow-selection-polyfill",
+            "//polygerrit-ui:polygerrit_components.bower_components",
+        ],
     )
 
     native.filegroup(

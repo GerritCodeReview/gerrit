@@ -182,6 +182,24 @@
       "parentUuid": "d3e78cf4_e9506d14",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31306e9c_0e958027",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-01-06T11:27:50Z",
+      "side": 1,
+      "message": "\u003e Looking again through Matthias\u0027 debug log, I notice that at the end of the fourth request, there is only \"ACK-packfile-0000\" in the log. And there\u0027s no record of the client getting this ACK. So I\u0027m not entirely sure this log is really correct...\n\nOK, that bit is solved: UploadPack logs ACKs that it doesn\u0027t send. See JGit commit https://git.eclipse.org/r/c/jgit/jgit/+/174318 which should fix this. This also explains the double ACK logged in the third request in Matthias\u0027 log, where the client gets only one.\n\nSo the *real* server reply on the fourth request is not ACK-packfile-0000 but only packfile-0000. Which is correct since the client had sent a \"done\", so no ACKs should be sent.\n\nWhich still doesn\u0027t explain why the server sends ACK-0000 in the third request instead of ACK-ready-0001-packfile.",
+      "parentUuid": "e80b1d75_79c99e34",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

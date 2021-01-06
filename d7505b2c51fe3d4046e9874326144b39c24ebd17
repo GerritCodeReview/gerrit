@@ -22,9 +22,9 @@
       "updated": "2021-01-06T21:50:01Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "SCHEDULED",
+      "state": "NOT_STARTED",
       "created": "2021-01-06T21:45:01Z",
-      "updated": "2021-01-06T21:45:01Z"
+      "updated": "2021-01-06T21:59:32Z"
     }
   }
 }

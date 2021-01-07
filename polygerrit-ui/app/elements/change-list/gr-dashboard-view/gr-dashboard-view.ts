@@ -47,16 +47,13 @@ import {
 import {AppElementDashboardParams, AppElementParams} from '../../gr-app-types';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrCreateCommandsDialog} from '../gr-create-commands-dialog/gr-create-commands-dialog';
-import {
-  CreateDestinationConfirmDetail,
-  GrCreateDestinationDialog,
-} from '../gr-create-destination-dialog/gr-create-destination-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ChangeListToggleReviewedDetail} from '../gr-change-list-item/gr-change-list-item';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {DashboardViewState} from '../../../types/types';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
+import {GrCreateChangeDialog} from '../../admin/gr-create-change-dialog/gr-create-change-dialog';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
@@ -64,8 +61,9 @@ export interface GrDashboardView {
   $: {
     confirmDeleteDialog: GrDialog;
     commandsDialog: GrCreateCommandsDialog;
-    destinationDialog: GrCreateDestinationDialog;
     confirmDeleteOverlay: GrOverlay;
+    createChangeOverlay: GrOverlay;
+    createNewChangeModal: GrCreateChangeDialog;
   };
 }
 
@@ -114,6 +112,9 @@ export class GrDashboardView extends GestureEventListeners(
 
   @property({type: Boolean})
   _showNewUserHelp = false;
+
+  @property({type: Boolean})
+  _canCreate = false;
 
   private reporting = appContext.reportingService;
 
@@ -419,13 +420,17 @@ export class GrDashboardView extends GestureEventListeners(
   }
 
   _handleCreateChangeTap() {
-    this.$.destinationDialog.open();
+    this.$.createChangeOverlay.open();
   }
 
-  _handleDestinationConfirm(e: CustomEvent<CreateDestinationConfirmDetail>) {
-    this.$.commandsDialog.branch = e.detail.branch;
-    this.$.commandsDialog.open();
+  _handleCreateChange() {
+    this.$.createNewChangeModal.handleCreateChange();
   }
+
+  _handleCloseCreateChange() {
+    this.$.createChangeOverlay.close();
+  }
+
 }
 
 declare global {

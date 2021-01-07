@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "720da303_efdfb661",
+        "filename": "contrib/reindex/reindex.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-01-07T10:56:11Z",
+      "side": 1,
+      "message": "The result of the map function is already an iterator so we don\u0027t need to wrap it in an iter(...). This is enough:\n\n  it \u003d map(lambda s: s.strip(), iterable)",
+      "revId": "2d76d6a3687306182f9762b96f4b7251f62bcf88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

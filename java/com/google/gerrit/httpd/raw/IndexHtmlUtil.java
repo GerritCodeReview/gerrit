@@ -49,6 +49,15 @@ import org.eclipse.jgit.lib.Config;
 public class IndexHtmlUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  public static final String CHANGE_CANONICAL_PATH = "/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
+  public static final String BASE_PATCH_NUM_PATH_PART = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
+  public static final Pattern CHANGE_URL_PATTERN =
+      Pattern.compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "?" + "/?$");
+  public static final Pattern DIFF_URL_PATTERN =
+      Pattern.compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "(/(.+))" + "/?$");
+  public static final Pattern DASHBOARD_PATTERN = Pattern.compile("/dashboard/self$");
+  public static final String ROOT_PATH = "/";
+
   static final ImmutableSet<String> DEFAULT_EXPERIMENTS =
       ImmutableSet.of(
           "UiFeature__patchset_comments", "UiFeature__patchset_choice_for_comment_links");
@@ -105,13 +114,13 @@ public class IndexHtmlUtil {
             "defaultChangeDetailHex", IndexPreloadingUtil.getDefaultChangeDetailOptionsAsHex());
         data.put(
             "changeRequestsPath",
-            IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
+            IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, CHANGE_URL_PATTERN).get());
         break;
       case DIFF:
         data.put("defaultDiffDetailHex", IndexPreloadingUtil.getDefaultDiffDetailOptionsAsHex());
         data.put(
             "changeRequestsPath",
-            IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
+            IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, DIFF_URL_PATTERN).get());
         break;
       case DASHBOARD:
         // Dashboard is preloaded queries are added later when we check user is authenticated.

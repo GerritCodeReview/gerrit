@@ -69,6 +69,24 @@
       "parentUuid": "e4dfd76b_8f8a64f1",
       "revId": "944ad527c1bbb76f37af894c9195efc4d7bfc63c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cf595fe_682f085b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-07T21:25:13Z",
+      "side": 1,
+      "message": "I need more time to think about it - not sure that the solution with user account solves all issues.\nHave you researched some window.history based solution? It seems, that window.history allows to store some parameters in the history and restore them after navigating back. But I am not sure can it be used in this issue or not.\n\nhttps://developer.mozilla.org/en-US/docs/Web/API/Window/history\nhttps://developer.mozilla.org/en-US/docs/Web/API/History/pushState",
+      "parentUuid": "afd0f00a_464132cc",
+      "revId": "944ad527c1bbb76f37af894c9195efc4d7bfc63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -83,6 +83,9 @@ export class GrCreateChangeDialog extends GestureEventListeners(
   canCreate = false;
 
   @property({type: Boolean})
+  showRepoPicker = false;
+
+  @property({type: Boolean})
   _privateChangesEnabled?: boolean;
 
   restApiService = appContext.restApiService;

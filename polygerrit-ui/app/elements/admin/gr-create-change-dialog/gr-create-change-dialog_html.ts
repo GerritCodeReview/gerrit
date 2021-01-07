@@ -40,9 +40,9 @@ export const htmlTemplate = html`
   </style>
   <div class="gr-form-styles">
     <gr-repo-branch-picker
-      repo="[[repoName]]"
+      repo="{{repoName}}"
       branch="{{branch}}"
-      hide-repo-picker
+      show-repo-picker="[[showRepoPicker]]"
     ></gr-repo-branch-picker>
     <section class$="[[_computeBranchClass(baseChange)]]">
       <span class="title">Provide base commit sha1 for change</span>

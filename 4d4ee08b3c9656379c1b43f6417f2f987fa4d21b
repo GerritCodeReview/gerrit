@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "761b5e38_95c84ca6",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-07T10:48:23Z",
+      "side": 1,
+      "message": "I think we should also disallow creation of changes on tag refs, shouldn\u0027t we?",
+      "revId": "4d4ee08b3c9656379c1b43f6417f2f987fa4d21b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b08bd376_c115f91e",
         "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
         "patchSetId": 1

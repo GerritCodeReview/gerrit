@@ -123,6 +123,24 @@
       "parentUuid": "2d19d474_e3cf9569",
       "revId": "bdcba6961d39d073a62aa60193c4fe5f61021a26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26f55403_7e199f8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-07T17:00:16Z",
+      "side": 1,
+      "message": "Let\u0027s cc Marco, any idea how to ensure we remember to add a specific note to the next release notes?\n\"ParentWebLink and PatchSetWebLink now have new parameters in the interfaces. We also expose the full commit message and the branch name of the commit\".",
+      "parentUuid": "bbb82767_4b571c54",
+      "revId": "bdcba6961d39d073a62aa60193c4fe5f61021a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

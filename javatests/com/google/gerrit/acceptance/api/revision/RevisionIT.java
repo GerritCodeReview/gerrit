@@ -1622,7 +1622,7 @@ public class RevisionIT extends AbstractDaemonTest {
         new PatchSetWebLink() {
           @Override
           public WebLinkInfo getPatchSetWebLink(
-              String projectName, String commit, String subject, String branchName) {
+              String projectName, String commit, String commitMessage, String branchName) {
             return expectedWebLinkInfo;
           }
         };

@@ -144,6 +144,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb05b642_23e44c0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-07T08:46:05Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure what you specifically mean by this, but several upstream features were introduced to support several inter plugin dependency approaches already.\n\nRequiredOptions was the only one I could find. Are there others?\n\nRequiredOptions looks pretty light-weight to me. It\u0027s just saying \"I need some other plugin to have implemented an option called foo but I don\u0027t care about more\".\n\nI am not a fan of inter-plugin dependencies, but this simple form of stating a requirement seems OK to me, especially because it uses just a single string for communicating a requirement.\n\nThe defininition/usage seems to follow that premise:\n@RequiresOptions(\"--help\")\n@Option(\"--help-as-json\")\n\nWhen I read the code, though, it seems it\u0027s doing something more complicated:\n\n\u003e The entity which provided additional options may need a way to receive a reference to the DynamicBean it provided (or) to the DynamicBean provided by other plugin.  \n\nNow we are passing objects around between the plugins, which is a completely different story because now you depend on a specific implementation of the other plugin and might have a binary dependency on the objects you share (or you copy them).\n\nFrom your use case, could this be solved at compile time?\n\n\u003e Use-case: Plugin A provides a dynamic option (lets say --sample) for QueryChanges ssh/http request. Plugin A has custom code specific to org, --sample option uses the org specific logic and wants to invoke a generic plugin logic residing on Plugin B. \n\nSo Plugin A has an interface definition of what it needs and instead of having plugin B provide that, it\u0027s a library that provides it that you bake in at compile time?\n\nWhy am I making these noises?\nThe logic around our usage of Guice especially for plugins is immensely complicated. For someone new to Gerrit, it takes quite some time to understand and propose sane changes that don\u0027t break. So I am trying to challenge any new complexity in this area.",
+      "parentUuid": "18ed2cf9_f39cf47d",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f54ed35b_6121eb76",

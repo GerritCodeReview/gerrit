@@ -39,18 +39,11 @@ export const htmlTemplate = html`
     }
   </style>
   <div class="gr-form-styles">
-    <section class$="[[_computeBranchClass(baseChange)]]">
-      <span class="title">Select branch for new change</span>
-      <span class="value">
-        <gr-autocomplete
-          id="branchInput"
-          text="{{branch}}"
-          query="[[_query]]"
-          placeholder="Destination branch"
-        >
-        </gr-autocomplete>
-      </span>
-    </section>
+    <gr-repo-branch-picker
+      repo="[[repoName]]"
+      branch="{{branch}}"
+      show-repo-picker="[[showRepoPicker]]"
+    ></gr-repo-branch-picker>
     <section class$="[[_computeBranchClass(baseChange)]]">
       <span class="title">Provide base commit sha1 for change</span>
       <span class="value">

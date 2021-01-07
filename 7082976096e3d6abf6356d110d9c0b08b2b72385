@@ -168,6 +168,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5d66a3c_28baad4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-07T19:30:54Z",
+      "side": 1,
+      "message": "\u003e \u003e We specifically created a class loader which combines the class loader of two different plugins to support a plugin being able to add switches to another plugins command. See here for a bit more in this https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#_calling_command_options\n\n\u003e RequiredOptions was the only one I could find. Are there others?\n\nYes, sorry I got the link above for classloaders wrong. The classloader stuff is described here: https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#command_options\n\n\u003e Now we are passing objects around between the plugins, which is a completely different story because now you depend on a specific implementation of the other plugin and might have a binary dependency on the objects you share (or you copy them).\n\nYes, correct. If a plugin A uses plugin B, it is important that when a bug is fixed in plugin B, that the fix also be in plugin A by loading a new copy of plugin B. This will not happen if you copy code from plugin B into plugin A. Also, if you copy code to another plugin, it will not only duplicate running code, but it will also duplicate running data, particularly harmful here are caches. It is generally bad practice in most software engineering environments to duplicate code. We did that many years ago and ran into the issues mentioned. I would not advocate this practice to plugin developers, and I would like to find good solutions to avoid this. I would qualify a good solution as one which adds less complexity to core than the complexity it saves in plugins. If it also encourages more code to be in plugins, then it is inherently reducing complexity in core.\n\n\u003e Now we are passing objects around between the plugins, which is a completely different story because now you depend on a specific implementation of the other plugin and might have a binary dependency on the objects you share (or you copy them).\n\nYes. I think this is generally a versioning problem that exists already in Gerrit since it does not check when loading plugins if they will even work with the version of Gerrit running. Today the responsibility for making sure there aren\u0027t plugin version miss-matches is put on the shoulders of admins. I think that is a reasonable solution, however if things become more complex I would definitely support solutions which help alleviate this burden.\n\n\u003e Why am I making these noises?\n\u003e The logic around our usage of Guice especially for plugins is immensely complicated. For someone new to Gerrit, it takes quite some time to understand and propose sane changes that don\u0027t break. So I am trying to challenge any new complexity in this area.\n\nThis is very understandable. I also think this solution is a bit hacky, and I would consider that hackiness a form of complexity. I think we proposed this solution because it uses an existing mechanism (so we can use it today to meet our current needs), but it might be better to have a more generic solution to allow plugins to interact better. I have struggled coming up with good solutions to this problem in the past, however I would like to propose a new less hacky approach in a different change. I suggest we discuss more of the sharing needs and complexity on that change. I\u0027ll post a pointer here once that is ready. Thanks for clarifying your feedback!",
+      "parentUuid": "cb05b642_23e44c0d",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f54ed35b_6121eb76",

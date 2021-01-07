@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8a67e5c_75e96804",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-07T12:07:44Z",
+      "side": 1,
+      "message": "I think it\u0027s better to replace it with \"The List Files and Diff endpoints\" for more clarity. I believe this is what you meant.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "ffbc7746fb65533e62bc69e72de0a6439e3b77c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12a33595_a65162ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-07T12:07:44Z",
+      "side": 1,
+      "message": "but the List Files endpoint shows the file as added, and the diff endpoint shows the file as modified?",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 53
+      },
+      "revId": "ffbc7746fb65533e62bc69e72de0a6439e3b77c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a2e3917_8cc5d270",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-07T12:07:44Z",
+      "side": 1,
+      "message": "Should we assert the correct behaviour and mark the test with @Ignore instead?",
+      "revId": "ffbc7746fb65533e62bc69e72de0a6439e3b77c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

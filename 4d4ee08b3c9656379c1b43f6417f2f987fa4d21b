@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30b6427a_a91044ce",
+        "filename": "java/com/google/gerrit/entities/RefNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-07T12:02:22Z",
+      "side": 1,
+      "message": "Seems good to me.",
+      "parentUuid": "7d6e820d_dcfb1b91",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 326,
+        "endChar": 54
+      },
+      "revId": "4d4ee08b3c9656379c1b43f6417f2f987fa4d21b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "761b5e38_95c84ca6",

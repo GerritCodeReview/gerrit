@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d6e820d_dcfb1b91",
+        "filename": "java/com/google/gerrit/entities/RefNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-07T11:16:34Z",
+      "side": 1,
+      "message": "Thanks for the note. I extracted the refs into a list to use it from tests and avoid duplication there. I prefer to keep it that way and rather have duplication here (same class) for the note.\n\nI copied the note of caution to the variable.",
+      "parentUuid": "964daae3_acb2a070",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 326,
+        "endChar": 54
+      },
+      "revId": "4d4ee08b3c9656379c1b43f6417f2f987fa4d21b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "761b5e38_95c84ca6",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33d83e80_3e37ccf4",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-07T11:16:34Z",
+      "side": 1,
+      "message": "Yes. I found very few changes (100+) created on tag refs, but all were new / abandoned. We should not allow that.\n\nDone.",
+      "parentUuid": "761b5e38_95c84ca6",
+      "revId": "4d4ee08b3c9656379c1b43f6417f2f987fa4d21b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b08bd376_c115f91e",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-01-07T10:47:20Z",
       "side": 1,
       "message": "nit: this can be inlined now in the caller",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 3
+      },
+      "revId": "4d4ee08b3c9656379c1b43f6417f2f987fa4d21b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4396560c_f7938de1",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-07T11:16:34Z",
+      "side": 1,
+      "message": "You\u0027re right. However I augmented the condition to include tags as per Edwin\u0027s comment, so I prefer keeping it in a separate method now.",
+      "parentUuid": "b08bd376_c115f91e",
       "range": {
         "startLine": 299,
         "startChar": 0,

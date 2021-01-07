@@ -73,9 +73,6 @@ export class GrCreateChangeDialog extends GestureEventListeners(
   @property({type: String})
   topic?: string;
 
-  @property({type: Object})
-  _query?: (input: string) => Promise<{name: string}[]>;
-
   @property({type: String})
   baseChange?: ChangeId;
 
@@ -95,7 +92,6 @@ export class GrCreateChangeDialog extends GestureEventListeners(
 
   constructor() {
     super();
-    this._query = (input: string) => this._getRepoBranchesSuggestions(input);
   }
 
   /** @override */
@@ -159,36 +155,6 @@ export class GrCreateChangeDialog extends GestureEventListeners(
           return;
         }
         GerritNav.navigateToChange(changeCreated);
-      });
-  }
-
-  _getRepoBranchesSuggestions(input: string) {
-    if (!this.repoName) {
-      return Promise.reject(new Error('missing repo name'));
-    }
-    if (input.startsWith(REF_PREFIX)) {
-      input = input.substring(REF_PREFIX.length);
-    }
-    return this.restApiService
-      .getRepoBranches(input, this.repoName, SUGGESTIONS_LIMIT)
-      .then(response => {
-        if (!response) return [];
-        const branches = [];
-        let branch;
-        for (const key in response) {
-          if (!hasOwnProperty(response, key)) {
-            continue;
-          }
-          if (response[key].ref.startsWith('refs/heads/')) {
-            branch = response[key].ref.substring('refs/heads/'.length);
-          } else {
-            branch = response[key].ref;
-          }
-          branches.push({
-            name: branch,
-          });
-        }
-        return branches;
       });
   }
 

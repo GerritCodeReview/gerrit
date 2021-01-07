@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dd51945_2b951388",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-07T16:27:38Z",
+      "side": 1,
+      "message": "Gotcha! I missed that, thanks.",
+      "parentUuid": "1e7a2de4_2b98a638",
+      "range": {
+        "startLine": 10,
+        "startChar": 51,
+        "endLine": 11,
+        "endChar": 58
+      },
+      "revId": "bdcba6961d39d073a62aa60193c4fe5f61021a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44226cbb_a8096ca3",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "can you elaborate on how that works? :-)\nI just added a notification for me so that I\u0027d add something about it in the release notes of 3.4 once it is written.",
       "parentUuid": "44226cbb_a8096ca3",
+      "revId": "bdcba6961d39d073a62aa60193c4fe5f61021a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbb82767_4b571c54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-07T16:27:38Z",
+      "side": 1,
+      "message": "If it\u0027s new then a note about the overall new extension would be great. I don\u0027t actually know much about how release notes get generated other than Marco worked on this script to help with 3.3 https://gerrit.googlesource.com/gerrit/+/refs/heads/master/tools/release_noter/release_noter.py",
+      "parentUuid": "2d19d474_e3cf9569",
       "revId": "bdcba6961d39d073a62aa60193c4fe5f61021a26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

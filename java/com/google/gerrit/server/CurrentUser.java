@@ -130,6 +130,14 @@ public abstract class CurrentUser {
   }
 
   /**
+   * Returns all email addresses associated with this user. For {@link AnonymousUser} and other
+   * users that don't represent a person user or service account, this set will be empty.
+   */
+  public ImmutableSet<String> getEmailAddresses() {
+    return ImmutableSet.of();
+  }
+
+  /**
    * Returns all {@link ExternalId.Key}s associated with this user. For {@link AnonymousUser} and
    * other users that don't represent a person user or service account, this set will be empty.
    */

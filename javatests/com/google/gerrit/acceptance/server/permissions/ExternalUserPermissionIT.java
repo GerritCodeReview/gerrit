@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ExternalUser;
+import com.google.gerrit.server.PropertyMap;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -293,6 +294,8 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
 
   ExternalUser createUserInGroup(String userId, String groupId) {
     return externalUserFactory.create(
-        ImmutableSet.of(ExternalId.Key.parse("company-auth:" + groupId + "-" + userId)));
+        ImmutableSet.of(),
+        ImmutableSet.of(ExternalId.Key.parse("company-auth:" + groupId + "-" + userId)),
+        PropertyMap.EMPTY);
   }
 }

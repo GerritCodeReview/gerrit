@@ -382,6 +382,7 @@ public class IdentifiedUser extends CurrentUser {
     return false;
   }
 
+  @Override
   public ImmutableSet<String> getEmailAddresses() {
     if (!loadedAllEmails) {
       validEmails.addAll(realm.getEmailAddresses(this));

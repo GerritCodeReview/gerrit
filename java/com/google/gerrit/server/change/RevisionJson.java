@@ -183,7 +183,7 @@ public class RevisionJson {
 
     if (addLinks) {
       ImmutableList<WebLinkInfo> links =
-          webLinks.getPatchSetLinks(project, commit.name(), commit.getShortMessage(), branchName);
+          webLinks.getPatchSetLinks(project, commit.name(), commit.getFullMessage(), branchName);
       info.webLinks = links.isEmpty() ? null : links;
     }
 
@@ -194,7 +194,7 @@ public class RevisionJson {
       i.subject = parent.getShortMessage();
       if (addLinks) {
         ImmutableList<WebLinkInfo> parentLinks =
-            webLinks.getParentLinks(project, parent.name(), parent.getShortMessage(), branchName);
+            webLinks.getParentLinks(project, parent.name(), parent.getFullMessage(), branchName);
         i.webLinks = parentLinks.isEmpty() ? null : parentLinks;
       }
       info.parents.add(i);

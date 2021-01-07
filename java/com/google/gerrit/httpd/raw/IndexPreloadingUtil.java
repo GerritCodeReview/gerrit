@@ -142,19 +142,15 @@ public class IndexPreloadingUtil {
       return RequestedPage.PAGE_WITHOUT_PRELOADING;
     }
 
-    Optional<String> changeRequestsPath =
-        computeChangeRequestsPath(requestedPath, RequestedPage.CHANGE);
-    if (changeRequestsPath.isPresent()) {
+    if (IndexPreloadingUtil.CHANGE_URL_PATTERN.matcher(requestedPath).matches()) {
       return RequestedPage.CHANGE;
     }
 
-    changeRequestsPath = computeChangeRequestsPath(requestedPath, RequestedPage.DIFF);
-    if (changeRequestsPath.isPresent()) {
+    if (IndexPreloadingUtil.DIFF_URL_PATTERN.matcher(requestedPath).matches()) {
       return RequestedPage.DIFF;
     }
 
-    Matcher dashboardMatcher = IndexPreloadingUtil.DASHBOARD_PATTERN.matcher(requestedPath);
-    if (dashboardMatcher.matches()) {
+    if (IndexPreloadingUtil.DASHBOARD_PATTERN.matcher(requestedPath).matches()) {
       return RequestedPage.DASHBOARD;
     }
 

@@ -8,6 +8,7 @@ CORE_PLUGINS = [
     "plugin-manager",
     "replication",
     "reviewnotes",
+    "serviceuser",
     "singleusergroup",
     "webhooks",
 ]

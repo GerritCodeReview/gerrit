@@ -157,6 +157,7 @@ package_group(
         "//plugins/plugin-manager/...",
         "//plugins/replication/...",
         "//plugins/reviewnotes/...",
+        "//plugins/serviceuser/...",
         "//plugins/singleusergroup/...",
         "//plugins/webhooks/...",
     ],

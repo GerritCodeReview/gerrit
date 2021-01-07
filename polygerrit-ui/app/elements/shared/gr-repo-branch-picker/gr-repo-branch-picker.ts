@@ -66,6 +66,9 @@ export class GrRepoBranchPicker extends GestureEventListeners(
   @property({type: Object})
   _repoQuery?: AutocompleteQuery;
 
+  @property({type: Boolean})
+  hideRepoPicker = false;
+
   private readonly restApiService = appContext.restApiService;
 
   constructor() {

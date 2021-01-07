@@ -106,6 +106,7 @@ public class IndexHtmlUtil {
         data.put(
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
+        data.
         break;
       case DIFF:
         data.put("defaultDiffDetailHex", IndexPreloadingUtil.getDefaultDiffDetailOptionsAsHex());

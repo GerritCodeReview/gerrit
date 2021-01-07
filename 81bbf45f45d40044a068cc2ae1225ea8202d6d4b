@@ -16,6 +16,23 @@
       "message": "How can I create a comment when shortcuts are disabled? The tooltip says \"press c to comment\", but \"c\" doesn\u0027t work.",
       "revId": "81bbf45f45d40044a068cc2ae1225ea8202d6d4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7404e564_d414917e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-07T21:01:14Z",
+      "side": 1,
+      "message": "I am not sure that we should complicate our code to solve the issue \"... when writing text, one might hit the laptop touchpad which brings the focus outside of the text window. The next keystrokes are thus processed as shortcuts and have some fun behavior (abandon change, move to next file etc, got back to user dashboard ...).\"\nA user can hit touchpad and move focus to another window\\tap. Also, the same problem exists in IDE.\nMaybe ask others about this option?",
+      "revId": "81bbf45f45d40044a068cc2ae1225ea8202d6d4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

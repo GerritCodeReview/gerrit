@@ -41,6 +41,9 @@ suite('gr-change-table-editor tests', () => {
 
     element.set('displayedColumns', columns);
     element.showNumber = false;
+    element.serverConfig = {
+      change: {},
+    };
     flush();
   });
 
@@ -51,11 +54,23 @@ suite('gr-change-table-editor tests', () => {
 
     // The `+ 1` is for the number column, which isn't included in the change
     // table behavior's list.
-    assert.equal(rows.length, element.columnNames.length + 1);
-    for (let i = 0; i < columns.length; i++) {
+    assert.equal(rows.length, element.defaultColumns.length + 1);
+    for (let i = 0; i < element.defaultColumns.length; i++) {
       tds = rows[i + 1].querySelectorAll('td');
-      assert.equal(tds[0].textContent, columns[i]);
+      assert.equal(tds[0].textContent, element.defaultColumns[i]);
     }
+  });
+
+  test('disabled experiments are hidden', () => {
+    assert.isFalse(element.displayedColumns.includes('Assignee'));
+    element.set('displayedColumns', columns);
+    element.serverConfig = {
+      change: {
+        enable_assignee: true,
+      },
+    };
+    flush();
+    assert.isTrue(element.displayedColumns.includes('Assignee'));
   });
 
   test('hide item', () => {
@@ -80,6 +95,10 @@ suite('gr-change-table-editor tests', () => {
       'Branch',
       'Updated',
     ]);
+    // trigger computation of enabled displayed columns
+    element.serverConfig = {
+      change: {},
+    };
     flush();
     const checkbox = element.shadowRoot
         .querySelector('table tr:nth-child(2) input');
@@ -97,12 +116,15 @@ suite('gr-change-table-editor tests', () => {
   });
 
   test('_getDisplayedColumns', () => {
-    assert.deepEqual(element._getDisplayedColumns(), columns);
+    const enabledColumns = columns.filter(column => element.isColumnEnabled(
+        column, element.serverConfig, []
+    ));
+    assert.deepEqual(element._getDisplayedColumns(), enabledColumns);
     MockInteractions.tap(
         element.shadowRoot
-            .querySelector('.checkboxContainer input[name=Assignee]'));
+            .querySelector('.checkboxContainer input[name=Subject]'));
     assert.deepEqual(element._getDisplayedColumns(),
-        columns.filter(c => c !== 'Assignee'));
+        enabledColumns.filter(c => c !== 'Subject'));
   });
 
   test('_handleCheckboxContainerClick relays taps to checkboxes', () => {
@@ -140,12 +162,12 @@ suite('gr-change-table-editor tests', () => {
 
   test('_handleTargetClick', () => {
     sinon.spy(element, '_handleTargetClick');
-    assert.include(element.displayedColumns, 'Assignee');
+    assert.include(element.displayedColumns, 'Subject');
     MockInteractions
         .tap(element.shadowRoot
-            .querySelector('.checkboxContainer input[name=Assignee]'));
+            .querySelector('.checkboxContainer input[name=Subject]'));
     assert.isTrue(element._handleTargetClick.calledOnce);
-    assert.notInclude(element.displayedColumns, 'Assignee');
+    assert.notInclude(element.displayedColumns, 'Subject');
   });
 });
 

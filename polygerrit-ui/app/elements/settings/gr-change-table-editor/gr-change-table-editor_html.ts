@@ -61,7 +61,7 @@ export const htmlTemplate = html`
             />
           </td>
         </tr>
-        <template is="dom-repeat" items="[[columnNames]]">
+        <template is="dom-repeat" items="[[defaultColumns]]">
           <tr>
             <td>[[item]]</td>
             <td

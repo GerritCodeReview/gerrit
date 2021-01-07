@@ -351,9 +351,7 @@ suite('gr-settings-view tests', () => {
     let newColumns = ['Owner', 'Project', 'Branch'];
     element._localChangeTableColumns = newColumns.slice(0);
     element._showNumber = false;
-    const cloneStub = sinon.stub(element, '_cloneChangeTableColumns');
     element._handleSaveChangeTable();
-    assert.isTrue(cloneStub.calledOnce);
     assert.deepEqual(element.prefs.change_table, newColumns);
     assert.isNotOk(element.prefs.legacycid_in_change_table);
 
@@ -361,7 +359,6 @@ suite('gr-settings-view tests', () => {
     element._localChangeTableColumns = newColumns;
     element._showNumber = true;
     element._handleSaveChangeTable();
-    assert.isTrue(cloneStub.calledTwice);
     assert.deepEqual(element.prefs.change_table, newColumns);
     assert.isTrue(element.prefs.legacycid_in_change_table);
   });

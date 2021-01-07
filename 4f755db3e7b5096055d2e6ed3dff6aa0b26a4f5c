@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4d79459_d65863cf",
+        "filename": "java/com/google/gerrit/entities/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-07T12:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "805773ad_7468ecef",
+      "range": {
+        "startLine": 110,
+        "startChar": 5,
+        "endLine": 110,
+        "endChar": 42
+      },
+      "revId": "4f755db3e7b5096055d2e6ed3dff6aa0b26a4f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c72816e6_3c1f2ea8",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "242c4193_bedd5ba4",
+        "filename": "java/com/google/gerrit/entities/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-07T12:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c72816e6_3c1f2ea8",
+      "range": {
+        "startLine": 334,
+        "startChar": 2,
+        "endLine": 339,
+        "endChar": 17
+      },
+      "revId": "4f755db3e7b5096055d2e6ed3dff6aa0b26a4f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c57b64d_ce0dfcbd",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-01-07T12:02:22Z",
       "side": 1,
       "message": "Testing the entire list is not actually necessary. You get equally good coverage if you just test a single entry in the list. After all, the difference between that and iterating through the same list in tests and prd code is just that you test usage of the same list reference, which doesn\u0027t help much and makes the test slower.\n\nYou could test against one internal ref (say external IDs) and tags because that is actually a composition you just implemented.",
+      "range": {
+        "startLine": 193,
+        "startChar": 35,
+        "endLine": 193,
+        "endChar": 55
+      },
+      "revId": "4f755db3e7b5096055d2e6ed3dff6aa0b26a4f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f24cd0db_edf3eb02",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-07T12:19:53Z",
+      "side": 1,
+      "message": "Right. Thanks for the note.\n\nThere is a separate test (next one) for tags.\n\nDone.",
+      "parentUuid": "0c57b64d_ce0dfcbd",
       "range": {
         "startLine": 193,
         "startChar": 35,

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.entities;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.UsedAt;
 
 /** Constants and utilities for Gerrit-specific ref names. */
@@ -104,6 +105,26 @@ public class RefNames {
 
   /** A change starred by a user */
   public static final String REFS_STARRED_CHANGES = "refs/starred-changes/";
+
+  /**
+   * List of refs managed by Gerrit. Covers all Gerrit internal refs.
+   *
+   * <p><b>Caution</b> Any ref not in this list will be served if the user was granted a READ
+   * permission on it using Gerrit's permission model.
+   */
+  public static final ImmutableList<String> GERRIT_REFS =
+      ImmutableList.of(
+          REFS_CHANGES,
+          REFS_EXTERNAL_IDS,
+          REFS_CACHE_AUTOMERGE,
+          REFS_DRAFT_COMMENTS,
+          REFS_DELETED_GROUPS,
+          REFS_SEQUENCES,
+          REFS_GROUPS,
+          REFS_GROUPNAMES,
+          REFS_USERS,
+          REFS_STARRED_CHANGES,
+          REFS_REJECT_COMMITS);
 
   public static String fullName(String ref) {
     return (ref.startsWith(REFS) || ref.equals(HEAD)) ? ref : REFS_HEADS + ref;
@@ -306,21 +327,11 @@ public class RefNames {
    * <p>Any ref for which this method evaluates to true will be served to users who have the {@code
    * ACCESS_DATABASE} capability.
    *
-   * <p><b>Caution</b>Any ref not in this list will be served if the user was granted a READ
+   * <p><b>Caution</b> Any ref not in this list will be served if the user was granted a READ
    * permission on it using Gerrit's permission model.
    */
   public static boolean isGerritRef(String ref) {
-    return ref.startsWith(REFS_CHANGES)
-        || ref.startsWith(REFS_EXTERNAL_IDS)
-        || ref.startsWith(REFS_CACHE_AUTOMERGE)
-        || ref.startsWith(REFS_DRAFT_COMMENTS)
-        || ref.startsWith(REFS_DELETED_GROUPS)
-        || ref.startsWith(REFS_SEQUENCES)
-        || ref.startsWith(REFS_GROUPS)
-        || ref.startsWith(REFS_GROUPNAMES)
-        || ref.startsWith(REFS_USERS)
-        || ref.startsWith(REFS_STARRED_CHANGES)
-        || ref.startsWith(REFS_REJECT_COMMITS);
+    return GERRIT_REFS.stream().anyMatch(internalRef -> ref.startsWith(internalRef));
   }
 
   static Integer parseShardedRefPart(String name) {

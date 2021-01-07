@@ -182,13 +182,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cannotCreateChangeOnNoteDbRefs() throws Exception {
-    String[] disallowedBranches = {
-      "refs/users/82/1000002",
-      "refs/tags/v2.1",
-      "refs/cache-automerge/ec/00000000000000000000000000000000000000"
-    };
-
+  public void cannotCreateChangeOnGerritInternalRefs() throws Exception {
     requestScopeOperations.setApiUser(admin.id());
     projectOperations
         .project(project)
@@ -196,21 +190,41 @@ public class CreateChangeIT extends AbstractDaemonTest {
         .add(allow(CREATE).ref("refs/*").group(REGISTERED_USERS))
         .update();
 
-    for (String branchName : disallowedBranches) {
-      requestScopeOperations.setApiUser(admin.id());
-      BranchNameKey branchNameKey = BranchNameKey.create(project, branchName);
-      createBranch(branchNameKey);
+    String disallowedRef = "refs/changes/00/1000"; // All Gerrit internal refs behave the same way
+    requestScopeOperations.setApiUser(admin.id());
+    BranchNameKey branchNameKey = BranchNameKey.create(project, disallowedRef);
+    createBranch(branchNameKey);
 
-      requestScopeOperations.setApiUser(user.id());
-      ChangeInput ci = newChangeInput(ChangeStatus.NEW);
-      ci.subject = "Subject";
-      ci.branch = branchName;
+    requestScopeOperations.setApiUser(user.id());
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    ci.subject = "Subject";
+    ci.branch = disallowedRef;
 
-      Throwable thrown = assertThrows(RestApiException.class, () -> gApi.changes().create(ci));
-      assertThat(thrown)
-          .hasMessageThat()
-          .contains("Cannot create a change on ref " + ci.branch + ". ");
-    }
+    Throwable thrown = assertThrows(RestApiException.class, () -> gApi.changes().create(ci));
+    assertThat(thrown).hasMessageThat().contains("Cannot create a change on ref " + ci.branch);
+  }
+
+  @Test
+  public void cannotCreateChangeOnTagRefs() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(CREATE).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    String branchName = "refs/tags/v1.0";
+    requestScopeOperations.setApiUser(admin.id());
+    BranchNameKey branchNameKey = BranchNameKey.create(project, branchName);
+    createBranch(branchNameKey);
+
+    requestScopeOperations.setApiUser(user.id());
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    ci.subject = "Subject";
+    ci.branch = branchName;
+
+    Throwable thrown = assertThrows(RestApiException.class, () -> gApi.changes().create(ci));
+    assertThat(thrown).hasMessageThat().contains("Cannot create a change on ref " + ci.branch);
   }
 
   @Test

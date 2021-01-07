@@ -227,8 +227,7 @@ public class CreateChange
       throw new BadRequestException(
           "Cannot create a change on ref "
               + input.branch
-              + ". "
-              + "Allowed branches are refs/heads/*, refs/meta/dashboards/* or refs/meta/config");
+              + ". Gerrit internal refs and refs/tags/* are not allowed.");
     }
 
     String subject = Strings.nullToEmpty(input.subject);
@@ -299,11 +298,9 @@ public class CreateChange
     }
   }
 
+  /** Changes are allowed to be created on any ref that is not Gerrit internal or a tag ref. */
   private boolean isBranchAllowed(String branch) {
-    return branch.startsWith(RefNames.REFS_HEADS)
-        || branch.startsWith(RefNames.REFS_DASHBOARDS)
-        || "HEAD".equals(branch)
-        || RefNames.REFS_CONFIG.equals(branch);
+    return !RefNames.isGerritRef(branch) && !branch.startsWith(RefNames.REFS_TAGS);
   }
 
   private void checkRequiredPermissions(

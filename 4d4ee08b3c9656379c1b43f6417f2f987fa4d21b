@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "964daae3_acb2a070",
+        "filename": "java/com/google/gerrit/entities/RefNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-07T10:47:20Z",
+      "side": 1,
+      "message": "If you factor out the list, this note of caution has to be copied over to the variable declaration to make sure people modifying that list understand the implication.\n\nI would therefore just leave the list inlined here so that we don\u0027t have to duplicate anything and reduce the places where things can go wrong to just a single one.",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 326,
+        "endChar": 54
+      },
+      "revId": "4d4ee08b3c9656379c1b43f6417f2f987fa4d21b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b08bd376_c115f91e",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-07T10:47:20Z",
+      "side": 1,
+      "message": "nit: this can be inlined now in the caller",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 3
+      },
+      "revId": "4d4ee08b3c9656379c1b43f6417f2f987fa4d21b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

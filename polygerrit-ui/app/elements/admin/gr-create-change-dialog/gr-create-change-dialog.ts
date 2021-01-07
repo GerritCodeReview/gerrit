@@ -42,6 +42,7 @@ import {appContext} from '../../../services/app-context';
 export interface GrCreateChangeDialog {
   $: {
     privateChangeCheckBox: HTMLInputElement;
+    repoInput: GrAutocomplete;
     branchInput: GrAutocomplete;
     tagNameInput: HTMLInputElement;
     messageInput: IronAutogrowTextareaElement;
@@ -84,6 +85,9 @@ export class GrCreateChangeDialog extends GestureEventListeners(
 
   @property({type: Boolean})
   _privateChangesEnabled?: boolean;
+
+  @property({type: Boolean})
+  showRepoSelect = false;
 
   restApiService = appContext.restApiService;
 

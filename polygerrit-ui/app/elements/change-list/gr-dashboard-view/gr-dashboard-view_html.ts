@@ -120,9 +120,24 @@ export const htmlTemplate = html`
       </div>
     </gr-dialog>
   </gr-overlay>
-  <gr-create-destination-dialog
-    id="destinationDialog"
-    on-confirm="_handleDestinationConfirm"
-  ></gr-create-destination-dialog>
-  <gr-create-commands-dialog id="commandsDialog"></gr-create-commands-dialog>
+  <gr-overlay id="createChangeOverlay" with-backdrop="">
+    <gr-dialog
+      id="createChangeDialog"
+      confirm-label="Create"
+      disabled="[[!_canCreate]]"
+      on-confirm="_handleCreateChange"
+      on-cancel="_handleCloseCreateChange"
+    >
+      <div class="header" slot="header">
+        Create Change
+      </div>
+      <div class="main" slot="main">
+        <gr-create-change-dialog
+          id="createNewChangeModal"
+          can-create="{{_canCreate}}"
+          show-repo-picker
+        ></gr-create-change-dialog>
+      </div>
+    </gr-dialog>
+  </gr-overlay>
 `;

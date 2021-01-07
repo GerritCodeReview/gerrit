@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc2e7f35_082d7857",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-07T15:29:02Z",
+      "side": 1,
+      "message": "What should existing callers do to update if they want to continue to only have the subject?",
+      "range": {
+        "startLine": 10,
+        "startChar": 51,
+        "endLine": 11,
+        "endChar": 58
+      },
+      "revId": "bdcba6961d39d073a62aa60193c4fe5f61021a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44226cbb_a8096ca3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-07T15:29:02Z",
+      "side": 1,
+      "message": "Can we track this in the issue tracker so it shows up in release notes better?",
+      "revId": "bdcba6961d39d073a62aa60193c4fe5f61021a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

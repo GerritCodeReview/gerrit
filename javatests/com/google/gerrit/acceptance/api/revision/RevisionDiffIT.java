@@ -2745,6 +2745,50 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void symlinkConveredToRegularFileIsIdentifiedAsDeleted() throws Exception {
+    // TODO(ghareeb): This test creates a corner scenario of replacing a symlink with a regular file
+    // of the same name. When both patchsets are diffed, the List Files endpoint identifies the
+    // file as a 'REWRITE', however the diff endpoint for the symlink file identifies the file as
+    // deleted. This case is a bit risky since it hides from the user the new content that was added
+    // in the new regular file. Ideally, the diff endpoint should show two entries for the deleted
+    // symlink and the added file, or only one entry "REWRITE" with the content that was added to
+    // the new file.
+    String fileName = "file.txt";
+    String symlink = "link.lnk";
+
+    // Create a change adding file "FileName" and a symlink "symLink" pointing to the file
+    PushOneCommit push =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Commit Subject", fileName, "content")
+            .addSymlink(symlink, fileName);
+
+    PushOneCommit.Result result = push.to("refs/for/master");
+    String initialRev = gApi.changes().id(result.getChangeId()).get().currentRevision;
+
+    // Delete the symlink with patchset 2
+    gApi.changes().id(result.getChangeId()).edit().deleteFile(symlink);
+    gApi.changes().id(result.getChangeId()).edit().publish();
+
+    // Re-add the symlink as a regular file with patchset 3
+    gApi.changes()
+        .id(result.getChangeId())
+        .edit()
+        .modifyFile(symlink, RawInputUtil.create("symlink"));
+    gApi.changes().id(result.getChangeId()).edit().publish();
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(result.getChangeId()).current().files(initialRev);
+
+    assertThat(changedFiles.keySet()).containsExactly("/COMMIT_MSG", symlink);
+    assertThat(changedFiles.get(symlink).status).isEqualTo('W'); // Rewrite
+
+    DiffInfo diffInfo =
+        gApi.changes().id(result.getChangeId()).current().file(symlink).diff(initialRev);
+
+    assertThat(diffInfo.changeType).isEqualTo(ChangeType.DELETED);
+  }
+  
+  @Test
   public void diffOfNonExistentFileIsAnEmptyDiffResult() throws Exception {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
 

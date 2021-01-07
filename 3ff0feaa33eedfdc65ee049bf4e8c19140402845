@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b3fc9f2_7c750b20",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-07T20:34:12Z",
+      "side": 1,
+      "message": "Usually enums are not shown directly in the UI because it is just a list of constants grouped together. In many cases the exact values of an enum are not important and can be removed. For example, \n  enum ProgressStatus {\n    RUNNING,\n    FAILED,\n    SUCCESSFUL,\n  }\n  const ProgressMessages \u003d {\n    [ProgressStatus.RUNNING]: \u0027RUNNING\u0027,\n    [ProgressStatus.FAILED]: \u0027FAILED\u0027,\n    [ProgressStatus.SUCCESSFUL]: \u0027SUCCESSFUL\u0027,\n  }\n  const ProgressMessageNotStarted \u003d \u0027NOT STARTED\u0027;\n\nIf you think this is overcomplicated - please add a comment to the enum that the values are shown as is in the UI.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 1
+      },
+      "revId": "3ff0feaa33eedfdc65ee049bf4e8c19140402845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

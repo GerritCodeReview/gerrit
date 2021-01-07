@@ -70,6 +70,24 @@
       "parentUuid": "85858ef1_3fcd0f0c",
       "revId": "a12c5271b1599eb2f4073999ba8f5100c407d46f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ab9378a_05f19070",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-07T10:06:11Z",
+      "side": 1,
+      "message": "If you need isEmpty - I would follow loadash api - https://lodash.com/docs/4.17.15#isEmpty",
+      "parentUuid": "9a6801e3_326ccee4",
+      "revId": "a12c5271b1599eb2f4073999ba8f5100c407d46f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

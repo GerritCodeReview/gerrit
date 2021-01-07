@@ -183,12 +183,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void cannotCreateChangeOnNoteDbRefs() throws Exception {
-    String[] disallowedBranches = {
-      "refs/users/82/1000002",
-      "refs/tags/v2.1",
-      "refs/cache-automerge/ec/00000000000000000000000000000000000000"
-    };
-
     requestScopeOperations.setApiUser(admin.id());
     projectOperations
         .project(project)
@@ -196,7 +190,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
         .add(allow(CREATE).ref("refs/*").group(REGISTERED_USERS))
         .update();
 
-    for (String branchName : disallowedBranches) {
+    for (String disallowedBranch : RefNames.GERRIT_REFS) {
+      String branchName = disallowedBranch + "00"; // e.g. refs/changes/00
       requestScopeOperations.setApiUser(admin.id());
       BranchNameKey branchNameKey = BranchNameKey.create(project, branchName);
       createBranch(branchNameKey);
@@ -209,7 +204,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
       Throwable thrown = assertThrows(RestApiException.class, () -> gApi.changes().create(ci));
       assertThat(thrown)
           .hasMessageThat()
-          .contains("Cannot create a change on ref " + ci.branch + ". ");
+          .contains("Cannot create a change on Gerrit's internal ref " + ci.branch);
     }
   }
 

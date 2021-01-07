@@ -121,7 +121,7 @@ suite('gr-download-dialog', () => {
   });
 
   test('anchors use download attribute', () => {
-    const anchors = Array.from(element.root?.querySelectorAll('a')!);
+    const anchors = Array.from(element.root!.querySelectorAll('a'));
     assert.isTrue(!anchors.some(a => !a.hasAttribute('download')));
   });
 

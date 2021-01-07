@@ -32,12 +32,6 @@ import {Timestamp} from '../../../types/common';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 
 /**
- * fired when the selected value of the dropdown changes
- *
- * @event {change}
- */
-
-/**
  * Requred values are text and value. mobileText and triggerText will
  * fall back to text if not provided.
  *

@@ -28,6 +28,7 @@
   {@param? polyfillCE: ?}
   {@param? useGoogleFonts: ?}
   {@param? changeRequestsPath: ?}
+  {@param? patchNum: ?}
   {@param? defaultChangeDetailHex: ?}
   {@param? defaultDiffDetailHex: ?}
   {@param? defaultDashboardHex: ?}
@@ -108,6 +109,7 @@
     {/if}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/robotcomments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/ported_comments/{$patchNum}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     {if $userIsAuthenticated}
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/drafts" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     {/if}

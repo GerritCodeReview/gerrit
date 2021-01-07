@@ -49,7 +49,7 @@ public class IndexPreloadingUtil {
   }
 
   public static final String CHANGE_CANONICAL_PATH = "/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
-  public static final String BASE_PATCH_NUM_PATH_PART = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
+  public static final String BASE_PATCH_NUM_PATH_PART = "(/(?<basePatchNum>-?\\d+|edit)(\\.\\.(?<patchNum>\\d+|edit))?)";
   public static final Pattern CHANGE_URL_PATTERN =
       Pattern.compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "?" + "/?$");
   public static final Pattern DIFF_URL_PATTERN =
@@ -163,6 +163,35 @@ public class IndexPreloadingUtil {
     }
 
     return RequestedPage.PAGE_WITHOUT_PRELOADING;
+  }
+
+  public static Optional<String> computePatchNum(
+      String requestedURL, RequestedPage page) {
+    Matcher matcher;
+    switch (page) {
+      case CHANGE:
+        matcher = CHANGE_URL_PATTERN.matcher(requestedURL);
+        break;
+      case DIFF:
+        matcher = DIFF_URL_PATTERN.matcher(requestedURL);
+        break;
+      case DASHBOARD:
+      case PAGE_WITHOUT_PRELOADING:
+      default:
+        return Optional.empty();
+    }
+
+    if (matcher.matches()) {
+      String patchNum = matcher.group("patchNum");
+      if (patchNum != null) {
+        return Optional.of(patchNum);
+      }
+      String basePatchNum = matcher.group("basePatchNum");
+      if (basePatchNum != null) {
+        return Optional.of(basePatchNum);
+      }
+    }
+    return Optional.empty();
   }
 
   public static Optional<String> computeChangeRequestsPath(

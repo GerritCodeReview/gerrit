@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d6f060f_4362ac26",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-07T17:49:36Z",
+      "side": 1,
+      "message": "Does that mean that all devs will be able to use the RBE instance paid by Google Gerrit Team?\nI don\u0027t believe it would work, isn\u0027t it?",
+      "revId": "dbd8c1cc050a03ec209a34d073cafcf6c402163c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

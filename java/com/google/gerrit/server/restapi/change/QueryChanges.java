@@ -27,8 +27,11 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.index.query.QueryResult;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -49,10 +52,13 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   private final ChangeQueryBuilder qb;
   private final Provider<ChangeQueryProcessor> queryProcessorProvider;
   private final HashMap<String, DynamicOptions.DynamicBean> dynamicBeans = new HashMap<>();
+  private final Provider<CurrentUser> userProvider;
+  private final PermissionBackend permissionBackend;
   private EnumSet<ListChangesOption> options;
   private Integer limit;
   private Integer start;
   private Boolean noLimit;
+  private Boolean skipVisibility;
 
   @Option(
       name = "--query",
@@ -94,6 +100,15 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     this.noLimit = on;
   }
 
+  @Option(name = "--skip-visibility", usage = "Skip visibility check, only for administrators")
+  public void skipVisibility(boolean on) throws AuthException, PermissionBackendException {
+    if (on) {
+      CurrentUser user = userProvider.get();
+      permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+    }
+    skipVisibility = on;
+  }
+
   @Override
   public void setDynamicBean(String plugin, DynamicOptions.DynamicBean dynamicBean) {
     dynamicBeans.put(plugin, dynamicBean);
@@ -103,10 +118,14 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   QueryChanges(
       ChangeJson.Factory json,
       ChangeQueryBuilder qb,
-      Provider<ChangeQueryProcessor> queryProcessorProvider) {
+      Provider<ChangeQueryProcessor> queryProcessorProvider,
+      Provider<CurrentUser> userProvider,
+      PermissionBackend permissionBackend) {
     this.json = json;
     this.qb = qb;
     this.queryProcessorProvider = queryProcessorProvider;
+    this.userProvider = userProvider;
+    this.permissionBackend = permissionBackend;
 
     options = EnumSet.noneOf(ListChangesOption.class);
   }
@@ -151,6 +170,9 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     }
     if (noLimit != null) {
       queryProcessor.setNoLimit(noLimit);
+    }
+    if (skipVisibility != null) {
+      queryProcessor.enforceVisibility(!skipVisibility);
     }
     dynamicBeans.forEach((p, b) -> queryProcessor.setDynamicBean(p, b));
 

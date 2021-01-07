@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8e05b67_ea34c60e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-07T07:27:17Z",
+      "side": 1,
+      "message": "Thanks for taking another stab Frank! Some small suggestions and remarks, but generally this looks like it would work.",
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40852094_cc914608",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-07T07:27:17Z",
+      "side": 1,
+      "message": "Interesting - how does this work? I thought at this point threadEl is not yet slotted in?",
+      "range": {
+        "startLine": 912,
+        "startChar": 52,
+        "endLine": 912,
+        "endChar": 60
+      },
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0109a022_9f977ac6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-07T07:27:17Z",
+      "side": 1,
+      "message": "I know some of the DOM APIs support type parameters. Have you tried `this.shadowRoot?.querySelector\u003cHTMLSlotElement\u003e(...)` to get the element of the appropriate type from the start?",
+      "range": {
+        "startLine": 941,
+        "startChar": 9,
+        "endLine": 941,
+        "endChar": 32
+      },
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db4e8c61_47b93e30",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-07T07:27:17Z",
+      "side": 1,
+      "message": "Do these hard coded colors work well with theming? Should these be variables?",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 20
+      },
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e63863f_360ca3f7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-07T07:27:17Z",
+      "side": 1,
+      "message": "I don\u0027t know Polymer well enough to be sure: When is this run? On every render? Given this is ~constant given a range, which I think never changes, would it make sense to use a computed property or make range a setter and compute this when range is set?",
+      "range": {
+        "startLine": 48,
+        "startChar": 26,
+        "endLine": 48,
+        "endChar": 28
+      },
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8074b384_25ab0fa8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-07T07:27:17Z",
+      "side": 1,
+      "message": "Is it really necessary to reach into the private method here? Could you not maybe actually compare element.textContent or something like that?",
+      "range": {
+        "startLine": 37,
+        "startChar": 25,
+        "endLine": 37,
+        "endChar": 26
+      },
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39dda8f8_6adf0712",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-07T07:27:17Z",
+      "side": 1,
+      "message": "Nit: This entire code block is the same as above - maybe extract into a `addRanges` method?",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 9
+      },
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

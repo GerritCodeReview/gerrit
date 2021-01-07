@@ -106,12 +106,14 @@ public class IndexHtmlUtil {
         data.put(
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
+        data.put("patchNum", IndexPreloadingUtil.computePatchNum(requestedURL, page).get());
         break;
       case DIFF:
         data.put("defaultDiffDetailHex", IndexPreloadingUtil.getDefaultDiffDetailOptionsAsHex());
         data.put(
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
+        data.put("patchNum", IndexPreloadingUtil.computePatchNum(requestedURL, page).get());
         break;
       case DASHBOARD:
         // Dashboard is preloaded queries are added later when we check user is authenticated.

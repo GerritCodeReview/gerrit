@@ -30,15 +30,17 @@ export const htmlTemplate = html`
     }
   </style>
   <div>
-    <gr-labeled-autocomplete
-      id="repoInput"
-      label="Repository"
-      placeholder="Select repo"
-      on-commit="_repoCommitted"
-      query="[[_repoQuery]]"
-    >
-    </gr-labeled-autocomplete>
-    <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+    <template is="dom-if" if="[[!hideRepoPicker]]">
+      <gr-labeled-autocomplete
+        id="repoInput"
+        label="Repository"
+        placeholder="Select repo"
+        on-commit="_repoCommitted"
+        query="[[_repoQuery]]"
+      >
+      </gr-labeled-autocomplete>
+      <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+    </template>
     <gr-labeled-autocomplete
       id="branchInput"
       label="Branch"

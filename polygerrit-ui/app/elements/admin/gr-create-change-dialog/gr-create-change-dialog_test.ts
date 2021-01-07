@@ -122,21 +122,6 @@ suite('gr-create-change-dialog tests', () => {
     assert.isTrue(saveStub.called);
   });
 
-  test('_getRepoBranchesSuggestions empty', done => {
-    element._getRepoBranchesSuggestions('nonexistent').then(branches => {
-      assert.equal(branches.length, 0);
-      done();
-    });
-  });
-
-  test('_getRepoBranchesSuggestions non-empty', done => {
-    element._getRepoBranchesSuggestions('test-branch').then(branches => {
-      assert.equal(branches.length, 1);
-      assert.equal(branches[0].name, 'test-branch');
-      done();
-    });
-  });
-
   test('_computeBranchClass', () => {
     assert.equal(element._computeBranchClass(true), 'hide');
     assert.equal(element._computeBranchClass(false), '');

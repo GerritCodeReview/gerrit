@@ -48,15 +48,6 @@ public class IndexPreloadingUtil {
     PAGE_WITHOUT_PRELOADING,
   }
 
-  public static final String CHANGE_CANONICAL_PATH = "/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
-  public static final String BASE_PATCH_NUM_PATH_PART = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
-  public static final Pattern CHANGE_URL_PATTERN =
-      Pattern.compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "?" + "/?$");
-  public static final Pattern DIFF_URL_PATTERN =
-      Pattern.compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "(/(.+))" + "/?$");
-  public static final Pattern DASHBOARD_PATTERN = Pattern.compile("/dashboard/self$");
-  public static final String ROOT_PATH = "/";
-
   // These queries should be kept in sync with PolyGerrit:
   // polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts
   public static final String DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY = "has:draft limit:10";
@@ -153,7 +144,7 @@ public class IndexPreloadingUtil {
       return RequestedPage.DIFF;
     }
 
-    Matcher dashboardMatcher = IndexPreloadingUtil.DASHBOARD_PATTERN.matcher(requestedPath);
+    Matcher dashboardMatcher = IndexHtmlUtil.DASHBOARD_PATTERN.matcher(requestedPath);
     if (dashboardMatcher.matches()) {
       return RequestedPage.DASHBOARD;
     }
@@ -166,21 +157,8 @@ public class IndexPreloadingUtil {
   }
 
   public static Optional<String> computeChangeRequestsPath(
-      String requestedURL, RequestedPage page) {
-    Matcher matcher;
-    switch (page) {
-      case CHANGE:
-        matcher = CHANGE_URL_PATTERN.matcher(requestedURL);
-        break;
-      case DIFF:
-        matcher = DIFF_URL_PATTERN.matcher(requestedURL);
-        break;
-      case DASHBOARD:
-      case PAGE_WITHOUT_PRELOADING:
-      default:
-        return Optional.empty();
-    }
-
+      String requestedURL, String pattern) {
+    Matcher matcher = pattern.matcher(requestedURL);
     if (matcher.matches()) {
       Integer changeId = Ints.tryParse(matcher.group("changeNum"));
       if (changeId != null) {

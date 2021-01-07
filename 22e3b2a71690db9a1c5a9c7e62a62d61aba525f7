@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e58e85c_2377610d",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-07T09:08:52Z",
+      "side": 1,
+      "message": "do we have some test which ensures that protocol version 0 still works now that the default changed ?",
+      "revId": "22e3b2a71690db9a1c5a9c7e62a62d61aba525f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

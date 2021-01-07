@@ -30,7 +30,7 @@ export const htmlTemplate = html`
     }
   </style>
   <div>
-    <template is="dom-if" if="[[!hideRepoPicker]]">
+    <template is="dom-if" if="[[showRepoPicker]]">
       <gr-labeled-autocomplete
         id="repoInput"
         label="Repository"

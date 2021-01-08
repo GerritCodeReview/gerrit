@@ -13,10 +13,11 @@
       "updated": "2019-05-31T08:04:02Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "RUNNING",
+      "state": "FAILED",
+      "message": "uuid \"gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928\" has unknown language",
       "started": "2021-01-08T20:48:30Z",
       "created": "2021-01-08T20:48:30Z",
-      "updated": "2021-01-08T20:48:30Z"
+      "updated": "2021-01-08T20:48:31Z"
     }
   }
 }

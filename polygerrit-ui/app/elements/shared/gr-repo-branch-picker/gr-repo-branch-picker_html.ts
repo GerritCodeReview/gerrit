@@ -50,5 +50,16 @@ export const htmlTemplate = html`
       query="[[_query]]"
     >
     </gr-labeled-autocomplete>
+    <gr-button
+      on-tap="_handleViewCommands"
+      has-tooltip
+      title="Select branch to view commands"
+    >
+      View Commands
+    </gr-button>
+    <gr-create-commands-dialog
+      id="commandsDialog"
+      branch="[[branch]]"
+    ></gr-create-commands-dialog>
   </div>
 `;

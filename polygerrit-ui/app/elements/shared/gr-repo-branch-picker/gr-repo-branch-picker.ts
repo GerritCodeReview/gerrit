@@ -33,6 +33,7 @@ import {
 } from '../../../types/common';
 import {GrLabeledAutocomplete} from '../gr-labeled-autocomplete/gr-labeled-autocomplete';
 import {appContext} from '../../../services/app-context';
+import {GrCreateCommandsDialog} from '../../change-list/gr-create-commands-dialog/gr-create-commands-dialog';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -41,6 +42,7 @@ export interface GrRepoBranchPicker {
   $: {
     repoInput: GrLabeledAutocomplete;
     branchInput: GrLabeledAutocomplete;
+    commandsDialog: GrCreateCommandsDialog;
   };
 }
 @customElement('gr-repo-branch-picker')
@@ -89,6 +91,10 @@ export class GrRepoBranchPicker extends GestureEventListeners(
   ready() {
     super.ready();
     this._branchDisabled = !this.repo;
+  }
+
+  _handleViewCommands() {
+    this.$.commandsDialog.open();
   }
 
   _getRepoBranchesSuggestions(input: string) {

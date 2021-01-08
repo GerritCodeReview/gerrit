@@ -1,0 +1,507 @@
+//  Copyright (C) 2020 The Android Open Source Project
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+
+package com.google.gerrit.server.patch.filediff;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
+
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.patch.ComparisonType;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffUtil;
+import com.google.gerrit.server.patch.Text;
+import com.google.gerrit.server.patch.filediff.EditTransformer.ContextAwareEdit;
+import com.google.gerrit.server.patch.gitfilediff.FileHeaderUtil;
+import com.google.gerrit.server.patch.gitfilediff.GitFileDiff;
+import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl;
+import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.DiffAlgorithmFactory;
+import com.google.inject.Inject;
+import com.google.inject.Module;
+import com.google.inject.name.Named;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import org.eclipse.jgit.diff.EditList;
+import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.diff.RawTextComparator;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.patch.FileHeader;
+import org.eclipse.jgit.patch.FileHeader.PatchType;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
+
+/**
+ * Cache for the single file diff between two commits for a single file path. This cache adds extra
+ * Gerrit logic such as identifying edits due to rebase.
+ *
+ * <p>If the {@link FileDiffCacheKey#oldCommit()} is equal to {@link
+ * org.eclipse.jgit.lib.Constants#EMPTY_TREE_ID}, the git diff will be evaluated against the empty
+ * tree.
+ */
+public class FileDiffCacheImpl implements FileDiffCache {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final String DIFF = "gerrit_file_diff";
+
+  private final LoadingCache<FileDiffCacheKey, FileDiffOutput> cache;
+
+  public static Module module() {
+    return new CacheModule() {
+      @Override
+      protected void configure() {
+        bind(FileDiffCache.class).to(FileDiffCacheImpl.class);
+
+        factory(AllDiffsEvaluator.Factory.class);
+
+        persist(DIFF, FileDiffCacheKey.class, FileDiffOutput.class)
+            .maximumWeight(10 << 20)
+            .weigher(FileDiffWeigher.class)
+            .loader(FileDiffLoader.class);
+      }
+    };
+  }
+
+  private enum MagicPath {
+    COMMIT,
+    MERGE_LIST
+  }
+
+  @Inject
+  public FileDiffCacheImpl(@Named(DIFF) LoadingCache<FileDiffCacheKey, FileDiffOutput> cache) {
+    this.cache = cache;
+  }
+
+  @Override
+  public FileDiffOutput get(FileDiffCacheKey key) throws DiffNotAvailableException {
+    try {
+      return cache.get(key);
+    } catch (ExecutionException e) {
+      throw new DiffNotAvailableException(e);
+    }
+  }
+
+  @Override
+  public ImmutableMap<FileDiffCacheKey, FileDiffOutput> getAll(Iterable<FileDiffCacheKey> keys)
+      throws DiffNotAvailableException {
+    try {
+      ImmutableMap<FileDiffCacheKey, FileDiffOutput> result = cache.getAll(keys);
+      if (result.size() != Iterables.size(keys)) {
+        throw new DiffNotAvailableException(
+            String.format(
+                "Failed to load the value for all %d keys. Returned "
+                    + "map contains only %d values",
+                Iterables.size(keys), result.size()));
+      }
+      return result;
+    } catch (ExecutionException e) {
+      throw new DiffNotAvailableException(e);
+    }
+  }
+
+  static class FileDiffLoader extends CacheLoader<FileDiffCacheKey, FileDiffOutput> {
+    private final GitRepositoryManager repoManager;
+    private final AllDiffsEvaluator.Factory allDiffsEvaluatorFactory;
+
+    @Inject
+    FileDiffLoader(
+        AllDiffsEvaluator.Factory allDiffsEvaluatorFactory, GitRepositoryManager manager) {
+      this.allDiffsEvaluatorFactory = allDiffsEvaluatorFactory;
+      this.repoManager = manager;
+    }
+
+    @Override
+    public FileDiffOutput load(FileDiffCacheKey key) throws IOException, DiffNotAvailableException {
+      return loadAll(ImmutableList.of(key)).get(key);
+    }
+
+    @Override
+    public Map<FileDiffCacheKey, FileDiffOutput> loadAll(Iterable<? extends FileDiffCacheKey> keys)
+        throws DiffNotAvailableException {
+      ImmutableMap.Builder<FileDiffCacheKey, FileDiffOutput> result = ImmutableMap.builder();
+
+      Map<Project.NameKey, List<FileDiffCacheKey>> keysByProject =
+          Streams.stream(keys).distinct().collect(Collectors.groupingBy(FileDiffCacheKey::project));
+
+      for (Project.NameKey project : keysByProject.keySet()) {
+        List<FileDiffCacheKey> fileKeys = new ArrayList<>();
+
+        try (Repository repo = repoManager.openRepository(project);
+            ObjectReader reader = repo.newObjectReader();
+            RevWalk rw = new RevWalk(reader)) {
+
+          for (FileDiffCacheKey key : keysByProject.get(project)) {
+            if (key.newFilePath().equals(Patch.COMMIT_MSG)) {
+              result.put(key, createMagicPathEntry(key, reader, rw, MagicPath.COMMIT));
+            } else if (key.newFilePath().equals(Patch.MERGE_LIST)) {
+              result.put(key, createMagicPathEntry(key, reader, rw, MagicPath.MERGE_LIST));
+            } else {
+              fileKeys.add(key);
+            }
+          }
+          result.putAll(createFileEntries(reader, fileKeys, rw));
+        } catch (IOException e) {
+          logger.atWarning().log("Failed to open the repository %s: %s", project, e.getMessage());
+        }
+      }
+      return result.build();
+    }
+
+    private ComparisonType getComparisonType(RevWalk rw, ObjectId oldCommitId, ObjectId newCommitId)
+        throws IOException {
+      RevCommit oldCommit = DiffUtil.getRevCommit(rw, oldCommitId);
+      RevCommit newCommit = DiffUtil.getRevCommit(rw, newCommitId);
+      for (int i = 0; i < newCommit.getParentCount(); i++) {
+        if (newCommit.getParent(i).equals(oldCommit)) {
+          return ComparisonType.againstParent(i + 1);
+        }
+      }
+      if (newCommit.getParentCount() > 0) {
+        return ComparisonType.againstAutoMerge();
+      }
+      return ComparisonType.againstOtherPatchSet();
+    }
+
+    /**
+     * Creates a {@link FileDiffOutput} entry for the "Commit message" and "Merge list" file paths.
+     */
+    private FileDiffOutput createMagicPathEntry(
+        FileDiffCacheKey key, ObjectReader reader, RevWalk rw, MagicPath magicPath) {
+      try {
+        RawTextComparator cmp = comparatorFor(key.whitespace());
+        ComparisonType comparisonType = getComparisonType(rw, key.oldCommit(), key.newCommit());
+        RevCommit aCommit =
+            comparisonType.isAgainstParentOrAutoMerge()
+                ? null
+                : DiffUtil.getRevCommit(rw, key.oldCommit());
+        RevCommit bCommit = DiffUtil.getRevCommit(rw, key.newCommit());
+        return magicPath == MagicPath.COMMIT
+            ? createCommitEntry(reader, aCommit, bCommit, cmp, key.diffAlgorithm())
+            : createMergeListEntry(
+                reader, aCommit, bCommit, comparisonType, cmp, key.diffAlgorithm());
+      } catch (IOException e) {
+        logger.atWarning().log("Failed to compute commit entry for key " + key);
+      }
+      return FileDiffOutput.empty(key.newFilePath());
+    }
+
+    private static RawTextComparator comparatorFor(Whitespace ws) {
+      switch (ws) {
+        case IGNORE_ALL:
+          return RawTextComparator.WS_IGNORE_ALL;
+
+        case IGNORE_TRAILING:
+          return RawTextComparator.WS_IGNORE_TRAILING;
+
+        case IGNORE_LEADING_AND_TRAILING:
+          return RawTextComparator.WS_IGNORE_CHANGE;
+
+        case IGNORE_NONE:
+        default:
+          return RawTextComparator.DEFAULT;
+      }
+    }
+
+    private FileDiffOutput createCommitEntry(
+        ObjectReader reader,
+        RevCommit oldCommit,
+        RevCommit newCommit,
+        RawTextComparator rawTextComparator,
+        GitFileDiffCacheImpl.DiffAlgorithm diffAlgorithm)
+        throws IOException {
+      Text aText = newCommit != null ? Text.forCommit(reader, newCommit) : Text.EMPTY;
+      Text bText = Text.forCommit(reader, newCommit);
+      return createMagicFileDiffOutput(
+          rawTextComparator, oldCommit, aText, bText, Patch.COMMIT_MSG, diffAlgorithm);
+    }
+
+    private FileDiffOutput createMergeListEntry(
+        ObjectReader reader,
+        RevCommit oldCommit,
+        RevCommit newCommit,
+        ComparisonType comparisonType,
+        RawTextComparator rawTextComparator,
+        GitFileDiffCacheImpl.DiffAlgorithm diffAlgorithm)
+        throws IOException {
+      Text aText =
+          oldCommit != null ? Text.forMergeList(comparisonType, reader, oldCommit) : Text.EMPTY;
+      Text bText = Text.forMergeList(comparisonType, reader, newCommit);
+      return createMagicFileDiffOutput(
+          rawTextComparator, oldCommit, aText, bText, Patch.MERGE_LIST, diffAlgorithm);
+    }
+
+    private static FileDiffOutput createMagicFileDiffOutput(
+        RawTextComparator rawTextComparator,
+        RevCommit aCommit,
+        Text aText,
+        Text bText,
+        String fileName,
+        GitFileDiffCacheImpl.DiffAlgorithm diffAlgorithm) {
+      byte[] rawHdr = getRawHeader(aCommit != null, fileName);
+      byte[] aContent = aText.getContent();
+      byte[] bContent = bText.getContent();
+      long size = bContent.length;
+      long sizeDelta = size - aContent.length;
+      RawText aRawText = new RawText(aContent);
+      RawText bRawText = new RawText(bContent);
+      EditList edits =
+          DiffAlgorithmFactory.create(diffAlgorithm).diff(rawTextComparator, aRawText, bRawText);
+      FileHeader fileHeader = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
+      Patch.ChangeType changeType = FileHeaderUtil.getChangeType(fileHeader);
+      return FileDiffOutput.builder()
+          .oldPath(FileHeaderUtil.getOldPath(fileHeader))
+          .newPath(FileHeaderUtil.getNewPath(fileHeader))
+          .changeType(Optional.of(changeType))
+          .patchType(Optional.of(FileHeaderUtil.getPatchType(fileHeader)))
+          .headerLines(FileHeaderUtil.getHeaderLines(fileHeader))
+          .edits(
+              asTaggedEdits(
+                  edits.stream().map(Edit::fromJGitEdit).collect(Collectors.toList()),
+                  ImmutableList.of()))
+          .size(size)
+          .sizeDelta(sizeDelta)
+          .build();
+    }
+
+    private static byte[] getRawHeader(boolean hasA, String fileName) {
+      StringBuilder hdr = new StringBuilder();
+      hdr.append("diff --git");
+      if (hasA) {
+        hdr.append(" a/").append(fileName);
+      } else {
+        hdr.append(" ").append(FileHeader.DEV_NULL);
+      }
+      hdr.append(" b/").append(fileName);
+      hdr.append("\n");
+
+      if (hasA) {
+        hdr.append("--- a/").append(fileName).append("\n");
+      } else {
+        hdr.append("--- ").append(FileHeader.DEV_NULL).append("\n");
+      }
+      hdr.append("+++ b/").append(fileName).append("\n");
+      return hdr.toString().getBytes(UTF_8);
+    }
+
+    private Map<FileDiffCacheKey, FileDiffOutput> createFileEntries(
+        ObjectReader reader, List<FileDiffCacheKey> keys, RevWalk rw)
+        throws DiffNotAvailableException, IOException {
+      Map<AugmentedFileDiffCacheKey, AllFileGitDiffs> allFileDiffs =
+          allDiffsEvaluatorFactory.create(rw).execute(wrapKeys(keys, rw));
+
+      Map<FileDiffCacheKey, FileDiffOutput> result = new HashMap<>();
+
+      for (AugmentedFileDiffCacheKey augmentedKey : allFileDiffs.keySet()) {
+        AllFileGitDiffs allDiffs = allFileDiffs.get(augmentedKey);
+
+        FileEdits rebaseFileEdits = FileEdits.empty();
+        if (!augmentedKey.ignoreRebase()) {
+          rebaseFileEdits = computeRebaseEdits(allDiffs);
+        }
+        List<Edit> rebaseEdits = rebaseFileEdits.edits();
+
+        RevTree aTree = rw.parseTree(allDiffs.mainDiff().gitKey().oldTree());
+        RevTree bTree = rw.parseTree(allDiffs.mainDiff().gitKey().newTree());
+        GitFileDiff mainGitDiff = allDiffs.mainDiff().gitDiff();
+
+        Long oldSize =
+            mainGitDiff.oldPath().isPresent()
+                ? new FileSizeEvaluator(reader, aTree)
+                    .compute(
+                        mainGitDiff.oldId(),
+                        mainGitDiff.oldMode().get(),
+                        mainGitDiff.oldPath().get())
+                : 0;
+        Long newSize =
+            mainGitDiff.newPath().isPresent()
+                ? new FileSizeEvaluator(reader, bTree)
+                    .compute(
+                        mainGitDiff.newId(),
+                        mainGitDiff.newMode().get(),
+                        mainGitDiff.newPath().get())
+                : 0;
+
+        FileDiffOutput fileDiff =
+            FileDiffOutput.builder()
+                .changeType(mainGitDiff.changeType())
+                .patchType(mainGitDiff.patchType())
+                .oldPath(mainGitDiff.oldPath())
+                .newPath(mainGitDiff.newPath())
+                .headerLines(FileHeaderUtil.getHeaderLines(mainGitDiff.fileHeader()))
+                .edits(asTaggedEdits(mainGitDiff.edits(), rebaseEdits))
+                .size(newSize)
+                .sizeDelta(newSize - oldSize)
+                .build();
+
+        result.put(augmentedKey.key(), fileDiff);
+      }
+
+      return result;
+    }
+
+    /**
+     * Convert the list of input keys {@link FileDiffCacheKey} to a list of {@link
+     * AugmentedFileDiffCacheKey} that also include the old and new parent commit IDs, and a boolean
+     * that indicates whether we should include the rebase edits for each key.
+     *
+     * <p>The output list is expected to have the same size of the input list, i.e. we map all keys.
+     */
+    private List<AugmentedFileDiffCacheKey> wrapKeys(List<FileDiffCacheKey> keys, RevWalk rw) {
+      List<AugmentedFileDiffCacheKey> result = new ArrayList<>();
+      for (FileDiffCacheKey key : keys) {
+        if (key.oldCommit().equals(EMPTY_TREE_ID)) {
+          result.add(AugmentedFileDiffCacheKey.builder().key(key).ignoreRebase(true).build());
+          continue;
+        }
+        try {
+          RevCommit oldRevCommit = DiffUtil.getRevCommit(rw, key.oldCommit());
+          RevCommit newRevCommit = DiffUtil.getRevCommit(rw, key.newCommit());
+          if (!DiffUtil.areRelated(oldRevCommit, newRevCommit)) {
+            result.add(
+                AugmentedFileDiffCacheKey.builder()
+                    .key(key)
+                    .oldParentId(Optional.of(oldRevCommit.getParent(0).getId()))
+                    .newParentId(Optional.of(newRevCommit.getParent(0).getId()))
+                    .ignoreRebase(false)
+                    .build());
+          } else {
+            result.add(AugmentedFileDiffCacheKey.builder().key(key).ignoreRebase(true).build());
+          }
+        } catch (IOException e) {
+          logger.atWarning().log(
+              "Failed to evaluate commits relation for key "
+                  + key
+                  + ". Skipping this key: "
+                  + e.getMessage(),
+              e);
+          result.add(AugmentedFileDiffCacheKey.builder().key(key).ignoreRebase(true).build());
+        }
+      }
+      return result;
+    }
+
+    private static ImmutableList<TaggedEdit> asTaggedEdits(
+        List<Edit> normalEdits, List<Edit> rebaseEdits) {
+      Set<Edit> rebaseEditsSet = new HashSet(rebaseEdits);
+      ImmutableList.Builder<TaggedEdit> result =
+          ImmutableList.builderWithExpectedSize(normalEdits.size());
+      for (Edit e : normalEdits) {
+        result.add(TaggedEdit.create(e, rebaseEditsSet.contains(e)));
+      }
+      return result.build();
+    }
+
+    /**
+     * Computes the subset of edits that are due to rebase between 2 commits.
+     *
+     * <p>The input parameter {@link AllFileGitDiffs#mainDiff} contains all the edits in
+     * consideration. Of those, we identify the edits due to rebase as a function of:
+     *
+     * <ol>
+     *   <li>The edits between the old commit and its parent {@link
+     *       AllFileGitDiffs#oldVsParentDiff}.
+     *   <li>The edits between the new commit and its parent {@link
+     *       AllFileGitDiffs#newVsParentDiff}.
+     *   <li>The edits between the parents of the old commit and new commits {@link
+     *       AllFileGitDiffs#parentVsParentDiff}.
+     * </ol>
+     *
+     * @param diffs an entity containing 4 sets of edits: those between the old and new commit,
+     *     between the old and new commits vs. their parents, and between the old and new parents.
+     * @return the list of edits that are due to rebase.
+     */
+    private FileEdits computeRebaseEdits(AllFileGitDiffs diffs) {
+      if (!diffs.parentVsParentDiff().isPresent()) {
+        return FileEdits.empty();
+      }
+
+      GitFileDiff parentVsParentDiff = diffs.parentVsParentDiff().get().gitDiff();
+
+      EditTransformer editTransformer =
+          new EditTransformer(
+              ImmutableList.of(
+                  FileEdits.create(
+                      parentVsParentDiff.edits().stream()
+                          .map(Edit::toJGitEdit)
+                          .collect(Collectors.toList()),
+                      parentVsParentDiff.oldPath(),
+                      parentVsParentDiff.newPath())));
+
+      if (diffs.oldVsParentDiff().isPresent()) {
+        GitFileDiff oldVsParDiff = diffs.oldVsParentDiff().get().gitDiff();
+        editTransformer.transformReferencesOfSideA(
+            ImmutableList.of(
+                FileEdits.create(
+                    oldVsParDiff.edits().stream()
+                        .map(Edit::toJGitEdit)
+                        .collect(Collectors.toList()),
+                    oldVsParDiff.oldPath(),
+                    oldVsParDiff.newPath())));
+      }
+
+      if (diffs.newVsParentDiff().isPresent()) {
+        GitFileDiff newVsParDiff = diffs.newVsParentDiff().get().gitDiff();
+        editTransformer.transformReferencesOfSideB(
+            ImmutableList.of(
+                FileEdits.create(
+                    newVsParDiff.edits().stream()
+                        .map(Edit::toJGitEdit)
+                        .collect(Collectors.toList()),
+                    newVsParDiff.oldPath(),
+                    newVsParDiff.newPath())));
+      }
+
+      Multimap<String, ContextAwareEdit> editsPerFilePath = editTransformer.getEditsPerFilePath();
+
+      if (editsPerFilePath.isEmpty()) {
+        return FileEdits.empty();
+      }
+
+      // editsPerFilePath is expected to have a single item representing the file
+      String filePath = editsPerFilePath.keys().iterator().next();
+      Collection<ContextAwareEdit> edits = editsPerFilePath.get(filePath);
+      return FileEdits.create(
+          Streams.stream(edits)
+              .map(ContextAwareEdit::toEdit)
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .collect(Collectors.toList()),
+          edits.iterator().next().getOldFilePath(),
+          edits.iterator().next().getNewFilePath());
+    }
+  }
+}

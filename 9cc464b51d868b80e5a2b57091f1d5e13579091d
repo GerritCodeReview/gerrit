@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13e7f217_1b8b8871",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-08T21:24:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "996d0ff9_60d86d74",
+      "range": {
+        "startLine": 166,
+        "startChar": 6,
+        "endLine": 166,
+        "endChar": 37
+      },
+      "revId": "9cc464b51d868b80e5a2b57091f1d5e13579091d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c352879_4c022068",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-01-08T21:15:17Z",
       "side": 1,
       "message": "Same as above: best to comment on why",
+      "range": {
+        "startLine": 334,
+        "startChar": 33,
+        "endLine": 334,
+        "endChar": 86
+      },
+      "revId": "9cc464b51d868b80e5a2b57091f1d5e13579091d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef5a07cd_9a54cea2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-08T21:24:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c352879_4c022068",
       "range": {
         "startLine": 334,
         "startChar": 33,

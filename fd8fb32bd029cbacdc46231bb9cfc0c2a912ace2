@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fdf031a4_c6619925",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-08T21:24:56Z",
+      "side": 1,
+      "message": "After the investigations, it looks like the tests were broken but the App was 100% intact.\nThe WCT tests are running only in development mode and testing the single components in isolation.\n\nTests are fixed now, and the code in the App was working as expected even before the fix.",
+      "parentUuid": "d9c894c9_e3a5b327",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 30
+      },
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7525be7f_0e179c76",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -224,6 +248,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14764485_12a93026",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-08T21:24:56Z",
+      "side": 1,
+      "message": "Yep, stable-3.3?",
+      "parentUuid": "57510701_c92f3cbc",
+      "range": {
+        "startLine": 149,
+        "startChar": 15,
+        "endLine": 149,
+        "endChar": 24
+      },
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ac15d339_9d2b0518",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 7
@@ -241,6 +289,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fcf00c5e_5aa5a235",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-08T21:24:56Z",
+      "side": 1,
+      "message": "Yes, that would be best. However, I was a bit reluctant in doing that in a very stable branch.\nPossibly something for stable-3.3 and master?",
+      "parentUuid": "ac15d339_9d2b0518",
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a02f0367_10d21ab8",
         "filename": "polygerrit-ui/app/rules.bzl",
         "patchSetId": 7
@@ -252,6 +318,30 @@
       "writtenOn": "2021-01-08T21:01:19Z",
       "side": 1,
       "message": "This is the wrong place: it should be inside the list of polygerrit_components",
+      "range": {
+        "startLine": 46,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75645522_3990a6a7",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-08T21:24:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a02f0367_10d21ab8",
       "range": {
         "startLine": 46,
         "startChar": 12,

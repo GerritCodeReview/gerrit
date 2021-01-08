@@ -33,6 +33,7 @@ import {
 import {ChangeInfo} from '../../../types/common';
 import {CommentThread, isDraft, UIRobot} from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
+import {fireThreadListModifiedEvent} from '../../../utils/event-util';
 
 interface CommentThreadWithInfo {
   thread: CommentThread;
@@ -421,11 +422,7 @@ export class GrThreadList extends GestureEventListeners(
   }
 
   _handleCommentsChanged(e: CustomEvent) {
-    this.dispatchEvent(
-      new CustomEvent('thread-list-modified', {
-        detail: {rootId: e.detail.rootId, path: e.detail.path},
-      })
-    );
+    fireThreadListModifiedEvent(this, e.detail.rootId, e.detail.path);
   }
 
   _isOnParent(side?: CommentSide) {

@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import {UrlEncodedCommentId} from '../types/common';
 import {FetchRequest} from '../types/types';
 
 export enum EventType {
@@ -23,6 +24,7 @@ export enum EventType {
   SERVER_ERROR = 'server-error',
   NETWORK_ERROR = 'network-error',
   TITLE_CHANGE = 'title-change',
+  THREAD_LIST_MODIFIED = 'thread-list-modified',
 }
 
 export function fireEvent(target: EventTarget, type: string) {
@@ -78,6 +80,20 @@ export function fireTitleChange(target: EventTarget, title: string) {
   target.dispatchEvent(
     new CustomEvent(EventType.TITLE_CHANGE, {
       detail: {title},
+      composed: true,
+      bubbles: true,
+    })
+  );
+}
+
+export function fireThreadListModifiedEvent(
+  target: EventTarget,
+  rootId: UrlEncodedCommentId,
+  path: string
+) {
+  target.dispatchEvent(
+    new CustomEvent(EventType.THREAD_LIST_MODIFIED, {
+      detail: {rootId, path},
       composed: true,
       bubbles: true,
     })

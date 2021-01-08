@@ -33,6 +33,63 @@
       "message": "IIRC gr-diff element is also shared with Google internal code review system. That\u0027s why I\u0027m wondering that nobody ever discovered this selection problem on Safari browser.\n\nNone of Chromium, Android and internal Google developers are using Safari for code review? Or they do use it, but never tried range selection in diff view?",
       "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37cc90e5_86317ae1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-08T10:52:27Z",
+      "side": 1,
+      "message": "dl",
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57510701_c92f3cbc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-08T10:52:27Z",
+      "side": 1,
+      "message": "This would also need to be adjusted to include/be replaced by Range.",
+      "range": {
+        "startLine": 149,
+        "startChar": 15,
+        "endLine": 149,
+        "endChar": 24
+      },
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac15d339_9d2b0518",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-08T10:52:27Z",
+      "side": 1,
+      "message": "Maybe it would be cleaner to change this method to always take a range, and then update the callers to extract the Range from the selecton?",
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

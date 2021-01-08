@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "663b1058_d047030b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2749,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-08T10:42:57Z",
+      "side": 1,
+      "message": "Add a link to the bug.",
+      "revId": "0b95f166823234bf655b56c81042ae3a2d2414df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5943271_402f5dc1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2757,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-08T10:42:57Z",
+      "side": 1,
+      "message": "I thought the name must be identical?",
+      "range": {
+        "startLine": 2756,
+        "startChar": 0,
+        "endLine": 2757,
+        "endChar": 32
+      },
+      "revId": "0b95f166823234bf655b56c81042ae3a2d2414df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4425223_97903b4e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2757,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-08T10:42:57Z",
+      "side": 1,
+      "message": "The identifier should say whether this is the symlink\u0027s name or the symlink\u0027s target.",
+      "revId": "0b95f166823234bf655b56c81042ae3a2d2414df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a77a1a8_7758df61",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2776,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-08T10:42:57Z",
+      "side": 1,
+      "message": "It\u0027s a bit confusing that the regular file\u0027s contents are \"symlink\".",
+      "range": {
+        "startLine": 2776,
+        "startChar": 49,
+        "endLine": 2776,
+        "endChar": 58
+      },
+      "revId": "0b95f166823234bf655b56c81042ae3a2d2414df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e42b21c_1cfd3cae",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2788,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-08T10:42:57Z",
+      "side": 1,
+      "message": "This is the undesired behavior, right? Could you mark that somehow, either with a comment that mentions what it should really be, or by extracting it to another @Ignored test that asserts the correct behavior?",
+      "revId": "0b95f166823234bf655b56c81042ae3a2d2414df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

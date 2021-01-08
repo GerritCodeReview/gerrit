@@ -45,3 +45,15 @@ nodejs_binary(
     data = ["@tools_npm//:node_modules"],
     entry_point = "@tools_npm//:node_modules/typescript/lib/tsc.js",
 )
+
+nodejs_binary(
+    name = "template-checker-bin",
+    # Point bazel to your node_modules to find the entry point
+    data = ["@npm//:node_modules"],
+    entry_point = "@npm//:node_modules/twinkie/src/app/index.js",
+    # Should not run sandboxed.
+    tags = [
+        "local",
+        "manual",
+    ],
+)

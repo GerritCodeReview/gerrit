@@ -17,12 +17,15 @@ package com.google.gerrit.server.patch;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.server.patch.PatchList.ChangeTypeCmp;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
+import java.util.List;
 import org.junit.Test;
 
 public class PatchListTest {
@@ -64,6 +67,15 @@ public class PatchListTest {
 
     Arrays.sort(names, 0, names.length, PatchList.FILE_PATH_CMP);
     assertThat(names).isEqualTo(want);
+  }
+
+  @Test
+  public void changeTypeOrderIsComplete() {
+    List<ChangeType> changeTypeOrder = ChangeTypeCmp.order;
+    ChangeType[] allTypes = ChangeType.values();
+
+    Arrays.sort(allTypes, PatchList.CHANGE_TYPE_CMP);
+    assertThat(changeTypeOrder).containsExactlyElementsIn(allTypes).inOrder();
   }
 
   @Test

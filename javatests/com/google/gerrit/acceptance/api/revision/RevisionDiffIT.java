@@ -2745,15 +2745,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void symlinkConveredToRegularFileIsIdentifiedAsDeleted() throws Exception {
-    // TODO(ghareeb): See https://bugs.chromium.org/p/gerrit/issues/detail?id=13914.
-    // This test creates a corner scenario of replacing a symlink with a regular file
-    // of the same name. When both patchsets are diffed, the List Files endpoint identifies the
-    // file as a 'REWRITE', however the diff endpoint for the symlink file identifies the file as
-    // deleted. This case is a bit risky since it hides from the user the new content that was added
-    // in the new regular file. Ideally, the diff endpoint should show two entries for the deleted
-    // symlink and the added file, or only one entry "REWRITE" with the content that was added to
-    // the new file.
+  public void symlinkConvertedToRegularFileIsIdentifiedAsAdded() throws Exception {
     String target = "file.txt";
     String symlink = "link.lnk";
 
@@ -2786,11 +2778,18 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo =
         gApi.changes().id(result.getChangeId()).current().file(symlink).diff(initialRev);
 
-    // TODO(ghareeb): This is not a desired behaviour. The diff endpoint treats the file as
-    // 'DELETED', hence hiding any new content that was added to the new regular file. It is better
-    // to show the file as 'ADDED'. See https://bugs.chromium.org/p/gerrit/issues/detail?id=13914
-    // for more details.
-    assertThat(diffInfo.changeType).isEqualTo(ChangeType.DELETED);
+    // The diff logic identifies two entries for the file:
+    // 1. One entry as 'DELETED' for the symlink.
+    // 2. Another entry as 'ADDED' for the new regular file.
+    // Since the diff logic returns a single entry, we prioritize returning the 'ADDED' entry in
+    // this case so that the client is able to see the new content that was added to the file.
+    assertThat(diffInfo.changeType).isEqualTo(ChangeType.ADDED);
+    assertThat(diffInfo.content).hasSize(1);
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .linesOfB()
+        .containsExactly("Content of the new file named 'symlink'");
   }
 
   @Test

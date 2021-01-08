@@ -22,6 +22,30 @@
       },
       "revId": "c3f556ce9f54e7922105ed923762bb2088e13436",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ef6a779_4b50627d",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-08T10:58:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20fba2d4_fec38a99",
+      "range": {
+        "startLine": 149,
+        "startChar": 10,
+        "endLine": 149,
+        "endChar": 58
+      },
+      "revId": "c3f556ce9f54e7922105ed923762bb2088e13436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

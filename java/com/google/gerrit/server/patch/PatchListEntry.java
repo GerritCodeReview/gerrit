@@ -49,8 +49,12 @@ public class PatchListEntry {
   private static final byte[] EMPTY_HEADER = {};
 
   static PatchListEntry empty(String fileName) {
+    return empty(fileName, ChangeType.MODIFIED);
+  }
+
+  static PatchListEntry empty(String fileName, ChangeType changeType) {
     return new PatchListEntry(
-        ChangeType.MODIFIED,
+        changeType,
         PatchType.UNIFIED,
         null,
         fileName,

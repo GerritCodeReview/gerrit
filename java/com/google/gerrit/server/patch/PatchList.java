@@ -26,6 +26,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.git.ObjectIds;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -50,7 +51,12 @@ public class PatchList implements Serializable {
       Comparator.comparing(Patch::isMagic).reversed().thenComparing(Comparator.naturalOrder());
 
   private static final Comparator<PatchListEntry> PATCH_CMP =
-      Comparator.comparing(PatchListEntry::getNewName, FILE_PATH_CMP);
+      Comparator.comparing(PatchListEntry::getNewName, FILE_PATH_CMP)
+          // The change type is used in the comparison for a rare corner case when the file has two
+          // corresponding PatchListEntry, with statuses 'ADDED' and 'DELETED'. We use this
+          // comparison to prioritize returning the 'ADDED' entry. Check
+          // https://bugs.chromium.org/p/gerrit/issues/detail?id=13914 for more details.
+          .thenComparing(PatchListEntry::getChangeType);
 
   @Nullable private transient ObjectId oldId;
   private transient ObjectId newId;
@@ -121,12 +127,25 @@ public class PatchList implements Serializable {
 
   /** Find an entry by name, returning an empty entry if not present. */
   public PatchListEntry get(String fileName) {
-    final int index = search(fileName);
-    return 0 <= index ? patches[index] : PatchListEntry.empty(fileName);
+    int index = search(fileName);
+    if (index >= 0) {
+      return patches[index];
+    }
+    // If index is negative, it marks the insertion point of the object in the list.
+    // index = (-(insertion point) - 1).
+    // Since we use the ChangeType in the comparison, the object that we are using in the lookup
+    // (which has a ADDED ChangeType) may have a different ChangeType than the object in the list.
+    // For this reason, we look at the file name of the object at the insertion point and return it
+    // if it has the same name.
+    index = -1 * (index + 1);
+    if (index < patches.length && patches[index].getNewName().equals(fileName)) {
+      return patches[index];
+    }
+    return PatchListEntry.empty(fileName);
   }
 
   private int search(String fileName) {
-    PatchListEntry want = PatchListEntry.empty(fileName);
+    PatchListEntry want = PatchListEntry.empty(fileName, ChangeType.ADDED);
     return Arrays.binarySearch(patches, 0, patches.length, want, PATCH_CMP);
   }
 

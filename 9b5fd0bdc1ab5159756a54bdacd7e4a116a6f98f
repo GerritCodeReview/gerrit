@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bdc1c6d_72742a19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-08T00:53:19Z",
+      "side": 1,
+      "message": "@Ponch can you check if this resolves your P1 issue on PolyGerrit?",
+      "revId": "9b5fd0bdc1ab5159756a54bdacd7e4a116a6f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

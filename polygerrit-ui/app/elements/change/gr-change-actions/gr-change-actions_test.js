@@ -742,11 +742,11 @@ suite('gr-change-actions tests', () => {
         const changes = [
           {
             change_id: '12345678901234', topic: 'T', subject: 'random',
-            project: 'A',
+            project: 'A', status: 'MERGED',
           },
           {
             change_id: '23456', topic: 'T', subject: 'a'.repeat(100),
-            project: 'B',
+            project: 'B', status: 'NEW',
           },
         ];
         setup(done => {
@@ -769,8 +769,8 @@ suite('gr-change-actions tests', () => {
           flush(() => {
             const changesTable = dialog.shadowRoot.querySelector('table');
             const headers = Array.from(changesTable.querySelectorAll('th'));
-            const expectedHeadings = ['Change', 'Subject', 'Project',
-              'Status', ''];
+            const expectedHeadings = ['', 'Change', 'Status', 'Subject',
+              'Project', 'Progress', ''];
             const headings = headers.map(header => header.innerText);
             assert.equal(headings.length, expectedHeadings.length);
             for (let i = 0; i < headings.length; i++) {
@@ -779,7 +779,7 @@ suite('gr-change-actions tests', () => {
             const changeRows = changesTable.querySelectorAll('tbody > tr');
             const change = Array.from(changeRows[0].querySelectorAll('td'))
                 .map(e => e.innerText);
-            const expectedChange = ['1234567890', 'random', 'A',
+            const expectedChange = ['', '1234567890', 'MERGED', 'random', 'A',
               'NOT STARTED', ''];
             for (let i = 0; i < change.length; i++) {
               assert.equal(change[i].trim(), expectedChange[i]);

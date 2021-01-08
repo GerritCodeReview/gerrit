@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee5596e8_ac55058b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2749,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-08T11:23:03Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "663b1058_d047030b",
+      "revId": "0b95f166823234bf655b56c81042ae3a2d2414df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5943271_402f5dc1",
@@ -58,6 +76,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c12e2d55_3e459147",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2757,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-08T11:23:03Z",
+      "side": 1,
+      "message": "No, they are two different files: a regular file, and a symlink pointing to the regular file.",
+      "parentUuid": "d5943271_402f5dc1",
+      "range": {
+        "startLine": 2756,
+        "startChar": 0,
+        "endLine": 2757,
+        "endChar": 32
+      },
+      "revId": "0b95f166823234bf655b56c81042ae3a2d2414df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bf4ec21_6b866e85",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2757,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-08T11:23:03Z",
+      "side": 1,
+      "message": "I renamed \"fileName\" to \"target\" for more clarity.",
+      "parentUuid": "d4425223_97903b4e",
+      "revId": "0b95f166823234bf655b56c81042ae3a2d2414df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a77a1a8_7758df61",
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5447661_44a5bdf8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2776,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-08T11:23:03Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. Changed the file contents.",
+      "parentUuid": "1a77a1a8_7758df61",
+      "range": {
+        "startLine": 2776,
+        "startChar": 49,
+        "endLine": 2776,
+        "endChar": 58
+      },
+      "revId": "0b95f166823234bf655b56c81042ae3a2d2414df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e42b21c_1cfd3cae",
@@ -94,6 +178,24 @@
       "writtenOn": "2021-01-08T10:42:57Z",
       "side": 1,
       "message": "This is the undesired behavior, right? Could you mark that somehow, either with a comment that mentions what it should really be, or by extracting it to another @Ignored test that asserts the correct behavior?",
+      "revId": "0b95f166823234bf655b56c81042ae3a2d2414df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10ee5665_c8fad4cd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2788,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-08T11:23:03Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. I added a comment explaining the wrong behaviour that we need to change.\n\nDone.",
+      "parentUuid": "8e42b21c_1cfd3cae",
       "revId": "0b95f166823234bf655b56c81042ae3a2d2414df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

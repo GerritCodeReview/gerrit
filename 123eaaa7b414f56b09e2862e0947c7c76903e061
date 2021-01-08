@@ -16,6 +16,24 @@
       "message": "Could we have DELETED and, instead of ADDED, RENAMED? Wouldn\u0027t that trigger the same bug?",
       "revId": "123eaaa7b414f56b09e2862e0947c7c76903e061",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f369952_bce7bc0f",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-08T16:16:27Z",
+      "side": 1,
+      "message": "Thanks for the note. Yes that should trigger the same bug.\n\nI\u0027m not sure if there is a scenario that will produce two entries {DELETED, RENAMED} for the same file. If that happens, the \"DELETED\" entry will be returned and that would cause the same bug (undesired behaviour). However, I think when a file is renamed, JGIT will return a single \"RENAMED\" entry. Even for this change, having two {DELETED, ADDED} entries is a behaviour of JGIT for this specific case. \n\nI\u0027m not sure if we got a report for this, but if this happens, I will need to write a reproducing test and think of a fix for it.\n\nNote: a quick fix would just be to swap the order of values in the ChangeType enum, so that RENAMED comes before DELETED. If we do this, and with this change submitted, the code would pick the enum value that comes first, which is \u0027RENAMED\u0027. For now, I prefer to keep that in a separate change, and if we found a scenario that causes this behaviour I can look into it further.",
+      "parentUuid": "860c1128_ab64f636",
+      "revId": "123eaaa7b414f56b09e2862e0947c7c76903e061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

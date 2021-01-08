@@ -50,7 +50,8 @@ public class PatchList implements Serializable {
       Comparator.comparing(Patch::isMagic).reversed().thenComparing(Comparator.naturalOrder());
 
   private static final Comparator<PatchListEntry> PATCH_CMP =
-      Comparator.comparing(PatchListEntry::getNewName, FILE_PATH_CMP);
+      Comparator.comparing(PatchListEntry::getNewName, FILE_PATH_CMP)
+          .thenComparing(PatchListEntry::getChangeType);
 
   @Nullable private transient ObjectId oldId;
   private transient ObjectId newId;

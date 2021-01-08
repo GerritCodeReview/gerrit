@@ -50,7 +50,7 @@ public class PatchListEntry {
 
   static PatchListEntry empty(String fileName) {
     return new PatchListEntry(
-        ChangeType.MODIFIED,
+        ChangeType.ADDED,
         PatchType.UNIFIED,
         null,
         fileName,

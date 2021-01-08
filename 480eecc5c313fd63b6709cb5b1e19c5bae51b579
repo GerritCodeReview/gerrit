@@ -34,6 +34,41 @@
       "parentUuid": "d2438327_557bf0ec",
       "revId": "480eecc5c313fd63b6709cb5b1e19c5bae51b579",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95fa5e49_c0abe686",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-08T13:07:47Z",
+      "side": 1,
+      "message": "\u003e\u003e should have mentioned this in the commit message.\nPlease, update changes messages and group changes into a topic. Add the full description to the first change in the topic, so it is clear for a reviewer what is the final result.\n\n\nI downloaded the change https://gerrit-review.googlesource.com/c/gerrit/+/293043/3 and I think some UX improvements are required (below my opinion, maybe @Delphine has a different view - please ask her to review the change):\n1. The text in the dashboard says:\n  \u003e\u003e Pushing a change for review is easy, but a little different from other git \n  code review tools. Click on the `Create Change\u0027 button and follow the **step \n  by step instructions**.\n\nWhen I click \"Create Change\" I don\u0027t see any instructions - the dialog suggests to create a new change or view commands.\n\nEither dashboard\u0027s text or \"VIEW COMMANDS\" button should be changed.\n\n2. The workflow for \"Create change\" is not straightforward.\nClick \"Create Change\" -\u003e \"View Commands\" -\u003e execute all steps -\u003e Click \"DONE\"\nWhat should I do next? 😕 \nEnter a description and click \"Create\"? Or click \"Cancel\"?\n\nIf I enter a description first and then click \"View commands\" - the steps don\u0027t use description. Is it a bug?\nThe same with other fields (sha1, topic, private change).",
+      "parentUuid": "d59ab249_1097ed5d",
+      "revId": "480eecc5c313fd63b6709cb5b1e19c5bae51b579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6723f3f_0c323411",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-08T13:07:47Z",
+      "side": 1,
+      "message": "Could you please first verify the final result with UX? I am not an UX expert 😊, so having an approved UI first can save a lot of time for review.",
+      "revId": "480eecc5c313fd63b6709cb5b1e19c5bae51b579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

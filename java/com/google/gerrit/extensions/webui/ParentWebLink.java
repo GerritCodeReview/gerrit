@@ -32,11 +32,11 @@ public interface ParentWebLink extends WebLink {
    *
    * @param projectName name of the project
    * @param commit commit sha1 of the parent revision
-   * @param subject first line of the commit message
+   * @param commitMessage the commit messsage of the change
    * @param branchName target branch of the change
    * @return WebLinkInfo that links to parent commit in external service, null if there should be no
    *     link.
    */
   WebLinkInfo getParentWebLink(
-      String projectName, String commit, String subject, String branchName);
+      String projectName, String commit, String commitMessage, String branchName);
 }

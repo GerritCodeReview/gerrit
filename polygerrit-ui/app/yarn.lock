@@ -368,6 +368,11 @@ polymer-resin@^2.0.1:
     "@polymer/polymer" "^3.0.2"
     "@webcomponents/webcomponentsjs" "^2.0.3"
 
+shadow-selection-polyfill@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/shadow-selection-polyfill/-/shadow-selection-polyfill-1.1.0.tgz#87eee5c3cd9c7296f9fec083ba6f4910b1fa6686"
+  integrity sha512-ntz8P6DLEFpx7gikeXZ4gSi3APE2D+BP0rKnnaBzED+Lm8je8nkNcayy6kGWPEDWMFbtm+Yvd1ONFaXcsVWn2w==
+
 whatwg-fetch@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"

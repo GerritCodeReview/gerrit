@@ -31,7 +31,8 @@
     "polymer-bridges": "file:../../polymer-bridges/",
     "ba-linkify": "file:../../lib/ba-linkify/src/",
     "polymer-resin": "^2.0.1",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.0.0",
+    "shadow-selection-polyfill": "^1.1.0"
   },
   "license": "Apache-2.0",
   "private": true

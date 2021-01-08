@@ -1,5 +1,7 @@
 load(":rules.bzl", "compile_ts", "polygerrit_bundle")
 load("//tools/js:eslint.bzl", "eslint")
+load("//tools/js:template_checker.bzl", "transform_polymer_templates")
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary", "nodejs_test", "npm_package_bin")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -59,12 +61,50 @@ compiled_pg_srcs_with_tests = compile_ts(
     ts_outdir = "_pg_with_tests_out",
 )
 
+templates_srcs = transform_polymer_templates(
+    name = "template_test",
+    srcs = glob(
+            [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
+                ".ts",
+            ]],
+            exclude = [
+                "**/*_test.ts",
+            ],
+        ),
+    tsconfig = "tsconfig_bazel.json",
+    deps = ["tsconfig_bazel.json", "tsconfig.json",
+                   "@ui_npm//:node_modules"],
+)
+
+compiled_templates = compile_ts(
+    name = "compile_template_test",
+    srcs = templates_srcs[1:] + glob(
+                                    [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
+                                        ".ts",
+                                    ]],
+                                    exclude = [
+                                        "**/*_test.ts",
+                                    ],
+                                ),
+    ts_outdir = "_pg_template_test_out",
+    ts_project = templates_srcs[0],
+    emitJs = False,
+)
+
+sh_test(
+    name = "validate_template",
+    srcs = [":empty_test.sh"],
+    data = ["compile_template_test.success"]
+)
+
 polygerrit_bundle(
     name = "polygerrit_ui",
     srcs = compiled_pg_srcs,
     outs = ["polygerrit_ui.zip"],
     entry_point = "_pg_ts_out/elements/gr-app.js",
 )
+
+
 
 filegroup(
     name = "eslint_src_code",

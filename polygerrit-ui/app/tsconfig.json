@@ -61,6 +61,7 @@
     "styles/**/*",
     "types/**/*",
     "utils/**/*",
+    "tmpl_out/**/*",
     "test/**/*"
   ]
 }

@@ -79,10 +79,10 @@ public abstract class ModifiedFile {
     INSTANCE;
 
     private static final FieldDescriptor oldPathDescriptor =
-        ModifiedFileProto.getDescriptor().findFieldByName("old_path");
+        ModifiedFileProto.getDescriptor().findFieldByNumber(2);
 
     private static final FieldDescriptor newPathDescriptor =
-        ModifiedFileProto.getDescriptor().findFieldByName("new_path");
+        ModifiedFileProto.getDescriptor().findFieldByNumber(3);
 
     @Override
     public byte[] serialize(ModifiedFile modifiedFile) {

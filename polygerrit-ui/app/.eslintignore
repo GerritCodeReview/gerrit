@@ -2,3 +2,4 @@
 **/rollup.config.js
 node_modules_licenses
 !.eslintrc-bazel.js
+template_checker_output

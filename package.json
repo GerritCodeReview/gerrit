@@ -5,7 +5,8 @@
   "dependencies": {
     "@bazel/rollup": "^3.5.0",
     "@bazel/terser": "^3.5.0",
-    "@bazel/typescript": "^3.5.0"
+    "@bazel/typescript": "^3.5.0",
+    "twinkie": "^1.1.2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.22.0",

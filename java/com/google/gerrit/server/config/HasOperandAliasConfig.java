@@ -39,7 +39,7 @@ public class HasOperandAliasConfig {
   }
 
   private void loadChangeHasOperandAliases() {
-    for (String name : cfg.getNames(SECTION, SUBSECTION_CHANGE)) {
+    for (String name : cfg.getNames(SECTION, SUBSECTION_CHANGE, true)) {
       changeQueryHasOperandAliases.put(name, cfg.getString(SECTION, SUBSECTION_CHANGE, name));
     }
   }

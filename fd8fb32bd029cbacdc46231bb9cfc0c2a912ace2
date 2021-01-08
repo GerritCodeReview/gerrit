@@ -89,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2e6dd6a_049fe5b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-08T12:29:13Z",
+      "side": 1,
+      "message": "I see, thanks for explanation.",
+      "parentUuid": "3338bb6d_d3ff957e",
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "57510701_c92f3cbc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 7

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e1ffbbd_bf16795a",
+        "filename": "java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-08T12:11:23Z",
+      "side": 1,
+      "message": "\u0027ADDED\u0027 is the first value in the ChangeType enum. Since we binary search in PatchList with an empty PatchListEntry of some file name, this entity needs to have the first enum value, so that any matching entries with the same file name and an \u0027ADDED\u0027 change type gets picked.",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 24
+      },
+      "revId": "15105d140680bd3b693d585212331ed81fdce00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

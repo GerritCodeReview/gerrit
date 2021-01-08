@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2438327_557bf0ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-08T12:24:08Z",
+      "side": 1,
+      "message": "Based on the text in the dialog, I assume that this instruction has been written for a new user, who never used gerrit before.\nI don\u0027t think that creating a change directly from the UI can help to a new user.\nHave you discussed this idea with someone else? Some explanation why do you want to remove this small tutorial in the commit message can be helpful.",
+      "revId": "480eecc5c313fd63b6709cb5b1e19c5bae51b579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

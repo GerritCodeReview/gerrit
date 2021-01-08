@@ -54,6 +54,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "360d15bd_952b359d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-08T10:54:43Z",
+      "side": 1,
+      "message": "Can we use npm package instead of bower component?\nhttps://www.npmjs.com/package/shadow-selection-polyfill\nbower is obsolete and should be replaced by npm/yarn.\nWe keep bower components in gerrit only for plugins.",
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "57510701_c92f3cbc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 7

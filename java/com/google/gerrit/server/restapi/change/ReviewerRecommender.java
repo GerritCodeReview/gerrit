@@ -180,9 +180,11 @@ public class ReviewerRecommender {
     }
 
     // Sort results
+    @SuppressWarnings("unchecked")
     Stream<Map.Entry<Account.Id, MutableDouble>> sorted =
         reviewerScores.entrySet().stream()
-            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
+            .sorted(
+                Collections.reverseOrder(Map.Entry.<Account.Id, MutableDouble>comparingByValue()));
     List<Account.Id> sortedSuggestions = sorted.map(Map.Entry::getKey).collect(toList());
     logger.atFine().log("Sorted suggestions: %s", sortedSuggestions);
     return sortedSuggestions;

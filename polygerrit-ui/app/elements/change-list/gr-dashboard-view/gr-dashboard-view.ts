@@ -428,7 +428,6 @@ export class GrDashboardView extends GestureEventListeners(
   _handleCloseCreateChange() {
     this.$.createChangeOverlay.close();
   }
-
 }
 
 declare global {

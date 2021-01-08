@@ -29,7 +29,7 @@ export const htmlTemplate = html`
       max-width: 40em;
     }
   </style>
-  <gr-overlay id="commandsOverlay" with-backdrop="">
+  <gr-overlay id="commandsOverlay">
     <gr-dialog
       id="commandsDialog"
       confirm-label="Done"

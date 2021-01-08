@@ -16,6 +16,24 @@
       "message": "Based on the text in the dialog, I assume that this instruction has been written for a new user, who never used gerrit before.\nI don\u0027t think that creating a change directly from the UI can help to a new user.\nHave you discussed this idea with someone else? Some explanation why do you want to remove this small tutorial in the commit message can be helpful.",
       "revId": "480eecc5c313fd63b6709cb5b1e19c5bae51b579",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d59ab249_1097ed5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-08T12:26:51Z",
+      "side": 1,
+      "message": "I am not removing the instructions. I am adding them in the next change(change 293042), should have mentioned this in the commit message.\n\nThe main reason is that there is no point in having 2 separate dialogs. We can have the help command section as part of the main create change dialog.",
+      "parentUuid": "d2438327_557bf0ec",
+      "revId": "480eecc5c313fd63b6709cb5b1e19c5bae51b579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

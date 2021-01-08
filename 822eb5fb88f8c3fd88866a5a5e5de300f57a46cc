@@ -22,6 +22,30 @@
       },
       "revId": "822eb5fb88f8c3fd88866a5a5e5de300f57a46cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e27aab1f_8aa34107",
+        "filename": "contrib/reindex/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-08T18:04:59Z",
+      "side": 1,
+      "message": "no, we use online reindexing in order to ensure plugins are loaded",
+      "parentUuid": "39e54818_abee8f91",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "822eb5fb88f8c3fd88866a5a5e5de300f57a46cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

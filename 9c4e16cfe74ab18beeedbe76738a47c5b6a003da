@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "498b3815_5e18df29",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-08T11:42:42Z",
+      "side": 1,
+      "message": "reply dialog is still sending the comment-refresh event.",
+      "parentUuid": "e4c56540_4f175499",
+      "range": {
+        "startLine": 649,
+        "startChar": 27,
+        "endLine": 649,
+        "endChar": 34
+      },
+      "revId": "9c4e16cfe74ab18beeedbe76738a47c5b6a003da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9af81d85_cdf1a617",
@@ -60,6 +84,30 @@
       "writtenOn": "2021-01-08T08:44:34Z",
       "side": 1,
       "message": "Maybe introduce fireThreadListModified in event-util.ts",
+      "range": {
+        "startLine": 425,
+        "startChar": 10,
+        "endLine": 425,
+        "endChar": 21
+      },
+      "revId": "9c4e16cfe74ab18beeedbe76738a47c5b6a003da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65b42540_5002976b",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-08T11:42:42Z",
+      "side": 1,
+      "message": "Added to util.\nThis event is being fired from only one place though, so not sure if inlining is better.",
+      "parentUuid": "9af81d85_cdf1a617",
       "range": {
         "startLine": 425,
         "startChar": 10,

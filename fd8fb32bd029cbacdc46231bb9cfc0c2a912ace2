@@ -182,6 +182,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbce8d39_c7744685",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-08T21:01:19Z",
+      "side": 1,
+      "message": "Breaks the WCT tests, fix is coming.",
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57510701_c92f3cbc",
@@ -218,6 +235,29 @@
       "writtenOn": "2021-01-08T10:52:27Z",
       "side": 1,
       "message": "Maybe it would be cleaner to change this method to always take a range, and then update the callers to extract the Range from the selecton?",
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a02f0367_10d21ab8",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-08T21:01:19Z",
+      "side": 1,
+      "message": "This is the wrong place: it should be inside the list of polygerrit_components",
+      "range": {
+        "startLine": 46,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 49
+      },
       "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

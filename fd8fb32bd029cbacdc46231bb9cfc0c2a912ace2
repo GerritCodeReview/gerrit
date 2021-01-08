@@ -148,6 +148,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eea3146a_6655e125",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-08T18:08:26Z",
+      "side": 1,
+      "message": "\u003e Thanks @Davido, just a typo the stable-3.0 isn\u0027t it? Only from stable-3.2 we can use NPM [...]\n\nYes, it was typo. change 250019 where Dmitrii introduced npm tool chain was uploaded to stable-3.2 branch only.\n\n\u003e I will upload a WIP change also a solution for stable-3.2 and stable-3.3, to check its feasibility.\n\n+1. In npm you would probably need one liner to add shadow-selection-polyfill dependency, in polygerrit-ui/app/package.json:\n\n  +    \"shadow-selection-polyfill\": \"^1.1.0\"",
+      "parentUuid": "978fed15_bbfdf917",
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "57510701_c92f3cbc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 7

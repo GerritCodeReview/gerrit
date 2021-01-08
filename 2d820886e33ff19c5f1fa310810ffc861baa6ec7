@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e822c1a4_dc0dc68b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-08T13:09:45Z",
+      "side": 1,
+      "message": "I removed myself from a change - please add me again after UX approvement (see my comment here https://gerrit-review.googlesource.com/c/gerrit/+/292924/11)",
+      "revId": "2d820886e33ff19c5f1fa310810ffc861baa6ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

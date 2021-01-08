@@ -163,6 +163,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ad594eda_4819c11b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-08T20:56:46Z",
+      "side": 1,
+      "message": "I like the footer idea. We do something like that internally and parse it for release notes too. I guess we can continue discussion on that change if needed.",
+      "parentUuid": "75f44cf6_3ee52f43",
+      "revId": "bdcba6961d39d073a62aa60193c4fe5f61021a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8e892324_62f25848",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

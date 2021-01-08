@@ -34,7 +34,7 @@ def _get_ts_output_files(outdir, srcs):
         result.append(_get_ts_compiled_path(outdir, f))
     return result
 
-def compile_ts(name, srcs, ts_outdir, include_tests = False):
+def compile_ts(name, srcs, ts_outdir, include_tests = False, ts_project = "tsconfig_bazel.json", emitJs = True):
     """Compiles srcs files with the typescript compiler
 
     Args:
@@ -52,10 +52,9 @@ def compile_ts(name, srcs, ts_outdir, include_tests = False):
 
     all_srcs = srcs + [
         ":tsconfig.json",
-        ":tsconfig_bazel.json",
         "@ui_npm//:node_modules",
-    ]
-    ts_project = "tsconfig_bazel.json"
+    ] + [ts_project]
+    # ts_project = "tsconfig_bazel.json"
 
     if include_tests:
         all_srcs = all_srcs + [
@@ -64,17 +63,17 @@ def compile_ts(name, srcs, ts_outdir, include_tests = False):
         ]
         ts_project = "tsconfig_bazel_test.json"
 
+    success_out = name + ".success"
     # Run the compiler
     native.genrule(
         name = ts_rule_name,
         srcs = all_srcs,
-        outs = generated_js,
+        outs = (generated_js if emitJs else []) + [success_out],
         cmd = " && ".join([
-            "$(location //tools/node_tools:tsc-bin) --project $(location :" +
-            ts_project +
-            ") --outdir $(RULEDIR)/" +
-            ts_outdir +
+            "$(location //tools/node_tools:tsc-bin) --project $(location :{})".format(ts_project) +
+            (" --outdir $(RULEDIR)/{}".format(ts_outdir) if emitJs else "") +
             " --baseUrl ./external/ui_npm/node_modules/",
+            "touch $(location {})".format(success_out)
         ]),
         tools = ["//tools/node_tools:tsc-bin"],
     )

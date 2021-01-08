@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7525be7f_0e179c76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-08T10:36:27Z",
+      "side": 1,
+      "message": "Adding other PolyGerrit maintainers for review.",
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

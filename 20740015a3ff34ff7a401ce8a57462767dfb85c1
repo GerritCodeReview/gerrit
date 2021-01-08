@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3353273e_40979ef6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-08T21:39:19Z",
+      "side": 1,
+      "message": "Looks like a no-op based on the github diff.",
+      "revId": "20740015a3ff34ff7a401ce8a57462767dfb85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

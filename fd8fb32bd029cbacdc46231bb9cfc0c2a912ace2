@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3338bb6d_d3ff957e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-08T12:19:26Z",
+      "side": 1,
+      "message": "npm tool chain that is using rules_nodejs was added in this change 250019 only starting from stable-3.0 branch. This change is on stable-3.1.\n\n@Luca, this change has conflicts when trying to merge to stable-3.2, there were some changes in diff component. Have you tried it and if not can you have a look?",
+      "parentUuid": "360d15bd_952b359d",
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "57510701_c92f3cbc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 7

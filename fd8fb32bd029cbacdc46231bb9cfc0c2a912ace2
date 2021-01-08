@@ -107,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "978fed15_bbfdf917",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-08T17:53:02Z",
+      "side": 1,
+      "message": "Thanks @Davido, just a typo the stable-3.0 isn\u0027t it? Only from stable-3.2 we can use NPM and I would be *super-happy* to avoid bower, which it was a bit of a pain TBH.\n\nI will upload a WIP change also a solution for stable-3.2 and stable-3.3, to check its feasibility. I won\u0027t publish it for review though until we discuss and agree on a solution.\n\nLet me also work out the test failures and see what\u0027s going on out there.",
+      "parentUuid": "b2e6dd6a_049fe5b5",
+      "revId": "fd8fb32bd029cbacdc46231bb9cfc0c2a912ace2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "57510701_c92f3cbc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 7

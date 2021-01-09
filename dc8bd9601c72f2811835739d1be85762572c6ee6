@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2134178_bfce5091",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-09T01:32:58Z",
+      "side": 1,
+      "message": "This is a simpler approach, which avoids the pain of going through a bower dependency.\nFrom stable-3.2 onwards, we follow the NPM\u0027s path from @Davido\u0027s change.",
+      "revId": "dc8bd9601c72f2811835739d1be85762572c6ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

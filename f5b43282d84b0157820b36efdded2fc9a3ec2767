@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "572320e0_f36ff3ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-09T01:06:10Z",
+      "side": 1,
+      "message": "Even though the tests are now passing, PolyGerrit UI is broken :-(\n\nTried another simpler approach of including shadow.js in Change-Id: I41c4e9434",
+      "revId": "f5b43282d84b0157820b36efdded2fc9a3ec2767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1dfa790_0500aa04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-09T11:29:49Z",
+      "side": 1,
+      "message": "During minification step with closure compiler I got some spurious warnings and filed this issue upstream: [1].\n\n[1] https://github.com/highlightjs/highlight.js/issues/2956\n",
+      "revId": "a60e7edb6a0c091ac7fbd4f144a27bfad1cb473f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

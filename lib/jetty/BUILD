@@ -4,7 +4,10 @@ java_library(
     name = "servlet",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@jetty-servlet//jar"],
+    exports = [
+        ":util-ajax",
+        "@jetty-servlet//jar",
+    ],
     runtime_deps = [":security"],
 )
 
@@ -68,4 +71,10 @@ java_library(
     name = "util",
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@jetty-util//jar"],
+)
+
+java_library(
+    name = "util-ajax",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = ["@jetty-util-ajax//jar"],
 )

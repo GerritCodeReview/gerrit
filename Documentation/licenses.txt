@@ -73,6 +73,7 @@ Apache2.0
 * jetty:server
 * jetty:servlet
 * jetty:util
+* jetty:util-ajax
 * log:json-smart
 * log:jsonevent-layout
 * log:log4j

@@ -22,6 +22,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.FakeGroupAuditService;
 import com.google.gerrit.acceptance.GerritServer.TestSshServerAddress;
 import com.google.gerrit.acceptance.GitClientVersion;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
@@ -66,6 +67,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
   @Inject private @TestSshServerAddress InetSocketAddress sshAddress;
   @Inject private @GerritServerConfig Config config;
   @Inject private AllProjectsName allProjectsName;
+  @Inject private FakeGroupAuditService auditService;
 
   @BeforeClass
   public static void assertGitClientVersion() throws Exception {
@@ -321,6 +323,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       // Fetch a single ref using git wire protocol v2 over HTTP with authentication
       execute(GIT_INIT);
 
+      auditService.drainHttpAuditEvents();
       String outFetchRef =
           execute(
               ImmutableList.<String>builder()
@@ -329,6 +332,9 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
                   .add(visibleChangeNumberRef)
                   .build(),
               ImmutableMap.of("GIT_TRACE_PACKET", "1"));
+
+      // Verify that fetching with git wire protocol v2 requires 3 requests
+      assertThat(auditService.drainHttpAuditEvents()).hasSize(3);
 
       assertThat(outFetchRef).contains("git< version 2");
       assertThat(outFetchRef).contains(visibleChangeNumberRef);

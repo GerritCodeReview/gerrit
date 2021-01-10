@@ -22,6 +22,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.FakeGroupAuditService;
 import com.google.gerrit.acceptance.GerritServer.TestSshServerAddress;
 import com.google.gerrit.acceptance.GitClientVersion;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
@@ -35,6 +36,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -66,6 +68,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
   @Inject private @TestSshServerAddress InetSocketAddress sshAddress;
   @Inject private @GerritServerConfig Config config;
   @Inject private AllProjectsName allProjectsName;
+  @Inject private FakeGroupAuditService auditService;
 
   @BeforeClass
   public static void assertGitClientVersion() throws Exception {
@@ -321,6 +324,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       // Fetch a single ref using git wire protocol v2 over HTTP with authentication
       execute(GIT_INIT);
 
+      auditService.drainHttpAuditEvents();
       String outFetchRef =
           execute(
               ImmutableList.<String>builder()
@@ -329,6 +333,18 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
                   .add(visibleChangeNumberRef)
                   .build(),
               ImmutableMap.of("GIT_TRACE_PACKET", "1"));
+
+      // Verify that fetching with git wire protocol v2 requires 3 requests
+      ImmutableList<HttpAuditEvent> auditEvents = auditService.drainHttpAuditEvents();
+      assertThat(auditEvents).hasSize(3);
+
+      assertThat(auditEvents.get(0).httpMethod).isEqualTo("GET");
+      assertThat(auditEvents.get(0).what)
+          .contains(privateProject.get() + "/info/refs?service=git-upload-pack");
+      for (int i = 1; i <= 2; i++) {
+        assertThat(auditEvents.get(i).httpMethod).isEqualTo("POST");
+        assertThat(auditEvents.get(i).what).contains(privateProject.get() + "/git-upload-pack");
+      }
 
       assertThat(outFetchRef).contains("git< version 2");
       assertThat(outFetchRef).contains(visibleChangeNumberRef);

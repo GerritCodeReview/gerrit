@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "814d5760_24349104",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-11T13:54:40Z",
+      "side": 1,
+      "message": "Move to below \"commentSide\" property, because it is directly related to it.\n\nAdd a comment about this only being relevant when commentSide\u003d\u003d\u003dPARENT.\n\nAdd a comment about this only being relevant for merge commits.\n\nAdd a comment that `undefined` means \"auto-merge\".\n\nMaybe rename from `parent` to `parentNum` or even `mergeParentNum`.",
+      "revId": "7ca207641c0dac45b13c93e0748f120a24e28fc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

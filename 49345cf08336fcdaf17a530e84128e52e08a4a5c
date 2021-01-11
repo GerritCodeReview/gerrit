@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c502c69e_525d7be3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-11T16:43:00Z",
+      "side": 1,
+      "message": "A dot! OMG! :-)",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "49345cf08336fcdaf17a530e84128e52e08a4a5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11915dfa_d2a2c837",
+        "filename": "polygerrit-ui/app/api/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-11T16:43:00Z",
+      "side": 1,
+      "message": "with",
+      "range": {
+        "startLine": 11,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 32
+      },
+      "revId": "49345cf08336fcdaf17a530e84128e52e08a4a5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28f02d38_6467e09b",
+        "filename": "polygerrit-ui/app/api/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-11T16:43:00Z",
+      "side": 1,
+      "message": "files?",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 12
+      },
+      "revId": "49345cf08336fcdaf17a530e84128e52e08a4a5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba19a1b3_90663a21",
+        "filename": "polygerrit-ui/app/api/core.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-11T16:43:00Z",
+      "side": 1,
+      "message": "trailing ws here and in two other places",
+      "revId": "49345cf08336fcdaf17a530e84128e52e08a4a5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

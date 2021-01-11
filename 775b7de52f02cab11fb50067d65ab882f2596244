@@ -34,6 +34,24 @@
       "parentUuid": "452566ce_f6461555",
       "revId": "775b7de52f02cab11fb50067d65ab882f2596244",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a56bcc7_e0f3e151",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-11T16:09:48Z",
+      "side": 1,
+      "message": "Should we put it JTuby back then, or also exempt ASciidoctor from LC label? That arbitrary split doesn\u0027t really make sense?",
+      "parentUuid": "93512e66_3638121e",
+      "revId": "775b7de52f02cab11fb50067d65ab882f2596244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -69,7 +69,6 @@ import {
   fetchChangeUpdates,
   hasEditBasedOnCurrentPatchSet,
   hasEditPatchsetLoaded,
-  patchNumEquals,
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {changeStatuses, changeStatusString} from '../../../utils/change-util';
@@ -1656,7 +1655,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!this._change) throw new Error('missing required change property');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
-    if (patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
+    if (this._patchRange.basePatchNum === ParentPatchSetNum) {
       fireAlert(this, 'Base is already selected.');
       return;
     }
@@ -1670,7 +1669,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!this._change) throw new Error('missing required change property');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
-    if (patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
+    if (this._patchRange.basePatchNum === ParentPatchSetNum) {
       fireAlert(this, 'Left is already base.');
       return;
     }
@@ -1685,7 +1684,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
-    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+    if (this._patchRange.patchNum === latestPatchNum) {
       fireAlert(this, 'Latest is already selected.');
       return;
     }
@@ -1704,7 +1703,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
-    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+    if (this._patchRange.patchNum === latestPatchNum) {
       fireAlert(this, 'Right is already latest.');
       return;
     }
@@ -1724,8 +1723,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
       throw new Error('missing required _patchRange property');
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (
-      patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
-      patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)
+      this._patchRange.patchNum === latestPatchNum &&
+      this._patchRange.basePatchNum === ParentPatchSetNum
     ) {
       fireAlert(this, 'Already diffing base against latest.');
       return;
@@ -1967,7 +1966,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
         if (
           !this._patchRange ||
           !this._patchRange.patchNum ||
-          patchNumEquals(this._patchRange.patchNum, currentRevision._number)
+          this._patchRange.patchNum === currentRevision._number
         ) {
           // CommitInfo.commit is optional, and may need patching.
           if (currentRevision.commit && !currentRevision.commit.commit) {
@@ -2567,7 +2566,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     }
 
     const patchRange = patchRangeRecord.base || {};
-    return patchNumEquals(patchRange.patchNum, EditPatchSetNum);
+    return patchRange.patchNum === EditPatchSetNum;
   }
 
   _handleFileActionTap(e: CustomEvent<{path: string; action: string}>) {
@@ -2651,10 +2650,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
       throw new Error('missing required _patchRange property');
     let patchNum;
     if (
-      !patchNumEquals(
-        this._patchRange.patchNum,
-        computeLatestPatchNum(this._allPatchSets)
-      )
+      !(this._patchRange.patchNum === computeLatestPatchNum(this._allPatchSets))
     ) {
       patchNum = this._patchRange.patchNum;
     }

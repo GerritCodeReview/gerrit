@@ -60,19 +60,6 @@ interface PatchRange {
 }
 
 /**
- * As patchNum can be either a string (e.g. 'edit', 'PARENT') OR a number,
- * this function checks for patchNum equality.
- *
- */
-export function patchNumEquals(a?: PatchSetNum, b?: PatchSetNum) {
-  if (a === undefined) {
-    return a === b;
-  }
-  // TODO(TS): replace with a===b when the whole code is converted to ts
-  return `${a}` === `${b}`;
-}
-
-/**
  * Whether the given patch is a numbered parent of a merge (i.e. a negative
  * number).
  */
@@ -114,7 +101,7 @@ export function getRevisionByPatchNum(
   patchNum: PatchSetNum
 ) {
   for (const rev of revisions) {
-    if (patchNumEquals(rev._number, patchNum)) {
+    if (rev._number === patchNum) {
       return rev;
     }
   }

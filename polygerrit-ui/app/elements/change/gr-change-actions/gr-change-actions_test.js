@@ -258,7 +258,7 @@ suite('gr-change-actions tests', () => {
           rev2: revObj,
         },
       };
-      assert.deepEqual(element._getRevision(change, '2'), revObj);
+      assert.deepEqual(element._getRevision(change, 2), revObj);
     });
 
     test('_actionComparator sort order', () => {

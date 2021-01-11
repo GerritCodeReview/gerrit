@@ -38,7 +38,7 @@ import {
   rangesEqual,
 } from './gr-diff-utils';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll';
-import {isMergeParent, patchNumEquals} from '../../../utils/patch-set-util';
+import {isMergeParent} from '../../../utils/patch-set-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
   BlameInfo,
@@ -605,10 +605,10 @@ export class GrDiff extends GestureEventListeners(
       ? this.patchRange.basePatchNum
       : this.patchRange.patchNum;
 
-    const isEdit = patchNumEquals(patchNum, EditPatchSetNum);
+    const isEdit = patchNum === EditPatchSetNum;
     const isEditBase =
-      patchNumEquals(patchNum, ParentPatchSetNum) &&
-      patchNumEquals(this.patchRange.patchNum, EditPatchSetNum);
+      patchNum === ParentPatchSetNum &&
+      this.patchRange.patchNum === EditPatchSetNum;
 
     if (isEdit) {
       fireAlert(this, 'You cannot comment on an edit.');

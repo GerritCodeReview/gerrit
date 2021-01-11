@@ -102,6 +102,7 @@ public class RefUtil {
     return Constants.R_HEADS;
   }
 
+  /** Fully qualifies a tag name to refs/tags/TAG-NAME */
   public static String normalizeTagRef(String tag) throws BadRequestException {
     String result = tag;
     while (result.startsWith("/")) {

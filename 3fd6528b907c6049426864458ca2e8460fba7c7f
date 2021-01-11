@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dade533a_7598b864",
+        "filename": "Documentation/js_licenses.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-11T21:35:26Z",
+      "side": 0,
+      "message": "Wrong conflict resolution.",
+      "range": {
+        "startLine": 455,
+        "startChar": 0,
+        "endLine": 460,
+        "endChar": 37
+      },
+      "revId": "3fd6528b907c6049426864458ca2e8460fba7c7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9106d6ef_54ab00c4",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3403,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-11T21:35:26Z",
+      "side": 0,
+      "message": "Same here.",
+      "range": {
+        "startLine": 3397,
+        "startChar": 0,
+        "endLine": 3403,
+        "endChar": 0
+      },
+      "revId": "3fd6528b907c6049426864458ca2e8460fba7c7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

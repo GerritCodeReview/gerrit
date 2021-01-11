@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ff5c67d_8009c4eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-11T18:49:24Z",
+      "side": 1,
+      "message": "\"that, that\" doesn\u0027t read right.",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d29bbc7_3594e3c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-11T18:49:24Z",
+      "side": 1,
+      "message": "The word \"outside\" feels to me like \"not in Gerrit or its plugins\", but that isn\u0027t quite what you mean here.",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 53
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa767e7c_d4fea196",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-11T18:49:24Z",
+      "side": 1,
+      "message": "I would add a \"by\" to the end of this sentence and then continue into much of the next paragraph.",
+      "range": {
+        "startLine": 13,
+        "startChar": 40,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c5acc1d_d0f6c7d5",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1476,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-11T18:49:24Z",
+      "side": 1,
+      "message": "It might be worth mentioning here the fact that the registered API class will be implemented by a class loaded in the implementing plugin\u0027s classloader which is why you are using a proxy on line 1512.",
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1c22df5_f5236b43",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-11T18:49:24Z",
+      "side": 1,
+      "message": "PLUGIN_PROVIDING_API?",
+      "range": {
+        "startLine": 35,
+        "startChar": 32,
+        "endLine": 35,
+        "endChar": 43
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44b2d11d_a23339f3",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-11T18:49:24Z",
+      "side": 1,
+      "message": "PLUGIN_USING_API?\n\n(Adjust other references like above also)",
+      "range": {
+        "startLine": 36,
+        "startChar": 32,
+        "endLine": 36,
+        "endChar": 43
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37765fe4_40f513ea",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-11T18:49:24Z",
+      "side": 1,
+      "message": "Make variable plural?",
+      "range": {
+        "startLine": 57,
+        "startChar": 44,
+        "endLine": 57,
+        "endChar": 61
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3ffd044_7b4bd9a2",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-11T18:49:24Z",
+      "side": 1,
+      "message": "Maybe remove the word \"extension\" since that has a specific meaning in Gerrit.",
+      "range": {
+        "startLine": 18,
+        "startChar": 27,
+        "endLine": 18,
+        "endChar": 37
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70bd7622_233da734",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-11T18:49:24Z",
+      "side": 1,
+      "message": "s/to/for/",
+      "range": {
+        "startLine": 18,
+        "startChar": 37,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

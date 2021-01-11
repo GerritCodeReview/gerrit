@@ -264,10 +264,16 @@ export const htmlTemplate = html`
           </gr-account-label>
         </template>
         <template is="dom-if" if="[[showPortedComment]]">
-          <a href="[[_getUrlForComment(comment)]]">
-            <span class="portedMessage">
-              Ported from patchset [[comment.patch_set]]
-            </span>
+          <a href="[[_getUrlForComment(comment)]]"
+            ><span class="portedMessage"
+              >Ported from patchset [[comment.patch_set]]</span
+            ></a
+          >
+          <a
+            href="https://bugs.chromium.org/p/gerrit/issues/entry?template=Porting+Comments"
+            target="_blank"
+          >
+            <iron-icon icon="gr-icons:bug" title="report a problem"></iron-icon>
           </a>
         </template>
         <gr-tooltip-content

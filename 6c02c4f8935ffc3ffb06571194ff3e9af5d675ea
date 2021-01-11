@@ -33,6 +33,24 @@
       "message": "LGTM",
       "revId": "6c02c4f8935ffc3ffb06571194ff3e9af5d675ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beb0b5f3_68dd5aa2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-11T14:09:27Z",
+      "side": 1,
+      "message": "Would it help if we migrate this change to stable-3.3 branch and master (and thus TS)?",
+      "parentUuid": "45788cde_fe67728b",
+      "revId": "6c02c4f8935ffc3ffb06571194ff3e9af5d675ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

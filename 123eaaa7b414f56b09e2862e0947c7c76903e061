@@ -70,6 +70,24 @@
       "parentUuid": "8b4176b9_7034d716",
       "revId": "123eaaa7b414f56b09e2862e0947c7c76903e061",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e82c758_3c8d9ebf",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-11T13:37:52Z",
+      "side": 1,
+      "message": "From my understanding, the problem can only happen when the file type changed. Otherwise, JGit will return just a single DiffEntry. There\u0027s multiple triggers that could lead to a file type change:\n\nRENAME symlink, ADD new file with same name as old symlink\nDELETE symlink, ADD new file with same name as old symlink\nRENAME symlink, RENAME a file so that it ends up with the name of the old symlink\n...\n\nSo the bug report is just one variant of a larger problem that ideally JGit would solve for us.\n\nSo, one option would be to stop keying PatchLists by filename and start keying them by (filename, filetype). Then we\u0027d hand that to the frontend which could show the file twice in the file list, once as deleted (symlink) and once as added (regular file). Actually, this looks like the cleanest solution to me, but it requires an API change.\n\nI the security context, I think we mostly care about presenting the correct end state of the change so that you can spot and prevent new code, potentially undesired, code from being committed. If so, we could sort DffEntries in PatchListLoader around l.224 and create patch lists such that we later select the most recent modification (the DiffEntry/PatchList that corresponds to the more recent patch set and hence is shown on the right side of the diff page).\n\nWDYT?",
+      "parentUuid": "7b01f018_a3fd920a",
+      "revId": "123eaaa7b414f56b09e2862e0947c7c76903e061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

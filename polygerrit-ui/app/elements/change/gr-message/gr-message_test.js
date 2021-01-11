@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-message.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {createChange, createRevisions} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-message');
 
@@ -232,7 +233,7 @@ suite('gr-message tests', () => {
     suite('uploaded patchset X message navigates to X - 1 vs  X', () => {
       let navStub;
       setup(() => {
-        element.change = {changeNum: 12345};
+        element.change = {...createChange(), revisions: createRevisions(4)};
         navStub = sinon.stub(GerritNav, 'navigateToChange');
       });
 
@@ -241,7 +242,7 @@ suite('gr-message tests', () => {
           message: 'Uploaded patch set 1.',
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
-        assert.isTrue(navStub.calledWithExactly({changeNum: 12345}, 1,
+        assert.isTrue(navStub.calledWithExactly(element.change, 1,
             'PARENT'));
       });
 
@@ -250,21 +251,21 @@ suite('gr-message tests', () => {
           message: 'Uploaded patch set 2.',
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
-        assert.isTrue(navStub.calledWithExactly({changeNum: 12345}, 2, 1));
+        assert.isTrue(navStub.calledWithExactly(element.change, 2, 1));
 
         element.message = {
           message: 'Uploaded patch set 200.',
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
-        assert.isTrue(navStub.calledWithExactly({changeNum: 12345}, 200, 199));
+        assert.isTrue(navStub.calledWithExactly(element.change, 200, 199));
       });
 
-      test('invalid patchset does not cause navigation', () => {
+      test('Commit message updated', () => {
         element.message = {
-          message: 'Uploaded patch set XYZ.',
+          message: 'Commit message updated.',
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
-        assert.isFalse(navStub.called);
+        assert.isTrue(navStub.calledWithExactly(element.change, 4, 3));
       });
     });
 

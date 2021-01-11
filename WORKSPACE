@@ -754,8 +754,8 @@ maven_jar(
 # Keep this version of Soy synchronized with the version used in Gitiles.
 maven_jar(
     name = "soy",
-    artifact = "com.google.template:soy:2020-08-24",
-    sha1 = "e774bf5cc95923d2685292883fe219e231346e50",
+    artifact = "com.google.template:soy:2019-10-08",
+    sha1 = "4518bf8bac2dbbed684849bc209c39c4cb546237",
 )
 
 maven_jar(
@@ -1166,8 +1166,8 @@ bower_archive(
 bower_archive(
     name = "codemirror-minified",
     package = "Dominator008/codemirror-minified",
-    sha1 = "d00f3b97345772d5a7790f206cb1e3c22e96caf6",
-    version = "5.50.2",
+    sha1 = "a1ddf3a6dcc6817597eacc52688cfe5083ded4cd",
+    version = "5.59.1",
 )
 
 # bower test stuff

@@ -89,6 +89,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "114f6e34_f8d81f53",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1511,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-11T19:24:33Z",
+      "side": 1,
+      "message": "This is the only reference to \"my-api-plugin\". Clarify that the above registration needs to be done from a plugin installed with this name?",
+      "range": {
+        "startLine": 1511,
+        "startChar": 65,
+        "endLine": 1511,
+        "endChar": 78
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b45a33e_891baf45",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1512,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-11T19:24:33Z",
+      "side": 1,
+      "message": "Unless getProxyInstance is provided in core, it seems strange to reference it here. Maybe it would make sense to provide in core?",
+      "range": {
+        "startLine": 1512,
+        "startChar": 18,
+        "endLine": 1512,
+        "endChar": 34
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e1c22df5_f5236b43",
         "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
         "patchSetId": 1
@@ -198,6 +244,23 @@
         "endLine": 18,
         "endChar": 40
       },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f9bb2f7_b3b6f9e9",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/PluginProvidedApiIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-11T19:24:33Z",
+      "side": 1,
+      "message": "Add REST equivalent?",
       "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

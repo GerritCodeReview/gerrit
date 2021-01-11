@@ -17,10 +17,12 @@ package com.google.gerrit.server.edit;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RawInput;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -194,10 +196,12 @@ public class ChangeEditModifier {
    * @param newCommitMessage the new commit message
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws UnchangedCommitMessageException if the commit message is the same as before
+   * @throws ResourceConflictException if the commit message has a Change-Id modification
    */
   public void modifyMessage(
       Repository repository, ChangeControl changeControl, String newCommitMessage)
-      throws AuthException, IOException, UnchangedCommitMessageException, OrmException {
+      throws AuthException, IOException, UnchangedCommitMessageException, OrmException,
+          ResourceConflictException {
     ensureAuthenticatedAndPermitted(changeControl);
     newCommitMessage = getWellFormedCommitMessage(newCommitMessage);
 
@@ -216,6 +220,17 @@ public class ChangeEditModifier {
     Timestamp nowTimestamp = TimeUtil.nowTs();
     ObjectId newEditCommit =
         createCommit(repository, basePatchSetCommit, baseTree, newCommitMessage, nowTimestamp);
+
+    if (changeControl.getProjectControl().getProjectState().isRequireChangeID()) {
+      try (RevWalk revWalk = new RevWalk(repository)) {
+        if (!revWalk
+            .parseCommit(newEditCommit)
+            .getFooterLines(FooterConstants.CHANGE_ID)
+            .contains(changeControl.getChange().getKey().get())) {
+          throw new ResourceConflictException("Editing of the Change-Id footer is not allowed");
+        }
+      }
+    }
 
     if (optionalChangeEdit.isPresent()) {
       updateEditReference(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);

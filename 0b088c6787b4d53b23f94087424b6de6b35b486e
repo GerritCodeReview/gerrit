@@ -34,6 +34,24 @@
       "parentUuid": "1a1f9eb0_88be9245",
       "revId": "0b088c6787b4d53b23f94087424b6de6b35b486e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ab87c0d_1730f5cd",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-01-11T16:54:56Z",
+      "side": 1,
+      "message": "\u003e We could lift the restriction and just parse any file. But having a file ending in \"db\" isn\u0027t great IMO because it gives you no hint towards the file format.\n\nI agree on that but we have to deal with the current filename for historical reasons.\n\n\u003e \n\u003e You could also just load the file a la:\n\u003e \n\u003e  try (MetaDataUpdate md \u003d metaDataUpdateFactory.create(rsrc.getNameKey())) {\n\u003e       ProjectLevelConfig.Bare foo \u003d new ProjectLevelConfig.Bare(\"serviceuser.db\");\n\u003e       foo.load(md);\n\u003e }\n\u003e \n\u003e But that is not cached, so you\u0027d have to cache this somewhere.\n\nOK, that is also a valid option we could cache it from the plugin. But since all the code for loading/caching is already present in the Gerrit core I would prefer to list the restriction on the file name.",
+      "parentUuid": "2a9b23d1_03e74623",
+      "revId": "0b088c6787b4d53b23f94087424b6de6b35b486e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

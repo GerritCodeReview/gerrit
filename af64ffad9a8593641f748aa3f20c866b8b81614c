@@ -52,6 +52,24 @@
       "parentUuid": "56eff082_9324d568",
       "revId": "af64ffad9a8593641f748aa3f20c866b8b81614c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba12a1db_b63782ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-11T20:18:21Z",
+      "side": 1,
+      "message": "https://css-tricks.com/fighting-the-space-between-inline-block-elements/\nFound this nice article for some other tricks too.",
+      "parentUuid": "c02beabe_a775c3be",
+      "revId": "af64ffad9a8593641f748aa3f20c866b8b81614c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

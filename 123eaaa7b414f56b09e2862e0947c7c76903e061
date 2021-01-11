@@ -88,6 +88,24 @@
       "parentUuid": "7b01f018_a3fd920a",
       "revId": "123eaaa7b414f56b09e2862e0947c7c76903e061",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aad1a18_1df821b4",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T14:17:49Z",
+      "side": 1,
+      "message": "Thanks Joerg and Patrick for your opinions here.\n\nRE#4:\nJGit does not specify the API behaviour in Javadocs (implemented in [1]).\nI agree that this change fixes a bug for a probable broader category of bugs that we don\u0027t know about.\n\nRE#5: \n+1 to the proposed solution. I also agree that\u0027s the cleanest one but requires a re-work of the API.\n\nLast paragraph: If I understood you correctly, I think you have a small misconception; PatchListLoader creates a PatchList of all relevant entries (i.e. all entries are the diff\u0027ed files between the two patchsets), so there are no recent vs. non-recent patchsets.\nIn the current implementation we get two entries for the same file from JGit, but we return only one of them to the user (I wrote exact details on b/171597097#comment13). I\u0027d presume the required modifications will occur outside PatchListLoader, i.e. in [2] (for the list files endpoint) and [3] (for the diff endpoint).\n\nI see this change does not hurt anyway and I\u0027d submit it to fix the reported bug. I\u0027d add a todo then to implement the proposed solution. Otherwise, I\u0027ll abandon this change.\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java#437\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/change/FileInfoJson.java#102\n[3] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/patch/PatchScriptFactory.java#196",
+      "parentUuid": "7e82c758_3c8d9ebf",
+      "revId": "123eaaa7b414f56b09e2862e0947c7c76903e061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

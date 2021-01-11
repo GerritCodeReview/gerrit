@@ -246,8 +246,10 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
   _computeDisableCherryPick(
     cherryPickType: CherryPickType,
     duplicateProjectChanges: boolean,
-    statuses: Statuses
+    statuses: Statuses,
+    branch?: BranchName
   ) {
+    if (!branch) return true;
     const duplicateProject =
       cherryPickType === CherryPickType.TOPIC && duplicateProjectChanges;
     if (duplicateProject) return true;

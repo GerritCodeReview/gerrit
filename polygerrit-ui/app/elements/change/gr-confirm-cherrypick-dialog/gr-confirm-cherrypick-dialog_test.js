@@ -174,6 +174,9 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     test('submit button is blocked while cherry picks is running', done => {
       const confirmButton = element.shadowRoot.querySelector('gr-dialog').$
           .confirm;
+      assert.isTrue(confirmButton.hasAttribute('disabled'));
+      element.branch = 'b';
+      flush();
       assert.isFalse(confirmButton.hasAttribute('disabled'));
       element.updateStatus(changes[0], {status: 'RUNNING'});
       flush(() => {

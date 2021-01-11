@@ -46,6 +46,11 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {appContext} from '../../../services/app-context';
 import {pluralize} from '../../../utils/string-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  computeAllPatchSets,
+  computeLatestPatchNum,
+  computePredecessor,
+} from '../../../utils/patch-set-util';
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?(?:P|p)atch (?:S|s)et \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
@@ -270,13 +275,20 @@ export class GrMessage extends GestureEventListeners(
   _handleViewPatchsetDiff(e: Event) {
     if (!this.message || !this.change) return;
     const match = this.message.message.match(/Uploaded patch set (\d+)./);
-    if (!match || match.length < 1) return;
-    const patchNum = Number(match[1]);
-    if (isNaN(patchNum)) throw new Error('invalid patchnum in message');
+    let patchNum: PatchSetNum;
+    // Message is of the form "Commit Message was updated" or "Patchset X
+    // was rebased"
+    if (!match || match.length < 1) {
+      patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
+    } else {
+      if (isNaN(Number(match[1])))
+        throw new Error('invalid patchnum in message');
+      patchNum = Number(match[1]) as PatchSetNum;
+    }
     GerritNav.navigateToChange(
       this.change,
-      patchNum as PatchSetNum,
-      (patchNum === 1 ? 'PARENT' : patchNum - 1) as PatchSetNum
+      patchNum,
+      computePredecessor(patchNum)
     );
     // stop propagation to stop message expansion
     e.stopPropagation();

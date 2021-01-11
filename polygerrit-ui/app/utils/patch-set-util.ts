@@ -262,6 +262,20 @@ export function computeLatestPatchNum(
   return allPatchSets[0].num;
 }
 
+export function computePredecessor(
+  patchset?: PatchSetNum
+): PatchSetNum | undefined {
+  if (
+    !patchset ||
+    patchset === ParentPatchSetNum ||
+    patchset === EditPatchSetNum
+  ) {
+    return undefined;
+  }
+  if (patchset === 1) return ParentPatchSetNum;
+  return (Number(patchset) - 1) as PatchSetNum;
+}
+
 export function hasEditBasedOnCurrentPatchSet(allPatchSets: PatchSet[]) {
   if (!allPatchSets || allPatchSets.length < 2) {
     return false;

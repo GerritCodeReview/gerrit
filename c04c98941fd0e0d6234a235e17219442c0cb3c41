@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a45278b0_a66f6e0c",
+        "filename": "java/com/google/gerrit/server/restapi/account/Stars.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-11T15:43:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66d1703f_d83a7661",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 87
+      },
+      "revId": "c04c98941fd0e0d6234a235e17219442c0cb3c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "178ef4f1_b1e2bf44",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-28T11:45:54Z",
       "side": 1,
       "message": "I think this is not correct. The parse method calls changes.parse(TopLevelResource.INSTANCE, id) which throws an exception if the change is not visible.",
+      "range": {
+        "startLine": 52,
+        "startChar": 89,
+        "endLine": 53,
+        "endChar": 48
+      },
+      "revId": "c04c98941fd0e0d6234a235e17219442c0cb3c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8af9ef9d_71e5f9c7",
+        "filename": "java/com/google/gerrit/server/restapi/account/Stars.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-11T15:43:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "178ef4f1_b1e2bf44",
       "range": {
         "startLine": 52,
         "startChar": 89,

@@ -385,6 +385,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     this.accountsSection = accountsSection;
   }
 
+  /** Returns an access section, {@code name} typically is a ref pattern. */
   public AccessSection getAccessSection(String name) {
     return accessSections.get(name);
   }

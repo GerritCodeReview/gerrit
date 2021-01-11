@@ -156,7 +156,7 @@ been replaced by the attention set.
 
 === For Gerrit Admins
 
-The Attention Set will be part of the upcoming 3.3 release (due late 2020). It
+The Attention Set has been available since the 3.3 release (late 2020). It
 is enabled by default, but you can disable it by setting
 link:config-gerrit.html#change.enableAttentionSet[enableAttentionSet] to false.
 

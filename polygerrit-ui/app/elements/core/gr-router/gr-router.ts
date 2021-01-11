@@ -46,10 +46,7 @@ import {
   WeblinkType,
 } from '../gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
-import {
-  convertToPatchSetNum,
-  patchNumEquals,
-} from '../../../utils/patch-set-util';
+import {convertToPatchSetNum} from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {assertNever} from '../../../utils/common-util';
 import {
@@ -693,10 +690,7 @@ export class GrRouter extends GestureEventListeners(
 
     // Diffing a patch against itself is invalid, so if the base and revision
     // patches are equal clear the base.
-    if (
-      params.patchNum &&
-      patchNumEquals(params.basePatchNum, params.patchNum)
-    ) {
+    if (params.patchNum && params.basePatchNum === params.patchNum) {
       needsRedirect = true;
       params.basePatchNum = null;
     } else if (!hasPatchNum) {

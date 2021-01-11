@@ -30,7 +30,6 @@ import {
   getParentIndex,
   getRevisionByPatchNum,
   isMergeParent,
-  patchNumEquals,
   sortRevisions,
   PatchSet,
 } from '../../../utils/patch-set-util';
@@ -346,7 +345,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
     patchNum: PatchSetNum,
     sortedRevisions: RevisionInfo[]
   ): boolean {
-    if (patchNumEquals(basePatchNum, ParentPatchSetNum)) {
+    if (basePatchNum === ParentPatchSetNum) {
       return false;
     }
 
@@ -441,7 +440,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
       });
       detail.patchNum = patchSetValue;
     } else {
-      if (patchNumEquals(detail.basePatchNum, patchSetValue)) return;
+      if (detail.basePatchNum === patchSetValue) return;
       this.reporting.reportInteraction('left-patchset-changed', {
         previous: detail.basePatchNum,
         current: e.detail.value,

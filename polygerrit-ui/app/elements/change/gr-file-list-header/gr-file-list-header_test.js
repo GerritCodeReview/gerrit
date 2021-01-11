@@ -249,11 +249,11 @@ suite('gr-file-list-header tests', () => {
 
   test('class is applied to file list on old patch set', () => {
     const allPatchSets = [{num: 4}, {num: 2}, {num: 1}];
-    assert.equal(element._computePatchInfoClass('1', allPatchSets),
+    assert.equal(element._computePatchInfoClass(1, allPatchSets),
         'patchInfoOldPatchSet');
-    assert.equal(element._computePatchInfoClass('2', allPatchSets),
+    assert.equal(element._computePatchInfoClass(2, allPatchSets),
         'patchInfoOldPatchSet');
-    assert.equal(element._computePatchInfoClass('4', allPatchSets), '');
+    assert.equal(element._computePatchInfoClass(4, allPatchSets), '');
   });
 
   suite('editMode behavior', () => {

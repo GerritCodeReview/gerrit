@@ -44,7 +44,6 @@ import {appContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
-  patchNumEquals,
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {
@@ -880,12 +879,10 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   _displayDiffAgainstLatestToast(latestPatchNum?: PatchSetNum) {
     if (!this._patchRange) return;
-    const leftPatchset = patchNumEquals(
-      this._patchRange.basePatchNum,
-      ParentPatchSetNum
-    )
-      ? 'Base'
-      : `Patchset ${this._patchRange.basePatchNum}`;
+    const leftPatchset =
+      this._patchRange.basePatchNum === ParentPatchSetNum
+        ? 'Base'
+        : `Patchset ${this._patchRange.basePatchNum}`;
     fireAlert(
       this,
       `${leftPatchset} vs
@@ -896,12 +893,12 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   _displayToasts() {
     if (!this._patchRange) return;
-    if (!patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
+    if (this._patchRange.basePatchNum !== ParentPatchSetNum) {
       this._displayDiffBaseAgainstLeftToast();
       return;
     }
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
-    if (!patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+    if (this._patchRange.patchNum !== latestPatchNum) {
       this._displayDiffAgainstLatestToast(latestPatchNum);
       return;
     }
@@ -916,17 +913,17 @@ export class GrDiffView extends KeyboardShortcutMixin(
       if (!hasOwnProperty(this._change.revisions, commitSha)) continue;
       const revision = this._change.revisions[commitSha];
       const patchNum = revision._number;
-      if (patchNumEquals(patchNum, this._patchRange.patchNum)) {
+      if (patchNum === this._patchRange.patchNum) {
         commit = commitSha as CommitId;
         const commitObj = revision.commit;
         const parents = commitObj?.parents || [];
         if (
-          patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum) &&
+          this._patchRange.basePatchNum === ParentPatchSetNum &&
           parents.length
         ) {
           baseCommit = parents[parents.length - 1].commit;
         }
-      } else if (patchNumEquals(patchNum, this._patchRange.basePatchNum)) {
+      } else if (patchNum === this._patchRange.basePatchNum) {
         baseCommit = commitSha as CommitId;
       }
     }
@@ -1250,7 +1247,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (!patchRange) return {patchNum, basePatchNum};
     if (
       patchRange.basePatchNum !== ParentPatchSetNum ||
-      !patchNumEquals(patchRange.patchNum, latestPatchNum as PatchSetNum)
+      patchRange.patchNum !== latestPatchNum
     ) {
       patchNum = patchRange.patchNum;
       basePatchNum = patchRange.basePatchNum;
@@ -1352,8 +1349,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
     const {basePatchNum, patchNum} = e.detail;
     if (
-      patchNumEquals(basePatchNum, this._patchRange.basePatchNum) &&
-      patchNumEquals(patchNum, this._patchRange.patchNum)
+      basePatchNum === this._patchRange.basePatchNum &&
+      patchNum === this._patchRange.patchNum
     ) {
       return;
     }
@@ -1582,7 +1579,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     patchRangeRecord: PolymerDeepPropertyChange<PatchRange, PatchRange>
   ) {
     const patchRange = patchRangeRecord.base || {};
-    return patchNumEquals(patchRange.patchNum, EditPatchSetNum);
+    return patchRange.patchNum === EditPatchSetNum;
   }
 
   _computeBlameToggleLabel(loaded?: boolean, loading?: boolean) {
@@ -1641,7 +1638,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (!this._path) return;
     if (!this._patchRange) return;
 
-    if (patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
+    if (this._patchRange.basePatchNum === ParentPatchSetNum) {
       fireAlert(this, 'Base is already selected.');
       return;
     }
@@ -1658,7 +1655,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (!this._path) return;
     if (!this._patchRange) return;
 
-    if (patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
+    if (this._patchRange.basePatchNum === ParentPatchSetNum) {
       fireAlert(this, 'Left is already base.');
       return;
     }
@@ -1680,7 +1677,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (!this._patchRange) return;
 
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
-    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+    if (this._patchRange.patchNum === latestPatchNum) {
       fireAlert(this, 'Latest is already selected.');
       return;
     }
@@ -1700,7 +1697,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (!this._patchRange) return;
 
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
-    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+    if (this._patchRange.patchNum === latestPatchNum) {
       fireAlert(this, 'Right is already latest.');
       return;
     }
@@ -1720,8 +1717,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (
-      patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
-      patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)
+      this._patchRange.patchNum === latestPatchNum &&
+      this._patchRange.basePatchNum === ParentPatchSetNum
     ) {
       fireAlert(this, 'Already diffing base against latest.');
       return;

@@ -16,6 +16,24 @@
       "message": "Can someone please clarify, why is asciidoctor was not exempted from LC, while JRuby was? It doesn\u0027t make any sense to me.",
       "revId": "775b7de52f02cab11fb50067d65ab882f2596244",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93512e66_3638121e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-11T15:50:07Z",
+      "side": 1,
+      "message": "maybe it was an error? We do have JRuby, but it\u0027s only used for running ASciidoctor",
+      "parentUuid": "452566ce_f6461555",
+      "revId": "775b7de52f02cab11fb50067d65ab882f2596244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31f22f04_c522245a",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-11T15:46:31Z",
+      "side": 1,
+      "message": "Can this be changed to `PatchSetNum`? And then you can maybe avoid casting in lines 285 and 292?",
+      "range": {
+        "startLine": 277,
+        "startChar": 18,
+        "endLine": 277,
+        "endChar": 24
+      },
+      "revId": "bdc1d947c605c4f160263f9d6130caba27d05431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

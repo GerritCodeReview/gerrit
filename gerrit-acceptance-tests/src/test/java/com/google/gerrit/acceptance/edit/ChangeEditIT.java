@@ -329,6 +329,33 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void updateMessageEditChangeIdShouldThrowResourceConflictException() throws Exception {
+    createEmptyEditFor(changeId);
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Editing of the Change-Id footer is not allowed");
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyCommitMessage(commitMessage.replaceAll(changeId, changeId2));
+  }
+
+  @Test
+  public void updateMessageEditRemoveChangeIdShouldThrowResourceConflictException()
+      throws Exception {
+    createEmptyEditFor(changeId);
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Editing of the Change-Id footer is not allowed");
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyCommitMessage(commitMessage.replaceAll("(Change-Id:).*", ""));
+  }
+
+  @Test
   public void updateMessage() throws Exception {
     createEmptyEditFor(changeId);
     String msg = String.format("New commit message\n\nChange-Id: %s\n", changeId);

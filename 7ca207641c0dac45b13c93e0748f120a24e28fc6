@@ -16,6 +16,24 @@
       "message": "Move to below \"commentSide\" property, because it is directly related to it.\n\nAdd a comment about this only being relevant when commentSide\u003d\u003d\u003dPARENT.\n\nAdd a comment about this only being relevant for merge commits.\n\nAdd a comment that `undefined` means \"auto-merge\".\n\nMaybe rename from `parent` to `parentNum` or even `mergeParentNum`.",
       "revId": "7ca207641c0dac45b13c93e0748f120a24e28fc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0223849_39cdb64b",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-11T21:21:44Z",
+      "side": 1,
+      "message": "looks like we\u0027re just duplicating the text from the API docs.\nHas the downside of becoming stale if API is updated later.\nAdded.",
+      "parentUuid": "814d5760_24349104",
+      "revId": "7ca207641c0dac45b13c93e0748f120a24e28fc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

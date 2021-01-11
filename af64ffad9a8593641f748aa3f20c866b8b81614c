@@ -16,6 +16,24 @@
       "message": "Optional nit: There is a space after the patchset number that is also underlined. Would be nice to remove that. And then the bug icon should get a bit closer to the link.",
       "revId": "af64ffad9a8593641f748aa3f20c866b8b81614c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56eff082_9324d568",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-11T17:13:55Z",
+      "side": 1,
+      "message": "The space doesn\u0027t exist without this change.\nhttps://imgur.com/a/38rzASR\nNot sure where this is coming from. \nTaking a look.",
+      "parentUuid": "11e844ea_9d0403e0",
+      "revId": "af64ffad9a8593641f748aa3f20c866b8b81614c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

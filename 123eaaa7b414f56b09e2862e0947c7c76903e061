@@ -52,6 +52,24 @@
       "parentUuid": "7f369952_bce7bc0f",
       "revId": "123eaaa7b414f56b09e2862e0947c7c76903e061",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b01f018_a3fd920a",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-11T09:45:33Z",
+      "side": 1,
+      "message": "It seems brittle to rely on sorting order, where ADDED just happens to come first. Why do we need to keep more than one entry per file at all? If JGit\u0027s behavior isn\u0027t specified by API contract it seems this change is a good opportunity to implement an algorithm on our side to pick the one file that the user should see. ADDED probably has the highest priority, but we should look at other enums/combinations too. Currently ISTM we\u0027re fixing one bug but we\u0027re not 100% certain there can\u0027t be similar bugs now or in the future.",
+      "parentUuid": "8b4176b9_7034d716",
+      "revId": "123eaaa7b414f56b09e2862e0947c7c76903e061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

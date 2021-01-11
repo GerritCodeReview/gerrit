@@ -123,7 +123,6 @@ public class CommentJson {
           list = new ArrayList<>();
           out.put(o.path, list);
         }
-        o.path = null;
         list.add(o);
       }
 
@@ -133,10 +132,11 @@ public class CommentJson {
         loader.fill();
       }
 
+      List<T> allComments = out.values().stream().flatMap(Collection::stream).collect(toList());
       if (fillCommentContext) {
-        List<T> allComments = out.values().stream().flatMap(Collection::stream).collect(toList());
         addCommentContext(allComments);
       }
+      allComments.forEach(c -> c.path = null); // we don't need path since it exists in the map keys
       return out;
     }
 

@@ -39,7 +39,7 @@ public class OperatorAliasConfig {
   }
 
   private void loadChangeOperatorAliases() {
-    for (String name : cfg.getNames(SECTION, SUBSECTION_CHANGE)) {
+    for (String name : cfg.getNames(SECTION, SUBSECTION_CHANGE, true)) {
       changeQueryOperatorAliases.put(name, cfg.getString(SECTION, SUBSECTION_CHANGE, name));
     }
   }

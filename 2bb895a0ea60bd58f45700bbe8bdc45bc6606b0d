@@ -16,6 +16,23 @@
       "message": "Technically looks good to me, but I want to have UX review as well.\n",
       "revId": "2bb895a0ea60bd58f45700bbe8bdc45bc6606b0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4574ca69_79ddf1aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-01-11T10:08:47Z",
+      "side": 1,
+      "message": "I have added notes in this screenshot https://imgur.com/a/8AkrW3C for changes to make to the reply dialog.",
+      "revId": "2bb895a0ea60bd58f45700bbe8bdc45bc6606b0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

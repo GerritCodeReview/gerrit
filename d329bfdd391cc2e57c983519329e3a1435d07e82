@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bcc95c0_6b80c211",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5d3e0d6_e0ee737f",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da4cd09f_e0cea872",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-12-21T14:03:36Z",
       "side": 1,
       "message": "This field should also have javadoc; it\u0027s not self-explanatory like the others.",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c87b7d0_3f8545c8",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Added javadoc and renamed the variable.\n\nI also removed the TODO and used the variable, similarly to its usage in the old diff cache.\n\nDone.",
+      "parentUuid": "da4cd09f_e0cea872",
       "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7110dbfa_d7ef56b6",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e180c24b_ba3525d0",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1df8478_0ea5bb3f",
@@ -65,6 +119,30 @@
       "writtenOn": "2020-12-21T14:03:36Z",
       "side": 1,
       "message": "This is missing @Nullable and a description of what passing null means.",
+      "range": {
+        "startLine": 85,
+        "startChar": 12,
+        "endLine": 85,
+        "endChar": 21
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d38c4bb_18ec0b4c",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1df8478_0ea5bb3f",
       "range": {
         "startLine": 85,
         "startChar": 12,
@@ -98,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50ec311c_8c2ee984",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "right, done.",
+      "parentUuid": "9157bdba_b2ecca04",
+      "range": {
+        "startLine": 87,
+        "startChar": 39,
+        "endLine": 87,
+        "endChar": 45
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7dabe920_8335d84f",
@@ -111,6 +213,30 @@
       "writtenOn": "2020-12-21T14:03:36Z",
       "side": 1,
       "message": "I think this would be more readable as just \"return current.getParent(0)\".",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ee46b1a_20d0eb15",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dabe920_8335d84f",
       "range": {
         "startLine": 97,
         "startChar": 8,
@@ -138,6 +264,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b395f36a_ebce8c3d",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Yes, if that object didn\u0027t exist in the database previously.",
+      "parentUuid": "dfb07b12_43c0b5a9",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f38400aa_59a23802",
@@ -151,6 +295,24 @@
       "writtenOn": "2020-12-21T14:03:36Z",
       "side": 1,
       "message": "I think this comment should explain why the interface exists, and maybe enumerate (planned) implementations.",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf4dc956_261c1fe9",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "I added an explaining comment to the interface.\n\nDone.",
+      "parentUuid": "f38400aa_59a23802",
       "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -172,6 +334,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db4fab8a_dd52fec3",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Yes I strongly agree. Thanks for the name suggestion.\n\nDone.",
+      "parentUuid": "d5fc6941_c486335a",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e9859da_3f08f379",
@@ -185,6 +365,24 @@
       "writtenOn": "2020-12-21T14:03:36Z",
       "side": 1,
       "message": "Maybe link to the magic filenames?",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2478763c_4a68d939",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e9859da_3f08f379",
       "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -212,6 +410,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a8b10c7_6fdbf4e0",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Done (here and for other occurrences).",
+      "parentUuid": "4291b49f_2daaced8",
+      "range": {
+        "startLine": 32,
+        "startChar": 82,
+        "endLine": 32,
+        "endChar": 83
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e96b6270_b49d8d3b",
@@ -225,6 +447,24 @@
       "writtenOn": "2020-12-21T14:03:36Z",
       "side": 1,
       "message": "I think the comment should also address error handling: What if the specified parent does not exist? In what conditions is the exception thrown?",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a432b689_43b86c81",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e96b6270_b49d8d3b",
       "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -246,6 +486,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9703d26_f6546a18",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "In many cases in the codebase we have a single implementation for interfaces, for example for almost all caches, and the *Api interfaces (e.g. ChangeApi).\n\nI removed the comment here since it is redundant and replaced it with a more meaningful description.",
+      "parentUuid": "d95b6520_15e892f3",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "118fbf06_012ef3c7",
@@ -263,6 +521,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59720877_d589b008",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Right, no need to wrap the same exception.\n\nDone.",
+      "parentUuid": "118fbf06_012ef3c7",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1f7c7e6_bb162548",
@@ -276,6 +552,30 @@
       "writtenOn": "2020-12-21T15:55:55Z",
       "side": 1,
       "message": "Is this necessary for sorting?",
+      "range": {
+        "startLine": 120,
+        "startChar": 44,
+        "endLine": 120,
+        "endChar": 51
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fd8a693_daa24d19",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Well, ordering is not necessary here. There is no specific reason I\u0027m using TreeMap. I replaced it with ImmutableMap, which I think is better since it is backed by a HashMap (https://guava.dev/releases/16.0/api/docs/com/google/common/collect/ImmutableMap.html) and does not permit mutation of elements.",
+      "parentUuid": "c1f7c7e6_bb162548",
       "range": {
         "startLine": 120,
         "startChar": 44,
@@ -309,6 +609,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b195d65_ff990ffc",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "My bad. I removed this redundant declaration.",
+      "parentUuid": "98b37aa5_349cda15",
+      "range": {
+        "startLine": 152,
+        "startChar": 23,
+        "endLine": 152,
+        "endChar": 29
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22571e61_da8c5cbd",
@@ -322,6 +646,24 @@
       "writtenOn": "2020-12-21T14:03:36Z",
       "side": 1,
       "message": "Can be static.",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee7d3e1c_53319da0",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Yes. Thanks for catching this. \n\nDone.",
+      "parentUuid": "22571e61_da8c5cbd",
       "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -343,6 +685,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49d9d71c_2b58843a",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7fa0eca_7e433a63",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f92640ee_91cead45",
@@ -356,6 +716,24 @@
       "writtenOn": "2020-12-21T14:03:36Z",
       "side": 1,
       "message": "static",
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9483044f_e0fa8651",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-11T15:17:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f92640ee_91cead45",
       "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

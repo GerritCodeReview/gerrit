@@ -192,6 +192,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "28de8959_64c224dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-11T18:39:11Z",
+      "side": 1,
+      "message": "\u003e I would like to propose a new less hacky approach in a different change. \n\nHere it is: https://gerrit-review.googlesource.com/c/gerrit/+/293442",
+      "parentUuid": "b5d66a3c_28baad4a",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f54ed35b_6121eb76",

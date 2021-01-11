@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64de4b2e_afae465b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-11T15:52:10Z",
+      "side": 1,
+      "message": "Just empty files for now, but some comments in the README - let\u0027s make sure we agree on those. Meanwhile I will start moving types over in follow up changes.",
+      "revId": "ff6da71db777a894c3db1bb5c25218401e39ec8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

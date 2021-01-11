@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc2bb2cd_e4b719b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-11T17:00:17Z",
+      "side": 1,
+      "message": "I\u0027ve raised this internally, and a team is working on this, with an ETA of O(weeks). (Googlers can check https://b.corp.google.com/issues/177222922 for progress)\n\nDoes Gerrit standalone do \"requests from different clients are multiplexed\nonto a single connection\" ?",
+      "revId": "ff8079cbf5ff4aa80586acb1c365e60e59e64369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

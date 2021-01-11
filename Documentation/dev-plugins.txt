@@ -1464,7 +1464,57 @@ This is useful if certain approvals have a special meaning (e.g. custom logic
 that is implemented in Prolog submit rules, signal for triggering an action
 like running CI etc.), as it allows the plugin to tell users about this meaning
 in the change message. This makes the effect of a given approval more
-transparent to the user. 
+transparent to the user.
+
+[plugin_provided_api]
+== Plugin Provided API
+
+By implementing the `com.google.gerrit.extensions.registration.PluginProvidedApi`
+interface, a plugin can provide an API which can be consumed by another plugin.
+The API thus provided will only be accessible to other plugins and will not be
+exposed to Gerrit users directly. To provide an API as an extension to other
+plugins, bind a PluginProvidedApi interface. For example:
+
+[source,java]
+----
+bind(com.google.gerrit.extensions.registration.PluginProvidedApi.class)
+    .annotatedWith(Exports.named("MyApi"))
+    .to(MyApiImpl.class);
+
+public interface MyApi extends PluginProvidedApi {
+  public List<String> getData();
+}
+
+public class MyApiImpl implements MyApi {
+  @Override
+  public List<String> getData() {
+     [...]
+     return data;
+  }
+}
+----
+
+To consume the API provided by a plugin from other plugin, inject the PluginProvidedApi
+DynamicMap and fetch the respective API. For example:
+
+[source,java]
+----
+public class MyClass {
+  protected DynamicMap<PluginProvidedApi> pluginProvidedApi;
+
+  @Inject
+  public MyClass(DynamicMap<PluginProvidedApi> pluginProvidedApi) {
+    this.pluginProvidedApi = pluginProvidedApi;
+  }
+
+  public List<String> getMyData() {
+    PluginProvidedApi pluginProvidedApi = pluginProvidedApi.get("my-api-plugin", "MyApi");
+    MyApi myApi = getProxyInstance(pluginProvidedApi); // generate a proxy instance to MyApi
+                                                       // interface through reflection.
+    return myApi.getData();
+  }
+}
+----
 
 [[ui_extension]]
 == UI Extension

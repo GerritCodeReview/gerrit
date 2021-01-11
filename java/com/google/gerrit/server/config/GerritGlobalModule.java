@@ -63,6 +63,7 @@ import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.PluginProvidedApi;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.DiffWebLink;
@@ -437,6 +438,7 @@ public class GerritGlobalModule extends FactoryModule {
         .annotatedWith(Exports.named(CommentCumulativeSizeValidator.class.getSimpleName()))
         .to(CommentCumulativeSizeValidator.class);
 
+    DynamicMap.mapOf(binder(), PluginProvidedApi.class);
     DynamicMap.mapOf(binder(), DynamicOptions.DynamicBean.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeHasOperandFactory.class);

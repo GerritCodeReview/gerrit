@@ -1464,7 +1464,69 @@ This is useful if certain approvals have a special meaning (e.g. custom logic
 that is implemented in Prolog submit rules, signal for triggering an action
 like running CI etc.), as it allows the plugin to tell users about this meaning
 in the change message. This makes the effect of a given approval more
-transparent to the user. 
+transparent to the user.
+
+[plugin_provided_api]
+== Plugin Provided API
+
+By implementing the `com.google.gerrit.extensions.registration.PluginProvidedApi`
+interface, a plugin can provide an API which can be consumed by another plugin.
+The API thus provided will only be accessible to other plugins and will not be
+exposed to Gerrit users directly. To provide an API for other plugins, bind a
+PluginProvidedApi interface. For example:
+
+[source,java]
+----
+// Consider the below binding is provided by a plugin named 'my-api-plugin'.
+bind(com.google.gerrit.extensions.registration.PluginProvidedApi.class)
+    .annotatedWith(Exports.named("MyApi"))
+    .to(MyApiImpl.class);
+
+public interface MyApi extends PluginProvidedApi {
+  public String getData();
+}
+
+public class MyApiImpl implements MyApi {
+  @Override
+  public String getData() {
+     [...]
+     return data;
+  }
+}
+----
+
+To consume the API provided by a plugin from other plugin, inject the PluginProvidedApi
+DynamicMap and fetch the respective API. The required API must be available/registered
+when trying to request the API from PluginProvidedApi DynamicMap. The registered API is
+implemented by a class which is loaded in the implementing plugin's class loader which
+is different from the class loader of the consuming plugin. Due to this reason,
+reflection is used to invoke the required method. For example:
+
+[source,java]
+----
+public class MyClass {
+  protected DynamicMap<PluginProvidedApi> pluginProvidedApis;
+
+  @Inject
+  public MyClass(DynamicMap<PluginProvidedApi> pluginProvidedApis) {
+    this.pluginProvidedApis = pluginProvidedApis;
+  }
+
+  public String getMyData() {
+    PluginProvidedApi pluginProvidedApi = pluginProvidedApis.get("my-api-plugin", "MyApi");
+    return getDataFromApi(pluginProvidedApi);
+  }
+
+  protected String getDataFromApi(PluginProvidedApi pluginProvidedApi) {
+    try {
+      // use reflection to invoke the required method.
+      return (String) pluginProvidedApi.getClass().getMethod("getData").invoke(pluginProvidedApi);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+}
+----
 
 [[ui_extension]]
 == UI Extension

@@ -48,6 +48,9 @@ export const htmlTemplate = html`
       display: flex;
       margin-right: var(--spacing-l);
     }
+    .toggleItem label {
+      margin-left: var(--spacing-m);
+    }
     .draftsOnly:not(.unresolvedOnly) gr-comment-thread[has-draft],
     .unresolvedOnly:not(.draftsOnly) gr-comment-thread[unresolved],
     .draftsOnly.unresolvedOnly gr-comment-thread[has-draft][unresolved] {
@@ -69,22 +72,28 @@ export const htmlTemplate = html`
   <template is="dom-if" if="[[!hideToggleButtons]]">
     <div class="header">
       <div class="toggleItem">
-        <paper-toggle-button
+        <input type="radio"
           id="unresolvedToggle"
-          checked="{{!unresolvedOnly}}"
-          on-tap="_onTapUnresolvedToggle"
-          >All comments</paper-toggle-button
-        >
+          checked
+          name="comments"
+          on-tap="_onTapUnresolvedButton"
+          > <label> Unresolved([[_computeUnresolvedThreadCount(threads)]]) </label>
       </div>
       <div
         class$="toggleItem draftToggle [[_computeShowDraftToggle(loggedIn)]]"
       >
-        <paper-toggle-button
+        <input type="radio"
           id="draftToggle"
-          checked="{{_draftsOnly}}"
-          on-tap="_onTapUnresolvedToggle"
-          >Comments with drafts</paper-toggle-button
-        >
+          name="comments"
+          on-tap="_onTapDraftsButton"
+          > <label> Drafts([[_computeDraftThreadCount(threads)]]) </label>
+      </div>
+      <div class="toggleItem">
+        <input type="radio"
+          id="allCommentsToggle"
+          name="comments"
+          on-tap="_onTapAllCommentsButton"
+          > <label> All([[threads.length]]) </label>
       </div>
     </div>
   </template>
@@ -98,17 +107,7 @@ export const htmlTemplate = html`
           <template is="dom-if" if="[[_showPartyPopper(threads)]]">
             <span> \&#x1F389 </span>
           </template>
-          [[_computeEmptyThreadsMessage(threads, _displayedThreads,
-          unresolvedOnly)]]
-          <template is="dom-if" if="[[_showResolvedCommentsButton(threads, _displayedThreads, unresolvedOnly)]]">
-            <gr-button
-              class="show-resolved-comments"
-              link
-              on-click="_handleResolvedCommentsMessageClick">
-                [[_computeResolvedCommentsMessage(threads, _displayedThreads,
-                unresolvedOnly)]]
-            </gr-button>
-          </template>
+          [[_computeEmptyThreadsMessage(threads, _draftsOnly)]]
         </span>
       </div>
     </template>

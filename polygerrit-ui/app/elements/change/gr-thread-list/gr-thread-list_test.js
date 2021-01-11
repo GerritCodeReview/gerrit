@@ -629,7 +629,15 @@ suite('gr-thread-list tests', () => {
     test('default empty message should show', () => {
       assert.isTrue(
           element.shadowRoot.querySelector('#threads').textContent.trim()
-              .includes('No comments.'));
+              .includes('No comments'));
+    });
+
+    test.only('empty drafts zero state', () => {
+      MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
+      flush();
+      assert.isTrue(
+          element.shadowRoot.querySelector('#threads').textContent.trim()
+              .includes('No drafts'));
     });
   });
 });

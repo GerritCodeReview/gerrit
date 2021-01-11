@@ -31,8 +31,13 @@ import {
   PolymerDeepPropertyChange,
 } from '@polymer/polymer/interfaces';
 import {ChangeInfo} from '../../../types/common';
-import {CommentThread, isDraft, UIRobot} from '../../../utils/comment-util';
-import {pluralize} from '../../../utils/string-util';
+import {
+  CommentThread,
+  isDraft,
+  isDraftThread,
+  isUnresolved,
+  UIRobot,
+} from '../../../utils/comment-util';
 import {fireThreadListModifiedEvent} from '../../../utils/event-util';
 
 interface CommentThreadWithInfo {
@@ -95,6 +100,16 @@ export class GrThreadList extends GestureEventListeners(
     return loggedIn ? 'show' : '';
   }
 
+  _computeUnresolvedThreadCount(threads?: CommentThread[]) {
+    if (!threads) return 0;
+    return threads.filter(t => isUnresolved(t)).length;
+  }
+
+  _computeDraftThreadCount(threads?: CommentThread[]) {
+    if (!threads) return 0;
+    return threads.filter(t => isDraftThread(t)).length;
+  }
+
   _showEmptyThreadsMessage(
     threads: CommentThread[],
     displayedThreads: CommentThread[],
@@ -104,35 +119,15 @@ export class GrThreadList extends GestureEventListeners(
     return !threads.length || (unresolvedOnly && !displayedThreads.length);
   }
 
-  _computeEmptyThreadsMessage(threads: CommentThread[]) {
-    return !threads.length ? 'No comments.' : 'No unresolved comments';
+  _computeEmptyThreadsMessage(threads: CommentThread[], draftsOnly: boolean) {
+    if (draftsOnly) {
+      return 'No drafts';
+    }
+    return !threads.length ? 'No comments' : 'No unresolved comments';
   }
 
   _showPartyPopper(threads: CommentThread[]) {
     return !!threads.length;
-  }
-
-  _computeResolvedCommentsMessage(
-    threads: CommentThread[],
-    displayedThreads: CommentThread[],
-    unresolvedOnly: boolean
-  ) {
-    if (unresolvedOnly && threads.length && !displayedThreads.length) {
-      return `Show ${pluralize(threads.length, 'resolved comment')}`;
-    }
-    return '';
-  }
-
-  _showResolvedCommentsButton(
-    threads: CommentThread[],
-    displayedThreads: CommentThread[],
-    unresolvedOnly: boolean
-  ) {
-    return unresolvedOnly && threads.length && !displayedThreads.length;
-  }
-
-  _handleResolvedCommentsMessageClick() {
-    this.unresolvedOnly = !this.unresolvedOnly;
   }
 
   _compareThreads(c1: CommentThreadWithInfo, c2: CommentThreadWithInfo) {
@@ -434,7 +429,20 @@ export class GrThreadList extends GestureEventListeners(
   /**
    * Work around a issue on iOS when clicking turns into double tap
    */
-  _onTapUnresolvedToggle(e: Event) {
+  _onTapUnresolvedButton(e: Event) {
+    this.unresolvedOnly = true;
+    e.preventDefault();
+  }
+
+  _onTapDraftsButton(e: Event) {
+    this.unresolvedOnly = false;
+    this._draftsOnly = true;
+    e.preventDefault();
+  }
+
+  _onTapAllCommentsButton(e: Event) {
+    this.unresolvedOnly = false;
+    this._draftsOnly = false;
     e.preventDefault();
   }
 }

@@ -69,6 +69,24 @@
       "parentUuid": "beb0b5f3_68dd5aa2",
       "revId": "6c02c4f8935ffc3ffb06571194ff3e9af5d675ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ed4ac88_0ce55b3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-11T22:03:50Z",
+      "side": 1,
+      "message": "Done in change 293502. PTAL.",
+      "parentUuid": "6ec4081c_95b5d8a3",
+      "revId": "6c02c4f8935ffc3ffb06571194ff3e9af5d675ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

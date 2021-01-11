@@ -22,6 +22,30 @@
       },
       "revId": "bdc1d947c605c4f160263f9d6130caba27d05431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63641ed7_5444132d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-11T15:50:43Z",
+      "side": 1,
+      "message": "I wanted to be stricter since we are doing \"patchNum - 1\".\nThe arithmetic operator can only be applied on number and not `PatchSetNum`, which means we would have to cast it into a number eventually.\nI thought this way was better since we are enforcing a stricter type.\nWDYT?",
+      "parentUuid": "31f22f04_c522245a",
+      "range": {
+        "startLine": 277,
+        "startChar": 18,
+        "endLine": 277,
+        "endChar": 24
+      },
+      "revId": "bdc1d947c605c4f160263f9d6130caba27d05431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -21,7 +21,7 @@ import {
   fetchChangeUpdates, findEditParentPatchNum, findEditParentRevision,
   getParentIndex, getRevisionByPatchNum,
   isMergeParent,
-  patchNumEquals, sortRevisions,
+  sortRevisions,
 } from './patch-set-util.js';
 
 suite('gr-patch-set-util tests', () => {
@@ -229,17 +229,6 @@ suite('gr-patch-set-util tests', () => {
         .assertWip(4, true) // PS4 was uploaded during WIP
         .assertWip(5, false) // PS5 was marked ready for review
         .assertWip(6, true); // PS6 was uploaded with WIP option
-  });
-
-  test('patchNumEquals', () => {
-    assert.isFalse(patchNumEquals('edit', 'PARENT'));
-    assert.isFalse(patchNumEquals('edit', NaN));
-    assert.isFalse(patchNumEquals(1, '2'));
-
-    assert.isTrue(patchNumEquals(1, '1'));
-    assert.isTrue(patchNumEquals(1, 1));
-    assert.isTrue(patchNumEquals('edit', 'edit'));
-    assert.isTrue(patchNumEquals('PARENT', 'PARENT'));
   });
 
   test('isMergeParent', () => {

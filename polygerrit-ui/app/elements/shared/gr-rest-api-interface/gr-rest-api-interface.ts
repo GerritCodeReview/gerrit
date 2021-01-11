@@ -36,11 +36,7 @@ import {
 import {parseDate} from '../../../utils/date-util';
 import {getBaseUrl} from '../../../utils/url-util';
 import {appContext} from '../../../services/app-context';
-import {
-  getParentIndex,
-  isMergeParent,
-  patchNumEquals,
-} from '../../../utils/patch-set-util';
+import {getParentIndex, isMergeParent} from '../../../utils/patch-set-util';
 import {
   ListChangesOption,
   listChangesOptionsToHex,
@@ -1354,7 +1350,7 @@ export class GrRestApiInterface
     let params = undefined;
     if (isMergeParent(patchRange.basePatchNum)) {
       params = {parent: getParentIndex(patchRange.basePatchNum)};
-    } else if (!patchNumEquals(patchRange.basePatchNum, ParentPatchSetNum)) {
+    } else if (!patchRange.basePatchNum === ParentPatchSetNum) {
       params = {base: patchRange.basePatchNum};
     }
     return this._getChangeURLAndFetch({
@@ -1401,7 +1397,7 @@ export class GrRestApiInterface
     changeNum: NumericChangeId,
     patchRange: PatchRange
   ): Promise<FileNameToFileInfoMap | undefined> {
-    if (patchNumEquals(patchRange.patchNum, EditPatchSetNum)) {
+    if (patchRange.patchNum === EditPatchSetNum) {
       return this.getChangeEditFiles(changeNum, patchRange).then(
         res => res && res.files
       );
@@ -1983,9 +1979,10 @@ export class GrRestApiInterface
       }
       return res;
     };
-    const promise = patchNumEquals(patchNum, EditPatchSetNum)
-      ? this._getFileInChangeEdit(changeNum, path)
-      : this._getFileInRevision(changeNum, path, patchNum, suppress404s);
+    const promise =
+      patchNum === EditPatchSetNum
+        ? this._getFileInChangeEdit(changeNum, path)
+        : this._getFileInRevision(changeNum, path, patchNum, suppress404s);
 
     return promise.then(res => {
       if (!res || !res.ok) {
@@ -2277,7 +2274,7 @@ export class GrRestApiInterface
     };
     if (isMergeParent(basePatchNum)) {
       params.parent = getParentIndex(basePatchNum);
-    } else if (!patchNumEquals(basePatchNum, ParentPatchSetNum)) {
+    } else if (!basePatchNum === ParentPatchSetNum) {
       // TODO (TS): fix as PatchSetNum in the condition above
       params.base = basePatchNum;
     }

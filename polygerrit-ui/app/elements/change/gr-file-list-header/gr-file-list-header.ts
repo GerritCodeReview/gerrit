@@ -35,7 +35,6 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   computeLatestPatchNum,
   getRevisionByPatchNum,
-  patchNumEquals,
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {property, computed, observe, customElement} from '@polymer/decorators';
@@ -321,8 +320,7 @@ export class GrFileListHeader extends KeyboardShortcutMixin(
   _handlePatchChange(e: CustomEvent) {
     const {basePatchNum, patchNum} = e.detail;
     if (
-      (patchNumEquals(basePatchNum, this.basePatchNum) &&
-        patchNumEquals(patchNum, this.patchNum)) ||
+      (basePatchNum === this.basePatchNum && patchNum === this.patchNum) ||
       !this.change
     ) {
       return;
@@ -354,7 +352,7 @@ export class GrFileListHeader extends KeyboardShortcutMixin(
 
   _computePatchInfoClass(patchNum?: PatchSetNum, allPatchSets?: PatchSet[]) {
     const latestNum = computeLatestPatchNum(allPatchSets);
-    if (patchNumEquals(patchNum, latestNum)) {
+    if (patchNum === latestNum) {
       return '';
     }
     return 'patchInfoOldPatchSet';

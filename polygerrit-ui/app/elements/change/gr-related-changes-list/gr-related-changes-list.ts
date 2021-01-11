@@ -25,7 +25,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-related-changes-list_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {ChangeStatus} from '../../../constants/constants';
-import {patchNumEquals} from '../../../utils/patch-set-util';
+
 import {changeIsOpen} from '../../../utils/change-util';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -410,7 +410,7 @@ export class GrRelatedChangesList extends GestureEventListeners(
       return [];
     }
     for (const rev in change.revisions) {
-      if (patchNumEquals(change.revisions[rev]._number, patchNum)) {
+      if (change.revisions[rev]._number === patchNum) {
         changeRevision = rev;
       }
     }

@@ -20,7 +20,6 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-download-dialog_html';
-import {patchNumEquals} from '../../../utils/patch-set-util';
 import {changeBaseURL} from '../../../utils/change-util';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {ChangeInfo, ServerInfo, PatchSetNum} from '../../../types/common';
@@ -72,7 +71,7 @@ export class GrDownloadDialog extends GestureEventListeners(
     }
 
     for (const rev of Object.values(this.change.revisions || {})) {
-      if (patchNumEquals(rev._number, this.patchNum)) {
+      if (rev._number === this.patchNum) {
         const fetch = rev.fetch;
         if (fetch) {
           return Object.keys(fetch).sort();
@@ -113,7 +112,7 @@ export class GrDownloadDialog extends GestureEventListeners(
     if (!change || !selectedScheme) return [];
     for (const rev of Object.values(change.revisions || {})) {
       if (
-        patchNumEquals(rev._number, patchNum) &&
+        rev._number === patchNum &&
         rev &&
         rev.fetch &&
         hasOwnProperty(rev.fetch, selectedScheme)
@@ -171,7 +170,7 @@ export class GrDownloadDialog extends GestureEventListeners(
 
     let shortRev = '';
     for (const rev in change.revisions) {
-      if (patchNumEquals(change.revisions[rev]._number, patchNum)) {
+      if (change.revisions[rev]._number === patchNum) {
         shortRev = rev.substr(0, 7);
         break;
       }
@@ -185,7 +184,7 @@ export class GrDownloadDialog extends GestureEventListeners(
       return false;
     }
     for (const rev of Object.values(change.revisions || {})) {
-      if (patchNumEquals(rev._number, patchNum)) {
+      if (rev._number === patchNum) {
         const parentLength =
           rev.commit && rev.commit.parents ? rev.commit.parents.length : 0;
         return parentLength === 0 || parentLength > 1;

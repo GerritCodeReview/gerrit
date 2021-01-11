@@ -59,10 +59,6 @@ interface PatchRange {
   basePatchNum?: PatchSetNum;
 }
 
-export function patchNumEquals(a?: PatchSetNum, b?: PatchSetNum) {
-  return a == b;
-}
-
 /**
  * Whether the given patch is a numbered parent of a merge (i.e. a negative
  * number).
@@ -105,7 +101,7 @@ export function getRevisionByPatchNum(
   patchNum: PatchSetNum
 ) {
   for (const rev of revisions) {
-    if (patchNumEquals(rev._number, patchNum)) {
+    if (rev._number === patchNum) {
       return rev;
     }
   }

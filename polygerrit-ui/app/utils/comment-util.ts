@@ -29,7 +29,7 @@ import {CommentSide, Side} from '../constants/constants';
 import {parseDate} from './date-util';
 import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
 import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
-import {isMergeParent, getParentIndex, patchNumEquals} from './patch-set-util';
+import {isMergeParent, getParentIndex} from './patch-set-util';
 
 export interface DraftCommentProps {
   __draft?: boolean;
@@ -196,7 +196,7 @@ export function isInBaseOfPatchRange(
   if (
     range.basePatchNum === ParentPatchSetNum &&
     comment.side === CommentSide.PARENT &&
-    patchNumEquals(comment.patch_set, range.patchNum)
+    comment.patch_set === range.patchNum
   ) {
     return true;
   }
@@ -204,7 +204,7 @@ export function isInBaseOfPatchRange(
   return (
     range.basePatchNum !== ParentPatchSetNum &&
     comment.side !== CommentSide.PARENT &&
-    patchNumEquals(comment.patch_set, range.basePatchNum)
+    comment.patch_set === range.basePatchNum
   );
 }
 
@@ -217,8 +217,7 @@ export function isInRevisionOfPatchRange(
   range: PatchRange
 ) {
   return (
-    comment.side !== CommentSide.PARENT &&
-    patchNumEquals(comment.patch_set, range.patchNum)
+    comment.side !== CommentSide.PARENT && comment.patch_set === range.patchNum
   );
 }
 
@@ -247,7 +246,7 @@ export function getPatchRangeForCommentUrl(
       patchNum: comment.patch_set,
       basePatchNum: ParentPatchSetNum,
     };
-  } else if (patchNumEquals(latestPatchNum, comment.patch_set)) {
+  } else if (latestPatchNum === comment.patch_set) {
     return {
       patchNum: latestPatchNum,
       basePatchNum: ParentPatchSetNum,

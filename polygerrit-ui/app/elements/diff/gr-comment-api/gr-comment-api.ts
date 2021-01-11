@@ -18,7 +18,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment-api_html';
-import {patchNumEquals, CURRENT} from '../../../utils/patch-set-util';
+import {CURRENT} from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {
   CommentBasics,
@@ -235,9 +235,7 @@ export class ChangeComments {
       allComments = allComments.concat(drafts);
     }
     if (patchNum) {
-      allComments = allComments.filter(c =>
-        patchNumEquals(c.patch_set, patchNum)
-      );
+      allComments = allComments.filter(c => c.patch_set === patchNum);
     }
     return allComments.map(c => {
       return {...c};
@@ -284,7 +282,7 @@ export class ChangeComments {
   getAllDraftsForPath(path: string, patchNum?: PatchSetNum): Comment[] {
     let comments = this._drafts[path] || [];
     if (patchNum) {
-      comments = comments.filter(c => patchNumEquals(c.patch_set, patchNum));
+      comments = comments.filter(c => c.patch_set === patchNum);
     }
     return comments.map(c => {
       return {...c, __draft: true};

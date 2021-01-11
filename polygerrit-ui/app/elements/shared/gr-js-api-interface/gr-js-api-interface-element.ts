@@ -18,7 +18,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {getPluginLoader} from './gr-plugin-loader';
-import {patchNumEquals} from '../../../utils/patch-set-util';
+
 import {customElement} from '@polymer/decorators';
 import {
   ChangeInfo,
@@ -154,7 +154,7 @@ export class GrJsApiInterface
 
     let revision;
     for (const rev of Object.values(change.revisions || {})) {
-      if (patchNumEquals(rev._number, patchNum)) {
+      if (rev._number === patchNum) {
         revision = rev;
         break;
       }

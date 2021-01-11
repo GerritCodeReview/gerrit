@@ -38,11 +38,7 @@ import {htmlTemplate} from './gr-change-actions_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {appContext} from '../../../services/app-context';
-import {
-  fetchChangeUpdates,
-  patchNumEquals,
-  CURRENT,
-} from '../../../utils/patch-set-util';
+import {fetchChangeUpdates, CURRENT} from '../../../utils/patch-set-util';
 import {
   changeIsOpen,
   isOwner,
@@ -1153,7 +1149,7 @@ export class GrChangeActions
 
   _getRevision(change: ChangeViewChangeInfo, patchNum?: PatchSetNum) {
     for (const rev of Object.values(change.revisions)) {
-      if (patchNumEquals(rev._number, patchNum)) {
+      if (rev._number === patchNum) {
         return rev;
       }
     }

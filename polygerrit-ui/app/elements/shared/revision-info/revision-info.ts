@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import {patchNumEquals} from '../../../utils/patch-set-util';
 import {ChangeInfo, PatchSetNum} from '../../../types/common';
 import {ParsedChangeInfo} from '../gr-rest-api-interface/gr-reviewer-updates-parser';
 
@@ -71,8 +70,8 @@ export class RevisionInfo {
 
   getParentId(patchNum: PatchSetNum, parentIndex: number) {
     if (!this.change.revisions) return;
-    const rev = Object.values(this.change.revisions).find(rev =>
-      patchNumEquals(rev._number, patchNum)
+    const rev = Object.values(this.change.revisions).find(
+      rev => rev._number === patchNum
     );
     if (!rev || !rev.commit) return;
     return rev.commit.parents[parentIndex].commit;

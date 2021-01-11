@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "523f2f9b_e76423bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-11T14:04:44Z",
+      "side": 1,
+      "message": "Overall LGTM\n\nAdding Milutin for handling the Google internal BUILD changes.\n\nAdding Dmitrii for reviewing the upstream BUILD and license handling.",
+      "revId": "6c02c4f8935ffc3ffb06571194ff3e9af5d675ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

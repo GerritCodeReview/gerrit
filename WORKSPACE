@@ -1167,8 +1167,8 @@ bower_archive(
 bower_archive(
     name = "codemirror-minified",
     package = "Dominator008/codemirror-minified",
-    sha1 = "d00f3b97345772d5a7790f206cb1e3c22e96caf6",
-    version = "5.50.2",
+    sha1 = "a1ddf3a6dcc6817597eacc52688cfe5083ded4cd",
+    version = "5.59.1",
 )
 
 # bower test stuff

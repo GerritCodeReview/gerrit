@@ -106,6 +106,24 @@
       "parentUuid": "7e82c758_3c8d9ebf",
       "revId": "123eaaa7b414f56b09e2862e0947c7c76903e061",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef0b0d99_da3b71bf",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-11T17:18:17Z",
+      "side": 1,
+      "message": "I realize that this is unplanned extra work and you may want to postpone/shedule it. IMHO the issue is not so obscure/unlikely that we can treat this as a one-in-a-million problem, so it should still be addressed in time. I\u0027d be OK with just fixing the reported case for now and sheduling the remaining work.\n\nOne thing about the current implementation that should be changed is that it sorts alphabetically and ADDED just happens to sort before DELETED. This is brittle in case the order is ever changed, and it\u0027s also non-obvious when reading the code. Can we find a more robust implementation for that? E.g. a list that contains all operation types sorted by priority, and then we add that one indirection to the sorting.\n\nDo we ever need to return multiple operations per file at all, or could we just remove all but the highes priority?",
+      "parentUuid": "7aad1a18_1df821b4",
+      "revId": "123eaaa7b414f56b09e2862e0947c7c76903e061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

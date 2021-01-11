@@ -16,6 +16,24 @@
       "message": "This seems to break the serviceuser plugin which used refs/meta/config:serviceuser.db file for\nstoring the service users. Now the .config extension is mandatory and loading serviceuser.db\nfails. This change [1] tries to fix it by switching to using the serviceuser.config file name\nbut this is likely not a good idea as we really want to store data and not the plugin config.\nIn [1] you can see that we used this code to load serviceuser.db:\n\n  projectCache.getAllProjects().getConfig(pluginName + \".db\");\n\nWhat are our options now when this change is submitted? Shall we stop using ProjectState.getConfig(String name)\nand use JGit API to load that file?\n\n[1] https://gerrit-review.googlesource.com/c/plugins/serviceuser/+/293283/2/src/main/java/com/googlesource/gerrit/plugins/serviceuser/ListServiceUsers.java",
       "revId": "0b088c6787b4d53b23f94087424b6de6b35b486e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a9b23d1_03e74623",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-11T16:25:59Z",
+      "side": 1,
+      "message": "We could lift the restriction and just parse any file. But having a file ending in \"db\" isn\u0027t great IMO because it gives you no hint towards the file format.\n\nYou could also just load the file a la:\n\n try (MetaDataUpdate md \u003d metaDataUpdateFactory.create(rsrc.getNameKey())) {\n      ProjectLevelConfig.Bare foo \u003d new ProjectLevelConfig.Bare(\"serviceuser.db\");\n      foo.load(md);\n}\n\nBut that is not cached, so you\u0027d have to cache this somewhere.",
+      "parentUuid": "1a1f9eb0_88be9245",
+      "revId": "0b088c6787b4d53b23f94087424b6de6b35b486e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

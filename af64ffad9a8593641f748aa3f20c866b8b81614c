@@ -34,6 +34,24 @@
       "parentUuid": "11e844ea_9d0403e0",
       "revId": "af64ffad9a8593641f748aa3f20c866b8b81614c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c02beabe_a775c3be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-11T17:37:28Z",
+      "side": 1,
+      "message": "This will fix it:\n\n  ... patchset [[comment.patch_set]]\u003c/span\u003e\u003c/a\u003e\n\nThis happens in a display:inline context. If there are multiple inline nodes, then they will be separated by a space, if the tags are not written right next to each other.",
+      "parentUuid": "56eff082_9324d568",
+      "revId": "af64ffad9a8593641f748aa3f20c866b8b81614c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

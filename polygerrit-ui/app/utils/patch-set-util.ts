@@ -65,11 +65,7 @@ interface PatchRange {
  *
  */
 export function patchNumEquals(a?: PatchSetNum, b?: PatchSetNum) {
-  if (a === undefined) {
-    return a === b;
-  }
-  // TODO(TS): replace with a===b when the whole code is converted to ts
-  return `${a}` === `${b}`;
+  return a === b;
 }
 
 /**

@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.entities.RefNames.REFS_HEADS;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
@@ -149,6 +150,10 @@ public class CheckAccess implements RestReadView<ProjectResource> {
     info.status = statusCode;
     info.message = message;
     info.debugLogs = traceContext.getAclLogRecords();
+    if (info.debugLogs.isEmpty()) {
+      info.debugLogs =
+          ImmutableList.of("Found no rules that apply, so defaulting to no permission");
+    }
     return info;
   }
 

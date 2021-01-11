@@ -19,14 +19,17 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
@@ -36,9 +39,11 @@ import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import java.util.List;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
@@ -48,6 +53,7 @@ import org.junit.Test;
 public class CheckAccessIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private GroupOperations groupOperations;
+  @Inject private AllProjectsName allProjectsName;
 
   private Project.NameKey normalProject;
   private Project.NameKey secretProject;
@@ -390,5 +396,35 @@ public class CheckAccessIT extends AbstractDaemonTest {
     AccessCheckInfo info = gApi.projects().name(normalProject.get()).checkAccess(input);
     assertThat(info.status).isEqualTo(200);
     assertThat(info.message).contains("no branches");
+  }
+
+  @Test
+  @Sandboxed
+  public void noRules() throws Exception {
+    normalProject = projectOperations.newProject().create();
+
+    for (AccessSection section :
+        projectOperations.project(allProjectsName).getProjectConfig().getAccessSections()) {
+      if (!section.getName().startsWith(Constants.R_REFS)) {
+        continue;
+      }
+      for (Permission permission : section.getPermissions()) {
+        projectOperations
+            .project(allProjectsName)
+            .forUpdate()
+            .remove(permissionKey(permission.getName()).ref(section.getName()).build())
+            .update();
+      }
+    }
+    AccessCheckInput input = new AccessCheckInput();
+    input.account = privilegedUser.email();
+    input.permission = Permission.READ;
+    input.ref = "refs/heads/main";
+
+    AccessCheckInfo info = gApi.projects().name(normalProject.get()).checkAccess(input);
+    assertThat(info.status).isEqualTo(403);
+
+    assertThat(info.debugLogs).isNotEmpty();
+    assertThat(info.debugLogs.get(0)).contains("Found no rules");
   }
 }

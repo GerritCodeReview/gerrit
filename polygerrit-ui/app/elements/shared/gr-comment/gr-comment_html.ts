@@ -152,6 +152,9 @@ export const htmlTemplate = html`
     label.show-hide iron-icon {
       vertical-align: top;
     }
+    #container {
+      width:100ch;
+    }
     #container .collapsedContent {
       display: none;
     }

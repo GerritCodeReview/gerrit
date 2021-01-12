@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c99a7c7c_ed79b439",
+        "filename": "java/com/google/gerrit/benchmark/Example.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2021-01-12T09:07:02Z",
+      "side": 1,
+      "message": "With reference to comment on change I5dbfd446dcb0 I was trying to use this change for running performance test locally, but hitting following error. Is this test supposed to work?\n\njava.lang.IllegalArgumentException: 25 flags already created.\n        at org.eclipse.jgit.revwalk.RevWalk.allocFlag(RevWalk.java:1138)\n        at org.eclipse.jgit.revwalk.MergeBaseGenerator.add(MergeBaseGenerator.java:91)\n        at org.eclipse.jgit.revwalk.MergeBaseGenerator.init(MergeBaseGenerator.java:66)\n        at org.eclipse.jgit.revwalk.StartGenerator.next(StartGenerator.java:72)\n        at org.eclipse.jgit.revwalk.RevWalk.next(RevWalk.java:443)\n        at com.google.gerrit.benchmark.Example.newPatchSetDependsOnPriorPatchSet(Example.java:145)\n        at com.google.gerrit.benchmark.Example.singleRefWalkWithAllPatchSetsAsStart(Example.java:95)\n        at com.google.gerrit.benchmark.generated.Example_singleRefWalkWithAllPatchSetsAsStart_jmhTest.singleRefWalkWithAllPatchSetsAsStart_avgt_jmhStub(Example_singleRefWalkWithAllPatchSetsAsStart_jmhTest.java:232)",
+      "range": {
+        "startLine": 108,
+        "startChar": 25,
+        "endLine": 108,
+        "endChar": 68
+      },
+      "revId": "b43f1b93dd7d69b38310a8f8e39ba5f236f1a41c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

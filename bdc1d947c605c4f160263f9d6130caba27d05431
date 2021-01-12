@@ -70,6 +70,30 @@
       },
       "revId": "bdc1d947c605c4f160263f9d6130caba27d05431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c14f9f3_aa751951",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-12T11:10:27Z",
+      "side": 1,
+      "message": "```return patchSetNum - 1;```\n\nwe still have the same problem of doing arithmetic on type PatchsetNum which is not allowed.\n\nAdded the util method.\nI think converting to a Number and then converting back to PatchsetNum is fine.\n`return (Number(patchset) - 1) as PatchSetNum;`",
+      "parentUuid": "082be023_15dc1891",
+      "range": {
+        "startLine": 277,
+        "startChar": 18,
+        "endLine": 277,
+        "endChar": 24
+      },
+      "revId": "bdc1d947c605c4f160263f9d6130caba27d05431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

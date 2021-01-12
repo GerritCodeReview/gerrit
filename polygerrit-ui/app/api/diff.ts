@@ -178,6 +178,11 @@ export declare interface DiffPreferencesInfo {
   theme?: string;
 }
 
+export declare interface RenderPreferences {
+  hide_left_side?: boolean;
+  disable_context_control_buttons?: boolean;
+}
+
 /**
  * Whether whitespace changes should be ignored and if yes, which whitespace
  * changes should be ignored

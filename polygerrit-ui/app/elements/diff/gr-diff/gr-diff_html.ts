@@ -272,6 +272,7 @@ export const htmlTemplate = html`
 
     /* Context controls */
     .contextControl {
+      display: var(--context-control-display);
       background-color: transparent;
       border: none;
       --divider-height: var(--spacing-s);

@@ -17,6 +17,7 @@
 import '../../../styles/shared-styles';
 import '../gr-storage/gr-storage';
 import '../gr-comment/gr-comment';
+import '../gr-comment-context/gr-comment-context';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
@@ -50,6 +51,7 @@ import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -177,6 +179,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   @property({type: Boolean})
   showPatchset = true;
 
+  @property({type: Boolean})
+  showCommentContext = false;
+
   get keyBindings() {
     return {
       'e shift+e': '_handleEKey',
@@ -186,6 +191,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   reporting = appContext.reportingService;
 
   flagsService = appContext.flagsService;
+
+  private isCommentContextExperimentEnabled = this.flagsService.isEnabled(
+    KnownExperimentId.COMMENT_CONTEXT
+  );
 
   readonly restApiService = appContext.restApiService;
 
@@ -204,6 +213,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       this._showActions = loggedIn;
     });
     this._setInitialExpandedState();
+  }
+
+  _shouldShowCommentContext() {
+    return this.isCommentContextExperimentEnabled && this.showCommentContext;
   }
 
   addOrEditDraft(lineNum?: LineNumber, rangeParam?: CommentRange) {

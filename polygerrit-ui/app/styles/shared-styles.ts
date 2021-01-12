@@ -188,6 +188,11 @@ export const sharedStyles = css`
     font-weight: var(--font-weight-normal);
     line-height: var(--line-height-small);
   }
+  .font-code {
+    font-family: var(--monospace-font-family);
+    font-size: var(--font-size-code);
+    line-height: calc(var(--font-size-code) + var(--spacing-s));
+  }
   .heading-1 {
     font-family: var(--header-font-family);
     font-size: var(--font-size-h1);

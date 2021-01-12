@@ -66,7 +66,10 @@ import {MovedLinkClickedEvent} from '../../../types/events';
 // @ts-ignore
 import * as shadow from 'shadow-selection-polyfill/shadow.js';
 
-import {CreateCommentEventDetail as CreateCommentEventDetailApi} from '../../../api/diff';
+import {
+  CreateCommentEventDetail as CreateCommentEventDetailApi,
+  RenderPreferences,
+} from '../../../api/diff';
 import {isSafari} from '../../../utils/dom-util';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
@@ -157,6 +160,9 @@ export class GrDiff extends GestureEventListeners(
 
   @property({type: Object, observer: '_prefsObserver'})
   prefs?: DiffPreferencesInfo;
+
+  @property({type: Object, observer: '_renderPrefsChanged'})
+  renderPrefs?: RenderPreferences;
 
   @property({type: Boolean})
   displayLine = false;
@@ -724,6 +730,16 @@ export class GrDiff extends GestureEventListeners(
 
     if (this.diff && !this.noRenderOnPrefsChange) {
       this._debounceRenderDiffTable();
+    }
+  }
+
+  _renderPrefsChanged(renderPrefs?: RenderPreferences) {
+    if (!renderPrefs) return;
+    if (renderPrefs.hide_left_side) {
+      this.classList.add('no-left');
+    }
+    if (renderPrefs.disable_context_control_buttons) {
+      this.updateStyles({'--context-control-display': 'none'});
     }
   }
 

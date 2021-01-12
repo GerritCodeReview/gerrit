@@ -30,4 +30,5 @@ export enum KnownExperimentId {
   CI_REBOOT_CHECKS = 'UiFeature__ci_reboot_checks',
   NEW_CHANGE_SUMMARY_UI = 'UiFeature__new_change_summary_ui',
   PORTING_COMMENTS = 'UiFeature__porting_comments',
+  COMMENT_CONTEXT = 'UiFeature__comment_context',
 }

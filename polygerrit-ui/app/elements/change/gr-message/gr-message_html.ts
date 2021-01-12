@@ -259,6 +259,7 @@ export const htmlTemplate = html`
               change-num="[[changeNum]]"
               logged-in="[[_loggedIn]]"
               hide-toggle-buttons
+              show-comment-context
             >
             </gr-thread-list>
           </template>

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dab581ba_1fc9d964",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-12T23:38:02Z",
+      "side": 1,
+      "message": "Can we assert something more about those 3 events?\n\n      List\u003cString\u003e httpPaths \u003d auditService.drainHttpAuditEvents().stream()\n    \t\t  .map(audit -\u003e {\n\t\t\t\ttry {\n\t\t\t\t\treturn new URIish(audit.what).getPath();\n\t\t\t\t} catch (URISyntaxException e) {\n\t\t\t\t\tthrow new IllegalArgumentException(e);\n\t\t\t\t}\n\t\t\t})\n    \t\t  .collect(Collectors.toList());\n      assertThat(httpPaths).containsExactly(\n    \t\t  \"/\" + privateProject.get() + \"/info/refs?service\u003dgit-upload-pack\",\n    \t\t  \"/\" + privateProject.get() + \"/git-upload-pack\",\n    \t\t  \"/\" + privateProject.get() + \"/git-upload-pack\");",
+      "range": {
+        "startLine": 337,
+        "startChar": 6,
+        "endLine": 337,
+        "endChar": 65
+      },
+      "revId": "d821ebe6245a9bbc911df1a7221dcedc3c5c9e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

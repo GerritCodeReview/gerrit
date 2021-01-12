@@ -50,6 +50,7 @@ import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -177,6 +178,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   @property({type: Boolean})
   showPatchset = true;
 
+  @property({type: Boolean})
+  showCommentContext = false;
+
   get keyBindings() {
     return {
       'e shift+e': '_handleEKey',
@@ -186,6 +190,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   reporting = appContext.reportingService;
 
   flagsService = appContext.flagsService;
+
+  private isCommentContextExperimentEnabled = this.flagsService.isEnabled(
+    KnownExperimentId.COMMENT_CONTEXT
+  );
 
   readonly restApiService = appContext.restApiService;
 
@@ -204,6 +212,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       this._showActions = loggedIn;
     });
     this._setInitialExpandedState();
+  }
+
+  _shouldShowCommentContext() {
+    return this.isCommentContextExperimentEnabled && this.showCommentContext;
   }
 
   addOrEditDraft(lineNum?: LineNumber, rangeParam?: CommentRange) {
@@ -348,6 +360,21 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       this._shouldDisableAction(_showActions, _lastComment) ||
       isRobot(_lastComment)
     );
+  }
+
+  _getContextLine(comments: UIComment[]) {
+    if (comments.length && comments[0].context_lines)
+      return comments[0].context_lines;
+    return [
+      {
+        context_line: 'The ContextLine entity contains the line number and',
+        line_number: 11,
+      },
+      {
+        context_line: 'line text of a single line of the source file content.',
+        line_number: 12,
+      },
+    ];
   }
 
   _getLastComment() {

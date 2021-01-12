@@ -85,6 +85,8 @@ export abstract class GrDiffBuilder {
 
   private _blameInfo: BlameInfo[] | null;
 
+  private disableContextControlButtons = true;
+
   private readonly _layerUpdateListener: (
     start: LineNumber,
     end: LineNumber,
@@ -313,6 +315,7 @@ export abstract class GrDiffBuilder {
     contextGroups: GrDiffGroup[],
     viewMode: DiffViewMode
   ) {
+    if (this.disableContextControlButtons) return;
     const leftStart = contextGroups[0].lineRange.left.start!;
     const leftEnd = contextGroups[contextGroups.length - 1].lineRange.left.end!;
     const numLines = leftEnd - leftStart + 1;
@@ -662,7 +665,7 @@ export abstract class GrDiffBuilder {
       button.tabIndex = -1;
       button.classList.add('lineNumButton');
       button.classList.add(side);
-      button.dataset['value'] = number.toString();
+      button.dataset['value'] = number === 'FILE' ? 'FILE' : number.toString();
       button.textContent = number === 'FILE' ? 'File' : number.toString();
       if (number === 'FILE') {
         button.setAttribute('aria-label', 'Add file comment');

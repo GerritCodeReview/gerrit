@@ -14,10 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.gerrit.entities.RefNames.isConfigRef;
-
+import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.common.Input;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -27,6 +25,7 @@ import com.google.gerrit.server.project.TagResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.eclipse.jgit.lib.Constants;
 
 @Singleton
 public class DeleteTag implements RestModifyView<TagResource, Input> {
@@ -43,10 +42,7 @@ public class DeleteTag implements RestModifyView<TagResource, Input> {
       throws RestApiException, IOException, PermissionBackendException {
     String tag = RefUtil.normalizeTagRef(resource.getTagInfo().ref);
 
-    if (isConfigRef(tag)) {
-      // Never allow to delete the meta config branch.
-      throw new MethodNotAllowedException("not allowed to delete " + tag);
-    }
+    Preconditions.checkState(tag.startsWith(Constants.R_TAGS));
 
     deleteRef.deleteSingleRef(resource.getProjectState(), tag);
     return Response.none();

@@ -17,6 +17,7 @@
 import '../../../styles/shared-styles';
 import '../gr-storage/gr-storage';
 import '../gr-comment/gr-comment';
+import '../../diff/gr-diff/gr-diff';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
@@ -33,9 +34,14 @@ import {
 } from '../../../utils/comment-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
-import {CommentSide, Side, SpecialFilePath} from '../../../constants/constants';
+import {
+  CommentSide,
+  createDefaultDiffPrefs,
+  Side,
+  SpecialFilePath,
+} from '../../../constants/constants';
 import {computeDisplayPath} from '../../../utils/path-list-util';
-import {customElement, observe, property} from '@polymer/decorators';
+import {computed, customElement, observe, property} from '@polymer/decorators';
 import {
   CommentRange,
   ConfigInfo,
@@ -50,6 +56,10 @@ import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
+import {computeDiffFromContext} from '../../diff/gr-diff/gr-diff-utils';
+import {RenderPreferences} from '../../../api/diff';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -122,7 +132,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   patchNum?: PatchSetNum;
 
   @property({type: String})
-  path?: string;
+  path: string | undefined;
 
   @property({type: String, observer: '_projectNameChanged'})
   projectName?: RepoName;
@@ -164,6 +174,12 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   @property({type: Object})
   _projectConfig?: ConfigInfo;
 
+  @property({type: Object})
+  _prefs: DiffPreferencesInfo = createDefaultDiffPrefs();
+
+  @property({type: Object})
+  _renderPrefs: RenderPreferences = {};
+
   @property({type: Boolean, reflectToAttribute: true})
   isRobotComment = false;
 
@@ -176,6 +192,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   @property({type: Boolean})
   showPatchset = true;
 
+  @property({type: Boolean})
+  showCommentContext = false;
+
   get keyBindings() {
     return {
       'e shift+e': '_handleEKey',
@@ -187,6 +206,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   flagsService = appContext.flagsService;
 
   readonly storage = new GrStorage();
+
+  private isCommentContextExperimentEnabled = this.flagsService.isEnabled(
+    KnownExperimentId.COMMENT_CONTEXT
+  );
 
   readonly restApiService = appContext.restApiService;
 
@@ -204,7 +227,35 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     this._getLoggedIn().then(loggedIn => {
       this._showActions = loggedIn;
     });
+    this.restApiService.getDiffPreferences().then(prefs => {
+      if (!prefs) return;
+      this._prefs = {
+        ...prefs,
+        show_file_comment_button: false,
+        context: -1,
+      };
+    });
+    this._renderPrefs = {
+      hide_left_side: true,
+      disable_context_control_buttons: true,
+    };
     this._setInitialExpandedState();
+  }
+
+  @computed('comments', 'path')
+  get _diff() {
+    if (this.comments === undefined || this.path === undefined)
+      return undefined;
+    if (!this.comments[0]?.context_lines?.length) return;
+    return computeDiffFromContext(this.comments[0].context_lines, this.path);
+  }
+
+  _shouldShowCommentContext(diff?: DiffInfo) {
+    return (
+      this.isCommentContextExperimentEnabled &&
+      this.showCommentContext &&
+      !!diff
+    );
   }
 
   addOrEditDraft(lineNum?: LineNumber, rangeParam?: CommentRange) {

@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 
-import {CommentRange} from '../../../types/common';
+import {CommentRange, ContextLine} from '../../../types/common';
 import {FILE, LineNumber} from './gr-diff-line';
 import {Side} from '../../../constants/constants';
+import {DiffInfo} from '../../../types/diff';
 
 /**
  * Compare two ranges. Either argument may be falsy, but will only return
@@ -99,4 +100,33 @@ export function isThreadEl(node: Node): node is GrDiffThreadElement {
     node.nodeType === Node.ELEMENT_NODE &&
     (node as Element).classList.contains('comment-thread')
   );
+}
+
+export function computeDiffFromContext(context: ContextLine[], path: string) {
+  const diff: DiffInfo = {
+    meta_a: {
+      name: '',
+      content_type: '',
+      lines: 0,
+      web_links: [],
+    },
+    meta_b: {
+      name: path,
+      content_type: '',
+      lines: context.length,
+      web_links: [],
+    },
+    change_type: 'MODIFIED',
+    intraline_status: 'OK',
+    diff_header: [],
+    content: [
+      {
+        skip: context[0].line_number - 1,
+      },
+      {
+        b: context.map(line => line.context_line),
+      },
+    ],
+  };
+  return diff;
 }

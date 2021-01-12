@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33d07d12_b51fec27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-12T20:12:09Z",
+      "side": 1,
+      "message": "I don\u0027t really know.",
+      "parentUuid": "bc2bb2cd_e4b719b9",
+      "revId": "ff8079cbf5ff4aa80586acb1c365e60e59e64369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81268788_6299e84b",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-12T09:30:16Z",
       "side": 1,
       "message": "I think we also need to add\n\nmaven_jar(\n    name \u003d \"jetty-util-ajax\",\n    artifact \u003d \"org.eclipse.jetty:jetty-util-ajax:\" + JETTY_VER,\n    sha1 \u003d \"ebbb43912c6423bedb3458e44aee28eeb4d66f27\",\n)\n\nwhich is a new non-optional dependency of jetty-servlet [1].\nAlso see jgit change [2].\n\n[1] https://search.maven.org/artifact/org.eclipse.jetty/jetty-servlet/9.4.35.v20201120/jar\n[2] https://git.eclipse.org/r/c/jgit/jgit/+/174665",
+      "revId": "ff8079cbf5ff4aa80586acb1c365e60e59e64369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4921457e_52ea1d89",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-12T20:12:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81268788_6299e84b",
       "revId": "ff8079cbf5ff4aa80586acb1c365e60e59e64369",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

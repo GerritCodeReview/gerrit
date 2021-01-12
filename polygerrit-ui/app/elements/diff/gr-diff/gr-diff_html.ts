@@ -603,6 +603,7 @@ export const htmlTemplate = html`
           layers="[[layers]]"
           revision-image="[[revisionImage]]"
           use-new-context-controls="[[useNewContextControls]]"
+          disable-context-control-buttons="[[disableContextControlButtons]]"
         >
           <table
             id="diffTable"

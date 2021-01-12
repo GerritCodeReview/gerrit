@@ -85,6 +85,8 @@ export abstract class GrDiffBuilder {
 
   private _blameInfo: BlameInfo[] | null;
 
+  disableContextControlButtons = false;
+
   private readonly _layerUpdateListener: (
     start: LineNumber,
     end: LineNumber,
@@ -313,6 +315,7 @@ export abstract class GrDiffBuilder {
     contextGroups: GrDiffGroup[],
     viewMode: DiffViewMode
   ) {
+    if (this.disableContextControlButtons) return;
     const leftStart = contextGroups[0].lineRange.left.start!;
     const leftEnd = contextGroups[contextGroups.length - 1].lineRange.left.end!;
     const numLines = leftEnd - leftStart + 1;

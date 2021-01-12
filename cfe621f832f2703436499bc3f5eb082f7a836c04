@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb034989_8c31cf3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-12T08:34:31Z",
+      "side": 1,
+      "message": "\u003e You mean that on recent version this error is reported by gerrit client? Or can you point me where a similar check is done in recent gerrit releases?\n\u003e \n\u003e Next question is how to merge this change up to master: should it be reverted? Was the fix with PolyGerrit already implemented in early versions, like 2.16 and 3.0?\n\nIt was actually introduced in v2.15:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/110057/11/gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java#196\n\nIn v2.15 I can definitely point and reuse that code.\nI can possibly also \"copy\u0026paste\" the relevant parts here.",
+      "parentUuid": "e90d1c4b_5898a002",
+      "range": {
+        "startLine": 16,
+        "startChar": 40,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "cfe621f832f2703436499bc3f5eb082f7a836c04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a60bbc2_7e9ac352",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2021-01-12T06:21:26Z",
       "side": 1,
       "message": "Inline edit feature has extensive tests. Can the tests be extended for test coverage of this change:\n\n  gerrit-server/src/test/java/com/google/gerrit/server/edit/ChangeEditTest.java\n  gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+      "revId": "cfe621f832f2703436499bc3f5eb082f7a836c04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bcd7173_e4c57192",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-12T08:34:31Z",
+      "side": 1,
+      "message": "Good idea, let me look into that.",
+      "parentUuid": "2a60bbc2_7e9ac352",
       "revId": "cfe621f832f2703436499bc3f5eb082f7a836c04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

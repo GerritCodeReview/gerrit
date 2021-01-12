@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87d619f2_b38ae978",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ff5c67d_8009c4eb",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d29bbc7_3594e3c5",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d363c5ab_f0c19827",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d29bbc7_3594e3c5",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 53
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa767e7c_d4fea196",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-01-11T18:49:24Z",
       "side": 1,
       "message": "I would add a \"by\" to the end of this sentence and then continue into much of the next paragraph.",
+      "range": {
+        "startLine": 13,
+        "startChar": 40,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60940565_4ed08ceb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa767e7c_d4fea196",
       "range": {
         "startLine": 13,
         "startChar": 40,
@@ -104,6 +176,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df0ab932_d8bfe85f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1476,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Done. added on line 1498",
+      "parentUuid": "6c5acc1d_d0f6c7d5",
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94c07ec9_da3dab38",
@@ -117,6 +207,30 @@
       "writtenOn": "2021-01-12T13:27:44Z",
       "side": 1,
       "message": "how is the order of plugin load important in this case? IOW do we have to assume that plugin that exposes MyApi is loaded prior plugin that uses it? Or it matters only when used - IOW when the first call to MyApi is performed from the dependent plugin?\n\nIf/when order matters it would be good to explain it here ;)",
+      "range": {
+        "startLine": 1497,
+        "startChar": 0,
+        "endLine": 1498,
+        "endChar": 53
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48bb4fec_30d94983",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1498,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "The API needs to be available when we try to fetch it from the pluginProvidedApis map. Plugins can load in any order, given the API is available when we try to fetch it in run time. updated the doc.",
+      "parentUuid": "94c07ec9_da3dab38",
       "range": {
         "startLine": 1497,
         "startChar": 0,
@@ -150,6 +264,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29f25f59_010a7798",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1511,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "114f6e34_f8d81f53",
+      "range": {
+        "startLine": 1511,
+        "startChar": 65,
+        "endLine": 1511,
+        "endChar": 78
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b45a33e_891baf45",
@@ -163,6 +301,30 @@
       "writtenOn": "2021-01-11T19:24:33Z",
       "side": 1,
       "message": "Unless getProxyInstance is provided in core, it seems strange to reference it here. Maybe it would make sense to provide in core?",
+      "range": {
+        "startLine": 1512,
+        "startChar": 18,
+        "endLine": 1512,
+        "endChar": 34
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5211512f_2343b569",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1512,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Done. using simple reflection in this change. will upload a follow-on with proxy approach..",
+      "parentUuid": "9b45a33e_891baf45",
       "range": {
         "startLine": 1512,
         "startChar": 18,
@@ -196,6 +358,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fb0d90f_dc6c7164",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1c22df5_f5236b43",
+      "range": {
+        "startLine": 35,
+        "startChar": 32,
+        "endLine": 35,
+        "endChar": 43
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44b2d11d_a23339f3",
@@ -209,6 +395,30 @@
       "writtenOn": "2021-01-11T18:49:24Z",
       "side": 1,
       "message": "PLUGIN_USING_API?\n\n(Adjust other references like above also)",
+      "range": {
+        "startLine": 36,
+        "startChar": 32,
+        "endLine": 36,
+        "endChar": 43
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3d22ba5_0eb7da36",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44b2d11d_a23339f3",
       "range": {
         "startLine": 36,
         "startChar": 32,
@@ -242,6 +452,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f062935_15deff3b",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37765fe4_40f513ea",
+      "range": {
+        "startLine": 57,
+        "startChar": 44,
+        "endLine": 57,
+        "endChar": 61
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e5bf86b_1d42ec75",
@@ -265,6 +499,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e10858c8_c371ac74",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "if the user is implementing the approach by creating a proxy instance then yes, the API interface needs be shared. We believe the user can use plain reflection to achieve his goal.. I\u0027ll use plain reflection here for now and will introduce and document the the proxy approach in a follow-on change.. We are trying to keep this change as a generic concept and then follow-up with approaches like proxy instance..",
+      "parentUuid": "5e5bf86b_1d42ec75",
+      "range": {
+        "startLine": 74,
+        "startChar": 21,
+        "endLine": 74,
+        "endChar": 26
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cec36eb0_6b746900",
@@ -278,6 +536,30 @@
       "writtenOn": "2021-01-12T13:27:44Z",
       "side": 1,
       "message": "oh so it is all using reflection... I hoped for guice-based approach when classes from providing plugin are injected to using plugin, I guess that it is not that easy and requires way more changes in core though ;) that would also impose plugin load order that is not necessarily based on the plugin names ;) (another puzzle to solve ;))",
+      "range": {
+        "startLine": 76,
+        "startChar": 10,
+        "endLine": 85,
+        "endChar": 17
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ba8a35d_c5187a42",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Ya.. the registered API is implemented by a class which is loaded in the implementing plugin\u0027s class loader which is different from the class loader of the consuming plugin. Due to this reason, we are using reflection here.",
+      "parentUuid": "cec36eb0_6b746900",
       "range": {
         "startLine": 76,
         "startChar": 10,
@@ -334,6 +616,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad436445_c8b9ee3b",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3ffd044_7b4bd9a2",
+      "range": {
+        "startLine": 18,
+        "startChar": 27,
+        "endLine": 18,
+        "endChar": 37
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41ab1fa4_5ab09852",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70bd7622_233da734",
+      "range": {
+        "startLine": 18,
+        "startChar": 37,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ec305e0_b8fb1aa0",
@@ -357,6 +687,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7ac035e_7760f42b",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "yes. I\u0027ll upload a follow-on change which adds that method to Gerrit core.",
+      "parentUuid": "0ec305e0_b8fb1aa0",
+      "range": {
+        "startLine": 58,
+        "startChar": 23,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f9bb2f7_b3b6f9e9",
@@ -370,6 +724,24 @@
       "writtenOn": "2021-01-11T19:24:33Z",
       "side": 1,
       "message": "Add REST equivalent?",
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a129cf15_d08335e6",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/PluginProvidedApiIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-12T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f9bb2f7_b3b6f9e9",
       "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

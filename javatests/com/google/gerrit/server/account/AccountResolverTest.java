@@ -269,7 +269,8 @@ public class AccountResolverTest {
             () -> search("foo", searchers, allVisible()).asUnique());
     assertThat(thrown)
         .hasMessageThat()
-        .isEqualTo("Account 'foo' is ambiguous:\n1: Anonymous Name (1)\n2: Anonymous Name (2)");
+        .isEqualTo(
+            "Account 'foo' is ambiguous (at most 3 shown):\n1: Anonymous Name (1)\n2: Anonymous Name (2)");
   }
 
   @Test
@@ -311,7 +312,8 @@ public class AccountResolverTest {
                 .new Result(
                     "foo", ImmutableList.of(newAccount(3), newAccount(1)), ImmutableList.of())))
         .hasMessageThat()
-        .isEqualTo("Account 'foo' is ambiguous:\n1: Anonymous Name (1)\n3: Anonymous Name (3)");
+        .isEqualTo(
+            "Account 'foo' is ambiguous (at most 3 shown):\n1: Anonymous Name (1)\n3: Anonymous Name (3)");
   }
 
   @Test

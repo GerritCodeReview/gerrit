@@ -32,4 +32,5 @@ export enum KnownExperimentId {
   NEW_CHANGE_SUMMARY_UI = 'UiFeature__new_change_summary_ui',
   PORTING_COMMENTS = 'UiFeature__porting_comments',
   AUTO_RELOAD_DASHBOARD = 'UiFeature__auto_reload_dashboard',
+  COMMENT_CONTEXT = 'UiFeature__comment_context',
 }

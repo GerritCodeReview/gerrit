@@ -34,24 +34,28 @@ export const htmlTemplate = html`
       margin-left: auto;
       padding: var(--spacing-s) var(--spacing-m);
     }
-    #container {
+    .comment-box {
+      height: fit-content;
+      width: 80ch;
       background-color: var(--comment-background-color);
       color: var(--comment-text-color);
-      display: var(--gr-comment-thread-display, block);
-      margin: 0 var(--spacing-s) var(--spacing-s);
-      white-space: normal;
       box-shadow: var(--elevation-level-2);
       border-radius: var(--border-radius);
+    }
+    #container {
+      display: var(--gr-comment-thread-display, flex);
+      margin: 0 var(--spacing-s) var(--spacing-s);
+      white-space: normal;
       /** This is required for firefox to continue the inheritance */
       -webkit-user-select: inherit;
       -moz-user-select: inherit;
       -ms-user-select: inherit;
       user-select: inherit;
     }
-    #container.unresolved {
+    .comment-box.unresolved {
       background-color: var(--unresolved-comment-background-color);
     }
-    #container.robotComment {
+    .comment-box.robotComment {
       background-color: var(--robot-comment-background-color);
     }
     #commentInfoContainer {
@@ -75,7 +79,11 @@ export const htmlTemplate = html`
     .fileName {
       padding: var(--spacing-m) var(--spacing-s) var(--spacing-m);
     }
+    gr-diff {
+      margin-left: var(--spacing-l);
+    }
   </style>
+
   <template is="dom-if" if="[[showFilePath]]">
     <template is="dom-if" if="[[showFileName]]">
       <div class="fileName">
@@ -100,71 +108,82 @@ export const htmlTemplate = html`
       </template>
     </div>
   </template>
-  <div
-    id="container"
-    class$="[[_computeHostClass(unresolved, isRobotComment)]]"
-  >
-    <template
-      id="commentList"
-      is="dom-repeat"
-      items="[[_orderedComments]]"
-      as="comment"
-    >
-      <gr-comment
-        comment="{{comment}}"
-        comments="{{comments}}"
-        robot-button-disabled="[[_shouldDisableAction(_showActions, _lastComment)]]"
-        change-num="[[changeNum]]"
-        project-name="[[projectName]]"
-        patch-num="[[patchNum]]"
-        draft="[[_isDraft(comment)]]"
-        show-actions="[[_showActions]]"
-        show-patchset="[[showPatchset]]"
-        show-ported-comment="[[_computeShowPortedComment(comment)]]"
-        side="[[comment.side]]"
-        project-config="[[_projectConfig]]"
-        on-create-fix-comment="_handleCommentFix"
-        on-comment-discard="_handleCommentDiscard"
-        on-comment-save="_handleCommentSavedOrDiscarded"
-      ></gr-comment>
-    </template>
-    <div
-      id="commentInfoContainer"
-      hidden$="[[_hideActions(_showActions, _lastComment)]]"
-    >
-      <span id="unresolvedLabel" hidden$="[[!unresolved]]">Unresolved</span>
-      <div id="actions">
-        <gr-button
-          id="replyBtn"
-          link=""
-          class="action reply"
-          on-click="_handleCommentReply"
-          >Reply</gr-button
-        >
-        <gr-button
-          id="quoteBtn"
-          link=""
-          class="action quote"
-          on-click="_handleCommentQuote"
-          >Quote</gr-button
-        >
-        <template is="dom-if" if="[[unresolved]]">
+  <div id="container">
+    <div class$="[[_computeHostClass(unresolved, isRobotComment)]] comment-box">
+      <template
+        id="commentList"
+        is="dom-repeat"
+        items="[[_orderedComments]]"
+        as="comment"
+      >
+        <gr-comment
+          comment="{{comment}}"
+          comments="{{comments}}"
+          robot-button-disabled="[[_shouldDisableAction(_showActions, _lastComment)]]"
+          change-num="[[changeNum]]"
+          project-name="[[projectName]]"
+          patch-num="[[patchNum]]"
+          draft="[[_isDraft(comment)]]"
+          show-actions="[[_showActions]]"
+          show-patchset="[[showPatchset]]"
+          show-ported-comment="[[_computeShowPortedComment(comment)]]"
+          side="[[comment.side]]"
+          project-config="[[_projectConfig]]"
+          on-create-fix-comment="_handleCommentFix"
+          on-comment-discard="_handleCommentDiscard"
+          on-comment-save="_handleCommentSavedOrDiscarded"
+        ></gr-comment>
+      </template>
+      <div
+        id="commentInfoContainer"
+        hidden$="[[_hideActions(_showActions, _lastComment)]]"
+      >
+        <span id="unresolvedLabel" hidden$="[[!unresolved]]">Unresolved</span>
+        <div id="actions">
           <gr-button
-            id="ackBtn"
+            id="replyBtn"
             link=""
-            class="action ack"
-            on-click="_handleCommentAck"
-            >Ack</gr-button
+            class="action reply"
+            on-click="_handleCommentReply"
+            >Reply</gr-button
           >
           <gr-button
-            id="doneBtn"
+            id="quoteBtn"
             link=""
-            class="action done"
-            on-click="_handleCommentDone"
-            >Done</gr-button
+            class="action quote"
+            on-click="_handleCommentQuote"
+            >Quote</gr-button
           >
-        </template>
+          <template is="dom-if" if="[[unresolved]]">
+            <gr-button
+              id="ackBtn"
+              link=""
+              class="action ack"
+              on-click="_handleCommentAck"
+              >Ack</gr-button
+            >
+            <gr-button
+              id="doneBtn"
+              link=""
+              class="action done"
+              on-click="_handleCommentDone"
+              >Done</gr-button
+            >
+          </template>
+        </div>
       </div>
     </div>
+    <template is="dom-if" if="[[_shouldShowCommentContext(_diff)]]">
+      <gr-diff
+        id="diff"
+        change-num="[[changeNum]]"
+        diff="[[_diff]]"
+        path="[[path]]"
+        prefs="[[_prefs]]"
+        hide-left-side
+        disable-context-control-buttons
+      >
+      </gr-diff>
+    </template>
   </div>
 `;

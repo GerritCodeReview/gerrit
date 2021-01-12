@@ -70,6 +70,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "555e5c15_dacf84de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-01-12T13:27:44Z",
+      "side": 1,
+      "message": "It seems to be the least intrusive implementation of inter plugins API call :) Can you guys give some practical implementation example that you have in mind (or point to it if it is available somewhere)? I would like to make sure that I understand it correct :D Some slack-based meeting with walk through and Q\u0026A session (max 30mins) wouldn\u0027t hurt either ;)",
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c5acc1d_d0f6c7d5",
@@ -83,6 +100,29 @@
       "writtenOn": "2021-01-11T18:49:24Z",
       "side": 1,
       "message": "It might be worth mentioning here the fact that the registered API class will be implemented by a class loaded in the implementing plugin\u0027s classloader which is why you are using a proxy on line 1512.",
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94c07ec9_da3dab38",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1498,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-01-12T13:27:44Z",
+      "side": 1,
+      "message": "how is the order of plugin load important in this case? IOW do we have to assume that plugin that exposes MyApi is loaded prior plugin that uses it? Or it matters only when used - IOW when the first call to MyApi is performed from the dependent plugin?\n\nIf/when order matters it would be good to explain it here ;)",
+      "range": {
+        "startLine": 1497,
+        "startChar": 0,
+        "endLine": 1498,
+        "endChar": 53
+      },
       "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -204,6 +244,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e5bf86b_1d42ec75",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-01-12T13:27:44Z",
+      "side": 1,
+      "message": "that means that MyApi class needs to be shared between these two plugins right? Maybe it should be documented? Ignore if it already is ;)",
+      "range": {
+        "startLine": 74,
+        "startChar": 21,
+        "endLine": 74,
+        "endChar": 26
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cec36eb0_6b746900",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-01-12T13:27:44Z",
+      "side": 1,
+      "message": "oh so it is all using reflection... I hoped for guice-based approach when classes from providing plugin are injected to using plugin, I guess that it is not that easy and requires way more changes in core though ;) that would also impose plugin load order that is not necessarily based on the plugin names ;) (another puzzle to solve ;))",
+      "range": {
+        "startLine": 76,
+        "startChar": 10,
+        "endLine": 85,
+        "endChar": 17
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3ffd044_7b4bd9a2",
         "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
         "patchSetId": 1
@@ -243,6 +329,29 @@
         "startChar": 37,
         "endLine": 18,
         "endChar": 40
+      },
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ec305e0_b8fb1aa0",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-01-12T13:27:44Z",
+      "side": 1,
+      "message": "Would it make sense to add getProxyInstance method to the Gerrit core so that it is not written over and over again by each plugin consumer?",
+      "range": {
+        "startLine": 58,
+        "startChar": 23,
+        "endLine": 58,
+        "endChar": 39
       },
       "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

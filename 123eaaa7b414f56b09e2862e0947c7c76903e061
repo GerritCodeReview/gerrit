@@ -124,6 +124,24 @@
       "parentUuid": "7aad1a18_1df821b4",
       "revId": "123eaaa7b414f56b09e2862e0947c7c76903e061",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8416f79_f37dc096",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-12T14:03:42Z",
+      "side": 1,
+      "message": "Nit: sorting is done w.r.t. enum ordering and not alphabetically (if we put ADDED at the end of the enum list, DELETED would come first after sorting).\n\nThis implicit assumption is brittle and implicit, I agree. I modified the code such that this prioritization is more verbose.\n\n\u003e Do we ever need to return multiple operations per file at all, or could we just remove all but the highest priority?\n\nNo. In both code paths for the list files [2] and the diff [3] endpoints we return a single entry per file. (references from my previous comment).\n\nI will open another bug to track investigating the broader case, then we can have it prioritized. Thank you for reviewing this change.",
+      "parentUuid": "ef0b0d99_da3b71bf",
+      "revId": "123eaaa7b414f56b09e2862e0947c7c76903e061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

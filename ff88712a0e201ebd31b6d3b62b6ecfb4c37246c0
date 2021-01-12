@@ -9,9 +9,9 @@
       "updated": "2021-01-11T18:30:03Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "NOT_STARTED",
+      "state": "SCHEDULED",
       "created": "2021-01-11T18:25:19Z",
-      "updated": "2021-01-12T03:26:05Z"
+      "updated": "2021-01-12T03:30:14Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SCHEDULED",

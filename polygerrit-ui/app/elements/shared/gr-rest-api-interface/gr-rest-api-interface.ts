@@ -2315,14 +2315,15 @@ export class GrRestApiInterface
     path?: string
   ) {
     if (!basePatchNum && !patchNum && !path) {
-      return this._getDiffComments(changeNum, '/comments');
+      return this._getDiffComments(changeNum, '/comments', {'enable-context': true);
     }
     return this._getDiffComments(
       changeNum,
       '/comments',
       basePatchNum,
       patchNum,
-      path
+      path,
+      {'enable-context': true},
     );
   }
 
@@ -2420,12 +2421,14 @@ export class GrRestApiInterface
 
   _getDiffComments(
     changeNum: NumericChangeId,
-    endpoint: '/comments' | '/drafts'
+    endpoint: '/comments' | '/drafts',
+    params?: FetchParams,
   ): Promise<PathToCommentsInfoMap | undefined>;
 
   _getDiffComments(
     changeNum: NumericChangeId,
-    endpoint: '/robotcomments'
+    endpoint: '/robotcomments',
+    params?: FetchParams,
   ): Promise<PathToRobotCommentsInfoMap | undefined>;
 
   _getDiffComments(
@@ -2433,7 +2436,8 @@ export class GrRestApiInterface
     endpoint: '/comments' | '/drafts',
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
-    path?: string
+    path?: string,
+    params?: FetchParams,
   ): Promise<GetDiffCommentsOutput>;
 
   _getDiffComments(
@@ -2449,7 +2453,8 @@ export class GrRestApiInterface
     endpoint: string,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
-    path?: string
+    path?: string,
+    params?: FetchParams,
   ): Promise<
     | GetDiffCommentsOutput
     | GetDiffRobotCommentsOutput
@@ -2471,6 +2476,7 @@ export class GrRestApiInterface
           endpoint,
           revision: patchNum,
           reportEndpointAsIs: true,
+          params,
         },
         noAcceptHeader
       ) as Promise<

@@ -2315,11 +2315,14 @@ export class GrRestApiInterface
     path?: string
   ) {
     if (!basePatchNum && !patchNum && !path) {
-      return this._getDiffComments(changeNum, '/comments');
+      return this._getDiffComments(changeNum, '/comments', {
+        'enable-context': true,
+      });
     }
     return this._getDiffComments(
       changeNum,
       '/comments',
+      {'enable-context': true},
       basePatchNum,
       patchNum,
       path
@@ -2350,6 +2353,7 @@ export class GrRestApiInterface
     return this._getDiffComments(
       changeNum,
       '/robotcomments',
+      undefined,
       basePatchNum,
       patchNum,
       path
@@ -2388,6 +2392,7 @@ export class GrRestApiInterface
       return this._getDiffComments(
         changeNum,
         '/drafts',
+        undefined,
         basePatchNum,
         patchNum,
         path
@@ -2420,7 +2425,8 @@ export class GrRestApiInterface
 
   _getDiffComments(
     changeNum: NumericChangeId,
-    endpoint: '/comments' | '/drafts'
+    endpoint: '/comments' | '/drafts',
+    params?: FetchParams
   ): Promise<PathToCommentsInfoMap | undefined>;
 
   _getDiffComments(
@@ -2431,6 +2437,7 @@ export class GrRestApiInterface
   _getDiffComments(
     changeNum: NumericChangeId,
     endpoint: '/comments' | '/drafts',
+    params?: FetchParams,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
@@ -2439,6 +2446,7 @@ export class GrRestApiInterface
   _getDiffComments(
     changeNum: NumericChangeId,
     endpoint: '/robotcomments',
+    params?: FetchParams,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
@@ -2447,6 +2455,7 @@ export class GrRestApiInterface
   _getDiffComments(
     changeNum: NumericChangeId,
     endpoint: string,
+    params?: FetchParams,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
@@ -2471,6 +2480,7 @@ export class GrRestApiInterface
           endpoint,
           revision: patchNum,
           reportEndpointAsIs: true,
+          params,
         },
         noAcceptHeader
       ) as Promise<

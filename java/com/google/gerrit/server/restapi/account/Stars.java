@@ -46,6 +46,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
+/**
+ * Implements adding label stars to changes.
+ *
+ * <p>This handles {@code POST} and {@code GET} for {@code
+ * /accounts/<account-identifier>/stars.changes/<change ID>}.
+ */
 @Singleton
 public class Stars implements ChildCollection<AccountResource, AccountResource.Star> {
 
@@ -70,6 +76,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
   public Star parse(AccountResource parent, IdString id)
       throws RestApiException, PermissionBackendException, IOException {
     IdentifiedUser user = parent.getUser();
+    // This enforces visibility of the change.
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     Set<String> labels = starredChangesUtil.getLabels(user.getAccountId(), change.getId());
     return new AccountResource.Star(user, change, labels);
@@ -87,6 +94,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
 
   @Singleton
   public static class ListStarredChanges implements RestReadView<AccountResource> {
+
     private final Provider<CurrentUser> self;
     private final ChangesCollection changes;
 
@@ -121,6 +129,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
 
   @Singleton
   public static class Get implements RestReadView<AccountResource.Star> {
+
     private final Provider<CurrentUser> self;
     private final StarredChangesUtil starredChangesUtil;
 
@@ -142,6 +151,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
 
   @Singleton
   public static class Post implements RestModifyView<AccountResource.Star, StarsInput> {
+
     private final Provider<CurrentUser> self;
     private final StarredChangesUtil starredChangesUtil;
 

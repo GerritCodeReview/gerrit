@@ -492,7 +492,7 @@ public class AccountResolver {
   }
 
   /**
-   * Resolves all accounts matching the input string.
+   * Resolves all accounts matching the input string, visible to the current user.
    *
    * <p>The following input formats are recognized:
    *

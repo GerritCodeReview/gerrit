@@ -61,6 +61,8 @@ import org.eclipse.jgit.lib.Repository;
  * <p>Other comment lines are ignored on read, and are not written back when the file is modified.
  */
 public class VersionedAuthorizedKeys extends VersionedMetaData {
+
+  /** Read/write SSH keys by user ID. */
   @Singleton
   public static class Accessor {
     private final GitRepositoryManager repoManager;

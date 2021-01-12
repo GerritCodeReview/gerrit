@@ -53,6 +53,7 @@ public class AccountsCollection implements RestCollection<TopLevelResource, Acco
       return new AccountResource(accountResolver.resolve(id.get()).asUniqueUser());
     } catch (UnresolvableAccountException e) {
       if (e.isSelf()) {
+        // Must be authenticated to use 'me' or 'self'.
         throw new AuthException(e.getMessage(), e);
       }
       throw new ResourceNotFoundException(e.getMessage(), e);

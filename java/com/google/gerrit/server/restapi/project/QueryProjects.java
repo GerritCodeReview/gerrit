@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.kohsuke.args4j.Option;
 
+/** Implements the {@code GET /projects/?query=QUERY} endpoint. */
 public class QueryProjects implements RestReadView<TopLevelResource> {
   private final ProjectIndexCollection indexes;
   private final ProjectQueryBuilder queryBuilder;

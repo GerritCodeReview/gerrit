@@ -90,7 +90,11 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
 
-/** List projects visible to the calling user. */
+/**
+ * List projects visible to the calling user.
+ *
+ * <p>This is like {@link QueryProjects} but with a slightly different calling convention.
+ */
 public class ListProjects implements RestReadView<TopLevelResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

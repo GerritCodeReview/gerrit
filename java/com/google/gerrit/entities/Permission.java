@@ -140,6 +140,7 @@ public abstract class Permission implements Comparable<Permission> {
     return true;
   }
 
+  /** The permission name, eg. {@code Permission.SUBMIT} */
   public abstract String getName();
 
   protected abstract boolean isExclusiveGroup();

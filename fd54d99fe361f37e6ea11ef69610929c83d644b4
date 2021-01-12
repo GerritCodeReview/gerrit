@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55ec357a_dc50dc47",
+        "filename": "polygerrit-ui/app/api/diff-types.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-12T13:24:13Z",
+      "side": 1,
+      "message": "I am still not completely happy with the names - would it not be more consistent to either have\n\na) core.ts and diff.ts or\nb) core-types.ts and diff-types.ts?",
+      "revId": "fd54d99fe361f37e6ea11ef69610929c83d644b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

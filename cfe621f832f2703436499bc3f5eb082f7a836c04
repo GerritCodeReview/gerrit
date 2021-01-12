@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ede2fdc_f8ea8030",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-12T08:47:43Z",
+      "side": 1,
+      "message": "Thanks for the pointer. It looks like Patrick added mpre tests as follow-up change: [1]. Can you back port parts (all?) of these tests to stable-2.14 branch then?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/110996/1/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+      "parentUuid": "eb034989_8c31cf3c",
+      "range": {
+        "startLine": 16,
+        "startChar": 40,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "cfe621f832f2703436499bc3f5eb082f7a836c04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a60bbc2_7e9ac352",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 2

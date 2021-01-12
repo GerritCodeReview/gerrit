@@ -16,6 +16,24 @@
       "message": "I think this could be clearer. IIUC ListProjects is used if GET /projects/ is called without the \u0027query\u0027 parameter. If the \u0027query\u0027 parameter is present we use QueryProjects instead (see code in ProjectsCollection#list).",
       "revId": "253730ce52c0afacd931c34baea7095f0982a1ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d617c2ac_4ed4d7f3",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-12T18:29:58Z",
+      "side": 1,
+      "message": "thanks, https://gerrit-review.googlesource.com/c/gerrit/+/293562",
+      "parentUuid": "1452d250_51261ef6",
+      "revId": "253730ce52c0afacd931c34baea7095f0982a1ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

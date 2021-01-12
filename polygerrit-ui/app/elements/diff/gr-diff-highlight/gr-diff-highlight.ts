@@ -235,6 +235,11 @@ export class GrDiffHighlight extends GestureEventListeners(
    * (line, side, etc).
    */
   _getNormalizedRange(selection: Selection) {
+    /* On Safari the ShadowRoot.getSelection() isn't there and the only thing
+       we can get is a single Range */
+    if (selection instanceof Range) {
+      return this._normalizeRange(selection);
+    }
     const rangeCount = selection.rangeCount;
     if (rangeCount === 0) {
       return null;
@@ -393,12 +398,20 @@ export class GrDiffHighlight extends GestureEventListeners(
   }
 
   _handleSelection(selection: Selection, isMouseUp: boolean) {
+    /* On Safari, the selection events may return a null range that should
+       be ignored */
+    if (!selection) {
+      return;
+    }
     const normalizedRange = this._getNormalizedRange(selection);
     if (!this._isRangeValid(normalizedRange)) {
       this._removeActionBox();
       return;
     }
-    const domRange = selection.getRangeAt(0);
+    /* On Safari the ShadowRoot.getSelection() isn't there and the only thing
+       we can get is a single Range */
+    const domRange =
+      selection instanceof Range ? selection : selection.getRangeAt(0);
     const start = normalizedRange!.start!;
     const end = normalizedRange!.end!;
 

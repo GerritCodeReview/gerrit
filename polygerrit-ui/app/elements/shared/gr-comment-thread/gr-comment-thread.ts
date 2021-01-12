@@ -350,6 +350,19 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     );
   }
 
+  _getContextLine(_comments: UIComment[]) {
+    return [
+      {
+        context_line: 'The ContextLine entity contains the line number and',
+        line_number: 11,
+      },
+      {
+        context_line: 'line text of a single line of the source file content.',
+        line_number: 12,
+      },
+    ];
+  }
+
   _getLastComment() {
     return this._orderedComments[this._orderedComments.length - 1] || {};
   }

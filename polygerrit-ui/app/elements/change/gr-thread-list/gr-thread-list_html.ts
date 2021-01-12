@@ -25,7 +25,6 @@ export const htmlTemplate = html`
     gr-comment-thread {
       display: block;
       margin-bottom: var(--spacing-m);
-      max-width: 80ch;
     }
     .header {
       align-items: center;
@@ -128,6 +127,7 @@ export const htmlTemplate = html`
       <gr-comment-thread
         show-file-path=""
         show-ported-comment="[[thread.ported]]"
+        show-comment-context="[[showCommentContext]]"
         change-num="[[changeNum]]"
         comments="[[thread.comments]]"
         diff-side="[[thread.diffSide]]"

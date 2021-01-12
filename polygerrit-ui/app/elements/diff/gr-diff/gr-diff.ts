@@ -271,6 +271,12 @@ export class GrDiff extends GestureEventListeners(
   @property({type: Array})
   layers?: DiffLayer[];
 
+  @property({type: Boolean})
+  hideLeftSide = false;
+
+  @property({type: Boolean})
+  disableContextControlButtons = false;
+
   /** @override */
   created() {
     super.created();
@@ -473,6 +479,11 @@ export class GrDiff extends GestureEventListeners(
 
   isRangeSelected() {
     return !!this.$.highlights.selectedRange;
+  }
+
+  @observe('hideLeftSide')
+  hideLeftDiffChange(hideLeftSide: boolean) {
+    if (hideLeftSide) this.classList.add('no-left');
   }
 
   toggleLeftDiff() {

@@ -82,6 +82,8 @@ export abstract class GrDiffBuilder {
 
   private _blameInfo: BlameInfo[] | null;
 
+  disableContextControlButtons = false;
+
   private readonly _layerUpdateListener: (
     start: LineNumber,
     end: LineNumber,

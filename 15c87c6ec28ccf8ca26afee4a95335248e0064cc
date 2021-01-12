@@ -122,6 +122,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff5a4991_11643520",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-12T14:56:30Z",
+      "side": 1,
+      "message": "oh, cool, nice that it works then :)",
+      "parentUuid": "645d1506_3648570a",
+      "range": {
+        "startLine": 164,
+        "startChar": 25,
+        "endLine": 165,
+        "endChar": 27
+      },
+      "revId": "15c87c6ec28ccf8ca26afee4a95335248e0064cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ead0b987_fde82d07",
@@ -159,6 +183,30 @@
       "side": 1,
       "message": "The schema migration just did a clean up such that we don\u0027t have both Non-Interactive Users and Service Users.\nNow that I think about it, it\u0027s unfortunate that it doesn\u0027t create the Service Users group if Non-Interactive Users didn\u0027t exist.\n\nNot that big of a deal though, so let\u0027s just keep these lines.",
       "parentUuid": "ead0b987_fde82d07",
+      "range": {
+        "startLine": 175,
+        "startChar": 42,
+        "endLine": 178,
+        "endChar": 69
+      },
+      "revId": "15c87c6ec28ccf8ca26afee4a95335248e0064cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "876cd98a_6554cb28",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-12T14:56:30Z",
+      "side": 1,
+      "message": "anyway, I would keep it here since for our Google hosts there may still be groups without this group since they don\u0027t actually run those schema migrations (because we promise 0 downtime).",
+      "parentUuid": "0a814669_12a1edea",
       "range": {
         "startLine": 175,
         "startChar": 42,

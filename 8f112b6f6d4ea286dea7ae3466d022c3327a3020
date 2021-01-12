@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b07be3cf_91cbb752",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-12T12:51:01Z",
+      "side": 1,
+      "message": "Thanks for the review, There are still some Code-Style issues, some formatting issue, and the usage of @ts-ignore is disallowed:\n\n  app/elements/diff/gr-diff/gr-diff.ts\n  58:1 error  Do not use \"// @ts-ignore\" comments because they suppress compilation errors  @typescript-eslint/ban-ts-ignore\n\nI filed this issue: [1], but to unblock merging of this series, I will just switch that off, using:\n\n  \"rules\": {\n    \"@typescript-eslint/ban-ts-ignore\": \"off\"\n  }",
+      "revId": "8f112b6f6d4ea286dea7ae3466d022c3327a3020",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

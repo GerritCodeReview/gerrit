@@ -46,6 +46,30 @@
       },
       "revId": "bdc1d947c605c4f160263f9d6130caba27d05431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "082be023_15dc1891",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-12T10:53:04Z",
+      "side": 1,
+      "message": "Maybe move this code\n\n  (patchNum \u003d\u003d\u003d 1 ? \u0027PARENT\u0027 : patchNum - 1) as PatchSetNum\n\ninto a utility method?\n\n  export function getPredecessor(patchSetNum?: PatchSetNum): PatchSetNum | undefined {\n    if (!patchSetNum ||\n        patchSetNum \u003d\u003d\u003d ParentPatchSetNum ||\n        patchSetNum \u003d\u003d\u003d EditPatchSetNum) return undefined;\n    if (patchSetNum \u003d\u003d\u003d 1) return ParentPatchSetNum;\n    return patchSetNum - 1;\n  }",
+      "parentUuid": "63641ed7_5444132d",
+      "range": {
+        "startLine": 277,
+        "startChar": 18,
+        "endLine": 277,
+        "endChar": 24
+      },
+      "revId": "bdc1d947c605c4f160263f9d6130caba27d05431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

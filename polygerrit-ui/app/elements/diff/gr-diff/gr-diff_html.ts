@@ -591,6 +591,7 @@ export const htmlTemplate = html`
           base-image="[[baseImage]]"
           layers="[[layers]]"
           revision-image="[[revisionImage]]"
+          disable-context-control-buttons="[[disableContextControlButtons]]"
         >
           <table
             id="diffTable"

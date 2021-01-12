@@ -149,6 +149,9 @@ export class GrDiffBuilderElement extends GestureEventListeners(
   })
   _leftCoverageRanges?: CoverageRange[];
 
+  @property({type: Boolean})
+  disableContextControlButtons = false;
+
   @property({
     type: Array,
     computed: '_computeRightCoverageRanges(coverageRanges)',
@@ -203,6 +206,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
       throw Error('Cannot render a diff without DiffInfo.');
     }
     this._builder = this._getDiffBuilder(this.diff, prefs);
+    this._builder.disableContextControlButtons = this.disableContextControlButtons;
 
     this.$.processor.context = prefs.context;
     this.$.processor.keyLocations = keyLocations;

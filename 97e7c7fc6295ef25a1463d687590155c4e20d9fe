@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "992834b5_0a9c0bf1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-12T10:57:59Z",
+      "side": 1,
+      "message": "This\n\n  thread.commentSide \u003d\u003d\u003d CommentSide.PARENT\n\nis already checked above to be true.",
+      "range": {
+        "startLine": 418,
+        "startChar": 11,
+        "endLine": 418,
+        "endChar": 52
+      },
+      "revId": "97e7c7fc6295ef25a1463d687590155c4e20d9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

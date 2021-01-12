@@ -18,9 +18,14 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.audit.AuditEvent;
 import com.google.gerrit.audit.AuditService;
+import com.google.gerrit.pgm.http.jetty.JettyServer;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.testutil.FakeAuditService;
 import com.google.inject.AbstractModule;
 import java.util.Collections;
+import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -29,6 +34,7 @@ import org.junit.Test;
 import org.junit.runner.Description;
 
 public class GitOverHttpServletIT extends AbstractPushForReview {
+  private JettyServer jettyServer;
 
   @Override
   protected void beforeTest(Description description) throws Exception {
@@ -44,6 +50,7 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
 
   @Before
   public void beforeEach() throws Exception {
+    jettyServer = server.getHttpdInjector().getInstance(JettyServer.class);
     CredentialsProvider.setDefault(
         new UsernamePasswordCredentialsProvider(admin.username, admin.httpPassword));
     selectProtocol(AbstractPushForReview.Protocol.HTTP);
@@ -67,18 +74,40 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
     assertThat(e.who.getAccountId()).isEqualTo(admin.id);
     assertThat(e.what).endsWith("/git-receive-pack");
     assertThat(e.params).isEmpty();
+    assertThat(jettyServer.numActiveSessions()).isEqualTo(0);
   }
 
   @Test
-  public void uploadPackAuditEventLog() throws Exception {
-    testRepo.git().fetch().call();
+  public void anonymousUploadPackAuditEventLog() throws Exception {
+    uploadPackAuditEventLog(Constants.DEFAULT_REMOTE_NAME, Optional.empty());
+  }
+
+  @Test
+  public void authenticatedUploadPackAuditEventLog() throws Exception {
+    String remote = "authenticated";
+    Config cfg = testRepo.git().getRepository().getConfig();
+
+    String uri = admin.getHttpUrl(server) + "/a/" + project.get();
+    cfg.setString("remote", remote, "url", uri);
+    cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
+
+    uploadPackAuditEventLog(remote, Optional.of(admin.getId()));
+  }
+
+  private void uploadPackAuditEventLog(String remote, Optional<Account.Id> accountId)
+      throws Exception {
+    auditService.clearEvents();
+    testRepo.git().fetch().setRemote(remote).call();
 
     assertThat(auditService.auditEvents.size()).isEqualTo(1);
 
     AuditEvent e = auditService.auditEvents.get(0);
-    assertThat(e.who.toString()).isEqualTo("ANONYMOUS");
+    assertThat(e.who.toString())
+        .isEqualTo(
+            accountId.map(id -> "IdentifiedUser[account " + id.get() + "]").orElse("ANONYMOUS"));
     assertThat(e.params.get("service"))
         .containsExactlyElementsIn(Collections.singletonList("git-upload-pack"));
     assertThat(e.what).endsWith("service=git-upload-pack");
+    assertThat(jettyServer.numActiveSessions()).isEqualTo(0);
   }
 }

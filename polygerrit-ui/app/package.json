@@ -32,7 +32,8 @@
     "page": "^1.11.5",
     "polymer-bridges": "file:../../polymer-bridges/",
     "polymer-resin": "^2.0.1",
-    "rxjs": "^6.6.2"
+    "rxjs": "^6.6.2",
+    "shadow-selection-polyfill": "^1.1.0"
   },
   "license": "Apache-2.0",
   "private": true

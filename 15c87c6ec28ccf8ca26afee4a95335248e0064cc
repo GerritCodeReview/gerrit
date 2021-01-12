@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2287f6d0_c34c54e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-01-12T14:46:39Z",
+      "side": 1,
+      "message": "Sorry I kind of forgot about this change in my email spam and I don\u0027t visit this Gerrit on a daily basis.   I have added a few more details: but in short Gerrit 3.3 does create the Service Users or would rename the legacy \u0027Non-Interactive Users\u0027.\n\n\nWill rebase to clear the trivial conflict with I3912c701ec06ffc5d27e5d1814a05dbb8a88a7b4\n\n",
+      "revId": "15c87c6ec28ccf8ca26afee4a95335248e0064cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3cc65d0_55ff7e70",
@@ -71,6 +88,30 @@
       "writtenOn": "2021-01-07T10:58:21Z",
       "side": 1,
       "message": "(same as below)\nthis is wrong as far as I can tell, although it\u0027s sensible to implement.\nI guess I\u0027d rather just not do it, since if users need it, they can create the group (and also consistency since we\u0027d need another schema migration to create the service users group) - not worth it.",
+      "range": {
+        "startLine": 164,
+        "startChar": 25,
+        "endLine": 165,
+        "endChar": 27
+      },
+      "revId": "15c87c6ec28ccf8ca26afee4a95335248e0064cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "645d1506_3648570a",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-01-12T14:46:39Z",
+      "side": 1,
+      "message": "I should have been clearer in my commit message. That is being done by schema 184 which takes care of renaming \u0027Non-Interactive Users\u0027 to \u0027Service Users\u0027.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/278126/4/java/com/google/gerrit/server/schema/Schema_184.java\n\nI have installed a fresh new Gerrit based on this commit and it does list the group:\n\n* Service Users: Users who perform batch actions on Gerrit\n\n\nSo that looks covered.\n\n\nI think the user attention set patch got written in parallel to the one for renaming the \"Non-Interactive Users\" simply missed being updated in between :)",
+      "parentUuid": "039d1320_d82e7303",
       "range": {
         "startLine": 164,
         "startChar": 25,

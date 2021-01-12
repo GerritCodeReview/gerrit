@@ -483,6 +483,10 @@ export class GrDiff extends GestureEventListeners(
     return !!this.$.highlights.selectedRange;
   }
 
+  hideLeftDiff() {
+    this.classList.add('no-left');
+  }
+
   toggleLeftDiff() {
     this.toggleClass('no-left');
   }

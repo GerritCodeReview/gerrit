@@ -93,7 +93,7 @@ import org.kohsuke.args4j.Option;
 /**
  * List projects visible to the calling user.
  *
- * <p>This is like {@link QueryProjects} but with a slightly different calling convention.
+ * <p>Implement {@code GET /projects/}, without a {@code query=} parameter.
  */
 public class ListProjects implements RestReadView<TopLevelResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

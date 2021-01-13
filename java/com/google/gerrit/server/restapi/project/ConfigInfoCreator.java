@@ -21,6 +21,10 @@ import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInfo.ConfigParameterInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInfo.InheritedBooleanInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInfo.MaxObjectSizeLimitInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInfo.SubmitTypeInfo;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -42,9 +46,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ConfigInfoImpl extends ConfigInfo {
+public class ConfigInfoCreator {
   @SuppressWarnings("deprecation")
-  public ConfigInfoImpl(
+  public static ConfigInfo constructInfo(
       boolean serverEnableSignedPush,
       ProjectState projectState,
       CurrentUser user,
@@ -53,8 +57,9 @@ public class ConfigInfoImpl extends ConfigInfo {
       AllProjectsName allProjects,
       UiActions uiActions,
       DynamicMap<RestView<ProjectResource>> views) {
+    ConfigInfo configInfo = new ConfigInfo();
     Project p = projectState.getProject();
-    this.description = Strings.emptyToNull(p.getDescription());
+    configInfo.description = Strings.emptyToNull(p.getDescription());
 
     ProjectState parentState = Iterables.getFirst(projectState.parents(), null);
     for (BooleanProjectConfig cfg : BooleanProjectConfig.values()) {
@@ -63,48 +68,51 @@ public class ConfigInfoImpl extends ConfigInfo {
       if (parentState != null) {
         info.inheritedValue = parentState.is(cfg);
       }
-      BooleanProjectConfigTransformations.set(cfg, this, info);
+      BooleanProjectConfigTransformations.set(cfg, configInfo, info);
     }
 
     if (!serverEnableSignedPush) {
-      this.enableSignedPush = null;
-      this.requireSignedPush = null;
+      configInfo.enableSignedPush = null;
+      configInfo.requireSignedPush = null;
     }
 
-    this.maxObjectSizeLimit = getMaxObjectSizeLimit(projectState, p);
+    configInfo.maxObjectSizeLimit = getMaxObjectSizeLimit(projectState, p);
 
-    this.defaultSubmitType = new SubmitTypeInfo();
-    this.defaultSubmitType.value = projectState.getSubmitType();
-    this.defaultSubmitType.configuredValue =
+    configInfo.defaultSubmitType = new SubmitTypeInfo();
+    configInfo.defaultSubmitType.value = projectState.getSubmitType();
+    configInfo.defaultSubmitType.configuredValue =
         MoreObjects.firstNonNull(
             projectState.getConfig().getProject().getSubmitType(), Project.DEFAULT_SUBMIT_TYPE);
     ProjectState parent =
         projectState.isAllProjects() ? projectState : projectState.parents().get(0);
-    this.defaultSubmitType.inheritedValue = parent.getSubmitType();
+    configInfo.defaultSubmitType.inheritedValue = parent.getSubmitType();
 
-    this.submitType = this.defaultSubmitType.value;
+    configInfo.submitType = configInfo.defaultSubmitType.value;
 
-    this.state =
+    configInfo.state =
         p.getState() != com.google.gerrit.extensions.client.ProjectState.ACTIVE
             ? p.getState()
             : null;
 
-    this.commentlinks = new LinkedHashMap<>();
+    configInfo.commentlinks = new LinkedHashMap<>();
     for (CommentLinkInfo cl : projectState.getCommentLinks()) {
-      this.commentlinks.put(cl.name, cl);
+      configInfo.commentlinks.put(cl.name, cl);
     }
 
-    pluginConfig = getPluginConfig(projectState, pluginConfigEntries, cfgFactory, allProjects);
+    configInfo.pluginConfig =
+        getPluginConfig(projectState, pluginConfigEntries, cfgFactory, allProjects);
 
-    actions = new TreeMap<>();
+    configInfo.actions = new TreeMap<>();
     for (UiAction.Description d : uiActions.from(views, new ProjectResource(projectState, user))) {
-      actions.put(d.getId(), new ActionInfo(d));
+      configInfo.actions.put(d.getId(), new ActionInfo(d));
     }
 
-    this.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
+    configInfo.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
+    return configInfo;
   }
 
-  private MaxObjectSizeLimitInfo getMaxObjectSizeLimit(ProjectState projectState, Project p) {
+  private static MaxObjectSizeLimitInfo getMaxObjectSizeLimit(
+      ProjectState projectState, Project p) {
     MaxObjectSizeLimitInfo info = new MaxObjectSizeLimitInfo();
     EffectiveMaxObjectSizeLimit limit = projectState.getEffectiveMaxObjectSizeLimit();
     long value = limit.value;
@@ -114,7 +122,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     return info;
   }
 
-  private Map<String, Map<String, ConfigParameterInfo>> getPluginConfig(
+  private static Map<String, Map<String, ConfigParameterInfo>> getPluginConfig(
       ProjectState project,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
@@ -162,7 +170,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     return !pluginConfig.isEmpty() ? pluginConfig : null;
   }
 
-  private String getInheritedValue(
+  private static String getInheritedValue(
       ProjectState project, PluginConfigFactory cfgFactory, Extension<ProjectConfigEntry> e) {
     ProjectConfigEntry configEntry = e.getProvider().get();
     ProjectState parent = Iterables.getFirst(project.parents(), null);

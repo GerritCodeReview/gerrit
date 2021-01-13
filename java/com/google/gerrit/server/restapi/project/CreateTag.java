@@ -102,6 +102,8 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
     try (Repository repo = repoManager.openRepository(resource.getNameKey())) {
       ObjectId revid = RefUtil.parseBaseRevision(repo, resource.getNameKey(), input.revision);
       RevWalk rw = RefUtil.verifyConnected(repo, revid);
+      // Reachability through tags does not influence a commit's visibility, so no need to check for
+      // visibility.
       RevObject object = rw.parseAny(revid);
       rw.reset();
       boolean isAnnotated = Strings.emptyToNull(input.message) != null;

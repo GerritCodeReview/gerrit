@@ -490,7 +490,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
                 continue;
               }
 
-              List<Ref> refs = retieveBranchRefs(e);
+              List<Ref> refs = retrieveBranchRefs(e);
               if (!hasValidRef(refs)) {
                 continue;
               }
@@ -578,7 +578,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     }
   }
 
-  private List<Ref> retieveBranchRefs(ProjectState e) throws PermissionBackendException {
+  private List<Ref> retrieveBranchRefs(ProjectState e) throws PermissionBackendException {
     boolean canReadAllRefs = e.statePermitsRead();
     if (canReadAllRefs) {
       try {

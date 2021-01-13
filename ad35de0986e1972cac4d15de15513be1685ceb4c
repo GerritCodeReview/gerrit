@@ -22,6 +22,30 @@
       },
       "revId": "ad35de0986e1972cac4d15de15513be1685ceb4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2902bec9_d91eb4c8",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-13T09:28:14Z",
+      "side": 0,
+      "message": "That\u0027s was just conflict resolution. Fetch polyfill (whatwg-fetch) was removed in change 270299. ba-linkify is still there, on line: 30, so that it looks right to me.",
+      "parentUuid": "1f5c0f92_d708fa37",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "ad35de0986e1972cac4d15de15513be1685ceb4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

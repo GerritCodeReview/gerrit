@@ -159,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f926ab14_84757188",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-13T04:01:20Z",
+      "side": 1,
+      "message": "Martin pointed out to an example -\u003e Imagine the replication plugin exposing the \"replication start\" command as an API that another plugin could use. This would allow another plugin to run replication start for a custom set of projects only on server startup. Such a use case would help in eliminating your fork.",
+      "parentUuid": "555e5c15_dacf84de",
+      "revId": "ff88712a0e201ebd31b6d3b62b6ecfb4c37246c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c5acc1d_d0f6c7d5",

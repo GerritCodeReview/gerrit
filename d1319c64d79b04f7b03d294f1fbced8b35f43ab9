@@ -34,6 +34,24 @@
       "parentUuid": "e59a39f3_b588a873",
       "revId": "d1319c64d79b04f7b03d294f1fbced8b35f43ab9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22668a1e_b27f1d5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-13T13:25:15Z",
+      "side": 1,
+      "message": "it\u0027s used in tests, so we still don\u0027t want to deviate.",
+      "parentUuid": "c38b097b_b2a34ee8",
+      "revId": "d1319c64d79b04f7b03d294f1fbced8b35f43ab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

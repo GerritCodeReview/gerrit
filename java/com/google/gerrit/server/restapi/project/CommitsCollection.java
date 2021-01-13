@@ -52,6 +52,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/** The collection of commit IDs (ie. 40 char hex IDs) */
 @Singleton
 public class CommitsCollection implements ChildCollection<ProjectResource, CommitResource> {
   private final DynamicMap<RestView<CommitResource>> views;

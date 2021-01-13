@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c16500e4_e9508bda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-13T20:18:04Z",
+      "side": 1,
+      "message": "@Milutin, any reason LC-approval is still missing?",
+      "revId": "9e0a69c0b2f6c3248bfd0157e86b061dc2e51666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

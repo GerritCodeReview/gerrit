@@ -38,6 +38,8 @@ import com.google.inject.Provider;
  *
  * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
  * holding on to a single instance.
+ *
+ * <p>By default, enforces visibility to CurrentUser.
  */
 public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   private final PermissionBackend permissionBackend;

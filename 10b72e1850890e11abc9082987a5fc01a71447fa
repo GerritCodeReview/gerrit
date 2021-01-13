@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e78b3e98_9979d9a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-13T21:13:25Z",
+      "side": 1,
+      "message": "\u003e I didn\u0027t find the design proposal anywhere: could you include also the link?\n\nThis change is 4 lines of code (2 of them imports) in core plus docs and tests. It would probably be a bit extreme to have a design doc for it?",
+      "parentUuid": "9d92a959_81b7912c",
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eab219e1_1901affb",

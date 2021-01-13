@@ -15,8 +15,10 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -26,6 +28,8 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RebaseUtil.Base;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -41,13 +45,26 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.Map;
+import org.eclipse.jgit.diff.Sequence;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.merge.MergeResult;
+import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * BatchUpdate operation that rebases a change.
+ *
+ * <p>Can only be executed in a {@link com.google.gerrit.server.update.BatchUpdate} set has a {@link
+ * CodeReviewRevWalk} set as {@link RevWalk} (set via {@link
+ * com.google.gerrit.server.update.BatchUpdate#setRepository(org.eclipse.jgit.lib.Repository,
+ * RevWalk, org.eclipse.jgit.lib.ObjectInserter)}).
+ */
 public class RebaseChangeOp implements BatchUpdateOp {
   public interface Factory {
     RebaseChangeOp create(ChangeNotes notes, PatchSet originalPatchSet, ObjectId baseCommitId);
@@ -69,12 +86,13 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private boolean validate = true;
   private boolean checkAddPatchSetPermission = true;
   private boolean forceContentMerge;
+  private boolean allowConflicts;
   private boolean detailedCommitMessage;
   private boolean postMessage = true;
   private boolean sendEmail = true;
   private boolean matchAuthorToCommitterDate = false;
 
-  private RevCommit rebasedCommit;
+  private CodeReviewCommit rebasedCommit;
   private PatchSet.Id rebasedPatchSetId;
   private PatchSetInserter patchSetInserter;
   private PatchSet rebasedPatchSet;
@@ -123,6 +141,19 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
   public RebaseChangeOp setForceContentMerge(boolean forceContentMerge) {
     this.forceContentMerge = forceContentMerge;
+    return this;
+  }
+
+  /**
+   * Allows the rebase to succeed if there are conflicts.
+   *
+   * <p>This setting requires that {@link #forceContentMerge} is set {@code true}. If {@link
+   * #forceContentMerge} is {@code false} this setting has no effect.
+   *
+   * @see #setForceContentMerge(boolean)
+   */
+  public RebaseChangeOp setAllowConflicts(boolean allowConflicts) {
+    this.allowConflicts = allowConflicts;
     return this;
   }
 
@@ -186,14 +217,11 @@ public class RebaseChangeOp implements BatchUpdateOp {
             .setFireRevisionCreated(fireRevisionCreated)
             .setCheckAddPatchSetPermission(checkAddPatchSetPermission)
             .setValidate(validate)
-            .setSendEmail(sendEmail);
+            .setSendEmail(sendEmail)
+            .setWorkInProgress(!rebasedCommit.getFilesWithGitConflicts().isEmpty());
     if (postMessage) {
       patchSetInserter.setMessage(
-          "Patch Set "
-              + rebasedPatchSetId.get()
-              + ": Patch Set "
-              + originalPatchSet.id().get()
-              + " was rebased");
+          messageForRebasedChange(rebasedPatchSetId, originalPatchSet.id(), rebasedCommit));
     }
 
     if (base != null && !base.notes().getChange().isMerged()) {
@@ -206,6 +234,24 @@ public class RebaseChangeOp implements BatchUpdateOp {
       }
     }
     patchSetInserter.updateRepo(ctx);
+  }
+
+  private static String messageForRebasedChange(
+      PatchSet.Id rebasePatchSetId, PatchSet.Id originalPatchSetId, CodeReviewCommit commit) {
+    StringBuilder stringBuilder =
+        new StringBuilder(
+            String.format(
+                "Patch Set %d: Patch Set %d was rebased",
+                rebasePatchSetId.get(), originalPatchSetId.get()));
+
+    if (!commit.getFilesWithGitConflicts().isEmpty()) {
+      stringBuilder.append("\n\nThe following files contain Git conflicts:\n");
+      commit.getFilesWithGitConflicts().stream()
+          .sorted()
+          .forEach(filePath -> stringBuilder.append("* ").append(filePath).append("\n"));
+    }
+
+    return stringBuilder.toString();
   }
 
   @Override
@@ -221,7 +267,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     patchSetInserter.postUpdate(ctx);
   }
 
-  public RevCommit getRebasedCommit() {
+  public CodeReviewCommit getRebasedCommit() {
     checkState(rebasedCommit != null, "getRebasedCommit() only valid after updateRepo");
     return rebasedCommit;
   }
@@ -254,7 +300,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
    * @throws MergeConflictException the rebase failed due to a merge conflict.
    * @throws IOException the merge failed for another reason.
    */
-  private RevCommit rebaseCommit(
+  private CodeReviewCommit rebaseCommit(
       RepoContext ctx, RevCommit original, ObjectId base, String commitMessage)
       throws ResourceConflictException, IOException {
     RevCommit parentCommit = original.getParent(0);
@@ -266,15 +312,50 @@ public class RebaseChangeOp implements BatchUpdateOp {
     ThreeWayMerger merger =
         newMergeUtil().newThreeWayMerger(ctx.getInserter(), ctx.getRepoView().getConfig());
     merger.setBase(parentCommit);
+
+    DirCache dc = DirCache.newInCore();
+    if (allowConflicts && merger instanceof ResolveMerger) {
+      // The DirCache must be set on ResolveMerger before calling
+      // ResolveMerger#merge(AnyObjectId...) otherwise the entries in DirCache don't get populated.
+      ((ResolveMerger) merger).setDirCache(dc);
+    }
+
     boolean success = merger.merge(original, base);
 
-    if (!success || merger.getResultTreeId() == null) {
-      throw new MergeConflictException(
-          "The change could not be rebased due to a conflict during merge.");
+    ObjectId tree;
+    ImmutableSet<String> filesWithGitConflicts;
+    if (success) {
+      filesWithGitConflicts = null;
+      tree = merger.getResultTreeId();
+    } else {
+      if (!allowConflicts || !(merger instanceof ResolveMerger)) {
+        throw new MergeConflictException(
+            "The change could not be rebased due to a conflict during merge.");
+      }
+
+      Map<String, MergeResult<? extends Sequence>> mergeResults =
+          ((ResolveMerger) merger).getMergeResults();
+
+      filesWithGitConflicts =
+          mergeResults.entrySet().stream()
+              .filter(e -> e.getValue().containsConflicts())
+              .map(Map.Entry::getKey)
+              .collect(toImmutableSet());
+
+      tree =
+          MergeUtil.mergeWithConflicts(
+              ctx.getRevWalk(),
+              ctx.getInserter(),
+              dc,
+              "PATCH SET",
+              original,
+              "BASE",
+              ctx.getRevWalk().parseCommit(base),
+              mergeResults);
     }
 
     CommitBuilder cb = new CommitBuilder();
-    cb.setTreeId(merger.getResultTreeId());
+    cb.setTreeId(tree);
     cb.setParentId(base);
     cb.setAuthor(original.getAuthorIdent());
     cb.setMessage(commitMessage);
@@ -290,6 +371,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
     }
     ObjectId objectId = ctx.getInserter().insert(cb);
     ctx.getInserter().flush();
-    return ctx.getRevWalk().parseCommit(objectId);
+    CodeReviewCommit commit = ((CodeReviewRevWalk) ctx.getRevWalk()).parseCommit(objectId);
+    commit.setFilesWithGitConflicts(filesWithGitConflicts);
+    return commit;
   }
 }

@@ -16,13 +16,21 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThatNameList;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
@@ -30,6 +38,8 @@ import org.junit.Test;
 @NoHttpd
 public class ListChildProjectsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
+  @Inject private GroupOperations groupOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void listChildrenOfNonExistingProject_NotFound() throws Exception {
@@ -83,5 +93,30 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     assertThatNameList(gApi.projects().name(child1.get()).children(true))
         .containsExactly(child1_1, child1_1_1, child1_1_1_1, child1_2)
         .inOrder();
+  }
+
+  @Test
+  public void listChildrenVisibility() throws Exception {
+    Project.NameKey parent = projectOperations.newProject().createEmptyCommit(true).create();
+    Project.NameKey project =
+        projectOperations.newProject().createEmptyCommit(true).parent(parent).create();
+
+    AccountGroup.UUID privilegedGroupUuid =
+        groupOperations.newGroup().name(name("privilegedGroup")).create();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(privilegedGroupUuid))
+        .add(block(Permission.READ).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
+
+    TestAccount privilegedUser =
+        accountCreator.create("privilegedUser", "snowden@nsa.gov", "Ed Snowden", null);
+    groupOperations.group(privilegedGroupUuid).forUpdate().addMember(privilegedUser.id()).update();
+
+    requestScopeOperations.setApiUser(user.id());
+    assertThat(gApi.projects().name(parent.get()).children(false)).isEmpty();
+    requestScopeOperations.setApiUser(privilegedUser.id());
+    assertThat(gApi.projects().name(parent.get()).children(false)).isNotEmpty();
   }
 }

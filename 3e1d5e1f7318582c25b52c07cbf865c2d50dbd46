@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "175295e4_58b95b90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-13T22:16:46Z",
+      "side": 1,
+      "message": "Guice library was actually exempted from LC voting, but this change requires LC approval, because aopalliance is re-added.",
+      "revId": "3e1d5e1f7318582c25b52c07cbf865c2d50dbd46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36826a74_ae3c13e5",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-13T19:30:12Z",
+      "side": 1,
+      "message": "I couldn\u0027t find any deprecated API usage in this class. Can we remove this annotation?",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 34
+      },
+      "revId": "f49b4040fa316abcee736935fa78324c4e495827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fed432a9_bfbd5292",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-13T19:30:12Z",
+      "side": 1,
+      "message": "Optional: I\u0027d prefer create (or createInfo maybe), but constructInfo is also fine for me.",
+      "range": {
+        "startLine": 51,
+        "startChar": 27,
+        "endLine": 51,
+        "endChar": 40
+      },
+      "revId": "f49b4040fa316abcee736935fa78324c4e495827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

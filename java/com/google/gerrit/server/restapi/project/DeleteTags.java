@@ -24,9 +24,13 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.RefUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Singleton
 public class DeleteTags implements RestModifyView<ProjectResource, DeleteTagsInput> {
@@ -43,6 +47,9 @@ public class DeleteTags implements RestModifyView<ProjectResource, DeleteTagsInp
     if (input == null || input.tags == null || input.tags.isEmpty()) {
       throw new BadRequestException("tags must be specified");
     }
+
+    // If input.tags = ["refs/heads/bla"], this will actually delete the 'bla' branch. Since this is
+    // properly checked for permissions, we'll let it go through.
     deleteRef.deleteMultipleRefs(
         project.getProjectState(), ImmutableSet.copyOf(input.tags), R_TAGS);
     return Response.none();

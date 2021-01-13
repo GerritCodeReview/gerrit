@@ -16,6 +16,29 @@
       "message": "Guice library was actually exempted from LC voting, but this change requires LC approval, because aopalliance is re-added.",
       "revId": "3e1d5e1f7318582c25b52c07cbf865c2d50dbd46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75b2930a_67752962",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-13T22:22:14Z",
+      "side": 1,
+      "message": "Bad conflict resolution: GUICE_VERS.",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 13
+      },
+      "revId": "3e1d5e1f7318582c25b52c07cbf865c2d50dbd46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

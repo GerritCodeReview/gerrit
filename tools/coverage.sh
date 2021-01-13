@@ -7,6 +7,9 @@
 # COVERAGE_CPUS defaults to 2, and the default destination is a temp
 # dir.
 
+shopt -s expand_aliases
+source ~/.bash_profile
+
 genhtml=$(which genhtml)
 if [[ -z "${genhtml}" ]]; then
     echo "Install 'genhtml' (contained in the 'lcov' package)"

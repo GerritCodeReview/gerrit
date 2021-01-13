@@ -16,6 +16,69 @@
       "message": "Looks good to me, but definitely still looking for input from others.",
       "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35924757_68f91e50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-13T17:37:26Z",
+      "side": 1,
+      "message": "Thanks for contributing this interesting idea.\nI didn\u0027t find the design proposal anywhere: could you include also the link?",
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eab219e1_1901affb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1508,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-13T17:37:26Z",
+      "side": 1,
+      "message": "How the API consumer plugin can access MyApi which extends PluginProvidedApi definition?\nI guess it must be accessible at compile-time and runtime.",
+      "range": {
+        "startLine": 1508,
+        "startChar": 23,
+        "endLine": 1508,
+        "endChar": 40
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86766d9d_7f8f33d9",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1523,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-13T17:37:26Z",
+      "side": 1,
+      "message": "Plugins are loaded in different Guice injectors from different class loaders: reflection would help and I believe you may be getting other security issues in accessing a class from another class loader?",
+      "range": {
+        "startLine": 1523,
+        "startChar": 0,
+        "endLine": 1523,
+        "endChar": 98
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

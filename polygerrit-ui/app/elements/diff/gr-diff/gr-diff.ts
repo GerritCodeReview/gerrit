@@ -54,6 +54,9 @@ import {DiffViewMode, Side} from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+// TODO(davido): See: https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
+// @ts-ignore
+import * as shadow from 'shadow-selection-polyfill/shadow.js';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -318,10 +321,18 @@ export class GrDiff extends GestureEventListeners(
     }
 
     if (loggedIn && isAttached) {
-      this.listen(document, 'selectionchange', '_handleSelectionChange');
+      this.listen(
+        document,
+        '-shadow-selectionchange',
+        '_handleSelectionChange'
+      );
       this.listen(document, 'mouseup', '_handleMouseUp');
     } else {
-      this.unlisten(document, 'selectionchange', '_handleSelectionChange');
+      this.unlisten(
+        document,
+        '-shadow-selectionchange',
+        '_handleSelectionChange'
+      );
       this.unlisten(document, 'mouseup', '_handleMouseUp');
     }
   }
@@ -350,7 +361,7 @@ export class GrDiff extends GestureEventListeners(
     // This takes the shadow DOM selection if one exists.
     return this.root instanceof ShadowRoot && this.root.getSelection
       ? this.root.getSelection()
-      : document.getSelection();
+      : shadow.getRange(this.root);
   }
 
   _observeNodes() {

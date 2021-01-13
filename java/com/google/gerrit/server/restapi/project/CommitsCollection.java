@@ -93,10 +93,12 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
     try (Repository repo = repoManager.openRepository(parent.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(objectId);
-      rw.parseBody(commit);
       if (!canRead(parent.getProjectState(), repo, commit)) {
         throw new ResourceNotFoundException(id);
       }
+      // GetCommit depends on the body of both the commit and parent being parsed, to get the
+      // subject.
+      rw.parseBody(commit);
       for (int i = 0; i < commit.getParentCount(); i++) {
         rw.parseBody(rw.parseCommit(commit.getParent(i)));
       }

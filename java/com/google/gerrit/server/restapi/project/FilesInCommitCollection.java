@@ -39,6 +39,10 @@ import java.util.Map;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.kohsuke.args4j.Option;
 
+/**
+ * like {@link FilesCollection}, but for commits that are specified as hex ID, rather than branch
+ * names.
+ */
 @Singleton
 public class FilesInCommitCollection implements ChildCollection<CommitResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;

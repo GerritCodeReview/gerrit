@@ -72,6 +72,7 @@ Apache2.0
 * jetty:server
 * jetty:servlet
 * jetty:util
+* jetty:util-ajax
 * log:log4j
 * lucene:lucene-analyzers-common
 * lucene:lucene-core-and-backward-codecs-merged

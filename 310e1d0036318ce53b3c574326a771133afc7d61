@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "992cc1fe_c2459e7b",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-13T11:40:32Z",
+      "side": 1,
+      "message": "[nit] Should this rather be a normal line comment like:\n\n  // GetCommit depends on the body of both the commit and parent being parsed, to get the subject.",
+      "range": {
+        "startLine": 99,
+        "startChar": 6,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "310e1d0036318ce53b3c574326a771133afc7d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -160,7 +160,7 @@ public class DeleteRef {
    *
    * @param projectState the {@code ProjectState} of the project whose refs are to be deleted.
    * @param refsToDelete the refs to be deleted.
-   * @param prefix the prefix of the refs.
+   * @param prefix the prefix to add to abbreviated refs, eg. "refs/heads/".
    * @throws IOException
    * @throws ResourceConflictException
    * @throws PermissionBackendException

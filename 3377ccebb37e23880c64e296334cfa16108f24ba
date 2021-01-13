@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e1560fb_9012709f",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-13T11:26:08Z",
+      "side": 1,
+      "message": "won\u0027t this print a message if it\u0027s missing?\n\nI think normally .profile is supposed to be executed only once on login. You\u0027re looking for .bashrc, I think.\n\nI\u0027d rather see this check explicitly for $(which bazelisk) and execute bazelisk if it is available. Otherwise, correct working depends on having the alias setup in the right file.",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "3377ccebb37e23880c64e296334cfa16108f24ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

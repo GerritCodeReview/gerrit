@@ -177,8 +177,14 @@ def declare_nongoogle_deps():
         sha1 = "8d6e7e35eac4fb5e7df19c55b3bc23fa51b10a11",
     )
 
-    # Test-only dependencies below.
+    # Keep this version of Soy synchronized with the version used in Gitiles.
+    maven_jar(
+        name = "soy",
+        artifact = "com.google.template:soy:2020-08-24",
+        sha1 = "e774bf5cc95923d2685292883fe219e231346e50",
+    )
 
+    # Test-only dependencies below.
     maven_jar(
         name = "cglib-3_2",
         artifact = "cglib:cglib-nodep:3.2.6",

@@ -37,6 +37,7 @@ mina-core
 nekohtml
 objenesis
 openid-consumer
+soy
 sshd-mina
 sshd-osgi
 testcontainers

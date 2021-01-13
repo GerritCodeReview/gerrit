@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5610e22c_8d645e88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-13T16:56:31Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "c5e8df43_e9da5430",
+      "revId": "b68a2e037674c1fa812f911e00acfcc9cde94093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bf5e53f_552b9f61",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-13T08:22:29Z",
       "side": 1,
       "message": "nit: needs formatting with GJF",
+      "revId": "b68a2e037674c1fa812f911e00acfcc9cde94093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a11a270_91dba388",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-13T16:56:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bf5e53f_552b9f61",
       "revId": "b68a2e037674c1fa812f911e00acfcc9cde94093",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

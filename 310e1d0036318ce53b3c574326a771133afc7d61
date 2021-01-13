@@ -22,6 +22,30 @@
       },
       "revId": "310e1d0036318ce53b3c574326a771133afc7d61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b8e7017_e55fcb5a",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-13T11:48:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "992cc1fe_c2459e7b",
+      "range": {
+        "startLine": 99,
+        "startChar": 6,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "310e1d0036318ce53b3c574326a771133afc7d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

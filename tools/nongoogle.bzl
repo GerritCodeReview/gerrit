@@ -250,3 +250,9 @@ def declare_nongoogle_deps():
         artifact = "net.java.dev.jna:jna:5.5.0",
         sha1 = "0e0845217c4907822403912ad6828d8e0b256208",
     )
+
+    maven_jar(
+        name = "jimfs",
+        artifact = "com.google.jimfs:jimfs:1.1",
+        sha1 = "8fbd0579dc68aba6186935cc1bee21d2f3e7ec1c",
+    )

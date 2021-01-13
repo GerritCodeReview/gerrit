@@ -31,6 +31,7 @@ httpcore-nio
 j2objc
 jackson-annotations
 jackson-core
+jimfs
 jna
 jruby
 mina-core

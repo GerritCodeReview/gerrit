@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f5c0f92_d708fa37",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-13T08:37:07Z",
+      "side": 0,
+      "message": "Why have these deps been removed?",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "ad35de0986e1972cac4d15de15513be1685ceb4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

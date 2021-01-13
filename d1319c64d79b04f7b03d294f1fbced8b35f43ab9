@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e59a39f3_b588a873",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-13T12:14:34Z",
+      "side": 1,
+      "message": "looks like internally, we use jetty for tests only, so this is fine to be a bit early.",
+      "revId": "d1319c64d79b04f7b03d294f1fbced8b35f43ab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

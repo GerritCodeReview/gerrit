@@ -119,6 +119,70 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "568a438d_b9684bc1",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1508,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-13T19:29:09Z",
+      "side": 1,
+      "message": "\u003e How the API consumer plugin can access MyApi which extends PluginProvidedApi definition?\n\u003e I guess it must be accessible at compile-time and runtime.\n\nWith this mechanism, the consuming plugin cannot access the MyAPI class at compile time, only at runtime. Because of this, the example uses reflection to access it. However, it sometimes would also possible to create a proxy to access it (we did that in a previous PS). With a proxy, the interface can be compiled to from the consuming plugin, but that has some restrictions and requires the plugins to coordinate how to share the interface at compile time. We plan to add a follow on change that shows this as an example and also adds a helper in core to facilitate creating such a proxy, however since direct reflection usage without a proxy is more flexible and powerful we don\u0027t want to limit the use case of this change to the proxy use case. Although these docs mention that the classloaders are different, it would be good to clarify that this means that the consuming plugin cannot access the MyAPI class at compile, maybe around line 1502?",
+      "parentUuid": "aebcdc3f_707b043b",
+      "range": {
+        "startLine": 1508,
+        "startChar": 23,
+        "endLine": 1508,
+        "endChar": 40
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c8d3d0_57522719",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1516,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-13T19:29:09Z",
+      "side": 1,
+      "message": "I think you probably want to show the example handling the case when the API is not available also?",
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd5a2247_4c085af6",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-13T19:29:09Z",
+      "side": 1,
+      "message": "Don\u0027t repeat the code.",
+      "range": {
+        "startLine": 1522,
+        "startChar": 3,
+        "endLine": 1522,
+        "endChar": 54
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "86766d9d_7f8f33d9",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -159,6 +223,29 @@
         "startChar": 0,
         "endLine": 1523,
         "endChar": 98
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f7a33bd_16142ec0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1524,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-13T19:29:09Z",
+      "side": 1,
+      "message": "I would show the specific exceptions expected here to show that the plugin needs to deal with these potential miss matches, and then I would make sure the plugin is handling that situation, likely the same way that it handles the API not being available.",
+      "range": {
+        "startLine": 1524,
+        "startChar": 6,
+        "endLine": 1524,
+        "endChar": 13
       },
       "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

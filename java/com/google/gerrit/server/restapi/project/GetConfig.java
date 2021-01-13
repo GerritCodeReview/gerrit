@@ -67,7 +67,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
             .project(resource.getNameKey())
             .test(ProjectPermission.READ_CONFIG);
     return Response.ok(
-        new ConfigInfoImpl(
+        ConfigInfoCreator.constructInfo(
             serverEnableSignedPush,
             resource.getProjectState(),
             resource.getUser(),

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e9724a3_7dbca97a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-13T18:17:45Z",
+      "side": 1,
+      "message": "I don\u0027t think this sentence is providing much value. Instead of saying what we couldn\u0027t previously do, just use the imperative to explain what this change does.",
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "240626b0_00249b55",
@@ -71,6 +88,30 @@
       "writtenOn": "2021-01-13T17:37:26Z",
       "side": 1,
       "message": "Plugins are loaded in different Guice injectors from different class loaders: reflection would help and I believe you may be getting other security issues in accessing a class from another class loader?",
+      "range": {
+        "startLine": 1523,
+        "startChar": 0,
+        "endLine": 1523,
+        "endChar": 98
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd34af5d_dc31af63",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1523,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-13T18:17:45Z",
+      "side": 1,
+      "message": "The classloader are all created by Gerrit, not by individual plugins, so Gerrit is in charge of the security settings of the classloaders. I don\u0027t think Gerrit changes the security settings of the classloaders. Did you have a specific concern in mind?",
+      "parentUuid": "86766d9d_7f8f33d9",
       "range": {
         "startLine": 1523,
         "startChar": 0,

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -45,6 +46,7 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
@@ -328,9 +330,15 @@ public class RebaseChangeOp implements BatchUpdateOp {
       filesWithGitConflicts = null;
       tree = merger.getResultTreeId();
     } else {
+      List<String> conflicts = ImmutableList.of();
+      if (merger instanceof ResolveMerger) {
+        conflicts = ((ResolveMerger) merger).getUnmergedPaths();
+      }
+
       if (!allowConflicts || !(merger instanceof ResolveMerger)) {
         throw new MergeConflictException(
-            "The change could not be rebased due to a conflict during merge.");
+            "The change could not be rebased due to a conflict during merge.\n\n"
+                + MergeUtil.createConflictMessage(conflicts));
       }
 
       Map<String, MergeResult<? extends Sequence>> mergeResults =

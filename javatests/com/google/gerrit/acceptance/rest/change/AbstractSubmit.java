@@ -228,7 +228,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
                   "Cannot rebase "
                       + change2hash
                       + ": The change could "
-                      + "not be rebased due to a conflict during merge.");
+                      + "not be rebased due to a conflict during merge.\n\n"
+                      + "merge conflict(s):\n"
+                      + "a.txt");
           break;
         case MERGE_ALWAYS:
         case MERGE_IF_NECESSARY:

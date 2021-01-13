@@ -1344,9 +1344,17 @@ public class ChangeIT extends AbstractDaemonTest {
             "If09d8782c1e59dd0b33de2b1ec3595d69cc10ad5");
     PushOneCommit.Result r2 = push.to("refs/for/master");
     r2.assertOkStatus();
-    assertThrows(
-        ResourceConflictException.class,
-        () -> gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).rebase());
+    ResourceConflictException exception =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).rebase());
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "The change could not be rebased due to a conflict during merge.\n\n"
+                    + "merge conflict(s):\n%s",
+                PushOneCommit.FILE_NAME));
   }
 
   @Test

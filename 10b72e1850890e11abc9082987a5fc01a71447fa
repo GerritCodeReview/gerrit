@@ -142,6 +142,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99c9f40b_b3bab67c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-14T13:48:50Z",
+      "side": 1,
+      "message": "It\u0027s not a noob question, this would have to be figured out :-)\n\nYou can share a callable or establish a channel. My hope is, though, that we wouldn\u0027t have to mingle with reflection and class loaders. I don\u0027t think I\u0027ve found wisdom with this idea, but want to see what other options we have.\n\nDon\u0027t get me wrong: Personally, I\u0027d just rather not have inter-plugin dependencies at all but want to be open to ideas and solutions :-)",
+      "parentUuid": "3ab3d79b_a9eb04c1",
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64a08995_387adb57",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2

@@ -122,6 +122,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ab3d79b_a9eb04c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-01-14T13:26:16Z",
+      "side": 1,
+      "message": "Please excuse the noob question but how would one use protobuf to call API from different plugin? Interface definition and messages make sense but one would have to share callable instance between plugins anyway...\nI don\u0027t want to criticise any solution but better understand options to get there ;)",
+      "parentUuid": "d3d4038f_baa27195",
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64a08995_387adb57",

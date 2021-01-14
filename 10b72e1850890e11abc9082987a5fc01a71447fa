@@ -196,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "01f04662_de7176c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-14T17:25:37Z",
+      "side": 1,
+      "message": "\u003e Don\u0027t get me wrong: Personally, I\u0027d just rather not have inter-plugin dependencies at all but want to be open to ideas and solutions :-)\n\nI don\u0027t understand the hesitancy here. Do you have some reason to believe this will cause problems for Google\u0027s Gerrit servers?\n\nIf it\u0027s not a problem for Google specifically, what from a software engineering best practice perspective is objectionable? To us, it seems like this change facilitates and encourages code sharing and a good separation of concerns.\n\nPlease help me understand your concerns.",
+      "parentUuid": "73376b61_b35f0a72",
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64a08995_387adb57",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -253,6 +271,30 @@
       "writtenOn": "2021-01-14T13:12:28Z",
       "side": 1,
       "message": "I don\u0027t think this is a great solution.",
+      "range": {
+        "startLine": 1502,
+        "startChar": 60,
+        "endLine": 1503,
+        "endChar": 49
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35df7f97_dc7fec44",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1503,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-14T17:25:37Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think this is a great solution.\n\nCan you please provide the technical justification for that opinion?",
+      "parentUuid": "be1752f0_afbf2a2a",
       "range": {
         "startLine": 1502,
         "startChar": 60,
@@ -387,6 +429,30 @@
       "writtenOn": "2021-01-14T13:12:28Z",
       "side": 1,
       "message": "I think the use of reflection heavily hints towards the need to do this differently.",
+      "range": {
+        "startLine": 1522,
+        "startChar": 9,
+        "endLine": 1522,
+        "endChar": 53
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1fc2290_b6ad380c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-14T17:25:37Z",
+      "side": 1,
+      "message": "\u003e I think the use of reflection heavily hints towards the need to do this differently.\n\nI\u0027m seeing an anti-reflection theme here 😊 Is this comment different from the one on line 1503? I want to make sure you\u0027re getting unique replies to your comments if they\u0027re different.",
+      "parentUuid": "86a2c91c_0ba3a7f2",
       "range": {
         "startLine": 1522,
         "startChar": 9,

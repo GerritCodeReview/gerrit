@@ -109,7 +109,10 @@ public class AccountResolver {
 
     return result.asList().stream()
         .map(a -> formatForException(result, a))
-        .collect(joining("\n", "Account '" + result.input() + "' is ambiguous:\n", ""));
+        .limit(3)
+        .collect(
+            joining(
+                "\n", "Account '" + result.input() + "' is ambiguous (at most 3 shown):\n", ""));
   }
 
   private static String formatForException(Result result, AccountState state) {

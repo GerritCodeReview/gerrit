@@ -34,6 +34,7 @@ class GerritSimulation extends Simulation {
   protected val uniqueName: String = className + "-" + hashCode()
   protected val single = 1
 
+  val numberOfUsers: Int = replaceProperty("number_of_users", single).toInt
   val replicationDelay: Int = replaceProperty("replication_delay", 15).toInt
   private val powerFactor = replaceProperty("power_factor", 1.0).toDouble
   protected val SecondsPerWeightUnit = 2

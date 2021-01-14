@@ -129,6 +129,24 @@
       "parentUuid": "2a60bbc2_7e9ac352",
       "revId": "cfe621f832f2703436499bc3f5eb082f7a836c04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d226fc7_be931cb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bcd7173_e4c57192",
+      "revId": "cfe621f832f2703436499bc3f5eb082f7a836c04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

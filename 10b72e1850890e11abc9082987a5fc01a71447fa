@@ -260,6 +260,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e580069d_3b12a9a3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-01-14T18:39:26Z",
+      "side": 1,
+      "message": "\u003e To do that, you need a binary definition of that API. \n\nUnless you use pure reflection... \n\n\u003e How do you get that?\n\nHowever to make things easier to develop, you can share the interface definitions at compile time, and then use a reflection based proxy. This is possible without having to use a gerrit.config library (which requires filesystem access and a server restart to use).\n\nInternally, we already share interface definitions when using @Options annotations in our plugins by placing our interfaces in an \"extensions\" subdirectory of the plugin defining the extension and then we soft link to that from the other plugin. A real world example for us is like this:\n\nDirectory in \"propagator\" plugin providing extensions:  \n\n  plugins/propagator/src/main/java/com/googlesource/gerrit/plugins/propagator/extensions/\n\nSoft link in \"manifest\" plugin using \"propagator\" extension:\n\n  plugins/manifest/src/main/java/com/googlesource/gerrit/plugins/propagator/extensions - \u003e\n    ../../../../../../../../propagator/src/main/java/com/googlesource/gerrit/plugins/propagator/extensions/\n\nThis allows the \"manifest\" plugin to bundle any definitions in the \"propagator\" plugin\u0027s \"extensions\" directory into its jar file. We keep those mostly limited to bare minimum interfaces so that there is very little \"vendoring\" going on. I would suggest a similar method for anyone wanting to share interface definitions for a reflection based proxy. We will try to capture these suggestions in the follow on change to this one which will provide helpers to create those proxies. Of course, we welcome suggestions to improve this, since even an RPC based solution would need a convenient solution to share API definitions.\n\n\u003e If through a library, then why not just package the implementation into that library as well?\n\nThis suffers all the downsides of \"vendoring\", it would not allow for bug fixes on a running system.",
+      "parentUuid": "f87a2c30_22ba8058",
+      "range": {
+        "startLine": 1499,
+        "startChar": 9,
+        "endLine": 1499,
+        "endChar": 39
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be1752f0_afbf2a2a",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -453,6 +477,30 @@
       "side": 1,
       "message": "\u003e I think the use of reflection heavily hints towards the need to do this differently.\n\nI\u0027m seeing an anti-reflection theme here 😊 Is this comment different from the one on line 1503? I want to make sure you\u0027re getting unique replies to your comments if they\u0027re different.",
       "parentUuid": "86a2c91c_0ba3a7f2",
+      "range": {
+        "startLine": 1522,
+        "startChar": 9,
+        "endLine": 1522,
+        "endChar": 53
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fe4b1c6_77d010ba",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-01-14T18:39:26Z",
+      "side": 1,
+      "message": "Using reflection directly can be a pain, however due to its flexibility, it is the foundation of many powerful frameworks, many which are easy to use (gwtorm was such an example).",
+      "parentUuid": "f1fc2290_b6ad380c",
       "range": {
         "startLine": 1522,
         "startChar": 9,

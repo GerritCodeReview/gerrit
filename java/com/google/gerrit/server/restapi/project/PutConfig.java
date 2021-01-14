@@ -176,7 +176,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       }
 
       ProjectState state = projectStateFactory.create(projectConfigFactory.read(md).getCacheable());
-      return new ConfigInfoImpl(
+      return ConfigInfoCreator.constructInfo(
           serverEnableSignedPush,
           state,
           user.get(),

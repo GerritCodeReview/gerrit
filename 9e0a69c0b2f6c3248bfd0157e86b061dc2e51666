@@ -16,6 +16,24 @@
       "message": "@Milutin, any reason LC-approval is still missing?",
       "revId": "9e0a69c0b2f6c3248bfd0157e86b061dc2e51666",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4475ef6e_fe9afd43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-14T09:18:21Z",
+      "side": 1,
+      "message": "Sorry my bad. +1",
+      "parentUuid": "c16500e4_e9508bda",
+      "revId": "9e0a69c0b2f6c3248bfd0157e86b061dc2e51666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

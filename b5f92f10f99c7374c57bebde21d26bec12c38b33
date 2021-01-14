@@ -52,6 +52,24 @@
       "parentUuid": "9fe68b62_42cd2914",
       "revId": "b5f92f10f99c7374c57bebde21d26bec12c38b33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5c1ef69_5400bd6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-01-14T16:19:51Z",
+      "side": 1,
+      "message": "I\u0027m sure it works but that\u0027s not the point. It creates a whole series of merges from EOL branches with functionality that\u0027s already merged into stable-3.1, stable-3.2, stable-3.3 and master.\nThe whole merge-everything-from-ancient-stable-branch-to-master-every-time is quite time consuming. It also causes the commit history of the active branches to be unnecessarily complex.",
+      "parentUuid": "7d9711ce_720b0690",
+      "revId": "b5f92f10f99c7374c57bebde21d26bec12c38b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -178,6 +178,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73376b61_b35f0a72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-01-14T16:23:07Z",
+      "side": 1,
+      "message": "\u003e I think using reflection here is the wrong approach. If we want plugins to be able to call other plugins, we should rather accept the separation that exists between them today (class loaders) and design around it.\n\nI see no reason to create an artificial barrier when there isn\u0027t one. Plugins share the same VM, why raise the barrier for development and pretend they don\u0027t? The reason for separate classloaders is for namespacing, to avoid naming collisions, not to prevent plugins from interacting with each other.\n\n\u003e What do you think about using Protocol buffers for plugin communication? It seems like a good fit to me: The interface definitions as well as request/response attributes sit in a proto file that can be shared between the plugins by means of compiling it in as proto Java lib.\n\n1) I don\u0027t want to have to use an RPC mechanism when I am not making remote calls, it is complicated and slow with large amounts of data (requires serialization). We have real use cases that are easily addressed with a reflection based proxy. Imagine calling another plugin on a large query (status:merged) to get data about each change in the query, such a thing can be done efficiently with reflection since the data types are known to Gerrit. Many plugins are interacting with Gerrit data types, Branch.NameKeys, Changes... and they only need to share info about these types, Strings, Booleans... these plugins can do well with just reflection and would get no benefit from using RPCs. \n\n2) I don\u0027t want to have to use a heavier RPC mechanism than what is necessary, java provides built in RPCs which are much lighter weight and easier to use than protobuf, they would be more appropriate if RPCs are needed as it reduces the plugin development barrier compared to any non native java RPC mechanism.\n\nThat being said, I am not against protopuf being available for plugins to use, as it would allow them to communicate with the outside world, it\u0027s that just like I wouldn\u0027t want to have to use an RPC to make calls within my own plugin, I don\u0027t want to have to use an RPC to make simple calls to another plugin. I don\u0027t want a solution that is not fit for what I need to do.\n\n\u003e That should make it so that you don\u0027t have to rely on reflection and you don\u0027t have to care about the different class loaders.\n\nThis is just the gateway, step 1. It enables any sort of framework that you want. There are many ways to take further steps to make things easier after this, steps that depend on the specific use case and that require only the complexity that the specific use case needs. It likely would even enable a more efficient protobuf implementation that does not require serializing common data types if anyone were so inclined to build one. \n\n\u003e I mean we would need to use both messages and rpc definitions. The latter is how APIs are described.\n\nI think you are describing remote APIs. Non remote APIs (including libraries) are often described with classes (and interfaces sometimes), or sometimes with java 8 without classes just methods.",
+      "parentUuid": "7acc354a_5168ac72",
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64a08995_387adb57",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2

@@ -22,6 +22,30 @@
       },
       "revId": "b08592a238fd4a7415982a8f8137954e0d345c41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a000ad0a_ab0641ea",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-14T15:40:16Z",
+      "side": 1,
+      "message": "See commit message, there I linked this change: 243014 that this upgrade is reverting. To answer your question: not aopalliance is not developed by Google, so I guess we would have to revert the move and leave it in WORKSPACE.",
+      "parentUuid": "75ebb414_8886c8fc",
+      "range": {
+        "startLine": 172,
+        "startChar": 20,
+        "endLine": 172,
+        "endChar": 43
+      },
+      "revId": "b08592a238fd4a7415982a8f8137954e0d345c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -39,6 +39,24 @@
       "message": "we\u0027re currently at commit 87aacaeca72f99941323d7d5d981cde333177b23 ; what version of mockito is that?",
       "revId": "4c4ed7cebfc53d22657e6a36a90ba97975729a9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8d6cfb0_41829797",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-14T15:47:08Z",
+      "side": 1,
+      "message": "I think it\u0027s: [1]. I can see that this SHA1 is included in the latest release:  v3.7.4: [2], or am I missing something?\n\n[1] https://github.com/mockito/mockito/commit/87aacaeca72f99941323d7d5d981cde333177b23\n[2] https://github.com/mockito/mockito/releases/tag/v3.7.4",
+      "parentUuid": "387360aa_652efd00",
+      "revId": "4c4ed7cebfc53d22657e6a36a90ba97975729a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

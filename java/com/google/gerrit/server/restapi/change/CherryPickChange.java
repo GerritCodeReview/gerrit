@@ -334,7 +334,7 @@ public class CherryPickChange {
                 input.allowEmpty,
                 input.allowConflicts);
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
-        throw new IntegrationConflictException("Cherry pick failed: " + e.getMessage());
+        throw new IntegrationConflictException("Cherry pick failed: " + e.getMessage(), e);
       }
 
       try (BatchUpdate bu = batchUpdateFactory.create(project, identifiedUser, timestamp)) {

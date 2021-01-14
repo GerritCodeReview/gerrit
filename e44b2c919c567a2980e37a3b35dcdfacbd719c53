@@ -70,6 +70,30 @@
       },
       "revId": "e44b2c919c567a2980e37a3b35dcdfacbd719c53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8ad7d91_8fa1cf2b",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-14T08:21:55Z",
+      "side": 1,
+      "message": "Thanks! This looks much nicer. Done.",
+      "parentUuid": "b914be22_c97405e5",
+      "range": {
+        "startLine": 183,
+        "startChar": 4,
+        "endLine": 183,
+        "endChar": 34
+      },
+      "revId": "e44b2c919c567a2980e37a3b35dcdfacbd719c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

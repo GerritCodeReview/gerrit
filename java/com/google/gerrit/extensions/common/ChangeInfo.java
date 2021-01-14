@@ -83,7 +83,8 @@ public class ChangeInfo {
    * com.google.gerrit.server.restapi.change.CreateChange}, {@link
    * com.google.gerrit.server.restapi.change.CreateMergePatchSet}, {@link
    * com.google.gerrit.server.restapi.change.CherryPick}, {@link
-   * com.google.gerrit.server.restapi.change.CherryPickCommit}
+   * com.google.gerrit.server.restapi.change.CherryPickCommit}, {@link
+   * com.google.gerrit.server.restapi.change.Rebase}
    */
   public Boolean containsGitConflicts;
 

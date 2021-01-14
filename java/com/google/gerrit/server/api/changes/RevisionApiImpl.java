@@ -282,7 +282,16 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public ChangeApi rebase(RebaseInput in) throws RestApiException {
     try {
-      return changes.id(rebase.apply(revision, in).value()._number);
+      return changes.id(rebaseAsInfo(in)._number);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot rebase ps", e);
+    }
+  }
+
+  @Override
+  public ChangeInfo rebaseAsInfo(RebaseInput in) throws RestApiException {
+    try {
+      return rebase.apply(revision, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot rebase ps", e);
     }

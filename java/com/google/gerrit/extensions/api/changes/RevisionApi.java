@@ -68,6 +68,8 @@ public interface RevisionApi {
 
   ChangeApi rebase(RebaseInput in) throws RestApiException;
 
+  ChangeInfo rebaseAsInfo(RebaseInput in) throws RestApiException;
+
   boolean canRebase() throws RestApiException;
 
   RevisionReviewerApi reviewer(String id) throws RestApiException;
@@ -214,6 +216,11 @@ public interface RevisionApi {
 
     @Override
     public ChangeApi rebase(RebaseInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo rebaseAsInfo(RebaseInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

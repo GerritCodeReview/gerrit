@@ -47,6 +47,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
@@ -142,8 +143,10 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
+import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -178,6 +181,7 @@ import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -1340,9 +1344,102 @@ public class ChangeIT extends AbstractDaemonTest {
             "If09d8782c1e59dd0b33de2b1ec3595d69cc10ad5");
     PushOneCommit.Result r2 = push.to("refs/for/master");
     r2.assertOkStatus();
-    assertThrows(
-        ResourceConflictException.class,
-        () -> gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).rebase());
+    ResourceConflictException exception =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).rebase());
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "The change could not be rebased due to a conflict during merge.\n\n"
+                    + "merge conflict(s):\n%s",
+                PushOneCommit.FILE_NAME));
+  }
+
+  @Test
+  public void rebaseConflict_conflictsAllowed() throws Exception {
+    String patchSetSubject = "patch set change";
+    String patchSetContent = "patch set content";
+    String baseSubject = "base change";
+    String baseContent = "base content";
+
+    PushOneCommit.Result r1 = createChange(baseSubject, PushOneCommit.FILE_NAME, baseContent);
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).submit();
+
+    testRepo.reset("HEAD~1");
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(), testRepo, patchSetSubject, PushOneCommit.FILE_NAME, patchSetContent);
+    PushOneCommit.Result r2 = push.to("refs/for/master");
+    r2.assertOkStatus();
+
+    String changeId = r2.getChangeId();
+    RevCommit patchSet = r2.getCommit();
+    RevCommit base = r1.getCommit();
+
+    TestWorkInProgressStateChangedListener wipStateChangedListener =
+        new TestWorkInProgressStateChangedListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(wipStateChangedListener)) {
+      RebaseInput rebaseInput = new RebaseInput();
+      rebaseInput.allowConflicts = true;
+      ChangeInfo changeInfo =
+          gApi.changes().id(changeId).revision(patchSet.name()).rebaseAsInfo(rebaseInput);
+      assertThat(changeInfo.containsGitConflicts).isTrue();
+      assertThat(changeInfo.workInProgress).isTrue();
+    }
+    assertThat(wipStateChangedListener.invoked).isTrue();
+    assertThat(wipStateChangedListener.wip).isTrue();
+
+    // To get the revisions, we must retrieve the change with more change options.
+    ChangeInfo changeInfo =
+        gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
+    assertThat(changeInfo.revisions).hasSize(2);
+    assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
+        .isEqualTo(base.name());
+
+    // Verify that the file content in the created patch set is correct.
+    // We expect that it has conflict markers to indicate the conflict.
+    BinaryResult bin =
+        gApi.changes().id(changeId).current().file(PushOneCommit.FILE_NAME).content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String fileContent = new String(os.toByteArray(), UTF_8);
+    String patchSetSha1 = abbreviateName(patchSet, 6);
+    String baseSha1 = abbreviateName(base, 6);
+    assertThat(fileContent)
+        .isEqualTo(
+            "<<<<<<< PATCH SET ("
+                + patchSetSha1
+                + " "
+                + patchSetSubject
+                + ")\n"
+                + patchSetContent
+                + "\n"
+                + "=======\n"
+                + baseContent
+                + "\n"
+                + ">>>>>>> BASE      ("
+                + baseSha1
+                + " "
+                + baseSubject
+                + ")\n");
+
+    // Verify the message that has been posted on the change.
+    List<ChangeMessageInfo> messages = gApi.changes().id(changeId).messages();
+    assertThat(messages).hasSize(2);
+    assertThat(Iterables.getLast(messages).message)
+        .isEqualTo(
+            "Patch Set 2: Patch Set 1 was rebased\n\n"
+                + "The following files contain Git conflicts:\n"
+                + "* "
+                + PushOneCommit.FILE_NAME
+                + "\n");
   }
 
   @Test
@@ -4353,5 +4450,18 @@ public class ChangeIT extends AbstractDaemonTest {
   @FunctionalInterface
   private interface AddReviewerCaller {
     void call(String changeId, String reviewer) throws RestApiException;
+  }
+
+  private static class TestWorkInProgressStateChangedListener
+      implements WorkInProgressStateChangedListener {
+    boolean invoked;
+    Boolean wip;
+
+    @Override
+    public void onWorkInProgressStateChanged(Event event) {
+      this.invoked = true;
+      this.wip =
+          event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
+    }
   }
 }

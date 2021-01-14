@@ -42,6 +42,7 @@ import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -115,7 +116,7 @@ public class Rebase
     try (Repository repo = repoManager.openRepository(change.getProject());
         ObjectInserter oi = repo.newObjectInserter();
         ObjectReader reader = oi.newReader();
-        RevWalk rw = new RevWalk(reader);
+        RevWalk rw = CodeReviewCommit.newRevWalk(reader);
         BatchUpdate bu =
             updateFactory.create(change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       if (!change.isNew()) {
@@ -124,18 +125,23 @@ public class Rebase
         throw new ResourceConflictException(
             "cannot rebase merge commits or commit with no ancestor");
       }
-      // TODO(dborowitz): Why no notification? This seems wrong; dig up blame.
-      bu.setNotify(NotifyResolver.Result.none());
-      bu.setRepository(repo, rw, oi);
-      bu.addOp(
-          change.getId(),
+      RebaseChangeOp rebaseOp =
           rebaseFactory
               .create(rsrc.getNotes(), rsrc.getPatchSet(), findBaseRev(repo, rw, rsrc, input))
               .setForceContentMerge(true)
-              .setFireRevisionCreated(true));
+              .setAllowConflicts(input.allowConflicts)
+              .setFireRevisionCreated(true);
+      // TODO(dborowitz): Why no notification? This seems wrong; dig up blame.
+      bu.setNotify(NotifyResolver.Result.none());
+      bu.setRepository(repo, rw, oi);
+      bu.addOp(change.getId(), rebaseOp);
       bu.execute();
+
+      ChangeInfo changeInfo = json.create(OPTIONS).format(change.getProject(), change.getId());
+      changeInfo.containsGitConflicts =
+          !rebaseOp.getRebasedCommit().getFilesWithGitConflicts().isEmpty() ? true : null;
+      return Response.ok(changeInfo);
     }
-    return Response.ok(json.create(OPTIONS).format(change.getProject(), change.getId()));
   }
 
   private ObjectId findBaseRev(

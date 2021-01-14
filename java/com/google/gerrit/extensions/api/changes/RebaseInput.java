@@ -16,4 +16,12 @@ package com.google.gerrit.extensions.api.changes;
 
 public class RebaseInput {
   public String base;
+
+  /**
+   * Whether the rebase should succeed if there are conflicts.
+   *
+   * <p>If there are conflicts the file contents of the rebased change contain git conflict markers
+   * to indicate the conflicts.
+   */
+  public boolean allowConflicts;
 }

@@ -488,6 +488,10 @@ public class MergeUtil {
   }
 
   public static String createConflictMessage(List<String> conflicts) {
+    if (conflicts.isEmpty()) {
+      return "";
+    }
+
     StringBuilder sb = new StringBuilder("merge conflict(s):");
     for (String c : conflicts) {
       sb.append('\n').append(c);

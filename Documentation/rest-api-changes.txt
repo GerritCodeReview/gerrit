@@ -7488,6 +7488,13 @@ Alternatively, a change number can be specified, in which case the current
 patch set is inferred. +
 Empty string is used for rebasing directly on top of the target branch,
 which effectively breaks dependency towards a parent change.
+|`allow_conflicts`|optional, defaults to false|
+If `true`, the rebase also succeeds if there are conflicts. +
+If there are conflicts the file contents of the rebased patch set contain
+git conflict markers to indicate the conflicts. +
+Callers can find out whether there were conflicts by checking the
+`contains_git_conflicts` field in the returned link:#change-info[ChangeInfo]. +
+If there are conflicts the change is marked as work-in-progress.
 |===========================
 
 [[related-change-and-commit-info]]

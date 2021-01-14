@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff7ca9c9_be4db8f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:02:25Z",
+      "side": 1,
+      "message": "Those are for ChangeIT, not ChangeEditIT. They also use an API that doesn\u0027t exist in stable-2.14.",
+      "parentUuid": "6ede2fdc_f8ea8030",
+      "range": {
+        "startLine": 16,
+        "startChar": 40,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "cfe621f832f2703436499bc3f5eb082f7a836c04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a60bbc2_7e9ac352",

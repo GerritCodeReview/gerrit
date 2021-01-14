@@ -71,6 +71,8 @@ import {AbortStop} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {MovedChunkGoToLineEvent} from '../../../types/events';
 
+import {CreateCommentEventDetail as CreateCommentEventDetailApi} from '../../../api/diff';
+
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
 
@@ -101,6 +103,11 @@ export interface GrDiff {
     diffBuilder: GrDiffBuilderElement;
     diffTable: HTMLTableElement;
   };
+}
+
+export interface CreateCommentEventDetail extends CreateCommentEventDetailApi {
+  path?: string;
+  commentSide?: CommentSide
 }
 
 @customElement('gr-diff')

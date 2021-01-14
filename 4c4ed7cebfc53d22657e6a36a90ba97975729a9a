@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "387360aa_652efd00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-14T12:24:05Z",
+      "side": 1,
+      "message": "we\u0027re currently at commit 87aacaeca72f99941323d7d5d981cde333177b23 ; what version of mockito is that?",
+      "revId": "4c4ed7cebfc53d22657e6a36a90ba97975729a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

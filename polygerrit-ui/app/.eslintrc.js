@@ -284,6 +284,8 @@ module.exports = {
           message: 'Use @polymer/decorators instead',
         }],
         '@typescript-eslint/no-explicit-any': 'error',
+        // See https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
+        '@typescript-eslint/ban-ts-comment': 'off',
         // The following rules is required to match internal google rules
         '@typescript-eslint/restrict-plus-operands': 'error',
         '@typescript-eslint/no-unused-vars': [

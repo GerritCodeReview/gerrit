@@ -3,6 +3,190 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf18a128_652c34a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-14T21:50:37Z",
+      "side": 1,
+      "message": "Is a closing square bracket missing?",
+      "range": {
+        "startLine": 940,
+        "startChar": 32,
+        "endLine": 940,
+        "endChar": 34
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca2879d0_4946b9c3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-14T21:50:37Z",
+      "side": 1,
+      "message": "This seems very elaborate for finding the chip element that goes with the thread element. Thread elements can be identified by the `rootId` property, so you could either set an attribute on the chip element above\n\n  longRangeCommentChip.setAttribute(\u0027threadElRootId\u0027, threadEl.rootId);\n\nand then use a query selector here\n\n  `gr-ranged-comment-chip[threadElRootId\u003d\"${threadEl.rootId}\"]`\n\nOr you could maintain a map in gr-diff that maps rootId to chip element.",
+      "range": {
+        "startLine": 937,
+        "startChar": 8,
+        "endLine": 950,
+        "endChar": 48
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80d62f4b_91be2b14",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-14T21:50:37Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c201e95_458e41e4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-14T21:50:37Z",
+      "side": 1,
+      "message": "You don\u0027t need form-styles here, or do you? A \"normal\" component would just include the shared-styles.",
+      "range": {
+        "startLine": 23,
+        "startChar": 18,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c676cee_42b465f6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-14T21:50:37Z",
+      "side": 1,
+      "message": "width?",
+      "range": {
+        "startLine": 35,
+        "startChar": 18,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73c2ce41_88877a03",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-14T21:50:37Z",
+      "side": 1,
+      "message": "Maybe 50% to indicate \"fully rounded\"?",
+      "range": {
+        "startLine": 39,
+        "startChar": 21,
+        "endLine": 39,
+        "endChar": 25
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5923483_a039b9b2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-14T21:50:37Z",
+      "side": 1,
+      "message": "More a comment to Delphine, and I have not checked the specs, but why would the padding be different for left and right? I would have expected something like:\n\n  padding: var(--spacing-s) var(--spacing-l);",
+      "range": {
+        "startLine": 41,
+        "startChar": 5,
+        "endLine": 42,
+        "endChar": 39
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a5fadc6_c710ae7f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-14T21:50:37Z",
+      "side": 1,
+      "message": "Can you update this comment pointing to where the icon actually came from?",
+      "range": {
+        "startLine": 66,
+        "startChar": 74,
+        "endLine": 66,
+        "endChar": 86
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "191b2a58_f928140a",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
         "patchSetId": 21
@@ -60,6 +244,30 @@
       "writtenOn": "2021-01-14T10:05:56Z",
       "side": 1,
       "message": "#ffd500, 0.5 or rgba(255,213, 0, 0.5)",
+      "range": {
+        "startLine": 173,
+        "startChar": 40,
+        "endLine": 173,
+        "endChar": 62
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f50f6202_fbcc90ff",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-14T21:50:37Z",
+      "side": 1,
+      "message": "Which means diff-highlight-range-color is identical to diff-highlight-range-hover-color. :-)",
+      "parentUuid": "00675ce9_890c32af",
       "range": {
         "startLine": 173,
         "startChar": 40,

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "191b2a58_f928140a",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-01-14T10:05:56Z",
+      "side": 1,
+      "message": "I\u0027m not sure we\u0027ll use this color in Gerrit much outside of this chip. So we can use \u0027white\u0027 color instead for Gerrit.",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 41
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bc737b1_4c4bf802",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-01-14T10:05:56Z",
+      "side": 1,
+      "message": "We could reuse this for chips (checks chips) or text of Gerrit status, TBD with work on color palette.",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 47
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00675ce9_890c32af",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-01-14T10:05:56Z",
+      "side": 1,
+      "message": "#ffd500, 0.5 or rgba(255,213, 0, 0.5)",
+      "range": {
+        "startLine": 173,
+        "startChar": 40,
+        "endLine": 173,
+        "endChar": 62
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

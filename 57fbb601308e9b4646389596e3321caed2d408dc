@@ -16,6 +16,23 @@
       "message": "@Ponch, can you verify this change in Safari browser? Thanks!",
       "revId": "57fbb601308e9b4646389596e3321caed2d408dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1f4aa69_6fb92e3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-01-14T09:56:47Z",
+      "side": 1,
+      "message": "Verified on Safari and Chrome",
+      "revId": "57fbb601308e9b4646389596e3321caed2d408dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aabfbc7_266f24a8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-14T01:14:40Z",
+      "side": 1,
+      "message": "As I understand it, the chip is put before the threadEl in the pre-slotted DOM location and so it will appear before the threadEl once both (chip + threadEl) are slotted. This is why we have to set slot attribute on the chip.\n\nThe same behavior works even if the slot already exists (see comment on slot creation line 922).",
+      "parentUuid": "40852094_cc914608",
+      "range": {
+        "startLine": 912,
+        "startChar": 52,
+        "endLine": 912,
+        "endChar": 60
+      },
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0109a022_9f977ac6",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-01-07T07:27:17Z",
       "side": 1,
       "message": "I know some of the DOM APIs support type parameters. Have you tried `this.shadowRoot?.querySelector\u003cHTMLSlotElement\u003e(...)` to get the element of the appropriate type from the start?",
+      "range": {
+        "startLine": 941,
+        "startChar": 9,
+        "endLine": 941,
+        "endChar": 32
+      },
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1832df81_35349adc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-14T01:14:40Z",
+      "side": 1,
+      "message": "Thanks, this is much nicer.",
+      "parentUuid": "0109a022_9f977ac6",
       "range": {
         "startLine": 941,
         "startChar": 9,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ba0f4e3_6b6c304d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-14T01:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db4e8c61_47b93e30",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 20
+      },
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e63863f_360ca3f7",
@@ -100,6 +172,30 @@
       "writtenOn": "2021-01-07T07:27:17Z",
       "side": 1,
       "message": "I don\u0027t know Polymer well enough to be sure: When is this run? On every render? Given this is ~constant given a range, which I think never changes, would it make sense to use a computed property or make range a setter and compute this when range is set?",
+      "range": {
+        "startLine": 48,
+        "startChar": 26,
+        "endLine": 48,
+        "endChar": 28
+      },
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e73ee31_0c52caa0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-14T01:14:40Z",
+      "side": 1,
+      "message": "IIUC, by passing range into _computeRangeLabel Polymer will see that in only needs to run when range is changed.",
+      "parentUuid": "6e63863f_360ca3f7",
       "range": {
         "startLine": 48,
         "startChar": 26,
@@ -135,6 +231,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f031c6e9_bb296599",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-14T01:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8074b384_25ab0fa8",
+      "range": {
+        "startLine": 37,
+        "startChar": 25,
+        "endLine": 37,
+        "endChar": 26
+      },
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "39dda8f8_6adf0712",
         "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.ts",
         "patchSetId": 12
@@ -146,6 +266,30 @@
       "writtenOn": "2021-01-07T07:27:17Z",
       "side": 1,
       "message": "Nit: This entire code block is the same as above - maybe extract into a `addRanges` method?",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 9
+      },
+      "revId": "5d5b805ce00fb7e029ab5ab1780b0787bae525a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61221ea2_8babd842",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-14T01:14:40Z",
+      "side": 1,
+      "message": "_updateRangesMap is already a bit abstract, and the code blocks in question aren\u0027t doing much. There is probably a less repetitive way to do all these various operations but I don\u0027t think I\u0027ll change it in this CL.",
+      "parentUuid": "39dda8f8_6adf0712",
       "range": {
         "startLine": 237,
         "startChar": 0,

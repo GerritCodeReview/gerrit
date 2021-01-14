@@ -216,6 +216,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "be577feb_d9951753",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-14T12:58:42Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ll look at that change instead then. Do you still want to work on this change then?\n\n\u003e  It is generally bad practice in most software engineering environments to duplicate code.\n\nThat\u0027s not what I suggested. If you pack your code in a library, that\u0027s not duplicating it. I see your point for caches.",
+      "parentUuid": "28de8959_64c224dd",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f54ed35b_6121eb76",

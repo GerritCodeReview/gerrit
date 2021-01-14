@@ -240,6 +240,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d47b3c31_9a3534de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-14T21:09:43Z",
+      "side": 1,
+      "message": "\u003e Thanks, I\u0027ll look at that change instead then. Do you still want to work on this change then?\n\nNo, probably not. I will abandon it.\n \n\u003e \u003e  It is generally bad practice in most software engineering environments to duplicate code.\n\u003e \n\u003e That\u0027s not what I suggested. If you pack your code in a library, that\u0027s not duplicating it. I see your point for caches.\n\nI\u0027m sorry if I miss-understood. I agree if by library you specifically mean using the gerrit.config library mechanism and not a bundled library that gets duplicated in side each plugin\u0027s jar.",
+      "parentUuid": "be577feb_d9951753",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f54ed35b_6121eb76",

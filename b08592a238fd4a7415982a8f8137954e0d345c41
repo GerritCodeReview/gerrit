@@ -46,6 +46,30 @@
       },
       "revId": "b08592a238fd4a7415982a8f8137954e0d345c41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "501c9158_2b4060d9",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-14T21:25:19Z",
+      "side": 1,
+      "message": "it\u0027s public domain\nhttps://search.maven.org/artifact/aopalliance/aopalliance/1.0/jar\nthe source code is hosted on sourceforge in CVS :-O\nhttps://sourceforge.net/p/aopalliance/code/\n\nhere is a copy on github\nhttps://github.com/hoverruan/aopalliance",
+      "parentUuid": "a000ad0a_ab0641ea",
+      "range": {
+        "startLine": 172,
+        "startChar": 20,
+        "endLine": 172,
+        "endChar": 43
+      },
+      "revId": "b08592a238fd4a7415982a8f8137954e0d345c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

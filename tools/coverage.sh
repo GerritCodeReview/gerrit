@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Usage
 #
@@ -7,8 +7,11 @@
 # COVERAGE_CPUS defaults to 2, and the default destination is a temp
 # dir.
 
-shopt -s expand_aliases
-source ~/.bash_profile
+bazel_bin=$(which bazelisk 2>/dev/null)
+if [[ -z "$bazel_bin" ]]; then
+    echo "Warning: bazelisk is not installed; falling back to bazel."
+    bazel_bin=bazel
+fi
 
 genhtml=$(which genhtml)
 if [[ -z "${genhtml}" ]]; then
@@ -25,7 +28,7 @@ echo "Running 'bazel coverage'; this may take a while"
 
 # coverage is expensive to run; use --jobs=2 to avoid overloading the
 # machine.
-bazel coverage -k --jobs=${COVERAGE_CPUS:-2} -- ...
+${bazel_bin} coverage -k --jobs=${COVERAGE_CPUS:-2} -- ...
 
 # The coverage data contains filenames relative to the Java root, and
 # genhtml has no logic to search these elsewhere. Workaround this
@@ -56,7 +59,7 @@ do
   fi
 done
 
-base=$(bazel info bazel-testlogs)
+base=$(${bazel_bin} info bazel-testlogs)
 for f in $(find ${base}  -name 'coverage.dat') ; do
   cp $f ${destdir}/$(echo $f| sed "s|${base}/||" | sed "s|/|_|g")
 done

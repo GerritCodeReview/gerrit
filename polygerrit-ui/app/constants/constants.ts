@@ -157,10 +157,7 @@ export enum ProjectState {
   HIDDEN = 'HIDDEN',
 }
 
-export enum Side {
-  LEFT = 'left',
-  RIGHT = 'right',
-}
+export {Side} from '../api/diff';
 
 /**
  * The type in ConfigParameterInfo entity.
@@ -288,7 +285,7 @@ export enum TimeFormat {
   HHMM_24 = 'HHMM_24',
 }
 
-export {DiffViewMode} from '../api/diff-types';
+export {DiffViewMode} from '../api/diff';
 
 /**
  * The type of email strategy to use.

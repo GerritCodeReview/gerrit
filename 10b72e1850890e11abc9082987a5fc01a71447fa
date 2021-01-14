@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "76183ef3_2b638e7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-14T01:14:56Z",
+      "side": 1,
+      "message": "Can you add as a generic use case here a plugin wanting to provide its REST and/or SSH commands as APIs to other plugins so that those plugins don\u0027t need to go through REST or SSH?",
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "240626b0_00249b55",

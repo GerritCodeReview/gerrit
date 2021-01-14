@@ -53,6 +53,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b873c20_a8b7e960",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T08:40:04Z",
+      "side": 1,
+      "message": "This has broken other plugins on the stable-3.3 branch [1]: let me rebuild all the plugins and see how many they are.\n\nWe should avoid this cherry-picks from master as much as possible in the future, unless they are related to actual bugs in Gerrit or in its API.\n\n[1] https://groups.google.com/g/repo-discuss/c/GD-OpGrO6vc",
+      "revId": "b31c2f1b585f80f9afc1ff34f23c0d58afc4ac45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c5e8c1a_fda8c2a0",

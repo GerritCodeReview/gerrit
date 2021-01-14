@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bed2595_db5a9de4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-14T11:09:20Z",
+      "side": 1,
+      "message": "perhaps we should have one central tests that checks all end points for visibility checks. ",
+      "revId": "e4516a6fb5fcfee7a370530bf50054551a4814de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

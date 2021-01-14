@@ -60,7 +60,7 @@ import {
   IgnoreWhitespaceType,
 } from '../../../types/diff';
 import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
-import {GrDiff, LineOfInterest} from '../gr-diff/gr-diff';
+import {CreateCommentEventDetail, GrDiff, LineOfInterest} from '../gr-diff/gr-diff';
 import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
@@ -702,7 +702,7 @@ export class GrDiffHost extends GestureEventListeners(
     );
   }
 
-  _handleCreateComment(e: CustomEvent) {
+  _handleCreateComment(e: CustomEvent<CreateCommentEventDetail>) {
     const {lineNum, side, patchNum, range, path, commentSide} = e.detail;
     const threadEl = this._getOrCreateThread(
       patchNum,

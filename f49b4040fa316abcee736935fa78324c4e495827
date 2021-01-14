@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6a5534f_0d29289a",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-14T09:38:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92cf0111_d882c5b9",
+      "revId": "f49b4040fa316abcee736935fa78324c4e495827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36826a74_ae3c13e5",

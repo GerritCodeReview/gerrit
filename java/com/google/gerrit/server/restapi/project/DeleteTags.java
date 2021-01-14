@@ -43,6 +43,10 @@ public class DeleteTags implements RestModifyView<ProjectResource, DeleteTagsInp
     if (input == null || input.tags == null || input.tags.isEmpty()) {
       throw new BadRequestException("tags must be specified");
     }
+
+    // If input.tags = ["refs/heads/bla"], this will actually delete the 'ref/heads/bla' branch,
+    // rather than refs/tags/refs/heads/bla.
+    // Since this is checked against DELETE permissions for refs/heads/bla, we'll let it go through.
     deleteRef.deleteMultipleRefs(
         project.getProjectState(), ImmutableSet.copyOf(input.tags), R_TAGS);
     return Response.none();

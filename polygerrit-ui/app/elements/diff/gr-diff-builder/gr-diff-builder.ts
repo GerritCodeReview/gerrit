@@ -716,19 +716,10 @@ export abstract class GrDiffBuilder {
       }
 
       if (lineNumberEl) {
-        const ANNOTATE_MAX_LINE_LENGTH = 1000;
-        // For performance reason, we skip annotating long lines.
-        if (line.text.length < ANNOTATE_MAX_LINE_LENGTH) {
-          for (const layer of this.layers) {
-            if (typeof layer.annotate === 'function') {
-              layer.annotate(contentText, lineNumberEl, line);
-            }
+        for (const layer of this.layers) {
+          if (typeof layer.annotate === 'function') {
+            layer.annotate(contentText, lineNumberEl, line);
           }
-        } else {
-          const msg =
-            `A line is longer than ${ANNOTATE_MAX_LINE_LENGTH}.` +
-            ' Line annotation was skipped.';
-          console.warn(msg);
         }
       } else {
         console.error('The lineNumberEl is null, skipping layer annotations.');

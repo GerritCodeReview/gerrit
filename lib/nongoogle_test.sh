@@ -43,6 +43,10 @@ sshd-mina
 sshd-osgi
 testcontainers
 testcontainers-elasticsearch
+truth
+truth-java8-extension
+truth-liteproto-extension
+truth-proto-extension
 tukaani-xz
 visible-assertions
 xerces

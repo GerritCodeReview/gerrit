@@ -830,32 +830,6 @@ maven_jar(
     sha1 = "42a25dc3219429f0e5d060061f71acb49bf010a0",
 )
 
-TRUTH_VERS = "1.1"
-
-maven_jar(
-    name = "truth",
-    artifact = "com.google.truth:truth:" + TRUTH_VERS,
-    sha1 = "6a096a16646559c24397b03f797d0c9d75ee8720",
-)
-
-maven_jar(
-    name = "truth-java8-extension",
-    artifact = "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERS,
-    sha1 = "258db6eb8df61832c5c059ed2bc2e1c88683e92f",
-)
-
-maven_jar(
-    name = "truth-liteproto-extension",
-    artifact = "com.google.truth.extensions:truth-liteproto-extension:" + TRUTH_VERS,
-    sha1 = "bf65afa13aa03330e739bcaa5d795fe0f10fbf20",
-)
-
-maven_jar(
-    name = "truth-proto-extension",
-    artifact = "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERS,
-    sha1 = "64cba89cf87c1d84cb8c81d06f0b9c482f10b4dc",
-)
-
 maven_jar(
     name = "diffutils",
     artifact = "com.googlecode.java-diff-utils:diffutils:1.3.0",

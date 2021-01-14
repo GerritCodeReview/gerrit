@@ -186,3 +186,8 @@ export declare type IgnoreWhitespaceType =
   | 'IGNORE_TRAILING'
   | 'IGNORE_LEADING_AND_TRAILING'
   | 'IGNORE_ALL';
+
+export enum Side {
+  LEFT = 'left',
+  RIGHT = 'right',
+}

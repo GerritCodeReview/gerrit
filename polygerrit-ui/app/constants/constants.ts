@@ -161,10 +161,7 @@ export enum ProjectState {
   HIDDEN = 'HIDDEN',
 }
 
-export enum Side {
-  LEFT = 'left',
-  RIGHT = 'right',
-}
+export {Side} from '../api/diff';
 
 /**
  * The type in ConfigParameterInfo entity.

@@ -191,4 +191,34 @@ export enum Side {
   LEFT = 'left',
   RIGHT = 'right',
 }
-  
+
+export enum CoverageType {
+  /**
+   * start_character and end_character of the range will be ignored for this
+   * type.
+   */
+  COVERED = 'COVERED',
+  /**
+   * start_character and end_character of the range will be ignored for this
+   * type.
+   */
+  NOT_COVERED = 'NOT_COVERED',
+  PARTIALLY_COVERED = 'PARTIALLY_COVERED',
+  /**
+   * You don't have to use this. If there is no coverage information for a
+   * range, then it implicitly means NOT_INSTRUMENTED. start_character and
+   * end_character of the range will be ignored for this type.
+   */
+  NOT_INSTRUMENTED = 'NOT_INSTRUMENTED',
+}
+
+export declare interface LineRange {
+  start_line: number;
+  end_line: number;
+}
+
+export interface CoverageRange {
+  type: CoverageType;
+  side: Side;
+  code_range: LineRange;
+}

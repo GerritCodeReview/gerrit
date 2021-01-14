@@ -105,6 +105,92 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3d4038f_baa27195",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-14T13:12:28Z",
+      "side": 1,
+      "message": "I think using reflection here is the wrong approach. If we want plugins to be able to call other plugins, we should rather accept the separation that exists between them today (class loaders) and design around it.\n\nWhat do you think about using Protocol buffers for plugin communication? It seems like a good fit to me: The interface definitions as well as request/response attributes sit in a proto file that can be shared between the plugins by means of compiling it in as proto Java lib.\n\nThat should make it so that you don\u0027t have to rely on reflection and you don\u0027t have to care about the different class loaders.\n\nI mean we would need to use both messages and rpc definitions. The latter is how APIs are described.",
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64a08995_387adb57",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1480,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-14T13:12:28Z",
+      "side": 1,
+      "message": "s/Consider/Suppose/?",
+      "range": {
+        "startLine": 1480,
+        "startChar": 3,
+        "endLine": 1480,
+        "endChar": 11
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f87a2c30_22ba8058",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-14T13:12:28Z",
+      "side": 1,
+      "message": "To do that, you need a binary definition of that API. How do you get that?\n\nIf through a library, then why not just package the implementation into that library as well?",
+      "range": {
+        "startLine": 1499,
+        "startChar": 9,
+        "endLine": 1499,
+        "endChar": 39
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be1752f0_afbf2a2a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1503,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-14T13:12:28Z",
+      "side": 1,
+      "message": "I don\u0027t think this is a great solution.",
+      "range": {
+        "startLine": 1502,
+        "startChar": 60,
+        "endLine": 1503,
+        "endChar": 49
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eab219e1_1901affb",
@@ -211,6 +297,29 @@
         "startChar": 3,
         "endLine": 1522,
         "endChar": 54
+      },
+      "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86a2c91c_0ba3a7f2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-01-14T13:12:28Z",
+      "side": 1,
+      "message": "I think the use of reflection heavily hints towards the need to do this differently.",
+      "range": {
+        "startLine": 1522,
+        "startChar": 9,
+        "endLine": 1522,
+        "endChar": 53
       },
       "revId": "10b72e1850890e11abc9082987a5fc01a71447fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

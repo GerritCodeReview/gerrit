@@ -256,3 +256,29 @@ def declare_nongoogle_deps():
         artifact = "com.google.jimfs:jimfs:1.2",
         sha1 = "48462eb319817c90c27d377341684b6b81372e08",
     )
+
+    TRUTH_VERS = "1.1"
+
+    maven_jar(
+        name = "truth",
+        artifact = "com.google.truth:truth:" + TRUTH_VERS,
+        sha1 = "6a096a16646559c24397b03f797d0c9d75ee8720",
+    )
+
+    maven_jar(
+        name = "truth-java8-extension",
+        artifact = "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERS,
+        sha1 = "258db6eb8df61832c5c059ed2bc2e1c88683e92f",
+    )
+
+    maven_jar(
+        name = "truth-liteproto-extension",
+        artifact = "com.google.truth.extensions:truth-liteproto-extension:" + TRUTH_VERS,
+        sha1 = "bf65afa13aa03330e739bcaa5d795fe0f10fbf20",
+    )
+
+    maven_jar(
+        name = "truth-proto-extension",
+        artifact = "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERS,
+        sha1 = "64cba89cf87c1d84cb8c81d06f0b9c482f10b4dc",
+    )

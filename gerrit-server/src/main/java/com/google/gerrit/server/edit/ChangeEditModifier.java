@@ -20,14 +20,17 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RawInput;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.change.PutMessage;
 import com.google.gerrit.server.edit.tree.ChangeFileContentModification;
 import com.google.gerrit.server.edit.tree.DeleteFileModification;
 import com.google.gerrit.server.edit.tree.RenameFileModification;
@@ -40,6 +43,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -83,6 +87,7 @@ public class ChangeEditModifier {
   private final PermissionBackend permissionBackend;
   private final ChangeEditUtil changeEditUtil;
   private final PatchSetUtil patchSetUtil;
+  private final ProjectCache projectCache;
 
   @Inject
   ChangeEditModifier(
@@ -92,7 +97,8 @@ public class ChangeEditModifier {
       Provider<CurrentUser> currentUser,
       PermissionBackend permissionBackend,
       ChangeEditUtil changeEditUtil,
-      PatchSetUtil patchSetUtil) {
+      PatchSetUtil patchSetUtil,
+      ProjectCache projectCache) {
     this.indexer = indexer;
     this.reviewDb = reviewDb;
     this.currentUser = currentUser;
@@ -100,6 +106,7 @@ public class ChangeEditModifier {
     this.tz = gerritIdent.getTimeZone();
     this.changeEditUtil = changeEditUtil;
     this.patchSetUtil = patchSetUtil;
+    this.projectCache = projectCache;
   }
 
   /**
@@ -203,10 +210,12 @@ public class ChangeEditModifier {
    * @throws UnchangedCommitMessageException if the commit message is the same as before
    * @throws PermissionBackendException
    * @throws BadRequestException if the commit message is malformed
+   * @throws ResourceConflictException if the commit message has a Change-Id modification
    */
-  public void modifyMessage(Repository repository, ChangeNotes notes, String newCommitMessage)
+  public void modifyMessage(
+      Repository repository, Project.NameKey project, ChangeNotes notes, String newCommitMessage)
       throws AuthException, IOException, UnchangedCommitMessageException, OrmException,
-          PermissionBackendException, BadRequestException {
+          PermissionBackendException, BadRequestException, ResourceConflictException {
     assertCanEdit(notes);
     newCommitMessage = CommitMessageUtil.checkAndSanitizeCommitMessage(newCommitMessage);
 
@@ -225,6 +234,11 @@ public class ChangeEditModifier {
     Timestamp nowTimestamp = TimeUtil.nowTs();
     ObjectId newEditCommit =
         createCommit(repository, basePatchSetCommit, baseTree, newCommitMessage, nowTimestamp);
+
+    PutMessage.ensureChangeIdIsCorrect(
+        projectCache.checkedGet(project).isRequireChangeID(),
+        notes.getChange().getKey().get(),
+        newCommitMessage);
 
     if (optionalChangeEdit.isPresent()) {
       updateEdit(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);

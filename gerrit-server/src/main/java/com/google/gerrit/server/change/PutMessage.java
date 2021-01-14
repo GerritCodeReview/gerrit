@@ -190,7 +190,7 @@ public class PutMessage
     }
   }
 
-  private static void ensureChangeIdIsCorrect(
+  public static void ensureChangeIdIsCorrect(
       boolean requireChangeId, String currentChangeId, String newCommitMessage)
       throws ResourceConflictException, BadRequestException {
     RevCommit revCommit =

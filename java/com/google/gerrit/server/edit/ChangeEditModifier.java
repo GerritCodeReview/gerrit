@@ -20,8 +20,10 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -41,6 +43,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.restapi.change.PutMessage;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
@@ -209,7 +212,8 @@ public class ChangeEditModifier {
    * @throws PermissionBackendException
    * @throws BadRequestException if the commit message is malformed
    */
-  public void modifyMessage(Repository repository, ChangeNotes notes, String newCommitMessage)
+  public void modifyMessage(
+      Repository repository, Project.NameKey project, ChangeNotes notes, String newCommitMessage)
       throws AuthException, IOException, UnchangedCommitMessageException, OrmException,
           PermissionBackendException, BadRequestException, ResourceConflictException {
     assertCanEdit(notes);
@@ -230,6 +234,11 @@ public class ChangeEditModifier {
     Timestamp nowTimestamp = TimeUtil.nowTs();
     ObjectId newEditCommit =
         createCommit(repository, basePatchSetCommit, baseTree, newCommitMessage, nowTimestamp);
+
+    PutMessage.ensureChangeIdIsCorrect(
+        projectCache.checkedGet(project).is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
+        notes.getChange().getKey().get(),
+        newCommitMessage);
 
     if (optionalChangeEdit.isPresent()) {
       updateEdit(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);

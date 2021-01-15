@@ -312,6 +312,10 @@ export class GrComment extends KeyboardShortcutMixin(
     );
   }
 
+  _handlePortedMessageClick() {
+    this.reporting.reportInteraction('navigate-to-original-comment');
+  }
+
   @observe('editing')
   _onEditingChange(editing?: boolean) {
     this.dispatchEvent(

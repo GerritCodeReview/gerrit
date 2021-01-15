@@ -204,7 +204,7 @@ public class CorsIT extends AbstractDaemonTest {
   public void crossDomainPutTopic() throws Exception {
     Result change = createChange();
     BasicCookieStore cookies = new BasicCookieStore();
-    Executor http = Executor.newInstance().cookieStore(cookies);
+    Executor http = Executor.newInstance().use(cookies);
 
     Request req = Request.Get(canonicalWebUrl.get() + "/login/?account_id=" + admin.id().get());
     http.execute(req);

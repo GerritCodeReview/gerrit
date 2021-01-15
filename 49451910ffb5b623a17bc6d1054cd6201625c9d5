@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b939a4e_8715645f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1741,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-15T10:59:44Z",
+      "side": 1,
+      "message": "Is this needed? The description of the \"ref\" field in BranchInput already says that it must match the branch ID in the URL (see line 3502).",
+      "revId": "49451910ffb5b623a17bc6d1054cd6201625c9d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

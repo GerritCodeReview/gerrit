@@ -207,7 +207,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createUserBranch_Conflict() throws Exception {
+  public void createUserBranch_NotAllowed() throws Exception {
     projectOperations
         .project(allUsers)
         .forUpdate()
@@ -217,12 +217,12 @@ public class CreateBranchIT extends AbstractDaemonTest {
     assertCreateFails(
         BranchNameKey.create(allUsers, RefNames.refsUsers(Account.id(1))),
         RefNames.refsUsers(admin.id()),
-        ResourceConflictException.class,
-        "Not allowed to create user branch.");
+        BadRequestException.class,
+        "Not allowed to create branches under Gerrit internal refs.");
   }
 
   @Test
-  public void createGroupBranch_Conflict() throws Exception {
+  public void createGroupBranch_NotAllowed() throws Exception {
     projectOperations
         .project(allUsers)
         .forUpdate()
@@ -232,8 +232,8 @@ public class CreateBranchIT extends AbstractDaemonTest {
     assertCreateFails(
         BranchNameKey.create(allUsers, RefNames.refsGroups(AccountGroup.uuid("foo"))),
         RefNames.refsGroups(adminGroupUuid()),
-        ResourceConflictException.class,
-        "Not allowed to create group branch.");
+        BadRequestException.class,
+        "Not allowed to create branches under Gerrit internal refs.");
   }
 
   @Test
@@ -352,6 +352,14 @@ public class CreateBranchIT extends AbstractDaemonTest {
         BranchNameKey.create(project, MagicBranch.NEW_CHANGE + "foo"),
         BadRequestException.class,
         "not allowed to create branches under \"" + MagicBranch.NEW_CHANGE + "\"");
+  }
+
+  @Test
+  public void cannotCreateBranchInGerritInternalRefsNamespace() throws Exception {
+    assertCreateFails(
+        BranchNameKey.create(project, RefNames.REFS_CHANGES + "00/1000"),
+        BadRequestException.class,
+        "Not allowed to create branches under Gerrit internal refs.");
   }
 
   @Test

@@ -33,6 +33,24 @@
       "message": "15px is a bit weird. Granted, we are not very consistent with icon sizes, but it would be slightly nicer to use 14px here, which is also being used in other places.\n\nSide note: Whenever you have trouble with vertical positioning of icons, please use this approach:\n\n  vertical-align: top;\n  position: relative;\n  top: ?px;",
       "revId": "70db9b05cdcc4f7d1d198fb64a0bd9122c1dd303",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0c390f1_78dce1a4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-01-15T10:36:39Z",
+      "side": 1,
+      "message": "For consistency, let\u0027s reuse the same spec as the Moved chips, see line 248 in https://gerrit.googlesource.com/gerrit/+/refs/changes/42/291642/23/polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts where icon is 16px.",
+      "parentUuid": "055934a2_b5652ffa",
+      "revId": "70db9b05cdcc4f7d1d198fb64a0bd9122c1dd303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

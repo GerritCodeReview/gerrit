@@ -380,6 +380,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12db12c5_64db4409",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-01-15T10:36:39Z",
+      "side": 1,
+      "message": "Let\u0027s use the same padding as the Moved detection chips, see line 240 https://gerrit.googlesource.com/gerrit/+/refs/changes/42/291642/23/polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts \n\nSo  \n\n`padding: var(--spacing-s);`\n`padding-right: var(--spacing-m);`\n\nand \n\n`margin: var(--spacing-s);`",
+      "parentUuid": "73f60923_dab0691f",
+      "range": {
+        "startLine": 41,
+        "startChar": 5,
+        "endLine": 42,
+        "endChar": 39
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8a5fadc6_c710ae7f",
         "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.ts",
         "patchSetId": 21
@@ -580,6 +604,30 @@
       "side": 1,
       "message": "I also like the feature of the color changing slightly on hover. Delphine, WDYT?",
       "parentUuid": "234294ea_35ad8220",
+      "range": {
+        "startLine": 173,
+        "startChar": 40,
+        "endLine": 173,
+        "endChar": 62
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a410ef88_75ac0bc1",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-01-15T10:36:39Z",
+      "side": 1,
+      "message": "Ok, let\u0027s keep this color change on hover.",
+      "parentUuid": "f3efb9f4_90e4ae83",
       "range": {
         "startLine": 173,
         "startChar": 40,

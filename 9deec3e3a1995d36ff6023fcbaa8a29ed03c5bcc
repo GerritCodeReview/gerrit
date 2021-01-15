@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc7f3151_06ce8a08",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-15T13:48:55Z",
+      "side": 1,
+      "message": "Why was this removed?\n\nNo the commit message doesn\u0027t match the implementation anymore.",
+      "range": {
+        "startLine": 199,
+        "startChar": 41,
+        "endLine": 199,
+        "endChar": 82
+      },
+      "revId": "9deec3e3a1995d36ff6023fcbaa8a29ed03c5bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

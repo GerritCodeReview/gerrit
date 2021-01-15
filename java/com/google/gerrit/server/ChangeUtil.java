@@ -19,16 +19,23 @@ import static java.util.Comparator.comparingInt;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.io.BaseEncoding;
+import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
 public class ChangeUtil {
@@ -114,6 +121,28 @@ public class ChangeUtil {
 
   public static String status(Change c) {
     return c != null ? c.getStatus().name().toLowerCase() : "deleted";
+  }
+
+  public static void ensureChangeIdIsCorrect(
+      boolean requireChangeId, String currentChangeId, String newCommitMessage)
+      throws ResourceConflictException, BadRequestException {
+    RevCommit revCommit =
+        RevCommit.parse(
+            Constants.encode("tree " + ObjectId.zeroId().name() + "\n\n" + newCommitMessage));
+
+    // Check that the commit message without footers is not empty
+    CommitMessageUtil.checkAndSanitizeCommitMessage(revCommit.getShortMessage());
+
+    List<String> changeIdFooters = revCommit.getFooterLines(FooterConstants.CHANGE_ID);
+    if (requireChangeId && changeIdFooters.isEmpty()) {
+      throw new ResourceConflictException("missing Change-Id footer");
+    }
+    if (!changeIdFooters.isEmpty() && !changeIdFooters.get(0).equals(currentChangeId)) {
+      throw new ResourceConflictException("wrong Change-Id footer");
+    }
+    if (changeIdFooters.size() > 1) {
+      throw new ResourceConflictException("multiple Change-Id footers");
+    }
   }
 
   private ChangeUtil() {}

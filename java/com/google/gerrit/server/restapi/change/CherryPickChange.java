@@ -585,9 +585,8 @@ public class CherryPickChange {
       String commitMessage, @Nullable ObjectId changeIdForNewChange) {
     if (changeIdForNewChange != null) {
       return CommitMessageUtil.getChangeIdFromObjectId(changeIdForNewChange);
-    } else {
-      return CommitMessageUtil.getChangeIdFromCommitMessageFooter(commitMessage).orElse(null);
     }
+    return CommitMessageUtil.getChangeIdFromCommitMessageFooter(commitMessage).orElse(null);
   }
 
   /**

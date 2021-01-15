@@ -127,7 +127,7 @@ export class EventEmitter implements EventEmitterService {
     if (eventName) {
       this._listenersMap.set(eventName, []);
     } else {
-      this._listenersMap = new Map();
+      this._listenersMap = new Map<string, EventCallback[]>();
     }
   }
 }

@@ -761,7 +761,10 @@ export class GrRouter extends GestureEventListeners(
 
   /**  Page.js middleware that try parse the querystring into queryMap. */
   _queryStringMiddleware(ctx: PageContext, next: PageNextCallback) {
-    let queryMap: Map<string, string> | URLSearchParams = new Map();
+    let queryMap: Map<string, string> | URLSearchParams = new Map<
+      string,
+      string
+    >();
     if (ctx.querystring) {
       // https://caniuse.com/#search=URLSearchParams
       if (window.URLSearchParams) {

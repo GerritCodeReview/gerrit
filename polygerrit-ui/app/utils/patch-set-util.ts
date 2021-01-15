@@ -225,7 +225,7 @@ function _computeWipForPatchSets(
     return patchNums;
   }
   // TODO(TS): replace with Map<PatchNum, boolean>
-  const psWip: Map<string, boolean> = new Map();
+  const psWip: Map<string, boolean> = new Map<string, boolean>();
   let wip = !!change.work_in_progress;
   for (let i = 0; i < change.messages.length; i++) {
     const msg = change.messages[i];

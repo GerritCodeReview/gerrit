@@ -796,10 +796,10 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       _shortcut_v_key_last_pressed: number | null = null;
 
       @property({type: Object})
-      _shortcut_go_table: Map<string, string> = new Map();
+      _shortcut_go_table: Map<string, string> = new Map<string, string>();
 
       @property({type: Object})
-      _shortcut_v_table: Map<string, string> = new Map();
+      _shortcut_v_table: Map<string, string> = new Map<string, string>();
 
       Shortcut = Shortcut;
 

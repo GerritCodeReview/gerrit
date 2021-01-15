@@ -27,7 +27,7 @@ type ServiceName = keyof AppContext;
 type ServiceCreator<T> = () => T;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const initializedServices: Map<ServiceName, any> = new Map();
+const initializedServices: Map<ServiceName, any> = new Map<ServiceName, any>();
 
 function getService<K extends ServiceName>(
   serviceName: K,

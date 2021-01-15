@@ -299,7 +299,7 @@ export class GrSyntaxLayer
       lastNotify: {left: 1, right: 1},
     };
 
-    const rangesCache = new Map();
+    const rangesCache = new Map<string, SyntaxLayerRange[]>();
 
     this._processPromise = util.makeCancelable(
       this._loadHLJS().then(

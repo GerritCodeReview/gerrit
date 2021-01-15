@@ -74,7 +74,10 @@ export class SiteBasedCache {
   // Returns the cache for the current canonical path.
   _cache(): Map<string, unknown> {
     if (!this._data.has(window.CANONICAL_PATH)) {
-      this._data.set(window.CANONICAL_PATH, new Map());
+      this._data.set(
+        window.CANONICAL_PATH,
+        new Map<string, ParsedJSON | null>()
+      );
     }
     return this._data.get(window.CANONICAL_PATH) as Map<
       string,
@@ -111,7 +114,7 @@ export class SiteBasedCache {
   }
 
   invalidatePrefix(prefix: string) {
-    const newMap = new Map();
+    const newMap = new Map<string, unknown>();
     for (const [key, value] of this._cache().entries()) {
       if (!key.startsWith(prefix)) {
         newMap.set(key, value);

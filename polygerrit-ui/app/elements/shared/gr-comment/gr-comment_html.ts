@@ -265,7 +265,7 @@ export const htmlTemplate = html`
         </template>
         <template is="dom-if" if="[[showPortedComment]]">
           <a href="[[_getUrlForComment(comment)]]"
-            ><span class="portedMessage"
+            ><span class="portedMessage" on-click="_handlePortedMessageClick"
               >Ported from patchset [[comment.patch_set]]</span
             ></a
           >

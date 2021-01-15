@@ -355,6 +355,22 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotCreateBranchInGerritInternalRefsNamespace() throws Exception {
+    assertCreateFails(
+        BranchNameKey.create(project, RefNames.REFS_CHANGES + "00/1000"),
+        BadRequestException.class,
+        "Not allowed to create branches under Gerrit internal or tags refs.");
+  }
+
+  @Test
+  public void cannotCreateBranchInTagsNamespace() throws Exception {
+    assertCreateFails(
+        BranchNameKey.create(project, RefNames.REFS_TAGS + "v1.0"),
+        BadRequestException.class,
+        "Not allowed to create branches under Gerrit internal or tags refs.");
+  }
+
+  @Test
   public void cannotCreateBranchWithInvalidName() throws Exception {
     assertCreateFails(
         BranchNameKey.create(project, RefNames.REFS_HEADS),

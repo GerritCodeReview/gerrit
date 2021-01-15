@@ -1736,7 +1736,9 @@ describes the branch.
 Creates a new branch.
 
 In the request body additional data for the branch can be provided as
-link:#branch-input[BranchInput].
+link:#branch-input[BranchInput]. The link:#branch-id[\{branch-id\}] in the URL
+should exactly match with the `ref` field of link:#branch-input[BranchInput], or
+otherwise the request would fail with `400 Bad Request`.
 
 .Request
 ----

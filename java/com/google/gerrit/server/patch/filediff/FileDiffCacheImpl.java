@@ -418,7 +418,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
 
     private static ImmutableList<TaggedEdit> asTaggedEdits(
         List<Edit> normalEdits, List<Edit> rebaseEdits) {
-      Set<Edit> rebaseEditsSet = new HashSet(rebaseEdits);
+      Set<Edit> rebaseEditsSet = new HashSet<>(rebaseEdits);
       ImmutableList.Builder<TaggedEdit> result =
           ImmutableList.builderWithExpectedSize(normalEdits.size());
       for (Edit e : normalEdits) {

@@ -20,26 +20,20 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTI
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.server.change.RevisionJson;
-import com.google.gerrit.server.change.testing.TestChangeETagComputation;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
@@ -56,7 +50,6 @@ public class ActionsIT extends AbstractDaemonTest {
     return submitWholeTopicEnabledConfig();
   }
 
-  @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private RevisionJson.Factory revisionJsonFactory;
   @Inject private ExtensionRegistry extensionRegistry;
 
@@ -66,10 +59,6 @@ public class ActionsIT extends AbstractDaemonTest {
 
   protected Map<String, ActionInfo> getChangeActions(String id) throws Exception {
     return gApi.changes().id(id).get().actions;
-  }
-
-  protected String getETag(String id) throws Exception {
-    return gApi.changes().id(id).current().etag();
   }
 
   @Test
@@ -134,124 +123,6 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(getActions(changeId2).get("submit")).isNull();
       approve(changeId2);
       noSubmitWholeTopicAssertions(getActions(changeId2), 2);
-    }
-  }
-
-  @Test
-  public void revisionActionsETag() throws Exception {
-    String parent = createChange().getChangeId();
-    String change = createChangeWithTopic().getChangeId();
-    approve(change);
-    String etag1 = getETag(change);
-
-    approve(parent);
-    String etag2 = getETag(change);
-
-    String changeWithSameTopic = createChangeWithTopic().getChangeId();
-    String etag3 = getETag(change);
-
-    approve(changeWithSameTopic);
-    String etag4 = getETag(change);
-
-    if (isSubmitWholeTopicEnabled()) {
-      assertThat(ImmutableList.of(etag1, etag2, etag3, etag4)).containsNoDuplicates();
-    } else {
-      assertThat(etag2).isNotEqualTo(etag1);
-      assertThat(etag3).isEqualTo(etag2);
-      assertThat(etag4).isEqualTo(etag2);
-    }
-  }
-
-  @Test
-  public void revisionActionsAnonymousETag() throws Exception {
-    String parent = createChange().getChangeId();
-    String change = createChangeWithTopic().getChangeId();
-    approve(change);
-
-    requestScopeOperations.setApiUserAnonymous();
-    String etag1 = getETag(change);
-
-    requestScopeOperations.setApiUser(admin.id());
-    approve(parent);
-
-    requestScopeOperations.setApiUserAnonymous();
-    String etag2 = getETag(change);
-
-    requestScopeOperations.setApiUser(admin.id());
-    String changeWithSameTopic = createChangeWithTopic().getChangeId();
-
-    requestScopeOperations.setApiUserAnonymous();
-    String etag3 = getETag(change);
-
-    requestScopeOperations.setApiUser(admin.id());
-    approve(changeWithSameTopic);
-
-    requestScopeOperations.setApiUserAnonymous();
-    String etag4 = getETag(change);
-
-    if (isSubmitWholeTopicEnabled()) {
-      assertThat(ImmutableList.of(etag1, etag2, etag3, etag4)).containsNoDuplicates();
-    } else {
-      assertThat(etag2).isNotEqualTo(etag1);
-      assertThat(etag3).isEqualTo(etag2);
-      assertThat(etag4).isEqualTo(etag2);
-    }
-  }
-
-  @Test
-  @TestProjectInput(submitType = SubmitType.CHERRY_PICK)
-  public void revisionActionsAnonymousETagCherryPickStrategy() throws Exception {
-    String parent = createChange().getChangeId();
-    String change = createChange().getChangeId();
-    approve(change);
-
-    requestScopeOperations.setApiUserAnonymous();
-    String etag1 = getETag(change);
-
-    requestScopeOperations.setApiUser(admin.id());
-    approve(parent);
-
-    requestScopeOperations.setApiUserAnonymous();
-    String etag2 = getETag(change);
-    assertThat(etag2).isEqualTo(etag1);
-  }
-
-  @Test
-  public void pluginCanContributeToETagComputation() throws Exception {
-    String change = createChange().getChangeId();
-    String oldETag = getETag(change);
-
-    try (Registration registration =
-        extensionRegistry.newRegistration().add(TestChangeETagComputation.withETag("foo"))) {
-      assertThat(getETag(change)).isNotEqualTo(oldETag);
-    }
-
-    assertThat(getETag(change)).isEqualTo(oldETag);
-  }
-
-  @Test
-  public void returningNullFromETagComputationDoesNotBreakGerrit() throws Exception {
-    String change = createChange().getChangeId();
-    String oldETag = getETag(change);
-
-    try (Registration registration =
-        extensionRegistry.newRegistration().add(TestChangeETagComputation.withETag(null))) {
-      assertThat(getETag(change)).isEqualTo(oldETag);
-    }
-  }
-
-  @Test
-  public void throwingExceptionFromETagComputationDoesNotBreakGerrit() throws Exception {
-    String change = createChange().getChangeId();
-    String oldETag = getETag(change);
-
-    try (Registration registration =
-        extensionRegistry
-            .newRegistration()
-            .add(
-                TestChangeETagComputation.withException(
-                    new StorageException("exception during test")))) {
-      assertThat(getETag(change)).isEqualTo(oldETag);
     }
   }
 

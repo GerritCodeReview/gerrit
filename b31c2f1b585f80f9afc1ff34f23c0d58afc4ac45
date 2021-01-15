@@ -88,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b805bdec_7b6db775",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-15T15:12:22Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t get why this got merged. API breakages should at all cost be avoided on stable branches unless (as Luca pointed out) there is an actual bug.\n\u003e To avoid calling the index you could just as easily have changed the call were applicable without removing ChangeNotes#checkedGet(Change.Id).\n\u003e This has not only broken upstream plugins but potentially a plethora of custom plugins around the world. It has cost us a number of engineering hours fixing and trying to get to the bottom of completely unnecessarily.\n\nFair point, however this has been useful to identify a gap in our release process: we should re-run all the builds of all (known) plugins before certifying a release.\n\n\u003e Please in the future be more careful and try to recognize whether you are breaking an API or not when cherry-picking from master.\n\nGerrit API are never 100% guaranteed to be always compatible. However, people won\u0027t expect incompatibilities in a stable branch.\nHowever, mistakes can happen and we need to make our release process stronger to detect them earlier next time :-)",
+      "parentUuid": "266cb28c_43493fbe",
+      "revId": "b31c2f1b585f80f9afc1ff34f23c0d58afc4ac45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c5e8c1a_fda8c2a0",

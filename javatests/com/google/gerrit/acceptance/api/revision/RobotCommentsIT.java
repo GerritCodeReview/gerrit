@@ -876,7 +876,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   public void fixDoesNotModifyCommitMessageOfChangeEdit() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
 
-    String changeEditCommitMessage = "This is the commit message of the change edit.\n";
+    String changeEditCommitMessage =
+        "This is the commit message of the change edit.\n\nChange-Id: " + changeId + "\n";
     gApi.changes().id(changeId).edit().modifyCommitMessage(changeEditCommitMessage);
 
     fixReplacementInfo.path = FILE_NAME;

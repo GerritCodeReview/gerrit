@@ -190,15 +190,10 @@ public class CreateChangeIT extends AbstractDaemonTest {
         .add(allow(CREATE).ref("refs/*").group(REGISTERED_USERS))
         .update();
 
-    String disallowedRef = "refs/changes/00/1000"; // All Gerrit internal refs behave the same way
-    requestScopeOperations.setApiUser(admin.id());
-    BranchNameKey branchNameKey = BranchNameKey.create(project, disallowedRef);
-    createBranch(branchNameKey);
-
     requestScopeOperations.setApiUser(user.id());
     ChangeInput ci = newChangeInput(ChangeStatus.NEW);
     ci.subject = "Subject";
-    ci.branch = disallowedRef;
+    ci.branch = "refs/changes/00/1000"; // disallowedRef
 
     Throwable thrown = assertThrows(RestApiException.class, () -> gApi.changes().create(ci));
     assertThat(thrown).hasMessageThat().contains("Cannot create a change on ref " + ci.branch);
@@ -213,15 +208,10 @@ public class CreateChangeIT extends AbstractDaemonTest {
         .add(allow(CREATE).ref("refs/*").group(REGISTERED_USERS))
         .update();
 
-    String branchName = "refs/tags/v1.0";
-    requestScopeOperations.setApiUser(admin.id());
-    BranchNameKey branchNameKey = BranchNameKey.create(project, branchName);
-    createBranch(branchNameKey);
-
     requestScopeOperations.setApiUser(user.id());
     ChangeInput ci = newChangeInput(ChangeStatus.NEW);
     ci.subject = "Subject";
-    ci.branch = branchName;
+    ci.branch = "refs/tags/v1.0"; // disallowed ref
 
     Throwable thrown = assertThrows(RestApiException.class, () -> gApi.changes().create(ci));
     assertThat(thrown).hasMessageThat().contains("Cannot create a change on ref " + ci.branch);

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0ac9937_ec53f338",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-01-15T16:42:18Z",
+      "side": 1,
+      "message": "Not sure where it is defined in the code, this spacing should be smaller here (please see https://imgur.com/a/e0Vi4aD).\n\nI also realised I did not provide the spec in dark theme, I updated the bug with the specs.",
+      "revId": "70db9b05cdcc4f7d1d198fb64a0bd9122c1dd303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75c0bc0b_e7a59945",

@@ -312,6 +312,14 @@ export class GrComment extends KeyboardShortcutMixin(
     );
   }
 
+  _handlePortedMessageClick() {
+    if (!this.comment) throw new Error('comment not set');
+    this.reporting.reportInteraction('navigate-to-original-comment', {
+      line: this.comment.line,
+      range: this.comment.range,
+    });
+  }
+
   @observe('editing')
   _onEditingChange(editing?: boolean) {
     this.dispatchEvent(

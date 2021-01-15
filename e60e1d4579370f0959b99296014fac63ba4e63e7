@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c0f61c34_fb3a759c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-15T11:29:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6617ceb_738ce1fc",
+      "range": {
+        "startLine": 272,
+        "startChar": 6,
+        "endLine": 272,
+        "endChar": 7
+      },
+      "revId": "e60e1d4579370f0959b99296014fac63ba4e63e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bea2f9ff_cc585fba",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2021-01-15T11:22:27Z",
       "side": 1,
       "message": "More negation :)",
+      "range": {
+        "startLine": 292,
+        "startChar": 11,
+        "endLine": 292,
+        "endChar": 12
+      },
+      "revId": "e60e1d4579370f0959b99296014fac63ba4e63e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e969d5c_c0dd1d5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-15T11:29:14Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "bea2f9ff_cc585fba",
       "range": {
         "startLine": 292,
         "startChar": 11,
@@ -60,6 +108,30 @@
       "writtenOn": "2021-01-15T11:22:27Z",
       "side": 1,
       "message": "Button - same above",
+      "range": {
+        "startLine": 113,
+        "startChar": 41,
+        "endLine": 113,
+        "endChar": 48
+      },
+      "revId": "e60e1d4579370f0959b99296014fac63ba4e63e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3392cbde_74ff8613",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-15T11:29:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "122d91bd_8a729b8d",
       "range": {
         "startLine": 113,
         "startChar": 41,

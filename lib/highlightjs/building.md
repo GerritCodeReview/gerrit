@@ -26,27 +26,10 @@ languages included. Build it with the following:
     $>  ln -s ../../highlightjs-closure-templates/soy.js src/languages/soy.js
     $>  mkdir test/detect/soy && ln -s ../../../highlightjs-closure-templates/test/detect/soy/default.txt test/detect/soy/default.txt
     $>  npm install
-    $>  node tools/build.js -n
+    $>  node tools/build.js
 
-The resulting JS file will appear in the "build" directory of the Highlight.js
-repo under the name "highlight.pack.js".
-
-## Minification
-
-Minify the file using closure-compiler using the command below.
-
-    $> wget https://dl.google.com/closure-compiler/compiler-latest.zip
-
-    $> unzip compiler-latest.zip
-
-    $> mv closure-compiler-*.jar closure-compiler.jar
-
-    $>  java -jar ./closure-compiler.jar \
-            --js build/highlight.js \
-            --js_output_file build/highlight.min.js
-
-Copy the header comment that appears on the first line of
-build/highlight.pack.js and add it to the start of build/highlight.min.js.
+The resulting minified JS file will appear in the "build" directory of the Highlight.js
+repo under the name "highlight.min.js".
 
 ## Finish
 

@@ -72,7 +72,6 @@ public class RevisionDiffIT extends AbstractDaemonTest {
           .mapToObj(number -> String.format("Line %d\n", number))
           .collect(joining());
   private static final String FILE_CONTENT2 = "1st line\n2nd line\n3rd line\n";
-  private static final String UPDATED_COMMIT_MESSAGE = "An unchanged patchset";
 
   private boolean intraline;
   private ObjectId commit1;
@@ -407,7 +406,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
     gApi.changes().id(changeId).edit().publish();
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    gApi.changes().id(changeId).edit().modifyCommitMessage(UPDATED_COMMIT_MESSAGE);
+    gApi.changes().id(changeId).edit().modifyCommitMessage(updatedCommitMessage());
     gApi.changes().id(changeId).edit().publish();
 
     DiffInfo diffInfo =
@@ -429,7 +428,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
     gApi.changes().id(changeId).edit().publish();
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    gApi.changes().id(changeId).edit().modifyCommitMessage(UPDATED_COMMIT_MESSAGE);
+    gApi.changes().id(changeId).edit().modifyCommitMessage(updatedCommitMessage());
     gApi.changes().id(changeId).edit().publish();
 
     DiffInfo diffInfo =
@@ -447,7 +446,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
     gApi.changes().id(changeId).edit().publish();
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    gApi.changes().id(changeId).edit().modifyCommitMessage(UPDATED_COMMIT_MESSAGE);
+    gApi.changes().id(changeId).edit().modifyCommitMessage(updatedCommitMessage());
     gApi.changes().id(changeId).edit().publish();
 
     DiffInfo diffInfo =
@@ -2453,6 +2452,10 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     // a comment is present.
     assertThat(diffInfo).content().element(0).commonLines().isNull();
     assertThat(diffInfo).content().element(0).numberOfSkippedLines().isGreaterThan(0);
+  }
+
+  private String updatedCommitMessage() {
+    return "An unchanged patchset\n\nChange-Id: " + changeId;
   }
 
   private static CommentInput createCommentInput(

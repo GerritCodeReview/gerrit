@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6617ceb_738ce1fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-15T11:22:27Z",
+      "side": 1,
+      "message": "A lot of negation\n\ndisabled -\u003e ! -\u003e unforced\n\nWould it not be easier to have\n\nenable if !forcedAttention and !involved\n?",
+      "range": {
+        "startLine": 272,
+        "startChar": 6,
+        "endLine": 272,
+        "endChar": 7
+      },
+      "revId": "e60e1d4579370f0959b99296014fac63ba4e63e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bea2f9ff_cc585fba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-15T11:22:27Z",
+      "side": 1,
+      "message": "More negation :)",
+      "range": {
+        "startLine": 292,
+        "startChar": 11,
+        "endLine": 292,
+        "endChar": 12
+      },
+      "revId": "e60e1d4579370f0959b99296014fac63ba4e63e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "122d91bd_8a729b8d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-01-15T11:22:27Z",
+      "side": 1,
+      "message": "Button - same above",
+      "range": {
+        "startLine": 113,
+        "startChar": 41,
+        "endLine": 113,
+        "endChar": 48
+      },
+      "revId": "e60e1d4579370f0959b99296014fac63ba4e63e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -283,6 +283,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4f71735_17ba1358",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-15T07:35:33Z",
+      "side": 1,
+      "message": "Interesting. I did not know about 50% resulting in different radius being applied in each direction. Sorry for not verifying that before commenting.\n\nThe radius relates to the box height, not the font-size, so I would not use em units here.\n\nI have found border-radius:200px being used in GMail for something similar. :-D\n\nSo I am fine with anything \u003e\u003d12px here. Maybe just keep as is. Sorry for the noise.",
+      "parentUuid": "84f633b4_05890ca3",
+      "range": {
+        "startLine": 39,
+        "startChar": 21,
+        "endLine": 39,
+        "endChar": 25
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5923483_a039b9b2",
@@ -320,6 +344,30 @@
       "side": 1,
       "message": "Yes the mock has more padding on the right side than left of the icon. If there were no icon then uneven padding would probably look weird, but I think it looks fine both ways since the icon is present.",
       "parentUuid": "e5923483_a039b9b2",
+      "range": {
+        "startLine": 41,
+        "startChar": 5,
+        "endLine": 42,
+        "endChar": 39
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73f60923_dab0691f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-15T07:35:33Z",
+      "side": 1,
+      "message": "I will leave this up to Delphine. :-)",
+      "parentUuid": "ea111ce2_e4a3603f",
       "range": {
         "startLine": 41,
         "startChar": 5,
@@ -508,6 +556,30 @@
       "side": 1,
       "message": "It is kind of nice that the corresponding code gets slightly highlighted when I hover on a comment. If range-color and range-hover-color are the same then it won\u0027t look different from the code of other comments. It\u0027s not a critical use case but has been helpful for me in some cases.\nWhat do you think?",
       "parentUuid": "00675ce9_890c32af",
+      "range": {
+        "startLine": 173,
+        "startChar": 40,
+        "endLine": 173,
+        "endChar": 62
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3efb9f4_90e4ae83",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-15T07:35:33Z",
+      "side": 1,
+      "message": "I also like the feature of the color changing slightly on hover. Delphine, WDYT?",
+      "parentUuid": "234294ea_35ad8220",
       "range": {
         "startLine": 173,
         "startChar": 40,

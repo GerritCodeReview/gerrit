@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75c0bc0b_e7a59945",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-15T07:35:33Z",
+      "side": 1,
+      "message": "I think we have to go a bit deeper here.\n\nOther users of gr-diff currently do not have the css vars defined for\n--font-family (and the related --font-size-normal, --line-height-normal, --font-weight-normal). So we will have to notify them and maybe also provide a fallback like:\n\n  font-family: var(--font-family, \u0027Roboto\u0027);\n\nWhenever you use a font related css rule, then it is best to define *all* font related properties together:\n\n  font-family: var(--font-family);\n  font-size: var(--font-size-normal);\n  font-weight: var(--font-weight-normal);\n  line-height: var(--line-height-normal);\n\nYou can also achieve this by adding the \u0027font-normal\u0027 class to the \u003cdiv\u003e in the HTML below. \u0027font-normal\u0027 rules are defined in shared styles.",
+      "revId": "70db9b05cdcc4f7d1d198fb64a0bd9122c1dd303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "055934a2_b5652ffa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-15T07:35:33Z",
+      "side": 1,
+      "message": "15px is a bit weird. Granted, we are not very consistent with icon sizes, but it would be slightly nicer to use 14px here, which is also being used in other places.\n\nSide note: Whenever you have trouble with vertical positioning of icons, please use this approach:\n\n  vertical-align: top;\n  position: relative;\n  top: ?px;",
+      "revId": "70db9b05cdcc4f7d1d198fb64a0bd9122c1dd303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

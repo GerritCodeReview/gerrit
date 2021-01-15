@@ -124,6 +124,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eea1fbb7_704b884a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-01-15T17:35:06Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e Please in the future be more careful and try to recognize whether you are breaking an API or not when cherry-picking from master.\n\u003e \u003e \n\u003e \u003e Gerrit API are never 100% guaranteed to be always compatible. However, people won\u0027t expect incompatibilities in a stable branch.\n\u003e \u003e However, mistakes can happen and we need to make our release process stronger to detect them earlier next time :-)\n\nJust because mistakes can happen doesn\u0027t mean that we shouldn\u0027t try to avoid them.\nGerrit API isn\u0027t guaranteed to be backwards-compatible but should be stable in a particular release. Why would we otherwise have stable-branches?",
+      "parentUuid": "4dbf42f5_adc64bf6",
+      "revId": "b31c2f1b585f80f9afc1ff34f23c0d58afc4ac45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c5e8c1a_fda8c2a0",

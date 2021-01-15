@@ -23,7 +23,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Module;
-import java.io.IOException;
 import java.util.List;
 import org.junit.Test;
 
@@ -46,7 +45,7 @@ public class DynamicOptionsIT extends AbstractDynamicOptionsTest {
     }
   }
 
-  protected List<String> getSamplesList(String sshOutput) throws IOException {
+  protected List<String> getSamplesList(String sshOutput) {
     return GSON.fromJson(sshOutput, new TypeToken<List<String>>() {}.getType());
   }
 }

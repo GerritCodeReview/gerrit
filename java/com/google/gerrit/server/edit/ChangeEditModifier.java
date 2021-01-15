@@ -15,13 +15,16 @@
 package com.google.gerrit.server.edit;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -54,6 +57,7 @@ import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -209,7 +213,8 @@ public class ChangeEditModifier {
    * @throws PermissionBackendException
    * @throws BadRequestException if the commit message is malformed
    */
-  public void modifyMessage(Repository repository, ChangeNotes notes, String newCommitMessage)
+  public void modifyMessage(
+      Repository repository, Project.NameKey project, ChangeNotes notes, String newCommitMessage)
       throws AuthException, IOException, UnchangedCommitMessageException, OrmException,
           PermissionBackendException, BadRequestException, ResourceConflictException {
     assertCanEdit(notes);
@@ -230,6 +235,11 @@ public class ChangeEditModifier {
     Timestamp nowTimestamp = TimeUtil.nowTs();
     ObjectId newEditCommit =
         createCommit(repository, basePatchSetCommit, baseTree, newCommitMessage, nowTimestamp);
+
+    ensureChangeIdIsCorrect(
+        projectCache.checkedGet(project).is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
+        notes.getChange().getKey().get(),
+        newCommitMessage);
 
     if (optionalChangeEdit.isPresent()) {
       updateEdit(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
@@ -629,5 +639,29 @@ public class ChangeEditModifier {
 
   private void reindex(Change change) throws IOException, OrmException {
     indexer.index(reviewDb.get(), change);
+  }
+
+  // Copied from com.google.gerrit.server.restapi.change.PutMessage for avoiding
+  // a circular dependency between gerrit server and rest-api BUILDs.
+  private static void ensureChangeIdIsCorrect(
+      boolean requireChangeId, String currentChangeId, String newCommitMessage)
+      throws ResourceConflictException, BadRequestException {
+    RevCommit revCommit =
+        RevCommit.parse(
+            Constants.encode("tree " + ObjectId.zeroId().name() + "\n\n" + newCommitMessage));
+
+    // Check that the commit message without footers is not empty
+    CommitMessageUtil.checkAndSanitizeCommitMessage(revCommit.getShortMessage());
+
+    List<String> changeIdFooters = revCommit.getFooterLines(FooterConstants.CHANGE_ID);
+    if (requireChangeId && changeIdFooters.isEmpty()) {
+      throw new ResourceConflictException("missing Change-Id footer");
+    }
+    if (!changeIdFooters.isEmpty() && !changeIdFooters.get(0).equals(currentChangeId)) {
+      throw new ResourceConflictException("wrong Change-Id footer");
+    }
+    if (changeIdFooters.size() > 1) {
+      throw new ResourceConflictException("multiple Change-Id footers");
+    }
   }
 }

@@ -365,8 +365,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void starChange(String changeId) throws RestApiException {
     try {
-      starredChangesCreate.apply(
-          account, IdString.fromUrl(changeId), new StarredChanges.EmptyInput());
+      starredChangesCreate.apply(account, IdString.fromUrl(changeId), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot star change", e);
     }
@@ -378,7 +377,7 @@ public class AccountApiImpl implements AccountApi {
       ChangeResource rsrc = changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(changeId));
       AccountResource.StarredChange starredChange =
           new AccountResource.StarredChange(account.getUser(), rsrc);
-      starredChangesDelete.apply(starredChange, new StarredChanges.EmptyInput());
+      starredChangesDelete.apply(starredChange, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot unstar change", e);
     }

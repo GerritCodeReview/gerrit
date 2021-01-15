@@ -497,7 +497,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
       String filePath = editsPerFilePath.keys().iterator().next();
       Collection<ContextAwareEdit> edits = editsPerFilePath.get(filePath);
       return FileEdits.create(
-          Streams.stream(edits)
+          edits.stream()
               .map(ContextAwareEdit::toEdit)
               .filter(Optional::isPresent)
               .map(Optional::get)

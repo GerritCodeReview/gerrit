@@ -1027,7 +1027,7 @@ class ChangeNotesParser {
    * @return {@link Optional} value of the parsed footer or {@code null} if the footer is missing in
    *     this commit.
    * @throws ConfigInvalidException if the footer value could not be parsed as a valid {@link
-   *     PatchSet.Id}.
+   *     com.google.gerrit.entities.PatchSet.Id}.
    */
   @Nullable
   private Optional<PatchSet.Id> parseCherryPickOf(ChangeNotesCommit commit)

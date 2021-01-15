@@ -138,8 +138,9 @@ public abstract class CurrentUser {
   }
 
   /**
-   * Returns all {@link ExternalId.Key}s associated with this user. For {@link AnonymousUser} and
-   * other users that don't represent a person user or service account, this set will be empty.
+   * Returns all {@link com.google.gerrit.server.account.externalids.ExternalId.Key}s associated
+   * with this user. For {@link AnonymousUser} and other users that don't represent a person user or
+   * service account, this set will be empty.
    */
   public ImmutableSet<ExternalId.Key> getExternalIdKeys() {
     return ImmutableSet.of();

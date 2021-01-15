@@ -16,6 +16,24 @@
       "message": "Is this needed? The description of the \"ref\" field in BranchInput already says that it must match the branch ID in the URL (see line 3502).",
       "revId": "49451910ffb5b623a17bc6d1054cd6201625c9d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "969f32b3_23804668",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1741,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-15T11:25:50Z",
+      "side": 1,
+      "message": "Thanks, I didn\u0027t see that.\n\nI would still prefer to see this explicitly mentioned at the REST endpoint description. Having this only at BranchInput was kind of hidden for me. Additionally, it\u0027s not mentioned that this will throw 400, which is good to include.\n\nSome endpoints in the changes/ namespace also include that in the endpoint description.",
+      "parentUuid": "2b939a4e_8715645f",
+      "revId": "49451910ffb5b623a17bc6d1054cd6201625c9d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

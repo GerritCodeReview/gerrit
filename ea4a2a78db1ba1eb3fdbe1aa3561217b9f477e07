@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec6b4b99_743a919f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-15T20:33:41Z",
+      "side": 1,
+      "message": "This should be the last branch where we need to fix the accidental removal (or amendment) of change-id in the old GWT edit experience.\n\nPolyGerrit never suffered from this issue, therefore fixing in v3.0 and later isn\u0027t needed anymore.",
+      "revId": "ea4a2a78db1ba1eb3fdbe1aa3561217b9f477e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -200,6 +200,7 @@ export enum Shortcut {
   TOGGLE_ALL_INLINE_DIFFS = 'TOGGLE_ALL_INLINE_DIFFS',
   TOGGLE_INLINE_DIFF = 'TOGGLE_INLINE_DIFF',
   TOGGLE_HIDE_ALL_COMMENT_THREADS = 'TOGGLE_HIDE_ALL_COMMENT_THREADS',
+  TOGGLE_HIDE_ALL_PORTED_THREADS = 'TOGGLE_HIDE_ALL_PORTED_THREADS',
   OPEN_FILE_LIST = 'OPEN_FILE_LIST',
 
   OPEN_FIRST_FILE = 'OPEN_FIRST_FILE',
@@ -429,6 +430,11 @@ _describe(
 );
 _describe(
   Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS,
+  ShortcutSection.DIFFS,
+  'Hide/Display all ported threads'
+);
+_describe(
+  Shortcut.TOGGLE_HIDE_ALL_PORTED_THREADS,
   ShortcutSection.DIFFS,
   'Hide/Display all comment threads'
 );

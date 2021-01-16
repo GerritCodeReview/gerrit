@@ -330,6 +330,8 @@ export class GrFileList extends KeyboardShortcutMixin(
       [Shortcut.TOGGLE_ALL_INLINE_DIFFS]: '_handleToggleAllInlineDiffs',
       [Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
         '_handleToggleHideAllCommentThreads',
+      [Shortcut.TOGGLE_HIDE_ALL_PORTED_THREADS]:
+        '_handleToggleHideAllPortedThreads',
       [Shortcut.CURSOR_NEXT_FILE]: '_handleCursorNext',
       [Shortcut.CURSOR_PREV_FILE]: '_handleCursorPrev',
       [Shortcut.NEXT_LINE]: '_handleCursorNext',
@@ -900,6 +902,18 @@ export class GrFileList extends KeyboardShortcutMixin(
 
     e.preventDefault();
     this.toggleClass('hideComments');
+  }
+
+  _handleToggleHideAllPortedThreads(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    this.diffs.forEach(diff => {
+      const threadEls = diff.getThreadEls();
+      threadEls.forEach(threadEl => {
+        if (threadEl.showPortedComment)
+          threadEl.style.display =
+            threadEl.style.display === 'none' ? '' : 'none';
+      });
+    })
   }
 
   _handleCursorNext(e: CustomKeyboardEvent) {

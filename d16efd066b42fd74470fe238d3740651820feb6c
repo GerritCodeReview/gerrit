@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4693eba1_882916d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-16T06:33:40Z",
+      "side": 1,
+      "message": "It would help to understand the context if you would say: This is a preparation to enforce the check that Change-Id is not removed when commit message is changed in context of inline edit change.",
+      "revId": "d16efd066b42fd74470fe238d3740651820feb6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b959da6_0fc7f5c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-16T06:33:40Z",
+      "side": 1,
+      "message": "There seems to be other places as well as the follow-up merge attempt is failing in RobotCommentsIT tests:\n\n  1) fixDoesNotModifyCommitMessageOfChangeEdit(com.google.gerrit.acceptance.api.revision.RobotCommentsIT)\ncom.google.gerrit.extensions.restapi.ResourceConflictException: missing Change-Id footer\n\nCan this be fixed in this change as well?",
+      "revId": "d16efd066b42fd74470fe238d3740651820feb6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

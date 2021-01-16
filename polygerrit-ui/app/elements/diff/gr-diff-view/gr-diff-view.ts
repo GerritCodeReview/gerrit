@@ -297,6 +297,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
       [Shortcut.TOGGLE_BLAME]: '_handleToggleBlame',
       [Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
         '_handleToggleHideAllCommentThreads',
+      [Shortcut.TOGGLE_HIDE_ALL_PORTED_THREADS]:
+        '_handleToggleHideAllPortedThreads',
       [Shortcut.OPEN_FILE_LIST]: '_handleOpenFileList',
       [Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
       [Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
@@ -1624,6 +1626,21 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (this.modifierPressed(e)) return;
 
     this.toggleClass('hideComments');
+  }
+
+  _handleToggleHideAllPortedThreads(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    let visibilityState;
+    const threadEls = this.$.diffHost.getThreadEls();
+    threadEls.forEach(threadEl => {
+      if (threadEl.showPortedComment) {
+        visibilityState = threadEl.style.display === 'none' ? '' : 'none';
+        threadEl.style.display = visibilityState;
+      }
+    });
+    this.reporting.reportInteraction('ported-comments-visibility-toggled', {
+      visibilityState,
+    });
   }
 
   _handleOpenFileList(e: CustomKeyboardEvent) {

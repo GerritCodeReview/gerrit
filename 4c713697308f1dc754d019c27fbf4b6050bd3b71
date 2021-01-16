@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36b9a896_92ed3b2b",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-16T10:47:04Z",
+      "side": 1,
+      "message": "I think this comment is very helpful and should be the field\u0027s javadoc so IDEs can show it on hover etc.",
+      "revId": "4c713697308f1dc754d019c27fbf4b6050bd3b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5cdca80_0a23a2e5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2794,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-16T10:47:04Z",
+      "side": 1,
+      "message": "opt: It would be nice to have a test to assert that the comparator\u0027s list of ChangeType-s is complete. Though that would require extracting the anonymous class or making it a named nested class.",
+      "revId": "4c713697308f1dc754d019c27fbf4b6050bd3b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

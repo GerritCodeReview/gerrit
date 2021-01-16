@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9dad128_4bf790e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-16T00:59:05Z",
+      "side": 1,
+      "message": "Added dark colors and changed margin from -s to -xs",
+      "parentUuid": "f0ac9937_ec53f338",
+      "revId": "70db9b05cdcc4f7d1d198fb64a0bd9122c1dd303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75c0bc0b_e7a59945",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-15T07:35:33Z",
       "side": 1,
       "message": "I think we have to go a bit deeper here.\n\nOther users of gr-diff currently do not have the css vars defined for\n--font-family (and the related --font-size-normal, --line-height-normal, --font-weight-normal). So we will have to notify them and maybe also provide a fallback like:\n\n  font-family: var(--font-family, \u0027Roboto\u0027);\n\nWhenever you use a font related css rule, then it is best to define *all* font related properties together:\n\n  font-family: var(--font-family);\n  font-size: var(--font-size-normal);\n  font-weight: var(--font-weight-normal);\n  line-height: var(--line-height-normal);\n\nYou can also achieve this by adding the \u0027font-normal\u0027 class to the \u003cdiv\u003e in the HTML below. \u0027font-normal\u0027 rules are defined in shared styles.",
+      "revId": "70db9b05cdcc4f7d1d198fb64a0bd9122c1dd303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da371241_fd49d4c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-16T00:59:05Z",
+      "side": 1,
+      "message": "Done. Thanks for the advice on the CSS. It is very helpful.",
+      "parentUuid": "75c0bc0b_e7a59945",
       "revId": "70db9b05cdcc4f7d1d198fb64a0bd9122c1dd303",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -66,6 +102,24 @@
       "side": 1,
       "message": "For consistency, let\u0027s reuse the same spec as the Moved chips, see line 248 in https://gerrit.googlesource.com/gerrit/+/refs/changes/42/291642/23/polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts where icon is 16px.",
       "parentUuid": "055934a2_b5652ffa",
+      "revId": "70db9b05cdcc4f7d1d198fb64a0bd9122c1dd303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54cd0f4b_a3bf1968",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-16T00:59:05Z",
+      "side": 1,
+      "message": "Done. I don\u0027t think there was any issue about vertical positioning here, just scaling it to match the mock. I will keep that approach in mind.",
+      "parentUuid": "a0c390f1_78dce1a4",
       "revId": "70db9b05cdcc4f7d1d198fb64a0bd9122c1dd303",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

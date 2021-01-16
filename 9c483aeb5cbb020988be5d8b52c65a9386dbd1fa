@@ -307,6 +307,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39689f54_09fa1b33",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-16T00:59:05Z",
+      "side": 1,
+      "message": "Np, put to 24px.",
+      "parentUuid": "a4f71735_17ba1358",
+      "range": {
+        "startLine": 39,
+        "startChar": 21,
+        "endLine": 39,
+        "endChar": 25
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5923483_a039b9b2",
@@ -392,6 +416,30 @@
       "side": 1,
       "message": "Let\u0027s use the same padding as the Moved detection chips, see line 240 https://gerrit.googlesource.com/gerrit/+/refs/changes/42/291642/23/polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts \n\nSo  \n\n`padding: var(--spacing-s);`\n`padding-right: var(--spacing-m);`\n\nand \n\n`margin: var(--spacing-s);`",
       "parentUuid": "73f60923_dab0691f",
+      "range": {
+        "startLine": 41,
+        "startChar": 5,
+        "endLine": 42,
+        "endChar": 39
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a43a25e_5ba441d8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-16T00:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12db12c5_64db4409",
       "range": {
         "startLine": 41,
         "startChar": 5,
@@ -651,6 +699,30 @@
       "writtenOn": "2021-01-15T16:42:18Z",
       "side": 1,
       "message": "Idea: Since we are using the same chip spec as the Moved in and Moved out chip, we could also spec the range comment chip here.\n\nWe could then use the color #feefe3; (see line 58)\n\nSuch as \n\n`comment range chip background: #B06000`\n`comment range label background: #feefe3`",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 47
+      },
+      "revId": "9c483aeb5cbb020988be5d8b52c65a9386dbd1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc57bd52_5be1bfb5",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-16T00:59:05Z",
+      "side": 1,
+      "message": "went with --ranged-comment-chip-text-color and --ranged-comment-chip-background",
+      "parentUuid": "5ada47a5_646ad720",
       "range": {
         "startLine": 179,
         "startChar": 4,

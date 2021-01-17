@@ -129,7 +129,12 @@ export class GrDashboardView extends GestureEventListeners(
     this._loadPreferences();
     this.addEventListener('reload', e => {
       e.stopPropagation();
-      this._reload();
+      this._reload(this.params);
+    });
+    document.addEventListener('visibilitychange', e => {
+      e.stopPropagation();
+      if (document.visibilityState === 'visible')
+        this._reload(this.params);
     });
   }
 

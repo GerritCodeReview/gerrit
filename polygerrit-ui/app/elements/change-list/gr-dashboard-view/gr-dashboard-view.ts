@@ -57,8 +57,10 @@ import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-
 import {DashboardViewState} from '../../../types/types';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
+const RELOAD_DASHBOARD_INTERVAL = 10 * 1000;
 
 export interface GrDashboardView {
   $: {
@@ -119,6 +121,10 @@ export class GrDashboardView extends GestureEventListeners(
 
   private restApiService = appContext.restApiService;
 
+  private flagService = appContext.flagsService;
+
+  private lastVisibleTimestamp = 0;
+
   constructor() {
     super();
   }
@@ -129,8 +135,22 @@ export class GrDashboardView extends GestureEventListeners(
     this._loadPreferences();
     this.addEventListener('reload', e => {
       e.stopPropagation();
-      this._reload();
+      this._reload(this.params);
     });
+    if (this.flagService.isEnabled(KnownExperimentId.AUTO_RELOAD_DASHBOARD)) {
+      document.addEventListener('visibilitychange', e => {
+        e.stopPropagation();
+        if (document.visibilityState === 'visible') {
+          if (
+            Date.now() - this.lastVisibleTimestamp >
+            RELOAD_DASHBOARD_INTERVAL
+          )
+            this._reload(this.params);
+        } else {
+          this.lastVisibleTimestamp = Date.now();
+        }
+      });
+    }
   }
 
   _loadPreferences() {

@@ -28,6 +28,7 @@ import {
   worstCategory,
 } from '../../services/checks/checks-util';
 import {assertNever} from '../../utils/common-util';
+import {allRuns$} from '../../services/checks/checks-model';
 
 function renderRun(run: CheckRun) {
   return html`<div class="runChip ${iconClass(run)}">
@@ -61,6 +62,11 @@ function iconClass(run: CheckRun) {
 export class GrChecksRuns extends GrLitElement {
   @property()
   runs: CheckRun[] = [];
+
+  constructor() {
+    super();
+    this.subscribe('runs', allRuns$);
+  }
 
   static get styles() {
     return [

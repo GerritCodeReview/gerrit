@@ -7,6 +7,7 @@ java_library(
     resources = ["//resources/com/google/gerrit/httpd/auth/oauth"],
     visibility = ["//visibility:public"],
     deps = [
+        "//java/com/google/gerrit/auth",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",

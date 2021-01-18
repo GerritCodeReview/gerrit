@@ -16,6 +16,29 @@
       "message": "Thanks Frank! I have added one more comment to the bug. In short, to also change the color of the background behind the long range comment chip on hover to be the same as the long comment range on hover: `--diff-highlight-range-hover-color: rgba(255, 255, 0, 0.5);`\n\nThis will make the relationship between the background of the chip and the comment clearer as they will be highlighted similarly on hover.",
       "revId": "9661efa46e7c001526a6fdd5140ea0ddcc76ff9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d051a0d4_ef5f6db9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-18T14:05:29Z",
+      "side": 1,
+      "message": "Better 16px here or introduce a new css variable like \u0027icon-size-small\u0027.",
+      "range": {
+        "startLine": 31,
+        "startChar": 14,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "9661efa46e7c001526a6fdd5140ea0ddcc76ff9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

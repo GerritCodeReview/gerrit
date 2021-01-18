@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5975147c_89c09134",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-18T18:13:50Z",
+      "side": 1,
+      "message": "`how would someone discover the shortcut?`\nThere will be a communication of the feature announcement which will include this keyboard shortcut.\n\n`Have you considered adding a \"hide all\" button to the ported comments instead`\nMy first impression is that seems a bit excessive, since the button will always be visible and we don\u0027t want to take up so much real estate.\nLet\u0027s see what the user feedback is.\n\nYes, instrumenting is a good idea. Adding to this change.",
+      "parentUuid": "ae43a084_2500a798",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "97785299aa7201b271dd7c43534f171b857f1678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "925ea388_6958a79d",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 2

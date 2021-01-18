@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "611abdaa_1e91e18f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-18T18:10:27Z",
+      "side": 1,
+      "message": "I can see both points.\n\nI agree that we could maybe live without the shortcut. And if we add it, then we should probably advertise it somehow, at least by some tooltip.\n\nI would also be fine with collecting more data and more feedback. We can also chat about it in the UX Office Hours.\n\nWDYT?",
+      "parentUuid": "ae43a084_2500a798",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "97785299aa7201b271dd7c43534f171b857f1678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "925ea388_6958a79d",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 2

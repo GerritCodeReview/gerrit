@@ -16,7 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma';
-import {isHidden, query} from '../../../test/test-utils';
+import {isHidden, query, stubRestApi} from '../../../test/test-utils';
 import './gr-main-header';
 import {GrMainHeader} from './gr-main-header';
 import {
@@ -33,14 +33,7 @@ suite('gr-main-header tests', () => {
   let element: GrMainHeader;
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getConfig() {
-        return Promise.resolve(createServerInfo());
-      },
-      probePath(_) {
-        return Promise.resolve(false);
-      },
-    });
+    stubRestApi('probePath').returns(Promise.resolve(false));
     stub('gr-main-header', {
       _loadAccount() {
         return Promise.resolve();

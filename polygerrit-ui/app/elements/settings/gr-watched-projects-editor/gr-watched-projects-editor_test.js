@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-watched-projects-editor.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-watched-projects-editor');
 
@@ -44,21 +45,17 @@ suite('gr-watched-projects-editor tests', () => {
       },
     ];
 
-    stub('gr-rest-api-interface', {
-      getSuggestedProjects(input) {
-        if (input.startsWith('th')) {
-          return Promise.resolve({'the project': {
-            id: 'the project',
-            state: 'ACTIVE',
-            web_links: [],
-          }});
-        } else {
-          return Promise.resolve({});
-        }
-      },
-      getWatchedProjects() {
-        return Promise.resolve(projects);
-      },
+    stubRestApi('getWatchedProjects').returns(Promise.resolve(projects));
+    stubRestApi('getSuggestedProjects').callsFake(input => {
+      if (input.startsWith('th')) {
+        return Promise.resolve({'the project': {
+          id: 'the project',
+          state: 'ACTIVE',
+          web_links: [],
+        }});
+      } else {
+        return Promise.resolve({});
+      }
     });
 
     element = basicFixture.instantiate();

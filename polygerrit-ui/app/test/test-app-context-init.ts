@@ -19,6 +19,7 @@
 import {initAppContext} from '../services/app-context-init';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
 import {AppContext, appContext} from '../services/app-context';
+import {grRestApiMock} from './mocks/gr-rest-api_mock';
 
 export function _testOnlyInitAppContext() {
   initAppContext();
@@ -34,4 +35,5 @@ export function _testOnlyInitAppContext() {
     });
   }
   setMock('reportingService', grReportingMock);
+  setMock('restApiService', grRestApiMock);
 }

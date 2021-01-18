@@ -21,6 +21,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {resetPlugins} from '../../../test/test-utils.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -237,14 +238,10 @@ suite('gr-related-changes-list tests', () => {
     };
     element.mergeable = true;
     element.addEventListener('new-section-loaded', loadedStub);
-    sinon.stub(element.restApiService, 'getRelatedChanges')
-        .returns(Promise.resolve({changes: []}));
-    sinon.stub(element.restApiService, 'getChangesSubmittedTogether')
-        .returns(Promise.resolve());
-    sinon.stub(element.restApiService, 'getChangeCherryPicks')
-        .returns(Promise.resolve());
-    sinon.stub(element.restApiService, 'getChangeConflicts')
-        .returns(Promise.resolve());
+    stubRestApi('getRelatedChanges').returns(Promise.resolve({changes: []}));
+    stubRestApi('getChangesSubmittedTogether').returns(Promise.resolve());
+    stubRestApi('getChangeCherryPicks').returns(Promise.resolve());
+    stubRestApi('getChangeConflicts').returns(Promise.resolve());
 
     return element.reload().then(() => {
       assert.equal(loadedStub.callCount, 4);
@@ -257,14 +254,10 @@ suite('gr-related-changes-list tests', () => {
     setup(() => {
       element = basicFixture.instantiate();
 
-      sinon.stub(element.restApiService, 'getRelatedChanges')
-          .returns(Promise.resolve({changes: []}));
-      sinon.stub(element.restApiService, 'getChangesSubmittedTogether')
-          .returns(Promise.resolve());
-      sinon.stub(element.restApiService, 'getChangeCherryPicks')
-          .returns(Promise.resolve());
-      sinon.stub(element.restApiService, 'getChangeConflicts')
-          .returns(Promise.resolve());
+      stubRestApi('getRelatedChanges').returns(Promise.resolve({changes: []}));
+      stubRestApi('getChangesSubmittedTogether').returns(Promise.resolve());
+      stubRestApi('getChangeCherryPicks').returns(Promise.resolve());
+      stubRestApi('getChangeConflicts').returns(Promise.resolve());
     });
 
     test('_conflicts are an empty array', () => {
@@ -286,14 +279,11 @@ suite('gr-related-changes-list tests', () => {
     setup(() => {
       element = basicFixture.instantiate();
 
-      sinon.stub(element.restApiService, 'getRelatedChanges')
-          .returns(Promise.resolve({changes: []}));
-      sinon.stub(element.restApiService, 'getChangesSubmittedTogether')
-          .returns(Promise.resolve());
-      sinon.stub(element.restApiService, 'getChangeCherryPicks')
-          .returns(Promise.resolve());
-      conflictsStub = sinon.stub(element.restApiService, 'getChangeConflicts')
-          .returns(Promise.resolve());
+      stubRestApi('getRelatedChanges').returns(Promise.resolve({changes: []}));
+      stubRestApi('getChangesSubmittedTogether').returns(Promise.resolve());
+      stubRestApi('getChangeCherryPicks').returns(Promise.resolve());
+      conflictsStub = stubRestApi('getChangeConflicts').returns(
+          Promise.resolve());
     });
 
     test('request conflicts if open and mergeable', () => {

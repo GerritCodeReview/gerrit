@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-edit-controls.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-edit-controls');
 
@@ -35,8 +36,7 @@ suite('gr-edit-controls tests', () => {
     showDialogSpy = sinon.spy(element, '_showDialog');
     closeDialogSpy = sinon.spy(element, '_closeDialog');
     sinon.stub(element, '_hideAllDialogs');
-    queryStub = sinon.stub(element.restApiService, 'queryChangeFiles')
-        .returns(Promise.resolve([]));
+    queryStub = stubRestApi('queryChangeFiles').returns(Promise.resolve([]));
     flush();
   });
 
@@ -114,7 +114,7 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
-      deleteStub = sinon.stub(element.restApiService, 'deleteFileInChangeEdit');
+      deleteStub = stubRestApi('deleteFileInChangeEdit');
       deleteAutocomplete =
           element.$.deleteDialog.querySelector('gr-autocomplete');
     });
@@ -198,7 +198,7 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
-      renameStub = sinon.stub(element.restApiService, 'renameFileInChangeEdit');
+      renameStub = stubRestApi('renameFileInChangeEdit');
       renameAutocomplete =
           element.$.renameDialog.querySelector('gr-autocomplete');
     });
@@ -291,7 +291,7 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
-      restoreStub = sinon.stub(element.restApiService,
+      restoreStub = stubRestApi(
           'restoreFileInChangeEdit');
     });
 
@@ -356,7 +356,7 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
-      fileStub = sinon.stub(element.restApiService, 'saveFileUploadChangeEdit');
+      fileStub = stubRestApi('saveFileUploadChangeEdit');
     });
 
     test('_handleUploadConfirm', () => {

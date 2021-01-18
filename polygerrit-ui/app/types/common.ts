@@ -1721,8 +1721,8 @@ export interface AccountCapabilityInfo {
   flushCaches?: boolean;
   killTask?: boolean;
   maintainServer?: boolean;
-  priority: UserPriority;
-  queryLimit: QueryLimitInfo;
+  priority?: UserPriority;
+  queryLimit?: QueryLimitInfo;
   runAs?: boolean;
   runGC?: boolean;
   streamEvents?: boolean;

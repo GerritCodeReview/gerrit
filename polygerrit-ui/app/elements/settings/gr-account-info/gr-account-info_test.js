@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-account-info.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-account-info');
 
@@ -46,13 +47,11 @@ suite('gr-account-info tests', () => {
     };
     config = {auth: {editable_account_fields: []}};
 
-    stub('gr-rest-api-interface', {
-      getAccount() { return Promise.resolve(account); },
-      getConfig() { return Promise.resolve(config); },
-      getPreferences() {
-        return Promise.resolve({time_format: 'HHMM_12'});
-      },
-    });
+    stubRestApi('getAccount').returns(Promise.resolve(account));
+    stubRestApi('getConfig').returns(Promise.resolve(config));
+    stubRestApi('getPreferences').returns(
+        Promise.resolve({time_format: 'HHMM_12'}));
+
     element = basicFixture.instantiate();
     // Allow the element to render.
     element.loadData().then(() => { flush(done); });
@@ -133,11 +132,11 @@ suite('gr-account-info tests', () => {
       element.set('_serverConfig',
           {auth: {editable_account_fields: ['FULL_NAME', 'USER_NAME']}});
 
-      nameStub = sinon.stub(element.restApiService, 'setAccountName').callsFake(
+      nameStub = stubRestApi('setAccountName').callsFake(
           name => Promise.resolve());
-      usernameStub = sinon.stub(element.restApiService, 'setAccountUsername')
+      usernameStub = stubRestApi('setAccountUsername')
           .callsFake(username => Promise.resolve());
-      statusStub = sinon.stub(element.restApiService,
+      statusStub = stubRestApi(
           'setAccountStatus').callsFake(
           status => Promise.resolve());
     });
@@ -218,12 +217,12 @@ suite('gr-account-info tests', () => {
       element.set('_serverConfig',
           {auth: {editable_account_fields: ['FULL_NAME']}});
 
-      nameStub = sinon.stub(element.restApiService, 'setAccountName').callsFake(
+      nameStub = stubRestApi('setAccountName').callsFake(
           name => Promise.resolve());
-      statusStub = sinon.stub(element.restApiService,
+      statusStub = stubRestApi(
           'setAccountStatus').callsFake(
           status => Promise.resolve());
-      sinon.stub(element.restApiService, 'setAccountUsername').callsFake(
+      stubRestApi('setAccountUsername').callsFake(
           username => Promise.resolve());
     });
 
@@ -263,7 +262,7 @@ suite('gr-account-info tests', () => {
       element.set('_serverConfig',
           {auth: {editable_account_fields: []}});
 
-      statusStub = sinon.stub(element.restApiService,
+      statusStub = stubRestApi(
           'setAccountStatus').callsFake(
           status => Promise.resolve());
     });

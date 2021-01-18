@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-permission.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-permission');
 
@@ -25,7 +26,7 @@ suite('gr-permission tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    sinon.stub(element.restApiService, 'getSuggestedGroups').returns(
+    stubRestApi('getSuggestedGroups').returns(
         Promise.resolve({
           'Administrators': {
             id: '4c97682e6ce61b7247f3381b6f1789356666de7f',

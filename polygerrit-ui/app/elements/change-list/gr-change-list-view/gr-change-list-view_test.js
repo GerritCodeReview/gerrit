@@ -20,6 +20,7 @@ import './gr-change-list-view.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import 'lodash/lodash.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-change-list-view');
 
@@ -30,14 +31,10 @@ suite('gr-change-list-view tests', () => {
   let element;
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(false); },
-      getChanges(num, query) {
-        return Promise.resolve([]);
-      },
-      getAccountDetails() { return Promise.resolve({}); },
-      getAccountStatus() { return Promise.resolve({}); },
-    });
+    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+    stubRestApi('getChanges').returns(Promise.resolve([]));
+    stubRestApi('getAccountDetails').returns(Promise.resolve({}));
+    stubRestApi('getAccountStatus').returns(Promise.resolve({}));
     element = basicFixture.instantiate();
   });
 

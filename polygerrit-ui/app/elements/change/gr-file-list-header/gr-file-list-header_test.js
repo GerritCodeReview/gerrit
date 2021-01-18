@@ -21,6 +21,7 @@ import {FilesExpandedState} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import 'lodash/lodash.js';
 import {createRevisions} from '../../../test/test-data-generators.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-file-list-header');
 
@@ -28,11 +29,8 @@ suite('gr-file-list-header tests', () => {
   let element;
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getConfig() { return Promise.resolve({test: 'config'}); },
-      getAccount() { return Promise.resolve(null); },
-      _fetchSharedCacheURL() { return Promise.resolve({}); },
-    });
+    stubRestApi('getConfig').returns(Promise.resolve({test: 'config'}));
+    stubRestApi('getAccount').returns(Promise.resolve(null));
     element = basicFixture.instantiate();
   });
 
@@ -86,7 +84,7 @@ suite('gr-file-list-header tests', () => {
   });
 
   test('description editing', () => {
-    const putDescStub = sinon.stub(element.restApiService, 'setDescription')
+    const putDescStub = stubRestApi('setDescription')
         .returns(Promise.resolve({ok: true}));
 
     element.changeNum = '42';

@@ -20,6 +20,7 @@ import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import './gr-settings-view.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritView} from '../../../services/router/router-model.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-settings-view');
 const blankFixture = fixtureFromElement('div');
@@ -51,7 +52,7 @@ suite('gr-settings-view tests', () => {
   }
 
   function stubAddAccountEmail(statusCode) {
-    return sinon.stub(element.restApiService, 'addAccountEmail').callsFake(
+    return stubRestApi('addAccountEmail').callsFake(
         () => Promise.resolve({status: statusCode}));
   }
 
@@ -82,17 +83,10 @@ suite('gr-settings-view tests', () => {
     };
     config = {auth: {editable_account_fields: []}};
 
-    stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(true); },
-      getAccount() { return Promise.resolve(account); },
-      getPreferences() { return Promise.resolve(preferences); },
-      getWatchedProjects() {
-        return Promise.resolve([]);
-      },
-      getAccountEmails() { return Promise.resolve(); },
-      getConfig() { return Promise.resolve(config); },
-      getAccountGroups() { return Promise.resolve([]); },
-    });
+    stubRestApi('getAccount').returns(Promise.resolve(account));
+    stubRestApi('getPreferences').returns(Promise.resolve(preferences));
+    stubRestApi('getAccountEmails').returns(Promise.resolve());
+    stubRestApi('getConfig').returns(Promise.resolve(config));
     element = basicFixture.instantiate();
 
     // Allow the element to render.
@@ -179,13 +173,11 @@ suite('gr-settings-view tests', () => {
     assert.isTrue(element._prefsChanged);
     assert.isFalse(element._menuChanged);
 
-    stub('gr-rest-api-interface', {
-      savePreferences(prefs) {
-        assert.equal(prefs.diff_view, 'SIDE_BY_SIDE');
-        assertMenusEqual(prefs.my, preferences.my);
-        assert.equal(prefs.publish_comments_on_push, true);
-        return Promise.resolve();
-      },
+    stubRestApi('savePreferences').callsFake(prefs => {
+      assert.equal(prefs.diff_view, 'SIDE_BY_SIDE');
+      assertMenusEqual(prefs.my, preferences.my);
+      assert.equal(prefs.publish_comments_on_push, true);
+      return Promise.resolve();
     });
 
     // Save the change.
@@ -204,11 +196,9 @@ suite('gr-settings-view tests', () => {
     assert.isFalse(element._menuChanged);
     assert.isTrue(element._prefsChanged);
 
-    stub('gr-rest-api-interface', {
-      savePreferences(prefs) {
-        assert.equal(prefs.publish_comments_on_push, true);
-        return Promise.resolve();
-      },
+    stubRestApi('savePreferences').callsFake(prefs => {
+      assert.equal(prefs.publish_comments_on_push, true);
+      return Promise.resolve();
     });
 
     // Save the change.
@@ -228,11 +218,9 @@ suite('gr-settings-view tests', () => {
     assert.isFalse(element._menuChanged);
     assert.isTrue(element._prefsChanged);
 
-    stub('gr-rest-api-interface', {
-      savePreferences(prefs) {
-        assert.equal(prefs.work_in_progress_by_default, true);
-        return Promise.resolve();
-      },
+    stubRestApi('savePreferences').callsFake(prefs => {
+      assert.equal(prefs.work_in_progress_by_default, true);
+      return Promise.resolve();
     });
 
     // Save the change.
@@ -263,11 +251,9 @@ suite('gr-settings-view tests', () => {
     assert.isTrue(element._menuChanged);
     assert.isFalse(element._prefsChanged);
 
-    stub('gr-rest-api-interface', {
-      savePreferences(prefs) {
-        assertMenusEqual(prefs.my, element._localMenu);
-        return Promise.resolve();
-      },
+    stubRestApi('savePreferences').callsFake(prefs => {
+      assertMenusEqual(prefs.my, element._localMenu);
+      return Promise.resolve();
     });
 
     element._handleSaveMenu().then(() => {
@@ -372,9 +358,7 @@ suite('gr-settings-view tests', () => {
       ],
     };
 
-    stub('gr-rest-api-interface', {
-      getDefaultPreferences() { return Promise.resolve(originalMenu); },
-    });
+    stubRestApi('getDefaultPreferences').returns(Promise.resolve(originalMenu));
 
     const updatedMenu = [
       {url: '/first/url', name: 'first name', target: '_blank'},
@@ -474,22 +458,19 @@ suite('gr-settings-view tests', () => {
 
   suite('when email verification token is provided', () => {
     let resolveConfirm;
+    let confirmEmailStub;
 
     setup(() => {
       sinon.stub(element.$.emailEditor, 'loadData');
-      sinon.stub(
-          element.restApiService,
-          'confirmEmail')
-          .callsFake(
-              () => new Promise(
-                  resolve => { resolveConfirm = resolve; }));
+      confirmEmailStub = stubRestApi('confirmEmail').returns(
+          new Promise(resolve => { resolveConfirm = resolve; }));
       element.params = {view: GerritView.SETTINGS, emailToken: 'foo'};
       element.attached();
     });
 
     test('it is used to confirm email via rest API', () => {
-      assert.isTrue(element.restApiService.confirmEmail.calledOnce);
-      assert.isTrue(element.restApiService.confirmEmail.calledWith('foo'));
+      assert.isTrue(confirmEmailStub.calledOnce);
+      assert.isTrue(confirmEmailStub.calledWith('foo'));
     });
 
     test('emails are not loaded initially', () => {

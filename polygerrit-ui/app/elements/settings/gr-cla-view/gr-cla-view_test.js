@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-cla-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-cla-view');
 
@@ -105,11 +106,10 @@ suite('gr-cla-view tests', () => {
   ];
 
   setup(done => {
-    stub('gr-rest-api-interface', {
-      getConfig() { return Promise.resolve(config); },
-      getAccountGroups() { return Promise.resolve(groups); },
-      getAccountAgreements() { return Promise.resolve(signedAgreements); },
-    });
+    stubRestApi('getConfig').returns(Promise.resolve(config));
+    stubRestApi('getAccountGroups').returns(Promise.resolve(groups));
+    stubRestApi('getAccountAgreements').returns(
+        Promise.resolve(signedAgreements));
     element = basicFixture.instantiate();
     element.loadData().then(() => { flush(done); });
   });

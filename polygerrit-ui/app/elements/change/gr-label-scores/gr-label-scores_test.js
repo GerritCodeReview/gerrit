@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-label-scores.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-label-scores');
 
@@ -24,9 +25,7 @@ suite('gr-label-scores tests', () => {
   let element;
 
   setup(done => {
-    stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(false); },
-    });
+    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     element = basicFixture.instantiate();
     element.change = {
       _number: '123',

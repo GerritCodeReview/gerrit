@@ -25,6 +25,8 @@ import {
   FetchParams,
   FetchPromisesCache,
   GrRestApiHelper,
+  parsePrefixedJSON,
+  readResponsePayload,
   SendJSONRequest,
   SendRequest,
   SiteBasedCache,
@@ -149,13 +151,16 @@ import {
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   CommentSide,
+  createDefaultDiffPrefs,
+  createDefaultEditPrefs,
+  createDefaultPreferences,
   DiffViewMode,
   HttpMethod,
   ReviewerState,
 } from '../../../constants/constants';
 import {firePageError, fireServerError} from '../../../utils/event-util';
 
-const JSON_PREFIX = ")]}'";
+export const JSON_PREFIX = ")]}'";
 const MAX_PROJECT_RESULTS = 25;
 // This value is somewhat arbitrary and not based on research or calculations.
 const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 850;
@@ -688,27 +693,7 @@ export class GrRestApiInterface
           reportUrlAsIs: true,
         }) as Promise<DiffPreferencesInfo | undefined>;
       }
-      const anonymousResult: DiffPreferencesInfo = {
-        auto_hide_diff_table_header: true,
-        context: 10,
-        cursor_blink_rate: 0,
-        font_size: 12,
-        ignore_whitespace: 'IGNORE_NONE',
-        intraline_difference: true,
-        line_length: 100,
-        line_wrapping: false,
-        show_line_endings: true,
-        show_tabs: true,
-        show_whitespace_errors: true,
-        syntax_highlighting: true,
-        tab_size: 8,
-        theme: 'DEFAULT',
-      };
-      // These defaults should match the defaults in
-      // java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java
-      // NOTE: There are some settings that don't apply to PolyGerrit
-      // (Render mode being at least one of them).
-      return Promise.resolve(anonymousResult);
+      return Promise.resolve(createDefaultDiffPrefs());
     });
   }
 
@@ -720,27 +705,7 @@ export class GrRestApiInterface
           reportUrlAsIs: true,
         }) as Promise<EditPreferencesInfo | undefined>;
       }
-      const result: EditPreferencesInfo = {
-        auto_close_brackets: false,
-        cursor_blink_rate: 0,
-        hide_line_numbers: false,
-        hide_top_menu: false,
-        indent_unit: 2,
-        indent_with_tabs: false,
-        key_map_type: 'DEFAULT',
-        line_length: 100,
-        line_wrapping: false,
-        match_brackets: true,
-        show_base: false,
-        show_tabs: true,
-        show_whitespace_errors: true,
-        syntax_highlighting: true,
-        tab_size: 8,
-        theme: 'DEFAULT',
-      };
-      // These defaults should match the defaults in
-      // java/com/google/gerrit/extensions/client/EditPreferencesInfo.java
-      return Promise.resolve(result);
+      return Promise.resolve(createDefaultEditPrefs());
     });
   }
 
@@ -1041,19 +1006,7 @@ export class GrRestApiInterface
           return prefInfo;
         });
       }
-
-      // TODO(TS): Many properties are omitted here, but they are required.
-      // Add default values for missed properties
-      const anonymousPrefs = {
-        changes_per_page: 25,
-        default_diff_view: this._isNarrowScreen()
-          ? DiffViewMode.UNIFIED
-          : DiffViewMode.SIDE_BY_SIDE,
-        diff_view: DiffViewMode.SIDE_BY_SIDE,
-        size_bar_in_change_table: true,
-      } as PreferencesInfo;
-
-      return anonymousPrefs;
+      return createDefaultPreferences();
     });
   }
 
@@ -1296,7 +1249,7 @@ export class GrRestApiInterface
         };
         return this._restApiHelper.fetchRawJSON(req).then(response => {
           if (response?.status === 304) {
-            return (this._restApiHelper.parsePrefixedJSON(
+            return (parsePrefixedJSON(
               // urlWithParams already cached
               this._etags.getCachedPayload(urlWithParams)!
             ) as unknown) as ChangeInfo;
@@ -1315,20 +1268,18 @@ export class GrRestApiInterface
             return Promise.resolve(null);
           }
 
-          return this._restApiHelper
-            .readResponsePayload(response)
-            .then(payload => {
-              if (!payload) {
-                return null;
-              }
-              this._etags.collect(urlWithParams, response, payload.raw);
-              // TODO(TS): Why it is always change info?
-              this._maybeInsertInLookup(
-                (payload.parsed as unknown) as ChangeInfo
-              );
+          return readResponsePayload(response).then(payload => {
+            if (!payload) {
+              return null;
+            }
+            this._etags.collect(urlWithParams, response, payload.raw);
+            // TODO(TS): Why it is always change info?
+            this._maybeInsertInLookup(
+              (payload.parsed as unknown) as ChangeInfo
+            );
 
-              return (payload.parsed as unknown) as ChangeInfo;
-            });
+            return (payload.parsed as unknown) as ChangeInfo;
+          });
         });
       }
     );

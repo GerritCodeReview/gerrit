@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-confirm-cherrypick-dialog.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-confirm-cherrypick-dialog');
 
@@ -28,20 +29,18 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
   let element;
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getRepoBranches(input) {
-        if (input.startsWith('test')) {
-          return Promise.resolve([
-            {
-              ref: 'refs/heads/test-branch',
-              revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
-              can_delete: true,
-            },
-          ]);
-        } else {
-          return Promise.resolve({});
-        }
-      },
+    stubRestApi('getRepoBranches').callsFake(input => {
+      if (input.startsWith('test')) {
+        return Promise.resolve([
+          {
+            ref: 'refs/heads/test-branch',
+            revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
+            can_delete: true,
+          },
+        ]);
+      } else {
+        return Promise.resolve({});
+      }
     });
     element = basicFixture.instantiate();
     element.project = 'test-project';
@@ -116,7 +115,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
 
     test('cherry pick topic submit', done => {
       element.branch = 'master';
-      const executeChangeActionStub = sinon.stub(element.restApiService,
+      const executeChangeActionStub = stubRestApi(
           'executeChangeAction').returns(Promise.resolve([]));
       MockInteractions.tap(element.shadowRoot.
           querySelector('gr-dialog').$.confirm);
@@ -134,7 +133,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
 
     test('deselecting a change removes it from being cherry picked', () => {
       element.branch = 'master';
-      const executeChangeActionStub = sinon.stub(element.restApiService,
+      const executeChangeActionStub = stubRestApi(
           'executeChangeAction').returns(Promise.resolve([]));
       const checkboxes = element.shadowRoot.querySelectorAll(
           'input[type="checkbox"]');
@@ -149,7 +148,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
 
     test('deselecting all change shows error message', () => {
       element.branch = 'master';
-      const executeChangeActionStub = sinon.stub(element.restApiService,
+      const executeChangeActionStub = stubRestApi(
           'executeChangeAction').returns(Promise.resolve([]));
       const checkboxes = element.shadowRoot.querySelectorAll(
           'input[type="checkbox"]');

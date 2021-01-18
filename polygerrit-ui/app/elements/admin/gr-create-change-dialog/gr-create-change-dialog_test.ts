@@ -21,6 +21,7 @@ import {GrCreateChangeDialog} from './gr-create-change-dialog';
 import {BranchName, GitRef, RepoName} from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
 import {createChange, createConfig} from '../../../test/test-data-generators';
+import {stubRestApi} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-create-change-dialog');
 
@@ -28,23 +29,18 @@ suite('gr-create-change-dialog tests', () => {
   let element: GrCreateChangeDialog;
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getLoggedIn() {
-        return Promise.resolve(true);
-      },
-      getRepoBranches(input) {
-        if (input.startsWith('test')) {
-          return Promise.resolve([
-            {
-              ref: 'refs/heads/test-branch' as GitRef,
-              revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
-              can_delete: true,
-            },
-          ]);
-        } else {
-          return Promise.resolve([]);
-        }
-      },
+    stubRestApi('getRepoBranches').callsFake((input: string) => {
+      if (input.startsWith('test')) {
+        return Promise.resolve([
+          {
+            ref: 'refs/heads/test-branch' as GitRef,
+            revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
+            can_delete: true,
+          },
+        ]);
+      } else {
+        return Promise.resolve([]);
+      }
     });
     element = basicFixture.instantiate();
     element.repoName = 'test-repo' as RepoName;
@@ -67,9 +63,9 @@ suite('gr-create-change-dialog tests', () => {
       work_in_progress: true,
     };
 
-    const saveStub = sinon
-      .stub(element.restApiService, 'createChange')
-      .callsFake(() => Promise.resolve(createChange()));
+    const saveStub = stubRestApi('createChange').returns(
+      Promise.resolve(createChange())
+    );
 
     element.branch = 'test-branch' as BranchName;
     element.topic = 'test-topic';
@@ -103,9 +99,9 @@ suite('gr-create-change-dialog tests', () => {
       work_in_progress: true,
     };
 
-    const saveStub = sinon
-      .stub(element.restApiService, 'createChange')
-      .callsFake(() => Promise.resolve(createChange()));
+    const saveStub = stubRestApi('createChange').returns(
+      Promise.resolve(createChange())
+    );
 
     element.branch = 'test-branch' as BranchName;
     element.topic = 'test-topic';

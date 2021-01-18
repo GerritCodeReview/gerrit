@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-confirm-rebase-dialog.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-confirm-rebase-dialog');
 
@@ -102,6 +103,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
 
   suite('parent suggestions', () => {
     let recentChanges;
+    let getChangesStub;
     setup(() => {
       recentChanges = [
         {
@@ -118,7 +120,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
         },
       ];
 
-      sinon.stub(element.restApiService, 'getChanges').returns(Promise.resolve(
+      getChangesStub = stubRestApi('getChanges').returns(Promise.resolve(
           [
             {
               _number: 123,
@@ -141,29 +143,26 @@ suite('gr-confirm-rebase-dialog tests', () => {
       return element._getRecentChanges()
           .then(() => {
             assert.deepEqual(element._recentChanges, recentChanges);
-            assert.equal(element.restApiService.getChanges.callCount, 1);
+            assert.equal(getChangesStub.callCount, 1);
             // When called a second time, should not re-request recent changes.
             element._getRecentChanges();
           })
           .then(() => {
             assert.equal(element._getRecentChanges.callCount, 2);
-            assert.equal(element.restApiService.getChanges.callCount, 1);
+            assert.equal(getChangesStub.callCount, 1);
           });
     });
 
     test('_filterChanges', () => {
       assert.equal(element._filterChanges('123', recentChanges).length, 1);
       assert.equal(element._filterChanges('12', recentChanges).length, 2);
-      assert.equal(element._filterChanges('awesome', recentChanges).length,
-          3);
-      assert.equal(element._filterChanges('third', recentChanges).length,
-          1);
+      assert.equal(element._filterChanges('awesome', recentChanges).length, 3);
+      assert.equal(element._filterChanges('third', recentChanges).length, 1);
 
       element.changeNumber = 123;
       assert.equal(element._filterChanges('123', recentChanges).length, 0);
       assert.equal(element._filterChanges('124', recentChanges).length, 1);
-      assert.equal(element._filterChanges('awesome', recentChanges).length,
-          2);
+      assert.equal(element._filterChanges('awesome', recentChanges).length, 2);
     });
 
     test('input text change triggers function', () => {

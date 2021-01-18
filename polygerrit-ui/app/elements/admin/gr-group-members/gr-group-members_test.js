@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-group-members.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {stubBaseUrl} from '../../../test/test-utils.js';
+import {stubBaseUrl, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-group-members');
 
@@ -78,70 +78,52 @@ suite('gr-group-members tests', () => {
     },
     ];
 
-    stub('gr-rest-api-interface', {
-      getSuggestedAccounts(input) {
-        if (input.startsWith('test')) {
-          return Promise.resolve([
-            {
-              _account_id: 1000096,
-              name: 'test-account',
-              email: 'test.account@example.com',
-              username: 'test123',
-            },
-            {
-              _account_id: 1001439,
-              name: 'test-admin',
-              email: 'test.admin@example.com',
-              username: 'test_admin',
-            },
-            {
-              _account_id: 1001439,
-              name: 'test-git',
-              username: 'test_git',
-            },
-          ]);
-        } else {
-          return Promise.resolve({});
-        }
-      },
-      getSuggestedGroups(input) {
-        if (input.startsWith('test')) {
-          return Promise.resolve({
-            'test-admin': {
-              id: '1ce023d3fb4e4260776fb92cd08b52bbd21ce70a',
-            },
-            'test/Administrator (admin)': {
-              id: 'test%3Aadmin',
-            },
-          });
-        } else {
-          return Promise.resolve({});
-        }
-      },
-      getLoggedIn() { return Promise.resolve(true); },
-      getConfig() {
-        return Promise.resolve();
-      },
-      getGroupMembers() {
-        return Promise.resolve(groupMembers);
-      },
-      getIsGroupOwner() {
-        return Promise.resolve(true);
-      },
-      getIncludedGroup() {
-        return Promise.resolve(includedGroups);
-      },
-      getAccountCapabilities() {
-        return Promise.resolve();
-      },
+    stubRestApi('getSuggestedAccounts').callsFake(input => {
+      if (input.startsWith('test')) {
+        return Promise.resolve([
+          {
+            _account_id: 1000096,
+            name: 'test-account',
+            email: 'test.account@example.com',
+            username: 'test123',
+          },
+          {
+            _account_id: 1001439,
+            name: 'test-admin',
+            email: 'test.admin@example.com',
+            username: 'test_admin',
+          },
+          {
+            _account_id: 1001439,
+            name: 'test-git',
+            username: 'test_git',
+          },
+        ]);
+      } else {
+        return Promise.resolve({});
+      }
     });
+    stubRestApi('getSuggestedGroups').callsFake(input => {
+      if (input.startsWith('test')) {
+        return Promise.resolve({
+          'test-admin': {
+            id: '1ce023d3fb4e4260776fb92cd08b52bbd21ce70a',
+          },
+          'test/Administrator (admin)': {
+            id: 'test%3Aadmin',
+          },
+        });
+      } else {
+        return Promise.resolve({});
+      }
+    });
+    stubRestApi('getGroupMembers').returns(Promise.resolve(groupMembers));
+    stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
+    stubRestApi('getIncludedGroup').returns(Promise.resolve(includedGroups));
     element = basicFixture.instantiate();
     stubBaseUrl('https://test/site');
     element.groupId = 1;
-    groupStub = sinon.stub(
-        element.restApiService,
-        'getGroupConfig')
-        .callsFake(() => Promise.resolve(groups));
+    groupStub = stubRestApi('getGroupConfig').returns(Promise.resolve(groups));
     return element._loadGroupDetails();
   });
 
@@ -162,7 +144,7 @@ suite('gr-group-members tests', () => {
 
     const memberName = 'test-admin';
 
-    const saveStub = sinon.stub(element.restApiService, 'saveGroupMember')
+    const saveStub = stubRestApi('saveGroupMember')
         .callsFake(() => Promise.resolve({}));
 
     const button = element.$.saveGroupMember;
@@ -187,8 +169,7 @@ suite('gr-group-members tests', () => {
 
     const includedGroupName = 'testName';
 
-    const saveIncludedGroupStub = sinon.stub(
-        element.restApiService, 'saveIncludedGroup')
+    const saveIncludedGroupStub = stubRestApi('saveIncludedGroup')
         .callsFake(() => Promise.resolve({}));
 
     const button = element.$.saveIncludedGroups;
@@ -219,8 +200,14 @@ suite('gr-group-members tests', () => {
       status: 404,
       ok: false,
     };
-    sinon.stub(element.restApiService._restApiHelper, 'fetch').callsFake(
-        () => Promise.resolve(errorResponse));
+    stubRestApi('saveIncludedGroup').callsFake((
+        groupName,
+        includedGroup,
+        errFn
+    ) => {
+      errFn(errorResponse);
+      return Promise.resolve(undefined);
+    });
 
     element.$.groupMemberSearchInput.text = memberName;
     element.$.groupMemberSearchInput.value = 1234;
@@ -232,13 +219,8 @@ suite('gr-group-members tests', () => {
 
   test('add included group network-error throws an exception', async () => {
     element._groupOwner = true;
-
     const memberName = 'bad-name';
-    const alertStub = sinon.stub();
-    element.addEventListener('show-alert', alertStub);
-    const err = new Error();
-    sinon.stub(element.restApiService._restApiHelper, 'fetch').callsFake(
-        () => Promise.reject(err));
+    stubRestApi('saveIncludedGroup').throws(new Error());
 
     element.$.groupMemberSearchInput.text = memberName;
     element.$.groupMemberSearchInput.value = 1234;
@@ -366,8 +348,7 @@ suite('gr-group-members tests', () => {
     element.groupId = 1;
 
     const response = {status: 404};
-    sinon.stub(
-        element.restApiService, 'getGroupConfig')
+    stubRestApi('getGroupConfig')
         .callsFake((group, errFn) => {
           errFn(response);
         });

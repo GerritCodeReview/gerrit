@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-group-audit-log.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-group-audit-log');
 
@@ -79,11 +80,9 @@ suite('gr-group-audit-log tests', () => {
       element.groupId = 1;
 
       const response = {status: 404};
-      sinon.stub(
-          element.restApiService, 'getGroupAuditLog')
-          .callsFake((group, errFn) => {
-            errFn(response);
-          });
+      stubRestApi('getGroupAuditLog').callsFake((group, errFn) => {
+        errFn(response);
+      });
 
       element.addEventListener('page-error', e => {
         assert.deepEqual(e.detail.response, response);

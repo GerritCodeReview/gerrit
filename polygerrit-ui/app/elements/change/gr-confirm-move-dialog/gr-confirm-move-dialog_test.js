@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-confirm-move-dialog.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-confirm-move-dialog');
 
@@ -24,20 +25,18 @@ suite('gr-confirm-move-dialog tests', () => {
   let element;
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getRepoBranches(input) {
-        if (input.startsWith('test')) {
-          return Promise.resolve([
-            {
-              ref: 'refs/heads/test-branch',
-              revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
-              can_delete: true,
-            },
-          ]);
-        } else {
-          return Promise.resolve(undefined);
-        }
-      },
+    stubRestApi('getRepoBranches').callsFake(input => {
+      if (input.startsWith('test')) {
+        return Promise.resolve([
+          {
+            ref: 'refs/heads/test-branch',
+            revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
+            can_delete: true,
+          },
+        ]);
+      } else {
+        return Promise.resolve(undefined);
+      }
     });
     element = basicFixture.instantiate();
     element.project = 'test-project';

@@ -20,11 +20,13 @@ import './gr-app.js';
 import {appContext} from '../services/app-context.js';
 import {GerritNav} from './core/gr-navigation/gr-navigation.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {stubRestApi} from '../test/test-utils.js';
 
 const basicFixture = fixtureFromTemplate(html`<gr-app id="app"></gr-app>`);
 
 suite('gr-app tests', () => {
   let element;
+  let configStub;
 
   setup(done => {
     sinon.stub(appContext.reportingService, 'appStarted');
@@ -34,23 +36,17 @@ suite('gr-app tests', () => {
     stub('gr-router', {
       start: sinon.stub(),
     });
-    stub('gr-rest-api-interface', {
-      getAccount() { return Promise.resolve({}); },
-      getAccountCapabilities() { return Promise.resolve({}); },
-      getConfig() {
-        return Promise.resolve({
-          plugin: {},
-          auth: {
-            auth_type: undefined,
-          },
-        });
+    stubRestApi('getAccount').returns(Promise.resolve({}));
+    stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
+    configStub = stubRestApi('getConfig').returns(Promise.resolve({
+      plugin: {},
+      auth: {
+        auth_type: undefined,
       },
-      getPreferences() { return Promise.resolve({my: []}); },
-      getDiffPreferences() { return Promise.resolve({}); },
-      getEditPreferences() { return Promise.resolve({}); },
-      getVersion() { return Promise.resolve(42); },
-      probePath() { return Promise.resolve(42); },
-    });
+    }));
+    stubRestApi('getPreferences').returns(Promise.resolve({my: []}));
+    stubRestApi('getVersion').returns(Promise.resolve(42));
+    stubRestApi('probePath').returns(Promise.resolve(42));
 
     element = basicFixture.instantiate();
     flush(done);
@@ -69,12 +65,11 @@ suite('gr-app tests', () => {
     sinon.assert.callOrder(appStartedStub, routerStartStub);
   });
 
-  test('passes config to gr-plugin-host', () => {
-    const config = appElement().restApiService.getConfig;
-    return config.lastCall.returnValue.then(config => {
+  test('passes config to gr-plugin-host', () =>
+    configStub.lastCall.returnValue.then(config => {
       assert.deepEqual(appElement().$.plugins.config, config);
-    });
-  });
+    })
+  );
 
   test('_paramsChanged sets search page', () => {
     appElement()._paramsChanged({base: {view: GerritNav.View.CHANGE}});

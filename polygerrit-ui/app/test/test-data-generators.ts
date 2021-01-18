@@ -404,6 +404,7 @@ export function createMergeable(): MergeableInfo {
   };
 }
 
+// TODO: Maybe reconcile with createDefaultPreferences() in constants.ts.
 export function createPreferences(): PreferencesInfo {
   return {
     changes_per_page: 10,

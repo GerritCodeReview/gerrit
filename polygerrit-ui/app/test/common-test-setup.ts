@@ -23,7 +23,6 @@ import '@polymer/iron-test-helpers/iron-test-helpers';
 import './test-router';
 import {_testOnlyInitAppContext} from './test-app-context-init';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
-import {_testOnlyResetRestApi} from '../elements/shared/gr-js-api-interface/gr-plugin-rest-api';
 import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface';
 import {
   cleanupTestUtils,
@@ -122,7 +121,6 @@ setup(() => {
   // to reset this behavior if you need to test something specific.
   pl.loadPlugins([]);
   _testOnlyResetGrRestApiSharedObjects();
-  _testOnlyResetRestApi();
 });
 
 // For karma always set our implementation

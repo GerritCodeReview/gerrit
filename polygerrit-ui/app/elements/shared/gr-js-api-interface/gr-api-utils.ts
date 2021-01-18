@@ -16,22 +16,12 @@
  */
 
 import {getBaseUrl} from '../../../utils/url-util';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {HttpMethod} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
 
 export const PRELOADED_PROTOCOL = 'preloaded:';
 export const PLUGIN_LOADING_TIMEOUT_MS = 10000;
-
-let _restAPI: RestApiService | undefined;
-export function getRestAPI() {
-  if (!_restAPI) {
-    _restAPI = (document.createElement(
-      'gr-rest-api-interface'
-    ) as unknown) as RestApiService;
-  }
-  return _restAPI;
-}
 
 /**
  * Retrieves the name of the plugin base on the url.
@@ -83,7 +73,7 @@ export function send(
   opt_callback?: (response: unknown) => void,
   opt_payload?: RequestPayload
 ) {
-  return getRestAPI()
+  return appContext.restApiService
     .send(method, url, opt_payload)
     .then(response => {
       if (response.status < 200 || response.status >= 300) {
@@ -95,7 +85,7 @@ export function send(
           }
         });
       } else {
-        return getRestAPI().getResponseObject(response);
+        return appContext.restApiService.getResponseObject(response);
       }
     })
     .then(response => {
@@ -104,10 +94,4 @@ export function send(
       }
       return response;
     });
-}
-
-// TEST only methods / properties
-
-export function testOnly_resetInternalState() {
-  _restAPI = undefined;
 }

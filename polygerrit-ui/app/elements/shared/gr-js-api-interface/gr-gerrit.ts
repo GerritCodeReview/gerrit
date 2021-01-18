@@ -24,7 +24,7 @@ import {
   PluginOptionMap,
   PluginLoader,
 } from './gr-plugin-loader';
-import {getRestAPI, send} from './gr-api-utils';
+import {send} from './gr-api-utils';
 import {appContext} from '../../../services/app-context';
 import {PluginApi} from '../../plugins/gr-plugin-types';
 import {HttpMethod} from '../../../constants/constants';
@@ -118,7 +118,7 @@ export function deprecatedDelete(
   callback?: (response: Response) => void
 ) {
   console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
-  return getRestAPI()
+  return appContext.restApiService
     .send(HttpMethod.DELETE, url)
     .then(response => {
       if (response.status !== 204) {

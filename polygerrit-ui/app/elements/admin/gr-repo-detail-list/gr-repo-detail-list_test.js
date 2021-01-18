@@ -20,6 +20,7 @@ import './gr-repo-detail-list.js';
 import 'lodash/lodash.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo-detail-list');
 
@@ -74,18 +75,12 @@ suite('gr-repo-detail-list', () => {
           ref: 'HEAD',
           revision: 'master',
         }].concat(_.times(25, branchGenerator));
-
-        stub('gr-rest-api-interface', {
-          getRepoBranches(num, project, offset) {
-            return Promise.resolve(branches);
-          },
-        });
+        stubRestApi('getRepoBranches').returns(Promise.resolve(branches));
 
         const params = {
           repo: 'test',
           detail: 'branches',
         };
-
         element._paramsChanged(params).then(() => { flush(done); });
       });
 
@@ -118,7 +113,7 @@ suite('gr-repo-detail-list', () => {
 
       test('Edit HEAD button not admin', done => {
         sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-        sinon.stub(element.restApiService, 'getRepoAccess').returns(
+        stubRestApi('getRepoAccess').returns(
             Promise.resolve({
               test: {is_owner: false},
             }));
@@ -142,7 +137,7 @@ suite('gr-repo-detail-list', () => {
             .querySelector('.revisionWithEditing');
 
         sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-        sinon.stub(element.restApiService, 'getRepoAccess').returns(
+        stubRestApi('getRepoAccess').returns(
             Promise.resolve({
               test: {is_owner: true},
             }));
@@ -219,7 +214,7 @@ suite('gr-repo-detail-list', () => {
       test('_handleSaveRevision with invalid rev', done => {
         const event = {model: {set: sinon.stub()}};
         element._isEditing = true;
-        sinon.stub(element.restApiService, 'setRepoHead').returns(
+        stubRestApi('setRepoHead').returns(
             Promise.resolve({
               status: 400,
             })
@@ -235,7 +230,7 @@ suite('gr-repo-detail-list', () => {
       test('_handleSaveRevision with valid rev', done => {
         const event = {model: {set: sinon.stub()}};
         element._isEditing = true;
-        sinon.stub(element.restApiService, 'setRepoHead').returns(
+        stubRestApi('setRepoHead').returns(
             Promise.resolve({
               status: 200,
             })
@@ -257,12 +252,7 @@ suite('gr-repo-detail-list', () => {
     suite('list with less then 25 branches', () => {
       setup(done => {
         branches = _.times(25, branchGenerator);
-
-        stub('gr-rest-api-interface', {
-          getRepoBranches(num, repo, offset) {
-            return Promise.resolve(branches);
-          },
-        });
+        stubRestApi('getRepoBranches').returns(Promise.resolve(branches));
 
         const params = {
           repo: 'test',
@@ -278,35 +268,27 @@ suite('gr-repo-detail-list', () => {
     });
 
     suite('filter', () => {
-      test('_paramsChanged', done => {
-        sinon.stub(
-            element.restApiService,
-            'getRepoBranches')
-            .callsFake(() => Promise.resolve(branches));
+      test('_paramsChanged', async () => {
+        const stub = stubRestApi('getRepoBranches').returns(
+            Promise.resolve(branches));
         const params = {
           detail: 'branches',
           repo: 'test',
           filter: 'test',
           offset: 25,
         };
-        element._paramsChanged(params).then(() => {
-          assert.equal(element.restApiService.getRepoBranches.lastCall.args[0],
-              'test');
-          assert.equal(element.restApiService.getRepoBranches.lastCall.args[1],
-              'test');
-          assert.equal(element.restApiService.getRepoBranches.lastCall.args[2],
-              25);
-          assert.equal(element.restApiService.getRepoBranches.lastCall.args[3],
-              25);
-          done();
-        });
+        await element._paramsChanged(params);
+        assert.equal(stub.lastCall.args[0], 'test');
+        assert.equal(stub.lastCall.args[1], 'test');
+        assert.equal(stub.lastCall.args[2], 25);
+        assert.equal(stub.lastCall.args[3], 25);
       });
     });
 
     suite('404', () => {
       test('fires page-error', done => {
         const response = {status: 404};
-        sinon.stub(element.restApiService, 'getRepoBranches').callsFake(
+        stubRestApi('getRepoBranches').callsFake(
             (filter, repo, reposBranchesPerPage, opt_offset, errFn) => {
               errFn(response);
             });
@@ -360,12 +342,7 @@ suite('gr-repo-detail-list', () => {
     suite('list of repo tags', () => {
       setup(done => {
         tags = _.times(26, tagGenerator);
-
-        stub('gr-rest-api-interface', {
-          getRepoTags(num, repo, offset) {
-            return Promise.resolve(tags);
-          },
-        });
+        stubRestApi('getRepoTags').returns(Promise.resolve(tags));
 
         const params = {
           repo: 'test',
@@ -435,12 +412,7 @@ suite('gr-repo-detail-list', () => {
     suite('list with less then 25 tags', () => {
       setup(done => {
         tags = _.times(25, tagGenerator);
-
-        stub('gr-rest-api-interface', {
-          getRepoTags(num, project, offset) {
-            return Promise.resolve(tags);
-          },
-        });
+        stubRestApi('getRepoTags').returns(Promise.resolve(tags));
 
         const params = {
           repo: 'test',
@@ -456,28 +428,19 @@ suite('gr-repo-detail-list', () => {
     });
 
     suite('filter', () => {
-      test('_paramsChanged', done => {
-        sinon.stub(
-            element.restApiService,
-            'getRepoTags')
-            .callsFake(() => Promise.resolve(tags));
+      test('_paramsChanged', async () => {
+        const stub = stubRestApi('getRepoTags').returns(Promise.resolve(tags));
         const params = {
           repo: 'test',
           detail: 'tags',
           filter: 'test',
           offset: 25,
         };
-        element._paramsChanged(params).then(() => {
-          assert.equal(element.restApiService.getRepoTags.lastCall.args[0],
-              'test');
-          assert.equal(element.restApiService.getRepoTags.lastCall.args[1],
-              'test');
-          assert.equal(element.restApiService.getRepoTags.lastCall.args[2],
-              25);
-          assert.equal(element.restApiService.getRepoTags.lastCall.args[3],
-              25);
-          done();
-        });
+        await element._paramsChanged(params);
+        assert.equal(stub.lastCall.args[0], 'test');
+        assert.equal(stub.lastCall.args[1], 'test');
+        assert.equal(stub.lastCall.args[2], 25);
+        assert.equal(stub.lastCall.args[3], 25);
       });
     });
 
@@ -520,7 +483,7 @@ suite('gr-repo-detail-list', () => {
     suite('404', () => {
       test('fires page-error', done => {
         const response = {status: 404};
-        sinon.stub(element.restApiService, 'getRepoTags').callsFake(
+        stubRestApi('getRepoTags').callsFake(
             (filter, repo, reposTagsPerPage, opt_offset, errFn) => {
               errFn(response);
             });

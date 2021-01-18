@@ -16,6 +16,7 @@
  */
 import '../../../test/common-test-setup-karma.js';
 import './gr-registration-dialog.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-registration-dialog');
 
@@ -38,27 +39,21 @@ suite('gr-registration-dialog tests', () => {
       ],
     };
 
-    stub('gr-rest-api-interface', {
-      getAccount() {
-        return Promise.resolve(account);
-      },
-      setAccountName(name) {
-        account.name = name;
-        return Promise.resolve();
-      },
-      setAccountUsername(username) {
-        account.username = username;
-        return Promise.resolve();
-      },
-      setPreferredAccountEmail(email) {
-        account.email = email;
-        return Promise.resolve();
-      },
-      getConfig() {
-        return Promise.resolve(
-            {auth: {editable_account_fields: ['USER_NAME']}});
-      },
+    stubRestApi('getAccount').returns(Promise.resolve(account));
+    stubRestApi('setAccountName').callsFake(name => {
+      account.name = name;
+      return Promise.resolve();
     });
+    stubRestApi('setAccountUsername').callsFake(username => {
+      account.username = username;
+      return Promise.resolve();
+    });
+    stubRestApi('setPreferredAccountEmail').callsFake(email => {
+      account.email = email;
+      return Promise.resolve();
+    });
+    stubRestApi('getConfig').returns(
+        Promise.resolve({auth: {editable_account_fields: ['USER_NAME']}}));
 
     element = basicFixture.instantiate();
 

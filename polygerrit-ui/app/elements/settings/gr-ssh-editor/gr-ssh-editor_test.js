@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-ssh-editor.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-ssh-editor');
 
@@ -41,9 +42,7 @@ suite('gr-ssh-editor tests', () => {
       valid: true,
     }];
 
-    stub('gr-rest-api-interface', {
-      getAccountSSHKeys() { return Promise.resolve(keys); },
-    });
+    stubRestApi('getAccountSSHKeys').returns(Promise.resolve(keys));
 
     element = basicFixture.instantiate();
 
@@ -65,7 +64,7 @@ suite('gr-ssh-editor tests', () => {
   test('remove key', done => {
     const lastKey = keys[1];
 
-    const saveStub = sinon.stub(element.restApiService, 'deleteAccountSSHKey')
+    const saveStub = stubRestApi('deleteAccountSSHKey')
         .callsFake(() => Promise.resolve());
 
     assert.equal(element._keysToRemove.length, 0);
@@ -116,7 +115,7 @@ suite('gr-ssh-editor tests', () => {
       valid: true,
     };
 
-    const addStub = sinon.stub(element.restApiService,
+    const addStub = stubRestApi(
         'addAccountSSHKey').callsFake(
         () => Promise.resolve(newKeyObject));
 
@@ -142,7 +141,7 @@ suite('gr-ssh-editor tests', () => {
   test('add invalid key', done => {
     const newKeyString = 'not even close to valid';
 
-    const addStub = sinon.stub(element.restApiService,
+    const addStub = stubRestApi(
         'addAccountSSHKey').callsFake(
         () => Promise.reject(new Error('error')));
 

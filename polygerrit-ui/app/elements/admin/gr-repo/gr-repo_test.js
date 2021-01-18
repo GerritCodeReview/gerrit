@@ -18,12 +18,13 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo');
 
 suite('gr-repo tests', () => {
   let element;
-
+  let loggedInStub;
   let repoStub;
   const repoConf = {
     description: 'Access inherited by all other projects.',
@@ -98,17 +99,11 @@ suite('gr-repo tests', () => {
   }
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(false); },
-      getConfig() {
-        return Promise.resolve({download: {}});
-      },
-    });
+    loggedInStub = stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+    stubRestApi('getConfig').returns(Promise.resolve({download: {}}));
+    repoStub =
+        stubRestApi('getProjectConfig').returns(Promise.resolve(repoConf));
     element = basicFixture.instantiate();
-    repoStub = sinon.stub(
-        element.restApiService,
-        'getProjectConfig')
-        .callsFake(() => Promise.resolve(repoConf));
   });
 
   test('_computePluginData', () => {
@@ -159,37 +154,28 @@ suite('gr-repo tests', () => {
     assert.isTrue(element._readOnly);
   });
 
-  test('form defaults to read only when not logged in', done => {
+  test('form defaults to read only when not logged in', async () => {
     element.repo = REPO;
-    element._loadRepo().then(() => {
-      assert.isTrue(element._readOnly);
-      done();
-    });
+    await element._loadRepo();
+    assert.isTrue(element._readOnly);
   });
 
-  test('form defaults to read only when logged in and not admin', done => {
+  test('form defaults to read only when logged in and not admin', async () => {
     element.repo = REPO;
-    sinon.stub(element, '_getLoggedIn').callsFake(() => Promise.resolve(true));
-    sinon.stub(
-        element.restApiService,
-        'getRepoAccess')
+    stubRestApi('getRepoAccess')
         .callsFake(() => Promise.resolve({'test-repo': {}}));
-    element._loadRepo().then(() => {
-      assert.isTrue(element._readOnly);
-      done();
-    });
+    await element._loadRepo();
+    assert.isTrue(element._readOnly);
   });
 
-  test('all form elements are disabled when not admin', done => {
+  test('all form elements are disabled when not admin', async () => {
     element.repo = REPO;
-    element._loadRepo().then(() => {
-      flush();
-      const formFields = getFormFields();
-      for (const field of formFields) {
-        assert.isTrue(field.hasAttribute('disabled'));
-      }
-      done();
-    });
+    await element._loadRepo();
+    flush();
+    const formFields = getFormFields();
+    for (const field of formFields) {
+      assert.isTrue(field.hasAttribute('disabled'));
+    }
   });
 
   test('_formatBooleanSelect', () => {
@@ -246,8 +232,7 @@ suite('gr-repo tests', () => {
     element.repo = 'test';
 
     const response = {status: 404};
-    sinon.stub(
-        element.restApiService, 'getProjectConfig').callsFake((repo, errFn) => {
+    stubRestApi('getProjectConfig').callsFake((repo, errFn) => {
       errFn(response);
     });
     element.addEventListener('page-error', e => {
@@ -261,48 +246,38 @@ suite('gr-repo tests', () => {
   suite('admin', () => {
     setup(() => {
       element.repo = REPO;
-      sinon.stub(element, '_getLoggedIn')
-          .callsFake(() => Promise.resolve(true));
-      sinon.stub(
-          element.restApiService,
-          'getRepoAccess')
-          .callsFake(() => Promise.resolve({'test-repo': {is_owner: true}}));
+      loggedInStub.returns(Promise.resolve(true));
+      stubRestApi('getRepoAccess')
+          .returns(Promise.resolve({'test-repo': {is_owner: true}}));
     });
 
-    test('all form elements are enabled', done => {
-      element._loadRepo().then(() => {
-        flush();
-        const formFields = getFormFields();
-        for (const field of formFields) {
-          assert.isFalse(field.hasAttribute('disabled'));
-        }
-        assert.isFalse(element._loading);
-        done();
-      });
+    test('all form elements are enabled', async () => {
+      await element._loadRepo();
+      await flush();
+      const formFields = getFormFields();
+      for (const field of formFields) {
+        assert.isFalse(field.hasAttribute('disabled'));
+      }
+      assert.isFalse(element._loading);
     });
 
-    test('state gets set correctly', done => {
-      element._loadRepo().then(() => {
-        assert.equal(element._repoConfig.state, 'ACTIVE');
-        assert.equal(element.$.stateSelect.bindValue, 'ACTIVE');
-        done();
-      });
+    test('state gets set correctly', async () => {
+      await element._loadRepo();
+      assert.equal(element._repoConfig.state, 'ACTIVE');
+      assert.equal(element.$.stateSelect.bindValue, 'ACTIVE');
     });
 
-    test('inherited submit type value is calculated correctly', done => {
-      element
-          ._loadRepo().then(() => {
-            const sel = element.$.submitTypeSelect;
-            assert.equal(sel.bindValue, 'INHERIT');
-            assert.equal(
-                sel.nativeSelect.options[0].text,
-                'Inherit (Merge if necessary)'
-            );
-            done();
-          });
+    test('inherited submit type value is calculated correctly', async () => {
+      await element._loadRepo();
+      const sel = element.$.submitTypeSelect;
+      assert.equal(sel.bindValue, 'INHERIT');
+      assert.equal(
+          sel.nativeSelect.options[0].text,
+          'Inherit (Merge if necessary)'
+      );
     });
 
-    test('fields update and save correctly', () => {
+    test('fields update and save correctly', async () => {
       const configInputObj = {
         description: 'new description',
         use_contributor_agreements: 'TRUE',
@@ -322,59 +297,57 @@ suite('gr-repo tests', () => {
         enable_reviewer_by_email: 'TRUE',
       };
 
-      const saveStub = sinon.stub(element.restApiService, 'saveRepoConfig')
+      const saveStub = stubRestApi('saveRepoConfig')
           .callsFake(() => Promise.resolve({}));
 
       const button = element.root.querySelector('gr-button');
 
-      return element._loadRepo().then(() => {
-        assert.isTrue(button.hasAttribute('disabled'));
-        assert.isFalse(element.$.Title.classList.contains('edited'));
-        element.$.descriptionInput.bindValue = configInputObj.description;
-        element.$.stateSelect.bindValue = configInputObj.state;
-        element.$.submitTypeSelect.bindValue = configInputObj.submit_type;
-        element.$.contentMergeSelect.bindValue =
-            configInputObj.use_content_merge;
-        element.$.newChangeSelect.bindValue =
-            configInputObj.create_new_change_for_all_not_in_target;
-        element.$.requireChangeIdSelect.bindValue =
-            configInputObj.require_change_id;
-        element.$.enableSignedPush.bindValue =
-            configInputObj.enable_signed_push;
-        element.$.requireSignedPush.bindValue =
-            configInputObj.require_signed_push;
-        element.$.rejectImplicitMergesSelect.bindValue =
-            configInputObj.reject_implicit_merges;
-        element.$.setAllnewChangesPrivateByDefaultSelect.bindValue =
-            configInputObj.private_by_default;
-        element.$.matchAuthoredDateWithCommitterDateSelect.bindValue =
-            configInputObj.match_author_to_committer_date;
-        const inputElement = PolymerElement ?
-          element.$.maxGitObjSizeIronInput : element.$.maxGitObjSizeInput;
-        inputElement.bindValue = configInputObj.max_object_size_limit;
-        element.$.contributorAgreementSelect.bindValue =
-            configInputObj.use_contributor_agreements;
-        element.$.useSignedOffBySelect.bindValue =
-            configInputObj.use_signed_off_by;
-        element.$.rejectEmptyCommitSelect.bindValue =
-            configInputObj.reject_empty_commit;
-        element.$.unRegisteredCcSelect.bindValue =
-            configInputObj.enable_reviewer_by_email;
+      await element._loadRepo();
+      assert.isTrue(button.hasAttribute('disabled'));
+      assert.isFalse(element.$.Title.classList.contains('edited'));
+      element.$.descriptionInput.bindValue = configInputObj.description;
+      element.$.stateSelect.bindValue = configInputObj.state;
+      element.$.submitTypeSelect.bindValue = configInputObj.submit_type;
+      element.$.contentMergeSelect.bindValue =
+          configInputObj.use_content_merge;
+      element.$.newChangeSelect.bindValue =
+          configInputObj.create_new_change_for_all_not_in_target;
+      element.$.requireChangeIdSelect.bindValue =
+          configInputObj.require_change_id;
+      element.$.enableSignedPush.bindValue =
+          configInputObj.enable_signed_push;
+      element.$.requireSignedPush.bindValue =
+          configInputObj.require_signed_push;
+      element.$.rejectImplicitMergesSelect.bindValue =
+          configInputObj.reject_implicit_merges;
+      element.$.setAllnewChangesPrivateByDefaultSelect.bindValue =
+          configInputObj.private_by_default;
+      element.$.matchAuthoredDateWithCommitterDateSelect.bindValue =
+          configInputObj.match_author_to_committer_date;
+      const inputElement = PolymerElement ?
+        element.$.maxGitObjSizeIronInput : element.$.maxGitObjSizeInput;
+      inputElement.bindValue = configInputObj.max_object_size_limit;
+      element.$.contributorAgreementSelect.bindValue =
+          configInputObj.use_contributor_agreements;
+      element.$.useSignedOffBySelect.bindValue =
+          configInputObj.use_signed_off_by;
+      element.$.rejectEmptyCommitSelect.bindValue =
+          configInputObj.reject_empty_commit;
+      element.$.unRegisteredCcSelect.bindValue =
+          configInputObj.enable_reviewer_by_email;
 
-        assert.isFalse(button.hasAttribute('disabled'));
-        assert.isTrue(element.$.configurations.classList.contains('edited'));
+      assert.isFalse(button.hasAttribute('disabled'));
+      assert.isTrue(element.$.configurations.classList.contains('edited'));
 
-        const formattedObj =
-            element._formatRepoConfigForSave(element._repoConfig);
-        assert.deepEqual(formattedObj, configInputObj);
+      const formattedObj =
+          element._formatRepoConfigForSave(element._repoConfig);
+      assert.deepEqual(formattedObj, configInputObj);
 
-        return element._handleSaveRepoConfig().then(() => {
-          assert.isTrue(button.hasAttribute('disabled'));
-          assert.isFalse(element.$.Title.classList.contains('edited'));
-          assert.isTrue(saveStub.lastCall.calledWithExactly(REPO,
-              configInputObj));
-        });
-      });
+      await element._handleSaveRepoConfig();
+      assert.isTrue(button.hasAttribute('disabled'));
+      assert.isFalse(element.$.Title.classList.contains('edited'));
+      assert.isTrue(saveStub.lastCall.calledWithExactly(REPO,
+          configInputObj));
     });
   });
 });

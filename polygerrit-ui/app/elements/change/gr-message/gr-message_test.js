@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-message.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {createChange, createRevisions} from '../../../test/test-data-generators.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-message');
 
@@ -27,13 +28,11 @@ suite('gr-message tests', () => {
 
   suite('when admin and logged in', () => {
     setup(done => {
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-        getPreferences() { return Promise.resolve({}); },
-        getConfig() { return Promise.resolve({}); },
-        getIsAdmin() { return Promise.resolve(true); },
-        deleteChangeCommitMessage() { return Promise.resolve({}); },
-      });
+      stubRestApi('getLoggedIn').returns(Promise.resolve(true));
+      stubRestApi('getPreferences').returns(Promise.resolve({}));
+      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('getIsAdmin').returns(Promise.resolve(true));
+      stubRestApi('deleteChangeCommitMessage').returns(Promise.resolve({}));
       element = basicFixture.instantiate();
       flush(done);
     });
@@ -415,13 +414,11 @@ suite('gr-message tests', () => {
 
   suite('when not logged in', () => {
     setup(done => {
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
-        getPreferences() { return Promise.resolve({}); },
-        getConfig() { return Promise.resolve({}); },
-        getIsAdmin() { return Promise.resolve(false); },
-        deleteChangeCommitMessage() { return Promise.resolve({}); },
-      });
+      stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+      stubRestApi('getPreferences').returns(Promise.resolve({}));
+      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('getIsAdmin').returns(Promise.resolve(false));
+      stubRestApi('deleteChangeCommitMessage').returns(Promise.resolve({}));
       element = basicFixture.instantiate();
       flush(done);
     });
@@ -510,15 +507,13 @@ suite('gr-message tests', () => {
   });
 
   suite('when logged in but not admin', () => {
-    setup(done => {
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-        getConfig() { return Promise.resolve({}); },
-        getIsAdmin() { return Promise.resolve(false); },
-        deleteChangeCommitMessage() { return Promise.resolve({}); },
-      });
+    setup(async () => {
+      stubRestApi('getLoggedIn').returns(Promise.resolve(true));
+      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('getIsAdmin').returns(Promise.resolve(false));
+      stubRestApi('deleteChangeCommitMessage').returns(Promise.resolve({}));
       element = basicFixture.instantiate();
-      flush(done);
+      await flush();
     });
 
     test('can see reply but not delete button', () => {

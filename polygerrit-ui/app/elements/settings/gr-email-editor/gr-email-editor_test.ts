@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-email-editor.js';
 import {GrEmailEditor} from './gr-email-editor';
+import {spyRestApi, stubRestApi} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-email-editor');
 
@@ -31,11 +32,7 @@ suite('gr-email-editor tests', () => {
       {email: 'email@three.com'},
     ];
 
-    stub('gr-rest-api-interface', {
-      getAccountEmails() {
-        return Promise.resolve(emails);
-      },
-    });
+    stubRestApi('getAccountEmails').returns(Promise.resolve(emails));
 
     element = basicFixture.instantiate();
 
@@ -113,15 +110,9 @@ suite('gr-email-editor tests', () => {
     assert.equal(element._emailsToRemove[0].email, 'email@three.com');
   });
 
-  test('save changes', done => {
-    const deleteEmailStub = sinon.stub(
-      element.restApiService,
-      'deleteAccountEmail'
-    );
-    const setPreferredStub = sinon.stub(
-      element.restApiService,
-      'setPreferredAccountEmail'
-    );
+  test('save changes', async () => {
+    const deleteEmailSpy = spyRestApi('deleteAccountEmail');
+    const setPreferredSpy = spyRestApi('setPreferredAccountEmail');
 
     const rows = element
       .shadowRoot!.querySelector('table')!
@@ -142,15 +133,10 @@ suite('gr-email-editor tests', () => {
     assert.equal(element._emailsToRemove[0].email, 'email@one.com');
     assert.equal(element._emails.length, 2);
 
-    // Save the changes.
-    element.save().then(() => {
-      assert.equal(deleteEmailStub.callCount, 1);
-      assert.equal(deleteEmailStub.getCall(0).args[0], 'email@one.com');
-
-      assert.isTrue(setPreferredStub.called);
-      assert.equal(setPreferredStub.getCall(0).args[0], 'email@three.com');
-
-      done();
-    });
+    await element.save();
+    assert.equal(deleteEmailSpy.callCount, 1);
+    assert.equal(deleteEmailSpy.getCall(0).args[0], 'email@one.com');
+    assert.isTrue(setPreferredSpy.called);
+    assert.equal(setPreferredSpy.getCall(0).args[0], 'email@three.com');
   });
 });

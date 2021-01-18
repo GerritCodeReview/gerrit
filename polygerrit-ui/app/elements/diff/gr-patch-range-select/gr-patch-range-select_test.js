@@ -26,6 +26,7 @@ import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comme
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const commentApiMockElement = createCommentApiMockWithTemplateElement(
     'gr-patch-range-select-comment-api-mock', html`
@@ -50,11 +51,9 @@ suite('gr-patch-range-select tests', () => {
   }
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getDiffComments() { return Promise.resolve({}); },
-      getDiffRobotComments() { return Promise.resolve({}); },
-      getDiffDrafts() { return Promise.resolve({}); },
-    });
+    stubRestApi('getDiffComments').returns(Promise.resolve({}));
+    stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
+    stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
     // Element must be wrapped in an element with direct access to the
     // comment API.

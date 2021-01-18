@@ -45,6 +45,7 @@ import {
   pressAndReleaseKeyOn,
 } from '@polymer/iron-test-helpers/mock-interactions';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {stubRestApi} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');
 
@@ -55,11 +56,7 @@ suite('gr-comment-thread tests', () => {
     let element: GrCommentThread;
 
     setup(() => {
-      stub('gr-rest-api-interface', {
-        getLoggedIn() {
-          return Promise.resolve(false);
-        },
-      });
+      stubRestApi('getLoggedIn').returns(Promise.resolve(false));
 
       element = basicFixture.instantiate();
       element.patchNum = 3 as PatchSetNum;
@@ -239,12 +236,12 @@ suite('gr-comment-thread tests', () => {
 
     test('setting project name loads the project config', done => {
       const projectName = 'foo/bar/baz' as RepoName;
-      const getProjectStub = sinon
-        .stub(element.restApiService, 'getProjectConfig')
-        .returns(Promise.resolve({} as ConfigInfo));
+      const getProjectStub = stubRestApi('getProjectConfig').returns(
+        Promise.resolve({} as ConfigInfo)
+      );
       element.projectName = projectName;
       flush(() => {
-        assert.isTrue(getProjectStub.calledWithExactly(projectName));
+        assert.isTrue(getProjectStub.calledWithExactly(projectName as never));
         done();
       });
     });
@@ -309,38 +306,34 @@ suite('comment action tests with unresolved thread', () => {
   let element: GrCommentThread;
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getLoggedIn() {
-        return Promise.resolve(false);
-      },
-      saveDiffDraft() {
-        return Promise.resolve(({
-          headers: {} as Headers,
-          redirected: false,
-          status: 200,
-          statusText: '',
-          type: '' as ResponseType,
-          url: '',
-          ok: true,
-          text() {
-            return Promise.resolve(
-              ")]}'\n" +
-                JSON.stringify({
-                  id: '7afa4931_de3d65bd',
-                  path: '/path/to/file.txt',
-                  line: 5,
-                  in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
-                  updated: '2015-12-21 02:01:10.850000000',
-                  message: 'Done',
-                })
-            );
-          },
-        } as unknown) as Response);
-      },
-      deleteDiffDraft() {
-        return Promise.resolve(({ok: true} as unknown) as Response);
-      },
-    });
+    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+    stubRestApi('saveDiffDraft').returns(
+      Promise.resolve(({
+        headers: {} as Headers,
+        redirected: false,
+        status: 200,
+        statusText: '',
+        type: '' as ResponseType,
+        url: '',
+        ok: true,
+        text() {
+          return Promise.resolve(
+            ")]}'\n" +
+              JSON.stringify({
+                id: '7afa4931_de3d65bd',
+                path: '/path/to/file.txt',
+                line: 5,
+                in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
+                updated: '2015-12-21 02:01:10.850000000',
+                message: 'Done',
+              })
+          );
+        },
+      } as unknown) as Response)
+    );
+    stubRestApi('deleteDiffDraft').returns(
+      Promise.resolve(({ok: true} as unknown) as Response)
+    );
     element = withCommentFixture.instantiate();
     element.patchNum = 1 as PatchSetNum;
     element.changeNum = 1 as NumericChangeId;
@@ -930,32 +923,28 @@ suite('comment action tests on resolved comments', () => {
   let element: GrCommentThread;
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getLoggedIn() {
-        return Promise.resolve(false);
-      },
-      saveDiffDraft() {
-        return Promise.resolve(({
-          ok: true,
-          text() {
-            return Promise.resolve(
-              ")]}'\n" +
-                JSON.stringify({
-                  id: '7afa4931_de3d65bd',
-                  path: '/path/to/file.txt',
-                  line: 5,
-                  in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
-                  updated: '2015-12-21 02:01:10.850000000',
-                  message: 'Done',
-                })
-            );
-          },
-        } as unknown) as Response);
-      },
-      deleteDiffDraft() {
-        return Promise.resolve(({ok: true} as unknown) as Response);
-      },
-    });
+    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+    stubRestApi('saveDiffDraft').returns(
+      Promise.resolve(({
+        ok: true,
+        text() {
+          return Promise.resolve(
+            ")]}'\n" +
+              JSON.stringify({
+                id: '7afa4931_de3d65bd',
+                path: '/path/to/file.txt',
+                line: 5,
+                in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
+                updated: '2015-12-21 02:01:10.850000000',
+                message: 'Done',
+              })
+          );
+        },
+      } as unknown) as Response)
+    );
+    stubRestApi('deleteDiffDraft').returns(
+      Promise.resolve(({ok: true} as unknown) as Response)
+    );
     element = withCommentFixture.instantiate();
     element.patchNum = 1 as PatchSetNum;
     element.changeNum = 1 as NumericChangeId;

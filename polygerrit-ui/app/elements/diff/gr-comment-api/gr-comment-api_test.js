@@ -21,6 +21,7 @@ import {ChangeComments} from './gr-comment-api.js';
 import {isInRevisionOfPatchRange, isInBaseOfPatchRange, isDraftThread, isUnresolved, createCommentThreads} from '../../../utils/comment-util.js';
 import {createDraft, createComment, createChangeComments, createCommentThread} from '../../../test/test-data-generators.js';
 import {CommentSide, Side} from '../../../constants/constants.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
 
@@ -36,25 +37,20 @@ suite('gr-comment-api tests', () => {
   test('loads logged-out', () => {
     const changeNum = 1234;
 
-    sinon.stub(element.restApiService, 'getLoggedIn')
-        .returns(Promise.resolve(false));
-    sinon.stub(element.restApiService, 'getDiffComments')
-        .returns(Promise.resolve({
+    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+    const diffCommentsSpy = stubRestApi('getDiffComments').returns(
+        Promise.resolve({
           'foo.c': [{id: '123', message: 'foo bar', in_reply_to: '321'}],
         }));
-    sinon.stub(element.restApiService, 'getDiffRobotComments')
-        .returns(Promise.resolve({'foo.c': [{id: '321', message: 'done'}]}));
-    sinon.stub(element.restApiService, 'getDiffDrafts')
-        .returns(Promise.resolve({}));
+    const diffRobotCommentsSpy = stubRestApi('getDiffRobotComments').returns(
+        Promise.resolve({'foo.c': [{id: '321', message: 'done'}]}));
+    const diffDraftsSpy = stubRestApi('getDiffDrafts').returns(
+        Promise.resolve({}));
 
     return element.loadAll(changeNum).then(() => {
-      assert.isTrue(element.restApiService.getDiffComments.calledWithExactly(
-          changeNum));
-      assert.isTrue(
-          element.restApiService.getDiffRobotComments.calledWithExactly(
-              changeNum));
-      assert.isTrue(element.restApiService.getDiffDrafts.calledWithExactly(
-          changeNum));
+      assert.isTrue(diffCommentsSpy.calledWithExactly(changeNum));
+      assert.isTrue(diffRobotCommentsSpy.calledWithExactly(changeNum));
+      assert.isTrue(diffDraftsSpy.calledWithExactly(changeNum));
       assert.isOk(element._changeComments._comments);
       assert.isOk(element._changeComments._robotComments);
       assert.deepEqual(element._changeComments._drafts, {});
@@ -64,25 +60,21 @@ suite('gr-comment-api tests', () => {
   test('loads logged-in', () => {
     const changeNum = 1234;
 
-    sinon.stub(element.restApiService, 'getLoggedIn')
-        .returns(Promise.resolve(true));
-    sinon.stub(element.restApiService, 'getDiffComments')
-        .returns(Promise.resolve({
+    stubRestApi('getLoggedIn').returns(Promise.resolve(true));
+    const getCommentsStub = stubRestApi('getDiffComments').returns(
+        Promise.resolve({
           'foo.c': [{id: '123', message: 'foo bar', in_reply_to: '321'}],
-        }));
-    sinon.stub(element.restApiService, 'getDiffRobotComments')
+        })
+    );
+    const getRobotCommentsStub = stubRestApi('getDiffRobotComments')
         .returns(Promise.resolve({'foo.c': [{id: '321', message: 'done'}]}));
-    sinon.stub(element.restApiService, 'getDiffDrafts')
+    const getDraftsStub = stubRestApi('getDiffDrafts')
         .returns(Promise.resolve({'foo.c': [{id: '555', message: 'ack'}]}));
 
     return element.loadAll(changeNum).then(() => {
-      assert.isTrue(element.restApiService.getDiffComments.calledWithExactly(
-          changeNum));
-      assert.isTrue(
-          element.restApiService.getDiffRobotComments.calledWithExactly(
-              changeNum));
-      assert.isTrue(element.restApiService.getDiffDrafts.calledWithExactly(
-          changeNum));
+      assert.isTrue(getCommentsStub.calledWithExactly(changeNum));
+      assert.isTrue(getRobotCommentsStub.calledWithExactly(changeNum));
+      assert.isTrue(getDraftsStub.calledWithExactly(changeNum));
       assert.isOk(element._changeComments._comments);
       assert.isOk(element._changeComments._robotComments);
       assert.notDeepEqual(element._changeComments._drafts, {});
@@ -94,11 +86,11 @@ suite('gr-comment-api tests', () => {
     let robotCommentStub;
     let draftStub;
     setup(() => {
-      commentStub = sinon.stub(element.restApiService, 'getDiffComments')
+      commentStub = stubRestApi('getDiffComments')
           .returns(Promise.resolve({}));
-      robotCommentStub = sinon.stub(element.restApiService,
+      robotCommentStub = stubRestApi(
           'getDiffRobotComments').returns(Promise.resolve({}));
-      draftStub = sinon.stub(element.restApiService, 'getDiffDrafts')
+      draftStub = stubRestApi('getDiffDrafts')
           .returns(Promise.resolve({}));
     });
 
@@ -138,11 +130,9 @@ suite('gr-comment-api tests', () => {
   suite('_changeComment methods', () => {
     setup(done => {
       const changeNum = 1234;
-      stub('gr-rest-api-interface', {
-        getDiffComments() { return Promise.resolve({}); },
-        getDiffRobotComments() { return Promise.resolve({}); },
-        getDiffDrafts() { return Promise.resolve({}); },
-      });
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       element.loadAll(changeNum).then(() => {
         done();
       });

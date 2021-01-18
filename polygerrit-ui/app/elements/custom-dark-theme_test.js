@@ -17,7 +17,6 @@
 
 import '../test/common-test-setup-karma.js';
 import {getComputedStyleValue} from '../utils/dom-util.js';
-import './shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import './gr-app.js';
 import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
 import {removeTheme} from '../styles/themes/dark-theme.js';

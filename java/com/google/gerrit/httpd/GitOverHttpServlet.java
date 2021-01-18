@@ -339,17 +339,20 @@ public class GitOverHttpServlet extends GitServlet {
     private final Provider<CurrentUser> userProvider;
     private final GroupAuditService groupAuditService;
     private final Metrics metrics;
+    private final Provider<WebSession> sessionProvider;
 
     @Inject
     UploadFilter(
         UploadValidators.Factory uploadValidatorsFactory,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
+        Provider<WebSession> sessionProvider,
         GroupAuditService groupAuditService,
         Metrics metrics) {
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
+      this.sessionProvider = sessionProvider;
       this.groupAuditService = groupAuditService;
       this.metrics = metrics;
     }
@@ -367,7 +370,7 @@ public class GitOverHttpServlet extends GitServlet {
       HttpServletResponseWithStatusWrapper responseWrapper =
           new HttpServletResponseWithStatusWrapper((HttpServletResponse) response);
       HttpServletRequest httpRequest = (HttpServletRequest) request;
-      String sessionId = httpRequest.getSession().getId();
+      String sessionId = getSessionIdOrNull(sessionProvider);
 
       try {
         try {
@@ -457,17 +460,20 @@ public class GitOverHttpServlet extends GitServlet {
     private final Provider<CurrentUser> userProvider;
     private final GroupAuditService groupAuditService;
     private final Metrics metrics;
+    private final Provider<WebSession> sessionProvider;
 
     @Inject
     ReceiveFilter(
         @Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
+        Provider<WebSession> sessionProvider,
         GroupAuditService groupAuditService,
         Metrics metrics) {
       this.cache = cache;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
+      this.sessionProvider = sessionProvider;
       this.groupAuditService = groupAuditService;
       this.metrics = metrics;
     }
@@ -509,7 +515,7 @@ public class GitOverHttpServlet extends GitServlet {
       } finally {
         groupAuditService.dispatch(
             new HttpAuditEvent(
-                httpRequest.getSession().getId(),
+                getSessionIdOrNull(sessionProvider),
                 userProvider.get(),
                 extractWhat(httpRequest),
                 TimeUtil.nowMs(),
@@ -564,5 +570,13 @@ public class GitOverHttpServlet extends GitServlet {
 
     @Override
     public void destroy() {}
+  }
+
+  private static String getSessionIdOrNull(Provider<WebSession> sessionProvider) {
+    WebSession session = sessionProvider.get();
+    if (session.isSignedIn()) {
+      return session.getSessionId();
+    }
+    return null;
   }
 }

@@ -217,6 +217,11 @@ public class Daemon extends SiteProgram {
     httpd = enable;
   }
 
+  @VisibleForTesting
+  public Injector getHttpdInjector() {
+    return httpdInjector;
+  }
+
   public void setSlave(boolean slave) {
     this.slave = slave;
   }

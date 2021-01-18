@@ -29,5 +29,6 @@ public class RestApiModule extends AbstractModule {
     install(new com.google.gerrit.server.restapi.group.Module());
     install(new PluginRestApiModule());
     install(new com.google.gerrit.server.restapi.project.Module());
+    install(new com.google.gerrit.server.restapi.project.Module.BatchModule());
   }
 }

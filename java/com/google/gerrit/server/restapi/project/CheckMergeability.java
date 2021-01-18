@@ -101,10 +101,20 @@ public class CheckMergeability implements RestReadView<BranchResource> {
       }
 
       RevCommit targetCommit = rw.parseCommit(destRef.getObjectId());
-      RevCommit sourceCommit = MergeUtil.resolveCommit(git, rw, source);
 
-      if (!commits.canRead(resource.getProjectState(), git, sourceCommit)) {
-        throw new BadRequestException("do not have read permission for: " + source);
+      RevCommit sourceCommit = null;
+      try {
+        sourceCommit = MergeUtil.resolveCommit(git, rw, source);
+        if (!commits.canRead(resource.getProjectState(), git, sourceCommit)) {
+          throw new BadRequestException("do not have read permission for: " + source);
+        }
+      } catch (BadRequestException e) {
+        // Throw a unified exception for permission denied and unresolvable commits.
+        throw new BadRequestException(
+            "Error resolving: '"
+                + source
+                + "'. Do not have read permission, or failed to resolve to a commit.",
+            e);
       }
 
       if (rw.isMergedInto(sourceCommit, targetCommit)) {

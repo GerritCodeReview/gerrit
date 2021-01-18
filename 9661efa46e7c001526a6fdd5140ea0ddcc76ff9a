@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d6d4c90_d42fad41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-01-18T09:39:48Z",
+      "side": 1,
+      "message": "Thanks Frank! I have added one more comment to the bug. In short, to also change the color of the background behind the long range comment chip on hover to be the same as the long comment range on hover: `--diff-highlight-range-hover-color: rgba(255, 255, 0, 0.5);`\n\nThis will make the relationship between the background of the chip and the comment clearer as they will be highlighted similarly on hover.",
+      "revId": "9661efa46e7c001526a6fdd5140ea0ddcc76ff9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

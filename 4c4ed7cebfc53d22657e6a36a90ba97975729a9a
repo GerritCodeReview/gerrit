@@ -57,6 +57,24 @@
       "parentUuid": "387360aa_652efd00",
       "revId": "4c4ed7cebfc53d22657e6a36a90ba97975729a9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "528cbbf0_6cf01425",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-18T14:36:58Z",
+      "side": 1,
+      "message": "$ git describe 87aacaeca72f99941323d7d5d981cde333177b23\nv3.3.12-16-g87aacaeca\n\nI suppose this is too old?",
+      "parentUuid": "d8d6cfb0_41829797",
+      "revId": "4c4ed7cebfc53d22657e6a36a90ba97975729a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

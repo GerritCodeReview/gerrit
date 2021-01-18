@@ -16,14 +16,13 @@
  */
 
 import {BehaviorSubject, Observable} from 'rxjs';
-import {
-  Category,
-  CheckResult,
-  CheckRun,
-  ChecksApiConfig,
-  RunStatus,
-} from '../../elements/plugins/gr-checks-api/gr-checks-api-types';
+import {Category, CheckResult, CheckRun, ChecksApiConfig, LinkIcon, RunStatus,} from '../../elements/plugins/gr-checks-api/gr-checks-api-types';
 import {map} from 'rxjs/operators';
+
+// This is a convenience type for working with results, because when working
+// with a bunch of results you will typically also want to know about the run
+// properties. So you can just combine them with {...run, ...result}.
+export type RunResult = CheckRun & CheckResult;
 
 interface ChecksProviderState {
   pluginName: string;
@@ -97,6 +96,9 @@ const fakeRun0: CheckRun = {
     {
       category: Category.ERROR,
       summary: 'I would like to point out this error: 1 is not equal to 2!',
+      links: [
+        {primary: true, url: 'https://www.google.com', icon: LinkIcon.EXTERNAL},
+      ],
     },
   ],
   status: RunStatus.COMPLETED,

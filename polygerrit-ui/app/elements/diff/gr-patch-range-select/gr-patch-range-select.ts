@@ -32,6 +32,7 @@ import {
   isMergeParent,
   sortRevisions,
   PatchSet,
+  convertToPatchSetNum,
 } from '../../../utils/patch-set-util';
 import {customElement, property, observe} from '@polymer/decorators';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
@@ -426,7 +427,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
       basePatchNum: this.basePatchNum,
     };
     const target = (dom(e) as EventApi).localTarget;
-    const patchSetValue = e.detail.value as PatchSetNum;
+    const patchSetValue = convertToPatchSetNum(e.detail.value)!;
     const latestPatchNum = computeLatestPatchNum(this.availablePatches);
     if (target === this.$.patchNumDropdown) {
       if (detail.patchNum === e.detail.value) return;

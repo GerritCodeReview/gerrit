@@ -16,9 +16,9 @@
  */
 
 import '../../test/common-test-setup-karma.js';
-import '../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from './gr-reviewer-suggestions-provider.js';
 import {appContext} from '../../services/app-context.js';
+import {stubRestApi} from '../../test/test-utils.js';
 
 suite('GrReviewerSuggestionsProvider tests', () => {
   let _nextAccountId = 0;
@@ -47,7 +47,6 @@ suite('GrReviewerSuggestionsProvider tests', () => {
   let suggestion1;
   let suggestion2;
   let suggestion3;
-  let restAPI;
   let provider;
 
   let redundantSuggestion1;
@@ -68,12 +67,8 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       },
     };
 
-    stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(true); },
-      getConfig() { return Promise.resolve({}); },
-    });
+    stubRestApi('getConfig').returns(Promise.resolve({}));
 
-    restAPI = appContext.restApiService;
     change = {
       _number: 42,
       owner,
@@ -88,21 +83,23 @@ suite('GrReviewerSuggestionsProvider tests', () => {
 
   suite('allowAnyUser set to false', () => {
     setup(done => {
-      provider = GrReviewerSuggestionsProvider.create(restAPI, change._number,
+      provider = GrReviewerSuggestionsProvider.create(
+          appContext.restApiService, change._number,
           SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
       provider.init().then(done);
     });
     suite('stubbed values for _getReviewerSuggestions', () => {
+      let getChangeSuggestedReviewersStub;
       setup(() => {
-        stub('gr-rest-api-interface', {
-          getChangeSuggestedReviewers() {
-            redundantSuggestion1 = {account: existingReviewer1};
-            redundantSuggestion2 = {account: existingReviewer2};
-            redundantSuggestion3 = {account: owner};
-            return Promise.resolve([redundantSuggestion1, redundantSuggestion2,
-              redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
-          },
-        });
+        getChangeSuggestedReviewersStub =
+            stubRestApi('getChangeSuggestedReviewers').callsFake(() => {
+              redundantSuggestion1 = {account: existingReviewer1};
+              redundantSuggestion2 = {account: existingReviewer2};
+              redundantSuggestion3 = {account: owner};
+              return Promise.resolve([
+                redundantSuggestion1, redundantSuggestion2,
+                redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
+            });
       });
 
       test('makeSuggestionItem formats account or group accordingly', () => {
@@ -182,26 +179,22 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       });
 
       test('getSuggestions short circuits when logged out', () => {
-        // API call is already stubbed.
-        const xhrSpy = restAPI.getChangeSuggestedReviewers;
         provider._loggedIn = false;
         return provider.getSuggestions('').then(() => {
-          assert.isFalse(xhrSpy.called);
+          assert.isFalse(getChangeSuggestedReviewersStub.called);
           provider._loggedIn = true;
           return provider.getSuggestions('').then(() => {
-            assert.isTrue(xhrSpy.called);
+            assert.isTrue(getChangeSuggestedReviewersStub.called);
           });
         });
       });
     });
 
     test('getChangeSuggestedReviewers is used', done => {
-      const suggestReviewerStub =
-          sinon.stub(restAPI, 'getChangeSuggestedReviewers')
-              .returns(Promise.resolve([]));
-      const suggestAccountStub =
-          sinon.stub(restAPI, 'getSuggestedAccounts')
-              .returns(Promise.resolve([]));
+      const suggestReviewerStub = stubRestApi('getChangeSuggestedReviewers')
+          .returns(Promise.resolve([]));
+      const suggestAccountStub = stubRestApi('getSuggestedAccounts')
+          .returns(Promise.resolve([]));
 
       provider.getSuggestions('').then(() => {
         assert.isTrue(suggestReviewerStub.calledOnce);
@@ -214,18 +207,17 @@ suite('GrReviewerSuggestionsProvider tests', () => {
 
   suite('allowAnyUser set to true', () => {
     setup(done => {
-      provider = GrReviewerSuggestionsProvider.create(restAPI, change._number,
+      provider = GrReviewerSuggestionsProvider.create(
+          appContext.restApiService, change._number,
           SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
       provider.init().then(done);
     });
 
     test('getSuggestedAccounts is used', done => {
-      const suggestReviewerStub =
-          sinon.stub(restAPI, 'getChangeSuggestedReviewers')
-              .returns(Promise.resolve([]));
-      const suggestAccountStub =
-          sinon.stub(restAPI, 'getSuggestedAccounts')
-              .returns(Promise.resolve([]));
+      const suggestReviewerStub = stubRestApi('getChangeSuggestedReviewers')
+          .returns(Promise.resolve([]));
+      const suggestAccountStub = stubRestApi('getSuggestedAccounts')
+          .returns(Promise.resolve([]));
 
       provider.getSuggestions('').then(() => {
         assert.isFalse(suggestReviewerStub.called);

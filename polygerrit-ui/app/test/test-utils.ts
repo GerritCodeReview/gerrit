@@ -16,12 +16,13 @@
  */
 import '../types/globals';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
-import {testOnly_resetInternalState} from '../elements/shared/gr-js-api-interface/gr-api-utils';
 import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/gr-plugin-endpoints';
 import {
   _testOnly_getShortcutManagerInstance,
   Shortcut,
 } from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {appContext} from '../services/app-context';
+import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
 
 export interface MockPromise extends Promise<unknown> {
   resolve: (value?: unknown) => void;
@@ -87,7 +88,6 @@ export class TestKeyboardShortcutBinder {
 // Provide reset plugins function to clear installed plugins between tests.
 // No gr-app found (running tests)
 export const resetPlugins = () => {
-  testOnly_resetInternalState();
   _testOnly_resetEndpoints();
   const pl = _testOnly_resetPluginLoader();
   pl.loadPlugins([]);
@@ -133,6 +133,14 @@ export function stubBaseUrl(newUrl: string) {
   const originalCanonicalPath = window.CANONICAL_PATH;
   window.CANONICAL_PATH = newUrl;
   registerTestCleanup(() => (window.CANONICAL_PATH = originalCanonicalPath));
+}
+
+export function stubRestApi(method: keyof RestApiService) {
+  return sinon.stub(appContext.restApiService, method);
+}
+
+export function spyRestApi(method: keyof RestApiService) {
+  return sinon.spy(appContext.restApiService, method);
 }
 
 /**

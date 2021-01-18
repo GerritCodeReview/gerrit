@@ -22,6 +22,8 @@ import {mockPromise} from '../../../test/test-utils.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {appContext} from '../../../services/app-context.js';
 import {addListenerForTest} from '../../../test/test-utils.js';
+import {stubRestApi} from '../../../test/test-utils.js';
+import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
@@ -61,12 +63,10 @@ suite('gr-reply-dialog tests', () => {
     changeNum = 42;
     patchNum = 1;
 
-    stub('gr-rest-api-interface', {
-      getConfig() { return Promise.resolve({}); },
-      getAccount() { return Promise.resolve({}); },
-      getChange() { return Promise.resolve({}); },
-      getChangeSuggestedReviewers() { return Promise.resolve([]); },
-    });
+    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getAccount').returns(Promise.resolve({}));
+    stubRestApi('getChange').returns(Promise.resolve({}));
+    stubRestApi('getChangeSuggestedReviewers').returns(Promise.resolve([]));
 
     sinon.stub(appContext.flagsService, 'isEnabled').returns(true);
 
@@ -131,8 +131,7 @@ suite('gr-reply-dialog tests', () => {
         .callsFake(review => new Promise((resolve, reject) => {
           try {
             const result = jsonResponseProducer(review) || {};
-            const resultStr =
-            element.restApiService.JSON_PREFIX + JSON.stringify(result);
+            const resultStr = JSON_PREFIX + JSON.stringify(result);
             resolve({
               ok: true,
               text() {
@@ -780,10 +779,15 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('400 converts to human-readable server-error', done => {
-    sinon.stub(window, 'fetch').callsFake(() => {
-      const text = '....{"reviewers":{"id1":{"error":"human readable"}}}';
-      return Promise.resolve(cloneableResponse(400, text));
-    });
+    stubRestApi('saveChangeReview').callsFake(
+        (changeNum, patchNum, review, errFn) => {
+          errFn(cloneableResponse(
+              400,
+              '....{"reviewers":{"id1":{"error":"human readable"}}}'
+          ));
+          return Promise.resolve(undefined);
+        }
+    );
 
     const listener = event => {
       if (event.target !== document) return;
@@ -799,10 +803,12 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('non-json 400 is treated as a normal server-error', done => {
-    sinon.stub(window, 'fetch').callsFake(() => {
-      const text = 'Comment validation error!';
-      return Promise.resolve(cloneableResponse(400, text));
-    });
+    stubRestApi('saveChangeReview').callsFake(
+        (changeNum, patchNum, review, errFn) => {
+          errFn(cloneableResponse(400, 'Comment validation error!'));
+          return Promise.resolve(undefined);
+        }
+    );
 
     const listener = event => {
       if (event.target !== document) return;
@@ -978,7 +984,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('_removeAccount', done => {
-    sinon.stub(element.restApiService, 'removeChangeReviewer')
+    stubRestApi('removeChangeReviewer')
         .returns(Promise.resolve({ok: true}));
     const arr = [makeAccount(), makeAccount()];
     element.change.reviewers = {
@@ -1338,32 +1344,29 @@ suite('gr-reply-dialog tests', () => {
     });
 
     suite('pending diff drafts?', () => {
-      test('yes', () => {
+      test('yes', async () => {
         const promise = mockPromise();
-        const refreshHandler = sinon.stub();
+        const refreshSpy = sinon.spy();
+        element.addEventListener('comment-refresh', refreshSpy);
+        stubRestApi('hasPendingDiffDrafts').returns(true);
+        stubRestApi('awaitPendingDiffDrafts').returns(promise);
 
-        element.addEventListener('comment-refresh', refreshHandler);
-        sinon.stub(element.restApiService, 'hasPendingDiffDrafts').returns(
-            true);
-        element.restApiService._pendingRequests.sendDiffDraft = [promise];
         element.open();
 
-        assert.isFalse(refreshHandler.called);
+        assert.isFalse(refreshSpy.called);
         assert.isTrue(element._savingComments);
 
         promise.resolve();
+        await flush();
 
-        return element.restApiService.awaitPendingDiffDrafts().then(() => {
-          assert.isTrue(refreshHandler.called);
-          assert.isFalse(element._savingComments);
-        });
+        assert.isTrue(refreshSpy.called);
+        assert.isFalse(element._savingComments);
       });
 
       test('no', () => {
-        sinon.stub(element.restApiService, 'hasPendingDiffDrafts').returns(
-            false);
+        stubRestApi('hasPendingDiffDrafts').returns(false);
         element.open();
-        assert.notOk(element._savingComments);
+        assert.isFalse(element._savingComments);
       });
     });
   });

@@ -20,6 +20,7 @@ import './gr-comment.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {__testOnly_UNSAVED_MESSAGE} from './gr-comment.js';
 import {SpecialFilePath, Side} from '../../../constants/constants.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-comment');
 
@@ -39,16 +40,12 @@ suite('gr-comment tests', () => {
     let openOverlaySpy;
 
     setup(() => {
-      stub('gr-rest-api-interface', {
-        getAccount() {
-          return Promise.resolve({
-            email: 'dhruvsri@google.com',
-            name: 'Dhruv Srivastava',
-            _account_id: 1083225,
-            avatars: [{url: 'abc', height: 32}],
-          });
-        },
-      });
+      stubRestApi('getAccount').returns(Promise.resolve({
+        email: 'dhruvsri@google.com',
+        name: 'Dhruv Srivastava',
+        _account_id: 1083225,
+        avatars: [{url: 'abc', height: 32}],
+      }));
       element = basicFixture.instantiate();
       element.comment = {
         author: {
@@ -274,8 +271,7 @@ suite('gr-comment tests', () => {
     });
 
     test('delete comment', done => {
-      sinon.stub(
-          element.restApiService, 'deleteComment').returns(Promise.resolve({}));
+      const stub = stubRestApi('deleteComment').returns(Promise.resolve({}));
       sinon.spy(element.confirmDeleteOverlay, 'open');
       element.changeNum = 42;
       element.patchNum = 0xDEADBEEF;
@@ -292,7 +288,7 @@ suite('gr-comment tests', () => {
                   .querySelector('#confirmDeleteComment');
           dialog.message = 'removal reason';
           element._handleConfirmDeleteComment();
-          assert.isTrue(element.restApiService.deleteComment.calledWith(
+          assert.isTrue(stub.calledWith(
               42, 0xDEADBEEF, 'baf0414d_60047215', 'removal reason'));
           done();
         });
@@ -374,7 +370,7 @@ suite('gr-comment tests', () => {
       element.patchNum = 1;
       const updateRequestStub = sinon.stub(element, '_updateRequestToast');
       const diffDraftStub =
-        sinon.stub(element.restApiService, 'saveDiffDraft').returns(
+        stubRestApi('saveDiffDraft').returns(
             Promise.resolve({ok: false}));
       element._saveDraft({id: 'abc_123'});
       flush(() => {
@@ -410,7 +406,7 @@ suite('gr-comment tests', () => {
       element.patchNum = 1;
       const updateRequestStub = sinon.stub(element, '_updateRequestToast');
       const diffDraftStub =
-        sinon.stub(element.restApiService, 'saveDiffDraft').returns(
+        stubRestApi('saveDiffDraft').returns(
             Promise.reject(new Error()));
       element._saveDraft({id: 'abc_123'});
       flush(() => {
@@ -445,29 +441,23 @@ suite('gr-comment tests', () => {
     let element;
 
     setup(() => {
-      stub('gr-rest-api-interface', {
-        getAccount() { return Promise.resolve(null); },
-        getConfig() { return Promise.resolve({}); },
-        saveDiffDraft() {
-          return Promise.resolve({
-            ok: true,
-            text() {
-              return Promise.resolve(
-                  ')]}\'\n{' +
-                  '"id": "baf0414d_40572e03",' +
-                  '"path": "/path/to/file",' +
-                  '"line": 5,' +
-                  '"updated": "2015-12-08 21:52:36.177000000",' +
-                  '"message": "saved!"' +
-                '}'
-              );
-            },
-          });
+      stubRestApi('getAccount').returns(Promise.resolve(null));
+      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('saveDiffDraft').returns(Promise.resolve({
+        ok: true,
+        text() {
+          return Promise.resolve(
+              ')]}\'\n{' +
+              '"id": "baf0414d_40572e03",' +
+              '"path": "/path/to/file",' +
+              '"line": 5,' +
+              '"updated": "2015-12-08 21:52:36.177000000",' +
+              '"message": "saved!"' +
+              '}'
+          );
         },
-        removeChangeReviewer() {
-          return Promise.resolve({ok: true});
-        },
-      });
+      }));
+      stubRestApi('removeChangeReviewer').returns(Promise.resolve({ok: true}));
       stub('gr-storage', {
         getDraftComment() { return null; },
       });
@@ -802,7 +792,7 @@ suite('gr-comment tests', () => {
     test('storage is cleared only after save success', () => {
       element._messageText = 'test';
       const eraseStub = sinon.stub(element, '_eraseDraftComment');
-      sinon.stub(element.restApiService, 'getResponseObject')
+      stubRestApi('getResponseObject')
           .returns(Promise.resolve({}));
 
       sinon.stub(element, '_saveDraft').returns(Promise.resolve({ok: false}));
@@ -1240,9 +1230,7 @@ suite('gr-comment tests', () => {
 
     let clock;
     setup(() => {
-      stub('gr-rest-api-interface', {
-        getAccount() { return Promise.resolve(null); },
-      });
+      stubRestApi('getAccount').returns(Promise.resolve(null));
       clock = sinon.useFakeTimers();
     });
 

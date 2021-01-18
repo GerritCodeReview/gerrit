@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-create-pointer-dialog.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-create-pointer-dialog');
 
@@ -28,17 +29,11 @@ suite('gr-create-pointer-dialog tests', () => {
   };
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(true); },
-    });
     element = basicFixture.instantiate();
   });
 
   test('branch created', done => {
-    sinon.stub(
-        element.restApiService,
-        'createRepoBranch')
-        .callsFake(() => Promise.resolve({}));
+    stubRestApi('createRepoBranch').returns(Promise.resolve({}));
 
     assert.isFalse(element.hasNewItemName);
 
@@ -57,10 +52,7 @@ suite('gr-create-pointer-dialog tests', () => {
   });
 
   test('tag created', done => {
-    sinon.stub(
-        element.restApiService,
-        'createRepoTag')
-        .callsFake(() => Promise.resolve({}));
+    stubRestApi('createRepoTag').returns(Promise.resolve({}));
 
     assert.isFalse(element.hasNewItemName);
 
@@ -79,10 +71,7 @@ suite('gr-create-pointer-dialog tests', () => {
   });
 
   test('tag created with annotations', done => {
-    sinon.stub(
-        element.restApiService,
-        'createRepoTag')
-        .callsFake(() => Promise.resolve({}));
+    stubRestApi('createRepoTag').returns(() => Promise.resolve({}));
 
     assert.isFalse(element.hasNewItemName);
 

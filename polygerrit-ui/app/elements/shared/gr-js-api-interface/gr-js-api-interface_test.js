@@ -25,6 +25,7 @@ import {getPluginLoader} from './gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 import sinon from 'sinon/pkg/sinon-esm';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-js-api-interface');
 
@@ -46,17 +47,10 @@ suite('gr-js-api-interface tests', () => {
   setup(() => {
     clock = sinon.useFakeTimers();
 
-    getResponseObjectStub = sinon.stub().returns(Promise.resolve());
-    sendStub = sinon.stub().returns(Promise.resolve({status: 200}));
-    stub('gr-rest-api-interface', {
-      getAccount() {
-        return Promise.resolve({name: 'Judy Hopps'});
-      },
-      getResponseObject: getResponseObjectStub,
-      send(...args) {
-        return sendStub(...args);
-      },
-    });
+    stubRestApi('getAccount').returns(Promise.resolve({name: 'Judy Hopps'}));
+    getResponseObjectStub = stubRestApi('getResponseObject').returns(
+        Promise.resolve());
+    sendStub = stubRestApi('send').returns(Promise.resolve({status: 200}));
     element = basicFixture.instantiate();
     errorStub = sinon.stub(element.reporting, 'error');
     pluginApi.install(p => { plugin = p; }, '0.1',

@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-edit-preferences.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-edit-preferences');
 
@@ -56,11 +57,7 @@ suite('gr-edit-preferences tests', () => {
       theme: 'DEFAULT',
     };
 
-    stub('gr-rest-api-interface', {
-      getEditPreferences() {
-        return Promise.resolve(editPreferences);
-      },
-    });
+    stubRestApi('getEditPreferences').returns(Promise.resolve(editPreferences));
 
     element = basicFixture.instantiate();
 
@@ -92,7 +89,7 @@ suite('gr-edit-preferences tests', () => {
   });
 
   test('save changes', () => {
-    sinon.stub(element.restApiService, 'saveEditPreferences')
+    stubRestApi('saveEditPreferences')
         .returns(Promise.resolve());
     const showTabsCheckbox = valueOf('Show tabs', 'editPreferences')
         .firstElementChild;

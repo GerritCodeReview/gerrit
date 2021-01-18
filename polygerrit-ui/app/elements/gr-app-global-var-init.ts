@@ -36,7 +36,6 @@ import {
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context';
 import {
   getPluginNameFromUrl,
-  getRestAPI,
   PLUGIN_LOADING_TIMEOUT_MS,
   PRELOADED_PROTOCOL,
   send,
@@ -62,7 +61,6 @@ export function initGlobalVariables() {
   window._apiUtils = {
     getPluginNameFromUrl,
     send,
-    getRestAPI,
     getBaseUrl,
     PRELOADED_PROTOCOL,
     PLUGIN_LOADING_TIMEOUT_MS,

@@ -16,7 +16,6 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -26,6 +25,7 @@ import {_setHiddenScroll} from '../../../scripts/hiddenscroll.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import '@polymer/paper-button/paper-button.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-diff');
 
@@ -176,9 +176,7 @@ suite('gr-diff tests', () => {
   suite('not logged in', () => {
     setup(() => {
       const getLoggedInPromise = Promise.resolve(false);
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return getLoggedInPromise; },
-      });
+      stubRestApi('getLoggedIn').returns(getLoggedInPromise);
       element = basicFixture.instantiate();
       return getLoggedInPromise;
     });

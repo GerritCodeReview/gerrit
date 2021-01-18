@@ -22,6 +22,7 @@ import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comme
 import {TEST_ONLY} from './gr-messages-list.js';
 import {MessageTag} from '../../../constants/constants.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 createCommentApiMockWithTemplateElement(
     'gr-messages-list-comment-mock-api', html`
@@ -132,13 +133,11 @@ suite('gr-messages-list tests', () => {
 
   suite('basic tests', () => {
     setup(() => {
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getLoggedIn() { return Promise.resolve(false); },
-        getDiffComments() { return Promise.resolve(comments); },
-        getDiffRobotComments() { return Promise.resolve({}); },
-        getDiffDrafts() { return Promise.resolve({}); },
-      });
+      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+      stubRestApi('getDiffComments').returns(Promise.resolve(comments));
+      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
       messages = generateRandomMessages(3);
       // Element must be wrapped in an element with direct access to the
@@ -441,13 +440,11 @@ suite('gr-messages-list tests', () => {
     let commentApiWrapper;
 
     setup(() => {
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getLoggedIn() { return Promise.resolve(false); },
-        getDiffComments() { return Promise.resolve({}); },
-        getDiffRobotComments() { return Promise.resolve({}); },
-        getDiffDrafts() { return Promise.resolve({}); },
-      });
+      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
       messages = [
         randomMessage(),

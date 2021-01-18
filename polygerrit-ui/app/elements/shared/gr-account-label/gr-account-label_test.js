@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-account-label.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-account-label');
 
@@ -28,10 +29,8 @@ suite('gr-account-label tests', () => {
   }
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getConfig() { return Promise.resolve({}); },
-      getLoggedIn() { return Promise.resolve(false); },
-    });
+    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     element = basicFixture.instantiate();
     element._config = {
       user: {
@@ -99,7 +98,7 @@ suite('gr-account-label tests', () => {
     });
 
     test('tap attention button', () => {
-      const apiStub = sinon.stub(element.restApiService,
+      const apiStub = stubRestApi(
           'removeFromAttentionSet')
           .callsFake(() => Promise.resolve());
       const button = element.shadowRoot.querySelector('#attentionButton');

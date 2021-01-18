@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-documentation-search.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import 'lodash/lodash.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-documentation-search');
 
@@ -45,11 +46,8 @@ suite('gr-documentation-search tests', () => {
   suite('list with searches for documentation', () => {
     setup(done => {
       documentationSearches = _.times(26, documentationGenerator);
-      stub('gr-rest-api-interface', {
-        getDocumentationSearches() {
-          return Promise.resolve(documentationSearches);
-        },
-      });
+      stubRestApi('getDocumentationSearches').returns(
+          Promise.resolve(documentationSearches));
       element._paramsChanged(value).then(() => { flush(done); });
     });
 
@@ -70,19 +68,12 @@ suite('gr-documentation-search tests', () => {
       _.times(1, documentationSearches);
     });
 
-    test('_paramsChanged', done => {
-      sinon.stub(
-          element.restApiService,
-          'getDocumentationSearches')
-          .callsFake(() => Promise.resolve(documentationSearches));
-      const value = {
-        filter: 'test',
-      };
-      element._paramsChanged(value).then(() => {
-        assert.isTrue(element.restApiService.getDocumentationSearches.lastCall
-            .calledWithExactly('test'));
-        done();
-      });
+    test('_paramsChanged', async () => {
+      const stub = stubRestApi('getDocumentationSearches').returns(
+          Promise.resolve(documentationSearches));
+      const value = {filter: 'test'};
+      await element._paramsChanged(value);
+      assert.isTrue(stub.lastCall.calledWithExactly('test'));
     });
   });
 

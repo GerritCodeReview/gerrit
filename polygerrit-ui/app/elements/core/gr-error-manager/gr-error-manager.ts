@@ -28,9 +28,6 @@ import {getBaseUrl} from '../../../utils/url-util';
 import {appContext} from '../../../services/app-context';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {customElement, property} from '@polymer/decorators';
-import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
-import {AuthService} from '../../../services/gr-auth/gr-auth';
-import {EventEmitterService} from '../../../services/gr-event-interface/gr-event-interface';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrErrorDialog} from '../gr-error-dialog/gr-error-dialog';
 import {GrAlert} from '../../shared/gr-alert/gr-alert';
@@ -105,22 +102,15 @@ export class GrErrorManager extends GestureEventListeners(
   @property({type: String})
   loginUrl = '/login';
 
-  reporting: ReportingService;
+  private readonly reporting = appContext.reportingService;
 
-  _authService: AuthService;
+  private readonly _authService = appContext.authService;
 
-  eventEmitter: EventEmitterService;
+  private readonly eventEmitter = appContext.eventEmitter;
 
   _authErrorHandlerDeregistrationHook?: Function;
 
   private readonly restApiService = appContext.restApiService;
-
-  constructor() {
-    super();
-    this._authService = appContext.authService;
-    this.reporting = appContext.reportingService;
-    this.eventEmitter = appContext.eventEmitter;
-  }
 
   /** @override */
   attached() {

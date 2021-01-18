@@ -404,6 +404,7 @@ export function createMergeable(): MergeableInfo {
   };
 }
 
+// TODO: Should this be reconciled with DEFAULT_PREFS in constants.ts?
 export function createPreferences(): PreferencesInfo {
   return {
     changes_per_page: 10,

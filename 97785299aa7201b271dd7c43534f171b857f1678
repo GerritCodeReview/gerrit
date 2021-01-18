@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae43a084_2500a798",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-18T17:47:23Z",
+      "side": 1,
+      "message": "hmm - how would someone discover the shortcut? Have you considered adding a \"hide all\" button to the ported comments instead? The shortcut menu isn\u0027t the first place I\u0027d look if there was a weird new UI feature that would upset me.\n\nyou can decide with Ben, but consider instrumenting this. If nobody uses it, you could remove it later again; less code is better.",
+      "parentUuid": "1955885b_1841cd11",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "97785299aa7201b271dd7c43534f171b857f1678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "925ea388_6958a79d",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 2

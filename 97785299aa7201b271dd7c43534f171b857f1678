@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1955885b_1841cd11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-18T16:21:25Z",
+      "side": 1,
+      "message": "Not until now but then again we haven\u0027t really rolled it out to many users.\nIt\u0027s better to add this now and be proactive about this, since we don\u0027t really offer any way to turn this off and we already know ported comments attached to file are expected to look out of place.",
+      "parentUuid": "2e935760_23a677dc",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "97785299aa7201b271dd7c43534f171b857f1678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "925ea388_6958a79d",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 2

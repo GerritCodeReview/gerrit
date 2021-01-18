@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-identities.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-identities');
 
@@ -39,14 +40,12 @@ suite('gr-identities tests', () => {
     },
   ];
 
-  setup(done => {
-    stub('gr-rest-api-interface', {
-      getExternalIds() { return Promise.resolve(ids); },
-    });
+  setup(async () => {
+    stubRestApi('getExternalIds').returns(Promise.resolve(ids));
 
     element = basicFixture.instantiate();
-
-    element.loadData().then(() => { flush(done); });
+    await element.loadData();
+    await flush();
   });
 
   test('renders', () => {

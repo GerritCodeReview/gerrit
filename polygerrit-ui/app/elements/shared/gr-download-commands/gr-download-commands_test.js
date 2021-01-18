@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-download-commands.js';
-import {isHidden} from '../../../test/test-utils.js';
+import {isHidden, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-download-commands');
 
@@ -50,6 +50,7 @@ suite('gr-download-commands', () => {
 
   suite('unauthenticated', () => {
     setup(async () => {
+      stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       element = basicFixture.instantiate();
       element.schemes = SCHEMES;
       element.commands = COMMANDS;
@@ -66,16 +67,12 @@ suite('gr-download-commands', () => {
     });
 
     test('element visibility', () => {
-      assert.isFalse(isHidden(element.shadowRoot
-          .querySelector('paper-tabs')));
-      assert.isFalse(isHidden(element.shadowRoot
-          .querySelector('.commands')));
+      assert.isFalse(isHidden(element.shadowRoot.querySelector('paper-tabs')));
+      assert.isFalse(isHidden(element.shadowRoot.querySelector('.commands')));
 
       element.schemes = [];
-      assert.isTrue(isHidden(element.shadowRoot
-          .querySelector('paper-tabs')));
-      assert.isTrue(isHidden(element.shadowRoot
-          .querySelector('.commands')));
+      assert.isTrue(isHidden(element.shadowRoot.querySelector('paper-tabs')));
+      assert.isTrue(isHidden(element.shadowRoot.querySelector('.commands')));
     });
 
     test('tab selection', () => {
@@ -87,38 +84,30 @@ suite('gr-download-commands', () => {
       assert.equal(element.$.downloadTabs.selected, '2');
     });
 
-    test('loads scheme from preferences', () => {
-      stub('gr-rest-api-interface', {
-        getPreferences() {
-          return Promise.resolve({download_scheme: 'repo'});
-        },
-      });
+    test('loads scheme from preferences', async () => {
+      const stub = stubRestApi('getPreferences').returns(
+          Promise.resolve({download_scheme: 'repo'}));
       element._loggedIn = true;
-      assert.isTrue(element.restApiService.getPreferences.called);
-      return element.restApiService.getPreferences.lastCall.returnValue.then(
-          () => {
-            assert.equal(element.selectedScheme, 'repo');
-          });
+      await flush();
+      assert.isTrue(stub.called);
+      await stub.lastCall.returnValue;
+      assert.equal(element.selectedScheme, 'repo');
     });
 
-    test('normalize scheme from preferences', () => {
-      stub('gr-rest-api-interface', {
-        getPreferences() {
-          return Promise.resolve({download_scheme: 'REPO'});
-        },
-      });
+    test('normalize scheme from preferences', async () => {
+      const stub = stubRestApi('getPreferences').returns(
+          Promise.resolve({download_scheme: 'REPO'}));
       element._loggedIn = true;
-      return element.restApiService.getPreferences.lastCall.returnValue.then(
-          () => {
-            assert.equal(element.selectedScheme, 'repo');
-          });
+      await flush();
+      assert.isTrue(stub.called);
+      await stub.lastCall.returnValue;
+      assert.equal(element.selectedScheme, 'repo');
     });
 
     test('saves scheme to preferences', () => {
       element._loggedIn = true;
-      const savePrefsStub = sinon.stub(element.restApiService,
-          'savePreferences')
-          .callsFake(() => Promise.resolve());
+      const savePrefsStub = stubRestApi('savePreferences').returns(
+          Promise.resolve());
 
       flush();
 

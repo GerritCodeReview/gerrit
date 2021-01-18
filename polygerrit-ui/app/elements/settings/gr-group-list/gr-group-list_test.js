@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-group-list.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-group-list');
 
@@ -45,9 +46,7 @@ suite('gr-group-list tests', () => {
       name: 'Group 3',
     }];
 
-    stub('gr-rest-api-interface', {
-      getAccountGroups() { return Promise.resolve(groups); },
-    });
+    stubRestApi('getAccountGroups').returns(Promise.resolve(groups));
 
     element = basicFixture.instantiate();
 

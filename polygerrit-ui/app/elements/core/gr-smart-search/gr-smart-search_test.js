@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-smart-search.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-smart-search');
 
@@ -28,7 +29,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes accounts', () => {
-    sinon.stub(element.restApiService, 'getSuggestedAccounts').callsFake(() =>
+    stubRestApi('getSuggestedAccounts').callsFake(() =>
       Promise.resolve([
         {
           name: 'fred',
@@ -42,7 +43,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Inserts self as option when valid', () => {
-    sinon.stub(element.restApiService, 'getSuggestedAccounts').callsFake( () =>
+    stubRestApi('getSuggestedAccounts').callsFake( () =>
       Promise.resolve([
         {
           name: 'fred',
@@ -62,7 +63,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Inserts me as option when valid', () => {
-    sinon.stub(element.restApiService, 'getSuggestedAccounts').callsFake( () =>
+    stubRestApi('getSuggestedAccounts').callsFake( () =>
       Promise.resolve([
         {
           name: 'fred',
@@ -82,7 +83,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes groups', () => {
-    sinon.stub(element.restApiService, 'getSuggestedGroups').callsFake( () =>
+    stubRestApi('getSuggestedGroups').callsFake( () =>
       Promise.resolve({
         Polygerrit: 0,
         gerrit: 0,
@@ -95,7 +96,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes projects', () => {
-    sinon.stub(element.restApiService, 'getSuggestedProjects').callsFake( () =>
+    stubRestApi('getSuggestedProjects').callsFake( () =>
       Promise.resolve({Polygerrit: 0}));
     return element._fetchProjects('project', 'pol').then(s => {
       assert.deepEqual(s[0], {text: 'project:Polygerrit'});
@@ -103,7 +104,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocomplete doesnt override exact matches to input', () => {
-    sinon.stub(element.restApiService, 'getSuggestedGroups').callsFake( () =>
+    stubRestApi('getSuggestedGroups').callsFake( () =>
       Promise.resolve({
         Polygerrit: 0,
         gerrit: 0,
@@ -118,7 +119,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes accounts with no email', () => {
-    sinon.stub(element.restApiService, 'getSuggestedAccounts').callsFake( () =>
+    stubRestApi('getSuggestedAccounts').callsFake( () =>
       Promise.resolve([{name: 'fred'}]));
     return element._fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:"fred"', label: 'fred'});
@@ -126,7 +127,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes accounts with email', () => {
-    sinon.stub(element.restApiService, 'getSuggestedAccounts').callsFake( () =>
+    stubRestApi('getSuggestedAccounts').callsFake( () =>
       Promise.resolve([{email: 'fred@goog.co'}]));
     return element._fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: ''});

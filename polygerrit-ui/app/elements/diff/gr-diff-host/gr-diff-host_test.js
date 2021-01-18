@@ -25,6 +25,8 @@ import {Side, CommentSide} from '../../../constants/constants.js';
 import {createChange} from '../../../test/test-data-generators.js';
 import {FILE} from '../gr-diff/gr-diff-line.js';
 import {CoverageType} from '../../../types/types.js';
+import {stubRestApi} from '../../../test/test-utils.js';
+import {DEFAULT_DIFF_PREFS} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
@@ -35,9 +37,7 @@ suite('gr-diff-host tests', () => {
 
   setup(() => {
     getLoggedIn = false;
-    stub('gr-rest-api-interface', {
-      async getLoggedIn() { return getLoggedIn; },
-    });
+    stubRestApi('getLoggedIn').returns(Promise.resolve(getLoggedIn));
     element = basicFixture.instantiate();
     element.changeNum = 123;
     element.path = 'some/path';
@@ -130,18 +130,16 @@ suite('gr-diff-host tests', () => {
     test('ends total and syntax timer after syntax layer', async () => {
       sinon.stub(element.reporting, 'diffViewContentDisplayed');
       let notifySyntaxProcessed;
-      sinon.stub(element.$.syntaxLayer, 'process').returns(new Promise(
-          resolve => {
+      sinon.stub(element.$.syntaxLayer, 'process').returns(
+          new Promise(resolve => {
             notifySyntaxProcessed = resolve;
-          }));
-      sinon.stub(element.restApiService, 'getDiff').returns(
-          Promise.resolve({content: []}));
+          })
+      );
+      stubRestApi('getDiff').returns(Promise.resolve({content: []}));
       element.patchRange = {};
       element.change = createChange();
-      element.restApiService.getDiffPreferences().then(prefs => {
-        element.prefs = prefs;
-        return element.reload(true);
-      });
+      element.prefs = DEFAULT_DIFF_PREFS;
+      element.reload(true);
       // Multiple cascading microtasks are scheduled.
       await flush();
       notifySyntaxProcessed();
@@ -155,8 +153,7 @@ suite('gr-diff-host tests', () => {
     });
 
     test('ends total timer w/ no syntax layer processing', async () => {
-      sinon.stub(element.restApiService, 'getDiff').returns(
-          Promise.resolve({content: []}));
+      stubRestApi('getDiff').returns(Promise.resolve({content: []}));
       element.patchRange = {};
       element.change = createChange();
       element.reload();
@@ -177,19 +174,15 @@ suite('gr-diff-host tests', () => {
           resolve => {
             notifySyntaxProcessed = resolve;
           }));
-      sinon.stub(element.restApiService, 'getDiff').returns(
+      stubRestApi('getDiff').returns(
           Promise.resolve({content: []}));
       element.patchRange = {};
       element.change = createChange();
       let reloadComplete = false;
-      element.restApiService.getDiffPreferences()
-          .then(prefs => {
-            element.prefs = prefs;
-            return element.reload();
-          })
-          .then(() => {
-            reloadComplete = true;
-          });
+      element.prefs = DEFAULT_DIFF_PREFS;
+      element.reload().then(() => {
+        reloadComplete = true;
+      });
       // Multiple cascading microtasks are scheduled.
       await flush();
       assert.isFalse(reloadComplete);
@@ -231,7 +224,7 @@ suite('gr-diff-host tests', () => {
     test('reload() loads files weblinks', () => {
       const weblinksStub = sinon.stub(GerritNav, '_generateWeblinks')
           .returns({name: 'stubb', url: '#s'});
-      sinon.stub(element.restApiService, 'getDiff').returns(Promise.resolve({
+      stubRestApi('getDiff').returns(Promise.resolve({
         content: [],
       }));
       element.projectName = 'test-project';
@@ -264,7 +257,7 @@ suite('gr-diff-host tests', () => {
     });
 
     test('prefetch getDiff', done => {
-      const diffRestApiStub = sinon.stub(element.restApiService, 'getDiff')
+      const diffRestApiStub = stubRestApi('getDiff')
           .returns(Promise.resolve({content: []}));
       element.changeNum = 123;
       element.patchRange = {basePatchNum: 1, patchNum: 2};
@@ -277,9 +270,7 @@ suite('gr-diff-host tests', () => {
     });
 
     test('_getDiff handles null diff responses', done => {
-      stub('gr-rest-api-interface', {
-        getDiff() { return Promise.resolve(null); },
-      });
+      stubRestApi('getDiff').returns(Promise.resolve(null));
       element.changeNum = 123;
       element.patchRange = {basePatchNum: 1, patchNum: 2};
       element.path = 'file.txt';
@@ -289,7 +280,7 @@ suite('gr-diff-host tests', () => {
     test('reload resolves on error', () => {
       const onErrStub = sinon.stub(element, '_handleGetDiffError');
       const error = new Response(null, {ok: false, status: 500});
-      sinon.stub(element.restApiService, 'getDiff').callsFake(
+      stubRestApi('getDiff').callsFake(
           (changeNum, basePatchNum, patchNum, path, whitespace, onErr) => {
             onErr(error);
           });
@@ -352,12 +343,6 @@ suite('gr-diff-host tests', () => {
           'wsAAAAAAAAAAAAA/////w==',
           type: 'image/bmp',
         };
-        sinon.stub(element.restApiService,
-            'getB64FileContents')
-            .callsFake(
-                (changeId, patchNum, path, opt_parentIndex) => Promise.resolve(
-                    opt_parentIndex === 1 ? mockFile1 : mockFile2)
-            );
 
         element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
         element.change = createChange();
@@ -385,8 +370,19 @@ suite('gr-diff-host tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
-        sinon.stub(element.restApiService, 'getDiff')
-            .returns(Promise.resolve(mockDiff));
+        stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
+        stubRestApi('getImagesForDiff').returns(Promise.resolve({
+          baseImage: {
+            ...mockFile1,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot.jpg',
+          },
+          revisionImage: {
+            ...mockFile2,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot.jpg',
+          },
+        }));
 
         const rendered = () => {
           // Recognizes that it should be an image diff.
@@ -442,11 +438,8 @@ suite('gr-diff-host tests', () => {
         };
 
         element.addEventListener('render', rendered);
-
-        element.restApiService.getDiffPreferences().then(prefs => {
-          element.prefs = prefs;
-          element.reload();
-        });
+        element.prefs = DEFAULT_DIFF_PREFS;
+        element.reload();
       });
 
       test('renders image diffs with a different file name', done => {
@@ -466,8 +459,19 @@ suite('gr-diff-host tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
-        sinon.stub(element.restApiService, 'getDiff')
-            .returns(Promise.resolve(mockDiff));
+        stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
+        stubRestApi('getImagesForDiff').returns(Promise.resolve({
+          baseImage: {
+            ...mockFile1,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot.jpg',
+          },
+          revisionImage: {
+            ...mockFile2,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot2.jpg',
+          },
+        }));
 
         const rendered = () => {
           // Recognizes that it should be an image diff.
@@ -525,11 +529,8 @@ suite('gr-diff-host tests', () => {
         };
 
         element.addEventListener('render', rendered);
-
-        element.restApiService.getDiffPreferences().then(prefs => {
-          element.prefs = prefs;
-          element.reload();
-        });
+        element.prefs = DEFAULT_DIFF_PREFS;
+        element.reload();
       });
 
       test('renders added image', done => {
@@ -548,8 +549,15 @@ suite('gr-diff-host tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
-        sinon.stub(element.restApiService, 'getDiff')
-            .returns(Promise.resolve(mockDiff));
+        stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
+        stubRestApi('getImagesForDiff').returns(Promise.resolve({
+          baseImage: null,
+          revisionImage: {
+            ...mockFile2,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot2.jpg',
+          },
+        }));
 
         element.addEventListener('render', () => {
           // Recognizes that it should be an image diff.
@@ -567,10 +575,8 @@ suite('gr-diff-host tests', () => {
           done();
         });
 
-        element.restApiService.getDiffPreferences().then(prefs => {
-          element.prefs = prefs;
-          element.reload();
-        });
+        element.prefs = DEFAULT_DIFF_PREFS;
+        element.reload();
       });
 
       test('renders removed image', done => {
@@ -589,8 +595,15 @@ suite('gr-diff-host tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
-        sinon.stub(element.restApiService, 'getDiff')
-            .returns(Promise.resolve(mockDiff));
+        stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
+        stubRestApi('getImagesForDiff').returns(Promise.resolve({
+          baseImage: {
+            ...mockFile1,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot.jpg',
+          },
+          revisionImage: null,
+        }));
 
         element.addEventListener('render', () => {
           // Recognizes that it should be an image diff.
@@ -608,10 +621,8 @@ suite('gr-diff-host tests', () => {
           done();
         });
 
-        element.restApiService.getDiffPreferences().then(prefs => {
-          element.prefs = prefs;
-          element.reload();
-        });
+        element.prefs = DEFAULT_DIFF_PREFS;
+        element.reload();
       });
 
       test('does not render disallowed image type', done => {
@@ -632,8 +643,15 @@ suite('gr-diff-host tests', () => {
         };
         mockFile1.type = 'image/jpeg-evil';
 
-        sinon.stub(element.restApiService, 'getDiff')
-            .returns(Promise.resolve(mockDiff));
+        stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
+        stubRestApi('getImagesForDiff').returns(Promise.resolve({
+          baseImage: {
+            ...mockFile1,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot.jpg',
+          },
+          revisionImage: null,
+        }));
 
         element.addEventListener('render', () => {
           // Recognizes that it should be an image diff.
@@ -646,10 +664,8 @@ suite('gr-diff-host tests', () => {
           done();
         });
 
-        element.restApiService.getDiffPreferences().then(prefs => {
-          element.prefs = prefs;
-          element.reload();
-        });
+        element.prefs = DEFAULT_DIFF_PREFS;
+        element.reload();
       });
     });
   });
@@ -707,7 +723,7 @@ suite('gr-diff-host tests', () => {
       const mockBlame = [{id: 'commit id', ranges: [{start: 1, end: 2}]}];
       const showAlertStub = sinon.stub();
       element.addEventListener('show-alert', showAlertStub);
-      const getBlameStub = sinon.stub(element.restApiService, 'getBlame')
+      const getBlameStub = stubRestApi('getBlame')
           .returns(Promise.resolve(mockBlame));
       element.changeNum = 42;
       element.patchRange = {patchNum: 5, basePatchNum: 4};
@@ -725,7 +741,7 @@ suite('gr-diff-host tests', () => {
       const mockBlame = [];
       const showAlertStub = sinon.stub();
       element.addEventListener('show-alert', showAlertStub);
-      sinon.stub(element.restApiService, 'getBlame')
+      stubRestApi('getBlame')
           .returns(Promise.resolve(mockBlame));
       element.changeNum = 42;
       element.patchRange = {patchNum: 5, basePatchNum: 4};
@@ -1272,7 +1288,7 @@ suite('gr-diff-host tests', () => {
     test('starts syntax layer processing on render event', async () => {
       sinon.stub(element.$.syntaxLayer, 'process')
           .returns(Promise.resolve());
-      sinon.stub(element.restApiService, 'getDiff').returns(
+      stubRestApi('getDiff').returns(
           Promise.resolve({content: []}));
       element.reload();
       await flush();

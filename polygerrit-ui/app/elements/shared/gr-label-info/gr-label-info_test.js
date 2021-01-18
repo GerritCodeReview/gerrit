@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-label-info.js';
 import {isHidden} from '../../../test/test-utils.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-label-info');
 
@@ -72,8 +73,7 @@ suite('gr-label-info tests', () => {
 
     test('deletes votes', () => {
       const deleteResponse = Promise.resolve({ok: true});
-      const deleteStub = sinon.stub(
-          element.restApiService, 'deleteVote').returns(deleteResponse);
+      const deleteStub = stubRestApi('deleteVote').returns(deleteResponse);
 
       element.change.removable_reviewers = [element.account];
       element.change.labels.test.recommended = {_account_id: 1};

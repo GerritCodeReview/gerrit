@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-reply-dialog/gr-reply-dialog.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {appContext} from '../../../services/app-context.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -27,10 +28,8 @@ suite('gr-reporting-js-api tests', () => {
   let plugin;
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getConfig() { return Promise.resolve({}); },
-      getAccount() { return Promise.resolve(null); },
-    });
+    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getAccount').returns(Promise.resolve(null));
   });
 
   suite('early init', () => {

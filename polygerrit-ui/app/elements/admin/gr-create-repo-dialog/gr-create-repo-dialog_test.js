@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-create-repo-dialog.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-create-repo-dialog');
 
@@ -24,9 +25,6 @@ suite('gr-create-repo-dialog tests', () => {
   let element;
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(true); },
-    });
     element = basicFixture.instantiate();
   });
 
@@ -44,8 +42,7 @@ suite('gr-create-repo-dialog tests', () => {
       owners: ['testId'],
     };
 
-    const saveStub = sinon.stub(element.restApiService,
-        'createRepo').callsFake(() => Promise.resolve({}));
+    const saveStub = stubRestApi('createRepo').returns(Promise.resolve({}));
 
     assert.isFalse(element.hasNewRepoName);
 

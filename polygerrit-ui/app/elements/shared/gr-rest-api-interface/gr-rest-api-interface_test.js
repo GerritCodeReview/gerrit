@@ -23,6 +23,11 @@ import {ListChangesOption} from '../../../utils/change-util.js';
 import {appContext} from '../../../services/app-context.js';
 import {createChange} from '../../../test/test-data-generators.js';
 import {CURRENT} from '../../../utils/patch-set-util.js';
+import {
+  parsePrefixedJSON,
+  readResponsePayload,
+} from './gr-rest-apis/gr-rest-api-helper.js';
+import {JSON_PREFIX} from './gr-rest-api-interface.js';
 
 const basicFixture = fixtureFromElement('gr-rest-api-interface');
 
@@ -347,19 +352,6 @@ suite('gr-rest-api-interface tests', () => {
 
         preferenceSetup(testJSON, loggedIn, smallScreen);
 
-        return element.getPreferences().then(obj => {
-          assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
-          assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
-        });
-      });
-
-  test('getPreferences returns correctly on small screens not logged in',
-      () => {
-        const testJSON = {diff_view: 'SIDE_BY_SIDE'};
-        const loggedIn = false;
-        const smallScreen = true;
-
-        preferenceSetup(testJSON, loggedIn, smallScreen);
         return element.getPreferences().then(obj => {
           assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
           assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
@@ -932,22 +924,18 @@ suite('gr-rest-api-interface tests', () => {
       });
     });
 
-    test('_getChangeDetail populates _projectLookup', () => {
+    test('_getChangeDetail populates _projectLookup', async () => {
       sinon.stub(element, 'getChangeActionURL')
           .returns(Promise.resolve(''));
       sinon.stub(element._restApiHelper, 'fetchRawJSON')
-          .returns(Promise.resolve({ok: true}));
-
-      const mockResponse = {_number: 1, project: 'test'};
-      sinon.stub(element._restApiHelper, 'readResponsePayload')
           .returns(Promise.resolve({
-            parsed: mockResponse,
-            raw: JSON.stringify(mockResponse),
+            ok: true,
+            status: 200,
+            text: () => Promise.resolve(`)]}'{"_number":1,"project":"test"}`),
           }));
-      return element._getChangeDetail(1, '516714').then(() => {
-        assert.equal(Object.keys(element._projectLookup).length, 1);
-        assert.equal(element._projectLookup[1], 'test');
-      });
+      await element._getChangeDetail(1, '516714');
+      assert.equal(Object.keys(element._projectLookup).length, 1);
+      assert.equal(element._projectLookup[1], 'test');
     });
 
     suite('_getChangeDetail ETag cache', () => {
@@ -1106,21 +1094,19 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   suite('reading responses', () => {
-    test('_readResponsePayload', () => {
+    test('_readResponsePayload', async () => {
       const mockObject = {foo: 'bar', baz: 'foo'};
-      const serial = element.JSON_PREFIX + JSON.stringify(mockObject);
+      const serial = JSON_PREFIX + JSON.stringify(mockObject);
       const mockResponse = {text: () => Promise.resolve(serial)};
-      return element._restApiHelper.readResponsePayload(mockResponse)
-          .then(payload => {
-            assert.deepEqual(payload.parsed, mockObject);
-            assert.equal(payload.raw, serial);
-          });
+      const payload = await readResponsePayload(mockResponse);
+      assert.deepEqual(payload.parsed, mockObject);
+      assert.equal(payload.raw, serial);
     });
 
     test('_parsePrefixedJSON', () => {
       const obj = {x: 3, y: {z: 4}, w: 23};
-      const serial = element.JSON_PREFIX + JSON.stringify(obj);
-      const result = element._restApiHelper.parsePrefixedJSON(serial);
+      const serial = JSON_PREFIX + JSON.stringify(obj);
+      const result = parsePrefixedJSON(serial);
       assert.deepEqual(result, obj);
     });
   });

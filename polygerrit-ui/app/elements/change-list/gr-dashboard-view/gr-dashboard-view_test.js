@@ -23,6 +23,7 @@ import {GerritView} from '../../../services/router/router-model.js';
 import {changeIsOpen} from '../../../utils/change-util.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {createAccountWithId} from '../../../test/test-data-generators.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-dashboard-view');
 
@@ -33,15 +34,13 @@ suite('gr-dashboard-view tests', () => {
   let getChangesStub;
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(false); },
-      getAccountDetails() { return Promise.resolve({}); },
-      getAccountStatus() { return Promise.resolve(false); },
-    });
-    element = basicFixture.instantiate();
-
-    getChangesStub = sinon.stub(element.restApiService, 'getChanges').callsFake(
+    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+    stubRestApi('getAccountDetails').returns(Promise.resolve({}));
+    stubRestApi('getAccountStatus').returns(Promise.resolve(false));
+    getChangesStub= stubRestApi('getChanges').callsFake(
         (_, qs) => Promise.resolve(qs.map(() => [])));
+
+    element = basicFixture.instantiate();
 
     let resolver;
     paramsChangedPromise = new Promise(resolve => {
@@ -125,15 +124,14 @@ suite('gr-dashboard-view tests', () => {
       const deleteDraftCommentsPromise = new Promise(resolve => {
         deleteDraftCommentsPromiseResolver = resolve;
       });
-      sinon.stub(element.restApiService, 'deleteDraftComments')
+      const deleteStub = stubRestApi('deleteDraftComments')
           .returns(deleteDraftCommentsPromise);
 
       // Open confirmation dialog and tap confirm button.
       await element.$.confirmDeleteOverlay.open();
       MockInteractions.tap(element.$.confirmDeleteDialog.$.confirm);
       flush();
-      assert.isTrue(element.restApiService.deleteDraftComments
-          .calledWithExactly('-is:open'));
+      assert.isTrue(deleteStub.calledWithExactly('-is:open'));
       assert.isTrue(element.$.confirmDeleteDialog.disabled);
       assert.equal(element._reload.callCount, 0);
 
@@ -255,7 +253,7 @@ suite('gr-dashboard-view tests', () => {
 
   suite('_getProjectDashboard', () => {
     test('dashboard with foreach', () => {
-      sinon.stub(element.restApiService, 'getDashboard')
+      stubRestApi('getDashboard')
           .callsFake( () => Promise.resolve({
             title: 'title',
             foreach: 'foreach for ${project}',
@@ -281,7 +279,7 @@ suite('gr-dashboard-view tests', () => {
     });
 
     test('dashboard without foreach', () => {
-      sinon.stub(element.restApiService, 'getDashboard').callsFake(
+      stubRestApi('getDashboard').callsFake(
           () => Promise.resolve({
             title: 'title',
             sections: [
@@ -309,7 +307,7 @@ suite('gr-dashboard-view tests', () => {
       {name: 'test2', query: 'test2', hideIfEmpty: true},
     ];
     getChangesStub.restore();
-    sinon.stub(element.restApiService, 'getChanges')
+    stubRestApi('getChanges')
         .returns(Promise.resolve([[], ['nonempty']]));
 
     return element._fetchDashboardChanges({sections}, false).then(() => {
@@ -324,7 +322,7 @@ suite('gr-dashboard-view tests', () => {
       {name: 'test2', query: 'test2'},
     ];
     getChangesStub.restore();
-    sinon.stub(element.restApiService, 'getChanges')
+    stubRestApi('getChanges')
         .returns(Promise.resolve([[], []]));
 
     return element._fetchDashboardChanges({sections}, false).then(() => {
@@ -375,7 +373,7 @@ suite('gr-dashboard-view tests', () => {
 
   test('404 page', done => {
     const response = {status: 404};
-    sinon.stub(element.restApiService, 'getDashboard').callsFake(
+    stubRestApi('getDashboard').callsFake(
         async (project, dashboard, errFn) => {
           errFn(response);
         });
@@ -390,16 +388,19 @@ suite('gr-dashboard-view tests', () => {
     };
   });
 
-  test('params change triggers dashboardDisplayed()', () => {
+  test('params change triggers dashboardDisplayed()', async () => {
+    stubRestApi('getDashboard').returns(Promise.resolve({
+      title: 'title',
+      sections: [],
+    }));
     sinon.stub(element.reporting, 'dashboardDisplayed');
     element.params = {
       view: GerritNav.View.DASHBOARD,
       project: 'project',
       dashboard: 'dashboard',
     };
-    return paramsChangedPromise.then(() => {
-      assert.isTrue(element.reporting.dashboardDisplayed.calledOnce);
-    });
+    await paramsChangedPromise;
+    assert.isTrue(element.reporting.dashboardDisplayed.calledOnce);
   });
 });
 

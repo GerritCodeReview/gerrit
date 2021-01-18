@@ -18,6 +18,9 @@
 /**
  * @desc Tab names for primary tabs on change view page.
  */
+import {DiffPreferencesInfo} from '../types/diff';
+import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
+
 export enum PrimaryTab {
   FILES = 'files',
   /**
@@ -390,3 +393,54 @@ export enum MergeabilityComputationBehavior {
   REF_UPDATED_AND_CHANGE_REINDEX = 'REF_UPDATED_AND_CHANGE_REINDEX',
   NEVER = 'NEVER',
 }
+
+// TODO(TS): Many properties are omitted here, but they are required.
+// Add default values for missed properties
+export const DEFAULT_PREFS: PreferencesInfo = {
+  changes_per_page: 25,
+  default_diff_view: DiffViewMode.SIDE_BY_SIDE,
+  diff_view: DiffViewMode.SIDE_BY_SIDE,
+  size_bar_in_change_table: true,
+} as PreferencesInfo;
+
+// These defaults should match the defaults in
+// java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java
+// NOTE: There are some settings that don't apply to PolyGerrit
+// (Render mode being at least one of them).
+export const DEFAULT_DIFF_PREFS: DiffPreferencesInfo = {
+  auto_hide_diff_table_header: true,
+  context: 10,
+  cursor_blink_rate: 0,
+  font_size: 12,
+  ignore_whitespace: 'IGNORE_NONE',
+  intraline_difference: true,
+  line_length: 100,
+  line_wrapping: false,
+  show_line_endings: true,
+  show_tabs: true,
+  show_whitespace_errors: true,
+  syntax_highlighting: true,
+  tab_size: 8,
+  theme: 'DEFAULT',
+};
+
+// These defaults should match the defaults in
+// java/com/google/gerrit/extensions/client/EditPreferencesInfo.java
+export const DEFAULT_EDIT_PREFS: EditPreferencesInfo = {
+  auto_close_brackets: false,
+  cursor_blink_rate: 0,
+  hide_line_numbers: false,
+  hide_top_menu: false,
+  indent_unit: 2,
+  indent_with_tabs: false,
+  key_map_type: 'DEFAULT',
+  line_length: 100,
+  line_wrapping: false,
+  match_brackets: true,
+  show_base: false,
+  show_tabs: true,
+  show_whitespace_errors: true,
+  syntax_highlighting: true,
+  tab_size: 8,
+  theme: 'DEFAULT',
+};

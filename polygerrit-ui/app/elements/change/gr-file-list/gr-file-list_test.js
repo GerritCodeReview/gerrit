@@ -26,7 +26,7 @@ import {FilesExpandedState} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {TestKeyboardShortcutBinder, stubRestApi, spyRestApi} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {createCommentThreads} from '../../../utils/comment-util.js';
 import {createChangeComments} from '../../../test/test-data-generators.js';
@@ -80,15 +80,12 @@ suite('gr-file-list tests', () => {
 
   suite('basic tests', () => {
     setup(done => {
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-        getPreferences() { return Promise.resolve({}); },
-        getDiffPreferences() { return Promise.resolve({}); },
-        getDiffComments() { return Promise.resolve({}); },
-        getDiffRobotComments() { return Promise.resolve({}); },
-        getDiffDrafts() { return Promise.resolve({}); },
-        getAccountCapabilities() { return Promise.resolve({}); },
-      });
+      stubRestApi('getLoggedIn').returns(Promise.resolve(true));
+      stubRestApi('getPreferences').returns(Promise.resolve({}));
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+      stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
       stub('gr-date-formatter', {
         _loadTimeFormat() { return Promise.resolve(''); },
       });
@@ -1419,13 +1416,10 @@ suite('gr-file-list tests', () => {
     }
 
     setup(done => {
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-        getPreferences() { return Promise.resolve({}); },
-        getDiffComments() { return Promise.resolve({}); },
-        getDiffRobotComments() { return Promise.resolve({}); },
-        getDiffDrafts() { return Promise.resolve({}); },
-      });
+      stubRestApi('getPreferences').returns(Promise.resolve({}));
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stub('gr-date-formatter', {
         _loadTimeFormat() { return Promise.resolve(''); },
       });
@@ -1674,7 +1668,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('_getReviewedFiles does not call API', () => {
-        const apiSpy = sinon.spy(element.restApiService, 'getReviewedFiles');
+        const apiSpy = spyRestApi('getReviewedFiles');
         element.editMode = true;
         return element._getReviewedFiles().then(files => {
           assert.equal(files.length, 0);

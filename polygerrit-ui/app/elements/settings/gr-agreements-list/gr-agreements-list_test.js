@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-agreements-list.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-agreements-list');
 
@@ -31,9 +32,7 @@ suite('gr-agreements-list tests', () => {
       name: 'Agreements 1',
     }];
 
-    stub('gr-rest-api-interface', {
-      getAccountAgreements() { return Promise.resolve(agreements); },
-    });
+    stubRestApi('getAccountAgreements').returns(Promise.resolve(agreements));
 
     element = basicFixture.instantiate();
 

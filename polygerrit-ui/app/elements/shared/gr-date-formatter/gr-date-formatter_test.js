@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-date-formatter.js';
 import {parseDate} from '../../../utils/date-util.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromTemplate(html`
 <gr-date-formatter date-str="2015-09-24 23:30:17.033000000"></gr-date-formatter>
@@ -62,10 +63,8 @@ suite('gr-date-formatter tests', () => {
   function stubRestAPI(preferences) {
     const loggedInPromise = Promise.resolve(preferences !== null);
     const preferencesPromise = Promise.resolve(preferences);
-    stub('gr-rest-api-interface', {
-      getLoggedIn: sinon.stub().returns(loggedInPromise),
-      getPreferences: sinon.stub().returns(preferencesPromise),
-    });
+    stubRestApi('getLoggedIn').returns(loggedInPromise);
+    stubRestApi('getPreferences').returns(preferencesPromise);
     return Promise.all([loggedInPromise, preferencesPromise]);
   }
 

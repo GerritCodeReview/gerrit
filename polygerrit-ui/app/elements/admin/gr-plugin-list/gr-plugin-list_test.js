@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-plugin-list.js';
 import 'lodash/lodash.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-plugin-list');
 
@@ -54,13 +55,7 @@ suite('gr-plugin-list tests', () => {
   suite('list with plugins', () => {
     setup(done => {
       plugins = _.times(26, pluginGenerator);
-
-      stub('gr-rest-api-interface', {
-        getPlugins(num, offset) {
-          return Promise.resolve(plugins);
-        },
-      });
-
+      stubRestApi('getPlugins').returns(Promise.resolve(plugins));
       element._paramsChanged(value).then(() => { flush(done); });
     });
 
@@ -113,13 +108,7 @@ suite('gr-plugin-list tests', () => {
   suite('list with less then 26 plugins', () => {
     setup(done => {
       plugins = _.times(25, pluginGenerator);
-
-      stub('gr-rest-api-interface', {
-        getPlugins(num, offset) {
-          return Promise.resolve(plugins);
-        },
-      });
-
+      stubRestApi('getPlugins').returns(Promise.resolve(plugins));
       element._paramsChanged(value).then(() => { flush(done); });
     });
 
@@ -129,24 +118,17 @@ suite('gr-plugin-list tests', () => {
   });
 
   suite('filter', () => {
-    test('_paramsChanged', done => {
-      sinon.stub(
-          element.restApiService,
-          'getPlugins')
-          .callsFake(() => Promise.resolve(plugins));
+    test('_paramsChanged', async () => {
+      const getPluginsStub = stubRestApi('getPlugins');
+      getPluginsStub.returns(Promise.resolve(plugins));
       const value = {
         filter: 'test',
         offset: 25,
       };
-      element._paramsChanged(value).then(() => {
-        assert.equal(element.restApiService.getPlugins.lastCall.args[0],
-            'test');
-        assert.equal(element.restApiService.getPlugins.lastCall.args[1],
-            25);
-        assert.equal(element.restApiService.getPlugins.lastCall.args[2],
-            25);
-        done();
-      });
+      await element._paramsChanged(value);
+      assert.equal(getPluginsStub.lastCall.args[0], 'test');
+      assert.equal(getPluginsStub.lastCall.args[1], 25);
+      assert.equal(getPluginsStub.lastCall.args[2], 25);
     });
   });
 
@@ -168,7 +150,7 @@ suite('gr-plugin-list tests', () => {
   suite('404', () => {
     test('fires page-error', done => {
       const response = {status: 404};
-      sinon.stub(element.restApiService, 'getPlugins').callsFake(
+      stubRestApi('getPlugins').callsFake(
           (filter, pluginsPerPage, opt_offset, errFn) => {
             errFn(response);
           });

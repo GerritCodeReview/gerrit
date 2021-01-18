@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-reviewer-list.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-reviewer-list');
 
@@ -27,12 +28,8 @@ suite('gr-reviewer-list tests', () => {
     element = basicFixture.instantiate();
     element.serverConfig = {};
 
-    stub('gr-rest-api-interface', {
-      getConfig() { return Promise.resolve({}); },
-      removeChangeReviewer() {
-        return Promise.resolve({ok: true});
-      },
-    });
+    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('removeChangeReviewer').returns(Promise.resolve({ok: true}));
   });
 
   test('controls hidden on immutable element', () => {

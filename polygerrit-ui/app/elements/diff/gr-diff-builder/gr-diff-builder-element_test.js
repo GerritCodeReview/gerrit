@@ -18,7 +18,6 @@
 import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff-group.js';
 import './gr-diff-builder.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff-builder-element.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
@@ -29,6 +28,7 @@ import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
 import {GrDiffBuilder} from './gr-diff-builder.js';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromTemplate(html`
     <gr-diff-builder>
@@ -60,10 +60,8 @@ suite('gr-diff-builder tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(false); },
-      getProjectConfig() { return Promise.resolve({}); },
-    });
+    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+    stubRestApi('getProjectConfig').returns(Promise.resolve({}));
     stubBaseUrl('/r');
     prefs = {
       line_length: 10,

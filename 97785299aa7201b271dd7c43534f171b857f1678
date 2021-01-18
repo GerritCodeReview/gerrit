@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3409b741_4b7ce379",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-18T16:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "925ea388_6958a79d",
+      "range": {
+        "startLine": 421,
+        "startChar": 64,
+        "endLine": 421,
+        "endChar": 70
+      },
+      "revId": "97785299aa7201b271dd7c43534f171b857f1678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e36ea232_53a43327",
@@ -84,6 +108,30 @@
       "writtenOn": "2021-01-18T13:59:46Z",
       "side": 1,
       "message": "string is mixed up COMMENT vs PORTED",
+      "range": {
+        "startLine": 439,
+        "startChar": 20,
+        "endLine": 439,
+        "endChar": 27
+      },
+      "revId": "97785299aa7201b271dd7c43534f171b857f1678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "439e5502_1da2197c",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-18T16:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e36ea232_53a43327",
       "range": {
         "startLine": 439,
         "startChar": 20,

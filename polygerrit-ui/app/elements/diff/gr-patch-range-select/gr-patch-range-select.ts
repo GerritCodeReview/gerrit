@@ -426,7 +426,10 @@ export class GrPatchRangeSelect extends GestureEventListeners(
       basePatchNum: this.basePatchNum,
     };
     const target = (dom(e) as EventApi).localTarget;
-    const patchSetValue = e.detail.value as PatchSetNum;
+    let patchSetValue: PatchSetNum;
+    if (isNaN(Number(e.detail.value)))
+      patchSetValue = e.detail.value as PatchSetNum;
+    else patchSetValue = Number(e.detail.value) as PatchSetNum;
     const latestPatchNum = computeLatestPatchNum(this.availablePatches);
     if (target === this.$.patchNumDropdown) {
       if (detail.patchNum === e.detail.value) return;

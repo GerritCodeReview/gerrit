@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.auth.ldap;
+package com.google.gerrit.auth.ldap;
 
+import static com.google.gerrit.auth.ldap.Helper.LDAP_UUID;
+import static com.google.gerrit.auth.ldap.LdapModule.GROUP_CACHE;
+import static com.google.gerrit.auth.ldap.LdapModule.GROUP_EXIST_CACHE;
 import static com.google.gerrit.server.account.GroupBackends.GROUP_REF_NAME_COMPARATOR;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
-import static com.google.gerrit.server.auth.ldap.Helper.LDAP_UUID;
-import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_CACHE;
-import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_EXIST_CACHE;
 
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.auth.ldap.Helper.LdapSchema;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.AccountGroup;
@@ -32,7 +33,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;

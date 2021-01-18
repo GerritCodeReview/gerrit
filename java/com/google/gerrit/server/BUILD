@@ -144,6 +144,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":server",
+        "//java/com/google/gerrit/auth",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/logging",

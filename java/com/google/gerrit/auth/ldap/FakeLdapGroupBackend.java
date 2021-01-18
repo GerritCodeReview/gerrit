@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.auth.ldap;
+package com.google.gerrit.auth.ldap;
 
-import static com.google.gerrit.server.auth.ldap.Helper.LDAP_UUID;
+import static com.google.gerrit.auth.ldap.Helper.LDAP_UUID;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;

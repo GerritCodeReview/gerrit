@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.http.jetty;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -42,8 +43,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 import org.eclipse.jetty.http.HttpScheme;
 import org.eclipse.jetty.io.ConnectionStatistics;
 import org.eclipse.jetty.jmx.MBeanContainer;
@@ -200,6 +204,8 @@ public class JettyServer {
   private final Metrics metrics;
   private boolean reverseProxy;
   private ConnectionStatistics connStats;
+  private final SessionHandler sessionHandler;
+  private final AtomicLong sessionsCounter;
 
   @Inject
   JettyServer(
@@ -218,8 +224,27 @@ public class JettyServer {
       connector.addBean(connStats);
     }
     metrics = new Metrics(pool, connStats);
+    sessionHandler = new SessionHandler();
+    sessionsCounter = new AtomicLong();
 
-    Handler app = makeContext(env, cfg);
+    /* Code used for testing purposes for making assertions
+     * on the number of active HTTP sessions.
+     */
+    sessionHandler.addEventListener(
+        new HttpSessionListener() {
+
+          @Override
+          public void sessionDestroyed(HttpSessionEvent se) {
+            sessionsCounter.decrementAndGet();
+          }
+
+          @Override
+          public void sessionCreated(HttpSessionEvent se) {
+            sessionsCounter.incrementAndGet();
+          }
+        });
+
+    Handler app = makeContext(env, cfg, sessionHandler);
     if (cfg.getBoolean("httpd", "requestLog", !reverseProxy)) {
       RequestLogHandler handler = new RequestLogHandler();
       handler.setRequestLog(httpLogFactory.get());
@@ -244,6 +269,11 @@ public class JettyServer {
 
     httpd.setHandler(app);
     httpd.setStopAtShutdown(false);
+  }
+
+  @VisibleForTesting
+  public long numActiveSessions() {
+    return sessionsCounter.longValue();
   }
 
   Metrics getMetrics() {
@@ -445,7 +475,7 @@ public class JettyServer {
     return pool;
   }
 
-  private Handler makeContext(JettyEnv env, Config cfg) {
+  private Handler makeContext(JettyEnv env, Config cfg, SessionHandler sessionHandler) {
     final Set<String> paths = new HashSet<>();
     for (URI u : listenURLs(cfg)) {
       String p = u.getPath();
@@ -460,7 +490,7 @@ public class JettyServer {
 
     final List<ContextHandler> all = new ArrayList<>();
     for (String path : paths) {
-      all.add(makeContext(path, env, cfg));
+      all.add(makeContext(path, env, cfg, sessionHandler));
     }
 
     if (all.size() == 1) {
@@ -478,13 +508,14 @@ public class JettyServer {
     return r;
   }
 
-  private ContextHandler makeContext(final String contextPath, JettyEnv env, Config cfg) {
+  private ContextHandler makeContext(
+      final String contextPath, JettyEnv env, Config cfg, SessionHandler sessionHandler) {
     final ServletContextHandler app = new ServletContextHandler();
 
     // This enables the use of sessions in Jetty, feature available
     // for Gerrit plug-ins to enable user-level sessions.
     //
-    app.setSessionHandler(new SessionHandler());
+    app.setSessionHandler(sessionHandler);
     app.setErrorHandler(new HiddenErrorHandler());
 
     // This is the path we are accessed by clients within our domain.

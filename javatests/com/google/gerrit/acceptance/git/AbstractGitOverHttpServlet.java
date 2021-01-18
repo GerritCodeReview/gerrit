@@ -19,11 +19,15 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.FakeGroupAuditService;
 import com.google.gerrit.acceptance.Sandboxed;
-import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.pgm.http.jetty.JettyServer;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.inject.Inject;
+import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
@@ -33,9 +37,11 @@ import org.junit.Test;
 
 public class AbstractGitOverHttpServlet extends AbstractPushForReview {
   @Inject protected FakeGroupAuditService auditService;
+  private JettyServer jettyServer;
 
   @Before
   public void beforeEach() throws Exception {
+    jettyServer = server.getHttpdInjector().getInstance(JettyServer.class);
     CredentialsProvider.setDefault(
         new UsernamePasswordCredentialsProvider(admin.username(), admin.httpPassword()));
     selectProtocol(AbstractPushForReview.Protocol.HTTP);
@@ -67,33 +73,54 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     assertThat(receivePack.what).endsWith("/git-receive-pack");
     assertThat(receivePack.params).isEmpty();
     assertThat(receivePack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(jettyServer.numActiveSessions()).isEqualTo(0);
   }
 
   @Test
-  @Sandboxed
-  public void uploadPackAuditEventLog() throws Exception {
+  public void anonymousUploadPackAuditEventLog() throws Exception {
+    uploadPackAuditEventLog(Constants.DEFAULT_REMOTE_NAME, Optional.empty());
+  }
+
+  @Test
+  public void authenticatedUploadPackAuditEventLog() throws Exception {
+    String remote = "authenticated";
+    Config cfg = testRepo.git().getRepository().getConfig();
+
+    String uri = admin.getHttpUrl(server) + "/a/" + project.get();
+    cfg.setString("remote", remote, "url", uri);
+    cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
+
+    uploadPackAuditEventLog(remote, Optional.of(admin.id()));
+  }
+
+  private void uploadPackAuditEventLog(String remote, Optional<Account.Id> accountId)
+      throws Exception {
     auditService.drainHttpAuditEvents();
     // testRepo is already a clone. Make a server-side change so we have something to fetch.
     try (Repository repo = repoManager.openRepository(project);
         TestRepository<?> testRepo = new TestRepository<>(repo)) {
       testRepo.branch("master").commit().create();
     }
-    testRepo.git().fetch().call();
+    testRepo.git().fetch().setRemote(remote).call();
 
     ImmutableList<HttpAuditEvent> auditEvents = auditService.drainHttpAuditEvents();
     assertThat(auditEvents).hasSize(2);
 
     HttpAuditEvent lsRemote = auditEvents.get(0);
-    // Repo URL doesn't include /a, so fetching doesn't cause authentication.
-    assertThat(lsRemote.who).isInstanceOf(AnonymousUser.class);
+    assertThat(lsRemote.who.toString())
+        .isEqualTo(
+            accountId.map(id -> "IdentifiedUser[account " + id.get() + "]").orElse("ANONYMOUS"));
     assertThat(lsRemote.what).endsWith("/info/refs?service=git-upload-pack");
     assertThat(lsRemote.params).containsExactly("service", "git-upload-pack");
     assertThat(lsRemote.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
 
     HttpAuditEvent uploadPack = auditEvents.get(1);
-    assertThat(lsRemote.who).isInstanceOf(AnonymousUser.class);
+    assertThat(uploadPack.who.toString())
+        .isEqualTo(
+            accountId.map(id -> "IdentifiedUser[account " + id.get() + "]").orElse("ANONYMOUS"));
     assertThat(uploadPack.what).endsWith("/git-upload-pack");
     assertThat(uploadPack.params).isEmpty();
     assertThat(uploadPack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(jettyServer.numActiveSessions()).isEqualTo(0);
   }
 }

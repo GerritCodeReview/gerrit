@@ -34,6 +34,24 @@
       "parentUuid": "cd0e92b3_893badb2",
       "revId": "0ce548b8a9edf1c7faf21c676fe5d0d4f3390a48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6c6ec68_146a530f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-01-18T12:10:39Z",
+      "side": 1,
+      "message": "Maybe it makes sense to detect/fix those corruptions upfront, way before the migration?\nI guess once you guys know more about corrupted changes you could potentially fix them prior migration and call the migration without any check... but that is just hip-shooting - not much thinking was spent on that ;)",
+      "parentUuid": "885a53f1_dc827741",
+      "revId": "0ce548b8a9edf1c7faf21c676fe5d0d4f3390a48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

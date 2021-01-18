@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d29366f_202c933d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-18T18:23:52Z",
+      "side": 1,
+      "message": "If a button is too much, then an icon could be an option: https://material.io/resources/icons/?search\u003dvisibility_off\u0026style\u003dbaseline\n\nLet\u0027s discuss in UX Office Hours?",
+      "parentUuid": "5975147c_89c09134",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "97785299aa7201b271dd7c43534f171b857f1678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "925ea388_6958a79d",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 2

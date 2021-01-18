@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1dcd5365_0611bdcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-18T18:39:00Z",
+      "side": 1,
+      "message": "\u003e\u003e how would someone discover the shortcut?\n\u003e There will be a communication of the feature announcement which will include this \n\u003e keyboard shortcut.\n\nI realize I might sound cynical, but my working hypothesis is always that people will do anything to avoid reading documentation.\n\ncase in point: the feature announcement only goes to people that are subscribed to the relevant list, and even then when they read about \"ported comments\" they\u0027ll likely not understand what it is. \n\n(how often do you carefully read announcements of projects you\u0027re only tangentially involved with?)",
+      "parentUuid": "1d29366f_202c933d",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "97785299aa7201b271dd7c43534f171b857f1678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "925ea388_6958a79d",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 2

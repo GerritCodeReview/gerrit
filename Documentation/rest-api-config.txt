@@ -1552,9 +1552,6 @@ section.
 |`allow_blame`        |not set if `false`|
 link:config-gerrit.html#change.allowBlame[Whether blame on side by side diff is
 allowed].
-|`large_change`       ||
-link:config-gerrit.html#change.largeChange[Number of changed lines from
-which on a change is considered as a large change].
 |`reply_label`        ||
 link:config-gerrit.html#change.replyTooltip[Label name for the reply
 button].

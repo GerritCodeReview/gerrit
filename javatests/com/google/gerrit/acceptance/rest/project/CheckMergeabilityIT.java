@@ -233,7 +233,11 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
         .setRefSpecs(new RefSpec("HEAD:refs/heads/master"))
         .call();
 
-    assertBadRequest("master", "fdsafsdf", "recursive", "Cannot resolve 'fdsafsdf' to a commit");
+    assertBadRequest(
+        "master",
+        "fdsafsdf",
+        "recursive",
+        "Error resolving: 'fdsafsdf'. Do not have read permission, or failed to resolve to a commit.");
   }
 
   @Test

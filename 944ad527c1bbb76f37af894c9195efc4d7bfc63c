@@ -87,6 +87,24 @@
       "parentUuid": "afd0f00a_464132cc",
       "revId": "944ad527c1bbb76f37af894c9195efc4d7bfc63c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dee45735_1ae02a25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-18T08:19:00Z",
+      "side": 1,
+      "message": "Can you take another look at this?\nThe history suggestion looks interesting.\nLMK if you want me to make another change using history API.",
+      "parentUuid": "0cf595fe_682f085b",
+      "revId": "944ad527c1bbb76f37af894c9195efc4d7bfc63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

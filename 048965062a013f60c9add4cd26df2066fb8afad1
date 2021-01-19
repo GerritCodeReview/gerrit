@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5387fb59_47ed7409",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-19T11:01:20Z",
+      "side": 1,
+      "message": "Use the same object everywhere can be dangerous, because it is not immutable object. Maybe add a function createDefaultPrefs instead?\n(same for DEFAULT_DIFF_PREFS, DEFAULT_EDIT_PREFS).\nIt also creates invisible dependencies between tests.\nAnother problem is that these consts is returned from the rest-api, and our code can change it.",
+      "range": {
+        "startLine": 399,
+        "startChar": 0,
+        "endLine": 404,
+        "endChar": 21
+      },
+      "revId": "048965062a013f60c9add4cd26df2066fb8afad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef4e6135_08015dc5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-19T11:01:20Z",
+      "side": 1,
+      "message": "Maybe use a function or make a clone {...adminCaps} (here and below)",
+      "range": {
+        "startLine": 160,
+        "startChar": 66,
+        "endLine": 160,
+        "endChar": 75
+      },
+      "revId": "048965062a013f60c9add4cd26df2066fb8afad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c593b4e_1796ad37",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-19T11:01:20Z",
+      "side": 1,
+      "message": "Probably, \u0027as ...\u0027 is not required if you update stubRestApi definition (see my other comment about stubRestApi function)",
+      "range": {
+        "startLine": 887,
+        "startChar": 8,
+        "endLine": 887,
+        "endChar": 66
+      },
+      "revId": "048965062a013f60c9add4cd26df2066fb8afad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f8d9346_870dd717",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-19T11:01:20Z",
+      "side": 1,
+      "message": "I think function is better than const, because it guarantee that tests can\u0027t share and change the same object.",
+      "range": {
+        "startLine": 407,
+        "startChar": 1,
+        "endLine": 407,
+        "endChar": 70
+      },
+      "revId": "048965062a013f60c9add4cd26df2066fb8afad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed8cc65d_185d3a19",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-19T11:01:20Z",
+      "side": 1,
+      "message": "It is better to define this function as\n  export function stubRestApi\u003cK extends keyof RestApiService\u003e(method: K) {\n\nIt ensures a correct type for subsequent callsFake call - i.e. compiler checks that mock passed to callsFake has a correct input/return types.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 59
+      },
+      "revId": "048965062a013f60c9add4cd26df2066fb8afad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b06ee774_5ace21f7",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-19T11:01:20Z",
+      "side": 1,
+      "message": "Same as above:\n  export function spyRestApi\u003cK extends keyof RestApiService\u003e(method: K) {",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 58
+      },
+      "revId": "048965062a013f60c9add4cd26df2066fb8afad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9306d7e5_6082d859",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-01-19T11:18:28Z",
+      "side": 1,
+      "message": "that\u0027s a terribly generous definition of \"no significant difference\", which is generally not useful in the described case.\ni suspect you have a more specific use case in mind?",
+      "revId": "1f977818c1d312a31f75cbc874ebe75d14b65107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

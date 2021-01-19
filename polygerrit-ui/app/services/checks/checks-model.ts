@@ -17,9 +17,11 @@
 
 import {BehaviorSubject, Observable} from 'rxjs';
 import {
+  Category,
   CheckResult,
   CheckRun,
   ChecksApiConfig,
+  RunStatus,
 } from '../../elements/plugins/gr-checks-api/gr-checks-api-types';
 import {map} from 'rxjs/operators';
 
@@ -60,7 +62,7 @@ export const allResults$ = checksState$.pipe(
           ...allResults,
           ...providerState.runs.reduce(
             (results: CheckResult[], run: CheckRun) =>
-              results.concat(run.results),
+              results.concat(run.results ?? []),
             []
           ),
         ],
@@ -85,11 +87,58 @@ export function updateStateSetProvider(
   privateState$.next(nextState);
 }
 
+// TODO(brohlfs): Remove all fake runs by end of January. They are just making
+// it easier to develop the UI and always see all the different types/states of
+// runs and results.
+
+const fakeRun0: CheckRun = {
+  checkName: 'FAKE Error Finder',
+  results: [
+    {
+      category: Category.ERROR,
+      summary: 'I would like to point out this error: 1 is not equal to 2!',
+    },
+  ],
+  status: RunStatus.COMPLETED,
+};
+
+const fakeRun1: CheckRun = {
+  checkName: 'FAKE Super Check',
+  results: [
+    {
+      category: Category.WARNING,
+      summary: 'We think that you could improve this.',
+    },
+  ],
+  status: RunStatus.COMPLETED,
+};
+
+const fakeRun2: CheckRun = {
+  checkName: 'FAKE Mega Analysis',
+  results: [
+    {
+      category: Category.INFO,
+      summary: 'This is looking a bit too large.',
+    },
+  ],
+  status: RunStatus.COMPLETED,
+};
+
+const fakeRun3: CheckRun = {
+  checkName: 'FAKE Critical Observations',
+  status: RunStatus.RUNNABLE,
+};
+
+const fakeRun4: CheckRun = {
+  checkName: 'FAKE TODO Elimination',
+  status: RunStatus.COMPLETED,
+};
+
 export function updateStateSetResults(pluginName: string, runs: CheckRun[]) {
   const nextState = {...privateState$.getValue()};
   nextState[pluginName] = {
     ...nextState[pluginName],
-    runs,
+    runs: [...runs, fakeRun0, fakeRun1, fakeRun2, fakeRun3, fakeRun4],
   };
   privateState$.next(nextState);
 }

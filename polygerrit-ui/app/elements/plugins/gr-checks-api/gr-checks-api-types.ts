@@ -76,9 +76,9 @@ export interface FetchResponse {
 }
 
 export enum ResponseCode {
-  OK,
-  ERROR,
-  NOT_LOGGED_IN,
+  OK = 'OK',
+  ERROR = 'ERROR',
+  NOT_LOGGED_IN = 'NOT_LOGGED_IN',
 }
 
 /**
@@ -192,7 +192,7 @@ export interface CheckRun {
    * "Run" for RUNNABLE and COMPLETED runs.
    * "Cancel" for RUNNING runs.
    */
-  actions: Action[];
+  actions?: Action[];
 
   scheduledTimestamp?: Date;
   startedTimestamp?: Date;
@@ -206,7 +206,7 @@ export interface CheckRun {
    * - A run can have 0-n results.
    * - A result is associated with exactly one run.
    */
-  results: CheckResult[];
+  results?: CheckResult[];
 }
 
 export interface Action {
@@ -238,9 +238,9 @@ export interface ActionResult {
 }
 
 export enum RunStatus {
-  RUNNABLE,
-  RUNNING,
-  COMPLETED,
+  RUNNABLE = 'RUNNABLE',
+  RUNNING = 'RUNNING',
+  COMPLETED = 'COMPLETED',
 }
 
 export interface CheckResult {
@@ -306,7 +306,7 @@ export interface CheckResult {
    * BUILD, TEST, LINT
    * INTEGRATION, E2E, SCREENSHOT
    */
-  tags: Tag[];
+  tags?: Tag[];
 
   /**
    * Links provide an opportunity for the end-user to easily access details and
@@ -320,7 +320,7 @@ export interface CheckResult {
    * Link to result artifacts such as images and screenshots.
    * Link to downloadable artifacts such as ZIP or APK files.
    */
-  links: Link[];
+  links?: Link[];
 
   /**
    * Callbacks to the plugin. Must be implemented individually by each
@@ -332,13 +332,13 @@ export interface CheckResult {
    * Acknowledge/Dismiss, Delete, Report a bug, Report as not useful,
    * Make blocking, Downgrade severity.
    */
-  actions: Action[];
+  actions?: Action[];
 }
 
 export enum Category {
-  INFO,
-  WARNING,
-  ERROR,
+  INFO = 'INFO',
+  WARNING = 'WARNING',
+  ERROR = 'ERROR',
 }
 
 export interface Tag {

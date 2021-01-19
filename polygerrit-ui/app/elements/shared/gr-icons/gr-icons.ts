@@ -114,6 +114,12 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="bug"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"/></g>
       <!-- This SVG is a copy from material.io https://fonts.gstatic.com/s/i/googlematerialicons/move_item/v1/24px.svg -->
       <g id="move-item"><path d="M15,19H5V5h10v4h2V5c0-1.1-0.89-2-2-2H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h10c1.11,0,2-0.9,2-2v-4h-2V19z"/><polygon points="20.01,8.01 18.59,9.41 20.17,11 8,11 8,13 20.17,13 18.59,14.59 20.01,15.99 24,12"/></g>
+      <!-- This SVG is a copy from material.io https://material.io/icons/#warning-->
+      <g id="warning"><path d="M0 0h24v24H0z" fill="none"/><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></g>
+      <!-- This SVG is a copy from material.io https://material.io/icons/#timelapse-->
+      <g id="timelapse"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.24 7.76C15.07 6.59 13.54 6 12 6v6l-4.24 4.24c2.34 2.34 6.14 2.34 8.49 0 2.34-2.34 2.34-6.14-.01-8.48zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></g>
+      <!-- This is just a placeholder, i.e. an empty icon that has the same size as a normal icon. -->
+      <g id="placeholder"><path d="M0 0h24v24H0z" fill="none"/></g>
     </defs>
   </svg>
 </iron-iconset-svg>`;

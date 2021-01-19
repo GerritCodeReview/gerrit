@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90a76e1b_fa9b40cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-19T09:50:37Z",
+      "side": 1,
+      "message": "NIT: Maybe this could be a separate component.",
+      "range": {
+        "startLine": 31,
+        "startChar": 9,
+        "endLine": 31,
+        "endChar": 25
+      },
+      "revId": "6a5f24fbce4c9af6b651d1b0a43b9dd0bf535b23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

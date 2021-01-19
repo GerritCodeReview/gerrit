@@ -9,6 +9,7 @@
   ],
   "lint": {
     "rules": ["polymer-3"],
-    "ignoreWarnings": ["deprecated-dom-call"]
+    "ignoreWarnings": ["deprecated-dom-call"],
+    "filesToIgnore": ["**/*.js"]
   }
 }

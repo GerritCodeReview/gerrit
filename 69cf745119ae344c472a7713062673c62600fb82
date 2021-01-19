@@ -16,6 +16,24 @@
       "message": "can you say something about why it\u0027s OK to do this now? What instrumentation did you add?\n\n",
       "revId": "69cf745119ae344c472a7713062673c62600fb82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "913e831f_e9bbe7cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-19T17:49:27Z",
+      "side": 1,
+      "message": "I didn\u0027t add any instrumentation yet. I did a manual inspection before but couldn\u0027t find anything. I was thinking to:\n  1) Debug again the execution in prd and look at metrics.\n  2) Add more tests in google3.\n\nWe can hold on submitting this change until I add more tests first.",
+      "parentUuid": "6528e3a5_c42a1936",
+      "revId": "69cf745119ae344c472a7713062673c62600fb82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

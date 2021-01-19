@@ -39,6 +39,30 @@
       },
       "revId": "d67ff0b1ff4b74cc2bbe10a0dfb9ca3b0c50a35d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16c81510_7d9d1b4d",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-19T13:32:09Z",
+      "side": 1,
+      "message": "Ah, I see this loop is in DeleteReviewerOp.",
+      "parentUuid": "3b0ab199_61f93b72",
+      "range": {
+        "startLine": 94,
+        "startChar": 29,
+        "endLine": 94,
+        "endChar": 39
+      },
+      "revId": "d67ff0b1ff4b74cc2bbe10a0dfb9ca3b0c50a35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

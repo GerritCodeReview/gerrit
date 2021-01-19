@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c665efb8_70853055",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-19T19:12:43Z",
+      "side": 1,
+      "message": "I looked in our contribution guide docs [1] and I didn\u0027t see an answer there, but I\u0027m curious if we have any expectations on how long changes should remain open before being submitted. I think I\u0027ve generally operated under the idea that giving 24 hours for folks in different time zones to see the change is the polite thing to do, but I realize now that\u0027s not clearly stated in our process docs. Should we have something like that in the docs?\n\nI\u0027m asking on this change because I noticed its time from upload to submit was less than 3 hours.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html",
+      "revId": "bef260ec303bea3c01eeb136ec904482f746365a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d341b18a_1c86fea6",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-19T19:12:43Z",
+      "side": 1,
+      "message": "Is this actually useful for CI? Can you give an example?",
+      "range": {
+        "startLine": 289,
+        "startChar": 43,
+        "endLine": 289,
+        "endChar": 54
+      },
+      "revId": "bef260ec303bea3c01eeb136ec904482f746365a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "86ec1d2a_3a7715b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-19T20:09:08Z",
+      "side": 1,
+      "message": "A blanket 24h waiting period will severely impact our velocity, but we could consider it for user-visible features. I\u0027ll put it on the agenda for ESC.",
+      "parentUuid": "c665efb8_70853055",
+      "revId": "bef260ec303bea3c01eeb136ec904482f746365a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d341b18a_1c86fea6",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 3

@@ -52,6 +52,24 @@
       "parentUuid": "913e831f_e9bbe7cd",
       "revId": "69cf745119ae344c472a7713062673c62600fb82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc542a2d_6e067a52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-19T18:22:47Z",
+      "side": 1,
+      "message": "I Haven\u0027t thought about switching between implementations with a config. I like the idea, thanks for the suggestion. I can do that.\n\nThe operation will increment hit counts by 1000, but we don\u0027t differentiate between get() and getAll() here. But we also include a PerformanceLog with a special event BATCH_READ. Patrick and I were able to find those when I was looking at the misses before.",
+      "parentUuid": "e509faf9_301ce2cc",
+      "revId": "69cf745119ae344c472a7713062673c62600fb82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,81 @@
+// Copyright (C) 2021 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto2";
+
+package devtools.gerritcodereview;
+
+option java_package = "com.google.gerrit.proto";
+
+// Next Id: 5
+message GerritEvent {
+   optional string host = 1;
+   optional int64 timestamp_usec = 2;
+   optional AccountInfo updater = 3;
+   optional ChangeEvent change_event = 4;
+
+   // Next Id: 10
+   message ChangeEvent {
+     optional string project_name = 1;
+     optional string target_ref = 2;
+     optional int64 change_number = 3;
+     optional string patch_set_id = 4;
+     optional NewPatchSetEvent patch_set_event = 5;
+     optional TopicChangedEvent topic_changed_event = 6;
+     optional StatusChangedEvent = status_changed_event = 7;
+     repeated CommentAddedEvent comment_added_event = 8;
+     repeated VoteChangedEvent vote_changed_event = 9;
+
+     // Next Id: 1
+     message NewPatchSetEvent {
+     }
+
+     // Next Id: 2
+     message CommentAddedEvent {
+       optional string text = 1;
+     }
+
+     // Next Id: 3
+     message VoteChangedEvent {
+       optional string name = 1;
+       optional uint32 value = 2;
+     }
+
+     // Next Id: 3
+     message TopicChangedEvent {
+       optional string new_name = 1;
+       optional string previous_name = 2;
+     }
+
+     // Next Id: 3
+     message StatusChangedEvent {
+       optional Status new_status = 1;
+       optional Status old_status = 2;
+
+       // Next Id: 4
+       enum Status {
+         UNKNOWN = 0;
+         NEW = 1;
+         MERGED = 2;
+         ABANDONED = 3;
+       }
+     }
+  }
+}
+
+// Next Id: 3
+message AccountInfo {
+   optional int64 gerrit_account_id  = 1;
+   repeated string external_id = 2;
+}

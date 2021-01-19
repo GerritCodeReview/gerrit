@@ -28,6 +28,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -654,6 +655,83 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).addReviewer(addReviewer);
     assertThat(sender.getMessages()).hasSize(1);
     assertThat(sender.getMessages().get(0).rcpt()).containsExactly(userToNotify.getNameEmail());
+  }
+
+  @Test
+  public void removeReviewerWithVoteOnMergedChangeForChangeOwnerFails() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 1));
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 2));
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove());
+    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
+  }
+
+  @Test
+  public void removeReviewerWithVoteOnMergedChangeForUserFails() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 1));
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 2));
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove());
+    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
+  }
+
+  @Test
+  public void removeReviewerWithoutVoteOnMergedChangeForChangeOwnerSucceeds() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+
+    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 2));
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
+
+    // Admin is a "reviewer" since the admin submitted the change, this ensures user is not a
+    // reviewer.
+    assertThat(
+            Iterables.getOnlyElement(
+                    gApi.changes().id(r.getChangeId()).get().reviewers.get(REVIEWER))
+                .email)
+        .doesNotMatch(user.email());
+  }
+
+  @Test
+  public void removeReviewerWithoutVoteOnMergedChangeForUserSucceeds() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+
+    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 2));
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
+
+    // Admin is a "reviewer" since the admin submitted the change, this ensures user is not a
+    // reviewer.
+    assertThat(
+            Iterables.getOnlyElement(
+                    gApi.changes().id(r.getChangeId()).get().reviewers.get(REVIEWER))
+                .email)
+        .doesNotMatch(user.email());
   }
 
   @Test

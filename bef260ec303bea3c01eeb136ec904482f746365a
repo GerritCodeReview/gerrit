@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e00cf0e_3b8ae317",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-01-19T21:16:21Z",
+      "side": 1,
+      "message": "i was wondering about the same thing. qt is very explicit in this regard, see https://wiki.qt.io/Review_Policy point 1.2.\n\ni don\u0027t really buy that \"velocity\" thing. the good thing about git is that you *can* pipeline your development.\nit surely is a different thing in hotly contested trees, but then there are also enough active reviewers to loosen the requirement that everyone is waited for, provided people engage n:n, not just 1:n in the review.",
+      "parentUuid": "900a6998_ad07bc09",
+      "revId": "bef260ec303bea3c01eeb136ec904482f746365a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d341b18a_1c86fea6",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 3

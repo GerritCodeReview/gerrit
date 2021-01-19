@@ -497,6 +497,13 @@ export class ChangeComments {
     return this._commentObjToArray(allDrafts).length;
   }
 
+  // TODO(dhruvsri): merge with computeDraftCount
+  computePortedDraftCount(patchRange: PatchRange, path: string) {
+    const threads = this.getThreadsBySideForFile({path}, patchRange);
+    return threads.filter(thread => isDraftThread(thread) && thread.ported)
+      .length;
+  }
+
   /**
    * @param includeUnmodified Included unmodified status of the file in the
    * comment string or not. For files we opt of chip instead of a string.

@@ -613,10 +613,7 @@ export class GrFileList extends KeyboardShortcutMixin(
     return changeComments.computeCommentsString(patchRange, file.__path, file);
   }
 
-  /**
-   * Computes a string with the number of drafts.
-   */
-  _computeDraftsString(
+  _computeDraftCount(
     changeComments?: ChangeComments,
     patchRange?: PatchRange,
     path?: string
@@ -628,7 +625,7 @@ export class GrFileList extends KeyboardShortcutMixin(
     ) {
       return '';
     }
-    const draftCount =
+    return (
       changeComments.computeDraftCount({
         patchNum: patchRange.basePatchNum,
         path,
@@ -636,7 +633,31 @@ export class GrFileList extends KeyboardShortcutMixin(
       changeComments.computeDraftCount({
         patchNum: patchRange.patchNum,
         path,
-      });
+      }) +
+      changeComments.computePortedDraftCount(
+        {
+          patchNum: patchRange.patchNum,
+          basePatchNum: patchRange.basePatchNum,
+        },
+        path
+      )
+    );
+  }
+
+  /**
+   * Computes a string with the number of drafts.
+   */
+  _computeDraftsString(
+    changeComments?: ChangeComments,
+    patchRange?: PatchRange,
+    path?: string
+  ) {
+    const draftCount = this._computeDraftCount(
+      changeComments,
+      patchRange,
+      path
+    );
+    if (draftCount === '') return draftCount;
     return pluralize(draftCount, 'draft');
   }
 
@@ -648,22 +669,11 @@ export class GrFileList extends KeyboardShortcutMixin(
     patchRange?: PatchRange,
     path?: string
   ) {
-    if (
-      changeComments === undefined ||
-      patchRange === undefined ||
-      path === undefined
-    ) {
-      return '';
-    }
-    const draftCount =
-      changeComments.computeDraftCount({
-        patchNum: patchRange.basePatchNum,
-        path,
-      }) +
-      changeComments.computeDraftCount({
-        patchNum: patchRange.patchNum,
-        path,
-      });
+    const draftCount = this._computeDraftCount(
+      changeComments,
+      patchRange,
+      path
+    );
     return draftCount === 0 ? '' : `${draftCount}d`;
   }
 

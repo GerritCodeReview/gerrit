@@ -29,6 +29,7 @@ import java.util.List;
 public abstract class LabelType {
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
   public static final boolean DEF_CAN_OVERRIDE = true;
+  public static final boolean DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE = false;
   public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CHANGE = true;
   public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = false;
   public static final boolean DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = false;
@@ -101,6 +102,8 @@ public abstract class LabelType {
 
   public abstract boolean isCopyMaxScore();
 
+  public abstract boolean isCopyAllScoresIfListOfFilesDidNotChange();
+
   public abstract boolean isCopyAllScoresOnMergeFirstParentUpdate();
 
   public abstract boolean isCopyAllScoresOnTrivialRebase();
@@ -143,6 +146,8 @@ public abstract class LabelType {
         .setMaxNegative(Short.MIN_VALUE)
         .setMaxPositive(Short.MAX_VALUE)
         .setCanOverride(DEF_CAN_OVERRIDE)
+        .setCopyAllScoresIfListOfFilesDidNotChange(
+            DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE)
         .setCopyAllScoresIfNoChange(DEF_COPY_ALL_SCORES_IF_NO_CHANGE)
         .setCopyAllScoresIfNoCodeChange(DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE)
         .setCopyAllScoresOnTrivialRebase(DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE)
@@ -237,6 +242,9 @@ public abstract class LabelType {
     public abstract Builder setCopyMinScore(boolean copyMinScore);
 
     public abstract Builder setCopyMaxScore(boolean copyMaxScore);
+
+    public abstract Builder setCopyAllScoresIfListOfFilesDidNotChange(
+        boolean copyAllScoresIfListOfFilesDidNotChange);
 
     public abstract Builder setCopyAllScoresOnMergeFirstParentUpdate(
         boolean copyAllScoresOnMergeFirstParentUpdate);

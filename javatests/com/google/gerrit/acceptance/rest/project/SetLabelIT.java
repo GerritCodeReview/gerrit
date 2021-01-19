@@ -582,6 +582,59 @@ public class SetLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setCopyAllScoresIfListOfFilesDidNotChange() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyMaxScore).isNull();
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.copyAllScoresIfListOfFilesDidNotChange = true;
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").update(input);
+    assertThat(updatedLabel.copyAllScoresIfListOfFilesDidNotChange).isTrue();
+
+    assertThat(
+            gApi.projects()
+                .name(project.get())
+                .label("foo")
+                .get()
+                .copyAllScoresIfListOfFilesDidNotChange)
+        .isTrue();
+  }
+
+  @Test
+  public void unsetCopyAllScoresIfListOfFilesDidNotChange() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType("foo", lt -> lt.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+    assertThat(
+            gApi.projects()
+                .name(project.get())
+                .label("foo")
+                .get()
+                .copyAllScoresIfListOfFilesDidNotChange)
+        .isTrue();
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.copyAllScoresIfListOfFilesDidNotChange = false;
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").update(input);
+    assertThat(updatedLabel.copyAllScoresIfListOfFilesDidNotChange).isNull();
+
+    assertThat(
+            gApi.projects()
+                .name(project.get())
+                .label("foo")
+                .get()
+                .copyAllScoresIfListOfFilesDidNotChange)
+        .isNull();
+  }
+
+  @Test
   public void setCopyAllScoresIfNoChange() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {

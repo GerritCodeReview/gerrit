@@ -34,6 +34,24 @@
       "parentUuid": "6528e3a5_c42a1936",
       "revId": "69cf745119ae344c472a7713062673c62600fb82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e509faf9_301ce2cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-19T18:03:03Z",
+      "side": 1,
+      "message": "if we reverted this change the first time it went in, we\u0027ll probably revert the second time too, so submitting as is won\u0027t yield progress.\n\nHow about having both code paths at the same time, and verifying that you get the same keys or the same values?\n\nOr use a gerrit config to switch which flavor to use, and so you can debug both code paths in real-time using a setting on canary.\n\nHow does the fetch/hit metric work for the getAll() end point? If you do getAll() for 1,000 accounts does that add 1000 lookup counts, or 1 count?",
+      "parentUuid": "913e831f_e9bbe7cd",
+      "revId": "69cf745119ae344c472a7713062673c62600fb82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

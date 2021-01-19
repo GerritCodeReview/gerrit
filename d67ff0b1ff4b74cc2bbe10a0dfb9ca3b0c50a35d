@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74818f85_0c019ed2",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-19T13:29:33Z",
+      "side": 1,
+      "message": "If I see this correctly, this is the method that is used by DeleteReviewerOp, and it hard-codes \u00270\u0027 below. This means this is not taking the actual voting values into account, is it?",
+      "revId": "d67ff0b1ff4b74cc2bbe10a0dfb9ca3b0c50a35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b0ab199_61f93b72",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-19T13:29:33Z",
+      "side": 1,
+      "message": "I\u0027m surprised that we look at a single value here. Shouldn\u0027t it somehow iterate over all labels and check if any of them has a value !\u003d 0 by this reviewer. Is the code for this somewhere else?",
+      "range": {
+        "startLine": 94,
+        "startChar": 29,
+        "endLine": 94,
+        "endChar": 39
+      },
+      "revId": "d67ff0b1ff4b74cc2bbe10a0dfb9ca3b0c50a35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -135,6 +135,7 @@ public class ListLabelsIT extends AbstractDaemonTest {
     assertThat(fooLabel.copyAnyScore).isNull();
     assertThat(fooLabel.copyMinScore).isNull();
     assertThat(fooLabel.copyMaxScore).isNull();
+    assertThat(fooLabel.copyAllScoresIfListOfFilesDidNotChange).isNull();
     assertThat(fooLabel.copyAllScoresIfNoChange).isNull();
     assertThat(fooLabel.copyAllScoresIfNoCodeChange).isNull();
     assertThat(fooLabel.copyAllScoresOnTrivialRebase).isNull();
@@ -157,6 +158,7 @@ public class ListLabelsIT extends AbstractDaemonTest {
                 labelType.setCopyAnyScore(true);
                 labelType.setCopyMinScore(true);
                 labelType.setCopyMaxScore(true);
+                labelType.setCopyAllScoresIfListOfFilesDidNotChange(true);
                 labelType.setCopyAllScoresIfNoCodeChange(true);
                 labelType.setCopyAllScoresOnTrivialRebase(true);
                 labelType.setCopyAllScoresOnMergeFirstParentUpdate(true);
@@ -174,6 +176,7 @@ public class ListLabelsIT extends AbstractDaemonTest {
     assertThat(fooLabel.copyAnyScore).isTrue();
     assertThat(fooLabel.copyMinScore).isTrue();
     assertThat(fooLabel.copyMaxScore).isTrue();
+    assertThat(fooLabel.copyAllScoresIfListOfFilesDidNotChange).isTrue();
     assertThat(fooLabel.copyAllScoresIfNoChange).isTrue();
     assertThat(fooLabel.copyAllScoresIfNoCodeChange).isTrue();
     assertThat(fooLabel.copyAllScoresOnTrivialRebase).isTrue();

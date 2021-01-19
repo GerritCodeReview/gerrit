@@ -42,6 +42,8 @@ public class LabelTypeSerializer {
         .setCopyAnyScore(proto.getCopyAnyScore())
         .setCopyMinScore(proto.getCopyMinScore())
         .setCopyMaxScore(proto.getCopyMaxScore())
+        .setCopyAllScoresIfListOfFilesDidNotChange(
+            proto.getCopyAllScoresIfListOfFilesDidNotChange())
         .setCopyAllScoresOnMergeFirstParentUpdate(proto.getCopyAllScoresOnMergeFirstParentUpdate())
         .setCopyAllScoresOnTrivialRebase(proto.getCopyAllScoresOnTrivialRebase())
         .setCopyAllScoresIfNoCodeChange(proto.getCopyAllScoresIfNoCodeChange())
@@ -68,6 +70,8 @@ public class LabelTypeSerializer {
         .setCopyAnyScore(autoValue.isCopyAnyScore())
         .setCopyMinScore(autoValue.isCopyMinScore())
         .setCopyMaxScore(autoValue.isCopyMaxScore())
+        .setCopyAllScoresIfListOfFilesDidNotChange(
+            autoValue.isCopyAllScoresIfListOfFilesDidNotChange())
         .setCopyAllScoresOnMergeFirstParentUpdate(
             autoValue.isCopyAllScoresOnMergeFirstParentUpdate())
         .setCopyAllScoresOnTrivialRebase(autoValue.isCopyAllScoresOnTrivialRebase())

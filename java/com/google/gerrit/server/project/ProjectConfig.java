@@ -111,6 +111,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_IGNORE_SELF_APPROVAL = "ignoreSelfApproval";
   public static final String KEY_COPY_ANY_SCORE = "copyAnyScore";
   public static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
+  public static final String KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE =
+      "copyAllScoresIfListOfFilesDidNotChange";
   public static final String KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE =
       "copyAllScoresOnMergeFirstParentUpdate";
   public static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = "copyAllScoresOnTrivialRebase";
@@ -1029,6 +1031,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, LabelType.DEF_COPY_MIN_SCORE));
       label.setCopyMaxScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MAX_SCORE, LabelType.DEF_COPY_MAX_SCORE));
+      label.setCopyAllScoresIfListOfFilesDidNotChange(
+          rc.getBoolean(
+              LABEL,
+              name,
+              KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+              LabelType.DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE));
       label.setCopyAllScoresOnMergeFirstParentUpdate(
           rc.getBoolean(
               LABEL,
@@ -1562,6 +1570,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
           label.isCopyAllScoresIfNoChange(),
           LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
+      setBooleanConfigKey(
+          rc,
+          LABEL,
+          name,
+          KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+          label.isCopyAllScoresIfListOfFilesDidNotChange(),
+          LabelType.DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE);
       setBooleanConfigKey(
           rc,
           LABEL,

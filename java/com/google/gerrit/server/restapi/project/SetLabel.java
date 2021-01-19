@@ -189,6 +189,12 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
       dirty = true;
     }
 
+    if (input.copyAllScoresIfListOfFilesDidNotChange != null) {
+      labelTypeBuilder.setCopyAllScoresIfListOfFilesDidNotChange(
+          input.copyAllScoresIfListOfFilesDidNotChange);
+      dirty = true;
+    }
+
     if (input.copyAllScoresIfNoChange != null) {
       labelTypeBuilder.setCopyAllScoresIfNoChange(input.copyAllScoresIfNoChange);
       dirty = true;

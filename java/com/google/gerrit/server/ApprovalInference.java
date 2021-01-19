@@ -25,15 +25,22 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -59,13 +66,18 @@ public class ApprovalInference {
   private final ProjectCache projectCache;
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
+  private final PatchListCache patchListCache;
 
   @Inject
   ApprovalInference(
-      ProjectCache projectCache, ChangeKindCache changeKindCache, LabelNormalizer labelNormalizer) {
+      ProjectCache projectCache,
+      ChangeKindCache changeKindCache,
+      LabelNormalizer labelNormalizer,
+      PatchListCache patchListCache) {
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
+    this.patchListCache = patchListCache;
   }
 
   /**
@@ -93,10 +105,15 @@ public class ApprovalInference {
   }
 
   private static boolean canCopy(
-      ProjectState project, PatchSetApproval psa, PatchSet.Id psId, ChangeKind kind) {
+      ProjectState project,
+      PatchSetApproval psa,
+      PatchSet.Id psId,
+      ChangeKind kind,
+      PatchList patchList) {
     int n = psa.key().patchSetId().get();
     checkArgument(n != psId.get());
     LabelType type = project.getLabelTypes().byLabel(psa.labelId());
+
     if (type == null) {
       logger.atFine().log(
           "approval %d on label %s of patch set %d of change %d cannot be copied"
@@ -151,6 +168,25 @@ public class ApprovalInference {
           psa.key().patchSetId().changeId().get(),
           psId.get(),
           psa.value(),
+          project.getName());
+      return true;
+    } else if (type.isCopyAllScoresIfListOfFilesDidNotChange()
+        && patchList.getPatches().stream()
+            .noneMatch(
+                p ->
+                    p.getChangeType() == ChangeType.ADDED
+                        || p.getChangeType() == ChangeType.DELETED)) {
+      logger.atFine().log(
+          "approval %d on label %s of patch set %d of change %d can be copied"
+              + " to patch set %d because the label has set "
+              + "copyAllScoresIfListOfFilesDidNotChange = true on "
+              + "project %s and list of files did not change (maybe except a rename, which is "
+              + "still the same file).",
+          psa.value(),
+          psa.label(),
+          n,
+          psa.key().patchSetId().changeId().get(),
+          psId.get(),
           project.getName());
       return true;
     }
@@ -331,15 +367,38 @@ public class ApprovalInference {
     logger.atFine().log(
         "change kind for patch set %d of change %d against prior patch set %s is %s",
         ps.id().get(), ps.id().changeId().get(), priorPatchSet.getValue().id().changeId(), kind);
+    PatchList patchList = getPatchList(project, ps, priorPatchSet);
     for (PatchSetApproval psa : priorApprovals) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
         continue;
       }
-      if (!canCopy(project, psa, ps.id(), kind)) {
+      if (!canCopy(project, psa, ps.id(), kind, patchList)) {
         continue;
       }
       resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
     }
     return resultByUser.values();
+  }
+
+  /**
+   * Gets the {@link PatchList} between the two latest patch-sets. Can be used to compute difference
+   * in files between those two patch-sets .
+   */
+  private PatchList getPatchList(
+      ProjectState project, PatchSet ps, Map.Entry<PatchSet.Id, PatchSet> priorPatchSet) {
+    PatchListKey key =
+        PatchListKey.againstCommit(
+            priorPatchSet.getValue().commitId(),
+            ps.commitId(),
+            DiffPreferencesInfo.Whitespace.IGNORE_NONE);
+    try {
+      return patchListCache.get(key, project.getNameKey());
+    } catch (PatchListNotAvailableException ex) {
+      throw new StorageException(
+          "failed to compute difference in files, so won't copy"
+              + " votes on labels even if list of files is the same and "
+              + "copyAllIfListOfFilesDidNotChange",
+          ex);
+    }
   }
 }

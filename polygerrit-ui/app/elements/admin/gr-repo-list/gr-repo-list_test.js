@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-repo-list.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import 'lodash/lodash.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo-list');
 
@@ -51,11 +52,7 @@ suite('gr-repo-list tests', () => {
   suite('list with repos', () => {
     setup(done => {
       repos = _.times(26, repoGenerator);
-      stub('gr-rest-api-interface', {
-        getRepos(num, offset) {
-          return Promise.resolve(repos);
-        },
-      });
+      stubRestApi('getRepos').returns(Promise.resolve(repos));
       element._paramsChanged(value).then(() => { flush(done); });
     });
 
@@ -86,13 +83,7 @@ suite('gr-repo-list tests', () => {
   suite('list with less then 25 repos', () => {
     setup(done => {
       repos = _.times(25, repoGenerator);
-
-      stub('gr-rest-api-interface', {
-        getRepos(num, offset) {
-          return Promise.resolve(repos);
-        },
-      });
-
+      stubRestApi('getRepos').returns(Promise.resolve(repos));
       element._paramsChanged(value).then(() => { flush(done); });
     });
 
@@ -108,22 +99,19 @@ suite('gr-repo-list tests', () => {
       reposFiltered = _.times(1, repoGenerator);
     });
 
-    test('_paramsChanged', done => {
-      sinon.stub(element.restApiService, 'getRepos')
-          .callsFake( () => Promise.resolve(repos));
+    test('_paramsChanged', async () => {
+      const repoStub = stubRestApi('getRepos');
+      repoStub.returns(Promise.resolve(repos));
       const value = {
         filter: 'test',
         offset: 25,
       };
-      element._paramsChanged(value).then(() => {
-        assert.isTrue(element.restApiService.getRepos.lastCall
-            .calledWithExactly('test', 25, 25));
-        done();
-      });
+      await element._paramsChanged(value);
+      assert.isTrue(repoStub.lastCall.calledWithExactly('test', 25, 25));
     });
 
     test('latest repos requested are always set', done => {
-      const repoStub = sinon.stub(element.restApiService, 'getRepos');
+      const repoStub = stubRestApi('getRepos');
       repoStub.withArgs('test').returns(Promise.resolve(repos));
       repoStub.withArgs('filter').returns(Promise.resolve(reposFiltered));
       element._filter = 'test';

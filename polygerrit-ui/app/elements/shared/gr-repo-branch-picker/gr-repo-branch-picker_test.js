@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo-branch-picker.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo-branch-picker');
 
@@ -28,8 +29,9 @@ suite('gr-repo-branch-picker tests', () => {
   });
 
   suite('_getRepoSuggestions', () => {
+    let getReposStub;
     setup(() => {
-      sinon.stub(element.restApiService, 'getRepos')
+      getReposStub = stubRestApi('getRepos')
           .returns(Promise.resolve([
             {
               id: 'plugins%2Favatars-external',
@@ -47,25 +49,25 @@ suite('gr-repo-branch-picker tests', () => {
           ]));
     });
 
-    test('converts to suggestion objects', () => {
+    test('converts to suggestion objects', async () => {
       const input = 'plugins/avatars';
-      return element._getRepoSuggestions(input).then(suggestions => {
-        assert.isTrue(element.restApiService.getRepos.calledWith(input));
-        const unencodedNames = [
-          'plugins/avatars-external',
-          'plugins/avatars-gravatar',
-          'plugins/avatars/external',
-          'plugins/avatars/gravatar',
-        ];
-        assert.deepEqual(suggestions.map(s => s.name), unencodedNames);
-        assert.deepEqual(suggestions.map(s => s.value), unencodedNames);
-      });
+      const suggestions = await element._getRepoSuggestions(input);
+      assert.isTrue(getReposStub.calledWith(input));
+      const unencodedNames = [
+        'plugins/avatars-external',
+        'plugins/avatars-gravatar',
+        'plugins/avatars/external',
+        'plugins/avatars/gravatar',
+      ];
+      assert.deepEqual(suggestions.map(s => s.name), unencodedNames);
+      assert.deepEqual(suggestions.map(s => s.value), unencodedNames);
     });
   });
 
   suite('_getRepoBranchesSuggestions', () => {
+    let getRepoBranchesStub;
     setup(() => {
-      sinon.stub(element.restApiService, 'getRepoBranches')
+      getRepoBranchesStub = stubRestApi('getRepoBranches')
           .returns(Promise.resolve([
             {ref: 'refs/heads/stable-2.10'},
             {ref: 'refs/heads/stable-2.11'},
@@ -76,48 +78,43 @@ suite('gr-repo-branch-picker tests', () => {
           ]));
     });
 
-    test('converts to suggestion objects', () => {
+    test('converts to suggestion objects', async () => {
       const repo = 'gerrit';
       const branchInput = 'stable-2.1';
       element.repo = repo;
-      return element._getRepoBranchesSuggestions(branchInput)
-          .then(suggestions => {
-            assert.isTrue(element.restApiService.getRepoBranches.calledWith(
-                branchInput, repo, 15));
-            const refNames = [
-              'stable-2.10',
-              'stable-2.11',
-              'stable-2.12',
-              'stable-2.13',
-              'stable-2.14',
-              'stable-2.15',
-            ];
-            assert.deepEqual(suggestions.map(s => s.name), refNames);
-            assert.deepEqual(suggestions.map(s => s.value), refNames);
-          });
+      const suggestions =
+          await element._getRepoBranchesSuggestions(branchInput);
+      assert.isTrue(getRepoBranchesStub.calledWith(branchInput, repo, 15));
+      const refNames = [
+        'stable-2.10',
+        'stable-2.11',
+        'stable-2.12',
+        'stable-2.13',
+        'stable-2.14',
+        'stable-2.15',
+      ];
+      assert.deepEqual(suggestions.map(s => s.name), refNames);
+      assert.deepEqual(suggestions.map(s => s.value), refNames);
     });
 
-    test('filters out ref prefix', () => {
+    test('filters out ref prefix', async () => {
       const repo = 'gerrit';
       const branchInput = 'refs/heads/stable-2.1';
       element.repo = repo;
       return element._getRepoBranchesSuggestions(branchInput)
           .then(suggestions => {
-            assert.isTrue(element.restApiService.getRepoBranches.calledWith(
+            assert.isTrue(getRepoBranchesStub.calledWith(
                 'stable-2.1', repo, 15));
           });
     });
 
-    test('does not query when repo is unset', () => element
-        ._getRepoBranchesSuggestions('')
-        .then(() => {
-          assert.isFalse(element.restApiService.getRepoBranches.called);
-          element.repo = 'gerrit';
-          return element._getRepoBranchesSuggestions('');
-        })
-        .then(() => {
-          assert.isTrue(element.restApiService.getRepoBranches.called);
-        }));
+    test('does not query when repo is unset', async () => {
+      await element._getRepoBranchesSuggestions('');
+      assert.isFalse(getRepoBranchesStub.called);
+      element.repo = 'gerrit';
+      await element._getRepoBranchesSuggestions('');
+      assert.isTrue(getRepoBranchesStub.called);
+    });
   });
 });
 

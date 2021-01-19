@@ -47,6 +47,29 @@ export interface ResponsePayload {
   raw: string;
 }
 
+export function readResponsePayload(
+  response: Response
+): Promise<ResponsePayload> {
+  return response.text().then(text => {
+    let result;
+    try {
+      result = parsePrefixedJSON(text);
+    } catch (_) {
+      result = null;
+    }
+    // TODO(TS): readResponsePayload can assign null to the parsed property if
+    // it can't parse input data. However polygerrit assumes in many places
+    // that the parsed property can't be null. We should update
+    // readResponsePayload method and reject a promise instead of assigning
+    // null to the parsed property
+    return {parsed: result!, raw: text};
+  });
+}
+
+export function parsePrefixedJSON(jsonWithPrefix: string): ParsedJSON {
+  return JSON.parse(jsonWithPrefix.substring(JSON_PREFIX.length)) as ParsedJSON;
+}
+
 /**
  * Wrapper around Map for caching server responses. Site-based so that
  * changes to CANONICAL_PATH will result in a different cache going into
@@ -390,30 +413,7 @@ s   */
   }
 
   getResponseObject(response: Response): Promise<ParsedJSON> {
-    return this.readResponsePayload(response).then(payload => payload.parsed);
-  }
-
-  readResponsePayload(response: Response): Promise<ResponsePayload> {
-    return response.text().then(text => {
-      let result;
-      try {
-        result = this.parsePrefixedJSON(text);
-      } catch (_) {
-        result = null;
-      }
-      // TODO(TS): readResponsePayload can assign null to the parsed property if
-      // it can't parse input data. However polygerrit assumes in many places
-      // that the parsed property can't be null. We should update
-      // readResponsePayload method and reject a promise instead of assigning
-      // null to the parsed property
-      return {parsed: result!, raw: text};
-    });
-  }
-
-  parsePrefixedJSON(jsonWithPrefix: string): ParsedJSON {
-    return JSON.parse(
-      jsonWithPrefix.substring(JSON_PREFIX.length)
-    ) as ParsedJSON;
+    return readResponsePayload(response).then(payload => payload.parsed);
   }
 
   addAcceptJsonHeader(req: FetchJSONRequest) {

@@ -19,31 +19,20 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
 import {GrPluginRestApi} from './gr-plugin-rest-api.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-plugin-rest-api tests', () => {
   let instance;
-
   let getResponseObjectStub;
   let sendStub;
-  let restApiStub;
 
   setup(() => {
-    getResponseObjectStub = sinon.stub().returns(Promise.resolve());
-    sendStub = sinon.stub().returns(Promise.resolve({status: 200}));
-    restApiStub = {
-      getAccount: () => Promise.resolve({name: 'Judy Hopps'}),
-      getResponseObject: getResponseObjectStub,
-      send: sendStub,
-      getLoggedIn: sinon.stub(),
-      getVersion: sinon.stub(),
-      getConfig: sinon.stub(),
-    };
-    stub('gr-rest-api-interface', Object.keys(restApiStub).reduce((a, k) => {
-      a[k] = (...args) => restApiStub[k](...args);
-      return a;
-    }, {}));
+    stubRestApi('getAccount').returns(Promise.resolve({name: 'Judy Hopps'}));
+    getResponseObjectStub = stubRestApi('getResponseObject').returns(
+        Promise.resolve());
+    sendStub = stubRestApi('send').returns(Promise.resolve({status: 200}));
     pluginApi.install(p => {}, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     instance = new GrPluginRestApi();
@@ -119,25 +108,25 @@ suite('gr-plugin-rest-api tests', () => {
   });
 
   test('getLoggedIn', () => {
-    restApiStub.getLoggedIn.returns(Promise.resolve(true));
+    const stub = stubRestApi('getLoggedIn').returns(Promise.resolve(true));
     return instance.getLoggedIn().then(result => {
-      assert.isTrue(restApiStub.getLoggedIn.calledOnce);
+      assert.isTrue(stub.calledOnce);
       assert.isTrue(result);
     });
   });
 
   test('getVersion', () => {
-    restApiStub.getVersion.returns(Promise.resolve('foo bar'));
+    const stub = stubRestApi('getVersion').returns(Promise.resolve('foo bar'));
     return instance.getVersion().then(result => {
-      assert.isTrue(restApiStub.getVersion.calledOnce);
+      assert.isTrue(stub.calledOnce);
       assert.equal(result, 'foo bar');
     });
   });
 
   test('getConfig', () => {
-    restApiStub.getConfig.returns(Promise.resolve('foo bar'));
+    const stub = stubRestApi('getConfig').returns(Promise.resolve('foo bar'));
     return instance.getConfig().then(result => {
-      assert.isTrue(restApiStub.getConfig.calledOnce);
+      assert.isTrue(stub.calledOnce);
       assert.equal(result, 'foo bar');
     });
   });

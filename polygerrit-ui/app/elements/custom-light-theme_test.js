@@ -17,9 +17,9 @@
 
 import '../test/common-test-setup-karma.js';
 import {getComputedStyleValue} from '../utils/dom-util.js';
-import './shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import './gr-app.js';
 import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
+import {stubRestApi} from '../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-app');
 
@@ -27,14 +27,11 @@ suite('gr-app custom light theme tests', () => {
   let element;
   setup(done => {
     window.localStorage.removeItem('dark-theme');
-    stub('gr-rest-api-interface', {
-      getConfig() { return Promise.resolve({test: 'config'}); },
-      getAccount() { return Promise.resolve({}); },
-      getDiffComments() { return Promise.resolve({}); },
-      getDiffRobotComments() { return Promise.resolve({}); },
-      getDiffDrafts() { return Promise.resolve({}); },
-      _fetchSharedCacheURL() { return Promise.resolve({}); },
-    });
+    stubRestApi('getConfig').returns(Promise.resolve({test: 'config'}));
+    stubRestApi('getAccount').returns(Promise.resolve({}));
+    stubRestApi('getDiffComments').returns(Promise.resolve({}));
+    stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
+    stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
     element = basicFixture.instantiate();
     getPluginLoader().loadPlugins([]);
     getPluginLoader().awaitPluginsLoaded()

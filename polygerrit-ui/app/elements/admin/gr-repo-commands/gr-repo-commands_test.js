@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo-commands.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo-commands');
 
@@ -31,8 +32,7 @@ suite('gr-repo-commands tests', () => {
     // Note that this probably does not achieve what it is supposed to, because
     // getProjectConfig() is called as soon as the element is attached, so
     // stubbing it here has not effect anymore.
-    repoStub = sinon.stub(element.restApiService, 'getProjectConfig')
-        .returns(Promise.resolve({}));
+    repoStub = stubRestApi('getProjectConfig').returns(Promise.resolve({}));
   });
 
   suite('create new change dialog', () => {
@@ -68,7 +68,7 @@ suite('gr-repo-commands tests', () => {
     let alertStub;
 
     setup(() => {
-      createChangeStub = sinon.stub(element.restApiService, 'createChange');
+      createChangeStub = stubRestApi('createChange');
       urlStub = sinon.stub(GerritNav, 'getEditUrlForDiff');
       sinon.stub(GerritNav, 'navigateToRelativeUrl');
       handleSpy = sinon.spy(element, '_handleEditRepoConfig');
@@ -118,11 +118,9 @@ suite('gr-repo-commands tests', () => {
       element.repo = 'test';
 
       const response = {status: 404};
-      sinon.stub(
-          element.restApiService, 'getProjectConfig')
-          .callsFake((repo, errFn) => {
-            errFn(response);
-          });
+      stubRestApi('getProjectConfig').callsFake((repo, errFn) => {
+        errFn(response);
+      });
       element.addEventListener('page-error', e => {
         assert.deepEqual(e.detail.response, response);
         done();

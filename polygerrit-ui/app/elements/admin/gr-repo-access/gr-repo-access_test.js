@@ -20,6 +20,7 @@ import './gr-repo-access.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {toSortedPermissionsArray} from '../../../utils/access-util.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo-access');
 
@@ -101,11 +102,8 @@ suite('gr-repo-access tests', () => {
   };
   setup(() => {
     element = basicFixture.instantiate();
-    stub('gr-rest-api-interface', {
-      getAccount() { return Promise.resolve(null); },
-    });
-    repoStub = sinon.stub(element.restApiService, 'getRepo').returns(
-        Promise.resolve(repoRes));
+    stubRestApi('getAccount').returns(Promise.resolve(null));
+    repoStub = stubRestApi('getRepo').returns(Promise.resolve(repoRes));
     element._loading = false;
     element._ownerOf = [];
     element._canUpload = false;
@@ -118,14 +116,14 @@ suite('gr-repo-access tests', () => {
   });
 
   test('_repoChanged', done => {
-    const accessStub = sinon.stub(element.restApiService,
+    const accessStub = stubRestApi(
         'getRepoAccessRights');
 
     accessStub.withArgs('New Repo').returns(
         Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
     accessStub.withArgs('Another New Repo')
         .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
-    const capabilitiesStub = sinon.stub(element.restApiService,
+    const capabilitiesStub = stubRestApi(
         'getCapabilities');
     capabilitiesStub.returns(Promise.resolve(capabilitiesRes));
 
@@ -160,9 +158,9 @@ suite('gr-repo-access tests', () => {
         name: 'Access Database',
       },
     };
-    const accessStub = sinon.stub(element.restApiService, 'getRepoAccessRights')
+    const accessStub = stubRestApi('getRepoAccessRights')
         .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
-    const capabilitiesStub = sinon.stub(element.restApiService,
+    const capabilitiesStub = stubRestApi(
         'getCapabilities').returns(Promise.resolve(capabilitiesRes));
 
     element._repoChanged().then(() => {
@@ -240,11 +238,9 @@ suite('gr-repo-access tests', () => {
   test('fires page-error', done => {
     const response = {status: 404};
 
-    sinon.stub(
-        element.restApiService, 'getRepoAccessRights')
-        .callsFake((repoName, errFn) => {
-          errFn(response);
-        });
+    stubRestApi('getRepoAccessRights').callsFake((repoName, errFn) => {
+      errFn(response);
+    });
 
     element.addEventListener('page-error', e => {
       assert.deepEqual(e.detail.response, response);
@@ -378,7 +374,7 @@ suite('gr-repo-access tests', () => {
 
     test('_handleSaveForReview', () => {
       const saveStub =
-          sinon.stub(element.restApiService, 'setRepoAccessRightsForReview');
+          stubRestApi('setRepoAccessRightsForReview');
       sinon.stub(element, '_computeAddAndRemove').returns({
         add: {},
         remove: {},
@@ -1161,11 +1157,11 @@ suite('gr-repo-access tests', () => {
           },
         },
       };
-      sinon.stub(element.restApiService, 'getRepoAccessRights').returns(
+      stubRestApi('getRepoAccessRights').returns(
           Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
       sinon.stub(GerritNav, 'navigateToChange');
       let resolver;
-      const saveStub = sinon.stub(element.restApiService,
+      const saveStub = stubRestApi(
           'setRepoAccessRights')
           .returns(new Promise(r => resolver = r));
 
@@ -1208,11 +1204,11 @@ suite('gr-repo-access tests', () => {
           },
         },
       };
-      sinon.stub(element.restApiService, 'getRepoAccessRights').returns(
+      stubRestApi('getRepoAccessRights').returns(
           Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
       sinon.stub(GerritNav, 'navigateToChange');
       let resolver;
-      const saveForReviewStub = sinon.stub(element.restApiService,
+      const saveForReviewStub = stubRestApi(
           'setRepoAccessRightsForReview')
           .returns(new Promise(r => resolver = r));
 

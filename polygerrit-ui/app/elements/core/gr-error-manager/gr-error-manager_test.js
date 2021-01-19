@@ -19,6 +19,8 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-error-manager.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {__testOnly_ErrorType} from './gr-error-manager.js';
+import {stubRestApi} from '../../../test/test-utils.js';
+import {appContext} from '../../../services/app-context.js';
 
 const basicFixture = fixtureFromElement('gr-error-manager');
 
@@ -30,10 +32,14 @@ suite('gr-error-manager tests', () => {
   suite('when authed', () => {
     let toastSpy;
     let openOverlaySpy;
+    let fetchStub;
+    let getLoggedInStub;
 
     setup(() => {
-      sinon.stub(window, 'fetch')
+      fetchStub = sinon.stub(window, 'fetch')
           .returns(Promise.resolve({ok: true, status: 204}));
+      getLoggedInStub = stubRestApi('getLoggedIn')
+          .callsFake(() => appContext.authService.authCheck());
       element = basicFixture.instantiate();
       element._authService.clearCache();
       toastSpy = sinon.spy(element, '_createToastAlert');
@@ -67,8 +73,7 @@ suite('gr-error-manager tests', () => {
               element, '_showAuthErrorAlert'
           );
           const responseText = Promise.resolve('Authentication required\n');
-          sinon.stub(element.restApiService, 'getLoggedIn')
-              .returns(Promise.resolve(true));
+          getLoggedInStub.returns(Promise.resolve(true));
           element.dispatchEvent(
               new CustomEvent('server-error', {
                 detail:
@@ -81,36 +86,33 @@ suite('gr-error-manager tests', () => {
           });
         });
 
-    test('recheck auth for 403 with auth error if authed before', done => {
-      // starts with authed state
-      element.restApiService.getLoggedIn();
+    test('recheck auth for 403 with auth error if authed before', async () => {
+      // Set status to AUTHED.
+      appContext.authService.authCheck();
       const responseText = Promise.resolve('Authentication required\n');
-      sinon.stub(element.restApiService, 'getLoggedIn')
-          .returns(Promise.resolve(true));
+      getLoggedInStub.returns(Promise.resolve(true));
       element.dispatchEvent(
           new CustomEvent('server-error', {
             detail:
           {response: {status: 403, text() { return responseText; }}},
             composed: true, bubbles: true,
           }));
-      flush(() => {
-        assert.isTrue(element.restApiService.getLoggedIn.calledOnce);
-        done();
-      });
+      await flush();
+      assert.isTrue(getLoggedInStub.calledOnce);
     });
 
     test('show logged in error', () => {
-      sinon.stub(element, '_showAuthErrorAlert');
+      const spy = sinon.spy(element, '_showAuthErrorAlert');
       element.dispatchEvent(
           new CustomEvent('show-auth-required', {
             composed: true, bubbles: true,
           }));
-      assert.isTrue(element._showAuthErrorAlert.calledWithExactly(
+      assert.isTrue(spy.calledWithExactly(
           'Log in is required to perform that action.', 'Log in.'));
     });
 
     test('show normal Error', done => {
-      const showErrorStub = sinon.stub(element, '_showErrorDialog');
+      const showErrorSpy = sinon.spy(element, '_showErrorDialog');
       const textSpy = sinon.spy(() => Promise.resolve('ZOMG'));
       element.dispatchEvent(
           new CustomEvent('server-error', {
@@ -120,8 +122,8 @@ suite('gr-error-manager tests', () => {
 
       assert.isTrue(textSpy.called);
       flush(() => {
-        assert.isTrue(showErrorStub.calledOnce);
-        assert.isTrue(showErrorStub.lastCall.calledWithExactly(
+        assert.isTrue(showErrorSpy.calledOnce);
+        assert.isTrue(showErrorSpy.lastCall.calledWithExactly(
             'Error 500: ZOMG'));
         done();
       });
@@ -240,27 +242,27 @@ suite('gr-error-manager tests', () => {
     });
 
     test('show auth refresh toast', async () => {
-      // starts with authed state
-      element.restApiService.getLoggedIn();
-      const refreshStub = sinon.stub(element.restApiService,
+      // Set status to AUTHED.
+      appContext.authService.authCheck();
+      const refreshStub = stubRestApi(
           'getAccount').callsFake(
           () => Promise.resolve({}));
       const windowOpen = sinon.stub(window, 'open');
       const responseText = Promise.resolve('Authentication required\n');
       // fake failed auth
-      window.fetch.returns(Promise.resolve({status: 403}));
+      fetchStub.returns(Promise.resolve({status: 403}));
       element.dispatchEvent(
           new CustomEvent('server-error', {
             detail:
           {response: {status: 403, text() { return responseText; }}},
             composed: true, bubbles: true,
           }));
-      assert.equal(window.fetch.callCount, 1);
+      assert.equal(fetchStub.callCount, 1);
       await flush();
 
       // here needs two flush as there are two chanined
       // promises on server-error handler and flush only flushes one
-      assert.equal(window.fetch.callCount, 2);
+      assert.equal(fetchStub.callCount, 2);
       await flush();
       // Sometime overlay opens with delay, waiting while open is complete
       await openOverlaySpy.lastCall.returnValue;
@@ -294,7 +296,7 @@ suite('gr-error-manager tests', () => {
       const hideToastSpy = sinon.spy(toast, 'hide');
 
       // now fake authed
-      window.fetch.returns(Promise.resolve({status: 204}));
+      fetchStub.returns(Promise.resolve({status: 204}));
       element._handleWindowFocus();
       element.flushDebouncer('checkLoggedIn');
       await flush();
@@ -313,8 +315,8 @@ suite('gr-error-manager tests', () => {
     });
 
     test('auth toast should dismiss existing toast', async () => {
-      // starts with authed state
-      element.restApiService.getLoggedIn();
+      // Set status to AUTHED.
+      appContext.authService.authCheck();
       const responseText = Promise.resolve('Authentication required\n');
 
       // fake an alert
@@ -329,18 +331,18 @@ suite('gr-error-manager tests', () => {
           toast.root.textContent, 'test reload');
 
       // fake auth
-      window.fetch.returns(Promise.resolve({status: 403}));
+      fetchStub.returns(Promise.resolve({status: 403}));
       element.dispatchEvent(
           new CustomEvent('server-error', {
             detail:
           {response: {status: 403, text() { return responseText; }}},
             composed: true, bubbles: true,
           }));
-      assert.equal(window.fetch.callCount, 1);
+      assert.equal(fetchStub.callCount, 1);
       await flush();
       // here needs two flush as there are two chained
       // promises on server-error handler and flush only flushes one
-      assert.equal(window.fetch.callCount, 2);
+      assert.equal(fetchStub.callCount, 2);
       await flush();
       // Sometime overlay opens with delay, waiting while open is complete
       await openOverlaySpy.lastCall.returnValue;
@@ -353,8 +355,8 @@ suite('gr-error-manager tests', () => {
     });
 
     test('regular toast should dismiss regular toast', () => {
-      // starts with authed state
-      element.restApiService.getLoggedIn();
+      // Set status to AUTHED.
+      appContext.authService.authCheck();
 
       // fake an alert
       element.dispatchEvent(
@@ -379,23 +381,23 @@ suite('gr-error-manager tests', () => {
     });
 
     test('regular toast should not dismiss auth toast', done => {
-      // starts with authed state
-      element.restApiService.getLoggedIn();
+      // Set status to AUTHED.
+      appContext.authService.authCheck();
       const responseText = Promise.resolve('Authentication required\n');
 
       // fake auth
-      window.fetch.returns(Promise.resolve({status: 403}));
+      fetchStub.returns(Promise.resolve({status: 403}));
       element.dispatchEvent(
           new CustomEvent('server-error', {
             detail:
           {response: {status: 403, text() { return responseText; }}},
             composed: true, bubbles: true,
           }));
-      assert.equal(window.fetch.callCount, 1);
+      assert.equal(fetchStub.callCount, 1);
       flush(() => {
         // here needs two flush as there are two chained
         // promises on server-error handler and flush only flushes one
-        assert.equal(window.fetch.callCount, 2);
+        assert.equal(fetchStub.callCount, 2);
         flush(() => {
           let toast = toastSpy.lastCall.returnValue;
           assert.include(
@@ -457,7 +459,7 @@ suite('gr-error-manager tests', () => {
 
     test('refreshes with same credentials', done => {
       const accountPromise = Promise.resolve({_account_id: 1234});
-      sinon.stub(element.restApiService, 'getAccount')
+      stubRestApi('getAccount')
           .returns(accountPromise);
       const requestCheckStub = sinon.stub(element, '_requestCheckLoggedIn');
       const handleRefreshStub = sinon.stub(element,
@@ -514,7 +516,7 @@ suite('gr-error-manager tests', () => {
 
     test('reloads when refreshed credentials differ', done => {
       const accountPromise = Promise.resolve({_account_id: 1234});
-      sinon.stub(element.restApiService, 'getAccount')
+      stubRestApi('getAccount')
           .returns(accountPromise);
       const requestCheckStub = sinon.stub(
           element,
@@ -539,9 +541,7 @@ suite('gr-error-manager tests', () => {
   suite('when not authed', () => {
     let toastSpy;
     setup(() => {
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
-      });
+      stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       element = basicFixture.instantiate();
       toastSpy = sinon.spy(element, '_createToastAlert');
     });

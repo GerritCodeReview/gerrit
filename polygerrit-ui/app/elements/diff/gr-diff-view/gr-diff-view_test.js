@@ -29,6 +29,7 @@ import {
   createRevisions,
   createComment,
 } from '../../../test/test-data-generators.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -88,43 +89,24 @@ suite('gr-diff-view tests', () => {
       };
     }
 
+    let getDiffChangeDetailStub;
+    let getReviewedFilesStub;
     setup(async () => {
       clock = sinon.useFakeTimers();
-      stub('gr-rest-api-interface', {
-        getConfig() {
-          return Promise.resolve({change: {}});
-        },
-        getLoggedIn() {
-          return Promise.resolve(false);
-        },
-        getProjectConfig() {
-          return Promise.resolve({});
-        },
-        getDiffChangeDetail() {
-          return Promise.resolve({});
-        },
-        getChangeFiles() {
-          return Promise.resolve({});
-        },
-        saveFileReviewed() {
-          return Promise.resolve();
-        },
-        getDiffComments() {
-          return Promise.resolve({});
-        },
-        getDiffRobotComments() {
-          return Promise.resolve({});
-        },
-        getDiffDrafts() {
-          return Promise.resolve({});
-        },
-        getPortedComments() {
-          return Promise.resolve({});
-        },
-        getReviewedFiles() {
-          return Promise.resolve([]);
-        },
-      });
+      stubRestApi('getConfig').returns(Promise.resolve({change: {}}));
+      stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+      stubRestApi('getProjectConfig').returns(Promise.resolve({}));
+      getDiffChangeDetailStub = stubRestApi('getDiffChangeDetail').returns(
+          Promise.resolve({}));
+      stubRestApi('getChangeFiles').returns(Promise.resolve({}));
+      stubRestApi('saveFileReviewed').returns(Promise.resolve());
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+      stubRestApi('getPortedComments').returns(Promise.resolve({}));
+      getReviewedFilesStub = stubRestApi('getReviewedFiles').returns(
+          Promise.resolve([]));
+
       element = basicFixture.instantiate();
       element._changeNum = '42';
       element._path = 'some/path.txt';
@@ -345,13 +327,11 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, '_loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.spy(element, '_paramsChanged');
-      element.restApiService.getDiffChangeDetail.restore();
-      sinon.stub(element.restApiService, 'getDiffChangeDetail')
-          .returns(
-              Promise.resolve({
-                ...createChange(),
-                revisions: createRevisions(11),
-              }));
+      getDiffChangeDetailStub.returns(
+          Promise.resolve({
+            ...createChange(),
+            revisions: createRevisions(11),
+          }));
       element._patchRange = {
         patchNum: 2,
         basePatchNum: 1,
@@ -1218,7 +1198,7 @@ suite('gr-diff-view tests', () => {
       const prefsPromise = new Promise(resolve => {
         resolvePrefs = resolve;
       });
-      sinon.stub(element.restApiService, 'getPreferences')
+      stubRestApi('getPreferences')
           .callsFake(() => prefsPromise);
 
       // Attach a new gr-diff-view so we can intercept the preferences fetch.
@@ -1607,10 +1587,7 @@ suite('gr-diff-view tests', () => {
 
     test('_getReviewedStatus', () => {
       const promises = [];
-      element.restApiService.getReviewedFiles.restore();
-
-      sinon.stub(element.restApiService, 'getReviewedFiles')
-          .returns(Promise.resolve(['path']));
+      getReviewedFilesStub.returns(Promise.resolve(['path']));
 
       promises.push(element._getReviewedStatus(true, null, null, 'path')
           .then(reviewed => assert.isFalse(reviewed)));
@@ -1674,7 +1651,7 @@ suite('gr-diff-view tests', () => {
 
     test('_paramsChanged sets in projectLookup', () => {
       sinon.stub(element, '_initLineOfInterestAndCursor');
-      const setStub = sinon.stub(element.restApiService, 'setInProjectLookup');
+      const setStub = stubRestApi('setInProjectLookup');
       element._paramsChanged({
         view: GerritNav.View.DIFF,
         changeNum: 101,
@@ -1851,18 +1828,17 @@ suite('gr-diff-view tests', () => {
         'file1.txt': {},
         'a/b/test.c': {},
       };
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({change: {}}); },
-        getLoggedIn() { return Promise.resolve(false); },
-        getProjectConfig() { return Promise.resolve({}); },
-        getDiffChangeDetail() { return Promise.resolve({}); },
-        getChangeFiles() { return Promise.resolve(changedFiles); },
-        saveFileReviewed() { return Promise.resolve(); },
-        getDiffComments() { return Promise.resolve({}); },
-        getDiffRobotComments() { return Promise.resolve({}); },
-        getDiffDrafts() { return Promise.resolve({}); },
-        getReviewedFiles() { return Promise.resolve([]); },
-      });
+      stubRestApi('getConfig').returns(Promise.resolve({change: {}}));
+      stubRestApi('getLoggedIn').returns(Promise.resolve(true));
+      stubRestApi('getProjectConfig').returns(Promise.resolve({}));
+      stubRestApi('getDiffChangeDetail').returns(Promise.resolve({}));
+      stubRestApi('getChangeFiles').returns(Promise.resolve(changedFiles));
+      stubRestApi('saveFileReviewed').returns(Promise.resolve());
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+      stubRestApi('getReviewedFiles').returns(
+          Promise.resolve([]));
       element = basicFixture.instantiate();
       element._changeNum = '42';
       return element._loadComments();

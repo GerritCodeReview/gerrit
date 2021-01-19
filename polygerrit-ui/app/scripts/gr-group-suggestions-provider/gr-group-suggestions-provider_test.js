@@ -16,12 +16,11 @@
  */
 
 import '../../test/common-test-setup-karma.js';
-import '../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {GrGroupSuggestionsProvider} from './gr-group-suggestions-provider.js';
 import {appContext} from '../../services/app-context.js';
+import {stubRestApi} from '../../test/test-utils.js';
 
 suite('GrGroupSuggestionsProvider tests', () => {
-  let restAPI;
   let provider;
   const group1 = {
     name: 'Some name',
@@ -34,16 +33,13 @@ suite('GrGroupSuggestionsProvider tests', () => {
   };
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getConfig() { return Promise.resolve({}); },
-    });
-    restAPI = appContext.restApiService;
-    provider = new GrGroupSuggestionsProvider(restAPI);
+    stubRestApi('getConfig').returns(Promise.resolve({}));
+    provider = new GrGroupSuggestionsProvider(appContext.restApiService);
   });
 
   test('getSuggestions', done => {
     const getSuggestedAccountsStub =
-        sinon.stub(restAPI, 'getSuggestedGroups')
+        stubRestApi('getSuggestedGroups')
             .returns(Promise.resolve({
               'Some name': {id: 1},
               'Other name': {id: 3, url: 'abcd'},

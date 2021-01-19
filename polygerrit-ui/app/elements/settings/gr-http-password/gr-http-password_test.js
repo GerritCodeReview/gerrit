@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-http-password.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-http-password');
 
@@ -29,10 +30,8 @@ suite('gr-http-password tests', () => {
     account = {username: 'user name'};
     config = {auth: {}};
 
-    stub('gr-rest-api-interface', {
-      getAccount() { return Promise.resolve(account); },
-      getConfig() { return Promise.resolve(config); },
-    });
+    stubRestApi('getAccount').returns(Promise.resolve(account));
+    stubRestApi('getConfig').returns(Promise.resolve(config));
 
     element = basicFixture.instantiate();
     element.loadData().then(() => { flush(done); });
@@ -42,7 +41,7 @@ suite('gr-http-password tests', () => {
     const button = element.$.generateButton;
     const nextPassword = 'the new password';
     let generateResolve;
-    const generateStub = sinon.stub(element.restApiService,
+    const generateStub = stubRestApi(
         'generateAccountHttpPassword')
         .callsFake(() => new Promise(resolve => {
           generateResolve = resolve;

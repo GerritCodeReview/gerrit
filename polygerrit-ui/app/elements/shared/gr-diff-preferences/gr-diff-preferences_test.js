@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-diff-preferences.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-diff-preferences');
 
@@ -50,11 +51,7 @@ suite('gr-diff-preferences tests', () => {
       ignore_whitespace: 'IGNORE_NONE',
     };
 
-    stub('gr-rest-api-interface', {
-      getDiffPreferences() {
-        return Promise.resolve(diffPreferences);
-      },
-    });
+    stubRestApi('getDiffPreferences').returns(Promise.resolve(diffPreferences));
 
     element = basicFixture.instantiate();
 
@@ -89,7 +86,7 @@ suite('gr-diff-preferences tests', () => {
   });
 
   test('save changes', () => {
-    sinon.stub(element.restApiService, 'saveDiffPreferences')
+    stubRestApi('saveDiffPreferences')
         .returns(Promise.resolve());
     const showTrailingWhitespaceCheckbox =
         valueOf('Show trailing whitespace', 'diffPreferences')

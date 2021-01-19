@@ -18,11 +18,10 @@
 import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff.js';
 import './gr-diff-cursor.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {listenOnce} from '../../../test/test-utils.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
-import {appContext} from '../../../services/app-context.js';
+import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromTemplate(html`
   <gr-diff></gr-diff>
@@ -40,7 +39,6 @@ suite('gr-diff-cursor tests', () => {
     const fixtureElems = basicFixture.instantiate();
     diffElement = fixtureElems[0];
     cursorElement = fixtureElems[1];
-    const restAPI = appContext.restApiService;
 
     // Register the diff with the cursor.
     cursorElement.push('diffs', diffElement);
@@ -61,10 +59,8 @@ suite('gr-diff-cursor tests', () => {
     diffElement.addEventListener('render', setupDone);
 
     diff = getMockDiffResponse();
-    restAPI.getDiffPreferences().then(prefs => {
-      diffElement.prefs = prefs;
-      diffElement.diff = diff;
-    });
+    diffElement.prefs = createDefaultDiffPrefs();
+    diffElement.diff = diff;
   });
 
   test('diff cursor functionality (side-by-side)', () => {
@@ -572,20 +568,17 @@ suite('gr-diff-cursor tests', () => {
 
     let diffElements;
 
-    setup(async () => {
+    setup(() => {
       const fixtureElems = multiDiffFixture.instantiate();
       diffElements = fixtureElems.slice(0, 3);
       cursorElement = fixtureElems[3];
-      const restAPI = appContext.restApiService;
 
       // Register the diff with the cursor.
       cursorElement.push('diffs', ...diffElements);
 
-      await restAPI.getDiffPreferences().then(prefs => {
-        for (const el of diffElements) {
-          el.prefs = prefs;
-        }
-      });
+      for (const el of diffElements) {
+        el.prefs = createDefaultDiffPrefs();
+      }
     });
 
     function getTargetDiffIndex() {

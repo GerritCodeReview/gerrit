@@ -22,6 +22,7 @@ import {_testOnly_resetPluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins, stubBaseUrl} from '../../../test/test-utils.js';
 import {_testOnly_flushPreinstalls} from './gr-gerrit.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-js-api-interface');
 
@@ -31,22 +32,14 @@ suite('gr-plugin-loader tests', () => {
   let plugin;
 
   let url;
-  let sendStub;
   let pluginLoader;
   let clock;
 
   setup(() => {
     clock = sinon.useFakeTimers();
 
-    sendStub = sinon.stub().returns(Promise.resolve({status: 200}));
-    stub('gr-rest-api-interface', {
-      getAccount() {
-        return Promise.resolve({name: 'Judy Hopps'});
-      },
-      send(...args) {
-        return sendStub(...args);
-      },
-    });
+    stubRestApi('getAccount').returns(Promise.resolve({name: 'Judy Hopps'}));
+    stubRestApi('send').returns(Promise.resolve({status: 200}));
     pluginLoader = _testOnly_resetPluginLoader();
     sinon.stub(document.body, 'appendChild');
     basicFixture.instantiate();

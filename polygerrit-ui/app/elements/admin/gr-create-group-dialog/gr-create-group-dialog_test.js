@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-create-group-dialog.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-create-group-dialog');
 
@@ -27,9 +28,6 @@ suite('gr-create-group-dialog tests', () => {
   const GROUP_NAME = 'test-group';
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(true); },
-    });
     element = basicFixture.instantiate();
   });
 
@@ -47,11 +45,8 @@ suite('gr-create-group-dialog tests', () => {
   });
 
   test('test for redirecting to group on successful creation', done => {
-    sinon.stub(element.restApiService, 'createGroup')
-        .returns(Promise.resolve({status: 201}));
-
-    sinon.stub(element.restApiService, 'getGroupConfig')
-        .returns(Promise.resolve({group_id: 551}));
+    stubRestApi('createGroup').returns(Promise.resolve({status: 201}));
+    stubRestApi('getGroupConfig').returns(Promise.resolve({group_id: 551}));
 
     const showStub = sinon.stub(page, 'show');
     element.handleCreateGroup()
@@ -62,11 +57,8 @@ suite('gr-create-group-dialog tests', () => {
   });
 
   test('test for unsuccessful group creation', done => {
-    sinon.stub(element.restApiService, 'createGroup')
-        .returns(Promise.resolve({status: 409}));
-
-    sinon.stub(element.restApiService, 'getGroupConfig')
-        .returns(Promise.resolve({group_id: 551}));
+    stubRestApi('createGroup').returns(Promise.resolve({status: 409}));
+    stubRestApi('getGroupConfig').returns(Promise.resolve({group_id: 551}));
 
     const showStub = sinon.stub(page, 'show');
     element.handleCreateGroup()

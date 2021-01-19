@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-admin-group-list.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import 'lodash/lodash.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-admin-group-list');
 
@@ -73,24 +74,16 @@ suite('gr-admin-group-list tests', () => {
   });
 
   suite('list with groups', () => {
-    setup(done => {
+    setup(async () => {
       groups = _.times(26, groupGenerator);
-
-      stub('gr-rest-api-interface', {
-        getGroups(num, offset) {
-          return Promise.resolve(groups);
-        },
-      });
-
-      element._paramsChanged(value).then(() => { flush(done); });
+      stubRestApi('getGroups').returns(Promise.resolve(groups));
+      element._paramsChanged(value);
+      await flush();
     });
 
-    test('test for test group in the list', done => {
-      flush(() => {
-        assert.equal(element._groups[1].name, '1');
-        assert.equal(element._groups[1].options.visible_to_all, false);
-        done();
-      });
+    test('test for test group in the list', () => {
+      assert.equal(element._groups[1].name, '1');
+      assert.equal(element._groups[1].options.visible_to_all, false);
     });
 
     test('_shownGroups', () => {
@@ -113,13 +106,7 @@ suite('gr-admin-group-list tests', () => {
   suite('test with less then 25 groups', () => {
     setup(done => {
       groups = _.times(25, groupGenerator);
-
-      stub('gr-rest-api-interface', {
-        getGroups(num, offset) {
-          return Promise.resolve(groups);
-        },
-      });
-
+      stubRestApi('getGroups').returns(Promise.resolve(groups));
       element._paramsChanged(value).then(() => { flush(done); });
     });
 
@@ -129,20 +116,15 @@ suite('gr-admin-group-list tests', () => {
   });
 
   suite('filter', () => {
-    test('_paramsChanged', done => {
-      sinon.stub(
-          element.restApiService,
-          'getGroups')
-          .callsFake(() => Promise.resolve(groups));
+    test('_paramsChanged', async () => {
+      const getGroupsStub = stubRestApi('getGroups');
+      getGroupsStub.returns(Promise.resolve(groups));
       const value = {
         filter: 'test',
         offset: 25,
       };
-      element._paramsChanged(value).then(() => {
-        assert.isTrue(element.restApiService.getGroups.lastCall
-            .calledWithExactly('test', 25, 25));
-        done();
-      });
+      await element._paramsChanged(value);
+      assert.isTrue(getGroupsStub.lastCall.calledWithExactly('test', 25, 25));
     });
   });
 

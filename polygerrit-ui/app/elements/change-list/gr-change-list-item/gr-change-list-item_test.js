@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-change-list-item.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {LabelCategory} from './gr-change-list-item.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-change-list-item');
 
@@ -26,10 +27,8 @@ suite('gr-change-list-item tests', () => {
   let element;
 
   setup(() => {
-    stub('gr-rest-api-interface', {
-      getConfig() { return Promise.resolve({}); },
-      getLoggedIn() { return Promise.resolve(false); },
-    });
+    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     element = basicFixture.instantiate();
   });
 

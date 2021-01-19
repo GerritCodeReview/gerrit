@@ -14,57 +14,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ErrorCallback,
-  RestApiService,
-} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {HttpMethod} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
-
-let restApi: RestApiService | null = null;
-
-export function _testOnlyResetRestApi() {
-  restApi = null;
-}
-
-function getRestApi(): RestApiService {
-  if (!restApi) {
-    restApi = (document.createElement(
-      'gr-rest-api-interface'
-    ) as unknown) as RestApiService;
-  }
-  return restApi;
-}
+import {appContext} from '../../../services/app-context';
 
 export class GrPluginRestApi {
+  private readonly restApi = appContext.restApiService;
+
   constructor(private readonly prefix = '') {}
 
   getLoggedIn() {
-    return getRestApi().getLoggedIn();
+    return this.restApi.getLoggedIn();
   }
 
   getVersion() {
-    return getRestApi().getVersion();
+    return this.restApi.getVersion();
   }
 
   getConfig() {
-    return getRestApi().getConfig();
+    return this.restApi.getConfig();
   }
 
   invalidateReposCache() {
-    getRestApi().invalidateReposCache();
+    this.restApi.invalidateReposCache();
   }
 
   getAccount() {
-    return getRestApi().getAccount();
+    return this.restApi.getAccount();
   }
 
   getAccountCapabilities(capabilities: string[]) {
-    return getRestApi().getAccountCapabilities(capabilities);
+    return this.restApi.getAccountCapabilities(capabilities);
   }
 
   getRepos(filter: string, reposPerPage: number, offset?: number) {
-    return getRestApi().getRepos(filter, reposPerPage, offset);
+    return this.restApi.getRepos(filter, reposPerPage, offset);
   }
 
   fetch(
@@ -101,7 +86,7 @@ export class GrPluginRestApi {
     errFn?: ErrorCallback,
     contentType?: string
   ): Promise<Response | void> {
-    return getRestApi().send(
+    return this.restApi.send(
       method,
       this.prefix + url,
       payload,
@@ -151,7 +136,7 @@ export class GrPluginRestApi {
             }
           });
         } else {
-          return getRestApi().getResponseObject(response);
+          return this.restApi.getResponseObject(response);
         }
       }
     );

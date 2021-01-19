@@ -10,4 +10,5 @@ cp -R -L polygerrit-ui/app/_pg_ts_out/* $TEST_TMPDIR
 #Can't use --root with polymer.json - see https://github.com/Polymer/tools/issues/2616
 #Change current directory to the root folder
 cd $TEST_TMPDIR/
+cat polymer.json
 $DIR/$1 lint --verbose

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aabecc7b_e5147fe6",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-19T12:52:06Z",
+      "side": 1,
+      "message": "well, according to the users that requested this feature, it\u0027s not a significant difference.\nI agree it\u0027s a bit subjective, I rephrased.",
+      "parentUuid": "9306d7e5_6082d859",
+      "revId": "1f977818c1d312a31f75cbc874ebe75d14b65107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec90a758_825ab13c",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7e2e84a_bd0858cb",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-19T12:52:06Z",
+      "side": 1,
+      "message": "This shouldn\u0027t happen yea, failing is also fine.\nI hope StorageException is OK since otherwise I\u0027d have to add PatchListNotAvailableException to 50~ methods :-)",
+      "parentUuid": "ec90a758_825ab13c",
+      "revId": "1f977818c1d312a31f75cbc874ebe75d14b65107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1aa1d028_a952bea1",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-01-19T12:29:01Z",
       "side": 1,
       "message": "copyAllScoresIfListOfFilesDidNotChange",
+      "range": {
+        "startLine": 587,
+        "startChar": 70,
+        "endLine": 587,
+        "endChar": 82
+      },
+      "revId": "1f977818c1d312a31f75cbc874ebe75d14b65107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dcbbf83_cd0e9214",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/SetLabelIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-19T12:52:06Z",
+      "side": 1,
+      "message": "good catch",
+      "parentUuid": "1aa1d028_a952bea1",
       "range": {
         "startLine": 587,
         "startChar": 70,

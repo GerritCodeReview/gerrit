@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "79d258a4_6cddf024",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-19T21:19:58Z",
+      "side": 1,
+      "message": "\u003e i was wondering about the same thing. qt is very explicit in this regard, see https://wiki.qt.io/Review_Policy point 1.2.\n\nThanks for providing that link. It helps to see what other projects do!",
+      "parentUuid": "0e00cf0e_3b8ae317",
+      "revId": "bef260ec303bea3c01eeb136ec904482f746365a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d341b18a_1c86fea6",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 3

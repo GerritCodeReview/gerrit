@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "900a6998_ad07bc09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-19T20:16:13Z",
+      "side": 1,
+      "message": "\u003e A blanket 24h waiting period will severely impact our velocity, but we could consider it for user-visible features. I\u0027ll put it on the agenda for ESC.\n\nCould you provide data at that ESC meeting (or before) showing how many changes a rule/guideline like that would have impacted? I think there\u0027s sufficient data in query results that this should be mine-able.\n\nI don\u0027t want to add bureaucracy just for the sake of bureaucracy, but I do want to adopt policies that help our community welcome contributions (including comments) from all.",
+      "parentUuid": "86ec1d2a_3a7715b8",
+      "revId": "bef260ec303bea3c01eeb136ec904482f746365a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d341b18a_1c86fea6",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 3

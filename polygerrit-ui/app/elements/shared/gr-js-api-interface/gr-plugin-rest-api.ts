@@ -36,6 +36,20 @@ function getRestApi(): RestApiService {
   return restApi;
 }
 
+async function getErrorMessage(response: Response): Promise<string> {
+  const text = await response.text();
+  return text ?? `${response.status}`;
+}
+
+// This is an internal error, that must never be visible outside of this
+// file. It is used only inside GrPluginRestApi.send method. See detailed
+// explanation in the GrPluginRestApi.send method.
+class ResponseError extends Error {
+  public constructor(readonly response: Response) {
+    super();
+  }
+}
+
 export class GrPluginRestApi {
   constructor(private readonly prefix = '') {}
 
@@ -129,11 +143,18 @@ export class GrPluginRestApi {
       errFn ??
       ((response: Response | null | undefined, error?: Error) => {
         if (error) throw error;
-        if (response) throw new Error(`${response.status}`);
+        // Some plugins shows a error message if send is failed, smth like:
+        // pluginApi.send(...).catch(err => showError(err));
+        // The response can contain an error text, but getting this text is
+        // an asynchronous operation. At the same time, the errFn must be a
+        // synchronous function.
+        // As a workaround, we throw an ResponseError here and then catches
+        // it inside a catch block below and read a message.
+        if (response) throw new ResponseError(response);
         throw new Error('Generic REST API error.');
       });
-    return this.fetch(method, url, payload, errFn, contentType).then(
-      response => {
+    return this.fetch(method, url, payload, errFn, contentType)
+      .then(response => {
         // Will typically not happen. The response can only be unset, if the
         // errFn handles the error and then returns void or undefined or null.
         // But the errFn above always throws.
@@ -143,18 +164,23 @@ export class GrPluginRestApi {
         // Will typically not happen. errFn will have dealt with that and the
         // caller will get a rejected promise already.
         if (response.status < 200 || response.status >= 300) {
-          return response.text().then(text => {
-            if (text) {
-              return Promise.reject(new Error(text));
-            } else {
-              return Promise.reject(new Error(`${response.status}`));
-            }
-          });
+          return getErrorMessage(response).then(msg =>
+            Promise.reject(new Error(msg))
+          );
         } else {
           return getRestApi().getResponseObject(response);
         }
-      }
-    );
+      })
+      .catch(err => {
+        if (err instanceof ResponseError) {
+          return new Promise((_, reject) => {
+            getErrorMessage(err.response)
+              .then(msg => new Error(msg))
+              .then(reject);
+          });
+        }
+        throw err;
+      });
   }
 
   get(url: string) {

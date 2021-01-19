@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "370cfd7e_0458e27b",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckMergeability.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-19T08:26:43Z",
+      "side": 1,
+      "message": "Drop this? Doesn\u0027t seem to be needed.",
+      "range": {
+        "startLine": 118,
+        "startChar": 8,
+        "endLine": 120,
+        "endChar": 7
+      },
+      "revId": "de5d89d4969de6151e5a404b61bdd68febede8f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

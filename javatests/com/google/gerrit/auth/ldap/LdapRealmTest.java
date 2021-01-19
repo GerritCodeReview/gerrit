@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.auth.ldap;
+package com.google.gerrit.auth.ldap;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.auth.ldap.LdapModule.GROUP_CACHE;
+import static com.google.gerrit.auth.ldap.LdapModule.GROUP_EXIST_CACHE;
+import static com.google.gerrit.auth.ldap.LdapModule.PARENT_GROUPS_CACHE;
+import static com.google.gerrit.auth.ldap.LdapModule.USERNAME_CACHE;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_CACHE;
-import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_EXIST_CACHE;
-import static com.google.gerrit.server.auth.ldap.LdapModule.PARENT_GROUPS_CACHE;
-import static com.google.gerrit.server.auth.ldap.LdapModule.USERNAME_CACHE;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;

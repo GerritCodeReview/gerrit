@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
+import com.google.gerrit.auth.AuthModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
@@ -47,6 +48,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
@@ -170,6 +172,9 @@ public class InMemoryModule extends FactoryModule {
     bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     install(cfgInjector.getInstance(GerritGlobalModule.class));
+
+    AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
+    install(new AuthModule(authConfig));
     install(new GerritApiModule());
     factory(PluginUser.Factory.class);
     install(new PluginApiModule());

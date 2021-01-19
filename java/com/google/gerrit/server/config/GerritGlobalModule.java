@@ -101,7 +101,6 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
-import com.google.gerrit.server.auth.oauth.OAuthTokenCache;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.change.AbandonOp;
@@ -219,12 +218,10 @@ import org.eclipse.jgit.transport.PreUploadHook;
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
   private final Config cfg;
-  private final AuthModule authModule;
 
   @Inject
-  GerritGlobalModule(@GerritServerConfig Config cfg, AuthModule authModule) {
+  GerritGlobalModule(@GerritServerConfig Config cfg) {
     this.cfg = cfg;
-    this.authModule = authModule;
   }
 
   @Override
@@ -234,7 +231,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(IdGenerator.class);
     bind(RulesCache.class);
     bind(BlameCache.class).to(BlameCacheImpl.class);
-    install(authModule);
     install(AccountCacheImpl.module());
     install(BatchUpdate.module());
     install(ChangeKindCacheImpl.module());
@@ -250,7 +246,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(SectionSortCache.module());
     install(SubmitStrategy.module());
     install(TagCache.module());
-    install(OAuthTokenCache.module());
     install(PureRevertCache.module());
     install(CommentContextCacheImpl.module());
 

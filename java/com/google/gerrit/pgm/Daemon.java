@@ -21,6 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.auth.AuthModule;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
@@ -505,6 +506,9 @@ public class Daemon extends SiteProgram {
     List<Module> libModules = LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE);
     libModules.addAll(testSysModules);
 
+    AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
+    modules.add(new AuthModule(authConfig));
+
     return cfgInjector.createChildInjector(ModuleOverloader.override(modules, libModules));
   }
 
@@ -589,6 +593,7 @@ public class Daemon extends SiteProgram {
     } else if (authConfig.getAuthType() == AuthType.OAUTH) {
       modules.add(new OAuthModule());
     }
+
     modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
 
     // StaticModule contains a "/*" wildcard, place it last.

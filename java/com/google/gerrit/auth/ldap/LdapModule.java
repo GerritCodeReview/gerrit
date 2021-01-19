@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.auth.ldap;
+package com.google.gerrit.auth.ldap;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;

@@ -43,6 +43,7 @@ public class LabelAssert {
     assertThat(codeReviewLabel.copyAnyScore).isNull();
     assertThat(codeReviewLabel.copyMinScore).isTrue();
     assertThat(codeReviewLabel.copyMaxScore).isNull();
+    assertThat(codeReviewLabel.copyAllScoresIfListOfFilesDidNotChange).isNull();
     assertThat(codeReviewLabel.copyAllScoresIfNoChange).isTrue();
     assertThat(codeReviewLabel.copyAllScoresIfNoCodeChange).isNull();
     assertThat(codeReviewLabel.copyAllScoresOnTrivialRebase).isTrue();

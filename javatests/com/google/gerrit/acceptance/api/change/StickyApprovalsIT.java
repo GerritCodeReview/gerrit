@@ -37,8 +37,10 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -68,6 +70,7 @@ import org.junit.Test;
 public class StickyApprovalsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ChangeOperations changeOperations;
 
   @Inject
   @Named("change_kind")
@@ -322,6 +325,96 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     ChangeInfo c = detailedChange(changeId);
     assertVotes(c, admin, 0, 0, null);
     assertVotes(c, user, 0, 0, null);
+  }
+
+  @Test
+  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded()
+      throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType("Code-Review", b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("new file")
+        .content("new content")
+        .create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // no votes are copied since the list of files changed.
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted()
+      throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType("Code-Review", b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").delete().create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // no votes are copied since the list of files changed.
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified()
+      throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType("Code-Review", b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
+    // configured for that label, and list of files didn't change.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
+  }
+
+  @Test
+  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType("Code-Review", b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").renameTo("new_file").create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
+    // configured for that label, and list of files didn't change (rename is still the same file).
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
   }
 
   @Test

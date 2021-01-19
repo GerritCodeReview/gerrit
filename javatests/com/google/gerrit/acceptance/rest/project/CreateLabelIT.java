@@ -240,6 +240,7 @@ public class CreateLabelIT extends AbstractDaemonTest {
     assertThat(createdLabel.copyAnyScore).isNull();
     assertThat(createdLabel.copyMinScore).isNull();
     assertThat(createdLabel.copyMaxScore).isNull();
+    assertThat(createdLabel.copyAllScoresIfListOfFilesDidNotChange).isNull();
     assertThat(createdLabel.copyAllScoresIfNoChange).isTrue();
     assertThat(createdLabel.copyAllScoresIfNoCodeChange).isNull();
     assertThat(createdLabel.copyAllScoresOnTrivialRebase).isNull();
@@ -447,6 +448,28 @@ public class CreateLabelIT extends AbstractDaemonTest {
     LabelDefinitionInfo createdLabel =
         gApi.projects().name(project.get()).label("foo").create(input).get();
     assertThat(createdLabel.copyMaxScore).isNull();
+  }
+
+  @Test
+  public void createWithCopyAllScoresIfListOfFilesDidNotChange() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.copyAllScoresIfListOfFilesDidNotChange = true;
+
+    LabelDefinitionInfo createdLabel =
+        gApi.projects().name(project.get()).label("foo").create(input).get();
+    assertThat(createdLabel.copyAllScoresIfListOfFilesDidNotChange).isTrue();
+  }
+
+  @Test
+  public void createWithoutCopyAllScoresIfListOfFilesDidNotChange() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.copyAllScoresIfListOfFilesDidNotChange = false;
+
+    LabelDefinitionInfo createdLabel =
+        gApi.projects().name(project.get()).label("foo").create(input).get();
+    assertThat(createdLabel.copyAllScoresIfListOfFilesDidNotChange).isNull();
   }
 
   @Test

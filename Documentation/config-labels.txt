@@ -283,6 +283,22 @@ forward when a new patch set is uploaded. This can be used to enable
 sticky approvals, reducing turn-around for trivial cleanups prior to
 submitting a change. Defaults to false.
 
+[[label_copyAllScoresIfListOfFilesDidNotChange]]
+=== `label.Label-Name.copyAllScoresIfListOfFilesDidNotChange`
+
+This policy is useful if you don't want to trigger CI or human
+verification again if the list of files didn't change.
+
+If true, all scores for the label are copied forward when a new
+patch-set is uploaded that has the same list of files as the previous
+patch-set.
+
+Renames are considered the same file when computing whether new files
+were added or old files were deleted. Hence, if there are only renames,
+scores will still be copied over.
+
+Defaults to false.
+
 [[label_copyAllScoresOnMergeFirstParentUpdate]]
 === `label.Label-Name.copyAllScoresOnMergeFirstParentUpdate`
 

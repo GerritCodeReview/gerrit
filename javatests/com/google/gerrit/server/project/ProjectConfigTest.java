@@ -77,6 +77,9 @@ public class ProjectConfigTest {
           + "  copyMaxScore = "
           + !LabelType.DEF_COPY_MAX_SCORE
           + "\n"
+          + "  copyAllScoresIfListOfFilesDidNotChange = "
+          + !LabelType.DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE
+          + "\n"
           + "  copyAllScoresOnMergeFirstParentUpdate = "
           + !LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE
           + "\n"
@@ -270,6 +273,8 @@ public class ProjectConfigTest {
     assertThat(type.isCopyAnyScore()).isNotEqualTo(LabelType.DEF_COPY_ANY_SCORE);
     assertThat(type.isCopyMinScore()).isNotEqualTo(LabelType.DEF_COPY_MIN_SCORE);
     assertThat(type.isCopyMaxScore()).isNotEqualTo(LabelType.DEF_COPY_MAX_SCORE);
+    assertThat(type.isCopyAllScoresIfListOfFilesDidNotChange())
+        .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE);
     assertThat(type.isCopyAllScoresOnMergeFirstParentUpdate())
         .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
     assertThat(type.isCopyAllScoresOnTrivialRebase())

@@ -38,6 +38,8 @@ public class LabelTypeSerializerTest {
           .setCopyAnyScore(!LabelType.DEF_COPY_ANY_SCORE)
           .setCopyMaxScore(!LabelType.DEF_COPY_MAX_SCORE)
           .setCopyMinScore(!LabelType.DEF_COPY_MIN_SCORE)
+          .setCopyAllScoresIfListOfFilesDidNotChange(
+              !LabelType.DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE)
           .setCopyAllScoresOnMergeFirstParentUpdate(
               !LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE)
           .setCopyAllScoresOnTrivialRebase(!LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE)

@@ -81,6 +81,7 @@ export const htmlTemplate = html`
     <label
       class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
       title$="[[_computeLabel(value, placeholder)]]"
+      aria-label$="[[_computeLabel(value, placeholder)]]"
       on-click="_showDropdown"
       >[[_computeLabel(value, placeholder)]]</label
     >

@@ -174,6 +174,11 @@ public class CreateLabel
       labelType.setCopyMaxScore(input.copyMaxScore);
     }
 
+    if (input.copyAllScoresIfListOfFilesDidNotChange != null) {
+      labelType.setCopyAllScoresIfListOfFilesDidNotChange(
+          input.copyAllScoresIfListOfFilesDidNotChange);
+    }
+
     if (input.copyAllScoresIfNoChange != null) {
       labelType.setCopyAllScoresIfNoChange(input.copyAllScoresIfNoChange);
     }

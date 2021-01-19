@@ -27,6 +27,7 @@ public class LabelDefinitionInput extends InputWithCommitMessage {
   public Boolean copyAnyScore;
   public Boolean copyMinScore;
   public Boolean copyMaxScore;
+  public Boolean copyAllScoresIfListOfFilesDidNotChange;
   public Boolean copyAllScoresIfNoChange;
   public Boolean copyAllScoresIfNoCodeChange;
   public Boolean copyAllScoresOnTrivialRebase;

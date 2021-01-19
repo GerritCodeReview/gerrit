@@ -39,11 +39,40 @@ const styleSheet = safeStyleSheet`
      * can be a breaking change that should go into the release notes.
      */
 
+    /* color palette */
+    --red-900: #a50e0e;
+    --red-700: #c5221f;
+    --red-200: #f6aea9;
+    --red-50: #fce8e6;
+    --blue-900: #174ea6;
+    --blue-700: #1967d2;
+    --blue-200: #aecbfa;
+    --blue-50: #e8f0fe;
+    --orange-900: #b06000;
+    --orange-700: #d56e0c;
+    --orange-200: #fdc69c;
+    --orange-50: #feefe3;
+    --gray-900: #202124;
+    --gray-700: #5f6368;
+    --gray-300: #dadce0;
+    --gray-100: #f1f3f4;
+    --gray-50: #f8f9fa;
+
+    --error-color: var(--red-900);
+    --error-foreground: var(--red-700);
+    --error-background: var(--red-50);
+    --warning-foreground: var(--orange-700);
+    --warning-background: var(--orange-50);
+    --info-foreground: var(--blue-700);
+    --info-background: var(--blue-50);
+    --gray-foreground: var(--gray-700);
+    --gray-background: var(--gray-100);
+
     /* text colors */
     --primary-text-color: black;
     --link-color: #2a66d9;
     --comment-text-color: black;
-    --deemphasized-text-color: #5F6368;
+    --deemphasized-text-color: var(--gray-700);
     --default-button-text-color: #2a66d9;
     --chip-selected-text-color: var(--default-button-text-color);
     --error-text-color: red;
@@ -78,7 +107,7 @@ const styleSheet = safeStyleSheet`
     /* TODO: Find a nicer way to combine the --assignee-highlight-color and the
        --selection-background-color than to just invent another unique color. */
     --assignee-highlight-selection-color: #f6f4d0;
-    --chip-selected-background-color: #e8f0fe;
+    --chip-selected-background-color: var(--blue-50);
     --edit-mode-background-color: #ebf5fb;
     --emphasis-color: #fff9c4;
     --hover-background-color: rgba(161, 194, 250, 0.2);
@@ -88,7 +117,7 @@ const styleSheet = safeStyleSheet`
     --tooltip-background-color: #333;
     /* comment background colors */
     --comment-background-color: #e8eaed;
-    --robot-comment-background-color: #e8f0fe;
+    --robot-comment-background-color: var(--blue-50);
     --unresolved-comment-background-color: #fef7e0;
     /* vote background colors */
     --vote-color-approved: #9fcc6b;
@@ -98,12 +127,12 @@ const styleSheet = safeStyleSheet`
     --vote-color-rejected: #f7a1ad;
 
     /* misc colors */
-    --border-color: #e8e8e8;
-    --comment-separator-color: #dadce0;
+    --border-color: var(--gray-100);
+    --comment-separator-color: var(--gray-300);
 
     /* status colors */
     --status-merged: #188038;
-    --status-abandoned: #5f6368;
+    --status-abandoned: var(--gray-700);
     --status-wip: #795548;
     --status-private: #a142f4;
     --status-conflict: #d93025;

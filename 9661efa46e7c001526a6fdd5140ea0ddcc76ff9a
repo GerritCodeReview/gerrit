@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e25d12b_95f23214",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-20T00:16:41Z",
+      "side": 1,
+      "message": "Done. updated screenshot in description.",
+      "parentUuid": "4d6d4c90_d42fad41",
+      "revId": "9661efa46e7c001526a6fdd5140ea0ddcc76ff9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d051a0d4_ef5f6db9",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-01-18T14:05:29Z",
       "side": 1,
       "message": "Better 16px here or introduce a new css variable like \u0027icon-size-small\u0027.",
+      "range": {
+        "startLine": 31,
+        "startChar": 14,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "9661efa46e7c001526a6fdd5140ea0ddcc76ff9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65944015_26c43fb7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-20T00:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d051a0d4_ef5f6db9",
       "range": {
         "startLine": 31,
         "startChar": 14,

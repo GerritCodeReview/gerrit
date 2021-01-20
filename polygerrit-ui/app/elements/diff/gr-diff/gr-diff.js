@@ -33,7 +33,6 @@ import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patc
 import {GrDiffLine} from './gr-diff-line.js';
 import {DiffSide, rangesEqual} from './gr-diff-utils.js';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll.js';
-import * as shadow from 'shadow-selection-polyfill/shadow.js';
 
 const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
 const ERR_COMMENT_ON_EDIT_BASE = 'You cannot comment on the base patch set ' +
@@ -307,12 +306,10 @@ class GrDiff extends mixinBehaviors( [
     }
 
     if (loggedIn && isAttached) {
-      this.listen(document, '-shadow-selectionchange',
-          '_handleSelectionChange');
+      this.listen(document, 'selectionchange', '_handleSelectionChange');
       this.listen(document, 'mouseup', '_handleMouseUp');
     } else {
-      this.unlisten(document, '-shadow-selectionchange',
-          '_handleSelectionChange');
+      this.unlisten(document, 'selectionchange', '_handleSelectionChange');
       this.unlisten(document, 'mouseup', '_handleMouseUp');
     }
   }
@@ -341,7 +338,7 @@ class GrDiff extends mixinBehaviors( [
     // This takes the shadow DOM selection if one exists.
     return this.root.getSelection ?
       this.root.getSelection() :
-      shadow.getRange(this.root);
+      document.getSelection();
   }
 
   _observeNodes() {

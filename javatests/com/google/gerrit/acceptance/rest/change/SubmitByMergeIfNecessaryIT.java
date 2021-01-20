@@ -29,6 +29,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -571,7 +572,11 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
         .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
         .update();
 
@@ -633,7 +638,11 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
         .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
         .update();
 
@@ -690,13 +699,21 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     projectOperations
         .project(p1)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
         .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
         .update();
     projectOperations
         .project(p2)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
         .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
         .update();
 

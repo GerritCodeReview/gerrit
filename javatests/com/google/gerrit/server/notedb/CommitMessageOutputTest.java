@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -39,7 +40,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void approvalsCommitFormatSimple() throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
     ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
-    update.putApproval("Verified", (short) 1);
+    update.putApproval(LabelId.VERIFIED, (short) 1);
     update.putApproval("Code-Review", (short) -1);
     update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
     update.putReviewer(otherUser.getAccount().id(), CC);
@@ -154,12 +155,12 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
             submitRecord(
                 "NOT_READY",
                 null,
-                submitLabel("Verified", "OK", changeOwner.getAccountId()),
+                submitLabel(LabelId.VERIFIED, "OK", changeOwner.getAccountId()),
                 submitLabel("Code-Review", "NEED", null)),
             submitRecord(
                 "NOT_READY",
                 null,
-                submitLabel("Verified", "OK", changeOwner.getAccountId()),
+                submitLabel(LabelId.VERIFIED, "OK", changeOwner.getAccountId()),
                 submitLabel("Alternative-Code-Review", "NEED", null))));
     update.commit();
 

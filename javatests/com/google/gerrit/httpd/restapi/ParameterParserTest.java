@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
@@ -41,7 +42,7 @@ public class ParameterParserTest {
             ImmutableSet.of("q"));
 
     JsonObject labels = new JsonObject();
-    labels.addProperty("Verified", "-1");
+    labels.addProperty(LabelId.VERIFIED, "-1");
     labels.addProperty("Code-Review", "2");
     JsonArray list = new JsonArray();
     list.add(new JsonPrimitive("a"));

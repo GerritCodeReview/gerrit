@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from 'lit-html';
+import {html, TemplateResult} from 'lit-html';
 import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -137,20 +137,28 @@ export class GrChecksChip extends GrLitElement {
     const count = this.runs.length || this.results.length;
     if (count === 0) return;
     if (count > this.expandMax || !this.results.length) {
-      return this.renderChipCount(count);
+      return this.renderChip(html`${count}`);
     }
-    return this.results.map(result => this.renderChipFull(result));
+    return this.results.map(result =>
+      this.renderChip(this.renderNameAndLinks(result))
+    );
   }
 
-  private renderChipFull(result: RunResult) {
+  private renderChip(content: TemplateResult) {
     const chipClass = `checksChip font-small ${this.icon}`;
     const grIcon = `gr-icons:${this.icon}`;
     return html`
       <div class="${chipClass}">
         <iron-icon icon="${grIcon}"></iron-icon>
-        <div class="checkName">${result.checkName}</div>
-        ${this.renderResultLinks(result.links ?? [])}
+        ${content}
       </div>
+    `;
+  }
+
+  private renderNameAndLinks(result: RunResult) {
+    return html`
+      <div class="checkName">${result.checkName}</div>
+      ${this.renderResultLinks(result.links ?? [])}
     `;
   }
 
@@ -165,17 +173,6 @@ export class GrChecksChip extends GrLitElement {
           </a>
         `
       );
-  }
-
-  private renderChipCount(count: number) {
-    const chipClass = `checksChip font-small ${this.icon}`;
-    const grIcon = `gr-icons:${this.icon}`;
-    return html`
-      <div class="${chipClass}">
-        <iron-icon icon="${grIcon}"></iron-icon>
-        ${count}
-      </div>
-    `;
   }
 }
 

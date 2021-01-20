@@ -60,7 +60,7 @@ export const htmlTemplate = html`
   <style include="gr-menu-page-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
-  <main class$="[[_computeMainClass(_ownerOf, _canUpload, _editing)]]">
+  <div class$="main [[_computeMainClass(_ownerOf, _canUpload, _editing)]]">
     <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
       Loading...
     </div>
@@ -142,5 +142,5 @@ export const htmlTemplate = html`
         >
       </div>
     </div>
-  </main>
+  </div>
 `;

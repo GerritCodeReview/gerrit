@@ -51,7 +51,7 @@ export const htmlTemplate = html`
     .selectText.show {
       display: inline-block;
     }
-    main.breadcrumbs:not(.table) {
+    .main.breadcrumbs:not(.table) {
       margin-top: var(--spacing-l);
     }
   </style>
@@ -114,69 +114,69 @@ export const htmlTemplate = html`
     </section>
   </template>
   <template is="dom-if" if="[[_showRepoList]]" restamp="true">
-    <main class="table">
+    <div class="main table">
       <gr-repo-list class="table" params="[[params]]"></gr-repo-list>
-    </main>
+    </div>
   </template>
   <template is="dom-if" if="[[_showGroupList]]" restamp="true">
-    <main class="table">
+    <div class="main table">
       <gr-admin-group-list class="table" params="[[params]]">
       </gr-admin-group-list>
-    </main>
+    </div>
   </template>
   <template is="dom-if" if="[[_showPluginList]]" restamp="true">
-    <main class="table">
+    <div class="main table">
       <gr-plugin-list class="table" params="[[params]]"></gr-plugin-list>
-    </main>
+    </div>
   </template>
   <template is="dom-if" if="[[_showRepoMain]]" restamp="true">
-    <main class="breadcrumbs">
+    <div class="main breadcrumbs">
       <gr-repo repo="[[params.repo]]"></gr-repo>
-    </main>
+    </div>
   </template>
   <template is="dom-if" if="[[_showGroup]]" restamp="true">
-    <main class="breadcrumbs">
+    <div class="main breadcrumbs">
       <gr-group
         group-id="[[params.groupId]]"
         on-name-changed="_updateGroupName"
       ></gr-group>
-    </main>
+    </div>
   </template>
   <template is="dom-if" if="[[_showGroupMembers]]" restamp="true">
-    <main class="breadcrumbs">
+    <div class="main breadcrumbs">
       <gr-group-members group-id="[[params.groupId]]"></gr-group-members>
-    </main>
+    </div>
   </template>
   <template is="dom-if" if="[[_showRepoDetailList]]" restamp="true">
-    <main class="table breadcrumbs">
+    <div class="main table breadcrumbs">
       <gr-repo-detail-list
         params="[[params]]"
         class="table"
       ></gr-repo-detail-list>
-    </main>
+    </div>
   </template>
   <template is="dom-if" if="[[_showGroupAuditLog]]" restamp="true">
-    <main class="table breadcrumbs">
+    <div class="main table breadcrumbs">
       <gr-group-audit-log
         group-id="[[params.groupId]]"
         class="table"
       ></gr-group-audit-log>
-    </main>
+    </div>
   </template>
   <template is="dom-if" if="[[_showRepoCommands]]" restamp="true">
-    <main class="breadcrumbs">
+    <div class="main breadcrumbs">
       <gr-repo-commands repo="[[params.repo]]"></gr-repo-commands>
-    </main>
+    </div>
   </template>
   <template is="dom-if" if="[[_showRepoAccess]]" restamp="true">
-    <main class="breadcrumbs">
+    <div class="main breadcrumbs">
       <gr-repo-access path="[[path]]" repo="[[params.repo]]"></gr-repo-access>
-    </main>
+    </div>
   </template>
   <template is="dom-if" if="[[_showRepoDashboards]]" restamp="true">
-    <main class="table breadcrumbs">
+    <div class="main table breadcrumbs">
       <gr-repo-dashboards repo="[[params.repo]]"></gr-repo-dashboards>
-    </main>
+    </div>
   </template>
   <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
 `;

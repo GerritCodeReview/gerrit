@@ -120,6 +120,7 @@ export const htmlTemplate = html`
     }
     .dateContainer .patchsetDiffButton {
       margin-right: var(--spacing-m);
+      --padding: 0 var(--spacing-m);
     }
     span.date {
       color: var(--deemphasized-text-color);
@@ -279,7 +280,11 @@ export const htmlTemplate = html`
       </template>
       <span class="dateContainer">
         <template is="dom-if" if="[[_isNewPatchsetTag(message.tag)]]">
-          <gr-button on-click="_handleViewPatchsetDiff" link>
+          <gr-button
+            class="patchsetDiffButton"
+            on-click="_handleViewPatchsetDiff"
+            link
+          >
             View Diff
           </gr-button>
         </template>

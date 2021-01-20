@@ -127,7 +127,7 @@ const styleSheet = safeStyleSheet`
     --vote-color-rejected: #f7a1ad;
 
     /* misc colors */
-    --border-color: var(--gray-100);
+    --border-color: #e8e8e8;
     --comment-separator-color: var(--gray-300);
 
     /* status colors */

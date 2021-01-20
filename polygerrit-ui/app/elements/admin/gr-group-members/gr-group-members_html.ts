@@ -56,8 +56,8 @@ export const htmlTemplate = html`
       display: none;
     }
   </style>
-  <main
-    class$="gr-form-styles [[_computeHideItemClass(_groupOwner, _isAdmin)]]"
+  <div
+    class$="main gr-form-styles [[_computeHideItemClass(_groupOwner, _isAdmin)]]"
   >
     <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
       Loading...
@@ -170,7 +170,7 @@ export const htmlTemplate = html`
         </fieldset>
       </div>
     </div>
-  </main>
+  </div>
   <gr-overlay id="overlay" with-backdrop="">
     <gr-confirm-delete-item-dialog
       class="confirmDialog"

@@ -211,6 +211,8 @@ const styleSheet = safeStyleSheet`
     --light-remove-highlight-color: #ffebee;
     --coverage-covered: #e0f2f1;
     --coverage-not-covered: #ffd1a4;
+    --ranged-comment-chip-background: #b06000;
+    --ranged-comment-chip-text-color: #feefe3;
 
     /* syntax colors */
     --syntax-attr-color: #219;

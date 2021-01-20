@@ -55,7 +55,7 @@ export class GrChecksChip extends GrLitElement {
   icon = '';
 
   @property()
-  expandSingleResult = false;
+  expandMax = 0;
 
   @property()
   runs: CheckRun[] = [];
@@ -68,12 +68,14 @@ export class GrChecksChip extends GrLitElement {
       sharedStyles,
       css`
         .checksChip {
+          color: var(--chip-color);
           display: inline-block;
-          line-height: var(--line-height-normal);
           margin-right: var(--spacing-s);
-          padding: 0 var(--spacing-m) 0 var(--spacing-s);
+          padding: var(--spacing-xxs) var(--spacing-m) var(--spacing-xxs)
+            var(--spacing-s);
           border-radius: 12px;
           border: 1px solid gray;
+          vertical-align: top;
         }
         .checksChip .checkName {
           display: inline-block;
@@ -81,6 +83,11 @@ export class GrChecksChip extends GrLitElement {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          vertical-align: top;
+        }
+        iron-icon {
+          width: var(--line-height-small);
+          height: var(--line-height-small);
           vertical-align: top;
         }
         div.checksChip iron-icon.launch {
@@ -95,7 +102,6 @@ export class GrChecksChip extends GrLitElement {
           color: var(--error-foreground);
         }
         .checksChip.warning {
-          color: var(--primary-text-color);
           border-color: var(--warning-foreground);
           background-color: var(--warning-background);
         }
@@ -103,7 +109,6 @@ export class GrChecksChip extends GrLitElement {
           color: var(--warning-foreground);
         }
         .checksChip.info-outline {
-          color: var(--primary-text-color);
           border-color: var(--info-foreground);
           background-color: var(--info-background);
         }
@@ -111,7 +116,6 @@ export class GrChecksChip extends GrLitElement {
           color: var(--info-foreground);
         }
         .checksChip.check {
-          color: var(--primary-text-color);
           border-color: var(--gray-foreground);
           background-color: var(--gray-background);
         }
@@ -119,7 +123,6 @@ export class GrChecksChip extends GrLitElement {
           color: var(--gray-foreground);
         }
         .checksChip.timelapse {
-          color: var(--primary-text-color);
           border-color: var(--gray-foreground);
           background-color: var(--gray-background);
         }
@@ -133,15 +136,14 @@ export class GrChecksChip extends GrLitElement {
   render() {
     const count = this.runs.length || this.results.length;
     if (count === 0) return;
-    const result = this.results[0];
-    if (count !== 1 || !result || !this.expandSingleResult) {
+    if (count > this.expandMax || !this.results.length) {
       return this.renderChipCount(count);
     }
-    return this.renderChipFull(result);
+    return this.results.map(result => this.renderChipFull(result));
   }
 
   private renderChipFull(result: RunResult) {
-    const chipClass = `checksChip ${this.icon}`;
+    const chipClass = `checksChip font-small ${this.icon}`;
     const grIcon = `gr-icons:${this.icon}`;
     return html`
       <div class="${chipClass}">
@@ -166,7 +168,7 @@ export class GrChecksChip extends GrLitElement {
   }
 
   private renderChipCount(count: number) {
-    const chipClass = `checksChip ${this.icon}`;
+    const chipClass = `checksChip font-small ${this.icon}`;
     const grIcon = `gr-icons:${this.icon}`;
     return html`
       <div class="${chipClass}">
@@ -198,25 +200,16 @@ export class GrChangeSummary extends GrLitElement {
         :host {
           display: block;
           color: var(--deemphasized-text-color);
-          /* TODO: Reasonably calculate that to match the 72ch commit message
-                   width. */
-          max-width: 620px;
         }
         td.key {
           padding-right: var(--spacing-l);
         }
         td.value {
           padding-right: var(--spacing-l);
-          /* This is just for making it look nice when the content wraps to a
-             second line. Maybe we always want to force just 1 line somehow? */
-          line-height: 26px;
         }
         .runs {
           margin-right: var(--spacing-s);
           margin-left: var(--spacing-m);
-        }
-        iron-icon {
-          vertical-align: top;
         }
       `,
     ];
@@ -238,12 +231,12 @@ export class GrChangeSummary extends GrLitElement {
               <gr-checks-chip
                 icon="error"
                 .results="${errors}"
-                expandSingleResult="true"
+                expandMax="2"
               ></gr-checks-chip>
               <gr-checks-chip
                 icon="warning"
                 .results="${warnings}"
-                expandSingleResult="true"
+                expandMax="${2 - errors.length}"
               ></gr-checks-chip>
               <gr-checks-chip
                 icon="info-outline"

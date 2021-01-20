@@ -106,6 +106,23 @@
       "parentUuid": "34a8b28a_6260989a",
       "revId": "69cf745119ae344c472a7713062673c62600fb82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c1b23d9_cb02b6dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-20T12:49:06Z",
+      "side": 1,
+      "message": "maybe clarify in the commit message that the we added an internal config (which we should have done in the first place.)",
+      "revId": "69cf745119ae344c472a7713062673c62600fb82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

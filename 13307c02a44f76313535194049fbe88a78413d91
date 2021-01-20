@@ -16,6 +16,24 @@
       "message": "This is editing an example. Shouldn\u0027t you be editing the rules on android-review.googlesource.com instead ?",
       "revId": "13307c02a44f76313535194049fbe88a78413d91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a6ffc31_7bc16ec6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079096
+      },
+      "writtenOn": "2021-01-20T15:48:37Z",
+      "side": 1,
+      "message": "I was using this patch to test my \"real\" patches (in other words I was piggy-backing on your prolog unit tests). They have since been submitted to android-review and googleplex-android-review.",
+      "parentUuid": "e0d8c0d5_9cc794c9",
+      "revId": "13307c02a44f76313535194049fbe88a78413d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

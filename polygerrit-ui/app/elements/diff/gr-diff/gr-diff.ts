@@ -72,7 +72,7 @@ import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {MovedChunkGoToLineEvent} from '../../../types/events';
 // TODO(davido): See: https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
 // @ts-ignore
-import * as shadow from 'shadow-selection-polyfill/shadow.js';
+import * as shadow from 'shadow-selection-polyfill/shadow';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';

@@ -199,7 +199,7 @@ export class GrDiffSelection extends GestureEventListeners(
     if (!diffHosts.length) return window.getSelection();
 
     const curDiffHost = diffHosts.find(diffHost => {
-      if (!diffHost || !diffHost.shadowRoot) return false;
+      if (!diffHost?.shadowRoot?.getSelection) return false;
       const selection = diffHost.shadowRoot.getSelection();
       // Pick the one with valid selection:
       // https://developer.mozilla.org/en-US/docs/Web/API/Selection/type

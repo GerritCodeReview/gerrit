@@ -49,6 +49,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -1008,7 +1009,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         Project.nameKey(repo.getRepository().getDescription().getRepositoryName());
 
     LabelType verified =
-        label("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+        label(LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig cfg = projectConfigFactory.create(project);
       cfg.load(md);
@@ -1024,7 +1025,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .add(allowLabel(verified.getName()).ref(heads).group(REGISTERED_USERS).range(-1, 1))
         .update();
 
-    ReviewInput reviewVerified = new ReviewInput().label("Verified", 1);
+    ReviewInput reviewVerified = new ReviewInput().label(LabelId.VERIFIED, 1);
     ChangeInserter ins = newChange(repo);
     ChangeInserter ins2 = newChange(repo);
     ChangeInserter ins3 = newChange(repo);

@@ -37,6 +37,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
@@ -89,7 +90,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .add(allow(Permission.FORGE_COMMITTER).ref("refs/*").group(REGISTERED_USERS))
         .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
         .add(allow(Permission.ABANDON).ref("refs/*").group(REGISTERED_USERS))
-        .add(allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(-2, +2))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/*").group(REGISTERED_USERS).range(-2, +2))
         .update();
   }
 
@@ -1470,14 +1471,14 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private void deleteVote(StagedChange sc, TestAccount account) throws Exception {
     sender.clear();
-    gApi.changes().id(sc.changeId).reviewer(account.email()).deleteVote("Code-Review");
+    gApi.changes().id(sc.changeId).reviewer(account.email()).deleteVote(LabelId.CODE_REVIEW);
   }
 
   private void deleteVote(StagedChange sc, TestAccount account, NotifyHandling notify)
       throws Exception {
     sender.clear();
     DeleteVoteInput in = new DeleteVoteInput();
-    in.label = "Code-Review";
+    in.label = LabelId.CODE_REVIEW;
     in.notify = notify;
     gApi.changes().id(sc.changeId).reviewer(account.email()).deleteVote(in);
   }

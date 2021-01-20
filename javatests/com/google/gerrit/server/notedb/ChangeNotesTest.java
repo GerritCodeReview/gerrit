@@ -45,6 +45,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.CommentRange;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmissionId;
@@ -153,12 +154,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     String tag2 = "ip";
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Verified", (short) -1);
+    update.putApproval(LabelId.VERIFIED, (short) -1);
     update.setTag(tag1);
     update.commit();
 
     update = newUpdate(c, changeOwner);
-    update.putApproval("Verified", (short) 1);
+    update.putApproval(LabelId.VERIFIED, (short) 1);
     update.setTag(tag2);
     update.commit();
 
@@ -177,7 +178,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
 
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Verified", (short) -1);
+    update.putApproval(LabelId.VERIFIED, (short) -1);
     update.setChangeMessage("integration verification");
     update.setTag(integrationTag);
     update.commit();
@@ -231,8 +232,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void approvalsOnePatchSet() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Verified", (short) 1);
-    update.putApproval("Code-Review", (short) -1);
+    update.putApproval(LabelId.VERIFIED, (short) 1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -242,13 +243,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     assertThat(psas.get(0).patchSetId()).isEqualTo(c.currentPatchSetId());
     assertThat(psas.get(0).accountId().get()).isEqualTo(1);
-    assertThat(psas.get(0).label()).isEqualTo("Code-Review");
+    assertThat(psas.get(0).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psas.get(0).value()).isEqualTo((short) -1);
     assertThat(psas.get(0).granted()).isEqualTo(truncate(after(c, 2000)));
 
     assertThat(psas.get(1).patchSetId()).isEqualTo(c.currentPatchSetId());
     assertThat(psas.get(1).accountId().get()).isEqualTo(1);
-    assertThat(psas.get(1).label()).isEqualTo("Verified");
+    assertThat(psas.get(1).label()).isEqualTo(LabelId.VERIFIED);
     assertThat(psas.get(1).value()).isEqualTo((short) 1);
     assertThat(psas.get(1).granted()).isEqualTo(psas.get(0).granted());
   }
@@ -257,13 +258,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void approvalsMultiplePatchSets() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) -1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
     update.commit();
     PatchSet.Id ps1 = c.currentPatchSetId();
 
     incrementPatchSet(c);
     update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) 1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 1);
     update.commit();
     PatchSet.Id ps2 = c.currentPatchSetId();
 
@@ -274,14 +275,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSetApproval psa1 = Iterables.getOnlyElement(psas.get(ps1));
     assertThat(psa1.patchSetId()).isEqualTo(ps1);
     assertThat(psa1.accountId().get()).isEqualTo(1);
-    assertThat(psa1.label()).isEqualTo("Code-Review");
+    assertThat(psa1.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa1.value()).isEqualTo((short) -1);
     assertThat(psa1.granted()).isEqualTo(truncate(after(c, 2000)));
 
     PatchSetApproval psa2 = Iterables.getOnlyElement(psas.get(ps2));
     assertThat(psa2.patchSetId()).isEqualTo(ps2);
     assertThat(psa2.accountId().get()).isEqualTo(1);
-    assertThat(psa2.label()).isEqualTo("Code-Review");
+    assertThat(psa2.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa2.value()).isEqualTo((short) +1);
     assertThat(psa2.granted()).isEqualTo(truncate(after(c, 4000)));
   }
@@ -290,22 +291,22 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void approvalsMultipleApprovals() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) -1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
     PatchSetApproval psa =
         Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
-    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa.value()).isEqualTo((short) -1);
 
     update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) 1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 1);
     update.commit();
 
     notes = newNotes(c);
     psa = Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
-    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa.value()).isEqualTo((short) 1);
   }
 
@@ -313,11 +314,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void approvalsMultipleUsers() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) -1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
     update.commit();
 
     update = newUpdate(c, otherUser);
-    update.putApproval("Code-Review", (short) 1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 1);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -327,13 +328,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     assertThat(psas.get(0).patchSetId()).isEqualTo(c.currentPatchSetId());
     assertThat(psas.get(0).accountId().get()).isEqualTo(1);
-    assertThat(psas.get(0).label()).isEqualTo("Code-Review");
+    assertThat(psas.get(0).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psas.get(0).value()).isEqualTo((short) -1);
     assertThat(psas.get(0).granted()).isEqualTo(truncate(after(c, 2000)));
 
     assertThat(psas.get(1).patchSetId()).isEqualTo(c.currentPatchSetId());
     assertThat(psas.get(1).accountId().get()).isEqualTo(2);
-    assertThat(psas.get(1).label()).isEqualTo("Code-Review");
+    assertThat(psas.get(1).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psas.get(1).value()).isEqualTo((short) 1);
     assertThat(psas.get(1).granted()).isEqualTo(truncate(after(c, 3000)));
   }
@@ -413,8 +414,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void putOtherUsersApprovals() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) 1);
-    update.putApprovalFor(otherUser.getAccountId(), "Code-Review", (short) -1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 1);
+    update.putApprovalFor(otherUser.getAccountId(), LabelId.CODE_REVIEW, (short) -1);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -425,11 +426,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(approvals).hasSize(2);
 
     assertThat(approvals.get(0).accountId()).isEqualTo(changeOwner.getAccountId());
-    assertThat(approvals.get(0).label()).isEqualTo("Code-Review");
+    assertThat(approvals.get(0).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(approvals.get(0).value()).isEqualTo((short) 1);
 
     assertThat(approvals.get(1).accountId()).isEqualTo(otherUser.getAccountId());
-    assertThat(approvals.get(1).label()).isEqualTo("Code-Review");
+    assertThat(approvals.get(1).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(approvals.get(1).value()).isEqualTo((short) -1);
   }
 
@@ -438,8 +439,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     SubmissionId submissionId = new SubmissionId(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) 1);
-    update.putApproval("Verified", (short) 1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 1);
+    update.putApproval(LabelId.VERIFIED, (short) 1);
     update.commit();
 
     update = newUpdate(c, changeOwner);
@@ -449,21 +450,21 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             submitRecord(
                 "NOT_READY",
                 null,
-                submitLabel("Verified", "OK", changeOwner.getAccountId()),
-                submitLabel("Code-Review", "NEED", null))));
+                submitLabel(LabelId.VERIFIED, "OK", changeOwner.getAccountId()),
+                submitLabel(LabelId.CODE_REVIEW, "NEED", null))));
     update.commit();
 
     update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) 2);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
     List<PatchSetApproval> approvals = Lists.newArrayList(notes.getApprovals().values());
     assertThat(approvals).hasSize(2);
-    assertThat(approvals.get(0).label()).isEqualTo("Verified");
+    assertThat(approvals.get(0).label()).isEqualTo(LabelId.VERIFIED);
     assertThat(approvals.get(0).value()).isEqualTo((short) 1);
     assertThat(approvals.get(0).postSubmit()).isFalse();
-    assertThat(approvals.get(1).label()).isEqualTo("Code-Review");
+    assertThat(approvals.get(1).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(approvals.get(1).value()).isEqualTo((short) 2);
     assertThat(approvals.get(1).postSubmit()).isTrue();
   }
@@ -473,8 +474,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     SubmissionId submissionId = new SubmissionId(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) 1);
-    update.putApproval("Verified", (short) 1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 1);
+    update.putApproval(LabelId.VERIFIED, (short) 1);
     update.commit();
 
     Account.Id ownerId = changeOwner.getAccountId();
@@ -486,10 +487,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             submitRecord(
                 "NOT_READY",
                 null,
-                submitLabel("Verified", "OK", ownerId),
-                submitLabel("Code-Review", "NEED", null))));
+                submitLabel(LabelId.VERIFIED, "OK", ownerId),
+                submitLabel(LabelId.CODE_REVIEW, "NEED", null))));
     update.putApproval("Other-Label", (short) 1);
-    update.putApprovalFor(ownerId, "Code-Review", (short) 2);
+    update.putApprovalFor(ownerId, LabelId.CODE_REVIEW, (short) 2);
     update.commit();
 
     update = newUpdate(c, otherUser);
@@ -501,11 +502,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     List<PatchSetApproval> approvals = Lists.newArrayList(notes.getApprovals().values());
     assertThat(approvals).hasSize(3);
     assertThat(approvals.get(0).accountId()).isEqualTo(ownerId);
-    assertThat(approvals.get(0).label()).isEqualTo("Verified");
+    assertThat(approvals.get(0).label()).isEqualTo(LabelId.VERIFIED);
     assertThat(approvals.get(0).value()).isEqualTo(1);
     assertThat(approvals.get(0).postSubmit()).isFalse();
     assertThat(approvals.get(1).accountId()).isEqualTo(ownerId);
-    assertThat(approvals.get(1).label()).isEqualTo("Code-Review");
+    assertThat(approvals.get(1).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(approvals.get(1).value()).isEqualTo(2);
     assertThat(approvals.get(1).postSubmit()).isFalse(); // During submit.
     assertThat(approvals.get(2).accountId()).isEqualTo(otherId);
@@ -582,11 +583,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) 1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 1);
     update.commit();
 
     update = newUpdate(c, otherUser);
-    update.putApproval("Code-Review", (short) 1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 1);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -618,12 +619,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             submitRecord(
                 "NOT_READY",
                 null,
-                submitLabel("Verified", "OK", changeOwner.getAccountId()),
-                submitLabel("Code-Review", "NEED", null)),
+                submitLabel(LabelId.VERIFIED, "OK", changeOwner.getAccountId()),
+                submitLabel(LabelId.CODE_REVIEW, "NEED", null)),
             submitRecord(
                 "NOT_READY",
                 null,
-                submitLabel("Verified", "OK", changeOwner.getAccountId()),
+                submitLabel(LabelId.VERIFIED, "OK", changeOwner.getAccountId()),
                 submitLabel("Alternative-Code-Review", "NEED", null))));
     update.commit();
 
@@ -635,14 +636,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             submitRecord(
                 "NOT_READY",
                 null,
-                submitLabel("Verified", "OK", changeOwner.getAccountId()),
-                submitLabel("Code-Review", "NEED", null)));
+                submitLabel(LabelId.VERIFIED, "OK", changeOwner.getAccountId()),
+                submitLabel(LabelId.CODE_REVIEW, "NEED", null)));
     assertThat(recs.get(1))
         .isEqualTo(
             submitRecord(
                 "NOT_READY",
                 null,
-                submitLabel("Verified", "OK", changeOwner.getAccountId()),
+                submitLabel(LabelId.VERIFIED, "OK", changeOwner.getAccountId()),
                 submitLabel("Alternative-Code-Review", "NEED", null)));
     assertThat(notes.getChange().getSubmissionId()).isEqualTo(submissionId.toString());
   }
@@ -656,7 +657,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.merge(
         submissionId,
         ImmutableList.of(
-            submitRecord("OK", null, submitLabel("Code-Review", "OK", otherUser.getAccountId()))));
+            submitRecord(
+                "OK", null, submitLabel(LabelId.CODE_REVIEW, "OK", otherUser.getAccountId()))));
     update.commit();
 
     incrementPatchSet(c);
@@ -666,13 +668,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         submissionId,
         ImmutableList.of(
             submitRecord(
-                "OK", null, submitLabel("Code-Review", "OK", changeOwner.getAccountId()))));
+                "OK", null, submitLabel(LabelId.CODE_REVIEW, "OK", changeOwner.getAccountId()))));
     update.commit();
 
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getSubmitRecords())
         .containsExactly(
-            submitRecord("OK", null, submitLabel("Code-Review", "OK", changeOwner.getAccountId())));
+            submitRecord(
+                "OK", null, submitLabel(LabelId.CODE_REVIEW, "OK", changeOwner.getAccountId())));
     assertThat(notes.getChange().getSubmissionId()).isEqualTo(submissionId.toString());
   }
 
@@ -697,7 +700,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.merge(
         submissionId,
         ImmutableList.of(
-            submitRecord("OK", null, submitLabel("Code-Review", "OK", otherUser.getAccountId()))));
+            submitRecord(
+                "OK", null, submitLabel(LabelId.CODE_REVIEW, "OK", otherUser.getAccountId()))));
     update.commit();
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getMergedOn()).isPresent();
@@ -706,7 +710,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // Next update does not change mergedOn date.
     update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) 1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 1);
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getMergedOn().get()).isEqualTo(mergedOn);
@@ -722,7 +726,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.merge(
         submissionId,
         ImmutableList.of(
-            submitRecord("OK", null, submitLabel("Code-Review", "OK", otherUser.getAccountId()))));
+            submitRecord(
+                "OK", null, submitLabel(LabelId.CODE_REVIEW, "OK", otherUser.getAccountId()))));
     update.commit();
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getMergedOn()).isPresent();
@@ -736,7 +741,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         submissionId,
         ImmutableList.of(
             submitRecord(
-                "OK", null, submitLabel("Code-Review", "OK", changeOwner.getAccountId()))));
+                "OK", null, submitLabel(LabelId.CODE_REVIEW, "OK", changeOwner.getAccountId()))));
     update.commit();
 
     notes = newNotes(c);
@@ -1162,7 +1167,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(ts5).isGreaterThan(ts4);
 
     update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) 1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 1);
     update.commit();
     Timestamp ts6 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts6).isGreaterThan(ts5);
@@ -1193,7 +1198,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             submitRecord(
                 "NOT_READY",
                 null,
-                submitLabel("Verified", "OK", changeOwner.getAccountId()),
+                submitLabel(LabelId.VERIFIED, "OK", changeOwner.getAccountId()),
                 submitLabel("Alternative-Code-Review", "NEED", null))));
     update.commit();
     Timestamp ts10 = newNotes(c).getChange().getLastUpdatedOn();
@@ -1297,7 +1302,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     RevCommit commit = tr.commit().message("PS2").create();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setCommit(rw, commit);
-    update.putApproval("Code-Review", (short) 1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 1);
     update.setChangeMessage("This is a message");
     update.putComment(
         HumanComment.Status.PUBLISHED,
@@ -1435,10 +1440,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void multipleUpdatesInManager() throws Exception {
     Change c = newChange();
     ChangeUpdate update1 = newUpdate(c, changeOwner);
-    update1.putApproval("Verified", (short) 1);
+    update1.putApproval(LabelId.VERIFIED, (short) 1);
 
     ChangeUpdate update2 = newUpdate(c, otherUser);
-    update2.putApproval("Code-Review", (short) 2);
+    update2.putApproval(LabelId.CODE_REVIEW, (short) 2);
 
     try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project)) {
       updateManager.add(update1);
@@ -1451,11 +1456,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psas).hasSize(2);
 
     assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().id());
-    assertThat(psas.get(0).label()).isEqualTo("Verified");
+    assertThat(psas.get(0).label()).isEqualTo(LabelId.VERIFIED);
     assertThat(psas.get(0).value()).isEqualTo((short) 1);
 
     assertThat(psas.get(1).accountId()).isEqualTo(otherUser.getAccount().id());
-    assertThat(psas.get(1).label()).isEqualTo("Code-Review");
+    assertThat(psas.get(1).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psas.get(1).value()).isEqualTo((short) 2);
   }
 
@@ -1489,7 +1494,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       updateManager.add(update1);
 
       ChangeUpdate update2 = newUpdate(c, otherUser);
-      update2.putApproval("Code-Review", (short) 2);
+      update2.putApproval(LabelId.CODE_REVIEW, (short) 2);
       updateManager.add(update2);
 
       updateManager.execute();
@@ -1528,11 +1533,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void multipleUpdatesAcrossRefs() throws Exception {
     Change c1 = newChange();
     ChangeUpdate update1 = newUpdate(c1, changeOwner);
-    update1.putApproval("Verified", (short) 1);
+    update1.putApproval(LabelId.VERIFIED, (short) 1);
 
     Change c2 = newChange();
     ChangeUpdate update2 = newUpdate(c2, otherUser);
-    update2.putApproval("Code-Review", (short) 2);
+    update2.putApproval(LabelId.CODE_REVIEW, (short) 2);
 
     Ref initial1 = repo.exactRef(update1.getRefName());
     assertThat(initial1).isNotNull();
@@ -1554,11 +1559,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     PatchSetApproval approval1 =
         newNotes(c1).getApprovals().get(c1.currentPatchSetId()).iterator().next();
-    assertThat(approval1.label()).isEqualTo("Verified");
+    assertThat(approval1.label()).isEqualTo(LabelId.VERIFIED);
 
     PatchSetApproval approval2 =
         newNotes(c2).getApprovals().get(c2.currentPatchSetId()).iterator().next();
-    assertThat(approval2.label()).isEqualTo("Code-Review");
+    assertThat(approval2.label()).isEqualTo(LabelId.CODE_REVIEW);
   }
 
   @Test
@@ -2772,7 +2777,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate failingUpdate = newUpdate(c, internalUser);
     assertThrows(
-        IllegalStateException.class, () -> failingUpdate.putApproval("Code-Review", (short) 1));
+        IllegalStateException.class,
+        () -> failingUpdate.putApproval(LabelId.CODE_REVIEW, (short) 1));
   }
 
   @Test
@@ -2934,7 +2940,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setPatchSetId(PatchSet.id(c.getId(), c.currentPatchSetId().get() + 1));
     update.setChangeMessage("Should be ignored");
-    update.putApproval("Code-Review", (short) 2);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 2);
     CommentRange range = new CommentRange(1, 1, 2, 1);
     HumanComment comment =
         newComment(
@@ -3291,12 +3297,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(newNotes(c).getUpdateCount()).isEqualTo(1);
 
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) -1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
     update.commit();
     assertThat(newNotes(c).getUpdateCount()).isEqualTo(2);
 
     update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) 1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 1);
     update.commit();
     assertThat(newNotes(c).getUpdateCount()).isEqualTo(3);
   }

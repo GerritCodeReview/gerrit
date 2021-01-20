@@ -54,6 +54,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.BranchOrderSection;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
@@ -165,7 +166,7 @@ public class RevisionIT extends AbstractDaemonTest {
     String changeId = project.get() + "~master~" + r.getChangeId();
     gApi.changes().id(changeId).current().review(ReviewInput.recommend());
 
-    String label = "Code-Review";
+    String label = LabelId.CODE_REVIEW;
     ApprovalInfo approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(1);
     assertThat(approval.postSubmit).isNull();
@@ -177,7 +178,7 @@ public class RevisionIT extends AbstractDaemonTest {
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(1);
     assertThat(approval.postSubmit).isNull();
-    assertPermitted(gApi.changes().id(changeId).get(DETAILED_LABELS), "Code-Review", 1, 2);
+    assertPermitted(gApi.changes().id(changeId).get(DETAILED_LABELS), LabelId.CODE_REVIEW, 1, 2);
 
     // Repeating the current label is allowed. Does not flip the postSubmit bit
     // due to deduplication codepath.
@@ -203,7 +204,7 @@ public class RevisionIT extends AbstractDaemonTest {
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(2);
     assertThat(approval.postSubmit).isTrue();
-    assertPermitted(gApi.changes().id(changeId).get(DETAILED_LABELS), "Code-Review", 2);
+    assertPermitted(gApi.changes().id(changeId).get(DETAILED_LABELS), LabelId.CODE_REVIEW, 2);
 
     // Decreasing to previous post-submit vote is still not allowed.
     thrown =
@@ -230,9 +231,9 @@ public class RevisionIT extends AbstractDaemonTest {
     revision(r).review(ReviewInput.recommend());
 
     requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(changeId).reviewer(user.username()).deleteVote("Code-Review");
+    gApi.changes().id(changeId).reviewer(user.username()).deleteVote(LabelId.CODE_REVIEW);
     Optional<ApprovalInfo> crUser =
-        get(changeId, DETAILED_LABELS).labels.get("Code-Review").all.stream()
+        get(changeId, DETAILED_LABELS).labels.get(LabelId.CODE_REVIEW).all.stream()
             .filter(a -> a._accountId == user.id().get())
             .findFirst();
     assertThat(crUser).isPresent();
@@ -242,12 +243,13 @@ public class RevisionIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(user.id());
     ReviewInput in = new ReviewInput();
-    in.label("Code-Review", 1);
+    in.label(LabelId.CODE_REVIEW, 1);
     in.message = "Still LGTM";
     revision(r).review(in);
 
     ApprovalInfo cr =
-        gApi.changes().id(changeId).get(DETAILED_LABELS).labels.get("Code-Review").all.stream()
+        gApi.changes().id(changeId).get(DETAILED_LABELS).labels.get(LabelId.CODE_REVIEW).all
+            .stream()
             .filter(a -> a._accountId == user.id().get())
             .findFirst()
             .get();
@@ -262,7 +264,7 @@ public class RevisionIT extends AbstractDaemonTest {
     revision(r).submit();
 
     ReviewInput in = new ReviewInput();
-    in.label("Code-Review", 0);
+    in.label(LabelId.CODE_REVIEW, 0);
 
     ResourceConflictException thrown =
         assertThrows(ResourceConflictException.class, () -> revision(r).review(in));
@@ -285,7 +287,7 @@ public class RevisionIT extends AbstractDaemonTest {
         Iterators.getOnlyElement(
             cd.currentApprovals().stream().filter(a -> !a.isLegacySubmit()).iterator());
     assertThat(psa.patchSetId().get()).isEqualTo(2);
-    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa.value()).isEqualTo(2);
     assertThat(psa.postSubmit()).isFalse();
   }
@@ -1865,7 +1867,7 @@ public class RevisionIT extends AbstractDaemonTest {
                     .id(r.getChangeId())
                     .revision(r.getCommit().getName())
                     .reviewer(user.id().toString())
-                    .deleteVote("Code-Review"));
+                    .deleteVote(LabelId.CODE_REVIEW));
     assertThat(thrown).hasMessageThat().contains("Cannot access on non-current patch set");
   }
 
@@ -1886,12 +1888,12 @@ public class RevisionIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .current()
         .reviewer(user.id().toString())
-        .deleteVote("Code-Review");
+        .deleteVote(LabelId.CODE_REVIEW);
 
     Map<String, Short> m =
         gApi.changes().id(r.getChangeId()).current().reviewer(user.id().toString()).votes();
 
-    assertThat(m).containsExactly("Code-Review", Short.valueOf((short) 0));
+    assertThat(m).containsExactly(LabelId.CODE_REVIEW, Short.valueOf((short) 0));
 
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     ChangeMessageInfo message = Iterables.getLast(c.messages);
@@ -1909,8 +1911,8 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(votes).isEmpty();
     recommend(changeId);
     votes = gApi.changes().id(changeId).current().votes();
-    assertThat(votes.keySet()).containsExactly("Code-Review");
-    List<ApprovalInfo> approvals = votes.get("Code-Review");
+    assertThat(votes.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    List<ApprovalInfo> approvals = votes.get(LabelId.CODE_REVIEW);
     assertThat(approvals).hasSize(1);
     ApprovalInfo approval = approvals.get(0);
     assertThat(approval._accountId).isEqualTo(admin.id().get());
@@ -1924,8 +1926,8 @@ public class RevisionIT extends AbstractDaemonTest {
     // Patch set 1 has 2 votes on Code-Review
     requestScopeOperations.setApiUser(admin.id());
     votes = gApi.changes().id(changeId).current().votes();
-    assertThat(votes.keySet()).containsExactly("Code-Review");
-    approvals = votes.get("Code-Review");
+    assertThat(votes.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    approvals = votes.get(LabelId.CODE_REVIEW);
     assertThat(approvals).hasSize(2);
     assertThat(approvals.stream().map(a -> a._accountId))
         .containsExactlyElementsIn(ImmutableList.of(admin.id().get(), user.id().get()));
@@ -1937,8 +1939,8 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // Votes are still returned for ps 1
     votes = gApi.changes().id(changeId).revision(1).votes();
-    assertThat(votes.keySet()).containsExactly("Code-Review");
-    approvals = votes.get("Code-Review");
+    assertThat(votes.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    approvals = votes.get(LabelId.CODE_REVIEW);
     assertThat(approvals).hasSize(2);
   }
 

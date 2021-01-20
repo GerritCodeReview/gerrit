@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project.testing;
 
 import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import java.util.Arrays;
@@ -22,7 +23,7 @@ import java.util.Arrays;
 public class TestLabels {
   public static LabelType codeReview() {
     return label(
-        "Code-Review",
+        LabelId.CODE_REVIEW,
         value(2, "Looks good to me, approved"),
         value(1, "Looks good to me, but someone else must approve"),
         value(0, "No score"),
@@ -31,7 +32,8 @@ public class TestLabels {
   }
 
   public static LabelType verified() {
-    return label("Verified", value(1, "Verified"), value(0, "No score"), value(-1, "Fails"));
+    return label(
+        LabelId.VERIFIED, value(1, LabelId.VERIFIED), value(0, "No score"), value(-1, "Fails"));
   }
 
   public static LabelType patchSetLock() {

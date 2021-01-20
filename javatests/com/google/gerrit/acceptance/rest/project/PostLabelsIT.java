@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.BatchLabelInput;
@@ -124,7 +125,7 @@ public class PostLabelsIT extends AbstractDaemonTest {
   @Test
   public void cannotCreateLabelWithNameThatIsAlreadyInUse() throws Exception {
     LabelDefinitionInput labelInput = new LabelDefinitionInput();
-    labelInput.name = "Code-Review";
+    labelInput.name = LabelId.CODE_REVIEW;
     BatchLabelInput input = new BatchLabelInput();
     input.create = ImmutableList.of(labelInput);
 
@@ -319,7 +320,7 @@ public class PostLabelsIT extends AbstractDaemonTest {
     labelInput.commitMessage = "Update label";
 
     BatchLabelInput input = new BatchLabelInput();
-    input.update = ImmutableMap.of("Code-Review", labelInput);
+    input.update = ImmutableMap.of(LabelId.CODE_REVIEW, labelInput);
 
     BadRequestException thrown =
         assertThrows(
@@ -425,7 +426,7 @@ public class PostLabelsIT extends AbstractDaemonTest {
   @Test
   public void defaultCommitMessage() throws Exception {
     BatchLabelInput input = new BatchLabelInput();
-    input.delete = ImmutableList.of("Code-Review");
+    input.delete = ImmutableList.of(LabelId.CODE_REVIEW);
     gApi.projects().name(allProjects.get()).labels(input);
     assertThat(
             projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).getShortMessage())
@@ -436,7 +437,7 @@ public class PostLabelsIT extends AbstractDaemonTest {
   public void withCommitMessage() throws Exception {
     BatchLabelInput input = new BatchLabelInput();
     input.commitMessage = "Batch Update Labels";
-    input.delete = ImmutableList.of("Code-Review");
+    input.delete = ImmutableList.of(LabelId.CODE_REVIEW);
     gApi.projects().name(allProjects.get()).labels(input);
     assertThat(
             projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).getShortMessage())
@@ -447,7 +448,7 @@ public class PostLabelsIT extends AbstractDaemonTest {
   public void commitMessageIsTrimmed() throws Exception {
     BatchLabelInput input = new BatchLabelInput();
     input.commitMessage = " Batch Update Labels ";
-    input.delete = ImmutableList.of("Code-Review");
+    input.delete = ImmutableList.of(LabelId.CODE_REVIEW);
     gApi.projects().name(allProjects.get()).labels(input);
     assertThat(
             projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).getShortMessage())

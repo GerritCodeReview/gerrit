@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologOptions;
@@ -41,7 +42,7 @@ public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
   public void convertsPrologToSubmitRecord() {
     PrologRuleEvaluator evaluator = makeEvaluator();
 
-    StructureTerm verifiedLabel = makeLabel("Verified", "may");
+    StructureTerm verifiedLabel = makeLabel(LabelId.VERIFIED, "may");
     StructureTerm labels = new StructureTerm("label", verifiedLabel);
 
     List<Term> terms = ImmutableList.of(makeTerm("ok", labels));
@@ -85,12 +86,12 @@ public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
     PrologRuleEvaluator evaluator = makeEvaluator();
 
     SubmitRecord.Label submitRecordLabel1 = new SubmitRecord.Label();
-    submitRecordLabel1.label = "Verified";
+    submitRecordLabel1.label = LabelId.VERIFIED;
     submitRecordLabel1.status = SubmitRecord.Label.Status.REJECT;
     submitRecordLabel1.appliedBy = admin.id();
 
     SubmitRecord.Label submitRecordLabel2 = new SubmitRecord.Label();
-    submitRecordLabel2.label = "Code-Review";
+    submitRecordLabel2.label = LabelId.CODE_REVIEW;
     submitRecordLabel2.status = SubmitRecord.Label.Status.OK;
     submitRecordLabel2.appliedBy = admin.id();
 

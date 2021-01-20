@@ -159,6 +159,24 @@
       "parentUuid": "9950e6fb_cf643634",
       "revId": "69cf745119ae344c472a7713062673c62600fb82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd6d6472_58bee213",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-20T15:39:47Z",
+      "side": 1,
+      "message": "\u003e My concern here is primarily a process one where it seemed code that Google wanted to test was being merged because some Google internal process required that.\n\nYour concern was valid. I think we should have done the internal config shortcut for the past change change rather than revert it.",
+      "parentUuid": "54a5a11b_9a30555d",
+      "revId": "69cf745119ae344c472a7713062673c62600fb82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

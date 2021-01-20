@@ -58,6 +58,7 @@ const styleSheet = safeStyleSheet`
     --gray-100: #f1f3f4;
     --gray-50: #f8f9fa;
 
+    --chip-color: var(--gray-900);
     --error-color: var(--red-900);
     --error-foreground: var(--red-700);
     --error-background: var(--red-50);

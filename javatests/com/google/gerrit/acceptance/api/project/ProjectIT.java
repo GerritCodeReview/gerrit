@@ -43,6 +43,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -882,7 +883,7 @@ public class ProjectIT extends AbstractDaemonTest {
     cfg.fromText(projectOperations.project(allProjects).getConfig().toText());
     cfg.setStringList(
         "label",
-        "Code-Review",
+        LabelId.CODE_REVIEW,
         "value",
         ImmutableList.of("+1 LGTM", "1 LGTM", "0 No Value", "-1 Looks Bad"));
 
@@ -909,7 +910,7 @@ public class ProjectIT extends AbstractDaemonTest {
             cfg ->
                 cfg.setStringList(
                     "label",
-                    "Code-Review",
+                    LabelId.CODE_REVIEW,
                     "value",
                     ImmutableList.of("+1 LGTM", "1 LGTM", "0 No Value", "-1 Looks Bad")))
         .invalidate();
@@ -917,8 +918,8 @@ public class ProjectIT extends AbstractDaemonTest {
     // Verify that project info can be retrieved and that the label value "+1 LGTM" appears only
     // once.
     ProjectInfo projectInfo = gApi.projects().name(allProjects.get()).get();
-    assertThat(projectInfo.labels.keySet()).containsExactly("Code-Review");
-    assertThat(projectInfo.labels.get("Code-Review").values)
+    assertThat(projectInfo.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(projectInfo.labels.get(LabelId.CODE_REVIEW).values)
         .containsExactly("+1", "LGTM", " 0", "No Value", "-1", "Looks Bad");
   }
 

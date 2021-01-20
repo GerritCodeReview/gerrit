@@ -641,11 +641,11 @@ public class MergeUtil {
   }
 
   private static boolean isCodeReview(LabelId id) {
-    return "Code-Review".equalsIgnoreCase(id.get());
+    return LabelId.CODE_REVIEW.equalsIgnoreCase(id.get());
   }
 
   private static boolean isVerified(LabelId id) {
-    return "Verified".equalsIgnoreCase(id.get());
+    return LabelId.VERIFIED.equalsIgnoreCase(id.get());
   }
 
   private Iterable<PatchSetApproval> safeGetApprovals(ChangeNotes notes, PatchSet.Id psId) {

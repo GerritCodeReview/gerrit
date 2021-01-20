@@ -88,6 +88,24 @@
       "parentUuid": "cc542a2d_6e067a52",
       "revId": "69cf745119ae344c472a7713062673c62600fb82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9950e6fb_cf643634",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-20T10:18:55Z",
+      "side": 1,
+      "message": "Thanks Nasser. To clarify: this change is a no/op in the open source project; it just replaces multiple cache get() with a single getAll() call.\n\nI reverted this change previously because in google3 we use different bindings for MemoryCacheFactory, which rely on different storage instead of h2 for persisted caches. In this implementation, I did override getAll / getAllPresent and added some optimizations that seemingly did not work well. I added a change in google3 to gate this optimization with a config so that I can test it in our testing environment, etc... I\u0027ll also see if I can add more tests in google3.\n\n@Hanwen, @Nasser, since the optimization is now gated with a config, I think it\u0027s safe to submit this change. Please +2 or let me know your opinion.",
+      "parentUuid": "34a8b28a_6260989a",
+      "revId": "69cf745119ae344c472a7713062673c62600fb82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -40,6 +40,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -183,7 +184,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
     ReviewInput in = new ReviewInput();
     in.onBehalfOf = user.id().toString();
-    in.label("Verified", 1);
+    in.label(LabelId.VERIFIED, 1);
 
     AuthException thrown = assertThrows(AuthException.class, () -> revision.review(in));
     assertThat(thrown)

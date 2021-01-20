@@ -34,6 +34,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -81,8 +82,6 @@ public class AccessIT extends AbstractDaemonTest {
   private static final String REFS_META_VERSION = "refs/meta/version";
   private static final String REFS_DRAFTS = "refs/draft-comments/*";
   private static final String REFS_STARRED_CHANGES = "refs/starred-changes/*";
-
-  private static final String LABEL_CODE_REVIEW = "Code-Review";
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -418,13 +417,13 @@ public class AccessIT extends AbstractDaemonTest {
     // Remove specific permission
     AccessSectionInfo accessSectionToRemove = newAccessSectionInfo();
     accessSectionToRemove.permissions.put(
-        Permission.LABEL + LABEL_CODE_REVIEW, newPermissionInfo());
+        Permission.LABEL + LabelId.CODE_REVIEW, newPermissionInfo());
     ProjectAccessInput removal = newProjectAccessInput();
     removal.remove.put(REFS_HEADS, accessSectionToRemove);
     pApi().access(removal);
 
     // Remove locally
-    accessInput.add.get(REFS_HEADS).permissions.remove(Permission.LABEL + LABEL_CODE_REVIEW);
+    accessInput.add.get(REFS_HEADS).permissions.remove(Permission.LABEL + LabelId.CODE_REVIEW);
 
     // Check
     assertThat(pApi().access().local).isEqualTo(accessInput.add);
@@ -442,10 +441,10 @@ public class AccessIT extends AbstractDaemonTest {
     // Remove specific permission rule
     AccessSectionInfo accessSectionToRemove = newAccessSectionInfo();
     PermissionInfo codeReview = newPermissionInfo();
-    codeReview.label = LABEL_CODE_REVIEW;
+    codeReview.label = LabelId.CODE_REVIEW;
     PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false);
     codeReview.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
-    accessSectionToRemove.permissions.put(Permission.LABEL + LABEL_CODE_REVIEW, codeReview);
+    accessSectionToRemove.permissions.put(Permission.LABEL + LabelId.CODE_REVIEW, codeReview);
     ProjectAccessInput removal = newProjectAccessInput();
     removal.remove.put(REFS_HEADS, accessSectionToRemove);
     pApi().access(removal);
@@ -455,7 +454,7 @@ public class AccessIT extends AbstractDaemonTest {
         .add
         .get(REFS_HEADS)
         .permissions
-        .get(Permission.LABEL + LABEL_CODE_REVIEW)
+        .get(Permission.LABEL + LabelId.CODE_REVIEW)
         .rules
         .remove(SystemGroupBackend.REGISTERED_USERS.get());
 
@@ -475,18 +474,18 @@ public class AccessIT extends AbstractDaemonTest {
     // Remove specific permission rules
     AccessSectionInfo accessSectionToRemove = newAccessSectionInfo();
     PermissionInfo codeReview = newPermissionInfo();
-    codeReview.label = LABEL_CODE_REVIEW;
+    codeReview.label = LabelId.CODE_REVIEW;
     PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false);
     codeReview.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
     pri = new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false);
     codeReview.rules.put(SystemGroupBackend.PROJECT_OWNERS.get(), pri);
-    accessSectionToRemove.permissions.put(Permission.LABEL + LABEL_CODE_REVIEW, codeReview);
+    accessSectionToRemove.permissions.put(Permission.LABEL + LabelId.CODE_REVIEW, codeReview);
     ProjectAccessInput removal = newProjectAccessInput();
     removal.remove.put(REFS_HEADS, accessSectionToRemove);
     pApi().access(removal);
 
     // Remove locally
-    accessInput.add.get(REFS_HEADS).permissions.remove(Permission.LABEL + LABEL_CODE_REVIEW);
+    accessInput.add.get(REFS_HEADS).permissions.remove(Permission.LABEL + LabelId.CODE_REVIEW);
 
     // Check
     assertThat(pApi().access().local).isEqualTo(accessInput.add);
@@ -978,7 +977,7 @@ public class AccessIT extends AbstractDaemonTest {
     accessSection.permissions.put(Permission.PUSH, push);
 
     PermissionInfo codeReview = newPermissionInfo();
-    codeReview.label = LABEL_CODE_REVIEW;
+    codeReview.label = LabelId.CODE_REVIEW;
     pri = new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false);
     codeReview.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
 
@@ -986,7 +985,7 @@ public class AccessIT extends AbstractDaemonTest {
     pri.max = 1;
     pri.min = -1;
     codeReview.rules.put(SystemGroupBackend.PROJECT_OWNERS.get(), pri);
-    accessSection.permissions.put(Permission.LABEL + LABEL_CODE_REVIEW, codeReview);
+    accessSection.permissions.put(Permission.LABEL + LabelId.CODE_REVIEW, codeReview);
 
     return accessSection;
   }

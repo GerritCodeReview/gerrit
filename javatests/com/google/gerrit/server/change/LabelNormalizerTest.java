@@ -109,7 +109,8 @@ public class LabelNormalizerTest {
           });
     }
     LabelType lt =
-        label("Verified", value(1, "Verified"), value(0, "No score"), value(-1, "Fails"));
+        label(
+            LabelId.VERIFIED, value(1, LabelId.VERIFIED), value(0, "No score"), value(-1, "Fails"));
     pc.upsertLabelType(lt);
     save(pc);
   }
@@ -138,11 +139,11 @@ public class LabelNormalizerTest {
     projectOperations
         .allProjectsForUpdate()
         .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-1, 1))
-        .add(allowLabel("Verified").ref("refs/heads/*").group(REGISTERED_USERS).range(-1, 1))
+        .add(allowLabel(LabelId.VERIFIED).ref("refs/heads/*").group(REGISTERED_USERS).range(-1, 1))
         .update();
 
     PatchSetApproval cr = psa(userId, "Code-Review", 2);
-    PatchSetApproval v = psa(userId, "Verified", 1);
+    PatchSetApproval v = psa(userId, LabelId.VERIFIED, 1);
     assertEquals(Result.create(list(cr, v), list(), list()), norm.normalize(notes, list(cr, v)));
   }
 
@@ -151,11 +152,11 @@ public class LabelNormalizerTest {
     projectOperations
         .allProjectsForUpdate()
         .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-5, 5))
-        .add(allowLabel("Verified").ref("refs/heads/*").group(REGISTERED_USERS).range(-5, 5))
+        .add(allowLabel(LabelId.VERIFIED).ref("refs/heads/*").group(REGISTERED_USERS).range(-5, 5))
         .update();
 
     PatchSetApproval cr = psa(userId, "Code-Review", 5);
-    PatchSetApproval v = psa(userId, "Verified", 5);
+    PatchSetApproval v = psa(userId, LabelId.VERIFIED, 5);
     assertEquals(
         Result.create(list(), list(copy(cr, 2), copy(v, 1)), list()),
         norm.normalize(notes, list(cr, v)));
@@ -164,7 +165,7 @@ public class LabelNormalizerTest {
   @Test
   public void emptyPermissionRangeKeepsResult() throws Exception {
     PatchSetApproval cr = psa(userId, "Code-Review", 1);
-    PatchSetApproval v = psa(userId, "Verified", 1);
+    PatchSetApproval v = psa(userId, LabelId.VERIFIED, 1);
     assertEquals(Result.create(list(cr, v), list(), list()), norm.normalize(notes, list(cr, v)));
   }
 
@@ -176,7 +177,7 @@ public class LabelNormalizerTest {
         .update();
 
     PatchSetApproval cr = psa(userId, "Code-Review", 0);
-    PatchSetApproval v = psa(userId, "Verified", 0);
+    PatchSetApproval v = psa(userId, LabelId.VERIFIED, 0);
     assertEquals(Result.create(list(cr, v), list(), list()), norm.normalize(notes, list(cr, v)));
   }
 

@@ -18,7 +18,9 @@ import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class LabelId {
-  static final String LEGACY_SUBMIT_NAME = "SUBM";
+  public static final String LEGACY_SUBMIT_NAME = "SUBM";
+  public static final String CODE_REVIEW = "Code-Review";
+  public static final String VERIFIED = "Verified";
 
   public static LabelId create(String n) {
     return new AutoValue_LabelId(n);

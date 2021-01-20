@@ -68,6 +68,7 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
@@ -1050,7 +1051,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r = pushTo("refs/for/master%l=Code-Review");
     r.assertOkStatus();
     ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
-    LabelInfo cr = ci.labels.get("Code-Review");
+    LabelInfo cr = ci.labels.get(LabelId.CODE_REVIEW);
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
     assertThat(cr.all.get(0).value).isEqualTo(1);
@@ -1068,7 +1069,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = push.to("refs/for/master%l=Code-Review+2");
 
     ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
-    cr = ci.labels.get("Code-Review");
+    cr = ci.labels.get(LabelId.CODE_REVIEW);
     assertThat(Iterables.getLast(ci.messages).message)
         .isEqualTo("Uploaded patch set 2: Code-Review+2.");
     // Check that the user who pushed the change was added as a reviewer since they added a vote
@@ -1107,7 +1108,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = push.to("refs/for/master%l=Code-Review+2");
 
     ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
-    LabelInfo cr = ci.labels.get("Code-Review");
+    LabelInfo cr = ci.labels.get(LabelId.CODE_REVIEW);
     assertThat(Iterables.getLast(ci.messages).message)
         .isEqualTo("Uploaded patch set 2: Code-Review+2.");
 

@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50db5b12_80b5a31d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3439,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-20T16:59:12Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "be2640de_3a64d943",
+      "range": {
+        "startLine": 3439,
+        "startChar": 73,
+        "endLine": 3439,
+        "endChar": 84
+      },
+      "revId": "4920ca7169adb8d73112b31be6edbb14492ef2c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "546a76a4_42f68cde",
@@ -461,6 +485,30 @@
       "side": 1,
       "message": "Thanks, found some more in this file, looks like ctrl-shift-F was not super reliable.",
       "parentUuid": "a95ac17a_e2a033ea",
+      "range": {
+        "startLine": 819,
+        "startChar": 25,
+        "endLine": 819,
+        "endChar": 38
+      },
+      "revId": "4920ca7169adb8d73112b31be6edbb14492ef2c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d4b7c3d_60d0af40",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-20T16:59:12Z",
+      "side": 1,
+      "message": "Yeah, maybe try: git grep \u0027\"Code-Review\"\u0027 ?",
+      "parentUuid": "3220bb7a_5ad8aaaa",
       "range": {
         "startLine": 819,
         "startChar": 25,

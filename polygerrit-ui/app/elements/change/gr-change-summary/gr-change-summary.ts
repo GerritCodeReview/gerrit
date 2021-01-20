@@ -27,6 +27,7 @@ import {
   RunStatus,
 } from '../../plugins/gr-checks-api/gr-checks-api-types';
 import {allRuns$, RunResult} from '../../../services/checks/checks-model';
+import {fireShowPrimaryTab} from '../../../utils/event-util';
 
 function hasRunningOrCompleted(runs: CheckRun[]) {
   return runs.some(
@@ -69,6 +70,7 @@ export class GrChecksChip extends GrLitElement {
       css`
         .checksChip {
           color: var(--chip-color);
+          cursor: pointer;
           display: inline-block;
           margin-right: var(--spacing-s);
           padding: var(--spacing-xxs) var(--spacing-m) var(--spacing-xxs)
@@ -148,7 +150,7 @@ export class GrChecksChip extends GrLitElement {
     const chipClass = `checksChip font-small ${this.icon}`;
     const grIcon = `gr-icons:${this.icon}`;
     return html`
-      <div class="${chipClass}">
+      <div class="${chipClass}" role="button" @click="${this.handleClick}">
         <iron-icon icon="${grIcon}"></iron-icon>
         ${content}
       </div>
@@ -168,11 +170,24 @@ export class GrChecksChip extends GrLitElement {
       .slice(0, 2)
       .map(
         link => html`
-          <a href="${link.url}" target="_blank">
+          <a
+            href="${link.url}"
+            target="_blank"
+            @click="${this.handleClickLink}"
+          >
             <iron-icon class="launch" icon="gr-icons:launch"></iron-icon>
           </a>
         `
       );
+  }
+
+  private handleClick() {
+    fireShowPrimaryTab(this, 'checks');
+  }
+
+  private handleClickLink(e: Event) {
+    // Prevents handleClick() from reacting to <a> link clicks.
+    e.stopPropagation();
   }
 }
 

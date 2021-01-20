@@ -568,6 +568,11 @@ export class GrFileList extends KeyboardShortcutMixin(
     }
   }
 
+  @observe('changeComments')
+  _changeCommentsChanged() {
+    console.log('change comments changed');
+  }
+
   expandAllDiffs() {
     this._showInlineDiffs = true;
 

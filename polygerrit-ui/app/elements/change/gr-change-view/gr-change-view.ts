@@ -1252,6 +1252,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
         this._patchRange.basePatchNum !== value.basePatchNum);
     const changeChanged = this._changeNum !== value.changeNum;
 
+    let rightPatchNumChanged =
+      this._patchRange &&
+      value.patchNum !== undefined &&
+      this._patchRange.patchNum !== value.patchNum;
+
     const patchRange: ChangeViewPatchRange = {
       patchNum: value.patchNum,
       basePatchNum: value.basePatchNum || ParentPatchSetNum,
@@ -1265,8 +1270,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!changeChanged && patchChanged) {
       if (!patchRange.patchNum) {
         patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
+        rightPatchNumChanged = true;
       }
-      this._reloadPatchNumDependentResources().then(() => {
+      this._reloadPatchNumDependentResources(rightPatchNumChanged).then(() => {
         this._sendShowChangeEvent();
       });
       return;
@@ -2260,8 +2266,17 @@ export class GrChangeView extends KeyboardShortcutMixin(
    * Kicks off requests for resources that rely on the patch range
    * (`this._patchRange`) being defined.
    */
-  _reloadPatchNumDependentResources() {
-    return Promise.all([this._getCommitInfo(), this.$.fileList.reload()]);
+  _reloadPatchNumDependentResources(rightPatchNumChanged?: boolean) {
+    if (!this._changeComments) throw new Error('changeComments undefined');
+    return Promise.all([
+      this._getCommitInfo(),
+      this.$.fileList.reload(),
+      this.$.commentAPI.updatePortedComments(
+        this._changeNum,
+        this._patchRange?.patchNum,
+        rightPatchNumChanged,
+      ),
+    ]);
   }
 
   _getMergeability() {

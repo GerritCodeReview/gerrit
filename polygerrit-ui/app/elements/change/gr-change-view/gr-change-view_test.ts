@@ -1511,7 +1511,7 @@ suite('gr-change-view tests', () => {
       .callsFake(() => Promise.resolve([]));
     const reloadPatchDependentStub = sinon
       .stub(element, '_reloadPatchNumDependentResources')
-      .callsFake(() => Promise.resolve([undefined, undefined]));
+      .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
     const relatedClearSpy = sinon.spy(element.$.relatedChanges, 'clear');
     const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
 
@@ -2898,7 +2898,7 @@ suite('gr-change-view tests', () => {
       sinon.stub(element, '_getLatestCommitMessage').returns(Promise.resolve());
       sinon
         .stub(element, '_reloadPatchNumDependentResources')
-        .returns(Promise.resolve([undefined, undefined]));
+        .returns(Promise.resolve([undefined, undefined, undefined]));
     });
 
     test("don't report changeDisplayed on reply", done => {

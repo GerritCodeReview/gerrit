@@ -1511,7 +1511,7 @@ suite('gr-change-view tests', () => {
       .callsFake(() => Promise.resolve([]));
     const reloadPatchDependentStub = sinon
       .stub(element, '_reloadPatchNumDependentResources')
-      .callsFake(() => Promise.resolve([undefined, undefined]));
+      .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
     const relatedClearSpy = sinon.spy(element.$.relatedChanges, 'clear');
     const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
 
@@ -1533,6 +1533,32 @@ suite('gr-change-view tests', () => {
     assert.isTrue(reloadPatchDependentStub.calledOnce);
     assert.isTrue(relatedClearSpy.calledOnce);
     assert.isTrue(collapseStub.calledTwice);
+  });
+
+  test('reload ported comments when patchNum changes', () => {
+    sinon.stub(element, '_reload').callsFake(() => Promise.resolve([]));
+    sinon.stub(element, '_getCommitInfo');
+    sinon.stub(element.$.fileList, 'reload');
+    const reloadPortedCommentsStub = sinon.stub(
+      element.$.commentAPI,
+      'reloadPortedComments'
+    );
+    sinon.spy(element.$.relatedChanges, 'clear');
+    sinon.stub(element.$.fileList, 'collapseAllDiffs');
+
+    const value: AppElementChangeViewParams = {
+      ...createAppElementChangeViewParams(),
+      view: GerritView.CHANGE,
+      patchNum: 1 as PatchSetNum,
+    };
+    element._paramsChanged(value);
+
+    element._initialLoadComplete = true;
+
+    value.basePatchNum = 1 as PatchSetNum;
+    value.patchNum = 2 as PatchSetNum;
+    element._paramsChanged(value);
+    assert.isTrue(reloadPortedCommentsStub.calledOnce);
   });
 
   test('reload entire page when patchRange doesnt change', () => {
@@ -2898,7 +2924,7 @@ suite('gr-change-view tests', () => {
       sinon.stub(element, '_getLatestCommitMessage').returns(Promise.resolve());
       sinon
         .stub(element, '_reloadPatchNumDependentResources')
-        .returns(Promise.resolve([undefined, undefined]));
+        .returns(Promise.resolve([undefined, undefined, undefined]));
     });
 
     test("don't report changeDisplayed on reply", done => {

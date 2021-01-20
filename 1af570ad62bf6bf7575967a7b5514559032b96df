@@ -39,6 +39,29 @@
       },
       "revId": "1af570ad62bf6bf7575967a7b5514559032b96df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfe436eb_c8968372",
+        "filename": "proto/events.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-20T13:26:03Z",
+      "side": 1,
+      "message": "Nasser, this part of a internal refactoring that will allow us to implement an event notification mechanism inside Google.\n\nAlexa, in Gerrit upstream, there is always just one host. This means that this message here should be defined inside google.\n\nThe Google-internal message would encapsulate an message that is specific to one host, and could be defined here.\n\nHave you considered starting from the protobuf that holds the cache values for ChangeNotes? The change notes cache is keyed by the meta SHA1, so it has basically the same information you are looking to diff. You could try to write a differ for 2 of those messages.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "1af570ad62bf6bf7575967a7b5514559032b96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

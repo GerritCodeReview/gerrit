@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c7fcd17c_6d0f6042",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-20T08:09:25Z",
+      "side": 1,
+      "message": "\u003e I looked in our contribution guide docs [1] and I didn\u0027t see an answer there,\n\u003e but I\u0027m curious if we have any expectations on how long changes should\n\u003e remain open before being submitted.\n\nAFAIK we do not have any rule about a minimum time that changes must stay in review before they can be submitted. I do remember that we have discussed this before (although I couldn\u0027t find the discussion, maybe it was at a hackathon?) and considered keeping changes open for at least 24h. I believe we were concerned about velocity already back then, which is why we didn\u0027t follow up on this idea.\n\nIf issues are found after a change has been submitted, addressing them in a follow-up change or doing a revert, is pretty easy and worked quite well for us so far. So maybe such a rule wouldn\u0027t give us that much benefit over how we handle this now.\n\n\u003e I\u0027ll put it on the agenda for ESC.\nThanks Han-Wen. It\u0027s good to discuss this again! I\u0027m curious on the conclusions.",
+      "parentUuid": "79d258a4_6cddf024",
+      "revId": "bef260ec303bea3c01eeb136ec904482f746365a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d341b18a_1c86fea6",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 3

@@ -363,7 +363,7 @@ public class ChangeNotesStateTest {
         PatchSetApproval.builder()
             .key(
                 PatchSetApproval.key(
-                    PatchSet.id(ID, 1), Account.id(2001), LabelId.create("Code-Review")))
+                    PatchSet.id(ID, 1), Account.id(2001), LabelId.create(LabelId.CODE_REVIEW)))
             .value(1)
             .granted(new Timestamp(1212L))
             .build();
@@ -374,7 +374,7 @@ public class ChangeNotesStateTest {
         PatchSetApproval.builder()
             .key(
                 PatchSetApproval.key(
-                    PatchSet.id(ID, 1), Account.id(2002), LabelId.create("Verified")))
+                    PatchSet.id(ID, 1), Account.id(2002), LabelId.create(LabelId.VERIFIED)))
             .value(-1)
             .granted(new Timestamp(3434L))
             .build();

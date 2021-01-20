@@ -22,6 +22,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -39,7 +40,7 @@ public class DeleteLabelIT extends AbstractDaemonTest {
     AuthException thrown =
         assertThrows(
             AuthException.class,
-            () -> gApi.projects().name(allProjects.get()).label("Code-Review").delete());
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).delete());
     assertThat(thrown).hasMessageThat().contains("Authentication required");
   }
 
@@ -55,7 +56,7 @@ public class DeleteLabelIT extends AbstractDaemonTest {
     AuthException thrown =
         assertThrows(
             AuthException.class,
-            () -> gApi.projects().name(allProjects.get()).label("Code-Review").delete());
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).delete());
     assertThat(thrown).hasMessageThat().contains("write refs/meta/config not permitted");
   }
 
@@ -70,18 +71,18 @@ public class DeleteLabelIT extends AbstractDaemonTest {
 
   @Test
   public void delete() throws Exception {
-    gApi.projects().name(allProjects.get()).label("Code-Review").delete();
+    gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).delete();
 
     ResourceNotFoundException thrown =
         assertThrows(
             ResourceNotFoundException.class,
-            () -> gApi.projects().name(project.get()).label("Code-Review").get());
+            () -> gApi.projects().name(project.get()).label(LabelId.CODE_REVIEW).get());
     assertThat(thrown).hasMessageThat().contains("Not found: Code-Review");
   }
 
   @Test
   public void defaultCommitMessage() throws Exception {
-    gApi.projects().name(allProjects.get()).label("Code-Review").delete();
+    gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).delete();
     assertThat(
             projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).getShortMessage())
         .isEqualTo("Delete label");
@@ -89,7 +90,10 @@ public class DeleteLabelIT extends AbstractDaemonTest {
 
   @Test
   public void withCommitMessage() throws Exception {
-    gApi.projects().name(allProjects.get()).label("Code-Review").delete("Delete Code-Review label");
+    gApi.projects()
+        .name(allProjects.get())
+        .label(LabelId.CODE_REVIEW)
+        .delete("Delete Code-Review label");
     assertThat(
             projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).getShortMessage())
         .isEqualTo("Delete Code-Review label");
@@ -99,7 +103,7 @@ public class DeleteLabelIT extends AbstractDaemonTest {
   public void commitMessageIsTrimmed() throws Exception {
     gApi.projects()
         .name(allProjects.get())
-        .label("Code-Review")
+        .label(LabelId.CODE_REVIEW)
         .delete(" Delete Code-Review label ");
     assertThat(
             projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).getShortMessage())

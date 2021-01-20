@@ -23,6 +23,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
@@ -83,7 +84,8 @@ public class AllUsersCreator {
   @UsedAt(UsedAt.Project.GOOGLE)
   public AllUsersCreator setCodeReviewLabel(LabelType labelType) {
     checkArgument(
-        labelType.getName().equals("Code-Review"), "label should have 'Code-Review' as its name");
+        labelType.getName().equals(LabelId.CODE_REVIEW),
+        "label should have 'Code-Review' as its name");
     this.codeReviewLabel = labelType;
     return this;
   }

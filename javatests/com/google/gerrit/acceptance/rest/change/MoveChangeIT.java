@@ -34,6 +34,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.api.changes.MoveInput;
@@ -496,7 +497,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     // vote holds the minimum value.
     createBranch(BranchNameKey.create(project, "foo"));
 
-    String codeReviewLabel = "Code-Review"; // 'Code-Review' uses 'MaxWithBlock' function.
+    String codeReviewLabel = LabelId.CODE_REVIEW; // 'Code-Review' uses 'MaxWithBlock' function.
     String testLabelA = "Label-A";
     String testLabelB = "Label-B";
     String testLabelC = "Label-C";

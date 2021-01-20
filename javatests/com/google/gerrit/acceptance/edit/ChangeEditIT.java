@@ -40,6 +40,7 @@ import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -769,7 +770,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void editCommitMessageCopiesLabelScores() throws Exception {
-    String cr = "Code-Review";
+    String cr = LabelId.CODE_REVIEW;
     try (ProjectConfigUpdate u = updateProject(project)) {
       LabelType codeReview = TestLabels.codeReview();
       u.getConfig().upsertLabelType(codeReview);

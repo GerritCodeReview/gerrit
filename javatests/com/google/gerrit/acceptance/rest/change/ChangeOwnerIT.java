@@ -27,6 +27,7 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -146,8 +147,8 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(groupUUID).range(-2, 2))
-        .setExclusiveGroup(labelPermissionKey("Code-Review").ref("refs/heads/*"), exclusive)
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(groupUUID).range(-2, 2))
+        .setExclusiveGroup(labelPermissionKey(LabelId.CODE_REVIEW).ref("refs/heads/*"), exclusive)
         .update();
   }
 
@@ -156,7 +157,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            blockLabel("Code-Review")
+            blockLabel(LabelId.CODE_REVIEW)
                 .ref("refs/heads/*")
                 .group(SystemGroupBackend.CHANGE_OWNER)
                 .range(-2, 2))

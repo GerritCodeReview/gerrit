@@ -24,7 +24,7 @@ import java.util.List;
 import org.junit.Test;
 
 public class LabelFunctionTest {
-  private static final String LABEL_NAME = "Verified";
+  private static final String LABEL_NAME = LabelId.VERIFIED;
   private static final LabelId LABEL_ID = LabelId.create(LABEL_NAME);
   private static final Change.Id CHANGE_ID = Change.id(100);
   private static final PatchSet.Id PS_ID = PatchSet.id(CHANGE_ID, 1);
@@ -39,7 +39,7 @@ public class LabelFunctionTest {
   public void checkLabelNameIsCorrect() {
     for (LabelFunction function : LabelFunction.values()) {
       SubmitRecord.Label myLabel = function.check(VERIFIED_LABEL, ImmutableList.of());
-      assertThat(myLabel.label).isEqualTo("Verified");
+      assertThat(myLabel.label).isEqualTo(LabelId.VERIFIED);
     }
   }
 

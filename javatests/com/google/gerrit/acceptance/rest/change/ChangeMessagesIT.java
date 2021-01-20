@@ -37,6 +37,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.extensions.api.changes.DeleteChangeMessageInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -253,7 +254,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     c.message = "comment 1";
     c.path = FILE_NAME;
 
-    ReviewInput reviewInput = new ReviewInput().label("Code-Review", 1);
+    ReviewInput reviewInput = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
     reviewInput.comments = ImmutableMap.of(c.path, Lists.newArrayList(c));
     reviewInput.message = changeMessage;
 

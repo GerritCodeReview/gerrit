@@ -38,6 +38,7 @@ import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -284,7 +285,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     assertReviewers(c, REVIEWER, user);
     assertReviewers(c, CC);
-    LabelInfo label = c.labels.get("Code-Review");
+    LabelInfo label = c.labels.get(LabelId.CODE_REVIEW);
     assertThat(label).isNotNull();
     assertThat(label.all).isNotNull();
     assertThat(label.all).hasSize(1);
@@ -314,7 +315,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertReviewers(c, CC, user);
     // Verify no approvals were added.
     assertThat(c.labels).isNotNull();
-    LabelInfo label = c.labels.get("Code-Review");
+    LabelInfo label = c.labels.get(LabelId.CODE_REVIEW);
     assertThat(label).isNotNull();
     assertThat(label.all).isNull();
   }
@@ -328,7 +329,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     assertReviewers(c, REVIEWER);
     assertReviewers(c, CC);
-    LabelInfo label = c.labels.get("Code-Review");
+    LabelInfo label = c.labels.get(LabelId.CODE_REVIEW);
     assertThat(label).isNotNull();
     assertThat(label.all).isNull();
 
@@ -343,7 +344,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     c = gApi.changes().id(r.getChangeId()).get();
     assertReviewers(c, REVIEWER, user);
     assertReviewers(c, CC);
-    label = c.labels.get("Code-Review");
+    label = c.labels.get(LabelId.CODE_REVIEW);
     assertThat(label).isNotNull();
     assertThat(label.all).isNotNull();
     assertThat(label.all).hasSize(1);
@@ -367,7 +368,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     c = gApi.changes().id(r.getChangeId()).get();
     assertReviewers(c, REVIEWER, user);
     assertReviewers(c, CC);
-    label = c.labels.get("Code-Review");
+    label = c.labels.get(LabelId.CODE_REVIEW);
     assertThat(label).isNotNull();
     assertThat(label.all).isNotNull();
     assertThat(label.all).hasSize(1);
@@ -601,7 +602,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
   @Test
   public void removingReviewerRemovesTheirVote() throws Exception {
-    String crLabel = "Code-Review";
+    String crLabel = LabelId.CODE_REVIEW;
     PushOneCommit.Result r = createChange();
     ReviewInput input = ReviewInput.approve().reviewer(admin.email());
     ReviewResult addResult = review(r.getChangeId(), r.getCommit().name(), input);
@@ -662,10 +663,16 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
 
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 1));
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, 1));
 
     requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 2));
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, 2));
     gApi.changes().id(r.getChangeId()).current().submit();
 
     AuthException thrown =
@@ -680,10 +687,16 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
 
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 1));
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, 1));
 
     requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 2));
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, 2));
     gApi.changes().id(r.getChangeId()).current().submit();
 
     requestScopeOperations.setApiUser(user.id());
@@ -700,7 +713,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).addReviewer(user.email());
 
-    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 2));
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, 2));
     gApi.changes().id(r.getChangeId()).current().submit();
 
     gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
@@ -719,7 +735,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).addReviewer(user.email());
 
-    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 2));
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, 2));
     gApi.changes().id(r.getChangeId()).current().submit();
 
     requestScopeOperations.setApiUser(user.id());
@@ -740,7 +759,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     TestAccount newUser = createAccounts(1, name("foo")).get(0);
 
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 1));
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, 1));
     requestScopeOperations.setApiUser(newUser.id());
     AuthException thrown =
         assertThrows(
@@ -867,7 +889,11 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
         .update();
 
     // Create a change and add 'user' as reviewer.
@@ -886,7 +912,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     approve(changeId);
     c = gApi.changes().id(changeId).get();
-    assertThat(c.labels.get("Code-Review").approved._accountId).isEqualTo(user.id().get());
+    assertThat(c.labels.get(LabelId.CODE_REVIEW).approved._accountId).isEqualTo(user.id().get());
 
     // Move 'user' from reviewer to CC.
     requestScopeOperations.setApiUser(admin.id());
@@ -904,7 +930,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(c.reviewers.get(REVIEWER)).isNull();
 
     // Verify that the approval of 'user' is still there.
-    assertThat(c.labels.get("Code-Review").approved._accountId).isEqualTo(user.id().get());
+    assertThat(c.labels.get(LabelId.CODE_REVIEW).approved._accountId).isEqualTo(user.id().get());
   }
 
   private void assertThatUserIsOnlyReviewer(String changeId) throws Exception {

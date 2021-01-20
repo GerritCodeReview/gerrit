@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
@@ -95,7 +96,7 @@ public class CreateLabelIT extends AbstractDaemonTest {
             () ->
                 gApi.projects()
                     .name(allProjects.get())
-                    .label("Code-Review")
+                    .label(LabelId.CODE_REVIEW)
                     .create(new LabelDefinitionInput()));
     assertThat(thrown).hasMessageThat().contains("label Code-Review already exists");
   }

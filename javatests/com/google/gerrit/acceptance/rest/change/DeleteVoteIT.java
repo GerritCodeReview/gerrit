@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -92,7 +93,7 @@ public class DeleteVoteIT extends AbstractDaemonTest {
     Map<String, Short> m =
         newGson().fromJson(response.getReader(), new TypeToken<Map<String, Short>>() {}.getType());
 
-    assertThat(m).containsExactly("Code-Review", Short.valueOf((short) 0));
+    assertThat(m).containsExactly(LabelId.CODE_REVIEW, Short.valueOf((short) 0));
 
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
 

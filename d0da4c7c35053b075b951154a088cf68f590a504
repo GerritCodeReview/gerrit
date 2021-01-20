@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "522a811c_b3ff42af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2021-01-20T01:49:36Z",
+      "side": 1,
+      "message": "style: in the Gerrit project, commit messages start with the name of the subsystem, not with \"fix\" or \"feature\". So here this could say \"commit-msg: add support for hostnamectl\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "d0da4c7c35053b075b951154a088cf68f590a504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "247b98d0_99658253",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2021-01-20T01:49:36Z",
+      "side": 1,
+      "message": "Thanks for tracking this down!\n\nI think it\u0027s possible to do this more simply by doing it a bit differently. See below for details.",
+      "revId": "d0da4c7c35053b075b951154a088cf68f590a504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d6ee0f9_2fe1b14b",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2021-01-20T01:49:36Z",
+      "side": 1,
+      "message": "This feels like a lot of complexity for collecting some random bits.\n\nI wonder why we need the randomness at all. \"$1\" gives us proposed commit message content; $(git rev-parse HEAD) is the parent commit we\u0027re building on; $(git write-tree) is the tree we\u0027re commiting; etc.\n\nCould we use \"uname -n\" instead? It\u0027s part of POSIX.",
+      "revId": "d0da4c7c35053b075b951154a088cf68f590a504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -274,6 +274,19 @@ export class ChangeComments {
     );
   }
 
+  updatePortedComments(
+    portedComments?: PathToCommentsInfoMap,
+    portedDrafts?: PathToCommentsInfoMap
+  ) {
+    return new ChangeComments(
+      this._comments,
+      this._robotComments,
+      this._drafts,
+      portedComments,
+      portedDrafts
+    );
+  }
+
   /**
    * Get the drafts for a path and optional patch num.
    *

@@ -2261,7 +2261,32 @@ export class GrChangeView extends KeyboardShortcutMixin(
    * (`this._patchRange`) being defined.
    */
   _reloadPatchNumDependentResources() {
-    return Promise.all([this._getCommitInfo(), this.$.fileList.reload()]);
+    return Promise.all([
+      this._getCommitInfo(),
+      this.$.fileList.reload(),
+      this._getPortedComments(),
+    ]);
+  }
+
+  _getPortedComments() {
+    if (!this._changeNum) throw new Error('missing changeNum');
+    if (!this._patchRange?.patchNum) throw new Error('missing patchNum');
+    return Promise.all([
+      this.restApiService.getPortedComments(
+        this._changeNum,
+        this._patchRange.patchNum
+      ),
+      this.restApiService.getPortedDrafts(
+        this._changeNum,
+        this._patchRange.patchNum
+      ),
+    ]).then(res => {
+      if (!this._changeComments) return;
+      this._changeComments = this._changeComments.updatePortedComments(
+        res[0],
+        res[1]
+      );
+    });
   }
 
   _getMergeability() {

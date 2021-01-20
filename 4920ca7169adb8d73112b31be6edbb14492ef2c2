@@ -519,6 +519,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0bb60c8_526be8f7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-20T19:36:54Z",
+      "side": 1,
+      "message": "that helped.\nFound a bunch more, I also skipped some similar to the ones in ChangeIT, but it looks good :)",
+      "parentUuid": "6d4b7c3d_60d0af40",
+      "range": {
+        "startLine": 819,
+        "startChar": 25,
+        "endLine": 819,
+        "endChar": 38
+      },
+      "revId": "4920ca7169adb8d73112b31be6edbb14492ef2c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7ffe395_2ee15fca",

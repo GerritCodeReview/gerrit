@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "05954d83_36d90328",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1124260
+      },
+      "writtenOn": "2021-01-20T02:25:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522a811c_b3ff42af",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "d0da4c7c35053b075b951154a088cf68f590a504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "247b98d0_99658253",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 12
@@ -54,6 +78,24 @@
       "writtenOn": "2021-01-20T01:49:36Z",
       "side": 1,
       "message": "This feels like a lot of complexity for collecting some random bits.\n\nI wonder why we need the randomness at all. \"$1\" gives us proposed commit message content; $(git rev-parse HEAD) is the parent commit we\u0027re building on; $(git write-tree) is the tree we\u0027re commiting; etc.\n\nCould we use \"uname -n\" instead? It\u0027s part of POSIX.",
+      "revId": "d0da4c7c35053b075b951154a088cf68f590a504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f036b57c_ec4dd434",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1124260
+      },
+      "writtenOn": "2021-01-20T02:25:58Z",
+      "side": 1,
+      "message": "I agree that this could probably be simplified a bunch. Do we want to refactor the way we\u0027re setting the value for the `random` variable entirely to use different bits of randomness?\n\nSay, something like:\n\n```\nrandom\u003d$( (git rev-parse HEAD ; date ; cat $1) | git hash-object --stdin)\n```\n\nor do you feel like that is more change than we need in this CL?",
+      "parentUuid": "7d6ee0f9_2fe1b14b",
       "revId": "d0da4c7c35053b075b951154a088cf68f590a504",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

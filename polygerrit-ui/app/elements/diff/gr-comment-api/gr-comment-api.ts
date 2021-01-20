@@ -274,6 +274,19 @@ export class ChangeComments {
     );
   }
 
+  updatePortedComments(
+    portedComments?: PathToCommentsInfoMap,
+    portedDrafts?: PathToCommentsInfoMap
+  ) {
+    return new ChangeComments(
+      this._comments,
+      this._robotComments,
+      this._drafts,
+      portedComments,
+      portedDrafts
+    );
+  }
+
   /**
    * Get the drafts for a path and optional patch num.
    *
@@ -652,6 +665,27 @@ export class GrCommentApi extends GestureEventListeners(
         drafts
       );
       return this._changeComments;
+    });
+  }
+
+  updatePortedComments(
+    changeNum?: NumericChangeId,
+    patchNum?: PatchSetNum,
+    rightPatchNumChanged?: boolean
+  ) {
+    if (!changeNum) throw new Error('missing changeNum');
+    if (!patchNum) throw new Error('missing patchNum');
+    if (!rightPatchNumChanged) return Promise.resolve();
+
+    return Promise.all([
+      this.restApiService.getPortedComments(changeNum, patchNum),
+      this.restApiService.getPortedDrafts(changeNum, patchNum),
+    ]).then(res => {
+      if (!this._changeComments) return;
+      this._changeComments = this._changeComments.updatePortedComments(
+        res[0],
+        res[1]
+      );
     });
   }
 }

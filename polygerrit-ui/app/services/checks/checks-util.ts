@@ -17,6 +17,7 @@
 import {
   Category,
   CheckRun,
+  RunStatus,
 } from '../../elements/plugins/gr-checks-api/gr-checks-api-types';
 
 export function worstCategory(run: CheckRun) {
@@ -26,6 +27,22 @@ export function worstCategory(run: CheckRun) {
     return Category.WARNING;
   if (results.some(r => r.category === Category.INFO)) return Category.INFO;
   return undefined;
+}
+
+export function hasCompleted(run: CheckRun) {
+  return run.status === RunStatus.COMPLETED;
+}
+
+export function isRunning(run: CheckRun) {
+  return run.status === RunStatus.RUNNING;
+}
+
+export function isRunningOrHasCompleted(run: CheckRun) {
+  return run.status === RunStatus.COMPLETED || run.status === RunStatus.RUNNING;
+}
+
+export function hasCompletedWithoutResults(run: CheckRun) {
+  return run.status === RunStatus.COMPLETED && (run.results ?? []).length === 0;
 }
 
 export function compareByWorstCategory(a: CheckRun, b: CheckRun) {

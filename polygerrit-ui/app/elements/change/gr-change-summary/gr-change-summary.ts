@@ -24,30 +24,25 @@ import {
   Category,
   CheckRun,
   Link,
-  RunStatus,
 } from '../../plugins/gr-checks-api/gr-checks-api-types';
 import {allRuns$, RunResult} from '../../../services/checks/checks-model';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
-
-function hasRunningOrCompleted(runs: CheckRun[]) {
-  return runs.some(
-    run =>
-      run.status === RunStatus.COMPLETED || run.status === RunStatus.RUNNING
-  );
-}
+import {
+  hasCompleted,
+  isRunning,
+  isRunningOrHasCompleted,
+} from '../../../services/checks/checks-util';
 
 function filterResults(runs: CheckRun[], category: Category): RunResult[] {
-  return runs
-    .filter(run => run.status === RunStatus.COMPLETED)
-    .reduce((results, run) => {
-      return results.concat(
-        (run.results ?? [])
-          .filter(result => result.category === category)
-          .map(result => {
-            return {...run, ...result};
-          })
-      );
-    }, [] as RunResult[]);
+  return runs.filter(isRunningOrHasCompleted).reduce((results, run) => {
+    return results.concat(
+      (run.results ?? [])
+        .filter(result => result.category === category)
+        .map(result => {
+          return {...run, ...result};
+        })
+    );
+  }, [] as RunResult[]);
 }
 
 @customElement('gr-checks-chip')
@@ -229,8 +224,6 @@ export class GrChangeSummary extends GrLitElement {
 
   render() {
     const runs: CheckRun[] = this.runs;
-    const completed = runs.filter(run => run.status === RunStatus.COMPLETED);
-    const running = runs.filter(run => run.status === RunStatus.RUNNING);
     const errors = filterResults(runs, Category.ERROR);
     const warnings = filterResults(runs, Category.WARNING);
     const infos = filterResults(runs, Category.INFO);
@@ -254,16 +247,16 @@ export class GrChangeSummary extends GrLitElement {
                 icon="info-outline"
                 .results="${infos}"
               ></gr-checks-chip>
-              <span ?hidden=${!hasRunningOrCompleted(runs)} class="runs"
+              <span ?hidden=${!runs.some(isRunningOrHasCompleted)} class="runs"
                 >Runs</span
               >
               <gr-checks-chip
                 icon="check"
-                .runs="${completed}"
+                .runs="${runs.filter(hasCompleted)}"
               ></gr-checks-chip>
               <gr-checks-chip
                 icon="timelapse"
-                .runs="${running}"
+                .runs="${runs.filter(isRunning)}"
               ></gr-checks-chip>
             </td>
           </tr>

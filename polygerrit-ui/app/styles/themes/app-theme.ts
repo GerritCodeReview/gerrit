@@ -52,6 +52,14 @@ const styleSheet = safeStyleSheet`
     --orange-700: #d56e0c;
     --orange-200: #fdc69c;
     --orange-50: #feefe3;
+    --cyan-900: #007b83;
+    --cyan-700: #129eaf;
+    --cyan-100: #cbf0f8;
+    --cyan-50: #e4f7fb;
+    --green-900: #0d652d;
+    --green-700: #188038;
+    --green-200: #a8dab5;
+    --green-50: #e6f4ea;
     --gray-900: #202124;
     --gray-700: #5f6368;
     --gray-300: #dadce0;
@@ -66,15 +74,18 @@ const styleSheet = safeStyleSheet`
     --warning-background: var(--orange-50);
     --info-foreground: var(--blue-700);
     --info-background: var(--blue-50);
+    --success-foreground: var(--green-700);
     --gray-foreground: var(--gray-700);
     --gray-background: var(--gray-100);
+    --tag-background: var(--cyan-100);
+    --label-background: var(--red-50);
 
     /* text colors */
     --primary-text-color: black;
-    --link-color: #2a66d9;
+    --link-color: var(--blue-700);
     --comment-text-color: black;
     --deemphasized-text-color: var(--gray-700);
-    --default-button-text-color: #2a66d9;
+    --default-button-text-color: var(--blue-700);
     --chip-selected-text-color: var(--default-button-text-color);
     --error-text-color: red;
     --primary-button-text-color: white;
@@ -113,7 +124,7 @@ const styleSheet = safeStyleSheet`
     --emphasis-color: #fff9c4;
     --hover-background-color: rgba(161, 194, 250, 0.2);
     --disabled-button-background-color: #e8eaed;
-    --primary-button-background-color: #2a66d9;
+    --primary-button-background-color: var(--blue-700);
     --selection-background-color: rgba(161, 194, 250, 0.1);
     --tooltip-background-color: #333;
     /* comment background colors */
@@ -128,7 +139,7 @@ const styleSheet = safeStyleSheet`
     --vote-color-rejected: #f7a1ad;
 
     /* misc colors */
-    --border-color: #e8e8e8;
+    --border-color: var(--gray-300);
     --comment-separator-color: var(--gray-300);
 
     /* status colors */
@@ -240,7 +251,7 @@ const styleSheet = safeStyleSheet`
     --syntax-template-tag-color: #fa8602;
     --syntax-template-variable-color: #0000c0;
     --syntax-title-color: #0000c0;
-    --syntax-type-color: #2a66d9;
+    --syntax-type-color: var(--blue-700);
     --syntax-variable-color: var(--primary-text-color);
 
     /* elevation */

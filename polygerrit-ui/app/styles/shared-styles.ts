@@ -208,6 +208,7 @@ export const sharedStyles = css`
   }
   iron-icon {
     color: var(--deemphasized-text-color);
+    vertical-align: top;
     --iron-icon-height: 20px;
     --iron-icon-width: 20px;
   }

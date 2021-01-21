@@ -19,29 +19,76 @@ import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {
   Category,
-  CheckResult,
   CheckRun,
   Link,
+  RunStatus,
+  Tag,
 } from '../plugins/gr-checks-api/gr-checks-api-types';
 import {sharedStyles} from '../../styles/shared-styles';
 import {assertNever} from '../../utils/common-util';
+import {RunResult} from '../../services/checks/checks-model';
+import {hasCompletedWithoutResults} from '../../services/checks/checks-util';
+
+function renderSuccessfulRun(run: CheckRun) {
+  const adaptedRun: RunResult = {
+    category: Category.INFO, // will not be used, but is required
+    summary: run.statusDescription ?? 'Completed without results.',
+    ...run,
+  };
+  return renderResult(adaptedRun);
+}
 
 function renderRun(category: Category, run: CheckRun) {
   return html`${run.results
     ?.filter(result => result.category === category)
-    .map(res => renderResult(run, res))}`;
+    .map(result => renderResult({...run, ...result}))}`;
 }
 
-function renderResult(run: CheckRun, result: CheckResult) {
-  return html`<div class="resultRow">
-    <span>${run.checkName}</span
-    ><span>${result.summary ? ': ' + result.summary : ''}</span
-    ><span>${(result.links ?? []).map(renderLink)}</span>
-  </div>`;
+function renderResult(result: RunResult) {
+  return html`<tr class="resultRow">
+    <td class="iconCol">
+      <div>${renderIcon(result)}</div>
+    </td>
+    <td class="nameCol">
+      <div><span>${result.checkName}</span></div>
+    </td>
+    <td class="summaryCol">
+      <div class="summary-cell">
+        ${(result.links ?? []).map(renderLink)}
+        <!-- The &nbsp; is for being able to shrink a tiny amount without
+             the text itself getting shrunk with an ellipsis. -->
+        <div class="summary">${result.summary}&nbsp;</div>
+        <div class="message">${result.message}</div>
+        <div class="tags">${(result.tags ?? []).map(renderTag)}</div>
+        ${renderLabel(result.labelName)}
+      </div>
+    </td>
+    <td class="expanderCol">
+      <div><iron-icon icon="gr-icons:expand-more"></iron-icon></div>
+    </td>
+  </tr>`;
 }
 
 function renderLink(link: Link) {
-  return html`, <a href="${link.url}">Details</a>`;
+  return html`
+    <a href="${link.url}" target="_blank">
+      <iron-icon class="launch" icon="gr-icons:launch"></iron-icon>
+    </a>
+  `;
+}
+
+function renderIcon(result: RunResult) {
+  if (result.status !== RunStatus.RUNNING) return;
+  return html`<iron-icon icon="gr-icons:timelapse"></iron-icon>`;
+}
+
+function renderLabel(label?: string) {
+  if (!label) return;
+  return html`<div class="label">${label}</div>`;
+}
+
+function renderTag(tag: Tag) {
+  return html`<div class="tag">${tag.name}</div>`;
 }
 
 export function iconForCategory(category: Category) {
@@ -71,38 +118,106 @@ export class GrChecksResults extends GrLitElement {
           padding: var(--spacing-xl);
         }
         .categoryHeader {
-          margin-top: var(--spacing-xl);
+          margin-top: var(--spacing-xxl);
           margin-left: var(--spacing-l);
           text-transform: capitalize;
         }
         .categoryHeader iron-icon {
-          vertical-align: top;
           position: relative;
-          top: 2px;
-          --iron-icon-height: 18px;
-          --iron-icon-width: 18px;
+          top: 1px;
         }
         .categoryHeader iron-icon.error {
-          color: #d93025;
+          color: var(--error-foreground);
         }
         .categoryHeader iron-icon.warning {
-          color: #e37400;
+          color: var(--warning-foreground);
         }
         .categoryHeader iron-icon.info {
-          color: #174ea6;
+          color: var(--info-foreground);
         }
-        .resultsTable {
+        .categoryHeader iron-icon.success {
+          color: var(--success-foreground);
+        }
+        iron-icon.launch {
+          color: var(--link-color);
+          margin-right: var(--spacing-s);
+        }
+        table.resultsTable {
+          width: 100%;
+          max-width: 1280px;
           margin-top: var(--spacing-m);
-          background-color: var(--primary-background-color);
+          background-color: var(--background-color-primary);
           box-shadow: var(--elevation-level-1);
         }
-        .headerRow {
-          font-weight: var(--font-weight-bold);
-          padding: var(--spacing-s) var(--spacing-xl);
+        tr.resultRow td.iconCol {
+          padding-left: var(--spacing-l);
+          padding-right: var(--spacing-m);
         }
-        .resultRow {
+        .iconCol div {
+          width: 20px;
+        }
+        .nameCol div {
+          width: 165px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .summaryCol {
+          /* Forces this column to get the remaining space that is left over by
+             the other columns. */
+          width: 99%;
+        }
+        .expanderCol div {
+          width: 20px;
+        }
+        tr.headerRow th {
+          text-align: left;
+          font-weight: var(--font-weight-bold);
+          padding: var(--spacing-s);
+        }
+        tr.resultRow {
           border-top: 1px solid var(--border-color);
-          padding: var(--spacing-s) var(--spacing-xl);
+        }
+        tr.resultRow td {
+          white-space: nowrap;
+          padding: var(--spacing-s);
+        }
+        tr.resultRow td .summary-cell {
+          display: flex;
+          max-width: calc(100vw - 579px);
+        }
+        tr.resultRow td .summary-cell .summary {
+          font-weight: bold;
+          flex-shrink: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        tr.resultRow td .summary-cell .message {
+          margin-left: var(--spacing-s);
+          flex-grow: 1;
+          /* Looks a bit stupid, but the idea is that .message shrinks first,
+             and only when that has shrunken to 0, then .summary should also
+             start shrinking (substantially). */
+          flex-shrink: 1000000;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        tr.resultRow td .summary-cell .tags {
+        }
+        tr.resultRow td .summary-cell .tags .tag {
+          color: var(--deemphasized-text-color);
+          display: inline-block;
+          border-radius: 20px;
+          background-color: var(--tag-background);
+          padding: 0 var(--spacing-m);
+          margin-left: var(--spacing-s);
+        }
+        tr.resultRow td .summary-cell .label {
+          color: var(--deemphasized-text-color);
+          display: inline-block;
+          border-radius: 20px;
+          background-color: var(--label-background);
+          padding: 0 var(--spacing-m);
+          margin-left: var(--spacing-s);
         }
       `,
     ];
@@ -113,7 +228,7 @@ export class GrChecksResults extends GrLitElement {
       <div><h2 class="heading-2">Results</h2></div>
       ${this.renderSection(Category.ERROR)}
       ${this.renderSection(Category.WARNING)}
-      ${this.renderSection(Category.INFO)}
+      ${this.renderSection(Category.INFO)} ${this.renderSuccess()}
     `;
   }
 
@@ -131,10 +246,35 @@ export class GrChecksResults extends GrLitElement {
         ></iron-icon>
         ${catString}
       </h3>
-      <div class="resultsTable">
-        <div class="headerRow">Run</div>
+      <table class="resultsTable">
+        <tr class="headerRow">
+          <th class="iconCol"></th>
+          <th class="nameCol">Run</th>
+          <th class="summaryCol">Summary</th>
+          <th class="expanderCol"></th>
+        </tr>
         ${runs.map(run => renderRun(category, run))}
-      </div>
+      </table>
+    `;
+  }
+
+  renderSuccess() {
+    const runs = this.runs.filter(hasCompletedWithoutResults);
+    if (runs.length === 0) return;
+    return html`
+      <h3 class="categoryHeader heading-3">
+        <iron-icon icon="gr-icons:check-circle" class="success"></iron-icon>
+        Success
+      </h3>
+      <table class="resultsTable">
+        <tr class="headerRow">
+          <th class="iconCol"></th>
+          <th class="nameCol">Run</th>
+          <th class="summaryCol">Summary</th>
+          <th class="expanderCol"></th>
+        </tr>
+        ${runs.map(run => renderSuccessfulRun(run))}
+      </table>
     `;
   }
 }

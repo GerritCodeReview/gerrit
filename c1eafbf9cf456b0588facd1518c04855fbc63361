@@ -16,6 +16,23 @@
       "message": "Brilliant! That was easier than expected. :-)\n\nThe license check fails (as expected). Would be great to fix that (by adding a LICENSE file for MWC). Let me or Dmitrii know if you need help with that.\n\nI think it would be nice to find one (or a few) places where we can actually use and submit MWC components. Maybe on some less prominent admin or settings page? Then we can make sure the BUILD is fine, also Google internally.\n\nOnce that is done we could enter the next phase, which would be planning the actual migration. What needs to be done? What are the difficulties? How will the theming/styling of MWC components work for us?\n\nFeel free to go as far as you like with this, depending on how much time you have this quarter and how passionate you are about this. :-)",
       "revId": "c1eafbf9cf456b0588facd1518c04855fbc63361",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f02f4f74_72ff1f68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-21T08:16:16Z",
+      "side": 1,
+      "message": "Great! I am looking forward for mwc components.\n\nProbably we don\u0027t want to start with buttons. Maybe I would start with replacing iron-input in less popular dialogs like polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_html.ts",
+      "revId": "c1eafbf9cf456b0588facd1518c04855fbc63361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

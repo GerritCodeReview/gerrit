@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '@material/mwc-button/mwc-button';
+import lineRipple from '@material/mwc-line-ripple';
+import '@material/mwc-textfield/mwc-textfield';
 import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
@@ -22,16 +25,17 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-create-group-dialog_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
-import {page} from '../../../utils/page-wrapper-utils';
+// import {page} from '../../../utils/page-wrapper-utils';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GroupName} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+// import {appContext} from '../../../services/app-context';
 
 @customElement('gr-create-group-dialog')
 export class GrCreateGroupDialog extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {
+    lineRipple;
     return htmlTemplate;
   }
 
@@ -44,7 +48,7 @@ export class GrCreateGroupDialog extends GestureEventListeners(
   @property({type: Boolean})
   _groupCreated = false;
 
-  private restApiService = appContext.restApiService;
+  //private restApiService = appContext.restApiService;
 
   _computeGroupUrl(groupId: string) {
     return getBaseUrl() + '/admin/groups/' + encodeURL(groupId, true);
@@ -57,16 +61,18 @@ export class GrCreateGroupDialog extends GestureEventListeners(
 
   handleCreateGroup() {
     const name = this._name as GroupName;
-    return this.restApiService.createGroup({name}).then(groupRegistered => {
-      if (groupRegistered.status !== 201) {
-        return;
-      }
-      this._groupCreated = true;
-      return this.restApiService.getGroupConfig(name).then(group => {
-        // TODO(TS): should group always defined ?
-        page.show(this._computeGroupUrl(group!.group_id!));
-      });
-    });
+    console.log(name);
+    return new Promise(() => true);
+    // return this.restApiService.createGroup({name}).then(groupRegistered => {
+    //   if (groupRegistered.status !== 201) {
+    //     return;
+    //   }
+    //   this._groupCreated = true;
+    //   return this.restApiService.getGroupConfig(name).then(group => {
+    //     // TODO(TS): should group always defined ?
+    //     page.show(this._computeGroupUrl(group!.group_id!));
+    //   });
+    // });
   }
 }
 

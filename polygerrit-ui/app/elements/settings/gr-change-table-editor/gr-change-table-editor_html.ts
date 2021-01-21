@@ -48,12 +48,13 @@ export const htmlTemplate = html`
       </thead>
       <tbody>
         <tr>
-          <td>Number</td>
+          <td><label for="numberCheckbox">Number</label></td>
           <td
             class="checkboxContainer"
             on-click="_handleCheckboxContainerClick"
           >
             <input
+              id="numberCheckbox"
               type="checkbox"
               name="number"
               on-click="_handleNumberCheckboxClick"
@@ -63,12 +64,13 @@ export const htmlTemplate = html`
         </tr>
         <template is="dom-repeat" items="[[defaultColumns]]">
           <tr>
-            <td>[[item]]</td>
+            <td><label for$="[[item]]">[[item]]</label></td>
             <td
               class="checkboxContainer"
               on-click="_handleCheckboxContainerClick"
             >
               <input
+                id$="[[item]]"
                 type="checkbox"
                 name="[[item]]"
                 on-click="_handleTargetClick"

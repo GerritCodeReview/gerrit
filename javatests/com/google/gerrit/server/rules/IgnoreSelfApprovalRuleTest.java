@@ -34,12 +34,12 @@ import org.junit.Test;
 public class IgnoreSelfApprovalRuleTest {
   private static final Change.Id CHANGE_ID = Change.id(100);
   private static final PatchSet.Id PS_ID = PatchSet.id(CHANGE_ID, 1);
-  private static final LabelType VERIFIED = makeLabel("Verified");
+  private static final LabelType VERIFIED = makeLabel(LabelId.VERIFIED);
   private static final Account.Id USER1 = makeAccount(100001);
 
   @Test
   public void filtersByLabel() {
-    LabelType codeReview = makeLabel("Code-Review");
+    LabelType codeReview = makeLabel(LabelId.CODE_REVIEW);
     PatchSetApproval approvalVerified = makeApproval(VERIFIED.getLabelId(), USER1, 2);
     PatchSetApproval approvalCr = makeApproval(codeReview.getLabelId(), USER1, 2);
 

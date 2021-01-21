@@ -16,13 +16,14 @@ package com.google.gerrit.server.rules;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.entities.LabelId;
 import org.junit.Test;
 
 public class PrologRuleEvaluatorTest {
 
   @Test
   public void validLabelNamesAreKept() {
-    for (String labelName : new String[] {"Verified", "Code-Review"}) {
+    for (String labelName : new String[] {LabelId.VERIFIED, LabelId.CODE_REVIEW}) {
       assertThat(PrologRuleEvaluator.checkLabelName(labelName)).isEqualTo(labelName);
     }
   }

@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
@@ -52,7 +53,7 @@ public class SetLabelIT extends AbstractDaemonTest {
             () ->
                 gApi.projects()
                     .name(allProjects.get())
-                    .label("Code-Review")
+                    .label(LabelId.CODE_REVIEW)
                     .update(new LabelDefinitionInput()));
     assertThat(thrown).hasMessageThat().contains("Authentication required");
   }
@@ -72,7 +73,7 @@ public class SetLabelIT extends AbstractDaemonTest {
             () ->
                 gApi.projects()
                     .name(allProjects.get())
-                    .label("Code-Review")
+                    .label(LabelId.CODE_REVIEW)
                     .update(new LabelDefinitionInput()));
     assertThat(thrown).hasMessageThat().contains("write refs/meta/config not permitted");
   }
@@ -83,13 +84,13 @@ public class SetLabelIT extends AbstractDaemonTest {
     input.name = "Foo-Review";
 
     LabelDefinitionInfo updatedLabel =
-        gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(updatedLabel.name).isEqualTo(input.name);
 
     assertThat(gApi.projects().name(allProjects.get()).label("Foo-Review").get()).isNotNull();
     assertThrows(
         ResourceNotFoundException.class,
-        () -> gApi.projects().name(allProjects.get()).label("Code-Review").get());
+        () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get());
   }
 
   @Test
@@ -98,13 +99,13 @@ public class SetLabelIT extends AbstractDaemonTest {
     input.name = " Foo-Review ";
 
     LabelDefinitionInfo updatedLabel =
-        gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(updatedLabel.name).isEqualTo("Foo-Review");
 
     assertThat(gApi.projects().name(allProjects.get()).label("Foo-Review").get()).isNotNull();
     assertThrows(
         ResourceNotFoundException.class,
-        () -> gApi.projects().name(allProjects.get()).label("Code-Review").get());
+        () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get());
   }
 
   @Test
@@ -115,7 +116,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.projects().name(allProjects.get()).label("Code-Review").update(input));
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
     assertThat(thrown).hasMessageThat().contains("name cannot be empty");
   }
 
@@ -127,7 +128,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.projects().name(allProjects.get()).label("Code-Review").update(input));
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
     assertThat(thrown).hasMessageThat().contains("invalid name: " + input.name);
   }
 
@@ -169,10 +170,10 @@ public class SetLabelIT extends AbstractDaemonTest {
     input.function = LabelFunction.NO_OP.getFunctionName();
 
     LabelDefinitionInfo updatedLabel =
-        gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(updatedLabel.function).isEqualTo(input.function);
 
-    assertThat(gApi.projects().name(allProjects.get()).label("Code-Review").get().function)
+    assertThat(gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get().function)
         .isEqualTo(input.function);
   }
 
@@ -182,10 +183,10 @@ public class SetLabelIT extends AbstractDaemonTest {
     input.function = " " + LabelFunction.NO_OP.getFunctionName() + " ";
 
     LabelDefinitionInfo updatedLabel =
-        gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(updatedLabel.function).isEqualTo(LabelFunction.NO_OP.getFunctionName());
 
-    assertThat(gApi.projects().name(allProjects.get()).label("Code-Review").get().function)
+    assertThat(gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get().function)
         .isEqualTo(LabelFunction.NO_OP.getFunctionName());
   }
 
@@ -197,7 +198,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.projects().name(allProjects.get()).label("Code-Review").update(input));
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
     assertThat(thrown).hasMessageThat().contains("function cannot be empty");
   }
 
@@ -209,7 +210,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.projects().name(allProjects.get()).label("Code-Review").update(input));
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
     assertThat(thrown).hasMessageThat().contains("unknown function: " + input.function);
   }
 
@@ -221,7 +222,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.projects().name(allProjects.get()).label("Code-Review").update(input));
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
     assertThat(thrown).hasMessageThat().contains("values cannot be empty");
   }
 
@@ -243,7 +244,7 @@ public class SetLabelIT extends AbstractDaemonTest {
             "Looks Very Bad");
 
     LabelDefinitionInfo updatedLabel =
-        gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(updatedLabel.values)
         .containsExactly(
             "+2", "Looks Very Good",
@@ -252,7 +253,7 @@ public class SetLabelIT extends AbstractDaemonTest {
             "-1", "Looks Bad",
             "-2", "Looks Very Bad");
 
-    assertThat(gApi.projects().name(allProjects.get()).label("Code-Review").get().values)
+    assertThat(gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get().values)
         .containsExactly(
             "+2", "Looks Very Good",
             "+1", "Looks Good",
@@ -279,7 +280,7 @@ public class SetLabelIT extends AbstractDaemonTest {
             " Looks Very Bad ");
 
     LabelDefinitionInfo updatedLabel =
-        gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(updatedLabel.values)
         .containsExactly(
             "+2", "Looks Very Good",
@@ -288,7 +289,7 @@ public class SetLabelIT extends AbstractDaemonTest {
             "-1", "Looks Bad",
             "-2", "Looks Very Bad");
 
-    assertThat(gApi.projects().name(allProjects.get()).label("Code-Review").get().values)
+    assertThat(gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get().values)
         .containsExactly(
             "+2", "Looks Very Good",
             "+1", "Looks Good",
@@ -305,7 +306,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.projects().name(allProjects.get()).label("Code-Review").update(input));
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
     assertThat(thrown).hasMessageThat().contains("invalid value: invalidValue");
   }
 
@@ -317,7 +318,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.projects().name(allProjects.get()).label("Code-Review").update(input));
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
     assertThat(thrown).hasMessageThat().contains("description for value '+1' cannot be empty");
   }
 
@@ -332,7 +333,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.projects().name(allProjects.get()).label("Code-Review").update(input));
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
     assertThat(thrown).hasMessageThat().contains("duplicate value: 1");
   }
 
@@ -342,10 +343,11 @@ public class SetLabelIT extends AbstractDaemonTest {
     input.defaultValue = 1;
 
     LabelDefinitionInfo updatedLabel =
-        gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(updatedLabel.defaultValue).isEqualTo(input.defaultValue);
 
-    assertThat(gApi.projects().name(allProjects.get()).label("Code-Review").get().defaultValue)
+    assertThat(
+            gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get().defaultValue)
         .isEqualTo(input.defaultValue);
   }
 
@@ -357,7 +359,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.projects().name(allProjects.get()).label("Code-Review").update(input));
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
     assertThat(thrown).hasMessageThat().contains("invalid default value: " + input.defaultValue);
   }
 
@@ -369,10 +371,10 @@ public class SetLabelIT extends AbstractDaemonTest {
         ImmutableList.of("refs/heads/master", "refs/heads/foo/*", "^refs/heads/stable-.*");
 
     LabelDefinitionInfo updatedLabel =
-        gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(updatedLabel.branches).containsExactlyElementsIn(input.branches);
 
-    assertThat(gApi.projects().name(allProjects.get()).label("Code-Review").get().branches)
+    assertThat(gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get().branches)
         .containsExactlyElementsIn(input.branches);
   }
 
@@ -383,11 +385,11 @@ public class SetLabelIT extends AbstractDaemonTest {
         ImmutableList.of(" refs/heads/master ", " refs/heads/foo/* ", " ^refs/heads/stable-.* ");
 
     LabelDefinitionInfo updatedLabel =
-        gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(updatedLabel.branches)
         .containsExactly("refs/heads/master", "refs/heads/foo/*", "^refs/heads/stable-.*");
 
-    assertThat(gApi.projects().name(allProjects.get()).label("Code-Review").get().branches)
+    assertThat(gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get().branches)
         .containsExactly("refs/heads/master", "refs/heads/foo/*", "^refs/heads/stable-.*");
   }
 
@@ -397,10 +399,10 @@ public class SetLabelIT extends AbstractDaemonTest {
     input.branches = ImmutableList.of("refs/heads/master", "", " ");
 
     LabelDefinitionInfo updatedLabel =
-        gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(updatedLabel.branches).containsExactly("refs/heads/master");
 
-    assertThat(gApi.projects().name(allProjects.get()).label("Code-Review").get().branches)
+    assertThat(gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get().branches)
         .containsExactly("refs/heads/master");
   }
 
@@ -408,15 +410,15 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void branchesCanBeUnset() throws Exception {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.branches = ImmutableList.of("refs/heads/master");
-    gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
-    assertThat(gApi.projects().name(allProjects.get()).label("Code-Review").get().branches)
+    gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
+    assertThat(gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get().branches)
         .isNotNull();
 
     input.branches = ImmutableList.of();
     LabelDefinitionInfo updatedLabel =
-        gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(updatedLabel.branches).isNull();
-    assertThat(gApi.projects().name(allProjects.get()).label("Code-Review").get().branches)
+    assertThat(gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get().branches)
         .isNull();
   }
 
@@ -428,7 +430,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.projects().name(allProjects.get()).label("Code-Review").update(input));
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
     assertThat(thrown).hasMessageThat().contains("invalid branch: refs heads master");
   }
 
@@ -438,10 +440,10 @@ public class SetLabelIT extends AbstractDaemonTest {
     input.branches = ImmutableList.of("master", "refs/meta/config");
 
     LabelDefinitionInfo updatedLabel =
-        gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(updatedLabel.branches).containsExactly("refs/heads/master", "refs/meta/config");
 
-    assertThat(gApi.projects().name(allProjects.get()).label("Code-Review").get().branches)
+    assertThat(gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get().branches)
         .containsExactly("refs/heads/master", "refs/meta/config");
   }
 
@@ -925,12 +927,12 @@ public class SetLabelIT extends AbstractDaemonTest {
     LabelDefinitionInfo updatedLabel =
         gApi.projects()
             .name(allProjects.get())
-            .label("Code-Review")
+            .label(LabelId.CODE_REVIEW)
             .update(new LabelDefinitionInput());
     LabelAssert.assertCodeReviewLabel(updatedLabel);
 
     LabelAssert.assertCodeReviewLabel(
-        gApi.projects().name(allProjects.get()).label("Code-Review").get());
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).get());
 
     assertThat(projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG))
         .isEqualTo(refsMetaConfigHead);
@@ -940,7 +942,7 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void defaultCommitMessage() throws Exception {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.function = LabelFunction.NO_OP.getFunctionName();
-    gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+    gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(
             projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).getShortMessage())
         .isEqualTo("Update label");
@@ -951,7 +953,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.function = LabelFunction.NO_OP.getFunctionName();
     input.commitMessage = "Set NoOp function";
-    gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+    gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(
             projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).getShortMessage())
         .isEqualTo(input.commitMessage);
@@ -962,7 +964,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.function = LabelFunction.NO_OP.getFunctionName();
     input.commitMessage = " Set NoOp function ";
-    gApi.projects().name(allProjects.get()).label("Code-Review").update(input);
+    gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
     assertThat(
             projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).getShortMessage())
         .isEqualTo("Set NoOp function");

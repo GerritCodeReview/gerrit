@@ -41,6 +41,7 @@ import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -83,7 +84,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       // This way changes to the "Code Review" label don't affect other tests.
       LabelType.Builder codeReview =
           labelBuilder(
-              "Code-Review",
+              LabelId.CODE_REVIEW,
               value(2, "Looks good to me, approved"),
               value(1, "Looks good to me, but someone else must approve"),
               value(0, "No score"),
@@ -93,7 +94,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       u.getConfig().upsertLabelType(codeReview.build());
 
       LabelType.Builder verified =
-          labelBuilder("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+          labelBuilder(
+              LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
       verified.setCopyAllScoresIfNoChange(false);
       u.getConfig().upsertLabelType(verified.build());
 
@@ -124,7 +126,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyOnAnyScore() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType("Code-Review", b -> b.setCopyAnyScore(true));
+      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(true));
       u.save();
     }
 
@@ -146,7 +148,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyOnMinScore() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType("Code-Review", b -> b.setCopyMinScore(true));
+      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMinScore(true));
       u.save();
     }
 
@@ -168,7 +170,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyOnMaxScore() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType("Code-Review", b -> b.setCopyMaxScore(true));
+      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMaxScore(true));
       u.save();
     }
 
@@ -194,7 +196,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
           .updateLabelType(
-              "Code-Review", b -> b.setCopyValues(ImmutableList.of((short) -1, (short) 1)));
+              LabelId.CODE_REVIEW, b -> b.setCopyValues(ImmutableList.of((short) -1, (short) 1)));
       u.save();
     }
 
@@ -218,7 +220,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyOnTrivialRebase() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType("Code-Review", b -> b.setCopyAllScoresOnTrivialRebase(true));
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAllScoresOnTrivialRebase(true));
       u.save();
     }
 
@@ -264,7 +267,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyOnNoCodeChange() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType("Verified", b -> b.setCopyAllScoresIfNoCodeChange(true));
+      u.getConfig().updateLabelType(LabelId.VERIFIED, b -> b.setCopyAllScoresIfNoCodeChange(true));
       u.save();
     }
 
@@ -289,7 +292,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   public void stickyOnMergeFirstParentUpdate() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
-          .updateLabelType("Code-Review", b -> b.setCopyAllScoresOnMergeFirstParentUpdate(true));
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresOnMergeFirstParentUpdate(true));
       u.save();
     }
 
@@ -313,7 +317,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void notStickyWithCopyOnNoChangeWhenSecondParentIsUpdated() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType("Code-Review", b -> b.setCopyAllScoresIfNoChange(true));
+      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfNoChange(true));
       u.save();
     }
 
@@ -332,7 +336,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
-          .updateLabelType("Code-Review", b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
       u.save();
     }
     Change.Id changeId =
@@ -358,7 +363,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
-          .updateLabelType("Code-Review", b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
       u.save();
     }
     Change.Id changeId =
@@ -379,7 +385,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
-          .updateLabelType("Code-Review", b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
       u.save();
     }
     Change.Id changeId =
@@ -400,7 +407,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
-          .updateLabelType("Code-Review", b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
       u.save();
     }
     Change.Id changeId =
@@ -420,8 +428,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void removedVotesNotSticky() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType("Code-Review", b -> b.setCopyAllScoresOnTrivialRebase(true));
-      u.getConfig().updateLabelType("Verified", b -> b.setCopyAllScoresIfNoCodeChange(true));
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAllScoresOnTrivialRebase(true));
+      u.getConfig().updateLabelType(LabelId.VERIFIED, b -> b.setCopyAllScoresIfNoCodeChange(true));
       u.save();
     }
 
@@ -450,8 +459,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyAcrossMultiplePatchSets() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType("Code-Review", b -> b.setCopyMaxScore(true));
-      u.getConfig().updateLabelType("Verified", b -> b.setCopyAllScoresIfNoCodeChange(true));
+      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMaxScore(true));
+      u.getConfig().updateLabelType(LabelId.VERIFIED, b -> b.setCopyAllScoresIfNoCodeChange(true));
       u.save();
     }
 
@@ -476,8 +485,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     // change kind against all prior patch sets. This is a regression that made Gerrit do expensive
     // work in O(num-patch-sets). This test ensures that we aren't regressing.
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType("Code-Review", b -> b.setCopyMaxScore(true));
-      u.getConfig().updateLabelType("Verified", b -> b.setCopyAllScoresIfNoCodeChange(true));
+      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMaxScore(true));
+      u.getConfig().updateLabelType(LabelId.VERIFIED, b -> b.setCopyAllScoresIfNoCodeChange(true));
       u.save();
     }
 
@@ -508,8 +517,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void copyMinMaxAcrossMultiplePatchSets() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType("Code-Review", b -> b.setCopyMaxScore(true));
-      u.getConfig().updateLabelType("Code-Review", b -> b.setCopyMinScore(true));
+      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMaxScore(true));
+      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMinScore(true));
       u.save();
     }
 
@@ -547,7 +556,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   public void deleteStickyVote() throws Exception {
-    String label = "Code-Review";
+    String label = LabelId.CODE_REVIEW;
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().updateLabelType(label, b -> b.setCopyMaxScore(true));
       u.save();
@@ -561,7 +570,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertVotes(detailedChange(changeId), admin, label, 2, REWORK);
 
     // Delete vote that was copied via sticky approval
-    deleteVote(admin, changeId, "Code-Review");
+    deleteVote(admin, changeId, label);
     assertVotes(detailedChange(changeId), admin, label, 0, REWORK);
   }
 
@@ -685,7 +694,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
     RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
-    ReviewInput in = new ReviewInput().label("Code-Review", 2).label("Verified", 1);
+    ReviewInput in = new ReviewInput().label(LabelId.CODE_REVIEW, 2).label(LabelId.VERIFIED, 1);
     revision.review(in);
     revision.submit();
 
@@ -797,7 +806,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       throws Exception {
     requestScopeOperations.setApiUser(user.id());
     ReviewInput in =
-        new ReviewInput().label("Code-Review", codeReviewVote).label("Verified", verifiedVote);
+        new ReviewInput()
+            .label(LabelId.CODE_REVIEW, codeReviewVote)
+            .label(LabelId.VERIFIED, verifiedVote);
     gApi.changes().id(changeId).current().review(in);
   }
 
@@ -812,8 +823,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   private void assertVotes(
       ChangeInfo c, TestAccount user, int codeReviewVote, int verifiedVote, ChangeKind changeKind) {
-    assertVotes(c, user, "Code-Review", codeReviewVote, changeKind);
-    assertVotes(c, user, "Verified", verifiedVote, changeKind);
+    assertVotes(c, user, LabelId.CODE_REVIEW, codeReviewVote, changeKind);
+    assertVotes(c, user, LabelId.VERIFIED, verifiedVote, changeKind);
   }
 
   private void assertVotes(

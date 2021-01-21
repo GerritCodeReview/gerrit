@@ -40,6 +40,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PermissionRange;
 import com.google.gerrit.entities.Project;
@@ -651,12 +652,13 @@ public class RefControlTest {
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(blockLabel("Code-Review").ref("refs/heads/master").group(DEVS).range(+1, +2))
+        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/master").group(DEVS).range(+1, +2))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
 
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCannotVote(2, range);
   }
 
@@ -665,17 +667,18 @@ public class RefControlTest {
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
         .update();
     projectOperations
         .project(parentKey)
         .forUpdate()
-        .add(blockLabel("Code-Review").ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
 
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCanVote(-1, range);
     assertCanVote(1, range);
     assertCannotVote(-2, range);
@@ -687,18 +690,19 @@ public class RefControlTest {
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(DEVS).range(-2, +2))
-        .add(blockLabel("Code-Review").ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
         .update();
     projectOperations
         .project(parentKey)
         .forUpdate()
-        .add(blockLabel("Code-Review").ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
 
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCanVote(-1, range);
     assertCanVote(1, range);
     assertCannotVote(-2, range);
@@ -832,13 +836,15 @@ public class RefControlTest {
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(blockLabel("Code-Review").ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
-        .add(allowLabel("Code-Review").ref("refs/heads/master").group(DEVS).range(-2, 2))
-        .setExclusiveGroup(labelPermissionKey("Code-Review").ref("refs/heads/master"), true)
+        .add(
+            blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/master").group(DEVS).range(-2, 2))
+        .setExclusiveGroup(labelPermissionKey(LabelId.CODE_REVIEW).ref("refs/heads/master"), true)
         .update();
 
     ProjectControl u = user(localKey, DEVS);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCanVote(-2, range);
   }
 
@@ -1013,12 +1019,17 @@ public class RefControlTest {
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(blockLabel("Code-Review").ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, +1))
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .add(
+            blockLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(ANONYMOUS_USERS)
+                .range(-1, +1))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCanVote(-2, range);
     assertCanVote(2, range);
   }
@@ -1028,12 +1039,17 @@ public class RefControlTest {
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(blockLabel("Code-Review").ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, +1))
-        .add(allowLabel("Code-Review").ref("refs/heads/master").group(DEVS).range(-2, +2))
+        .add(
+            blockLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(ANONYMOUS_USERS)
+                .range(-1, +1))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/master").group(DEVS).range(-2, +2))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCannotVote(-2, range);
     assertCannotVote(2, range);
   }
@@ -1044,12 +1060,16 @@ public class RefControlTest {
         .project(localKey)
         .forUpdate()
         .add(
-            blockLabel("Code-Review").ref("refs/heads/master").group(ANONYMOUS_USERS).range(-1, +1))
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(DEVS).range(-2, +2))
+            blockLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/master")
+                .group(ANONYMOUS_USERS)
+                .range(-1, +1))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCannotVote(-2, range);
     assertCannotVote(2, range);
   }
@@ -1059,11 +1079,12 @@ public class RefControlTest {
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
         .update();
 
     ProjectControl u = user(localKey, REGISTERED_USERS);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCannotVote(-1, range);
     assertCannotVote(1, range);
   }
@@ -1073,16 +1094,18 @@ public class RefControlTest {
     projectOperations
         .project(parentKey)
         .forUpdate()
-        .add(blockLabel("Code-Review").ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
+        .add(
+            blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
         .update();
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCannotVote(-2, range);
     assertCannotVote(2, range);
   }
@@ -1092,12 +1115,12 @@ public class RefControlTest {
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(CHANGE_OWNER).range(-2, +2))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(CHANGE_OWNER).range(-2, +2))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
     PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review", true);
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW, true);
     assertCanVote(-2, range);
     assertCanVote(2, range);
   }
@@ -1107,11 +1130,12 @@ public class RefControlTest {
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(CHANGE_OWNER).range(-2, +2))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(CHANGE_OWNER).range(-2, +2))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCannotVote(-2, range);
     assertCannotVote(2, range);
   }
@@ -1121,11 +1145,12 @@ public class RefControlTest {
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(blockLabel("Code-Review").ref("refs/heads/*").group(CHANGE_OWNER).range(-2, +2))
+        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(CHANGE_OWNER).range(-2, +2))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCannotVote(-2, range);
     assertCannotVote(2, range);
   }
@@ -1135,12 +1160,17 @@ public class RefControlTest {
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(DEVS).range(-1, +1))
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, +2))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-1, +1))
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, +2))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCanVote(-2, range);
     assertCanVote(2, range);
   }
@@ -1150,12 +1180,17 @@ public class RefControlTest {
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, +2))
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(DEVS).range(-1, +1))
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, +2))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-1, +1))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCanVote(-2, range);
     assertCanVote(2, range);
   }
@@ -1165,17 +1200,26 @@ public class RefControlTest {
     projectOperations
         .project(parentKey)
         .forUpdate()
-        .add(allowLabel("Code-Review").ref("refs/heads/*").group(DEVS).range(-1, +1))
-        .add(blockLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, +2))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-1, +1))
+        .add(
+            blockLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, +2))
         .update();
     projectOperations
         .project(localKey)
         .forUpdate()
-        .add(blockLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, +1))
+        .add(
+            blockLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, +1))
         .update();
 
     ProjectControl u = user(localKey, DEVS);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCanVote(-1, range);
     assertCannotVote(1, range);
   }

@@ -60,6 +60,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -1550,7 +1551,7 @@ public class GroupsIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel("Code-Review")
+            allowLabel(LabelId.CODE_REVIEW)
                 .ref(RefNames.REFS_GROUPS + "*")
                 .group(REGISTERED_USERS)
                 .range(-2, 2))

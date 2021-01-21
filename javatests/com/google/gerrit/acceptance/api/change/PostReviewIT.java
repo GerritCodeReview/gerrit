@@ -38,6 +38,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.DraftInput;
@@ -459,7 +460,7 @@ public class PostReviewIT extends AbstractDaemonTest {
     // User adds themselves and changes state
     requestScopeOperations.setApiUser(user.id());
 
-    ReviewInput input = new ReviewInput().label("Code-Review", 1);
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
     gApi.changes().id(r.getChangeId()).current().review(input);
 
     Map<ReviewerState, Collection<AccountInfo>> reviewers =
@@ -493,7 +494,7 @@ public class PostReviewIT extends AbstractDaemonTest {
     String testMessage = "hello from plugin";
     TestOnPostReview testOnPostReview = new TestOnPostReview(testMessage);
     try (Registration registration = extensionRegistry.newRegistration().add(testOnPostReview)) {
-      ReviewInput input = new ReviewInput().label("Code-Review", 1);
+      ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
       gApi.changes().id(r.getChangeId()).current().review(input);
       Collection<ChangeMessageInfo> messages = gApi.changes().id(r.getChangeId()).get().messages;
       assertThat(Iterables.getLast(messages).message)
@@ -511,7 +512,7 @@ public class PostReviewIT extends AbstractDaemonTest {
     TestOnPostReview testOnPostReview2 = new TestOnPostReview(testMessage2);
     try (Registration registration =
         extensionRegistry.newRegistration().add(testOnPostReview1).add(testOnPostReview2)) {
-      ReviewInput input = new ReviewInput().label("Code-Review", 1);
+      ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
       gApi.changes().id(r.getChangeId()).current().review(input);
       Collection<ChangeMessageInfo> messages = gApi.changes().id(r.getChangeId()).get().messages;
       assertThat(Iterables.getLast(messages).message)
@@ -527,7 +528,7 @@ public class PostReviewIT extends AbstractDaemonTest {
 
     TestOnPostReview testOnPostReview = new TestOnPostReview(/* message= */ null);
     try (Registration registration = extensionRegistry.newRegistration().add(testOnPostReview)) {
-      ReviewInput input = new ReviewInput().label("Code-Review", 1);
+      ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
       gApi.changes().id(r.getChangeId()).current().review(input);
       Collection<ChangeMessageInfo> messages = gApi.changes().id(r.getChangeId()).get().messages;
       assertThat(Iterables.getLast(messages).message).isEqualTo("Patch Set 1: Code-Review+1");
@@ -541,7 +542,7 @@ public class PostReviewIT extends AbstractDaemonTest {
 
     TestOnPostReview testOnPostReview = new TestOnPostReview(/* message= */ null);
     try (Registration registration = extensionRegistry.newRegistration().add(testOnPostReview)) {
-      ReviewInput input = new ReviewInput().label("Code-Review", 1);
+      ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
 
       // Vote on current patch set.
       gApi.changes().id(r.getChangeId()).current().review(input);
@@ -559,7 +560,7 @@ public class PostReviewIT extends AbstractDaemonTest {
 
     TestOnPostReview testOnPostReview = new TestOnPostReview(/* message= */ null);
     try (Registration registration = extensionRegistry.newRegistration().add(testOnPostReview)) {
-      ReviewInput input = new ReviewInput().label("Code-Review", 1);
+      ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
 
       // Vote from admin.
       gApi.changes().id(r.getChangeId()).current().review(input);
@@ -579,28 +580,28 @@ public class PostReviewIT extends AbstractDaemonTest {
     TestOnPostReview testOnPostReview = new TestOnPostReview(/* message= */ null);
     try (Registration registration = extensionRegistry.newRegistration().add(testOnPostReview)) {
       // Add a new vote.
-      ReviewInput input = new ReviewInput().label("Code-Review", 1);
+      ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
       gApi.changes().id(r.getChangeId()).current().review(input);
       testOnPostReview.assertApproval(
-          "Code-Review", /* expectedOldValue= */ 0, /* expectedNewValue= */ 1);
+          LabelId.CODE_REVIEW, /* expectedOldValue= */ 0, /* expectedNewValue= */ 1);
 
       // Update an existing vote.
-      input = new ReviewInput().label("Code-Review", 2);
+      input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
       gApi.changes().id(r.getChangeId()).current().review(input);
       testOnPostReview.assertApproval(
-          "Code-Review", /* expectedOldValue= */ 1, /* expectedNewValue= */ 2);
+          LabelId.CODE_REVIEW, /* expectedOldValue= */ 1, /* expectedNewValue= */ 2);
 
       // Post without changing the vote.
-      input = new ReviewInput().label("Code-Review", 2);
+      input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
       gApi.changes().id(r.getChangeId()).current().review(input);
       testOnPostReview.assertApproval(
-          "Code-Review", /* expectedOldValue= */ null, /* expectedNewValue= */ 2);
+          LabelId.CODE_REVIEW, /* expectedOldValue= */ null, /* expectedNewValue= */ 2);
 
       // Delete the vote.
-      input = new ReviewInput().label("Code-Review", 0);
+      input = new ReviewInput().label(LabelId.CODE_REVIEW, 0);
       gApi.changes().id(r.getChangeId()).current().review(input);
       testOnPostReview.assertApproval(
-          "Code-Review", /* expectedOldValue= */ 2, /* expectedNewValue= */ 0);
+          LabelId.CODE_REVIEW, /* expectedOldValue= */ 2, /* expectedNewValue= */ 0);
     }
   }
 

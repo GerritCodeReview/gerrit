@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51420ed8_40bb36fc",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-21T09:46:45Z",
+      "side": 1,
+      "message": "Clicking on this doesn\u0027t do anything yet. But when it does, you are missing aria-label",
+      "range": {
+        "startLine": 67,
+        "startChar": 44,
+        "endLine": 67,
+        "endChar": 48
+      },
+      "revId": "74146d933e9ed75272cd2a4c432aebe15064d146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b9d7332_4a2120f3",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-21T09:46:45Z",
+      "side": 1,
+      "message": "Probably needs aria-label",
+      "range": {
+        "startLine": 75,
+        "startChar": 24,
+        "endLine": 75,
+        "endChar": 30
+      },
+      "revId": "74146d933e9ed75272cd2a4c432aebe15064d146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6045d048_f2c666fa",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-21T09:46:45Z",
+      "side": 1,
+      "message": "Maybe using \u003cthead\u003e and \u003ctbody\u003e",
+      "range": {
+        "startLine": 250,
+        "startChar": 9,
+        "endLine": 250,
+        "endChar": 11
+      },
+      "revId": "74146d933e9ed75272cd2a4c432aebe15064d146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a03ad1f_526cdcef",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-21T09:46:45Z",
+      "side": 1,
+      "message": "Maybe consider moving renderSuccessfulRun from function to lit-element",
+      "range": {
+        "startLine": 276,
+        "startChar": 26,
+        "endLine": 276,
+        "endChar": 45
+      },
+      "revId": "74146d933e9ed75272cd2a4c432aebe15064d146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

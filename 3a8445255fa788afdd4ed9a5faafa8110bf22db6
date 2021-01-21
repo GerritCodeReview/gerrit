@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea2b3d72_1e9b6663",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1541,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-21T15:04:23Z",
+      "side": 1,
+      "message": "Random thought: Can we also log the route name? And log each route change? Or do we do that already?",
+      "revId": "3a8445255fa788afdd4ed9a5faafa8110bf22db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "375ddc16_d0b99f5d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1554,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-21T15:04:23Z",
+      "side": 1,
+      "message": "Will this be set to undefined by other routes? E.g. if you go from change page to dashboard page, then will the change num be erased?",
+      "revId": "3a8445255fa788afdd4ed9a5faafa8110bf22db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

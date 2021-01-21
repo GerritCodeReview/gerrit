@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4d93dc3_d9d11191",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-21T07:46:35Z",
+      "side": 1,
+      "message": "Brilliant! That was easier than expected. :-)\n\nThe license check fails (as expected). Would be great to fix that (by adding a LICENSE file for MWC). Let me or Dmitrii know if you need help with that.\n\nI think it would be nice to find one (or a few) places where we can actually use and submit MWC components. Maybe on some less prominent admin or settings page? Then we can make sure the BUILD is fine, also Google internally.\n\nOnce that is done we could enter the next phase, which would be planning the actual migration. What needs to be done? What are the difficulties? How will the theming/styling of MWC components work for us?\n\nFeel free to go as far as you like with this, depending on how much time you have this quarter and how passionate you are about this. :-)",
+      "revId": "c1eafbf9cf456b0588facd1518c04855fbc63361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -434,6 +434,24 @@
       "parentUuid": "97ef0b57_5efd51d6",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e51edf1_903b9606",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-21T23:11:41Z",
+      "side": 1,
+      "message": "After debugging this test and comparing it with JGit, I see what is happening.\n\nThe problem is that we are messing up with commit time somehow in Gerrit, in this method we are returning erroneously false:\n\n  private boolean wantSatisfied(RevObject want) throws IOException {\n\t\tif (want.has(SATISFIED))\n\t\t\treturn true;\n\n\t\twalk.resetRetain(SAVE);\n\t\twalk.markStart((RevCommit) want);\n//\t\tif (oldestTime !\u003d 0)\n//\t\t\twalk.setRevFilter(CommitTimeRevFilter.after(oldestTime * 1000L));\n\t\tfor (;;) {\n\t\t\tfinal RevCommit c \u003d walk.next();\n\t\t\tif (c \u003d\u003d null)\n\t\t\t\tbreak;\n\t\t\tif (c.has(PEER_HAS)) {\n\t\t\t\taddCommonBase(c);\n\t\t\t\twant.add(SATISFIED);\n\t\t\t\treturn true;\n\t\t\t}\n\t\t}\n\t\treturn false;\n\t}\n\nIf I comment out CommitTimeRevFilter line:\n\n  // if (oldestTime !\u003d 0)\n  //\twalk.setRevFilter(CommitTimeRevFilter.after(oldestTime * 1000L));\n\nthen I am getting also 3 requests for Git protocol v2 fetch in gerrit.\n\nLooking at commit time:\n\nCommon base and oldestTime \u003d 1611269860, while the want commit is:\n\n  commit 5971e0c265f813764131068c31999d9a3f7cd99a 1250379779\n\nBecause of time mismatch, okToGiveUp() is erroneously returning false in fetchV2 method:\n\n  if (okToGiveUp()) {\n\tpckOut.writeString(\"ready\\n\"); //$NON-NLS-1$\n  } else if (commonBase.isEmpty()) {\n\tpckOut.writeString(\"NAK\\n\"); //$NON-NLS-1$\n  }\n\nand we are requiring yet another request. In real, non test gerrit server life we don\u0027t have the time mismatch and all seems to be fine.\n\n@Thomas, @Matthias, any clue what\u0027s going on?",
+      "parentUuid": "fd91e2cf_36dcb07d",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

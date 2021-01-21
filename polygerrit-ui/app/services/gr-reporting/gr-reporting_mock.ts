@@ -57,6 +57,7 @@ export const grReportingMock: ReportingService = {
   reportLifeCycle: () => {},
   reportRpcTiming: () => {},
   setRepoName: () => {},
+  setChangeId: () => {},
   time: () => {},
   timeEnd: () => {},
   timeEndWithAverage: () => {},

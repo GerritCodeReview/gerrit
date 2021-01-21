@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import { NumericChangeId } from "../../types/common";
+
 export type EventValue = string | number | {error?: Error};
 
 // TODO(dmfilippov): TS-fix-any use more specific type instead if possible
@@ -106,4 +108,5 @@ export interface ReportingService {
   recordDraftInteraction(): void;
   reportErrorDialog(message: string): void;
   setRepoName(repoName: string): void;
+  setChangeId(changeId: NumericChangeId): void;
 }

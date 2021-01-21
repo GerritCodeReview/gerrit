@@ -567,6 +567,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cbd756e_c294b0fc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-21T07:46:26Z",
+      "side": 1,
+      "message": "yea, nothing new from this (Code-Review is much more widely used)",
+      "parentUuid": "a95dca46_bbc1a327",
+      "range": {
+        "startLine": 819,
+        "startChar": 25,
+        "endLine": 819,
+        "endChar": 38
+      },
+      "revId": "4920ca7169adb8d73112b31be6edbb14492ef2c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7ffe395_2ee15fca",

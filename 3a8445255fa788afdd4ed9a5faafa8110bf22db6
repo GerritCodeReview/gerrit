@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f3f7d99_ccbbd498",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1541,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-21T15:12:26Z",
+      "side": 1,
+      "message": "Yes, we already have this in Page field - DiffPage, ChangePage, ...\n\nreporting.locationChanged",
+      "parentUuid": "ea2b3d72_1e9b6663",
+      "revId": "3a8445255fa788afdd4ed9a5faafa8110bf22db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "375ddc16_d0b99f5d",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-21T15:04:23Z",
       "side": 1,
       "message": "Will this be set to undefined by other routes? E.g. if you go from change page to dashboard page, then will the change num be erased?",
+      "revId": "3a8445255fa788afdd4ed9a5faafa8110bf22db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff89faa1_1c51076d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1554,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-21T15:12:26Z",
+      "side": 1,
+      "message": "Yes, each page redirection calls beforeLocationChanged() where we makes changeId to undefined.",
+      "parentUuid": "375ddc16_d0b99f5d",
       "revId": "3a8445255fa788afdd4ed9a5faafa8110bf22db6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -99,3 +99,13 @@ export function fireThreadListModifiedEvent(
     })
   );
 }
+
+export function fireShowPrimaryTab(target: EventTarget, tab: string) {
+  target.dispatchEvent(
+    new CustomEvent('show-primary-tab', {
+      detail: {tab},
+      composed: true,
+      bubbles: true,
+    })
+  );
+}

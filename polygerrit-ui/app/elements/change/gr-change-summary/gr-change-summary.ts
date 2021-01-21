@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from 'lit-html';
+import {html, TemplateResult} from 'lit-html';
 import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -27,6 +27,7 @@ import {
   RunStatus,
 } from '../../plugins/gr-checks-api/gr-checks-api-types';
 import {allRuns$, RunResult} from '../../../services/checks/checks-model';
+import {fireShowPrimaryTab} from '../../../utils/event-util';
 
 function hasRunningOrCompleted(runs: CheckRun[]) {
   return runs.some(
@@ -69,6 +70,7 @@ export class GrChecksChip extends GrLitElement {
       css`
         .checksChip {
           color: var(--chip-color);
+          cursor: pointer;
           display: inline-block;
           margin-right: var(--spacing-s);
           padding: var(--spacing-xxs) var(--spacing-m) var(--spacing-xxs)
@@ -137,20 +139,28 @@ export class GrChecksChip extends GrLitElement {
     const count = this.runs.length || this.results.length;
     if (count === 0) return;
     if (count > this.expandMax || !this.results.length) {
-      return this.renderChipCount(count);
+      return this.renderChip(html`${count}`);
     }
-    return this.results.map(result => this.renderChipFull(result));
+    return this.results.map(result =>
+      this.renderChip(this.renderNameAndLinks(result))
+    );
   }
 
-  private renderChipFull(result: RunResult) {
+  private renderChip(content: TemplateResult) {
     const chipClass = `checksChip font-small ${this.icon}`;
     const grIcon = `gr-icons:${this.icon}`;
     return html`
-      <div class="${chipClass}">
+      <div class="${chipClass}" role="button" @click="${this.handleClick}">
         <iron-icon icon="${grIcon}"></iron-icon>
-        <div class="checkName">${result.checkName}</div>
-        ${this.renderResultLinks(result.links ?? [])}
+        ${content}
       </div>
+    `;
+  }
+
+  private renderNameAndLinks(result: RunResult) {
+    return html`
+      <div class="checkName">${result.checkName}</div>
+      ${this.renderResultLinks(result.links ?? [])}
     `;
   }
 
@@ -160,22 +170,24 @@ export class GrChecksChip extends GrLitElement {
       .slice(0, 2)
       .map(
         link => html`
-          <a href="${link.url}" target="_blank">
+          <a
+            href="${link.url}"
+            target="_blank"
+            @click="${this.handleClickLink}"
+          >
             <iron-icon class="launch" icon="gr-icons:launch"></iron-icon>
           </a>
         `
       );
   }
 
-  private renderChipCount(count: number) {
-    const chipClass = `checksChip font-small ${this.icon}`;
-    const grIcon = `gr-icons:${this.icon}`;
-    return html`
-      <div class="${chipClass}">
-        <iron-icon icon="${grIcon}"></iron-icon>
-        ${count}
-      </div>
-    `;
+  private handleClick() {
+    fireShowPrimaryTab(this, 'checks');
+  }
+
+  private handleClickLink(e: Event) {
+    // Prevents handleClick() from reacting to <a> link clicks.
+    e.stopPropagation();
   }
 }
 

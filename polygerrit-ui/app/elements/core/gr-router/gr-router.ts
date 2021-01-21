@@ -1540,9 +1540,10 @@ export class GrRouter extends GestureEventListeners(
 
   _handleChangeRoute(ctx: PageContextWithQueryMap) {
     // Parameter order is based on the regex group number matched.
+    const changeNum = Number(ctx.params[1]) as NumericChangeId;
     const params: GenerateUrlChangeViewParameters = {
       project: ctx.params[0] as RepoName,
-      changeNum: Number(ctx.params[1]) as NumericChangeId,
+      changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]),
       patchNum: convertToPatchSetNum(ctx.params[6]),
       view: GerritView.CHANGE,
@@ -1550,26 +1551,30 @@ export class GrRouter extends GestureEventListeners(
     };
 
     this.reporting.setRepoName(params.project);
+    this.reporting.setChangeId(changeNum);
     this._redirectOrNavigate(params);
   }
 
   _handleCommentRoute(ctx: PageContextWithQueryMap) {
+    const changeNum = Number(ctx.params[1]) as NumericChangeId;
     const params: GenerateUrlDiffViewParameters = {
       project: ctx.params[0] as RepoName,
-      changeNum: Number(ctx.params[1]) as NumericChangeId,
+      changeNum,
       commentId: ctx.params[2] as UrlEncodedCommentId,
       view: GerritView.DIFF,
       commentLink: true,
     };
     this.reporting.setRepoName(params.project);
+    this.reporting.setChangeId(changeNum);
     this._redirectOrNavigate(params);
   }
 
   _handleDiffRoute(ctx: PageContextWithQueryMap) {
+    const changeNum = Number(ctx.params[1]) as NumericChangeId;
     // Parameter order is based on the regex group number matched.
     const params: GenerateUrlDiffViewParameters = {
       project: ctx.params[0] as RepoName,
-      changeNum: Number(ctx.params[1]) as NumericChangeId,
+      changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]),
       patchNum: convertToPatchSetNum(ctx.params[6]),
       path: ctx.params[8],
@@ -1581,6 +1586,7 @@ export class GrRouter extends GestureEventListeners(
       params.lineNum = address.lineNum;
     }
     this.reporting.setRepoName(params.project);
+    this.reporting.setChangeId(changeNum);
     this._redirectOrNavigate(params);
   }
 
@@ -1623,9 +1629,10 @@ export class GrRouter extends GestureEventListeners(
   _handleDiffEditRoute(ctx: PageContextWithQueryMap) {
     // Parameter order is based on the regex group number matched.
     const project = ctx.params[0] as RepoName;
+    const changeNum = Number(ctx.params[1]) as NumericChangeId;
     this._redirectOrNavigate({
       project,
-      changeNum: Number(ctx.params[1]) as NumericChangeId,
+      changeNum,
       // for edit view params, patchNum cannot be undefined
       patchNum: convertToPatchSetNum(ctx.params[2])!,
       path: ctx.params[3],
@@ -1633,19 +1640,22 @@ export class GrRouter extends GestureEventListeners(
       view: GerritView.EDIT,
     });
     this.reporting.setRepoName(project);
+    this.reporting.setChangeId(changeNum);
   }
 
   _handleChangeEditRoute(ctx: PageContextWithQueryMap) {
     // Parameter order is based on the regex group number matched.
     const project = ctx.params[0] as RepoName;
+    const changeNum = Number(ctx.params[1]) as NumericChangeId;
     this._redirectOrNavigate({
       project,
-      changeNum: Number(ctx.params[1]) as NumericChangeId,
+      changeNum,
       patchNum: convertToPatchSetNum(ctx.params[3]),
       view: GerritView.CHANGE,
       edit: true,
     });
     this.reporting.setRepoName(project);
+    this.reporting.setChangeId(changeNum);
   }
 
   /**

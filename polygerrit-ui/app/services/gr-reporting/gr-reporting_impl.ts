@@ -23,6 +23,7 @@ import {
   Timer,
 } from './gr-reporting';
 import {hasOwnProperty} from '../../utils/common-util';
+import {NumericChangeId} from '../../types/common';
 
 // Latency reporting constants.
 
@@ -270,6 +271,7 @@ interface EventInfo {
   eventStart: number;
   eventDetails?: string;
   repoName?: string;
+  changeId?: string;
   inBackgroundTab?: boolean;
   enabledExperiments?: string;
 }
@@ -295,6 +297,8 @@ export class GrReporting implements ReportingService {
   private readonly _baselines = STARTUP_TIMERS;
 
   private _reportRepoName: string | undefined;
+
+  private _reportChangeId: NumericChangeId | undefined;
 
   private _timers: {timeBetweenDraftActions: Timer | null} = {
     timeBetweenDraftActions: null,
@@ -420,6 +424,9 @@ export class GrReporting implements ReportingService {
     if (this._reportRepoName) {
       eventInfo.repoName = this._reportRepoName;
     }
+    if (this._reportChangeId) {
+      eventInfo.changeId = `${this._reportChangeId}`;
+    }
 
     const isInBackgroundTab = document.visibilityState === 'hidden';
     if (isInBackgroundTab !== undefined) {
@@ -499,6 +506,7 @@ export class GrReporting implements ReportingService {
     this.time(TIMER.DIFF_VIEW_LOAD_FULL);
     this.time(TIMER.FILE_LIST_DISPLAYED);
     this._reportRepoName = undefined;
+    this._reportChangeId = undefined;
     // reset slow rpc list since here start page loads which report these rpcs
     this._slowRpcList = [];
     this.hiddenDurationTimer.reset();
@@ -845,6 +853,10 @@ export class GrReporting implements ReportingService {
 
   setRepoName(repoName: string) {
     this._reportRepoName = repoName;
+  }
+
+  setChangeId(changeId: NumericChangeId) {
+    this._reportChangeId = changeId;
   }
 }
 

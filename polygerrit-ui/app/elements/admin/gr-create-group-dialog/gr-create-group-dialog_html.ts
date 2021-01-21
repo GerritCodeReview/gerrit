@@ -32,7 +32,8 @@ export const htmlTemplate = html`
     <div id="form">
       <section>
         <span class="title">Group name</span>
-        <iron-input bind-value="{{_name}}">
+        <mwc-button label="Butt"></mwc-button>
+        <iron-input value="{{_name::input}}">
           <input is="iron-input" bind-value="{{_name}}" />
         </iron-input>
       </section>

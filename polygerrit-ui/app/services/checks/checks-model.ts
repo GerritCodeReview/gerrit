@@ -106,6 +106,7 @@ const fakeRun0: CheckRun = {
       links: [
         {primary: true, url: 'https://www.google.com', icon: LinkIcon.EXTERNAL},
       ],
+      tags: [{name: 'OBSOLETE'}, {name: 'E2E'}],
     },
   ],
   status: RunStatus.COMPLETED,
@@ -113,13 +114,17 @@ const fakeRun0: CheckRun = {
 
 const fakeRun1: CheckRun = {
   checkName: 'FAKE Super Check',
+  labelName: 'Verified',
   results: [
     {
       category: Category.WARNING,
       summary: 'We think that you could improve this.',
+      message: `There is a lot to be said. A lot. I say, a lot.\n
+                So please keep reading.`,
+      tags: [{name: 'INTERRUPTED'}, {name: 'WINDOWS'}],
     },
   ],
-  status: RunStatus.COMPLETED,
+  status: RunStatus.RUNNING,
 };
 
 const fakeRun2: CheckRun = {
@@ -128,6 +133,8 @@ const fakeRun2: CheckRun = {
     {
       category: Category.INFO,
       summary: 'This is looking a bit too large.',
+      message: 'We are still looking into how large exactly. Stay tuned.',
+      tags: [{name: 'FLAKY'}, {name: 'MAC-OS'}],
     },
   ],
   status: RunStatus.COMPLETED,

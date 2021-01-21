@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '@material/mwc-button/mwc-button';
 import '@polymer/paper-button/paper-button';
 import '../../../styles/shared-styles';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';

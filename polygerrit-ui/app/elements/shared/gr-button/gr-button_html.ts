@@ -166,11 +166,11 @@ export const htmlTemplate = html`
       border-top-color: var(--deemphasized-text-color);
     }
   </style>
-  <paper-button raised="[[!link]]" disabled="[[_disabled]]" tabindex="-1">
+  <mwc-button raised="[[!link]]" disabled="[[_disabled]]" tabindex="-1">
     <template is="dom-if" if="[[loading]]">
       <span class="loadingSpin"></span>
     </template>
     <slot></slot>
     <i class="downArrow"></i>
-  </paper-button>
+  </mwc-button>
 `;

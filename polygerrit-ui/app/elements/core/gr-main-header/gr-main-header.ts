@@ -156,6 +156,9 @@ export class GrMainHeader extends GestureEventListeners(
   @property({type: String})
   _registerURL = '';
 
+  @property({type: String})
+  _feedbackUrl = '';
+
   @property({type: Boolean})
   mobileSearchHidden = false;
 
@@ -307,6 +310,7 @@ export class GrMainHeader extends GestureEventListeners(
         if (!config) {
           throw new Error('getConfig returned undefined');
         }
+        this._retreiveFeedbackURL(config);
         this._retrieveRegisterURL(config);
         return getDocsBaseUrl(config, this.restApiService);
       })
@@ -325,6 +329,12 @@ export class GrMainHeader extends GestureEventListeners(
       this._userLinks =
         prefs && prefs.my ? prefs.my.map(this._createHeaderLink) : [];
     });
+  }
+
+  _retreiveFeedbackURL(config: ServerInfo) {
+    if (config.gerrit?.report_bug_url) {
+      this._feedbackUrl = config.gerrit.report_bug_url;
+    }
   }
 
   _retrieveRegisterURL(config: ServerInfo) {

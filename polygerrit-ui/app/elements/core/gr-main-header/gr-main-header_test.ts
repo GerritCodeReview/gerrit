@@ -21,6 +21,7 @@ import './gr-main-header';
 import {GrMainHeader} from './gr-main-header';
 import {
   createAccountDetailWithId,
+  createGerritInfo,
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {NavLink} from '../../../utils/admin-nav-util';
@@ -473,6 +474,25 @@ suite('gr-main-header tests', () => {
         },
       ]
     );
+  });
+
+  test('shows feedback icon when URL provided', async () => {
+    assert.isEmpty(element._feedbackUrl);
+    assert.isNull(query(element, '.feedbackButton'));
+
+    const url = 'report_bug_url';
+    const config: ServerInfo = {
+      ...createServerInfo(),
+      gerrit: {
+        ...createGerritInfo(),
+        report_bug_url: url,
+      },
+    };
+    element._retreiveFeedbackURL(config);
+    await flush();
+
+    assert.equal(element._feedbackUrl, url);
+    assert.ok(query(element, '.feedbackButton'));
   });
 
   test('register URL', () => {

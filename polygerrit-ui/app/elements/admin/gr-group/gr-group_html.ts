@@ -32,7 +32,7 @@ export const htmlTemplate = html`
   <style include="gr-form-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
-  <main class="gr-form-styles read-only">
+  <div class="main gr-form-styles read-only">
     <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
       Loading...
     </div>
@@ -164,5 +164,5 @@ export const htmlTemplate = html`
         </fieldset>
       </div>
     </div>
-  </main>
+  </div>
 `;

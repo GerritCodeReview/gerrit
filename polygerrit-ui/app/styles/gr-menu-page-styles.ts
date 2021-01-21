@@ -28,7 +28,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-menu-page-styles">
       :host {
         display: block;
       }
-      main {
+      .main {
         margin: var(--spacing-xxl) auto;
         max-width: 50em;
       }
@@ -36,7 +36,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-menu-page-styles">
         margin-left: 14em;
         padding: var(--spacing-l) 0 var(--spacing-l) var(--spacing-xxl);
       }
-      main.table,
+      .main.table,
       .mainHeader {
         margin-top: 0;
         margin-right: 0;
@@ -52,10 +52,10 @@ $_documentContainer.innerHTML = `<dom-module id="gr-menu-page-styles">
         padding: var(--spacing-l);
       }
       @media only screen and (max-width: 67em) {
-        main {
+        .main {
           margin: var(--spacing-xxl) 0 var(--spacing-xxl) 15em;
         }
-        main.table {
+        .main.table {
           margin-left: 14em;
         }
       }
@@ -63,10 +63,10 @@ $_documentContainer.innerHTML = `<dom-module id="gr-menu-page-styles">
         .loading {
           padding: 0 var(--spacing-l);
         }
-        main {
+        .main {
           margin: var(--spacing-xxl) var(--spacing-l);
         }
-        main.table {
+        .main.table {
           margin: 0;
         }
         .mainHeader {

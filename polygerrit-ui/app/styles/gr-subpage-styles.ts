@@ -25,7 +25,7 @@ const $_documentContainer = document.createElement('template');
 $_documentContainer.innerHTML = `<dom-module id="gr-subpage-styles">
   <template>
     <style>
-      main {
+      .main {
         margin: var(--spacing-l);
       }
       .loading {

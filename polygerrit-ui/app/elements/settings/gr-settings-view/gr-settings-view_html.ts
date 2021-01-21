@@ -33,7 +33,7 @@ export const htmlTemplate = html`
     #email {
       margin-bottom: var(--spacing-l);
     }
-    main section.darkToggle {
+    .main section.darkToggle {
       display: block;
     }
     .filters p,
@@ -99,7 +99,7 @@ export const htmlTemplate = html`
         </gr-endpoint-decorator>
       </ul>
     </gr-page-nav>
-    <main class="gr-form-styles">
+    <div class="main gr-form-styles">
       <h1 class="heading-1">User Settings</h1>
       <section class="darkToggle">
         <div class="toggle">
@@ -566,6 +566,6 @@ export const htmlTemplate = html`
         </table>
       </fieldset>
       <gr-endpoint-decorator name="settings-screen"> </gr-endpoint-decorator>
-    </main>
+    </div>
   </div>
 `;

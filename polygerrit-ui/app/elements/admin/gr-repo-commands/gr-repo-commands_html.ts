@@ -28,7 +28,7 @@ export const htmlTemplate = html`
       margin-bottom: var(--spacing-xxl);
     }
   </style>
-  <main class="gr-form-styles read-only">
+  <div class="main gr-form-styles read-only">
     <h1 id="Title" class="heading-1">Repository Commands</h1>
     <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
       Loading...
@@ -67,7 +67,7 @@ export const htmlTemplate = html`
         </gr-endpoint-decorator>
       </div>
     </div>
-  </main>
+  </div>
   <gr-overlay id="createChangeOverlay" with-backdrop="">
     <gr-dialog
       id="createChangeDialog"

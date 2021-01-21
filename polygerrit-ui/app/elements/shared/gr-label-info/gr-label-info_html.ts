@@ -31,9 +31,9 @@ export const htmlTemplate = html`
       display: flex;
       justify-content: center;
       margin-right: var(--spacing-s);
-      padding: 0;
+      padding: 1px;
       @apply --vote-chip-styles;
-      border-width: 0;
+      border: 1px solid var(--border-color);
     }
     .max {
       background-color: var(--vote-color-approved);
@@ -95,7 +95,7 @@ export const htmlTemplate = html`
           <gr-label
             has-tooltip=""
             title="[[_computeValueTooltip(labelInfo, mappedLabel.value)]]"
-            class$="[[mappedLabel.className]] voteChip"
+            class$="[[mappedLabel.className]] voteChip font-small"
           >
             [[mappedLabel.value]]
           </gr-label>

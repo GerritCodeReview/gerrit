@@ -169,6 +169,9 @@ public class UploadArchiveIT extends StandaloneSiteTest {
         .add("-f=" + format)
         .add("--prefix=" + commit + "/")
         .add("--remote=" + sshDestination)
+        // compression-level is not a standard git archive option. This option is interpreted by the
+        // Gerrit server and passed to the JGit archive command.
+        .add("--compression-level=1") // set to 1 to reduce the memory footprint
         .add(commit)
         .add(FILE_NAME)
         .build();

@@ -488,6 +488,24 @@
       "parentUuid": "126f315a_be559731",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2fbbbc5_5f918417",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-01-22T00:42:48Z",
+      "side": 1,
+      "message": "But more generally: a malicious, buggy, or just wrongly configured client can always push nonsense timestamps. So relying on timestamps for anything appears to be a bit risky?",
+      "parentUuid": "f1281883_4fb85af8",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -14,18 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {DiffViewMode, Side} from '../constants/constants';
+import {DiffViewMode, MessageTag, Side} from '../constants/constants';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {
-  ChangeId,
-  CommitId,
-  NumericChangeId,
-  PatchRange,
-  PatchSetNum,
-} from './common';
+import {AccountInfo, ChangeId, ChangeViewChangeInfo, CommitId, CommitInfo, NumericChangeId, PatchRange, PatchSetNum, ReviewerUpdateInfo, RevisionInfo, Timestamp,} from './common';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {AuthRequestInit} from '../services/gr-auth/gr-auth';
 
@@ -243,4 +237,25 @@ export interface FetchRequest {
   url: string;
   fetchOptions?: AuthRequestInit;
   anonymizedUrl?: string;
+}
+
+export interface FormattedReviewerUpdateInfo {
+  author: AccountInfo;
+  date: Timestamp;
+  type: 'REVIEWER_UPDATE';
+  tag: MessageTag.TAG_REVIEWER_UPDATE;
+  updates: { message: string; reviewers: AccountInfo[] }[];
+}
+
+export interface EditRevisionInfo extends Partial<RevisionInfo> {
+  // EditRevisionInfo has less required properties then RevisionInfo
+  _number: PatchSetNum;
+  basePatchNum: PatchSetNum;
+  commit: CommitInfo;
+}
+
+export interface ParsedChangeInfo
+    extends Omit<ChangeViewChangeInfo, 'reviewer_updates' | 'revisions'> {
+  revisions: { [revisionId: string]: RevisionInfo | EditRevisionInfo };
+  reviewer_updates?: ReviewerUpdateInfo[] | FormattedReviewerUpdateInfo[];
 }

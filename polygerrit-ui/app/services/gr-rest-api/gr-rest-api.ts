@@ -105,7 +105,7 @@ import {
   DiffPreferencesInfo,
   IgnoreWhitespaceType,
 } from '../../types/diff';
-import {ParsedChangeInfo} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {ParsedChangeInfo} from '../../types/types';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 export type CancelConditionCallback = () => boolean;

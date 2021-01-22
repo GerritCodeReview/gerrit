@@ -34,8 +34,7 @@ import {
   ShowRevisionActionsDetail,
 } from './gr-js-api-types';
 import {EventType, TargetElement} from '../../plugins/gr-plugin-types';
-import {DiffLayer, HighlightJS} from '../../../types/types';
-import {ParsedChangeInfo} from '../gr-rest-api-interface/gr-reviewer-updates-parser';
+import {DiffLayer, HighlightJS, ParsedChangeInfo} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
 
 const elements: {[key: string]: HTMLElement} = {};

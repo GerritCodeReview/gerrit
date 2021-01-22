@@ -17,19 +17,10 @@
 
 import {parseDate} from '../../../utils/date-util';
 import {MessageTag, ReviewerState} from '../../../constants/constants';
-import {
-  AccountInfo,
-  ChangeInfo,
-  ChangeMessageInfo,
-  ChangeViewChangeInfo,
-  CommitInfo,
-  PatchSetNum,
-  ReviewerUpdateInfo,
-  RevisionInfo,
-  Timestamp,
-} from '../../../types/common';
+import {AccountInfo, ChangeInfo, ChangeMessageInfo, ChangeViewChangeInfo, ReviewerUpdateInfo, Timestamp,} from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {accountKey} from '../../../utils/account-util';
+import {FormattedReviewerUpdateInfo, ParsedChangeInfo} from '../../../types/types';
 
 const MESSAGE_REVIEWERS_THRESHOLD_MILLIS = 500;
 const REVIEWER_UPDATE_THRESHOLD_MILLIS = 6000;
@@ -61,14 +52,6 @@ interface ParserBatchWithNonEmptyUpdates extends ParserBatch {
   updates: UpdateItem[]; // Always has at least 1 items
 }
 
-export interface FormattedReviewerUpdateInfo {
-  author: AccountInfo;
-  date: Timestamp;
-  type: 'REVIEWER_UPDATE';
-  tag: MessageTag.TAG_REVIEWER_UPDATE;
-  updates: {message: string; reviewers: AccountInfo[]}[];
-}
-
 function isParserBatchWithNonEmptyUpdates(
   x: ParserBatch
 ): x is ParserBatchWithNonEmptyUpdates {
@@ -79,19 +62,6 @@ interface UpdateItem {
   reviewer: AccountInfo;
   state: ReviewerState;
   prev_state?: ReviewerState;
-}
-
-export interface EditRevisionInfo extends Partial<RevisionInfo> {
-  // EditRevisionInfo has less required properties then RevisionInfo
-  _number: PatchSetNum;
-  basePatchNum: PatchSetNum;
-  commit: CommitInfo;
-}
-
-export interface ParsedChangeInfo
-  extends Omit<ChangeViewChangeInfo, 'reviewer_updates' | 'revisions'> {
-  revisions: {[revisionId: string]: RevisionInfo | EditRevisionInfo};
-  reviewer_updates?: ReviewerUpdateInfo[] | FormattedReviewerUpdateInfo[];
 }
 
 type ReviewersGroupByMessage = {[message: string]: AccountInfo[]};

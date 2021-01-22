@@ -33,7 +33,7 @@ import {
 } from './gr-rest-apis/gr-rest-api-helper';
 import {
   GrReviewerUpdatesParser,
-  ParsedChangeInfo,
+
 } from './gr-reviewer-updates-parser';
 import {parseDate} from '../../../utils/date-util';
 import {getBaseUrl} from '../../../utils/url-util';
@@ -159,6 +159,7 @@ import {
   ReviewerState,
 } from '../../../constants/constants';
 import {firePageError, fireServerError} from '../../../utils/event-util';
+import {ParsedChangeInfo} from '../../../types/types';
 
 export const JSON_PREFIX = ")]}'";
 const MAX_PROJECT_RESULTS = 25;

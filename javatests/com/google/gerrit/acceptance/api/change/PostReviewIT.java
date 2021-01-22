@@ -52,6 +52,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
@@ -62,6 +63,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.restapi.change.OnPostReview;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.CommentsRejectedException;
+import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -595,13 +597,95 @@ public class PostReviewIT extends AbstractDaemonTest {
       input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
       gApi.changes().id(r.getChangeId()).current().review(input);
       testOnPostReview.assertApproval(
-          LabelId.CODE_REVIEW, /* expectedOldValue= */ null, /* expectedNewValue= */ 2);
+          LabelId.CODE_REVIEW, /* expectedOldValue= */ 2, /* expectedNewValue= */ 2);
 
       // Delete the vote.
       input = new ReviewInput().label(LabelId.CODE_REVIEW, 0);
       gApi.changes().id(r.getChangeId()).current().review(input);
       testOnPostReview.assertApproval(
           LabelId.CODE_REVIEW, /* expectedOldValue= */ 2, /* expectedNewValue= */ 0);
+    }
+  }
+
+  @Test
+  public void votingTheSameVoteSecondTime() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+    sender.clear();
+
+    // Add a new vote.
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+    assertThat(r.getChange().approvals().values()).hasSize(1);
+
+    // Post without changing the vote.
+    input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Second vote replaced the original vote, so still only one vote.
+    assertThat(r.getChange().approvals().values()).hasSize(1);
+    List<ChangeMessageInfo> changeMessages = gApi.changes().id(r.getChangeId()).messages();
+
+    // The two latest change messages are both about Code-Review+2
+    assertThat(Iterables.getLast(changeMessages).message).isEqualTo("Patch Set 1: Code-Review+2");
+    changeMessages.remove(changeMessages.size() - 1);
+    assertThat(Iterables.getLast(changeMessages).message).isEqualTo("Patch Set 1: Code-Review+2");
+
+    // The two latest emails are about Code-Review +2.
+    List<FakeEmailSender.Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(2);
+    for (FakeEmailSender.Message message : messages) {
+      assertThat(message.body()).contains("Patch Set 1: Code-Review+2");
+    }
+  }
+
+  @Test
+  public void votingTheSameVoteSecondTimeExtendsOnPostReview() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote.
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+    assertThat(r.getChange().approvals().values()).hasSize(1);
+
+    TestOnPostReview testOnPostReview = new TestOnPostReview(/* message= */ null);
+    try (Registration registration = extensionRegistry.newRegistration().add(testOnPostReview)) {
+      // Post without changing the vote.
+      input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+      gApi.changes().id(r.getChangeId()).current().review(input);
+
+      testOnPostReview.assertApproval(
+          LabelId.CODE_REVIEW, /* expectedOldValue= */ 2, /* expectedNewValue= */ 2);
+    }
+  }
+
+  @Test
+  public void votingTheSameVoteSecondTimeFiresOnCommentAdded() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote.
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+    assertThat(r.getChange().approvals().values()).hasSize(1);
+
+    TestListener testListener = new TestListener();
+    try (Registration registration = extensionRegistry.newRegistration().add(testListener)) {
+      // Post without changing the vote.
+      input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+      gApi.changes().id(r.getChangeId()).current().review(input);
+
+      assertThat(testListener.lastCommentAddedEvent.getComment())
+          .isEqualTo("Patch Set 1: Code-Review+2");
+    }
+  }
+
+  private static class TestListener implements CommentAddedListener {
+    public CommentAddedListener.Event lastCommentAddedEvent;
+
+    @Override
+    public void onCommentAdded(Event event) {
+      lastCommentAddedEvent = event;
     }
   }
 

@@ -19,11 +19,15 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.FakeGroupAuditService;
 import com.google.gerrit.acceptance.Sandboxed;
+import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.pgm.http.jetty.JettyServer;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.inject.Inject;
+import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
@@ -76,34 +80,59 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     assertThat(jettyServer.numActiveSessions()).isEqualTo(0);
   }
 
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void authenticatedUploadPackAuditEventLog() throws Exception {
+    String remote = "authenticated";
+    Config cfg = testRepo.git().getRepository().getConfig();
+
+    String uri = admin.getHttpUrl(server) + "/a/" + project.get();
+    cfg.setString("remote", remote, "url", uri);
+    cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
+
+    uploadPackAuditEventLog(remote, Optional.of(admin.id()));
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void anonymousUploadPackAuditEventLog() throws Exception {
+    String remote = "anonymous";
+    Config cfg = testRepo.git().getRepository().getConfig();
+
+    String uri = server.getUrl() + "/" + project.get();
+    cfg.setString("remote", remote, "url", uri);
+    cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
+
+    uploadPackAuditEventLog(remote, Optional.empty());
+  }
+
   /**
    * Git client use Protocol V2 fetch by default, see https://git.eclipse.org/r/c/jgit/jgit/+/172595
    * See {@code org.eclipse.jgit.transport.BasePackFetchConnection#doFetchV2} for the negotiation
    * details.
    */
-  @Test
-  @Sandboxed
-  public void uploadPackAuditEventLog() throws Exception {
-    auditService.drainHttpAuditEvents();
-    // testRepo is already a clone. Make a server-side change so we have something to fetch.
-    try (Repository repo = repoManager.openRepository(project);
-        TestRepository<?> testRepo = new TestRepository<>(repo)) {
-      testRepo.branch("master").commit().create();
-    }
-
+  private void uploadPackAuditEventLog(String remote, Optional<Account.Id> accountId)
+      throws Exception {
+    // Make a server-side change to have a common base.
+    createCommit("foo");
     testRepo.git().fetch().call();
 
+    // Make a server-side change so we have something to fetch.
+    createCommit("bar");
+
+    auditService.drainHttpAuditEvents();
+    testRepo.git().fetch().setRemote(remote).call();
+
     ImmutableList<HttpAuditEvent> auditEvents = auditService.drainHttpAuditEvents();
-    assertThat(auditEvents).hasSize(4);
+    assertThat(auditEvents).hasSize(3);
 
     // Protocol V2 Capability advertisement
     // https://git-scm.com/docs/protocol-v2#_capability_advertisement
     HttpAuditEvent infoRef = auditEvents.get(0);
 
-    // JGit supports shared session during fetch and push, see
-    // org.eclipse.jgit.transport.http.HttpConnectionFactory2.GitSession, thus the authentication
-    // details are carried over from the first git clone request.
-    assertThat(infoRef.who.getAccountId()).isEqualTo(admin.id());
+    assertThat(infoRef.who.toString())
+        .isEqualTo(
+            accountId.map(id -> "IdentifiedUser[account " + id.get() + "]").orElse("ANONYMOUS"));
     assertThat(infoRef.what).endsWith("/info/refs?service=git-upload-pack");
     assertThat(infoRef.params).containsExactly("service", "git-upload-pack");
     assertThat(infoRef.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
@@ -123,10 +152,13 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     assertThat(uploadPackFetch.what).endsWith("/git-upload-pack");
     assertThat(uploadPackFetch.params).isEmpty();
     assertThat(uploadPackFetch.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
-    HttpAuditEvent uploadPackDone = auditEvents.get(3);
+    assertThat(jettyServer.numActiveSessions()).isEqualTo(0);
+  }
 
-    assertThat(uploadPackDone.what).endsWith("/git-upload-pack");
-    assertThat(uploadPackDone.params).isEmpty();
-    assertThat(uploadPackDone.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+  private void createCommit(String message) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      tr.branch("master").commit().message(message).create();
+    }
   }
 }

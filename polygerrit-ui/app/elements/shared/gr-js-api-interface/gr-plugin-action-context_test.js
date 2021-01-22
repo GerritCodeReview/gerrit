@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
+import {addListenerForTest} from '../../../test/test-utils.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -137,7 +138,7 @@ suite('gr-plugin-action-context tests', () => {
       send: sendStub,
     });
     const errorStub = sinon.stub();
-    document.addEventListener('show-alert', errorStub);
+    addListenerForTest(document, 'show-alert', errorStub);
     instance.call();
     await flush();
     assert.isTrue(errorStub.calledOnce);

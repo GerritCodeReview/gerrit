@@ -46,8 +46,8 @@ export function fireAlert(target: EventTarget, message: string) {
   );
 }
 
-export function firePageError(target: EventTarget, response?: Response | null) {
-  target.dispatchEvent(
+export function firePageError(response?: Response | null) {
+  document.dispatchEvent(
     new CustomEvent(EventType.PAGE_ERROR, {
       detail: {response},
       composed: true,

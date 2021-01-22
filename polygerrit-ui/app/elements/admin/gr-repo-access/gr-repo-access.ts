@@ -151,7 +151,7 @@ export class GrRepoAccess extends GestureEventListeners(
 
   _reload(repo: RepoName) {
     const errFn = (response?: Response | null) => {
-      firePageError(this, response);
+      firePageError(response);
     };
 
     this._editing = false;

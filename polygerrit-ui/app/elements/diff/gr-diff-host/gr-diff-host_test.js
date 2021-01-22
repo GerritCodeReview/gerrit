@@ -298,7 +298,7 @@ suite('gr-diff-host tests', () => {
         serverErrorStub = sinon.stub();
         document.addEventListener('server-error', serverErrorStub);
         pageErrorStub = sinon.stub();
-        element.addEventListener('page-error', pageErrorStub);
+        document('page-error', pageErrorStub);
       });
 
       teardown(() => {

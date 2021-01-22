@@ -352,7 +352,7 @@ suite('gr-group-members tests', () => {
         .callsFake((group, errFn) => {
           errFn(response);
         });
-    element.addEventListener('page-error', e => {
+    document('page-error', e => {
       assert.deepEqual(e.detail.response, response);
       done();
     });

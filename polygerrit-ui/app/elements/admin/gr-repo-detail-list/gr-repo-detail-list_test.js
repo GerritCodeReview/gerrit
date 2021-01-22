@@ -293,7 +293,7 @@ suite('gr-repo-detail-list', () => {
               errFn(response);
             });
 
-        element.addEventListener('page-error', e => {
+        document('page-error', e => {
           assert.deepEqual(e.detail.response, response);
           done();
         });
@@ -488,7 +488,7 @@ suite('gr-repo-detail-list', () => {
               errFn(response);
             });
 
-        element.addEventListener('page-error', e => {
+        document('page-error', e => {
           assert.deepEqual(e.detail.response, response);
           done();
         });

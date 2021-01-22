@@ -169,7 +169,7 @@ export class GrDashboardView extends GestureEventListeners(
     dashboard: DashboardId
   ): Promise<UserDashboard | undefined> {
     const errFn = (response?: Response | null) => {
-      firePageError(this, response);
+      firePageError(response);
     };
     return this.restApiService
       .getDashboard(project, dashboard, errFn)

@@ -75,7 +75,7 @@ export class GrGroupAuditLog extends ListViewMixin(
     }
 
     const errFn: ErrorCallback = response => {
-      firePageError(this, response);
+      firePageError(response);
     };
 
     return this.restApiService

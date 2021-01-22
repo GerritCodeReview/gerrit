@@ -16,9 +16,6 @@
  */
 /* NB: Order is important, because of namespaced classes. */
 
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {GrEtagDecorator} from './gr-etag-decorator';
 import {
   FetchJSONRequest,
@@ -41,7 +38,6 @@ import {
   listChangesOptionsToHex,
 } from '../../../utils/change-util';
 import {assertNever, hasOwnProperty} from '../../../utils/common-util';
-import {customElement, property} from '@polymer/decorators';
 import {AuthRequestInit, AuthService} from '../../../services/gr-auth/gr-auth';
 import {
   AccountCapabilityInfo,
@@ -290,30 +286,16 @@ export function _testOnlyResetGrRestApiSharedObjects() {
   appContext.authService.clearCache();
 }
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-rest-api-interface': GrRestApiInterface;
-  }
-}
+export class GrRestApiInterface implements RestApiService {
+  private readonly _cache = siteBasedCache; // Shared across instances.
 
-@customElement('gr-rest-api-interface')
-export class GrRestApiInterface
-  extends GestureEventListeners(LegacyElementMixin(PolymerElement))
-  implements RestApiService {
-  @property({type: Object})
-  readonly _cache = siteBasedCache; // Shared across instances.
+  private readonly _sharedFetchPromises = fetchPromisesCache; // Shared across instances.
 
-  @property({type: Object})
-  readonly _sharedFetchPromises = fetchPromisesCache; // Shared across instances.
+  private readonly _pendingRequests = pendingRequest; // Shared across instances.
 
-  @property({type: Object})
-  readonly _pendingRequests = pendingRequest; // Shared across instances.
+  private readonly _etags = grEtagDecorator; // Shared across instances.
 
-  @property({type: Object})
-  readonly _etags = grEtagDecorator; // Shared across instances.
-
-  @property({type: Object})
-  readonly _projectLookup = projectLookup; // Shared across instances.
+  private readonly _projectLookup = projectLookup; // Shared across instances.
 
   // The value is set in created, before any other actions
   private authService: AuthService;
@@ -322,7 +304,6 @@ export class GrRestApiInterface
   private readonly _restApiHelper: GrRestApiHelper;
 
   constructor(authService?: AuthService) {
-    super();
     // TODO: Make the authService constructor parameter required when we have
     // changed all usages of this class to not instantiate via createElement().
     this.authService = authService ?? appContext.authService;
@@ -3067,8 +3048,7 @@ export class GrRestApiInterface
       return Promise.resolve(project);
     }
 
-    const onError = (response?: Response | null) =>
-      firePageError(this, response);
+    const onError = (response?: Response | null) => firePageError(response);
 
     return this.getChange(changeNum, onError).then(change => {
       if (!change || !change.project) {

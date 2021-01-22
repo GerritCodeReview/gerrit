@@ -377,7 +377,7 @@ suite('gr-dashboard-view tests', () => {
         async (project, dashboard, errFn) => {
           errFn(response);
         });
-    element.addEventListener('page-error', e => {
+    document('page-error', e => {
       assert.strictEqual(e.detail.response, response);
       paramsChangedPromise.then(done);
     });

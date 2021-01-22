@@ -106,7 +106,7 @@ export class GrRepoCommands extends GestureEventListeners(
       // Do not process the error, if the component is not attached to the DOM
       // anymore, which at least in tests can happen.
       if (!this.isConnected) return;
-      firePageError(this, response);
+      firePageError(response);
     };
 
     this.restApiService.getProjectConfig(this.repo, errFn).then(config => {

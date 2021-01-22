@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba6229a8_2a19b59d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-22T16:24:33Z",
+      "side": 1,
+      "message": "I think this use case makes sense given that the initial logic is that we always want to see the list of changes.\nLet me know if you would rather not reload in this case(I\u0027m currently tending towards consistency).",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 72
+      },
+      "revId": "a863008a5de2c63c7e532ce60e41de4069dd55c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

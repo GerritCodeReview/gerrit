@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
@@ -1273,24 +1272,28 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             del.add(c);
             update.putApproval(normName, (short) 0);
           }
-        } else if (c != null && c.value() != ent.getValue()) {
-          PatchSetApproval.Builder b =
-              c.toBuilder()
-                  .value(ent.getValue())
-                  .granted(ctx.getWhen())
-                  .tag(Optional.ofNullable(in.tag));
-          ctx.getUser().updateRealAccountId(b::realAccountId);
-          c = b.build();
-          ups.add(c);
-          addLabelDelta(normName, c.value());
-          oldApprovals.put(normName, previous.get(normName));
-          approvals.put(normName, c.value());
-          update.putApproval(normName, ent.getValue());
-        } else if (c != null && c.value() == ent.getValue()) {
-          current.put(normName, c);
-          oldApprovals.put(normName, null);
-          approvals.put(normName, c.value());
-        } else if (c == null) {
+        } else if (c != null) {
+          // Check if the label exists (the user voted again). If the user hadn't voted again,
+          // there is no need to re-vote.
+          if (inLabels.keySet().contains(c.label())) {
+            PatchSetApproval.Builder b =
+                c.toBuilder()
+                    .value(ent.getValue())
+                    .granted(ctx.getWhen())
+                    .tag(Optional.ofNullable(in.tag));
+            ctx.getUser().updateRealAccountId(b::realAccountId);
+            c = b.build();
+            ups.add(c);
+            addLabelDelta(normName, c.value());
+            oldApprovals.put(normName, previous.get(normName));
+            approvals.put(normName, c.value());
+            update.putApproval(normName, ent.getValue());
+          } else {
+            current.put(normName, c);
+            oldApprovals.put(normName, null);
+            approvals.put(normName, c.value());
+          }
+        } else {
           c =
               ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen())
                   .tag(Optional.ofNullable(in.tag))
@@ -1360,7 +1363,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         if (prev == null) {
           continue;
         }
-        checkState(prev != psa.value()); // Should be filtered out above.
         if (prev > psa.value()) {
           reduced.add(psa);
         }

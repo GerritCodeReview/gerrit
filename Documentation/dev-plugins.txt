@@ -1480,9 +1480,14 @@ PluginProvidedApi interface. For example:
 // Suppose the below binding is provided by a plugin named 'my-api-plugin'.
 bind(com.google.gerrit.extensions.registration.PluginProvidedApi.class)
     .annotatedWith(Exports.named("MyApi"))
-    .to(MyApi.class);
+    .to(MyApiImpl.class);
 
-public class MyApi implements PluginProvidedApi {
+public interface MyApi extends PluginProvidedApi {
+  public String getData();
+}
+
+public class MyApiImpl implements MyApi {
+  @Override
   public String getData() {
      [...]
      return data;
@@ -1528,6 +1533,48 @@ public class MyClass {
         | NoSuchMethodException e) {
       return Optional.empty();
     }
+  }
+}
+----
+
+As an alternative to the pure reflection, a proxy instance can also be created. To do this, the
+API interface must be shared between the providing plugin and the consuming plugin. In this
+approach, the API interface is available at compile time for the consuming plugin. This requires
+all the API's arguments and return values to be types known to Gerrit's classloader else it will
+result in ClassCastException. For example:
+
+[source,java]
+----
+public interface MyApi extends PluginProvidedApi {
+  public String getData();
+}
+
+public class MyClass {
+  protected DynamicMap<PluginProvidedApi> pluginProvidedApis;
+
+  @Inject
+  public MyClass(DynamicMap<PluginProvidedApi> pluginProvidedApis) {
+    this.pluginProvidedApis = pluginProvidedApis;
+  }
+
+  public Optional<String> getMyData() {
+    // Casting to original compile time class like below will fail:
+    // MyApi api = (MyApi) pluginProvidedApis.get("my-api-plugin", "MyApi");
+    PluginProvidedApi pluginProvidedApi = pluginProvidedApis.get("my-api-plugin", "MyApi");
+    if (pluginProvidedApi == null) {
+      return Optional.empty();
+    }
+    return getDataFromApi(pluginProvidedApi);
+  }
+
+  protected Optional<String> getDataFromApi(PluginProvidedApi pluginProvidedApi) {
+    Optional<MyApi> myApi = pluginProvidedApi.getOptionalProxyInstance(MyApi.class);
+    if (myApi.isPresent()) {
+      try {
+        return Optional.of(myApi.get().getData());
+      } catch (RuntimeException e) {}
+    }
+    return Optional.empty();
   }
 }
 ----

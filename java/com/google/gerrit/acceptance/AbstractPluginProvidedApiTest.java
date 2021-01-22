@@ -34,6 +34,7 @@ import java.util.Optional;
 public class AbstractPluginProvidedApiTest extends AbstractDaemonTest {
   protected static final String PLUGIN_PROVIDING_API = "plugin-providing-api";
   protected static final String PLUGIN_USING_API = "plugin-using-api";
+  protected static final String PLUGIN_USING_API_PROXY_INSTANCE = "plugin-using-api-proxy-instance";
 
   protected interface MyApi extends PluginProvidedApi {
     public String getData();
@@ -87,11 +88,52 @@ public class AbstractPluginProvidedApiTest extends AbstractDaemonTest {
     }
   }
 
+  protected static class PluginUsingApiProxyInstanceAttributeFactory
+      implements ChangePluginDefinedInfoFactory {
+    protected DynamicMap<PluginProvidedApi> pluginProvidedApis;
+
+    @Inject
+    public PluginUsingApiProxyInstanceAttributeFactory(
+        DynamicMap<PluginProvidedApi> pluginProvidedApis) {
+      this.pluginProvidedApis = pluginProvidedApis;
+    }
+
+    @Override
+    public Map<Change.Id, PluginDefinedInfo> createPluginDefinedInfos(
+        Collection<ChangeData> cds, DynamicOptions.BeanProvider beanProvider, String plugin) {
+      Map<Change.Id, PluginDefinedInfo> out = new HashMap<>();
+      PluginDefinedInfo pluginDefinedInfo = new PluginDefinedInfo();
+      Optional<MyApi> myApi = getOptionalProxyInstance(PLUGIN_PROVIDING_API, "MyApi");
+      try {
+        pluginDefinedInfo.message = (myApi.isPresent() ? myApi.get().getData() : null);
+      } catch (RuntimeException e) {
+      }
+      cds.forEach(cd -> out.put(cd.getId(), pluginDefinedInfo));
+      return out;
+    }
+
+    protected Optional<MyApi> getOptionalProxyInstance(String plugin, String apiExportName) {
+      PluginProvidedApi pluginProvidedApi = pluginProvidedApis.get(plugin, apiExportName);
+      if (pluginProvidedApi != null) {
+        return pluginProvidedApi.getOptionalProxyInstance(MyApi.class);
+      }
+      return Optional.empty();
+    }
+  }
+
   protected static class PluginUsingApiModule extends AbstractModule {
     @Override
     public void configure() {
       DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class)
           .to(PluginUsingApiAttributeFactory.class);
+    }
+  }
+
+  protected static class PluginUsingApiProxyInstanceModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class)
+          .to(PluginUsingApiProxyInstanceAttributeFactory.class);
     }
   }
 }

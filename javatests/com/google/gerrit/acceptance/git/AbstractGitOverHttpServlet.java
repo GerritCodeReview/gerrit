@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.FakeGroupAuditService;
 import com.google.gerrit.acceptance.Sandboxed;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.inject.Inject;
@@ -71,13 +72,16 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
 
   @Test
   @Sandboxed
+  @TestProjectInput(createEmptyCommit = false)
   public void uploadPackAuditEventLog() throws Exception {
+    // Make a server-side change to have a common base.
+    createCommit("foo");
+    testRepo.git().fetch().call();
+
+    // Make a server-side change so we have something to fetch.
+    createCommit("bar");
+
     auditService.drainHttpAuditEvents();
-    // testRepo is already a clone. Make a server-side change so we have something to fetch.
-    try (Repository repo = repoManager.openRepository(project);
-        TestRepository<?> testRepo = new TestRepository<>(repo)) {
-      testRepo.branch("master").commit().create();
-    }
     testRepo.git().fetch().call();
 
     ImmutableList<HttpAuditEvent> auditEvents = auditService.drainHttpAuditEvents();
@@ -95,5 +99,12 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     assertThat(uploadPack.what).endsWith("/git-upload-pack");
     assertThat(uploadPack.params).isEmpty();
     assertThat(uploadPack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  private void createCommit(String message) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      tr.branch("master").commit().message(message).create();
+    }
   }
 }

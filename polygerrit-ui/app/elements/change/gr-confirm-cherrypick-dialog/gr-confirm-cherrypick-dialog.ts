@@ -35,10 +35,7 @@ import {
 } from '../../../types/common';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {customElement, property, observe} from '@polymer/decorators';
-import {
-  GrAutocomplete,
-  AutocompleteSuggestion,
-} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {HttpMethod, ChangeStatus} from '../../../constants/constants';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
@@ -71,11 +68,9 @@ declare global {
   }
 }
 
-// TODO(TS): add type after gr-autocomplete and gr-rest-api-interface
-// is converted
 export interface GrConfirmCherrypickDialog {
   $: {
-    branchInput: GrAutocomplete;
+    branchInput: HTMLElement;
   };
 }
 

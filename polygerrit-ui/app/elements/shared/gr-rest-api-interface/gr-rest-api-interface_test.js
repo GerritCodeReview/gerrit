@@ -27,7 +27,7 @@ import {
   parsePrefixedJSON,
   readResponsePayload,
 } from './gr-rest-apis/gr-rest-api-helper.js';
-import {JSON_PREFIX} from './gr-rest-api-interface.js';
+import {JSON_PREFIX} from './gr-rest-apis/gr-rest-api-helper.js';
 
 const basicFixture = fixtureFromElement('gr-rest-api-interface');
 
@@ -946,8 +946,7 @@ suite('gr-rest-api-interface tests', () => {
       setup(() => {
         requestUrl = '/foo/bar';
         const mockResponse = {foo: 'bar', baz: 42};
-        mockResponseSerial = element.JSON_PREFIX +
-            JSON.stringify(mockResponse);
+        mockResponseSerial = JSON_PREFIX + JSON.stringify(mockResponse);
         sinon.stub(element._restApiHelper, 'urlWithParams')
             .returns(requestUrl);
         sinon.stub(element, 'getChangeActionURL')

@@ -168,7 +168,7 @@ function initGerritPluginsMethods(globalGerritObj: GerritGlobal) {
       'Gerrit.getLoggedIn() is deprecated! ' +
         'Use plugin.restApi().getLoggedIn()'
     );
-    return document.createElement('gr-rest-api-interface').getLoggedIn();
+    return appContext.restApiService.getLoggedIn();
   };
 
   globalGerritObj.get = (

@@ -47,6 +47,7 @@ import {HttpMethod} from '../../../constants/constants';
 import {JsApiService} from './gr-js-api-types';
 import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
 import {GrChecksApi} from '../../plugins/gr-checks-api/gr-checks-api';
+import {appContext} from '../../../services/app-context';
 
 /**
  * Plugin-provided custom components can affect content in extension
@@ -168,7 +169,7 @@ export class Plugin implements PluginApi {
   }
 
   getServerInfo() {
-    return document.createElement('gr-rest-api-interface').getConfig();
+    return appContext.restApiService.getConfig();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -35,7 +35,7 @@ import {RpcLogEventDetail} from '../../../../types/events';
 import {fireNetworkError, fireServerError} from '../../../../utils/event-util';
 import {FetchRequest} from '../../../../types/types';
 
-const JSON_PREFIX = ")]}'";
+export const JSON_PREFIX = ")]}'";
 
 export interface ResponsePayload {
   // TODO(TS): readResponsePayload can assign null to the parsed property if

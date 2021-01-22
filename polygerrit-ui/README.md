@@ -434,12 +434,10 @@ const reloadStub = sinon
     .stub(element, '_reload')
     .callsFake(() => Promise.resolve());
 
-stub('gr-rest-api-interface', {
-  getDiffComments() { return Promise.resolve({}); },
-  getDiffRobotComments() { return Promise.resolve({}); },
-  getDiffDrafts() { return Promise.resolve({}); },
-  _fetchSharedCacheURL() { return Promise.resolve({}); },
-});
+stubRestApi('getDiffComments').returns(Promise.resolve({}));
+stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
+stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+stubRestApi('_fetchSharedCacheURL').returns(Promise.resolve({}));
 ```
 
 In such cases, validate the input and output of a stub/fake method. Quite often
@@ -451,61 +449,9 @@ const reloadStub = sinon
   // GrChangeView._reload method returns an array
   .callsFake(() => Promise.resolve([])); // return [] here
 
-stub('gr-rest-api-interface', {
   ...
   // Fix return type:
-  _fetchSharedCacheURL() { return Promise.resolve({} as ParsedJSON); },
-});
-```
-
-If a method has multiple overloads, you can use one of 2 options:
-```
-// Option 1: less accurate, but shorter:
-function getCommentsStub() {
-  return Promise.resolve({});
-}
-
-stub('gr-rest-api-interface', {
-  ...
-  getDiffComments: (getCommentsStub as unknown) as RestApiService['getDiffComments'],
-  getDiffRobotComments: (getCommentsStub as unknown) as RestApiService['getDiffRobotComments'],
-  getDiffDrafts: (getCommentsStub as unknown) as RestApiService['getDiffDrafts'],
-  ...
-});
-
-// Option 2: more accurate, but longer.
-// Step 1: define the same overloads for stub:
-function getDiffCommentsStub(
-  changeNum: NumericChangeId
-): Promise<PathToCommentsInfoMap | undefined>;
-function getDiffCommentsStub(
-  changeNum: NumericChangeId,
-  basePatchNum: PatchSetNum,
-  patchNum: PatchSetNum,
-  path: string
-): Promise<GetDiffCommentsOutput>;
-
-// Step 2: implement stub method for differnt input
-function getDiffCommentsStub(
-  _: NumericChangeId,
-  basePatchNum?: PatchSetNum,
-):
-  | Promise<PathToCommentsInfoMap | undefined>
-  | Promise<GetDiffCommentsOutput> {
-  if (basePatchNum) {
-    return Promise.resolve({
-      baseComments: [],
-      comments: [],
-    });
-  }
-  return Promise.resolve({});
-}
-
-// Step 3: use stubbed function:
-stub('gr-rest-api-interface', {
-  ...
-  getDiffComments: getDiffCommentsStub,
-  ...
+  stubRestApi('_fetchSharedCacheURL').returns(Promise.resolve({} as ParsedJSON));
 });
 ```
 

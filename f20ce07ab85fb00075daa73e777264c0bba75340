@@ -524,6 +524,24 @@
       "parentUuid": "e2fbbbc5_5f918417",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6282e1d_35252701",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-22T23:18:11Z",
+      "side": 1,
+      "message": "Thanks for your help, commit timestamp skew between root commit and second commit is fixed now (in parent change).",
+      "parentUuid": "2a93cb90_b2658499",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

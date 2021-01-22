@@ -180,12 +180,12 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(approval.postSubmit).isNull();
     assertPermitted(gApi.changes().id(changeId).get(DETAILED_LABELS), LabelId.CODE_REVIEW, 1, 2);
 
-    // Repeating the current label is allowed. Does not flip the postSubmit bit
-    // due to deduplication codepath.
+    // Repeating the current label is allowed. Flips the postSubmit since technically this is a
+    // new vote.
     gApi.changes().id(changeId).current().review(ReviewInput.recommend());
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(1);
-    assertThat(approval.postSubmit).isNull();
+    assertThat(approval.postSubmit).isTrue();
 
     // Reducing vote is not allowed.
     ResourceConflictException thrown =
@@ -197,7 +197,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .isEqualTo("Cannot reduce vote on labels for closed change: Code-Review");
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(1);
-    assertThat(approval.postSubmit).isNull();
+    assertThat(approval.postSubmit).isTrue();
 
     // Increasing vote is allowed.
     gApi.changes().id(changeId).current().review(ReviewInput.approve());

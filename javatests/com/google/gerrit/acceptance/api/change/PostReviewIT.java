@@ -595,7 +595,7 @@ public class PostReviewIT extends AbstractDaemonTest {
       input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
       gApi.changes().id(r.getChangeId()).current().review(input);
       testOnPostReview.assertApproval(
-          LabelId.CODE_REVIEW, /* expectedOldValue= */ null, /* expectedNewValue= */ 2);
+          LabelId.CODE_REVIEW, /* expectedOldValue= */ 2, /* expectedNewValue= */ 2);
 
       // Delete the vote.
       input = new ReviewInput().label(LabelId.CODE_REVIEW, 0);
@@ -603,6 +603,23 @@ public class PostReviewIT extends AbstractDaemonTest {
       testOnPostReview.assertApproval(
           LabelId.CODE_REVIEW, /* expectedOldValue= */ 2, /* expectedNewValue= */ 0);
     }
+  }
+
+  @Test
+  public void votingTheSameVoteSecondTimeReplacesTheFirstVote() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote.
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+    assertThat(r.getChange().approvals().values()).hasSize(1);
+
+    // Post without changing the vote.
+    input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Second vote replaced the original vote, so still only one vote.
+    assertThat(r.getChange().approvals().values()).hasSize(1);
   }
 
   private List<RobotCommentInfo> getRobotComments(String changeId) throws RestApiException {

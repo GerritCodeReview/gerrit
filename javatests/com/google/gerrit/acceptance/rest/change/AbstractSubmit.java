@@ -1378,7 +1378,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     ChangeInfo info = get(change.getChangeId(), ListChangesOption.MESSAGES);
     assertThat(info.messages).isNotNull();
     Iterable<String> messages = Iterables.transform(info.messages, i -> i.message);
-    assertThat(messages).hasSize(3);
     String last = Iterables.getLast(messages);
     if (getSubmitType() == SubmitType.CHERRY_PICK) {
       assertThat(last).startsWith("Change has been successfully cherry-picked as");

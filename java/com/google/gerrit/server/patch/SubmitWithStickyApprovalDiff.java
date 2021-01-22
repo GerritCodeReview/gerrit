@@ -1,0 +1,222 @@
+// Copyright (C) 2021 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.patch;
+
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
+import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.prettify.common.SparseFileContent;
+import com.google.gerrit.prettify.common.SparseFileContent.Accessor;
+import com.google.gerrit.server.git.LargeObjectException;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.inject.Inject;
+import java.io.IOException;
+import java.util.stream.Collectors;
+import org.eclipse.jgit.diff.Edit;
+
+/**
+ * This class is used on submit to compute the diff between the latest approved patch-set, and the
+ * current submitted patch-set.
+ *
+ * <p>Latest approved patch-set is defined by the latest patch-set which has Code-Review label voted
+ * with the maximum possible value.
+ *
+ * <p>If the latest approved patch-set is the same as the submitted patch-set, the diff will be
+ * empty.
+ *
+ * <p>We exclude the magic files from the returned diff to make it shorter and more concise.
+ */
+public class SubmitWithStickyApprovalDiff {
+  private final ProjectCache projectCache;
+  private final PatchScriptFactory.Factory patchScriptFactoryFactory;
+  private final PatchListCache patchListCache;
+
+  @Inject
+  SubmitWithStickyApprovalDiff(
+      ProjectCache projectCache,
+      PatchScriptFactory.Factory patchScriptFactoryFactory,
+      PatchListCache patchListCache) {
+    this.projectCache = projectCache;
+    this.patchScriptFactoryFactory = patchScriptFactoryFactory;
+    this.patchListCache = patchListCache;
+  }
+
+  public String apply(ChangeNotes notes)
+      throws AuthException, IOException, PermissionBackendException,
+          InvalidChangeOperationException {
+    PatchSet.Id currentPatchsetId = notes.getCurrentPatchSet().id();
+    PatchSet.Id latestApprovedPatchsetId = getLatestApprovedPatchsetId(notes);
+    if (latestApprovedPatchsetId.get() == currentPatchsetId.get()) {
+      // If the latest approved patchset is the current patchset, no need to return anything.
+      return "";
+    }
+    String diff = "The change was submitted with unreviewed changes in the following files:\n\n";
+    PatchList patchList =
+        getPatchList(
+            notes.getProjectName(),
+            notes.getCurrentPatchSet(),
+            notes.getPatchSets().get(latestApprovedPatchsetId));
+
+    // To make the message a bit more concise, we skip the magic files.
+    for (PatchListEntry patchListEntry :
+        patchList.getPatches().stream()
+            .filter(p -> !Patch.isMagic(p.getNewName()))
+            .collect(Collectors.toList())) {
+      diff += getDiffForFile(notes, currentPatchsetId, latestApprovedPatchsetId, patchListEntry);
+    }
+    return diff;
+  }
+
+  private String getDiffForFile(
+      ChangeNotes notes,
+      PatchSet.Id currentPatchsetId,
+      PatchSet.Id latestApprovedPatchsetId,
+      PatchListEntry patchListEntry)
+      throws AuthException, InvalidChangeOperationException, IOException,
+          PermissionBackendException {
+    String diff =
+        String.format(
+            "The name of the file: %s\nInsertions: %d, Deletions: %d.\n\n",
+            patchListEntry.getNewName(),
+            patchListEntry.getInsertions(),
+            patchListEntry.getDeletions());
+    DiffPreferencesInfo diffPreferencesInfo = createDefaultDiffPreferencesInfo();
+    PatchScriptFactory patchScriptFactory =
+        patchScriptFactoryFactory.create(
+            notes,
+            patchListEntry.getNewName(),
+            latestApprovedPatchsetId,
+            currentPatchsetId,
+            diffPreferencesInfo);
+    PatchScript patchScript = null;
+    try {
+      patchScript = patchScriptFactory.call();
+    } catch (LargeObjectException exception) {
+      diff += "The file content is too large for showing the full diff. \n\n";
+      return diff;
+    }
+    if (patchScript.getChangeType() == ChangeType.RENAMED) {
+      diff +=
+          String.format(
+              "The file '%s' was renamed to '%s'\n",
+              patchListEntry.getOldName(), patchListEntry.getNewName());
+    }
+    SparseFileContent.Accessor fileA = patchScript.getA().createAccessor();
+    SparseFileContent.Accessor fileB = patchScript.getB().createAccessor();
+    for (Edit edit : patchScript.getEdits()) {
+      diff += getDiffForEdit(fileA, fileB, edit);
+    }
+    diff += "\n";
+    return diff;
+  }
+
+  private String getDiffForEdit(Accessor fileA, Accessor fileB, Edit edit) {
+    String diff = "";
+    Edit.Type type = edit.getType();
+    switch (type) {
+      case INSERT:
+        diff += String.format("@@ +%d:%d @@\n", edit.getBeginB(), edit.getEndB());
+        diff += getModifiedLines(fileB, edit.getBeginB(), edit.getEndB(), '+');
+        diff += "\n";
+        break;
+      case DELETE:
+        diff += String.format("@@ -%d:%d @@\n", edit.getBeginA(), edit.getEndA());
+        diff += getModifiedLines(fileA, edit.getBeginA(), edit.getEndA(), '-');
+        diff += "\n";
+        break;
+      case REPLACE:
+        diff +=
+            String.format(
+                "@@ -%d:%d, +%d:%d @@\n",
+                edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB());
+        diff += getModifiedLines(fileA, edit.getBeginA(), edit.getEndA(), '-');
+        diff += getModifiedLines(fileB, edit.getBeginB(), edit.getEndB(), '+');
+        diff += "\n";
+        break;
+      case EMPTY:
+        // do nothing since there is no change here.
+    }
+    return diff;
+  }
+
+  private String getModifiedLines(Accessor fileA, int begin, int end, char modificationType) {
+    String diff = "";
+    for (int i = begin; i < end; i++) {
+      diff += String.format("%c  %s\n", modificationType, fileA.get(i));
+    }
+    return diff;
+  }
+
+  private DiffPreferencesInfo createDefaultDiffPreferencesInfo() {
+    DiffPreferencesInfo diffPreferencesInfo = new DiffPreferencesInfo();
+    diffPreferencesInfo.ignoreWhitespace = Whitespace.IGNORE_NONE;
+    diffPreferencesInfo.intralineDifference = true;
+    return diffPreferencesInfo;
+  }
+
+  private PatchSet.Id getLatestApprovedPatchsetId(ChangeNotes notes) {
+    ProjectState projectState =
+        projectCache.get(notes.getProjectName()).orElseThrow(illegalState(notes.getProjectName()));
+    PatchSet.Id maxPatchSetId = PatchSet.id(notes.getChangeId(), 1);
+    for (PatchSetApproval patchSetApproval : notes.getApprovals().values()) {
+      if (!patchSetApproval.label().equals(LabelId.CODE_REVIEW)) {
+        continue;
+      }
+      if (!projectState
+          .getLabelTypes(notes)
+          .byLabel(patchSetApproval.labelId())
+          .isMaxPositive(patchSetApproval)) {
+        continue;
+      }
+      if (patchSetApproval.patchSetId().get() > maxPatchSetId.get()) {
+        maxPatchSetId = patchSetApproval.patchSetId();
+      }
+    }
+    return maxPatchSetId;
+  }
+
+  /**
+   * Gets the {@link PatchList} between the two latest patch-sets. Can be used to compute difference
+   * in files between those two patch-sets .
+   */
+  private PatchList getPatchList(Project.NameKey project, PatchSet ps, PatchSet priorPatchSet) {
+    PatchListKey key =
+        PatchListKey.againstCommit(
+            priorPatchSet.commitId(), ps.commitId(), DiffPreferencesInfo.Whitespace.IGNORE_NONE);
+    try {
+      return patchListCache.get(key, project);
+    } catch (PatchListNotAvailableException ex) {
+      throw new StorageException(
+          "failed to compute difference in files, so won't copy"
+              + " votes on labels even if list of files is the same and "
+              + "copyAllIfListOfFilesDidNotChange",
+          ex);
+    }
+  }
+}

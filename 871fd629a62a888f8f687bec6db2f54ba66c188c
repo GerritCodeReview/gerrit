@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ea4e0cf_61470a4f",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-22T23:20:31Z",
+      "side": 1,
+      "message": "Interesting. It seems slightly nicer to me that the type would indicate that it could be unset (string?) rather than having a less obvious unset case (empty string). I don\u0027t mind switching though, it will match registerURL. Done.",
+      "parentUuid": "f92ed4d5_f8ef9d09",
+      "range": {
+        "startLine": 160,
+        "startChar": 2,
+        "endLine": 160,
+        "endChar": 24
+      },
+      "revId": "871fd629a62a888f8f687bec6db2f54ba66c188c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4a77daf_8d456731",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-01-22T11:01:59Z",
       "side": 1,
       "message": "Nit: This can be shortened by using the ?. operator:\n\n  config.gerrit?.report_bug_url",
+      "range": {
+        "startLine": 335,
+        "startChar": 8,
+        "endLine": 335,
+        "endChar": 54
+      },
+      "revId": "871fd629a62a888f8f687bec6db2f54ba66c188c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5e3407c_6c0b91fd",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-22T23:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4a77daf_8d456731",
       "range": {
         "startLine": 335,
         "startChar": 8,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54a3fb90_fd16255d",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-22T23:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3db31dfd_b4c394a6",
+      "range": {
+        "startLine": 212,
+        "startChar": 10,
+        "endLine": 213,
+        "endChar": 31
+      },
+      "revId": "871fd629a62a888f8f687bec6db2f54ba66c188c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf4014f2_e56dd514",
@@ -83,6 +155,24 @@
       "writtenOn": "2021-01-22T11:01:59Z",
       "side": 1,
       "message": "This already exists, see line 116. id\u003d\"bug\"",
+      "revId": "871fd629a62a888f8f687bec6db2f54ba66c188c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b79539c_6cc2bb67",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-22T23:20:31Z",
+      "side": 1,
+      "message": "Whoops, thanks",
+      "parentUuid": "cf4014f2_e56dd514",
       "revId": "871fd629a62a888f8f687bec6db2f54ba66c188c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

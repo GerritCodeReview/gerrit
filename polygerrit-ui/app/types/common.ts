@@ -1173,9 +1173,15 @@ export interface CommentInfo {
   unresolved?: boolean;
   change_message_id?: string;
   commit_id?: string;
+  context_lines?: ContextLine[];
 }
 
 export type PathToCommentsInfoMap = {[path: string]: CommentInfo[]};
+
+export interface ContextLine {
+  line_number: number;
+  context_line: string;
+}
 
 /**
  * The ProjectInfo entity contains information about a project

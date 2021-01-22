@@ -470,6 +470,24 @@
       "parentUuid": "8e51edf1_903b9606",
       "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1281883_4fb85af8",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-01-22T00:04:11Z",
+      "side": 1,
+      "message": "yep, MockSystemReader assumes now \u003d Aug 15 20:12:58 GMT-03:30 2009:\n https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/MockSystemReader.java#67",
+      "parentUuid": "126f315a_be559731",
+      "revId": "f20ce07ab85fb00075daa73e777264c0bba75340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "d821ebe6245a9bbc911df1a7221dcedc3c5c9e8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a45a07c_214ade37",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-22T19:46:00Z",
+      "side": 1,
+      "message": "Yes, good point, we can even do it directly using HttpAuditEvent, e.g.:\n\n  ImmutableList\u003cHttpAuditEvent\u003e auditEvents \u003d auditService.drainHttpAuditEvents();\n  assertThat(auditEvents).hasSize(3);\n  assertThat(auditEvents.get(0).httpMethod).isEqualTo(\"GET\");\n  assertThat(auditEvents.get(0).what).contains(project.get() + \"/info/refs?service\u003dgit-upload-pack\");\n  for (int i \u003d 1; i \u003c\u003d 2; i++) {\n    assertThat(auditEvents.get(i).httpMethod).isEqualTo(\"POST\");\n    assertThat(auditEvents.get(i).what).contains(project.get() + \"/git-upload-pack\");\n  }",
+      "parentUuid": "dab581ba_1fc9d964",
+      "range": {
+        "startLine": 337,
+        "startChar": 6,
+        "endLine": 337,
+        "endChar": 65
+      },
+      "revId": "d821ebe6245a9bbc911df1a7221dcedc3c5c9e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

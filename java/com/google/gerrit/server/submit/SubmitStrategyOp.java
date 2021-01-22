@@ -32,6 +32,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -41,6 +42,8 @@ import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -391,7 +394,9 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
   }
 
-  private ChangeMessage message(ChangeContext ctx, CodeReviewCommit commit, CommitMergeStatus s) {
+  private ChangeMessage message(ChangeContext ctx, CodeReviewCommit commit, CommitMergeStatus s)
+      throws AuthException, IOException, PermissionBackendException,
+          InvalidChangeOperationException {
     requireNonNull(s, "CommitMergeStatus may not be null");
     String txt = s.getDescription();
     if (s == CommitMergeStatus.CLEAN_MERGE) {
@@ -431,9 +436,12 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
   }
 
-  private ChangeMessage message(ChangeContext ctx, PatchSet.Id psId, String body) {
+  private ChangeMessage message(ChangeContext ctx, PatchSet.Id psId, String body)
+      throws AuthException, IOException, PermissionBackendException,
+          InvalidChangeOperationException {
+    String diff = args.submitWithStickyApprovalDiff.apply(ctx.getNotes());
     return ChangeMessagesUtil.newMessage(
-        psId, ctx.getUser(), ctx.getWhen(), body, ChangeMessagesUtil.TAG_MERGED);
+        psId, ctx.getUser(), ctx.getWhen(), body + "\n\n" + diff, ChangeMessagesUtil.TAG_MERGED);
   }
 
   private void setMerged(ChangeContext ctx, ChangeMessage msg) {

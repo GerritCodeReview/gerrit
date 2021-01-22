@@ -292,12 +292,16 @@ export class GrDiffCursor extends GestureEventListeners(
 
   moveToFirstChunk() {
     this.$.cursorManager.moveToStart();
-    this.moveToNextChunk(true);
+    if (this.diffRow && !this._isFirstRowOfChunk(this.diffRow)) {
+      this.moveToNextChunk(true);
+    }
   }
 
   moveToLastChunk() {
     this.$.cursorManager.moveToEnd();
-    this.moveToPreviousChunk();
+    if (this.diffRow && !this._isFirstRowOfChunk(this.diffRow)) {
+      this.moveToPreviousChunk();
+    }
   }
 
   /**

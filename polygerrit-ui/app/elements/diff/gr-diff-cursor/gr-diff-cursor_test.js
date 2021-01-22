@@ -82,16 +82,101 @@ suite('gr-diff-cursor tests', () => {
     assert.equal(cursorElement.diffRow, firstDeltaRow);
   });
 
-  test('moveToLastChunk', () => {
+  test('moveToFirstChunk', async () => {
+    const diff = {
+      meta_a: {
+        name: 'lorem-ipsum.txt',
+        content_type: 'text/plain',
+        lines: 4,
+      },
+      meta_b: {
+        name: 'lorem-ipsum.txt',
+        content_type: 'text/plain',
+        lines: 4,
+      },
+      intraline_status: 'OK',
+      change_type: 'MODIFIED',
+      diff_header: [
+        'diff --git a/lorem-ipsum.txt b/lorem-ipsum.txt',
+        'index b2adcf4..554ae49 100644',
+        '--- a/lorem-ipsum.txt',
+        '+++ b/lorem-ipsum.txt',
+      ],
+      content: [
+        {a: ['old line 1'], b: ['new line 1']},
+        {ab: ['unchanged line 2']},
+        {a: ['old line 3'], b: ['new line 3']},
+        {ab: ['more unchanged lines']},
+      ],
+    };
+
+    diffElement.diff = diff;
+    // The file comment button, if present, is a cursor stop. Ensure
+    // moveToFirstChunk() works correctly even if the button is not shown.
+    diffElement.prefs.show_file_comment_button = false;
+    await flush();
+    cursorElement._updateStops();
+
     const chunks = Array.from(diffElement.root.querySelectorAll(
         '.section.delta'));
-    assert.isAbove(chunks.length, 1);
+    assert.equal(chunks.length, 2);
+
+    // Verify it works on fresh diff.
+    cursorElement.moveToFirstChunk();
     assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement), 0);
 
+    // Verify it works from other cursor positions.
     cursorElement.moveToLastChunk();
+    assert.notEqual(chunks.indexOf(cursorElement.diffRow.parentElement), 0);
+    cursorElement.moveToFirstChunk();
+    assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement), 0);
+  });
 
-    assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement),
-        chunks.length - 1);
+  test('moveToLastChunk', async () => {
+    const diff = {
+      meta_a: {
+        name: 'lorem-ipsum.txt',
+        content_type: 'text/plain',
+        lines: 4,
+      },
+      meta_b: {
+        name: 'lorem-ipsum.txt',
+        content_type: 'text/plain',
+        lines: 4,
+      },
+      intraline_status: 'OK',
+      change_type: 'MODIFIED',
+      diff_header: [
+        'diff --git a/lorem-ipsum.txt b/lorem-ipsum.txt',
+        'index b2adcf4..554ae49 100644',
+        '--- a/lorem-ipsum.txt',
+        '+++ b/lorem-ipsum.txt',
+      ],
+      content: [
+        {ab: ['unchanged line 1']},
+        {a: ['old line 2'], b: ['new line 2']},
+        {ab: ['more unchanged line 3']},
+        {a: ['old line 4'], b: ['new line 4']},
+      ],
+    };
+
+    diffElement.diff = diff;
+    await flush();
+    cursorElement._updateStops();
+
+    const chunks = Array.from(diffElement.root.querySelectorAll(
+        '.section.delta'));
+    assert.equal(chunks.length, 2);
+
+    // Verify it works on fresh diff.
+    cursorElement.moveToLastChunk();
+    assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement), 1);
+
+    // Verify it works from other cursor positions.
+    cursorElement.moveToFirstChunk();
+    assert.notEqual(chunks.indexOf(cursorElement.diffRow.parentElement), 1);
+    cursorElement.moveToLastChunk();
+    assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement), 1);
   });
 
   test('cursor scroll behavior', () => {

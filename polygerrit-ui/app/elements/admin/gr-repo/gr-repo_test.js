@@ -235,7 +235,7 @@ suite('gr-repo tests', () => {
     stubRestApi('getProjectConfig').callsFake((repo, errFn) => {
       errFn(response);
     });
-    element.addEventListener('page-error', e => {
+    document.addEventListener('page-error', e => {
       assert.deepEqual(e.detail.response, response);
       done();
     });

@@ -34,6 +34,24 @@
       "parentUuid": "b3005d7c_f98b47ad",
       "revId": "ebeae635f95e994616baaa4698561ffb28bce521",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0351582b_94e8c572",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-22T11:10:52Z",
+      "side": 1,
+      "message": "https://sourcegraph.com/github.com/GerritCodeReview/gerrit@b4c32b2/-/blob/polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts#L715:5\n\ndraft addition is eventually happening here which is creating an element but not updating the threads property.\nI just checked that when we create new draft threads, diff-host does not update the threads property.",
+      "parentUuid": "ad3b4642_cadc9322",
+      "revId": "ebeae635f95e994616baaa4698561ffb28bce521",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "In the parent change you had:\n  // TODO(davido): Enable git wire protocol v2 in test repository\n\nWhere is that addressed?",
       "revId": "4d87faf8850257610295246d31be0cae180907bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f69a1ea3_ac1e453b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-22T23:11:51Z",
+      "side": 1,
+      "message": "Not applicable any more. Done.",
+      "parentUuid": "f4f89672_1c617f95",
+      "revId": "4d87faf8850257610295246d31be0cae180907bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

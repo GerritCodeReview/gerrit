@@ -43,6 +43,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -572,6 +573,33 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     // Delete vote that was copied via sticky approval
     deleteVote(admin, changeId, label);
     assertVotes(detailedChange(changeId), admin, label, 0, REWORK);
+  }
+
+  @Test
+  public void canVoteMultipleTimesOnNewPatchsets() throws Exception {
+    // Code-Review will be sticky.
+    String label = LabelId.CODE_REVIEW;
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
+      u.save();
+    }
+
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote.
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Make a new patchset, keeping the Code-Review +2 vote.
+    amendChange(r.getChangeId());
+
+    // Post without changing the vote.
+    input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // There is a vote both on patchset 1 and on patchset 2, although both votes are Code-Review +2.
+    assertThat(r.getChange().approvals().get(PatchSet.id(r.getChange().getId(), 1))).hasSize(1);
+    assertThat(r.getChange().approvals().get(PatchSet.id(r.getChange().getId(), 2))).hasSize(1);
   }
 
   private void assertChangeKindCacheContains(ObjectId prior, ObjectId next) {

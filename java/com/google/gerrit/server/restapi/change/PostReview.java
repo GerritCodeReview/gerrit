@@ -1273,7 +1273,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             del.add(c);
             update.putApproval(normName, (short) 0);
           }
-        } else if (c != null && c.value() != ent.getValue()) {
+        } else if (c != null) {
           PatchSetApproval.Builder b =
               c.toBuilder()
                   .value(ent.getValue())
@@ -1286,11 +1286,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           oldApprovals.put(normName, previous.get(normName));
           approvals.put(normName, c.value());
           update.putApproval(normName, ent.getValue());
-        } else if (c != null && c.value() == ent.getValue()) {
-          current.put(normName, c);
-          oldApprovals.put(normName, null);
-          approvals.put(normName, c.value());
-        } else if (c == null) {
+        } else {
           c =
               ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen())
                   .tag(Optional.ofNullable(in.tag))

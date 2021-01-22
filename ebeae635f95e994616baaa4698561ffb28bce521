@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3005d7c_f98b47ad",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-22T10:54:12Z",
+      "side": 1,
+      "message": "Does this fire again when a new draft is added? Or is this ever called only once per lifecycle?",
+      "revId": "ebeae635f95e994616baaa4698561ffb28bce521",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

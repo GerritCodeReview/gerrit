@@ -181,7 +181,7 @@ export class GrRepoDetailList extends ListViewMixin(
     this._items = [];
     flush();
     const errFn: ErrorCallback = response => {
-      firePageError(this, response);
+      firePageError(response);
     };
 
     if (detailType === RepoDetailView.BRANCHES) {

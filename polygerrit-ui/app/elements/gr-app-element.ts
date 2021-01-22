@@ -210,7 +210,7 @@ export class GrAppElement extends KeyboardShortcutMixin(
   created() {
     super.created();
     this._bindKeyboardShortcuts();
-    this.addEventListener(EventType.PAGE_ERROR, e => {
+    document.addEventListener(EventType.PAGE_ERROR, e => {
       this._handlePageError(e);
     });
     this.addEventListener(EventType.TITLE_CHANGE, e => {

@@ -298,11 +298,12 @@ suite('gr-diff-host tests', () => {
         serverErrorStub = sinon.stub();
         document.addEventListener('server-error', serverErrorStub);
         pageErrorStub = sinon.stub();
-        element.addEventListener('page-error', pageErrorStub);
+        document.addEventListener('page-error', pageErrorStub);
       });
 
       teardown(() => {
         document.removeEventListener('server-error', serverErrorStub);
+        document.removeEventListener('page-error', pageErrorStub);
       });
 
       test('page error on HTTP-409', () => {

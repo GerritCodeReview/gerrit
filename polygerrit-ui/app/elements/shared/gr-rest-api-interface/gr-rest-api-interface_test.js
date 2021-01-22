@@ -16,7 +16,6 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import './gr-rest-api-interface.js';
 import {mockPromise} from '../../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {ListChangesOption} from '../../../utils/change-util.js';
@@ -28,8 +27,7 @@ import {
   readResponsePayload,
 } from './gr-rest-apis/gr-rest-api-helper.js';
 import {JSON_PREFIX} from './gr-rest-apis/gr-rest-api-helper.js';
-
-const basicFixture = fixtureFromElement('gr-rest-api-interface');
+import {GrRestApiInterface} from './gr-rest-api-interface.js';
 
 suite('gr-rest-api-interface tests', () => {
   let element;
@@ -53,7 +51,7 @@ suite('gr-rest-api-interface tests', () => {
     // fake auth
     sinon.stub(appContext.authService, 'authCheck')
         .returns(Promise.resolve(true));
-    element = basicFixture.instantiate();
+    element = new GrRestApiInterface();
     element._projectLookup = {};
   });
 

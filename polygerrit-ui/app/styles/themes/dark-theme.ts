@@ -36,6 +36,20 @@ function getStyleEl() {
        * you probably want to override all.
        */
 
+      --chip-color: var(--gray-100);
+      --error-color: var(--red-200);
+      --error-foreground: var(--red-200);
+      --error-background: var(--red-900);
+      --warning-foreground: var(--orange-200);
+      --warning-background: var(--orange-900);
+      --info-foreground: var(--blue-200);
+      --info-background: var(--blue-900);
+      --success-foreground: var(--green-200);
+      --gray-foreground: var(--gray-100);
+      --gray-background: var(--gray-900);
+      --tag-background: var(--cyan-900);
+      --label-background: var(--red-900);
+
       /* text colors */
       --primary-text-color: #e8eaed;
       --link-color: #8ab4f8;
@@ -83,7 +97,7 @@ function getStyleEl() {
       --vote-color-rejected: #ac2d3e;
 
       /* misc colors */
-      --border-color: #5f6368;
+      --border-color: var(--gray-700);
       --comment-separator-color: var(--border-color);
 
       /* status colors */

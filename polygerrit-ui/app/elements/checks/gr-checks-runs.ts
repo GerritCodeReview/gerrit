@@ -48,7 +48,7 @@ function iconClass(run: CheckRun) {
   if (category) return iconForCategory(category);
   switch (run.status) {
     case RunStatus.COMPLETED:
-      return 'check';
+      return 'check-circle';
     case RunStatus.RUNNABLE:
       return 'placeholder';
     case RunStatus.RUNNING:
@@ -83,35 +83,39 @@ export class GrChecksRuns extends GrLitElement {
         .runChip {
           font-weight: var(--font-weight-bold);
           border: 1px solid var(--border-color);
-          border-left: 5px solid transparent;
           border-radius: var(--border-radius);
-          padding: var(--spacing-xs) var(--spacing-m);
+          padding: var(--spacing-s) var(--spacing-m);
           margin-top: var(--spacing-s);
         }
         .runChip.error {
-          border-left: 5px solid #d93025;
+          border-left: 6px solid var(--error-foreground);
         }
         .runChip.warning {
-          border-left: 5px solid #e37400;
+          border-left: 6px solid var(--warning-foreground);
         }
         .runChip.info-outline {
-          border-left: 5px solid #174ea6;
+          border-left: 6px solid var(--info-foreground);
         }
-        .runChip iron-icon {
-          vertical-align: top;
-          position: relative;
-          top: 1px;
-          --iron-icon-height: 18px;
-          --iron-icon-width: 18px;
+        .runChip.check-circle {
+          border-left: 6px solid var(--success-foreground);
+        }
+        .runChip.timelapse {
+          border-left: 6px solid var(--border-color);
+        }
+        .runnable .runChip.placeholder iron-icon {
+          display: none;
         }
         .runChip.error iron-icon {
-          color: #d93025;
+          color: var(--error-foreground);
         }
         .runChip.warning iron-icon {
-          color: #e37400;
+          color: var(--warning-foreground);
         }
         .runChip.info-outline iron-icon {
-          color: #174ea6;
+          color: var(--info-foreground);
+        }
+        .runChip.check-circle iron-icon {
+          color: var(--success-foreground);
         }
       `,
     ];
@@ -132,8 +136,10 @@ export class GrChecksRuns extends GrLitElement {
       .sort(compareByWorstCategory);
     if (runs.length === 0) return;
     return html`
-      <h3 class="statusHeader heading-3">${status.toString().toLowerCase()}</h3>
-      ${runs.map(renderRun)}
+      <div class="${status.toLowerCase()}">
+        <h3 class="statusHeader heading-3">${status.toLowerCase()}</h3>
+        ${runs.map(renderRun)}
+      </div>
     `;
   }
 }

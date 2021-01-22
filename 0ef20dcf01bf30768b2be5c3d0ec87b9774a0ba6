@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd845dea_c01a0365",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1485,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-01-22T15:46:30Z",
+      "side": 1,
+      "message": "Make this a concrete class instead for this example (reserve the interface example for the next change)?",
+      "range": {
+        "startLine": 1485,
+        "startChar": 7,
+        "endLine": 1485,
+        "endChar": 17
+      },
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c5fd041_15002b4c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-01-22T15:46:30Z",
+      "side": 1,
+      "message": "s/respective API/respective API by name/",
+      "range": {
+        "startLine": 1499,
+        "startChar": 25,
+        "endLine": 1499,
+        "endChar": 39
+      },
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "276cf346_eec67eee",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1502,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-01-22T15:46:30Z",
+      "side": 1,
+      "message": "Doesn\u0027t read right: \n\nd/also/\n\nMaybe clarify this better by expanding upon the exact problem:\n\ns/compile time and only available at run time/compile time or there will be a class miss-match when the same compile time class is accessed via two different classloaders if an attempt is made to assign the implementation from the providing plugin\u0027s classloader to a class variable, argument, or return value loaded by the in the consuming plugin\u0027s classloader.",
+      "range": {
+        "startLine": 1502,
+        "startChar": 65,
+        "endLine": 1502,
+        "endChar": 70
+      },
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0921ac4_718c50be",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1517,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-01-22T15:46:30Z",
+      "side": 1,
+      "message": "Maybe put a \"bad\" assignment in a comment above this and indicate that it will result in a classcast exception.",
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e24dfa0_28d5480d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1519,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-01-22T15:46:30Z",
+      "side": 1,
+      "message": "Use an Optional instead.",
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a34f28c0_2b547db3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1527,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-01-22T15:46:30Z",
+      "side": 1,
+      "message": "Also catch a ClassCastException (for the String which may not be a String).",
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

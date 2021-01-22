@@ -22,7 +22,7 @@ import {_testOnly_resetPluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins, stubBaseUrl} from '../../../test/test-utils.js';
 import {_testOnly_flushPreinstalls} from './gr-gerrit.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-js-api-interface');
 
@@ -149,7 +149,7 @@ suite('gr-plugin-loader tests', () => {
     ];
 
     const alertStub = sinon.stub();
-    document.addEventListener('show-alert', alertStub);
+    addListenerForTest(document, 'show-alert', alertStub);
 
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
       pluginApi.install(() => {
@@ -177,7 +177,7 @@ suite('gr-plugin-loader tests', () => {
     ];
 
     const alertStub = sinon.stub();
-    document.addEventListener('show-alert', alertStub);
+    addListenerForTest(document, 'show-alert', alertStub);
 
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
       pluginApi.install(() => {
@@ -210,7 +210,7 @@ suite('gr-plugin-loader tests', () => {
     ];
 
     const alertStub = sinon.stub();
-    document.addEventListener('show-alert', alertStub);
+    addListenerForTest(document, 'show-alert', alertStub);
 
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
       pluginApi.install(() => {
@@ -236,7 +236,7 @@ suite('gr-plugin-loader tests', () => {
     ];
 
     const alertStub = sinon.stub();
-    document.addEventListener('show-alert', alertStub);
+    addListenerForTest(document, 'show-alert', alertStub);
 
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
       pluginApi.install(() => {

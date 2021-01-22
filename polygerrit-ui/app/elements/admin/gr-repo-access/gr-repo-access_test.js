@@ -20,7 +20,7 @@ import './gr-repo-access.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {toSortedPermissionsArray} from '../../../utils/access-util.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo-access');
 
@@ -242,7 +242,7 @@ suite('gr-repo-access tests', () => {
       errFn(response);
     });
 
-    element.addEventListener('page-error', e => {
+    addListenerForTest(document, 'page-error', e => {
       assert.deepEqual(e.detail.response, response);
       done();
     });

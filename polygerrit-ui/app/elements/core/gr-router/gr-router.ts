@@ -65,6 +65,7 @@ import {
 } from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
 import {GerritView, updateState} from '../../../services/router/router-model';
+import {firePageError} from '../../../utils/event-util';
 
 const RoutePattern = {
   ROOT: '/',
@@ -1777,9 +1778,7 @@ export class GrRouter extends GestureEventListeners(
     // Note: the app's 404 display is tightly-coupled with catching 404
     // network responses, so we simulate a 404 response status to display it.
     // TODO: Decouple the gr-app error view from network responses.
-    this._appElement().dispatchEvent(
-      new CustomEvent('page-error', {detail: {response: {status: 404}}})
-    );
+    firePageError(new Response('', {status: 404}));
   }
 }
 

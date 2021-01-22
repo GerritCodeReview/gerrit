@@ -73,6 +73,14 @@ public class UploadArchive extends AbstractGitCommand {
     @Option(name = "--prefix", usage = "Prepend <prefix>/ to each filename in the archive.")
     private String prefix;
 
+    @Option(
+        name = "--compression-level",
+        usage =
+            "Controls compression for different formats. The value is in [0-9] with 0 for fast levels"
+                + " with medium compressions, and 9 for the highest compression. Note that higher"
+                + " compressions require more memory.")
+    private int compressionLevel = -1;
+
     @Option(name = "-0", usage = "Store the files instead of deflating them.")
     private boolean level0;
 
@@ -223,6 +231,9 @@ public class UploadArchive extends AbstractGitCommand {
   }
 
   private Map<String, Object> getFormatOptions(ArchiveFormatInternal f) {
+    if (options.compressionLevel != -1) {
+      return ImmutableMap.of("compression-level", options.compressionLevel);
+    }
     if (f == ArchiveFormatInternal.ZIP) {
       int value =
           Arrays.asList(

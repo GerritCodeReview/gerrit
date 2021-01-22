@@ -169,6 +169,7 @@ public class UploadArchiveIT extends StandaloneSiteTest {
         .add("-f=" + format)
         .add("--prefix=" + commit + "/")
         .add("--remote=" + sshDestination)
+        .add("--compression-level=1") // set to 1 to reduce the memory footprint
         .add(commit)
         .add(FILE_NAME)
         .build();

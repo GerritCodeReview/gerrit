@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67a30a9e_e9edfa16",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-22T11:15:30Z",
+      "side": 1,
+      "message": "This method is doing something very similar to `cloneWithUpdatedDrafts`, so the naming should also be consistent.",
+      "range": {
+        "startLine": 277,
+        "startChar": 2,
+        "endLine": 277,
+        "endChar": 22
+      },
+      "revId": "afadb3b7355d9a4fecf2cc76c672992ed3f37221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2817119_a32627f9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-22T11:15:30Z",
+      "side": 1,
+      "message": "Maybe these 3 lines also make sense below in the new method?",
+      "range": {
+        "startLine": 660,
+        "startChar": 4,
+        "endLine": 662,
+        "endChar": 5
+      },
+      "revId": "afadb3b7355d9a4fecf2cc76c672992ed3f37221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23754290_00488087",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-22T11:15:30Z",
+      "side": 1,
+      "message": "This method is doing something very similar to `reloadDrafts`, so the naming should be consistent.",
+      "range": {
+        "startLine": 671,
+        "startChar": 2,
+        "endLine": 671,
+        "endChar": 22
+      },
+      "revId": "afadb3b7355d9a4fecf2cc76c672992ed3f37221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d473b54_2412d31c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-22T11:15:30Z",
+      "side": 1,
+      "message": "It is a bit weird to define 3 optional parameters, but then throw errors, if they are not defined. Maybe then just make the parameters required and move these checks to the caller?",
+      "range": {
+        "startLine": 676,
+        "startChar": 4,
+        "endLine": 678,
+        "endChar": 56
+      },
+      "revId": "afadb3b7355d9a4fecf2cc76c672992ed3f37221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "badb8a17_ca7e0e0a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-22T11:15:30Z",
+      "side": 1,
+      "message": "I think the `rightPatchNumChanged` being false should also be handled by the caller.",
+      "range": {
+        "startLine": 678,
+        "startChar": 9,
+        "endLine": 678,
+        "endChar": 29
+      },
+      "revId": "afadb3b7355d9a4fecf2cc76c672992ed3f37221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -168,7 +168,11 @@ public class UploadArchiveIT extends StandaloneSiteTest {
         .add("archive")
         .add("-f=" + format)
         .add("--prefix=" + commit + "/")
+        // --remote makes git execute "git archive" on the server through SSH. 
+        // The Gerrit/JGit version of the command understands the --compression-level 
+        // argument below. 
         .add("--remote=" + sshDestination)
+        .add("--compression-level=1") // set to 1 to reduce the memory footprint
         .add(commit)
         .add(FILE_NAME)
         .build();

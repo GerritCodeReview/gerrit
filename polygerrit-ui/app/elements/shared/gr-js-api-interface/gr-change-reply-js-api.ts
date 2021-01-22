@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {GrReplyDialog} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {GrReplyDialog} from '../../../services/gr-rest-api/gr-rest-api';
 import {PluginApi, TargetElement} from '../../plugins/gr-plugin-types';
 import {JsApiService} from './gr-js-api-types';
 

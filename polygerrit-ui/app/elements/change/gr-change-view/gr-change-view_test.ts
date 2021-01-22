@@ -93,7 +93,7 @@ import {
   SinonSpy,
   SinonStubbedMember,
 } from 'sinon/pkg/sinon-esm';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {
   CommentThread,

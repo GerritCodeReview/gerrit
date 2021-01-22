@@ -61,7 +61,7 @@ import {
   ActionPriority,
   ActionType,
   ErrorCallback,
-} from '../../../services/services/gr-rest-api/gr-rest-api';
+} from '../../../services/gr-rest-api/gr-rest-api';
 import {
   AccountInfo,
   ActionInfo,

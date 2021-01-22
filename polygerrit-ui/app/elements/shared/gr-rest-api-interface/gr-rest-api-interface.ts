@@ -148,7 +148,7 @@ import {
   RestApiService,
   GetDiffCommentsOutput,
   GetDiffRobotCommentsOutput,
-} from '../../../services/services/gr-rest-api/gr-rest-api';
+} from '../../../services/gr-rest-api/gr-rest-api';
 import {
   CommentSide,
   createDefaultDiffPrefs,

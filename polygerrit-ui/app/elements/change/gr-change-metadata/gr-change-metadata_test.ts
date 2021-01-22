@@ -59,7 +59,7 @@ import {
   Hashtag,
 } from '../../../types/common';
 import {SinonStubbedMember} from 'sinon/pkg/sinon-esm';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
 import {PluginApi} from '../../plugins/gr-plugin-types';

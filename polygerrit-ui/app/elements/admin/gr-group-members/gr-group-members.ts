@@ -30,7 +30,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-group-members_html';
 import {getBaseUrl} from '../../../utils/url-util';
 import {customElement, property} from '@polymer/decorators';
-import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {
   GroupId,

@@ -17,7 +17,7 @@
 
 import {routerChangeNum$} from '../router/router-model';
 import {updateState} from './change-model';
-import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
+import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {switchMap, tap} from 'rxjs/operators';
 import {of, from} from 'rxjs';
 

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {HttpMethod} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
 import {appContext} from '../../../services/app-context';

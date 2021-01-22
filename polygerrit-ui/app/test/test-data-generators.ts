@@ -81,7 +81,7 @@ import {
   CommentSide,
 } from '../constants/constants';
 import {formatDate} from '../utils/date-util';
-import {GetDiffCommentsOutput} from '../services/services/gr-rest-api/gr-rest-api';
+import {GetDiffCommentsOutput} from '../services/gr-rest-api/gr-rest-api';
 import {AppElementChangeViewParams} from '../elements/gr-app-types';
 import {
   EditRevisionInfo,

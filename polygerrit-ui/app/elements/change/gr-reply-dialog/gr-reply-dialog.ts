@@ -49,7 +49,7 @@ import {getDisplayName} from '../../../utils/display-name-util';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {TargetElement} from '../../plugins/gr-plugin-types';
 import {customElement, observe, property} from '@polymer/decorators';
-import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {
   AccountAddition,

@@ -26,7 +26,7 @@ import {htmlTemplate} from './gr-group-audit-log_html';
 import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
-import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {
   GroupInfo,
   AccountInfo,

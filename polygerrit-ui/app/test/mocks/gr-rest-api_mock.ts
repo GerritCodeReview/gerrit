@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {RestApiService} from '../../services/services/gr-rest-api/gr-rest-api';
+import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {
   AccountDetailInfo,
   AccountExternalIdInfo,

@@ -18,7 +18,7 @@ import {getBaseUrl} from '../../../../utils/url-util';
 import {
   CancelConditionCallback,
   ErrorCallback,
-} from '../../../../services/services/gr-rest-api/gr-rest-api';
+} from '../../../../services/gr-rest-api/gr-rest-api';
 import {
   AuthRequestInit,
   AuthService,

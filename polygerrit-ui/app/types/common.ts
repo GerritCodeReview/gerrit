@@ -1173,9 +1173,19 @@ export interface CommentInfo {
   unresolved?: boolean;
   change_message_id?: string;
   commit_id?: string;
+  context_lines?: ContextLine[];
 }
 
 export type PathToCommentsInfoMap = {[path: string]: CommentInfo[]};
+
+/**
+ * The ContextLine entity contains the line number and line text of a single line of the source file content..
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#context-line
+ */
+export interface ContextLine {
+  line_number: number;
+  context_line: string;
+}
 
 /**
  * The ProjectInfo entity contains information about a project

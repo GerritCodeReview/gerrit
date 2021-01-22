@@ -27,6 +27,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -64,14 +65,16 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         String fileName,
         @Assisted("patchSetA") PatchSet.Id patchSetA,
         @Assisted("patchSetB") PatchSet.Id patchSetB,
-        DiffPreferencesInfo diffPrefs);
+        DiffPreferencesInfo diffPrefs,
+        CurrentUser currentUser);
 
     PatchScriptFactory create(
         ChangeNotes notes,
         String fileName,
         int parentNum,
         PatchSet.Id patchSetB,
-        DiffPreferencesInfo diffPrefs);
+        DiffPreferencesInfo diffPrefs,
+        CurrentUser currentUser);
   }
 
   private final GitRepositoryManager repoManager;
@@ -84,6 +87,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final int parentNum;
   private final PatchSet.Id psb;
   private final DiffPreferencesInfo diffPrefs;
+  private final CurrentUser currentUser;
+
   private final ChangeEditUtil editReader;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
@@ -105,7 +110,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       @Assisted String fileName,
       @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
       @Assisted("patchSetB") PatchSet.Id patchSetB,
-      @Assisted DiffPreferencesInfo diffPrefs) {
+      @Assisted DiffPreferencesInfo diffPrefs,
+      @Assisted CurrentUser currentUser) {
     this.repoManager = grm;
     this.psUtil = psUtil;
     this.builderFactory = builderFactory;
@@ -120,6 +126,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.parentNum = -1;
     this.psb = patchSetB;
     this.diffPrefs = diffPrefs;
+    this.currentUser = currentUser;
 
     changeId = patchSetB.changeId();
   }
@@ -137,7 +144,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       @Assisted String fileName,
       @Assisted int parentNum,
       @Assisted PatchSet.Id patchSetB,
-      @Assisted DiffPreferencesInfo diffPrefs) {
+      @Assisted DiffPreferencesInfo diffPrefs,
+      @Assisted CurrentUser currentUser) {
     this.repoManager = grm;
     this.psUtil = psUtil;
     this.builderFactory = builderFactory;
@@ -152,6 +160,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.parentNum = parentNum;
     this.psb = patchSetB;
     this.diffPrefs = diffPrefs;
+    this.currentUser = currentUser;
 
     changeId = patchSetB.changeId();
     checkArgument(parentNum >= 0, "parentNum must be >= 0");
@@ -163,7 +172,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           PermissionBackendException {
 
     try {
-      permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
+      permissionBackend.user(currentUser).change(notes).check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new NoSuchChangeException(changeId, e);
     }

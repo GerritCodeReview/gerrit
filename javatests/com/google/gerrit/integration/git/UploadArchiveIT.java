@@ -169,6 +169,7 @@ public class UploadArchiveIT extends StandaloneSiteTest {
         .add("-f=" + format)
         .add("--prefix=" + commit + "/")
         .add("--remote=" + sshDestination)
+        .add("--preset=0") // used by the Txz format. Set to 0 to reduce the memory footprint
         .add(commit)
         .add(FILE_NAME)
         .build();

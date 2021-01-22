@@ -24,8 +24,10 @@ import static org.eclipse.jgit.lib.ObjectIdSerializer.write;
 import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.git.ObjectIds;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -49,8 +51,42 @@ public class PatchList implements Serializable {
   static final Comparator<String> FILE_PATH_CMP =
       Comparator.comparing(Patch::isMagic).reversed().thenComparing(Comparator.naturalOrder());
 
+  /**
+   * We use the ChangeType comparator for a rare case when PatchList contains two entries for the
+   * same file, e.g. {ADDED, DELETED}. We return a single entry according to the following order.
+   * Check the following bug for an example case:
+   * https://bugs.chromium.org/p/gerrit/issues/detail?id=13914.
+   */
+  @VisibleForTesting
+  static class ChangeTypeCmp implements Comparator<ChangeType> {
+    static final List<ChangeType> order =
+        ImmutableList.of(
+            ChangeType.ADDED,
+            ChangeType.RENAMED,
+            ChangeType.MODIFIED,
+            ChangeType.COPIED,
+            ChangeType.REWRITE,
+            ChangeType.DELETED);
+
+    @Override
+    public int compare(ChangeType o1, ChangeType o2) {
+      int idx1 = priority(o1);
+      int idx2 = priority(o2);
+      return idx1 - idx2;
+    }
+
+    private int priority(ChangeType changeType) {
+      int idx = order.indexOf(changeType);
+      // Return least priority if the element is not in the order list.
+      return idx == -1 ? order.size() : idx;
+    }
+  }
+
+  @VisibleForTesting static final Comparator<ChangeType> CHANGE_TYPE_CMP = new ChangeTypeCmp();
+
   private static final Comparator<PatchListEntry> PATCH_CMP =
-      Comparator.comparing(PatchListEntry::getNewName, FILE_PATH_CMP);
+      Comparator.comparing(PatchListEntry::getNewName, FILE_PATH_CMP)
+          .thenComparing(PatchListEntry::getChangeType, CHANGE_TYPE_CMP);
 
   @Nullable private transient ObjectId oldId;
   private transient ObjectId newId;
@@ -121,12 +157,25 @@ public class PatchList implements Serializable {
 
   /** Find an entry by name, returning an empty entry if not present. */
   public PatchListEntry get(String fileName) {
-    final int index = search(fileName);
-    return 0 <= index ? patches[index] : PatchListEntry.empty(fileName);
+    int index = search(fileName);
+    if (index >= 0) {
+      return patches[index];
+    }
+    // If index is negative, it marks the insertion point of the object in the list.
+    // index = (-(insertion point) - 1).
+    // Since we use the ChangeType in the comparison, the object that we are using in the lookup
+    // (which has a ADDED ChangeType) may have a different ChangeType than the object in the list.
+    // For this reason, we look at the file name of the object at the insertion point and return it
+    // if it has the same name.
+    index = -1 * (index + 1);
+    if (index < patches.length && patches[index].getNewName().equals(fileName)) {
+      return patches[index];
+    }
+    return PatchListEntry.empty(fileName);
   }
 
   private int search(String fileName) {
-    PatchListEntry want = PatchListEntry.empty(fileName);
+    PatchListEntry want = PatchListEntry.empty(fileName, ChangeType.ADDED);
     return Arrays.binarySearch(patches, 0, patches.length, want, PATCH_CMP);
   }
 

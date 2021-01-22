@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09551026_9802738c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-22T17:31:39Z",
+      "side": 1,
+      "message": "P.S. The stats in the Checks plugin are incorrect: this build took less than 1h and not 1h and 50 mins. Still a long time though, but it was successful :-)",
+      "revId": "736bd8233b75f673b837936f0ade48cc49d2bb5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

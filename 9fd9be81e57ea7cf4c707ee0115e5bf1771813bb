@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83af865e_98701694",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-22T23:38:03Z",
+      "side": 1,
+      "message": "This seems like it\u0027s part of the same effort as 294162: Define GerritEvent proto for PubSub emission. | https://gerrit-review.googlesource.com/c/gerrit/+/294162, should it also be a Google internal change?",
+      "revId": "9fd9be81e57ea7cf4c707ee0115e5bf1771813bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

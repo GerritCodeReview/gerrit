@@ -77,7 +77,8 @@ suite('gr-rest-api-interface tests', () => {
             },
           ],
         }));
-    return element._getDiffComments('42', '', 'PARENT', 1, 'sieve.go').then(
+    return element._getDiffComments('42', '', undefined, 'PARENT', 1,
+        'sieve.go').then(
         obj => {
           assert.equal(obj.baseComments.length, 1);
           assert.deepEqual(obj.baseComments[0], {
@@ -241,7 +242,7 @@ suite('gr-rest-api-interface tests', () => {
         });
       }
     });
-    return element._getDiffComments('42', '', 1, 2, 'sieve.go').then(
+    return element._getDiffComments('42', '', undefined, 1, 2, 'sieve.go').then(
         obj => {
           assert.equal(obj.baseComments.length, 1);
           assert.deepEqual(obj.baseComments[0], {

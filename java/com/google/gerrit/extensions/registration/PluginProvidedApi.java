@@ -14,6 +14,10 @@
 
 package com.google.gerrit.extensions.registration;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 /**
  * By implementing the PluginProvidedApi interface, a plugin can provide an API which can be
  * consumed by another plugin. The API thus provided will only be accessible to other plugins and
@@ -72,5 +76,56 @@ package com.google.gerrit.extensions.registration;
  *     }
  *   }
  * </pre>
+ *
+ * As an alternative to the pure reflection, a proxy instance can also be created. To do this, the
+ * API interface must be shared between the providing plugin and the consuming plugin. In this
+ * approach, the API interface is available at compile time for the consuming plugin. This requires
+ * all the API's arguments and return values to be types known to Gerrit's classloader else it will
+ * result in ClassCastException. For example:
+ *
+ * <pre>
+ *   public interface MyApi extends PluginProvidedApi {
+ *     public String getData();
+ *   }
+ *
+ *   public class MyClass {
+ *     protected DynamicMap<PluginProvidedApi> pluginProvidedApis;
+ *
+ *     @Inject
+ *     public MyClass(DynamicMap<PluginProvidedApi> pluginProvidedApis) {
+ *       this.pluginProvidedApis = pluginProvidedApis;
+ *     }
+ *
+ *     public Optional<String> getMyData() {
+ *       PluginProvidedApi pluginProvidedApi = pluginProvidedApis.get("my-api-plugin", "MyApi");
+ *       if (pluginProvidedApi == null) {
+ *         return Optional.empty();
+ *       }
+ *       return Optional.ofNullable(getDataFromApi(pluginProvidedApi));
+ *     }
+ *
+ *     protected String getDataFromApi(PluginProvidedApi pluginProvidedApi) {
+ *       try {
+ *         return pluginProvidedApi.getProxyInstance(MyApi.class).getData();
+ *       } catch (ClassCastException | IllegalAccessException | InvocationTargetException
+ *           | NoSuchMethodException e) {
+ *         return null;
+ *       }
+ *     }
+ *   }
+ * </pre>
  */
-public interface PluginProvidedApi {}
+public interface PluginProvidedApi {
+  default <T extends PluginProvidedApi> T getProxyInstance(Class<T> type)
+      throws ClassCastException, NoSuchMethodException, IllegalArgumentException,
+          IllegalAccessException, InvocationTargetException {
+    return type.cast(
+        Proxy.newProxyInstance(
+            type.getClassLoader(),
+            new Class<?>[] {type},
+            (Object proxy, Method method, Object[] args) ->
+                getClass()
+                    .getMethod(method.getName(), method.getParameterTypes())
+                    .invoke(this, args)));
+  }
+}

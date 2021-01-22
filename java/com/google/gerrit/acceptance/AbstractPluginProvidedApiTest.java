@@ -33,6 +33,7 @@ import java.util.Map;
 public class AbstractPluginProvidedApiTest extends AbstractDaemonTest {
   protected static final String PLUGIN_PROVIDING_API = "plugin-providing-api";
   protected static final String PLUGIN_USING_API = "plugin-using-api";
+  protected static final String PLUGIN_USING_API_PROXY_INSTANCE = "plugin-using-api-proxy-instance";
 
   protected interface MyApi extends PluginProvidedApi {
     public String getData();
@@ -81,11 +82,40 @@ public class AbstractPluginProvidedApiTest extends AbstractDaemonTest {
     }
   }
 
+  protected static class PluginUsingApiProxyInstanceAttributeFactory
+      extends PluginUsingApiAttributeFactory {
+    @Inject
+    public PluginUsingApiProxyInstanceAttributeFactory(
+        DynamicMap<PluginProvidedApi> pluginProvidedApis) {
+      super(pluginProvidedApis);
+    }
+
+    @Override
+    protected String getDataFromApi(PluginProvidedApi pluginProvidedApi) {
+      try {
+        return pluginProvidedApi.getProxyInstance(MyApi.class).getData();
+      } catch (ClassCastException
+          | IllegalAccessException
+          | InvocationTargetException
+          | NoSuchMethodException e) {
+        return null;
+      }
+    }
+  }
+
   protected static class PluginUsingApiModule extends AbstractModule {
     @Override
     public void configure() {
       DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class)
           .to(PluginUsingApiAttributeFactory.class);
+    }
+  }
+
+  protected static class PluginUsingApiProxyInstanceModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class)
+          .to(PluginUsingApiProxyInstanceAttributeFactory.class);
     }
   }
 }

@@ -31,15 +31,31 @@ public class PluginProvidedApiIT extends AbstractPluginProvidedApiTest {
     try (AutoCloseable ignored1 =
             installPlugin(PLUGIN_PROVIDING_API, PluginProvidedApiModule.class);
         AutoCloseable ignored2 = installPlugin(PLUGIN_USING_API, PluginUsingApiModule.class)) {
-      createChange();
-      RestResponse response = adminRestSession.get("/changes/?q=status:open");
-      response.assertOK();
-      List<ChangeAttribute> changes =
-          GSON.fromJson(response.getReader(), new TypeToken<List<ChangeAttribute>>() {}.getType());
-      assertThat(changes).hasSize(1);
-      assertThat(changes.get(0).plugins).isNotNull();
-      assertThat(changes.get(0).plugins).hasSize(1);
-      assertThat(changes.get(0).plugins.get(0).message).isEqualTo("test_data");
+      testChangeApi();
     }
+  }
+
+  @Test
+  public void testPluginProvidedApiUsingProxyInstance() throws Exception {
+    try (AutoCloseable ignored1 =
+            installPlugin(PLUGIN_PROVIDING_API, PluginProvidedApiModule.class);
+        AutoCloseable ignored2 =
+            installPlugin(
+                PLUGIN_USING_API_PROXY_INSTANCE, PluginUsingApiProxyInstanceModule.class)) {
+      testChangeApi();
+    }
+  }
+
+  protected void testChangeApi() throws Exception {
+    createChange();
+    RestResponse response = adminRestSession.get("/changes/?q=status:open");
+    response.assertOK();
+    List<ChangeAttribute> changes =
+        GSON.fromJson(response.getReader(), new TypeToken<List<ChangeAttribute>>() {}.getType());
+    assertThat(changes).isNotEmpty();
+    assertThat(changes.get(0)).isNotNull();
+    assertThat(changes.get(0).plugins).isNotNull();
+    assertThat(changes.get(0).plugins).hasSize(1);
+    assertThat(changes.get(0).plugins.get(0).message).isEqualTo("test_data");
   }
 }

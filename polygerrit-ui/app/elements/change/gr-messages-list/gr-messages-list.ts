@@ -48,9 +48,9 @@ import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {CommentThread, isRobot} from '../../../utils/comment-util';
 import {GrMessage, MessageAnchorTapDetail} from '../gr-message/gr-message';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {FormattedReviewerUpdateInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {DomRepeat} from '@polymer/polymer/lib/elements/dom-repeat';
 import {getVotingRange} from '../../../utils/label-util';
+import {FormattedReviewerUpdateInfo} from '../../../types/types';
 
 /**
  * The content of the enum is also used in the UI for the button text.

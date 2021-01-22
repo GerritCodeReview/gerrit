@@ -25,7 +25,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-apply-fix-dialog_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
-import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {
   NumericChangeId,
   EditPatchSetNum,
@@ -40,6 +39,7 @@ import {isRobot} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
 import {appContext} from '../../../services/app-context';
 import {fireEvent} from '../../../utils/event-util';
+import {ParsedChangeInfo} from '../../../types/types';
 
 export interface GrApplyFixDialog {
   $: {

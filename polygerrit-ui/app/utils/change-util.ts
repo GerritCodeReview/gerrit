@@ -22,7 +22,7 @@ import {
   ChangeInfo,
   AccountInfo,
 } from '../types/common';
-import {ParsedChangeInfo} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {ParsedChangeInfo} from '../types/types';
 
 // This can be wrong! See WARNING above
 interface ChangeStatusesOptions {

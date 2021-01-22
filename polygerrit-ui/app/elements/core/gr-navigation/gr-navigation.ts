@@ -32,8 +32,8 @@ import {
   TopicName,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {GerritView} from '../../../services/router/router-model';
+import {ParsedChangeInfo} from '../../../types/types';
 
 // Navigation parameters object format:
 //

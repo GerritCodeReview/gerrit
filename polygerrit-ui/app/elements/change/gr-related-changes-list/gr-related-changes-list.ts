@@ -40,9 +40,9 @@ import {
   RepoName,
   SubmittedTogetherInfo,
 } from '../../../types/common';
-import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {appContext} from '../../../services/app-context';
 import {pluralize} from '../../../utils/string-util';
+import {ParsedChangeInfo} from '../../../types/types';
 
 function getEmptySubmitTogetherInfo(): SubmittedTogetherInfo {
   return {changes: [], non_visible_changes: 0};

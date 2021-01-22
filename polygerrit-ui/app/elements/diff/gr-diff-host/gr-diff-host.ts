@@ -686,6 +686,12 @@ export class GrDiffHost extends GestureEventListeners(
       const threadEl = this._createThreadElement(thread);
       this._attachThreadElement(threadEl);
     }
+    const portedThreadsCount = threads.filter(thread => thread.ported).length;
+    if (portedThreadsCount > 0) {
+      this.reporting.reportInteraction('ported-threads-shown', {
+        count: portedThreadsCount,
+      });
+    }
   }
 
   _computeIsBlameLoaded(blame: BlameInfo[] | null) {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23a82d3c_c4e1812c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-22T11:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67a30a9e_e9edfa16",
+      "range": {
+        "startLine": 277,
+        "startChar": 2,
+        "endLine": 277,
+        "endChar": 22
+      },
+      "revId": "afadb3b7355d9a4fecf2cc76c672992ed3f37221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2817119_a32627f9",
@@ -70,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b33429e_7611b4fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-22T11:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23754290_00488087",
+      "range": {
+        "startLine": 671,
+        "startChar": 2,
+        "endLine": 671,
+        "endChar": 22
+      },
+      "revId": "afadb3b7355d9a4fecf2cc76c672992ed3f37221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d473b54_2412d31c",
@@ -106,6 +154,54 @@
       "writtenOn": "2021-01-22T11:15:30Z",
       "side": 1,
       "message": "I think the `rightPatchNumChanged` being false should also be handled by the caller.",
+      "range": {
+        "startLine": 678,
+        "startChar": 9,
+        "endLine": 678,
+        "endChar": 29
+      },
+      "revId": "afadb3b7355d9a4fecf2cc76c672992ed3f37221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebdc95a9_9ae573c5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-22T11:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d473b54_2412d31c",
+      "range": {
+        "startLine": 676,
+        "startChar": 4,
+        "endLine": 678,
+        "endChar": 56
+      },
+      "revId": "afadb3b7355d9a4fecf2cc76c672992ed3f37221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f29815eb_f0869121",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-22T11:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "badb8a17_ca7e0e0a",
       "range": {
         "startLine": 678,
         "startChar": 9,

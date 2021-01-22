@@ -139,7 +139,7 @@ export class GrGroupMembers extends GestureEventListeners(
     const promises: Promise<void>[] = [];
 
     const errFn: ErrorCallback = response => {
-      firePageError(this, response);
+      firePageError(response);
     };
 
     return this.restApiService

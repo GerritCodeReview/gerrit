@@ -52,6 +52,41 @@
       "parentUuid": "ad3b4642_cadc9322",
       "revId": "ebeae635f95e994616baaa4698561ffb28bce521",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6f0693d_8afa70d5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-22T11:25:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0351582b_94e8c572",
+      "revId": "ebeae635f95e994616baaa4698561ffb28bce521",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91006d63_75f287b0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-22T11:25:29Z",
+      "side": 1,
+      "message": "Given that you are not reporting the case \u0027ported\u003d\u003d\u003d0 \u0026\u0026 total\u003e0\u0027 I would argue that you should rather not report total at all.",
+      "revId": "ebeae635f95e994616baaa4698561ffb28bce521",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

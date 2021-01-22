@@ -605,6 +605,23 @@ public class PostReviewIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void votingTheSameVoteSecondTimeIsIgnored() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote.
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+    assertThat(r.getChange().approvals().values()).hasSize(1);
+
+    // Post without changing the vote.
+    input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Second vote was ignored since the first one already applied on this patchset.
+    assertThat(r.getChange().approvals().values()).hasSize(1);
+  }
+
   private List<RobotCommentInfo> getRobotComments(String changeId) throws RestApiException {
     return gApi.changes().id(changeId).robotComments().values().stream()
         .flatMap(Collection::stream)

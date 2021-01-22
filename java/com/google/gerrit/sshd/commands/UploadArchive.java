@@ -73,6 +73,14 @@ public class UploadArchive extends AbstractGitCommand {
     @Option(name = "--prefix", usage = "Prepend <prefix>/ to each filename in the archive.")
     private String prefix;
 
+    @Option(
+        name = "--preset",
+        usage =
+            "Controls compression for the Txz format. The value is in [0-9] with 0 for fast presets"
+                + " with medium compressions, and 9 for the highest compression. Note that higher"
+                + " compressions require more memory.")
+    private int preset = -1;
+
     @Option(name = "-0", usage = "Store the files instead of deflating them.")
     private boolean level0;
 
@@ -239,6 +247,11 @@ public class UploadArchive extends AbstractGitCommand {
               .indexOf(true);
       if (value >= 0) {
         return ImmutableMap.of("level", Integer.valueOf(value));
+      }
+    }
+    if (f == ArchiveFormatInternal.TXZ) {
+      if (options.preset != -1) {
+        return ImmutableMap.of("preset", options.preset);
       }
     }
     return Collections.emptyMap();

@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-group-members.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {stubBaseUrl, stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest, stubBaseUrl, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-group-members');
 
@@ -352,7 +352,7 @@ suite('gr-group-members tests', () => {
         .callsFake((group, errFn) => {
           errFn(response);
         });
-    element.addEventListener('page-error', e => {
+    addListenerForTest(document, 'page-error', e => {
       assert.deepEqual(e.detail.response, response);
       done();
     });

@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-group-audit-log.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-group-audit-log');
 
@@ -84,7 +85,7 @@ suite('gr-group-audit-log tests', () => {
         errFn(response);
       });
 
-      element.addEventListener('page-error', e => {
+      addListenerForTest(document, 'page-error', e => {
         assert.deepEqual(e.detail.response, response);
         done();
       });

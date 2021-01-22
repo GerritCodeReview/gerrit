@@ -16,8 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import './gr-rest-api-interface.js';
-import {mockPromise} from '../../../test/test-utils.js';
+import {addListenerForTest, mockPromise} from '../../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {ListChangesOption} from '../../../utils/change-util.js';
 import {appContext} from '../../../services/app-context.js';
@@ -28,8 +27,7 @@ import {
   readResponsePayload,
 } from './gr-rest-apis/gr-rest-api-helper.js';
 import {JSON_PREFIX} from './gr-rest-apis/gr-rest-api-helper.js';
-
-const basicFixture = fixtureFromElement('gr-rest-api-interface');
+import {GrRestApiInterface} from './gr-rest-api-interface.js';
 
 suite('gr-rest-api-interface tests', () => {
   let element;
@@ -53,7 +51,7 @@ suite('gr-rest-api-interface tests', () => {
     // fake auth
     sinon.stub(appContext.authService, 'authCheck')
         .returns(Promise.resolve(true));
-    element = basicFixture.instantiate();
+    element = new GrRestApiInterface();
     element._projectLookup = {};
   });
 
@@ -267,7 +265,7 @@ suite('gr-rest-api-interface tests', () => {
     const getResponseObjectStub = sinon.stub(element, 'getResponseObject');
     window.fetch.returns(Promise.resolve({ok: false}));
     const serverErrorEventPromise = new Promise(resolve => {
-      document.addEventListener('server-error', resolve);
+      addListenerForTest(document, 'server-error', resolve);
     });
 
     return Promise.all([element._restApiHelper.fetchJSON({}).then(response => {
@@ -1253,7 +1251,7 @@ suite('gr-rest-api-interface tests', () => {
   test('getFileContent suppresses 404s', () => {
     const res = {status: 404};
     const spy = sinon.spy();
-    document.addEventListener('server-error', spy);
+    addListenerForTest(document, 'server-error', spy);
     sinon.stub(appContext.authService, 'fetch').returns(Promise.resolve(res));
     sinon.stub(element, '_changeBaseURL').returns(Promise.resolve(''));
     return element.getFileContent('1', 'tst/path', '1')
@@ -1306,7 +1304,7 @@ suite('gr-rest-api-interface tests', () => {
   test('_logCall only reports requests with anonymized URLss', () => {
     sinon.stub(Date, 'now').returns(200);
     const handler = sinon.stub();
-    document.addEventListener('gr-rpc-log', handler);
+    addListenerForTest(document, 'gr-rpc-log', handler);
 
     element._restApiHelper._logCall({url: 'url'}, 100, 200);
     assert.isFalse(handler.called);
@@ -1320,14 +1318,13 @@ suite('gr-rest-api-interface tests', () => {
   test('ported comment errors do not trigger error dialog', () => {
     const change = createChange();
     const handler = sinon.stub();
-    document.addEventListener('server-error', handler);
+    addListenerForTest(document, 'server-error', handler);
     sinon.stub(element._restApiHelper, 'fetchJSON').returns(Promise.resolve({
       ok: false}));
 
     element.getPortedComments(change._number, CURRENT);
 
     assert.isFalse(handler.called);
-    document.removeEventListener('server-error', handler);
   });
 
   test('ported drafts are not requested user is not logged in', () => {

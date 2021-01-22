@@ -20,7 +20,7 @@ import './gr-repo-detail-list.js';
 import 'lodash/lodash.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo-detail-list');
 
@@ -293,7 +293,7 @@ suite('gr-repo-detail-list', () => {
               errFn(response);
             });
 
-        element.addEventListener('page-error', e => {
+        addListenerForTest(document, 'page-error', e => {
           assert.deepEqual(e.detail.response, response);
           done();
         });
@@ -488,7 +488,7 @@ suite('gr-repo-detail-list', () => {
               errFn(response);
             });
 
-        element.addEventListener('page-error', e => {
+        addListenerForTest(document, 'page-error', e => {
           assert.deepEqual(e.detail.response, response);
           done();
         });

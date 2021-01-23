@@ -46,6 +46,30 @@
       },
       "revId": "ede2adf268fcef98ea02599e9eaff558c79d9c09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79c4f64d_590a6e45",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-01-23T16:20:51Z",
+      "side": 1,
+      "message": "Is there a problem with that JGit change?\n\nWhat\u0027s the URL used to access the repo?\n\nPreemptive auth should kick in only for URLs that have user and password. I.e., https://admin:password@localhost:1234/... . Just https://localhost:1234/... should not cause preemptive auth. (I don\u0027t think Gerrit code uses the new TransportHttp.setPreemptiveBasicAuthentication() yet, so any change in authentication must come from the URLs).",
+      "parentUuid": "c9c92370_79ff518c",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 69
+      },
+      "revId": "ede2adf268fcef98ea02599e9eaff558c79d9c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

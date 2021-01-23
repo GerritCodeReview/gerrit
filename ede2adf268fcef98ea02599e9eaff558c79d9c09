@@ -22,6 +22,30 @@
       },
       "revId": "ede2adf268fcef98ea02599e9eaff558c79d9c09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9c92370_79ff518c",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-23T12:46:43Z",
+      "side": 1,
+      "message": "So, apparently this is was a fix for this bug: [1].\n\n[1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d541327",
+      "parentUuid": "bfd4b40a_7adff03e",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 69
+      },
+      "revId": "ede2adf268fcef98ea02599e9eaff558c79d9c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

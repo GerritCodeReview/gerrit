@@ -70,6 +70,30 @@
       },
       "revId": "ede2adf268fcef98ea02599e9eaff558c79d9c09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6ad107d_6214a624",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-24T12:45:09Z",
+      "side": 1,
+      "message": "\u003e Is there a problem with that JGit change?\n\nIt\u0027s a subtle behavioral change, as authFromUri() is now unconditionally called. But that\u0027s probably expected.\n\n\u003e What\u0027s the URL used to access the repo?\n\n\nGerrit is relying on its own URL prefix: \"/a\" to kick of auth filter, see GerritAuthModule.java:\n\n  @Override\n  protected void configureServlets() {\n    Class\u003c? extends Filter\u003e authFilter \u003d retreiveAuthFilterFromConfig(authConfig);\n\n    filterRegex(NOT_AUTHORIZED_LFS_URL_REGEX).through(authFilter);\n    filter(\"/a/*\").through(authFilter);\n  }\n\nUsually, authFilter is just ProjectBasicAuthFilter.java, that is setting up web session:\n\n    private boolean verify(HttpServletRequest req, Response rsp) throws IOException {\n    final String hdr \u003d req.getHeader(AUTHORIZATION);\n    if (hdr \u003d\u003d null || !hdr.startsWith(LIT_BASIC)) {\n      // Allow an anonymous connection through, or it might be using a\n      // session cookie instead of basic authentication.\n      return true;\n    }\n   [...]\n  try {\n      AuthResult whoAuthResult \u003d accountManager.authenticate(whoAuth);\n      setUserIdentified(whoAuthResult.getAccountId());\n      return true;\n    }\n  [...]\n\nwhere setUserIdentified() is defined as:\n\n  private void setUserIdentified(Account.Id id) {\n    WebSession ws \u003d session.get();\n    ws.setUserAccountId(id);\n    ws.setAccessPathOk(AccessPath.GIT, true);\n    ws.setAccessPathOk(AccessPath.REST_API, true);\n  }\n\nNow, after 58f4e6e7f behavior change in JGit, it\u0027s setting the user, but is not actually performing authentication in term of gerrit web session.\n\nConsider this change edit fethc operation that is requiring user authentication, as it cannot be accessed anonymously:\n\n  $ git fetch http://admin:secret@localhost:8080/test_jgit \\\n     refs/users/00/1000000/edit-1/2\n  fatal: couldn\u0027t find remote ref refs/users/00/1000000/edit-1/1\n\nit doesn\u0027t work, as \"/a\" URL prefix is missing. So, even though the URL contains user:password part, it doesn\u0027t (and shouldn\u0027t) perform authentication from gerrit perspective. With /a prefix it works as expected (because the aforementioned ProjectBasicAuthFilter is activted):\n\n  $ git fetch http://admin:secret@localhost:8080/a/test_jgit \\\n     refs/users/00/1000000/edit-1/2 \\\n     \u0026\u0026 git checkout -b change-1 FETCH_HEAD\nremote: Counting objects: 4, done\nremote: Finding sources: 100% (3/3)\nremote: Total 3 (delta 0), reused 0 (delta 0)\nUnpacking objects: 100% (3/3), 315 bytes | 315.00 KiB/s, done.\nFrom http://localhost:8080/a/test_jgit\n * branch            refs/users/00/1000000/edit-1/2 -\u003e FETCH_HEAD\nSwitched to a new branch \u0027change-1\u0027\n\nIt doesn\u0027t really matter much in real server though. Here is the detailed networking trace of two git requests with and without /a prefix: [1].\n\nWithout /a prefix the server is sending:\n\n  13:30:13.155028 http.c:715    \u003c\u003d Recv header: HTTP/1.1 200 OK\n\nand with /a prefix the server is sending:\n\n  13:31:55.604721 http.c:715    \u003c\u003d Recv header: HTTP/1.1 401 Unauthorized\n\nI will add a comment on the related line of the test code.\n\n[1] http://paste.openstack.org/show/801907/",
+      "parentUuid": "79c4f64d_590a6e45",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 69
+      },
+      "revId": "ede2adf268fcef98ea02599e9eaff558c79d9c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

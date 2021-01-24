@@ -118,6 +118,30 @@
       },
       "revId": "ede2adf268fcef98ea02599e9eaff558c79d9c09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a89cf75d_c91587d1",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-01-24T13:06:00Z",
+      "side": 1,
+      "message": "Hm. Frankly said, I\u0027ve never quite understood why Gerrit has that /a. If I access something anonymously that I\u0027m not supposed to see (with or without /a), I\u0027d expect to get back a 401. And if I\u0027m allowed to access something anonymously, I\u0027d expect that to work whether or not there is an auth header.\n\nBut if gerrit needs this for some reason, why can\u0027t it simply ignore that auth header if no /a is present, and use it to do a proper log-in if a /a is present?\n\nAlso, why does it matter for the test? Does the URL used in this test include the \"admin@secret\" part? If so, how about removing the user info from the test URL?\n\nIn real life and with the current Gerrit implementation, specifying the user info in the URL when there is no /a would simply be a configuration error. But with /a I\u0027d expect it to work properly.",
+      "parentUuid": "f6ad107d_6214a624",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 69
+      },
+      "revId": "ede2adf268fcef98ea02599e9eaff558c79d9c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

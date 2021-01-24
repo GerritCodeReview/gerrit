@@ -94,6 +94,30 @@
       },
       "revId": "ede2adf268fcef98ea02599e9eaff558c79d9c09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d48fe9b_4c9ba762",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-24T12:59:20Z",
+      "side": 1,
+      "message": "Adapted the comment in the code and added the explanation in the commit message. Done.",
+      "parentUuid": "f6ad107d_6214a624",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 69
+      },
+      "revId": "ede2adf268fcef98ea02599e9eaff558c79d9c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

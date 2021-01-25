@@ -47,6 +47,9 @@ export const htmlTemplate = html`
     .patchInfoOldPatchSet .container.latestPatchContainer {
       display: initial;
     }
+    .editMode.patchInfoOldPatchSet .container.latestPatchContainer {
+      display: none;
+    }
     .latestPatchContainer a {
       text-decoration: none;
     }

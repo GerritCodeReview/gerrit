@@ -464,16 +464,29 @@ suite('gr-change-actions tests', () => {
       assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
     });
 
-    test('_setLabelValuesOnRevert', () => {
+    test('_setReviewOnRevert', () => {
       const labels = {'Foo': 1, 'Bar-Baz': -2};
       const changeId = 1234;
-      sinon.stub(element.$.jsAPI, 'getLabelValuesPostRevert').returns(labels);
+      sinon.stub(element.$.jsAPI, 'getReviewPostRevert').returns(labels);
       const saveStub = stubRestApi('saveChangeReview')
           .returns(Promise.resolve());
-      return element._setLabelValuesOnRevert(changeId).then(() => {
+      return element._setReviewOnRevert(changeId).then(() => {
         assert.isTrue(saveStub.calledOnce);
         assert.equal(saveStub.lastCall.args[0], changeId);
         assert.deepEqual(saveStub.lastCall.args[2], {labels});
+      });
+    });
+
+    test('_setReviewOnRevert with review', () => {
+      const review = {labels: {'Foo': 1, 'Bar-Baz': -2}};
+      const changeId = 1234;
+      sinon.stub(element.$.jsAPI, 'getReviewPostRevert').returns(review);
+      const saveStub = stubRestApi('saveChangeReview')
+          .returns(Promise.resolve());
+      return element._setReviewOnRevert(changeId).then(() => {
+        assert.isTrue(saveStub.calledOnce);
+        assert.equal(saveStub.lastCall.args[0], changeId);
+        assert.deepEqual(saveStub.lastCall.args[2], review);
       });
     });
 

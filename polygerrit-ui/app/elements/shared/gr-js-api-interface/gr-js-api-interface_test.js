@@ -283,18 +283,33 @@ suite('gr-js-api-interface tests', () => {
     assert.isTrue(errorStub.calledTwice);
   });
 
-  test('postrevert event', () => {
+  test('postrevert event labels', () => {
     function getLabels(c) {
       return {'Code-Review': 1};
     }
 
-    assert.deepEqual(element.getLabelValuesPostRevert(null), {});
+    assert.deepEqual(element.getReviewPostRevert(null), {});
     assert.equal(errorStub.callCount, 0);
 
     plugin.on(EventType.POST_REVERT, throwErrFn);
     plugin.on(EventType.POST_REVERT, getLabels);
     assert.deepEqual(
-        element.getLabelValuesPostRevert(null), {'Code-Review': 1});
+        element.getReviewPostRevert(null), {'Code-Review': 1});
+    assert.isTrue(errorStub.calledOnce);
+  });
+
+  test('postrevert event review', () => {
+    function getReview(c) {
+      return {labels: {'Code-Review': 1}};
+    }
+
+    assert.deepEqual(element.getReviewPostRevert(null), {});
+    assert.equal(errorStub.callCount, 0);
+
+    plugin.on(EventType.POST_REVERT, throwErrFn);
+    plugin.on(EventType.POST_REVERT, getReview);
+    assert.deepEqual(
+        element.getReviewPostRevert(null), {labels: {'Code-Review': 1}});
     assert.isTrue(errorStub.calledOnce);
   });
 

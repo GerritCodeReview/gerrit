@@ -52,6 +52,24 @@
       "parentUuid": "2a9b23d1_03e74623",
       "revId": "0b088c6787b4d53b23f94087424b6de6b35b486e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f60c7fc_5a58dbe8",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2021-01-25T10:05:25Z",
+      "side": 1,
+      "message": "Do we have a consensus here? Is it OK to lift the restriction?\n\nBtw, cache was not used before, and serviceuser.db is not often loaded; so maybe it would be acceptable to access legacy serviceuser.db without cache?",
+      "parentUuid": "2ab87c0d_1730f5cd",
+      "revId": "0b088c6787b4d53b23f94087424b6de6b35b486e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

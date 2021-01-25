@@ -40,6 +40,7 @@ import {customElement, observe, property} from '@polymer/decorators';
 import {
   CommentRange,
   ConfigInfo,
+  ContextLine,
   NumericChangeId,
   PatchSetNum,
   RepoName,

@@ -61,7 +61,11 @@ import {
   DiffPreferencesInfo,
   IgnoreWhitespaceType,
 } from '../../../types/diff';
-import {GrDiff, LineOfInterest} from '../gr-diff/gr-diff';
+import {
+  CreateCommentEventDetail,
+  GrDiff,
+  LineOfInterest,
+} from '../gr-diff/gr-diff';
 import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
@@ -734,7 +738,7 @@ export class GrDiffHost extends GestureEventListeners(
     );
   }
 
-  _handleCreateComment(e: CustomEvent) {
+  _handleCreateComment(e: CustomEvent<CreateCommentEventDetail>) {
     if (!this.patchRange) throw Error('patch range not set');
 
     const {lineNum, side, range, path} = e.detail;

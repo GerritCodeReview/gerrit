@@ -50,6 +50,7 @@ suite('gr-diff-cursor tests', () => {
       right: [],
       meta: {patchRange: undefined},
     };
+    diffElement.path = 'some/path.ts';
     const setupDone = () => {
       cursorElement._updateStops();
       cursorElement.moveToFirstChunk();

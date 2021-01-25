@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef8d05cd_be566d19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-25T16:25:03Z",
+      "side": 1,
+      "message": "Why not use gr-syntax-layer.ts and gr-ranged-comment-layer.ts? And why not use \u003cgr-diff\u003e?",
+      "revId": "e7acc188a141ee12a016038bdd5f8e9f96a7707f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

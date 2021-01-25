@@ -39,25 +39,25 @@ export function isValidDate(date: any): date is Date {
 export function fromNow(date: Date, noAgo = false) {
   const now = new Date();
   const ago = noAgo ? '' : ' ago';
-  const secondsAgo = Math.round((now.valueOf() - date.valueOf()) / 1000);
+  const secondsAgo = Math.floor((now.valueOf() - date.valueOf()) / 1000);
   if (secondsAgo <= 59) return 'just now';
   if (secondsAgo <= 119) return `1 minute${ago}`;
-  const minutesAgo = Math.round(secondsAgo / 60);
+  const minutesAgo = Math.floor(secondsAgo / 60);
   if (minutesAgo <= 59) return `${minutesAgo} minutes${ago}`;
   if (minutesAgo === 60) return `1 hour${ago}`;
   if (minutesAgo <= 119) return `1 hour ${minutesAgo - 60} min${ago}`;
-  const hoursAgo = Math.round(minutesAgo / 60);
+  const hoursAgo = Math.floor(minutesAgo / 60);
   if (hoursAgo <= 23) return `${hoursAgo} hours${ago}`;
   if (hoursAgo === 24) return `1 day${ago}`;
   if (hoursAgo <= 47) return `1 day ${hoursAgo - 24} hr${ago}`;
-  const daysAgo = Math.round(hoursAgo / 24);
+  const daysAgo = Math.floor(hoursAgo / 24);
   if (daysAgo <= 30) return `${daysAgo} days${ago}`;
   if (daysAgo <= 60) return `1 month${ago}`;
-  const monthsAgo = Math.round(daysAgo / 30);
+  const monthsAgo = Math.floor(daysAgo / 30);
   if (monthsAgo <= 11) return `${monthsAgo} months${ago}`;
   if (monthsAgo === 12) return `1 year${ago}`;
   if (monthsAgo <= 24) return `1 year ${monthsAgo - 12} m${ago}`;
-  const yearsAgo = Math.round(daysAgo / 365);
+  const yearsAgo = Math.floor(daysAgo / 365);
   return `${yearsAgo} years${ago}`;
 }
 

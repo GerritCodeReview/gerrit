@@ -53,6 +53,11 @@ suite('date-util tests', () => {
       assert.equal('1 year ago', fromNow(new Date('May 05 2019 12:00:00')));
       assert.equal('10 years ago', fromNow(new Date('May 05 2010 12:00:00')));
     });
+    test('rounding error', () => {
+      const fakeNow = new Date('May 08 2020 12:00:00');
+      sinon.useFakeTimers(fakeNow.getTime());
+      assert.equal('2 hours ago', fromNow(new Date('May 08 2020 9:30:00')));
+    });
   });
 
   suite('isWithinDay', () => {

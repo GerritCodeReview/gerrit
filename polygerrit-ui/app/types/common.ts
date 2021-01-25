@@ -51,8 +51,8 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
 import {DiffInfo, IgnoreWhitespaceType, WebLinkInfo} from './diff';
 
-import {BrandType, PatchRange, PatchSetNum} from '../api/core';
-export {BrandType, PatchRange, PatchSetNum};
+import {BrandType, CommentRange, PatchRange, PatchSetNum} from '../api/core';
+export {BrandType, CommentRange, PatchRange, PatchSetNum};
 
 /*
  * In T, make a set of properties whose keys are in the union K required
@@ -1171,17 +1171,6 @@ export interface CommentInfo {
 }
 
 export type PathToCommentsInfoMap = {[path: string]: CommentInfo[]};
-
-/**
- * The CommentRange entity describes the range of an inline comment.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-range
- */
-export interface CommentRange {
-  start_line: number;
-  start_character: number;
-  end_line: number;
-  end_character: number;
-}
 
 /**
  * The ProjectInfo entity contains information about a project

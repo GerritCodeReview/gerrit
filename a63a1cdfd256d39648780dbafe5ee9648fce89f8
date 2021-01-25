@@ -16,6 +16,24 @@
       "message": "I think this was done to make sure the old way continues to work.\ni.e. {\u0027Code-Review\u0027: 1} works as well as {labels: {\u0027Code-Review\u0027: 1}}\n\nIt is still confusing for the API to accept both options, but I do not have a better suggestion. Maybe brohlfs@ will have some ideas.",
       "revId": "a63a1cdfd256d39648780dbafe5ee9648fce89f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3620f2ee_d41dcab1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1099910
+      },
+      "writtenOn": "2021-01-25T22:10:10Z",
+      "side": 1,
+      "message": "Yes, I did this to keep backwards compatibility.\nI\u0027d like to remove it once the chromium behavior plugin is updated. Hopefully no one else uses it. Ben, do you know how to check?",
+      "parentUuid": "8c337734_e8fba0a2",
+      "revId": "a63a1cdfd256d39648780dbafe5ee9648fce89f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

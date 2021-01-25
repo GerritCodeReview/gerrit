@@ -66,6 +66,8 @@ import {MovedChunkGoToLineEvent} from '../../../types/events';
 // @ts-ignore
 import * as shadow from 'shadow-selection-polyfill/shadow.js';
 
+import {CreateCommentEventDetail as CreateCommentEventDetailApi} from '../../../api/diff';
+
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
 
@@ -96,6 +98,10 @@ export interface GrDiff {
     diffBuilder: GrDiffBuilderElement;
     diffTable: HTMLTableElement;
   };
+}
+
+export interface CreateCommentEventDetail extends CreateCommentEventDetailApi {
+  path: string;
 }
 
 @customElement('gr-diff')
@@ -590,15 +596,16 @@ export class GrDiff extends GestureEventListeners(
 
   _createComment(
     lineEl: Element,
-    lineNum?: LineNumber,
+    lineNum: LineNumber,
     side?: Side,
     range?: CommentRange
   ) {
     const contentEl = this.$.diffBuilder.getContentTdByLineEl(lineEl);
-    if (!contentEl) throw Error('content el not found for line el');
+    if (!contentEl) throw new Error('content el not found for line el');
     side = side ?? this._getCommentSideByLineAndContent(lineEl, contentEl);
+    if (!this.path) throw new Error('must have a path to create comments');
     this.dispatchEvent(
-      new CustomEvent('create-comment', {
+      new CustomEvent<CreateCommentEventDetail>('create-comment', {
         bubbles: true,
         composed: true,
         detail: {

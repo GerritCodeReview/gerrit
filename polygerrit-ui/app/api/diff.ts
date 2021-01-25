@@ -20,6 +20,8 @@
  * limitations under the License.
  */
 
+import {CommentRange} from './core';
+
 /**
  * Diff type in preferences
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
@@ -221,4 +223,11 @@ export interface CoverageRange {
   type: CoverageType;
   side: Side;
   code_range: LineRange;
+}
+
+/** The detail of the 'create-comment' event dispatched by gr-diff. */
+export declare interface CreateCommentEventDetail {
+  lineNum: number | 'FILE';
+  side: Side;
+  range: CommentRange | undefined;
 }

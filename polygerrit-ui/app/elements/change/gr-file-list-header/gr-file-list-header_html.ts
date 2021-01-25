@@ -157,10 +157,12 @@ export const htmlTemplate = html`
           server-config="[[serverConfig]]"
           commit-info="[[commitInfo]]"
         ></gr-commit-info>
-        <span class="container latestPatchContainer">
-          <span class="separator"></span>
-          <a href$="[[changeUrl]]">Go to latest patch set</a>
-        </span>
+        <template is="dom-if" if="[[!editMode]]">
+          <span class="container latestPatchContainer">
+            <span class="separator"></span>
+            <a href$="[[changeUrl]]">Go to latest patch set</a>
+          </span>
+        </template>
         <span class="container descriptionContainer hideOnEdit">
           <span class="separator"></span>
           <template is="dom-if" if="[[_patchsetDescription]]">

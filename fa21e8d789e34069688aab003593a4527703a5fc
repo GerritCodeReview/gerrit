@@ -33,6 +33,24 @@
       "message": "out of curiosity - when this difference in rounding is important? ",
       "revId": "fa21e8d789e34069688aab003593a4527703a5fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30dd2535_e567b6f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-25T16:17:28Z",
+      "side": 1,
+      "message": "In settings, you can change timestamps to see these durations. It would be weird to say that change happened 3 days ago when it was 2 and half day ago. \n\nJonas found worse case in gerrit ci plugin, where we combine several of these durations and instead of 30 minutes, we write 1 hour and 30 minutes.",
+      "parentUuid": "4dc34d77_e064497c",
+      "revId": "fa21e8d789e34069688aab003593a4527703a5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

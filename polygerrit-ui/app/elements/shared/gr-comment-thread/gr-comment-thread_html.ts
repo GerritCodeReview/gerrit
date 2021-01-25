@@ -89,8 +89,20 @@ export const htmlTemplate = html`
     .fileName {
       padding: var(--spacing-m) var(--spacing-s) var(--spacing-m);
     }
-    gr-diff {
+    .thread-container {
+      display: flex;
+    }
+    .comment-container {
+      width: 160ch;
+    }
+    .diff-container {
       margin-left: var(--spacing-l);
+    }
+    .view-diff-container {
+      text-align: end;
+    }
+    .view-diff-button {
+      margin: var(--spacing-m);
     }
   </style>
 
@@ -183,17 +195,26 @@ export const htmlTemplate = html`
         </div>
       </div>
     </div>
-    <template is="dom-if" if="[[_shouldShowCommentContext(_diff)]]">
-      <gr-diff
-        id="diff"
-        change-num="[[changeNum]]"
-        diff="[[_diff]]"
-        path="[[path]]"
-        prefs="[[_prefs]]"
-        render-prefs="[[_renderPrefs]]"
-        highlight-range="[[getHighlightRange(comments)]]"
-      >
-      </gr-diff>
+    <template is="dom-if" if="[[_shouldShowCommentContext()]]">
+      <div class="diff-container">
+        <gr-diff
+          id="diff"
+          change-num="[[changeNum]]"
+          diff="[[_diff]]"
+          path="[[path]]"
+          prefs="[[_prefs]]"
+          render-prefs="[[_renderPrefs]]"
+          highlight-range="[[getHighlightRange(comments)]]"
+        >
+        </gr-diff>
+        <div class="view-diff-container">
+          <a href="[[_getUrlForViewDiff(comments)]]">
+            <gr-button link class="view-diff-button" on-click="_handleViewDiff">
+              View Diff
+            </gr-button>
+          </a>
+        </div>
+      </div>
     </template>
   </div>
 `;

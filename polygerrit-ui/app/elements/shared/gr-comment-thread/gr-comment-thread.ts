@@ -321,6 +321,17 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     return this.comments?.[0]?.range;
   }
 
+  _getUrlForViewDiff(comments: UIComment[]) {
+    if (comments.length === 0) throw new Error('comment not found');
+    if (!this.changeNum) throw new Error('changeNum undefined');
+    if (!this.projectName) throw new Error('projectName undefined');
+    return GerritNav.getUrlForComment(
+      this.changeNum,
+      this.projectName,
+      comments[0].id!
+    );
+  }
+
   _getDiffUrlForComment(
     projectName?: RepoName,
     changeNum?: NumericChangeId,

@@ -16,6 +16,24 @@
       "message": "Maybe provide an additional method which wraps getProxyInstance() and catches all the exceptions and then returns an Optional, maybe call it getOptionProxyInstance()?\n\nWould it make sense to even wrap pluginProvidedApis.get(\"my-api-plugin\", \"MyApi\") in that method?",
       "revId": "20e941296c5865830ced651e65d12cc764432ac3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eedf256b_b607c380",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-25T20:17:40Z",
+      "side": 1,
+      "message": "\u003e maybe call it getOptionProxyInstance()?\n\nSorry, I meant getOptionalProxyInstance()",
+      "parentUuid": "f862a5ff_8b3ff9f2",
+      "revId": "20e941296c5865830ced651e65d12cc764432ac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

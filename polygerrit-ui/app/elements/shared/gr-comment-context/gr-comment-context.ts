@@ -24,7 +24,7 @@ import {htmlTemplate} from './gr-comment-context_html';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {UIComment} from '../../../utils/comment-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {NumericChangeId, RepoName} from '../../../types/common';
+import {ContextLine, NumericChangeId, RepoName} from '../../../types/common';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -64,5 +64,61 @@ export class GrCommentContext extends LegacyElementMixin(
       this.projectName,
       comments[0].id!
     );
+  }
+
+  _isCompletelyInsideCommentRange(line: number) {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    const comment = this.comments[0];
+    if (!comment.range) return false;
+    return comment.range.start_line < line && line < comment.range.end_line;
+  }
+
+  _isCompletelyOutsideCommentRange(line: number) {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    const comment = this.comments[0];
+    if (!comment.range) return true;
+    return comment.range.start_line > line || line > comment.range.end_line;
+  }
+
+  _isPartiallyInsideCommentRange(line: number) {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    const comment = this.comments[0];
+    if (!comment.range) return false;
+    return comment.range.start_line === line || line === comment.range.end_line;
+  }
+
+  _getTextToTheLeftOfHighlightedRange(context: ContextLine) {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    const comment = this.comments[0];
+    const range = comment.range!;
+    if (context.line_number !== range.start_line) return '';
+    return context.context_line.substr(0, range.start_character);
+  }
+
+  _getTextInsideHighlightedRange(context: ContextLine) {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    const comment = this.comments[0];
+    const range = comment.range!;
+    if (range.start_line !== range.end_line) {
+      // range starts and ends on different lines
+      if (range.start_line === context.line_number)
+        // everything from start_char to end of line
+        return context.context_line.substr(comment.range!.start_character);
+      if (range.end_line === context.line_number)
+        // from beginning of line to the last character
+        return context.context_line.substr(0, range.end_character + 1);
+    }
+    return context.context_line.substr(
+      range.start_character,
+      range.end_character - range.start_character + 1
+    );
+  }
+
+  _getTextToTheRightOfHighlightedRange(context: ContextLine) {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    const comment = this.comments[0];
+    const range = comment.range!;
+    if (context.line_number !== range.end_line) return '';
+    return context.context_line.substr(range.end_character + 1);
   }
 }

@@ -52,6 +52,23 @@
       "parentUuid": "7532d894_c2a4bc85",
       "revId": "b4510674f943e4dfd4a6aa47d9ae795749fa4892",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ababeebb_41338ec7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-01-25T15:43:05Z",
+      "side": 1,
+      "message": "Thanks guys for the CRs.",
+      "revId": "b4510674f943e4dfd4a6aa47d9ae795749fa4892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

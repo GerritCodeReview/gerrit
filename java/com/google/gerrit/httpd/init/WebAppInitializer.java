@@ -37,6 +37,7 @@ import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
+import com.google.gerrit.httpd.auth.restapi.OAuthRestModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.httpd.raw.StaticModule;
 import com.google.gerrit.index.IndexType;
@@ -323,7 +324,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     if (VersionManager.getOnlineUpgrade(config)) {
       modules.add(new OnlineUpgrader.Module());
     }
-
+    modules.add(new OAuthRestModule());
     modules.add(new RestApiModule());
     modules.add(new SubscriptionGraph.Module());
     modules.add(new SuperprojectUpdateSubmissionListener.Module());

@@ -29,6 +29,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-cursor_html';
+import {DiffViewMode} from '../../../api/diff';
 import {ScrollMode, Side} from '../../../constants/constants';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrDiffLineType} from '../gr-diff/gr-diff-line';
@@ -37,11 +38,6 @@ import {PolymerDomWrapper} from '../../../types/types';
 import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiff} from '../gr-diff/gr-diff';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
-
-const DiffViewMode = {
-  SIDE_BY_SIDE: 'SIDE_BY_SIDE',
-  UNIFIED: 'UNIFIED_DIFF',
-};
 
 type GrDiffRowType = GrDiffLineType | GrDiffGroupType;
 

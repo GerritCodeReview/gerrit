@@ -60,7 +60,9 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
+import {DiffViewMode} from '../../../api/diff';
 import {PrimaryTab, SecondaryTab} from '../../../constants/constants';
+
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages';
 import {appContext} from '../../../services/app-context';
 import {ChangeStatus} from '../../../constants/constants';
@@ -190,11 +192,6 @@ const ReloadToastMessage = {
   MERGED: 'This change has been merged',
   NEW_MESSAGE: 'There are new messages on this change',
 };
-
-enum DiffViewMode {
-  SIDE_BY_SIDE = 'SIDE_BY_SIDE',
-  UNIFIED = 'UNIFIED_DIFF',
-}
 
 const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
 const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';

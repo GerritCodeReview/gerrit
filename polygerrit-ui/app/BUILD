@@ -6,6 +6,7 @@ package(default_visibility = ["//visibility:public"])
 # This list must be in sync with the "include" list in the follwoing files:
 # tsconfig.json, tsconfig_bazel.json, tsconfig_bazel_test.json
 src_dirs = [
+    "api",
     "constants",
     "elements",
     "embed",

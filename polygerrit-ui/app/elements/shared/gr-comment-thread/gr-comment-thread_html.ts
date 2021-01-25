@@ -87,6 +87,12 @@ export const htmlTemplate = html`
     gr-diff {
       margin-left: var(--spacing-l);
     }
+    .view-diff-container {
+      text-align: end;
+    }
+    .view-diff-button {
+      margin: var(--spacing-m);
+    }
   </style>
 
   <template is="dom-if" if="[[showFilePath]]">
@@ -189,6 +195,13 @@ export const htmlTemplate = html`
         on-render="_handleDiffRender"
       >
       </gr-diff>
+      <div class="view-diff-container">
+        <a href="[[_getUrlForViewDiff(comments)]]">
+          <gr-button link class="view-diff-button" on-click="_handleViewDiff">
+            View Diff
+          </gr-button>
+        </a>
+      </div>
     </template>
   </div>
   <gr-storage id="storage"></gr-storage>

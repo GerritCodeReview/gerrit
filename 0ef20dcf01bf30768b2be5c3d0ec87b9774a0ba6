@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcdded4a_6d8266f8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1485,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-25T06:18:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd845dea_c01a0365",
+      "range": {
+        "startLine": 1485,
+        "startChar": 7,
+        "endLine": 1485,
+        "endChar": 17
+      },
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c5fd041_15002b4c",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-01-22T15:46:30Z",
       "side": 1,
       "message": "s/respective API/respective API by name/",
+      "range": {
+        "startLine": 1499,
+        "startChar": 25,
+        "endLine": 1499,
+        "endChar": 39
+      },
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8591b0c5_636b125b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-25T06:18:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c5fd041_15002b4c",
       "range": {
         "startLine": 1499,
         "startChar": 25,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d9e075a_447ff576",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1502,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-25T06:18:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "276cf346_eec67eee",
+      "range": {
+        "startLine": 1502,
+        "startChar": 65,
+        "endLine": 1502,
+        "endChar": 70
+      },
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0921ac4_718c50be",
@@ -83,6 +155,24 @@
       "writtenOn": "2021-01-22T15:46:30Z",
       "side": 1,
       "message": "Maybe put a \"bad\" assignment in a comment above this and indicate that it will result in a classcast exception.",
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1793f9ec_4659d4ee",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1517,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-25T06:18:10Z",
+      "side": 1,
+      "message": "I don\u0027t think we will get a cast exception here.. since we are fetching the object from DynamicMap\u003cPluginProvidedApi\u003e which maintains a map of PluginProvidedApi. ?",
+      "parentUuid": "b0921ac4_718c50be",
       "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -104,6 +194,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20171df8_4465d6f5",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1519,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-25T06:18:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e24dfa0_28d5480d",
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a34f28c0_2b547db3",
@@ -117,6 +225,24 @@
       "writtenOn": "2021-01-22T15:46:30Z",
       "side": 1,
       "message": "Also catch a ClassCastException (for the String which may not be a String).",
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef41f42c_60a2d462",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1527,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-25T06:18:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a34f28c0_2b547db3",
       "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

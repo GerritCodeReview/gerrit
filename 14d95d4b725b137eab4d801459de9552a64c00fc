@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22c7f756_d7eab54e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-25T21:26:17Z",
+      "side": 1,
+      "message": "Why legacy? Inline edit API is still used and you can still amend commit message in PolyGerrit in two places:\n\n* as a part of change edit\n* directly using PutMessage\n\nand that\u0027s the reason why we need the check logic in two places.",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "14d95d4b725b137eab4d801459de9552a64c00fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5082fa75_3b29de4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-25T21:26:17Z",
+      "side": 1,
+      "message": "While GWT is removed in 3.0 the logic split is still needed so may be say: \"commit message changed in context of change edit and commit message changed directly from change screen\".",
+      "range": {
+        "startLine": 15,
+        "startChar": 56,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "14d95d4b725b137eab4d801459de9552a64c00fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

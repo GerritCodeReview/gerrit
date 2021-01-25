@@ -16,6 +16,24 @@
       "message": "Ravi, since you submitted https://gerrit-review.googlesource.com/c/gerrit/+/87490\nCould you review? How did you test/validate this?",
       "revId": "ef9e873f013ac3d1cce61eca28de6a077322e350",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2307e2ed_5479db64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2021-01-25T22:02:07Z",
+      "side": 1,
+      "message": "\u003e Could you review?\nI can take a look for quick feedback, but brohlfs@ will have to eventually review+approve.\n\n\u003e How did you test/validate this?\nYou can bring up a local Gerrit instance: https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init\n(Unfortunately, I remember it being time-consuming the first few times to set this up, atleast for me).\nThen you can put the chromium plugin in the test-site plugins directory to test against locally.\nThere maybe an easier way to test this e2e that I do not know about.",
+      "parentUuid": "d514209f_1b076b25",
+      "revId": "ef9e873f013ac3d1cce61eca28de6a077322e350",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

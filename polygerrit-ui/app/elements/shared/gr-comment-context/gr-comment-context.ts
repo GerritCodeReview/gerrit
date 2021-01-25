@@ -23,6 +23,8 @@ import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/key
 import {htmlTemplate} from './gr-comment-context_html';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {UIComment} from '../../../utils/comment-util';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {NumericChangeId, RepoName} from '../../../types/common';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -41,9 +43,26 @@ export class GrCommentContext extends LegacyElementMixin(
   @property({type: Array})
   comments: UIComment[] = [];
 
+  @property({type: Number})
+  changeNum?: NumericChangeId;
+
+  @property({type: String})
+  projectName?: RepoName;
+
   _getContextLine(comments: UIComment[]) {
     if (comments.length && comments[0].context_lines)
       return comments[0].context_lines;
     return '';
+  }
+
+  _getUrlForViewDiff(comments: UIComment[]) {
+    if (comments.length === 0) throw new Error('comment not found');
+    if (!this.changeNum) throw new Error('changeNum undefined');
+    if (!this.projectName) throw new Error('projectName undefined');
+    return GerritNav.getUrlForComment(
+      this.changeNum,
+      this.projectName,
+      comments[0].id!
+    );
   }
 }

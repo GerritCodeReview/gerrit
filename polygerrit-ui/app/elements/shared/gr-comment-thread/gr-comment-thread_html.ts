@@ -183,7 +183,12 @@ export const htmlTemplate = html`
           </div>
         </div>
         <template is="dom-if" if="[[_shouldShowCommentContext()]]">
-          <gr-comment-context comments="[[comments]]"> </gr-comment-context>
+          <gr-comment-context
+            comments="[[comments]]"
+            project-name="[[projectName]]"
+            change-num="[[changeNum]]"
+          >
+          </gr-comment-context>
         </template>
       </div>
     </div>

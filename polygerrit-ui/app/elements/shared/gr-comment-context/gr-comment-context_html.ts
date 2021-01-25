@@ -26,6 +26,12 @@ export const htmlTemplate = html`
       display: inline-block;
       border: 1px solid var(--border-color);
     }
+    .view-diff-container {
+      text-align: end;
+    }
+    .view-diff-button {
+      margin: var(--spacing-m);
+    }
   </style>
 
   <div class="comment-context">
@@ -35,5 +41,12 @@ export const htmlTemplate = html`
         <span>[[item.context_line]]</span>
       </div>
     </template>
+    <div class="view-diff-container">
+      <a href="[[_getUrlForViewDiff(comments)]]">
+        <gr-button link class="view-diff-button" on-click="_handleViewDiff">
+          View Diff
+        </gr-button>
+      </a>
+    </div>
   </div>
 `;

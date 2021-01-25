@@ -216,7 +216,11 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   }
 
   _shouldShowCommentContext() {
-    return this.isCommentContextExperimentEnabled && this.showCommentContext;
+    return (
+      this.isCommentContextExperimentEnabled &&
+      this.showCommentContext &&
+      !!this.comments[0]?.context_lines
+    );
   }
 
   addOrEditDraft(lineNum?: LineNumber, rangeParam?: CommentRange) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48b2ee63_d67cc7da",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-25T13:22:35Z",
+      "side": 1,
+      "message": "Where is this defined? I think expanding works by  toggleExpanded defined in tr.container",
+      "range": {
+        "startLine": 185,
+        "startChar": 24,
+        "endLine": 185,
+        "endChar": 38
+      },
+      "revId": "e7a8bffd2c69e269597d9ca98545e22159c0e7b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

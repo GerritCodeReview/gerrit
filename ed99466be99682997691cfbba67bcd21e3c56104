@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3b3ae4c_d765e392",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-context/gr-comment-context.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-25T16:10:26Z",
+      "side": 1,
+      "message": "Please use LitElement for new components.",
+      "range": {
+        "startLine": 34,
+        "startChar": 38,
+        "endLine": 34,
+        "endChar": 56
+      },
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29fb01a0_7ca2c1bb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-context/gr-comment-context.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-25T16:10:26Z",
+      "side": 1,
+      "message": "Do you anticipate the list of comments being useful for showing the context? At the moment just the range and the context_lines would be enough?",
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db41012d_5fff0a3b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-context/gr-comment-context_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-25T16:10:26Z",
+      "side": 1,
+      "message": "I know it is just a first draft, but maybe add this:\n\n  font-family: var(--monospace-font-family);\n  font-size: var(--font-size-code);\n  line-height: calc(var(--font-size-code) + var(--spacing-s));\n\nOr even better add a `font-code` block to shared-styles.ts similar to `font-normal` with the rules above. And then just add `class\u003d\"font-code\"` in the HTML below.",
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbeeeafb_2e70b1bd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-context/gr-comment-context_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-25T16:10:26Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "408611e3_19b07f4e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-context/gr-comment-context_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-25T16:10:26Z",
+      "side": 1,
+      "message": "Why? I would have expected `block` here. An element with `display:flex` having inline children seems weird.",
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77a6fc45_f6827bd0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-25T16:10:26Z",
+      "side": 1,
+      "message": "What is this for?",
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53c68273_a0fefe70",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-25T16:10:26Z",
+      "side": 1,
+      "message": "What is the reason for adding these two wrapping divs? Maybe they can just be dropped?",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "376f4902_ed7f6827",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-25T16:10:26Z",
+      "side": 1,
+      "message": "Does this do anything?",
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

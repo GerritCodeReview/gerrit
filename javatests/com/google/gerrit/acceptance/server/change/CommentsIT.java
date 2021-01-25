@@ -1091,6 +1091,22 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void commentContextIsEmptyForPatchsetLevelComments() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput comment = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    addComments(changeId, ps1, comment);
+
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).contextLines).isEmpty();
+  }
+
+  @Test
   public void commentContextForCommentsOnDifferentPatchsets() throws Exception {
     PushOneCommit.Result r1 = createChange();
 

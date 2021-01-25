@@ -84,6 +84,7 @@ public class CommentContextLoader {
         for (Comment comment : commentsByCommitId.get(commitId)) {
           Optional<Range> range = getStartAndEndLines(comment);
           if (!range.isPresent()) {
+            result.put(comment, CommentContext.create(ImmutableMap.of()));
             continue;
           }
           // TODO(ghareeb): We can further group the comments by file paths to avoid opening

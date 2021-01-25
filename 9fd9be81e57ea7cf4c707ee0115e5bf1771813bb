@@ -16,6 +16,47 @@
       "message": "This seems like it\u0027s part of the same effort as 294162: Define GerritEvent proto for PubSub emission. | https://gerrit-review.googlesource.com/c/gerrit/+/294162, should it also be a Google internal change?",
       "revId": "9fd9be81e57ea7cf4c707ee0115e5bf1771813bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9430261_cbb21475",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-25T11:43:33Z",
+      "side": 1,
+      "message": "We hope this refactoring will also be useful for dispatching Gerrit events, that is why it is here. See also\n\nhttps://www.gerritcodereview.com/2020-12-01-esc-minutes.html#reworking-the-events-system",
+      "parentUuid": "83af865e_98701694",
+      "revId": "9fd9be81e57ea7cf4c707ee0115e5bf1771813bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6d7bc57_da4a0968",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-25T11:43:33Z",
+      "side": 1,
+      "message": "can you avoid mentioning cloud pubsub?",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "9fd9be81e57ea7cf4c707ee0115e5bf1771813bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

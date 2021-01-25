@@ -39,6 +39,7 @@ import {customElement, observe, property} from '@polymer/decorators';
 import {
   CommentRange,
   ConfigInfo,
+  ContextLine,
   NumericChangeId,
   PatchSetNum,
   RepoName,
@@ -363,8 +364,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   }
 
   _getContextLine(comments: UIComment[]) {
-    if (comments.length && comments[0].context_lines)
-      return comments[0].context_lines;
+    // if (comments.length && comments[0].context_lines)
+    //   return comments[0].context_lines;
     return [
       {
         context_line: 'The ContextLine entity contains the line number and',
@@ -374,7 +375,112 @@ export class GrCommentThread extends KeyboardShortcutMixin(
         context_line: 'line text of a single line of the source file content.',
         line_number: 12,
       },
+      {
+        context_line: 'The ContextLine entity contains the line number and',
+        line_number: 13,
+      },
+      {
+        context_line: 'line text of a single line of the source file content.',
+        line_number: 14,
+      },
+      {
+        context_line: 'The ContextLine entity contains the line number and',
+        line_number: 15,
+      },
+      {
+        context_line: 'line text of a single line of the source file content.',
+        line_number: 16,
+      },
+      {
+        context_line: 'The ContextLine entity contains the line number and',
+        line_number: 17,
+      },
+      {
+        context_line: 'line text of a single line of the source file content.',
+        line_number: 18,
+      },
+      {
+        context_line: 'The ContextLine entity contains the line number and',
+        line_number: 19,
+      },
+      {
+        context_line: 'line text of a single line of the source file content.',
+        line_number: 20,
+      },
     ];
+  }
+
+  _getUrlForViewDiff() {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    if (!this.changeNum) throw new Error('changeNum undefined');
+    if (!this.projectName) throw new Error('projectName undefined');
+    return GerritNav.getUrlForComment(
+      this.changeNum,
+      this.projectName,
+      this.comments[0].id!
+    );
+  }
+
+  _isCompletelyInsideCommentRange(line: number) {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    const comment = this.comments[0];
+    comment.range = {
+      start_line: 14,
+      start_character: 6,
+      end_line: 14,
+      end_character: 11,
+    };
+    if (!comment.range) return false;
+    return comment.range.start_line < line && line < comment.range.end_line;
+  }
+
+  _isCompletelyOutsideCommentRange(line: number) {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    const comment = this.comments[0];
+    if (!comment.range) return true;
+    return comment.range.start_line > line || line > comment.range.end_line;
+  }
+
+  _isPartiallyInsideCommentRange(line: number) {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    const comment = this.comments[0];
+    if (!comment.range) return false;
+    return comment.range.start_line === line || line === comment.range.end_line;
+  }
+
+  _getTextToTheLeftOfHighlightedRange(context: ContextLine) {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    const comment = this.comments[0];
+    const range = comment.range!;
+    if (context.line_number !== range.start_line) return '';
+    return context.context_line.substr(0, range.start_character);
+  }
+
+  _getTextInsideHighlightedRange(context: ContextLine) {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    const comment = this.comments[0];
+    const range = comment.range!;
+    if (range.start_line !== range.end_line) {
+      // range starts and ends on different lines
+      if (range.start_line === context.line_number)
+        // everything from start_char to end of line
+        return context.context_line.substr(comment.range!.start_character);
+      if (range.end_line === context.line_number)
+        // from beginning of line to the last character
+        return context.context_line.substr(0, range.end_character + 1);
+    }
+    return context.context_line.substr(
+      range.start_character,
+      range.end_character - range.start_character + 1
+    );
+  }
+
+  _getTextToTheRightOfHighlightedRange(context: ContextLine) {
+    if (this.comments.length === 0) throw new Error('comment not found');
+    const comment = this.comments[0];
+    const range = comment.range!;
+    if (context.line_number !== range.end_line) return '';
+    return context.context_line.substr(range.end_character + 1);
   }
 
   _getLastComment() {

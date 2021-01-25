@@ -40,6 +40,7 @@ export const htmlTemplate = html`
       color: var(--comment-text-color);
       box-shadow: var(--elevation-level-2);
       border-radius: var(--border-radius);
+      height: fit-content;
     }
     #container {
       display: var(--gr-comment-thread-display, flex);
@@ -90,6 +91,12 @@ export const htmlTemplate = html`
       height: fit-content;
       display: inline-block;
       border: 1px solid var(--border-color);
+    }
+    .view-diff-container {
+      text-align: end;
+    }
+    .view-diff-button {
+      margin: var(--spacing-m);
     }
   </style>
 
@@ -193,9 +200,35 @@ export const htmlTemplate = html`
             <template is="dom-repeat" items="[[_getContextLine(comments)]]">
               <div>
                 <button>[[item.line_number]]</button>
-                <span>[[item.context_line]]</span>
+                <template
+                  is="dom-if"
+                  if="[[_isCompletelyInsideCommentRange(item.line_number)]]"
+                >
+                  <mark>[[item.context_line]]</mark>
+                </template>
+                <template
+                  is="dom-if"
+                  if="[[_isCompletelyOutsideCommentRange(item.line_number)]]"
+                >
+                  <span>[[item.context_line]]</span>
+                </template>
+                <template
+                  is="dom-if"
+                  if="[[_isPartiallyInsideCommentRange(item.line_number)]]"
+                >
+                  <span>[[_getTextToTheLeftOfHighlightedRange(item)]]</span
+                  ><mark>[[_getTextInsideHighlightedRange(item)]]</mark
+                  ><span>[[_getTextToTheRightOfHighlightedRange(item)]]</span>
+                </template>
               </div>
             </template>
+            <div class="view-diff-container">
+              <a href="[[_getUrlForViewDiff()]]">
+                <gr-button class="view-diff-button" on-click="_handleViewDiff">
+                  View Diff
+                </gr-button>
+              </a>
+            </div>
           </div>
         </template>
       </div>

@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c9f12d5_7b88d077",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-25T16:40:24Z",
+      "side": 1,
+      "message": "Good point - we haven\u0027t thought that through deeply. We should probably take this into a plugin or internally until we have a better idea of this.",
+      "parentUuid": "0399acbb_2b5f2bc8",
+      "revId": "9fd9be81e57ea7cf4c707ee0115e5bf1771813bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6d7bc57_da4a0968",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

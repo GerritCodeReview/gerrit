@@ -16,6 +16,29 @@
       "message": "Thanks.",
       "revId": "31e80dc03e92bd67878f9a08a3a784885d83ad65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f62e995_87de2e37",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-25T10:49:30Z",
+      "side": 1,
+      "message": "There is already hiding logic for regular patch sets. The button is not shown on regular latest patch set. Can the similar logic be achieved for change edits also with CSS?",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 5
+      },
+      "revId": "31e80dc03e92bd67878f9a08a3a784885d83ad65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

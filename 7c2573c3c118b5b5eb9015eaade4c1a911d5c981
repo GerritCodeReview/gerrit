@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80047abf_e72842c0",
+        "filename": "polygerrit-ui/app/utils/event-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-25T17:15:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "190f425f_f6c33b3c",
+      "range": {
+        "startLine": 49,
+        "startChar": 16,
+        "endLine": 49,
+        "endChar": 38
+      },
+      "revId": "7c2573c3c118b5b5eb9015eaade4c1a911d5c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce6b9150_d15600f0",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-01-25T16:05:54Z",
       "side": 1,
       "message": "gr-app-element listens for this event:\n  created() {\n    ...\n    this.addEventListener(EventType.PAGE_ERROR, e \u003d\u003e {\n      this._handlePageError(e);\n    });\n\nIf I remember correctly, this.addEventListener doesn\u0027t listen for document event. Could you please confirm, that it still receive the event from the document.",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 25
+      },
+      "revId": "7c2573c3c118b5b5eb9015eaade4c1a911d5c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbb77483_3a5b72f0",
+        "filename": "polygerrit-ui/app/utils/event-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-25T17:15:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce6b9150_d15600f0",
       "range": {
         "startLine": 50,
         "startChar": 2,

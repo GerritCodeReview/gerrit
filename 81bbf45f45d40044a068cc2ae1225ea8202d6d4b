@@ -69,6 +69,42 @@
       "parentUuid": "70e5c6b0_4cd2d944",
       "revId": "81bbf45f45d40044a068cc2ae1225ea8202d6d4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d64014b4_fb8d98c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-25T16:12:41Z",
+      "side": 1,
+      "message": "What if I want to make a comment for a part of the line only?",
+      "parentUuid": "7f7a72b2_1ee9e6ec",
+      "revId": "81bbf45f45d40044a068cc2ae1225ea8202d6d4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bab0552a_792a0b57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-25T16:12:41Z",
+      "side": 1,
+      "message": "Interesting. Feel free to vote on it, seems you have more context than I.\n(I don\u0027t see any code-related issues)",
+      "parentUuid": "74cc1be7_1650c5f0",
+      "revId": "81bbf45f45d40044a068cc2ae1225ea8202d6d4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

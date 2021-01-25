@@ -20,10 +20,16 @@ import com.google.common.collect.ImmutableMap;
 /** An entity class representing all context lines of a comment. */
 @AutoValue
 public abstract class CommentContext {
+  private static final CommentContext EMPTY = new AutoValue_CommentContext(ImmutableMap.of());
+
   public static CommentContext create(ImmutableMap<Integer, String> lines) {
     return new AutoValue_CommentContext(lines);
   }
 
   /** Map of {line number, line text} of the context lines of a comment */
   public abstract ImmutableMap<Integer, String> lines();
+
+  public static CommentContext empty() {
+    return EMPTY;
+  }
 }

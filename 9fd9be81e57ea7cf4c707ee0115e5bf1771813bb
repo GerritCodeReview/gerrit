@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0399acbb_2b5f2bc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-25T16:04:45Z",
+      "side": 1,
+      "message": "Ok. So how should this code get reviewed? When you say \"refactoring\", what specifically do you mean? This change is just adding new two classes. I don\u0027t see how it\u0027s used currently or would be used in the future.",
+      "parentUuid": "c9430261_cbb21475",
+      "revId": "9fd9be81e57ea7cf4c707ee0115e5bf1771813bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6d7bc57_da4a0968",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

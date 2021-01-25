@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {html} from 'lit-html';
-import {css, customElement, property} from 'lit-element';
+import {css, customElement, property, PropertyValues} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {
   Category,
@@ -47,12 +47,23 @@ class GrResultRow extends GrLitElement {
   @property()
   result?: RunResult;
 
+  @property()
+  isExpanded = false;
+
+  @property({type: Boolean, reflect: true})
+  isExpandable = false;
+
   static get styles() {
     return [
       sharedStyles,
       css`
         :host {
-          display: table-row;
+          display: contents;
+        }
+        :host([isexpandable]) {
+          cursor: pointer;
+        }
+        tr {
           border-top: 1px solid var(--border-color);
         }
         iron-icon.launch {
@@ -123,37 +134,70 @@ class GrResultRow extends GrLitElement {
     ];
   }
 
+  update(changedProperties: PropertyValues) {
+    if (changedProperties.has('result')) {
+      this.isExpandable = !!this.result?.message;
+    }
+    super.update(changedProperties);
+  }
+
   render() {
     if (!this.result) return '';
     return html`
-      <td class="iconCol">
-        <div>${this.renderIcon()}</div>
-      </td>
-      <td class="nameCol">
-        <div><span>${this.result.checkName}</span></div>
-      </td>
-      <td class="summaryCol">
-        <div class="summary-cell">
-          ${(this.result.links ?? []).map(this.renderLink)}
-          <!-- The &nbsp; is for being able to shrink a tiny amount without
-               the text itself getting shrunk with an ellipsis. -->
-          <div class="summary">${this.result.summary}&nbsp;</div>
-          <div class="message">${this.result.message}</div>
-          <div class="tags">
-            ${(this.result.tags ?? []).map(t => this.renderTag(t))}
+      <tr class="container" @click="${this.toggleExpanded}">
+        <td class="iconCol">
+          <div>${this.renderIcon()}</div>
+        </td>
+        <td class="nameCol">
+          <div><span>${this.result.checkName}</span></div>
+        </td>
+        <td class="summaryCol">
+          <div class="summary-cell">
+            ${(this.result.links ?? []).map(this.renderLink)}
+            <!-- The &nbsp; is for being able to shrink a tiny amount without
+                 the text itself getting shrunk with an ellipsis. -->
+            <div class="summary">${this.result.summary}&nbsp;</div>
+            <div class="message">
+              ${this.isExpanded ? '' : this.result.message}
+            </div>
+            <div class="tags">
+              ${(this.result.tags ?? []).map(t => this.renderTag(t))}
+            </div>
+            ${this.renderLabel()}
           </div>
-          ${this.renderLabel()}
-        </div>
-      </td>
-      <td class="expanderCol">
-        <div>
-          <iron-icon
-            aria-label="expand result row"
-            icon="gr-icons:expand-more"
-          ></iron-icon>
-        </div>
-      </td>
+          <gr-result-expanded
+            .result="${this.result}"
+            ?hidden="${!this.isExpanded}"
+          ></gr-result-expanded>
+        </td>
+        <td class="expanderCol">
+          <div
+            class="show-hide"
+            role="switch"
+            tabindex="0"
+            ?hidden="${!this.isExpandable}"
+            ?aria-checked="${this.isExpanded}"
+            aria-label="${this.isExpanded
+              ? 'Collapse result row'
+              : 'Expand result row'}"
+            @click="${this.toggleExpanded}"
+            on-click="_expandedClick"
+            on-keydown="_expandedClick"
+          >
+            <iron-icon
+              icon="${this.isExpanded
+                ? 'gr-icons:expand-less'
+                : 'gr-icons:expand-more'}"
+            ></iron-icon>
+          </div>
+        </td>
+      </tr>
     `;
+  }
+
+  private toggleExpanded() {
+    if (!this.isExpandable) return;
+    this.isExpanded = !this.isExpanded;
   }
 
   renderLink(link: Link) {
@@ -181,6 +225,32 @@ class GrResultRow extends GrLitElement {
 
   renderTag(tag: Tag) {
     return html`<div class="tag">${tag.name}</div>`;
+  }
+}
+
+@customElement('gr-result-expanded')
+class GrResultExpanded extends GrLitElement {
+  @property()
+  result?: RunResult;
+
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        .message {
+          padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) 0;
+        }
+      `,
+    ];
+  }
+
+  render() {
+    if (!this.result) return '';
+    return html`
+      <div class="message">
+        ${this.result.message}
+      </div>
+    `;
   }
 }
 
@@ -315,6 +385,7 @@ export class GrChecksResults extends GrLitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-result-row': GrResultRow;
+    'gr-result-expanded': GrResultExpanded;
     'gr-checks-results': GrChecksResults;
   }
 }

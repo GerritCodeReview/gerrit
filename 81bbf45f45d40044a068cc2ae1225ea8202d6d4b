@@ -105,6 +105,24 @@
       "parentUuid": "74cc1be7_1650c5f0",
       "revId": "81bbf45f45d40044a068cc2ae1225ea8202d6d4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcdae316_5904657f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-25T17:03:46Z",
+      "side": 1,
+      "message": "Clicking on that tooltip actually creates a comment.",
+      "parentUuid": "d64014b4_fb8d98c1",
+      "revId": "81bbf45f45d40044a068cc2ae1225ea8202d6d4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

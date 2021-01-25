@@ -161,6 +161,7 @@ import com.google.gerrit.server.mail.send.MailTemplates;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.notedb.NoteDbModule;
+import com.google.gerrit.server.patch.DiffOperationsImpl;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.patch.PatchScriptFactoryForAutoFix;
@@ -243,6 +244,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(ServiceUserClassifierImpl.module());
     install(PatchListCacheImpl.module());
     install(ProjectCacheImpl.module());
+    install(DiffOperationsImpl.module());
     install(SectionSortCache.module());
     install(SubmitStrategy.module());
     install(TagCache.module());

@@ -21,6 +21,7 @@ java_library(
         "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/gpg",
+        "//java/com/google/gerrit/httpd/auth/restapi",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/lifecycle",

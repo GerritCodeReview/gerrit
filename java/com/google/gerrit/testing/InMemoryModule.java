@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.gpg.GpgModule;
+import com.google.gerrit.httpd.auth.restapi.OAuthRestModule;
 import com.google.gerrit.index.IndexType;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.index.project.ProjectSchemaDefinitions;
@@ -244,6 +245,7 @@ public class InMemoryModule extends FactoryModule {
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);
     install(new RestApiModule());
+    install(new OAuthRestModule());
     install(new DefaultProjectNameLockManager.Module());
 
     bind(ProjectOperations.class).to(ProjectOperationsImpl.class);

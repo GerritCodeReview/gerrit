@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9daa4c28_fb1d0cb8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-25T16:05:54Z",
+      "side": 0,
+      "message": "Is it possible to keep it as a @customElement for some time? We are using it in branchmapping plugin.",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 39
+      },
+      "revId": "9ead5413135ae1cc4442ef3037e3de2f70bf51e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

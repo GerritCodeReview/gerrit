@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "190f425f_f6c33b3c",
+        "filename": "polygerrit-ui/app/utils/event-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-25T16:05:54Z",
+      "side": 1,
+      "message": "The gr-router.ts also fires this event, but in a different way:\n _show404() {\n    // Note: the app\u0027s 404 display is tightly-coupled with catching 404\n    // network responses, so we simulate a 404 response status to display it.\n    // TODO: Decouple the gr-app error view from network responses.\n    this._appElement().dispatchEvent(\n      new CustomEvent(\u0027page-error\u0027, {detail: {response: {status: 404}}})\n    );\n  }\n\nShould it call firePageError instead?",
+      "range": {
+        "startLine": 49,
+        "startChar": 16,
+        "endLine": 49,
+        "endChar": 38
+      },
+      "revId": "7c2573c3c118b5b5eb9015eaade4c1a911d5c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce6b9150_d15600f0",
+        "filename": "polygerrit-ui/app/utils/event-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-25T16:05:54Z",
+      "side": 1,
+      "message": "gr-app-element listens for this event:\n  created() {\n    ...\n    this.addEventListener(EventType.PAGE_ERROR, e \u003d\u003e {\n      this._handlePageError(e);\n    });\n\nIf I remember correctly, this.addEventListener doesn\u0027t listen for document event. Could you please confirm, that it still receive the event from the document.",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 25
+      },
+      "revId": "7c2573c3c118b5b5eb9015eaade4c1a911d5c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -41,6 +41,7 @@ export const htmlTemplate = html`
       color: var(--comment-text-color);
       box-shadow: var(--elevation-level-2);
       border-radius: var(--border-radius);
+      height: fit-content;
     }
     #container {
       display: var(--gr-comment-thread-display, flex);

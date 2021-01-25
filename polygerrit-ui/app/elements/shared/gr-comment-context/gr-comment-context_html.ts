@@ -38,7 +38,26 @@ export const htmlTemplate = html`
     <template is="dom-repeat" items="[[_getContextLine(comments)]]">
       <div>
         <button>[[item.line_number]]</button>
-        <span>[[item.context_line]]</span>
+        <template
+          is="dom-if"
+          if="[[_isCompletelyInsideCommentRange(item.line_number)]]"
+        >
+          <mark>[[item.context_line]]</mark>
+        </template>
+        <template
+          is="dom-if"
+          if="[[_isCompletelyOutsideCommentRange(item.line_number)]]"
+        >
+          <span>[[item.context_line]]</span>
+        </template>
+        <template
+          is="dom-if"
+          if="[[_isPartiallyInsideCommentRange(item.line_number)]]"
+        >
+          <span>[[_getTextToTheLeftOfHighlightedRange(item)]]</span
+          ><mark>[[_getTextInsideHighlightedRange(item)]]</mark
+          ><span>[[_getTextToTheRightOfHighlightedRange(item)]]</span>
+        </template>
       </div>
     </template>
     <div class="view-diff-container">

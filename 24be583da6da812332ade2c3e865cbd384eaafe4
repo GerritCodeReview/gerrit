@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b332268_5b408e72",
+        "filename": "polygerrit-ui/app/api/core.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-25T13:01:21Z",
+      "side": 1,
+      "message": "I am a bit unhappy with this being moved into API like that, because I find this really needs to be cleaned up. There are so many places where PARENT does not make sense at all. And others where \u0027edit\u0027 does not make sense. So I was thinking that we could maybe move towards types where `PatchSetNum` is always a number. And then you would allow `PatchSetNum | \u0027PARENT\u0027` on a case by case basis.\n\nThat said, we should probably be able to clean up API users in the near future without too much work.",
+      "revId": "24be583da6da812332ade2c3e865cbd384eaafe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

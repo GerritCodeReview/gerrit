@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {ParsedChangeInfo} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {ParsedChangeInfo} from '../types/types';
 
 export enum Metadata {
   OWNER = 'Owner',

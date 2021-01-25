@@ -23,7 +23,7 @@ import {SpecialFilePath} from '../../../constants/constants.js';
 import {appContext} from '../../../services/app-context.js';
 import {addListenerForTest} from '../../../test/test-utils.js';
 import {stubRestApi} from '../../../test/test-utils.js';
-import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 

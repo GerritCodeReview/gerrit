@@ -22,7 +22,7 @@ import {
   Shortcut,
 } from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {appContext} from '../services/app-context';
-import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
+import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 
 export interface MockPromise extends Promise<unknown> {
   resolve: (value?: unknown) => void;

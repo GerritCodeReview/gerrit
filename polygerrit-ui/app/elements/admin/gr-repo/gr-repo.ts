@@ -30,7 +30,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe} from '@polymer/decorators';
-import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {
   ConfigInfo,
   RepoName,

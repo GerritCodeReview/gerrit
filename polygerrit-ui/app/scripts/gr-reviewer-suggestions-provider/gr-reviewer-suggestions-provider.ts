@@ -18,7 +18,7 @@ import {
   getAccountDisplayName,
   getGroupDisplayName,
 } from '../../utils/display-name-util';
-import {RestApiService} from '../../services/services/gr-rest-api/gr-rest-api';
+import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {
   AccountInfo,
   isReviewerAccountSuggestion,

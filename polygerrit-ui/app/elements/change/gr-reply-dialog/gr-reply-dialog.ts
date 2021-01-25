@@ -49,7 +49,7 @@ import {getDisplayName} from '../../../utils/display-name-util';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {TargetElement} from '../../plugins/gr-plugin-types';
 import {customElement, observe, property} from '@polymer/decorators';
-import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {
   AccountAddition,
@@ -776,9 +776,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     let response: Response = r;
     // A call to _saveReview could fail with a server error if erroneous
     // reviewers were requested. This is signalled with a 400 Bad Request
-    // status. The default gr-rest-api-interface error handling would
-    // result in a large JSON response body being displayed to the user in
-    // the gr-error-manager toast.
+    // status. The default gr-rest-api error handling would result in a large
+    // JSON response body being displayed to the user in the gr-error-manager
+    // toast.
     //
     // We can modify the error handling behavior by passing this function
     // through to restAPI as a custom error handling function. Since we're

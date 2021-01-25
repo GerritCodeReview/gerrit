@@ -33,7 +33,7 @@ import {
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util';
 import {computeTruncatedPath} from '../../../utils/path-list-util';
 import {customElement, property} from '@polymer/decorators';
-import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {
   ChangeInfo,
   PatchSetNum,

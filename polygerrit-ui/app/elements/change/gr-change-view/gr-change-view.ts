@@ -134,14 +134,15 @@ import {AppElementChangeViewParams} from '../../gr-app-types';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {
-  EditRevisionInfo,
-  ParsedChangeInfo,
-} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
-import {
   GrFileList,
   DEFAULT_NUM_FILES_SHOWN,
 } from '../gr-file-list/gr-file-list';
-import {ChangeViewState, isPolymerSpliceChange} from '../../../types/types';
+import {
+  ChangeViewState,
+  EditRevisionInfo,
+  isPolymerSpliceChange,
+  ParsedChangeInfo,
+} from '../../../types/types';
 import {
   CustomKeyboardEvent,
   EditableContentSaveEvent,

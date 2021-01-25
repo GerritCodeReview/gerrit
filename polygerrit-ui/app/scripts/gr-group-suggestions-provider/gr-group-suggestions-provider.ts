@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {RestApiService} from '../../services/services/gr-rest-api/gr-rest-api';
+import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {GroupBaseInfo} from '../../types/common';
 
 export class GrGroupSuggestionsProvider {

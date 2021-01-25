@@ -50,10 +50,6 @@ import {
 import {changeIsOpen} from '../../../utils/change-util';
 import {customElement, property, observe} from '@polymer/decorators';
 import {
-  EditRevisionInfo,
-  ParsedChangeInfo,
-} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
-import {
   AccountDetailInfo,
   AccountInfo,
   BranchName,
@@ -82,6 +78,7 @@ import {
   DisplayRules,
 } from '../../../utils/change-metadata-util';
 import {fireEvent} from '../../../utils/event-util';
+import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 

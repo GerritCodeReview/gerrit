@@ -6,11 +6,8 @@ import {
   BrandType,
   ParentPatchSetNum,
 } from '../types/common';
-import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
-import {
-  EditRevisionInfo,
-  ParsedChangeInfo,
-} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
+import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 
 /**
  * @license

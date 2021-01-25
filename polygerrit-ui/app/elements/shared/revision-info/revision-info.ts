@@ -16,7 +16,7 @@
  */
 
 import {ChangeInfo, PatchSetNum} from '../../../types/common';
-import {ParsedChangeInfo} from '../gr-rest-api-interface/gr-reviewer-updates-parser';
+import {ParsedChangeInfo} from '../../../types/types';
 
 type RevNumberToParentCountMap = {[revNumber: number]: number};
 

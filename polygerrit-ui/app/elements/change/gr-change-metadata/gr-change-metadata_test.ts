@@ -43,7 +43,6 @@ import {
   RequirementStatus,
   GpgKeyInfoStatus,
 } from '../../../constants/constants';
-import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {
   EmailAddress,
   AccountId,
@@ -59,12 +58,13 @@ import {
   Hashtag,
 } from '../../../types/common';
 import {SinonStubbedMember} from 'sinon/pkg/sinon-esm';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
 import {PluginApi} from '../../plugins/gr-plugin-types';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {ParsedChangeInfo} from '../../../types/types';
 
 const basicFixture = fixtureFromElement('gr-change-metadata');
 

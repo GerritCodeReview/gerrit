@@ -28,7 +28,7 @@ import {
   computeAllPatchSets,
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
-import {ParsedChangeInfo} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {ParsedChangeInfo} from '../../types/types';
 
 interface ChangeState {
   change?: ParsedChangeInfo;

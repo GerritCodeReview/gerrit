@@ -17,7 +17,7 @@
 import {
   ActionType,
   ActionPriority,
-} from '../../../services/services/gr-rest-api/gr-rest-api';
+} from '../../../services/gr-rest-api/gr-rest-api';
 import {JsApiService} from './gr-js-api-types';
 import {PluginApi, TargetElement} from '../../plugins/gr-plugin-types';
 import {ActionInfo, RequireProperties} from '../../../types/common';

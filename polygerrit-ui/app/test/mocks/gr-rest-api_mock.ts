@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {RestApiService} from '../../services/services/gr-rest-api/gr-rest-api';
+import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {
   AccountDetailInfo,
   AccountExternalIdInfo,
@@ -70,7 +70,6 @@ import {
   UrlEncodedRepoName,
 } from '../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../types/diff';
-import {ParsedChangeInfo} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {
   createAccountDetailWithId,
@@ -84,6 +83,7 @@ import {
   createDefaultDiffPrefs,
   createDefaultEditPrefs,
 } from '../../constants/constants';
+import {ParsedChangeInfo} from '../../types/types';
 
 export const grRestApiMock: RestApiService = {
   addAccountEmail(): Promise<Response> {

@@ -93,7 +93,7 @@ import {
   SinonSpy,
   SinonStubbedMember,
 } from 'sinon/pkg/sinon-esm';
-import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {
   CommentThread,
@@ -102,9 +102,9 @@ import {
   UIRobot,
 } from '../../../utils/comment-util';
 import 'lodash/lodash';
-import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {GerritView} from '../../../services/router/router-model';
+import {ParsedChangeInfo} from '../../../types/types';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');

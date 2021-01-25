@@ -1612,7 +1612,7 @@ export interface HashtagsInput {
 }
 
 /**
- * Defines a patch ranges. Used as input for gr-rest-api-interface methods,
+ * Defines a patch ranges. Used as input for gr-rest-api methods,
  * doesn't exist in Rest API
  */
 export interface PatchRange {

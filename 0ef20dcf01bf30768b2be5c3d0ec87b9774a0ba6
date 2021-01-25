@@ -179,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1665a7ab_41a60971",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1517,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-01-25T16:15:03Z",
+      "side": 1,
+      "message": "What I meant here was to do this:\n\n // Casting to original compile time class like below will fail:\n // MyApiImpl impl \u003d (MyApiImpl) pluginProvidedApis.get(\"my-api-plugin\", \"MyApi\");",
+      "parentUuid": "1793f9ec_4659d4ee",
+      "revId": "0ef20dcf01bf30768b2be5c3d0ec87b9774a0ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e24dfa0_28d5480d",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 3

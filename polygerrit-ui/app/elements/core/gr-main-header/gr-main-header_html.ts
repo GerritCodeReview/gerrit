@@ -206,6 +206,17 @@ export const htmlTemplate = html`
         class="hideOnMobile"
         name="header-browse-source"
       ></gr-endpoint-decorator>
+      <template is="dom-if" if="[[_feedbackURL]]">
+        <a class="feedbackButton"
+          href$="[[_feedbackURL]]"
+          title="File a bug"
+          aria-label="File a bug"
+          role="button"
+        >
+          <iron-icon icon="gr-icons:bug"></iron-icon>
+        </a>
+      </template>
+      </div>
       <div class="accountContainer" id="accountContainer">
         <iron-icon
           id="mobileSearch"

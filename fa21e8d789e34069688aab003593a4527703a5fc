@@ -16,6 +16,23 @@
       "message": "Thanks to Jonas for catching this issue in https://gerrit-review.googlesource.com/c/plugins/checks/+/294342",
       "revId": "fa21e8d789e34069688aab003593a4527703a5fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dc34d77_e064497c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-25T16:08:38Z",
+      "side": 1,
+      "message": "out of curiosity - when this difference in rounding is important? ",
+      "revId": "fa21e8d789e34069688aab003593a4527703a5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

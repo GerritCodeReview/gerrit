@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "372faf27_699614e2",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-25T12:24:57Z",
+      "side": 1,
+      "message": "As CommentContext is immutable, you can extract this to a static field instead of creating it dynamically here.",
+      "revId": "1e605de757696562f7641b3b82adce857c476fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

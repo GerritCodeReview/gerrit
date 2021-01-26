@@ -893,6 +893,7 @@ export class GrChangeActions
       if (editMode && !editPatchsetLoaded) {
         if (!actions.stopEdit) {
           this.set('actions.stopEdit', STOP_EDIT);
+          fireAlert(this, 'Change is in edit mode');
         }
       } else {
         this._deleteAndNotify('stopEdit');

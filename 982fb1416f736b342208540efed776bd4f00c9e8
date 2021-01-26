@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7648e0fd_2880060b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-26T11:16:59Z",
+      "side": 1,
+      "message": "Should revoting only be allowed if the patch set differs (as in this example)?\nOr should it also work if I vote +2 multiple times on the same patch set?",
+      "revId": "982fb1416f736b342208540efed776bd4f00c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58fdca01_b972808a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-26T11:16:59Z",
+      "side": 1,
+      "message": "Allowing to revote with the same value has some implications:\n\n1. a change message for the re-vote is added to the change\n2. revotes trigger an email and events\n   e.g. the OnPostReview extension point is invoked for the revote\n\nMaybe say if that\u0027s intended?\nE.g. 2. breaks a test in the code-owners plugin, so we would need to adapt it there.",
+      "range": {
+        "startLine": 24,
+        "startChar": 34,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "982fb1416f736b342208540efed776bd4f00c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c3984c4_e6118572",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1276,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-26T11:16:59Z",
+      "side": 1,
+      "message": "maybe add \"in the request input\"",
+      "range": {
+        "startLine": 1276,
+        "startChar": 32,
+        "endLine": 1276,
+        "endChar": 38
+      },
+      "revId": "982fb1416f736b342208540efed776bd4f00c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6cd5aa8_8a4c8c0e",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-26T11:16:59Z",
+      "side": 1,
+      "message": "better: \"reapply the vote\"?\n\notherwise I read this reads as:\n\n \"If the user hadn\u0027t voted again (the user hasn\u0027t revoted),there is no need to re-vote\"",
+      "range": {
+        "startLine": 1277,
+        "startChar": 33,
+        "endLine": 1277,
+        "endChar": 40
+      },
+      "revId": "982fb1416f736b342208540efed776bd4f00c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

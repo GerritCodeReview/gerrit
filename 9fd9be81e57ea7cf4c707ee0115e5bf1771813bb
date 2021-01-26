@@ -161,6 +161,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5ba76ba_2d72cbdd",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesStateDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-26T13:22:04Z",
+      "side": 1,
+      "message": "there is a directory proto/ \n\nof note, there is ChangeNotesStateProto which codifies the current change notes state. It might be a good idea to inspire a proto for the diff on this proto. \n\nIt would be even more interesting if you could generate the diff abstractly, but that might be hard to do with the current structure.",
+      "parentUuid": "4969e80d_1b0d9f32",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 63
+      },
+      "revId": "9fd9be81e57ea7cf4c707ee0115e5bf1771813bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4ed72c7f_11fb1d21",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesStateDiff.java",
         "patchSetId": 3

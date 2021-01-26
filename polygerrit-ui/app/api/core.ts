@@ -19,4 +19,13 @@
  * limitations under the License.
  */
 
-// TODO(oler): Copy/move types here.
+/**
+ * The CommentRange entity describes the range of an inline comment.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-range
+ */
+export interface CommentRange {
+  start_line: number;
+  start_character: number;
+  end_line: number;
+  end_character: number;
+}

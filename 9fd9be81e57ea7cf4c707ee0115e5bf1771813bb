@@ -137,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4969e80d_1b0d9f32",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesStateDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-01-26T00:25:09Z",
+      "side": 1,
+      "message": "Sure change this class from AutoValue to proto? Is there an existing appropriate proto file / directory to place a new proto file?",
+      "parentUuid": "c63b8dc5_29ebaa36",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 63
+      },
+      "revId": "9fd9be81e57ea7cf4c707ee0115e5bf1771813bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4ed72c7f_11fb1d21",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesStateDiff.java",
         "patchSetId": 3
@@ -148,6 +172,30 @@
       "writtenOn": "2021-01-25T14:26:29Z",
       "side": 1,
       "message": "this should be based on the ChangeNotesState representation, so this should look something like a map\u003cPatchSetId , PatchSetApproval\u003e, and preferentially we should keep the type naming similar.",
+      "range": {
+        "startLine": 31,
+        "startChar": 31,
+        "endLine": 31,
+        "endChar": 35
+      },
+      "revId": "9fd9be81e57ea7cf4c707ee0115e5bf1771813bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b7b9299_afc0074d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesStateDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-01-26T00:25:09Z",
+      "side": 1,
+      "message": "Thanks noticed this today while expanding on the differ",
+      "parentUuid": "4ed72c7f_11fb1d21",
       "range": {
         "startLine": 31,
         "startChar": 31,

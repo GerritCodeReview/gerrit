@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e131d4dd_e8d15421",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-26T18:38:41Z",
+      "side": 1,
+      "message": "ack, I\u0027d rather keep as is since it just adds more code in the calling method:\nif !empty body+diff.get(), else, return body",
+      "parentUuid": "e2e281fd_82fc2343",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 71,
+        "endChar": 15
+      },
+      "revId": "0bcc48baa46ff3743f1d88d462e16d35c7282fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0509992_591d3cc0",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-01-26T11:51:56Z",
       "side": 1,
       "message": "I guess this should work, but we made bad experiences with assuming that patch set numbers have no gaps (e.g. earlier it was possible to delete patch sets, but also it may happen in rare corner cases). Would it be better to do something like this: \n\n  notes.getPatchSets().keySet().stream().mapToInt(PatchSet.Id::get).max().orElseThrow(() -\u003e new IllegalStateException(\"todo\"))",
+      "range": {
+        "startLine": 79,
+        "startChar": 68,
+        "endLine": 79,
+        "endChar": 95
+      },
+      "revId": "0bcc48baa46ff3743f1d88d462e16d35c7282fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3047da6c_e2f2364d",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-26T18:38:41Z",
+      "side": 1,
+      "message": "good to know - reformatted a bit to just return the current patch set here similarly to how you suggested.",
+      "parentUuid": "a0509992_591d3cc0",
       "range": {
         "startLine": 79,
         "startChar": 68,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "080ceb03_a3184bf2",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-26T18:38:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "180ae8b8_f478b871",
+      "range": {
+        "startLine": 181,
+        "startChar": 43,
+        "endLine": 181,
+        "endChar": 48
+      },
+      "revId": "0bcc48baa46ff3743f1d88d462e16d35c7282fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a076bdc4_71293654",
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a5ba3d_eff6dc5c",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-26T18:38:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a076bdc4_71293654",
+      "range": {
+        "startLine": 229,
+        "startChar": 8,
+        "endLine": 231,
+        "endChar": 51
+      },
+      "revId": "0bcc48baa46ff3743f1d88d462e16d35c7282fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e03a0e31_a8569995",
@@ -123,6 +219,30 @@
       "writtenOn": "2021-01-26T11:51:56Z",
       "side": 1,
       "message": "The type should be Iterator\u003cString\u003e to avoid a raw type code warning.",
+      "range": {
+        "startLine": 259,
+        "startChar": 3,
+        "endLine": 260,
+        "endChar": 52
+      },
+      "revId": "0bcc48baa46ff3743f1d88d462e16d35c7282fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47adf4b4_716b6e70",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitWithStickyApprovalDiffIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-26T18:38:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e03a0e31_a8569995",
       "range": {
         "startLine": 259,
         "startChar": 3,

@@ -42,6 +42,7 @@ import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
+import com.google.gerrit.server.change.FileInfoJsonModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersName;
@@ -245,6 +246,7 @@ public class InMemoryModule extends FactoryModule {
     bind(ServerInformation.class).to(ServerInformationImpl.class);
     install(new RestApiModule());
     install(new DefaultProjectNameLockManager.Module());
+    install(new FileInfoJsonModule(cfg));
 
     bind(ProjectOperations.class).to(ProjectOperationsImpl.class);
   }

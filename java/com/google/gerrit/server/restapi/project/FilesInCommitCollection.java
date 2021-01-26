@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.entities.Patch;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -27,7 +26,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.change.FileInfoJson;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.FileResource;
@@ -93,17 +91,9 @@ public class FilesInCommitCollection implements ChildCollection<CommitResource, 
     public Response<Map<String, FileInfo>> apply(CommitResource resource)
         throws ResourceConflictException, PatchListNotAvailableException {
       RevCommit commit = resource.getCommit();
-      PatchListKey key;
-
-      if (parentNum > 0) {
-        key =
-            PatchListKey.againstParentNum(
-                parentNum, commit, DiffPreferencesInfo.Whitespace.IGNORE_NONE);
-      } else {
-        key = PatchListKey.againstCommit(null, commit, DiffPreferencesInfo.Whitespace.IGNORE_NONE);
-      }
-
-      return Response.ok(fileInfoJson.toFileInfoMap(resource.getProjectState().getNameKey(), key));
+      return Response.ok(
+          fileInfoJson.getFileInfoMap(
+              resource.getProjectState().getNameKey(), commit, parentNum - 1));
     }
   }
 }

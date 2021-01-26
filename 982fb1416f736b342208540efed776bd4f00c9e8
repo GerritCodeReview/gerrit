@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18a78d1a_7258c65e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-26T19:39:55Z",
+      "side": 1,
+      "message": "discussed with the frontend (since they have to adjust this as well).\n\nWe don\u0027t see a reason why voting +2 multiple times on the same patch set should be disallowed, so it\u0027s better to allow it.",
+      "parentUuid": "7648e0fd_2880060b",
+      "revId": "982fb1416f736b342208540efed776bd4f00c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58fdca01_b972808a",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-01-26T11:16:59Z",
       "side": 1,
       "message": "Allowing to revote with the same value has some implications:\n\n1. a change message for the re-vote is added to the change\n2. revotes trigger an email and events\n   e.g. the OnPostReview extension point is invoked for the revote\n\nMaybe say if that\u0027s intended?\nE.g. 2. breaks a test in the code-owners plugin, so we would need to adapt it there.",
+      "range": {
+        "startLine": 24,
+        "startChar": 34,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "982fb1416f736b342208540efed776bd4f00c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "652768cf_381c0c77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-26T19:39:55Z",
+      "side": 1,
+      "message": "I think the additional change message makes lots of sense (that\u0027s how it is in e.g our internal code-review system).\n\nthe OnPostReview is anyway invoked, but it may have a different vote, is that what you meant?\n\nThe email is also anyway sent, it will just have a minor difference.",
+      "parentUuid": "58fdca01_b972808a",
       "range": {
         "startLine": 24,
         "startChar": 34,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebff2f37_da246a84",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1276,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-26T19:39:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c3984c4_e6118572",
+      "range": {
+        "startLine": 1276,
+        "startChar": 32,
+        "endLine": 1276,
+        "endChar": 38
+      },
+      "revId": "982fb1416f736b342208540efed776bd4f00c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6cd5aa8_8a4c8c0e",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-01-26T11:16:59Z",
       "side": 1,
       "message": "better: \"reapply the vote\"?\n\notherwise I read this reads as:\n\n \"If the user hadn\u0027t voted again (the user hasn\u0027t revoted),there is no need to re-vote\"",
+      "range": {
+        "startLine": 1277,
+        "startChar": 33,
+        "endLine": 1277,
+        "endChar": 40
+      },
+      "revId": "982fb1416f736b342208540efed776bd4f00c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a75f5e08_04800ad7",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-26T19:39:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6cd5aa8_8a4c8c0e",
       "range": {
         "startLine": 1277,
         "startChar": 33,

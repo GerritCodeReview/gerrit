@@ -119,8 +119,13 @@ const fakeRun1: CheckRun = {
     {
       category: Category.WARNING,
       summary: 'We think that you could improve this.',
-      message: `There is a lot to be said. A lot. I say, a lot.\n
-                So please keep reading.`,
+      messageSafeHtml: `There is a <b style="font-weight: bold">lot</b>
+                        to be said.<br/>A lot.
+                        <span style="color: red">I say, a lot.</span><br/>
+                        <span style="text-decoration: underline">
+                        So please keep reading.</span><br/>
+                        <span style="color: #444; background-color: lightblue; border-radius: 4px;">
+                        &nbsp;Approved Opinion&nbsp;</span>`,
       tags: [{name: 'INTERRUPTED'}, {name: 'WINDOWS'}],
     },
   ],

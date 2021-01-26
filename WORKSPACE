@@ -30,7 +30,7 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
-load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
+load("//tools:nongoogle.bzl", "declare_nongoogle_deps", "TESTCONTAINERS_VERSION")
 
 http_archive(
     name = "bazel_toolchains",
@@ -1162,3 +1162,21 @@ bower_archive(
 )
 
 external_plugin_deps()
+
+
+# When upgrading elasticsearch-rest-client, also upgrade httpcore-nio
+# and httpasyncclient as necessary in tools/nongoogle.bzl. Consider
+# also the other org.apache.httpcomponents dependencies in
+# WORKSPACE.
+maven_jar(
+    name = "elasticsearch-rest-client",
+    artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.8.1",
+    sha1 = "59feefe006a96a39f83b0dfb6780847e06c1d0a8",
+)
+
+maven_jar(
+    name = "testcontainers-elasticsearch",
+    artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
+    sha1 = "6b778a270b7529fcb9b7a6f62f3ae9d38544ce2f",
+)
+

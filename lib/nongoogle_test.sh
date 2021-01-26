@@ -18,7 +18,6 @@ docker-java-transport
 dropwizard-core
 duct-tape
 eddsa
-elasticsearch-rest-client
 flogger
 flogger-log4j-backend
 flogger-system-backend
@@ -42,7 +41,6 @@ soy
 sshd-mina
 sshd-osgi
 testcontainers
-testcontainers-elasticsearch
 truth
 truth-java8-extension
 truth-liteproto-extension

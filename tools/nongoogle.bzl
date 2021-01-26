@@ -4,6 +4,8 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 GUAVA_VERSION = "29.0-jre"
 GUAVA_BIN_SHA1 = "801142b4c3d0f0770dd29abea50906cacfddd447"
 GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
+TESTCONTAINERS_VERSION = "1.15.1"
+
 
 def declare_nongoogle_deps():
     """loads dependencies that are not used at Google.
@@ -95,15 +97,6 @@ def declare_nongoogle_deps():
         name = "jruby",
         artifact = "org.jruby:jruby-complete:9.1.17.0",
         sha1 = "76716d529710fc03d1d429b43e3cedd4419f78d4",
-    )
-
-    # When upgrading elasticsearch-rest-client, also upgrade httpcore-nio
-    # and httpasyncclient as necessary. Consider also the other
-    # org.apache.httpcomponents dependencies in ../WORKSPACE.
-    maven_jar(
-        name = "elasticsearch-rest-client",
-        artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.8.1",
-        sha1 = "59feefe006a96a39f83b0dfb6780847e06c1d0a8",
     )
 
     maven_jar(
@@ -219,18 +212,10 @@ def declare_nongoogle_deps():
         sha1 = "0f63b3b1da563767d04d2e4d3fc1ae0cdeffebe7",
     )
 
-    TESTCONTAINERS_VERSION = "1.15.1"
-
     maven_jar(
         name = "testcontainers",
         artifact = "org.testcontainers:testcontainers:" + TESTCONTAINERS_VERSION,
         sha1 = "91e6dfab8f141f77c6a0dd147a94bd186993a22c",
-    )
-
-    maven_jar(
-        name = "testcontainers-elasticsearch",
-        artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-        sha1 = "6b778a270b7529fcb9b7a6f62f3ae9d38544ce2f",
     )
 
     maven_jar(

@@ -20,8 +20,10 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -206,7 +208,8 @@ public class ChangeEditModifier {
    * @throws PermissionBackendException
    * @throws BadRequestException if the commit message is malformed
    */
-  public void modifyMessage(Repository repository, ChangeNotes notes, String newCommitMessage)
+  public void modifyMessage(
+      Repository repository, Project.NameKey project, ChangeNotes notes, String newCommitMessage)
       throws AuthException, IOException, UnchangedCommitMessageException,
           PermissionBackendException, BadRequestException, ResourceConflictException {
     assertCanEdit(notes);
@@ -227,6 +230,11 @@ public class ChangeEditModifier {
     Timestamp nowTimestamp = TimeUtil.nowTs();
     ObjectId newEditCommit =
         createCommit(repository, basePatchSetCommit, baseTree, newCommitMessage, nowTimestamp);
+
+    ChangeUtil.ensureChangeIdIsCorrect(
+        projectCache.checkedGet(project).is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
+        notes.getChange().getKey().get(),
+        newCommitMessage);
 
     if (optionalChangeEdit.isPresent()) {
       updateEdit(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);

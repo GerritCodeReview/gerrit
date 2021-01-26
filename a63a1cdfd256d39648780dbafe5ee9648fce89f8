@@ -34,6 +34,24 @@
       "parentUuid": "8c337734_e8fba0a2",
       "revId": "a63a1cdfd256d39648780dbafe5ee9648fce89f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f79aa5c2_bdcae8fd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-26T07:41:10Z",
+      "side": 1,
+      "message": "Yeah, just add a TODO and be sure to remove it as soon as the Chromium Behavior plugin is live for one week with the new version.\n\nNo, there are no other users of this plugin API. :-)",
+      "parentUuid": "3620f2ee_d41dcab1",
+      "revId": "a63a1cdfd256d39648780dbafe5ee9648fce89f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

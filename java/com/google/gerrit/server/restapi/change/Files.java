@@ -163,7 +163,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
             revisions.parse(resource.getChangeResource(), IdString.fromDecoded(base));
         r =
             Response.ok(
-                fileInfoJson.toFileInfoMap(
+                fileInfoJson.getFileInfoMap(
                     resource.getChange(),
                     resource.getPatchSet().commitId(),
                     baseResource.getPatchSet()));
@@ -180,10 +180,10 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         }
         r =
             Response.ok(
-                fileInfoJson.toFileInfoMap(
+                fileInfoJson.getFileInfoMap(
                     resource.getChange(), resource.getPatchSet().commitId(), parentNum - 1));
       } else {
-        r = Response.ok(fileInfoJson.toFileInfoMap(resource.getChange(), resource.getPatchSet()));
+        r = Response.ok(fileInfoJson.getFileInfoMap(resource.getChange(), resource.getPatchSet()));
       }
 
       if (resource.isCacheable()) {

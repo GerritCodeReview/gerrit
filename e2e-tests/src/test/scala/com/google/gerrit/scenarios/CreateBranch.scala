@@ -19,18 +19,27 @@ import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef._
 
+import scala.collection.mutable
 import scala.concurrent.duration._
 
 class CreateBranch extends ProjectSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
   private val branchIdKey = "branchId"
   private var counter = 0
+  var branches: mutable.Queue[String] = mutable.Queue[String]()
 
-  private val test: ScenarioBuilder = scenario(uniqueName)
+  def this(projectName: String) {
+    this()
+    this.projectName = projectName
+  }
+
+  val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(session => {
         counter += 1
-        session.set(branchIdKey, "branch-" + counter)
+        val newBranchName = "branch-" + counter
+        branches += newBranchName
+        session.set(branchIdKey, newBranchName)
       })
       .exec(http(uniqueName)
           .post("${url}${" + branchIdKey + "}")

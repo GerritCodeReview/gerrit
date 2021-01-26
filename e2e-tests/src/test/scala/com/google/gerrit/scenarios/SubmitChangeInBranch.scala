@@ -1,4 +1,4 @@
-// Copyright (C) 2020 The Android Open Source Project
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,69 +17,58 @@ package com.google.gerrit.scenarios
 import io.gatling.core.Predef.{atOnceUsers, _}
 import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
-import io.gatling.http.Predef._
+import io.gatling.http.Predef.http
 
 import scala.collection.mutable
 import scala.concurrent.duration._
 
-class CreateChange extends ProjectSimulation {
+class SubmitChangeInBranch extends GerritSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
-  private val numberKey = "_number"
-  private val timePerChange = 0.1
-  private var createBranch: Option[CreateBranch] = None
-  private var branches_copy: mutable.Queue[String] = mutable.Queue[String]()
-  var number = 0
-  var numbers: mutable.Queue[Int] = mutable.Queue[Int]()
+  private var changes_copy: mutable.Queue[Int] = mutable.Queue[Int]()
+  private val projectName = className
 
-  override def relativeRuntimeWeight: Int = 2 + (numberOfUsers * timePerChange).toInt
+  override def relativeRuntimeWeight = 10
 
-  def this(projectName: String) {
+  def this(createChange: CreateChange) {
     this()
-    this.projectName = projectName
-  }
-
-  def this(projectName: String, createBranch: CreateBranch) {
-    this()
-    this.projectName = projectName
-    this.createBranch = Some(createBranch)
+    this.createChange = createChange
   }
 
   val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(session => {
-        if (createBranch.nonEmpty) {
-          if (branches_copy.isEmpty) {
-            branches_copy = createBranch.get.branches.clone()
-          }
-          session.set("branch", branches_copy.dequeue())
-        } else {
-          session.set("branch", "master")
+        if (changes_copy.isEmpty) {
+          changes_copy = createChange.numbers.clone()
         }
+        session.set("number", changes_copy.dequeue())
       })
-      .exec(httpRequest
-          .body(ElFileBody(body)).asJson
-          .check(regex("\"" + numberKey + "\":(\\d+),").saveAs(numberKey)))
-      .exec(session => {
-        number = session(numberKey).as[Int]
-        numbers += number
-        session
-      })
+      .exec(http(uniqueName).post("${url}${number}/submit"))
 
   private val createProject = new CreateProject(projectName)
+  private val createBranch = new CreateBranch(projectName)
+  private var createChange = new CreateChange(projectName, createBranch)
+  private val approveChange = new ApproveChange(createChange)
   private val deleteProject = new DeleteProject(projectName)
-  private val deleteChange = new DeleteChange(this)
 
   setUp(
     createProject.test.inject(
       nothingFor(stepWaitTime(createProject) seconds),
       atOnceUsers(single)
     ),
-    test.inject(
-      nothingFor(stepWaitTime(this) seconds),
+    createBranch.test.inject(
+      nothingFor(stepWaitTime(createBranch) seconds),
       atOnceUsers(numberOfUsers)
     ),
-    deleteChange.test.inject(
-      nothingFor(stepWaitTime(deleteChange) seconds),
+    createChange.test.inject(
+      nothingFor(stepWaitTime(createChange) seconds),
+      atOnceUsers(numberOfUsers)
+    ),
+    approveChange.test.inject(
+      nothingFor(stepWaitTime(approveChange) seconds),
+      atOnceUsers(numberOfUsers)
+    ),
+    test.inject(
+      nothingFor(stepWaitTime(this) seconds),
       atOnceUsers(numberOfUsers)
     ),
     deleteProject.test.inject(

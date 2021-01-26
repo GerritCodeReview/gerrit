@@ -34,6 +34,24 @@
       "parentUuid": "7d2ff844_4cec70ce",
       "revId": "f55e9c0119b014aeb6042f7f41c8bfab6cab4d4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f884158_7398e8ae",
+        "filename": "Documentation/user-porting-comments.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-26T17:27:11Z",
+      "side": 1,
+      "message": "Probably some kind of user interface docs section? Unless I\u0027m mistaken, right now this doc doesn\u0027t have any references from the rest of the Gerrit docs, so it\u0027d be pretty challenging for users to find it.",
+      "parentUuid": "039f003c_226bfe27",
+      "revId": "f55e9c0119b014aeb6042f7f41c8bfab6cab4d4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

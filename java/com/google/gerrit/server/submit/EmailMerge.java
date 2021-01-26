@@ -31,6 +31,7 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
@@ -43,7 +44,8 @@ class EmailMerge implements Runnable, RequestContext {
         Change change,
         Account.Id submitter,
         NotifyResolver.Result notify,
-        RepoView repoView);
+        RepoView repoView,
+        String stickyApprovalDiff);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -57,6 +59,7 @@ class EmailMerge implements Runnable, RequestContext {
   private final Account.Id submitter;
   private final NotifyResolver.Result notify;
   private final RepoView repoView;
+  private final String stickyApprovalDiff;
 
   @Inject
   EmailMerge(
@@ -69,7 +72,8 @@ class EmailMerge implements Runnable, RequestContext {
       @Assisted Change change,
       @Assisted @Nullable Account.Id submitter,
       @Assisted NotifyResolver.Result notify,
-      @Assisted RepoView repoView) {
+      @Assisted RepoView repoView,
+      @Assisted String stickyApprovalDiff) {
     this.sendEmailsExecutor = executor;
     this.mergedSenderFactory = mergedSenderFactory;
     this.requestContext = requestContext;
@@ -80,6 +84,7 @@ class EmailMerge implements Runnable, RequestContext {
     this.submitter = submitter;
     this.notify = notify;
     this.repoView = repoView;
+    this.stickyApprovalDiff = stickyApprovalDiff;
   }
 
   void sendAsync() {
@@ -91,7 +96,8 @@ class EmailMerge implements Runnable, RequestContext {
   public void run() {
     RequestContext old = requestContext.setContext(this);
     try {
-      MergedSender emailSender = mergedSenderFactory.create(project, change.getId());
+      MergedSender emailSender =
+          mergedSenderFactory.create(project, change.getId(), Optional.of(stickyApprovalDiff));
       if (submitter != null) {
         emailSender.setFrom(submitter);
       }

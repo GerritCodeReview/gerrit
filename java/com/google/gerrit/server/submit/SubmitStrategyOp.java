@@ -76,6 +76,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private Change updatedChange;
   private CodeReviewCommit alreadyMergedCommit;
   private boolean changeAlreadyMerged;
+  private String stickyApprovalDiff;
 
   protected SubmitStrategyOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {
     this.args = args;
@@ -439,9 +440,13 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private ChangeMessage message(ChangeContext ctx, PatchSet.Id psId, String body)
       throws AuthException, IOException, PermissionBackendException,
           InvalidChangeOperationException {
-    String diff = args.submitWithStickyApprovalDiff.apply(ctx.getNotes(), ctx.getUser());
+    stickyApprovalDiff = args.submitWithStickyApprovalDiff.apply(ctx.getNotes(), ctx.getUser());
     return ChangeMessagesUtil.newMessage(
-        psId, ctx.getUser(), ctx.getWhen(), body + diff, ChangeMessagesUtil.TAG_MERGED);
+        psId,
+        ctx.getUser(),
+        ctx.getWhen(),
+        body + stickyApprovalDiff,
+        ChangeMessagesUtil.TAG_MERGED);
   }
 
   private void setMerged(ChangeContext ctx, ChangeMessage msg) {
@@ -505,7 +510,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
               toMerge.change(),
               submitter.accountId(),
               ctx.getNotify(getId()),
-              ctx.getRepoView())
+              ctx.getRepoView(),
+              stickyApprovalDiff)
           .sendAsync();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", getId());

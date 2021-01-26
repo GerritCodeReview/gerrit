@@ -33,6 +33,42 @@
       "message": "Great! I am looking forward for mwc components.\n\nProbably we don\u0027t want to start with buttons. Maybe I would start with replacing iron-input in less popular dialogs like polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_html.ts",
       "revId": "c1eafbf9cf456b0588facd1518c04855fbc63361",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81f5a286_b80ea16a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-26T19:56:46Z",
+      "side": 1,
+      "message": "SGTM. I believe I have arranged the license stuff, but worth a quick look.\n\nI added an import \u0027@material/mwc-textfield\u0027; to gr-create-group-dialog component. Locally I see it is loading the mwc files but not using the component yet since it looks much different by default and I was not sure what styling to add. I think this should let us test the BUILD/release stuff and then start planning for the usage.",
+      "parentUuid": "b4d93dc3_d9d11191",
+      "revId": "c1eafbf9cf456b0588facd1518c04855fbc63361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f59398d_f482c2df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-01-26T19:56:46Z",
+      "side": 1,
+      "message": "Good idea. This change will just add packages/licenses so we can check that it will work through our BUILD/release process first.",
+      "parentUuid": "f02f4f74_72ff1f68",
+      "revId": "c1eafbf9cf456b0588facd1518c04855fbc63361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

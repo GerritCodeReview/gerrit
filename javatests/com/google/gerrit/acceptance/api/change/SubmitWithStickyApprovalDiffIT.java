@@ -90,9 +90,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .content("content\naa\nsS\naa\naaa\ndifferent\nfoo\nbla")
         .create();
 
+    // add a reviewer to ensure an email is sent.
+    gApi.changes().id(changeId.get()).addReviewer(user.email());
+
     gApi.changes().id(changeId.get()).current().submit();
 
-    assertDiffChangeMessageWithStickyApproval(
+    assertDiffChangeMessageAndEmailWithStickyApproval(
         Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
         /* file= */ "file",
         /* insertions= */ 3,
@@ -124,9 +127,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .content("content\naa\nbb\ncc\nINSERTION\nINSERTED\nVERY\nLONG\ndd\nee\nff\ngg\nend")
         .create();
 
+    // add a reviewer to ensure an email is sent.
+    gApi.changes().id(changeId.get()).addReviewer(user.email());
+
     gApi.changes().id(changeId.get()).current().submit();
 
-    assertDiffChangeMessageWithStickyApproval(
+    assertDiffChangeMessageAndEmailWithStickyApproval(
         Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
         /* file= */ "file",
         /* insertions= */ 4,
@@ -149,9 +155,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .content("content\nmore content\nlast content")
         .create();
 
+    // add a reviewer to ensure an email is sent.
+    gApi.changes().id(changeId.get()).addReviewer(user.email());
+
     gApi.changes().id(changeId.get()).current().submit();
 
-    assertDiffChangeMessageWithStickyApproval(
+    assertDiffChangeMessageAndEmailWithStickyApproval(
         Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
         /* file= */ "file",
         /* insertions= */ 3,
@@ -175,9 +184,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
 
     changeOperations.change(changeId).newPatchset().file("file").delete().create();
 
+    // add a reviewer to ensure an email is sent.
+    gApi.changes().id(changeId.get()).addReviewer(user.email());
+
     gApi.changes().id(changeId.get()).current().submit();
 
-    assertDiffChangeMessageWithStickyApproval(
+    assertDiffChangeMessageAndEmailWithStickyApproval(
         Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
         /* file= */ "file",
         /* insertions= */ 0,
@@ -201,9 +213,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
 
     changeOperations.change(changeId).newPatchset().file("file").renameTo("new_file").create();
 
+    // add a reviewer to ensure an email is sent.
+    gApi.changes().id(changeId.get()).addReviewer(user.email());
+
     gApi.changes().id(changeId.get()).current().submit();
 
-    assertDiffChangeMessageWithStickyApproval(
+    assertDiffChangeMessageAndEmailWithStickyApproval(
         Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
         /* file= */ "new_file",
         /* insertions= */ 0,
@@ -236,7 +251,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .isEqualTo("Change has been successfully merged");
   }
 
-  private void assertDiffChangeMessageWithStickyApproval(
+  private void assertDiffChangeMessageAndEmailWithStickyApproval(
       String message,
       String file,
       int insertions,
@@ -246,8 +261,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
       List<String> newLines,
       String oldFileName) {
     String expectedMessage =
-        "Change has been successfully merged\n\n"
-            + "The change was submitted with unreviewed changes in the following files:\n"
+        "The change was submitted with unreviewed changes in the following files:\n"
             + "\n"
             + String.format("The name of the file: %s\n", file)
             + String.format("Insertions: %d, Deletions: %d.\n\n", insertions, deletions);
@@ -281,6 +295,9 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
       expectedMessage += newLinesIterator.next();
       expectedMessage += "\n";
     }
-    assertThat(expectedMessage.trim()).isEqualTo(message.trim());
+    String expectedChangeMessage = "Change has been successfully merged\n\n" + expectedMessage;
+    assertThat(expectedChangeMessage.trim()).isEqualTo(message.trim());
+    assertThat(Iterables.getLast(sender.getMessages()).body()).contains(expectedMessage);
+    assertThat(Iterables.getLast(sender.getMessages()).htmlBody()).contains(expectedMessage);
   }
 }

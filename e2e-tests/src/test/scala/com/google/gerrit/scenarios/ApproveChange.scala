@@ -19,9 +19,14 @@ import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.http
 
+import scala.collection.mutable
+
 class ApproveChange extends GerritSimulation {
-  private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
+  private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
+  private var numbersCopy: mutable.Queue[Int] = mutable.Queue[Int]()
   private var createChange: Option[CreateChange] = None
+
+  override def relativeRuntimeWeight = 10
 
   def this(createChange: CreateChange) {
     this()
@@ -32,7 +37,10 @@ class ApproveChange extends GerritSimulation {
       .feed(data)
       .exec(session => {
         if (createChange.nonEmpty) {
-          session.set("number", createChange.get.number)
+          if (numbersCopy.isEmpty) {
+            numbersCopy = createChange.get.numbers.clone()
+          }
+          session.set("number", numbersCopy.dequeue())
         } else {
           session
         }

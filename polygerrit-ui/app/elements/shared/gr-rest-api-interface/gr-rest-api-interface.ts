@@ -16,8 +16,6 @@
  */
 /* NB: Order is important, because of namespaced classes. */
 
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {GrEtagDecorator} from './gr-etag-decorator';
 import {
@@ -41,7 +39,7 @@ import {
   listChangesOptionsToHex,
 } from '../../../utils/change-util';
 import {assertNever, hasOwnProperty} from '../../../utils/common-util';
-import {customElement, property} from '@polymer/decorators';
+import {customElement} from '@polymer/decorators';
 import {AuthRequestInit, AuthService} from '../../../services/gr-auth/gr-auth';
 import {
   AccountCapabilityInfo,
@@ -297,22 +295,16 @@ declare global {
 }
 
 @customElement('gr-rest-api-interface')
-export class GrRestApiInterface
-  extends GestureEventListeners(LegacyElementMixin(PolymerElement))
+export class GrRestApiInterface extends PolymerElement
   implements RestApiService {
-  @property({type: Object})
   readonly _cache = siteBasedCache; // Shared across instances.
 
-  @property({type: Object})
   readonly _sharedFetchPromises = fetchPromisesCache; // Shared across instances.
 
-  @property({type: Object})
   readonly _pendingRequests = pendingRequest; // Shared across instances.
 
-  @property({type: Object})
   readonly _etags = grEtagDecorator; // Shared across instances.
 
-  @property({type: Object})
   readonly _projectLookup = projectLookup; // Shared across instances.
 
   // The value is set in created, before any other actions
@@ -3067,8 +3059,7 @@ export class GrRestApiInterface
       return Promise.resolve(project);
     }
 
-    const onError = (response?: Response | null) =>
-      firePageError(this, response);
+    const onError = (response?: Response | null) => firePageError(response);
 
     return this.getChange(changeNum, onError).then(change => {
       if (!change || !change.project) {

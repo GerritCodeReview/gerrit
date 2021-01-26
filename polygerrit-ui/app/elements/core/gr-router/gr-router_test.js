@@ -22,6 +22,7 @@ import {GerritNav} from '../gr-navigation/gr-navigation.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 import {_testOnly_RoutePattern} from './gr-router.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-router');
 
@@ -664,13 +665,11 @@ suite('gr-router tests', () => {
     });
 
     test('_handleDefaultRoute on first load', () => {
-      const appElementStub = {dispatchEvent: sinon.stub()};
-      element._appElement = () => appElementStub;
+      const spy = sinon.spy();
+      addListenerForTest(document, 'page-error', spy);
       element._handleDefaultRoute();
-      assert.isTrue(appElementStub.dispatchEvent.calledOnce);
-      assert.equal(
-          appElementStub.dispatchEvent.lastCall.args[0].detail.response.status,
-          404);
+      assert.isTrue(spy.calledOnce);
+      assert.equal(spy.lastCall.args[0].detail.response.status, 404);
     });
 
     test('_handleDefaultRoute after internal navigation', () => {
@@ -684,8 +683,6 @@ suite('gr-router tests', () => {
       sinon.stub(page, 'base');
       element._startRouter();
 
-      const appElementStub = {dispatchEvent: sinon.stub()};
-      element._appElement = () => appElementStub;
       element._handleDefaultRoute();
 
       onExit('', () => {}); // we left page;

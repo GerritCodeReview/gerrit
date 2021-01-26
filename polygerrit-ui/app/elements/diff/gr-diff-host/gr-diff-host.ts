@@ -609,7 +609,7 @@ export class GrDiffHost extends GestureEventListeners(
       return;
     }
 
-    firePageError(this, response);
+    firePageError(response);
   }
 
   /**

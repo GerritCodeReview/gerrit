@@ -25,7 +25,7 @@ import {Side, CommentSide} from '../../../constants/constants.js';
 import {createChange} from '../../../test/test-data-generators.js';
 import {FILE} from '../gr-diff/gr-diff-line.js';
 import {CoverageType} from '../../../types/types.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
@@ -296,13 +296,9 @@ suite('gr-diff-host tests', () => {
 
       setup(() => {
         serverErrorStub = sinon.stub();
-        document.addEventListener('server-error', serverErrorStub);
+        addListenerForTest(document, 'server-error', serverErrorStub);
         pageErrorStub = sinon.stub();
-        element.addEventListener('page-error', pageErrorStub);
-      });
-
-      teardown(() => {
-        document.removeEventListener('server-error', serverErrorStub);
+        addListenerForTest(document, 'page-error', pageErrorStub);
       });
 
       test('page error on HTTP-409', () => {
@@ -313,7 +309,10 @@ suite('gr-diff-host tests', () => {
       });
 
       test('server error on non-HTTP-409', () => {
-        element._handleGetDiffError({status: 500});
+        element._handleGetDiffError({
+          status: 500,
+          text: () => Promise.resolve(''),
+        });
         assert.isFalse(serverErrorStub.called);
         assert.isTrue(pageErrorStub.calledOnce);
         assert.isNotOk(element._errorMessage);

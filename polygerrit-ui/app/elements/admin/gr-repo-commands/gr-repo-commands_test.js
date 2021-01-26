@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo-commands.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo-commands');
 
@@ -121,7 +121,7 @@ suite('gr-repo-commands tests', () => {
       stubRestApi('getProjectConfig').callsFake((repo, errFn) => {
         errFn(response);
       });
-      element.addEventListener('page-error', e => {
+      addListenerForTest(document, 'page-error', e => {
         assert.deepEqual(e.detail.response, response);
         done();
       });

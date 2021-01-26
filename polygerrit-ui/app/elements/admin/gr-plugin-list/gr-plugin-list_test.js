@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-plugin-list.js';
 import 'lodash/lodash.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-plugin-list');
 
@@ -155,7 +155,7 @@ suite('gr-plugin-list tests', () => {
             errFn(response);
           });
 
-      element.addEventListener('page-error', e => {
+      addListenerForTest(document, 'page-error', e => {
         assert.deepEqual(e.detail.response, response);
         done();
       });

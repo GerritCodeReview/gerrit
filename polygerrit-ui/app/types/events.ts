@@ -40,7 +40,7 @@ export interface PageErrorEventDetail {
 export type PageErrorEvent = CustomEvent<PageErrorEventDetail>;
 
 declare global {
-  interface HTMLElementEventMap {
+  interface DocumentEventMap {
     'page-error': PageErrorEvent;
   }
 }

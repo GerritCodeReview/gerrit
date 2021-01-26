@@ -1855,7 +1855,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleGetChangeDetailError(response?: Response | null) {
-    firePageError(this, response);
+    firePageError(response);
   }
 
   _getLoggedIn() {

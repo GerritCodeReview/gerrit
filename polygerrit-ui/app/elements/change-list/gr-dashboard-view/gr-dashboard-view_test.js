@@ -23,7 +23,7 @@ import {GerritView} from '../../../services/router/router-model.js';
 import {changeIsOpen} from '../../../utils/change-util.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {createAccountWithId} from '../../../test/test-data-generators.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-dashboard-view');
 
@@ -377,7 +377,7 @@ suite('gr-dashboard-view tests', () => {
         async (project, dashboard, errFn) => {
           errFn(response);
         });
-    element.addEventListener('page-error', e => {
+    addListenerForTest(document, 'page-error', e => {
       assert.strictEqual(e.detail.response, response);
       paramsChangedPromise.then(done);
     });

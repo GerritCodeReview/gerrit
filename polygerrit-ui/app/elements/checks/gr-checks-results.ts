@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {html} from 'lit-html';
+import {unsafeHTML} from 'lit-html/directives/unsafe-html';
 import {css, customElement, property, PropertyValues} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {
@@ -136,7 +137,8 @@ class GrResultRow extends GrLitElement {
 
   update(changedProperties: PropertyValues) {
     if (changedProperties.has('result')) {
-      this.isExpandable = !!this.result?.message;
+      this.isExpandable =
+        !!this.result?.message || !!this.result?.messageSafeHtml;
     }
     super.update(changedProperties);
   }
@@ -157,9 +159,7 @@ class GrResultRow extends GrLitElement {
             <!-- The &nbsp; is for being able to shrink a tiny amount without
                  the text itself getting shrunk with an ellipsis. -->
             <div class="summary">${this.result.summary}&nbsp;</div>
-            <div class="message">
-              ${this.isExpanded ? '' : this.result.message}
-            </div>
+            <div class="message">${this.renderMessageCollapsed()}</div>
             <div class="tags">
               ${(this.result.tags ?? []).map(t => this.renderTag(t))}
             </div>
@@ -197,6 +197,11 @@ class GrResultRow extends GrLitElement {
   private toggleExpanded() {
     if (!this.isExpandable) return;
     this.isExpanded = !this.isExpanded;
+  }
+
+  renderMessageCollapsed() {
+    if (this.isExpanded || !this.result) return '';
+    return html`${this.result.messageSafeHtml ?? this.result.message}`;
   }
 
   renderLink(link: Link) {
@@ -245,11 +250,11 @@ class GrResultExpanded extends GrLitElement {
 
   render() {
     if (!this.result) return '';
-    return html`
-      <div class="message">
-        ${this.result.message}
-      </div>
-    `;
+    let msg = html`${this.result.message}`;
+    if (this.result.messageSafeHtml) {
+      msg = html`${unsafeHTML(this.result.messageSafeHtml)}`;
+    }
+    return html`<div class="message">${msg}</div>`;
   }
 }
 

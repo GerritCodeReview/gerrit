@@ -39,6 +39,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Constants;
@@ -189,8 +190,13 @@ public class MergedByPushOp implements BatchUpdateOp {
                   @Override
                   public void run() {
                     try {
+                      // The stickyApprovalDiff is always empty here since this is not supported
+                      // for direct pushes.
                       MergedSender emailSender =
-                          mergedSenderFactory.create(ctx.getProject(), psId.changeId());
+                          mergedSenderFactory.create(
+                              ctx.getProject(),
+                              psId.changeId(),
+                              /* stickyApprovalDiff= */ Optional.empty());
                       emailSender.setFrom(ctx.getAccountId());
                       emailSender.setPatchSet(patchSet, info);
                       emailSender.setMessageId(

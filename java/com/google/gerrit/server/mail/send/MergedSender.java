@@ -28,20 +28,27 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Optional;
 
 /** Send notice about a change successfully merged. */
 public class MergedSender extends ReplyToChangeSender {
   public interface Factory {
-    MergedSender create(Project.NameKey project, Change.Id changeId);
+    MergedSender create(
+        Project.NameKey project, Change.Id changeId, Optional<String> stickyApprovalDiff);
   }
 
   private final LabelTypes labelTypes;
+  private final Optional<String> stickyApprovalDiff;
 
   @Inject
   public MergedSender(
-      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
+      EmailArguments args,
+      @Assisted Project.NameKey project,
+      @Assisted Change.Id changeId,
+      @Assisted Optional<String> stickyApprovalDiff) {
     super(args, "merged", newChangeData(args, project, changeId));
     labelTypes = changeData.getLabelTypes();
+    this.stickyApprovalDiff = stickyApprovalDiff;
   }
 
   @Override
@@ -133,5 +140,8 @@ public class MergedSender extends ReplyToChangeSender {
   protected void setupSoyContext() {
     super.setupSoyContext();
     soyContextEmailData.put("approvals", getApprovals());
+    if (stickyApprovalDiff.isPresent()) {
+      soyContextEmailData.put("stickyApprovalDiff", stickyApprovalDiff.get());
+    }
   }
 }

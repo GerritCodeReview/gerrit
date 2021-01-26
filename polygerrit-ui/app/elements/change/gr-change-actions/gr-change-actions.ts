@@ -1605,12 +1605,12 @@ export class GrChangeActions
 
   // TODO(rmistry): Redo this after
   // https://bugs.chromium.org/p/gerrit/issues/detail?id=4671 is resolved.
-  _setLabelValuesOnRevert(newChangeId: NumericChangeId) {
-    const labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
-    if (!labels) {
+  _setReviewOnRevert(newChangeId: NumericChangeId) {
+    const review = this.$.jsAPI.getReviewPostRevert(this.change);
+    if (!review) {
       return Promise.resolve(undefined);
     }
-    return this.restApiService.saveChangeReview(newChangeId, CURRENT, {labels});
+    return this.restApiService.saveChangeReview(newChangeId, CURRENT, review);
   }
 
   _handleResponse(action: UIActionInfo, response?: Response) {
@@ -1622,7 +1622,7 @@ export class GrChangeActions
         case ChangeActions.REVERT: {
           const revertChangeInfo: ChangeInfo = (obj as unknown) as ChangeInfo;
           this._waitForChangeReachable(revertChangeInfo._number)
-            .then(() => this._setLabelValuesOnRevert(revertChangeInfo._number))
+            .then(() => this._setReviewOnRevert(revertChangeInfo._number))
             .then(() => {
               GerritNav.navigateToChange(revertChangeInfo);
             });

@@ -20,9 +20,11 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {getPluginLoader} from './gr-plugin-loader';
 
 import {customElement} from '@polymer/decorators';
+import {hasOwnProperty} from '../../../utils/common-util';
 import {
   ChangeInfo,
   LabelNameToValuesMap,
+  ReviewInput,
   RevisionInfo,
 } from '../../../types/common';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
@@ -307,16 +309,21 @@ export class GrJsApiInterface
     return links;
   }
 
-  getLabelValuesPostRevert(change?: ChangeInfo): LabelNameToValuesMap {
-    let labels: LabelNameToValuesMap = {};
+  getReviewPostRevert(change?: ChangeInfo): ReviewInput {
+    let review: ReviewInput = {};
     for (const cb of this._getEventCallbacks(EventType.POST_REVERT)) {
       try {
-        labels = cb(change);
+        const r = cb(change);
+        if (hasOwnProperty(r, 'labels')) {
+          review = r as ReviewInput;
+        } else {
+          review = {labels: r as LabelNameToValuesMap};
+        }
       } catch (err) {
         this.reporting.error(err);
       }
     }
-    return labels;
+    return review;
   }
 
   _getEventCallbacks(type: EventType) {

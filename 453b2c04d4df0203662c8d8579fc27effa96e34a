@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8389afe4_435c91bf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-26T10:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb28c440_798b24f3",
+      "range": {
+        "startLine": 41,
+        "startChar": 14,
+        "endLine": 41,
+        "endChar": 16
+      },
+      "revId": "453b2c04d4df0203662c8d8579fc27effa96e34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "360d6b55_19d4a6b2",
@@ -87,6 +111,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99408300_663ebda8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-26T10:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b906e9ce_f637afbd",
+      "range": {
+        "startLine": 146,
+        "startChar": 54,
+        "endLine": 146,
+        "endChar": 56
+      },
+      "revId": "453b2c04d4df0203662c8d8579fc27effa96e34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "693dab6b_aec230e3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-26T10:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "360d6b55_19d4a6b2",
+      "range": {
+        "startLine": 146,
+        "startChar": 24,
+        "endLine": 146,
+        "endChar": 32
+      },
+      "revId": "453b2c04d4df0203662c8d8579fc27effa96e34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b6bb07c_a079f42d",
@@ -100,6 +172,30 @@
       "writtenOn": "2021-01-22T10:47:58Z",
       "side": 1,
       "message": "catch",
+      "range": {
+        "startLine": 151,
+        "startChar": 68,
+        "endLine": 151,
+        "endChar": 75
+      },
+      "revId": "453b2c04d4df0203662c8d8579fc27effa96e34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fd4c1bb_93d9898c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-26T10:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b6bb07c_a079f42d",
       "range": {
         "startLine": 151,
         "startChar": 68,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7ce9ada_87e5b43f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-26T10:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5311967_5755997e",
+      "range": {
+        "startLine": 152,
+        "startChar": 50,
+        "endLine": 152,
+        "endChar": 51
+      },
+      "revId": "453b2c04d4df0203662c8d8579fc27effa96e34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2dfac165_4e9abe28",
@@ -146,6 +266,30 @@
       "writtenOn": "2021-01-22T10:47:58Z",
       "side": 1,
       "message": "Maybe simpler to throw instead of reject?\n\n  return getErrorMessage(err.response).then(msg \u003d\u003e {\n    throw new Error(msg);\n  });",
+      "range": {
+        "startLine": 176,
+        "startChar": 10,
+        "endLine": 179,
+        "endChar": 28
+      },
+      "revId": "453b2c04d4df0203662c8d8579fc27effa96e34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab2aeda6_f453ca2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-01-26T10:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dfac165_4e9abe28",
       "range": {
         "startLine": 176,
         "startChar": 10,

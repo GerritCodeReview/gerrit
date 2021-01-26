@@ -16,108 +16,79 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.concurrent.ExecutionException;
-import org.eclipse.jgit.errors.NoMergeBaseException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
+/**
+ * Computes the list of modified files between two patchset commits.
+ *
+ * <p>This class uses a Gerrit config to either use the old or the new diff cache implementation. We
+ * are temporarily adding both implementation in parallel. The old implementation should be
+ * deprecated soon.
+ *
+ * <p>TODO(ghareeb): Also get rid of the old {@link PatchListNotAvailableException}.
+ */
 @Singleton
 public class FileInfoJson {
-  private final PatchListCache patchListCache;
+  private final boolean useNewDiffCache;
+  private final FileInfoJsonOldImpl oldImpl;
+  private final FileInfoJsonNewImpl newImpl;
 
   @Inject
-  FileInfoJson(PatchListCache patchListCache) {
-    this.patchListCache = patchListCache;
+  FileInfoJson(
+      @GerritServerConfig Config config, FileInfoJsonOldImpl oldImpl, FileInfoJsonNewImpl newImpl) {
+    this.oldImpl = oldImpl;
+    this.newImpl = newImpl;
+    this.useNewDiffCache = config.getBoolean("cache", "diff_cache", "useNewDiffCache", false);
   }
 
   public Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet)
       throws ResourceConflictException, PatchListNotAvailableException {
-    return toFileInfoMap(change, patchSet.commitId(), null);
+    return this.useNewDiffCache
+        ? newImpl.toFileInfoMap(change, patchSet)
+        : oldImpl.toFileInfoMap(change, patchSet);
   }
 
   public Map<String, FileInfo> toFileInfoMap(
       Change change, ObjectId objectId, @Nullable PatchSet base)
       throws ResourceConflictException, PatchListNotAvailableException {
-    ObjectId a = base != null ? base.commitId() : null;
-    return toFileInfoMap(change, PatchListKey.againstCommit(a, objectId, Whitespace.IGNORE_NONE));
+    return this.useNewDiffCache
+        ? newImpl.toFileInfoMap(change, objectId, base)
+        : oldImpl.toFileInfoMap(change, objectId, base);
   }
 
   public Map<String, FileInfo> toFileInfoMap(Change change, ObjectId objectId, int parent)
       throws ResourceConflictException, PatchListNotAvailableException {
-    return toFileInfoMap(
-        change, PatchListKey.againstParentNum(parent + 1, objectId, Whitespace.IGNORE_NONE));
+    return this.useNewDiffCache
+        ? newImpl.toFileInfoMap(change, objectId, parent)
+        : oldImpl.toFileInfoMap(change, objectId, parent);
   }
 
-  private Map<String, FileInfo> toFileInfoMap(Change change, PatchListKey key)
+  public Map<String, FileInfo> toFileInfoMap(
+      Project.NameKey project, ObjectId objectId, int parentNum)
       throws ResourceConflictException, PatchListNotAvailableException {
-    return toFileInfoMap(change.getProject(), key);
-  }
-
-  public Map<String, FileInfo> toFileInfoMap(Project.NameKey project, PatchListKey key)
-      throws ResourceConflictException, PatchListNotAvailableException {
-    PatchList list;
-    try {
-      list = patchListCache.get(key, project);
-    } catch (PatchListNotAvailableException e) {
-      Throwable cause = e.getCause();
-      if (cause instanceof ExecutionException) {
-        cause = cause.getCause();
-      }
-      if (cause instanceof NoMergeBaseException) {
-        throw new ResourceConflictException(
-            String.format("Cannot create auto merge commit: %s", e.getMessage()), e);
-      }
-      throw e;
+    if (this.useNewDiffCache) {
+      return newImpl.toFileInfoMap(project, objectId, parentNum);
     }
-
-    Map<String, FileInfo> files = new TreeMap<>();
-    for (PatchListEntry e : list.getPatches()) {
-      FileInfo d = new FileInfo();
-      d.status =
-          e.getChangeType() != Patch.ChangeType.MODIFIED ? e.getChangeType().getCode() : null;
-      d.oldPath = e.getOldName();
-      d.sizeDelta = e.getSizeDelta();
-      d.size = e.getSize();
-      if (e.getPatchType() == Patch.PatchType.BINARY) {
-        d.binary = true;
-      } else {
-        d.linesInserted = e.getInsertions() > 0 ? e.getInsertions() : null;
-        d.linesDeleted = e.getDeletions() > 0 ? e.getDeletions() : null;
-      }
-
-      FileInfo o = files.put(e.getNewName(), d);
-      if (o != null) {
-        // This should only happen on a delete-add break created by JGit
-        // when the file was rewritten and too little content survived. Write
-        // a single record with data from both sides.
-        d.status = Patch.ChangeType.REWRITE.getCode();
-        d.sizeDelta = o.sizeDelta;
-        d.size = o.size;
-        if (o.binary != null && o.binary) {
-          d.binary = true;
-        }
-        if (o.linesInserted != null) {
-          d.linesInserted = o.linesInserted;
-        }
-        if (o.linesDeleted != null) {
-          d.linesDeleted = o.linesDeleted;
-        }
-      }
+    PatchListKey key;
+    if (parentNum > 0) {
+      key =
+          PatchListKey.againstParentNum(
+              parentNum, objectId, DiffPreferencesInfo.Whitespace.IGNORE_NONE);
+    } else {
+      key = PatchListKey.againstCommit(null, objectId, DiffPreferencesInfo.Whitespace.IGNORE_NONE);
     }
-    return files;
+    return oldImpl.toFileInfoMap(project, key);
   }
 }

@@ -635,7 +635,7 @@ public class PatchListLoader implements Callable<PatchList> {
 
   private RevObject aFor(
       PatchListKey key, Repository repo, RevWalk rw, ObjectInserter ins, RevCommit b)
-      throws IOException {
+      throws IOException, PatchListNotAvailableException {
     if (key.getOldId() != null) {
       return rw.parseAny(key.getOldId());
     }
@@ -659,7 +659,13 @@ public class PatchListLoader implements Callable<PatchList> {
         if (b.getParentCount() == 2) {
           return autoMerger.merge(repo, rw, ins, b, mergeStrategy);
         }
-        return null;
+        throw new PatchListNotAvailableException(
+            "Diff against auto-merge for merge commits "
+                + "with more than two parents is not supported. Commit "
+                + b
+                + " has "
+                + b.getParentCount()
+                + " parents");
     }
   }
 

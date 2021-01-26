@@ -42,6 +42,8 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.testing.ConfigSuite;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -496,10 +498,19 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         createNParentsMergeCommitChange("refs/for/master", ImmutableList.of("foo", "bar", "baz"));
 
-    // Diff against auto-merge returns COMMIT_MSG and MERGE_LIST only
-    // todo(ghareeb): We could throw an exception in this case for better handling at the client.
-    Map<String, FileInfo> changedFiles = gApi.changes().id(r.getChangeId()).current().files();
-    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, MERGE_LIST);
+    Throwable thrown =
+        assertThrows(
+            RestApiException.class, () -> gApi.changes().id(r.getChangeId()).current().files());
+
+    while (!(thrown instanceof PatchListNotAvailableException)) {
+      thrown = thrown.getCause();
+    }
+
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "Diff against auto-merge for merge commits "
+                + "with more than two parents is not supported.");
   }
 
   @Test

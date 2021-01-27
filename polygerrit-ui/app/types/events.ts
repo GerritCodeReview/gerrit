@@ -222,6 +222,13 @@ export interface ThreadListModifiedDetail {
 
 export type ThreadListModifiedEvent = CustomEvent<ThreadListModifiedDetail>;
 
+export interface DialogChangeEventDetail {
+  canceled?: boolean;
+  opened?: boolean;
+}
+
+export type DialogChangeEvent = CustomEvent<DialogChangeEventDetail>;
+
 declare global {
   interface HTMLElementEventMap {
     'thread-list-modified': ThreadListModifiedEvent;

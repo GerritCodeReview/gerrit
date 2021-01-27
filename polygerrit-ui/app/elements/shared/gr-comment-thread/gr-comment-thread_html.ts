@@ -187,6 +187,8 @@ export const htmlTemplate = html`
         path="[[path]]"
         prefs="[[_prefs]]"
         render-prefs="[[_renderPrefs]]"
+        highlight-range="[[getHighlightRange(comments)]]"
+        ignore-long-range
       >
       </gr-diff>
     </template>

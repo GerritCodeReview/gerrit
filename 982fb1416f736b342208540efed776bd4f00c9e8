@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b68ea64b_575801c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-27T08:22:08Z",
+      "side": 1,
+      "message": "Ack. Fine with me if it\u0027s intended :)\n\nShould there be a test for this?",
+      "parentUuid": "18a78d1a_7258c65e",
+      "revId": "982fb1416f736b342208540efed776bd4f00c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58fdca01_b972808a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "I think the additional change message makes lots of sense (that\u0027s how it is in e.g our internal code-review system).\n\nthe OnPostReview is anyway invoked, but it may have a different vote, is that what you meant?\n\nThe email is also anyway sent, it will just have a minor difference.",
       "parentUuid": "58fdca01_b972808a",
+      "range": {
+        "startLine": 24,
+        "startChar": 34,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "982fb1416f736b342208540efed776bd4f00c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe953914_305f428f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-01-27T08:22:08Z",
+      "side": 1,
+      "message": "\u003e I think the additional change message makes lots of sense (that\u0027s how it is in e.g our internal code-review system).\n\nSure. Just wanted to be sure it\u0027s intended. Should it be verified by a test then that the change message is added?\n\n\u003e the OnPostReview is anyway invoked, but it may have a different vote, is that what you meant?\nNo. The current behaviour is that this extension point is not invoked (because currently Gerrit core doesn\u0027t post a change message in this case), see CodeOwnersOnPostReviewIT#changeMessageNotExtended_sameCodeOwnerApprovalAppliedAgain test in the code-owners plugin, but now it does get invoked. I don\u0027t mind much about this behaviour change, just saying that this test in the code-owners plugin needs to be adapted then and that the Javadoc in OnPostReview should probably be updated/clarified.\n\nIt\u0027s not only about the OnPostReview extension point (which is fine changing since it\u0027s only used by the code-owners plugin) but (I think) it\u0027s also effecting the CommentAdded hook which is triggering stream events? Not sure if anyone cares about this behaviour change here.\n\n\u003e The email is also anyway sent, it will just have a minor difference.\nNot sure if there is an email with the current behaviour (I think not). Anyway I believe the new test doesn\u0027t verify yet that the email is send now.",
+      "parentUuid": "652768cf_381c0c77",
       "range": {
         "startLine": 24,
         "startChar": 34,

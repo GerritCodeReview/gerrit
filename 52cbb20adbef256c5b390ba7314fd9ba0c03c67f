@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fafab05c_fb6d59e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-27T10:23:43Z",
+      "side": 1,
+      "message": "I played with this for a bit. This doesn\u0027t work correctly, currently.\n\n$ curl -u admin:secret http://localhost:8080/a/projects/gerrit-linter-test/check.access?account\u003d1000003\n\n)]}\u0027\n{\"status_\":200,\"message_\":\"\",\"debug_logs_\":[\"\\u0027JeromePollard\\u0027 can perform \\u0027read\\u0027 with force\\u003dfalse on project \\u0027gerrit-linter-test\\u0027 for ref \\u0027refs/*\\u0027\"],\"memoized_is_initialized\":1,\"unknown_fields\":{\"fields\":{},\"fields_descending\":{}},\"memoized_size\":-1,\"memoized_hash_code\":0}\n\nthis would need a specialized serializer so we don\u0027t get the protobuf gunk.",
+      "parentUuid": "c1eb9dbc_dc94c291",
+      "revId": "52cbb20adbef256c5b390ba7314fd9ba0c03c67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94408d58_6b56c026",

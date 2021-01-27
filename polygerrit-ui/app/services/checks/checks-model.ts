@@ -97,7 +97,7 @@ export function updateStateSetProvider(
 // it easier to develop the UI and always see all the different types/states of
 // runs and results.
 
-const fakeRun0: CheckRun = {
+export const fakeRun0: CheckRun = {
   checkName: 'FAKE Error Finder',
   results: [
     {
@@ -112,7 +112,7 @@ const fakeRun0: CheckRun = {
   status: RunStatus.COMPLETED,
 };
 
-const fakeRun1: CheckRun = {
+export const fakeRun1: CheckRun = {
   checkName: 'FAKE Super Check',
   labelName: 'Verified',
   results: [
@@ -132,7 +132,7 @@ const fakeRun1: CheckRun = {
   status: RunStatus.RUNNING,
 };
 
-const fakeRun2: CheckRun = {
+export const fakeRun2: CheckRun = {
   checkName: 'FAKE Mega Analysis',
   results: [
     {
@@ -145,12 +145,12 @@ const fakeRun2: CheckRun = {
   status: RunStatus.COMPLETED,
 };
 
-const fakeRun3: CheckRun = {
+export const fakeRun3: CheckRun = {
   checkName: 'FAKE Critical Observations',
   status: RunStatus.RUNNABLE,
 };
 
-const fakeRun4: CheckRun = {
+export const fakeRun4: CheckRun = {
   checkName: 'FAKE TODO Elimination',
   status: RunStatus.COMPLETED,
 };
@@ -159,7 +159,7 @@ export function updateStateSetResults(pluginName: string, runs: CheckRun[]) {
   const nextState = {...privateState$.getValue()};
   nextState[pluginName] = {
     ...nextState[pluginName],
-    runs: [...runs, fakeRun0, fakeRun1, fakeRun2, fakeRun3, fakeRun4],
+    runs: [...runs],
   };
   privateState$.next(nextState);
 }

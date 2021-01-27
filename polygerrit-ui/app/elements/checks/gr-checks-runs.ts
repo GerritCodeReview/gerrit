@@ -28,7 +28,15 @@ import {
   worstCategory,
 } from '../../services/checks/checks-util';
 import {assertNever} from '../../utils/common-util';
-import {allRuns$} from '../../services/checks/checks-model';
+import {
+  allRuns$,
+  fakeRun0,
+  fakeRun1,
+  fakeRun2,
+  fakeRun3,
+  fakeRun4,
+  updateStateSetResults,
+} from '../../services/checks/checks-model';
 
 function renderRun(run: CheckRun) {
   return html`<div class="runChip ${iconClass(run)}">
@@ -117,6 +125,19 @@ export class GrChecksRuns extends GrLitElement {
         .runChip.check-circle iron-icon {
           color: var(--success-foreground);
         }
+        .testing {
+          margin-top: var(--spacing-xxl);
+          color: var(--deemphasized-text-color);
+        }
+        .testing gr-button {
+          min-width: 25px;
+        }
+        .testing * {
+          visibility: hidden;
+        }
+        .testing:hover * {
+          visibility: visible;
+        }
       `,
     ];
   }
@@ -127,7 +148,48 @@ export class GrChecksRuns extends GrLitElement {
       ${this.renderSection(RunStatus.COMPLETED)}
       ${this.renderSection(RunStatus.RUNNING)}
       ${this.renderSection(RunStatus.RUNNABLE)}
+      <div class="testing">
+        <div>Toggle fake runs by clicking buttons:</div>
+        <gr-button link @click="${this.none}">none</gr-button>
+        <gr-button link @click="${() => this.toggle('f0', fakeRun0)}"
+          >0</gr-button
+        >
+        <gr-button link @click="${() => this.toggle('f1', fakeRun1)}"
+          >1</gr-button
+        >
+        <gr-button link @click="${() => this.toggle('f2', fakeRun2)}"
+          >2</gr-button
+        >
+        <gr-button link @click="${() => this.toggle('f3', fakeRun3)}"
+          >3</gr-button
+        >
+        <gr-button link @click="${() => this.toggle('f4', fakeRun4)}"
+          >4</gr-button
+        >
+        <gr-button link @click="${this.all}">all</gr-button>
+      </div>
     `;
+  }
+
+  none() {
+    updateStateSetResults('f0', []);
+    updateStateSetResults('f1', []);
+    updateStateSetResults('f2', []);
+    updateStateSetResults('f3', []);
+    updateStateSetResults('f4', []);
+  }
+
+  all() {
+    updateStateSetResults('f0', [fakeRun0]);
+    updateStateSetResults('f1', [fakeRun1]);
+    updateStateSetResults('f2', [fakeRun2]);
+    updateStateSetResults('f3', [fakeRun3]);
+    updateStateSetResults('f4', [fakeRun4]);
+  }
+
+  toggle(plugin: string, run: CheckRun) {
+    const newRuns = this.runs.includes(run) ? [] : [run];
+    updateStateSetResults(plugin, newRuns);
   }
 
   renderSection(status: RunStatus) {

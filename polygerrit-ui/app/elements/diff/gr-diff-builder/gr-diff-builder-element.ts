@@ -31,7 +31,7 @@ import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
 import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
 import {CancelablePromise, util} from '../../../scripts/util';
 import {customElement, property, observe} from '@polymer/decorators';
-import {BlameInfo, ImageInfo} from '../../../types/common';
+import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {CoverageRange, DiffLayer} from '../../../types/types';
 import {
@@ -43,7 +43,7 @@ import {
   GrRangedCommentLayer,
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
-import {DiffViewMode} from '../../../api/diff';
+import {DiffViewMode, RenderPreferences} from '../../../api/diff';
 import {Side} from '../../../constants/constants';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
@@ -140,8 +140,14 @@ export class GrDiffBuilderElement extends GestureEventListeners(
   @property({type: Array})
   commentRanges: CommentRangeLayer[] = [];
 
+  @property({type: Object})
+  highlightRange?: CommentRange;
+
   @property({type: Array})
   coverageRanges: CoverageRange[] = [];
+
+  @property({type: Boolean})
+  renderPrefs?: RenderPreferences;
 
   @property({
     type: Array,

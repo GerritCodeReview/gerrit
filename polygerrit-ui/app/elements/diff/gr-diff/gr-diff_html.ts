@@ -583,6 +583,7 @@ export const htmlTemplate = html`
           id="diffBuilder"
           comment-ranges="[[_commentRanges]]"
           coverage-ranges="[[coverageRanges]]"
+          highlight-range="[[highlightRange]]"
           diff="[[diff]]"
           path="[[path]]"
           change-num="[[changeNum]]"
@@ -592,6 +593,7 @@ export const htmlTemplate = html`
           base-image="[[baseImage]]"
           layers="[[layers]]"
           revision-image="[[revisionImage]]"
+          render-prefs="[[renderPrefs]]"
         >
           <table
             id="diffTable"

@@ -30,6 +30,7 @@ import {
 import {CommentRange} from '../../../types/common';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {isLongCommentRange} from '../gr-diff/gr-diff-utils';
+import {RenderPreferences} from '../../../api/diff';
 
 /**
  * Enhanced CommentRange by UI state. Interface for incoming ranges set from the
@@ -97,6 +98,9 @@ export class GrRangedCommentLayer
   @property({type: Object})
   _rangesMap: RangesMap = {left: {}, right: {}};
 
+  @property({type: Boolean})
+  renderPrefs?: RenderPreferences;
+
   get styleModuleName() {
     return 'gr-ranged-comment-styles';
   }
@@ -130,7 +134,7 @@ export class GrRangedCommentLayer
         range.end - range.start,
         (range.hovering
           ? HOVER_HIGHLIGHT
-          : range.longRange
+          : range.longRange && !this.renderPrefs?.ignore_long_range
           ? RANGE_BASE_ONLY
           : RANGE_HIGHLIGHT) + ` ${strToClassName(range.rootId)}`
       );

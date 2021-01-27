@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "248e071a_e67bc274",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-01-27T11:11:56Z",
+      "side": 1,
+      "message": "When was this decided?\nI was under the impression this would be the default behavior in v3.4.\nDoes this mean that the Assignee feature will be removed in v3.4?",
+      "revId": "848ad1a81316f0c27af8bda4ca2e1d92f5e7731b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

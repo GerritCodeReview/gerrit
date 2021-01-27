@@ -84,6 +84,7 @@ export const htmlTemplate = html`
     }
     .comment-container {
       width: 160ch;
+      --left-side-display: none;
     }
   </style>
 
@@ -183,7 +184,19 @@ export const htmlTemplate = html`
           </div>
         </div>
         <template is="dom-if" if="[[_shouldShowCommentContext()]]">
-          <gr-comment-context comments="[[comments]]"> </gr-comment-context>
+          <gr-diff
+            id="diff"
+            change-num="[[changeNum]]"
+            line-wrapping="[[lineWrapping]]"
+            view-mode="[[viewMode]]"
+            layers="[[_layers]]"
+            diff="[[_getDiffFromContext(comments)]]"
+            path="[[path]]"
+            prefs="[[_prefs]]"
+            line-offset="[[_getLineOffsetFromContext(comments)]]"
+            hide-left-side
+          >
+          </gr-diff>
         </template>
       </div>
     </div>

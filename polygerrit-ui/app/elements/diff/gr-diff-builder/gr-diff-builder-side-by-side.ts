@@ -41,7 +41,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     };
   }
 
-  buildSectionElement(group: GrDiffGroup) {
+  buildSectionElement(group: GrDiffGroup, hideLeftSide?: boolean) {
     const sectionEl = this._createElement('tbody', 'section');
     sectionEl.classList.add(group.type);
     if (this._isTotal(group)) {
@@ -68,12 +68,18 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
 
     const pairs = group.getSideBySidePairs();
     for (let i = 0; i < pairs.length; i++) {
-      sectionEl.appendChild(this._createRow(pairs[i].left, pairs[i].right));
+      sectionEl.appendChild(
+        this._createRow(pairs[i].left, pairs[i].right, hideLeftSide)
+      );
     }
     return sectionEl;
   }
 
-  addColumns(outputEl: HTMLElement, fontSize: number): void {
+  addColumns(
+    outputEl: HTMLElement,
+    fontSize: number,
+    hideLeftSide?: boolean
+  ): void {
     const width = fontSize * 4;
     const colgroup = document.createElement('colgroup');
 
@@ -81,13 +87,15 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     let col = this._createElement('col', 'blame');
     colgroup.appendChild(col);
 
-    // Add left-side line number.
-    col = document.createElement('col');
-    col.setAttribute('width', width.toString());
-    colgroup.appendChild(col);
+    if (!hideLeftSide) {
+      // Add left-side line number.
+      col = document.createElement('col');
+      col.setAttribute('width', width.toString());
+      colgroup.appendChild(col);
 
-    // Add left-side content.
-    colgroup.appendChild(document.createElement('col'));
+      // Add left-side content.
+      colgroup.appendChild(document.createElement('col'));
+    }
 
     // Add right-side line number.
     col = document.createElement('col');
@@ -100,17 +108,22 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     outputEl.appendChild(colgroup);
   }
 
-  _createRow(leftLine: GrDiffLine, rightLine: GrDiffLine) {
+  _createRow(
+    leftLine: GrDiffLine,
+    rightLine: GrDiffLine,
+    hideLeftSide?: boolean
+  ) {
     const row = this._createElement('tr');
     row.classList.add('diff-row', 'side-by-side');
-    row.setAttribute('left-type', leftLine.type);
+    if (!hideLeftSide) row.setAttribute('left-type', leftLine.type);
     row.setAttribute('right-type', rightLine.type);
     // TabIndex makes screen reader read a row when navigating with j/k
     row.tabIndex = -1;
 
     row.appendChild(this._createBlameCell(leftLine.beforeNumber));
 
-    this._appendPair(row, leftLine, leftLine.beforeNumber, Side.LEFT);
+    if (!hideLeftSide)
+      this._appendPair(row, leftLine, leftLine.beforeNumber, Side.LEFT);
     this._appendPair(row, rightLine, rightLine.afterNumber, Side.RIGHT);
     return row;
   }

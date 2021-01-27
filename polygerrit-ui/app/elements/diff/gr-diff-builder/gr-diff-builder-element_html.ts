@@ -17,6 +17,11 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
+  <style>
+    tr[left-type='blank'] {
+      display: var(--left-side-display, table-row);
+    }
+  </style>
   <div class="contentWrapper">
     <slot></slot>
   </div>

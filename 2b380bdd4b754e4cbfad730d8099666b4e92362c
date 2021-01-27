@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fefc5713_ccb28be9",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-27T13:03:57Z",
+      "side": 1,
+      "message": "if you add an impl() function, this could just be\n\n  return impl().toFileInfoMap(..)\n\nhere and below.",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 15
+      },
+      "revId": "2b380bdd4b754e4cbfad730d8099666b4e92362c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

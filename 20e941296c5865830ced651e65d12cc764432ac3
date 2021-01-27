@@ -34,6 +34,24 @@
       "parentUuid": "f862a5ff_8b3ff9f2",
       "revId": "20e941296c5865830ced651e65d12cc764432ac3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce7193b1_ae195b79",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-27T13:58:56Z",
+      "side": 1,
+      "message": "Actually IllegalAccessException, InvocationTargetException and NoSuchMethodException are not actually coming from newProxyInstance method... but rather when we try to invoke a method on that instance... I think it is not right to say that getProxyInstance throws those three exceptions... (I\u0027ll remove those three exception from method definition )... but not sure how the user will write a catch block for those three exceptions if no method is throwing them at compile time.. any suggestions ..?",
+      "parentUuid": "eedf256b_b607c380",
+      "revId": "20e941296c5865830ced651e65d12cc764432ac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

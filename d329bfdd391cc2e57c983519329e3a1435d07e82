@@ -22,6 +22,30 @@
       },
       "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4acca95_81246590",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-27T18:54:52Z",
+      "side": 0,
+      "message": "Yes that\u0027s true. This is now different in the new implementation, but we fold the exceptions differently in the new implementation.\n\nI added this though to the new implementation by searching all the chain causes for a NoMergeBaseException and converting it to a ResourceConflictException.",
+      "parentUuid": "ffcee37e_88352425",
+      "range": {
+        "startLine": 81,
+        "startChar": 18,
+        "endLine": 81,
+        "endChar": 43
+      },
+      "revId": "d329bfdd391cc2e57c983519329e3a1435d07e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

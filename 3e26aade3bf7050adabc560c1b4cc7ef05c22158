@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c13069a_43373089",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-27T18:54:52Z",
+      "side": 1,
+      "message": "I updated the commit message description. I wanted to point that the old implementation throws PatchListNotAvailableException, and the new design throws DiffNotAvailableException. In a later change I need to convert all callers of the diff cache up the hierarchy to use the new exception, right now I wrap the new exception with the old exception.",
+      "parentUuid": "a3c125ec_1baf0db4",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 12,
+        "endChar": 11
+      },
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6d79456_ac5ce8ce",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-21T15:55:22Z",
       "side": 1,
       "message": "These names suggest that they are just conversions when in fact they perform computations and even DB access. Could we change them to make that clearer?",
+      "range": {
+        "startLine": 44,
+        "startChar": 31,
+        "endLine": 44,
+        "endChar": 45
+      },
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c28216e9_6b83e5fc",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-27T18:54:52Z",
+      "side": 1,
+      "message": "Right. I renamed this to getFileInfoMap.",
+      "parentUuid": "a6d79456_ac5ce8ce",
       "range": {
         "startLine": 44,
         "startChar": 31,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fc2c977_2c41c5a4",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-27T18:54:52Z",
+      "side": 1,
+      "message": "Done. Although this is now moved to FileInfoJsonNewImpl.",
+      "parentUuid": "899844be_39692e8d",
+      "range": {
+        "startLine": 92,
+        "startChar": 15,
+        "endLine": 92,
+        "endChar": 16
+      },
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd8c7d4c_4fa154b6",
@@ -83,6 +155,30 @@
       "writtenOn": "2020-12-21T15:55:22Z",
       "side": 1,
       "message": "Is this safe? Wouldn\u0027t e.g. the UI need to differentiate between normal and special paths?",
+      "range": {
+        "startLine": 97,
+        "startChar": 44,
+        "endLine": 97,
+        "endChar": 50
+      },
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82ff2c17_0c28d5dd",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-27T18:54:52Z",
+      "side": 1,
+      "message": "Done. I replaced this will null (please check the new FileInfoJsonNewImpl).",
+      "parentUuid": "bd8c7d4c_4fa154b6",
       "range": {
         "startLine": 97,
         "startChar": 44,
@@ -110,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f237361_ec084d7b",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-27T18:54:52Z",
+      "side": 1,
+      "message": "I extracted this into the previous change: https://gerrit-review.googlesource.com/c/gerrit/+/294612/1.\n\nThis is the way it is handled in the old diff cache. When merge commits are diff\u0027ed against the auto-merge we fall back to the diff against the first commit and return the commit message and merge list only.\n\nKeeping this behaviour so that it\u0027s matching with our existing implementation.",
+      "parentUuid": "7d9b22ce_395dc5bc",
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62d825ea_654d2ed3",
@@ -127,6 +241,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40d81783_a3682c4b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-27T18:54:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62d825ea_654d2ed3",
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "284c0557_75ade17d",
@@ -140,6 +272,24 @@
       "writtenOn": "2020-12-21T15:55:22Z",
       "side": 1,
       "message": "Why can\u0027t we fix the test right now? I\u0027d like to avoid submitting a change that breaks an existing test.",
+      "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "259de208_6c435f09",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-27T18:54:52Z",
+      "side": 1,
+      "message": "I traced those tests for a long time but I\u0027m not sure I understand why they behave this way. The way they put the assertions look controversial to me. I\u0027d prefer not to get this change blocked by these tests, and I can take a deeper look at them in a separate context.\n\nFor the symlink test (symlinkConvertedToRegularFileIsIdentifiedAsAdded), this was caused by my recent change to support symlink renames. I will tweak the new diff caches to support this use case in a follow up change.",
+      "parentUuid": "284c0557_75ade17d",
       "revId": "3e26aade3bf7050adabc560c1b4cc7ef05c22158",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

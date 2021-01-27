@@ -52,6 +52,24 @@
       "parentUuid": "eedf256b_b607c380",
       "revId": "20e941296c5865830ced651e65d12cc764432ac3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2588c1f5_eb0325b8",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-27T17:32:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce7193b1_ae195b79",
+      "revId": "20e941296c5865830ced651e65d12cc764432ac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

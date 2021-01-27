@@ -16,6 +16,7 @@ package com.google.gerrit.server.patch;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
@@ -47,6 +48,8 @@ import org.eclipse.jgit.revwalk.RevObject;
  * diff computation.
  */
 public class DiffOperationsImpl implements DiffOperations {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final int RENAME_SCORE = 60;
   private static final DiffAlgorithm DEFAULT_DIFF_ALGORITHM = DiffAlgorithm.HISTOGRAM;
 
@@ -87,19 +90,24 @@ public class DiffOperationsImpl implements DiffOperations {
         return getModifiedFiles(project, base, newCommit, ComparisonType.againstParent(parent));
       }
       int numParents = baseCommitUtil.getNumParents(project, newCommit);
+      if (numParents == 1) {
+        RevObject base = baseCommitUtil.getBaseCommit(project, newCommit, parent);
+        ComparisonType cmp = ComparisonType.againstParent(1);
+        return getModifiedFiles(project, base, newCommit, cmp);
+      }
       if (numParents > 2) {
-        throw new DiffNotAvailableException(
+        logger.atFine().log(
             "Diff against auto-merge for merge commits "
                 + "with more than two parents is not supported. Commit "
                 + newCommit
                 + " has "
                 + numParents
-                + " parents");
-      }
-      if (numParents == 1) {
-        RevObject base = baseCommitUtil.getBaseCommit(project, newCommit, parent);
-        ComparisonType cmp = ComparisonType.againstParent(1);
-        return getModifiedFiles(project, base, newCommit, cmp);
+                + " parents. Falling back to the diff against the first parent.");
+        ObjectId firstParentId = baseCommitUtil.getBaseCommit(project, newCommit, 1).getId();
+        ImmutableList.Builder<FileDiffCacheKey> keys = ImmutableList.builder();
+        keys.add(createFileDiffCacheKey(project, firstParentId, newCommit, Patch.COMMIT_MSG));
+        keys.add(createFileDiffCacheKey(project, firstParentId, newCommit, Patch.MERGE_LIST));
+        return getModifiedFilesForKeys(keys.build());
       }
       RevObject autoMerge = baseCommitUtil.getBaseCommit(project, newCommit, null);
       return getModifiedFiles(project, autoMerge, newCommit, ComparisonType.againstAutoMerge());
@@ -119,7 +127,6 @@ public class DiffOperationsImpl implements DiffOperations {
   private Map<String, FileDiffOutput> getModifiedFiles(
       Project.NameKey project, ObjectId oldCommit, ObjectId newCommit, ComparisonType cmp)
       throws DiffNotAvailableException {
-    ImmutableMap.Builder<String, FileDiffOutput> files = ImmutableMap.builder();
     try {
       ImmutableList<ModifiedFile> modifiedFiles =
           modifiedFilesCache.get(createModifiedFilesKey(project, oldCommit, newCommit));
@@ -142,23 +149,27 @@ public class DiffOperationsImpl implements DiffOperations {
       if (cmp.isAgainstAutoMerge() || isMergeAgainstParent(cmp, project, newCommit)) {
         fileCacheKeys.add(createFileDiffCacheKey(project, oldCommit, newCommit, Patch.MERGE_LIST));
       }
-
-      ImmutableMap<FileDiffCacheKey, FileDiffOutput> fileDiffs =
-          fileDiffCache.getAll(fileCacheKeys);
-
-      for (Map.Entry<FileDiffCacheKey, FileDiffOutput> entry : fileDiffs.entrySet()) {
-        FileDiffOutput fileDiffOutput = entry.getValue();
-        if (fileDiffOutput.isEmpty() || allDueToRebase(fileDiffOutput)) {
-          continue;
-        }
-        if (fileDiffOutput.changeType().get() == Patch.ChangeType.DELETED) {
-          files.put(fileDiffOutput.oldPath().get(), fileDiffOutput);
-        } else {
-          files.put(fileDiffOutput.newPath().get(), fileDiffOutput);
-        }
-      }
+      return getModifiedFilesForKeys(fileCacheKeys);
     } catch (IOException e) {
       throw new DiffNotAvailableException(e);
+    }
+  }
+
+  private Map<String, FileDiffOutput> getModifiedFilesForKeys(List<FileDiffCacheKey> keys)
+      throws DiffNotAvailableException {
+    ImmutableMap.Builder<String, FileDiffOutput> files = ImmutableMap.builder();
+    ImmutableMap<FileDiffCacheKey, FileDiffOutput> fileDiffs = fileDiffCache.getAll(keys);
+
+    for (Map.Entry<FileDiffCacheKey, FileDiffOutput> entry : fileDiffs.entrySet()) {
+      FileDiffOutput fileDiffOutput = entry.getValue();
+      if (fileDiffOutput.isEmpty() || allDueToRebase(fileDiffOutput)) {
+        continue;
+      }
+      if (fileDiffOutput.changeType().get() == Patch.ChangeType.DELETED) {
+        files.put(fileDiffOutput.oldPath().get(), fileDiffOutput);
+      } else {
+        files.put(fileDiffOutput.newPath().get(), fileDiffOutput);
+      }
     }
     return files.build();
   }

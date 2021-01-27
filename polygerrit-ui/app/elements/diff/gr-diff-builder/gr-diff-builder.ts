@@ -85,6 +85,8 @@ export abstract class GrDiffBuilder {
 
   private _blameInfo: BlameInfo[] | null;
 
+  hideLeftSide = false;
+
   private readonly _layerUpdateListener: (
     start: LineNumber,
     end: LineNumber,
@@ -158,12 +160,19 @@ export abstract class GrDiffBuilder {
     ALL: 'all',
   };
 
-  abstract addColumns(outputEl: HTMLElement, fontSize: number): void;
+  abstract addColumns(
+    outputEl: HTMLElement,
+    fontSize: number,
+    hideLeftSide?: boolean
+  ): void;
 
-  abstract buildSectionElement(group: GrDiffGroup): HTMLElement;
+  abstract buildSectionElement(
+    group: GrDiffGroup,
+    hideLeftSide?: boolean
+  ): HTMLElement;
 
   emitGroup(group: GrDiffGroup, beforeSection: HTMLElement | null) {
-    const element = this.buildSectionElement(group);
+    const element = this.buildSectionElement(group, this.hideLeftSide);
     this._outputEl.insertBefore(element, beforeSection);
     group.element = element;
   }

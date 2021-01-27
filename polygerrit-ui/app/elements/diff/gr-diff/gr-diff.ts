@@ -276,6 +276,9 @@ export class GrDiff extends GestureEventListeners(
   @property({type: Array})
   layers?: DiffLayer[];
 
+  @property({type: Boolean})
+  hideLeftSide = false;
+
   /** @override */
   created() {
     super.created();
@@ -848,15 +851,17 @@ export class GrDiff extends GestureEventListeners(
 
     const keyLocations = this._computeKeyLocations();
     const bypassPrefs = this._getBypassPrefs(this.prefs);
-    this.$.diffBuilder.render(keyLocations, bypassPrefs).then(() => {
-      this.dispatchEvent(
-        new CustomEvent('render', {
-          bubbles: true,
-          composed: true,
-          detail: {contentRendered: true},
-        })
-      );
-    });
+    this.$.diffBuilder
+      .render(keyLocations, bypassPrefs, this.hideLeftSide)
+      .then(() => {
+        this.dispatchEvent(
+          new CustomEvent('render', {
+            bubbles: true,
+            composed: true,
+            detail: {contentRendered: true},
+          })
+        );
+      });
   }
 
   _handleRenderContent() {

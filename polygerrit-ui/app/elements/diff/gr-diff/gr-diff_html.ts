@@ -593,6 +593,7 @@ export const htmlTemplate = html`
           id="diffBuilder"
           comment-ranges="[[_commentRanges]]"
           coverage-ranges="[[coverageRanges]]"
+          highlight-range="[[highlightRange]]"
           diff="[[diff]]"
           path="[[path]]"
           change-num="[[changeNum]]"

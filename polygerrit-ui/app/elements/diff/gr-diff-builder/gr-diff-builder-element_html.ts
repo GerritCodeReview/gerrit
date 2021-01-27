@@ -28,6 +28,7 @@ export const htmlTemplate = html`
   <gr-ranged-comment-layer
     id="rangeLayer"
     comment-ranges="[[commentRanges]]"
+    highlight-range="[[highlightRange]]"
   ></gr-ranged-comment-layer>
   <gr-coverage-layer
     id="coverageLayerLeft"

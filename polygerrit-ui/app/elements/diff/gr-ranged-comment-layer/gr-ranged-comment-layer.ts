@@ -97,6 +97,9 @@ export class GrRangedCommentLayer
   @property({type: Object})
   _rangesMap: RangesMap = {left: {}, right: {}};
 
+  @property({type: Object})
+  highlightRange?: CommentRange;
+
   get styleModuleName() {
     return 'gr-ranged-comment-styles';
   }

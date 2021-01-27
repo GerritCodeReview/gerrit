@@ -222,6 +222,15 @@ export interface ThreadListModifiedDetail {
 
 export type ThreadListModifiedEvent = CustomEvent<ThreadListModifiedDetail>;
 
+// TODO(milutin) - remove once new gr-dialog will do it out of the box
+// This informs gr-app-element to remove footer, header from a11y tree
+export interface DialogChangeEventDetail {
+  canceled?: boolean;
+  opened?: boolean;
+}
+
+export type DialogChangeEvent = CustomEvent<DialogChangeEventDetail>;
+
 declare global {
   interface HTMLElementEventMap {
     'thread-list-modified': ThreadListModifiedEvent;

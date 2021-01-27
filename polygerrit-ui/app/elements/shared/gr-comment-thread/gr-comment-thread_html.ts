@@ -193,6 +193,7 @@ export const htmlTemplate = html`
             diff="[[_getDiffFromContext(comments)]]"
             path="[[path]]"
             prefs="[[_prefs]]"
+            highlight-range="[[getHighlightRange(comments)]]"
             hide-left-side
           >
           </gr-diff>

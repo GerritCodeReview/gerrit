@@ -123,7 +123,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     row.appendChild(this._createBlameCell(leftLine.beforeNumber));
 
     if (!hideLeftSide)
-    this._appendPair(row, leftLine, leftLine.beforeNumber, Side.LEFT);
+      this._appendPair(row, leftLine, leftLine.beforeNumber, Side.LEFT);
     this._appendPair(row, rightLine, rightLine.afterNumber, Side.RIGHT);
     return row;
   }

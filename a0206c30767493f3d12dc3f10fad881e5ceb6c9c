@@ -16,6 +16,24 @@
       "message": "Should this be the other way around?\n\n  assertThat(message.trim()).isEqualTo(expectedMessage.trim());\n\n?\n\nI think it\u0027s always assertThat(valueToBeChecked).isEqualTo(expectedValue)",
       "revId": "a0206c30767493f3d12dc3f10fad881e5ceb6c9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3365426_d4dafdf2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitWithStickyApprovalDiffIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-27T10:16:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d297d4b2_72775fad",
+      "revId": "a0206c30767493f3d12dc3f10fad881e5ceb6c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

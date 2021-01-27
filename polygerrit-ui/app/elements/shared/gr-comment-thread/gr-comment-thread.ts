@@ -60,6 +60,7 @@ import {GrButton} from '../gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences} from '../../../api/diff';
+import {GrDiff} from '../../diff/gr-diff/gr-diff';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -68,6 +69,7 @@ export interface GrCommentThread {
   $: {
     replyBtn: GrButton;
     quoteBtn: GrButton;
+    diff: GrDiff;
   };
 }
 
@@ -315,6 +317,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     const id = this.comments[0].id;
     if (!id) throw new Error('A published comment is missing the id.');
     return GerritNav.getUrlForComment(changeNum, projectName, id);
+  }
+
+  getHighlightRange() {
+    return this.comments.length && this.comments[0].range;
   }
 
   _getDiffUrlForComment(

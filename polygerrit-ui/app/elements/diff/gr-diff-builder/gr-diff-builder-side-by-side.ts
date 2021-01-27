@@ -107,6 +107,15 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     // TabIndex makes screen reader read a row when navigating with j/k
     row.tabIndex = -1;
 
+    if (leftLine.beforeNumber !== 'FILE')
+      leftLine.beforeNumber += this.lineOffset - 1;
+    if (leftLine.afterNumber !== 'FILE')
+      leftLine.afterNumber += this.lineOffset - 1;
+    if (rightLine.beforeNumber !== 'FILE')
+      rightLine.beforeNumber += this.lineOffset - 1;
+    if (rightLine.afterNumber !== 'FILE')
+      rightLine.afterNumber += this.lineOffset - 1;
+
     row.appendChild(this._createBlameCell(leftLine.beforeNumber));
 
     this._appendPair(row, leftLine, leftLine.beforeNumber, Side.LEFT);

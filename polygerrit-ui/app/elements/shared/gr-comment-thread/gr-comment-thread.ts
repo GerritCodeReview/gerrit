@@ -181,6 +181,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   _renderPrefs: RenderPreferences = {
     hide_left_side: true,
     disable_context_control_buttons: true,
+    ignore_long_range: true,
   };
 
   @property({type: Boolean, reflectToAttribute: true})
@@ -315,6 +316,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     const id = this.comments[0].id;
     if (!id) throw new Error('A published comment is missing the id.');
     return GerritNav.getUrlForComment(changeNum, projectName, id);
+  }
+
+  getHighlightRange() {
+    return this.comments.length && this.comments[0].range;
   }
 
   _getDiffUrlForComment(

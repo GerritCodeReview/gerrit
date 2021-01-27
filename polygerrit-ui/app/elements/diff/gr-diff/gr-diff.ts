@@ -179,6 +179,9 @@ export class GrDiff extends GestureEventListeners(
   @property({type: Array})
   _commentRanges: CommentRangeLayer[] = [];
 
+  @property({type: Object})
+  highlightRange?: CommentRange;
+
   @property({type: Array})
   coverageRanges: CoverageRange[] = [];
 
@@ -418,6 +421,14 @@ export class GrDiff extends GestureEventListeners(
 
     if (addedCommentRanges && addedCommentRanges.length) {
       this.push('_commentRanges', ...addedCommentRanges);
+    }
+    if (this.highlightRange) {
+      this.push('_commentRanges', {
+        side: Side.RIGHT,
+        range: this.highlightRange,
+        hovering: false,
+        rootId: '',
+      });
     }
   }
 

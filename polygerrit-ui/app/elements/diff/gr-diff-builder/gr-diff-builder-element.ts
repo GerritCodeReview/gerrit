@@ -43,7 +43,7 @@ import {
   GrRangedCommentLayer,
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
-import {DiffViewMode} from '../../../api/diff';
+import {DiffViewMode, RenderPreferences} from '../../../api/diff';
 import {Side} from '../../../constants/constants';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
@@ -142,6 +142,9 @@ export class GrDiffBuilderElement extends GestureEventListeners(
 
   @property({type: Array})
   coverageRanges: CoverageRange[] = [];
+
+  @property({type: Boolean})
+  renderPrefs?: RenderPreferences;
 
   @property({
     type: Array,

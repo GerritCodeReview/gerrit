@@ -592,6 +592,7 @@ export const htmlTemplate = html`
           base-image="[[baseImage]]"
           layers="[[layers]]"
           revision-image="[[revisionImage]]"
+          render-prefs="[[renderPrefs]]"
         >
           <table
             id="diffTable"

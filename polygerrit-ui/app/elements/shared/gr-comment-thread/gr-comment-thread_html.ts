@@ -183,7 +183,16 @@ export const htmlTemplate = html`
           </div>
         </div>
         <template is="dom-if" if="[[_shouldShowCommentContext()]]">
-          <gr-comment-context comments="[[comments]]"> </gr-comment-context>
+          <gr-diff
+            id="diff"
+            change-num="[[changeNum]]"
+            diff="[[_getDiffFromContext(comments)]]"
+            path="[[path]]"
+            prefs="[[_prefs]]"
+            line-offset="[[_getLineOffsetFromContext(comments)]]"
+            on-render="_handleDiffRender"
+          >
+          </gr-diff>
         </template>
       </div>
     </div>

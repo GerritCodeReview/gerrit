@@ -31,7 +31,7 @@ import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
 import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
 import {CancelablePromise, util} from '../../../scripts/util';
 import {customElement, property, observe} from '@polymer/decorators';
-import {BlameInfo, ImageInfo} from '../../../types/common';
+import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {CoverageRange, DiffLayer} from '../../../types/types';
 import {
@@ -143,6 +143,9 @@ export class GrDiffBuilderElement extends GestureEventListeners(
 
   @property({type: Array})
   commentRanges: CommentRangeLayer[] = [];
+
+  @property({type: Object})
+  highlightRange?: CommentRange;
 
   @property({type: Array})
   coverageRanges: CoverageRange[] = [];

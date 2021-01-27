@@ -53,6 +53,7 @@ import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
+import {GrDiff} from '../../diff/gr-diff/gr-diff';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -62,6 +63,7 @@ export interface GrCommentThread {
     storage: GrStorage;
     replyBtn: GrButton;
     quoteBtn: GrButton;
+    diff: GrDiff;
   };
 }
 
@@ -328,6 +330,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     const context = comments[0]?.context_lines;
     if (!context) return 1;
     return context[0].line_number;
+  }
+
+  getHighlightRange() {
+    return this.comments.length && this.comments[0].range;
   }
 
   _getDiffUrlForComment(

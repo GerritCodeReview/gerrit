@@ -187,6 +187,8 @@ export const htmlTemplate = html`
         prefs="[[_prefs]]"
         line-offset="[[_getLineOffsetFromContext(comments)]]"
         on-render="_handleDiffRender"
+        highlight-range="[[getHighlightRange(comments)]]"
+        ignore-long-range
       >
       </gr-diff>
     </template>

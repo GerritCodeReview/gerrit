@@ -25,6 +25,8 @@ import {allResults$, allRuns$} from '../../services/checks/checks-model';
 import './gr-checks-runs';
 import './gr-checks-results';
 import {sharedStyles} from '../../styles/shared-styles';
+import {currentPatchNum$} from '../../services/change/change-model';
+import {PatchSetNum} from '../../types/common';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -37,10 +39,14 @@ export class GrChecksTab extends GrLitElement {
 
   results: CheckResult[] = [];
 
+  @property()
+  currentPatchNum: PatchSetNum | undefined = undefined;
+
   constructor() {
     super();
     this.subscribe('runs', allRuns$);
     this.subscribe('results', allResults$);
+    this.subscribe('currentPatchNum', currentPatchNum$);
   }
 
   static get styles() {
@@ -80,10 +86,18 @@ export class GrChecksTab extends GrLitElement {
   }
 
   render() {
+    const ps = `Patchset ${this.currentPatchNum} (Latest)`;
     return html`
       <div class="header">
-        <span>Patchset-Dropdown-Placeholder</span>
-        <span>Filter-Dropdown-Placeholder</span>
+        <gr-dropdown-list
+          value="${ps}"
+          .items="${[
+            {
+              value: `${ps}`,
+              text: `${ps}`,
+            },
+          ]}"
+        ></gr-dropdown-list>
       </div>
       <div class="container">
         <gr-checks-runs class="runs" .runs="${this.runs}"></gr-checks-runs>

@@ -194,7 +194,9 @@ export const htmlTemplate = html`
             path="[[path]]"
             prefs="[[_prefs]]"
             line-offset="[[_getLineOffsetFromContext(comments)]]"
+            highlight-range="[[getHighlightRange(comments)]]"
             hide-left-side
+            ignore-long-range
           >
           </gr-diff>
         </template>

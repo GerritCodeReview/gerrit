@@ -156,15 +156,13 @@ export class GrClaView extends GestureEventListeners(
   _disableAgreements(
     item: ContributorAgreementInfo,
     groups: GroupInfo[],
-    signedAgreements: ContributorAgreementInfo[]
+    signedAgreements?: ContributorAgreementInfo[]
   ) {
     if (!groups) return false;
     for (const group of groups) {
       if (
-        (item &&
-          item.auto_verify_group &&
-          item.auto_verify_group.id === group.id) ||
-        signedAgreements.find(i => i.name === item.name)
+        item?.auto_verify_group?.id === group.id ||
+        signedAgreements?.find(i => i.name === item.name)
       ) {
         return true;
       }
@@ -175,7 +173,7 @@ export class GrClaView extends GestureEventListeners(
   _hideAgreements(
     item: ContributorAgreementInfo,
     groups: GroupInfo[],
-    signedAgreements: ContributorAgreementInfo[]
+    signedAgreements?: ContributorAgreementInfo[]
   ) {
     return this._disableAgreements(item, groups, signedAgreements)
       ? ''

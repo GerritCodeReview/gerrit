@@ -97,6 +97,9 @@ export class GrRangedCommentLayer
   @property({type: Object})
   _rangesMap: RangesMap = {left: {}, right: {}};
 
+  @property({type: Boolean})
+  ignoreLongRange = false;
+
   get styleModuleName() {
     return 'gr-ranged-comment-styles';
   }
@@ -130,12 +133,17 @@ export class GrRangedCommentLayer
         range.end - range.start,
         (range.hovering
           ? HOVER_HIGHLIGHT
-          : range.longRange
+          : range.longRange && !this.ignoreLongRange
           ? RANGE_BASE_ONLY
           : RANGE_HIGHLIGHT) + ` ${strToClassName(range.rootId)}`
       );
     }
   }
+
+  // @observe('ignoreLongRange')
+  // ignoreLongRangeChange(ignoreLongRange: boolean) {
+  //   return ignoreLongRange;
+  // }
 
   /**
    * Register a listener for layer updates.

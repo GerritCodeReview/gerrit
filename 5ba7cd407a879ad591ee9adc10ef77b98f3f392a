@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06a06a96_6643ae67",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-27T18:58:54Z",
+      "side": 1,
+      "message": "I know that\u0027s not the best name for an interface. @reviewer: I\u0027m happy to accept your suggestion if you have a better name.\n\nThis is solely available for now so that it can be extended by two different implementations: one using the old diff cache, and the other using the new. This shouldn\u0027t be needed after we deprecate the old diff cache implementation.",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "5ba7cd407a879ad591ee9adc10ef77b98f3f392a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

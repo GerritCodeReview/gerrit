@@ -346,6 +346,7 @@ export const htmlTemplate = html`
     class="container"
     on-show-checks-table="_setActivePrimaryTab"
     hidden$="{{_loading}}"
+    aria-hidden="[[_changeViewAriaHidden]]"
   >
     <section class="changeInfoSection">
       <div class$="[[_computeHeaderClass(_editMode)]]">
@@ -772,6 +773,7 @@ export const htmlTemplate = html`
     no-cancel-on-esc-key=""
     scroll-action="lock"
     with-backdrop=""
+    on-iron-overlay-canceled="onReplyOverlayCanceled"
   >
     <gr-reply-dialog
       id="replyDialog"

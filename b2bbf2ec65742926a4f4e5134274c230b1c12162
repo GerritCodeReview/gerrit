@@ -34,6 +34,29 @@
       "parentUuid": "ae670d3d_00546993",
       "revId": "b2bbf2ec65742926a4f4e5134274c230b1c12162",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cccd356_28ca37ab",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-27T18:30:45Z",
+      "side": 1,
+      "message": "wouldn\u0027t this example be doable by binding a named Provider\u003cString\u003e instead?\n\nIs there a more concrete example of the actual use case you\u0027re trying to address?",
+      "range": {
+        "startLine": 30,
+        "startChar": 21,
+        "endLine": 30,
+        "endChar": 28
+      },
+      "revId": "b2bbf2ec65742926a4f4e5134274c230b1c12162",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

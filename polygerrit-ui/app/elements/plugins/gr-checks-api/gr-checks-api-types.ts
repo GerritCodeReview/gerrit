@@ -287,16 +287,12 @@ export interface CheckResult {
    * MB size. The UI is not limiting this. Data providing plugins are
    * responsible for not killing the browser. :-)
    *
-   * `message` is just a plain unformatted string. Then the only
-   * formatting applied is the one that Gerrit also applies to human comments.
-   *
-   * `messageSafeHtml` is a HTML string. Then Gerrit will just insert that as
-   * is into the DOM. The plugin is responsible for the HTML being safe.
-   *
-   * If `messageSafeHtml` is set, then `message` will be ignored.
+   * For now this is just a plain unformatted string. The only formatting
+   * applied is the one that Gerrit also applies to human comments. TBD: Both
+   * human comments and check result messages should get richer formatting
+   * options.
    */
   message?: string;
-  messageSafeHtml?: string;
 
   /**
    * Tags allow a plugins to further categorize a result, e.g. making a list

@@ -191,6 +191,9 @@ export class GrAppElement extends KeyboardShortcutMixin(
   @property({type: Boolean})
   loadKeyboardShortcutsDialog = false;
 
+  @property({type: Boolean})
+  dialogOpened = false;
+
   private reporting = appContext.reportingService;
 
   private restApiService = appContext.restApiService;
@@ -620,10 +623,15 @@ export class GrAppElement extends KeyboardShortcutMixin(
       return;
     }
     keyboardShortcuts.open();
+    this.dialogOpened = true;
   }
 
   _handleKeyboardShortcutDialogClose() {
     (this.shadowRoot!.querySelector('#keyboardShortcuts') as GrOverlay).close();
+  }
+
+  onOverlayCanceled() {
+    this.dialogOpened = false;
   }
 
   _handleAccountDetailUpdate() {

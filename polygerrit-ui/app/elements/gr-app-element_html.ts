@@ -104,9 +104,10 @@ export const htmlTemplate = html`
     on-show-keyboard-shortcuts="handleShowKeyboardShortcuts"
     mobile-search-hidden="[[!mobileSearch]]"
     login-url="[[_loginUrl]]"
+    aria-hidden="[[dialogOpened]]"
   >
   </gr-main-header>
-  <main>
+  <main aria-hidden="[[dialogOpened]]">
     <template is="dom-if" if="[[mobileSearch]]">
       <gr-smart-search
         id="search"
@@ -176,7 +177,7 @@ export const htmlTemplate = html`
       <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>
     </div>
   </main>
-  <footer r="contentinfo">
+  <footer r="contentinfo" aria-hidden="[[dialogOpened]]">
     <div>
       Powered by
       <a href="https://www.gerritcodereview.com/" rel="noopener" target="_blank"
@@ -201,7 +202,7 @@ export const htmlTemplate = html`
     </div>
   </footer>
   <template is="dom-if" if="[[loadKeyboardShortcutsDialog]]">
-    <gr-overlay id="keyboardShortcuts" with-backdrop="">
+    <gr-overlay id="keyboardShortcuts" with-backdrop="" on-iron-overlay-canceled="onOverlayCanceled">
       <gr-keyboard-shortcuts-dialog
         on-close="_handleKeyboardShortcutDialogClose"
       ></gr-keyboard-shortcuts-dialog>

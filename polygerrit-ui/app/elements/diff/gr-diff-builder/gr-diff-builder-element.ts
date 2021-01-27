@@ -186,7 +186,11 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     return coverageRanges.filter(range => range && range.side === 'right');
   }
 
-  render(keyLocations: KeyLocations, prefs: DiffPreferencesInfo) {
+  render(
+    keyLocations: KeyLocations,
+    prefs: DiffPreferencesInfo,
+    lineOffset?: number
+  ) {
     // Setting up annotation layers must happen after plugins are
     // installed, and |render| satisfies the requirement, however,
     // |attached| doesn't because in the diff view page, the element is
@@ -206,6 +210,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
       throw Error('Cannot render a diff without DiffInfo.');
     }
     this._builder = this._getDiffBuilder(this.diff, prefs);
+    if (lineOffset) this._builder.lineOffset = lineOffset;
 
     this.$.processor.context = prefs.context;
     this.$.processor.keyLocations = keyLocations;

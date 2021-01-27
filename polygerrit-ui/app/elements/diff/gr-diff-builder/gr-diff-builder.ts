@@ -85,6 +85,8 @@ export abstract class GrDiffBuilder {
 
   private _blameInfo: BlameInfo[] | null;
 
+  lineOffset = 1;
+
   private readonly _layerUpdateListener: (
     start: LineNumber,
     end: LineNumber,
@@ -662,8 +664,10 @@ export abstract class GrDiffBuilder {
       button.tabIndex = -1;
       button.classList.add('lineNumButton');
       button.classList.add(side);
-      button.dataset['value'] = number.toString();
-      button.textContent = number === 'FILE' ? 'File' : number.toString();
+      button.dataset['value'] =
+        number === 'FILE' ? 'FILE' : (number + this.lineOffset - 1).toString();
+      button.textContent =
+        number === 'FILE' ? 'File' : (number + this.lineOffset - 1).toString();
       if (number === 'FILE') {
         button.setAttribute('aria-label', 'Add file comment');
       }

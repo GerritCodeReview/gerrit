@@ -18,6 +18,7 @@ import '../../../styles/shared-styles';
 import '../gr-storage/gr-storage';
 import '../gr-comment/gr-comment';
 import '../gr-comment-context/gr-comment-context';
+import '../../diff/gr-diff/gr-diff';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
@@ -52,6 +53,7 @@ import {CustomKeyboardEvent} from '../../../types/events';
 import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -167,6 +169,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   @property({type: Object})
   _projectConfig?: ConfigInfo;
 
+  @property({type: Object})
+  _prefs?: DiffPreferencesInfo;
+
   @property({type: Boolean, reflectToAttribute: true})
   isRobotComment = false;
 
@@ -211,6 +216,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     super.attached();
     this._getLoggedIn().then(loggedIn => {
       this._showActions = loggedIn;
+    });
+    this.restApiService.getDiffPreferences().then(prefs => {
+      this._prefs = prefs;
     });
     this._setInitialExpandedState();
   }
@@ -278,6 +286,42 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     return GerritNav.getUrlForComment(changeNum, projectName, id);
   }
 
+  _getDiffFromContext(comments?: UIComment[]) {
+    if (!comments) return {};
+    const context = comments[0]?.context_lines;
+    if (!context) return {};
+    const diff: DiffInfo = {
+      meta_a: {
+        name: '',
+        content_type: '',
+        lines: 0,
+        web_links: [],
+      },
+      meta_b: {
+        name: this.path!,
+        content_type: '',
+        lines: context.length,
+        web_links: [],
+      },
+      change_type: 'ADDED',
+      intraline_status: 'OK',
+      diff_header: [],
+      content: [
+        {
+          b: context.map(line => line.context_line),
+        },
+      ],
+    };
+    return diff;
+  }
+
+  _getLineOffsetFromContext(comments: UIComment[]) {
+    if (!comments) return {};
+    const context = comments[0]?.context_lines;
+    if (!context) return 0;
+    return context[0].line_number;
+  }
+
   _getDiffUrlForComment(
     projectName?: RepoName,
     changeNum?: NumericChangeId,
@@ -301,6 +345,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     const id = this.comments[0].id;
     if (!id) throw new Error('A published comment is missing the id.');
     return GerritNav.getUrlForComment(changeNum, projectName, id);
+  }
+
+  _handleDiffRender() {
+    this.shadowRoot?.querySelector('gr-diff')!.hideLeftDiff();
   }
 
   _isPatchsetLevelComment(path: string) {

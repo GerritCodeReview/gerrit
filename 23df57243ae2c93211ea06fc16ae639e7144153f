@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5192f5a5_11b90c93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-28T09:09:27Z",
+      "side": 1,
+      "message": "Is that a solution for the reply dialog and the keyboard shortcuts dialog only? What about all the other dialogs? Feel free to just change the commit message instead of replying to this comment.",
+      "revId": "23df57243ae2c93211ea06fc16ae639e7144153f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

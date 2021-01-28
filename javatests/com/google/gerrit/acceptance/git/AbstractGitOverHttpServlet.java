@@ -19,7 +19,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.FakeGroupAuditService;
 import com.google.gerrit.acceptance.Sandboxed;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +41,10 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     // Don't clear audit events here, since we can't guarantee all test setup has run yet.
   }
 
+  /**
+   * As of today only fetch Protocol V2 is supported on the git client.
+   * https://git.eclipse.org/r/c/jgit/jgit/+/172595
+   */
   @Test
   @Sandboxed
   public void receivePackAuditEventLog() throws Exception {
@@ -69,6 +72,11 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     assertThat(receivePack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
   }
 
+  /**
+   * Git client use Protocol V2 fetch by default, see https://git.eclipse.org/r/c/jgit/jgit/+/172595
+   * See {@code org.eclipse.jgit.transport.BasePackFetchConnection#doFetchV2} for the negotiation
+   * details.
+   */
   @Test
   @Sandboxed
   public void uploadPackAuditEventLog() throws Exception {
@@ -78,22 +86,43 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
         TestRepository<?> testRepo = new TestRepository<>(repo)) {
       testRepo.branch("master").commit().create();
     }
+
     testRepo.git().fetch().call();
 
     ImmutableList<HttpAuditEvent> auditEvents = auditService.drainHttpAuditEvents();
-    assertThat(auditEvents).hasSize(2);
+    assertThat(auditEvents).hasSize(4);
 
-    HttpAuditEvent lsRemote = auditEvents.get(0);
-    // Repo URL doesn't include /a, so fetching doesn't cause authentication.
-    assertThat(lsRemote.who).isInstanceOf(AnonymousUser.class);
-    assertThat(lsRemote.what).endsWith("/info/refs?service=git-upload-pack");
-    assertThat(lsRemote.params).containsExactly("service", "git-upload-pack");
-    assertThat(lsRemote.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    // Protocol V2 Capability advertisement
+    // https://git-scm.com/docs/protocol-v2#_capability_advertisement
+    HttpAuditEvent infoRef = auditEvents.get(0);
 
-    HttpAuditEvent uploadPack = auditEvents.get(1);
-    assertThat(lsRemote.who).isInstanceOf(AnonymousUser.class);
-    assertThat(uploadPack.what).endsWith("/git-upload-pack");
-    assertThat(uploadPack.params).isEmpty();
-    assertThat(uploadPack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    // JGit supports shared session during fetch and push, see
+    // org.eclipse.jgit.transport.http.HttpConnectionFactory2.GitSession, thus the authentication
+    // details are carried over from the first git clone request.
+    assertThat(infoRef.who.getAccountId()).isEqualTo(admin.id());
+    assertThat(infoRef.what).endsWith("/info/refs?service=git-upload-pack");
+    assertThat(infoRef.params).containsExactly("service", "git-upload-pack");
+    assertThat(infoRef.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+
+    // Smart service negotiations, as described here
+    // https://git-scm.com/docs/http-protocol#_smart_service_git_upload_pack
+    // Protocol V2 client sends command=ls-ref https://git-scm.com/docs/protocol-v2#_ls_refs
+    // followed by command=fetch, thus the request may overflow see
+    // org.eclipse.jgit.transport.MultiRequestService
+    HttpAuditEvent uploadPackLsRef = auditEvents.get(1);
+
+    assertThat(uploadPackLsRef.what).endsWith("/git-upload-pack");
+    assertThat(uploadPackLsRef.params).isEmpty();
+    assertThat(uploadPackLsRef.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    HttpAuditEvent uploadPackFetch = auditEvents.get(2);
+
+    assertThat(uploadPackFetch.what).endsWith("/git-upload-pack");
+    assertThat(uploadPackFetch.params).isEmpty();
+    assertThat(uploadPackFetch.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    HttpAuditEvent uploadPackDone = auditEvents.get(3);
+
+    assertThat(uploadPackDone.what).endsWith("/git-upload-pack");
+    assertThat(uploadPackDone.params).isEmpty();
+    assertThat(uploadPackDone.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
   }
 }

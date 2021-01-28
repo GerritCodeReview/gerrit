@@ -544,7 +544,6 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.SEARCH,
       topic,
-      statuses: ['open', 'merged'],
       host,
     });
   },

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "469ddc74_420be8c4",
+        "filename": "modules/jgit",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-28T16:51:07Z",
+      "side": 1,
+      "message": "Can we change this to commit: 6f82690aaf2be783be6d77f0903788ff0832472a that was submitted today?\n\nhttps://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/6f82690aaf2be783be6d77f0903788ff0832472a",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "47a047dcdf512036d70df80e4e2ca6580835f14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

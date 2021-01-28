@@ -30,8 +30,8 @@ import com.google.gerrit.entities.CommentContext;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.proto.Protos;
-import com.google.gerrit.server.CommentContextLoader;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.AllCommentContextProto;
@@ -41,6 +41,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.name.Named;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,14 +154,36 @@ public class CommentContextCacheImpl implements CommentContextCache {
       this.factory = factory;
     }
 
+    /**
+     * Load the comment context of a single comment identified by its key.
+     *
+     * @param key a {@link CommentContextKey} identifying a comment.
+     * @return the comment context associated with the comment.
+     * @throws IOException an error happened while parsing the commit or loading the file where the
+     *     comment is written.
+     * @throws UnprocessableEntityException the line / range parameters of any comment are invalid
+     *     and fall outside the file boundaries.
+     */
     @Override
-    public CommentContext load(CommentContextKey key) {
+    public CommentContext load(CommentContextKey key)
+        throws IOException, UnprocessableEntityException {
       return loadAll(ImmutableList.of(key)).get(key);
     }
 
+    /**
+     * Load the comment context of different comments identified by their keys.
+     *
+     * @param keys list of {@link CommentContextKey} identifying some comments.
+     * @return a map of the input keys to their corresponding comment context.
+     * @throws IOException an error happened while parsing the commits or loading the files where
+     *     the comments are written.
+     * @throws UnprocessableEntityException the line / range parameters of any comment are invalid
+     *     and fall outside the file boundaries.
+     */
     @Override
     public Map<CommentContextKey, CommentContext> loadAll(
-        Iterable<? extends CommentContextKey> keys) {
+        Iterable<? extends CommentContextKey> keys)
+        throws IOException, UnprocessableEntityException {
       ImmutableMap.Builder<CommentContextKey, CommentContext> result =
           ImmutableMap.builderWithExpectedSize(Iterables.size(keys));
 
@@ -195,7 +218,8 @@ public class CommentContextCacheImpl implements CommentContextCache {
      * @return a map of the input keys to their corresponding {@link CommentContext}
      */
     private Map<CommentContextKey, CommentContext> loadForSameChange(
-        List<CommentContextKey> keys, Project.NameKey project, Change.Id changeId) {
+        List<CommentContextKey> keys, Project.NameKey project, Change.Id changeId)
+        throws IOException, UnprocessableEntityException {
       ChangeNotes notes = notesFactory.createChecked(project, changeId);
       List<HumanComment> humanComments = commentsUtil.publishedHumanCommentsByChange(notes);
       CommentContextLoader loader = factory.create(project);

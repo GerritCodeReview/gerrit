@@ -31,7 +31,6 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.proto.Protos;
-import com.google.gerrit.server.CommentContextLoader;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.AllCommentContextProto;
@@ -154,13 +153,13 @@ public class CommentContextCacheImpl implements CommentContextCache {
     }
 
     @Override
-    public CommentContext load(CommentContextKey key) {
+    public CommentContext load(CommentContextKey key) throws CommentContextLoadException {
       return loadAll(ImmutableList.of(key)).get(key);
     }
 
     @Override
     public Map<CommentContextKey, CommentContext> loadAll(
-        Iterable<? extends CommentContextKey> keys) {
+        Iterable<? extends CommentContextKey> keys) throws CommentContextLoadException {
       ImmutableMap.Builder<CommentContextKey, CommentContext> result =
           ImmutableMap.builderWithExpectedSize(Iterables.size(keys));
 
@@ -195,7 +194,8 @@ public class CommentContextCacheImpl implements CommentContextCache {
      * @return a map of the input keys to their corresponding {@link CommentContext}
      */
     private Map<CommentContextKey, CommentContext> loadForSameChange(
-        List<CommentContextKey> keys, Project.NameKey project, Change.Id changeId) {
+        List<CommentContextKey> keys, Project.NameKey project, Change.Id changeId)
+        throws CommentContextLoadException {
       ChangeNotes notes = notesFactory.createChecked(project, changeId);
       List<HumanComment> humanComments = commentsUtil.publishedHumanCommentsByChange(notes);
       CommentContextLoader loader = factory.create(project);

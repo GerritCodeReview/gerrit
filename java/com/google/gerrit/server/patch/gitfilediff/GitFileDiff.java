@@ -45,17 +45,14 @@ import org.eclipse.jgit.patch.FileHeader;
 @AutoValue
 public abstract class GitFileDiff {
   private static final Map<FileMode, Patch.FileMode> fileModeMap =
-      ImmutableMap.of(
-          FileMode.TREE,
-          Patch.FileMode.TREE,
-          FileMode.SYMLINK,
-          Patch.FileMode.SYMLINK,
-          FileMode.REGULAR_FILE,
-          Patch.FileMode.REGULAR_FILE,
-          FileMode.EXECUTABLE_FILE,
-          Patch.FileMode.EXECUTABLE_FILE,
-          FileMode.MISSING,
-          Patch.FileMode.MISSING);
+      ImmutableMap.<FileMode, Patch.FileMode>builder()
+          .put(FileMode.TREE, Patch.FileMode.TREE)
+          .put(FileMode.SYMLINK, Patch.FileMode.SYMLINK)
+          .put(FileMode.GITLINK, Patch.FileMode.GITLINK)
+          .put(FileMode.REGULAR_FILE, Patch.FileMode.REGULAR_FILE)
+          .put(FileMode.EXECUTABLE_FILE, Patch.FileMode.EXECUTABLE_FILE)
+          .put(FileMode.MISSING, Patch.FileMode.MISSING)
+          .build();
 
   private static Patch.FileMode mapFileMode(FileMode jgitFileMode) {
     if (!fileModeMap.containsKey(jgitFileMode)) {

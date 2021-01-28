@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
+import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
@@ -83,6 +84,23 @@ public class CommentContextIT extends AbstractDaemonTest {
     // etc...
     assertThat(comments.get(0).contextLines)
         .containsExactlyElementsIn(createContextLines("7", "Commit Header"));
+  }
+
+  @Test
+  public void commentContextForMergeList() throws Exception {
+    PushOneCommit.Result result = createMergeCommitChange("refs/for/master");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput comment = CommentsUtil.newComment(MERGE_LIST, Side.REVISION, 1, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).contextLines)
+        .containsExactlyElementsIn(createContextLines("1", "Merge List:"));
   }
 
   @Test

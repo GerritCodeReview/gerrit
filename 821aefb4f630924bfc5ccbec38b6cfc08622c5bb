@@ -16,6 +16,143 @@
       "message": "This would be really only a \"quick-fix\" until we have something more aligned between both chips. What do you think?",
       "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f4d0ad3_49466195",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-28T11:39:57Z",
+      "side": 1,
+      "message": "This should be\n\n  font-weight: var(--font-weight-normal, 500);",
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f03bd536_a9d8721d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-28T11:39:57Z",
+      "side": 1,
+      "message": "This should be\n\n  font-family: var(--font-family), Roboto, sans-serif;",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 45
+      },
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "594e8806_6269c8ba",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-28T11:39:57Z",
+      "side": 1,
+      "message": "If you specify all this here, then you should remove the \u0027font-normal\u0027 class below. And then also include a rule for font-size, which would have to be:\n\n  font-size: var(--font-size-normal, 14px);\n\nor\n\n  font-size: var(--font-size-small, 12px);",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c63150c_c4fe3cc1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-28T11:39:57Z",
+      "side": 1,
+      "message": "This should be\n\n  line-height: var(--line-height-normal, 20px);\n\nor\n\n  line-height: var(--line-height-small, 16px);",
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "061e5d90_8e3a0f76",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-28T11:39:57Z",
+      "side": 1,
+      "message": "Using a spacing var for icon height is weird. I think what you want to accomplish is that the icon is same height as the line-height. I would either stick to `16px` or specify depending on line-height:\n\n  height: var(--line-height-normal, 20px);\n\nor\n\n  height: var(--line-height-small, 16px);\n\n\nSame for width.",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f163a863_fc4fcd72",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-28T11:39:57Z",
+      "side": 1,
+      "message": "Gerrit has a --border-radius variable (4px). I find it weird that we have three kinds of border-radius: 4px, 8px, fully rounded. Delphine would have to approve that.\n\nNote that if the chip is 20px high, then any value \u003e\u003d10px means \"fully rounded\".",
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49b22907_c552c752",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-28T11:39:57Z",
+      "side": 1,
+      "message": "I am trying to avoid \"vertical-align: middle\" completely. It never really does what you want. Primarily it does actually position in the \"middle\" in the line-height box, but \"with the baseline plus half the x-height of the parent\". Whenever you are wondering why your boxes are slightly too high (21.4px instead of 20px) then this is normally the culprit.\n\nCan you explain what you are trying to do here?\n\nIf this is just about the icon, then `vertical-align` should go into a rule for the icon only, so it does not affect the label.\n\nIf the goal is to align the icon in the middle, then you want \"vertical-align:top\". If the icon and the line-height are identical, then you are done. If the icon is smaller than the line-height, then you have to do calcs:\n\n  .icon {\n    position: relative;\n    top: 2px;\n    vertical-align: top;\n    height: calc(var(--line-height) - 4px);\n    width: calc(var(--line-height) - 4px);\n  }",
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

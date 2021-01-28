@@ -233,23 +233,22 @@ export const htmlTemplate = html`
     .moveLabel {
       display: flex;
       justify-content: flex-end;
-      font-family: var(--header-font-family);
+      font-family: var(--font-family, ''), 'Roboto Mono';
+      font-size: var(--font-size-small, 12px);
     }
     .delta.dueToMove .moveDescription {
-      border-radius: var(--spacing-l);
+      border-radius: var(--fully-rounded-radius, 1000px);
       padding: var(--spacing-s) var(--spacing-m);
       margin: var(--spacing-s);
-      font-weight: 500;
-      line-height: var(--spacing-xl);
-      vertical-align: middle;
+      line-height: var(--line-height-small, 16px);
       display: flex;
     }
 
     .moveDescription iron-icon {
       color: inherit;
       margin-right: var(--spacing-s);
-      height: var(--spacing-xl);
-      width: var(--spacing-xl);
+      height: var(--line-height-small, 16px);
+      width: var(--line-height-small, 16px);
     }
 
     .moveDescription a {

@@ -233,7 +233,8 @@ export const htmlTemplate = html`
     .moveLabel {
       display: flex;
       justify-content: flex-end;
-      font-family: var(--header-font-family);
+      font-family: var(--font-family), Roboto, sans-serif;
+      font-size: var(--font-size-small, 12px);
     }
     .delta.dueToMove .moveDescription {
       border-radius: var(--spacing-l);

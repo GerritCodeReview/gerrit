@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.DisallowReadFromChangesReviewDbWrapper;
+import com.google.gerrit.reviewdb.server.NoOpReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
@@ -34,6 +35,7 @@ public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
     this.migration = migration;
   }
 
+  @SuppressWarnings("resource")
   @Override
   public ReviewDb open() throws OrmException {
     // There are two levels at which this class disables access to Changes and related tables,
@@ -61,10 +63,12 @@ public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
     //    This wrapper is not a public class and nobody should ever attempt to unwrap it.
 
     // First create the wrappers which can not be removed by ReviewDbUtil#unwrapDb(ReviewDb).
-    ReviewDb db = delegate.open();
+    ReviewDb db;
     if (migration.readChanges() && migration.disableChangeReviewDb()) {
       // Disable writes to change tables in ReviewDb (ReviewDb access for changes are No-Ops).
-      db = new NoChangesReviewDbWrapper(db);
+      db = new NoChangesReviewDbWrapper(new NoOpReviewDb());
+    } else {
+      db = delegate.open();
     }
 
     // Second create the wrappers which can be removed by ReviewDbUtil#unwrapDb(ReviewDb).

@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.comment;
 
+import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static java.util.stream.Collectors.groupingBy;
 
 import com.google.auto.value.AutoValue;
@@ -24,7 +25,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.CommentContext;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.Text;
@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -69,7 +70,7 @@ public class CommentContextLoader {
    * @return a Map where all entries consist of the input comments and the values are their
    *     corresponding {@link CommentContext}.
    */
-  public Map<Comment, CommentContext> getContext(Iterable<Comment> comments) {
+  public Map<Comment, CommentContext> getContext(Iterable<Comment> comments) throws IOException {
     ImmutableMap.Builder<Comment, CommentContext> result =
         ImmutableMap.builderWithExpectedSize(Iterables.size(comments));
 
@@ -87,32 +88,53 @@ public class CommentContextLoader {
             result.put(comment, CommentContext.empty());
             continue;
           }
-          // TODO(ghareeb): We can further group the comments by file paths to avoid opening
-          // the same file multiple times.
-          try (TreeWalk tw =
-              TreeWalk.forPath(rw.getObjectReader(), comment.key.filename, commit.getTree())) {
-            if (tw == null) {
-              logger.atWarning().log(
-                  "Failed to find path %s in the git tree of ID %s.",
-                  comment.key.filename, commit.getTree().getId());
-              continue;
-            }
-            ObjectId id = tw.getObjectId(0);
-            Text src = new Text(repo.open(id, Constants.OBJ_BLOB));
-            Range r = range.get();
-            ImmutableMap.Builder<Integer, String> context =
-                ImmutableMap.builderWithExpectedSize(r.end() - r.start());
-            for (int i = r.start(); i < r.end(); i++) {
-              context.put(i, src.getString(i - 1));
-            }
-            result.put(comment, CommentContext.create(context.build()));
+          String filePath = comment.key.filename;
+          if (filePath.equals(COMMIT_MSG)) {
+            result.put(
+                comment, getContextForCommitMessage(rw.getObjectReader(), commit, range.get()));
+          } else {
+            result.put(comment, getContextForFilePath(repo, rw, commit, filePath, range.get()));
           }
         }
       }
       return result.build();
-    } catch (IOException e) {
-      throw new StorageException("Failed to load the comment context", e);
     }
+  }
+
+  private CommentContext getContextForCommitMessage(
+      ObjectReader reader, RevCommit commit, Range range) throws IOException {
+    Text text = Text.forCommit(reader, commit);
+    return createContext(text, range);
+  }
+
+  private CommentContext getContextForFilePath(
+      Repository repo, RevWalk rw, RevCommit commit, String filePath, Range range)
+      throws IOException {
+    // TODO(ghareeb): We can further group the comments by file paths to avoid opening
+    // the same file multiple times.
+    try (TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), filePath, commit.getTree())) {
+      if (tw == null) {
+        logger.atWarning().log(
+            "Could not find path %s in the git tree of ID %s.", filePath, commit.getTree().getId());
+        return CommentContext.empty();
+      }
+      ObjectId id = tw.getObjectId(0);
+      Text src = new Text(repo.open(id, Constants.OBJ_BLOB));
+      return createContext(src, range);
+    }
+  }
+
+  private static CommentContext createContext(Text src, Range range) throws IOException {
+    if (range.start() < 1 || range.end() > src.size()) {
+      throw new IOException(
+          "Invalid comment range " + range + ". Text only contains " + src.size() + " lines.");
+    }
+    ImmutableMap.Builder<Integer, String> context =
+        ImmutableMap.builderWithExpectedSize(range.end() - range.start());
+    for (int i = range.start(); i < range.end(); i++) {
+      context.put(i, src.getString(i - 1));
+    }
+    return CommentContext.create(context.build());
   }
 
   private static Optional<Range> getStartAndEndLines(Comment comment) {

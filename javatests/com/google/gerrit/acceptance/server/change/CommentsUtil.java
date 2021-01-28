@@ -75,6 +75,13 @@ class CommentsUtil {
     return populate(c, path, side, null, line, message);
   }
 
+  static CommentInput newComment(
+      String path, Side side, Comment.Range range, String message, Boolean unresolved) {
+    CommentInput c = new CommentInput();
+    c.unresolved = unresolved;
+    return populate(c, path, side, null, null, range, message);
+  }
+
   static CommentInput newCommentOnParent(String path, int parent, int line, String message) {
     CommentInput c = new CommentInput();
     c.unresolved = false;

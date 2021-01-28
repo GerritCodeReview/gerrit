@@ -23,14 +23,11 @@ import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
-import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -54,7 +51,6 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -72,7 +68,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +75,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -124,7 +118,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       String path = "file1";
-      DraftInput comment = newDraft(path, Side.REVISION, line, "comment 1");
+      DraftInput comment = CommentsUtil.newDraft(path, Side.REVISION, line, "comment 1");
       addDraft(changeId, revId, comment);
       Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
       assertThat(result).hasSize(1);
@@ -145,10 +139,10 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       String path = "file1";
-      DraftInput c1 = newDraft(path, Side.REVISION, line, "ps-1");
-      DraftInput c2 = newDraft(path, Side.PARENT, line, "auto-merge of ps-1");
-      DraftInput c3 = newDraftOnParent(path, 1, line, "parent-1 of ps-1");
-      DraftInput c4 = newDraftOnParent(path, 2, line, "parent-2 of ps-1");
+      DraftInput c1 = CommentsUtil.newDraft(path, Side.REVISION, line, "ps-1");
+      DraftInput c2 = CommentsUtil.newDraft(path, Side.PARENT, line, "auto-merge of ps-1");
+      DraftInput c3 = CommentsUtil.newDraftOnParent(path, 1, line, "parent-1 of ps-1");
+      DraftInput c4 = CommentsUtil.newDraftOnParent(path, 2, line, "parent-2 of ps-1");
       addDraft(changeId, revId, c1);
       addDraft(changeId, revId, c2);
       addDraft(changeId, revId, c3);
@@ -174,7 +168,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment 1", false);
+      CommentInput comment = CommentsUtil.newComment(file, Side.REVISION, line, "comment 1", false);
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       revision(r).review(input);
@@ -193,8 +187,9 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = result.getChangeId();
     String ps1 = result.getCommit().name();
 
-    CommentInput comment = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
-    addComments(changeId, ps1, comment);
+    CommentInput comment =
+        CommentsUtil.newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
 
     Map<String, List<CommentInfo>> results = getPublishedComments(changeId, ps1);
     assertThatMap(results).keys().containsExactly(PATCHSET_LEVEL);
@@ -207,8 +202,9 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
     String commentMessage = "to be deleted";
-    CommentInput comment = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, commentMessage);
-    addComments(changeId, revId, comment);
+    CommentInput comment =
+        CommentsUtil.newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, commentMessage);
+    CommentsUtil.addComments(gApi, changeId, revId, comment);
 
     Map<String, List<CommentInfo>> results = getPublishedComments(changeId, revId);
     CommentInfo oldComment = Iterables.getOnlyElement(results.get(PATCHSET_LEVEL));
@@ -227,8 +223,9 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = result.getChangeId();
     String ps1 = result.getCommit().name();
 
-    CommentInput comment = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
-    addComments(changeId, ps1, comment);
+    CommentInput comment =
+        CommentsUtil.newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
 
     String emailBody = Iterables.getOnlyElement(email.getMessages()).body();
     assertThat(emailBody).contains("Patchset");
@@ -241,10 +238,11 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = result.getChangeId();
     String ps1 = result.getCommit().name();
 
-    CommentInput input = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    CommentInput input = CommentsUtil.newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     input.line = 1;
     BadRequestException ex =
-        assertThrows(BadRequestException.class, () -> addComments(changeId, ps1, input));
+        assertThrows(
+            BadRequestException.class, () -> CommentsUtil.addComments(gApi, changeId, ps1, input));
     assertThat(ex.getMessage()).contains("line");
   }
 
@@ -254,10 +252,11 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = result.getChangeId();
     String ps1 = result.getCommit().name();
 
-    CommentInput input = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    CommentInput input = CommentsUtil.newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     input.range = createLineRange(1, 3);
     BadRequestException ex =
-        assertThrows(BadRequestException.class, () -> addComments(changeId, ps1, input));
+        assertThrows(
+            BadRequestException.class, () -> CommentsUtil.addComments(gApi, changeId, ps1, input));
     assertThat(ex.getMessage()).contains("range");
   }
 
@@ -267,10 +266,11 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = result.getChangeId();
     String ps1 = result.getCommit().name();
 
-    CommentInput input = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    CommentInput input = CommentsUtil.newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     input.side = Side.REVISION;
     BadRequestException ex =
-        assertThrows(BadRequestException.class, () -> addComments(changeId, ps1, input));
+        assertThrows(
+            BadRequestException.class, () -> CommentsUtil.addComments(gApi, changeId, ps1, input));
     assertThat(ex.getMessage()).contains("side");
   }
 
@@ -279,7 +279,7 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    DraftInput comment = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     addDraft(changeId, revId, comment);
     Map<String, List<CommentInfo>> results = getDraftComments(changeId, revId);
     assertThatMap(results).keys().containsExactly(PATCHSET_LEVEL);
@@ -290,7 +290,7 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    DraftInput draft = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment 1");
+    DraftInput draft = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment 1");
     CommentInfo returned = addDraft(changeId, revId, draft);
     deleteDraft(changeId, revId, returned.id);
     Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
@@ -302,7 +302,7 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    DraftInput comment = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     comment.line = 1;
     BadRequestException ex =
         assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, comment));
@@ -314,7 +314,7 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    DraftInput comment = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     comment.range = createLineRange(1, 3);
     BadRequestException ex =
         assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, comment));
@@ -326,7 +326,7 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    DraftInput comment = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     comment.side = Side.REVISION;
     BadRequestException ex =
         assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, comment));
@@ -338,10 +338,10 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    DraftInput comment = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     addDraft(changeId, revId, comment);
     Map<String, List<CommentInfo>> results = getDraftComments(changeId, revId);
-    DraftInput update = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    DraftInput update = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     update.id = Iterables.getOnlyElement(results.get(PATCHSET_LEVEL)).id;
     update.line = 1;
     BadRequestException ex =
@@ -355,10 +355,10 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    DraftInput comment = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     addDraft(changeId, revId, comment);
     Map<String, List<CommentInfo>> results = getDraftComments(changeId, revId);
-    DraftInput update = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    DraftInput update = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     update.id = Iterables.getOnlyElement(results.get(PATCHSET_LEVEL)).id;
     update.range = createLineRange(1, 3);
     BadRequestException ex =
@@ -372,10 +372,10 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    DraftInput comment = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     addDraft(changeId, revId, comment);
     Map<String, List<CommentInfo>> results = getDraftComments(changeId, revId);
-    DraftInput update = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    DraftInput update = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
     update.id = Iterables.getOnlyElement(results.get(PATCHSET_LEVEL)).id;
     update.side = Side.REVISION;
     BadRequestException ex =
@@ -395,7 +395,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment 1", false);
+      CommentInput comment = CommentsUtil.newComment(file, Side.REVISION, line, "comment 1", false);
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       revision(r).review(input);
@@ -403,7 +403,7 @@ public class CommentsIT extends AbstractDaemonTest {
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
 
       input = new ReviewInput();
-      comment = newComment(file, Side.REVISION, line, "comment 1 reply", false);
+      comment = CommentsUtil.newComment(file, Side.REVISION, line, "comment 1 reply", false);
       comment.inReplyTo = actual.id;
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
@@ -427,7 +427,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment 1", true);
+      CommentInput comment = CommentsUtil.newComment(file, Side.REVISION, line, "comment 1", true);
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       revision(r).review(input);
@@ -448,10 +448,11 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput c1 = newComment(file, Side.REVISION, line, "ps-1", false);
-      CommentInput c2 = newComment(file, Side.PARENT, line, "auto-merge of ps-1", false);
-      CommentInput c3 = newCommentOnParent(file, 1, line, "parent-1 of ps-1");
-      CommentInput c4 = newCommentOnParent(file, 2, line, "parent-2 of ps-1");
+      CommentInput c1 = CommentsUtil.newComment(file, Side.REVISION, line, "ps-1", false);
+      CommentInput c2 =
+          CommentsUtil.newComment(file, Side.PARENT, line, "auto-merge of ps-1", false);
+      CommentInput c3 = CommentsUtil.newCommentOnParent(file, 1, line, "parent-1 of ps-1");
+      CommentInput c4 = CommentsUtil.newCommentOnParent(file, 2, line, "parent-2 of ps-1");
       input.comments = new HashMap<>();
       input.comments.put(file, ImmutableList.of(c1, c2, c3, c4));
       revision(r).review(input);
@@ -470,9 +471,9 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput c1 = newComment(file, Side.REVISION, line, "ps-1", false);
-      CommentInput c2 = newCommentOnParent(file, 1, line, "parent-1 of ps-1");
-      CommentInput c3 = newCommentOnParent(file, 2, line, "parent-2 of ps-1");
+      CommentInput c1 = CommentsUtil.newComment(file, Side.REVISION, line, "ps-1", false);
+      CommentInput c2 = CommentsUtil.newCommentOnParent(file, 1, line, "parent-1 of ps-1");
+      CommentInput c3 = CommentsUtil.newCommentOnParent(file, 2, line, "parent-2 of ps-1");
       input.comments = new HashMap<>();
       input.comments.put(file, ImmutableList.of(c1, c2, c3));
       revision(r).review(input);
@@ -489,7 +490,8 @@ public class CommentsIT extends AbstractDaemonTest {
   public void postCommentOnCommitMessageOnAutoMerge() throws Exception {
     PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
     ReviewInput input = new ReviewInput();
-    CommentInput c = newComment(Patch.COMMIT_MSG, Side.PARENT, 0, "comment on auto-merge", false);
+    CommentInput c =
+        CommentsUtil.newComment(Patch.COMMIT_MSG, Side.PARENT, 0, "comment on auto-merge", false);
     input.comments = new HashMap<>();
     input.comments.put(Patch.COMMIT_MSG, ImmutableList.of(c));
     BadRequestException thrown =
@@ -508,7 +510,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
 
-    DraftInput draft = newDraft(file, Side.REVISION, 0, "comment");
+    DraftInput draft = CommentsUtil.newDraft(file, Side.REVISION, 0, "comment");
     addDraft(changeId, revId, draft);
     Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
     CommentInfo draftInfo = Iterables.getOnlyElement(drafts.get(draft.path));
@@ -516,7 +518,7 @@ public class CommentsIT extends AbstractDaemonTest {
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.drafts = DraftHandling.KEEP;
     reviewInput.message = "foo";
-    CommentInput comment = newComment(file, Side.REVISION, 0, "comment", false);
+    CommentInput comment = CommentsUtil.newComment(file, Side.REVISION, 0, "comment", false);
     // Replace the existing draft.
     comment.id = draftInfo.id;
     reviewInput.comments = new HashMap<>();
@@ -545,14 +547,14 @@ public class CommentsIT extends AbstractDaemonTest {
 
     String draftRefName = RefNames.refsDraftComments(r1.getChange().getId(), admin.id());
 
-    DraftInput draft = newDraft(file, Side.REVISION, 1, "comment");
+    DraftInput draft = CommentsUtil.newDraft(file, Side.REVISION, 1, "comment");
     addDraft(changeId, "1", draft);
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.drafts = DraftHandling.PUBLISH;
     reviewInput.message = "foo";
     gApi.changes().id(r1.getChangeId()).revision(1).review(reviewInput);
 
-    addDraft(changeId, "2", newDraft(file, Side.REVISION, 2, "comment2"));
+    addDraft(changeId, "2", CommentsUtil.newDraft(file, Side.REVISION, 2, "comment2"));
     reviewInput = new ReviewInput();
     reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
     reviewInput.message = "bar";
@@ -581,7 +583,8 @@ public class CommentsIT extends AbstractDaemonTest {
     List<CommentInput> expectedComments = new ArrayList<>();
     for (Integer line : lines) {
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment " + line, false);
+      CommentInput comment =
+          CommentsUtil.newComment(file, Side.REVISION, line, "comment " + line, false);
       expectedComments.add(comment);
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
@@ -610,11 +613,11 @@ public class CommentsIT extends AbstractDaemonTest {
     String revId = r.getCommit().getName();
     String draftRefName = RefNames.refsDraftComments(r.getChange().getId(), user.id());
 
-    DraftInput comment1 = newDraft("file_1", Side.REVISION, 1, "comment 1");
+    DraftInput comment1 = CommentsUtil.newDraft("file_1", Side.REVISION, 1, "comment 1");
     CommentInfo commentInfo1 = addDraft(changeId, revId, comment1);
     assertThat(getHeadOfDraftCommentsRef(draftRefName).getParentCount()).isEqualTo(0);
 
-    DraftInput comment2 = newDraft("file_2", Side.REVISION, 2, "comment 2");
+    DraftInput comment2 = CommentsUtil.newDraft("file_2", Side.REVISION, 2, "comment 2");
     CommentInfo commentInfo2 = addDraft(changeId, revId, comment2);
     assertThat(getHeadOfDraftCommentsRef(draftRefName).getParentCount()).isEqualTo(0);
 
@@ -639,7 +642,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       String path = "file1";
-      DraftInput comment = newDraft(path, Side.REVISION, line, "comment 1");
+      DraftInput comment = CommentsUtil.newDraft(path, Side.REVISION, line, "comment 1");
       addDraft(changeId, revId, comment);
       Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
@@ -662,7 +665,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String parentCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().create();
 
-    DraftInput draft = newDraft(COMMIT_MSG, Side.REVISION, 0, "foo");
+    DraftInput draft = CommentsUtil.newDraft(COMMIT_MSG, Side.REVISION, 0, "foo");
     draft.inReplyTo = parentCommentUuid;
     String createdDraftUuid = addDraft(changeId, draft).id;
     TestHumanComment actual =
@@ -676,7 +679,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String parentRobotCommentUuid =
         changeOperations.change(changeId).currentPatchset().newRobotComment().create();
 
-    DraftInput draft = newDraft(COMMIT_MSG, Side.REVISION, 0, "foo");
+    DraftInput draft = CommentsUtil.newDraft(COMMIT_MSG, Side.REVISION, 0, "foo");
     draft.inReplyTo = parentRobotCommentUuid;
     String createdDraftUuid = addDraft(changeId, draft).id;
     TestHumanComment actual =
@@ -690,9 +693,9 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    DraftInput comment = newDraft(file, Side.REVISION, 0, "foo");
+    DraftInput comment = CommentsUtil.newDraft(file, Side.REVISION, 0, "foo");
     CommentInfo commentInfo = addDraft(changeId, revId, comment);
-    DraftInput draftInput = newDraft(file, Side.REVISION, 0, "bar");
+    DraftInput draftInput = CommentsUtil.newDraft(file, Side.REVISION, 0, "bar");
     draftInput.id = "anything_but_" + commentInfo.id;
     BadRequestException e =
         assertThrows(
@@ -707,7 +710,7 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    DraftInput comment = newDraft(file, Side.REVISION, -666, "foo");
+    DraftInput comment = CommentsUtil.newDraft(file, Side.REVISION, -666, "foo");
     BadRequestException e =
         assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, comment));
     assertThat(e).hasMessageThat().contains("line must be >= 0");
@@ -719,7 +722,8 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    DraftInput draftInput = newDraft(file, Side.REVISION, createLineRange(2, 3), "bar");
+    DraftInput draftInput =
+        CommentsUtil.newDraft(file, Side.REVISION, createLineRange(2, 3), "bar");
     draftInput.line = 666;
     BadRequestException e =
         assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, draftInput));
@@ -731,7 +735,7 @@ public class CommentsIT extends AbstractDaemonTest {
   @Test
   public void putDraft_invalidInReplyTo() throws Exception {
     Change.Id changeId = changeOperations.newChange().create();
-    DraftInput draft = newDraft(COMMIT_MSG, Side.REVISION, 0, "foo");
+    DraftInput draft = CommentsUtil.newDraft(COMMIT_MSG, Side.REVISION, 0, "foo");
     draft.inReplyTo = "invalid";
     BadRequestException exception =
         assertThrows(BadRequestException.class, () -> addDraft(changeId, draft));
@@ -743,10 +747,10 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    DraftInput comment = newDraft("file_foo", Side.REVISION, 0, "foo");
+    DraftInput comment = CommentsUtil.newDraft("file_foo", Side.REVISION, 0, "foo");
     CommentInfo commentInfo = addDraft(changeId, revId, comment);
     assertThat(getDraftComments(changeId, revId).keySet()).containsExactly("file_foo");
-    DraftInput draftInput = newDraft("file_bar", Side.REVISION, 0, "bar");
+    DraftInput draftInput = CommentsUtil.newDraft("file_bar", Side.REVISION, 0, "bar");
     updateDraft(changeId, revId, draftInput, commentInfo.id);
     assertThat(getDraftComments(changeId, revId).keySet()).containsExactly("file_bar");
   }
@@ -754,10 +758,10 @@ public class CommentsIT extends AbstractDaemonTest {
   @Test
   public void putDraft_updateInvalidInReplyTo() throws Exception {
     Change.Id changeId = changeOperations.newChange().create();
-    DraftInput originalDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "foo");
+    DraftInput originalDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "foo");
     CommentInfo originalDraft = addDraft(changeId, originalDraftInput);
 
-    DraftInput updatedDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
+    DraftInput updatedDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "bar");
     updatedDraftInput.inReplyTo = "invalid";
     BadRequestException exception =
         assertThrows(
@@ -771,10 +775,10 @@ public class CommentsIT extends AbstractDaemonTest {
     Change.Id changeId = changeOperations.newChange().create();
     String parentCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().create();
-    DraftInput originalDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "foo");
+    DraftInput originalDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "foo");
     CommentInfo originalDraft = addDraft(changeId, originalDraftInput);
 
-    DraftInput updateDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
+    DraftInput updateDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "bar");
     updateDraftInput.inReplyTo = parentCommentUuid;
     updateDraft(changeId, updateDraftInput, originalDraft.id);
     assertThat(changeOperations.change(changeId).draftComment(originalDraft.id).get().parentUuid())
@@ -786,10 +790,10 @@ public class CommentsIT extends AbstractDaemonTest {
     Change.Id changeId = changeOperations.newChange().create();
     String parentRobotCommentUuid =
         changeOperations.change(changeId).currentPatchset().newRobotComment().create();
-    DraftInput originalDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "foo");
+    DraftInput originalDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "foo");
     CommentInfo originalDraft = addDraft(changeId, originalDraftInput);
 
-    DraftInput updateDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
+    DraftInput updateDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "bar");
     updateDraftInput.inReplyTo = parentRobotCommentUuid;
     updateDraft(changeId, updateDraftInput, originalDraft.id);
     assertThat(changeOperations.change(changeId).draftComment(originalDraft.id).get().parentUuid())
@@ -799,10 +803,10 @@ public class CommentsIT extends AbstractDaemonTest {
   @Test
   public void putDraft_updateTag() throws Exception {
     Change.Id changeId = changeOperations.newChange().create();
-    DraftInput originalDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "foo");
+    DraftInput originalDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "foo");
     CommentInfo originalDraft = addDraft(changeId, originalDraftInput);
 
-    DraftInput updateDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
+    DraftInput updateDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "bar");
     String tag = "täg";
     updateDraftInput.tag = tag;
     updateDraft(changeId, updateDraftInput, originalDraft.id);
@@ -828,7 +832,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     // Each user can only see their own drafts.
     requestScopeOperations.setApiUser(accountId);
-    DraftInput draftInput = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
+    DraftInput draftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "bar");
     draftInput.message = "Another comment text.";
     gApi.changes()
         .id(changeId.get())
@@ -851,7 +855,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     List<DraftInput> expectedDrafts = new ArrayList<>();
     for (Integer line : lines) {
-      DraftInput comment = newDraft(file, Side.REVISION, line, "comment " + line);
+      DraftInput comment = CommentsUtil.newDraft(file, Side.REVISION, line, "comment " + line);
       expectedDrafts.add(comment);
       addDraft(changeId, revId, comment);
     }
@@ -870,7 +874,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       String path = "file1";
-      DraftInput comment = newDraft(path, Side.REVISION, line, "comment 1");
+      DraftInput comment = CommentsUtil.newDraft(path, Side.REVISION, line, "comment 1");
       CommentInfo returned = addDraft(changeId, revId, comment);
       CommentInfo actual = getDraftComment(changeId, revId, returned.id);
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
@@ -884,7 +888,7 @@ public class CommentsIT extends AbstractDaemonTest {
       Timestamp origLastUpdated = r.getChange().change().getLastUpdatedOn();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
-      DraftInput draft = newDraft("file1", Side.REVISION, line, "comment 1");
+      DraftInput draft = CommentsUtil.newDraft("file1", Side.REVISION, line, "comment 1");
       CommentInfo returned = addDraft(changeId, revId, draft);
       deleteDraft(changeId, revId, returned.id);
       Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
@@ -909,7 +913,7 @@ public class CommentsIT extends AbstractDaemonTest {
       Timestamp origLastUpdated = r.getChange().change().getLastUpdatedOn();
 
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment 1", false);
+      CommentInput comment = CommentsUtil.newComment(file, Side.REVISION, line, "comment 1", false);
       comment.updated = timestamp;
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
@@ -935,11 +939,11 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     String changeId = r1.getChangeId();
     String revId = r1.getCommit().getName();
-    addComment(r1, "nit: trailing whitespace");
-    addComment(r1, "nit: trailing whitespace");
+    CommentsUtil.addComment(gApi, r1, "nit: trailing whitespace");
+    CommentsUtil.addComment(gApi, r1, "nit: trailing whitespace");
     Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
     assertThat(result.get(FILE_NAME)).hasSize(2);
-    addComment(r1, "nit: trailing whitespace", true, false, null);
+    CommentsUtil.addComment(gApi, r1, "nit: trailing whitespace", true, false, null);
     result = getPublishedComments(changeId, revId);
     assertThat(result.get(FILE_NAME)).hasSize(2);
 
@@ -949,7 +953,7 @@ public class CommentsIT extends AbstractDaemonTest {
             .to("refs/for/master");
     changeId = r2.getChangeId();
     revId = r2.getCommit().getName();
-    addComment(r2, "nit: trailing whitespace", true, false, null);
+    CommentsUtil.addComment(gApi, r2, "nit: trailing whitespace", true, false, null);
     result = getPublishedComments(changeId, revId);
     assertThat(result.get(FILE_NAME)).hasSize(1);
   }
@@ -967,17 +971,17 @@ public class CommentsIT extends AbstractDaemonTest {
     addDraft(
         r1.getChangeId(),
         r1.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, 1, "nit: trailing whitespace"));
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, "nit: trailing whitespace"));
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, 1, "typo: content"));
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, "typo: content"));
 
     requestScopeOperations.setApiUser(user.id());
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, 1, "+1, please fix"));
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, "+1, please fix"));
 
     requestScopeOperations.setApiUser(admin.id());
     Map<String, List<CommentInfo>> actual = gApi.changes().id(r1.getChangeId()).drafts();
@@ -1018,8 +1022,8 @@ public class CommentsIT extends AbstractDaemonTest {
             .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent", r1.getChangeId())
             .to("refs/for/master");
 
-    addComment(r1, "nit: trailing whitespace");
-    addComment(r2, "typo: content");
+    CommentsUtil.addComment(gApi, r1, "nit: trailing whitespace");
+    CommentsUtil.addComment(gApi, r2, "typo: content");
 
     Map<String, List<CommentInfo>> actual =
         gApi.changes().id(r2.getChangeId()).commentsRequest().get();
@@ -1047,147 +1051,6 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listChangeCommentsWithContextEnabled() throws Exception {
-    PushOneCommit.Result r1 = createChange();
-
-    ImmutableList.Builder<String> content = ImmutableList.builder();
-    for (int i = 1; i <= 10; i++) {
-      content.add("line_" + i);
-    }
-
-    PushOneCommit.Result r2 =
-        pushFactory
-            .create(
-                admin.newIdent(),
-                testRepo,
-                SUBJECT,
-                FILE_NAME,
-                content.build().stream().collect(Collectors.joining("\n")),
-                r1.getChangeId())
-            .to("refs/for/master");
-
-    addCommentOnLine(r2, "nit: please fix", 1);
-    addCommentOnRange(r2, "looks good", commentRangeInLines(2, 5));
-
-    List<CommentInfo> comments =
-        gApi.changes().id(r2.getChangeId()).commentsRequest().withContext(true).getAsList();
-
-    assertThat(comments).hasSize(2);
-
-    assertThat(
-            comments.stream()
-                .filter(c -> c.message.equals("nit: please fix"))
-                .collect(MoreCollectors.onlyElement())
-                .contextLines)
-        .containsExactlyElementsIn(contextLines("1", "line_1"));
-
-    assertThat(
-            comments.stream()
-                .filter(c -> c.message.equals("looks good"))
-                .collect(MoreCollectors.onlyElement())
-                .contextLines)
-        .containsExactlyElementsIn(
-            contextLines("2", "line_2", "3", "line_3", "4", "line_4", "5", "line_5"));
-  }
-
-  @Test
-  public void commentContextIsEmptyForPatchsetLevelComments() throws Exception {
-    PushOneCommit.Result result = createChange();
-    String changeId = result.getChangeId();
-    String ps1 = result.getCommit().name();
-
-    CommentInput comment = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
-    addComments(changeId, ps1, comment);
-
-    List<CommentInfo> comments =
-        gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList();
-
-    assertThat(comments).hasSize(1);
-    assertThat(comments.get(0).contextLines).isEmpty();
-  }
-
-  @Test
-  public void commentContextForCommentsOnDifferentPatchsets() throws Exception {
-    PushOneCommit.Result r1 = createChange();
-
-    ImmutableList.Builder<String> content = ImmutableList.builder();
-    for (int i = 1; i <= 10; i++) {
-      content.add("line_" + i);
-    }
-
-    PushOneCommit.Result r2 =
-        pushFactory
-            .create(
-                admin.newIdent(),
-                testRepo,
-                SUBJECT,
-                FILE_NAME,
-                String.join("\n", content.build()),
-                r1.getChangeId())
-            .to("refs/for/master");
-
-    PushOneCommit.Result r3 =
-        pushFactory
-            .create(
-                admin.newIdent(),
-                testRepo,
-                SUBJECT,
-                FILE_NAME,
-                content.build().stream().collect(Collectors.joining("\n")),
-                r1.getChangeId())
-            .to("refs/for/master");
-
-    addCommentOnLine(r2, "r2: please fix", 1);
-    addCommentOnRange(r2, "r2: looks good", commentRangeInLines(2, 3));
-    addCommentOnLine(r3, "r3: please fix", 6);
-    addCommentOnRange(r3, "r3: looks good", commentRangeInLines(7, 8));
-
-    List<CommentInfo> comments =
-        gApi.changes().id(r2.getChangeId()).commentsRequest().withContext(true).getAsList();
-
-    assertThat(comments).hasSize(4);
-
-    assertThat(
-            comments.stream()
-                .filter(c -> c.message.equals("r2: please fix"))
-                .collect(MoreCollectors.onlyElement())
-                .contextLines)
-        .containsExactlyElementsIn(contextLines("1", "line_1"));
-
-    assertThat(
-            comments.stream()
-                .filter(c -> c.message.equals("r2: looks good"))
-                .collect(MoreCollectors.onlyElement())
-                .contextLines)
-        .containsExactlyElementsIn(contextLines("2", "line_2", "3", "line_3"));
-
-    assertThat(
-            comments.stream()
-                .filter(c -> c.message.equals("r3: please fix"))
-                .collect(MoreCollectors.onlyElement())
-                .contextLines)
-        .containsExactlyElementsIn(contextLines("6", "line_6"));
-
-    assertThat(
-            comments.stream()
-                .filter(c -> c.message.equals("r3: looks good"))
-                .collect(MoreCollectors.onlyElement())
-                .contextLines)
-        .containsExactlyElementsIn(contextLines("7", "line_7", "8", "line_8"));
-  }
-
-  private List<ContextLineInfo> contextLines(String... args) {
-    List<ContextLineInfo> result = new ArrayList<>();
-    for (int i = 0; i < args.length; i += 2) {
-      int lineNbr = Integer.parseInt(args[i]);
-      String contextLine = args[i + 1];
-      ContextLineInfo info = new ContextLineInfo(lineNbr, contextLine);
-      result.add(info);
-    }
-    return result;
-  }
-
-  @Test
   public void listChangeCommentsAnonymousDoesNotRequireAuth() throws Exception {
     PushOneCommit.Result r1 = createChange();
 
@@ -1196,8 +1059,8 @@ public class CommentsIT extends AbstractDaemonTest {
             .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent", r1.getChangeId())
             .to("refs/for/master");
 
-    addComment(r1, "nit: trailing whitespace");
-    addComment(r2, "typo: content");
+    CommentsUtil.addComment(gApi, r1, "nit: trailing whitespace");
+    CommentsUtil.addComment(gApi, r2, "typo: content");
 
     List<CommentInfo> comments = gApi.changes().id(r1.getChangeId()).commentsRequest().getAsList();
     assertThat(comments.stream().map(c -> c.message).collect(toList()))
@@ -1215,7 +1078,7 @@ public class CommentsIT extends AbstractDaemonTest {
       PushOneCommit.Result r = createChange();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
-      DraftInput comment = newDraft("file1", Side.REVISION, line, "comment 1");
+      DraftInput comment = CommentsUtil.newDraft("file1", Side.REVISION, line, "comment 1");
       addDraft(changeId, revId, comment);
       assertThat(gApi.changes().query("change:" + changeId + " has:draft").get()).hasSize(1);
     }
@@ -1249,39 +1112,42 @@ public class CommentsIT extends AbstractDaemonTest {
     addDraft(
         r1.getChangeId(),
         r1.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 10), "Is it that bad?"));
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 10), "Is it that bad?"));
     addDraft(
         r1.getChangeId(),
         r1.getCommit().getName(),
-        newDraft(FILE_NAME, Side.PARENT, createLineRange(0, 7), "what happened to this?"));
+        CommentsUtil.newDraft(
+            FILE_NAME, Side.PARENT, createLineRange(0, 7), "what happened to this?"));
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 15), "better now"));
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 15), "better now"));
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, 2, "typo: content"));
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 2, "typo: content"));
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
-        newDraft(FILE_NAME, Side.PARENT, 1, "comment 1 on base"));
+        CommentsUtil.newDraft(FILE_NAME, Side.PARENT, 1, "comment 1 on base"));
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
-        newDraft(FILE_NAME, Side.PARENT, 2, "comment 2 on base"));
+        CommentsUtil.newDraft(FILE_NAME, Side.PARENT, 2, "comment 2 on base"));
 
     PushOneCommit.Result other = createChange();
     // Drafts on other changes aren't returned.
     addDraft(
         other.getChangeId(),
         other.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, 1, "unrelated comment"));
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, "unrelated comment"));
 
     requestScopeOperations.setApiUser(admin.id());
     // Drafts by other users aren't returned.
     addDraft(
-        r2.getChangeId(), r2.getCommit().getName(), newDraft(FILE_NAME, Side.REVISION, 2, "oops"));
+        r2.getChangeId(),
+        r2.getCommit().getName(),
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 2, "oops"));
     requestScopeOperations.setApiUser(user.id());
 
     ReviewInput reviewInput = new ReviewInput();
@@ -1411,7 +1277,7 @@ public class CommentsIT extends AbstractDaemonTest {
     pub.line = 1;
     pub.message = "published comment";
     pub.path = FILE_NAME;
-    ReviewInput rin = newInput(pub);
+    ReviewInput rin = CommentsUtil.newInput(pub);
     rin.tag = "tag1";
     gApi.changes().id(r.getChangeId()).current().review(rin);
 
@@ -1435,7 +1301,7 @@ public class CommentsIT extends AbstractDaemonTest {
   public void draftCommentsWithTagPublishPatchset() throws Exception {
     PushOneCommit.Result result = createChange();
 
-    DraftInput draft = newDraft(FILE_NAME, Side.REVISION, 2, "draft");
+    DraftInput draft = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 2, "draft");
     draft.tag = "old_tag";
     addDraft(result.getChangeId(), result.getCommit().name(), draft);
 
@@ -1455,7 +1321,7 @@ public class CommentsIT extends AbstractDaemonTest {
   public void draftCommentsWithTagPublishAllRevisions() throws Exception {
     PushOneCommit.Result result = createChange();
 
-    DraftInput draft = newDraft(FILE_NAME, Side.REVISION, 2, "draft");
+    DraftInput draft = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 2, "draft");
     draft.tag = "old_tag";
     addDraft(result.getChangeId(), result.getCommit().name(), draft);
 
@@ -1481,30 +1347,32 @@ public class CommentsIT extends AbstractDaemonTest {
     // PS1 has three comments in three different threads, PS2 has one comment in one thread.
     PushOneCommit.Result result = createChange("change 1", FILE_NAME, "content 1");
     String changeId1 = result.getChangeId();
-    addComment(result, "comment 1", false, true, null);
-    addComment(result, "comment 2", false, null, null);
-    addComment(result, "comment 3", false, false, null);
+    CommentsUtil.addComment(gApi, result, "comment 1", false, true, null);
+    CommentsUtil.addComment(gApi, result, "comment 2", false, null, null);
+    CommentsUtil.addComment(gApi, result, "comment 3", false, false, null);
     PushOneCommit.Result result2 = amendChange(changeId1);
-    addComment(result2, "comment4", false, true, null);
+    CommentsUtil.addComment(gApi, result2, "comment4", false, true, null);
 
     // Change2 has two comments in one thread, the first is unresolved and the second is resolved.
     result = createChange("change 2", FILE_NAME, "content 2");
     String changeId2 = result.getChangeId();
-    addComment(result, "comment 1", false, true, null);
+    CommentsUtil.addComment(gApi, result, "comment 1", false, true, null);
     Map<String, List<CommentInfo>> comments =
         getPublishedComments(changeId2, result.getCommit().name());
     assertThat(comments).hasSize(1);
     assertThat(comments.get(FILE_NAME)).hasSize(1);
-    addComment(result, "comment 2", false, false, comments.get(FILE_NAME).get(0).id);
+    CommentsUtil.addComment(
+        gApi, result, "comment 2", false, false, comments.get(FILE_NAME).get(0).id);
 
     // Change3 has two comments in one thread, the first is resolved, the second is unresolved.
     result = createChange("change 3", FILE_NAME, "content 3");
     String changeId3 = result.getChangeId();
-    addComment(result, "comment 1", false, false, null);
+    CommentsUtil.addComment(gApi, result, "comment 1", false, false, null);
     comments = getPublishedComments(result.getChangeId(), result.getCommit().name());
     assertThat(comments).hasSize(1);
     assertThat(comments.get(FILE_NAME)).hasSize(1);
-    addComment(result, "comment 2", false, true, comments.get(FILE_NAME).get(0).id);
+    CommentsUtil.addComment(
+        gApi, result, "comment 2", false, true, comments.get(FILE_NAME).get(0).id);
 
     try (AutoCloseable ignored = disableNoteDb()) {
       ChangeInfo changeInfo1 = Iterables.getOnlyElement(query(changeId1));
@@ -1522,7 +1390,7 @@ public class CommentsIT extends AbstractDaemonTest {
   @Test
   public void deleteCommentCannotBeAppliedByUser() throws Exception {
     PushOneCommit.Result result = createChange();
-    CommentInput targetComment = addComment(result.getChangeId());
+    CommentInput targetComment = CommentsUtil.addComment(gApi, result.getChangeId());
 
     Map<String, List<CommentInfo>> commentsMap =
         getPublishedComments(result.getChangeId(), result.getCommit().name());
@@ -1553,29 +1421,29 @@ public class CommentsIT extends AbstractDaemonTest {
     String ps1 = result1.getCommit().name();
 
     // 2nd commit: Add (c1) to PS1.
-    CommentInput c1 = newComment("a.txt", "comment 1");
-    addComments(changeId, ps1, c1);
+    CommentInput c1 = CommentsUtil.newComment("a.txt", "comment 1");
+    CommentsUtil.addComments(gApi, changeId, ps1, c1);
 
     // 3rd commit: Add (c2, c3) to PS1.
-    CommentInput c2 = newComment("a.txt", "comment 2");
-    CommentInput c3 = newComment("a.txt", "comment 3");
-    addComments(changeId, ps1, c2, c3);
+    CommentInput c2 = CommentsUtil.newComment("a.txt", "comment 2");
+    CommentInput c3 = CommentsUtil.newComment("a.txt", "comment 3");
+    CommentsUtil.addComments(gApi, changeId, ps1, c2, c3);
 
     // 4th commit: Add (c4) to PS1.
-    CommentInput c4 = newComment("a.txt", "comment 4");
-    addComments(changeId, ps1, c4);
+    CommentInput c4 = CommentsUtil.newComment("a.txt", "comment 4");
+    CommentsUtil.addComments(gApi, changeId, ps1, c4);
 
     // 5th commit: Create PS2.
     PushOneCommit.Result result2 = amendChange(changeId, "refs/for/master", "b.txt", "b");
     String ps2 = result2.getCommit().name();
 
     // 6th commit: Add (c5) to PS1.
-    CommentInput c5 = newComment("a.txt", "comment 5");
-    addComments(changeId, ps1, c5);
+    CommentInput c5 = CommentsUtil.newComment("a.txt", "comment 5");
+    CommentsUtil.addComments(gApi, changeId, ps1, c5);
 
     // 7th commit: Add (c6) to PS2.
-    CommentInput c6 = newComment("b.txt", "comment 6");
-    addComments(changeId, ps2, c6);
+    CommentInput c6 = CommentsUtil.newComment("b.txt", "comment 6");
+    CommentsUtil.addComments(gApi, changeId, ps2, c6);
 
     // 8th commit: Create PS3.
     PushOneCommit.Result result3 = amendChange(changeId);
@@ -1586,13 +1454,13 @@ public class CommentsIT extends AbstractDaemonTest {
     String ps4 = result4.getCommit().name();
 
     // 10th commit: Add (c7, c8) to PS4.
-    CommentInput c7 = newComment("c.txt", "comment 7");
-    CommentInput c8 = newComment("b.txt", "comment 8");
-    addComments(changeId, ps4, c7, c8);
+    CommentInput c7 = CommentsUtil.newComment("c.txt", "comment 7");
+    CommentInput c8 = CommentsUtil.newComment("b.txt", "comment 8");
+    CommentsUtil.addComments(gApi, changeId, ps4, c7, c8);
 
     // 11th commit: Add (c9) to PS2.
-    CommentInput c9 = newCommentWithOnlyMandatoryFields("b.txt", "comment 9");
-    addComments(changeId, ps2, c9);
+    CommentInput c9 = CommentsUtil.newCommentWithOnlyMandatoryFields("b.txt", "comment 9");
+    CommentsUtil.addComments(gApi, changeId, ps2, c9);
 
     List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(id.get());
     assertThat(commentsBeforeDelete).hasSize(9);
@@ -1635,14 +1503,14 @@ public class CommentsIT extends AbstractDaemonTest {
     }
 
     // Make sure that comments can still be added correctly.
-    CommentInput c10 = newComment("a.txt", "comment 10");
-    CommentInput c11 = newComment("b.txt", "comment 11");
-    CommentInput c12 = newComment("a.txt", "comment 12");
-    CommentInput c13 = newComment("c.txt", "comment 13");
-    addComments(changeId, ps1, c10);
-    addComments(changeId, ps2, c11);
-    addComments(changeId, ps3, c12);
-    addComments(changeId, ps4, c13);
+    CommentInput c10 = CommentsUtil.newComment("a.txt", "comment 10");
+    CommentInput c11 = CommentsUtil.newComment("b.txt", "comment 11");
+    CommentInput c12 = CommentsUtil.newComment("a.txt", "comment 12");
+    CommentInput c13 = CommentsUtil.newComment("c.txt", "comment 13");
+    CommentsUtil.addComments(gApi, changeId, ps1, c10);
+    CommentsUtil.addComments(gApi, changeId, ps2, c11);
+    CommentsUtil.addComments(gApi, changeId, ps3, c12);
+    CommentsUtil.addComments(gApi, changeId, ps4, c13);
 
     assertThat(getChangeSortedComments(id.get())).hasSize(13);
     assertThat(getRevisionComments(changeId, ps1)).hasSize(6);
@@ -1658,12 +1526,12 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = result.getChangeId();
     String ps1 = result.getCommit().name();
 
-    CommentInput c1 = newComment(FILE_NAME, "comment 1");
-    CommentInput c2 = newComment(FILE_NAME, "comment 2");
-    CommentInput c3 = newComment(FILE_NAME, "comment 3");
-    addComments(changeId, ps1, c1);
-    addComments(changeId, ps1, c2);
-    addComments(changeId, ps1, c3);
+    CommentInput c1 = CommentsUtil.newComment(FILE_NAME, "comment 1");
+    CommentInput c2 = CommentsUtil.newComment(FILE_NAME, "comment 2");
+    CommentInput c3 = CommentsUtil.newComment(FILE_NAME, "comment 3");
+    CommentsUtil.addComments(gApi, changeId, ps1, c1);
+    CommentsUtil.addComments(gApi, changeId, ps1, c2);
+    CommentsUtil.addComments(gApi, changeId, ps1, c3);
 
     List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(id.get());
     assertThat(commentsBeforeDelete).hasSize(3);
@@ -1700,10 +1568,10 @@ public class CommentsIT extends AbstractDaemonTest {
     String parentRobotCommentUuid =
         changeOperations.change(changeId).currentPatchset().newRobotComment().create();
 
-    CommentInput createdCommentInput = newComment(COMMIT_MSG, "comment reply");
+    CommentInput createdCommentInput = CommentsUtil.newComment(COMMIT_MSG, "comment reply");
     createdCommentInput.inReplyTo = parentRobotCommentUuid;
     createdCommentInput.unresolved = null;
-    addComments(changeId, createdCommentInput);
+    CommentsUtil.addComments(gApi, changeId, createdCommentInput);
 
     CommentInfo resultNewComment =
         Iterables.getOnlyElement(
@@ -1723,9 +1591,9 @@ public class CommentsIT extends AbstractDaemonTest {
     String parentCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().create();
 
-    CommentInput createdCommentInput = newComment(COMMIT_MSG, "comment reply");
+    CommentInput createdCommentInput = CommentsUtil.newComment(COMMIT_MSG, "comment reply");
     createdCommentInput.inReplyTo = parentCommentUuid;
-    addComments(changeId, createdCommentInput);
+    CommentsUtil.addComments(gApi, changeId, createdCommentInput);
 
     CommentInfo resultNewComment =
         Iterables.getOnlyElement(
@@ -1741,9 +1609,9 @@ public class CommentsIT extends AbstractDaemonTest {
     String parentRobotCommentUuid =
         changeOperations.change(changeId).currentPatchset().newRobotComment().create();
 
-    CommentInput createdCommentInput = newComment(COMMIT_MSG, "comment reply");
+    CommentInput createdCommentInput = CommentsUtil.newComment(COMMIT_MSG, "comment reply");
     createdCommentInput.inReplyTo = parentRobotCommentUuid;
-    addComments(changeId, createdCommentInput);
+    CommentsUtil.addComments(gApi, changeId, createdCommentInput);
 
     CommentInfo resultNewComment =
         Iterables.getOnlyElement(
@@ -1757,11 +1625,12 @@ public class CommentsIT extends AbstractDaemonTest {
   public void cannotCreateCommentWithInvalidInReplyTo() throws Exception {
     Change.Id changeId = changeOperations.newChange().create();
 
-    CommentInput comment = newComment(COMMIT_MSG, "comment 1 reply");
+    CommentInput comment = CommentsUtil.newComment(COMMIT_MSG, "comment 1 reply");
     comment.inReplyTo = "invalid";
 
     BadRequestException exception =
-        assertThrows(BadRequestException.class, () -> addComments(changeId, comment));
+        assertThrows(
+            BadRequestException.class, () -> CommentsUtil.addComments(gApi, changeId, comment));
     assertThat(exception.getMessage()).contains(String.format("%s not found", comment.inReplyTo));
   }
 
@@ -1769,27 +1638,6 @@ public class CommentsIT extends AbstractDaemonTest {
     return getPublishedComments(changeId, revId).values().stream()
         .flatMap(List::stream)
         .collect(toList());
-  }
-
-  private CommentInput addComment(String changeId) throws Exception {
-    ReviewInput input = new ReviewInput();
-    CommentInput comment = newComment(FILE_NAME, Side.REVISION, 0, "a message", false);
-    input.comments = ImmutableMap.of(comment.path, Lists.newArrayList(comment));
-    gApi.changes().id(changeId).current().review(input);
-    return comment;
-  }
-
-  private void addComments(Change.Id changeId, CommentInput... commentInputs) throws Exception {
-    ReviewInput input = new ReviewInput();
-    input.comments = Arrays.stream(commentInputs).collect(groupingBy(c -> c.path));
-    gApi.changes().id(changeId.get()).current().review(input);
-  }
-
-  private void addComments(String changeId, String revision, CommentInput... commentInputs)
-      throws Exception {
-    ReviewInput input = new ReviewInput();
-    input.comments = Arrays.stream(commentInputs).collect(groupingBy(c -> c.path));
-    gApi.changes().id(changeId).revision(revision).review(input);
   }
 
   /**
@@ -1852,64 +1700,6 @@ public class CommentsIT extends AbstractDaemonTest {
     return m.matches() ? m.group(1) : msg;
   }
 
-  private ReviewInput newInput(CommentInput c) {
-    ReviewInput in = new ReviewInput();
-    in.comments = new HashMap<>();
-    in.comments.put(c.path, Lists.newArrayList(c));
-    return in;
-  }
-
-  private void addComment(PushOneCommit.Result r, String message) throws Exception {
-    addComment(r, message, false, false, null, null, null);
-  }
-
-  private void addCommentOnLine(PushOneCommit.Result r, String message, int line) throws Exception {
-    addComment(r, message, false, false, null, line, null);
-  }
-
-  private void addCommentOnRange(PushOneCommit.Result r, String message, Comment.Range range)
-      throws Exception {
-    addComment(r, message, false, false, null, null, range);
-  }
-
-  private Comment.Range commentRangeInLines(int startLine, int endLine) {
-    Comment.Range range = new Comment.Range();
-    range.startLine = startLine;
-    range.endLine = endLine;
-    return range;
-  }
-
-  private void addComment(
-      PushOneCommit.Result r,
-      String message,
-      boolean omitDuplicateComments,
-      Boolean unresolved,
-      String inReplyTo)
-      throws Exception {
-    addComment(r, message, omitDuplicateComments, unresolved, inReplyTo, null, null);
-  }
-
-  private void addComment(
-      PushOneCommit.Result r,
-      String message,
-      boolean omitDuplicateComments,
-      Boolean unresolved,
-      String inReplyTo,
-      Integer line,
-      Comment.Range range)
-      throws Exception {
-    CommentInput c = new CommentInput();
-    c.line = line == null ? 1 : line;
-    c.message = message;
-    c.path = FILE_NAME;
-    c.unresolved = unresolved;
-    c.inReplyTo = inReplyTo;
-    c.range = range;
-    ReviewInput in = newInput(c);
-    in.omitDuplicateComments = omitDuplicateComments;
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
-  }
-
   private CommentInfo addDraft(String changeId, String revId, DraftInput in) throws Exception {
     return gApi.changes().id(changeId).revision(revId).createDraft(in).get();
   }
@@ -1960,78 +1750,6 @@ public class CommentsIT extends AbstractDaemonTest {
 
   private CommentInfo getDraftComment(String changeId, String revId, String uuid) throws Exception {
     return gApi.changes().id(changeId).revision(revId).draft(uuid).get();
-  }
-
-  private static CommentInput newComment(String file, String message) {
-    return newComment(file, Side.REVISION, 0, message, false);
-  }
-
-  private static CommentInput newCommentWithOnlyMandatoryFields(String path, String message) {
-    CommentInput c = new CommentInput();
-    c.unresolved = false;
-    return populate(c, path, null, null, null, null, message);
-  }
-
-  private static CommentInput newComment(
-      String path, Side side, int line, String message, Boolean unresolved) {
-    CommentInput c = new CommentInput();
-    c.unresolved = unresolved;
-    return populate(c, path, side, null, line, message);
-  }
-
-  private static CommentInput newCommentOnParent(
-      String path, int parent, int line, String message) {
-    CommentInput c = new CommentInput();
-    c.unresolved = false;
-    return populate(c, path, Side.PARENT, parent, line, message);
-  }
-
-  private DraftInput newDraft(String path, Side side, int line, String message) {
-    DraftInput d = new DraftInput();
-    d.unresolved = false;
-    return populate(d, path, side, null, line, message);
-  }
-
-  private DraftInput newDraft(String path, Side side, Comment.Range range, String message) {
-    DraftInput d = new DraftInput();
-    d.unresolved = false;
-    return populate(d, path, side, null, range.startLine, range, message);
-  }
-
-  private DraftInput newDraftOnParent(String path, int parent, int line, String message) {
-    DraftInput d = new DraftInput();
-    d.unresolved = false;
-    return populate(d, path, Side.PARENT, parent, line, message);
-  }
-
-  private DraftInput newDraftWithOnlyMandatoryFields(String path, String message) {
-    DraftInput d = new DraftInput();
-    d.unresolved = false;
-    return populate(d, path, null, null, null, null, message);
-  }
-
-  private static <C extends Comment> C populate(
-      C c,
-      String path,
-      Side side,
-      Integer parent,
-      Integer line,
-      Comment.Range range,
-      String message) {
-    c.path = path;
-    c.side = side;
-    c.parent = parent;
-    c.line = line != null && line != 0 ? line : null;
-    c.message = message;
-    if (range != null) {
-      c.range = range;
-    }
-    return c;
-  }
-
-  private static <C extends Comment> C populate(
-      C c, String path, Side side, Integer parent, int line, String message) {
-    return populate(c, path, side, parent, line, null, message);
   }
 
   private static Comment.Range createLineRange(int startChar, int endChar) {

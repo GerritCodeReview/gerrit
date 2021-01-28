@@ -17,27 +17,37 @@ package com.google.gerrit.pgm.init.api;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.MutableNotesMigration;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class SequencesOnInit {
   private final GitRepositoryManager repoManager;
   private final AllUsersNameOnInitProvider allUsersName;
+  private final NotesMigration migration;
 
   @Inject
-  SequencesOnInit(GitRepositoryManagerOnInit repoManager, AllUsersNameOnInitProvider allUsersName) {
+  SequencesOnInit(
+      GitRepositoryManagerOnInit repoManager,
+      AllUsersNameOnInitProvider allUsersName,
+      @GerritServerConfig Config config) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.migration = MutableNotesMigration.fromConfig(config);
   }
 
   public int nextAccountId(ReviewDb db) throws OrmException {
     @SuppressWarnings("deprecation")
-    RepoSequence.Seed accountSeed = db::nextAccountId;
+    RepoSequence.Seed accountSeed =
+        migration.disableChangeReviewDb() ? db::nextAccountId : () -> ReviewDb.FIRST_ACCOUNT_ID;
     RepoSequence accountSeq =
         new RepoSequence(
             repoManager,

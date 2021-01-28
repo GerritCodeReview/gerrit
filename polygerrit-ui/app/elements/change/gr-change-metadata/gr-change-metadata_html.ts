@@ -98,6 +98,10 @@ export const htmlTemplate = html`
     .topic gr-linked-chip {
       --linked-chip-text-color: var(--link-color);
     }
+    .topic .value {
+      align-items: center;
+      display: flex;
+    }
     gr-reviewer-list {
       --account-max-length: 120px;
       max-width: 285px;
@@ -338,6 +342,12 @@ export const htmlTemplate = html`
             removable="[[!_topicReadOnly]]"
             on-remove="_handleTopicRemoved"
           ></gr-linked-chip>
+          <gr-copy-clipboard
+            has-tooltip=""
+            button-title="Copy topic to clipboard"
+            hide-input=""
+            text="[[change.topic]]"
+          >
         </template>
         <template is="dom-if" if="[[_showAddTopic(change.*, _settingTopic)]]">
           <gr-editable-label

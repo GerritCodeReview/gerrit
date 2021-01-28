@@ -69,6 +69,7 @@ import com.google.gerrit.testing.TestUpdateUI;
 import com.google.gerrit.truth.OptionalSubject;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -114,7 +115,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
   @Inject private GerritApi gApi;
   @Inject private Schema_167 schema167;
-  @Inject private ReviewDb db;
+  @Inject @ReviewDbFactory private SchemaFactory<ReviewDb> schemaFactory;
   @Inject private GitRepositoryManager gitRepoManager;
   @Inject private AllUsersName allUsersName;
   @Inject private GroupsConsistencyChecker consistencyChecker;
@@ -126,10 +127,12 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
   @Inject private DynamicSet<GroupBackend> backends;
   @Inject private Sequences seq;
 
+  private ReviewDb db;
   private JdbcSchema jdbcSchema;
 
   @Before
   public void initDb() throws Exception {
+    db = schemaFactory.open();
     jdbcSchema = ReviewDbWrapper.unwrapJbdcSchema(db);
 
     try (Statement stmt = jdbcSchema.getConnection().createStatement()) {

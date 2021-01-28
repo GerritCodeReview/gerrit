@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9a36454_750cbbd7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-context/gr-comment-context.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-28T15:16:55Z",
+      "side": 1,
+      "message": "File reverted.",
+      "parentUuid": "b3b3ae4c_d765e392",
+      "range": {
+        "startLine": 34,
+        "startChar": 38,
+        "endLine": 34,
+        "endChar": 56
+      },
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29fb01a0_7ca2c1bb",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-01-25T16:10:26Z",
       "side": 1,
       "message": "Do you anticipate the list of comments being useful for showing the context? At the moment just the range and the context_lines would be enough?",
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cebef10_7501d86d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-context/gr-comment-context.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-28T15:16:55Z",
+      "side": 1,
+      "message": "File reverted.",
+      "parentUuid": "29fb01a0_7ca2c1bb",
       "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65fb0da5_57efbff8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-context/gr-comment-context_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-28T15:16:55Z",
+      "side": 1,
+      "message": "File reverted.",
+      "parentUuid": "db41012d_5fff0a3b",
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbeeeafb_2e70b1bd",
@@ -71,6 +131,24 @@
       "writtenOn": "2021-01-25T16:10:26Z",
       "side": 1,
       "message": "Why?",
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85f0a3e5_c2823dd2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-context/gr-comment-context_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-28T15:16:55Z",
+      "side": 1,
+      "message": "File reverted.",
+      "parentUuid": "cbeeeafb_2e70b1bd",
       "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +170,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ece0ca9_b679d820",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-context/gr-comment-context_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-28T15:16:55Z",
+      "side": 1,
+      "message": "File reverted.",
+      "parentUuid": "408611e3_19b07f4e",
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77a6fc45_f6827bd0",
@@ -105,6 +201,24 @@
       "writtenOn": "2021-01-25T16:10:26Z",
       "side": 1,
       "message": "What is this for?",
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39691fb2_9eeab0a4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-28T15:16:55Z",
+      "side": 1,
+      "message": "Without this the comment thread starts taking the height of the context when it is bigger.\nhttps://imgur.com/a/Tngz7LJ (the second comment)",
+      "parentUuid": "77a6fc45_f6827bd0",
       "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -132,6 +246,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff185677_210c94e5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-28T15:16:55Z",
+      "side": 1,
+      "message": "They were needed before we used gr-diff.\nThey are not required now.\nRemoved.",
+      "parentUuid": "53c68273_a0fefe70",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "376f4902_ed7f6827",
@@ -145,6 +283,24 @@
       "writtenOn": "2021-01-25T16:10:26Z",
       "side": 1,
       "message": "Does this do anything?",
+      "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05843fc4_1d74d7b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-28T15:16:55Z",
+      "side": 1,
+      "message": "not required after using gr-diff\nreverted",
+      "parentUuid": "376f4902_ed7f6827",
       "revId": "ed99466be99682997691cfbba67bcd21e3c56104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

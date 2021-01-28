@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98bb3592_9093fca7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-28T23:55:45Z",
+      "side": 1,
+      "message": "I can imagine some advantages to doing this. Can you add some info on why you\u0027re interested in it?",
+      "revId": "bc0a1fa7b0fdc4b226fa3d31b2d355424ea04fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f8c7a2d_f65d6a6c",
+        "filename": "java/com/google/gerrit/reviewdb/server/NoOpReviewDb.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-28T23:55:45Z",
+      "side": 1,
+      "message": "not for testing?",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 33,
+        "endChar": 41
+      },
+      "revId": "bc0a1fa7b0fdc4b226fa3d31b2d355424ea04fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1a4a239_cf21583e",
+        "filename": "java/com/google/gerrit/reviewdb/server/NoOpReviewDb.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-28T23:55:45Z",
+      "side": 1,
+      "message": "No one is going to update this code with another schema version ever. Probably fine to hardcode it.",
+      "revId": "bc0a1fa7b0fdc4b226fa3d31b2d355424ea04fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f38fcdae_b9cc7ca2",
+        "filename": "java/com/google/gerrit/server/schema/NotesMigrationSchemaFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-28T23:55:45Z",
+      "side": 1,
+      "message": "Update this comment too?",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 94
+      },
+      "revId": "bc0a1fa7b0fdc4b226fa3d31b2d355424ea04fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

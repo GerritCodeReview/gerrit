@@ -186,7 +186,7 @@ export function isReviewer(change?: ChangeInfo, account?: AccountInfo) {
 export function isUploader(change?: ChangeInfo, account?: AccountInfo) {
   if (!change || !account) return false;
   const rev = getCurrentRevision(change);
-  return rev?.uploader._account_id === account._account_id;
+  return rev?.uploader?._account_id === account._account_id;
 }
 
 export function isInvolved(change?: ChangeInfo, account?: AccountInfo) {

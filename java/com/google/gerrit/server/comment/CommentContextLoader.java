@@ -15,6 +15,7 @@
 package com.google.gerrit.server.comment;
 
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
+import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static java.util.stream.Collectors.groupingBy;
 
 import com.google.auto.value.AutoValue;
@@ -28,6 +29,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.patch.ComparisonType;
 import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -91,11 +93,17 @@ public class CommentContextLoader {
             continue;
           }
           String filePath = comment.key.filename;
-          if (filePath.equals(COMMIT_MSG)) {
-            result.put(
-                comment, getContextForCommitMessage(rw.getObjectReader(), commit, range.get()));
-          } else {
-            result.put(comment, getContextForFilePath(repo, rw, commit, filePath, range.get()));
+          switch (filePath) {
+            case COMMIT_MSG:
+              result.put(
+                  comment, getContextForCommitMessage(rw.getObjectReader(), commit, range.get()));
+              break;
+            case MERGE_LIST:
+              result.put(
+                  comment, getContextForMergeList(rw.getObjectReader(), commit, range.get()));
+              break;
+            default:
+              result.put(comment, getContextForFilePath(repo, rw, commit, filePath, range.get()));
           }
         }
       }
@@ -113,6 +121,18 @@ public class CommentContextLoader {
     } catch (IOException e) {
       throw new CommentContextLoadException(e);
     }
+  }
+
+  private CommentContext getContextForMergeList(ObjectReader reader, RevCommit commit, Range range)
+      throws CommentContextLoadException {
+    try {
+      ComparisonType cmp = ComparisonType.againstParent(1);
+      Text text = Text.forMergeList(cmp, reader, commit);
+      return createContext(text, range);
+    } catch (IOException e) {
+      logger.atWarning().log("Failed to load commend context for merge list of commit: " + commit);
+    }
+    return CommentContext.empty();
   }
 
   private CommentContext getContextForFilePath(

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd561640_ed36909d",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-28T12:09:24Z",
+      "side": 1,
+      "message": "You could iterate over the .values() directly.",
+      "revId": "37a3f92fb2b5bc35ed05d8747bc99a2d621c04c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

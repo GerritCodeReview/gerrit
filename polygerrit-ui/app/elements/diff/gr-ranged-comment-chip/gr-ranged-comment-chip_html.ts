@@ -24,21 +24,25 @@ export const htmlTemplate = html`
     .row {
       color: var(--ranged-comment-chip-text-color);
       display: flex;
-      font-family: var(--font-family), Roboto;
+      font-weight: 500;
+      font-family: var(--header-font-family);
+      line-height: var(--spacing-xl);
       justify-content: flex-end;
       margin: var(--spacing-xs) 0;
     }
     .icon {
       color: var(--ranged-comment-chip-text-color);
-      height: 16px;
-      width: 16px;
+      height: var(--spacing-xl);
+      width: var(--spacing-xl);
+      margin-right: var(--spacing-s);
     }
     .chip {
       background-color: var(--ranged-comment-chip-background);
-      border-radius: 24px;
+      border-radius: var(--spacing-l);
       margin: var(--spacing-s);
-      padding: var(--spacing-s);
+      padding: var(--spacing-s) var(--spacing-m);
       padding-right: var(--spacing-m);
+      vertical-align: middle;
     }
   </style>
   <div class="row rangeHighlight">

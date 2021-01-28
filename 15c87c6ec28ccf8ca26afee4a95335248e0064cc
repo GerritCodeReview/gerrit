@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f910578_53328ec9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-01-28T16:01:59Z",
+      "side": 1,
+      "message": "The comment was to assist the review.",
+      "parentUuid": "3499f56f_4d9a8a48",
+      "revId": "15c87c6ec28ccf8ca26afee4a95335248e0064cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3cc65d0_55ff7e70",
@@ -65,6 +83,30 @@
       "writtenOn": "2020-12-22T11:46:16Z",
       "side": 1,
       "message": "That is an AsciiDoc anchor , the syntax is described at https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/#links\n\nIt results in the HTML:\n\n \u003cp\u003e\n  \u003ca href\u003d\"#non-interactive_users\"\u003e\u003c/a\u003e\n \u003c/p\u003e\n\nWhich is essentially empty content which does not show up when browsing the page.\n\n\nWe can\u0027t add two anchors to a header since that is used as the id of the \u003ch3\u003e element and we can\u0027t have two ids on an element.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 30
+      },
+      "revId": "15c87c6ec28ccf8ca26afee4a95335248e0064cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5bb9ae2_af13d434",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-01-28T16:01:59Z",
+      "side": 1,
+      "message": "That was merely for information.",
+      "parentUuid": "f3cc65d0_55ff7e70",
       "range": {
         "startLine": 118,
         "startChar": 0,

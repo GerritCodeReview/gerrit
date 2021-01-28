@@ -26,7 +26,6 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.config.AllUsersName;
@@ -40,6 +39,7 @@ import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -68,18 +68,20 @@ public class Schema_166_to_167_WithGroupsInNoteDbTest {
   public InMemoryTestEnvironment testEnv =
       new InMemoryTestEnvironment(Schema_166_to_167_WithGroupsInNoteDbTest::createConfig);
 
+  @Inject @ReviewDbFactory private SchemaFactory<ReviewDb> schemaFactory;
   @Inject private Schema_167 schema167;
-  @Inject private ReviewDb db;
   @Inject private GitRepositoryManager gitRepoManager;
   @Inject private AllUsersName allUsersName;
   @Inject private @ServerInitiated GroupsUpdate groupsUpdate;
   @Inject private Sequences seq;
 
+  private ReviewDb db;
   private JdbcSchema jdbcSchema;
 
   @Before
   public void initDb() throws Exception {
-    jdbcSchema = ReviewDbWrapper.unwrapJbdcSchema(db);
+    db = schemaFactory.open();
+    jdbcSchema = (JdbcSchema) db;
 
     try (Statement stmt = jdbcSchema.getConnection().createStatement()) {
       stmt.execute(

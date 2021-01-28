@@ -36,6 +36,7 @@ import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -85,8 +86,8 @@ public class InitAdminUser implements InitStep {
   public void run() {}
 
   @Inject(optional = true)
-  void set(SchemaFactory<ReviewDb> dbFactory) {
-    this.dbFactory = dbFactory;
+  void set(@ReviewDbFactory SchemaFactory<ReviewDb> dbProvider) {
+    this.dbFactory = dbProvider;
   }
 
   @Inject

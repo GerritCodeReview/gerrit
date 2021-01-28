@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81629cf2_d2fadf84",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-01-28T14:26:29Z",
+      "side": 1,
+      "message": "done. but as var(--font-weight-bold, 500); instead",
+      "parentUuid": "4f4d0ad3_49466195",
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f03bd536_a9d8721d",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-01-28T11:39:57Z",
       "side": 1,
       "message": "This should be\n\n  font-family: var(--font-family), Roboto, sans-serif;",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 45
+      },
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "899ce8fd_9fc18cfc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-01-28T14:26:29Z",
+      "side": 1,
+      "message": "We were using --header-font-family actually (https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts#236) - which is Open Sans I believe.\n\nI\u0027m fine in changing it to var(--font-family) but then we would need to change for both chips let\u0027s check with the designers.",
+      "parentUuid": "f03bd536_a9d8721d",
       "range": {
         "startLine": 28,
         "startChar": 6,
@@ -100,6 +142,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ebf124e3_eb9fa885",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-01-28T14:26:29Z",
+      "side": 1,
+      "message": "The move detection chip was using the same font-size as source code - as it was also in the middle of source code- which is actually configurable via setting/preference (https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts#807) and accessible via --font-size\n\nSame thing here as for font-family. Maybe we could change it to font-size-small, but then maybe for both chips?\n\nAnother thing, it seems --font-size-small uses a relative unit (.857rem) and it doesn\u0027t seem to be exactly the same as 12px. I\u0027m seeing differences in screenshots in comparison to before (--font-size) for the move detection chip.",
+      "parentUuid": "594e8806_6269c8ba",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0424441c_e8400354",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-01-28T14:26:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c63150c_c4fe3cc1",
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "061e5d90_8e3a0f76",
         "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
         "patchSetId": 2
@@ -111,6 +195,30 @@
       "writtenOn": "2021-01-28T11:39:57Z",
       "side": 1,
       "message": "Using a spacing var for icon height is weird. I think what you want to accomplish is that the icon is same height as the line-height. I would either stick to `16px` or specify depending on line-height:\n\n  height: var(--line-height-normal, 20px);\n\nor\n\n  height: var(--line-height-small, 16px);\n\n\nSame for width.",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eeaa6f0_81e33b38",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-01-28T14:26:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "061e5d90_8e3a0f76",
       "range": {
         "startLine": 35,
         "startChar": 14,
@@ -134,6 +242,24 @@
       "writtenOn": "2021-01-28T11:39:57Z",
       "side": 1,
       "message": "Gerrit has a --border-radius variable (4px). I find it weird that we have three kinds of border-radius: 4px, 8px, fully rounded. Delphine would have to approve that.\n\nNote that if the chip is 20px high, then any value \u003e\u003d10px means \"fully rounded\".",
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17a59abd_43a9023b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-01-28T14:26:29Z",
+      "side": 1,
+      "message": "Currently we have 24px height for the move detection chips. This happens because of 16px of icon height (previously based on --spacing-xl and now --line-height-small) + 2x padding top/bottom from chip (--spacing-s). So although not really intentional, --spacing-l (12px) was following the spacing proportions for representing fully rounded. Now I agree it doesn\u0027t make a lot of sense. However, the representation is indeed \"fully rounded\". I could represent it via 12px directly or define the chip height as fixed 24px (--spacing-xxl) and continue using --spacing-l assuming they will have a 1/2 ratio - as also happens with the media query(max-width: 50em) in app-theme.ts.\n\nAny preference here?",
+      "parentUuid": "f163a863_fc4fcd72",
       "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

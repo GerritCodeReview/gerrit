@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee9c5a40_7e46507c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-01-28T22:27:17Z",
+      "side": 1,
+      "message": "Mention which scenarios would these be, at least in summary?",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "b118b10f6d186057548e17bdeef998b4e437336c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfecae8b_2a87c2f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-01-28T22:27:17Z",
+      "side": 1,
+      "message": "A simple proposal (I think).",
+      "revId": "b118b10f6d186057548e17bdeef998b4e437336c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -492,12 +492,12 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void diffWithThreeParentsMergeCommitAgainstAutoMergeIsNotSupported() throws Exception {
+  public void diffWithThreeParentsMergeCommitAgainstAutoMergeReturnsCommitMsgAndMergeListOnly()
+      throws Exception {
     PushOneCommit.Result r =
         createNParentsMergeCommitChange("refs/for/master", ImmutableList.of("foo", "bar", "baz"));
 
     // Diff against auto-merge returns COMMIT_MSG and MERGE_LIST only
-    // todo(ghareeb): We could throw an exception in this case for better handling at the client.
     Map<String, FileInfo> changedFiles = gApi.changes().id(r.getChangeId()).current().files();
     assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, MERGE_LIST);
   }

@@ -1337,6 +1337,20 @@ comments are rejected.
 +
 By default 5,000.
 
+[[change.maxFiles]]change.maxFiles::
++
+Maximum number of files allowed per change. Larger changes are rejected and must
+be split up.
++
+By default 100,000.
+
+[[change.maxPatchSets]]change.maxPatchSets::
++
+Maximum number of patch sets allowed per change. If this is insufficient,
+recreate the change with a new Change-Id, then abandon the old change.
++
+By default 1,500.
+
 [[change.maxUpdates]]change.maxUpdates::
 +
 Maximum number of updates to a change. Counts only updates to the main NoteDb

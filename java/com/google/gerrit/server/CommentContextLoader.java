@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static java.util.stream.Collectors.groupingBy;
 
 import com.google.auto.value.AutoValue;
@@ -87,31 +88,57 @@ public class CommentContextLoader {
             result.put(comment, CommentContext.empty());
             continue;
           }
-          // TODO(ghareeb): We can further group the comments by file paths to avoid opening
-          // the same file multiple times.
-          try (TreeWalk tw =
-              TreeWalk.forPath(rw.getObjectReader(), comment.key.filename, commit.getTree())) {
-            if (tw == null) {
-              logger.atWarning().log(
-                  "Failed to find path %s in the git tree of ID %s.",
-                  comment.key.filename, commit.getTree().getId());
-              continue;
-            }
-            ObjectId id = tw.getObjectId(0);
-            Text src = new Text(repo.open(id, Constants.OBJ_BLOB));
-            Range r = range.get();
-            ImmutableMap.Builder<Integer, String> context =
-                ImmutableMap.builderWithExpectedSize(r.end() - r.start());
-            for (int i = r.start(); i < r.end(); i++) {
-              context.put(i, src.getString(i - 1));
-            }
-            result.put(comment, CommentContext.create(context.build()));
+          String filePath = comment.key.filename;
+          if (filePath.equals(COMMIT_MSG)) {
+            result.put(comment, getContextForCommitMessage(commit, range.get()));
+          } else {
+            result.put(comment, getContextForFilePath(repo, rw, commit, filePath, range.get()));
           }
         }
       }
       return result.build();
     } catch (IOException e) {
       throw new StorageException("Failed to load the comment context", e);
+    }
+  }
+
+  private CommentContext getContextForCommitMessage(RevCommit commit, Range range) {
+    String commitMessageLines[] = commit.getFullMessage().split("\n");
+    if (range.start() < 0 || range.end() >= commitMessageLines.length) {
+      throw new IllegalArgumentException(
+          "Invalid comment range "
+              + range
+              + ". Commit message has only "
+              + commitMessageLines.length
+              + " lines.");
+    }
+    ImmutableMap.Builder<Integer, String> context =
+        ImmutableMap.builderWithExpectedSize(range.end() - range.start());
+    for (int i = range.start(); i < range.end(); i++) {
+      context.put(i, commitMessageLines[i - 1]);
+    }
+    return CommentContext.create(context.build());
+  }
+
+  private CommentContext getContextForFilePath(
+      Repository repo, RevWalk rw, RevCommit commit, String filePath, Range range)
+      throws IOException {
+    // TODO(ghareeb): We can further group the comments by file paths to avoid opening
+    // the same file multiple times.
+    try (TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), filePath, commit.getTree())) {
+      if (tw == null) {
+        logger.atWarning().log(
+            "Could not find path %s in the git tree of ID %s.", filePath, commit.getTree().getId());
+        return CommentContext.empty();
+      }
+      ObjectId id = tw.getObjectId(0);
+      Text src = new Text(repo.open(id, Constants.OBJ_BLOB));
+      ImmutableMap.Builder<Integer, String> context =
+          ImmutableMap.builderWithExpectedSize(range.end() - range.start());
+      for (int i = range.start(); i < range.end(); i++) {
+        context.put(i, src.getString(i - 1));
+      }
+      return CommentContext.create(context.build());
     }
   }
 

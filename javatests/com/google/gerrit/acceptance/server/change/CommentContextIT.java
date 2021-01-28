@@ -16,8 +16,9 @@ package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
-import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.MoreCollectors;
@@ -27,6 +28,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.inject.Inject;
@@ -38,11 +40,87 @@ import org.junit.Test;
 
 @NoHttpd
 public class CommentContextIT extends AbstractDaemonTest {
+  /** The commit message of a single commit. */
+  private static final String SUBJECT =
+      String.join(
+          "\n",
+          "Commit Header",
+          "",
+          "This commit is doing something extremely important",
+          "",
+          "Footer: value");
+
+  private static final String FILE_CONTENT =
+      String.join("\n", "Line 1 of file", "", "Line 3 of file", "", "", "Line 6 of file");
+
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before
   public void setUp() {
     requestScopeOperations.setApiUser(user.id());
+  }
+
+  @Test
+  public void commentContextForCommitMessageForLineComment() throws Exception {
+    PushOneCommit.Result result =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, FILE_CONTENT, "topic");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput comment = CommentsUtil.newComment(COMMIT_MSG, Side.REVISION, 1, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).contextLines)
+        .containsExactlyElementsIn(createContextLines("1", "Commit Header"));
+  }
+
+  @Test
+  public void commentContextForCommitMessageForRangeComment() throws Exception {
+    PushOneCommit.Result result =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, FILE_CONTENT, "topic");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput comment =
+        CommentsUtil.newComment(
+            COMMIT_MSG, Side.REVISION, createCommentRange(1, 3), "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).contextLines)
+        .containsExactlyElementsIn(
+            createContextLines(
+                "1",
+                "Commit Header",
+                "2",
+                "",
+                "3",
+                "This commit is doing something extremely important"));
+  }
+
+  @Test
+  public void commentContextForCommitMessageInvalidLine() throws Exception {
+    PushOneCommit.Result result =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, FILE_CONTENT, "topic");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput comment = CommentsUtil.newComment(COMMIT_MSG, Side.REVISION, 10, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+
+    Throwable thrown =
+        assertThrows(
+            Exception.class,
+            () -> gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList());
+
+    assertThat(thrown).hasCauseThat().hasMessageThat().contains("Invalid comment range");
   }
 
   @Test
@@ -59,7 +137,7 @@ public class CommentContextIT extends AbstractDaemonTest {
             .create(
                 admin.newIdent(),
                 testRepo,
-                SUBJECT,
+                PushOneCommit.SUBJECT,
                 FILE_NAME,
                 content.build().stream().collect(Collectors.joining("\n")),
                 r1.getChangeId())
@@ -103,7 +181,7 @@ public class CommentContextIT extends AbstractDaemonTest {
             .create(
                 admin.newIdent(),
                 testRepo,
-                SUBJECT,
+                PushOneCommit.SUBJECT,
                 FILE_NAME,
                 String.join("\n", content.build()),
                 r1.getChangeId())
@@ -114,7 +192,7 @@ public class CommentContextIT extends AbstractDaemonTest {
             .create(
                 admin.newIdent(),
                 testRepo,
-                SUBJECT,
+                PushOneCommit.SUBJECT,
                 FILE_NAME,
                 content.build().stream().collect(Collectors.joining("\n")),
                 r1.getChangeId())

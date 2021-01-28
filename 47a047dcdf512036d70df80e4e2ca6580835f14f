@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b86c89df_37f1de47",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-28T18:01:12Z",
+      "side": 1,
+      "message": "\u0027today\u0027 is pretty contextual. \n\nwhy add this comment?",
+      "range": {
+        "startLine": 45,
+        "startChar": 11,
+        "endLine": 45,
+        "endChar": 16
+      },
+      "revId": "47a047dcdf512036d70df80e4e2ca6580835f14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac7ea4ab_ae5b3dd9",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-01-28T18:01:12Z",
+      "side": 1,
+      "message": "this comment no longer is accurate",
+      "range": {
+        "startLine": 84,
+        "startChar": 43,
+        "endLine": 84,
+        "endChar": 77
+      },
+      "revId": "47a047dcdf512036d70df80e4e2ca6580835f14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "469ddc74_420be8c4",
         "filename": "modules/jgit",
         "patchSetId": 2

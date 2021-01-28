@@ -279,6 +279,24 @@
       "message": "I am trying to avoid \"vertical-align: middle\" completely. It never really does what you want. Primarily it does actually position in the \"middle\" in the line-height box, but \"with the baseline plus half the x-height of the parent\". Whenever you are wondering why your boxes are slightly too high (21.4px instead of 20px) then this is normally the culprit.\n\nCan you explain what you are trying to do here?\n\nIf this is just about the icon, then `vertical-align` should go into a rule for the icon only, so it does not affect the label.\n\nIf the goal is to align the icon in the middle, then you want \"vertical-align:top\". If the icon and the line-height are identical, then you are done. If the icon is smaller than the line-height, then you have to do calcs:\n\n  .icon {\n    position: relative;\n    top: 2px;\n    vertical-align: top;\n    height: calc(var(--line-height) - 4px);\n    width: calc(var(--line-height) - 4px);\n  }",
       "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2329f4b_58ccf41f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-01-28T14:33:29Z",
+      "side": 1,
+      "message": "I think this was a mistake I did in the move detection chips. The property doesn\u0027t seem to affect the overall behavior - removed!",
+      "parentUuid": "49b22907_c552c752",
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

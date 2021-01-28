@@ -703,6 +703,42 @@ suite('gr-diff tests', () => {
           element.querySelector('gr-ranged-comment-chip').range, range);
     });
 
+    test('no duplicate range chip for same thread', async () => {
+      const range = {
+        start_line: 1,
+        end_line: 7,
+        start_character: 0,
+        end_character: 0,
+      };
+      const threadEl = document.createElement('div');
+      threadEl.className = 'comment-thread';
+      threadEl.setAttribute('diff-side', 'right');
+      threadEl.setAttribute('line-num', 1);
+      threadEl.setAttribute('range', JSON.stringify(range));
+      threadEl.setAttribute('slot', 'right-1');
+      const firstChip = document.createElement('gr-ranged-comment-chip');
+      firstChip.range = range;
+      firstChip.setAttribute('threadElRootId', threadEl.rootId);
+      firstChip.setAttribute('slot', 'right-1');
+      const content = [{
+        a: [],
+        b: [],
+      }, {
+        ab: Array(8).fill('text'),
+      }];
+      setupSampleDiff({content});
+
+      element.appendChild(firstChip);
+      await flush();
+      element._diffChanged(element.diff);
+      await flush();
+      element.appendChild(threadEl);
+      await flush();
+
+      assert.equal(
+          element.querySelectorAll('gr-ranged-comment-chip').length, 1);
+    });
+
     test('removes long range comment chip when comment is discarded',
         async () => {
           const range = {

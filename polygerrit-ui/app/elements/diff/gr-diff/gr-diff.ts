@@ -979,6 +979,9 @@ export class GrDiff extends GestureEventListeners(
     while (this.$.diffTable.hasChildNodes()) {
       this.$.diffTable.removeChild(this.$.diffTable.lastChild!);
     }
+    this.querySelectorAll('gr-ranged-comment-chip').forEach(element =>
+      element.remove()
+    );
   }
 
   _computeDiffHeaderItems(

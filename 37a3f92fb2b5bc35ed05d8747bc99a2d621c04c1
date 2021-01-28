@@ -16,6 +16,24 @@
       "message": "You could iterate over the .values() directly.",
       "revId": "37a3f92fb2b5bc35ed05d8747bc99a2d621c04c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5529069a_2e38a81e",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-28T14:56:57Z",
+      "side": 1,
+      "message": "Right. Done.",
+      "parentUuid": "dd561640_ed36909d",
+      "revId": "37a3f92fb2b5bc35ed05d8747bc99a2d621c04c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

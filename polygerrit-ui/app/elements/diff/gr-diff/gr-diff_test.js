@@ -87,52 +87,6 @@ suite('gr-diff tests', () => {
     assert.isNotOk(getComputedStyleValue('--line-limit', element));
   });
 
-  suite('_getPatchNumByLineAndContent', () => {
-    let lineEl;
-    let contentEl;
-
-    setup(() => {
-      element = basicFixture.instantiate();
-      lineEl = document.createElement('td');
-      contentEl = document.createElement('span');
-    });
-
-    test('right side', () => {
-      element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
-      lineEl.classList.add('right');
-      assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-          4);
-    });
-
-    test('left side parent by linenum', () => {
-      element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
-      lineEl.classList.add('left');
-      assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-          4);
-    });
-
-    test('left side parent by content', () => {
-      element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
-      contentEl.classList.add('remove');
-      assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-          4);
-    });
-
-    test('left side merge parent', () => {
-      element.patchRange = {patchNum: 4, basePatchNum: -2};
-      contentEl.classList.add('remove');
-      assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-          4);
-    });
-
-    test('left side non parent', () => {
-      element.patchRange = {patchNum: 4, basePatchNum: 3};
-      contentEl.classList.add('remove');
-      assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-          3);
-    });
-  });
-
   suite('not logged in', () => {
     setup(() => {
       const getLoggedInPromise = Promise.resolve(false);

@@ -965,7 +965,6 @@ suite('gr-diff-host tests', () => {
 
       element.dispatchEvent(new CustomEvent('create-comment', {
         detail: {
-          patchNum: 2,
           lineNum: 3,
           side: diffSide,
           path: '/p',
@@ -988,10 +987,13 @@ suite('gr-diff-host tests', () => {
         end_line: 1,
         end_character: 3,
       };
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 3,
+      };
 
       element.dispatchEvent(new CustomEvent('create-comment', {
         detail: {
-          patchNum: 3,
           lineNum: 1,
           side: diffSide,
           path: '/p',
@@ -1017,7 +1019,6 @@ suite('gr-diff-host tests', () => {
 
       element.dispatchEvent(new CustomEvent('create-comment', {
         detail: {
-          patchNum: 2,
           side: Side.RIGHT,
         },
       }));
@@ -1036,7 +1037,6 @@ suite('gr-diff-host tests', () => {
 
       element.dispatchEvent(new CustomEvent('create-comment', {
         detail: {
-          patchNum: 3,
           side: Side.LEFT,
         },
       }));
@@ -1055,7 +1055,6 @@ suite('gr-diff-host tests', () => {
 
       element.dispatchEvent(new CustomEvent('create-comment', {
         detail: {
-          patchNum: 3,
           side: Side.LEFT,
         },
       }));
@@ -1074,7 +1073,6 @@ suite('gr-diff-host tests', () => {
 
       element.dispatchEvent(new CustomEvent('create-comment', {
         detail: {
-          patchNum: 3,
           side: Side.LEFT,
         },
       }));
@@ -1096,8 +1094,6 @@ suite('gr-diff-host tests', () => {
 
       element.dispatchEvent(new CustomEvent('create-comment', {
         detail: {
-          patchNum: 2,
-          lineNum: 3,
           side: diffSide,
           path: '/p',
         },
@@ -1122,8 +1118,6 @@ suite('gr-diff-host tests', () => {
 
       element.dispatchEvent(new CustomEvent('create-comment', {
         detail: {
-          patchNum: 2,
-          lineNum: 3,
           side: diffSide,
           path: '/p',
         },
@@ -1148,11 +1142,8 @@ suite('gr-diff-host tests', () => {
 
       element.dispatchEvent(new CustomEvent('create-comment', {
         detail: {
-          patchNum: 2,
-          lineNum: 3,
           side: diffSide,
           path: '/p',
-          range: undefined,
         },
       }));
 

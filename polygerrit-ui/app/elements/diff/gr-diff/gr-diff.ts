@@ -663,7 +663,6 @@ export class GrDiff extends GestureEventListeners(
           patchNum: patchForNewThreads,
           range,
           path: this.path,
-          isOnParent,
         },
       })
     );

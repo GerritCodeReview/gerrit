@@ -94,6 +94,30 @@
       },
       "revId": "bf11e4f685747d54778aa9a94961c4014cfb949b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "375f9f88_aec981ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-29T17:19:30Z",
+      "side": 1,
+      "message": "I see that the file RefDirectory implementation is almost exactly the same as what was in CommitsCollection, so I agree this is a no-op for non-reftable. I don\u0027t think you need a perf benchmark for that. That would be good to note in the commit message in the future. Your message makes no mention that this improvement is only applicable to Reftable.\n\nI do think this same improvement applies to DefaultRefFilter. Let me look at uploading a change for that.",
+      "parentUuid": "c028e78d_4679f0ff",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 62
+      },
+      "revId": "bf11e4f685747d54778aa9a94961c4014cfb949b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

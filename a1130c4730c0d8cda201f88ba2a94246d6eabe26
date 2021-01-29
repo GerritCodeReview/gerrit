@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38ed1476_63c0bdc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-29T08:20:42Z",
+      "side": 1,
+      "message": "GitOverHttpServletIT.java was deleted in that change, not HttpPushForReviewIT.\nThen GitOverHttpServletIT got re-added in the second change, together with AbstractGitOverHttpServlet.java, which I don\u0027t totally get.\nCan you re-check whether you\u0027re deleting the right class?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "a1130c4730c0d8cda201f88ba2a94246d6eabe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

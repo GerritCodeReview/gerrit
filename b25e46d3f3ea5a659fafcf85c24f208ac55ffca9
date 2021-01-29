@@ -34,6 +34,24 @@
       "parentUuid": "a0b42b4c_d1883e73",
       "revId": "b25e46d3f3ea5a659fafcf85c24f208ac55ffca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d48b40e_3cb7ae0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-29T11:28:33Z",
+      "side": 1,
+      "message": "I think it deserve a discussion. Is it really useful? Why on topic and why not hashtags? Maybe it deserve to check data - number of click on parent copy link and if it is really used. Maybe we can remove copy parent.",
+      "parentUuid": "ef33a0c8_ee065fa7",
+      "revId": "b25e46d3f3ea5a659fafcf85c24f208ac55ffca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

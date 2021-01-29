@@ -46,6 +46,30 @@
       },
       "revId": "a1130c4730c0d8cda201f88ba2a94246d6eabe26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f074b98_13118844",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-29T09:12:48Z",
+      "side": 1,
+      "message": "ack, I see, looks like you\u0027re right based on what was done in https://gerrit-review.googlesource.com/c/gerrit/+/211784",
+      "parentUuid": "53bee39d_0f0f49c3",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "a1130c4730c0d8cda201f88ba2a94246d6eabe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

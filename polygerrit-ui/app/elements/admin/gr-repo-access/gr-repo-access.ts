@@ -52,6 +52,7 @@ import {
 } from './gr-repo-access-interfaces';
 import {firePageError, fireAlert} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {WebLinkInfo} from '../../../types/diff';
 
 const NOTHING_TO_SAVE = 'No changes to save.';
 
@@ -113,7 +114,7 @@ export class GrRepoAccess extends GestureEventListeners(
   _sections?: PermissionAccessSection[];
 
   @property({type: Array})
-  _weblinks?: string[];
+  _weblinks?: WebLinkInfo[];
 
   @property({type: Boolean})
   _loading = true;

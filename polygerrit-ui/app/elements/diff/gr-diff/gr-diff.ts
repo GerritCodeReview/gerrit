@@ -647,11 +647,7 @@ export class GrDiff extends GestureEventListeners(
       lineEl,
       contentEl
     );
-    const isOnParent = this._getIsParentCommentByLineAndContent(
-      lineEl,
-      contentEl
-    );
-    const commentSide = isOnParent ? CommentSide.PARENT : CommentSide.REVISION;
+
     this.dispatchEvent(
       new CustomEvent('create-comment', {
         bubbles: true,
@@ -659,7 +655,6 @@ export class GrDiff extends GestureEventListeners(
         detail: {
           lineNum,
           side,
-          commentSide,
           patchNum: patchForNewThreads,
           range,
           path: this.path,
@@ -715,25 +710,11 @@ export class GrDiff extends GestureEventListeners(
     return patchNum;
   }
 
-  _getIsParentCommentByLineAndContent(lineEl: Element, contentEl: Element) {
-    if (!this.patchRange) throw Error('patch range not set');
-    return (
-      (lineEl.classList.contains(Side.LEFT) ||
-        contentEl.classList.contains('remove')) &&
-      (this.patchRange.basePatchNum === 'PARENT' ||
-        isMergeParent(this.patchRange.basePatchNum))
-    );
-  }
-
   _getCommentSideByLineAndContent(lineEl: Element, contentEl: Element): Side {
-    let side = Side.RIGHT;
-    if (
-      lineEl.classList.contains(Side.LEFT) ||
+    return lineEl.classList.contains(Side.LEFT) ||
       contentEl.classList.contains('remove')
-    ) {
-      side = Side.LEFT;
-    }
-    return side;
+      ? Side.LEFT
+      : Side.RIGHT;
   }
 
   _prefsObserver(newPrefs: DiffPreferencesInfo, oldPrefs: DiffPreferencesInfo) {

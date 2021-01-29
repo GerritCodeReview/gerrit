@@ -40,7 +40,6 @@ import {
   rangesEqual,
 } from './gr-diff-utils';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll';
-import {isMergeParent} from '../../../utils/patch-set-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
   BlameInfo,
@@ -642,22 +641,16 @@ export class GrDiff extends GestureEventListeners(
   ) {
     const contentEl = this.$.diffBuilder.getContentTdByLineEl(lineEl);
     if (!contentEl) throw Error('content el not found for line el');
-    side = side || this._getCommentSideByLineAndContent(lineEl, contentEl);
-    const patchForNewThreads = this._getPatchNumByLineAndContent(
-      lineEl,
-      contentEl
-    );
-
+    side = side ?? this._getCommentSideByLineAndContent(lineEl, contentEl);
     this.dispatchEvent(
       new CustomEvent('create-comment', {
         bubbles: true,
         composed: true,
         detail: {
-          lineNum,
-          side,
-          patchNum: patchForNewThreads,
-          range,
           path: this.path,
+          side,
+          lineNum,
+          range,
         },
       })
     );
@@ -681,33 +674,6 @@ export class GrDiff extends GestureEventListeners(
       contentEl.appendChild(threadGroupEl);
     }
     return threadGroupEl;
-  }
-
-  /**
-   * The value to be used for the patch number of new comments created at the
-   * given line and content elements.
-   *
-   * In two cases of creating a comment on the left side, the patch number to
-   * be used should actually be right side of the patch range:
-   * - When the patch range is against the parent comment of a normal change.
-   * Such comments declare themmselves to be on the left using side=PARENT.
-   * - If the patch range is against the indexed parent of a merge change.
-   * Such comments declare themselves to be on the given parent by
-   * specifying the parent index via parent=i.
-   */
-  _getPatchNumByLineAndContent(lineEl: Element, contentEl: Element) {
-    if (!this.patchRange) throw Error('patch range not set');
-    let patchNum = this.patchRange.patchNum;
-
-    if (
-      (lineEl.classList.contains(Side.LEFT) ||
-        contentEl.classList.contains('remove')) &&
-      this.patchRange.basePatchNum !== 'PARENT' &&
-      !isMergeParent(this.patchRange.basePatchNum)
-    ) {
-      patchNum = this.patchRange.basePatchNum;
-    }
-    return patchNum;
   }
 
   _getCommentSideByLineAndContent(lineEl: Element, contentEl: Element): Side {

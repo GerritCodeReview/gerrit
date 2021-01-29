@@ -64,6 +64,14 @@ export function isMergeParent(n: PatchSetNum) {
   return `${n}`[0] === '-';
 }
 
+/**
+ * Whether the given patch is a parent, either a regular parent or a merge
+ * parent.
+ */
+export function isAParent(n: PatchSetNum) {
+  return n === ParentPatchSetNum || isMergeParent(n);
+}
+
 export function isPatchSetNum(patchset: string) {
   if (!isNaN(Number(patchset))) return true;
   return patchset === EditPatchSetNum || patchset === ParentPatchSetNum;

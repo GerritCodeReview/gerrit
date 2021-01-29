@@ -96,7 +96,6 @@ export abstract class GrDiffBuilder {
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
     readonly layers: DiffLayer[] = [],
-    protected readonly useNewContextControls: boolean = false
   ) {
     this._diff = diff;
     this._numLinesLeft = this._diff.content
@@ -322,42 +321,28 @@ export abstract class GrDiffBuilder {
     const firstGroupIsSkipped = !!contextGroups[0].skip;
     const lastGroupIsSkipped = !!contextGroups[contextGroups.length - 1].skip;
 
-    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
     const showAbove = leftStart > 1 && !firstGroupIsSkipped;
     const showBelow = leftEnd < this._numLinesLeft && !lastGroupIsSkipped;
 
-    if (this.useNewContextControls) {
-      section.classList.add('newStyle');
-      if (showAbove) {
-        const paddingRow = this._createContextControlPaddingRow(viewMode);
-        paddingRow.classList.add('above');
-        section.appendChild(paddingRow);
-      }
-      section.appendChild(
-        this._createNewContextControlRow(
-          section,
-          contextGroups,
-          showAbove,
-          showBelow,
-          numLines
-        )
-      );
-      if (showBelow) {
-        const paddingRow = this._createContextControlPaddingRow(viewMode);
-        paddingRow.classList.add('below');
-        section.appendChild(paddingRow);
-      }
-    } else {
-      section.appendChild(
-        this._createOldContextControlRow(
-          section,
-          contextGroups,
-          viewMode,
-          showAbove && showPartialLinks,
-          showBelow && showPartialLinks,
-          numLines
-        )
-      );
+    section.classList.add('newStyle');
+    if (showAbove) {
+      const paddingRow = this._createContextControlPaddingRow(viewMode);
+      paddingRow.classList.add('above');
+      section.appendChild(paddingRow);
+    }
+    section.appendChild(
+      this._createNewContextControlRow(
+        section,
+        contextGroups,
+        showAbove,
+        showBelow,
+        numLines
+      )
+    );
+    if (showBelow) {
+      const paddingRow = this._createContextControlPaddingRow(viewMode);
+      paddingRow.classList.add('below');
+      section.appendChild(paddingRow);
     }
   }
 

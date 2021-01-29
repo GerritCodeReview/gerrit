@@ -22,3 +22,7 @@ export function pluralize(count: number, noun: string): string {
   if (count === 0) return '';
   return `${count} ${noun}` + (count > 1 ? 's' : '');
 }
+
+export function addQuotesWhen(string: string, cond: boolean): string {
+  return cond ? `"${string}"` : string;
+}

@@ -66,6 +66,7 @@ import {
 import {LocationChangeEventDetail} from '../../../types/events';
 import {GerritView, updateState} from '../../../services/router/router-model';
 import {firePageError} from '../../../utils/event-util';
+import {addQuotesWhen} from '../../../utils/string-util';
 
 const RoutePattern = {
   ROOT: '/',
@@ -485,11 +486,18 @@ export class GrRouter extends GestureEventListeners(
       operators.push('branch:' + encodeURL(params.branch, false));
     }
     if (params.topic) {
-      operators.push('topic:"' + encodeURL(params.topic, false) + '"');
+      operators.push(
+        'topic:' +
+          addQuotesWhen(encodeURL(params.topic, false), /\s/.test(params.topic))
+      );
     }
     if (params.hashtag) {
       operators.push(
-        'hashtag:"' + encodeURL(params.hashtag.toLowerCase(), false) + '"'
+        'hashtag:' +
+          addQuotesWhen(
+            encodeURL(params.hashtag.toLowerCase(), false),
+            /\s/.test(params.hashtag)
+          )
       );
     }
     if (params.statuses) {

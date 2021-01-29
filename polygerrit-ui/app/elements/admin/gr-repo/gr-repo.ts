@@ -46,6 +46,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {WebLinkInfo} from '../../../types/diff';
 
 const STATES = {
   active: {value: ProjectState.ACTIVE, label: 'Active'},
@@ -137,6 +138,9 @@ export class GrRepo extends GestureEventListeners(
   @property({type: Object})
   _schemesObj?: SchemesInfoMap;
 
+  @property({type: Array})
+  weblinks: WebLinkInfo[] = [];
+
   private restApiService = appContext.restApiService;
 
   /** @override */
@@ -180,6 +184,10 @@ export class GrRepo extends GestureEventListeners(
         if (loggedIn) {
           const repo = this.repo;
           if (!repo) throw new Error('undefined repo');
+          this.restApiService.getRepo(repo).then(repo => {
+            if (!repo?.web_links) return;
+            this.weblinks = repo.web_links;
+          });
           this.restApiService.getRepoAccess(repo).then(access => {
             if (!access || this.repo !== repo) {
               return;
@@ -415,6 +423,10 @@ export class GrRepo extends GestureEventListeners(
 
   _computeChangesUrl(name: RepoName) {
     return GerritNav.getUrlForProjectChanges(name);
+  }
+
+  _computeBrowseUrl(weblinks: WebLinkInfo[]) {
+    return weblinks?.[0].url;
   }
 
   _handlePluginConfigChanged({

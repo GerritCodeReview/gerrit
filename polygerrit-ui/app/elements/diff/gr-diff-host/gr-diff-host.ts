@@ -709,7 +709,8 @@ export class GrDiffHost extends GestureEventListeners(
   }
 
   _handleCreateComment(e: CustomEvent) {
-    const {lineNum, side, patchNum, range, path, commentSide} = e.detail;
+    const {lineNum, side, patchNum, range, path} = e.detail;
+    const commentSide = this._sideToCommentSide(side);
     const threadEl = this._getOrCreateThread(
       patchNum,
       lineNum,
@@ -721,6 +722,15 @@ export class GrDiffHost extends GestureEventListeners(
     threadEl.addOrEditDraft(lineNum, range);
 
     this.reporting.recordDraftInteraction();
+  }
+
+  _sideToCommentSide(side: Side): CommentSide {
+    if (!this.patchRange) throw Error('patch range not set');
+    return side === Side.LEFT &&
+      (this.patchRange.basePatchNum === 'PARENT' ||
+        isMergeParent(this.patchRange.basePatchNum))
+      ? CommentSide.PARENT
+      : CommentSide.REVISION;
   }
 
   /**

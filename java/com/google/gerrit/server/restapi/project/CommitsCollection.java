@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -174,8 +175,8 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
     // If we have already checked change refs using the change index, spare any further checks for
     // changes.
     List<Ref> refs =
-        repo.getRefDatabase().getRefs().stream()
-            .filter(r -> !r.getName().startsWith(RefNames.REFS_CHANGES))
+        repo.getRefDatabase()
+            .getRefsByPrefixWithExclusions("", ImmutableSet.of(RefNames.REFS_CHANGES)).stream()
             .collect(toImmutableList());
     return reachable.fromRefs(project, repo, commit, refs);
   }

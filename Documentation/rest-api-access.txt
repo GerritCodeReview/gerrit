@@ -411,7 +411,7 @@ link:rest-api-groups.html#group-info[GroupInfo] objects, with names and
 URLs for the group UUIDs used in the `local` map.
 This will include names for groups that might
 be invisible to the caller.
-|`configWebLinks`    ||
+|`config_web_links`    ||
 A list of URLs that display the history of the configuration file
 governing this project's access rights.
 |==================================

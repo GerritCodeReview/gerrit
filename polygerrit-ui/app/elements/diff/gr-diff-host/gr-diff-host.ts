@@ -49,7 +49,9 @@ import {
   BlameInfo,
   ChangeInfo,
   CommentRange,
+  EditPatchSetNum,
   NumericChangeId,
+  ParentPatchSetNum,
   PatchRange,
   PatchSetNum,
   RepoName,
@@ -74,6 +76,7 @@ import {
   fireServerError,
   fireEvent,
 } from '../../../utils/event-util';
+import { times } from 'lodash';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -712,6 +715,7 @@ export class GrDiffHost extends GestureEventListeners(
     const {lineNum, side, range, path} = e.detail;
     const commentSide = this._sideToCommentSide(side);
     const patchNum = this._commentSideToPatchNum(commentSide);
+    if (!this._canCommentOnPatchSetNum(patchNum)) return;
     const threadEl = this._getOrCreateThread(
       patchNum,
       lineNum,
@@ -748,6 +752,32 @@ export class GrDiffHost extends GestureEventListeners(
     return commentSide === CommentSide.REVISION
       ? this.patchRange.patchNum
       : this.patchRange.basePatchNum;
+  }
+
+  _canCommentOnPatchSetNum(patchNum: PatchSetNum) {
+    if (!this._loggedIn) {
+      fireEvent(this, 'show-auth-required');
+      return false;
+    }
+    if (!this.patchRange) {
+      fireAlert(this, 'Cannot create comment. patchRange undefined.');
+      return false;
+    }
+
+    const isEdit = patchNum === EditPatchSetNum;
+    const isEditBase =
+      patchNum === ParentPatchSetNum &&
+      this.patchRange.patchNum === EditPatchSetNum;
+
+    if (isEdit) {
+      fireAlert(this, 'You cannot comment on an edit.');
+      return false;
+    }
+    if (isEditBase) {
+      fireAlert(this, 'You cannot comment on the base patchset of an edit.');
+      return false;
+    }
+    return true;
   }
 
   /**

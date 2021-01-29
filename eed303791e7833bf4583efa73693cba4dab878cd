@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66eb2629_2687b9cb",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoadException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-29T08:42:50Z",
+      "side": 1,
+      "message": "Why do we need to add a new exception? This is caught by the cache framework, right? Wouldn\u0027t an IOException or internal error do?",
+      "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23895de9_cc84d1f8",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoadException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-29T08:42:50Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this. IIRC it was (only?) David P having set up his IDE to want this.",
+      "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d8d81a1_cd3c6106",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-29T08:42:50Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this be an internal error?",
+      "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

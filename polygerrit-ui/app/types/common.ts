@@ -1378,7 +1378,7 @@ export interface ProjectAccessInfo {
   can_add_tags?: boolean;
   config_visible?: boolean;
   groups: ProjectAccessGroups;
-  config_web_links: string[];
+  config_web_links: WebLinkInfo[];
 }
 
 export type ProjectAccessInfoMap = {[projectName: string]: ProjectAccessInfo};

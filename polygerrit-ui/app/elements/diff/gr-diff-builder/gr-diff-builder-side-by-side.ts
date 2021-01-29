@@ -28,9 +28,8 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
     readonly layers: DiffLayer[] = [],
-    useNewContextControls = false
   ) {
-    super(diff, prefs, outputEl, layers, useNewContextControls);
+    super(diff, prefs, outputEl, layers);
   }
 
   _getMoveControlsConfig() {

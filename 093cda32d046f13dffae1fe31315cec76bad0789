@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bedcd51_0534b2c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-29T10:33:57Z",
+      "side": 1,
+      "message": "That\u0027s a good idea, I was only interested to run one of them and inspect changes in latencies, but we can add a third implementation / mode that does that. The benefit is checking correctness.\n\nI will add this with a follow up change.",
+      "parentUuid": "9ff87ff8_6794bad2",
+      "revId": "093cda32d046f13dffae1fe31315cec76bad0789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16cadf87_0ab3005c",
@@ -31,6 +49,42 @@
       "writtenOn": "2021-01-29T09:12:05Z",
       "side": 1,
       "message": "Would it be easier (less code) to do this decision one level above? I.e. just bind FileInfoJson(New/Old)Impl.class to FileInfoJson.class?",
+      "revId": "093cda32d046f13dffae1fe31315cec76bad0789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acd5127d_80c6acec",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-29T10:33:57Z",
+      "side": 1,
+      "message": "Indeed. Done.",
+      "parentUuid": "16cadf87_0ab3005c",
+      "revId": "093cda32d046f13dffae1fe31315cec76bad0789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e859fed2_4155a56c",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-29T10:33:57Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "16cadf87_0ab3005c",
       "revId": "093cda32d046f13dffae1fe31315cec76bad0789",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4475cb1_eb59eb40",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-29T10:33:57Z",
+      "side": 1,
+      "message": "Right, the overloads here and I see them confusing. I tried to simplify this as much as I can now, i.e. by writing these two default methods so that we spare writing them in the implementation classes.\n\nReducing these methods will require modifying all the callers. I can do that in a later change.",
+      "parentUuid": "2c630f38_a73ab0bd",
+      "revId": "093cda32d046f13dffae1fe31315cec76bad0789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1f28642_a47c6c73",
@@ -65,6 +137,24 @@
       "writtenOn": "2021-01-29T09:12:05Z",
       "side": 1,
       "message": "I find this method a bit unexpected. \"handle\" implies that it does something, but what it actually does is examine and convert the exception, then rethrow it. How about changing this to:\n\nprivate Throwable convertDiffNotAvailableException(DiffNotAvailableException e) {\n  // ... build ResourceConflictException or PatchListNotAvailableException -\u003e e2\n  return e2;\n}\n\nThat would probably also make the \"return null\" above obsolete.",
+      "revId": "093cda32d046f13dffae1fe31315cec76bad0789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "418da0b5_db85a063",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonNewImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-29T10:33:57Z",
+      "side": 1,
+      "message": "Done renaming the method name.\n\nI considered your suggestion but it did not work. If I return a Throwable,  I need to inspect it and cast / rethrow as the correct exception type. I found it simpler to leave it that way.",
+      "parentUuid": "c1f28642_a47c6c73",
       "revId": "093cda32d046f13dffae1fe31315cec76bad0789",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

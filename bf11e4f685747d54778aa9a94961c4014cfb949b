@@ -46,6 +46,30 @@
       },
       "revId": "bf11e4f685747d54778aa9a94961c4014cfb949b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0723bcac_7187fef8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-01-29T16:19:30Z",
+      "side": 1,
+      "message": "I\u0027m not saying Dfs vs File reftable. I\u0027m saying Google is the only Gerrit installation using *any* reftable. You\u0027re missing the performance comparison to file.RefDirectory which is the ref storage used by most of the world.",
+      "parentUuid": "df7dc62e_68297b22",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 62
+      },
+      "revId": "bf11e4f685747d54778aa9a94961c4014cfb949b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

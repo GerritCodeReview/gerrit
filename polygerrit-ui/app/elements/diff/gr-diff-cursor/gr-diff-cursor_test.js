@@ -87,12 +87,12 @@ suite('gr-diff-cursor tests', () => {
       meta_a: {
         name: 'lorem-ipsum.txt',
         content_type: 'text/plain',
-        lines: 4,
+        lines: 3,
       },
       meta_b: {
         name: 'lorem-ipsum.txt',
         content_type: 'text/plain',
-        lines: 4,
+        lines: 3,
       },
       intraline_status: 'OK',
       change_type: 'MODIFIED',
@@ -103,9 +103,9 @@ suite('gr-diff-cursor tests', () => {
         '+++ b/lorem-ipsum.txt',
       ],
       content: [
-        {a: ['old line 1'], b: ['new line 1']},
-        {ab: ['unchanged line 2']},
-        {a: ['old line 3'], b: ['new line 3']},
+        {b: ['new line 1']},
+        {ab: ['unchanged line']},
+        {a: ['old line 2']},
         {ab: ['more unchanged lines']},
       ],
     };
@@ -124,12 +124,15 @@ suite('gr-diff-cursor tests', () => {
     // Verify it works on fresh diff.
     cursorElement.moveToFirstChunk();
     assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement), 0);
+    assert.equal(cursorElement.side, 'right');
 
     // Verify it works from other cursor positions.
-    cursorElement.moveToLastChunk();
-    assert.notEqual(chunks.indexOf(cursorElement.diffRow.parentElement), 0);
+    cursorElement.moveToNextChunk();
+    assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement), 1);
+    assert.equal(cursorElement.side, 'left');
     cursorElement.moveToFirstChunk();
     assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement), 0);
+    assert.equal(cursorElement.side, 'right');
   });
 
   test('moveToLastChunk', async () => {
@@ -137,12 +140,12 @@ suite('gr-diff-cursor tests', () => {
       meta_a: {
         name: 'lorem-ipsum.txt',
         content_type: 'text/plain',
-        lines: 4,
+        lines: 3,
       },
       meta_b: {
         name: 'lorem-ipsum.txt',
         content_type: 'text/plain',
-        lines: 4,
+        lines: 3,
       },
       intraline_status: 'OK',
       change_type: 'MODIFIED',
@@ -153,10 +156,10 @@ suite('gr-diff-cursor tests', () => {
         '+++ b/lorem-ipsum.txt',
       ],
       content: [
-        {ab: ['unchanged line 1']},
-        {a: ['old line 2'], b: ['new line 2']},
-        {ab: ['more unchanged line 3']},
-        {a: ['old line 4'], b: ['new line 4']},
+        {ab: ['unchanged line']},
+        {a: ['old line 2']},
+        {ab: ['more unchanged lines']},
+        {b: ['new line 3']},
       ],
     };
 
@@ -171,12 +174,15 @@ suite('gr-diff-cursor tests', () => {
     // Verify it works on fresh diff.
     cursorElement.moveToLastChunk();
     assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement), 1);
+    assert.equal(cursorElement.side, 'right');
 
     // Verify it works from other cursor positions.
-    cursorElement.moveToFirstChunk();
-    assert.notEqual(chunks.indexOf(cursorElement.diffRow.parentElement), 1);
+    cursorElement.moveToPreviousChunk();
+    assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement), 0);
+    assert.equal(cursorElement.side, 'left');
     cursorElement.moveToLastChunk();
     assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement), 1);
+    assert.equal(cursorElement.side, 'right');
   });
 
   test('cursor scroll behavior', () => {

@@ -290,6 +290,8 @@ export class GrDiffCursor extends GestureEventListeners(
     this.$.cursorManager.moveToStart();
     if (this.diffRow && !this._isFirstRowOfChunk(this.diffRow)) {
       this.moveToNextChunk(true);
+    } else {
+      this._fixSide();
     }
   }
 
@@ -297,6 +299,8 @@ export class GrDiffCursor extends GestureEventListeners(
     this.$.cursorManager.moveToEnd();
     if (this.diffRow && !this._isFirstRowOfChunk(this.diffRow)) {
       this.moveToPreviousChunk();
+    } else {
+      this._fixSide();
     }
   }
 

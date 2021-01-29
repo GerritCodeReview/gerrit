@@ -709,8 +709,9 @@ export class GrDiffHost extends GestureEventListeners(
   }
 
   _handleCreateComment(e: CustomEvent) {
-    const {lineNum, side, patchNum, range, path} = e.detail;
+    const {lineNum, side, range, path} = e.detail;
     const commentSide = this._sideToCommentSide(side);
+    const patchNum = this._commentSideToPatchNum(commentSide);
     const threadEl = this._getOrCreateThread(
       patchNum,
       lineNum,
@@ -724,6 +725,15 @@ export class GrDiffHost extends GestureEventListeners(
     this.reporting.recordDraftInteraction();
   }
 
+  /**
+   * In two cases of creating a comment on the left side, the patch number to
+   * be used should actually be right side of the patch range:
+   * - When the patch range is against the parent comment of a normal change.
+   * Such comments declare themmselves to be on the left using side=PARENT.
+   * - If the patch range is against the indexed parent of a merge change.
+   * Such comments declare themselves to be on the given parent by
+   * specifying the parent index via parent=i.
+   */
   _sideToCommentSide(side: Side): CommentSide {
     if (!this.patchRange) throw Error('patch range not set');
     return side === Side.LEFT &&
@@ -731,6 +741,13 @@ export class GrDiffHost extends GestureEventListeners(
         isMergeParent(this.patchRange.basePatchNum))
       ? CommentSide.PARENT
       : CommentSide.REVISION;
+  }
+
+  _commentSideToPatchNum(commentSide: CommentSide): PatchSetNum {
+    if (!this.patchRange) throw Error('patch range not set');
+    return commentSide === CommentSide.REVISION
+      ? this.patchRange.patchNum
+      : this.patchRange.basePatchNum;
   }
 
   /**

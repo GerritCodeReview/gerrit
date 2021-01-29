@@ -95,6 +95,11 @@ export class GrAvatar extends GestureEventListeners(
         return avatars[i].url;
       }
     }
+    // if there is no avatar url in account, there is no avatar set on server,
+    // and request returns /avatar?s will be 404.
+    if (avatars.length === 0) {
+      return '';
+    }
     const accountID = this._getAccounts(account);
     if (!accountID) {
       return '';

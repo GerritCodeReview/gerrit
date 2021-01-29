@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77b3d5d1_f2cdff0d",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-29T13:52:02Z",
+      "side": 1,
+      "message": "I think this is also optional",
+      "range": {
+        "startLine": 414,
+        "startChar": 22,
+        "endLine": 414,
+        "endChar": 24
+      },
+      "revId": "6fb8a928baefb59e2352040c41183d7100ea53bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

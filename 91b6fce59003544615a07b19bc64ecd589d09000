@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b745f4d_5a3e4c61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-01-29T21:06:09Z",
+      "side": 1,
+      "message": "Nit proposal.",
+      "revId": "91b6fce59003544615a07b19bc64ecd589d09000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b82af54_2de94af5",
+        "filename": "java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-01-29T21:06:09Z",
+      "side": 1,
+      "message": "project.\n\n-If willing to be consistent with the other javadoc in this file. This applies to the below lines too.",
+      "range": {
+        "startLine": 125,
+        "startChar": 76,
+        "endLine": 125,
+        "endChar": 83
+      },
+      "revId": "91b6fce59003544615a07b19bc64ecd589d09000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

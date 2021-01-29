@@ -8082,13 +8082,14 @@ to max values.
 === WebLinkInfo
 The `WebLinkInfo` entity describes a link to an external site.
 
-[options="header",cols="1,6"]
-|======================
-|Field Name|Description
-|`name`    |The link name.
-|`url`     |The link URL.
-|`image_url`|URL to the icon of the link.
-|======================
+[options="header",cols="1,^1,5"]
+|========================
+|Field Name ||Description
+|`name`     ||The link name.
+|`url`      ||The link URL.
+|`image_url`|optional|URL to the icon of the link.
+|`target`   |optional|The target window in which the web link should be opened.
+|========================
 
 [[work-in-progress-input]]
 === WorkInProgressInput

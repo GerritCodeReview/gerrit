@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35c04699_de9289a5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-29T15:00:38Z",
+      "side": 1,
+      "message": "1. this will make layout shift - Browser will be shown only when request for repo is done.\n\n2. it\u0027s complicated\n\nI would rather make it simple:\n```\n\u003ca href$\u003d\"[[_computeBrowseUrl(weblinks)]]\"\u003e\n\u003cgr-button link\u003eBrowse\u003c/gr-button\u003e\u003c/a\u003e\n```\nand \n```\n_computeBrowseUrl(weblinks?: WebLinkInfo[]) {\n  return weblinks?.[0]?.url;\n}\n```\n\nIf there will be bug that link doesn\u0027t work, we can add guards. WDYT?",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 9
+      },
+      "revId": "1b1be2c4e6ffbd2f1a28615199c0cecca6dfbff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

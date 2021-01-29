@@ -118,6 +118,30 @@
       },
       "revId": "bf11e4f685747d54778aa9a94961c4014cfb949b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01647a7d_268a4073",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-29T19:29:19Z",
+      "side": 1,
+      "message": "Thanks Nasser.\nI\u0027m looking into some changes in DefaultRefFilter soon, as well so stay tuned :-)",
+      "parentUuid": "375f9f88_aec981ab",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 62
+      },
+      "revId": "bf11e4f685747d54778aa9a94961c4014cfb949b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

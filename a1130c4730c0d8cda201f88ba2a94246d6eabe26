@@ -22,6 +22,30 @@
       },
       "revId": "a1130c4730c0d8cda201f88ba2a94246d6eabe26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53bee39d_0f0f49c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-01-29T08:57:00Z",
+      "side": 1,
+      "message": "Yes, in \u0027stable-2.16\u0027 the change https://gerrit-review.googlesource.com/c/gerrit/+/248372\nAbstractGitOverHttpServlet.java was added over GitOverHttpServletIT.java. Meanwhile in \u0027master\u0027 GitOverHttpServletIT.java was deleted in favour of HttpPushForReviewIT.java.\n\nSo master has same tests in  HttpPushForReviewIT.java as stable-2.16 in  GitOverHttpServletIT.java -\u003e AbstractGitOverHttpServlet.java.\n\nThe merge of stable-2.16 into master should have renamed HttpPushForReviewIT.java into GitOverHttpServletIT.java, instead of keeping both.",
+      "parentUuid": "38ed1476_63c0bdc8",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "a1130c4730c0d8cda201f88ba2a94246d6eabe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

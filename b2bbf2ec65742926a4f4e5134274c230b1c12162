@@ -57,6 +57,30 @@
       },
       "revId": "b2bbf2ec65742926a4f4e5134274c230b1c12162",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bd07e6f_4fbc635a",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-01-29T17:04:56Z",
+      "side": 1,
+      "message": "\u003e wouldn\u0027t this example be doable by binding a named Provider\u003cString\u003e instead?\nupdated the example.\n\n\u003e Is there a more concrete example of the actual use case you\u0027re trying to address?\nOne concrete example, Consider a plugin called as depends-on which exposes a functionality which resolves dependencies given a change and a set of deliverables. Dependencies are maintained in latest comments of change prefixed with \"Depends-on:\". Set\u003cBranch.NameKey\u003e is considered to be a deliverable. A dependency is said to be resolved when it is destined for the same deliverable(s) as the dependant change(s). This plugin is a generic plugin and is upstream-able. This functionality needs to be exposed as an API to other plugins (not exposed to Gerrit users directly). This functionality can be used by an organisation specific plugin (not upstream-able) which knows how to operate on org specific deliverables and invoke generic API exposed by depends-on plugin. The org specific plugin thus exposes a concrete SSH command or HTTP API for the users of Gerrit.\n\nsample API exposed from depends-on plugin:\npublic interface DependencyResolver {\n  public boolean resolveDependencies(PatchSet.Id patchSetId, Set\u003cSet\u003cBranch.NameKey\u003e\u003e deliverables)\n      throws InvalidChangeOperationException, OrmException, NoSuchChangeException;\n}",
+      "parentUuid": "8cccd356_28ca37ab",
+      "range": {
+        "startLine": 30,
+        "startChar": 21,
+        "endLine": 30,
+        "endChar": 28
+      },
+      "revId": "b2bbf2ec65742926a4f4e5134274c230b1c12162",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

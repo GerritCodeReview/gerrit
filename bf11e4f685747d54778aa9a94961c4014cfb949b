@@ -70,6 +70,30 @@
       },
       "revId": "bf11e4f685747d54778aa9a94961c4014cfb949b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c028e78d_4679f0ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-29T16:51:23Z",
+      "side": 1,
+      "message": "That\u0027s useful info, thanks for clarifying.\nI did test that RefDirectory works fine:\nhttps://git.eclipse.org/r/c/jgit/jgit/+/173022/20/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java\n\nMy understanding is that RefDirectory just uses the basic implementation, which is fairly straightforward (and as shown above, tested):\nhttps://git.eclipse.org/r/c/jgit/jgit/+/173022/20/org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java\n\nIf that\u0027s the case, performance benefits will be 0 (but not negative).\n\nI\u0027m not sure how to improve the benchmarks for this case, as the benchmarks are actually testing that RefCursor works well (and File/Dfs Reftable use this RefCursor). Do you have a specific idea?",
+      "parentUuid": "0723bcac_7187fef8",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 62
+      },
+      "revId": "bf11e4f685747d54778aa9a94961c4014cfb949b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

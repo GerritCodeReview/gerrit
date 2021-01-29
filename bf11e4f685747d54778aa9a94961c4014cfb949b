@@ -22,6 +22,30 @@
       },
       "revId": "bf11e4f685747d54778aa9a94961c4014cfb949b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df7dc62e_68297b22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-29T16:03:30Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/c/jgit/jgit/+/173022/20 had tests for DfsReftable and FileReftable, as far as I can tell I tested everything (it was reviewed by plenty of JGit folks)",
+      "parentUuid": "8a666155_9331be44",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 62
+      },
+      "revId": "bf11e4f685747d54778aa9a94961c4014cfb949b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

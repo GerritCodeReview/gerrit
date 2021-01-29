@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "492fd5d5_50c2d029",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-29T11:26:30Z",
+      "side": 1,
+      "message": "Add a comment what this is about and add a TODO that this is a temporary solution that we want to replace when replacing gr-dialog with something else.",
+      "revId": "9bbc681d0dfeadb34e52809307f3a6e1315d4ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e7080ad_610d28eb",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-29T11:26:30Z",
+      "side": 1,
+      "message": "Add a comment what this is about and add a TODO that this is a temporary solution that we want to replace when replacing gr-dialog with something else.",
+      "revId": "9bbc681d0dfeadb34e52809307f3a6e1315d4ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e14bd8f4_f6605765",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-29T11:26:30Z",
+      "side": 1,
+      "message": "Add a comment what this is about and add a TODO that this is a temporary solution that we want to replace when replacing gr-dialog with something else.",
+      "revId": "9bbc681d0dfeadb34e52809307f3a6e1315d4ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef271ec4_a3503b35",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-29T11:26:30Z",
+      "side": 1,
+      "message": "Add a comment what this is about and add a TODO that this is a temporary solution that we want to replace when replacing gr-dialog with something else.",
+      "revId": "9bbc681d0dfeadb34e52809307f3a6e1315d4ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e54a788e_04865cc5",
+        "filename": "polygerrit-ui/app/utils/event-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-01-29T11:26:30Z",
+      "side": 1,
+      "message": "Add a comment what this is about and add a TODO that this is a temporary solution that we want to replace when replacing gr-dialog with something else.",
+      "revId": "9bbc681d0dfeadb34e52809307f3a6e1315d4ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "084e0edf_3e28b245",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-29T09:55:55Z",
+      "side": 1,
+      "message": "nit: probably can move this up to #93.",
+      "revId": "342b0632b50874cc6236a59fe968a4a4736feffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

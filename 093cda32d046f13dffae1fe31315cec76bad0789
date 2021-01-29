@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ff87ff8_6794bad2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-29T09:12:05Z",
+      "side": 1,
+      "message": "Did you consider a dark launch, i.e. running both and validating that they match?",
+      "revId": "093cda32d046f13dffae1fe31315cec76bad0789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16cadf87_0ab3005c",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-29T09:12:05Z",
+      "side": 1,
+      "message": "Would it be easier (less code) to do this decision one level above? I.e. just bind FileInfoJson(New/Old)Impl.class to FileInfoJson.class?",
+      "revId": "093cda32d046f13dffae1fe31315cec76bad0789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c630f38_a73ab0bd",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-29T09:12:05Z",
+      "side": 1,
+      "message": "Can we avoid overloads? The code would be more readable and easier to search when the method names are actually different.",
+      "revId": "093cda32d046f13dffae1fe31315cec76bad0789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1f28642_a47c6c73",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonNewImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-01-29T09:12:05Z",
+      "side": 1,
+      "message": "I find this method a bit unexpected. \"handle\" implies that it does something, but what it actually does is examine and convert the exception, then rethrow it. How about changing this to:\n\nprivate Throwable convertDiffNotAvailableException(DiffNotAvailableException e) {\n  // ... build ResourceConflictException or PatchListNotAvailableException -\u003e e2\n  return e2;\n}\n\nThat would probably also make the \"return null\" above obsolete.",
+      "revId": "093cda32d046f13dffae1fe31315cec76bad0789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

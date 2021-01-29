@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb58b5fb_4f1ca0a9",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoadException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-29T12:13:50Z",
+      "side": 1,
+      "message": "Yes. Any checked exception that is thrown inside the cache loader is caught by the cache framework and wrapped in an ExecutionException.\n\nI removed this class and used IOException instead.",
+      "parentUuid": "66eb2629_2687b9cb",
+      "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23895de9_cc84d1f8",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5a7b5ed_71b13c6f",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoadException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-29T12:13:50Z",
+      "side": 1,
+      "message": "Thanks for the info. I removed this class anyway.",
+      "parentUuid": "23895de9_cc84d1f8",
+      "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d8d81a1_cd3c6106",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-01-29T08:42:50Z",
       "side": 1,
       "message": "Wouldn\u0027t this be an internal error?",
+      "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aab5d7b_bcf9224a",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-01-29T12:13:50Z",
+      "side": 1,
+      "message": "Ye. Comments ranges {startLine, endLine} stored in the comments metadata in NoteDb are expected to fall within the file boundaries.\n\nReplaced this with a IOException. Also let the exceptions propagate, they will be caught by the cache framework which will wrap and throw as ExecutionException, then the caller of the cache (CommentContextCacheImpl) will catch this and throw a StorageException.",
+      "parentUuid": "1d8d81a1_cd3c6106",
       "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

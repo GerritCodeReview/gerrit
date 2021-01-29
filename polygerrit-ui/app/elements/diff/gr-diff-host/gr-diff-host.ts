@@ -32,6 +32,7 @@ import {
 import {appContext} from '../../../services/app-context';
 import {
   getParentIndex,
+  isAParent,
   isMergeParent,
   isNumber,
 } from '../../../utils/patch-set-util';
@@ -75,6 +76,7 @@ import {
   fireEvent,
 } from '../../../utils/event-util';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import { isParenthesizedExpression } from 'typescript';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -729,8 +731,26 @@ export class GrDiffHost extends GestureEventListeners(
   }
 
   _handleCreateComment(e: CustomEvent) {
-    const {lineNum, side, patchNum, range, path} = e.detail;
-    const commentSide = this._sideToCommentSide(side);
+    if (!this.patchRange) throw Error('patch range not set');
+
+    const {lineNum, side, range, path} = e.detail;
+
+    // Usually, the comment is stored on the patchset shown on the side the
+    // user added the comment on, and the commentSide will be REVISION.
+    // However, if the comment is added on the left side of the diff and the
+    // version shown there is not a patchset that is part the change, but
+    // instead a base (a PARENT or a merge parent commit), the comment is
+    // stored on the patchset shown on the right, and commentSide=PARENT
+    // indicates that the comment should still be shown on the left side.
+    const patchNum =
+      side === Side.LEFT && !isAParent(this.patchRange.basePatchNum)
+        ? this.patchRange.basePatchNum
+        : this.patchRange.patchNum;
+    const commentSide =
+      side === Side.LEFT && isAParent(this.patchRange.basePatchNum)
+        ? CommentSide.PARENT
+        : CommentSide.REVISION;
+
     const threadEl = this._getOrCreateThread(
       patchNum,
       lineNum,
@@ -742,15 +762,6 @@ export class GrDiffHost extends GestureEventListeners(
     threadEl.addOrEditDraft(lineNum, range);
 
     this.reporting.recordDraftInteraction();
-  }
-
-  _sideToCommentSide(side: Side): CommentSide {
-    if (!this.patchRange) throw Error('patch range not set');
-    return side === Side.LEFT &&
-      (this.patchRange.basePatchNum === 'PARENT' ||
-        isMergeParent(this.patchRange.basePatchNum))
-      ? CommentSide.PARENT
-      : CommentSide.REVISION;
   }
 
   /**

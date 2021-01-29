@@ -143,9 +143,6 @@ export class GrDiffBuilderElement extends GestureEventListeners(
   @property({type: Array})
   coverageRanges: CoverageRange[] = [];
 
-  @property({type: Boolean})
-  useNewContextControls = false;
-
   @property({
     type: Array,
     computed: '_computeLeftCoverageRanges(coverageRanges)',
@@ -380,16 +377,14 @@ export class GrDiffBuilderElement extends GestureEventListeners(
         diff,
         localPrefs,
         this.diffElement,
-        this._layers,
-        this.useNewContextControls
+        this._layers
       );
     } else if (this.viewMode === DiffViewMode.UNIFIED) {
       builder = new GrDiffBuilderUnified(
         diff,
         localPrefs,
         this.diffElement,
-        this._layers,
-        this.useNewContextControls
+        this._layers
       );
     }
     if (!builder) {

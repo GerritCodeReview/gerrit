@@ -92,6 +92,9 @@ export const htmlTemplate = html`
     .settingsButton {
       margin-left: var(--spacing-m);
     }
+    .feedbackButton {
+      margin-left: var(--spacing-s);
+    }
     .browse {
       color: var(--header-text-color);
       /* Same as gr-button */

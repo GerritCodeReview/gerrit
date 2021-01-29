@@ -16,6 +16,24 @@
       "message": "Note: CI should pass after change https://gerrit-review.googlesource.com/c/gerrit/+/294390/1 and the corresponding JGIT change that adds support to pass the \u0027preset\u0027 option (https://git.eclipse.org/r/c/jgit/jgit/+/175216) are submitted.",
       "revId": "70d47a017d22e8a673f90fcb2ecadc67a49b4882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e55510c2_89dc9ae8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-29T21:35:10Z",
+      "side": 1,
+      "message": "This change was merged, so you could update JGit module in this change to confirm that this change pass verification. Also you could revert change 294393, right?",
+      "parentUuid": "0296fd26_b6362fac",
+      "revId": "70d47a017d22e8a673f90fcb2ecadc67a49b4882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

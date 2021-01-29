@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c079d6a_39105804",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-01-29T07:24:10Z",
+      "side": 1,
+      "message": "Looking at the nature of the change https://git.eclipse.org/r/c/jgit/jgit/+/172595, I think it might change pretty soon.",
+      "parentUuid": "b86c89df_37f1de47",
+      "range": {
+        "startLine": 45,
+        "startChar": 11,
+        "endLine": 45,
+        "endChar": 16
+      },
+      "revId": "47a047dcdf512036d70df80e4e2ca6580835f14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ac7ea4ab_ae5b3dd9",
         "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
         "patchSetId": 2
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a92b02e3_35ff16d8",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-01-29T07:24:10Z",
+      "side": 1,
+      "message": "I found that this class was readded on one of the merges by mistake https://gerrit-review.googlesource.com/c/gerrit/+/248213\n\nIt has duplicate tests, removed.",
+      "parentUuid": "ac7ea4ab_ae5b3dd9",
+      "range": {
+        "startLine": 84,
+        "startChar": 43,
+        "endLine": 84,
+        "endChar": 77
+      },
+      "revId": "47a047dcdf512036d70df80e4e2ca6580835f14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "469ddc74_420be8c4",
         "filename": "modules/jgit",
         "patchSetId": 2
@@ -60,6 +108,30 @@
       "writtenOn": "2021-01-28T16:51:07Z",
       "side": 1,
       "message": "Can we change this to commit: 6f82690aaf2be783be6d77f0903788ff0832472a that was submitted today?\n\nhttps://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/6f82690aaf2be783be6d77f0903788ff0832472a",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "47a047dcdf512036d70df80e4e2ca6580835f14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "430af210_3893e7f2",
+        "filename": "modules/jgit",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-01-29T07:24:10Z",
+      "side": 1,
+      "message": "Done, Updated to the latest.",
+      "parentUuid": "469ddc74_420be8c4",
       "range": {
         "startLine": 1,
         "startChar": 18,

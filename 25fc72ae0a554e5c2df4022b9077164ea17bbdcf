@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74c932e7_6e75827d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-29T18:50:45Z",
+      "side": 1,
+      "message": "don\u0027t you like ?. operator\n\nnit: `if(!repo?.web_links)`",
+      "range": {
+        "startLine": 188,
+        "startChar": 16,
+        "endLine": 188,
+        "endChar": 40
+      },
+      "revId": "25fc72ae0a554e5c2df4022b9077164ea17bbdcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44121cb8_7ecbbc31",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-29T18:50:45Z",
+      "side": 1,
+      "message": "Nit: you can use `obj.arr?.[index]`\n\nso this can be `return weblinks?.[0].url`\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining",
+      "range": {
+        "startLine": 429,
+        "startChar": 11,
+        "endLine": 429,
+        "endChar": 51
+      },
+      "revId": "25fc72ae0a554e5c2df4022b9077164ea17bbdcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32d82fa4_2c1c056b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-01-29T18:50:45Z",
+      "side": 1,
+      "message": "I think we want to stop using null. Is undefined not working for you?",
+      "range": {
+        "startLine": 429,
+        "startChar": 47,
+        "endLine": 429,
+        "endChar": 51
+      },
+      "revId": "25fc72ae0a554e5c2df4022b9077164ea17bbdcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

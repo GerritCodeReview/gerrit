@@ -24,30 +24,48 @@ const basicFixture = fixtureFromElement('gr-avatar');
 
 suite('gr-avatar tests', () => {
   let element;
+  const defaultAvatars = [
+    {
+      url: 'https://cdn.example.com/s12-p/photo.jpg',
+      height: 12,
+    },
+  ];
 
   setup(() => {
     element = basicFixture.instantiate();
+  });
+
+  test('account without avatar', () => {
+    assert.equal(
+        element._buildAvatarURL({
+          _account_id: 123,
+        }),
+        '');
   });
 
   test('methods', () => {
     assert.equal(
         element._buildAvatarURL({
           _account_id: 123,
+          avatars: defaultAvatars,
         }),
         '/accounts/123/avatar?s=16');
     assert.equal(
         element._buildAvatarURL({
           email: 'test@example.com',
+          avatars: defaultAvatars,
         }),
         '/accounts/test%40example.com/avatar?s=16');
     assert.equal(
         element._buildAvatarURL({
           name: 'John Doe',
+          avatars: defaultAvatars,
         }),
         '/accounts/John%20Doe/avatar?s=16');
     assert.equal(
         element._buildAvatarURL({
           username: 'John_Doe',
+          avatars: defaultAvatars,
         }),
         '/accounts/John_Doe/avatar?s=16');
     assert.equal(
@@ -97,7 +115,9 @@ suite('gr-avatar tests', () => {
       element.imageSize = 64;
       element.account = {
         _account_id: 123,
+        avatars: defaultAvatars,
       };
+      flush();
 
       assert.strictEqual(element.style.backgroundImage, '');
 
@@ -163,6 +183,7 @@ suite('gr-avatar tests', () => {
       element.imageSize = 64;
       element.account = {
         _account_id: 123,
+        avatars: defaultAvatars,
       };
       // Emulate plugins loaded.
       getPluginLoader().loadPlugins([]);

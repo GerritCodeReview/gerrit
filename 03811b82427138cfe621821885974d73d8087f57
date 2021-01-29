@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8abad0c5_a7ba0971",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-01-29T13:42:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a3262cb_d17ad004",
+      "range": {
+        "startLine": 235,
+        "startChar": 14,
+        "endLine": 235,
+        "endChar": 33
+      },
+      "revId": "03811b82427138cfe621821885974d73d8087f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f199b923_7fdf06fc",
@@ -54,6 +78,24 @@
       "writtenOn": "2021-01-28T22:22:41Z",
       "side": 1,
       "message": "Here and at line 234 above, there are premature line wraps.",
+      "revId": "03811b82427138cfe621821885974d73d8087f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1401c49e_6b03369f",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-01-29T13:42:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f199b923_7fdf06fc",
       "revId": "03811b82427138cfe621821885974d73d8087f57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

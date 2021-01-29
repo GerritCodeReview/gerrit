@@ -41,14 +41,7 @@ import {
 } from './gr-diff-utils';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll';
 import {customElement, observe, property} from '@polymer/decorators';
-import {
-  BlameInfo,
-  CommentRange,
-  EditPatchSetNum,
-  ImageInfo,
-  ParentPatchSetNum,
-  PatchRange,
-} from '../../../types/common';
+import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {
   DiffInfo,
   DiffPreferencesInfo,
@@ -151,9 +144,6 @@ export class GrDiff extends GestureEventListeners(
 
   @property({type: Boolean})
   noAutoRender = false;
-
-  @property({type: Object})
-  patchRange?: PatchRange;
 
   @property({type: String, observer: '_pathObserver'})
   path?: string;
@@ -564,9 +554,6 @@ export class GrDiff extends GestureEventListeners(
 
   addDraftAtLine(el: Element) {
     this._selectLine(el);
-    if (!this._isValidElForComment(el)) {
-      return;
-    }
 
     const lineNum = getLineNumber(el);
     if (lineNum === null) {
@@ -590,7 +577,7 @@ export class GrDiff extends GestureEventListeners(
   _createCommentForSelection(side: Side, range: CommentRange) {
     const lineNum = range.end_line;
     const lineEl = this.$.diffBuilder.getLineElByNumber(lineNum, side);
-    if (lineEl && this._isValidElForComment(lineEl)) {
+    if (lineEl) {
       this._createComment(lineEl, lineNum, side, range);
     }
   }
@@ -599,35 +586,6 @@ export class GrDiff extends GestureEventListeners(
     const range = e.detail.range;
     const side = e.detail.side;
     this._createCommentForSelection(side, range);
-  }
-
-  _isValidElForComment(el: Element) {
-    if (!this.loggedIn) {
-      fireEvent(this, 'show-auth-required');
-      return false;
-    }
-    if (!this.patchRange) {
-      fireAlert(this, 'Cannot create comment. Patch range undefined.');
-      return false;
-    }
-    const patchNum = el.classList.contains(Side.LEFT)
-      ? this.patchRange.basePatchNum
-      : this.patchRange.patchNum;
-
-    const isEdit = patchNum === EditPatchSetNum;
-    const isEditBase =
-      patchNum === ParentPatchSetNum &&
-      this.patchRange.patchNum === EditPatchSetNum;
-
-    if (isEdit) {
-      fireAlert(this, 'You cannot comment on an edit.');
-      return false;
-    }
-    if (isEditBase) {
-      fireAlert(this, 'You cannot comment on the base patchset of an edit.');
-      return false;
-    }
-    return true;
   }
 
   _createComment(

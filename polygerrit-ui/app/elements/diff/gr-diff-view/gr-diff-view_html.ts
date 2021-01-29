@@ -255,7 +255,7 @@ export const htmlTemplate = html`
           class="navLink"
           title="[[createTitle(Shortcut.PREV_FILE,
                     ShortcutSection.NAVIGATION)]]"
-          href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]"
+          href$="[[_computeNavLinkURL(_change, _path, _fileList, -1)]]"
         >
           Prev</a
         >
@@ -273,7 +273,7 @@ export const htmlTemplate = html`
           class="navLink"
           title="[[createTitle(Shortcut.NEXT_FILE,
                 ShortcutSection.NAVIGATION)]]"
-          href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]"
+          href$="[[_computeNavLinkURL(_change, _path, _fileList, 1)]]"
         >
           Next</a
         >
@@ -376,14 +376,14 @@ export const htmlTemplate = html`
     <div class="fileNav mobile">
       <a
         class="mobileNavLink"
-        href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]"
+        href$="[[_computeNavLinkURL(_change, _path, _fileList, -1)]]"
       >
         &lt;</a
       >
       <div class="fullFileName mobile">[[_computeDisplayPath(_path)]]</div>
       <a
         class="mobileNavLink"
-        href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]"
+        href$="[[_computeNavLinkURL(_change, _path, _fileList, 1)]]"
       >
         &gt;</a
       >

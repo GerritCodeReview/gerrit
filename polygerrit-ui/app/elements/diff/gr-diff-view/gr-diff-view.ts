@@ -741,8 +741,6 @@ export class GrDiffView extends KeyboardShortcutMixin(
    * @param fileList The list of files in this change and
    * patch range.
    * @param direction Either 1 (next file) or -1 (prev file).
-   * @param opt_noUp Whether to return to the change view
-   * when advancing the file goes outside the bounds of fileList.
    * @return The next URL when proceeding in the specified
    * direction.
    */
@@ -750,15 +748,14 @@ export class GrDiffView extends KeyboardShortcutMixin(
     change?: ChangeInfo,
     path?: string,
     fileList?: string[],
-    direction?: -1 | 1,
-    opt_noUp?: boolean
+    direction?: -1 | 1
   ) {
     if (!change) return null;
     if (!path) return null;
     if (!fileList) return null;
     if (!direction) return null;
 
-    const newPath = this._getNavLinkPath(path, fileList, direction, opt_noUp);
+    const newPath = this._getNavLinkPath(path, fileList, direction);
     if (!newPath) {
       return null;
     }
@@ -803,15 +800,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
    * @param fileList The list of files in this change and
    * patch range.
    * @param direction Either 1 (next file) or -1 (prev file).
-   * @param opt_noUp Whether to return to the change view
-   * when advancing the file goes outside the bounds of fileList.
    */
-  _getNavLinkPath(
-    path: string,
-    fileList: string[],
-    direction: -1 | 1,
-    opt_noUp?: boolean
-  ) {
+  _getNavLinkPath(path: string, fileList: string[], direction: -1 | 1) {
     if (!path || !fileList || fileList.length === 0) {
       return null;
     }
@@ -826,9 +816,6 @@ export class GrDiffView extends KeyboardShortcutMixin(
     // Redirect to the change view if opt_noUp isn’t truthy and idx falls
     // outside the bounds of [0, fileList.length).
     if (idx < 0 || idx > fileList.length - 1) {
-      if (opt_noUp) {
-        return null;
-      }
       return {up: true};
     }
 

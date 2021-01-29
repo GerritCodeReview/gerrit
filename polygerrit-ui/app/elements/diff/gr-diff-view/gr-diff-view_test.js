@@ -993,10 +993,10 @@ suite('gr-diff-view tests', () => {
         assert.equal(linkEls[0].getAttribute('href'),
             '42-glados.txt-10-PARENT');
         assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
-        assert.isFalse(linkEls[2].hasAttribute('href'));
+        assert.equal(linkEls[2].getAttribute('href'), '42-undefined-undefined');
         element._path = 'chell.go';
         flush();
-        assert.isFalse(linkEls[0].hasAttribute('href'));
+        assert.equal(linkEls[0].getAttribute('href'), '42-undefined-undefined');
         assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
         assert.equal(linkEls[2].getAttribute('href'),
             '42-glados.txt-10-PARENT');
@@ -1034,10 +1034,11 @@ suite('gr-diff-view tests', () => {
         flush();
         assert.equal(linkEls[0].getAttribute('href'), '42-glados.txt-10-5');
         assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
-        assert.isFalse(linkEls[2].hasAttribute('href'));
+        assert.equal(linkEls[2].getAttribute('href'), '42-10-5');
         element._path = 'chell.go';
         flush();
-        assert.isFalse(linkEls[0].hasAttribute('href'));
+        assert.equal(linkEls[0].getAttribute('href'),
+            '42-10-5');
         assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
         assert.equal(linkEls[2].getAttribute('href'), '42-glados.txt-10-5');
       });

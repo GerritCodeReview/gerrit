@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "473409b0_338c806b",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-01-29T09:12:48Z",
+      "side": 1,
+      "message": "This looks fine to me, I\u0027ll approve to unblock the import.\nIf you have another comment about it I\u0027m sure Marija can fix in a follow-up.",
+      "parentUuid": "d3f9c64e_db501d0a",
+      "range": {
+        "startLine": 45,
+        "startChar": 11,
+        "endLine": 45,
+        "endChar": 16
+      },
+      "revId": "47a047dcdf512036d70df80e4e2ca6580835f14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac7ea4ab_ae5b3dd9",

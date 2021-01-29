@@ -55,7 +55,13 @@ export const htmlTemplate = html`
       </h1>
       <hr />
       <div>
-        <a href$="[[_computeChangesUrl(repo)]]">(view changes)</a>
+        <a href$="[[_computeBrowseUrl(weblinks)]]"
+          ><gr-button link disabled="[[!_computeBrowseUrl(weblinks)]]"
+            >Browse</gr-button
+          ></a
+        ><a href$="[[_computeChangesUrl(repo)]]"
+          ><gr-button link>View Changes</gr-button></a
+        >
       </div>
     </div>
     <div id="loading" class$="[[_computeLoadingClass(_loading)]]">

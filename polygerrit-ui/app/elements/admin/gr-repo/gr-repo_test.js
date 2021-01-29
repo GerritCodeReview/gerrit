@@ -300,7 +300,7 @@ suite('gr-repo tests', () => {
       const saveStub = stubRestApi('saveRepoConfig')
           .callsFake(() => Promise.resolve({}));
 
-      const button = element.root.querySelector('gr-button');
+      const button = element.root.querySelectorAll('gr-button')[2];
 
       await element._loadRepo();
       assert.isTrue(button.hasAttribute('disabled'));

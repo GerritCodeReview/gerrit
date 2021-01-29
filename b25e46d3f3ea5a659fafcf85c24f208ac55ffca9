@@ -16,6 +16,24 @@
       "message": "This is visual clutter.\n\nDid a user ask for this?\n\nDid you talk to Delphine about it?\n\nLet\u0027s involve Milutin, who is updating the UI for the change metadata.\n\nWhat about showing the copy button only on hover? That is what we do in the file list.",
       "revId": "b25e46d3f3ea5a659fafcf85c24f208ac55ffca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef33a0c8_ee065fa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-01-29T11:20:32Z",
+      "side": 1,
+      "message": "We show it for the Parent field and this just makes it consistent with the existing change metadata.\nYeah, we can get UX input if you feel this is clutter.",
+      "parentUuid": "a0b42b4c_d1883e73",
+      "revId": "b25e46d3f3ea5a659fafcf85c24f208ac55ffca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

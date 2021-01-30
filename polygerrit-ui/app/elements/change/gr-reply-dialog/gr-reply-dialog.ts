@@ -70,6 +70,7 @@ import {
   GroupId,
   GroupInfo,
   isAccount,
+  isDetailedLabelInfo,
   isGroup,
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
@@ -103,7 +104,7 @@ import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrStorage, StorageLocation} from '../../shared/gr-storage/gr-storage';
 import {isAttentionSetEnabled} from '../../../utils/attention-set-util';
-import {CODE_REVIEW, getMaxAccounts} from '../../../utils/label-util';
+import {CODE_REVIEW, getApprovalInfo, getMaxAccounts} from '../../../utils/label-util';
 import {isUnresolved} from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {fireAlert, fireEvent, fireServerError} from '../../../utils/event-util';
@@ -356,7 +357,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       '_computeSendButtonDisabled(canBeStarted, ' +
       'draftCommentThreads, draft, _reviewersMutated, _labelsChanged, ' +
       '_includeComments, disabled, _commentEditing, _attentionExpanded, ' +
-      '_currentAttentionSet, _newAttentionSet)',
+      '_currentAttentionSet, _newAttentionSet, change, _account)',
     observer: '_sendDisabledChanged',
   })
   _sendDisabled?: boolean;
@@ -1393,8 +1394,11 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     labelsChanged?: boolean,
     includeComments?: boolean,
     disabled?: boolean,
-    commentEditing?: boolean
+    commentEditing?: boolean,
+    change?: ChangeInfo,
+    account?: AccountInfo
   ) {
+    console.log({labelsChanged, change, account});
     if (
       canBeStarted === undefined ||
       draftCommentThreads === undefined ||
@@ -1403,7 +1407,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       labelsChanged === undefined ||
       includeComments === undefined ||
       disabled === undefined ||
-      commentEditing === undefined
+      commentEditing === undefined ||
+      change === undefined ||
+      account === undefined
     ) {
       return undefined;
     }
@@ -1413,8 +1419,18 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     if (canBeStarted === true) {
       return false;
     }
+    const labels = change?.labels;
+    if (!labels) {
+      return true;
+    }
+
+    const existingVote = Object.values(labels).some(
+      label => isDetailedLabelInfo(label) && getApprovalInfo(label, account)
+    );
+    const revoteOrNewVote = labelsChanged || existingVote;
     const hasDrafts = includeComments && draftCommentThreads.length;
-    return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged;
+    console.log({existingVote, revoteOrNewVote});
+    return !hasDrafts && !text.length && !reviewersMutated && !revoteOrNewVote;
   }
 
   _computePatchSetWarning(patchNum?: PatchSetNum, labelsChanged?: boolean) {

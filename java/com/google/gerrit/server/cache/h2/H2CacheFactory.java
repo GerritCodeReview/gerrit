@@ -23,8 +23,8 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.cache.CacheBackend;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
+import com.google.gerrit.server.cache.PersistentCacheBaseFactory;
 import com.google.gerrit.server.cache.PersistentCacheDef;
-import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -34,9 +34,6 @@ import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorServ
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -52,12 +49,9 @@ import org.eclipse.jgit.lib.Config;
  * is unset, it will fall back to in-memory caches.
  */
 @Singleton
-class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
+class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final MemoryCacheFactory memCacheFactory;
-  private final Config config;
-  private final Path cacheDir;
   private final List<H2CacheImpl<?, ?>> caches;
   private final DynamicMap<Cache<?, ?>> cacheMap;
   private final ExecutorService executor;
@@ -71,15 +65,13 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       @GerritServerConfig Config cfg,
       SitePaths site,
       DynamicMap<Cache<?, ?>> cacheMap) {
-    this.memCacheFactory = memCacheFactory;
-    config = cfg;
-    cacheDir = getCacheDir(site, cfg.getString("cache", null, "directory"));
+    super(memCacheFactory, cfg, site);
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
     h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
     caches = new LinkedList<>();
     this.cacheMap = cacheMap;
 
-    if (cacheDir != null) {
+    if (diskEnabled) {
       executor =
           new LoggingContextAwareExecutorService(
               Executors.newFixedThreadPool(
@@ -96,27 +88,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       executor = null;
       cleanup = null;
     }
-  }
-
-  private static Path getCacheDir(SitePaths site, String name) {
-    if (name == null) {
-      return null;
-    }
-    Path loc = site.resolve(name);
-    if (!Files.exists(loc)) {
-      try {
-        Files.createDirectories(loc);
-      } catch (IOException e) {
-        logger.atWarning().log("Can't create disk cache: %s", loc.toAbsolutePath());
-        return null;
-      }
-    }
-    if (!Files.isWritable(loc)) {
-      logger.atWarning().log("Can't write to disk cache: %s", loc.toAbsolutePath());
-      return null;
-    }
-    logger.atInfo().log("Enabling disk cache %s", loc.toAbsolutePath());
-    return loc;
   }
 
   @Override
@@ -161,13 +132,8 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings({"unchecked"})
   @Override
-  public <K, V> Cache<K, V> build(PersistentCacheDef<K, V> in, CacheBackend backend) {
-    long limit = config.getLong("cache", in.configKey(), "diskLimit", in.diskLimit());
-
-    if (cacheDir == null || limit <= 0) {
-      return memCacheFactory.build(in, backend);
-    }
-
+  public <K, V> Cache<K, V> buildImpl(
+      PersistentCacheDef<K, V> in, long limit, CacheBackend backend) {
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
     SqlStore<K, V> store = newSqlStore(def, limit);
     H2CacheImpl<K, V> cache =
@@ -184,14 +150,8 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   @Override
-  public <K, V> LoadingCache<K, V> build(
-      PersistentCacheDef<K, V> in, CacheLoader<K, V> loader, CacheBackend backend) {
-    long limit = config.getLong("cache", in.configKey(), "diskLimit", in.diskLimit());
-
-    if (cacheDir == null || limit <= 0) {
-      return memCacheFactory.build(in, loader, backend);
-    }
-
+  public <K, V> LoadingCache<K, V> buildImpl(
+      PersistentCacheDef<K, V> in, CacheLoader<K, V> loader, long limit, CacheBackend backend) {
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
     SqlStore<K, V> store = newSqlStore(def, limit);
     Cache<K, ValueHolder<V>> mem =

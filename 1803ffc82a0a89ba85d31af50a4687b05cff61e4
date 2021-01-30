@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "427e4d2f_1179020e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-30T16:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d80b3ef4_2d9d54ed",
+      "revId": "1803ffc82a0a89ba85d31af50a4687b05cff61e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d12eae96_ab0c6efb",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-01-30T16:11:07Z",
       "side": 1,
       "message": "2021",
+      "range": {
+        "startLine": 1,
+        "startChar": 19,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "1803ffc82a0a89ba85d31af50a4687b05cff61e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b05d048_19fbd289",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheBaseFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-30T16:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d12eae96_ab0c6efb",
       "range": {
         "startLine": 1,
         "startChar": 19,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75ef1120_a6e86fd1",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheBaseFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-30T16:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e49e6a3_37e2d607",
+      "range": {
+        "startLine": 30,
+        "startChar": 45,
+        "endLine": 30,
+        "endChar": 61
+      },
+      "revId": "1803ffc82a0a89ba85d31af50a4687b05cff61e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee909dd7_72b52711",
@@ -77,6 +143,24 @@
       "writtenOn": "2021-01-30T16:11:07Z",
       "side": 1,
       "message": "should be final?",
+      "revId": "1803ffc82a0a89ba85d31af50a4687b05cff61e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25ed87ea_5950b03e",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheBaseFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-30T16:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee909dd7_72b52711",
       "revId": "1803ffc82a0a89ba85d31af50a4687b05cff61e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41ae99c5_b3a1da97",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-30T16:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e70cbc6_ad2af382",
+      "revId": "1803ffc82a0a89ba85d31af50a4687b05cff61e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0a1879f_e2a61f3e",
@@ -111,6 +213,30 @@
       "writtenOn": "2021-01-30T16:11:07Z",
       "side": 1,
       "message": "If you\u0027re doing this separation, does it make sense to change this to be a diskEnabled boolean (since that\u0027s what I think it represents) that is set in PersistentCacheBaseFactory?",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 27
+      },
+      "revId": "1803ffc82a0a89ba85d31af50a4687b05cff61e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dd0f3ed_d7059231",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-30T16:20:51Z",
+      "side": 1,
+      "message": "Are suggesting to add a new attribute in the base class, so that instead of saying:\n\n if (cacheDir !\u003d null) {\n\nwe would say:\n\n  if (diskEnabled) {\n\n?",
+      "parentUuid": "d0a1879f_e2a61f3e",
       "range": {
         "startLine": 76,
         "startChar": 4,

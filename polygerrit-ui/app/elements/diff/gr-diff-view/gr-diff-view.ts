@@ -262,6 +262,9 @@ export class GrDiffView extends KeyboardShortcutMixin(
   @property({type: Number})
   _focusLineNum?: number;
 
+  @property({type: String})
+  _jumpToLineNum?: string;
+
   get keyBindings() {
     return {
       esc: '_handleEscKey',
@@ -678,6 +681,15 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
     e.preventDefault();
     this._navToChangeView();
+  }
+
+  _handleJumpToLineInputKeydown(e: CustomKeyboardEvent) {
+    if (e.keyCode !== 13) return;
+    const lineNum = Number(this._jumpToLineNum);
+    if (isNaN(lineNum)) return;
+    this._focusLineNum = lineNum;
+    this._initLineOfInterestAndCursor(false);
+    this.$.diffHost.reload(false);
   }
 
   _handleCommaKey(e: CustomKeyboardEvent) {

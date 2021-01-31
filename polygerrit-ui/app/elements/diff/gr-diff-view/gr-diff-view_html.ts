@@ -307,6 +307,15 @@ export const htmlTemplate = html`
             </span>
           </gr-dropdown>
         </span>
+        <iron-input bind-value="{{_jumpToLineNum}}">
+          <input
+            is="iron-input"
+            id="jumpToLineInput"
+            placeholder="Jump to line"
+            on-keydown="_handleJumpToLineInputKeydown"
+            bind-value="{{_jumpToLineNum}}"
+          />
+        </iron-input>
       </div>
       <div class="rightControls">
         <span

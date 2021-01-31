@@ -311,6 +311,17 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     this._builder.emitGroup(group, sectionEl);
   }
 
+  expandContextAroundLine(lineNum: number) {
+    if (!this._builder) return;
+    const group = this._builder.groups.find(
+      group =>
+        group.lines.length > 0 &&
+        group.lines[0].beforeNumber < lineNum &&
+        group.lines[group.lines.length - 1].afterNumber > lineNum
+    );
+    return group;
+  }
+
   showContext(newGroups: GrDiffGroup[], sectionEl: HTMLElement) {
     if (!this._builder) return;
     const groups = this._builder.groups;

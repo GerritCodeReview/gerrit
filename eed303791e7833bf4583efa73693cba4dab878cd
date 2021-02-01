@@ -122,6 +122,24 @@
       "parentUuid": "2aab5d7b_bcf9224a",
       "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ea2b344_8428b992",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-01T13:39:19Z",
+      "side": 1,
+      "message": "I agree on changing IOException. UnprocessableEntityException has the javadoc:\n`Resource referenced in the request body is not found`\n\nWhich is not exactly the case here. I also thought of \"StorageException\" but this one is used for any read/write error in the storage layer, so it\u0027s the closest to the scenario here.\n\nI changed it to UnprocessableEntityException, it\u0027s better than IOException anyway.",
+      "parentUuid": "e17e3067_7ee62f9b",
+      "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

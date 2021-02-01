@@ -2500,6 +2500,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
           toastMessage = ReloadToastMessage.RESTORED;
         } else if (result.newMessages) {
           toastMessage = ReloadToastMessage.NEW_MESSAGE;
+          if (result.newMessages.author?.name) {
+            toastMessage += ` from ${result.newMessages.author.name}`;
+          }
         }
 
         // We have to make sure that the update is still relevant for the user.

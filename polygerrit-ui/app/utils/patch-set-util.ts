@@ -314,7 +314,8 @@ export function fetchChangeUpdates(
       isLatest: actualLatest <= knownLatest,
       newStatus: change.status !== detail.status ? detail.status : null,
       newMessages:
-        (change.messages || []).length < (detail.messages || []).length,
+        (change.messages || []).length < (detail.messages || []).length ?
+          detail.messages![detail.messages!.length - 1] : undefined,
     };
   });
 }

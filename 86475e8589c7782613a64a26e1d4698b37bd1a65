@@ -16,6 +16,24 @@
       "message": "Hi Ben,\n\nI agree that there is some work to be done for design unification for things that may affect multiple systems. I would however suggest we try to do a quick-fix for now - as users are currently having a fairly different UX whenever move chips and long comments are seen in the same page. Chips currently with different sizes and fonts.\n\nAfter that quick-fix let\u0027s discuss with the designers how to make multiple gr-diff clients look similar (specially regarding fonts/sizes/etc). What do you think?",
       "revId": "86475e8589c7782613a64a26e1d4698b37bd1a65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec82626c_87f014f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T12:34:37Z",
+      "side": 1,
+      "message": "Sure. I am happy to quick fix now and then iterate.",
+      "parentUuid": "8a218ada_71df7f13",
+      "revId": "86475e8589c7782613a64a26e1d4698b37bd1a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

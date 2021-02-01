@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "844c19f2_15242a5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-01T22:56:15Z",
+      "side": 1,
+      "message": "It should be any label. I have updated the code accordingly and added a better description of the change.",
+      "parentUuid": "05638c44_52609db6",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "21fadf7eb97cacbee9bd569cfcf242535906a6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d521433_632cd90e",
@@ -112,6 +136,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e307aa2_11c2f041",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-01T22:56:15Z",
+      "side": 1,
+      "message": "Yes in this change we are disabling the button _less_ often. It would be nice that this tooltip would explain which exact reason was causing the button to be disabled, but I think it is not in this scope.",
+      "parentUuid": "4f39034b_c7dbfd70",
+      "range": {
+        "startLine": 1381,
+        "startChar": 2,
+        "endLine": 1381,
+        "endChar": 27
+      },
+      "revId": "21fadf7eb97cacbee9bd569cfcf242535906a6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "215d0c1c_136bbede",
@@ -135,6 +183,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a675485c_c5403416",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1414,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-01T22:56:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "215d0c1c_136bbede",
+      "range": {
+        "startLine": 1413,
+        "startChar": 6,
+        "endLine": 1414,
+        "endChar": 35
+      },
+      "revId": "21fadf7eb97cacbee9bd569cfcf242535906a6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e25ba396_703cae0d",
@@ -148,6 +220,30 @@
       "writtenOn": "2021-02-01T15:43:59Z",
       "side": 1,
       "message": "I am not familiar with change.labels[CODE_REVIEW]. Is it always defined? \n\nBecause on changes where it is not defined, with this line you make button always enabled, It will ignore whenever the comment is editing, or other reasons that can make this change disabled.\n\nI would be safer and I would write\n\n```const codeReviewLabel \u003d change?.labels?.[CODE_REVIEW]```\n```const existingVote \u003d codeReviewLabel \u0026\u0026 isDetailedLabelInfo ... ```",
+      "range": {
+        "startLine": 1415,
+        "startChar": 6,
+        "endLine": 1415,
+        "endChar": 49
+      },
+      "revId": "21fadf7eb97cacbee9bd569cfcf242535906a6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f98313c3_913443f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1415,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-01T22:56:15Z",
+      "side": 1,
+      "message": "Good point. After some thinking, it seems more correct to allow revote for any label, not just CODE_REVIEW. I have updated the logic accordingly.",
+      "parentUuid": "e25ba396_703cae0d",
       "range": {
         "startLine": 1415,
         "startChar": 6,

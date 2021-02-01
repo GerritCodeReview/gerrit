@@ -88,7 +88,8 @@ public class SubmitWithStickyApprovalDiff {
       return "";
     }
     String diff =
-        "\n\nThe change was submitted with unreviewed changes in the following files:\n\n";
+        String.format("\n\n%d is the latest approved patch-set.\n", latestApprovedPatchsetId.get());
+    diff += "The change was submitted with unreviewed changes in the following files:\n\n";
     PatchList patchList =
         getPatchList(
             notes.getProjectName(),

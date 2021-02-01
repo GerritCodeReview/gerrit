@@ -251,6 +251,24 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .isEqualTo("Change has been successfully merged");
   }
 
+  @Test
+  public void diffChangeMessageOnSubmitWithStickyVote_approvedPatchset() throws Exception {
+    Change.Id changeId = changeOperations.newChange().project(project).create();
+    changeOperations.change(changeId).newPatchset().create();
+
+    // approve patch-set 2
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+
+    // create patch-set 3
+    changeOperations.change(changeId).newPatchset().create();
+
+    gApi.changes().id(changeId.get()).current().submit();
+
+    // patch-set 2 was the latest approved one.
+    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+        .contains("2 is the latest approved patch-set.");
+  }
+
   private void assertDiffChangeMessageAndEmailWithStickyApproval(
       String message,
       String file,
@@ -261,7 +279,8 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
       List<String> newLines,
       String oldFileName) {
     String expectedMessage =
-        "The change was submitted with unreviewed changes in the following files:\n"
+        "1 is the latest approved patch-set.\n"
+            + "The change was submitted with unreviewed changes in the following files:\n"
             + "\n"
             + String.format("The name of the file: %s\n", file)
             + String.format("Insertions: %d, Deletions: %d.\n\n", insertions, deletions);

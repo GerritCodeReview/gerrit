@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fac7bc13_2b57405e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-01T15:28:57Z",
+      "side": 1,
+      "message": "This whole issue happens only on cold start.\n\nThat\u0027s when diff content is prefetched in index,so it doesn\u0027t matter if these are in parallel, diff content is already cached.",
+      "range": {
+        "startLine": 21,
+        "startChar": 25,
+        "endLine": 21,
+        "endChar": 70
+      },
+      "revId": "758e5e17cd073f4d3fd7f9dd4263ccc962196492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "88efa62d_b1b410ae",
@@ -14,6 +37,23 @@
       "writtenOn": "2021-02-01T15:23:14Z",
       "side": 1,
       "message": "Sounds good!",
+      "revId": "758e5e17cd073f4d3fd7f9dd4263ccc962196492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26c7b534_637ab9e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-01T15:28:57Z",
+      "side": 1,
+      "message": "We will see on data how much slower this will be. We can revert or change it after that. ",
       "revId": "758e5e17cd073f4d3fd7f9dd4263ccc962196492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

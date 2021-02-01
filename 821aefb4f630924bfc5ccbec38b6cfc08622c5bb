@@ -254,6 +254,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f824fe93_0bcc2b0e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-02-01T19:36:24Z",
+      "side": 1,
+      "message": "I agree with you that it doesn\u0027t make a lot of sense to be necessarily following the exact same font-size as in source code.\n\nLet\u0027s try indeed to use --font-size-small and depending on the case override that for cases outside gerrit.",
+      "parentUuid": "c63acc6d_70ef75c3",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "061e5d90_8e3a0f76",

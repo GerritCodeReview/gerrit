@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c66ab1b9_d6840097",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-01T23:10:50Z",
+      "side": 1,
+      "message": "I\u0027m having trouble understanding this.\nSo existingVote takes the value of the first label that the user has voted upon?\nSo if a user has voted on any of the labels then we do not disable the Send button?",
+      "range": {
+        "startLine": 1424,
+        "startChar": 4,
+        "endLine": 1426,
+        "endChar": 6
+      },
+      "revId": "891b73ef39e313303ee0ba99a20897aecb360830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

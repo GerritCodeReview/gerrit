@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d521433_632cd90e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-01T15:59:03Z",
+      "side": 1,
+      "message": "could you please add some more details to the commit message?\nMy expectation is:\n1. User can vote on the same vote (\"SEND\" or \"SEND FOR REVIEW\" button is not disabled).\n2. The ReviewInput object includes even votes that already existed, and are not filtered out.\n\nOnly (1) is implemented in this change, right?",
+      "revId": "21fadf7eb97cacbee9bd569cfcf242535906a6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "641b2b49_8291e09b",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
         "patchSetId": 3
@@ -37,6 +54,30 @@
       "writtenOn": "2021-02-01T15:43:59Z",
       "side": 1,
       "message": "NIT: \nIt would be nice to add tooltip\n\nSomething like you cannot vote new vote or labels were not changed.\n\nWDYT?",
+      "range": {
+        "startLine": 1381,
+        "startChar": 2,
+        "endLine": 1381,
+        "endChar": 27
+      },
+      "revId": "21fadf7eb97cacbee9bd569cfcf242535906a6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "094302f5_c2b5babc",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-01T15:59:03Z",
+      "side": 1,
+      "message": "I\u0027m confused, but this change should enable voting even when the vote already exists.",
+      "parentUuid": "641b2b49_8291e09b",
       "range": {
         "startLine": 1381,
         "startChar": 2,

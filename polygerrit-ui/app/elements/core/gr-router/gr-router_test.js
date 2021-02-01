@@ -269,12 +269,12 @@ suite('gr-router tests', () => {
       };
       assert.equal(element._generateUrl(params),
           '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
-          'topic:"g%2525h"+status:op%2525en');
+          'topic:g%2525h+status:op%2525en');
 
       params.offset = 100;
       assert.equal(element._generateUrl(params),
           '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
-          'topic:"g%2525h"+status:op%2525en,100');
+          'topic:g%2525h+status:op%2525en,100');
       delete params.offset;
 
       // The presence of the query param overrides other params.
@@ -290,6 +290,19 @@ suite('gr-router tests', () => {
       };
       assert.equal(element._generateUrl(params),
           '/q/(status:a OR status:b OR status:c)');
+
+      params = {
+        view: GerritNav.View.SEARCH,
+        topic: 'test',
+      };
+      assert.equal(element._generateUrl(params),
+          '/q/topic:test');
+      params = {
+        view: GerritNav.View.SEARCH,
+        topic: 'test test',
+      };
+      assert.equal(element._generateUrl(params),
+          '/q/topic:"test+test"');
     });
 
     test('change', () => {

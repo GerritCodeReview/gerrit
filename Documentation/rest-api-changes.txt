@@ -6488,8 +6488,12 @@ If the change that triggered the submission also has a topic, it will be
 The callers must not rely on the format of the submission ID.
 |`cherry_pick_of_change`   |optional|
 The numeric Change-Id of the change that this change was cherry-picked from.
+Only set if the cherry-pick has been done through the Gerrit REST API (and
+not if a cherry-picked commit was pushed).
 |`cherry_pick_of_patch_set`|optional|
 The patchset number of the change that this change was cherry-picked from.
+Only set if the cherry-pick has been done through the Gerrit REST API (and
+not if a cherry-picked commit was pushed).
 |`contains_git_conflicts`  |optional, not set if `false`|
 Whether the change contains conflicts. +
 If `true`, some of the file contents of the change contain git conflict

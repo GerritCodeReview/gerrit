@@ -102,6 +102,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa185b77_785c7fd0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T09:36:26Z",
+      "side": 1,
+      "message": "Sure, let\u0027s check with designers. Personally I would prefer Roboto over Open Sans here.",
+      "parentUuid": "899ce8fd_9fc18cfc",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 45
+      },
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "594e8806_6269c8ba",
         "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
         "patchSetId": 2
@@ -184,6 +208,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c63acc6d_70ef75c3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T09:36:26Z",
+      "side": 1,
+      "message": "The font-size of the code does not really matter IMO. The font of the chip should rather be aligned to the font of the comment card. The font size of the comment card is not dependent on --font-size, right?\n\nI would be fine with changing the chip font to exactly match the code font (designers have to decide that). But I think the font has to either fully match the code font or the comment card font. Introducing a third font-family is weird. And aligning the family with the card, but the size with code is also weird.",
+      "parentUuid": "ebf124e3_eb9fa885",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "061e5d90_8e3a0f76",
         "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
         "patchSetId": 2
@@ -260,6 +308,24 @@
       "side": 1,
       "message": "Currently we have 24px height for the move detection chips. This happens because of 16px of icon height (previously based on --spacing-xl and now --line-height-small) + 2x padding top/bottom from chip (--spacing-s). So although not really intentional, --spacing-l (12px) was following the spacing proportions for representing fully rounded. Now I agree it doesn\u0027t make a lot of sense. However, the representation is indeed \"fully rounded\". I could represent it via 12px directly or define the chip height as fixed 24px (--spacing-xxl) and continue using --spacing-l assuming they will have a 1/2 ratio - as also happens with the media query(max-width: 50em) in app-theme.ts.\n\nAny preference here?",
       "parentUuid": "f163a863_fc4fcd72",
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "184459f1_1a14547d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T09:36:26Z",
+      "side": 1,
+      "message": "I don\u0027t know what the designers want, but in the code I would like something\n\n  border-radius: var(--fully-rounded-radius, 100px);\n\nor\n\n  border-radius: var(--border-radius-large, 8px);",
+      "parentUuid": "17a59abd_43a9023b",
       "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

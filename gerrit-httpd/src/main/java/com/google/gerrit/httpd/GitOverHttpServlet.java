@@ -274,6 +274,7 @@ public class GitOverHttpServlet extends GitServlet {
     private final PermissionBackend permissionBackend;
     private final Provider<CurrentUser> userProvider;
     private final AuditService auditService;
+    private final Provider<WebSession> sessionProvider;
 
     @Inject
     UploadFilter(
@@ -281,11 +282,13 @@ public class GitOverHttpServlet extends GitServlet {
         UploadValidators.Factory uploadValidatorsFactory,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
+        Provider<WebSession> sessionProvider,
         AuditService auditService) {
       this.refFilterFactory = refFilterFactory;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
+      this.sessionProvider = sessionProvider;
       this.auditService = auditService;
     }
 
@@ -316,7 +319,7 @@ public class GitOverHttpServlet extends GitServlet {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         auditService.dispatch(
             new HttpAuditEvent(
-                httpRequest.getSession().getId(),
+                getSessionIdOrNull(sessionProvider),
                 userProvider.get(),
                 extractWhat(httpRequest),
                 TimeUtil.nowMs(),
@@ -382,6 +385,7 @@ public class GitOverHttpServlet extends GitServlet {
     private final Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache;
     private final PermissionBackend permissionBackend;
     private final Provider<CurrentUser> userProvider;
+    private final Provider<WebSession> sessionProvider;
     private final AuditService auditService;
 
     @Inject
@@ -389,10 +393,12 @@ public class GitOverHttpServlet extends GitServlet {
         @Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
+        Provider<WebSession> sessionProvider,
         AuditService auditService) {
       this.cache = cache;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
+      this.sessionProvider = sessionProvider;
       this.auditService = auditService;
     }
 
@@ -426,7 +432,7 @@ public class GitOverHttpServlet extends GitServlet {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         auditService.dispatch(
             new HttpAuditEvent(
-                httpRequest.getSession().getId(),
+                getSessionIdOrNull(sessionProvider),
                 userProvider.get(),
                 extractWhat(httpRequest),
                 TimeUtil.nowMs(),
@@ -482,5 +488,13 @@ public class GitOverHttpServlet extends GitServlet {
 
     @Override
     public void destroy() {}
+  }
+
+  private static String getSessionIdOrNull(Provider<WebSession> sessionProvider) {
+    WebSession session = sessionProvider.get();
+    if (session.isSignedIn()) {
+      return session.getSessionId();
+    }
+    return null;
   }
 }

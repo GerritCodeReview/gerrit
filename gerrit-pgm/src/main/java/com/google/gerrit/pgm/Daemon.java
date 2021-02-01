@@ -223,6 +223,11 @@ public class Daemon extends SiteProgram {
     httpd = enable;
   }
 
+  @VisibleForTesting
+  public Injector getHttpdInjector() {
+    return httpdInjector;
+  }
+
   @Override
   public int run() throws Exception {
     if (stopOnly) {

@@ -145,10 +145,17 @@ public class SubmitWithStickyApprovalDiff {
     }
     SparseFileContent.Accessor fileA = patchScript.getA().createAccessor();
     SparseFileContent.Accessor fileB = patchScript.getB().createAccessor();
+    boolean editsExist = false;
+    if (patchScript.getEdits().stream().anyMatch(e -> e.getType() != Edit.Type.EMPTY)) {
+      diff += "```\n";
+      editsExist = true;
+    }
     for (Edit edit : patchScript.getEdits()) {
       diff += getDiffForEdit(fileA, fileB, edit);
     }
-    diff += "\n";
+    if (editsExist) {
+      diff += "```\n";
+    }
     return diff;
   }
 

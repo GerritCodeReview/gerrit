@@ -167,7 +167,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         /* deletions= */ 0,
         /* edits= */ ImmutableList.of(Edit.create(0, 0, 0, 3)),
         /* previousLines= */ ImmutableList.of(),
-        /* newLines= */ ImmutableList.of("+  content\n+  more content\n+  last content"),
+        /* newLines= */ ImmutableList.of("+  content\n+  more content\n+  last content\n"),
         /* oldFileName= */ null);
   }
 
@@ -195,7 +195,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         /* insertions= */ 0,
         /* deletions= */ 3,
         /* edits= */ ImmutableList.of(Edit.create(0, 3, 0, 0)),
-        /* previousLines= */ ImmutableList.of("-  content\n-  more content\n-  last content"),
+        /* previousLines= */ ImmutableList.of("-  content\n-  more content\n-  last content\n"),
         /* newLines= */ ImmutableList.of(),
         /* oldFileName= */ null);
   }
@@ -272,6 +272,9 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
 
     Iterator<String> previousLinesIterator = previousLines.iterator();
     Iterator<String> newLinesIterator = newLines.iterator();
+    if (!edits.isEmpty()) {
+      expectedMessage += "```\n";
+    }
     for (Edit edit : edits) {
       if (edit.beginA() == edit.endA()) {
         // Insertion
@@ -294,6 +297,9 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
       expectedMessage += previousLinesIterator.next();
       expectedMessage += newLinesIterator.next();
       expectedMessage += "\n";
+    }
+    if (!edits.isEmpty()) {
+      expectedMessage += "```\n";
     }
     String expectedChangeMessage = "Change has been successfully merged\n\n" + expectedMessage;
     assertThat(message.trim()).isEqualTo(expectedChangeMessage.trim());

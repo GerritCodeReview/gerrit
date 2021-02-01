@@ -1,0 +1,364 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1789630_d57c4408",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "I think the \"offset\" approach for gr-diff is not the right one.\n\nCan you try using the `skip` property in DiffContent?",
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f87b08a_2458c56e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Pass the offset to the processor here. And then use it when initializing the state.",
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7137753_8cc9e4b6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Add a comment.",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 17
+      },
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a894c78_808fc497",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "I find offset\u003d\u003d1 to mean \"no offset\" a bit weird. Why not 0?",
+      "range": {
+        "startLine": 88,
+        "startChar": 15,
+        "endLine": 88,
+        "endChar": 16
+      },
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6258d75d_e6238a3e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e9947dd_1a485079",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Using the `lineOffset` here means just hacking the visuals. You actually want to change the underlying model (GrDiffLine and GrDiffGroup). Those models are created in the diff processor. That is where the offset should be used. See my other comment below.",
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d82bfb5_74d684b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Should this be initialized with createDefaultDiffPrefs() while the prefs are loading?",
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ae65df_4580b978",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Maybe validate that _getDiffFromContext() is non-empty?",
+      "range": {
+        "startLine": 229,
+        "startChar": 2,
+        "endLine": 229,
+        "endChar": 27
+      },
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a108730_18506faa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Move this code into a utility.",
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d325ee4f_96c041e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "{} does not fulfill the contract of DiffInfo. Maybe the return type of the method should be specified and be something like DiffInfo|undefined?",
+      "range": {
+        "startLine": 293,
+        "startChar": 26,
+        "endLine": 293,
+        "endChar": 28
+      },
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16a576dc_62c21df6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "MODIFIED instead? Then it is not green.",
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "111fd68d_5869d3ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Is it complicated to resolve this TODO?",
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d10faa65_5881ed43",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Instead of calling a method, maybe better pass in a property to \u003cgr-diff\u003e from the html.",
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3805a4e_2bc01de0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Maybe return 1?",
+      "range": {
+        "startLine": 327,
+        "startChar": 19,
+        "endLine": 327,
+        "endChar": 29
+      },
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac606117_2f36bba3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Is thread-container used?",
+      "range": {
+        "startLine": 81,
+        "startChar": 5,
+        "endLine": 81,
+        "endChar": 21
+      },
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8db5f11_609fb244",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Is comment-container used?",
+      "range": {
+        "startLine": 84,
+        "startChar": 5,
+        "endLine": 84,
+        "endChar": 22
+      },
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd732cb4_7afdbb66",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Maybe rename to compute...",
+      "range": {
+        "startLine": 185,
+        "startChar": 16,
+        "endLine": 185,
+        "endChar": 35
+      },
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e145170_f1b19664",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T11:42:51Z",
+      "side": 1,
+      "message": "Maybe rename to compute...",
+      "range": {
+        "startLine": 188,
+        "startChar": 23,
+        "endLine": 188,
+        "endChar": 48
+      },
+      "revId": "8407cfd8a0435de45daec77fae9ef077ea3891fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

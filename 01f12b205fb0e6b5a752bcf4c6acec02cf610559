@@ -70,6 +70,30 @@
       },
       "revId": "01f12b205fb0e6b5a752bcf4c6acec02cf610559",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b81769ef_12055341",
+        "filename": "javatests/com/google/gerrit/integration/git/UploadArchiveIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-01T19:58:24Z",
+      "side": 1,
+      "message": "Yeah, this command is executed:\n\n  git archive \\\n  -f\u003dtar.xz \\\n  --prefix\u003d0cee55f664d8a18fc8227f3d0dfa53f9443f4973/ \\\n  --remote\u003dssh://admin@localhost:45147/upload-archive-project-test \\\n  0cee55f664d8a18fc8227f3d0dfa53f9443f4973 \\\n  a.txt\n\nThe magic part is here --remote option:\n\n  --remote\u003d\u003crepo\u003e\n  Instead of making a tar archive from the local repository, retrieve a tar archive from a remote repository.\n\nSo that the options are actually processed by Gerrit server: git-upload-archive(1):\n\n  git upload-archive \u003cdirectory\u003e\n\nDESCRIPTION\n       Invoked by git archive --remote and sends a generated archive to the other end over the Git protocol.\n\n       This command is usually not invoked directly by the end user. The UI for the protocol is on the git archive side, and the program pair is meant to be\n       used to get an archive from a remote repository.",
+      "parentUuid": "d878c84f_b37ced30",
+      "range": {
+        "startLine": 172,
+        "startChar": 34,
+        "endLine": 172,
+        "endChar": 35
+      },
+      "revId": "01f12b205fb0e6b5a752bcf4c6acec02cf610559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

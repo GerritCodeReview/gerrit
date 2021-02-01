@@ -22,6 +22,75 @@
       },
       "revId": "21fadf7eb97cacbee9bd569cfcf242535906a6c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "641b2b49_8291e09b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-01T15:43:59Z",
+      "side": 1,
+      "message": "NIT: \nIt would be nice to add tooltip\n\nSomething like you cannot vote new vote or labels were not changed.\n\nWDYT?",
+      "range": {
+        "startLine": 1381,
+        "startChar": 2,
+        "endLine": 1381,
+        "endChar": 27
+      },
+      "revId": "21fadf7eb97cacbee9bd569cfcf242535906a6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "215d0c1c_136bbede",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1414,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-01T15:43:59Z",
+      "side": 1,
+      "message": "NIT: change?.label \u003d\u003d\u003d undefined",
+      "range": {
+        "startLine": 1413,
+        "startChar": 6,
+        "endLine": 1414,
+        "endChar": 35
+      },
+      "revId": "21fadf7eb97cacbee9bd569cfcf242535906a6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e25ba396_703cae0d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1415,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-01T15:43:59Z",
+      "side": 1,
+      "message": "I am not familiar with change.labels[CODE_REVIEW]. Is it always defined? \n\nBecause on changes where it is not defined, with this line you make button always enabled, It will ignore whenever the comment is editing, or other reasons that can make this change disabled.\n\nI would be safer and I would write\n\n```const codeReviewLabel \u003d change?.labels?.[CODE_REVIEW]```\n```const existingVote \u003d codeReviewLabel \u0026\u0026 isDetailedLabelInfo ... ```",
+      "range": {
+        "startLine": 1415,
+        "startChar": 6,
+        "endLine": 1415,
+        "endChar": 49
+      },
+      "revId": "21fadf7eb97cacbee9bd569cfcf242535906a6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

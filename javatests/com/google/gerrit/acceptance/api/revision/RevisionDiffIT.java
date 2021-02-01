@@ -427,7 +427,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
     gApi.changes().id(changeId).edit().publish();
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    gApi.changes().id(changeId).edit().modifyCommitMessage("An unchanged patchset");
+    gApi.changes().id(changeId).edit().modifyCommitMessage(updatedCommitMessage());
     gApi.changes().id(changeId).edit().publish();
 
     DiffInfo diffInfo =
@@ -449,7 +449,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
     gApi.changes().id(changeId).edit().publish();
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    gApi.changes().id(changeId).edit().modifyCommitMessage("An unchanged patchset");
+    gApi.changes().id(changeId).edit().modifyCommitMessage(updatedCommitMessage());
     gApi.changes().id(changeId).edit().publish();
 
     DiffInfo diffInfo =
@@ -467,7 +467,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
     gApi.changes().id(changeId).edit().publish();
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    gApi.changes().id(changeId).edit().modifyCommitMessage("An unchanged patchset");
+    gApi.changes().id(changeId).edit().modifyCommitMessage(updatedCommitMessage());
     gApi.changes().id(changeId).edit().publish();
 
     DiffInfo diffInfo =
@@ -2716,6 +2716,10 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     // a comment is present.
     assertThat(diffInfo).content().element(0).commonLines().isNull();
     assertThat(diffInfo).content().element(0).numberOfSkippedLines().isGreaterThan(0);
+  }
+
+  private String updatedCommitMessage() {
+    return "An unchanged patchset\n\nChange-Id: " + changeId;
   }
 
   private static CommentInput createCommentInput(

@@ -408,6 +408,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d68bc89d_0e97d122",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-02-01T19:34:38Z",
+      "side": 1,
+      "message": "Sorry Ben, I thought you had a typo and meant 10px (instead of 1000px), but I see your point, having 1000px as just a very high value - that will always mean fully-rounded. I agree and have just changed that.",
+      "parentUuid": "70844233_40c885e2",
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49b22907_c552c752",

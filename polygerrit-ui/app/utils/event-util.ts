@@ -17,6 +17,7 @@
 
 import {UrlEncodedCommentId} from '../types/common';
 import {FetchRequest} from '../types/types';
+import {DialogChangeEventDetail} from '../types/events';
 
 export enum EventType {
   SHOW_ALERT = 'show-alert',
@@ -25,6 +26,7 @@ export enum EventType {
   NETWORK_ERROR = 'network-error',
   TITLE_CHANGE = 'title-change',
   THREAD_LIST_MODIFIED = 'thread-list-modified',
+  DIALOG_CHANGE = 'dialog-change',
 }
 
 export function fireEvent(target: EventTarget, type: string) {
@@ -80,6 +82,21 @@ export function fireTitleChange(target: EventTarget, title: string) {
   target.dispatchEvent(
     new CustomEvent(EventType.TITLE_CHANGE, {
       detail: {title},
+      composed: true,
+      bubbles: true,
+    })
+  );
+}
+
+// TODO(milutin) - remove once new gr-dialog will do it out of the box
+// This informs gr-app-element to remove footer, header from a11y tree
+export function fireDialogChange(
+  target: EventTarget,
+  detail: DialogChangeEventDetail
+) {
+  target.dispatchEvent(
+    new CustomEvent(EventType.DIALOG_CHANGE, {
+      detail,
       composed: true,
       bubbles: true,
     })

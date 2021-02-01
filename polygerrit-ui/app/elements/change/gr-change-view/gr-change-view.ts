@@ -153,7 +153,12 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
-import {fireAlert, fireEvent, firePageError} from '../../../utils/event-util';
+import {
+  fireAlert,
+  fireEvent,
+  firePageError,
+  fireDialogChange,
+} from '../../../utils/event-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
@@ -516,6 +521,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   @property({type: Number})
   _currentRobotCommentsPatchSet?: PatchSetNum;
+
+  // TODO(milutin) - remove once new gr-dialog will do it out of the box
+  // This removes rest of page from a11y tree, when reply dialog is open
+  @property({type: Boolean})
+  _changeViewAriaHidden = false;
 
   /**
    * this is a two-element tuple to always
@@ -1116,6 +1126,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
   }
 
+  onReplyOverlayCanceled() {
+    fireDialogChange(this, {canceled: true});
+    this._changeViewAriaHidden = false;
+  }
+
   _handleOpenDiffPrefs() {
     this.$.fileList.openDiffPrefs();
   }
@@ -1180,12 +1195,12 @@ export class GrChangeView extends KeyboardShortcutMixin(
       },
       {once: true}
     );
-    this.$.replyOverlay.close();
+    this.$.replyOverlay.cancel();
     this._reload();
   }
 
   _handleReplyCancel() {
-    this.$.replyOverlay.close();
+    this.$.replyOverlay.cancel();
   }
 
   _handleReplyAutogrow() {
@@ -1852,6 +1867,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
       flush();
       this.$.replyOverlay.center();
     });
+    fireDialogChange(this, {opened: true});
+    this._changeViewAriaHidden = true;
   }
 
   _handleGetChangeDetailError(response?: Response | null) {

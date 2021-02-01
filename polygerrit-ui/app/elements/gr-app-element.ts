@@ -75,6 +75,7 @@ import {
   RpcLogEvent,
   ShortcutTriggeredEvent,
   TitleChangeEventDetail,
+  DialogChangeEventDetail,
 } from '../types/events';
 import {ViewState} from '../types/types';
 import {EventType} from '../utils/event-util';
@@ -191,6 +192,18 @@ export class GrAppElement extends KeyboardShortcutMixin(
   @property({type: Boolean})
   loadKeyboardShortcutsDialog = false;
 
+  // TODO(milutin) - remove once new gr-dialog will do it out of the box
+  // This removes footer, header from a11y tree, when a dialog on view
+  // (e.g. reply dialog) is open
+  @property({type: Boolean})
+  _footerHeaderAriaHidden = false;
+
+  // TODO(milutin) - remove once new gr-dialog will do it out of the box
+  // This removes main page from a11y tree, when a dialog on gr-app-element
+  // (e.g. shortcut dialog) is open
+  @property({type: Boolean})
+  _mainAriaHidden = false;
+
   private reporting = appContext.reportingService;
 
   private restApiService = appContext.restApiService;
@@ -215,6 +228,9 @@ export class GrAppElement extends KeyboardShortcutMixin(
     });
     this.addEventListener(EventType.TITLE_CHANGE, e => {
       this._handleTitleChange(e);
+    });
+    this.addEventListener(EventType.DIALOG_CHANGE, e => {
+      this._handleDialogChange(e as CustomEvent<DialogChangeEventDetail>);
     });
     this.addEventListener('location-change', e =>
       this._handleLocationChange(e)
@@ -597,6 +613,14 @@ export class GrAppElement extends KeyboardShortcutMixin(
     }
   }
 
+  _handleDialogChange(e: CustomEvent<DialogChangeEventDetail>) {
+    if (e.detail.canceled) {
+      this._footerHeaderAriaHidden = false;
+    } else if (e.detail.opened) {
+      this._footerHeaderAriaHidden = true;
+    }
+  }
+
   handleShowKeyboardShortcuts() {
     this.loadKeyboardShortcutsDialog = true;
     flush();
@@ -613,17 +637,26 @@ export class GrAppElement extends KeyboardShortcutMixin(
     ) as GrOverlay;
     if (!keyboardShortcuts) return;
     if (keyboardShortcuts.opened) {
-      keyboardShortcuts.close();
+      keyboardShortcuts.cancel();
       return;
     }
     if (this.shouldSuppressKeyboardShortcut(e)) {
       return;
     }
     keyboardShortcuts.open();
+    this._footerHeaderAriaHidden = true;
+    this._mainAriaHidden = true;
   }
 
   _handleKeyboardShortcutDialogClose() {
-    (this.shadowRoot!.querySelector('#keyboardShortcuts') as GrOverlay).close();
+    (this.shadowRoot!.querySelector(
+      '#keyboardShortcuts'
+    ) as GrOverlay).cancel();
+  }
+
+  onOverlayCanceled() {
+    this._footerHeaderAriaHidden = false;
+    this._mainAriaHidden = false;
   }
 
   _handleAccountDetailUpdate() {

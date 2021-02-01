@@ -22,6 +22,30 @@
       },
       "revId": "c0f8b05106018c57cdc79200ace1a9c4b93b1753",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bf278b5_912159a7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-02-01T11:42:55Z",
+      "side": 1,
+      "message": "unfortunately font-size-small is not the same as 12px - in my browser is currently 13.712px, while source code (--font-size) is always in pixels as a gr-diff preference (https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts#806). I changed anyway to font-size-small + removed font-weight and will check with Alberto if it\u0027s ok so we can quick-fix the issue on live.\n\nHowever this shows to me we have to define a reasonable set of fonts to be used in different levels between gr-diff clients. I don\u0027t oppose we iterate on them to find ideal definitions. What do you think?",
+      "parentUuid": "4f5f91e2_8f3eca91",
+      "range": {
+        "startLine": 30,
+        "startChar": 25,
+        "endLine": 30,
+        "endChar": 42
+      },
+      "revId": "c0f8b05106018c57cdc79200ace1a9c4b93b1753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

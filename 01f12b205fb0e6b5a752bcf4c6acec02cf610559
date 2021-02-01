@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "056b165f_a70a5f47",
+        "filename": "javatests/com/google/gerrit/integration/git/UploadArchiveIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-01T16:50:13Z",
+      "side": 1,
+      "message": "I\u0027m confused. Where does this get interpreted? STandaloneSiteTest tries to shell out this program. Wouldn\u0027t that fail (--compression-level is not a git-archive option.)",
+      "range": {
+        "startLine": 172,
+        "startChar": 34,
+        "endLine": 172,
+        "endChar": 35
+      },
+      "revId": "01f12b205fb0e6b5a752bcf4c6acec02cf610559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

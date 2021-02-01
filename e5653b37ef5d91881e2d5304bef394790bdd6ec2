@@ -22,6 +22,30 @@
       },
       "revId": "e5653b37ef5d91881e2d5304bef394790bdd6ec2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "719206f9_6fe15c8c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-01T12:13:42Z",
+      "side": 1,
+      "message": "You are correct - I noticed the same thing, and had it fixed in https://gerrit-review.googlesource.com/c/gerrit/+/295031. As I will submit them together now, I hope it\u0027s okay not to move that change into this change.",
+      "parentUuid": "3bbb19ba_a7ace88f",
+      "range": {
+        "startLine": 991,
+        "startChar": 20,
+        "endLine": 991,
+        "endChar": 23
+      },
+      "revId": "e5653b37ef5d91881e2d5304bef394790bdd6ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

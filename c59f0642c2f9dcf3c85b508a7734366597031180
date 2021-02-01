@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e00eb73_82cce74d",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2021-02-01T15:05:57Z",
+      "side": 1,
+      "message": "+1. As an idea for a future change we could think which other reasons for the session disconnect should also be logged by gerrit. There are 6 callbacks and we only implement one.",
+      "revId": "c59f0642c2f9dcf3c85b508a7734366597031180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

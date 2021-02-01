@@ -269,6 +269,21 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .contains("2 is the latest approved patch-set.");
   }
 
+  @Test
+  public void diffChangeMessageOnSubmitWithStickyVote_noChanges() throws Exception {
+    Change.Id changeId = changeOperations.newChange().project(project).create();
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+
+    // no file changed
+    changeOperations.change(changeId).newPatchset().create();
+
+    gApi.changes().id(changeId.get()).current().submit();
+
+    // No other content in the message since the diff is the same.
+    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+        .isEqualTo("Change has been successfully merged\n\n1 is the latest approved patch-set.\n");
+  }
+
   private void assertDiffChangeMessageAndEmailWithStickyApproval(
       String message,
       String file,

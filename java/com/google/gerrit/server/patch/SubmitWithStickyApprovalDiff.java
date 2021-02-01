@@ -38,6 +38,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.Edit;
 
@@ -89,7 +90,6 @@ public class SubmitWithStickyApprovalDiff {
     }
     String diff =
         String.format("\n\n%d is the latest approved patch-set.\n", latestApprovedPatchsetId.get());
-    diff += "The change was submitted with unreviewed changes in the following files:\n\n";
     PatchList patchList =
         getPatchList(
             notes.getProjectName(),
@@ -97,10 +97,18 @@ public class SubmitWithStickyApprovalDiff {
             notes.getPatchSets().get(latestApprovedPatchsetId));
 
     // To make the message a bit more concise, we skip the magic files.
-    for (PatchListEntry patchListEntry :
+    List<PatchListEntry> patchListEntryList =
         patchList.getPatches().stream()
             .filter(p -> !Patch.isMagic(p.getNewName()))
-            .collect(Collectors.toList())) {
+            .collect(Collectors.toList());
+
+    if (patchListEntryList.isEmpty()) {
+      return diff;
+    }
+
+    diff += "The change was submitted with unreviewed changes in the following files:\n\n";
+
+    for (PatchListEntry patchListEntry : patchListEntryList) {
       diff +=
           getDiffForFile(
               notes, currentPatchset.id(), latestApprovedPatchsetId, patchListEntry, currentUser);

@@ -24,6 +24,40 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04c55afe_97c503bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T12:49:25Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09708166_689cbe3e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T12:49:25Z",
+      "side": 1,
+      "message": "Maybe just inline this two lines down?",
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cbc0e97_8fd3f7ca",
@@ -95,6 +129,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "32f78181_71f41ec9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T12:49:25Z",
+      "side": 1,
+      "message": "Nit: I would extract a method for this (isBaseAParent or isLeftAParent?) and use that in both methods instead of passing commentSide into _getCommentPatchNum.\n\nAside: basePatchNum and patchNum in patchRange should actually be renamed to leftPatchNum and rightPatchNum IMO.",
+      "range": {
+        "startLine": 740,
+        "startChar": 7,
+        "endLine": 741,
+        "endChar": 51
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa14ae48_bad40dad",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
         "patchSetId": 6
@@ -111,6 +168,29 @@
         "startChar": 2,
         "endLine": 746,
         "endChar": 21
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad0890c3_9c8da701",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T12:49:25Z",
+      "side": 1,
+      "message": "Can we force the return value to be a number?",
+      "range": {
+        "startLine": 746,
+        "startChar": 61,
+        "endLine": 746,
+        "endChar": 72
       },
       "revId": "7beac7c891106f6e49504e1c562bde3438921175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

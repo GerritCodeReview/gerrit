@@ -584,6 +584,10 @@ public class GerritServer implements AutoCloseable {
     return testInjector;
   }
 
+  public Injector getHttpdInjector() {
+    return daemon.getHttpdInjector();
+  }
+
   Description getDescription() {
     return desc;
   }

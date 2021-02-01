@@ -224,6 +224,11 @@ public class Daemon extends SiteProgram {
     this.replica = replica;
   }
 
+  @VisibleForTesting
+  public Injector getHttpdInjector() {
+    return httpdInjector;
+  }
+
   @Override
   public int run() throws Exception {
     if (stopOnly) {

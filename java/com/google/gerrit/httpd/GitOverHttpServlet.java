@@ -357,6 +357,7 @@ public class GitOverHttpServlet extends GitServlet {
     private final Metrics metrics;
     private final PluginSetContext<RequestListener> requestListeners;
     private final UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook;
+    private final Provider<WebSession> sessionProvider;
 
     @Inject
     UploadFilter(
@@ -366,7 +367,8 @@ public class GitOverHttpServlet extends GitServlet {
         GroupAuditService groupAuditService,
         Metrics metrics,
         PluginSetContext<RequestListener> requestListeners,
-        UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook) {
+        UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook,
+        Provider<WebSession> sessionProvider) {
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
@@ -374,6 +376,7 @@ public class GitOverHttpServlet extends GitServlet {
       this.metrics = metrics;
       this.requestListeners = requestListeners;
       this.usersSelfAdvertiseRefsHook = usersSelfAdvertiseRefsHook;
+      this.sessionProvider = sessionProvider;
     }
 
     @Override
@@ -389,7 +392,7 @@ public class GitOverHttpServlet extends GitServlet {
       HttpServletResponseWithStatusWrapper responseWrapper =
           new HttpServletResponseWithStatusWrapper((HttpServletResponse) response);
       HttpServletRequest httpRequest = (HttpServletRequest) request;
-      String sessionId = httpRequest.getSession().getId();
+      String sessionId = getSessionIdOrNull(sessionProvider);
 
       try (TraceContext traceContext = TraceContext.open()) {
         RequestInfo requestInfo =
@@ -492,6 +495,7 @@ public class GitOverHttpServlet extends GitServlet {
     private final Provider<CurrentUser> userProvider;
     private final GroupAuditService groupAuditService;
     private final Metrics metrics;
+    private final Provider<WebSession> sessionProvider;
 
     @Inject
     ReceiveFilter(
@@ -499,12 +503,14 @@ public class GitOverHttpServlet extends GitServlet {
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
         GroupAuditService groupAuditService,
-        Metrics metrics) {
+        Metrics metrics,
+        Provider<WebSession> sessionProvider) {
       this.cache = cache;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
       this.groupAuditService = groupAuditService;
       this.metrics = metrics;
+      this.sessionProvider = sessionProvider;
     }
 
     @Override
@@ -544,7 +550,7 @@ public class GitOverHttpServlet extends GitServlet {
       } finally {
         groupAuditService.dispatch(
             new HttpAuditEvent(
-                httpRequest.getSession().getId(),
+                getSessionIdOrNull(sessionProvider),
                 userProvider.get(),
                 extractWhat(httpRequest),
                 TimeUtil.nowMs(),
@@ -599,5 +605,13 @@ public class GitOverHttpServlet extends GitServlet {
 
     @Override
     public void destroy() {}
+  }
+
+  private static String getSessionIdOrNull(Provider<WebSession> sessionProvider) {
+    WebSession session = sessionProvider.get();
+    if (session.isSignedIn()) {
+      return session.getSessionId();
+    }
+    return null;
   }
 }

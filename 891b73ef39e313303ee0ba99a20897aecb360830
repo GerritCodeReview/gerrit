@@ -22,6 +22,30 @@
       },
       "revId": "891b73ef39e313303ee0ba99a20897aecb360830",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d67d57c_58faab04",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-01T23:14:44Z",
+      "side": 1,
+      "message": "existingVote is a boolean from .some. It\u0027s true if any label matches the predicate (isDetailed and getApproval exists).\n\nYes your summary is correct. Any existing (even old but sticky) vote from the user will enable send so they can re-vote. This way user can indicate that they have \u0027reviewed\u0027 current changes even for sticky labels.",
+      "parentUuid": "c66ab1b9_d6840097",
+      "range": {
+        "startLine": 1424,
+        "startChar": 4,
+        "endLine": 1426,
+        "endChar": 6
+      },
+      "revId": "891b73ef39e313303ee0ba99a20897aecb360830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -29,4 +29,8 @@ public class DiffNotAvailableException extends Exception {
   public DiffNotAvailableException(String message) {
     super(message);
   }
+
+  public DiffNotAvailableException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }

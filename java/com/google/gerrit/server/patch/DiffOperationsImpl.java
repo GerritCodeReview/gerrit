@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.gerrit.entities.Patch.COMMIT_MSG;
+import static com.google.gerrit.entities.Patch.MERGE_LIST;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
@@ -37,11 +40,11 @@ import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.DiffAlgor
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.revwalk.RevObject;
 
 /**
  * Provides different file diff operations. Uses the underlying Git/Gerrit caches to speed up the
@@ -81,73 +84,82 @@ public class DiffOperationsImpl implements DiffOperations {
   }
 
   @Override
-  public Map<String, FileDiffOutput> getModifiedFilesAgainstParentOrAutoMerge(
+  public Map<String, FileDiffOutput> listModifiedFilesAgainstParent(
       Project.NameKey project, ObjectId newCommit, @Nullable Integer parent)
       throws DiffNotAvailableException {
     try {
-      if (parent != null) {
-        RevObject base = baseCommitUtil.getBaseCommit(project, newCommit, parent);
-        return getModifiedFiles(project, base, newCommit, ComparisonType.againstParent(parent));
-      }
-      int numParents = baseCommitUtil.getNumParents(project, newCommit);
-      if (numParents == 1) {
-        RevObject base = baseCommitUtil.getBaseCommit(project, newCommit, parent);
-        ComparisonType cmp = ComparisonType.againstParent(1);
-        return getModifiedFiles(project, base, newCommit, cmp);
-      }
-      if (numParents > 2) {
-        logger.atFine().log(
-            "Diff against auto-merge for merge commits "
-                + "with more than two parents is not supported. Commit "
-                + newCommit
-                + " has "
-                + numParents
-                + " parents. Falling back to the diff against the first parent.");
-        ObjectId firstParentId = baseCommitUtil.getBaseCommit(project, newCommit, 1).getId();
-        ImmutableList.Builder<FileDiffCacheKey> keys = ImmutableList.builder();
-        keys.add(createFileDiffCacheKey(project, firstParentId, newCommit, Patch.COMMIT_MSG));
-        keys.add(createFileDiffCacheKey(project, firstParentId, newCommit, Patch.MERGE_LIST));
-        return getModifiedFilesForKeys(keys.build());
-      }
-      RevObject autoMerge = baseCommitUtil.getBaseCommit(project, newCommit, null);
-      return getModifiedFiles(project, autoMerge, newCommit, ComparisonType.againstAutoMerge());
+      DiffParameters diffParams = new DiffParameters(project, newCommit, parent).evaluateBase();
+      return getModifiedFiles(project, newCommit, diffParams);
     } catch (IOException e) {
-      throw new DiffNotAvailableException(e);
+      throw new DiffNotAvailableException(
+          "Failed to evaluate the parent/base commit for commit " + newCommit, e);
     }
   }
 
   @Override
-  public Map<String, FileDiffOutput> getModifiedFilesBetweenPatchsets(
+  public Map<String, FileDiffOutput> listModifiedFiles(
       Project.NameKey project, ObjectId oldCommit, ObjectId newCommit)
       throws DiffNotAvailableException {
-    ComparisonType cmp = ComparisonType.againstOtherPatchSet();
-    return getModifiedFiles(project, oldCommit, newCommit, cmp);
+    DiffParameters params =
+        new DiffParameters(project, newCommit, null)
+            .setBaseCommit(oldCommit)
+            .setComparisonType(ComparisonType.againstOtherPatchSet());
+    return getModifiedFiles(project, newCommit, params);
+  }
+
+  @Override
+  public FileDiffOutput getModifiedFileAgainstParent(
+      Project.NameKey project, ObjectId newCommit, @Nullable Integer parent, String fileName)
+      throws DiffNotAvailableException {
+    try {
+      DiffParameters diffParams = new DiffParameters(project, newCommit, parent).evaluateBase();
+      FileDiffCacheKey key =
+          createFileDiffCacheKey(project, diffParams.baseCommit, newCommit, fileName);
+      return getModifiedFilesForKeys(ImmutableList.of(key)).get(fileName);
+    } catch (IOException e) {
+      throw new DiffNotAvailableException(
+          "Failed to evaluate the parent/base commit for commit " + newCommit, e);
+    }
+  }
+
+  @Override
+  public FileDiffOutput getModifiedFile(
+      Project.NameKey project, ObjectId oldCommit, ObjectId newCommit, String fileName)
+      throws DiffNotAvailableException {
+    FileDiffCacheKey key = createFileDiffCacheKey(project, oldCommit, newCommit, fileName);
+    return getModifiedFilesForKeys(ImmutableList.of(key)).get(fileName);
   }
 
   private Map<String, FileDiffOutput> getModifiedFiles(
-      Project.NameKey project, ObjectId oldCommit, ObjectId newCommit, ComparisonType cmp)
+      Project.NameKey project, ObjectId newCommit, DiffParameters diffParams)
       throws DiffNotAvailableException {
     try {
+      ObjectId oldCommit = diffParams.baseCommit;
+      ComparisonType cmp = diffParams.cmp;
+
       ImmutableList<ModifiedFile> modifiedFiles =
           modifiedFilesCache.get(createModifiedFilesKey(project, oldCommit, newCommit));
 
-      List<FileDiffCacheKey> fileCacheKeys =
-          modifiedFiles.stream()
-              .map(
-                  entity ->
-                      createFileDiffCacheKey(
-                          project,
-                          oldCommit,
-                          newCommit,
-                          entity.newPath().isPresent()
-                              ? entity.newPath().get()
-                              : entity.oldPath().get()))
-              .collect(Collectors.toList());
-
-      fileCacheKeys.add(createFileDiffCacheKey(project, oldCommit, newCommit, Patch.COMMIT_MSG));
+      List<FileDiffCacheKey> fileCacheKeys = new ArrayList<>();
+      fileCacheKeys.add(createFileDiffCacheKey(project, oldCommit, newCommit, COMMIT_MSG));
 
       if (cmp.isAgainstAutoMerge() || isMergeAgainstParent(cmp, project, newCommit)) {
-        fileCacheKeys.add(createFileDiffCacheKey(project, oldCommit, newCommit, Patch.MERGE_LIST));
+        fileCacheKeys.add(createFileDiffCacheKey(project, oldCommit, newCommit, MERGE_LIST));
+      }
+
+      if (!diffParams.skipFiles) {
+        fileCacheKeys.addAll(
+            modifiedFiles.stream()
+                .map(
+                    entity ->
+                        createFileDiffCacheKey(
+                            project,
+                            oldCommit,
+                            newCommit,
+                            entity.newPath().isPresent()
+                                ? entity.newPath().get()
+                                : entity.oldPath().get()))
+                .collect(Collectors.toList()));
       }
       return getModifiedFilesForKeys(fileCacheKeys);
     } catch (IOException e) {
@@ -205,5 +217,67 @@ public class DiffOperationsImpl implements DiffOperations {
         .diffAlgorithm(DEFAULT_DIFF_ALGORITHM)
         .whitespace(Whitespace.IGNORE_NONE)
         .build();
+  }
+
+  /**
+   * A utility class to compute the base commit and the comparison type for diffs against the parent
+   * or the auto-merge commits.
+   */
+  private class DiffParameters {
+    private final Project.NameKey project;
+    private final ObjectId newCommit;
+    private final Integer parent;
+
+    private ObjectId baseCommit;
+    private ComparisonType cmp;
+
+    /** Compute the diff for {@value Patch#COMMIT_MSG} and {@link Patch#MERGE_LIST} only. */
+    private boolean skipFiles = false;
+
+    DiffParameters(Project.NameKey project, ObjectId newCommit, Integer parent) {
+      this.project = project;
+      this.newCommit = newCommit;
+      this.parent = parent;
+    }
+
+    DiffParameters evaluateBase() throws IOException {
+      if (parent != null) {
+        baseCommit = baseCommitUtil.getBaseCommit(project, newCommit, parent);
+        cmp = ComparisonType.againstParent(parent);
+        return this;
+      }
+      int numParents = baseCommitUtil.getNumParents(project, newCommit);
+      if (numParents == 1) {
+        baseCommit = baseCommitUtil.getBaseCommit(project, newCommit, parent);
+        cmp = ComparisonType.againstParent(1);
+        return this;
+      }
+      if (numParents > 2) {
+        logger.atFine().log(
+            "Diff against auto-merge for merge commits "
+                + "with more than two parents is not supported. Commit "
+                + newCommit
+                + " has "
+                + numParents
+                + " parents. Falling back to the diff against the first parent.");
+        baseCommit = baseCommitUtil.getBaseCommit(project, newCommit, 1).getId();
+        cmp = ComparisonType.againstParent(1);
+        skipFiles = true;
+      } else {
+        baseCommit = baseCommitUtil.getBaseCommit(project, newCommit, null);
+        cmp = ComparisonType.againstAutoMerge();
+      }
+      return this;
+    }
+
+    DiffParameters setBaseCommit(ObjectId baseCommit) {
+      this.baseCommit = baseCommit;
+      return this;
+    }
+
+    DiffParameters setComparisonType(ComparisonType cmp) {
+      this.cmp = cmp;
+      return this;
+    }
   }
 }

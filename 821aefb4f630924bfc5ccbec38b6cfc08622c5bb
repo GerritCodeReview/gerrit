@@ -332,6 +332,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fdc70c7d_64031e9c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-02-01T11:42:55Z",
+      "side": 1,
+      "message": "a question here.. I wonder if a \"--fully-rounded-radius\" \u003d 10px would make sense. It seems to me that the ratio between container height and radius is the most important aspect to consider right? So to have a fully rounded radius is not a very global expectation, but local? Like, having a container of 20px means 10px for fully rounded radius, but if the container is 30 we would need 15px?",
+      "parentUuid": "184459f1_1a14547d",
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49b22907_c552c752",
         "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
         "patchSetId": 2

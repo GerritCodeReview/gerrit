@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -48,11 +47,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -110,13 +107,10 @@ public class PutMessage extends RetryingRestModifyView<ChangeResource, CommitMes
     String sanitizedCommitMessage = CommitMessageUtil.checkAndSanitizeCommitMessage(input.message);
 
     ensureCanEditCommitMessage(resource.getNotes());
-    sanitizedCommitMessage =
-        ensureChangeIdIsCorrect(
-            projectCache
-                .checkedGet(resource.getProject())
-                .is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
-            resource.getChange().getKey().get(),
-            sanitizedCommitMessage);
+    ChangeUtil.ensureChangeIdIsCorrect(
+        projectCache.checkedGet(resource.getProject()).is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
+        resource.getChange().getKey().get(),
+        sanitizedCommitMessage);
 
     try (Repository repository = repositoryManager.openRepository(resource.getProject());
         RevWalk revWalk = new RevWalk(repository);
@@ -193,34 +187,5 @@ public class PutMessage extends RetryingRestModifyView<ChangeResource, CommitMes
     } catch (AuthException denied) {
       throw new AuthException("modifying commit message not permitted", denied);
     }
-  }
-
-  private static String ensureChangeIdIsCorrect(
-      boolean requireChangeId, String currentChangeId, String newCommitMessage)
-      throws ResourceConflictException, BadRequestException {
-    RevCommit revCommit =
-        RevCommit.parse(
-            Constants.encode("tree " + ObjectId.zeroId().name() + "\n\n" + newCommitMessage));
-
-    // Check that the commit message without footers is not empty
-    CommitMessageUtil.checkAndSanitizeCommitMessage(revCommit.getShortMessage());
-
-    List<String> changeIdFooters = revCommit.getFooterLines(FooterConstants.CHANGE_ID);
-    if (!changeIdFooters.isEmpty() && !changeIdFooters.get(0).equals(currentChangeId)) {
-      throw new ResourceConflictException("wrong Change-Id footer");
-    }
-
-    if (requireChangeId && revCommit.getFooterLines().isEmpty()) {
-      // sanitization always adds '\n' at the end.
-      newCommitMessage += "\n";
-    }
-
-    if (requireChangeId && changeIdFooters.isEmpty()) {
-      newCommitMessage += FooterConstants.CHANGE_ID.getName() + ": " + currentChangeId + "\n";
-    } else if (changeIdFooters.size() > 1) {
-      throw new ResourceConflictException("multiple Change-Id footers");
-    }
-
-    return newCommitMessage;
   }
 }

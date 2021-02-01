@@ -54,7 +54,7 @@ suite('gr-patch-set-util tests', () => {
         .then(result => {
           assert.isTrue(result.isLatest);
           assert.isNotOk(result.newStatus);
-          assert.isFalse(result.newMessages);
+          assert.isNotOk(result.newMessages);
           done();
         });
   });
@@ -86,7 +86,7 @@ suite('gr-patch-set-util tests', () => {
         .then(result => {
           assert.isFalse(result.isLatest);
           assert.isNotOk(result.newStatus);
-          assert.isFalse(result.newMessages);
+          assert.isNotOk(result.newMessages);
           done();
         });
   });
@@ -117,7 +117,7 @@ suite('gr-patch-set-util tests', () => {
         .then(result => {
           assert.isTrue(result.isLatest);
           assert.equal(result.newStatus, 'MERGED');
-          assert.isFalse(result.newMessages);
+          assert.isNotOk(result.newMessages);
           done();
         });
   });
@@ -148,7 +148,7 @@ suite('gr-patch-set-util tests', () => {
         .then(result => {
           assert.isTrue(result.isLatest);
           assert.isNotOk(result.newStatus);
-          assert.isTrue(result.newMessages);
+          assert.deepEqual(result.newMessages, {message: 'blah blah'});
           done();
         });
   });

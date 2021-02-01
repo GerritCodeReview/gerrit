@@ -23,7 +23,7 @@ import {
   ChecksApiConfig,
   LinkIcon,
   RunStatus,
-} from '../../elements/plugins/gr-checks-api/gr-checks-api-types';
+} from '../../api/checks';
 import {map} from 'rxjs/operators';
 
 // This is a convenience type for working with results, because when working

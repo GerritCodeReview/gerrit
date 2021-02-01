@@ -19,7 +19,7 @@ import {
   ChecksApiConfig,
   ChecksProvider,
   GrChecksApiInterface,
-} from './gr-checks-api-types';
+} from '../../../api/checks';
 import {appContext} from '../../../services/app-context';
 
 const DEFAULT_CONFIG: ChecksApiConfig = {

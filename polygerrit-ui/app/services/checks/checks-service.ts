@@ -21,7 +21,7 @@ import {
   ChecksProvider,
   FetchResponse,
   ResponseCode,
-} from '../../elements/plugins/gr-checks-api/gr-checks-api-types';
+} from '../../api/checks';
 import {change$, currentPatchNum$} from '../change/change-model';
 import {updateStateSetProvider, updateStateSetResults} from './checks-model';
 import {

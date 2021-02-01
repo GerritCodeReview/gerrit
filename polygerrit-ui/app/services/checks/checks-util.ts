@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Category,
-  CheckRun,
-  RunStatus,
-} from '../../elements/plugins/gr-checks-api/gr-checks-api-types';
+import {Category, CheckRun, RunStatus} from '../../api/checks';
 
 export function worstCategory(run: CheckRun) {
   const results = run.results ?? [];

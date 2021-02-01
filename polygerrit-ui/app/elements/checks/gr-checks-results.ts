@@ -17,13 +17,7 @@
 import {html} from 'lit-html';
 import {css, customElement, property, PropertyValues} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
-import {
-  Category,
-  CheckRun,
-  Link,
-  RunStatus,
-  Tag,
-} from '../plugins/gr-checks-api/gr-checks-api-types';
+import {Category, CheckRun, Link, RunStatus, Tag} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {assertNever} from '../../utils/common-util';
 import {RunResult} from '../../services/checks/checks-model';

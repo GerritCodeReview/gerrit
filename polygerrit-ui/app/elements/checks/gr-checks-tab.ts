@@ -17,10 +17,7 @@
 import {html} from 'lit-html';
 import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
-import {
-  CheckResult,
-  CheckRun,
-} from '../plugins/gr-checks-api/gr-checks-api-types';
+import {CheckResult, CheckRun} from '../../api/checks';
 import {allResults$, allRuns$} from '../../services/checks/checks-model';
 import './gr-checks-runs';
 import './gr-checks-results';

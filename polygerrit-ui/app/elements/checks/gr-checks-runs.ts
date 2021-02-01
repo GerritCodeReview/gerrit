@@ -17,10 +17,7 @@
 import {html} from 'lit-html';
 import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
-import {
-  CheckRun,
-  RunStatus,
-} from '../plugins/gr-checks-api/gr-checks-api-types';
+import {CheckRun, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {iconForCategory} from './gr-checks-results';
 import {

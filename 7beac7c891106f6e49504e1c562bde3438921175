@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4c4f352_f95e28fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-01T12:28:22Z",
+      "side": 1,
+      "message": "not really sure what this sentence is supposed to mean just by reading it.\nI understand after looking at the change but the commit message could maybe use a bit more detail 😊",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cbc0e97_8fd3f7ca",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-01T12:28:22Z",
+      "side": 1,
+      "message": "is this supposed to be for _getCommentPatchNum instead?",
+      "range": {
+        "startLine": 728,
+        "startChar": 2,
+        "endLine": 728,
+        "endChar": 5
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bac9b35_0cbbced0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-01T12:28:22Z",
+      "side": 1,
+      "message": "should this be left side?",
+      "range": {
+        "startLine": 730,
+        "startChar": 32,
+        "endLine": 730,
+        "endChar": 42
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82e0d296_de9b1aa1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-01T12:28:22Z",
+      "side": 1,
+      "message": "nit:typo",
+      "range": {
+        "startLine": 732,
+        "startChar": 27,
+        "endLine": 732,
+        "endChar": 38
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa14ae48_bad40dad",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-01T12:28:22Z",
+      "side": 1,
+      "message": "if side \u003d Side.LEFT and commentSide \u003d PARENT then this function is returning patchNum instead of basePatchNum.\nis this intended?\nIsn\u0027t commentSide enough to decide what the patch range should be since it\u0027s already taking into consideration the diffSide and the left patch set being Base/Merge parent?",
+      "range": {
+        "startLine": 746,
+        "startChar": 2,
+        "endLine": 746,
+        "endChar": 21
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

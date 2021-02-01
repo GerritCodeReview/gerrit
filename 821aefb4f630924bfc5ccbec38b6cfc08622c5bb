@@ -350,6 +350,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce541afb_b5e10a87",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T12:34:37Z",
+      "side": 1,
+      "message": "When you just write\n\n  border-radius: 10px;\n\nthen the reader cannot be sure whether this is supposed to be fully-rounded or if it just happens to be so. A comment would help course.\n\nWhen you write \n\n  border-radius: var(--fully-rounded-radius, 1000px);\n\nyour intention is clear without needing a comment. Note that a 1000px radius means fully rounded for all block heights from 1px to 2000px.",
+      "parentUuid": "fdc70c7d_64031e9c",
+      "revId": "821aefb4f630924bfc5ccbec38b6cfc08622c5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49b22907_c552c752",
         "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
         "patchSetId": 2

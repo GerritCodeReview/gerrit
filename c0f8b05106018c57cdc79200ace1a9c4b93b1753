@@ -46,6 +46,30 @@
       },
       "revId": "c0f8b05106018c57cdc79200ace1a9c4b93b1753",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37161dbc_7d4d756f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-01T12:34:37Z",
+      "side": 1,
+      "message": "For Gerrit we have this in main.css:\n\n  html {\n    /*\n     * Default browser fonts are 16px. We want users with default settings to see\n     * a base font of 14px. 14/16 \u003d .875. This needs to be in html because\n     * can use rems based on this font-size throughout the app.\n     */\n    font-size: .875em; \n  }\n\nCan you just set --font-size-small:12px when using gr-diff?",
+      "parentUuid": "5bf278b5_912159a7",
+      "range": {
+        "startLine": 30,
+        "startChar": 25,
+        "endLine": 30,
+        "endChar": 42
+      },
+      "revId": "c0f8b05106018c57cdc79200ace1a9c4b93b1753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

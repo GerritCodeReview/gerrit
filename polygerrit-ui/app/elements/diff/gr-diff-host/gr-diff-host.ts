@@ -74,6 +74,7 @@ import {
   fireServerError,
   fireEvent,
 } from '../../../utils/event-util';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -316,6 +317,21 @@ export class GrDiffHost extends GestureEventListeners(
     this.clear();
   }
 
+  initLayers() {
+    return getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        if (!this.path) throw new Error('Missing required "path" property.');
+        if (!this.changeNum) throw new Error('Missing required "changeNum".');
+        this._layers = this._getLayers(this.path, this.changeNum);
+        this._coverageRanges = [];
+        // We kick off fetching the data here, but we don't return the promise,
+        // so awaiting initLayers() will not wait for coverage data to be
+        // completely loaded.
+        this._getCoverageData();
+      });
+  }
+
   /**
    * @param shouldReportMetric indicate a new Diff Page. This is a
    * signal to report metrics event that started on location change.
@@ -328,22 +344,26 @@ export class GrDiffHost extends GestureEventListeners(
     this._errorMessage = null;
     const whitespaceLevel = this._getIgnoreWhitespace();
 
-    this._layers = this._getLayers(this.path, this.changeNum);
-
     if (shouldReportMetric) {
       // We listen on render viewport only on DiffPage (on paramsChanged)
       this._listenToViewportRender();
     }
 
-    this._coverageRanges = [];
-    this._getCoverageData();
-
     try {
+      // We are carefully orchestrating operations that have to wait for another
+      // and operations that can be run in parallel. Plugins may provide layers,
+      // so we have to wait on plugins being loaded before we can initialize
+      // layers and proceed to rendering. OTOH we want to fetch diffs and diff
+      // assets in parallel.
+      const layerPromise = this.initLayers();
       const diff = await this._getDiff();
       this._loadedWhitespaceLevel = whitespaceLevel;
       this._reportDiff(diff);
 
       await this._loadDiffAssets(diff);
+      // Only now we are awaiting layers (and plugin loading), which was kicked
+      // off above.
+      await layerPromise;
 
       // Not waiting for coverage ranges intentionally as
       // plugin loading should not block the content rendering

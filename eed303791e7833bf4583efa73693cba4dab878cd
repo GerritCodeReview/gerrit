@@ -104,6 +104,24 @@
       "parentUuid": "1d8d81a1_cd3c6106",
       "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e17e3067_7ee62f9b",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-01T12:56:24Z",
+      "side": 1,
+      "message": "The removal of the CommentContextLoadException LGTM. But I wonder if it isn\u0027t confusing to the reader when an IOException is thrown by a method that doesn\u0027t do any I/O. Would e.g. CanonicalException.internal() be clearer? The problem could be that the caller retries an I/O exception, which in this case won\u0027t help.\n\nThere\u0027s also UnprocessableEntityException, not sure if that is applicable here (it seems to be intended for the REST API only).",
+      "parentUuid": "2aab5d7b_bcf9224a",
+      "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

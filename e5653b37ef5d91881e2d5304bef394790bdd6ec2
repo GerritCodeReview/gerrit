@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bbb19ba_a7ace88f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-01T12:06:07Z",
+      "side": 1,
+      "message": "this should not be in quotes I think.\npatchNum should be of type int for numbers.\nsame elsewhere",
+      "range": {
+        "startLine": 991,
+        "startChar": 20,
+        "endLine": 991,
+        "endChar": 23
+      },
+      "revId": "e5653b37ef5d91881e2d5304bef394790bdd6ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

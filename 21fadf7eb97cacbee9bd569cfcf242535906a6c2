@@ -88,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f39034b_c7dbfd70",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-01T16:11:05Z",
+      "side": 1,
+      "message": "I wanted to make consistency between disabling button and tooltip. Yes, it\u0027s not consistent currently. But you are right, it makes almost no sense for this case.",
+      "parentUuid": "094302f5_c2b5babc",
+      "range": {
+        "startLine": 1381,
+        "startChar": 2,
+        "endLine": 1381,
+        "endChar": 27
+      },
+      "revId": "21fadf7eb97cacbee9bd569cfcf242535906a6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "215d0c1c_136bbede",

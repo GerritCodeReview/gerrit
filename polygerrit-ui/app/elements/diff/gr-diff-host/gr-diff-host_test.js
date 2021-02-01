@@ -54,10 +54,11 @@ suite('gr-diff-host tests', () => {
       element.changeNum = 123;
       element.path = 'some/path';
     });
-    test('plugin layers requested', () => {
+    test('plugin layers requested', async () => {
       element.patchRange = {};
       element.change = createChange();
-      element.reload();
+      stubRestApi('getDiff').returns(Promise.resolve({content: []}));
+      await element.reload();
       assert(element.$.jsAPI.getDiffLayers.called);
     });
   });
@@ -1109,8 +1110,9 @@ suite('gr-diff-host tests', () => {
       element.path = 'some/path';
     });
 
-    test('gr-diff-host provides syntax highlighting layer to gr-diff', () => {
-      element.reload();
+    test('gr-diff-host provides syntax highlighting layer', async () => {
+      stubRestApi('getDiff').returns(Promise.resolve({content: []}));
+      await element.reload();
       assert.equal(element.$.diff.layers[0], element.$.syntaxLayer);
     });
 
@@ -1136,10 +1138,8 @@ suite('gr-diff-host tests', () => {
     test('starts syntax layer processing on render event', async () => {
       sinon.stub(element.$.syntaxLayer, 'process')
           .returns(Promise.resolve());
-      stubRestApi('getDiff').returns(
-          Promise.resolve({content: []}));
-      element.reload();
-      await flush();
+      stubRestApi('getDiff').returns(Promise.resolve({content: []}));
+      await element.reload();
       element.dispatchEvent(
           new CustomEvent('render', {bubbles: true, composed: true}));
       assert.isTrue(element.$.syntaxLayer.process.called);
@@ -1164,8 +1164,9 @@ suite('gr-diff-host tests', () => {
       element.prefs = prefs;
     });
 
-    test('gr-diff-host provides syntax highlighting layer', () => {
-      element.reload();
+    test('gr-diff-host provides syntax highlighting layer', async () => {
+      stubRestApi('getDiff').returns(Promise.resolve({content: []}));
+      await element.reload();
       assert.equal(element.$.diff.layers[0], element.$.syntaxLayer);
     });
 
@@ -1238,51 +1239,40 @@ suite('gr-diff-host tests', () => {
       };
       element.patchRange = {};
       element.prefs = prefs;
+      stubRestApi('getDiff').returns(Promise.resolve(element.diff));
     });
 
-    test('getCoverageAnnotationApis should be called', done => {
-      element.reload();
-      flush(() => {
-        assert.isTrue(element.$.jsAPI.getCoverageAnnotationApis.calledOnce);
-        done();
-      });
+    test('getCoverageAnnotationApis should be called', async () => {
+      await element.reload();
+      assert.isTrue(element.$.jsAPI.getCoverageAnnotationApis.calledOnce);
     });
 
-    test('coverageRangeChanged should be called', done => {
-      element.reload();
-      flush(() => {
-        assert.equal(notifyStub.callCount, 2);
-        assert.isTrue(notifyStub.calledWithExactly(
-            'some/path', 1, 2, Side.RIGHT));
-        assert.isTrue(notifyStub.calledWithExactly(
-            'some/path', 3, 4, Side.RIGHT));
-        done();
-      });
+    test('coverageRangeChanged should be called', async () => {
+      await element.reload();
+      assert.equal(notifyStub.callCount, 2);
+      assert.isTrue(notifyStub.calledWithExactly(
+          'some/path', 1, 2, Side.RIGHT));
+      assert.isTrue(notifyStub.calledWithExactly(
+          'some/path', 3, 4, Side.RIGHT));
     });
 
-    test('provider is called with appropriate params', done => {
+    test('provider is called with appropriate params', async () => {
       element.patchRange.basePatchNum = 1;
       element.patchRange.patchNum = 3;
 
-      element.reload();
-      flush(() => {
-        assert.isTrue(coverageProviderStub.calledWithExactly(
-            123, 'some/path', 1, 3, element.change));
-        done();
-      });
+      await element.reload();
+      assert.isTrue(coverageProviderStub.calledWithExactly(
+          123, 'some/path', 1, 3, element.change));
     });
 
     test('provider is called with appropriate params - special patchset values',
-        done => {
+        async () => {
           element.patchRange.basePatchNum = 'PARENT';
           element.patchRange.patchNum = 'invalid';
 
-          element.reload();
-          flush(() => {
-            assert.isTrue(coverageProviderStub.calledWithExactly(
-                123, 'some/path', undefined, undefined, element.change));
-            done();
-          });
+          await element.reload();
+          assert.isTrue(coverageProviderStub.calledWithExactly(
+              123, 'some/path', undefined, undefined, element.change));
         });
   });
 

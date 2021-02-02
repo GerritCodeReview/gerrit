@@ -1,0 +1,354 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "000db2b4_f7fc6928",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "SubmitChangeInBranch scenario?",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3b73ef2_8cda59e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "Blank line above.",
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf4feecc_b0bb41d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "property?",
+      "range": {
+        "startLine": 12,
+        "startChar": 37,
+        "endLine": 12,
+        "endChar": 46
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "329cbe08_ae27a84c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "Would stop the first sentence around here, and start a second one; very long sentence otherwise.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b96e6e4_e218608a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "General: some parts above may miss \u0027the\u0027 determinants.",
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bcca226_858cf9f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "Keep up! 😊",
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fe8252f_653e9160",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/ApproveChange.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "numbersCopy",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2df2574_e5190e64",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateBranch.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "branchId",
+      "range": {
+        "startLine": 40,
+        "startChar": 12,
+        "endLine": 40,
+        "endChar": 25
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7132687f_ab998294",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "Unclear name to me, should it include the units, if truly about time? Below, it is used to factor numberOfUsers, so how about \u0027weightPerUser\u0027?",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6e188b7_f1e41701",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "branchesCopy",
+      "range": {
+        "startLine": 30,
+        "startChar": 14,
+        "endLine": 30,
+        "endChar": 27
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f044ce1_f29a53e2",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "An alternative could be to\n1. make this value conditional (line 54\u0027s too),\n2. move the session.set call(s) out of this conditional block, and\n3. use that so derived value in it.",
+      "range": {
+        "startLine": 56,
+        "startChar": 32,
+        "endLine": 56,
+        "endChar": 40
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f819b5a_11b990a8",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "Would replace this duplicated value with some local \u0027branchKey\u0027.",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 30
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "243d7120_6d155dd1",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/SubmitChangeInBranch.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "changesCopy",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00892b20_5dfa8299",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/SubmitChangeInBranch.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "Used?",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 10
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ee9b152_37c40d41",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/SubmitChangeInBranch.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "private val",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 5
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d802bc6_c547c752",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/SubmitChangeInBranch.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-02T22:02:53Z",
+      "side": 1,
+      "message": "val, if removing the potentially unused constructor above.",
+      "range": {
+        "startLine": 49,
+        "startChar": 10,
+        "endLine": 49,
+        "endChar": 13
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

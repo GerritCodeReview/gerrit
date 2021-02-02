@@ -16,6 +16,24 @@
       "message": "can you add a screenshot?",
       "revId": "5d39845ee9c4d2a00983818cb1747e3207b41246",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "724a8667_361efb51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-02T14:09:12Z",
+      "side": 1,
+      "message": "It\u0027s under feature flag. But here is screenshot: https://imgur.com/a/cvJV4bq",
+      "parentUuid": "3c0644ff_04367db9",
+      "revId": "5d39845ee9c4d2a00983818cb1747e3207b41246",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

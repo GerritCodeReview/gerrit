@@ -424,5 +424,14 @@ export const htmlTemplate = html`
     diff-prefs="{{_prefs}}"
     on-reload-diff-preference="_handleReloadingDiffPreference"
   >
+    <gr-overlay id="downloadOverlay" with-backdrop="">
+      <gr-download-dialog
+        id="downloadDialog"
+        change="[[_change]]"
+        patch-num="[[_patchRange.patchNum]]"
+        config="[[_serverConfig.download]]"
+        on-close="_handleDownloadDialogClose"
+      ></gr-download-dialog>
+    </gr-overlay>
   </gr-diff-preferences-dialog>
 `;

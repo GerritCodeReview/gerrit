@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "eeb816aa_84635038",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-02T15:40:02Z",
+      "side": 1,
+      "message": "In the summary, it is really hard to explain it in much more detail. I added a paragraph below explaining it more.",
+      "parentUuid": "f4c4f352_f95e28fb",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "04c55afe_97c503bd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47876cc4_6cb2b1cd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-02T15:40:02Z",
+      "side": 1,
+      "message": "Originally did this, then felt like one cannot actually understand commentSide and patchNum in isolation very well, so I ended up inlining the two functions here, and then it felt like it made sense to have the local variables. Please let me know what you think.",
+      "parentUuid": "09708166_689cbe3e",
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cbc0e97_8fd3f7ca",
@@ -71,6 +113,30 @@
       "writtenOn": "2021-02-01T12:28:22Z",
       "side": 1,
       "message": "is this supposed to be for _getCommentPatchNum instead?",
+      "range": {
+        "startLine": 728,
+        "startChar": 2,
+        "endLine": 728,
+        "endChar": 5
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a77d0c6_b5c8fd8d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-02T15:40:02Z",
+      "side": 1,
+      "message": "It sort of applies to both - and I felt one cannot explain this separately well, so I decided to inline both functions into the top function, and leave the comment above the place we determine the two explaining both variables together. Let me know if it\u0027s more clear now.",
+      "parentUuid": "7cbc0e97_8fd3f7ca",
       "range": {
         "startLine": 728,
         "startChar": 2,
@@ -104,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a12758cd_49e9c48b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-02T15:40:02Z",
+      "side": 1,
+      "message": "That is exactly the confusing part.\nIf I understood it correctly, then no, it will indeed be stored on the right side despite being left on the left side.\n\nI had originally just copied this comment, but it seems to not be very clear, and also outdated (the stuff with the indices does not seem to match the implementation).\n\nI tried to explain it better - please take another look.",
+      "parentUuid": "1bac9b35_0cbbced0",
+      "range": {
+        "startLine": 730,
+        "startChar": 32,
+        "endLine": 730,
+        "endChar": 42
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82e0d296_de9b1aa1",
@@ -127,6 +217,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37e638eb_33890275",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-02T15:40:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82e0d296_de9b1aa1",
+      "range": {
+        "startLine": 732,
+        "startChar": 27,
+        "endLine": 732,
+        "endChar": 38
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32f78181_71f41ec9",
@@ -140,6 +254,30 @@
       "writtenOn": "2021-02-01T12:49:25Z",
       "side": 1,
       "message": "Nit: I would extract a method for this (isBaseAParent or isLeftAParent?) and use that in both methods instead of passing commentSide into _getCommentPatchNum.\n\nAside: basePatchNum and patchNum in patchRange should actually be renamed to leftPatchNum and rightPatchNum IMO.",
+      "range": {
+        "startLine": 740,
+        "startChar": 7,
+        "endLine": 741,
+        "endChar": 51
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72a6bbd3_5f93415d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-02T15:40:02Z",
+      "side": 1,
+      "message": "Good point - originally I thought it could be completely determined from the commentSide, but then I found I could not, and you are right it is much clearer to extract this condition and not depend on commentSide.",
+      "parentUuid": "32f78181_71f41ec9",
       "range": {
         "startLine": 740,
         "startChar": 7,
@@ -191,6 +329,54 @@
         "startChar": 61,
         "endLine": 746,
         "endChar": 72
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbe8773b_10d9c990",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-02T15:40:02Z",
+      "side": 1,
+      "message": "We can, but this requires several changes (https://www.typescriptlang.org/play?#code/C4TwDgpgBAQgTgQwHYBMAq4IB40BpaKoByCAttBAB7ASoDOUdwcAlkgOYB8UAvFGlABkAKChQA3gG0A+tIBGhFFDYFkKEuQC6ALihIIANwhwAvgG5hwqmAD2cYFFCQoABQTAAxgAsAyhGBEAK6kvKqoGJBYAOQuAIIASgCiRGhRUAA+esFyxvhR0mDu3n7AUZwW1nYOTtBunr7+QaQ5cKHwahHYSNm5UPmF9SVlFZS29o6YrkUNwG5wtA587eGY0XFJKVF5BdND5ZYeNkhMUIFI80ysHjQounXFjcGhACxQCAz3M00WwgBmZ9cWEdlHQ5gsABRIO67R6kACUuiQIKmg38YKQDnEoig82AgTgSKRPGJfXWyVSGUySKwUAADBYTJYWL8oOCWKCEPMMeCzhdmCxrhAUHC4RJsYdjg4kJy4DYAO5CtA2dHAaGo2achahXkQS4Cm4MqAQAA2dGgWLEEpO0rgsoV6BsTRaaoeAR6rT4Or1gpQDKAA):\n1) We need to define the narrowed types, unless we want to repeat the brand types everywhere.\n2) The input needs to already not include \u0027edit\u0027, because we are not actually checking for that anymore here.\n3) We need to make isAParent a type guard.\n\nEspecially 2) is a bit larger change, and I don\u0027t think I want to batch this onto this change. \nCould be a follow up refactoring, done by me or someone else.",
+      "parentUuid": "ad0890c3_9c8da701",
+      "range": {
+        "startLine": 746,
+        "startChar": 61,
+        "endLine": 746,
+        "endChar": 72
+      },
+      "revId": "7beac7c891106f6e49504e1c562bde3438921175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "089fd6e1_4c6353b4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-02T15:40:02Z",
+      "side": 1,
+      "message": "Yes, that was intended. I refactored this quite a bit and revised the explanation. Let me know if it\u0027s more clear now.",
+      "parentUuid": "aa14ae48_bad40dad",
+      "range": {
+        "startLine": 746,
+        "startChar": 2,
+        "endLine": 746,
+        "endChar": 21
       },
       "revId": "7beac7c891106f6e49504e1c562bde3438921175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

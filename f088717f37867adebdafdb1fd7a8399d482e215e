@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9525e83e_a12da945",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-02T13:33:42Z",
+      "side": 1,
+      "message": "If you reference this var in TypeScript, then you have to deal with the possibility of `undefined`, which I find very annoying most of the time. That is why I am trying to prefer defined properties:\n\n  _hideShowAllContainer \u003d false;\n\nIf that makes sense to you, feel free to follow that pattern.",
+      "revId": "f088717f37867adebdafdb1fd7a8399d482e215e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3efa4239_a0b5fe99",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-02T13:33:42Z",
+      "side": 1,
+      "message": "Maybe set a fallback value?\n\n  max-height: var(--collapsed-max-height, 300px);",
+      "revId": "f088717f37867adebdafdb1fd7a8399d482e215e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

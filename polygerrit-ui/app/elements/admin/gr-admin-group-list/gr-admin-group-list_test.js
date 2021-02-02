@@ -155,7 +155,8 @@ suite('gr-admin-group-list tests', () => {
     });
 
     test('_handleCreateClicked opens modal', () => {
-      const openStub = sinon.stub(element.$.createOverlay, 'open');
+      const openStub = sinon.stub(element.$.createOverlay, 'open').returns(
+          Promise.resolve());
       element._handleCreateClicked();
       assert.isTrue(openStub.called);
     });

@@ -83,6 +83,10 @@ export class GrCreateRepoDialog extends GestureEventListeners(
     return getBaseUrl() + '/admin/repos/' + encodeURL(repoName, true);
   }
 
+  focus() {
+    this.shadowRoot?.querySelector('input')?.focus();
+  }
+
   @observe('_repoConfig.name')
   _updateRepoName(name: string) {
     this.hasNewRepoName = !!name;

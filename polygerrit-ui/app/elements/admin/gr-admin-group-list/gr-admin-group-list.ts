@@ -178,7 +178,9 @@ export class GrAdminGroupList extends ListViewMixin(
   }
 
   _handleCreateClicked() {
-    this.$.createOverlay.open();
+    this.$.createOverlay.open().then(() => {
+      this.$.createNewModal.focus();
+    });
   }
 
   _visibleToAll(item: GroupInfo) {

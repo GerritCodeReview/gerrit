@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34832ac1_9d0e9a43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-02T10:04:22Z",
+      "side": 1,
+      "message": "I can make another import, once we submitted the current one",
+      "parentUuid": "e0798164_626788b0",
+      "revId": "afa42047fe7ac5aae6f0dbbc2934a40994ee9877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c5d5653_1cc3b1f8",

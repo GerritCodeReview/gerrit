@@ -31,6 +31,8 @@ import '../gr-diff-host/gr-diff-host';
 import '../gr-diff-mode-selector/gr-diff-mode-selector';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
+import '../../change/gr-download-dialog/gr-download-dialog';
+import '../../shared/gr-overlay/gr-overlay';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-view_html';
@@ -151,6 +153,8 @@ export interface GrDiffView {
     diffPreferencesDialog: GrOverlay;
     applyFixDialog: GrApplyFixDialog;
     modeSelect: GrDiffModeSelector;
+    downloadOverlay: GrOverlay;
+    downloadDialog: GrDownloadDialog;
   };
 }
 
@@ -231,6 +235,9 @@ export class GrDiffView extends base {
 
   @property({type: Object})
   _projectConfig?: ConfigInfo;
+
+  @property({type: Object})
+  _serverConfig?: ServerInfo;
 
   @property({type: Object})
   _userPrefs?: PreferencesInfo;
@@ -390,6 +397,9 @@ export class GrDiffView extends base {
     );
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
+    });
+    this.restApiService.getConfig().then(config => {
+      this._serverConfig = config;
     });
 
     this.subscriptions.push(

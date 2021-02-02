@@ -34,6 +34,24 @@
       "parentUuid": "707380c2_0e13921f",
       "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb8871e7_632b995b",
+        "filename": "java/com/google/gerrit/extensions/api/config/AccessCheckInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-02T21:43:28Z",
+      "side": 0,
+      "message": "I guess before we get too far into the planning for how, we should ask why. The commit message doesn\u0027t describe any motivation behind this change (and if you\u0027re doing it for all extensions it\u0027s a pretty massive change). What\u0027s the goal and what does the Gerrit project and/or its users gain from it? Is there a design doc already for this?",
+      "parentUuid": "2678d9f6_1b94f0d0",
+      "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -176,6 +176,24 @@
       "parentUuid": "deafade6_dcc58c3c",
       "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f50afb3d_e1c23b53",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-02T12:22:14Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "fa4de4d2_d7e931db",
+      "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

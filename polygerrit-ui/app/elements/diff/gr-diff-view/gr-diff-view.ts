@@ -30,6 +30,8 @@ import '../gr-diff-host/gr-diff-host';
 import '../gr-diff-mode-selector/gr-diff-mode-selector';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
+import '../../change/gr-download-dialog/gr-download-dialog';
+import '../../shared/gr-overlay/gr-overlay';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
@@ -78,6 +80,7 @@ import {
   PreferencesInfo,
   RepoName,
   RevisionInfo,
+  ServerInfo,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {ChangeViewState, CommitRange, FileRange} from '../../../types/types';
@@ -98,6 +101,7 @@ import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
+import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
 const MSG_LOADED_BLAME = 'Blame loaded';
@@ -122,6 +126,8 @@ export interface GrDiffView {
     diffPreferencesDialog: GrOverlay;
     applyFixDialog: GrApplyFixDialog;
     modeSelect: GrDiffModeSelector;
+    downloadOverlay: GrOverlay;
+    downloadDialog: GrDownloadDialog;
   };
 }
 
@@ -213,6 +219,9 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   @property({type: Object})
   _projectConfig?: ConfigInfo;
+
+  @property({type: Object})
+  _serverConfig?: ServerInfo;
 
   @property({type: Object})
   _userPrefs?: PreferencesInfo;
@@ -333,6 +342,9 @@ export class GrDiffView extends KeyboardShortcutMixin(
     super.attached();
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
+    });
+    this.restApiService.getConfig().then(config => {
+      this._serverConfig = config;
     });
 
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
@@ -667,9 +679,16 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (this.shouldSuppressKeyboardShortcut(e)) return;
     if (this.modifierPressed(e)) return;
 
-    this.set('changeViewState.showDownloadDialog', true);
-    e.preventDefault();
-    this._navToChangeView();
+    this.$.downloadOverlay.open().then(() => {
+      this.$.downloadOverlay.setFocusStops(
+        this.$.downloadDialog.getFocusStops()
+      );
+      this.$.downloadDialog.focus();
+    });
+  }
+
+  _handleDownloadDialogClose() {
+    this.$.downloadOverlay.close();
   }
 
   _handleUpToChange(e: CustomKeyboardEvent) {

@@ -74,8 +74,7 @@ export class GrDownloadCommands extends GestureEventListeners(
   }
 
   focusOnCopy() {
-    // TODO(TS): remove ! assertion later
-    this.shadowRoot!.querySelector('gr-shell-command')!.focusOnCopy();
+    this.shadowRoot!.querySelector('gr-shell-command')?.focusOnCopy();
   }
 
   _getLoggedIn() {

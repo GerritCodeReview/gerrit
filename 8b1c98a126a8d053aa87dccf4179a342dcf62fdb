@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fc1237e9_02f17c34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-02T15:43:56Z",
+      "side": 1,
+      "message": "Follow-up change is planned to add an option to advertise the recent 10k changes even if they are not part of the input (saving us from sending all the refs as input in the first place).\n\nThat means I\u0027ll have to manually generate the refs from ChangeData, so might as well have this test here in a separate change :)",
+      "parentUuid": "19fd5e3c_5189f90d",
+      "revId": "8b1c98a126a8d053aa87dccf4179a342dcf62fdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "523d6450_c241421e",
         "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
         "patchSetId": 1

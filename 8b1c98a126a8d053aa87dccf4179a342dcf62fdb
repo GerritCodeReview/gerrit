@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "776ac763_5c69e11d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-02T16:24:14Z",
+      "side": 1,
+      "message": "meh, not that simple apparently, as it\u0027s not that trivial to create refs/changes/ jgit.Ref object without repo.exactRef (which is not something I want to invoke 10k times).\n\nTest is still good though",
+      "parentUuid": "fc1237e9_02f17c34",
+      "revId": "8b1c98a126a8d053aa87dccf4179a342dcf62fdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "523d6450_c241421e",
         "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
         "patchSetId": 1

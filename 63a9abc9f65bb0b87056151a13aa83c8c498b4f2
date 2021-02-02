@@ -52,6 +52,40 @@
       "parentUuid": "e8695847_19b646c4",
       "revId": "63a9abc9f65bb0b87056151a13aa83c8c498b4f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "566247b7_60e7f611",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-02T12:51:14Z",
+      "side": 1,
+      "message": "Maybe make this consistent with other chip:\n\n  line-height: var(--line-height-small, 16px);",
+      "revId": "63a9abc9f65bb0b87056151a13aa83c8c498b4f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9aa0cf0b_8daca212",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-chip/gr-ranged-comment-chip_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-02T12:51:14Z",
+      "side": 1,
+      "message": "Nit: Maybe drop this comment?",
+      "revId": "63a9abc9f65bb0b87056151a13aa83c8c498b4f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "980044c7_e37af6f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T16:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b26b6e06_dc3de44a",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "43e79b3dcd0ad6e83f5c252f22ec5b242c4f32ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08308773_c66ae38b",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-02T11:29:34Z",
       "side": 1,
       "message": "nit: typo",
+      "range": {
+        "startLine": 85,
+        "startChar": 15,
+        "endLine": 85,
+        "endChar": 27
+      },
+      "revId": "43e79b3dcd0ad6e83f5c252f22ec5b242c4f32ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad58365f_f57b66ff",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T16:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08308773_c66ae38b",
       "range": {
         "startLine": 85,
         "startChar": 15,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a049cc7d_ff71f179",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T16:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcc64c64_0f0406d4",
+      "range": {
+        "startLine": 100,
+        "startChar": 97,
+        "endLine": 100,
+        "endChar": 98
+      },
+      "revId": "43e79b3dcd0ad6e83f5c252f22ec5b242c4f32ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6e1c39a_eeae6efe",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2a67e97_e1762319",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T16:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6e1c39a_eeae6efe",
+      "range": {
+        "startLine": 162,
+        "startChar": 17,
+        "endLine": 162,
+        "endChar": 44
+      },
+      "revId": "43e79b3dcd0ad6e83f5c252f22ec5b242c4f32ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "349fb4fe_1ab4c48f",
@@ -106,6 +202,24 @@
       "writtenOn": "2021-02-02T11:29:34Z",
       "side": 1,
       "message": "The type name suggests a data holder, but this class contains business logic. Can we find a name that expresses that?\n\nOr would it be better to move evaluateBase() to a private method in DiffOperationsImpl?",
+      "revId": "43e79b3dcd0ad6e83f5c252f22ec5b242c4f32ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "393b7d7d_c7f4bbba",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T16:04:24Z",
+      "side": 1,
+      "message": "I\u0027m mainly using this class as a data holder + logic to evaluate the data. I\u0027d also prefer to have the logic encapsulated in this class as its logic is very specific to computing the base commit.\n\nI couldn\u0027t find a better name. I moved the evaluateCommit method outside the class and did other tiny tweaks.\n\nDone.",
+      "parentUuid": "349fb4fe_1ab4c48f",
       "revId": "43e79b3dcd0ad6e83f5c252f22ec5b242c4f32ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

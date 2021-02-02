@@ -24,6 +24,8 @@ import {appContext} from '../../../services/app-context.js';
 import {addListenerForTest} from '../../../test/test-utils.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
+import {CODE_REVIEW} from '../../../utils/label-util.js';
+import {createAccountWithId} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
@@ -1372,9 +1374,8 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('_computeSendButtonDisabled_canBeStarted', () => {
-    const fn = element._computeSendButtonDisabled.bind(element);
     // Mock canBeStarted
-    assert.isFalse(fn(
+    assert.isFalse(element._computeSendButtonDisabled(
         /* canBeStarted= */ true,
         /* draftCommentThreads= */ [],
         /* text= */ '',
@@ -1382,14 +1383,15 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* change= */ element.change,
+        /* account= */ makeAccount()
     ));
   });
 
   test('_computeSendButtonDisabled_allFalse', () => {
-    const fn = element._computeSendButtonDisabled.bind(element);
     // Mock everything false
-    assert.isTrue(fn(
+    assert.isTrue(element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ [],
         /* text= */ '',
@@ -1397,14 +1399,15 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* change= */ element.change,
+        /* account= */ makeAccount()
     ));
   });
 
   test('_computeSendButtonDisabled_draftCommentsSend', () => {
-    const fn = element._computeSendButtonDisabled.bind(element);
     // Mock nonempty comment draft array, with sending comments.
-    assert.isFalse(fn(
+    assert.isFalse(element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ [{comments: [{__draft: true}]}],
         /* text= */ '',
@@ -1412,14 +1415,15 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ true,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* change= */ element.change,
+        /* account= */ makeAccount()
     ));
   });
 
   test('_computeSendButtonDisabled_draftCommentsDoNotSend', () => {
-    const fn = element._computeSendButtonDisabled.bind(element);
     // Mock nonempty comment draft array, without sending comments.
-    assert.isTrue(fn(
+    assert.isTrue(element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ [{comments: [{__draft: true}]}],
         /* text= */ '',
@@ -1427,14 +1431,15 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* change= */ element.change,
+        /* account= */ makeAccount()
     ));
   });
 
   test('_computeSendButtonDisabled_changeMessage', () => {
-    const fn = element._computeSendButtonDisabled.bind(element);
     // Mock nonempty change message.
-    assert.isFalse(fn(
+    assert.isFalse(element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ 'test',
@@ -1442,14 +1447,15 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* change= */ element.change,
+        /* account= */ makeAccount()
     ));
   });
 
   test('_computeSendButtonDisabled_reviewersChanged', () => {
-    const fn = element._computeSendButtonDisabled.bind(element);
     // Mock reviewers mutated.
-    assert.isFalse(fn(
+    assert.isFalse(element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ '',
@@ -1457,14 +1463,15 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* change= */ element.change,
+        /* account= */ makeAccount()
     ));
   });
 
   test('_computeSendButtonDisabled_labelsChanged', () => {
-    const fn = element._computeSendButtonDisabled.bind(element);
     // Mock labels changed.
-    assert.isFalse(fn(
+    assert.isFalse(element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ '',
@@ -1472,14 +1479,15 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ true,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* change= */ element.change,
+        /* account= */ makeAccount()
     ));
   });
 
   test('_computeSendButtonDisabled_dialogDisabled', () => {
-    const fn = element._computeSendButtonDisabled.bind(element);
     // Whole dialog is disabled.
-    assert.isTrue(fn(
+    assert.isTrue(element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ '',
@@ -1487,27 +1495,40 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ true,
         /* includeComments= */ false,
         /* disabled= */ true,
-        /* commentEditing= */ false
-    ));
-    assert.isTrue(fn(
-        /* buttonLabel= */ 'Send',
-        /* draftCommentThreads= */ {},
-        /* text= */ '',
-        /* reviewersMutated= */ false,
-        /* labelsChanged= */ true,
-        /* includeComments= */ false,
-        /* disabled= */ false,
-        /* commentEditing= */ true
+        /* commentEditing= */ false,
+        /* change= */ element.change,
+        /* account= */ makeAccount()
     ));
   });
 
-  test('_submit blocked when no mutations exist', () => {
+  test('_computeSendButtonDisabled_existingVote', async () => {
+    const account = createAccountWithId();
+    element.change.labels[CODE_REVIEW].all = [account];
+    await flush();
+
+    // User has already voted.
+    assert.isFalse(element._computeSendButtonDisabled(
+        /* canBeStarted= */ false,
+        /* draftCommentThreads= */ {},
+        /* text= */ '',
+        /* reviewersMutated= */ false,
+        /* labelsChanged= */ false,
+        /* includeComments= */ false,
+        /* disabled= */ false,
+        /* commentEditing= */ false,
+        /* change= */ element.change,
+        /* account= */ account
+    ));
+  });
+
+  test('_submit blocked when no mutations exist', async () => {
     const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
     // Stub the below function to avoid side effects from the send promise
     // resolving.
     sinon.stub(element, '_purgeReviewersPendingRemove');
+    element.account = makeAccount();
     element.draftCommentThreads = [];
-    flush();
+    await flush();
 
     MockInteractions.tap(element.shadowRoot
         .querySelector('gr-button.send'));
@@ -1516,21 +1537,26 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [{comments: [
       {__draft: true, path: 'test', line: 1, patch_set: 1},
     ]}];
-    flush();
+    await flush();
 
     MockInteractions.tap(element.shadowRoot
         .querySelector('gr-button.send'));
     assert.isTrue(sendStub.called);
   });
 
-  test('getFocusStops', () => {
+  test('getFocusStops', async () => {
     // Setting draftCommentThreads to an empty object causes _sendDisabled to be
     // computed to false.
     element.draftCommentThreads = [];
+    element.account = makeAccount();
+    await flush();
+
     assert.equal(element.getFocusStops().end, element.$.cancelButton);
-    element.draftCommentThreads = [{comments: [
-      {__draft: true, path: 'test', line: 1, patch_set: 1},
-    ]}];
+    element.draftCommentThreads = [
+      {comments: [{__draft: true, path: 'test', line: 1, patch_set: 1}]},
+    ];
+    await flush();
+
     assert.equal(element.getFocusStops().end, element.$.sendButton);
   });
 

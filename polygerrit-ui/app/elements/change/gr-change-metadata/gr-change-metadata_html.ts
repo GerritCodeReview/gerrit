@@ -116,12 +116,17 @@ export const htmlTemplate = html`
     <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
       <div class="metadata-header">
         <h3 class="metadata-title">Change Info</h3>
-        <gr-button
-          class="show-all-button"
-          on-click="_onShowAllClick"
-          no-uppercase=""
-          >[[_computeShowAllLabelText(_showAllSections)]]</gr-button
-        >
+        <gr-button link="" class="show-all-button" on-click="_onShowAllClick"
+          >[[_computeShowAllLabelText(_showAllSections)]]
+          <iron-icon
+            icon="gr-icons:expand-more"
+            hidden$="[[_showAllSections]]"
+          ></iron-icon
+          ><iron-icon
+            icon="gr-icons:expand-less"
+            hidden$="[[!_showAllSections]]"
+          ></iron-icon>
+        </gr-button>
       </div>
     </template>
     <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">

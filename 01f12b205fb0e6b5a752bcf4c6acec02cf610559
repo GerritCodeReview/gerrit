@@ -94,6 +94,30 @@
       },
       "revId": "01f12b205fb0e6b5a752bcf4c6acec02cf610559",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05459567_6478da76",
+        "filename": "javatests/com/google/gerrit/integration/git/UploadArchiveIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T08:45:06Z",
+      "side": 1,
+      "message": "Yes, compression-level is not a standard git archive option. The option gets interpreted by the Gerrit server (UploadArchive.java) which parses and passes the option to the JGit archive command.\n\nHandling the new option was done here: https://gerrit-review.googlesource.com/c/gerrit/+/294390/2.",
+      "parentUuid": "b81769ef_12055341",
+      "range": {
+        "startLine": 172,
+        "startChar": 34,
+        "endLine": 172,
+        "endChar": 35
+      },
+      "revId": "01f12b205fb0e6b5a752bcf4c6acec02cf610559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5270a85_6a7bf20f",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-02T16:58:11Z",
+      "side": 1,
+      "message": "can you use ParentPatchSetNum instead?\nThere exists a TODO(TS) already to replace all usages of SPECIAL_PATCH_SET_NUM.PARENT with ParentPatchSetNum",
+      "range": {
+        "startLine": 72,
+        "startChar": 15,
+        "endLine": 72,
+        "endChar": 43
+      },
+      "revId": "97989207c1daf360b99e1a89a5156f4950ae8e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

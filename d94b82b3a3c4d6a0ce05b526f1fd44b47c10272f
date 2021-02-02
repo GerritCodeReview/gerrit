@@ -16,6 +16,24 @@
       "message": "Thanks for all the comments. I refactored this part quite a bit and also rewritten the comments to hopefully be more clear. Please take a close extra look to ensure I have actually correctly understood and explained what commentSide and patchNum are about.",
       "revId": "d94b82b3a3c4d6a0ce05b526f1fd44b47c10272f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd6c61b8_0d62080b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-02T16:58:11Z",
+      "side": 1,
+      "message": "Yeah it\u0027s much clearer now.\nThanks!",
+      "parentUuid": "f5240e35_e0d084f3",
+      "revId": "d94b82b3a3c4d6a0ce05b526f1fd44b47c10272f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

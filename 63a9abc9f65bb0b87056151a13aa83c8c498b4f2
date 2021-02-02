@@ -16,6 +16,24 @@
       "message": "I\u0027ve been mainly replying in the email thread. I think this change reflects the changes discussed in the thread, right? ",
       "revId": "63a9abc9f65bb0b87056151a13aa83c8c498b4f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8695847_19b646c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-02-02T11:40:48Z",
+      "side": 1,
+      "message": "Yes it does. The single difference right now is the missing font-weight: 500. If you are ok with it, we can submit this and I\u0027ll add it in the following change - if it\u0027s also ok for the gerrit folks.",
+      "parentUuid": "aed8fad1_83ca4616",
+      "revId": "63a9abc9f65bb0b87056151a13aa83c8c498b4f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

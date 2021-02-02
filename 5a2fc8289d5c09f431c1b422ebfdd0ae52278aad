@@ -16,6 +16,24 @@
       "message": "The pattern seems to be to decide on the binding here (cf. line 284) instead of passing the cfg object.\n\nAlthough in the InMemoryModule you\u0027d need to do that again. I don\u0027t feel strongly either way, but it does seem easier for the module to only take a boolean instead of the whole config.",
       "revId": "5a2fc8289d5c09f431c1b422ebfdd0ae52278aad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef3eefc0_13648e12",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T11:54:22Z",
+      "side": 1,
+      "message": "True. Thanks for pointing out the pattern, I didn\u0027t see that. I\u0027ll just leave it as is for now, since this conditional binding will be temp and to spare round-trip.",
+      "parentUuid": "a76bf23a_69f74447",
+      "revId": "5a2fc8289d5c09f431c1b422ebfdd0ae52278aad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

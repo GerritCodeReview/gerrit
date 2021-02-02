@@ -425,4 +425,13 @@ export const htmlTemplate = html`
     on-reload-diff-preference="_handleReloadingDiffPreference"
   >
   </gr-diff-preferences-dialog>
+  <gr-overlay id="downloadOverlay">
+    <gr-download-dialog
+      id="downloadDialog"
+      change="[[_change]]"
+      patch-num="[[_patchRange.patchNum]]"
+      config="[[_serverConfig.download]]"
+      on-close="_handleDownloadDialogClose"
+    ></gr-download-dialog>
+  </gr-overlay>
 `;

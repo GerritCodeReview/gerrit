@@ -103,6 +103,8 @@ public class SubmitWithStickyApprovalDiff {
             .collect(Collectors.toList());
 
     if (patchListEntryList.isEmpty()) {
+      diff +=
+          "No files were changed between the latest approved patch-set and the submitted one.\n";
       return diff;
     }
 

@@ -93,6 +93,30 @@
       },
       "revId": "a1130c4730c0d8cda201f88ba2a94246d6eabe26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46a565d8_6b18441f",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-02T10:45:26Z",
+      "side": 1,
+      "message": "Thanks for bringing this up!\n\nI also spent hours debugging this, but looks like my conclusions about \norg.eclipse.jgit.transport.MultiRequestService causing last command\u003dfetch being split across multiple requests was wrong.\n\nWhile you are on it, would you mind updating the test with your findings for commit timestamp, I think your fix\nhttps://gerrit-review.googlesource.com/c/gerrit/+/294399 looks better?\n\nLet me know if I should go ahead updating the test/comment instead.",
+      "parentUuid": "50f60309_fabbc93b",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 39
+      },
+      "revId": "a1130c4730c0d8cda201f88ba2a94246d6eabe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

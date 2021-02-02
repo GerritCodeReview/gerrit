@@ -148,11 +148,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   @Override
   public Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryCaseMismatchException, IOException {
-    Path path = getBasePath(name);
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
 
+    Path path = getBasePath(name);
     File dir = FileKey.resolve(path.resolve(name.get()).toFile(), FS.DETECTED);
     if (dir != null) {
       // Already exists on disk, use the repository we found.

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9364d4b_b1b693de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T08:15:49Z",
+      "side": 1,
+      "message": "I was also able to reproduce locally. There was two issues:\n  1) I was setting the ProtoTypeAdapter to work with subclasses of GenerateMessage. Changed it to GeneratedMessageV3 (because we are using proto3).\n  2) I did set the field cases to lower_underscore.\n\nThis is now how The JSON looks like:\n```\n)]}\u0027\n{\n  \"status\": 200,\n  \"message\": \"access is OK, but repository has no branches under refs/heads/\",\n  \"debug_logs\": [\n    \"\\u0027Youssef\\u0027 can perform \\u0027read\\u0027 with force\\u003dfalse on project \\u0027All-Projects\\u0027 for ref \\u0027refs/heads/*\\u0027\"\n  ]\n}\n```\n\nNow I compared the outputs before (with HEAD~2) and after this change and they are the same. I amended the previous change to include this fix.\n\nAlso added a test \"GsonProtoSerializerIT\" to ensure correctness.",
+      "parentUuid": "fafab05c_fb6d59e2",
+      "revId": "52cbb20adbef256c5b390ba7314fd9ba0c03c67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94408d58_6b56c026",
@@ -53,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "310712b2_8c70bd25",
+        "filename": "java/com/google/gerrit/server/restapi/project/project.proto",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T08:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94408d58_6b56c026",
+      "revId": "52cbb20adbef256c5b390ba7314fd9ba0c03c67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ab782ae_8d95809e",
@@ -66,6 +102,30 @@
       "writtenOn": "2020-12-22T11:48:12Z",
       "side": 1,
       "message": "I would not be so fine-grained here. Rather have a single \"entities\" (or a better name maybe \u0027api\u0027) proto package where all the API entities reside.",
+      "range": {
+        "startLine": 17,
+        "startChar": 41,
+        "endLine": 17,
+        "endChar": 48
+      },
+      "revId": "52cbb20adbef256c5b390ba7314fd9ba0c03c67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc37cf1d_bb84692f",
+        "filename": "java/com/google/gerrit/server/restapi/project/project.proto",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T08:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ab782ae_8d95809e",
       "range": {
         "startLine": 17,
         "startChar": 41,

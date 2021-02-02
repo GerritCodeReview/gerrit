@@ -27,7 +27,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -57,9 +56,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.Repository;
 
 class DefaultRefFilter {
@@ -82,7 +84,7 @@ class DefaultRefFilter {
   private final Counter0 skipFilterCount;
   private final boolean skipFullRefEvaluationIfAllRefsAreVisible;
 
-  private Map<Change.Id, BranchNameKey> visibleChanges;
+  private Map<Change.Id, ChangeNotes> visibleChanges;
 
   @Inject
   DefaultRefFilter(
@@ -135,6 +137,14 @@ class DefaultRefFilter {
         "Project state %s permits read = %s",
         projectState.getProject().getState(), projectState.statePermitsRead());
 
+    // If we anyway always return all recent 10k changes, we shouldn't care about refs/changes.
+    if (opts.returnMostRecentRefChanges()) {
+      refs =
+          refs.stream()
+              .filter(r -> !RefNames.isRefsChanges(r.getName()))
+              .collect(Collectors.toList());
+    }
+
     // See if we can get away with a single, cheap ref evaluation.
     if (refs.size() == 1) {
       String refName = Iterables.getOnlyElement(refs).getName();
@@ -142,7 +152,7 @@ class DefaultRefFilter {
         logger.atFinest().log("Filter out metadata ref %s", refName);
         return ImmutableList.of();
       }
-      if (RefNames.isRefsChanges(refName)) {
+      if (RefNames.isRefsChanges(refName) && !opts.returnMostRecentRefChanges()) {
         boolean isChangeRefVisisble = canSeeSingleChangeRef(refName);
         if (isChangeRefVisisble) {
           logger.atFinest().log("Change ref %s is visible", refName);
@@ -185,8 +195,29 @@ class DefaultRefFilter {
       }
     }
 
+    if (opts.returnMostRecentRefChanges()) {
+      computeVisibleChanges(repo);
+      visibleChanges.values().stream().forEach(n -> addAllChangeAndPatchsetRefs(visibleRefs, n));
+    }
+
     logger.atFinest().log("visible refs = %s", visibleRefs);
     return visibleRefs;
+  }
+
+  void addAllChangeAndPatchsetRefs(Collection<Ref> refs, ChangeNotes changeNotes) {
+    refs.add(
+        new ObjectIdRef.PeeledNonTag(
+            Storage.PACKED,
+            RefNames.changeMetaRef(changeNotes.getChangeId()),
+            changeNotes.getMetaId()));
+    changeNotes
+        .getPatchSets()
+        .values()
+        .forEach(
+            p ->
+                refs.add(
+                    new ObjectIdRef.PeeledNonTag(
+                        Storage.PACKED, RefNames.patchSetRef(p.id()), p.commitId())));
   }
 
   /**
@@ -315,6 +346,11 @@ class DefaultRefFilter {
   }
 
   private boolean visible(Repository repo, Change.Id changeId) throws PermissionBackendException {
+    computeVisibleChanges(repo);
+    return visibleChanges.containsKey(changeId);
+  }
+
+  private void computeVisibleChanges(Repository repo) throws PermissionBackendException {
     if (visibleChanges == null) {
       if (changeCache == null) {
         visibleChanges = visibleChangesByScan(repo);
@@ -323,7 +359,6 @@ class DefaultRefFilter {
       }
       logger.atFinest().log("Visible changes: %s", visibleChanges.keySet());
     }
-    return visibleChanges.containsKey(changeId);
   }
 
   private boolean visibleEdit(Repository repo, String name) throws PermissionBackendException {
@@ -342,13 +377,13 @@ class DefaultRefFilter {
 
     // Initialize visibleChanges if it wasn't initialized yet.
     if (visibleChanges == null) {
-      visible(repo, id);
+      computeVisibleChanges(repo);
     }
     if (visibleChanges.containsKey(id)) {
       try {
         // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
         permissionBackendForProject
-            .ref(visibleChanges.get(id).branch())
+            .ref(visibleChanges.get(id).getChange().getDest().branch())
             .check(RefPermission.READ_PRIVATE_CHANGES);
         logger.atFinest().log("Foreign change edit ref is visible: %s", name);
         return true;
@@ -362,17 +397,17 @@ class DefaultRefFilter {
     return false;
   }
 
-  private Map<Change.Id, BranchNameKey> visibleChangesBySearch() throws PermissionBackendException {
+  private Map<Change.Id, ChangeNotes> visibleChangesBySearch() throws PermissionBackendException {
     Project.NameKey project = projectState.getNameKey();
     try {
-      Map<Change.Id, BranchNameKey> visibleChanges = new HashMap<>();
+      Map<Change.Id, ChangeNotes> visibleChanges = new HashMap<>();
       for (ChangeData cd : changeCache.getChangeData(project)) {
         if (!projectState.statePermitsRead()) {
           continue;
         }
         try {
           permissionBackendForProject.change(cd).check(ChangePermission.READ);
-          visibleChanges.put(cd.getId(), cd.change().getDest());
+          visibleChanges.put(cd.getId(), cd.notes());
         } catch (AuthException e) {
           // Do nothing.
         }
@@ -385,7 +420,7 @@ class DefaultRefFilter {
     }
   }
 
-  private Map<Change.Id, BranchNameKey> visibleChangesByScan(Repository repo)
+  private Map<Change.Id, ChangeNotes> visibleChangesByScan(Repository repo)
       throws PermissionBackendException {
     Project.NameKey p = projectState.getNameKey();
     ImmutableList<ChangeNotesResult> changes;
@@ -397,11 +432,11 @@ class DefaultRefFilter {
       return Collections.emptyMap();
     }
 
-    Map<Change.Id, BranchNameKey> result = Maps.newHashMapWithExpectedSize(changes.size());
+    Map<Change.Id, ChangeNotes> result = Maps.newHashMapWithExpectedSize(changes.size());
     for (ChangeNotesResult notesResult : changes) {
       ChangeNotes notes = toNotes(notesResult);
       if (notes != null) {
-        result.put(notes.getChangeId(), notes.getChange().getDest());
+        result.put(notes.getChangeId(), notes);
       }
     }
     return result;

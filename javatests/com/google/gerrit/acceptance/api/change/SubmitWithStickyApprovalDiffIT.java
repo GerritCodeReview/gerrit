@@ -167,7 +167,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         /* deletions= */ 0,
         /* edits= */ ImmutableList.of(Edit.create(0, 0, 0, 3)),
         /* previousLines= */ ImmutableList.of(),
-        /* newLines= */ ImmutableList.of("+  content\n+  more content\n+  last content"),
+        /* newLines= */ ImmutableList.of("+  content\n+  more content\n+  last content\n"),
         /* oldFileName= */ null);
   }
 
@@ -195,7 +195,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         /* insertions= */ 0,
         /* deletions= */ 3,
         /* edits= */ ImmutableList.of(Edit.create(0, 3, 0, 0)),
-        /* previousLines= */ ImmutableList.of("-  content\n-  more content\n-  last content"),
+        /* previousLines= */ ImmutableList.of("-  content\n-  more content\n-  last content\n"),
         /* newLines= */ ImmutableList.of(),
         /* oldFileName= */ null);
   }
@@ -251,6 +251,39 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .isEqualTo("Change has been successfully merged");
   }
 
+  @Test
+  public void diffChangeMessageOnSubmitWithStickyVote_approvedPatchset() throws Exception {
+    Change.Id changeId = changeOperations.newChange().project(project).create();
+    changeOperations.change(changeId).newPatchset().create();
+
+    // approve patch-set 2
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+
+    // create patch-set 3
+    changeOperations.change(changeId).newPatchset().create();
+
+    gApi.changes().id(changeId.get()).current().submit();
+
+    // patch-set 2 was the latest approved one.
+    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+        .contains("2 is the latest approved patch-set.");
+  }
+
+  @Test
+  public void diffChangeMessageOnSubmitWithStickyVote_noChanges() throws Exception {
+    Change.Id changeId = changeOperations.newChange().project(project).create();
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+
+    // no file changed
+    changeOperations.change(changeId).newPatchset().create();
+
+    gApi.changes().id(changeId.get()).current().submit();
+
+    // No other content in the message since the diff is the same.
+    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+        .isEqualTo("Change has been successfully merged\n\n1 is the latest approved patch-set.\n");
+  }
+
   private void assertDiffChangeMessageAndEmailWithStickyApproval(
       String message,
       String file,
@@ -261,7 +294,8 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
       List<String> newLines,
       String oldFileName) {
     String expectedMessage =
-        "The change was submitted with unreviewed changes in the following files:\n"
+        "1 is the latest approved patch-set.\n"
+            + "The change was submitted with unreviewed changes in the following files:\n"
             + "\n"
             + String.format("The name of the file: %s\n", file)
             + String.format("Insertions: %d, Deletions: %d.\n\n", insertions, deletions);
@@ -272,6 +306,9 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
 
     Iterator<String> previousLinesIterator = previousLines.iterator();
     Iterator<String> newLinesIterator = newLines.iterator();
+    if (!edits.isEmpty()) {
+      expectedMessage += "```\n";
+    }
     for (Edit edit : edits) {
       if (edit.beginA() == edit.endA()) {
         // Insertion
@@ -294,6 +331,9 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
       expectedMessage += previousLinesIterator.next();
       expectedMessage += newLinesIterator.next();
       expectedMessage += "\n";
+    }
+    if (!edits.isEmpty()) {
+      expectedMessage += "```\n";
     }
     String expectedChangeMessage = "Change has been successfully merged\n\n" + expectedMessage;
     assertThat(message.trim()).isEqualTo(expectedChangeMessage.trim());

@@ -38,6 +38,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.Edit;
 
@@ -88,7 +89,7 @@ public class SubmitWithStickyApprovalDiff {
       return "";
     }
     String diff =
-        "\n\nThe change was submitted with unreviewed changes in the following files:\n\n";
+        String.format("\n\n%d is the latest approved patch-set.\n", latestApprovedPatchsetId.get());
     PatchList patchList =
         getPatchList(
             notes.getProjectName(),
@@ -96,10 +97,18 @@ public class SubmitWithStickyApprovalDiff {
             notes.getPatchSets().get(latestApprovedPatchsetId));
 
     // To make the message a bit more concise, we skip the magic files.
-    for (PatchListEntry patchListEntry :
+    List<PatchListEntry> patchListEntryList =
         patchList.getPatches().stream()
             .filter(p -> !Patch.isMagic(p.getNewName()))
-            .collect(Collectors.toList())) {
+            .collect(Collectors.toList());
+
+    if (patchListEntryList.isEmpty()) {
+      return diff;
+    }
+
+    diff += "The change was submitted with unreviewed changes in the following files:\n\n";
+
+    for (PatchListEntry patchListEntry : patchListEntryList) {
       diff +=
           getDiffForFile(
               notes, currentPatchset.id(), latestApprovedPatchsetId, patchListEntry, currentUser);
@@ -145,10 +154,17 @@ public class SubmitWithStickyApprovalDiff {
     }
     SparseFileContent.Accessor fileA = patchScript.getA().createAccessor();
     SparseFileContent.Accessor fileB = patchScript.getB().createAccessor();
+    boolean editsExist = false;
+    if (patchScript.getEdits().stream().anyMatch(e -> e.getType() != Edit.Type.EMPTY)) {
+      diff += "```\n";
+      editsExist = true;
+    }
     for (Edit edit : patchScript.getEdits()) {
       diff += getDiffForEdit(fileA, fileB, edit);
     }
-    diff += "\n";
+    if (editsExist) {
+      diff += "```\n";
+    }
     return diff;
   }
 

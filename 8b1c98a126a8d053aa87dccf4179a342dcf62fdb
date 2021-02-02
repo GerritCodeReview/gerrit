@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19fd5e3c_5189f90d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-02T15:38:19Z",
+      "side": 1,
+      "message": "the added test looks OK. any particular reason to add it?",
+      "revId": "8b1c98a126a8d053aa87dccf4179a342dcf62fdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "523d6450_c241421e",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-02T15:38:19Z",
+      "side": 1,
+      "message": "ops, that looks expensive.",
+      "range": {
+        "startLine": 434,
+        "startChar": 12,
+        "endLine": 434,
+        "endChar": 28
+      },
+      "revId": "8b1c98a126a8d053aa87dccf4179a342dcf62fdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

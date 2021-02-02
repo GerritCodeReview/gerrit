@@ -110,6 +110,7 @@ import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
+import com.google.gerrit.server.change.FileInfoJsonModule;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.RevisionJson;
@@ -264,6 +265,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new IgnoreSelfApprovalRule.Module());
     install(new ReceiveCommitsModule());
     install(new SshAddressesModule());
+    install(new FileInfoJsonModule(cfg));
     install(ThreadLocalRequestContext.module());
 
     factory(CapabilityCollection.Factory.class);

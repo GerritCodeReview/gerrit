@@ -315,7 +315,7 @@ public class RevisionJson {
 
     if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
       try {
-        out.files = fileInfoJson.toFileInfoMap(c, in);
+        out.files = fileInfoJson.getFileInfoMap(c, in);
         out.files.remove(Patch.COMMIT_MSG);
         out.files.remove(Patch.MERGE_LIST);
       } catch (ResourceConflictException e) {

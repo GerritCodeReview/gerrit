@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,108 +16,66 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListEntry;
-import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.concurrent.ExecutionException;
-import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.lib.ObjectId;
 
-@Singleton
-public class FileInfoJson {
-  private final PatchListCache patchListCache;
+/** Compute and return the list of modified files between two commits. */
+public interface FileInfoJson {
 
-  @Inject
-  FileInfoJson(PatchListCache patchListCache) {
-    this.patchListCache = patchListCache;
-  }
-
-  public Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet)
+  /**
+   * Computes the list of modified files for a given change and patchset against the parent commit.
+   *
+   * @param change a Gerrit change.
+   * @param patchSet a single revision of the change.
+   * @return a mapping of the file paths to their related diff information.
+   */
+  default Map<String, FileInfo> getFileInfoMap(Change change, PatchSet patchSet)
       throws ResourceConflictException, PatchListNotAvailableException {
-    return toFileInfoMap(change, patchSet.commitId(), null);
+    return getFileInfoMap(change, patchSet.commitId(), null);
   }
 
-  public Map<String, FileInfo> toFileInfoMap(
-      Change change, ObjectId objectId, @Nullable PatchSet base)
+  /**
+   * Computes the list of modified files for a given change and patchset against its parent. For
+   * merge commits, callers can use 0, 1, 2, etc... to choose a specific parent. The first parent is
+   * 0.
+   *
+   * @param change a Gerrit change.
+   * @param objectId a commit SHA-1 identifying a patchset commit.
+   * @param parentNum an integer identifying the parent number used for comparison.
+   * @return a mapping of the file paths to their related diff information.
+   */
+  default Map<String, FileInfo> getFileInfoMap(Change change, ObjectId objectId, int parentNum)
       throws ResourceConflictException, PatchListNotAvailableException {
-    ObjectId a = base != null ? base.commitId() : null;
-    return toFileInfoMap(change, PatchListKey.againstCommit(a, objectId, Whitespace.IGNORE_NONE));
+    return getFileInfoMap(change.getProject(), objectId, parentNum);
   }
 
-  public Map<String, FileInfo> toFileInfoMap(Change change, ObjectId objectId, int parent)
-      throws ResourceConflictException, PatchListNotAvailableException {
-    return toFileInfoMap(
-        change, PatchListKey.againstParentNum(parent + 1, objectId, Whitespace.IGNORE_NONE));
-  }
+  /**
+   * Computes the list of modified files for a given change and patchset identified by its {@code
+   * objectId} against a specified base patchset.
+   *
+   * @param change a Gerrit change.
+   * @param objectId a commit SHA-1 identifying a patchset commit.
+   * @param base a base patchset to compare the commit identified by {@code objectId} against.
+   * @return a mapping of the file paths to their related diff information.
+   */
+  Map<String, FileInfo> getFileInfoMap(Change change, ObjectId objectId, @Nullable PatchSet base)
+      throws ResourceConflictException, PatchListNotAvailableException;
 
-  private Map<String, FileInfo> toFileInfoMap(Change change, PatchListKey key)
-      throws ResourceConflictException, PatchListNotAvailableException {
-    return toFileInfoMap(change.getProject(), key);
-  }
-
-  public Map<String, FileInfo> toFileInfoMap(Project.NameKey project, PatchListKey key)
-      throws ResourceConflictException, PatchListNotAvailableException {
-    PatchList list;
-    try {
-      list = patchListCache.get(key, project);
-    } catch (PatchListNotAvailableException e) {
-      Throwable cause = e.getCause();
-      if (cause instanceof ExecutionException) {
-        cause = cause.getCause();
-      }
-      if (cause instanceof NoMergeBaseException) {
-        throw new ResourceConflictException(
-            String.format("Cannot create auto merge commit: %s", e.getMessage()), e);
-      }
-      throw e;
-    }
-
-    Map<String, FileInfo> files = new TreeMap<>();
-    for (PatchListEntry e : list.getPatches()) {
-      FileInfo d = new FileInfo();
-      d.status =
-          e.getChangeType() != Patch.ChangeType.MODIFIED ? e.getChangeType().getCode() : null;
-      d.oldPath = e.getOldName();
-      d.sizeDelta = e.getSizeDelta();
-      d.size = e.getSize();
-      if (e.getPatchType() == Patch.PatchType.BINARY) {
-        d.binary = true;
-      } else {
-        d.linesInserted = e.getInsertions() > 0 ? e.getInsertions() : null;
-        d.linesDeleted = e.getDeletions() > 0 ? e.getDeletions() : null;
-      }
-
-      FileInfo o = files.put(e.getNewName(), d);
-      if (o != null) {
-        // This should only happen on a delete-add break created by JGit
-        // when the file was rewritten and too little content survived. Write
-        // a single record with data from both sides.
-        d.status = Patch.ChangeType.REWRITE.getCode();
-        d.sizeDelta = o.sizeDelta;
-        d.size = o.size;
-        if (o.binary != null && o.binary) {
-          d.binary = true;
-        }
-        if (o.linesInserted != null) {
-          d.linesInserted = o.linesInserted;
-        }
-        if (o.linesDeleted != null) {
-          d.linesDeleted = o.linesDeleted;
-        }
-      }
-    }
-    return files;
-  }
+  /**
+   * Computes the list of modified files for a given project and commit against its parent. For
+   * merge commits, callers can use 0, 1, 2, etc... to choose a specific parent. The first parent is
+   * 0.
+   *
+   * @param project a project identifying a repository.
+   * @param objectId a commit SHA-1 identifying a patchset commit.
+   * @param parentNum an integer identifying the parent number used for comparison.
+   * @return a mapping of the file paths to their related diff information.
+   */
+  Map<String, FileInfo> getFileInfoMap(Project.NameKey project, ObjectId objectId, int parentNum)
+      throws ResourceConflictException, PatchListNotAvailableException;
 }

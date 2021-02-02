@@ -210,7 +210,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         }
         try {
           editInfo.files =
-              fileInfoJson.toFileInfoMap(
+              fileInfoJson.getFileInfoMap(
                   rsrc.getChange(), edit.get().getEditCommit(), basePatchSet);
         } catch (PatchListNotAvailableException e) {
           throw new ResourceNotFoundException(e.getMessage());

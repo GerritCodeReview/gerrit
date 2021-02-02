@@ -93,12 +93,14 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
     Repository repo = repoManager.createRepository(someProjectKey);
     assertThat(repo.getDirectory()).isNotNull();
     assertThat(repo.getDirectory().exists()).isTrue();
-    assertThat(repo.getDirectory().getParent()).isEqualTo(alternateBasePath.toString());
+    assertThat(repo.getDirectory().getParent())
+        .isEqualTo(alternateBasePath.toRealPath().toString());
 
     repo = repoManager.openRepository(someProjectKey);
     assertThat(repo.getDirectory()).isNotNull();
     assertThat(repo.getDirectory().exists()).isTrue();
-    assertThat(repo.getDirectory().getParent()).isEqualTo(alternateBasePath.toString());
+    assertThat(repo.getDirectory().getParent())
+        .isEqualTo(alternateBasePath.toRealPath().toString());
 
     assertThat(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString())
         .isEqualTo(alternateBasePath.toString());

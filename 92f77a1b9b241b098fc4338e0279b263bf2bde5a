@@ -34,6 +34,24 @@
       "parentUuid": "952239f3_69c0dc78",
       "revId": "92f77a1b9b241b098fc4338e0279b263bf2bde5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c60c9172_508bd1e6",
+        "filename": "java/com/google/gerrit/pgm/init/InitJGitConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-02T11:51:43Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "a59181c9_988d219d",
+      "revId": "92f77a1b9b241b098fc4338e0279b263bf2bde5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

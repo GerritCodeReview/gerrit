@@ -113,7 +113,8 @@ public class IndexPreloadingUtil {
         ImmutableSet.of(
             ListChangesOption.ALL_COMMITS,
             ListChangesOption.ALL_REVISIONS,
-            ListChangesOption.SKIP_DIFFSTAT);
+            ListChangesOption.SKIP_DIFFSTAT,
+            ListChangesOption.DOWNLOAD_COMMANDS);
 
     return ListOption.toHex(options);
   }

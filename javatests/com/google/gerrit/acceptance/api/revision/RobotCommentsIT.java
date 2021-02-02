@@ -1046,7 +1046,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixDoesNotModifyCommitMessageOfChangeEdit() throws Exception {
-    String changeEditCommitMessage = "This is the commit message of the change edit.\n";
+    String changeEditCommitMessage =
+        "This is the commit message of the change edit.\n\nChange-Id: " + changeId + "\n";
     gApi.changes().id(changeId).edit().modifyCommitMessage(changeEditCommitMessage);
 
     fixReplacementInfo.path = FILE_NAME;
@@ -1065,7 +1066,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
   public void fixOnCommitMessageCanBeApplied() throws Exception {
     // Set a dedicated commit message.
-    String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n";
+    String footer = "\nChange-Id: " + changeId + "\n";
+    String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n" + footer;
     gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
     gApi.changes().id(changeId).edit().publish();
 
@@ -1080,13 +1082,15 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().applyFix(fixId);
 
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
-    assertThat(commitMessage).isEqualTo("Modified line\nLine 2 of commit message\n");
+    assertThat(commitMessage).isEqualTo("Modified line\nLine 2 of commit message\n" + footer);
   }
 
   @Test
   public void fixOnHeaderPartOfCommitMessageCannotBeApplied() throws Exception {
     // Set a dedicated commit message.
-    String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n";
+    String footer = "Change-Id: " + changeId;
+    String originalCommitMessage =
+        "Line 1 of commit message\nLine 2 of commit message\n" + "\n" + footer + "\n";
     gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
     gApi.changes().id(changeId).edit().publish();
 
@@ -1108,8 +1112,9 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
   public void fixContainingSeveralModificationsOfCommitMessageCanBeApplied() throws Exception {
     // Set a dedicated commit message.
+    String footer = "\nChange-Id: " + changeId + "\n";
     String originalCommitMessage =
-        "Line 1 of commit message\nLine 2 of commit message\nLine 3 of commit message\n";
+        "Line 1 of commit message\nLine 2 of commit message\nLine 3 of commit message\n" + footer;
     gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
     gApi.changes().id(changeId).edit().publish();
 
@@ -1135,13 +1140,14 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
     assertThat(commitMessage)
-        .isEqualTo("Modified line 1\nLine 2 of commit message\nModified line 3\n");
+        .isEqualTo("Modified line 1\nLine 2 of commit message\nModified line 3\n" + footer);
   }
 
   @Test
   public void fixModifyingTheCommitMessageAndAFileCanBeApplied() throws Exception {
     // Set a dedicated commit message.
-    String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n";
+    String footer = "\nChange-Id: " + changeId + "\n";
+    String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n" + footer;
     gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
     gApi.changes().id(changeId).edit().publish();
 
@@ -1165,7 +1171,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().applyFix(fixId);
 
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
-    assertThat(commitMessage).isEqualTo("Modified line 1\nLine 2 of commit message\n");
+    assertThat(commitMessage).isEqualTo("Modified line 1\nLine 2 of commit message\n" + footer);
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME2);
     BinaryResultSubject.assertThat(file)
         .value()
@@ -1176,8 +1182,9 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
   public void twoFixesOnCommitMessageCanBeAppliedOneAfterTheOther() throws Exception {
     // Set a dedicated commit message.
+    String footer = "\nChange-Id: " + changeId + "\n";
     String originalCommitMessage =
-        "Line 1 of commit message\nLine 2 of commit message\nLine 3 of commit message\n";
+        "Line 1 of commit message\nLine 2 of commit message\nLine 3 of commit message\n" + footer;
     gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
     gApi.changes().id(changeId).edit().publish();
 
@@ -1206,14 +1213,17 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
     assertThat(commitMessage)
-        .isEqualTo("Modified line 1\nLine 2 of commit message\nModified line 3\n");
+        .isEqualTo("Modified line 1\nLine 2 of commit message\nModified line 3\n" + footer);
   }
 
   @Test
   public void twoConflictingFixesOnCommitMessageCanNotBeAppliedOneAfterTheOther() throws Exception {
     // Set a dedicated commit message.
+    String footer = "Change-Id: " + changeId;
     String originalCommitMessage =
-        "Line 1 of commit message\nLine 2 of commit message\nLine 3 of commit message\n";
+        "Line 1 of commit message\nLine 2 of commit message\nLine 3 of commit message\n\n"
+            + footer
+            + "\n";
     gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
     gApi.changes().id(changeId).edit().publish();
 
@@ -1379,8 +1389,10 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void getFixPreviewForCommitMsg() throws Exception {
+    String footer = "Change-Id: " + changeId;
     updateCommitMessage(
-        changeId, "Commit title\n\nCommit message line 1\nLine 2\nLine 3\nLast line\n");
+        changeId,
+        "Commit title\n\nCommit message line 1\nLine 2\nLine 3\nLast line\n\n" + footer + "\n");
     FixReplacementInfo commitMsgReplacement = new FixReplacementInfo();
     commitMsgReplacement.path = Patch.COMMIT_MSG;
     // The test assumes that the first 5 lines is a header.
@@ -1420,7 +1432,11 @@ public class RobotCommentsIT extends AbstractDaemonTest {
         .isEqualTo("Commit message line 1");
     assertThat(diff).content().element(1).linesOfA().containsExactly("Line 2");
     assertThat(diff).content().element(1).linesOfB().containsExactly("New content");
-    assertThat(diff).content().element(2).commonLines().containsExactly("Line 3", "Last line", "");
+    assertThat(diff)
+        .content()
+        .element(2)
+        .commonLines()
+        .containsExactly("Line 3", "Last line", "", footer, "");
   }
 
   private void updateCommitMessage(String changeId, String newCommitMessage) throws Exception {

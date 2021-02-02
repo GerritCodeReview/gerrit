@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.base.Charsets;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -367,8 +368,15 @@ public class ChangeEditModifier {
     PatchSet basePatchset = modificationTarget.getBasePatchset();
     RevCommit basePatchsetCommit = NoteDbEdits.lookupCommit(repository, basePatchset.commitId());
 
+    boolean changeIdRequired =
+        projectCache
+            .get(notes.getChange().getProject())
+            .orElseThrow(illegalState(notes.getChange().getProject()))
+            .is(BooleanProjectConfig.REQUIRE_CHANGE_ID);
+    String currentChangeId = notes.getChange().getKey().get();
     String newCommitMessage =
-        createNewCommitMessage(editBehavior, commitModification, commitToModify);
+        createNewCommitMessage(
+            changeIdRequired, currentChangeId, editBehavior, commitModification, commitToModify);
     newCommitMessage = editBehavior.mergeCommitMessageIfNecessary(newCommitMessage, commitToModify);
 
     Optional<ChangeEdit> unmodifiedEdit =
@@ -464,8 +472,12 @@ public class ChangeEditModifier {
   }
 
   private String createNewCommitMessage(
-      EditBehavior editBehavior, CommitModification commitModification, RevCommit commitToModify)
-      throws InvalidChangeOperationException, BadRequestException {
+      boolean requireChangeId,
+      String currentChangeId,
+      EditBehavior editBehavior,
+      CommitModification commitModification,
+      RevCommit commitToModify)
+      throws InvalidChangeOperationException, BadRequestException, ResourceConflictException {
     if (!commitModification.newCommitMessage().isPresent()) {
       return editBehavior.getUnmodifiedCommitMessage(commitToModify);
     }
@@ -478,6 +490,8 @@ public class ChangeEditModifier {
       throw new InvalidChangeOperationException(
           "New commit message cannot be same as existing commit message");
     }
+
+    ChangeUtil.ensureChangeIdIsCorrect(requireChangeId, currentChangeId, newCommitMessage);
 
     return newCommitMessage;
   }

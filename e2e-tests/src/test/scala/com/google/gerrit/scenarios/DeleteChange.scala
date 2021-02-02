@@ -20,7 +20,7 @@ import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.http
 
 class DeleteChange extends GerritSimulation {
-  private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
+  private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
   private var createChange: Option[CreateChange] = None
 
   override def relativeRuntimeWeight = 2
@@ -34,7 +34,7 @@ class DeleteChange extends GerritSimulation {
       .feed(data)
       .exec(session => {
         if (createChange.nonEmpty) {
-          session.set("number", createChange.get.number)
+          session.set("number", createChange.get.numbers.dequeue())
         } else {
           session
         }

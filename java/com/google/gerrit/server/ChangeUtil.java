@@ -22,7 +22,10 @@ import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.config.UrlFormatter;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -34,6 +37,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -107,6 +112,37 @@ public class ChangeUtil {
         git.getRefDatabase().getRefsByPrefix(id.changeId().toRefPrefix()).stream()
             .map(Ref::getName),
         id);
+  }
+
+  /**
+   * Make sure that the change commit message has a correct footer.
+   *
+   * @param requireChangeId true if Change-Id is a mandatory footer for the project
+   * @param currentChangeId current Change-Id value before the commit message is updated
+   * @param newCommitMessage new commit message for the change
+   * @throws ResourceConflictException if the new commit message has a missing or invalid Change-Id
+   * @throws BadRequestException if the new commit message is null or empty
+   */
+  public static void ensureChangeIdIsCorrect(
+      boolean requireChangeId, String currentChangeId, String newCommitMessage)
+      throws ResourceConflictException, BadRequestException {
+    RevCommit revCommit =
+        RevCommit.parse(
+            Constants.encode("tree " + ObjectId.zeroId().name() + "\n\n" + newCommitMessage));
+
+    // Check that the commit message without footers is not empty
+    CommitMessageUtil.checkAndSanitizeCommitMessage(revCommit.getShortMessage());
+
+    List<String> changeIdFooters = revCommit.getFooterLines(FooterConstants.CHANGE_ID);
+    if (requireChangeId && changeIdFooters.isEmpty()) {
+      throw new ResourceConflictException("missing Change-Id footer");
+    }
+    if (!changeIdFooters.isEmpty() && !changeIdFooters.get(0).equals(currentChangeId)) {
+      throw new ResourceConflictException("wrong Change-Id footer");
+    }
+    if (changeIdFooters.size() > 1) {
+      throw new ResourceConflictException("multiple Change-Id footers");
+    }
   }
 
   public static String status(Change c) {

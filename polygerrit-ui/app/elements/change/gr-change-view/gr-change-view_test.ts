@@ -2156,12 +2156,19 @@ suite('gr-change-view tests', () => {
 
     test('commitCollapseToggle hidden for short commit message', () => {
       element._latestCommitMessage = '';
-      assert.isTrue(element.$.commitCollapseToggle.hasAttribute('hidden'));
+      flush();
+      const commitCollapseToggle = element.shadowRoot!.querySelector(
+        '#commitCollapseToggle'
+      );
+      assert.isTrue(commitCollapseToggle?.hasAttribute('hidden'));
     });
 
     test('commitCollapseToggle shown for long commit message', () => {
       element._latestCommitMessage = _.times(31, String).join('\n');
-      assert.isFalse(element.$.commitCollapseToggle.hasAttribute('hidden'));
+      const commitCollapseToggle = element.shadowRoot!.querySelector(
+        '#commitCollapseToggle'
+      );
+      assert.isFalse(commitCollapseToggle?.hasAttribute('hidden'));
     });
 
     test('commitCollapseToggle functions', () => {
@@ -2169,7 +2176,10 @@ suite('gr-change-view tests', () => {
       assert.isTrue(element._commitCollapsed);
       assert.isTrue(element._commitCollapsible);
       assert.isTrue(element.$.commitMessageEditor.hasAttribute('collapsed'));
-      tap(element.$.commitCollapseToggleButton);
+      const commitCollapseToggleButton = element.shadowRoot!.querySelector(
+        '#commitCollapseToggleButton'
+      )!;
+      tap(commitCollapseToggleButton);
       assert.isFalse(element._commitCollapsed);
       assert.isTrue(element._commitCollapsible);
       assert.isFalse(element.$.commitMessageEditor.hasAttribute('collapsed'));

@@ -229,8 +229,6 @@ export interface GrChangeView {
     metadata: GrChangeMetadata;
     relatedChangesToggle: HTMLDivElement;
     mainChangeInfo: HTMLDivElement;
-    commitCollapseToggleButton: GrButton;
-    commitCollapseToggle: HTMLDivElement;
     relatedChangesToggleButton: GrButton;
     replyBtn: GrButton;
   };
@@ -371,6 +369,13 @@ export class GrChangeView extends KeyboardShortcutMixin(
       '_commitCollapsible)',
   })
   _hideEditCommitMessage?: boolean;
+
+  @property({
+    type: Boolean,
+    computed:
+      '_computeHideShowAllContainer(_hideEditCommitMessage, _commitCollapsible)',
+  })
+  _hideShowAllContainer = false;
 
   @property({type: String})
   _diffAgainst?: string;
@@ -544,6 +549,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _isChecksEnabled = false;
 
+  @property({type: Boolean})
+  _isNewChangeSummaryUiEnabled = false;
+
   restApiService = appContext.restApiService;
 
   keyboardShortcuts() {
@@ -574,6 +582,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
     super.ready();
     this._isChecksEnabled = this.flagsService.isEnabled(
       KnownExperimentId.CI_REBOOT_CHECKS
+    );
+    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.NEW_CHANGE_SUMMARY_UI
     );
   }
 
@@ -907,6 +918,13 @@ export class GrChangeView extends KeyboardShortcutMixin(
     return changeStatuses(change, options);
   }
 
+  _computeHideShowAllContainer(
+    _hideEditCommitMessage?: boolean,
+    _commitCollapsible?: boolean
+  ) {
+    return !_commitCollapsible && _hideEditCommitMessage;
+  }
+
   _computeHideEditCommitMessage(
     loggedIn: boolean,
     editing: boolean,
@@ -915,12 +933,15 @@ export class GrChangeView extends KeyboardShortcutMixin(
     collapsed?: boolean,
     collapsible?: boolean
   ) {
+    const hideWhenCollapsed = this._isNewChangeSummaryUiEnabled
+      ? false
+      : collapsed && collapsible;
     if (
       !loggedIn ||
       editing ||
       (change && change.status === ChangeStatus.MERGED) ||
       editMode ||
-      (collapsed && collapsible)
+      hideWhenCollapsed
     ) {
       return true;
     }
@@ -2350,6 +2371,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _computeCollapseText(collapsed: boolean) {
+    if (this._isNewChangeSummaryUiEnabled) {
+      return collapsed ? 'Show all' : 'Show less';
+    }
     // Symbols are up and down triangles.
     return collapsed ? '\u25bc Show more' : '\u25b2 Show less';
   }
@@ -2384,7 +2408,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!commitMessage) {
       return false;
     }
-    return commitMessage.split('\n').length >= MIN_LINES_FOR_COMMIT_COLLAPSE;
+    const MIN_LINES = this._isNewChangeSummaryUiEnabled
+      ? 15
+      : MIN_LINES_FOR_COMMIT_COLLAPSE;
+    return commitMessage.split('\n').length >= MIN_LINES;
   }
 
   _getOffsetHeight(element: HTMLElement) {

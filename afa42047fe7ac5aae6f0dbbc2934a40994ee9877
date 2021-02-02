@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c5d5653_1cc3b1f8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitWithStickyApprovalDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-02T07:41:00Z",
+      "side": 1,
+      "message": "[optional] Maybe add to the message that there was no diff between latest and latest approved patch set?",
+      "range": {
+        "startLine": 284,
+        "startChar": 59,
+        "endLine": 284,
+        "endChar": 94
+      },
+      "revId": "afa42047fe7ac5aae6f0dbbc2934a40994ee9877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

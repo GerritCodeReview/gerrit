@@ -115,8 +115,9 @@ the 'Administrate Server' capability from it, its members are no longer
 Gerrit administrators, despite the group name. The group may also be
 renamed.
 
+anchor:non-interactive_users[]
 
-[[non-interactive_users]]
+[[service_users]]
 === Service Users
 
 This is the Gerrit "batch" identity. The capabilities
@@ -135,6 +136,7 @@ made by the service users from the ones made by the interactive
 users. This ensures that the interactive users can keep working when
 resources are tight.
 
+Before Gerrit 3.3, the 'Service Users' group was named 'Non-Interactive Users'.
 
 == Account Groups
 

@@ -47,7 +47,6 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -141,7 +140,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -1879,10 +1877,6 @@ public class RestApiServlet extends HttpServlet {
   static long replyText(
       @Nullable HttpServletRequest req, HttpServletResponse res, boolean allowTracing, String text)
       throws IOException {
-    if ((req == null || isRead(req)) && isMaybeHTML(text)) {
-      return replyJson(
-          req, res, allowTracing, ImmutableListMultimap.of("pp", "0"), new JsonPrimitive(text));
-    }
     if (!text.endsWith("\n")) {
       text += "\n";
     }
@@ -1890,10 +1884,6 @@ public class RestApiServlet extends HttpServlet {
       logger.atFinest().log("Text response body:\n%s", text);
     }
     return replyBinaryResult(req, res, BinaryResult.create(text).setContentType(PLAIN_TEXT));
-  }
-
-  private static boolean isMaybeHTML(String text) {
-    return CharMatcher.anyOf("<&").matchesAnyOf(text);
   }
 
   private static boolean acceptsGzip(HttpServletRequest req) {

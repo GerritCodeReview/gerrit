@@ -1,4 +1,4 @@
-// Copyright (C) 2020 The Android Open Source Project
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,36 +19,25 @@ import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef._
 
-import scala.collection.mutable
 import scala.concurrent.duration._
 
-class CreateChange extends ProjectSimulation {
+class CreateBranch extends ProjectSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
-  private val numberKey = "_number"
-  var number = 0
-  var numbers: mutable.Queue[Int] = mutable.Queue[Int]()
+  private val branchIdKey = "branchId"
+  private var counter = 0
 
-  override def relativeRuntimeWeight = 2
-
-  def this(projectName: String) {
-    this()
-    this.projectName = projectName
-  }
-
-  val test: ScenarioBuilder = scenario(uniqueName)
+  private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
-      .exec(httpRequest
-          .body(ElFileBody(body)).asJson
-          .check(regex("\"" + numberKey + "\":(\\d+),").saveAs(numberKey)))
       .exec(session => {
-        number = session(numberKey).as[Int]
-        numbers += number
-        session
+        counter += 1
+        session.set(branchIdKey, "branch-" + counter)
       })
+      .exec(http(uniqueName)
+          .post("${url}${" + branchIdKey + "}")
+          .body(ElFileBody(body)).asJson)
 
   private val createProject = new CreateProject(projectName)
   private val deleteProject = new DeleteProject(projectName)
-  private val deleteChange = new DeleteChange(this)
 
   setUp(
     createProject.test.inject(
@@ -57,10 +46,6 @@ class CreateChange extends ProjectSimulation {
     ),
     test.inject(
       nothingFor(stepWaitTime(this) seconds),
-      atOnceUsers(numberOfUsers)
-    ),
-    deleteChange.test.inject(
-      nothingFor(stepWaitTime(deleteChange) seconds),
       atOnceUsers(numberOfUsers)
     ),
     deleteProject.test.inject(

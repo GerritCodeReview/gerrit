@@ -158,6 +158,24 @@
       "parentUuid": "3ea2b344_8428b992",
       "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa4de4d2_d7e931db",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T11:46:26Z",
+      "side": 1,
+      "message": "CanonicalException.internal() is only defined in google3. Right now, the comment context is called from ListComments -\u003e CommentJson so on the rest API path, but that can change in the future if other parts of the code base wanted to retrieve the comment context.\n\nI\u0027m more inclined to use the StorageException, or create our own. Javadocs for StorageException say:\n```\n/**\n * Any read/write error in a storage layer.\n *\n * \u003cp\u003eThis includes but is not limited to:\n *\n * \u003cul\u003e\n *   \u003cli\u003eNoteDb exceptions\n *   \u003cli\u003eSecondary index exceptions\n *   \u003cli\u003e{@code AccountPatchReviewStore} exceptions\n *   \u003cli\u003eWrapped JGit exceptions\n *   \u003cli\u003eOther wrapped {@code IOException}s\n * \u003c/ul\u003e\n */\n```\n\nOur use case here can be considered a NoteDb exception, so that should do it. WDYT?",
+      "parentUuid": "deafade6_dcc58c3c",
+      "revId": "eed303791e7833bf4583efa73693cba4dab878cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

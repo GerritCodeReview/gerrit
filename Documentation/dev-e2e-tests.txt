@@ -232,6 +232,17 @@ than the default, say `0.8`, will make scenarios wait somewhat less than how the
 Scenario development is often done using locally running Gerrit systems under test, which are
 sometimes dockerized.
 
+==== Number of users
+
+The `number_of_users` property can be used to scale scenario steps to run with the specified number
+of concurrent users. The value of this property remains `1` by default. For example, this sets the
+number of concurrent users to 10:
+
+* `-Dcom.google.gerrit.scenarios.number_of_users=10`
+
+This will make scenarios that support the `number_of_users` property to inject that many users
+concurrently for load testing.
+
 == How to run tests
 
 Run all tests:

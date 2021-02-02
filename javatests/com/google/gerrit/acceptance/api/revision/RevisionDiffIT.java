@@ -470,7 +470,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
     gApi.changes().id(changeId).edit().publish();
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    gApi.changes().id(changeId).edit().modifyCommitMessage("An unchanged patchset");
+    gApi.changes().id(changeId).edit().modifyCommitMessage(updatedCommitMessage());
     gApi.changes().id(changeId).edit().publish();
 
     DiffInfo diffInfo =
@@ -492,7 +492,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
     gApi.changes().id(changeId).edit().publish();
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    gApi.changes().id(changeId).edit().modifyCommitMessage("An unchanged patchset");
+    gApi.changes().id(changeId).edit().modifyCommitMessage(updatedCommitMessage());
     gApi.changes().id(changeId).edit().publish();
 
     DiffInfo diffInfo =
@@ -510,7 +510,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
     gApi.changes().id(changeId).edit().publish();
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    gApi.changes().id(changeId).edit().modifyCommitMessage("An unchanged patchset");
+    gApi.changes().id(changeId).edit().modifyCommitMessage(updatedCommitMessage());
     gApi.changes().id(changeId).edit().publish();
 
     DiffInfo diffInfo =
@@ -2702,6 +2702,30 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             BadRequestException.class,
             () -> getDiffRequest(changeId, CURRENT, FILE_NAME).withBase("0").get());
     assertThat(e).hasMessageThat().isEqualTo("edit not allowed as base");
+  }
+
+  private String updatedCommitMessage() {
+    return "An unchanged patchset\n\nChange-Id: " + changeId;
+  }
+
+  private static CommentInput createCommentInput(
+      int startLine, int startCharacter, int endLine, int endCharacter, String message) {
+    CommentInput comment = new CommentInput();
+    comment.range = new Comment.Range();
+    comment.range.startLine = startLine;
+    comment.range.startCharacter = startCharacter;
+    comment.range.endLine = endLine;
+    comment.range.endCharacter = endCharacter;
+    comment.message = message;
+    return comment;
+  }
+
+  private void addCommentTo(
+      String changeId, String previousPatchSetId, String fileName, CommentInput comment)
+      throws RestApiException {
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(fileName, ImmutableList.of(comment));
+    gApi.changes().id(changeId).revision(previousPatchSetId).review(reviewInput);
   }
 
   private void assertDiffForNewFile(

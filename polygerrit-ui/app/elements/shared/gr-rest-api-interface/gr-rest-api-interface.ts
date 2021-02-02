@@ -1207,7 +1207,8 @@ export class GrRestApiInterface extends PolymerElement
       optionsHex = listChangesOptionsToHex(
         ListChangesOption.ALL_COMMITS,
         ListChangesOption.ALL_REVISIONS,
-        ListChangesOption.SKIP_DIFFSTAT
+        ListChangesOption.SKIP_DIFFSTAT,
+        ListChangesOption.DOWNLOAD_COMMANDS
       );
     }
     return this._getChangeDetail(changeNum, optionsHex);

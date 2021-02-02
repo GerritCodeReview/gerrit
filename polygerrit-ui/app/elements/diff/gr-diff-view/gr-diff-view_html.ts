@@ -430,5 +430,14 @@ export const htmlTemplate = html`
     id="cursor"
     on-navigate-to-next-unreviewed-file="_handleNextUnreviewedFile"
   ></gr-diff-cursor>
+  <gr-overlay id="downloadOverlay" with-backdrop="">
+    <gr-download-dialog
+      id="downloadDialog"
+      change="[[_change]]"
+      patch-num="[[_patchRange.patchNum]]"
+      config="[[_serverConfig.download]]"
+      on-close="_handleDownloadDialogClose"
+    ></gr-download-dialog>
+  </gr-overlay>
   <gr-comment-api id="commentAPI"></gr-comment-api>
 `;

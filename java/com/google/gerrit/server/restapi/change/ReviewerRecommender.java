@@ -202,7 +202,7 @@ public class ReviewerRecommender {
       double baseWeight, String query, List<Account.Id> candidateList)
       throws IOException, ConfigInvalidException {
     int numberOfRelevantChanges = config.getInt("suggest", "relevantChanges", 50);
-    // Get the user's last 25 changes, check reviewers
+    // Get the user's last numberOfRelevantChanges changes, check reviewers
     try {
       List<ChangeData> result =
           queryProvider

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "707380c2_0e13921f",
+        "filename": "java/com/google/gerrit/extensions/api/config/AccessCheckInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-02T15:40:00Z",
+      "side": 0,
+      "message": "This doesn\u0027t seem to be following the process outlined in [1]. As noted in [2], removing something from extensions is likely to impact a wider range of plugins that otherwise expect to be compatible across many Gerrit versions.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-processes.html#deprecating-features\n[2] https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#API",
+      "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

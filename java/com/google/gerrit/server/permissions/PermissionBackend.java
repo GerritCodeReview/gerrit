@@ -330,6 +330,12 @@ public abstract class PermissionBackend {
     public abstract boolean filterMeta();
 
     /**
+     * Return the 10K most recent ref changes anyway, even if they are not part of the List<Ref>
+     * passed. This allows the caller not to send all the refs/changes.
+     */
+    public abstract boolean returnMostRecentRefChanges();
+
+    /**
      * Select only refs with names matching prefixes per {@link
      * org.eclipse.jgit.lib.RefDatabase#getRefsByPrefix}.
      */
@@ -340,12 +346,15 @@ public abstract class PermissionBackend {
     public static Builder builder() {
       return new AutoValue_PermissionBackend_RefFilterOptions.Builder()
           .setFilterMeta(false)
+          .setReturnMostRecentRefChanges(false)
           .setPrefixes(Collections.singletonList(""));
     }
 
     @AutoValue.Builder
     public abstract static class Builder {
       public abstract Builder setFilterMeta(boolean val);
+
+      public abstract Builder setReturnMostRecentRefChanges(boolean val);
 
       public abstract Builder setPrefixes(List<String> prefixes);
 

@@ -16,6 +16,24 @@
       "message": "This doesn\u0027t seem to be following the process outlined in [1]. As noted in [2], removing something from extensions is likely to impact a wider range of plugins that otherwise expect to be compatible across many Gerrit versions.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-processes.html#deprecating-features\n[2] https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#API",
       "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2678d9f6_1b94f0d0",
+        "filename": "java/com/google/gerrit/extensions/api/config/AccessCheckInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T21:32:55Z",
+      "side": 0,
+      "message": "Thanks for bringing the deprecation process to my attention. I was not planning to submit this change soon. I\u0027m playing around with few entities right now, but we were looking into migrating all entities.\n\nI see that plugins need to be updated if we removed entities from the extensions api. One solution I\u0027m thinking of is to create a separate proto api, e.g. com.google.gerrit.extensions.protoapi (implementation in com.google.gerrit.server.protoapi), migrate gerrit core to use the proto api while leaving the existing api intact for plugins/extensions. We can mark the existing api as deprecated. I\u0027d need to do more digging and check if this is possible.\n\nAddendum: \n1) One problem I\u0027m seeing is that both apis will have parallel implementations which is not good. Ideally we want to have a single implementation with different choice of inputs / outputs.\n2) Or, better, the old api can just wrap the new proto api.\n\nWDYT?",
+      "parentUuid": "707380c2_0e13921f",
+      "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

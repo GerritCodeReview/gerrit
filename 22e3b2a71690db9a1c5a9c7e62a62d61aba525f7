@@ -16,6 +16,24 @@
       "message": "do we have some test which ensures that protocol version 0 still works now that the default changed ?",
       "revId": "22e3b2a71690db9a1c5a9c7e62a62d61aba525f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c56b1222_9d19716c",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-02T11:53:15Z",
+      "side": 1,
+      "message": "I don\u0027t think though, but the JGit upgrade was done in another change and not here.",
+      "parentUuid": "0e58e85c_2377610d",
+      "revId": "22e3b2a71690db9a1c5a9c7e62a62d61aba525f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aed8fad1_83ca4616",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1064185
+      },
+      "writtenOn": "2021-02-02T11:34:38Z",
+      "side": 1,
+      "message": "I\u0027ve been mainly replying in the email thread. I think this change reflects the changes discussed in the thread, right? ",
+      "revId": "63a9abc9f65bb0b87056151a13aa83c8c498b4f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -403,6 +403,39 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void uploadPackSubsetOfBranchesVisibleAllPatchsets() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result pushResult =
+        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master");
+    pushResult.assertOkStatus();
+    String firstPatchSetRef = RefNames.patchSetRef(pushResult.getPatchSetId());
+
+    pushResult = amendChange(pushResult.getChangeId());
+    pushResult.assertOkStatus();
+
+    String secondPatchSetRef = RefNames.patchSetRef(pushResult.getPatchSetId());
+
+    assertUploadPackRefs(
+        "HEAD",
+        psRef1,
+        metaRef1,
+        psRef3,
+        metaRef3,
+        RefNames.changeMetaRef(pushResult.getChange().getId()),
+        firstPatchSetRef,
+        // include all patchsets of the visible changes
+        secondPatchSetRef,
+        "refs/heads/master",
+        "refs/tags/master-tag");
+    // tree-tag not visible. See comment in subsetOfBranchesVisibleIncludingHead.
+  }
+
+  @Test
   public void uploadPackSubsetOfBranchesAndEditsVisibleWithViewPrivateChanges() throws Exception {
     projectOperations
         .project(project)

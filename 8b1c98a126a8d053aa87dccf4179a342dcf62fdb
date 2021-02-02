@@ -56,6 +56,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f8dd8fac_d02f83c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-02T19:27:58Z",
+      "side": 1,
+      "message": "nevermind, figured it out in https://gerrit-review.googlesource.com/c/gerrit/+/295523",
+      "parentUuid": "776ac763_5c69e11d",
+      "revId": "8b1c98a126a8d053aa87dccf4179a342dcf62fdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "523d6450_c241421e",
         "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
         "patchSetId": 1

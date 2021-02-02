@@ -41,6 +41,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18e69646_660b969a",
+        "filename": "java/com/google/gerrit/json/ProtoTypeAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T08:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4370bbda_9887a93a",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 2
+      },
+      "revId": "ef56d2485aa3497cafb97c523e93c8643a75e2f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8752018d_3cc6357e",
+        "filename": "java/com/google/gerrit/json/ProtoTypeAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T08:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4370bbda_9887a93a",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 2
+      },
+      "revId": "ef56d2485aa3497cafb97c523e93c8643a75e2f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b64d372_2e15e30f",
@@ -54,6 +102,54 @@
       "writtenOn": "2020-12-22T11:41:51Z",
       "side": 1,
       "message": "The package for this should be the same as in the original (com.google.gson.protobuf) so that it can easily be swapped in case the MVN artifact becomes available but also internally at Google where this is available as build dependency.\n\nhttps://github.com/google/gson/blob/master/proto/src/main/java/com/google/gson/protobuf/ProtoTypeAdapter.java#L17",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "ef56d2485aa3497cafb97c523e93c8643a75e2f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "878cc3ce_eb8b40da",
+        "filename": "java/com/google/gerrit/json/ProtoTypeAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T08:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b64d372_2e15e30f",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "ef56d2485aa3497cafb97c523e93c8643a75e2f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bbb8a25_6178e4d9",
+        "filename": "java/com/google/gerrit/json/ProtoTypeAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T08:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b64d372_2e15e30f",
       "range": {
         "startLine": 15,
         "startChar": 0,

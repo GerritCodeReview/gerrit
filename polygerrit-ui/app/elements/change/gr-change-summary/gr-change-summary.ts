@@ -20,11 +20,7 @@ import {GrLitElement} from '../../lit/gr-lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {
-  Category,
-  CheckRun,
-  Link,
-} from '../../plugins/gr-checks-api/gr-checks-api-types';
+import {Category, CheckRun, Link} from '../../../api/checks';
 import {allRuns$, RunResult} from '../../../services/checks/checks-model';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import {

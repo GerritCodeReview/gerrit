@@ -18,7 +18,6 @@ import static com.google.gerrit.gpg.server.GpgKey.GPG_KEY_KIND;
 import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
 
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
-import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -27,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.gpg.server.DeleteGpgKey;
 import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.server.PostGpgKeys;
+import com.google.gerrit.proto.Api.GpgKeyInfo;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GpgApiAdapter;

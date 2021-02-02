@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.proto.Api.GpgKeyInfo;
+
 public class PushCertificateInfo {
   public String certificate;
   public GpgKeyInfo key;

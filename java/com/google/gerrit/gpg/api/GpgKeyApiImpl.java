@@ -17,12 +17,12 @@ package com.google.gerrit.gpg.api;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
-import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.gpg.server.DeleteGpgKey;
 import com.google.gerrit.gpg.server.GpgKey;
 import com.google.gerrit.gpg.server.GpgKeys;
+import com.google.gerrit.proto.Api.GpgKeyInfo;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;

@@ -132,6 +132,7 @@ java_library(
         "//lib/ow2:ow2-asm-tree",
         "//lib/ow2:ow2-asm-util",
         "//lib/prolog:runtime",
+        "//proto:api_entities_java_proto",
         "//proto:cache_java_proto",
     ],
 )

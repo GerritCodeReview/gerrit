@@ -15,10 +15,10 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
-import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.proto.Api.GpgKeyInfo;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
 import java.util.List;

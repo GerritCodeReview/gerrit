@@ -18,10 +18,8 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPG
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
-import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -36,6 +34,7 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.GerritPublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
+import com.google.gerrit.proto.Api.GpgKeyInfo;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -47,7 +46,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPException;
@@ -155,8 +153,7 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
               GpgKeyInfo info =
                   toJson(
                       keyRing.getPublicKey(), checkerFactory.create(rsrc.getUser(), store), store);
-              keys.put(info.id, info);
-              info.id = null;
+              keys.put(info.getId(), info.toBuilder().setId("").build());
               break;
             }
           }
@@ -212,13 +209,12 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
   }
 
   public static GpgKeyInfo toJson(PGPPublicKey key, CheckResult checkResult) throws IOException {
-    GpgKeyInfo info = new GpgKeyInfo();
+    GpgKeyInfo.Builder info = GpgKeyInfo.newBuilder();
 
     if (key != null) {
-      info.id = PublicKeyStore.keyIdToString(key.getKeyID());
-      info.fingerprint = Fingerprint.toString(key.getFingerprint());
-      Iterator<String> userIds = key.getUserIDs();
-      info.userIds = ImmutableList.copyOf(userIds);
+      info.setId(PublicKeyStore.keyIdToString(key.getKeyID()));
+      info.setFingerprint(Fingerprint.toString(key.getFingerprint()));
+      info.addAllUserIds(() -> key.getUserIDs());
 
       try (ByteArrayOutputStream out = new ByteArrayOutputStream(4096)) {
         try (ArmoredOutputStream aout = new ArmoredOutputStream(out)) {
@@ -228,14 +224,14 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
           // the original ASCII armor.
           key.encode(aout);
         }
-        info.key = new String(out.toByteArray(), UTF_8);
+        info.setKey(new String(out.toByteArray(), UTF_8));
       }
     }
 
-    info.status = checkResult.getStatus();
-    info.problems = checkResult.getProblems();
+    info.setStatus(checkResult.getStatus());
+    info.addAllProblems(checkResult.getProblems());
 
-    return info;
+    return info.build();
   }
 
   static GpgKeyInfo toJson(PGPPublicKey key, PublicKeyChecker checker, PublicKeyStore store)
@@ -243,8 +239,8 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
     return toJson(key, checker.setStore(store).check(key));
   }
 
-  public static void toJson(GpgKeyInfo info, CheckResult checkResult) {
-    info.status = checkResult.getStatus();
-    info.problems = checkResult.getProblems();
-  }
+  // public static void toJson(GpgKeyInfo info, CheckResult checkResult) {
+  //   info.status = checkResult.getStatus();
+  //   info.problems = checkResult.getProblems();
+  // }
 }

@@ -26,3 +26,18 @@ message AccessCheckInfo {
   string message = 2;
   repeated string debug_logs = 3;
 }
+
+// Next ID: 7
+message GpgKeyInfo {
+  enum Status {
+    BAD = 0;
+    OK = 1;
+    TRUSTED = 2;
+  }
+  string id = 1;
+  string fingerprint = 2;
+  repeated string user_ids = 3;
+  string key = 4;
+  Status status = 5;
+  repeated string problems = 6;
+}

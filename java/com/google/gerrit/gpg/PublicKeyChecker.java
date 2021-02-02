@@ -15,11 +15,11 @@
 package com.google.gerrit.gpg;
 
 import static com.google.common.flogger.LazyArgs.lazy;
-import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.BAD;
-import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.OK;
-import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.TRUSTED;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
+import static com.google.gerrit.proto.Api.GpgKeyInfo.Status.BAD;
+import static com.google.gerrit.proto.Api.GpgKeyInfo.Status.OK;
+import static com.google.gerrit.proto.Api.GpgKeyInfo.Status.TRUSTED;
 import static org.bouncycastle.bcpg.SignatureSubpacketTags.REVOCATION_KEY;
 import static org.bouncycastle.bcpg.SignatureSubpacketTags.REVOCATION_REASON;
 import static org.bouncycastle.bcpg.sig.RevocationReasonTags.KEY_COMPROMISED;
@@ -30,7 +30,7 @@ import static org.bouncycastle.openpgp.PGPSignature.DIRECT_KEY;
 import static org.bouncycastle.openpgp.PGPSignature.KEY_REVOCATION;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
+import com.google.gerrit.proto.Api.GpgKeyInfo.Status;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -14,9 +14,9 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
-import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.proto.Api.GpgKeyInfo;
 
 public interface GpgKeyApi {
   GpgKeyInfo get() throws RestApiException;

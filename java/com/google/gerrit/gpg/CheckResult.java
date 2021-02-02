@@ -14,7 +14,7 @@
 
 package com.google.gerrit.gpg;
 
-import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
+import com.google.gerrit.proto.Api.GpgKeyInfo.Status;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

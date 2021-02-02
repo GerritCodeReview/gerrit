@@ -107,7 +107,6 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
-import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.events.AccountActivationListener;
@@ -123,6 +122,7 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.httpd.CacheBasedWebSession;
+import com.google.gerrit.proto.Api.GpgKeyInfo;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountProperties;
@@ -1836,7 +1836,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     sender.clear();
     GpgKeyInfo info = addGpgKey(armor(pk)).get(id);
-    assertThat(info.userIds).hasSize(2);
+    assertThat(info.getUserIdsCount()).isEqualTo(2);
     assertIteratorSize(2, getOnlyKeyFromStore(key).getUserIDs());
     assertThat(sender.getMessages()).hasSize(1);
     assertThat(sender.getMessages().get(0).body()).contains("new GPG keys have been added");
@@ -1844,7 +1844,7 @@ public class AccountIT extends AbstractDaemonTest {
     pk = PGPPublicKey.removeCertification(pk, "foo:myId");
     sender.clear();
     info = addGpgKeyNoReindex(armor(pk)).get(id);
-    assertThat(info.userIds).hasSize(1);
+    assertThat(info.getUserIdsCount()).isEqualTo(1);
     assertIteratorSize(1, getOnlyKeyFromStore(key).getUserIDs());
     // TODO: Issue 10769: Adding an already existing key should not result in a notification email
     assertThat(sender.getMessages()).hasSize(1);
@@ -1957,7 +1957,7 @@ public class AccountIT extends AbstractDaemonTest {
                   ImmutableList.of(key1.getKeyIdString()));
       assertThat(infos.keySet()).containsExactly(key1.getKeyIdString(), key5.getKeyIdString());
       assertKeyMapContains(key5, infos);
-      assertThat(infos.get(key1.getKeyIdString()).key).isNull();
+      assertThat(infos.get(key1.getKeyIdString()).getKey()).isEmpty();
       assertKeys(key2, key5);
       accountIndexedCounter.assertReindexOf(admin);
 
@@ -2942,8 +2942,8 @@ public class AccountIT extends AbstractDaemonTest {
   private static void assertKeyMapContains(TestKey expected, Map<String, GpgKeyInfo> actualMap) {
     GpgKeyInfo actual = actualMap.get(expected.getKeyIdString());
     assertThat(actual).isNotNull();
-    assertThat(actual.id).isNull();
-    actual.id = expected.getKeyIdString();
+    assertThat(actual.getId()).isEmpty();
+    actual = actual.toBuilder().setId(expected.getKeyIdString()).build();
     assertKeyEquals(expected, actual);
   }
 
@@ -2990,17 +2990,17 @@ public class AccountIT extends AbstractDaemonTest {
 
   private static void assertKeyEquals(TestKey expected, GpgKeyInfo actual) {
     String id = expected.getKeyIdString();
-    assertWithMessage(id).that(actual.id).isEqualTo(id);
+    assertWithMessage(id).that(actual.getId()).isEqualTo(id);
     assertWithMessage(id)
-        .that(actual.fingerprint)
+        .that(actual.getFingerprint())
         .isEqualTo(Fingerprint.toString(expected.getPublicKey().getFingerprint()));
     List<String> userIds = ImmutableList.copyOf(expected.getPublicKey().getUserIDs());
-    assertWithMessage(id).that(actual.userIds).containsExactlyElementsIn(userIds);
-    String key = actual.key;
+    assertWithMessage(id).that(actual.getUserIdsList()).containsExactlyElementsIn(userIds);
+    String key = actual.getKey();
     assertWithMessage(id).that(key).startsWith("-----BEGIN PGP PUBLIC KEY BLOCK-----\n");
     assertWithMessage(id).that(key).endsWith("-----END PGP PUBLIC KEY BLOCK-----\n");
-    assertThat(actual.status).isEqualTo(GpgKeyInfo.Status.TRUSTED);
-    assertThat(actual.problems).isEmpty();
+    assertThat(actual.getStatus()).isEqualTo(GpgKeyInfo.Status.TRUSTED);
+    assertThat(actual.getProblemsList()).isEmpty();
   }
 
   private void addExternalIdEmail(TestAccount account, String email) throws Exception {

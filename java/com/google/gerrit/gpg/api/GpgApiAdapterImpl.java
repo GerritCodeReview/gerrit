@@ -18,7 +18,6 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.api.accounts.GpgKeysInput;
-import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -26,6 +25,7 @@ import com.google.gerrit.gpg.GerritPushCertificateChecker;
 import com.google.gerrit.gpg.PushCertificateChecker;
 import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.server.PostGpgKeys;
+import com.google.gerrit.proto.Api.GpgKeyInfo;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;

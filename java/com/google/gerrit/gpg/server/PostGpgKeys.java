@@ -33,7 +33,6 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.GpgKeysInput;
-import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -45,6 +44,7 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.GerritPublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
+import com.google.gerrit.proto.Api.GpgKeyInfo;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -323,11 +323,10 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
       PGPPublicKey key = keyRing.getPublicKey();
       CheckResult result = checker.check(key);
       GpgKeyInfo info = GpgKeys.toJson(key, result);
-      infos.put(info.id, info);
-      info.id = null;
+      infos.put(info.getId(), info.toBuilder().setId("").build());
     }
     for (Fingerprint fp : deleted) {
-      infos.put(keyIdToString(fp.getId()), new GpgKeyInfo());
+      infos.put(keyIdToString(fp.getId()), GpgKeyInfo.newBuilder().build());
     }
     return infos;
   }

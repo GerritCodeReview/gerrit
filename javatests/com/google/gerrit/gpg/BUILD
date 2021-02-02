@@ -26,5 +26,6 @@ junit_tests(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/truth",
+        "//proto:api_entities_java_proto",
     ],
 )

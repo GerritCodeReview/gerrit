@@ -8,6 +8,7 @@ acceptance_tests(
     deps = [
         ":util",
         "//java/com/google/gerrit/server/account/externalids/testing",
+        "//proto:api_entities_java_proto",
     ],
 )
 

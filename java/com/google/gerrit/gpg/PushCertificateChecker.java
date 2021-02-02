@@ -14,15 +14,15 @@
 
 package com.google.gerrit.gpg;
 
-import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.BAD;
-import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.OK;
-import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.TRUSTED;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
+import static com.google.gerrit.proto.Api.GpgKeyInfo.Status.BAD;
+import static com.google.gerrit.proto.Api.GpgKeyInfo.Status.OK;
+import static com.google.gerrit.proto.Api.GpgKeyInfo.Status.TRUSTED;
 
 import com.google.common.base.Joiner;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
+import com.google.gerrit.proto.Api.GpgKeyInfo.Status;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -133,7 +133,7 @@ public abstract class PushCertificateChecker {
       CheckResult cr = sigResult.getCheckResult();
       problems.addAll(cr.getProblems());
       if (cr.getStatus() == BAD) {
-        status = BAD;
+        status = Status.BAD;
       } else if (!bad && cr.getStatus() == TRUSTED) {
         status = TRUSTED;
       }

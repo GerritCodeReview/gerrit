@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eee67f5_3396ab3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T13:58:42Z",
+      "side": 1,
+      "message": "You\u0027d probably want to add a test to make sure the enum serialization works correctly.",
+      "revId": "3bf79abd85820262e28ba15325b9895954eb64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "538c3bbe_f0d61e5c",
+        "filename": "java/com/google/gerrit/gpg/server/GpgKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T13:58:42Z",
+      "side": 1,
+      "message": "Setting a field in proto3 requires null checking. Since this is done inside checkResult.getStatus() I ignored it here.",
+      "revId": "3bf79abd85820262e28ba15325b9895954eb64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc95f0c6_2d328fbe",
+        "filename": "java/com/google/gerrit/gpg/server/GpgKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T13:58:42Z",
+      "side": 1,
+      "message": "This method seems to be unused? Please remove then.",
+      "revId": "3bf79abd85820262e28ba15325b9895954eb64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "effe2dcd_a661205e",
+        "filename": "proto/api.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-02T13:58:42Z",
+      "side": 1,
+      "message": "Please add entity and enum description.",
+      "revId": "3bf79abd85820262e28ba15325b9895954eb64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

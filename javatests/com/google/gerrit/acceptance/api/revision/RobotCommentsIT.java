@@ -935,7 +935,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixDoesNotModifyCommitMessageOfChangeEdit() throws Exception {
-    String changeEditCommitMessage = "This is the commit message of the change edit.\n";
+    String changeEditCommitMessage =
+        "This is the commit message of the change edit.\n\nChange-Id: " + changeId + "\n";
     gApi.changes().id(changeId).edit().modifyCommitMessage(changeEditCommitMessage);
 
     fixReplacementInfo.path = FILE_NAME;
@@ -1090,8 +1091,13 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void getFixPreviewForCommitMsg() throws Exception {
+    String footer = "Change-Id: " + changeId;
     updateCommitMessage(
-        changeId, "Commit title\n\nCommit message line 1\nLine 2\nLine 3\nLast line\n");
+        changeId,
+        "Commit title\n\nCommit message line 1\nLine 2\nLine 3\nLast line\n"
+            + "\n"
+            + footer
+            + "\n");
     FixReplacementInfo commitMsgReplacement = new FixReplacementInfo();
     commitMsgReplacement.path = Patch.COMMIT_MSG;
     // The test assumes that the first 5 lines is a header.
@@ -1131,7 +1137,11 @@ public class RobotCommentsIT extends AbstractDaemonTest {
         .isEqualTo("Commit message line 1");
     assertThat(diff).content().element(1).linesOfA().containsExactly("Line 2");
     assertThat(diff).content().element(1).linesOfB().containsExactly("New content");
-    assertThat(diff).content().element(2).commonLines().containsExactly("Line 3", "Last line", "");
+    assertThat(diff)
+        .content()
+        .element(2)
+        .commonLines()
+        .containsExactly("Line 3", "Last line", "", footer, "");
   }
 
   private void updateCommitMessage(String changeId, String newCommitMessage) throws Exception {

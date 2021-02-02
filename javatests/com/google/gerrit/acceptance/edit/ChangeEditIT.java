@@ -310,12 +310,14 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void updateCommitMessageByEditingMagicCommitMsgFile() throws Exception {
     createEmptyEditFor(changeId);
+    String updatedCommitMsg = "Foo Bar\n\nChange-Id: " + changeId + "\n";
     gApi.changes()
         .id(changeId)
         .edit()
-        .modifyFile(Patch.COMMIT_MSG, RawInputUtil.create("Foo Bar".getBytes(UTF_8)));
+        .modifyFile(Patch.COMMIT_MSG, RawInputUtil.create(updatedCommitMsg.getBytes(UTF_8)));
     assertThat(getEdit(changeId)).isPresent();
-    ensureSameBytes(getFileContentOfEdit(changeId, Patch.COMMIT_MSG), "Foo Bar\n".getBytes(UTF_8));
+    ensureSameBytes(
+        getFileContentOfEdit(changeId, Patch.COMMIT_MSG), updatedCommitMsg.getBytes(UTF_8));
   }
 
   @Test
@@ -343,6 +345,39 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().modifyCommitMessage(msg);
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
     assertThat(commitMessage).isEqualTo(msg);
+  }
+
+  @Test
+  public void updateMessageEditChangeIdShouldThrowResourceConflictException() throws Exception {
+    createEmptyEditFor(changeId);
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.changes()
+                    .id(changeId)
+                    .edit()
+                    .modifyCommitMessage(commitMessage.replaceAll(changeId, changeId2)));
+    assertThat(thrown).hasMessageThat().isEqualTo("wrong Change-Id footer");
+  }
+
+  @Test
+  public void updateMessageEditRemoveChangeIdShouldThrowResourceConflictException()
+      throws Exception {
+    createEmptyEditFor(changeId);
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.changes()
+                    .id(changeId)
+                    .edit()
+                    .modifyCommitMessage(commitMessage.replaceAll("(Change-Id:).*", "")));
+    assertThat(thrown).hasMessageThat().isEqualTo("missing Change-Id footer");
   }
 
   @Test

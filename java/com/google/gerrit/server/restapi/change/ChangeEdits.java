@@ -481,7 +481,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
       Project.NameKey project = rsrc.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
-        editModifier.modifyMessage(repository, rsrc.getNotes(), input.message);
+        editModifier.modifyMessage(repository, project, rsrc.getNotes(), input.message);
       } catch (UnchangedCommitMessageException e) {
         throw new ResourceConflictException(e.getMessage());
       }

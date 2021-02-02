@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -210,7 +211,8 @@ public class ChangeEditModifier {
    * @throws PermissionBackendException
    * @throws BadRequestException if the commit message is malformed
    */
-  public void modifyMessage(Repository repository, ChangeNotes notes, String newCommitMessage)
+  public void modifyMessage(
+      Repository repository, Project.NameKey project, ChangeNotes notes, String newCommitMessage)
       throws AuthException, IOException, UnchangedCommitMessageException,
           PermissionBackendException, BadRequestException, ResourceConflictException {
     assertCanEdit(notes);
@@ -231,6 +233,14 @@ public class ChangeEditModifier {
     Timestamp nowTimestamp = TimeUtil.nowTs();
     ObjectId newEditCommit =
         createCommit(repository, basePatchSetCommit, baseTree, newCommitMessage, nowTimestamp);
+
+    ChangeUtil.ensureChangeIdIsCorrect(
+        projectCache
+            .get(project)
+            .orElseThrow(illegalState(project))
+            .is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
+        notes.getChange().getKey().get(),
+        newCommitMessage);
 
     if (optionalChangeEdit.isPresent()) {
       updateEdit(

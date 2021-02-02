@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b26b6e06_dc3de44a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-02T11:29:34Z",
+      "side": 1,
+      "message": "nit: remove",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "43e79b3dcd0ad6e83f5c252f22ec5b242c4f32ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08308773_c66ae38b",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-02T11:29:34Z",
+      "side": 1,
+      "message": "nit: typo",
+      "range": {
+        "startLine": 85,
+        "startChar": 15,
+        "endLine": 85,
+        "endChar": 27
+      },
+      "revId": "43e79b3dcd0ad6e83f5c252f22ec5b242c4f32ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcc64c64_0f0406d4",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-02T11:29:34Z",
+      "side": 1,
+      "message": "nit: remove",
+      "range": {
+        "startLine": 100,
+        "startChar": 97,
+        "endLine": 100,
+        "endChar": 98
+      },
+      "revId": "43e79b3dcd0ad6e83f5c252f22ec5b242c4f32ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6e1c39a_eeae6efe",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-02T11:29:34Z",
+      "side": 1,
+      "message": "You could avoid the intermediate list by using the stream\u0027s .forEach().",
+      "range": {
+        "startLine": 162,
+        "startChar": 17,
+        "endLine": 162,
+        "endChar": 44
+      },
+      "revId": "43e79b3dcd0ad6e83f5c252f22ec5b242c4f32ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "349fb4fe_1ab4c48f",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-02T11:29:34Z",
+      "side": 1,
+      "message": "The type name suggests a data holder, but this class contains business logic. Can we find a name that expresses that?\n\nOr would it be better to move evaluateBase() to a private method in DiffOperationsImpl?",
+      "revId": "43e79b3dcd0ad6e83f5c252f22ec5b242c4f32ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

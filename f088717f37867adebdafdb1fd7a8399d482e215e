@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24aa340c_16559bca",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-02T14:24:18Z",
+      "side": 1,
+      "message": "Good idea. Sorry I took same pattern as _hideEditCommitMessage. I am also actually worried that with computed it is by default undefined and default value is ignored.",
+      "revId": "f088717f37867adebdafdb1fd7a8399d482e215e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3efa4239_a0b5fe99",
@@ -31,6 +48,24 @@
       "writtenOn": "2021-02-02T13:33:42Z",
       "side": 1,
       "message": "Maybe set a fallback value?\n\n  max-height: var(--collapsed-max-height, 300px);",
+      "revId": "f088717f37867adebdafdb1fd7a8399d482e215e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f483dc9d_baadad70",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-02T14:24:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3efa4239_a0b5fe99",
       "revId": "f088717f37867adebdafdb1fd7a8399d482e215e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

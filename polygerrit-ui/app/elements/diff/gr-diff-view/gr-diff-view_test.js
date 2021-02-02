@@ -796,9 +796,11 @@ suite('gr-diff-view tests', () => {
           {patchNum: 10, basePatchNum: 5}),
       'Should navigate to /c/42/5..10');
 
+      const downloadOverlayStub = sinon.stub(element.$.downloadOverlay, 'open')
+          .returns(Promise.resolve());
       assert.isUndefined(element.changeViewState.showDownloadDialog);
       MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
-      assert.isTrue(element.changeViewState.showDownloadDialog);
+      assert.isTrue(downloadOverlayStub.called);
     });
 
     test('keyboard shortcuts with old patch number', () => {

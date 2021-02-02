@@ -281,7 +281,10 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
 
     // No other content in the message since the diff is the same.
     assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
-        .isEqualTo("Change has been successfully merged\n\n1 is the latest approved patch-set.\n");
+        .isEqualTo(
+            "Change has been successfully merged\n\n1 is the latest approved patch-set.\n"
+                + "No files were changed between the latest approved patch-set and the submitted"
+                + " one.\n");
   }
 
   private void assertDiffChangeMessageAndEmailWithStickyApproval(

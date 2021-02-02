@@ -34,6 +34,24 @@
       "parentUuid": "aed8fad1_83ca4616",
       "revId": "63a9abc9f65bb0b87056151a13aa83c8c498b4f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14e90f51_b262aa77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-02-02T12:37:23Z",
+      "side": 1,
+      "message": "SGTM, seems like there is font-weight: 500 in the polygerrit app theme.",
+      "parentUuid": "e8695847_19b646c4",
+      "revId": "63a9abc9f65bb0b87056151a13aa83c8c498b4f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

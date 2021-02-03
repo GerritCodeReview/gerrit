@@ -165,6 +165,7 @@ export interface CommentThread {
   diffSide?: Side;
   range?: CommentRange;
   ported?: boolean; // is the comment ported over from a previous patchset
+  rangeInfoLost?: boolean; // if BE was unable to determine a range for this
 }
 
 export function getLastComment(thread?: CommentThread): UIComment | undefined {

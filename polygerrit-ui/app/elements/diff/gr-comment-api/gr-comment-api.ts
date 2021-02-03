@@ -415,6 +415,17 @@ export class ChangeComments {
       );
       if (!portedComment) return false;
 
+      const originalComment = thread.comments.find(
+        comment => comment.id === portedComment.id
+      )!;
+
+      if (
+        (originalComment.line && !portedComment.line) ||
+        (originalComment.range && !portedComment.range)
+      ) {
+        thread.rangeInfoLost = true;
+      }
+
       if (
         isInBaseOfPatchRange(thread.comments[0], patchRange) ||
         isInRevisionOfPatchRange(thread.comments[0], patchRange)

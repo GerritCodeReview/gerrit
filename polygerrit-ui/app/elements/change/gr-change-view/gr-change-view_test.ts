@@ -40,7 +40,6 @@ import {
   stubRestApi,
   TestKeyboardShortcutBinder,
 } from '../../../test/test-utils';
-import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
   createAppElementChangeViewParams,
@@ -2775,7 +2774,7 @@ suite('gr-change-view tests', () => {
       });
 
       element.set('_change.revisions.rev2', {
-        _number: SPECIAL_PATCH_SET_NUM.EDIT,
+        _number: EditPatchSetNum,
       });
       flush();
 

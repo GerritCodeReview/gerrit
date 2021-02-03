@@ -30,7 +30,6 @@ import {
   GerritNav,
   GenerateUrlEditViewParameters,
 } from '../../core/gr-navigation/gr-navigation';
-import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util';
 import {computeTruncatedPath} from '../../../utils/path-list-util';
 import {customElement, property} from '@polymer/decorators';
 import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
@@ -40,6 +39,7 @@ import {
   EditPreferencesInfo,
   Base64FileContent,
   NumericChangeId,
+  EditPatchSetNum,
 } from '../../../types/common';
 import {GrStorage} from '../../shared/gr-storage/gr-storage';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
@@ -164,8 +164,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
 
     this._changeNum = value.changeNum;
     this._path = value.path;
-    this._patchNum =
-      value.patchNum || (SPECIAL_PATCH_SET_NUM.EDIT as PatchSetNum);
+    this._patchNum = value.patchNum || (EditPatchSetNum as PatchSetNum);
     this._lineNum =
       typeof value.lineNum === 'string' ? Number(value.lineNum) : value.lineNum;
 
@@ -215,14 +214,14 @@ export class GrEditorView extends KeyboardShortcutMixin(
 
   _viewEditInChangeView() {
     const patch = this._successfulSave
-      ? (SPECIAL_PATCH_SET_NUM.EDIT as PatchSetNum)
+      ? (EditPatchSetNum as PatchSetNum)
       : this._patchNum;
     if (this._change && patch)
       GerritNav.navigateToChange(
         this._change,
         patch,
         undefined,
-        patch !== SPECIAL_PATCH_SET_NUM.EDIT
+        patch !== EditPatchSetNum
       );
   }
 

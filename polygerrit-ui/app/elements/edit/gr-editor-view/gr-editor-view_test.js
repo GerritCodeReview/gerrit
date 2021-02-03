@@ -18,9 +18,9 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-editor-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {HttpMethod} from '../../../constants/constants.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {EditPatchSetNum} from '../../../types/common.js';
 
 const basicFixture = fixtureFromElement('gr-editor-view');
 
@@ -321,15 +321,15 @@ suite('gr-editor-view tests', () => {
     element._change = {};
     navigateStub.restore();
     const navStub = sinon.stub(GerritNav, 'navigateToChange');
-    element._patchNum = SPECIAL_PATCH_SET_NUM.EDIT;
+    element._patchNum = EditPatchSetNum;
     element._viewEditInChangeView();
-    assert.equal(navStub.lastCall.args[1], SPECIAL_PATCH_SET_NUM.EDIT);
+    assert.equal(navStub.lastCall.args[1], EditPatchSetNum);
     element._patchNum = '1';
     element._viewEditInChangeView();
     assert.equal(navStub.lastCall.args[1], '1');
     element._successfulSave = true;
     element._viewEditInChangeView();
-    assert.equal(navStub.lastCall.args[1], SPECIAL_PATCH_SET_NUM.EDIT);
+    assert.equal(navStub.lastCall.args[1], EditPatchSetNum);
   });
 
   suite('keyboard shortcuts', () => {

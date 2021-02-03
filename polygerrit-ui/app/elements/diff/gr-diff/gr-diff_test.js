@@ -23,8 +23,8 @@ import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import {_setHiddenScroll} from '../../../scripts/hiddenscroll.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import '@polymer/paper-button/paper-button.js';
-import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
 
 const basicFixture = fixtureFromElement('gr-diff');
 
@@ -568,7 +568,7 @@ suite('gr-diff tests', () => {
     });
 
     test('addDraftAtLine on an edit', () => {
-      element.patchRange.basePatchNum = SPECIAL_PATCH_SET_NUM.EDIT;
+      element.patchRange.basePatchNum = EditPatchSetNum;
       sinon.stub(element, '_selectLine');
       sinon.stub(element, '_createComment');
       const alertSpy = sinon.spy();
@@ -579,8 +579,8 @@ suite('gr-diff tests', () => {
     });
 
     test('addDraftAtLine on an edit base', () => {
-      element.patchRange.patchNum = SPECIAL_PATCH_SET_NUM.EDIT;
-      element.patchRange.basePatchNum = SPECIAL_PATCH_SET_NUM.PARENT;
+      element.patchRange.patchNum = EditPatchSetNum;
+      element.patchRange.basePatchNum = ParentPatchSetNum;
       sinon.stub(element, '_selectLine');
       sinon.stub(element, '_createComment');
       const alertSpy = sinon.spy();

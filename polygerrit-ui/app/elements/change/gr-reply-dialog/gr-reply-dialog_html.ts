@@ -176,13 +176,9 @@ export const htmlTemplate = html`
          great solution. */
       line-height: 26px;
     }
-    .attention-detail .peopleList .accountList {
-      display: flex;
-      flex-wrap: wrap;
-    }
     .attentionSummary gr-account-label,
     .attention-detail gr-account-label {
-      --account-max-length: 150px;
+      --account-max-length: 120px;
       display: inline-block;
       padding: var(--spacing-xs) var(--spacing-m);
       user-select: none;
@@ -193,8 +189,11 @@ export const htmlTemplate = html`
       line-height: var(--line-height-normal);
       vertical-align: top;
     }
+    .attention-detail .peopleListValues {
+      line-height: calc(var(--line-height-normal) + 10px);
+    }
     .attention-detail gr-account-label {
-      vertical-align: baseline;
+      line-height: var(--line-height-normal);
     }
     .attentionSummary gr-account-label:focus,
     .attention-detail gr-account-label:focus {
@@ -478,7 +477,7 @@ export const htmlTemplate = html`
         </div>
         <div class="peopleList">
           <div class="peopleListLabel">Owner</div>
-          <div>
+          <div class="peopleListValues">
             <gr-account-label
               account="[[_owner]]"
               force-attention="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
@@ -493,7 +492,7 @@ export const htmlTemplate = html`
         <template is="dom-if" if="[[_uploader]]">
           <div class="peopleList">
             <div class="peopleListLabel">Uploader</div>
-            <div>
+            <div class="peopleListValues">
               <gr-account-label
                 account="[[_uploader]]"
                 force-attention="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
@@ -508,7 +507,7 @@ export const htmlTemplate = html`
         </template>
         <div class="peopleList">
           <div class="peopleListLabel">Reviewers</div>
-          <div>
+          <div class="peopleListValues">
             <template
               is="dom-repeat"
               items="[[_removeServiceUsers(_reviewers, _newAttentionSet)]]"
@@ -529,7 +528,7 @@ export const htmlTemplate = html`
         <template is="dom-if" if="[[_attentionCcsCount]]">
           <div class="peopleList">
             <div class="peopleListLabel">CC</div>
-            <div>
+            <div class="peopleListValues">
               <template
                 is="dom-repeat"
                 items="[[_removeServiceUsers(_ccs, _newAttentionSet)]]"

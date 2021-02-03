@@ -99,7 +99,7 @@ export const htmlTemplate = html`
       --linked-chip-text-color: var(--link-color);
     }
     gr-reviewer-list {
-      --account-max-length: 120px;
+      --account-max-length: 100px;
       max-width: 285px;
     }
     .metadata-title {

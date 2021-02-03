@@ -414,7 +414,9 @@ export const htmlTemplate = html`
       </span>
     </section>
     <div class="separatedSection">
-      <h3 class="assistive-tech-only">Label Scores</h3>
+      <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
+        <h3 class="assistive-tech-only">Label Scores</h3>
+      </template>
       <gr-change-requirements
         change="{{change}}"
         account="[[account]]"

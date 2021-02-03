@@ -34,6 +34,47 @@
       "parentUuid": "c92c3cba_7bc4b758",
       "revId": "57e26f359ac134bcdb526718af7176add988e250",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c39c57c0_4eb96a40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-03T16:18:45Z",
+      "side": 1,
+      "message": "looking a bit closer.  So the 10k is a number defined elsewhere and not part of this change. I was suggesting this, because you said you didn\u0027t want to run some function 10k times for a test.",
+      "parentUuid": "77697872_dd963a4f",
+      "revId": "57e26f359ac134bcdb526718af7176add988e250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd205ce2_533a8640",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-03T16:18:45Z",
+      "side": 1,
+      "message": "nit: if you make this caching internal to the computeVisibleChanges call, you can just do\n\n  visibleChanges(repo).get()",
+      "range": {
+        "startLine": 380,
+        "startChar": 6,
+        "endLine": 380,
+        "endChar": 27
+      },
+      "revId": "57e26f359ac134bcdb526718af7176add988e250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

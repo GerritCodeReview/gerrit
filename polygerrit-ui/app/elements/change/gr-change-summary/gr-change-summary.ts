@@ -28,6 +28,8 @@ import {
   isRunning,
   isRunningOrHasCompleted,
 } from '../../../services/checks/checks-util';
+import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
+import {CommentThread, isResolved} from '../../../utils/comment-util';
 
 function filterResults(runs: CheckRun[], category: Category): RunResult[] {
   return runs.filter(isRunningOrHasCompleted).reduce((results, run) => {
@@ -39,6 +41,47 @@ function filterResults(runs: CheckRun[], category: Category): RunResult[] {
         })
     );
   }, [] as RunResult[]);
+}
+
+@customElement('gr-summary-chip')
+export class GrSummaryChip extends GrLitElement {
+  @property()
+  icon = '';
+
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        .summaryChip {
+          color: var(--chip-color);
+          cursor: pointer;
+          display: inline-block;
+          margin-right: var(--spacing-s);
+          padding: var(--spacing-xxs) var(--spacing-m) var(--spacing-xxs)
+            var(--spacing-s);
+          border-radius: 12px;
+          border: 1px solid gray;
+          vertical-align: top;
+        }
+        iron-icon {
+          width: var(--line-height-small);
+          height: var(--line-height-small);
+          vertical-align: top;
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const chipClass = `summaryChip font-small ${this.icon ?? ''}`;
+    const grIcon = this.icon ? `gr-icons:${this.icon}` : '';
+    return html`
+      <div class="${chipClass}" role="button">
+        ${this.icon && html`<iron-icon icon="${grIcon}"></iron-icon>`}
+        <slot></slot>
+      </div>
+    `;
+  }
 }
 
 @customElement('gr-checks-chip')
@@ -188,6 +231,16 @@ export class GrChangeSummary extends GrLitElement {
     KnownExperimentId.CI_REBOOT_CHECKS
   );
 
+  private readonly newChangeSummaryUiEnabled = appContext.flagsService.isEnabled(
+    KnownExperimentId.NEW_CHANGE_SUMMARY_UI
+  );
+
+  @property({type: Array})
+  changeComments?: ChangeComments;
+
+  @property({type: Object})
+  commentThreads?: CommentThread[];
+
   @property()
   runs: CheckRun[] = [];
 
@@ -214,6 +267,10 @@ export class GrChangeSummary extends GrLitElement {
           margin-right: var(--spacing-s);
           margin-left: var(--spacing-m);
         }
+        .comments {
+          /* temporary for old checks status */
+          margin-bottom: var(--spacing-m);
+        }
       `,
     ];
   }
@@ -223,6 +280,9 @@ export class GrChangeSummary extends GrLitElement {
     const errors = filterResults(runs, Category.ERROR);
     const warnings = filterResults(runs, Category.WARNING);
     const infos = filterResults(runs, Category.INFO);
+    const numResolvedComments =
+      this.commentThreads?.filter(isResolved).length ?? 0;
+    const draftCount = this.changeComments?.computeDraftCount() ?? 0;
     return html`
       <div>
         <table>
@@ -256,9 +316,21 @@ export class GrChangeSummary extends GrLitElement {
               ></gr-checks-chip>
             </td>
           </tr>
-          <tr hidden>
+          <tr class="comments" ?hidden=${!this.newChangeSummaryUiEnabled}>
             <td class="key">Comments</td>
-            <td class="value"></td>
+            <td class="value">
+              <gr-summary-chip ?hidden=${!!numResolvedComments || !!draftCount}>
+                No Comments</gr-summary-chip
+              >
+              <gr-summary-chip icon="edit" ?hidden=${!draftCount}>
+                ${draftCount} draft</gr-summary-chip
+              >
+              <gr-summary-chip
+                icon="markChatRead"
+                ?hidden=${!numResolvedComments}
+                >${numResolvedComments} resolved</gr-summary-chip
+              >
+            </td>
           </tr>
           <tr hidden>
             <td class="key">Findings</td>
@@ -274,5 +346,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-change-summary': GrChangeSummary;
     'gr-checks-chip': GrChecksChip;
+    'gr-summary-chip': GrSummaryChip;
   }
 }

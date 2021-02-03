@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d8cc347_191f4ab8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "000db2b4_f7fc6928",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3b73ef2_8cda59e8",
@@ -64,6 +88,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9f4a56c_4ca05e43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf4feecc_b0bb41d1",
+      "range": {
+        "startLine": 12,
+        "startChar": 37,
+        "endLine": 12,
+        "endChar": 46
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b8f846a_343dc1cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "intended to become a new paragraph.",
+      "parentUuid": "c3b73ef2_8cda59e8",
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "329cbe08_ae27a84c",
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2148c1a_dc861118",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "329cbe08_ae27a84c",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b96e6e4_e218608a",
@@ -100,6 +190,24 @@
       "writtenOn": "2021-02-02T22:02:53Z",
       "side": 1,
       "message": "General: some parts above may miss \u0027the\u0027 determinants.",
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60546e10_447d3082",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b96e6e4_e218608a",
       "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -144,6 +252,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74f2d9a3_ebc18402",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/ApproveChange.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fe8252f_653e9160",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2df2574_e5190e64",
@@ -157,6 +289,30 @@
       "writtenOn": "2021-02-02T22:02:53Z",
       "side": 1,
       "message": "branchId",
+      "range": {
+        "startLine": 40,
+        "startChar": 12,
+        "endLine": 40,
+        "endChar": 25
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92ccede5_f409b238",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateBranch.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2df2574_e5190e64",
       "range": {
         "startLine": 40,
         "startChar": 12,
@@ -190,6 +346,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64873f21_f5655a8e",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Thanks for the suggestion.",
+      "parentUuid": "7132687f_ab998294",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6e188b7_f1e41701",
@@ -203,6 +383,30 @@
       "writtenOn": "2021-02-02T22:02:53Z",
       "side": 1,
       "message": "branchesCopy",
+      "range": {
+        "startLine": 30,
+        "startChar": 14,
+        "endLine": 30,
+        "endChar": 27
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ad33eb9_b32dff97",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6e188b7_f1e41701",
       "range": {
         "startLine": 30,
         "startChar": 14,
@@ -259,6 +463,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "296a51e5_a2a4a785",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f044ce1_f29a53e2",
+      "range": {
+        "startLine": 56,
+        "startChar": 32,
+        "endLine": 56,
+        "endChar": 40
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2c350ba_dd361dbc",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "I went with the lower proposed approach.",
+      "parentUuid": "5f819b5a_11b990a8",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 30
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "243d7120_6d155dd1",
@@ -272,6 +524,30 @@
       "writtenOn": "2021-02-02T22:02:53Z",
       "side": 1,
       "message": "changesCopy",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "521e0610_6e8c3774",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/SubmitChangeInBranch.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "243d7120_6d155dd1",
       "range": {
         "startLine": 27,
         "startChar": 14,
@@ -305,6 +581,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "397f4f1a_8390263f",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/SubmitChangeInBranch.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00892b20_5dfa8299",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 10
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ee9b152_37c40d41",
@@ -328,6 +628,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "949b6311_468d279f",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/SubmitChangeInBranch.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ee9b152_37c40d41",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 5
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d802bc6_c547c752",
@@ -341,6 +665,30 @@
       "writtenOn": "2021-02-02T22:02:53Z",
       "side": 1,
       "message": "val, if removing the potentially unused constructor above.",
+      "range": {
+        "startLine": 49,
+        "startChar": 10,
+        "endLine": 49,
+        "endChar": 13
+      },
+      "revId": "461605a8a01786dd2068b7312fc4423054073fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e637cb44_bc794d30",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/SubmitChangeInBranch.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-03T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d802bc6_c547c752",
       "range": {
         "startLine": 49,
         "startChar": 10,

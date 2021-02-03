@@ -212,6 +212,30 @@
       },
       "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9334cdb_3b526fa5",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-03T22:11:20Z",
+      "side": 1,
+      "message": "I\u0027m not sure what else I can do about that, ack that code-health hasn\u0027t improved in this class, but I was not aiming to make the code easier to read or maintain, I\u0027m just adding a new feature. Hopefully, I didn\u0027t make the code *worse* with my feature (I think I didn\u0027t).\n\nIf you\u0027re interested I am happy to review reformat changes in this area.",
+      "parentUuid": "7c24edb8_1118d3b6",
+      "range": {
+        "startLine": 381,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 44
+      },
+      "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

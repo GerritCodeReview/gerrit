@@ -33,6 +33,24 @@
       "message": "Should this become\n\n  !isResolved()\n\nthen? :-)",
       "revId": "a88bd0c4ac50c9c951f8241e7d1fc3b92a4a1a2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87b928c5_526d9178",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-03T15:02:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7fed1b0_e0751edf",
+      "revId": "a88bd0c4ac50c9c951f8241e7d1fc3b92a4a1a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

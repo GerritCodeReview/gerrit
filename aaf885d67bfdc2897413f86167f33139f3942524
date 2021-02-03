@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d95ba135_e38ca89e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-03T16:03:19Z",
+      "side": 1,
+      "message": "I\u0027d still be interested if there is a runtime implication? IIRC,  CI machines have 16 CPUs and 60G of RAM, so 4G / CPU. my laptop has 4G per core as well.",
+      "revId": "aaf885d67bfdc2897413f86167f33139f3942524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

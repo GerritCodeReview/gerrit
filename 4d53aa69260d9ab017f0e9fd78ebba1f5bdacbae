@@ -236,6 +236,30 @@
       },
       "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a34e566b_d52e32be",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-03T23:24:51Z",
+      "side": 1,
+      "message": "It\u0027s a small difference, but I do think the 3 extra conditions make the code harder to read. They don\u0027t shortcut or simplify any other logic, they just add to it, so you have more code total to follow for any given path.\n\nI also don\u0027t know an easy way to solve that for your change. Most of your added code is in the filter() method, and I haven\u0027t spent enough time with this code to suggest a way to reduce the complexity there. The plethora of log statements makes it a bit harder to read too (and I think speaks to the complexity). Maybe it would be improved if the refs.size()\u003d\u003d1 shortcut moves into a helper method (probably would return an Optional\u003cCollection\u003cRef\u003e\u003e)? I don\u0027t know if you can do the same trick with the \"do all the work\" path.\n\nAs a thought, I *think* it would help this class overall to refactor the visibleChanges stuff into its own class. But your changes there aren\u0027t my concern.\n\nMy overall concern is that classes like this aren\u0027t going to get any easier to maintain if we\u0027re just focused on adding \"our feature\".",
+      "parentUuid": "c9334cdb_3b526fa5",
+      "range": {
+        "startLine": 381,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 44
+      },
+      "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

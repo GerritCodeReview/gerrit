@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d88c3e4b_29b47d3d",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-03T23:24:51Z",
+      "side": 1,
+      "message": "Should this be private?",
+      "revId": "e22da2aabf29ca08ad0a5230769a9aa0a3222679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

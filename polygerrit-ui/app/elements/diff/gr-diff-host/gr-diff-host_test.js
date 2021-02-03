@@ -47,10 +47,8 @@ suite('gr-diff-host tests', () => {
   suite('plugin layers', () => {
     const pluginLayers = [{annotate: () => {}}, {annotate: () => {}}];
     setup(() => {
-      stub('gr-js-api-interface', {
-        getDiffLayers() { return pluginLayers; },
-      });
       element = basicFixture.instantiate();
+      sinon.stub(element.jsAPI, 'getDiffLayers').returns(pluginLayers);
       element.changeNum = 123;
       element.path = 'some/path';
     });
@@ -59,7 +57,7 @@ suite('gr-diff-host tests', () => {
       element.change = createChange();
       stubRestApi('getDiff').returns(Promise.resolve({content: []}));
       await element.reload();
-      assert(element.$.jsAPI.getDiffLayers.called);
+      assert(element.jsAPI.getDiffLayers.called);
     });
   });
 
@@ -1330,17 +1328,14 @@ suite('gr-diff-host tests', () => {
       coverageProviderStub = sinon.stub().returns(
           Promise.resolve(exampleRanges));
 
-      stub('gr-js-api-interface', {
-        getCoverageAnnotationApis() {
-          return Promise.resolve([{
+      element = basicFixture.instantiate();
+      sinon.stub(element.jsAPI, 'getCoverageAnnotationApis').returns(
+          Promise.resolve([{
             notify: notifyStub,
             getCoverageProvider() {
               return coverageProviderStub;
             },
-          }]);
-        },
-      });
-      element = basicFixture.instantiate();
+          }]));
       element.changeNum = 123;
       element.change = createChange();
       element.path = 'some/path';
@@ -1362,7 +1357,7 @@ suite('gr-diff-host tests', () => {
 
     test('getCoverageAnnotationApis should be called', async () => {
       await element.reload();
-      assert.isTrue(element.$.jsAPI.getCoverageAnnotationApis.calledOnce);
+      assert.isTrue(element.jsAPI.getCoverageAnnotationApis.calledOnce);
     });
 
     test('coverageRangeChanged should be called', async () => {

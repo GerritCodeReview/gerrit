@@ -19,7 +19,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-icons/gr-icons';
-import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
 import '../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog';
@@ -56,7 +55,6 @@ import {
   TargetElement,
 } from '../../plugins/gr-plugin-types';
 import {customElement, observe, property} from '@polymer/decorators';
-import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
 import {
   ActionPriority,
   ActionType,
@@ -322,7 +320,6 @@ interface ChangeActionDialog extends HTMLElement {
 
 export interface GrChangeActions {
   $: {
-    jsAPI: GrJsApiInterface;
     mainContent: Element;
     overlay: GrOverlay;
     confirmRebase: GrConfirmRebaseDialog;
@@ -382,6 +379,8 @@ export class GrChangeActions
   RevisionActions = RevisionActions;
 
   reporting = appContext.reportingService;
+
+  private readonly jsAPI = appContext.jsApiService;
 
   @property({type: Object})
   change?: ChangeViewChangeInfo;
@@ -567,7 +566,7 @@ export class GrChangeActions
   /** @override */
   ready() {
     super.ready();
-    this.$.jsAPI.addElement(TargetElement.CHANGE_ACTIONS, this);
+    this.jsAPI.addElement(TargetElement.CHANGE_ACTIONS, this);
     this.restApiService.getConfig().then(config => {
       this._config = config;
     });
@@ -635,7 +634,7 @@ export class GrChangeActions
     change: ChangeInfo;
     revisionActions: ActionNameToActionInfoMap;
   }) {
-    this.$.jsAPI.handleEvent(PluginEventType.SHOW_REVISION_ACTIONS, detail);
+    this.jsAPI.handleEvent(PluginEventType.SHOW_REVISION_ACTIONS, detail);
   }
 
   @observe('change')
@@ -1142,7 +1141,7 @@ export class GrChangeActions
     if (!this.change) {
       return false;
     }
-    return this.$.jsAPI.canSubmitChange(
+    return this.jsAPI.canSubmitChange(
       this.change,
       this._getRevision(this.change, this.latestPatchNum)
     );
@@ -1607,7 +1606,7 @@ export class GrChangeActions
   // TODO(rmistry): Redo this after
   // https://bugs.chromium.org/p/gerrit/issues/detail?id=4671 is resolved.
   _setReviewOnRevert(newChangeId: NumericChangeId) {
-    const review = this.$.jsAPI.getReviewPostRevert(this.change);
+    const review = this.jsAPI.getReviewPostRevert(this.change);
     if (!review) {
       return Promise.resolve(undefined);
     }

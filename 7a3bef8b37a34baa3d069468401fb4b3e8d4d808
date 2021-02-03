@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d81b517_b594fc5c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1315,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-03T21:38:43Z",
+      "side": 1,
+      "message": "Thanks, I didn\u0027t know about this option.",
+      "parentUuid": "a22fc1d9_b89d714d",
+      "range": {
+        "startLine": 1315,
+        "startChar": 44,
+        "endLine": 1315,
+        "endChar": 57
+      },
+      "revId": "7a3bef8b37a34baa3d069468401fb4b3e8d4d808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19fdec14_c419d62e",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-03T20:54:25Z",
       "side": 1,
       "message": "this one does not have \"| null\" type and null check. Wouldn\u0027t _getScrollHeight throw an error if the feature flag is on?",
+      "range": {
+        "startLine": 2512,
+        "startChar": 9,
+        "endLine": 2512,
+        "endChar": 29
+      },
+      "revId": "7a3bef8b37a34baa3d069468401fb4b3e8d4d808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b734ab1_d14a3b2e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2512,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-03T21:38:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19fdec14_c419d62e",
       "range": {
         "startLine": 2512,
         "startChar": 9,

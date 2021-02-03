@@ -54,6 +54,8 @@ import {
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?(?:P|p)atch (?:S|s)et \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
+const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
+const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -268,22 +270,44 @@ export class GrMessage extends GestureEventListeners(
     return this._patchsetCommentSummary(commentThreads);
   }
 
+  _showViewDiffButton(tag?: ReviewInputTag) {
+    return this._isNewPatchsetTag(tag) || tag?.endsWith(':merged');
+  }
+
+  _isMergePatchsetTag(tag?: ReviewInputTag) {
+    return tag?.endsWith(':merged') && tag?.match(MERGED_PATCHSET_PATTERN);
+  }
+
   _isNewPatchsetTag(tag?: ReviewInputTag) {
     return tag?.endsWith(':newPatchSet') || tag?.endsWith(':newWipPatchSet');
   }
 
   _handleViewPatchsetDiff(e: Event) {
     if (!this.message || !this.change) return;
-    const match = this.message.message.match(/Uploaded patch set (\d+)./);
     let patchNum: PatchSetNum;
-    // Message is of the form "Commit Message was updated" or "Patchset X
-    // was rebased"
-    if (!match || match.length < 1) {
-      patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
-    } else {
+    let match;
+    if (this.message.message.match(UPLOADED_NEW_PATCHSET_PATTERN)) {
+      match = this.message.message.match(UPLOADED_NEW_PATCHSET_PATTERN)!;
       if (isNaN(Number(match[1])))
         throw new Error('invalid patchnum in message');
       patchNum = Number(match[1]) as PatchSetNum;
+    } else if (this.message.message.match(MERGED_PATCHSET_PATTERN)) {
+      match = this.message.message.match(MERGED_PATCHSET_PATTERN)!;
+      if (isNaN(Number(match[1])))
+        throw new Error('invalid patchnum in message');
+      patchNum = Number(match[1]) as PatchSetNum;
+      GerritNav.navigateToChange(
+        this.change,
+        computeLatestPatchNum(computeAllPatchSets(this.change)),
+        patchNum
+      );
+      // stop propagation to stop message expansion
+      e.stopPropagation();
+      return;
+    } else {
+      // Message is of the form "Commit Message was updated" or "Patchset X
+      // was rebased"
+      patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
     }
     GerritNav.navigateToChange(
       this.change,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18bd9a08_bc5ba763",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-03T15:40:36Z",
+      "side": 1,
+      "message": "IMO If something is wrong, the UI should show it. If we know of cases where the message is ugly, we could do one offs to make the message more palatable, but only if we\u0027re sure what is going on.",
+      "revId": "d3312a54f1e8db6b73e96df60b8dfb793c9dedbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

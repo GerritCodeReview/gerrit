@@ -23,11 +23,8 @@ export const htmlTemplate = html`
       vertical-align: top;
       position: relative;
       border-radius: var(--label-border-radius);
-      max-width: var(--account-max-length, 200px);
       box-sizing: border-box;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       padding: 0 var(--account-label-padding-horizontal, 0);
     }
     /* If the first element is the avatar, then we cancel the left padding, so
@@ -84,6 +81,13 @@ export const htmlTemplate = html`
       vertical-align: top;
       position: relative;
       top: 2px;
+    }
+    .name {
+      display: inline-block;
+      vertical-align: top;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: var(--account-max-length, 180px);
     }
     .hasAttention .name {
       font-weight: var(--font-weight-bold);

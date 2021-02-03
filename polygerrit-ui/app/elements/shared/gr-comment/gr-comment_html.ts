@@ -239,7 +239,7 @@ export const htmlTemplate = html`
       --gr-account-label-text-style: {
         font-weight: var(--font-weight-bold);
       }
-      --account-max-length: 120px;
+      --account-max-length: 100px;
       width: 120px;
     }
     .draft gr-account-label {

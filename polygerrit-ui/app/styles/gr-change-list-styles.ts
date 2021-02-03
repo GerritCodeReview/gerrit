@@ -82,7 +82,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
         vertical-align: middle;
       }
       .owner {
-        --account-max-length: 120px;
+        --account-max-length: 100px;
       }
       .branch,
       .star,

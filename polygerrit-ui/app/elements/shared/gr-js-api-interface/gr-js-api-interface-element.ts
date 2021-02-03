@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {getPluginLoader} from './gr-plugin-loader';
-
-import {customElement} from '@polymer/decorators';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
   ChangeInfo,
@@ -42,10 +37,7 @@ import {appContext} from '../../../services/app-context';
 const elements: {[key: string]: HTMLElement} = {};
 const eventCallbacks: {[key: string]: EventCallback[]} = {};
 
-@customElement('gr-js-api-interface')
-export class GrJsApiInterface
-  extends GestureEventListeners(LegacyElementMixin(PolymerElement))
-  implements JsApiService {
+export class GrJsApiInterface implements JsApiService {
   private readonly reporting = appContext.reportingService;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -328,11 +320,5 @@ export class GrJsApiInterface
 
   _getEventCallbacks(type: EventType) {
     return eventCallbacks[type] || [];
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-js-api-interface': JsApiService & Element;
   }
 }

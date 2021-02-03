@@ -128,7 +128,7 @@ suite('gr-admin-view tests', () => {
 
   test('_filteredLinks from plugin', () => {
     stubRestApi('getAccount').returns(Promise.resolve(undefined));
-    sinon.stub(element.$.jsAPI, 'getAdminMenuLinks').returns([
+    sinon.stub(element.jsAPI, 'getAdminMenuLinks').returns([
       {text: 'internal link text', url: '/internal/link/url'},
       {text: 'external link text', url: 'http://external/link/url'},
     ]);

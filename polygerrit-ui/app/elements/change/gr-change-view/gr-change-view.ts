@@ -25,7 +25,6 @@ import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-editable-content/gr-editable-content';
-import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import '../../shared/gr-linked-text/gr-linked-text';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
@@ -207,7 +206,6 @@ const ROBOT_COMMENTS_LIMIT = 10;
 
 export interface GrChangeView {
   $: {
-    jsAPI: GrJsApiInterface;
     commentAPI: GrCommentApi;
     applyFixDialog: GrApplyFixDialog;
     fileList: GrFileList & Element;
@@ -265,6 +263,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
   reporting = appContext.reportingService;
 
   flagsService = appContext.flagsService;
+
+  readonly jsAPI = new GrJsApiInterface();
 
   /**
    * URL params passed from the router.
@@ -868,7 +868,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     // Trim trailing whitespace from each line.
     const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
 
-    this.$.jsAPI.handleCommitMessage(this._change, message);
+    this.jsAPI.handleCommitMessage(this._change, message);
 
     this.$.commitMessageEditor.disabled = true;
     this.restApiService
@@ -1351,7 +1351,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   _sendShowChangeEvent() {
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
-    this.$.jsAPI.handleEvent(PluginEventType.SHOW_CHANGE, {
+    this.jsAPI.handleEvent(PluginEventType.SHOW_CHANGE, {
       change: this._change,
       patchNum: this._patchRange.patchNum,
       info: {mergeable: this._mergeable},
@@ -1875,7 +1875,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
         changeRecord.path
       );
     }
-    this.$.jsAPI.handleEvent(PluginEventType.LABEL_CHANGE, {
+    this.jsAPI.handleEvent(PluginEventType.LABEL_CHANGE, {
       change: this._change,
     });
   }

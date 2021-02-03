@@ -19,7 +19,6 @@
 import '../gr-error-dialog/gr-error-dialog';
 import '../../shared/gr-alert/gr-alert';
 import '../../shared/gr-overlay/gr-overlay';
-import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';

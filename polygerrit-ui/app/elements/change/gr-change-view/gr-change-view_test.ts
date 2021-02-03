@@ -2741,7 +2741,7 @@ suite('gr-change-view tests', () => {
     element._change = {...change};
     element._patchRange = {patchNum: 4 as PatchSetNum};
     element._mergeable = true;
-    const showStub = sinon.stub(element.$.jsAPI, 'handleEvent');
+    const showStub = sinon.stub(element.jsAPI, 'handleEvent');
     element._sendShowChangeEvent();
     assert.isTrue(showStub.calledOnce);
     assert.equal(showStub.lastCall.args[0], EventType.SHOW_CHANGE);

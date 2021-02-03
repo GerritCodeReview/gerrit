@@ -120,6 +120,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "559713d9_5e96228e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-03T19:17:22Z",
+      "side": 1,
+      "message": "@Gal, no idea (I don\u0027t have one yet). Does Gerrit even have docs covering how to run with a reftable backend?\n\nI\u0027m perfectly OK with optimizing things for Reftable, but as I\u0027ve noted in prior reviews, I think it should be made clear in the commit message when the change only applies to reftable so that a reviewer can have that in mind. Otherwise this change looks like a bunch of dead code and/or useless refactoring.",
+      "parentUuid": "cf0cdc7f_efaebfcc",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "a99b5f6217c07f78f29224baa52dc66a98440c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3bfe865b_e70684db",

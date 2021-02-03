@@ -24,9 +24,9 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {EditPatchSetNum} from '../../../types/common.js';
 
 const commentApiMockElement = createCommentApiMockWithTemplateElement(
     'gr-patch-range-select-comment-api-mock', html`
@@ -72,7 +72,7 @@ suite('gr-patch-range-select tests', () => {
     };
     const sortedRevisions = [
       {_number: 3},
-      {_number: SPECIAL_PATCH_SET_NUM.EDIT, basePatchNum: 2},
+      {_number: EditPatchSetNum, basePatchNum: 2},
       {_number: 2},
       {_number: 1},
     ];
@@ -86,7 +86,7 @@ suite('gr-patch-range-select tests', () => {
     }
     assert.isTrue(element._computeLeftDisabled('3', patchRange.patchNum));
 
-    patchRange.basePatchNum = SPECIAL_PATCH_SET_NUM.EDIT;
+    patchRange.basePatchNum = EditPatchSetNum;
     assert.isTrue(element._computeLeftDisabled('3', patchRange.patchNum,
         sortedRevisions));
     assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum, '1',
@@ -96,7 +96,7 @@ suite('gr-patch-range-select tests', () => {
     assert.isFalse(element._computeRightDisabled(patchRange.basePatchNum, '3',
         sortedRevisions));
     assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum,
-        SPECIAL_PATCH_SET_NUM.EDIT, sortedRevisions));
+        EditPatchSetNum, sortedRevisions));
   });
 
   test('_computeBaseDropdownContent', () => {
@@ -120,7 +120,7 @@ suite('gr-patch-range-select tests', () => {
     const patchNum = 1;
     const sortedRevisions = [
       {_number: 3, created: 'Mon, 01 Jan 2001 00:00:00 GMT'},
-      {_number: SPECIAL_PATCH_SET_NUM.EDIT, basePatchNum: 2},
+      {_number: EditPatchSetNum, basePatchNum: 2},
       {_number: 2, description: 'description'},
       {_number: 1},
     ];
@@ -284,7 +284,7 @@ suite('gr-patch-range-select tests', () => {
     const basePatchNum = 1;
     const sortedRevisions = [
       {_number: 3, created: 'Mon, 01 Jan 2001 00:00:00 GMT'},
-      {_number: SPECIAL_PATCH_SET_NUM.EDIT, basePatchNum: 2},
+      {_number: EditPatchSetNum, basePatchNum: 2},
       {_number: 2, description: 'description'},
       {_number: 1},
     ];

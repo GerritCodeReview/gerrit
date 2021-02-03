@@ -521,10 +521,9 @@ suite('gr-diff-cursor tests', () => {
     test('adds new draft for selected line on the left', done => {
       cursorElement.moveToLineNumber(2, 'left');
       diffElement.addEventListener('create-comment', e => {
-        const {lineNum, range, side, patchNum} = e.detail;
+        const {lineNum, range, side} = e.detail;
         assert.equal(lineNum, 2);
         assert.equal(range, undefined);
-        assert.equal(patchNum, 1);
         assert.equal(side, 'left');
         done();
       });
@@ -534,17 +533,16 @@ suite('gr-diff-cursor tests', () => {
     test('adds draft for selected line on the right', done => {
       cursorElement.moveToLineNumber(4, 'right');
       diffElement.addEventListener('create-comment', e => {
-        const {lineNum, range, side, patchNum} = e.detail;
+        const {lineNum, range, side} = e.detail;
         assert.equal(lineNum, 4);
         assert.equal(range, undefined);
-        assert.equal(patchNum, 2);
         assert.equal(side, 'right');
         done();
       });
       cursorElement.createCommentInPlace();
     });
 
-    test('createCommentInPlace creates comment for range if selected', done => {
+    test('creates comment for range if selected', done => {
       const someRange = {
         start_line: 2,
         start_character: 3,
@@ -556,17 +554,16 @@ suite('gr-diff-cursor tests', () => {
         range: someRange,
       };
       diffElement.addEventListener('create-comment', e => {
-        const {lineNum, range, side, patchNum} = e.detail;
+        const {lineNum, range, side} = e.detail;
         assert.equal(lineNum, 6);
         assert.equal(range, someRange);
-        assert.equal(patchNum, 2);
         assert.equal(side, 'right');
         done();
       });
       cursorElement.createCommentInPlace();
     });
 
-    test('createCommentInPlace ignores call if nothing is selected', () => {
+    test('ignores call if nothing is selected', () => {
       const createRangeCommentStub = sinon.stub(diffElement,
           'createRangeComment');
       const addDraftAtLineStub = sinon.stub(diffElement, 'addDraftAtLine');

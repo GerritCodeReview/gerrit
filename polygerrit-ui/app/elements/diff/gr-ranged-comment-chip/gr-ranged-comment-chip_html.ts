@@ -39,8 +39,8 @@ export const htmlTemplate = html`
     .chip {
       background-color: var(--ranged-comment-chip-background);
       border-radius: var(--fully-rounded-radius, 1000px);
-      margin: var(--spacing-s);
-      padding: var(--spacing-s) var(--spacing-m);
+      margin: var(--spacing-xxs);
+      padding: var(--spacing-xxs) var(--spacing-m);
     }
   </style>
   <div class="row rangeHighlight">

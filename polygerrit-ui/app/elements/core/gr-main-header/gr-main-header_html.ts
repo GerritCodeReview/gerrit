@@ -252,5 +252,4 @@ export const htmlTemplate = html`
       </div>
     </div>
   </nav>
-  <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
 `;

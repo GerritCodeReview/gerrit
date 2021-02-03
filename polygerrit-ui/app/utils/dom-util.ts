@@ -16,7 +16,6 @@
  */
 
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 
 /**
  * Event emitted from polymer elements.
@@ -215,24 +214,6 @@ export function descendedFromClass(
  */
 export function strToClassName(str = '', prefix = 'generated_') {
   return `${prefix}${str.replace(/[^a-zA-Z0-9-_]/g, '_')}`;
-}
-
-// shared API element
-// TODO: Make this a proper service singleton. Move into AppContext?
-let _sharedApiEl: JsApiService;
-
-/**
- * Retrieves the shared API element.
- * We want to keep a single instance of API element instead of
- * creating multiple elements.
- */
-export function getSharedApiEl(): JsApiService {
-  if (!_sharedApiEl) {
-    _sharedApiEl = (document.createElement(
-      'gr-js-api-interface'
-    ) as unknown) as JsApiService;
-  }
-  return _sharedApiEl;
 }
 
 // document.activeElement is not enough, because it's not getting activeElement

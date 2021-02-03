@@ -17,7 +17,7 @@
 import '../gr-js-api-interface/gr-js-api-interface';
 import {EventType} from '../../plugins/gr-plugin-types';
 import {HighlightJS} from '../../../types/types';
-import {GrJsApiInterface} from '../gr-js-api-interface/gr-js-api-interface-element';
+import {appContext} from '../../../services/app-context';
 
 // preloaded in PolyGerritIndexHtml.soy
 const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
@@ -31,7 +31,7 @@ interface HljsState {
 }
 
 export class GrLibLoader {
-  private readonly jsAPI = new GrJsApiInterface();
+  private readonly jsAPI = appContext.jsApiService;
 
   _hljsState: HljsState = {
     configured: false,

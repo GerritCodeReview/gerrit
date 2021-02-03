@@ -22,6 +22,7 @@ import {Auth} from './gr-auth/gr-auth_impl';
 import {GrRestApiInterface} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface';
 import {ChangeService} from './change/change-service';
 import {ChecksService} from './checks/checks-service';
+import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 
 type ServiceName = keyof AppContext;
 type ServiceCreator<T> = () => T;
@@ -71,5 +72,6 @@ export function initAppContext() {
     restApiService: () => new GrRestApiInterface(appContext.authService),
     changeService: () => new ChangeService(appContext.restApiService),
     checksService: () => new ChecksService(),
+    jsApiService: () => new GrJsApiInterface(),
   });
 }

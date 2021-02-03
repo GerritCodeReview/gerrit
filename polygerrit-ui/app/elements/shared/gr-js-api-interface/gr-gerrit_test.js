@@ -16,13 +16,11 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import './gr-js-api-interface.js';
 import {getPluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {stubRestApi} from '../../../test/test-utils.js';
-
-const basicFixture = fixtureFromElement('gr-js-api-interface');
+import {appContext} from '../../../services/app-context.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -36,7 +34,7 @@ suite('gr-gerrit tests', () => {
 
     stubRestApi('getAccount').returns(Promise.resolve({name: 'Judy Hopps'}));
     stubRestApi('send').returns(Promise.resolve({status: 200}));
-    element = basicFixture.instantiate();
+    element = appContext.jsApiService;
   });
 
   teardown(() => {

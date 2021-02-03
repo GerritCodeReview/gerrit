@@ -17,15 +17,14 @@
 import '../../shared/gr-dialog/gr-dialog';
 import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
-import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-revert-dialog_html';
 import {customElement, property} from '@polymer/decorators';
-import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
 import {ChangeInfo, CommitId} from '../../../types/common';
 import {fireAlert} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -41,11 +40,6 @@ export interface ConfirmRevertEventDetail {
   message?: string;
 }
 
-export interface GrConfirmRevertDialog {
-  $: {
-    jsAPI: JsApiService & Element;
-  };
-}
 @customElement('gr-confirm-revert-dialog')
 export class GrConfirmRevertDialog extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -93,6 +87,8 @@ export class GrConfirmRevertDialog extends GestureEventListeners(
   @property({type: Array})
   _revertMessages: string[] = [];
 
+  private readonly jsAPI = appContext.jsApiService;
+
   _computeIfSingleRevert(revertType: number) {
     return revertType === RevertType.REVERT_SINGLE_CHANGE;
   }
@@ -102,7 +98,7 @@ export class GrConfirmRevertDialog extends GestureEventListeners(
   }
 
   _modifyRevertMsg(change: ChangeInfo, commitMessage: string, message: string) {
-    return this.$.jsAPI.modifyRevertMsg(change, message, commitMessage);
+    return this.jsAPI.modifyRevertMsg(change, message, commitMessage);
   }
 
   populate(change: ChangeInfo, commitMessage: string, changes: ChangeInfo[]) {
@@ -152,7 +148,7 @@ export class GrConfirmRevertDialog extends GestureEventListeners(
     msg: string,
     commitMessage: string
   ) {
-    return this.$.jsAPI.modifyRevertSubmissionMsg(change, msg, commitMessage);
+    return this.jsAPI.modifyRevertSubmissionMsg(change, msg, commitMessage);
   }
 
   _populateRevertSubmissionMessage(

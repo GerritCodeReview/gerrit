@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.stream.Collectors.groupingBy;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
@@ -28,6 +29,9 @@ import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffMappings;
@@ -47,6 +51,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -62,15 +68,48 @@ import org.eclipse.jgit.lib.ObjectId;
 public class CommentPorter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  @VisibleForTesting
+  @Singleton
+  static class Metrics {
+    final Counter0 portedAsPatchsetLevel;
+    final Counter0 portedAsFileLevel;
+    final Counter0 portedAsRangeComments;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      portedAsPatchsetLevel =
+          metricMaker.newCounter(
+              "ported_comments/as_patchset_level",
+              new Description("Total number of comments ported as patchset-level comments.")
+                  .setRate()
+                  .setUnit("count"));
+      portedAsFileLevel =
+          metricMaker.newCounter(
+              "ported_comments/as_file_level",
+              new Description("Total number of comments ported as file-level comments.")
+                  .setRate()
+                  .setUnit("count"));
+      portedAsRangeComments =
+          metricMaker.newCounter(
+              "ported_comments/as_range_comments",
+              new Description(
+                      "Total number of comments ported as range comments, i.e. having a line/range values in the ported patchset.")
+                  .setRate()
+                  .setUnit("count"));
+    }
+  }
+
   private final GitPositionTransformer positionTransformer =
       new GitPositionTransformer(BestPositionOnConflict.INSTANCE);
   private final PatchListCache patchListCache;
   private final CommentsUtil commentsUtil;
+  private final Metrics metrics;
 
   @Inject
-  public CommentPorter(PatchListCache patchListCache, CommentsUtil commentsUtil) {
+  public CommentPorter(PatchListCache patchListCache, CommentsUtil commentsUtil, Metrics metrics) {
     this.patchListCache = patchListCache;
     this.commentsUtil = commentsUtil;
+    this.metrics = metrics;
   }
 
   /**
@@ -204,9 +243,13 @@ public class CommentPorter {
 
     ImmutableList<PositionedEntity<HumanComment>> positionedComments =
         comments.stream().map(this::toPositionedEntity).collect(toImmutableList());
-    return positionTransformer.transform(positionedComments, mappings).stream()
-        .map(PositionedEntity::getEntityAtUpdatedPosition)
-        .collect(toImmutableList());
+    Map<PositionedEntity<HumanComment>, HumanComment> origToPortedMap =
+        positionTransformer.transform(positionedComments, mappings).stream()
+            .collect(
+                Collectors.toMap(
+                    Function.identity(), PositionedEntity::getEntityAtUpdatedPosition));
+    collectMetrics(origToPortedMap);
+    return ImmutableList.copyOf(origToPortedMap.values());
   }
 
   private ImmutableSet<Mapping> loadMappings(
@@ -269,6 +312,10 @@ public class CommentPorter {
     return positionBuilder.lineRange(extractLineRange(comment)).build();
   }
 
+  /**
+   * Returns {@link Optional#empty()} if the {@code comment} parameter is a file comment, or the
+   * comment range {start_line, end_line} otherwise.
+   */
   private static Optional<GitPositionTransformer.Range> extractLineRange(HumanComment comment) {
     // Line specifications in comment are 1-based. Line specifications in Position are 0-based.
     if (comment.range != null) {
@@ -314,6 +361,33 @@ public class CommentPorter {
       GitPositionTransformer.Range lineRange, int originalStartChar, int originalEndChar) {
     int adjustedEndLine = originalEndChar > 0 ? lineRange.end() : lineRange.end() + 1;
     return new Range(lineRange.start() + 1, originalStartChar, adjustedEndLine, originalEndChar);
+  }
+
+  /**
+   * Collect metrics from the original and ported comments.
+   *
+   * @param portMap map of the ported comments. The keys contain a {@link PositionedEntity} of the
+   *     original comment, and the values contain the transformed comments.
+   */
+  private void collectMetrics(Map<PositionedEntity<HumanComment>, HumanComment> portMap) {
+    for (Map.Entry<PositionedEntity<HumanComment>, HumanComment> entry : portMap.entrySet()) {
+      HumanComment original = entry.getKey().getEntity();
+      HumanComment transformed = entry.getValue();
+
+      if (!Patch.isMagic(original.key.filename)) {
+        if (Patch.PATCHSET_LEVEL.equals(transformed.key.filename)) {
+          metrics.portedAsPatchsetLevel.increment();
+        } else if (extractLineRange(original).isPresent()) {
+          if (extractLineRange(transformed).isPresent()) {
+            metrics.portedAsRangeComments.increment();
+          } else {
+            // line range was present in the original comment, but the ported comment is a file
+            // level comment.
+            metrics.portedAsFileLevel.increment();
+          }
+        }
+      }
+    }
   }
 
   /** A filter which just keeps those comments which are before the given patchset. */

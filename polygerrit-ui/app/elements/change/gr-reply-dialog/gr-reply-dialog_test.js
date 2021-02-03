@@ -114,10 +114,9 @@ suite('gr-reply-dialog tests', () => {
       ],
     };
 
-    getDraftCommentStub = sinon.stub(element.$.storage, 'getDraftComment');
-    setDraftCommentStub = sinon.stub(element.$.storage, 'setDraftComment');
-    eraseDraftCommentStub = sinon.stub(element.$.storage,
-        'eraseDraftComment');
+    getDraftCommentStub = sinon.stub(element.storage, 'getDraftComment');
+    setDraftCommentStub = sinon.stub(element.storage, 'setDraftComment');
+    eraseDraftCommentStub = sinon.stub(element.storage, 'eraseDraftComment');
 
     // sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates')
     //     .returns(Promise.resolve({isLatest: true}));

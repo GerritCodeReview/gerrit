@@ -652,7 +652,7 @@ suite('comment action tests with unresolved thread', () => {
           __draft: true,
         },
       ];
-      const storageStub = sinon.stub(element.$.storage, 'setDraftComment');
+      const storageStub = sinon.stub(element.storage, 'setDraftComment');
       flush();
 
       const draftEl = element.root?.querySelectorAll('gr-comment')[1];

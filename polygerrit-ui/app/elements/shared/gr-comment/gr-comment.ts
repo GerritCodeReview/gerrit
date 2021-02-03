@@ -95,7 +95,6 @@ interface CommentOverlays {
 
 export interface GrComment {
   $: {
-    storage: GrStorage;
     container: HTMLDivElement;
     resolvedCheckbox: HTMLInputElement;
   };
@@ -271,6 +270,8 @@ export class GrComment extends KeyboardShortcutMixin(
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly storage = new GrStorage();
+
   reporting = appContext.reportingService;
 
   /** @override */
@@ -332,7 +333,7 @@ export class GrComment extends KeyboardShortcutMixin(
     if (!editing) return;
     // visibility based on cache this will make sure we only and always show
     // a tip once every Math.max(a day, period between creating comments)
-    const cachedVisibilityOfRespectfulTip = this.$.storage.getRespectfulTipVisibility();
+    const cachedVisibilityOfRespectfulTip = this.storage.getRespectfulTipVisibility();
     if (!cachedVisibilityOfRespectfulTip) {
       // we still want to show the tip with a probability of 30%
       if (this.getRandomNum(0, 3) >= 1) return;
@@ -343,7 +344,7 @@ export class GrComment extends KeyboardShortcutMixin(
         tip: this._respectfulReviewTip,
       });
       // update cache
-      this.$.storage.setRespectfulTipVisibility();
+      this.storage.setRespectfulTipVisibility();
     }
   }
 
@@ -362,7 +363,7 @@ export class GrComment extends KeyboardShortcutMixin(
       tip: this._respectfulReviewTip,
     });
     // add a 14-day delay to the tip cache
-    this.$.storage.setRespectfulTipVisibility(/* delayDays= */ 14);
+    this.storage.setRespectfulTipVisibility(/* delayDays= */ 14);
   }
 
   _onRespectfulReadMoreClick() {
@@ -491,7 +492,7 @@ export class GrComment extends KeyboardShortcutMixin(
     if (this.changeNum === undefined) {
       throw new Error('undefined changeNum');
     }
-    this.$.storage.eraseDraftComment({
+    this.storage.eraseDraftComment({
       changeNum: this.changeNum,
       patchNum: this._getPatchNum(),
       path: this.comment.path,
@@ -663,9 +664,9 @@ export class GrComment extends KeyboardShortcutMixin(
           if ((!message || !message.length) && oldValue) {
             // If the draft has been modified to be empty, then erase the storage
             // entry.
-            this.$.storage.eraseDraftComment(commentLocation);
+            this.storage.eraseDraftComment(commentLocation);
           } else {
-            this.$.storage.setDraftComment(commentLocation, message);
+            this.storage.setDraftComment(commentLocation, message);
           }
         },
         STORAGE_DEBOUNCE_INTERVAL
@@ -945,7 +946,7 @@ export class GrComment extends KeyboardShortcutMixin(
       return;
     }
 
-    const draft = this.$.storage.getDraftComment({
+    const draft = this.storage.getDraftComment({
       changeNum,
       patchNum: this._getPatchNum(),
       path: comment.path,

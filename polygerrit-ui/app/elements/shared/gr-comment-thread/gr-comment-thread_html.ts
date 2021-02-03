@@ -167,5 +167,4 @@ export const htmlTemplate = html`
       </div>
     </div>
   </div>
-  <gr-storage id="storage"></gr-storage>
 `;

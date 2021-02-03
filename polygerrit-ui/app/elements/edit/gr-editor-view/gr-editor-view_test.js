@@ -103,7 +103,7 @@ suite('gr-editor-view tests', () => {
   });
 
   test('reacts to content-change event', () => {
-    const storeStub = sinon.spy(element.$.storage, 'setEditableContentItem');
+    const storeStub = sinon.spy(element.storage, 'setEditableContentItem');
     element._newContent = 'test';
     element.$.editorEndpoint.dispatchEvent(new CustomEvent('content-change', {
       bubbles: true, composed: true,
@@ -136,7 +136,7 @@ suite('gr-editor-view tests', () => {
 
     test('file modification and save, !ok response', () => {
       const saveSpy = sinon.spy(element, '_saveEdit');
-      const eraseStub = sinon.stub(element.$.storage,
+      const eraseStub = sinon.stub(element.storage,
           'eraseEditableContentItem');
       const alertStub = sinon.stub(element, '_showAlert');
       saveFileStub.returns(Promise.resolve({ok: false}));
@@ -248,7 +248,7 @@ suite('gr-editor-view tests', () => {
       element._newContent = 'initial';
       element._content = 'initial';
       element._type = 'initial';
-      sinon.stub(element.$.storage, 'getEditableContentItem').returns(null);
+      sinon.stub(element.storage, 'getEditableContentItem').returns(null);
     });
 
     test('res.ok', () => {
@@ -377,7 +377,7 @@ suite('gr-editor-view tests', () => {
 
   suite('gr-storage caching', () => {
     test('local edit exists', () => {
-      sinon.stub(element.$.storage, 'getEditableContentItem')
+      sinon.stub(element.storage, 'getEditableContentItem')
           .returns({message: 'pending edit'});
       stubRestApi('getFileContent')
           .returns(Promise.resolve({
@@ -400,7 +400,7 @@ suite('gr-editor-view tests', () => {
     });
 
     test('local edit exists, is same as remote edit', () => {
-      sinon.stub(element.$.storage, 'getEditableContentItem')
+      sinon.stub(element.storage, 'getEditableContentItem')
           .returns({message: 'pending edit'});
       stubRestApi('getFileContent')
           .returns(Promise.resolve({

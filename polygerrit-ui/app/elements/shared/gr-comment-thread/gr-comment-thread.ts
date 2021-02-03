@@ -56,7 +56,6 @@ const NEWLINE_PATTERN = /\n/g;
 
 export interface GrCommentThread {
   $: {
-    storage: GrStorage;
     replyBtn: GrButton;
     quoteBtn: GrButton;
   };
@@ -186,6 +185,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   reporting = appContext.reportingService;
 
   flagsService = appContext.flagsService;
+
+  readonly storage = new GrStorage();
 
   readonly restApiService = appContext.restApiService;
 
@@ -575,7 +576,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
           path: changeComment.path,
           line: changeComment.line,
         };
-        this.$.storage.setDraftComment(
+        this.storage.setDraftComment(
           commentLocation,
           changeComment.message ?? ''
         );

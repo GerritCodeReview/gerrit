@@ -55,11 +55,6 @@ const PUBLISH_FAILED_MSG = 'Failed to publish edit';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
 
-export interface GrEditorView {
-  $: {
-    storage: GrStorage;
-  };
-}
 @customElement('gr-editor-view')
 export class GrEditorView extends KeyboardShortcutMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -123,6 +118,8 @@ export class GrEditorView extends KeyboardShortcutMixin(
   _lineNum?: number;
 
   private readonly restApiService = appContext.restApiService;
+
+  private readonly storage = new GrStorage();
 
   reporting = appContext.reportingService;
 
@@ -237,9 +234,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
     if (patchNum === undefined) {
       return Promise.reject(new Error('patchNum undefined'));
     }
-    const storedContent = this.$.storage.getEditableContentItem(
-      this.storageKey
-    );
+    const storedContent = this.storage.getEditableContentItem(this.storageKey);
 
     return this.restApiService
       .getFileContent(changeNum, path, patchNum)
@@ -275,7 +270,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
     }
     this._saving = true;
     this._showAlert(SAVING_MESSAGE);
-    this.$.storage.eraseEditableContentItem(this.storageKey);
+    this.storage.eraseEditableContentItem(this.storageKey);
     if (!this._newContent)
       return Promise.reject(new Error('new content undefined'));
     return this.restApiService
@@ -359,9 +354,9 @@ export class GrEditorView extends KeyboardShortcutMixin(
         const content = e.detail.value;
         if (content) {
           this.set('_newContent', e.detail.value);
-          this.$.storage.setEditableContentItem(this.storageKey, content);
+          this.storage.setEditableContentItem(this.storageKey, content);
         } else {
-          this.$.storage.eraseEditableContentItem(this.storageKey);
+          this.storage.eraseEditableContentItem(this.storageKey);
         }
       },
       STORAGE_DEBOUNCE_INTERVAL_MS

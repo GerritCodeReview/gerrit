@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98648db9_3e1d38dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-03T11:39:22Z",
+      "side": 1,
+      "message": "https://imgur.com/a/rJXw4Ol is screenshot with feature flag on. ",
+      "revId": "a88bd0c4ac50c9c951f8241e7d1fc3b92a4a1a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

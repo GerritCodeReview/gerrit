@@ -25,7 +25,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-account_html';
 import {appContext} from '../../../services/app-context';
-import {accountKey} from '../../../utils/account-util';
+import {accountKey, isSelf} from '../../../utils/account-util';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {customElement, property} from '@polymer/decorators';
 import {
@@ -107,7 +107,7 @@ export class GrHovercardAccount extends GestureEventListeners(
 
   _computeText(account?: AccountInfo, selfAccount?: AccountInfo) {
     if (!account || !selfAccount) return '';
-    return account._account_id === selfAccount._account_id ? 'Your' : 'Their';
+    return isSelf(account, selfAccount) ? 'Your' : 'Their';
   }
 
   get isAttentionEnabled() {
@@ -219,13 +219,17 @@ export class GrHovercardAccount extends GestureEventListeners(
   }
 
   _computeShowActionAddToAttentionSet() {
-    const involved = isInvolved(this.change, this._selfAccount);
-    return involved && this.isAttentionEnabled && !this.hasUserAttention;
+    const involvedOrSelf =
+      isInvolved(this.change, this._selfAccount) ||
+      isSelf(this.account, this._selfAccount);
+    return involvedOrSelf && this.isAttentionEnabled && !this.hasUserAttention;
   }
 
   _computeShowActionRemoveFromAttentionSet() {
-    const involved = isInvolved(this.change, this._selfAccount);
-    return involved && this.isAttentionEnabled && this.hasUserAttention;
+    const involvedOrSelf =
+      isInvolved(this.change, this._selfAccount) ||
+      isSelf(this.account, this._selfAccount);
+    return involvedOrSelf && this.isAttentionEnabled && this.hasUserAttention;
   }
 
   _handleClickAddToAttentionSet() {

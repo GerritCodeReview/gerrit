@@ -36,6 +36,8 @@ import {
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import { appContext } from '../../../services/app-context';
+import { KnownExperimentId } from '../../../services/flags/flags';
 
 interface ChangeRequirement extends Requirement {
   satisfied: boolean;
@@ -85,6 +87,10 @@ class GrChangeRequirements extends GestureEventListeners(
 
   @property({type: Boolean})
   _showOptionalLabels = true;
+
+  private readonly _isNewChangeSummaryUiEnabled = appContext.flagsService.isEnabled(
+    KnownExperimentId.NEW_CHANGE_SUMMARY_UI
+  );
 
   _computeShowWip(change: ChangeInfo) {
     return change.work_in_progress;

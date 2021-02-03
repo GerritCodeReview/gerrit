@@ -87,6 +87,11 @@ export const htmlTemplate = html`
     gr-endpoint-param {
       display: none;
     }
+    .metadata-title {
+      font-weight: var(--font-weight-bold);
+      color: var(--deemphasized-text-color);
+      padding-left: var(--metadata-horizontal-padding);
+    }
   </style>
   <template is="dom-repeat" items="[[_requirements]]">
     <gr-endpoint-decorator
@@ -114,6 +119,9 @@ export const htmlTemplate = html`
         <gr-endpoint-slot name="value"></gr-endpoint-slot>
       </div>
     </gr-endpoint-decorator>
+  </template>
+  <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
+    <h3 class="metadata-title">Submit requirements</h3>
   </template>
   <template is="dom-repeat" items="[[_requiredLabels]]">
     <section>
@@ -147,7 +155,12 @@ export const htmlTemplate = html`
     on-click="_handleShowHide"
     class$="showHide [[_computeShowOptional(_optionalLabels.*)]]"
   >
-    <div class="title">Other labels</div>
+    <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
+      <h3 class="metadata-title">Other labels</h3>
+    </template>
+    <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
+      <div class="title">Other labels</div>
+    </template>
     <div class="value">
       <iron-icon
         id="showHide"

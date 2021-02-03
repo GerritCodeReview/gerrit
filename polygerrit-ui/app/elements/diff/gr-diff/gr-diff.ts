@@ -814,6 +814,9 @@ export class GrDiff extends GestureEventListeners(
   }
 
   _handleRenderContent() {
+    this.querySelectorAll('gr-ranged-comment-chip').forEach(element =>
+      element.remove()
+    );
     this._setLoading(false);
     this._unobserveIncrementalNodes();
     this._incrementalNodeObserver = (dom(
@@ -922,9 +925,6 @@ export class GrDiff extends GestureEventListeners(
     while (this.$.diffTable.hasChildNodes()) {
       this.$.diffTable.removeChild(this.$.diffTable.lastChild!);
     }
-    this.querySelectorAll('gr-ranged-comment-chip').forEach(element =>
-      element.remove()
-    );
   }
 
   _computeDiffHeaderItems(

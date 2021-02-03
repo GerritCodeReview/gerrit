@@ -173,7 +173,11 @@ export function getLastComment(thread?: CommentThread): UIComment | undefined {
 }
 
 export function isUnresolved(thread?: CommentThread): boolean {
-  return !!getLastComment(thread)?.unresolved;
+  return !isResolved(thread);
+}
+
+export function isResolved(thread?: CommentThread): boolean {
+  return !getLastComment(thread)?.unresolved;
 }
 
 export function isDraftThread(thread?: CommentThread): boolean {

@@ -258,6 +258,10 @@ export const htmlTemplate = html`
       padding-top: var(--spacing-l);
       width: 100%;
     }
+    gr-change-summary.new-change-summary-true {
+      /* temporary for old checks status */
+      margin-bottom: var(--spacing-m);
+    }
     /* NOTE: If you update this breakpoint, also update the
       BREAKPOINT_RELATED_MED in the JS */
     @media screen and (max-width: 75em) {
@@ -572,7 +576,12 @@ export const htmlTemplate = html`
                   </gr-button>
                 </div>
               </template>
-              <gr-change-summary></gr-change-summary>
+              <gr-change-summary
+                class$="new-change-summary-[[_isNewChangeSummaryUiEnabled]]"
+                change-comments="[[_changeComments]]"
+                comment-threads="[[_commentThreads]]"
+              >
+              </gr-change-summary>
               <gr-endpoint-decorator name="commit-container">
                 <gr-endpoint-param name="change" value="[[_change]]">
                 </gr-endpoint-param>

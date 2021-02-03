@@ -16,6 +16,23 @@
       "message": "https://imgur.com/a/rJXw4Ol is screenshot with feature flag on. ",
       "revId": "a88bd0c4ac50c9c951f8241e7d1fc3b92a4a1a2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7fed1b0_e0751edf",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-03T14:00:49Z",
+      "side": 1,
+      "message": "Should this become\n\n  !isResolved()\n\nthen? :-)",
+      "revId": "a88bd0c4ac50c9c951f8241e7d1fc3b92a4a1a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

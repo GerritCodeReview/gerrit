@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9a38056_61309523",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-03T18:57:50Z",
+      "side": 1,
+      "message": "I think there might be a follow-up change where this would be hooked up to essentially\n\n option.returnMostRecentChanges \u003d (refDb isinstance ReftableDatabase)\n\nwe added a hasFastTipsWithSha1() to Repository to get at this information for another case of this, but maybe it would be better to just ask the Repository what type of refstorage it has,  to avoid adding lots of hasFastXxxx methods.",
+      "parentUuid": "cf0cdc7f_efaebfcc",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "a99b5f6217c07f78f29224baa52dc66a98440c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3bfe865b_e70684db",

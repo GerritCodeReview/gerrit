@@ -173,7 +173,7 @@ suite('gr-syntax-layer tests', () => {
 
     const mockHLJS = getMockHLJS();
     const highlightSpy = sinon.spy(mockHLJS, 'highlight');
-    sinon.stub(element.$.libLoader, 'getHLJS').callsFake(
+    sinon.stub(element.libLoader, 'getHLJS').callsFake(
         () => Promise.resolve(mockHLJS));
     const processNextSpy = sinon.spy(element, '_processNextLine');
     const processPromise = element.process();

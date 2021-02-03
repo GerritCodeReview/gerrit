@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-lib-loader/gr-lib-loader';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-syntax-layer_html';
 import {FILE, GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {CancelablePromise, util} from '../../../scripts/util';
 import {customElement, property} from '@polymer/decorators';
@@ -159,18 +158,12 @@ interface SyntaxLayerState {
   lastNotify: {left: number; right: number};
 }
 
-export interface GrSyntaxLayer {
-  $: {
-    libLoader: GrLibLoader;
-  };
-}
-
 @customElement('gr-syntax-layer')
 export class GrSyntaxLayer
   extends GestureEventListeners(LegacyElementMixin(PolymerElement))
   implements DiffLayer {
   static get template() {
-    return htmlTemplate;
+    return html``;
   }
 
   @property({type: Object, observer: '_diffChanged'})
@@ -202,6 +195,8 @@ export class GrSyntaxLayer
 
   @property({type: Object})
   _hljs?: HighlightJS;
+
+  private readonly libLoader = new GrLibLoader();
 
   addListener(listener: DiffLayerListener) {
     this.push('_listeners', listener);
@@ -598,7 +593,7 @@ export class GrSyntaxLayer
   }
 
   _loadHLJS() {
-    return this.$.libLoader.getHLJS().then(hljs => {
+    return this.libLoader.getHLJS().then(hljs => {
       this._hljs = hljs;
     });
   }

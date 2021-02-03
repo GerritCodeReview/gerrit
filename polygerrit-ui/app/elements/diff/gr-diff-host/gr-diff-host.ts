@@ -708,9 +708,13 @@ export class GrDiffHost extends GestureEventListeners(
       this._attachThreadElement(threadEl);
     }
     const portedThreadsCount = threads.filter(thread => thread.ported).length;
+    const portedThreadsWithoutRange = threads.filter(
+      thread => thread.ported && thread.rangeInfoLost
+    ).length;
     if (portedThreadsCount > 0) {
       this.reporting.reportInteraction('ported-threads-shown', {
         ported: portedThreadsCount,
+        portedThreadsWithoutRange,
       });
     }
   }

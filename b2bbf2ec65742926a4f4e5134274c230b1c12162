@@ -81,6 +81,30 @@
       },
       "revId": "b2bbf2ec65742926a4f4e5134274c230b1c12162",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c576fcb_a3d28637",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-03T15:42:01Z",
+      "side": 1,
+      "message": "Right, so you want to be able to call methods with more or less arbitrary signatures.",
+      "parentUuid": "0bd07e6f_4fbc635a",
+      "range": {
+        "startLine": 30,
+        "startChar": 21,
+        "endLine": 30,
+        "endChar": 28
+      },
+      "revId": "b2bbf2ec65742926a4f4e5134274c230b1c12162",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

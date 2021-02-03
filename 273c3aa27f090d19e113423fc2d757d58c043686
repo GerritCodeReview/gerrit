@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d27c255_34738ed4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-03T18:46:28Z",
+      "side": 1,
+      "message": "Looked at ways for covering the added metrics with tests, but seems like we bind MetricMaker to DisabledMetricMaker in our test environment. Verified the correctness through local debugging.",
+      "revId": "273c3aa27f090d19e113423fc2d757d58c043686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

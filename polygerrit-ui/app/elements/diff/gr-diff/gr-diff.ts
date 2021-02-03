@@ -208,7 +208,7 @@ export class GrDiff extends GestureEventListeners(
   diff?: DiffInfo;
 
   @property({type: Array, computed: '_computeDiffHeaderItems(diff.*)'})
-  _diffHeaderItems: unknown[] = [];
+  _diffHeaderItems: string[] = [];
 
   @property({type: String})
   _diffTableClass = '';

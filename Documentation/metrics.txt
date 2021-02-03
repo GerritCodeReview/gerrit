@@ -76,6 +76,12 @@ setting.
 * `change/submit_rule_evaluation`: Latency for evaluating submit rules on a change.
 * `change/submit_type_evaluation`: Latency for evaluating the submit type on a change.
 
+=== Comments
+
+* `ported_comments/as_patchset_level`: Total number of comments ported as patchset-level comments.
+* `ported_comments/as_file_level`: Total number of comments ported as file-level comments.
+* `ported_comments/as_range_comments`: Total number of comments having line/range values in the ported patchset.
+
 === HTTP
 
 ==== Jetty

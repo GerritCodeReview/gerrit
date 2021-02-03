@@ -22,6 +22,30 @@
       },
       "revId": "b907ac16453ac0d65c19af769b24b77b0502b763",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d284fcd2_561099da",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-03T09:55:54Z",
+      "side": 1,
+      "message": "Why? I don\u0027t think so.",
+      "parentUuid": "161c2dcd_5a2de383",
+      "range": {
+        "startLine": 32,
+        "startChar": 9,
+        "endLine": 32,
+        "endChar": 16
+      },
+      "revId": "b907ac16453ac0d65c19af769b24b77b0502b763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

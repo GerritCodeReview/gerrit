@@ -50,6 +50,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
@@ -673,7 +674,7 @@ public class MergeOp implements AutoCloseable {
       if (e.getCause() instanceof IntegrationConflictException) {
         throw (IntegrationConflictException) e.getCause();
       }
-      throw new StorageException(genericMergeError(cs), e);
+      throw new UnprocessableEntityException(genericMergeError(cs), e);
     }
   }
 

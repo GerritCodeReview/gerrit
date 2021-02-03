@@ -734,7 +734,6 @@ export const htmlTemplate = html`
     on-reload-diff-preference="_handleReloadingDiffPreference"
   >
   </gr-diff-preferences-dialog>
-  <gr-storage id="storage"></gr-storage>
   <gr-diff-cursor id="diffCursor"></gr-diff-cursor>
   <gr-cursor-manager
     id="fileCursor"

@@ -35,12 +35,6 @@ declare global {
   }
 }
 
-export interface GrEditableContent {
-  $: {
-    storage: GrStorage;
-  };
-}
-
 @customElement('gr-editable-content')
 export class GrEditableContent extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -92,6 +86,8 @@ export class GrEditableContent extends GestureEventListeners(
   @property({type: String, observer: '_newContentChanged'})
   _newContent?: string;
 
+  private readonly storage = new GrStorage();
+
   _contentChanged() {
     /* A changed content means that either a different change has been loaded
      * or new content was saved. Either way, let's reset the component.
@@ -112,14 +108,14 @@ export class GrEditableContent extends GestureEventListeners(
       'store',
       () => {
         if (newContent.length) {
-          this.$.storage.setEditableContentItem(storageKey, newContent);
+          this.storage.setEditableContentItem(storageKey, newContent);
         } else {
           // This does not really happen, because we don't clear newContent
           // after saving (see below). So this only occurs when the user clears
-          // all the content in the editable textarea. But <gr-storage> cleans
+          // all the content in the editable textarea. But GrStorage cleans
           // up itself after one day, so we are not so concerned about leaving
           // some garbage behind.
-          this.$.storage.eraseEditableContentItem(storageKey);
+          this.storage.eraseEditableContentItem(storageKey);
         }
       },
       STORAGE_DEBOUNCE_INTERVAL_MS
@@ -145,7 +141,7 @@ export class GrEditableContent extends GestureEventListeners(
 
     let content;
     if (this.storageKey) {
-      const storedContent = this.$.storage.getEditableContentItem(
+      const storedContent = this.storage.getEditableContentItem(
         this.storageKey
       );
       if (storedContent?.message) {

@@ -16,12 +16,10 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import './gr-storage.js';
-
-const basicFixture = fixtureFromElement('gr-storage');
+import {GrStorage} from './gr-storage.js';
 
 suite('gr-storage tests', () => {
-  let element;
+  let grStorage;
 
   function mockStorage(opt_quotaExceeded) {
     return {
@@ -36,9 +34,8 @@ suite('gr-storage tests', () => {
   }
 
   setup(() => {
-    element = basicFixture.instantiate();
-
-    element._storage = mockStorage();
+    grStorage = new GrStorage();
+    grStorage.storage = mockStorage();
   });
 
   test('storing, retrieving and erasing drafts', () => {
@@ -54,23 +51,23 @@ suite('gr-storage tests', () => {
     };
 
     // The key is in the expected format.
-    const key = element._getDraftKey(location);
+    const key = grStorage._getDraftKey(location);
     assert.equal(key, ['draft', changeNum, patchNum, path, line].join(':'));
 
     // There should be no draft initially.
-    const draft = element.getDraftComment(location);
+    const draft = grStorage.getDraftComment(location);
     assert.isNotOk(draft);
 
     // Setting the draft stores it under the expected key.
-    element.setDraftComment(location, 'my comment');
-    assert.isOk(element._storage.getItem(key));
-    assert.equal(JSON.parse(element._storage.getItem(key)).message,
+    grStorage.setDraftComment(location, 'my comment');
+    assert.isOk(grStorage.storage.getItem(key));
+    assert.equal(JSON.parse(grStorage.storage.getItem(key)).message,
         'my comment');
-    assert.isOk(JSON.parse(element._storage.getItem(key)).updated);
+    assert.isOk(JSON.parse(grStorage.storage.getItem(key)).updated);
 
     // Erasing the draft removes the key.
-    element.eraseDraftComment(location);
-    assert.isNotOk(element._storage.getItem(key));
+    grStorage.eraseDraftComment(location);
+    assert.isNotOk(grStorage.storage.getItem(key));
   });
 
   test('automatically removes old drafts', () => {
@@ -85,25 +82,25 @@ suite('gr-storage tests', () => {
       line,
     };
 
-    const key = element._getDraftKey(location);
+    const key = grStorage._getDraftKey(location);
 
     // Make sure that the call to cleanup doesn't get throttled.
-    element._lastCleanup = 0;
+    grStorage.lastCleanup = 0;
 
-    const cleanupSpy = sinon.spy(element, '_cleanupItems');
+    const cleanupSpy = sinon.spy(grStorage, '_cleanupItems');
 
     // Create a message with a timestamp that is a second behind the max age.
-    element._storage.setItem(key, JSON.stringify({
+    grStorage.storage.setItem(key, JSON.stringify({
       message: 'old message',
       updated: Date.now() - 24 * 60 * 60 * 1000 - 1000,
     }));
 
     // Getting the draft should cause it to be removed.
-    const draft = element.getDraftComment(location);
+    const draft = grStorage.getDraftComment(location);
 
     assert.isTrue(cleanupSpy.called);
     assert.isNotOk(draft);
-    assert.isNotOk(element._storage.getItem(key));
+    assert.isNotOk(grStorage.storage.getItem(key));
   });
 
   test('_getDraftKey', () => {
@@ -118,7 +115,7 @@ suite('gr-storage tests', () => {
       line,
     };
     let expectedResult = 'draft:1234:5:my_source_file.js:123';
-    assert.equal(element._getDraftKey(location), expectedResult);
+    assert.equal(grStorage._getDraftKey(location), expectedResult);
     location.range = {
       start_character: 1,
       start_line: 1,
@@ -126,12 +123,12 @@ suite('gr-storage tests', () => {
       end_line: 2,
     };
     expectedResult = 'draft:1234:5:my_source_file.js:123:1-1-1-2';
-    assert.equal(element._getDraftKey(location), expectedResult);
+    assert.equal(grStorage._getDraftKey(location), expectedResult);
   });
 
   test('exceeded quota disables storage', () => {
-    element._storage = mockStorage(true);
-    assert.isFalse(element._exceededQuota);
+    grStorage.storage = mockStorage(true);
+    assert.isFalse(grStorage.exceededQuota);
 
     const changeNum = 1234;
     const patchNum = 5;
@@ -143,37 +140,37 @@ suite('gr-storage tests', () => {
       path,
       line,
     };
-    const key = element._getDraftKey(location);
-    element.setDraftComment(location, 'my comment');
-    assert.isTrue(element._exceededQuota);
-    assert.isNotOk(element._storage.getItem(key));
+    const key = grStorage._getDraftKey(location);
+    grStorage.setDraftComment(location, 'my comment');
+    assert.isTrue(grStorage.exceededQuota);
+    assert.isNotOk(grStorage.storage.getItem(key));
   });
 
   test('editable content items', () => {
-    const cleanupStub = sinon.stub(element, '_cleanupItems');
+    const cleanupStub = sinon.stub(grStorage, '_cleanupItems');
     const key = 'testKey';
-    const computedKey = element._getEditableContentKey(key);
+    const computedKey = grStorage._getEditableContentKey(key);
     // Key correctly computed.
     assert.equal(computedKey, 'editablecontent:testKey');
 
-    element.setEditableContentItem(key, 'my content');
+    grStorage.setEditableContentItem(key, 'my content');
 
     // Setting the draft stores it under the expected key.
-    let item = element._storage.getItem(computedKey);
+    let item = grStorage.storage.getItem(computedKey);
     assert.isOk(item);
     assert.equal(JSON.parse(item).message, 'my content');
     assert.isOk(JSON.parse(item).updated);
 
     // getEditableContentItem performs as expected.
-    item = element.getEditableContentItem(key);
+    item = grStorage.getEditableContentItem(key);
     assert.isOk(item);
     assert.equal(item.message, 'my content');
     assert.isOk(item.updated);
     assert.isTrue(cleanupStub.called);
 
     // eraseEditableContentItem performs as expected.
-    element.eraseEditableContentItem(key);
-    assert.isNotOk(element._storage.getItem(computedKey));
+    grStorage.eraseEditableContentItem(key);
+    assert.isNotOk(grStorage.storage.getItem(computedKey));
   });
 });
 

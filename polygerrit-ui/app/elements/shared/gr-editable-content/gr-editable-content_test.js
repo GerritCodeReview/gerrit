@@ -99,7 +99,7 @@ suite('gr-editable-content tests', () => {
     });
 
     test('editing toggled to true, has stored data', () => {
-      sinon.stub(element.$.storage, 'getEditableContentItem')
+      sinon.stub(element.storage, 'getEditableContentItem')
           .returns({message: 'stored content'});
       element.editing = true;
 
@@ -109,7 +109,7 @@ suite('gr-editable-content tests', () => {
     });
 
     test('editing toggled to true, has no stored data', () => {
-      sinon.stub(element.$.storage, 'getEditableContentItem')
+      sinon.stub(element.storage, 'getEditableContentItem')
           .returns({});
       element.editing = true;
 
@@ -119,9 +119,9 @@ suite('gr-editable-content tests', () => {
 
     test('edits are cached', () => {
       const storeStub =
-          sinon.stub(element.$.storage, 'setEditableContentItem');
+          sinon.stub(element.storage, 'setEditableContentItem');
       const eraseStub =
-          sinon.stub(element.$.storage, 'eraseEditableContentItem');
+          sinon.stub(element.storage, 'eraseEditableContentItem');
       element.editing = true;
 
       element._newContent = 'new content';

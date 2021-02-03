@@ -176,6 +176,10 @@ export function isUnresolved(thread?: CommentThread): boolean {
   return !!getLastComment(thread)?.unresolved;
 }
 
+export function isResolved(thread?: CommentThread): boolean {
+  return !getLastComment(thread)?.unresolved;
+}
+
 export function isDraftThread(thread?: CommentThread): boolean {
   return isDraft(getLastComment(thread));
 }

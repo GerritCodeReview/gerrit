@@ -94,6 +94,30 @@
       },
       "revId": "b08592a238fd4a7415982a8f8137954e0d345c41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c802595_218b68d0",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-03T18:29:02Z",
+      "side": 1,
+      "message": "yeah, please put it into WORKSPACE. Google internally is on version 1.0 which is from (shudder) 2007.",
+      "parentUuid": "410f02e7_11a3ccb4",
+      "range": {
+        "startLine": 172,
+        "startChar": 20,
+        "endLine": 172,
+        "endChar": 43
+      },
+      "revId": "b08592a238fd4a7415982a8f8137954e0d345c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

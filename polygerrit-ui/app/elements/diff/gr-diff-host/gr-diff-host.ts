@@ -793,6 +793,7 @@ export class GrDiffHost extends GestureEventListeners(
 
   _attachThreadElement(threadEl: Element) {
     this.$.diff.appendChild(threadEl);
+    this.$.diff.$.fileLevelPortedComments.appendChild(threadEl);
   }
 
   _clearThreads() {

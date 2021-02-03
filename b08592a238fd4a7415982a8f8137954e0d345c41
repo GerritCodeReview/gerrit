@@ -70,6 +70,30 @@
       },
       "revId": "b08592a238fd4a7415982a8f8137954e0d345c41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "410f02e7_11a3ccb4",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-03T15:55:42Z",
+      "side": 1,
+      "message": "Should I re-add this back to WORKSPACE file to move here forward?",
+      "parentUuid": "501c9158_2b4060d9",
+      "range": {
+        "startLine": 172,
+        "startChar": 20,
+        "endLine": 172,
+        "endChar": 43
+      },
+      "revId": "b08592a238fd4a7415982a8f8137954e0d345c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

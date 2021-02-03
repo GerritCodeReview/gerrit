@@ -675,6 +675,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
         .review(new ReviewInput().label(LabelId.CODE_REVIEW, 2));
     gApi.changes().id(r.getChangeId()).current().submit();
 
+    assertThat(gApi.changes().id(r.getChangeId()).get().removableReviewers).isEmpty();
     AuthException thrown =
         assertThrows(
             AuthException.class,
@@ -700,6 +701,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().submit();
 
     requestScopeOperations.setApiUser(user.id());
+    assertThat(gApi.changes().id(r.getChangeId()).get().removableReviewers).isEmpty();
 
     AuthException thrown =
         assertThrows(
@@ -718,6 +720,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
         .current()
         .review(new ReviewInput().label(LabelId.CODE_REVIEW, 2));
     gApi.changes().id(r.getChangeId()).current().submit();
+    assertThat(
+            Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).get().removableReviewers)
+                .email)
+        .isEqualTo(user.email());
 
     gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
 
@@ -742,6 +748,11 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().submit();
 
     requestScopeOperations.setApiUser(user.id());
+    assertThat(
+            Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).get().removableReviewers)
+                .email)
+        .isEqualTo(user.email());
+
     gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
 
     // Admin is a "reviewer" since the admin submitted the change, this ensures user is not a
@@ -764,6 +775,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
         .current()
         .review(new ReviewInput().label(LabelId.CODE_REVIEW, 1));
     requestScopeOperations.setApiUser(newUser.id());
+    assertThat(gApi.changes().id(r.getChangeId()).get().removableReviewers).isEmpty();
+
     AuthException thrown =
         assertThrows(
             AuthException.class,
@@ -787,8 +800,42 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).addReviewer(user.email());
     assertThatUserIsOnlyReviewer(r.getChangeId());
     requestScopeOperations.setApiUser(newUser.id());
+    assertThat(
+            Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).get().removableReviewers)
+                .email)
+        .isEqualTo(user.email());
+
     gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
     assertThat(gApi.changes().id(r.getChangeId()).get().reviewers).isEmpty();
+  }
+
+  @Test
+  @Sandboxed
+  public void removeReviewerWithoutVoteOnAMergedChangeWithPermissionSucceeds() throws Exception {
+    PushOneCommit.Result r = createChange();
+    // This test creates a new user so that it can explicitly check the REMOVE_REVIEWER permission
+    // rather than bypassing the check because of project or ref ownership.
+    TestAccount newUser = createAccounts(1, name("foo")).get(0);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REMOVE_REVIEWER).ref(RefNames.REFS + "*").group(REGISTERED_USERS))
+        .update();
+
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    requestScopeOperations.setApiUser(newUser.id());
+
+    // Ensures user is removable.
+    assertThat(
+            gApi.changes().id(r.getChangeId()).get().removableReviewers.stream()
+                .filter(a -> user.email().equals(a.email))
+                .findAny()
+                .isPresent())
+        .isTrue();
+    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
   }
 
   @Test
@@ -798,6 +845,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     gApi.changes().id(r.getChangeId()).addReviewer(user.email());
     requestScopeOperations.setApiUser(newUser.id());
+    assertThat(gApi.changes().id(r.getChangeId()).get().removableReviewers).isEmpty();
+
     AuthException thrown =
         assertThrows(
             AuthException.class,
@@ -815,6 +864,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     input.state = ReviewerState.CC;
     gApi.changes().id(r.getChangeId()).addReviewer(input);
     requestScopeOperations.setApiUser(newUser.id());
+    assertThat(gApi.changes().id(r.getChangeId()).get().removableReviewers).isEmpty();
+
     AuthException thrown =
         assertThrows(
             AuthException.class,

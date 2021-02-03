@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3998f89_7e6d8e3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-03T13:59:10Z",
+      "side": 1,
+      "message": "I think UnprocessableEntityException is not suitable for this.\nHave a look at [1] for what purposes \u0027422 Unprocessable Entity\u0027 should be used.\nE.g. in Gerrit we use it only if the ID of a resource that is specified in the request body cannot be resolved [2].\n\nI think the correct response code would be \u0027409 Conflict\u0027.\n\n[1] https://tools.ietf.org/html/rfc4918#section-11.2\n[2] https://gerrit-review.googlesource.com/Documentation/rest-api.html#response-codes",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "23a198cdae7717a6ea916248b4d39867f5f682a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42565010_00da7caa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-03T13:59:10Z",
+      "side": 1,
+      "message": "Another side effect of changing the response code from 5XX to 4XX is that it will no longer be counted against our SLOs. I\u0027m not sure if it\u0027s intended here?",
+      "revId": "23a198cdae7717a6ea916248b4d39867f5f682a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd645430_6d5bfbe3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-03T19:30:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33ff1f54_ecfa3a64",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b26858ca_5d8d2a69",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2bc7576_e15202bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-03T19:30:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b26858ca_5d8d2a69",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 48
+      },
+      "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56eaa8b3_55b66216",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-02-03T19:17:22Z",
       "side": 1,
       "message": "Call visible() instead (and probably undo the refactor above)?",
+      "range": {
+        "startLine": 381,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 44
+      },
+      "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a59a6cb9_e96a4648",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-03T19:30:29Z",
+      "side": 1,
+      "message": "Done.\nWhat\u0027s wrong with the refactor above? Looks much better now.",
+      "parentUuid": "56eaa8b3_55b66216",
       "range": {
         "startLine": 381,
         "startChar": 8,

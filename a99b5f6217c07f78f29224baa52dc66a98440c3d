@@ -146,6 +146,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "531a6f5b_aea79c66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-03T19:30:29Z",
+      "side": 1,
+      "message": "Done, the commit message mentions it now.\nPlease file a bug about adding docs regarding reftable backend, as I have no idea about that.",
+      "parentUuid": "559713d9_5e96228e",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "a99b5f6217c07f78f29224baa52dc66a98440c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3bfe865b_e70684db",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

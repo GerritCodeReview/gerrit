@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "161c2dcd_5a2de383",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-03T09:41:38Z",
+      "side": 1,
+      "message": "Maybe this should be true when account and self are both undefined?",
+      "range": {
+        "startLine": 32,
+        "startChar": 9,
+        "endLine": 32,
+        "endChar": 16
+      },
+      "revId": "b907ac16453ac0d65c19af769b24b77b0502b763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

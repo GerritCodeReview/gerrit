@@ -100,5 +100,4 @@ export const htmlTemplate = html`
       </gr-endpoint-decorator>
     </div>
   </gr-dialog>
-  <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
 `;

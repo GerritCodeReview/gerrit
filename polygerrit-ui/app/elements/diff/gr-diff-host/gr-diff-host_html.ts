@@ -49,5 +49,4 @@ export const htmlTemplate = html`
     enabled="[[_syntaxHighlightingEnabled]]"
     diff="[[diff]]"
   ></gr-syntax-layer>
-  <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
 `;

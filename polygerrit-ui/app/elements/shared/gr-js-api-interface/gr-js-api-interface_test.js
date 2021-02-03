@@ -27,11 +27,9 @@ import {stubBaseUrl} from '../../../test/test-utils.js';
 import sinon from 'sinon/pkg/sinon-esm';
 import {stubRestApi} from '../../../test/test-utils.js';
 
-const basicFixture = fixtureFromElement('gr-js-api-interface');
-
 const pluginApi = _testOnly_initGerritPluginApi();
 
-suite('gr-js-api-interface tests', () => {
+suite('GrJsApiInterface tests', () => {
   let element;
   let plugin;
   let errorStub;
@@ -51,7 +49,7 @@ suite('gr-js-api-interface tests', () => {
     getResponseObjectStub = stubRestApi('getResponseObject').returns(
         Promise.resolve());
     sendStub = stubRestApi('send').returns(Promise.resolve({status: 200}));
-    element = basicFixture.instantiate();
+    element = appContext.jsApiService;
     errorStub = sinon.stub(element.reporting, 'error');
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');

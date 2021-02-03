@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-js-api-interface/gr-js-api-interface';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-lib-loader_html';
 import {EventType} from '../../plugins/gr-plugin-types';
 import {customElement, property} from '@polymer/decorators';
-import {JsApiService} from '../gr-js-api-interface/gr-js-api-types';
 import {HighlightJS} from '../../../types/types';
+import {appContext} from '../../../services/app-context';
 
 // preloaded in PolyGerritIndexHtml.soy
 const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
@@ -35,11 +34,6 @@ interface HljsState {
   callbacks: HljsCallback[];
 }
 
-export interface GrLibLoader {
-  $: {
-    jsAPI: JsApiService & Element;
-  };
-}
 @customElement('gr-lib-loader')
 export class GrLibLoader extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -47,6 +41,8 @@ export class GrLibLoader extends GestureEventListeners(
   static get template() {
     return htmlTemplate;
   }
+
+  private readonly jsAPI = appContext.jsApiService;
 
   // NOTE: intended singleton.
   @property({type: Object})
@@ -87,7 +83,7 @@ export class GrLibLoader extends GestureEventListeners(
   _onHLJSLibLoaded() {
     const lib = this._getHighlightLib();
     this._hljsState.loading = false;
-    this.$.jsAPI.handleEvent(EventType.HIGHLIGHTJS_LOADED, {
+    this.jsAPI.handleEvent(EventType.HIGHLIGHTJS_LOADED, {
       hljs: lib,
     });
     for (const cb of this._hljsState.callbacks) {

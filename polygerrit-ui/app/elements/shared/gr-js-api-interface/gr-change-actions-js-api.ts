@@ -18,9 +18,9 @@ import {
   ActionType,
   ActionPriority,
 } from '../../../services/gr-rest-api/gr-rest-api';
-import {JsApiService} from './gr-js-api-types';
 import {PluginApi, TargetElement} from '../../plugins/gr-plugin-types';
 import {ActionInfo, RequireProperties} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
 
 export enum ChangeActions {
   ABANDON = 'abandon',
@@ -119,9 +119,7 @@ export class GrChangeActionsInterface {
    */
   private ensureEl(): GrChangeActionsElement {
     if (!this._el) {
-      const sharedApiElement = (document.createElement(
-        'gr-js-api-interface'
-      ) as unknown) as JsApiService;
+      const sharedApiElement = appContext.jsApiService;
       this.setEl(
         (sharedApiElement.getElement(
           TargetElement.CHANGE_ACTIONS

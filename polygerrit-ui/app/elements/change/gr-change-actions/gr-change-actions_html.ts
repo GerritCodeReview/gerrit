@@ -269,5 +269,4 @@ export const htmlTemplate = html`
       </div>
     </gr-dialog>
   </gr-overlay>
-  <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
 `;

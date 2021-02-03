@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cae9fda_8861e204",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-03T16:39:38Z",
+      "side": 1,
+      "message": "I checked data and shortcut \u0027D\u0027 is used on diff page less than 10 times per day. Do we really need slowing down gr-diff by loading and requesting more informations? I would discuss this in team chat.",
+      "revId": "fafd867763d76fbd0afc2227f1903230b0574bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

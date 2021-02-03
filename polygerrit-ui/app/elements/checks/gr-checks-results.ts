@@ -93,7 +93,7 @@ class GrResultRow extends GrLitElement {
           max-width: calc(100vw - 579px);
         }
         td .summary-cell .summary {
-          font-weight: bold;
+          font-weight: var(--font-weight-bold);
           flex-shrink: 1;
           overflow: hidden;
           text-overflow: ellipsis;

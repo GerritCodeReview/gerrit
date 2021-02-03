@@ -170,6 +170,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "156b8e03_06925762",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-03T20:18:33Z",
+      "side": 1,
+      "message": "done: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d14040",
+      "parentUuid": "531a6f5b_aea79c66",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "a99b5f6217c07f78f29224baa52dc66a98440c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3bfe865b_e70684db",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

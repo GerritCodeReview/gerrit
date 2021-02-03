@@ -140,6 +140,30 @@
       },
       "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d931a523_c70c53c9",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-03T20:18:33Z",
+      "side": 1,
+      "message": "Most importantly, it takes a \u0027repo\u0027 as an arg, but ignores it on any subsequent calls. That\u0027s just asking for someone to make a mistake. Granted, that\u0027s already a problem with visible(), but that should get fixed, not built upon.\n\nI also misread lines 200 and 385 before (I didn\u0027t realize you were using the method vs the field), so I didn\u0027t see another caller of visibleChanges(). Line 409 also tricked me because it\u0027s using a local field that\u0027s shadowing the instance variable.\n\nHonestly the more I look at this code (not yours specifically, just this whole class), the worse I feel about it. 😞 Specific to your changes in this file, I have a hard time saying the code is easier to read (and therefore maintain) than it was before.",
+      "parentUuid": "a59a6cb9_e96a4648",
+      "range": {
+        "startLine": 381,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 44
+      },
+      "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

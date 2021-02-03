@@ -238,8 +238,8 @@ export const htmlTemplate = html`
     }
     .delta.dueToMove .moveDescription {
       border-radius: var(--fully-rounded-radius, 1000px);
-      padding: var(--spacing-s) var(--spacing-m);
-      margin: var(--spacing-s);
+      padding: var(--spacing-xxs) var(--spacing-m);
+      margin: var(--spacing-xs);
       line-height: var(--line-height-small, 16px);
       display: flex;
     }

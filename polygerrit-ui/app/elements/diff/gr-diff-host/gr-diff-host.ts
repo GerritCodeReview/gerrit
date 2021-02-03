@@ -794,8 +794,10 @@ export class GrDiffHost extends GestureEventListeners(
     return threadEl;
   }
 
-  _attachThreadElement(threadEl: Element) {
-    this.$.diff.appendChild(threadEl);
+  _attachThreadElement(threadEl: GrCommentThread) {
+    if (threadEl.rangeInfoLost)
+      this.$.diff.$.fileLevelPortedComments.appendChild(threadEl);
+    else this.$.diff.appendChild(threadEl);
   }
 
   _clearThreads() {
@@ -829,6 +831,7 @@ export class GrDiffHost extends GestureEventListeners(
     threadEl.patchNum = thread.patchNum;
     threadEl.showPatchset = false;
     threadEl.showPortedComment = !!thread.ported;
+    threadEl.rangeInfoLost = !!thread.rangeInfoLost;
     // GrCommentThread does not understand 'FILE', but requires undefined.
     threadEl.lineNum = thread.line !== 'FILE' ? thread.line : undefined;
     threadEl.projectName = this.projectName;

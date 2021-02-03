@@ -167,7 +167,8 @@ export const htmlTemplate = html`
     .canComment .lineNumButton {
       cursor: pointer;
     }
-    .content {
+    .content,
+    #fileLevelPortedComments {
       /* Set min width since setting width on table cells still
            allows them to shrink. Do not set max width because
            CJK (Chinese-Japanese-Korean) glyphs have variable width */
@@ -549,6 +550,10 @@ export const htmlTemplate = html`
       border: 1px solid var(--diff-context-control-border-color);
       text-align: center;
     }
+    #fileLevelPortedComments {
+      background: aliceblue;
+      padding: var(--spacing-s);
+    }
   </style>
   <style include="gr-syntax-theme">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
@@ -561,6 +566,7 @@ export const htmlTemplate = html`
       <div>[[item]]</div>
     </template>
   </div>
+  <div id="fileLevelPortedComments"></div>
   <div
     class$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]"
     on-tap="_handleTap"

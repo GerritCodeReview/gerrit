@@ -174,6 +174,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   showPortedComment = false;
 
   @property({type: Boolean})
+  rangeInfoLost = false;
+
+  @property({type: Boolean})
   showPatchset = true;
 
   get keyBindings() {

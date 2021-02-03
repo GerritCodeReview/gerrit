@@ -102,6 +102,7 @@ export interface GrDiff {
     highlights: GrDiffHighlight;
     diffBuilder: GrDiffBuilderElement;
     diffTable: HTMLTableElement;
+    fileLevelPortedComments: HTMLDivElement;
   };
 }
 

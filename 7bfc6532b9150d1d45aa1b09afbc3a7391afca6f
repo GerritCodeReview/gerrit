@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c6d23e7_f4452fd3",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-03T15:37:49Z",
+      "side": 1,
+      "message": "Can you use Collections.emptySet() here?",
+      "range": {
+        "startLine": 741,
+        "startChar": 59,
+        "endLine": 741,
+        "endChar": 74
+      },
+      "revId": "7bfc6532b9150d1d45aa1b09afbc3a7391afca6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

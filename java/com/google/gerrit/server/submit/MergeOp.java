@@ -673,7 +673,7 @@ public class MergeOp implements AutoCloseable {
       if (e.getCause() instanceof IntegrationConflictException) {
         throw (IntegrationConflictException) e.getCause();
       }
-      throw new StorageException(genericMergeError(cs), e);
+      throw new ResourceConflictException(genericMergeError(cs), e);
     }
   }
 

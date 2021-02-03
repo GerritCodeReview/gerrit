@@ -266,6 +266,14 @@ suite('gr-message tests', () => {
         element._handleViewPatchsetDiff(new MouseEvent('click'));
         assert.isTrue(navStub.calledWithExactly(element.change, 4, 3));
       });
+
+      test('Merged patchset change message', () => {
+        element.message = {
+          message: 'abcd↵3 is the latest approved patch-set.↵abc',
+        };
+        element._handleViewPatchsetDiff(new MouseEvent('click'));
+        assert.isTrue(navStub.calledWithExactly(element.change, 4, 3));
+      });
     });
 
     suite('compute messages', () => {

@@ -279,7 +279,7 @@ export const htmlTemplate = html`
         </div>
       </template>
       <span class="dateContainer">
-        <template is="dom-if" if="[[_isNewPatchsetTag(message.tag)]]">
+        <template is="dom-if" if="[[_showViewDiffButton(message)]]">
           <gr-button
             class="patchsetDiffButton"
             on-click="_handleViewPatchsetDiff"

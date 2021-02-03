@@ -91,26 +91,9 @@ export class GrLabelScores extends GestureEventListeners(
         continue;
       }
 
-      // Only send the selection if the user changed it.
-      const prevVal = this._getVoteForAccount(
-        this.change.labels,
-        label,
-        this.account
-      );
-
-      let prevValNum: number | null | undefined;
-      if (typeof prevVal === 'string') {
-        prevValNum = Number(prevVal);
-      } else {
-        prevValNum = prevVal;
-      }
-
       const defValNum = this._getDefaultValue(this.change.labels, label);
-
-      if (selectedVal !== prevValNum) {
-        if (includeDefaults || !!prevValNum || selectedVal !== defValNum) {
-          labels[label] = selectedVal;
-        }
+      if (includeDefaults || selectedVal !== defValNum) {
+        labels[label] = selectedVal;
       }
     }
     return labels;

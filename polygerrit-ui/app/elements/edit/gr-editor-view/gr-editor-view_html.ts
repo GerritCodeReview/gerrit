@@ -133,5 +133,4 @@ export const htmlTemplate = html`
       ></gr-default-editor>
     </gr-endpoint-decorator>
   </div>
-  <gr-storage id="storage"></gr-storage>
 `;

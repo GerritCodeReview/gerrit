@@ -168,7 +168,6 @@ export interface GrReplyDialog {
     labelScores: GrLabelScores;
     textarea: GrTextarea;
     reviewerConfirmationOverlay: GrOverlay;
-    storage: GrStorage;
   };
 }
 
@@ -375,6 +374,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   _allReviewers: (AccountInfo | GroupInfo)[] = [];
 
   private readonly restApiService = appContext.restApiService;
+
+  private readonly storage = new GrStorage();
 
   get keyBindings() {
     return {
@@ -1317,7 +1318,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   _loadStoredDraft() {
-    const draft = this.$.storage.getDraftComment(this._getStorageLocation());
+    const draft = this.storage.getDraftComment(this._getStorageLocation());
     return draft?.message ?? '';
   }
 
@@ -1336,9 +1337,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
         if (!newDraft.length && oldDraft) {
           // If the draft has been modified to be empty, then erase the storage
           // entry.
-          this.$.storage.eraseDraftComment(this._getStorageLocation());
+          this.storage.eraseDraftComment(this._getStorageLocation());
         } else if (newDraft.length) {
-          this.$.storage.setDraftComment(
+          this.storage.setDraftComment(
             this._getStorageLocation(),
             this.draft
           );

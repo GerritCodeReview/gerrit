@@ -494,5 +494,4 @@ export const htmlTemplate = html`
       </gr-dialog>
     </gr-overlay>
   </template>
-  <gr-storage id="storage"></gr-storage>
 `;

@@ -425,7 +425,6 @@ export const htmlTemplate = html`
     on-reload-diff-preference="_handleReloadingDiffPreference"
   >
   </gr-diff-preferences-dialog>
-  <gr-storage id="storage"></gr-storage>
   <gr-diff-cursor
     id="cursor"
     on-navigate-to-next-unreviewed-file="_handleNextUnreviewedFile"

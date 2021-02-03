@@ -14,10 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {customElement, property} from '@polymer/decorators';
 import {CommentRange, PatchSetNum} from '../../../types/common';
 
 export interface StorageLocation {
@@ -43,28 +39,12 @@ CLEANUP_PREFIXES_MAX_AGE_MAP.set('respectfultip', 14 * DURATION_DAY);
 CLEANUP_PREFIXES_MAX_AGE_MAP.set('draft', DURATION_DAY);
 CLEANUP_PREFIXES_MAX_AGE_MAP.set('editablecontent', DURATION_DAY);
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-storage': GrStorage;
-  }
-}
+export class GrStorage {
+  private lastCleanup = 0;
 
-export interface GrStorage {
-  $: {};
-}
+  private readonly storage = window.localStorage;
 
-@customElement('gr-storage')
-export class GrStorage extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
-  @property({type: Number})
-  _lastCleanup = 0;
-
-  @property({type: Object})
-  _storage = window.localStorage;
-
-  @property({type: Boolean})
-  _exceededQuota = false;
+  private exceededQuota = false;
 
   getDraftComment(location: StorageLocation): StorageObject | null {
     this._cleanupItems();
@@ -78,7 +58,7 @@ export class GrStorage extends GestureEventListeners(
 
   eraseDraftComment(location: StorageLocation) {
     const key = this._getDraftKey(location);
-    this._storage.removeItem(key);
+    this.storage.removeItem(key);
   }
 
   getEditableContentItem(key: string): StorageObject | null {
@@ -106,7 +86,7 @@ export class GrStorage extends GestureEventListeners(
   }
 
   eraseEditableContentItem(key: string) {
-    this._storage.removeItem(this._getEditableContentKey(key));
+    this.storage.removeItem(this._getEditableContentKey(key));
   }
 
   _getDraftKey(location: StorageLocation): string {
@@ -134,20 +114,20 @@ export class GrStorage extends GestureEventListeners(
   _cleanupItems() {
     // Throttle cleanup to the throttle interval.
     if (
-      this._lastCleanup &&
-      Date.now() - this._lastCleanup < CLEANUP_THROTTLE_INTERVAL
+      this.lastCleanup &&
+      Date.now() - this.lastCleanup < CLEANUP_THROTTLE_INTERVAL
     ) {
       return;
     }
-    this._lastCleanup = Date.now();
+    this.lastCleanup = Date.now();
 
-    Object.keys(this._storage).forEach(key => {
+    Object.keys(this.storage).forEach(key => {
       const entries = CLEANUP_PREFIXES_MAX_AGE_MAP.entries();
       for (const [prefix, expiration] of entries) {
         if (key.startsWith(prefix)) {
           const item = this._getObject(key);
           if (!item || Date.now() - item.updated > expiration) {
-            this._storage.removeItem(key);
+            this.storage.removeItem(key);
           }
         }
       }
@@ -155,7 +135,7 @@ export class GrStorage extends GestureEventListeners(
   }
 
   _getObject(key: string): StorageObject | null {
-    const serial = this._storage.getItem(key);
+    const serial = this.storage.getItem(key);
     if (!serial) {
       return null;
     }
@@ -163,16 +143,16 @@ export class GrStorage extends GestureEventListeners(
   }
 
   _setObject(key: string, obj: StorageObject) {
-    if (this._exceededQuota) {
+    if (this.exceededQuota) {
       return;
     }
     try {
-      this._storage.setItem(key, JSON.stringify(obj));
+      this.storage.setItem(key, JSON.stringify(obj));
     } catch (exc) {
       // Catch for QuotaExceededError and disable writes on local storage the
       // first time that it occurs.
       if (exc.code === 22) {
-        this._exceededQuota = true;
+        this.exceededQuota = true;
         console.warn('Local storage quota exceeded: disabling');
         return;
       } else {

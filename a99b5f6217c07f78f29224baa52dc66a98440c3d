@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bfe865b_e70684db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-03T18:26:50Z",
+      "side": 1,
+      "message": "nitpick: where is the number 10000 defined? IIRC, googlesource.com has an internal limit of 10k, and I see that Elastic has a 10k limit too, but I can\u0027t find the limit for lucene.\n\nIf it\u0027s really not there, adjust the phrasing of the comments and commit message.",
+      "revId": "a99b5f6217c07f78f29224baa52dc66a98440c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

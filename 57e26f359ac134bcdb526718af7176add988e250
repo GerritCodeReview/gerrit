@@ -16,6 +16,24 @@
       "message": "why hardcode 10k? Could you make this number an option? Then you could set it lower for tests as well.\n\n",
       "revId": "57e26f359ac134bcdb526718af7176add988e250",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77697872_dd963a4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-03T13:42:12Z",
+      "side": 1,
+      "message": "I think this should be a separate flag, as it\u0027s a bit of a different behavior:\nwhat does this number as an option mean when it\u0027s set to 0? send 0 change refs, or behave as before this change?\n\nI\u0027m having a problem being backwards compatible if I make this a number, as this boolean should anyway be required to dictate whether we ignore the refs/changes input.\n\nIf you think this has value I can add this int as a separate change, though, as another option.",
+      "parentUuid": "c92c3cba_7bc4b758",
+      "revId": "57e26f359ac134bcdb526718af7176add988e250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.InternalServerWithUserMessageException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.project.ProjectConfig;
 import java.util.Optional;
@@ -72,6 +73,9 @@ public class ExceptionHookImpl implements ExceptionHook {
           getInvalidConfigMessage(throwable).orElse(INVALID_PROJECT_CONFIG_USER_MESSAGE)
               + "\n"
               + CONTACT_PROJECT_OWNER_USER_MESSAGE);
+    }
+    if (throwable instanceof InternalServerWithUserMessageException) {
+      return ImmutableList.of(throwable.getMessage());
     }
     return ImmutableList.of();
   }

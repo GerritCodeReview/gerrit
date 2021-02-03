@@ -27,7 +27,7 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.exceptions.InternalServerWithUserMessageException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -129,7 +129,8 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     ChangeMessageModifier modifier2 = (msg, orig, tip, dest) -> msg + "A-footer: value\n";
     try (Registration registration =
         extensionRegistry.newRegistration().add(modifier1).add(modifier2)) {
-      StorageException thrown = assertThrows(StorageException.class, () -> submitWithRebase());
+      InternalServerWithUserMessageException thrown =
+          assertThrows(InternalServerWithUserMessageException.class, () -> submitWithRebase());
       Throwable cause = Throwables.getRootCause(thrown);
       assertThat(cause).isInstanceOf(RuntimeException.class);
       assertThat(cause).hasMessageThat().isEqualTo("boom");
@@ -145,7 +146,8 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
             .newRegistration()
             .add(modifier1, "modifier-1")
             .add(modifier2, "modifier-2")) {
-      StorageException thrown = assertThrows(StorageException.class, () -> submitWithRebase());
+      InternalServerWithUserMessageException thrown =
+          assertThrows(InternalServerWithUserMessageException.class, () -> submitWithRebase());
       Throwable cause = Throwables.getRootCause(thrown);
       assertThat(cause).isInstanceOf(RuntimeException.class);
       assertThat(cause)

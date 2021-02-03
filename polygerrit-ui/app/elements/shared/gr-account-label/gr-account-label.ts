@@ -24,7 +24,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-account-label_html';
 import {appContext} from '../../../services/app-context';
 import {getDisplayName} from '../../../utils/display-name-util';
-import {isServiceUser} from '../../../utils/account-util';
+import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {customElement, property} from '@polymer/decorators';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
@@ -270,7 +270,7 @@ export class GrAccountLabel extends GestureEventListeners(
   ) {
     return (
       this._hasUnforcedAttention(config, highlight, account, change) &&
-      isInvolved(change, selfAccount)
+      (isInvolved(change, selfAccount) || isSelf(account, selfAccount))
     );
   }
 

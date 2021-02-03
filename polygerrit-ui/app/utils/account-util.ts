@@ -28,6 +28,10 @@ export function isServiceUser(account?: AccountInfo): boolean {
   return !!account?.tags?.includes(AccountTag.SERVICE_USER);
 }
 
+export function isSelf(account?: AccountInfo, self?: AccountInfo): boolean {
+  return account?._account_id === self?._account_id;
+}
+
 export function removeServiceUsers(accounts?: AccountInfo[]): AccountInfo[] {
   return accounts?.filter(a => !isServiceUser(a)) || [];
 }

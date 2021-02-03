@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "37af1e98_6c426b86",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "I\u0027m seeing test failures after the upgrade. I filed this issue: [1].\n\n[1] https://issues.apache.org/jira/projects/SSHD/issues/SSHD-1020",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "fb1e2137_ae02033a",
         "filename": "/PATCHSET_LEVEL",
@@ -32,10 +33,10 @@
       "message": "I guess you meant [1]. Looks like some sessions are not closed server-side? Or do the tests really run more than the limit of 64 sessions in parallel?\n\n[1] https://issues.apache.org/jira/projects/SSHD/issues/SSHD-1028",
       "parentUuid": "37af1e98_6c426b86",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9cce06d5_7715668f",
         "filename": "/PATCHSET_LEVEL",
@@ -50,10 +51,10 @@
       "message": "\u003e I guess you meant [1].\n\nYes, sorry for the typo.\n\n\u003e  Looks like some sessions are not closed server-side?\n\u003e Or do the tests really run more than the limit of 64 sessions in parallel?\n\nUnlikely, because it worked in 2.4.0 and is broken after the upgrade?",
       "parentUuid": "fb1e2137_ae02033a",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "aad5779c_2c9cf4d1",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
@@ -67,10 +68,10 @@
       "side": 1,
       "message": "What has this change to do with bumping the version?",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "87016af0_972a0676",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
@@ -85,10 +86,10 @@
       "message": "Good question, worth explaining in the commit message(or even extracting to own change). New method was added to the interface and it is not a FunctionalInterface any more, so that the old code wasn\u0027t compiling. Then, I figured I could just replace it with NativeFileSystemFactory.",
       "parentUuid": "aad5779c_2c9cf4d1",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ff4712ed_322b45b8",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
@@ -103,10 +104,10 @@
       "message": "I\u0027d check where this factory is used. I suppose it won\u0027t make a difference in practice since Gerrit doesn\u0027t provide SFTP access, but better make sure that this does not inadvertently give clients access to the Gerrit host\u0027s file system. Might be safer and more explicit to have a NoFileSystem implementation.",
       "parentUuid": "87016af0_972a0676",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "da1e150b_d8dadeef",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
@@ -121,10 +122,28 @@
       "message": "I wrote this feature request upstream: [1].\n\n[1] https://issues.apache.org/jira/browse/SSHD-1030",
       "parentUuid": "ff4712ed_322b45b8",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e1ac493_a4602f6a",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-03T10:01:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "da1e150b_d8dadeef",
+      "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "2ea1317d_45d0497b",
         "filename": "tools/nongoogle.bzl",
@@ -138,10 +157,10 @@
       "side": 1,
       "message": "Try with 2.5.1; it\u0027s out. See [1]. I don\u0027t think it\u0027ll make any difference, though.\n\n[1] https://repo1.maven.org/maven2/org/apache/sshd/sshd-core/2.5.1/",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ff11ca66_a3d11030",
         "filename": "tools/nongoogle.bzl",
@@ -156,10 +175,10 @@
       "message": "Thanks. Will update later today.",
       "parentUuid": "2ea1317d_45d0497b",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "eb595e57_d79c75b0",
         "filename": "tools/nongoogle.bzl",
@@ -174,10 +193,10 @@
       "message": "Indeed it won\u0027t make a difference. The server doesn\u0027t close its server-side sessions when a client disconnects. Simple JGit unit test reproducing the problem: [1]. Works with 2.4.0, fails with 2.5.[01].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/165814",
       "parentUuid": "ff11ca66_a3d11030",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6b1d0079_557ce696",
         "filename": "tools/nongoogle.bzl",
@@ -192,10 +211,10 @@
       "message": "Thanks, Thomas, for bisecting and reproducing the problem!",
       "parentUuid": "eb595e57_d79c75b0",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e2bd4682_842cc4e3",
         "filename": "tools/nongoogle.bzl",
@@ -210,10 +229,10 @@
       "message": "We could revert the offending commit and build 2.5.1-patched on top of it and upload it in some location to proof that this would fix the breakage. Last time I uploaded a fix patch here: [1].\n\n[1] https://github.com/davido/mina-sshd/releases/tag/v2.4.0-134-gbb07cf5d",
       "parentUuid": "6b1d0079_557ce696",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "48c881dc_841a5fe2",
         "filename": "tools/nongoogle.bzl",
@@ -228,8 +247,7 @@
       "message": "Done, switched to patch release and all tests are passing again.",
       "parentUuid": "e2bd4682_842cc4e3",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

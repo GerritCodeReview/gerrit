@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61b76c62_14a453fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-03T15:25:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3998f89_7e6d8e3d",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "23a198cdae7717a6ea916248b4d39867f5f682a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42565010_00da7caa",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-02-03T13:59:10Z",
       "side": 1,
       "message": "Another side effect of changing the response code from 5XX to 4XX is that it will no longer be counted against our SLOs. I\u0027m not sure if it\u0027s intended here?",
+      "revId": "23a198cdae7717a6ea916248b4d39867f5f682a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9334088_3fa9a34e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-03T15:25:20Z",
+      "side": 1,
+      "message": "not really intended, no.\nAny suggestion? I can\u0027t find an alternative.\nWe could manually make it count as part of the SLO, maybe, trying to differentiate an expected error during submit with an unexpected error?",
+      "parentUuid": "42565010_00da7caa",
       "revId": "23a198cdae7717a6ea916248b4d39867f5f682a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

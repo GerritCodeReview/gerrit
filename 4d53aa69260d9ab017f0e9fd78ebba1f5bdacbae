@@ -188,6 +188,30 @@
       },
       "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c24edb8_1118d3b6",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-03T21:50:42Z",
+      "side": 1,
+      "message": "I think this part of my comment was not ACKed: \"Specific to your changes in this file, I have a hard time saying the code is easier to read (and therefore maintain) than it was before.\"",
+      "parentUuid": "e3db078c_585e2fa1",
+      "range": {
+        "startLine": 381,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 44
+      },
+      "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

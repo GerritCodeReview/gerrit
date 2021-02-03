@@ -20,7 +20,6 @@ import './gr-diff-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
-import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {_testOnly_findCommentById} from '../gr-comment-api/gr-comment-api.js';
 import {GerritView} from '../../../services/router/router-model.js';
@@ -30,6 +29,7 @@ import {
   createComment,
 } from '../../../test/test-data-generators.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {EditPatchSetNum} from '../../../types/common.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -1142,7 +1142,7 @@ suite('gr-diff-view tests', () => {
     test('file review status with edit loaded', () => {
       const saveReviewedStub = sinon.stub(element, '_saveReviewedState');
 
-      element._patchRange = {patchNum: SPECIAL_PATCH_SET_NUM.EDIT};
+      element._patchRange = {patchNum: EditPatchSetNum};
       flush();
 
       assert.isTrue(element._editMode);
@@ -1643,7 +1643,7 @@ suite('gr-diff-view tests', () => {
         element._patchRange = {patchNum: 1};
         // Reviewed checkbox should be shown.
         assert.isTrue(isVisible(element.$.reviewed));
-        element.set('_patchRange.patchNum', SPECIAL_PATCH_SET_NUM.EDIT);
+        element.set('_patchRange.patchNum', EditPatchSetNum);
         flush();
 
         assert.isFalse(isVisible(element.$.reviewed));

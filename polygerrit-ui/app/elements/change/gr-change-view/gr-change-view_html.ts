@@ -865,6 +865,5 @@ export const htmlTemplate = html`
     >
     </gr-reply-dialog>
   </gr-overlay>
-  <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
   <gr-comment-api id="commentAPI"></gr-comment-api>
 `;

@@ -17,7 +17,6 @@
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-icons/gr-icons';
-import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
@@ -35,10 +34,10 @@ import {
   TopMenuEntryInfo,
   TopMenuItemInfo,
 } from '../../../types/common';
-import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
 import {AuthType} from '../../../constants/constants';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {appContext} from '../../../services/app-context';
+import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -102,12 +101,6 @@ const AUTH_TYPES_WITH_REGISTER_URL: Set<AuthType> = new Set([
   AuthType.CUSTOM_EXTENSION,
 ]);
 
-export interface GrMainHeader {
-  $: {
-    jsAPI: JsApiService & Element;
-  };
-}
-
 @customElement('gr-main-header')
 export class GrMainHeader extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -163,6 +156,8 @@ export class GrMainHeader extends GestureEventListeners(
   mobileSearchHidden = false;
 
   private readonly restApiService = appContext.restApiService;
+
+  private readonly jsAPI = new GrJsApiInterface();
 
   /** @override */
   ready() {
@@ -296,7 +291,7 @@ export class GrMainHeader extends GestureEventListeners(
             }
             return capabilities;
           }),
-        () => this.$.jsAPI.getAdminMenuLinks()
+        () => this.jsAPI.getAdminMenuLinks()
       ).then(res => {
         this._adminLinks = res.links;
       });

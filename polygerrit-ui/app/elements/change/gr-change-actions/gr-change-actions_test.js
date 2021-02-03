@@ -467,7 +467,7 @@ suite('gr-change-actions tests', () => {
     test('_setReviewOnRevert', () => {
       const review = {labels: {'Foo': 1, 'Bar-Baz': -2}};
       const changeId = 1234;
-      sinon.stub(element.$.jsAPI, 'getReviewPostRevert').returns(review);
+      sinon.stub(element.jsAPI, 'getReviewPostRevert').returns(review);
       const saveStub = stubRestApi('saveChangeReview')
           .returns(Promise.resolve());
       return element._setReviewOnRevert(changeId).then(() => {

@@ -17,6 +17,7 @@
 
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
+import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 
 /**
  * Event emitted from polymer elements.
@@ -228,9 +229,7 @@ let _sharedApiEl: JsApiService;
  */
 export function getSharedApiEl(): JsApiService {
   if (!_sharedApiEl) {
-    _sharedApiEl = (document.createElement(
-      'gr-js-api-interface'
-    ) as unknown) as JsApiService;
+    _sharedApiEl = new GrJsApiInterface();
   }
   return _sharedApiEl;
 }

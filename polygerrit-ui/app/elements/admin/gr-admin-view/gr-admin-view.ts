@@ -19,7 +19,6 @@ import '../../../styles/gr-page-nav-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-icons/gr-icons';
-import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import '../../shared/gr-page-nav/gr-page-nav';
 import '../gr-admin-group-list/gr-admin-group-list';
 import '../gr-group/gr-group';
@@ -68,12 +67,6 @@ import {appContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
-
-export interface GrAdminView {
-  $: {
-    jsAPI: GrJsApiInterface;
-  };
-}
 
 interface AdminSubsectionLink {
   text: string;
@@ -183,6 +176,8 @@ export class GrAdminView extends GestureEventListeners(
 
   private restApiService = appContext.restApiService;
 
+  private readonly jsAPI = new GrJsApiInterface();
+
   /** @override */
   attached() {
     super.attached();
@@ -218,7 +213,7 @@ export class GrAdminView extends GestureEventListeners(
             }
             return capabilities;
           }),
-        () => this.$.jsAPI.getAdminMenuLinks(),
+        () => this.jsAPI.getAdminMenuLinks(),
         options
       ).then(res => {
         this._filteredLinks = res.links;

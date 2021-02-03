@@ -57,5 +57,4 @@ export const htmlTemplate = html`
       ></iron-autogrow-textarea>
     </div>
   </gr-dialog>
-  <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
 `;

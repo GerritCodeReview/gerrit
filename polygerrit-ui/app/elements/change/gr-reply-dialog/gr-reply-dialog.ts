@@ -20,7 +20,6 @@ import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-textarea/gr-textarea';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-formatted-text/gr-formatted-text';
-import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-storage/gr-storage';
 import '../../shared/gr-account-list/gr-account-list';
@@ -59,7 +58,6 @@ import {
   GroupObjectInput,
   RawAccountInput,
 } from '../../shared/gr-account-list/gr-account-list';
-import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
 import {
   AccountId,
   AccountInfo,
@@ -112,6 +110,7 @@ import {
 import {isUnresolved} from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {fireAlert, fireEvent, fireServerError} from '../../../utils/event-util';
+import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -160,7 +159,6 @@ const PENDING_REMOVAL_KEYS: (keyof PendingRemovals)[] = [
 
 export interface GrReplyDialog {
   $: {
-    jsAPI: JsApiService & Element;
     reviewers: GrAccountList;
     ccs: GrAccountList;
     cancelButton: GrButton;
@@ -377,6 +375,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
 
   private readonly storage = new GrStorage();
 
+  private readonly jsAPI = new GrJsApiInterface();
+
   get keyBindings() {
     return {
       esc: '_handleEscKey',
@@ -423,7 +423,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   /** @override */
   ready() {
     super.ready();
-    this.$.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
+    this.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
   }
 
   open(focusTarget?: FocusTarget) {

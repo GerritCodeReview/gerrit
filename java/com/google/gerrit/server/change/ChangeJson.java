@@ -112,10 +112,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -732,7 +734,14 @@ public class ChangeJson {
     // removed.
     Collection<LabelInfo> labels = out.labels.values();
     Set<Account.Id> fixed = Sets.newHashSetWithExpectedSize(labels.size());
-    Set<Account.Id> removable = Sets.newHashSetWithExpectedSize(labels.size());
+    Set<Account.Id> removable = new HashSet<>();
+
+    // Add all reviewers, which will later be removed if they are in the "fixed" set.
+    removable.addAll(
+        out.reviewers.getOrDefault(ReviewerState.REVIEWER, Collections.emptySet()).stream()
+            .filter(a -> a._accountId != null)
+            .map(a -> Account.id(a._accountId))
+            .collect(Collectors.toSet()));
 
     // Check if the user has the permission to remove a reviewer. This means we can bypass the
     // testRemoveReviewer check for a specific reviewer in the loop saving potentially many
@@ -749,11 +758,9 @@ public class ChangeJson {
       for (ApprovalInfo ai : label.all) {
         Account.Id id = Account.id(ai._accountId);
 
-        if (canRemoveAnyReviewer
-            || removeReviewerControl.testRemoveReviewer(
+        if (!canRemoveAnyReviewer
+            && !removeReviewerControl.testRemoveReviewer(
                 cd, userProvider.get(), id, MoreObjects.firstNonNull(ai.value, 0))) {
-          removable.add(id);
-        } else {
           fixed.add(id);
         }
       }

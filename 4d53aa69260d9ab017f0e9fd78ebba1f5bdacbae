@@ -164,6 +164,30 @@
       },
       "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3db078c_585e2fa1",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-03T21:35:30Z",
+      "side": 1,
+      "message": "the \"takes \u0027repo\u0027 as an arg and later ignores it\" was that way before my change, so I\u0027ll ack this comment. I agree it doesn\u0027t look great.\nI\u0027ll put myself a bug internally to take a look later and reformat this class when I have time, no promises though :-)",
+      "parentUuid": "d931a523_c70c53c9",
+      "range": {
+        "startLine": 381,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 44
+      },
+      "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

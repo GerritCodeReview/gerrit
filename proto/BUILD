@@ -4,6 +4,7 @@ load("@rules_proto//proto:defs.bzl", "proto_library")
 proto_library(
     name = "cache_proto",
     srcs = ["cache.proto"],
+    deps = [":entities_proto"],
 )
 
 java_proto_library(

@@ -2576,6 +2576,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
               message: toastMessage,
               // Persist this alert.
               dismissOnNavigation: true,
+              showDismiss: true,
               action: 'Reload',
               callback: () => {
                 this._reload(

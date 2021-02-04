@@ -279,7 +279,9 @@ export class GrErrorManager extends GestureEventListeners(
       e.detail.message,
       e.detail.action,
       e.detail.callback,
-      e.detail.dismissOnNavigation
+      e.detail.dismissOnNavigation,
+      undefined,
+      e.detail.showDismiss
     );
   }
 
@@ -299,7 +301,8 @@ export class GrErrorManager extends GestureEventListeners(
     actionText?: string,
     actionCallback?: () => void,
     dismissOnNavigation?: boolean,
-    type?: ErrorType
+    type?: ErrorType,
+    showDismiss?: boolean
   ) {
     if (this._alertElement) {
       // check priority before hiding
@@ -317,7 +320,7 @@ export class GrErrorManager extends GestureEventListeners(
         HIDE_ALERT_TIMEOUT_MS
       );
     }
-    const el = this._createToastAlert();
+    const el = this._createToastAlert(showDismiss);
     el.show(text, actionText, actionCallback);
     this._alertElement = el;
     this.fire('iron-announce', {text: `Alert: ${text}`}, {bubbles: true});
@@ -363,9 +366,10 @@ export class GrErrorManager extends GestureEventListeners(
     }
   }
 
-  _createToastAlert() {
+  _createToastAlert(showDismiss?: boolean) {
     const el = document.createElement('gr-alert');
     el.toast = true;
+    el.showDismiss = !!showDismiss;
     return el;
   }
 

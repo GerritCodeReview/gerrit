@@ -541,7 +541,10 @@ export abstract class GrDiffBuilder {
       td.classList.add('lineNum');
       td.dataset['value'] = number.toString();
 
-      if (this._prefs.show_file_comment_button === false && number === 'FILE') {
+      if (
+        (this._prefs.show_file_comment_button === false && number === 'FILE') ||
+        number === 'LOST'
+      ) {
         return td;
       }
 
@@ -589,7 +592,7 @@ export abstract class GrDiffBuilder {
     }
     td.classList.add(line.type);
 
-    if (line.beforeNumber !== 'FILE') {
+    if (line.beforeNumber !== 'FILE' && line.beforeNumber !== 'LOST') {
       const lineLimit = !this._prefs.line_wrapping
         ? this._prefs.line_length
         : Infinity;
@@ -614,9 +617,7 @@ export abstract class GrDiffBuilder {
       }
 
       td.appendChild(contentText);
-    } else {
-      td.classList.add('file');
-    }
+    } else if (line.beforeNumber === 'FILE') td.classList.add('file');
 
     return td;
   }

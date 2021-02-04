@@ -28,7 +28,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import java.util.Collection;
 import java.util.Set;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 
 /**
  * Helpers for {@link PermissionBackend} that must fail.
@@ -141,7 +140,7 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
+    public Collection<Ref> filter(Collection<Ref> refs, RefFilterOptions opts)
         throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }

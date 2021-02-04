@@ -94,7 +94,7 @@ public class LsUserRefs extends SshCommand {
             permissionBackend
                 .user(ctx.getUser())
                 .project(projectName)
-                .filter(repo.getRefDatabase().getRefs(), repo, RefFilterOptions.defaults());
+                .filter(repo.getRefDatabase().getRefs(), RefFilterOptions.defaults());
 
         for (Ref ref : refsMap) {
           if (!onlyRefsHeads || ref.getName().startsWith(RefNames.REFS_HEADS)) {

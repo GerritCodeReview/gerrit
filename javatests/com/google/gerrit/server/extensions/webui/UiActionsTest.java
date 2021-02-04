@@ -38,7 +38,6 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import java.util.Collection;
 import java.util.Set;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
 public class UiActionsTest {
@@ -84,7 +83,7 @@ public class UiActionsTest {
     }
 
     @Override
-    public Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
+    public Collection<Ref> filter(Collection<Ref> refs, RefFilterOptions opts)
         throws PermissionBackendException {
       throw new UnsupportedOperationException("not implemented");
     }

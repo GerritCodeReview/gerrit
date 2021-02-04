@@ -49,7 +49,9 @@ import {
   BlameInfo,
   ChangeInfo,
   CommentRange,
+  EditPatchSetNum,
   NumericChangeId,
+  ParentPatchSetNum,
   PatchRange,
   PatchSetNum,
   RepoName,
@@ -752,7 +754,7 @@ export class GrDiffHost extends GestureEventListeners(
       side === Side.LEFT && isAParent(this.patchRange.basePatchNum)
         ? CommentSide.PARENT
         : CommentSide.REVISION;
-
+    if (!this.canCommentOnPatchSetNum(patchNum)) return;
     const threadEl = this._getOrCreateThread(
       patchNum,
       lineNum,
@@ -764,6 +766,32 @@ export class GrDiffHost extends GestureEventListeners(
     threadEl.addOrEditDraft(lineNum, range);
 
     this.reporting.recordDraftInteraction();
+  }
+
+  private canCommentOnPatchSetNum(patchNum: PatchSetNum) {
+    if (!this._loggedIn) {
+      fireEvent(this, 'show-auth-required');
+      return false;
+    }
+    if (!this.patchRange) {
+      fireAlert(this, 'Cannot create comment. patchRange undefined.');
+      return false;
+    }
+
+    const isEdit = patchNum === EditPatchSetNum;
+    const isEditBase =
+      patchNum === ParentPatchSetNum &&
+      this.patchRange.patchNum === EditPatchSetNum;
+
+    if (isEdit) {
+      fireAlert(this, 'You cannot comment on an edit.');
+      return false;
+    }
+    if (isEditBase) {
+      fireAlert(this, 'You cannot comment on the base patchset of an edit.');
+      return false;
+    }
+    return true;
   }
 
   /**

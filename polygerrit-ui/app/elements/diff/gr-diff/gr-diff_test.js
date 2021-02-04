@@ -102,14 +102,6 @@ suite('gr-diff tests', () => {
       assert.isFalse(element.classList.contains('no-left'));
     });
 
-    test('addDraftAtLine', () => {
-      sinon.stub(element, '_selectLine');
-      const loggedInErrorSpy = sinon.spy();
-      element.addEventListener('show-auth-required', loggedInErrorSpy);
-      element.addDraftAtLine();
-      assert.isTrue(loggedInErrorSpy.called);
-    });
-
     test('view does not start with displayLine classList', () => {
       assert.isFalse(
           element.shadowRoot
@@ -565,29 +557,6 @@ suite('gr-diff tests', () => {
       element.addDraftAtLine(fakeLineEl);
       assert.isTrue(element._createComment
           .calledWithExactly(fakeLineEl, 42));
-    });
-
-    test('addDraftAtLine on an edit', () => {
-      element.patchRange.basePatchNum = EditPatchSetNum;
-      sinon.stub(element, '_selectLine');
-      sinon.stub(element, '_createComment');
-      const alertSpy = sinon.spy();
-      element.addEventListener('show-alert', alertSpy);
-      element.addDraftAtLine(fakeLineEl);
-      assert.isTrue(alertSpy.called);
-      assert.isFalse(element._createComment.called);
-    });
-
-    test('addDraftAtLine on an edit base', () => {
-      element.patchRange.patchNum = EditPatchSetNum;
-      element.patchRange.basePatchNum = ParentPatchSetNum;
-      sinon.stub(element, '_selectLine');
-      sinon.stub(element, '_createComment');
-      const alertSpy = sinon.spy();
-      element.addEventListener('show-alert', alertSpy);
-      element.addDraftAtLine(fakeLineEl);
-      assert.isTrue(alertSpy.called);
-      assert.isFalse(element._createComment.called);
     });
 
     test('adds long range comment chip', async () => {

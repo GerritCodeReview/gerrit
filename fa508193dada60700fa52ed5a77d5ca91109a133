@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ee72d1_7ad1940e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-02-04T09:48:35Z",
+      "side": 1,
+      "message": "Why this.$.relatedChanges doesn\u0027t work? (just curious, no action required on this comment)",
+      "range": {
+        "startLine": 1316,
+        "startChar": 27,
+        "endLine": 1318,
+        "endChar": 6
+      },
+      "revId": "fa508193dada60700fa52ed5a77d5ca91109a133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b0d92f8_e28500a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-02-04T09:48:35Z",
+      "side": 1,
+      "message": "This code repeats multiple times - maybe move it into a method and then use like\ngetRelatedChangesList()?.clear()\ngetRelatedChangesList()?.reload(), etc...",
+      "range": {
+        "startLine": 1316,
+        "startChar": 27,
+        "endLine": 1318,
+        "endChar": 5
+      },
+      "revId": "fa508193dada60700fa52ed5a77d5ca91109a133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ccc70b4_1a03b5bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2487,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-02-04T09:48:35Z",
+      "side": 1,
+      "message": "Please add a comment why relatedChanges is not null in this method? The relatedChanges variable is the same as in other places, looks unexpected.",
+      "range": {
+        "startLine": 2487,
+        "startChar": 57,
+        "endLine": 2487,
+        "endChar": 58
+      },
+      "revId": "fa508193dada60700fa52ed5a77d5ca91109a133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

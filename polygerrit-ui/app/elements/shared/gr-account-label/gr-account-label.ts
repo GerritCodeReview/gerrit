@@ -99,6 +99,12 @@ export class GrAccountLabel extends GestureEventListeners(
   @property({type: Object})
   _config?: ServerInfo;
 
+  @property({type: Boolean, reflectToAttribute: true})
+  selected = false;
+
+  @property({type: Boolean, reflectToAttribute: true})
+  deselected = false;
+
   reporting: ReportingService;
 
   private readonly restApiService = appContext.restApiService;
@@ -201,6 +207,7 @@ export class GrAccountLabel extends GestureEventListeners(
   }
 
   _handleRemoveAttentionClick(e: MouseEvent) {
+    if (this.selected) return;
     e.preventDefault();
     e.stopPropagation();
     if (!this.account._account_id) return;
@@ -266,8 +273,10 @@ export class GrAccountLabel extends GestureEventListeners(
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo,
-    selfAccount: AccountInfo
+    selfAccount: AccountInfo,
+    selected: boolean
   ) {
+    if (selected) return true;
     return (
       this._hasUnforcedAttention(config, highlight, account, change) &&
       (isInvolved(change, selfAccount) || isSelf(account, selfAccount))
@@ -280,14 +289,16 @@ export class GrAccountLabel extends GestureEventListeners(
     account: AccountInfo,
     change: ChangeInfo,
     selfAccount: AccountInfo,
-    force: boolean
+    force: boolean,
+    selected: boolean
   ) {
     const enabled = this._computeAttentionButtonEnabled(
       config,
       highlight,
       account,
       change,
-      selfAccount
+      selfAccount,
+      selected
     );
     return enabled
       ? 'Click to remove the user from the attention set'

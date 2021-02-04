@@ -594,11 +594,14 @@ export const htmlTemplate = html`
                 </gr-endpoint-param>
               </gr-endpoint-decorator>
             </div>
-            <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
-              <gr-related-changes-list-experimental></gr-related-changes-list-experimental>
-            </template>
-            <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
-              <div class="relatedChanges">
+            <div class="relatedChanges">
+              <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
+                <gr-related-changes-list-experimental
+                  change="[[_change]]"
+                  id="relatedChangesExperimental"
+                ></gr-related-changes-list-experimental>
+              </template>
+              <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
                 <gr-related-changes-list
                   id="relatedChanges"
                   class$="[[_computeRelatedChangesClass(_relatedChangesCollapsed)]]"
@@ -620,8 +623,8 @@ export const htmlTemplate = html`
                     [[_computeCollapseText(_relatedChangesCollapsed)]]
                   </gr-button>
                 </div>
-              </div>
-            </template>
+              </template>
+            </div>
           </div>
         </div>
       </div>

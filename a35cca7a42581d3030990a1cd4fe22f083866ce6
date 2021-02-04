@@ -39,6 +39,30 @@
       },
       "revId": "a35cca7a42581d3030990a1cd4fe22f083866ce6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db4b25e0_723f139a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-04T16:17:08Z",
+      "side": 1,
+      "message": "Thanks, I will add it to my todo list and I will fix it in next change.",
+      "parentUuid": "d7bb28ef_1bc601bf",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 76,
+        "endChar": 29
+      },
+      "revId": "a35cca7a42581d3030990a1cd4fe22f083866ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

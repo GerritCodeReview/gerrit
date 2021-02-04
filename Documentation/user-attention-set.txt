@@ -160,10 +160,14 @@ The Attention Set has been available since the 3.3 release (late 2020). It
 is enabled by default, but you can disable it by setting
 link:config-gerrit.html#change.enableAttentionSet[enableAttentionSet] to false.
 
+As part of Gerrit 3.3 upgrade, the user group "Non-Interactive Users" is
+renamed "Service Users". For a new installation, the group is automatically
+created upon initialization.
+
 === Important note for all host owners, project owners, and bot owners
 
 If you are a host/project owner, please make sure all bots that run against your
-host/project are part of the "Service Users" group.
+host/project are part of the link:access-control.html#service_users[Service Users] group.
 
 If you are a bot owner, please make sure your bot is part of the "Service Users"
 group on all hosts it runs on.

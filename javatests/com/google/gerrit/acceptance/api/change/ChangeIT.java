@@ -3816,16 +3816,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void changeCommitMessageWithNoChangeIdRetainsChangeID() throws Exception {
-    PushOneCommit.Result r = createChange();
-    assertThat(getCommitMessage(r.getChangeId()))
-        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
-    gApi.changes().id(r.getChangeId()).setMessage("modified commit\n");
-    assertThat(getCommitMessage(r.getChangeId()))
-        .isEqualTo("modified commit\n\nChange-Id: " + r.getChangeId() + "\n");
-  }
-
-  @Test
   public void changeCommitMessageNullNotAllowed() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(getCommitMessage(r.getChangeId()))

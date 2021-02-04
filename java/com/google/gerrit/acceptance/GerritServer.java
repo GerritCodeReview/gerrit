@@ -590,7 +590,7 @@ public class GerritServer implements AutoCloseable {
     httpAddress = new InetSocketAddress(uri.getHost(), uri.getPort());
   }
 
-  String getUrl() {
+  public String getUrl() {
     return url;
   }
 
@@ -600,6 +600,10 @@ public class GerritServer implements AutoCloseable {
 
   public Injector getTestInjector() {
     return testInjector;
+  }
+
+  public Injector getHttpdInjector() {
+    return daemon.getHttpdInjector();
   }
 
   Description getDescription() {

@@ -73,7 +73,7 @@ suite('gr-diff-processor tests', () => {
 
       return element.process(content).then(() => {
         const groups = element.groups;
-
+        groups.shift(); // remove portedThreadsWithoutRangeGroup
         assert.equal(groups.length, 4);
 
         let group = groups[0];
@@ -133,6 +133,7 @@ suite('gr-diff-processor tests', () => {
 
       return element.process(content).then(() => {
         const groups = element.groups;
+        groups.shift(); // remove portedThreadsWithoutRangeGroup
 
         assert.equal(groups[0].type, GrDiffGroupType.BOTH);
         assert.equal(groups[0].lines.length, 1);
@@ -153,6 +154,7 @@ suite('gr-diff-processor tests', () => {
 
         return element.process(content).then(() => {
           const groups = element.groups;
+          groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
 
@@ -185,6 +187,7 @@ suite('gr-diff-processor tests', () => {
         await element.process(content);
 
         const groups = element.groups;
+        groups.shift(); // remove portedThreadsWithoutRangeGroup
 
         // group[0] is the file group
 
@@ -231,6 +234,7 @@ suite('gr-diff-processor tests', () => {
 
         return element.process(content).then(() => {
           const groups = element.groups;
+          groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
 
@@ -252,6 +256,7 @@ suite('gr-diff-processor tests', () => {
 
         return element.process(content).then(() => {
           const groups = element.groups;
+          groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
           // group[1] is the "a" group
@@ -283,6 +288,7 @@ suite('gr-diff-processor tests', () => {
 
         return element.process(content).then(() => {
           const groups = element.groups;
+          groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
           // group[1] is the "a" group
@@ -324,6 +330,7 @@ suite('gr-diff-processor tests', () => {
 
         return element.process(content).then(() => {
           const groups = element.groups;
+          groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
           // group[1] is the "a" group
@@ -411,6 +418,7 @@ suite('gr-diff-processor tests', () => {
 
         return element.process(content).then(() => {
           const groups = element.groups;
+          groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
           // group[1] is the "a" group
@@ -450,6 +458,7 @@ suite('gr-diff-processor tests', () => {
 
         return element.process(content).then(() => {
           const groups = element.groups;
+          groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
           // group[1] is the "a" group
@@ -479,6 +488,7 @@ suite('gr-diff-processor tests', () => {
       await element.process(content);
 
       const groups = element.groups;
+      groups.shift(); // remove portedThreadsWithoutRangeGroup
 
       // group[0] is the file group
       // group[1] is the chunk with a
@@ -744,12 +754,12 @@ suite('gr-diff-processor tests', () => {
       element._isScrolling = true;
       element.process(content);
       // Just the files group - no more processing during scrolling.
-      assert.equal(element.groups.length, 1);
+      assert.equal(element.groups.length, 2);
 
       element._isScrolling = false;
       element.process(content);
       // More groups have been processed. How many does not matter here.
-      assert.isAtLeast(element.groups.length, 2);
+      assert.isAtLeast(element.groups.length, 3);
     });
 
     test('image diffs', () => {
@@ -762,7 +772,7 @@ suite('gr-diff-processor tests', () => {
       const content = _.times(200, _.constant(contentRow));
       sinon.stub(element, 'async');
       element.process(content, true);
-      assert.equal(element.groups.length, 1);
+      assert.equal(element.groups.length, 2);
 
       // Image diffs don't process content, just the 'FILE' line.
       assert.equal(element.groups[0].lines.length, 1);

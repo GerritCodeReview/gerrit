@@ -518,8 +518,9 @@ export class GrDiff extends GestureEventListeners(
       );
       this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
     } else if (
-      el.classList.contains('lineNum') ||
-      el.classList.contains('lineNumButton')
+      el.getAttribute('data-value') !== 'LOST' &&
+      (el.classList.contains('lineNum') ||
+        el.classList.contains('lineNumButton'))
     ) {
       this.addDraftAtLine(el);
     } else if (
@@ -817,6 +818,9 @@ export class GrDiff extends GestureEventListeners(
         }
         const contentEl = this.$.diffBuilder.getContentTdByLineEl(lineEl);
         if (!contentEl) continue;
+        if (lineNum === 'LOST' && !contentEl.hasChildNodes()) {
+          contentEl.appendChild(this._portedCommentsWithoutRangeMessage());
+        }
         const threadGroupEl = this._getOrCreateThreadGroup(
           contentEl,
           commentSide
@@ -860,6 +864,17 @@ export class GrDiff extends GestureEventListeners(
         )?.remove();
       }
     });
+  }
+
+  _portedCommentsWithoutRangeMessage() {
+    const div = document.createElement('div');
+    const icon = document.createElement('iron-icon');
+    icon.setAttribute('icon', 'gr-icons:info');
+    div.appendChild(icon);
+    const span = document.createElement('span');
+    span.innerText = 'Original comment position not found in this patchset';
+    div.appendChild(span);
+    return div;
   }
 
   _unobserveIncrementalNodes() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf4fd992_11039367",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-04T14:58:06Z",
+      "side": 1,
+      "message": "extracting a new code-path for the path for a single ref in DefaultRefFilter is not very helpful since actually there are 3 paths (and not 2) so my attempt at improving it was actually counter-productive.",
+      "revId": "5c1dc130aefa494b878ffdcad25f06e57dacc8b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

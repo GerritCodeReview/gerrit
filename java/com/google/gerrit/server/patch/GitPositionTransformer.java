@@ -519,6 +519,15 @@ public class GitPositionTransformer {
     }
 
     /**
+     * Returns the original underlying entity.
+     *
+     * @return the original instance of {@code T}
+     */
+    public T getEntity() {
+      return entity;
+    }
+
+    /**
      * Returns an updated version of the entity to which the internally stored {@link Position} was
      * written back to.
      *

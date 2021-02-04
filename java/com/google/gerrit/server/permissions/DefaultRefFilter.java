@@ -326,9 +326,6 @@ class DefaultRefFilter {
                       && !r.getName().startsWith(RefNames.REFS_TAGS)
                       && !r.isSymbolic()
                       && !r.getName().equals(RefNames.REFS_CONFIG))
-          // Don't use the default Java Collections.toList() as that is not size-aware and would
-          // expand an array list as new elements are added. Instead, provide a list that has the
-          // right size. This spares incremental list expansion which is quadratic in complexity.
           .collect(toCollection(() -> new ArrayList<>(allRefs.size())));
     } catch (IOException e) {
       throw new PermissionBackendException(e);
@@ -339,9 +336,6 @@ class DefaultRefFilter {
     if (!canReadRef(REFS_CONFIG)) {
       return refs.stream()
           .filter(r -> !r.getName().equals(REFS_CONFIG))
-          // Don't use the default Java Collections.toList() as that is not size-aware and would
-          // expand an array list as new elements are added. Instead, provide a list that has the
-          // right size. This spares incremental list expansion which is quadratic in complexity.
           .collect(toCollection(() -> new ArrayList<>(refs.size())));
     }
     return refs;

@@ -70,6 +70,24 @@
       "parentUuid": "fb8871e7_632b995b",
       "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74a853d8_37ab7341",
+        "filename": "java/com/google/gerrit/extensions/api/config/AccessCheckInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-04T11:42:54Z",
+      "side": 0,
+      "message": "some more reasons:\n\n* every language needs to define and update their entity descriptions to talk to gerrit \n\n* we have to document entities separately, with a potential for mismatches between code and doc.",
+      "parentUuid": "ddaffc38_6f8d7c6b",
+      "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

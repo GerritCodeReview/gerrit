@@ -367,7 +367,9 @@ export class GrDiff extends GestureEventListeners(
       const addedThreadEls = info.addedNodes.filter(isThreadEl);
       const removedThreadEls = info.removedNodes.filter(isThreadEl);
       this._updateRanges(addedThreadEls, removedThreadEls);
-      this._redispatchHoverEvents(addedThreadEls);
+      addedThreadEls.forEach(threadEl =>
+        this._redispatchHoverEvents(threadEl, threadEl)
+      );
     });
   }
 
@@ -440,15 +442,13 @@ export class GrDiff extends GestureEventListeners(
   }
 
   // Dispatch events that are handled by the gr-diff-highlight.
-  _redispatchHoverEvents(addedThreadEls: HTMLElement[]) {
-    for (const threadEl of addedThreadEls) {
-      threadEl.addEventListener('mouseenter', () => {
-        fireEvent(threadEl, 'comment-thread-mouseenter');
-      });
-      threadEl.addEventListener('mouseleave', () => {
-        fireEvent(threadEl, 'comment-thread-mouseleave');
-      });
-    }
+  _redispatchHoverEvents(hoverEl: HTMLElement, threadEl: GrDiffThreadElement) {
+    hoverEl.addEventListener('mouseenter', () => {
+      fireEvent(threadEl, 'comment-thread-mouseenter');
+    });
+    hoverEl.addEventListener('mouseleave', () => {
+      fireEvent(threadEl, 'comment-thread-mouseleave');
+    });
   }
 
   /** Cancel any remaining diff builder rendering work. */
@@ -831,6 +831,7 @@ export class GrDiff extends GestureEventListeners(
           longRangeCommentChip.setAttribute('threadElRootId', threadEl.rootId);
           longRangeCommentChip.setAttribute('slot', slotAtt);
           this.insertBefore(longRangeCommentChip, threadEl);
+          this._redispatchHoverEvents(longRangeCommentChip, threadEl);
         }
 
         // Create a slot for the thread and attach it to the thread group.

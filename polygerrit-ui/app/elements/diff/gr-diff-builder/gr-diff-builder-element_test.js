@@ -866,7 +866,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('getSectionsByLineRange one line', () => {
-      const section = outputEl.querySelector('stub:nth-of-type(2)');
+      const section = outputEl.querySelector('stub:nth-of-type(3)');
       const sections = element._builder.getSectionsByLineRange(1, 1, 'left');
       assert.equal(sections.length, 1);
       assert.strictEqual(sections[0], section);
@@ -874,8 +874,8 @@ suite('gr-diff-builder tests', () => {
 
     test('getSectionsByLineRange over diff', () => {
       const section = [
-        outputEl.querySelector('stub:nth-of-type(2)'),
         outputEl.querySelector('stub:nth-of-type(3)'),
+        outputEl.querySelector('stub:nth-of-type(4)'),
       ];
       const sections = element._builder.getSectionsByLineRange(1, 2, 'left');
       assert.equal(sections.length, 2);

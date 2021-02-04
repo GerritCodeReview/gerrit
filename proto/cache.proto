@@ -18,7 +18,9 @@ package gerrit.cache;
 
 option java_package = "com.google.gerrit.server.cache.proto";
 
-// Serialized form of com.google.gerrit.server.change.CHangeKindCacheImpl.Key.
+import "proto/entities.proto";
+
+// Serialized form of com.google.gerrit.server.change.ChangeKindCacheImpl.Key.
 // Next ID: 4
 message ChangeKindKeyProto {
   bytes prior = 1;
@@ -140,11 +142,9 @@ message ChangeNotesStateProto {
 
   repeated string hashtag = 5;
 
-  // Raw PatchSet proto as produced by PatchSetProtoConverter.
-  repeated bytes patch_set = 6;
+  repeated devtools.gerritcodereview.PatchSet patch_set = 6;
 
-  // Raw PatchSetApproval proto as produced by PatchSetApprovalProtoConverter.
-  repeated bytes approval = 7;
+  repeated devtools.gerritcodereview.PatchSetApproval approval = 7;
 
   // Next ID: 4
   message ReviewerSetEntryProto {
@@ -184,8 +184,7 @@ message ChangeNotesStateProto {
   // com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord.
   repeated string submit_record = 14;
 
-  // Raw ChangeMessage proto as produced by ChangeMessageProtoConverter.
-  repeated bytes change_message = 15;
+  repeated devtools.gerritcodereview.ChangeMessage change_message = 15;
 
   // JSON produced from com.google.gerrit.entities.Comment.
   repeated string published_comment = 16;

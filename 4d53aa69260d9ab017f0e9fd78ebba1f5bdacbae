@@ -260,6 +260,30 @@
       },
       "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbf5f62f_cc2026ca",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-04T09:16:33Z",
+      "side": 1,
+      "message": "I made some reformatting in a follow-up, but for some reason tests are failing. If I have time I\u0027ll look at it later, WIP For now.",
+      "parentUuid": "a34e566b_d52e32be",
+      "range": {
+        "startLine": 381,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 44
+      },
+      "revId": "4d53aa69260d9ab017f0e9fd78ebba1f5bdacbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

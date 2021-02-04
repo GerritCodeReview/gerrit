@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f638ba8_dbcd8348",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-04T15:22:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d4d5a7c_f496b8cf",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 6
+      },
+      "revId": "61d340e28a2f2749ca2a21b679bfc1947c81c4fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6805bc86_a45e8121",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-04T14:35:27Z",
       "side": 1,
       "message": "I would like to try and avoid referencing colors directly. Can you add a new app-theme variable?",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 95,
+        "endChar": 43
+      },
+      "revId": "61d340e28a2f2749ca2a21b679bfc1947c81c4fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7f2c52b_3f9f669c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-04T15:22:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6805bc86_a45e8121",
       "range": {
         "startLine": 94,
         "startChar": 8,

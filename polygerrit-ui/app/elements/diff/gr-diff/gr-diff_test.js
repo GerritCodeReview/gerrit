@@ -613,7 +613,7 @@ suite('gr-diff tests', () => {
 
       element.appendChild(firstChip);
       await flush();
-      element._diffChanged(element.diff);
+      element._handleRenderContent();
       await flush();
       element.appendChild(threadEl);
       await flush();

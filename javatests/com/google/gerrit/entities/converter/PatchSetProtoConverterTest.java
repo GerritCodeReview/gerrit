@@ -148,23 +148,6 @@ public class PatchSetProtoConverterTest {
                 .build());
   }
 
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.PatchSet proto =
-        Entities.PatchSet.newBuilder()
-            .setId(
-                Entities.PatchSet_Id.newBuilder()
-                    .setChangeId(Entities.Change_Id.newBuilder().setId(103))
-                    .setId(73))
-            .build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.PatchSet> parser = patchSetProtoConverter.getParser();
-    Entities.PatchSet parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
-  }
-
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
   public void fieldsExistAsExpected() {

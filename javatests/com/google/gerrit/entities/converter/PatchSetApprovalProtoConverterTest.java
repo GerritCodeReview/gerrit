@@ -165,29 +165,6 @@ public class PatchSetApprovalProtoConverterTest {
     assertThat(patchSetApproval.postSubmit()).isEqualTo(false);
   }
 
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.PatchSetApproval proto =
-        Entities.PatchSetApproval.newBuilder()
-            .setKey(
-                Entities.PatchSetApproval_Key.newBuilder()
-                    .setPatchSetId(
-                        Entities.PatchSet_Id.newBuilder()
-                            .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                            .setId(14))
-                    .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-                    .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
-            .setValue(456)
-            .setGranted(987654L)
-            .build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.PatchSetApproval> parser = protoConverter.getParser();
-    Entities.PatchSetApproval parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
-  }
-
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
   public void fieldsExistAsExpected() {

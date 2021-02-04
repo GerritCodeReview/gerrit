@@ -174,23 +174,6 @@ public class ChangeMessageProtoConverterTest {
     assertThat(convertedChangeMessage).isEqualTo(changeMessage);
   }
 
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.ChangeMessage proto =
-        Entities.ChangeMessage.newBuilder()
-            .setKey(
-                Entities.ChangeMessage_Key.newBuilder()
-                    .setChangeId(Entities.Change_Id.newBuilder().setId(543))
-                    .setUuid("change-message-21"))
-            .build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.ChangeMessage> parser = changeMessageProtoConverter.getParser();
-    Entities.ChangeMessage parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
-  }
-
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
   public void fieldsExistAsExpected() {

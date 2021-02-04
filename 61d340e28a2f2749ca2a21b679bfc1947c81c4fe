@@ -16,6 +16,52 @@
       "message": "State after this change: https://imgur.com/a/Zjp65ka",
       "revId": "61d340e28a2f2749ca2a21b679bfc1947c81c4fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d4d5a7c_f496b8cf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-04T14:35:27Z",
+      "side": 1,
+      "message": "Maybe enum? Maybe rename to `styleType`?",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 6
+      },
+      "revId": "61d340e28a2f2749ca2a21b679bfc1947c81c4fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6805bc86_a45e8121",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-04T14:35:27Z",
+      "side": 1,
+      "message": "I would like to try and avoid referencing colors directly. Can you add a new app-theme variable?",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 95,
+        "endChar": 43
+      },
+      "revId": "61d340e28a2f2749ca2a21b679bfc1947c81c4fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

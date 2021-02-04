@@ -212,9 +212,8 @@ export class GrSyntaxLayer
    */
   annotate(el: HTMLElement, _: HTMLElement, line: GrDiffLine) {
     if (!this.enabled) return;
-    if (line.beforeNumber === FILE) return;
-    if (line.afterNumber === FILE) return;
-
+    if (line.beforeNumber === FILE || line.afterNumber === FILE) return;
+    if (line.beforeNumber === 'LOST' || line.afterNumber === 'LOST') return;
     // Determine the side.
     let side;
     if (

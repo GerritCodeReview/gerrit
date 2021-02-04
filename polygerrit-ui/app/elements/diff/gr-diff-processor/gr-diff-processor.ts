@@ -150,6 +150,7 @@ export class GrDiffProcessor extends GestureEventListeners(
     this.cancel();
 
     this.groups = [];
+    this.push('groups', this._makePortedCommentsWithoutRange());
     this.push('groups', this._makeFileComments());
 
     // If it's a binary diff, we won't be rendering hunks of text differences
@@ -455,6 +456,14 @@ export class GrDiffProcessor extends GestureEventListeners(
     line.beforeNumber = FILE;
     line.afterNumber = FILE;
     return new GrDiffGroup(GrDiffGroupType.BOTH, [line]);
+  }
+
+  _makePortedCommentsWithoutRange() {
+    const line = new GrDiffLine(GrDiffLineType.BOTH);
+    line.beforeNumber = 'LOST';
+    line.afterNumber = 'LOST';
+    const group = new GrDiffGroup(GrDiffGroupType.BOTH, [line]);
+    return group;
   }
 
   /**

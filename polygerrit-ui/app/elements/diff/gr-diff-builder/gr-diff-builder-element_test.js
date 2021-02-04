@@ -766,6 +766,7 @@ suite('gr-diff-builder tests', () => {
     let keyLocations;
     let prefs;
     let content;
+    let hasPortedThreadsWithoutRange;
 
     setup(() => {
       element = basicFixture.instantiate();
@@ -773,6 +774,7 @@ suite('gr-diff-builder tests', () => {
       processStub = sinon.stub(element.$.processor, 'process')
           .returns(Promise.resolve());
       keyLocations = {left: {}, right: {}};
+      hasPortedThreadsWithoutRange = {left: false, right: false};
       prefs = {
         line_length: 10,
         show_tabs: true,
@@ -793,7 +795,8 @@ suite('gr-diff-builder tests', () => {
 
     test('text', () => {
       element.diff = {content};
-      return element.render(keyLocations, prefs).then(() => {
+      return element.render(keyLocations, prefs, hasPortedThreadsWithoutRange
+      ).then(() => {
         assert.isTrue(processStub.calledOnce);
         assert.isFalse(processStub.lastCall.args[1]);
       });
@@ -802,7 +805,8 @@ suite('gr-diff-builder tests', () => {
     test('image', () => {
       element.diff = {content, binary: true};
       element.isImageDiff = true;
-      return element.render(keyLocations, prefs).then(() => {
+      return element.render(keyLocations, prefs, hasPortedThreadsWithoutRange
+      ).then(() => {
         assert.isTrue(processStub.calledOnce);
         assert.isTrue(processStub.lastCall.args[1]);
       });
@@ -810,7 +814,8 @@ suite('gr-diff-builder tests', () => {
 
     test('binary', () => {
       element.diff = {content, binary: true};
-      return element.render(keyLocations, prefs).then(() => {
+      return element.render(keyLocations, prefs, hasPortedThreadsWithoutRange
+      ).then(() => {
         assert.isTrue(processStub.calledOnce);
         assert.isTrue(processStub.lastCall.args[1]);
       });
@@ -821,7 +826,7 @@ suite('gr-diff-builder tests', () => {
     let content;
     let outputEl;
     let keyLocations;
-
+    let hasPortedThreadsWithoutRange;
     setup(done => {
       const prefs = {
         line_length: 10,
@@ -845,6 +850,8 @@ suite('gr-diff-builder tests', () => {
       element = basicFixture.instantiate();
       outputEl = element.queryEffectiveChildren('#diffTable');
       keyLocations = {left: {}, right: {}};
+      hasPortedThreadsWithoutRange = {left: false, right: false};
+
       sinon.stub(element, '_getDiffBuilder').callsFake(() => {
         const builder = new GrDiffBuilderSideBySide({content}, prefs, outputEl);
         sinon.stub(builder, 'addColumns');
@@ -857,16 +864,17 @@ suite('gr-diff-builder tests', () => {
         return builder;
       });
       element.diff = {content};
-      element.render(keyLocations, prefs).then(done);
+      element.render(keyLocations, prefs, hasPortedThreadsWithoutRange
+      ).then(done);
     });
 
     test('addColumns is called', done => {
-      element.render(keyLocations, {}).then(done);
+      element.render(keyLocations, {}, hasPortedThreadsWithoutRange).then(done);
       assert.isTrue(element._builder.addColumns.called);
     });
 
     test('getSectionsByLineRange one line', () => {
-      const section = outputEl.querySelector('stub:nth-of-type(2)');
+      const section = outputEl.querySelector('stub:nth-of-type(3)');
       const sections = element._builder.getSectionsByLineRange(1, 1, 'left');
       assert.equal(sections.length, 1);
       assert.strictEqual(sections[0], section);
@@ -874,8 +882,8 @@ suite('gr-diff-builder tests', () => {
 
     test('getSectionsByLineRange over diff', () => {
       const section = [
-        outputEl.querySelector('stub:nth-of-type(2)'),
         outputEl.querySelector('stub:nth-of-type(3)'),
+        outputEl.querySelector('stub:nth-of-type(4)'),
       ];
       const sections = element._builder.getSectionsByLineRange(1, 2, 'left');
       assert.equal(sections.length, 2);
@@ -885,7 +893,8 @@ suite('gr-diff-builder tests', () => {
 
     test('render-start and render-content are fired', done => {
       const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
-      element.render(keyLocations, {}).then(() => {
+      element.render(keyLocations, {}, hasPortedThreadsWithoutRange
+      ).then(() => {
         const firedEventTypes = dispatchEventStub.getCalls()
             .map(c => c.args[0].type);
         assert.include(firedEventTypes, 'render-start');
@@ -907,6 +916,7 @@ suite('gr-diff-builder tests', () => {
     let diff;
     let prefs;
     let keyLocations;
+    let hasPortedThreadsWithoutRange;
 
     setup(done => {
       element = mockDiffFixture.instantiate();
@@ -919,8 +929,10 @@ suite('gr-diff-builder tests', () => {
         tab_size: 4,
       };
       keyLocations = {left: {}, right: {}};
+      hasPortedThreadsWithoutRange = {left: false, right: false};
 
-      element.render(keyLocations, prefs).then(() => {
+      element.render(keyLocations, prefs, hasPortedThreadsWithoutRange
+      ).then(() => {
         builder = element._builder;
         done();
       });
@@ -1060,7 +1072,8 @@ suite('gr-diff-builder tests', () => {
     test('_getLineNumberEl unified left', done => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      element.render(keyLocations, prefs).then(() => {
+      element.render(keyLocations, prefs, hasPortedThreadsWithoutRange
+      ).then(() => {
         builder = element._builder;
 
         const contentEl = builder.getContentByLine(5, 'left',
@@ -1075,7 +1088,8 @@ suite('gr-diff-builder tests', () => {
     test('_getLineNumberEl unified right', done => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      element.render(keyLocations, prefs).then(() => {
+      element.render(keyLocations, prefs, hasPortedThreadsWithoutRange
+      ).then(() => {
         builder = element._builder;
 
         const contentEl = builder.getContentByLine(5, 'right',
@@ -1114,7 +1128,8 @@ suite('gr-diff-builder tests', () => {
     test('_getNextContentOnSide unified left', done => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      element.render(keyLocations, prefs).then(() => {
+      element.render(keyLocations, prefs, hasPortedThreadsWithoutRange
+      ).then(() => {
         builder = element._builder;
 
         const startElem = builder.getContentByLine(5, 'left',
@@ -1134,7 +1149,8 @@ suite('gr-diff-builder tests', () => {
     test('_getNextContentOnSide unified right', done => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      element.render(keyLocations, prefs).then(() => {
+      element.render(keyLocations, prefs, hasPortedThreadsWithoutRange
+      ).then(() => {
         builder = element._builder;
 
         const startElem = builder.getContentByLine(5, 'right',

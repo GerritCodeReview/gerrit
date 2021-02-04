@@ -1409,14 +1409,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       PermissionBackend.ForProject forProject = newFilter(allUsers, admin);
       assertThat(
               names(
-                  forProject.filter(
-                      repo.getRefDatabase().getRefs(), repo, RefFilterOptions.defaults())))
+                  forProject.filter(repo.getRefDatabase().getRefs(), RefFilterOptions.defaults())))
           .containsExactlyElementsIn(expectedAllRefs);
       assertThat(
               names(
                   forProject.filter(
                       repo.getRefDatabase().getRefs(),
-                      repo,
                       RefFilterOptions.builder().setFilterMeta(true).build())))
           .containsExactlyElementsIn(expectedNonMetaRefs);
     }
@@ -1435,7 +1433,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
                   forProject.filter(
                       // set empty list of refs to filter
                       new ArrayList<>(),
-                      repo,
                       RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
           // all the change refs are still returned since returnMostRecentRefChanges = true
           .containsExactlyElementsIn(
@@ -1463,7 +1460,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
                   forProject.filter(
                       // set empty list of refs to filter
                       new ArrayList<>(),
-                      repo,
                       RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
           // all the change refs are still returned since returnMostRecentRefChanges = true
           .containsExactlyElementsIn(
@@ -1483,7 +1479,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
               names(
                   forProject.filter(
                       repo.getRefDatabase().getRefs(),
-                      repo,
                       RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
           // all the change refs are still returned since returnMostRecentRefChanges = true. Make
           // sure they are only returned once.
@@ -1524,7 +1519,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
               names(
                   forProject.filter(
                       repo.getRefDatabase().getRefs(),
-                      repo,
                       RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
           // all the change refs are still returned since returnMostRecentRefChanges = true. Make
           // sure they are only returned once.
@@ -1560,7 +1554,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
               names(
                   forProject.filter(
                       ImmutableList.of(repo.exactRef("HEAD")),
-                      repo,
                       RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
           // all the change refs are still returned since returnMostRecentRefChanges = true.
           .containsExactlyElementsIn(
@@ -1587,7 +1580,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
               names(
                   forProject.filter(
                       ImmutableList.of(repo.exactRef("HEAD")),
-                      repo,
                       RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
           // all the change refs are still returned since returnMostRecentRefChanges = true.
           .containsExactlyElementsIn(
@@ -1607,7 +1599,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           permissionBackend
               .user(user(admin))
               .project(project)
-              .filter(singleRef, repo, RefFilterOptions.defaults());
+              .filter(singleRef, RefFilterOptions.defaults());
       assertThat(filteredRefs).isEqualTo(singleRef);
     }
   }

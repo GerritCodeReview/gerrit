@@ -33,6 +33,7 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TagMatcher;
@@ -73,9 +74,8 @@ class DefaultRefFilter {
   private final Counter0 fullFilterCount;
   private final Counter0 skipFilterCount;
   private final boolean skipFullRefEvaluationIfAllRefsAreVisible;
-  private final VisibleChangesCache.Factory visibleChangesCacheFactory;
-
-  private VisibleChangesCache visibleChangesCache;
+  private final VisibleChangesCache visibleChangesCache;
+  private final GitRepositoryManager repositoryManager;
 
   @Inject
   DefaultRefFilter(
@@ -86,6 +86,7 @@ class DefaultRefFilter {
       @GerritServerConfig Config config,
       MetricMaker metricMaker,
       VisibleChangesCache.Factory visibleChangesCacheFactory,
+      GitRepositoryManager repositoryManager,
       @Assisted ProjectControl projectControl) {
     this.tagCache = tagCache;
     this.changeNotesFactory = changeNotesFactory;
@@ -94,7 +95,8 @@ class DefaultRefFilter {
     this.skipFullRefEvaluationIfAllRefsAreVisible =
         config.getBoolean("auth", "skipFullRefEvaluationIfAllRefsAreVisible", true);
     this.projectControl = projectControl;
-    this.visibleChangesCacheFactory = visibleChangesCacheFactory;
+    this.visibleChangesCache = visibleChangesCacheFactory.create(projectControl);
+    this.repositoryManager = repositoryManager;
 
     this.user = projectControl.getUser();
     this.projectState = projectControl.getProjectState();
@@ -114,9 +116,8 @@ class DefaultRefFilter {
   }
 
   /** Filters given refs and tags by visibility. */
-  Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
+  Collection<Ref> filter(Collection<Ref> refs, RefFilterOptions opts)
       throws PermissionBackendException {
-    visibleChangesCache = visibleChangesCacheFactory.create(projectControl, repo);
     logger.atFinest().log(
         "Filter refs for repository %s by visibility (options = %s, refs = %s)",
         projectState.getNameKey(), opts, refs);
@@ -159,31 +160,32 @@ class DefaultRefFilter {
     // Perform an initial ref filtering with all the refs the caller asked for. If we find tags that
     // we have to investigate separately (deferred tags) then perform a reachability check starting
     // from all visible branches (refs/heads/*).
-    Result initialRefFilter = filterRefs(new ArrayList<>(refs), repo, opts);
+    Result initialRefFilter = filterRefs(new ArrayList<>(refs), opts);
     List<Ref> visibleRefs = initialRefFilter.visibleRefs();
     if (!initialRefFilter.deferredTags().isEmpty()) {
       try (TraceTimer traceTimer = TraceContext.newTimer("Check visibility of deferred tags")) {
-        Result allVisibleBranches = filterRefs(getTaggableRefs(repo), repo, opts);
+        Result allVisibleBranches = filterRefs(getTaggableRefs(), opts);
         checkState(
             allVisibleBranches.deferredTags().isEmpty(),
             "unexpected tags found when filtering refs/heads/* "
                 + allVisibleBranches.deferredTags());
 
-        TagMatcher tags =
-            tagCache
-                .get(projectState.getNameKey())
-                .matcher(tagCache, repo, allVisibleBranches.visibleRefs());
-        for (Ref tag : initialRefFilter.deferredTags()) {
-          try {
+        try (Repository repo =
+            repositoryManager.openRepository(projectControl.getProject().getNameKey())) {
+          TagMatcher tags =
+              tagCache
+                  .get(projectState.getNameKey())
+                  .matcher(tagCache, repo, allVisibleBranches.visibleRefs());
+          for (Ref tag : initialRefFilter.deferredTags()) {
             if (tags.isReachable(tag)) {
               logger.atFinest().log("Include reachable tag %s", tag.getName());
               visibleRefs.add(tag);
             } else {
               logger.atFinest().log("Filter out non-reachable tag %s", tag.getName());
             }
-          } catch (IOException e) {
-            throw new PermissionBackendException(e);
           }
+        } catch (IOException e) {
+          throw new PermissionBackendException(e);
         }
       }
     }
@@ -218,8 +220,7 @@ class DefaultRefFilter {
    * separately for later rev-walk-based visibility computation. Tags where visibility is trivial to
    * compute will be returned as part of {@link Result#visibleRefs()}.
    */
-  Result filterRefs(List<Ref> refs, Repository repo, RefFilterOptions opts)
-      throws PermissionBackendException {
+  Result filterRefs(List<Ref> refs, RefFilterOptions opts) throws PermissionBackendException {
     logger.atFinest().log("Filter refs (refs = %s)", refs);
 
     // TODO(hiesel): Remove when optimization is done.
@@ -308,8 +309,9 @@ class DefaultRefFilter {
    * <p>We exclude symbolic refs because their target will be included and this will suffice for
    * computing reachability.
    */
-  private static List<Ref> getTaggableRefs(Repository repo) throws PermissionBackendException {
-    try {
+  private List<Ref> getTaggableRefs() throws PermissionBackendException {
+    try (Repository repo =
+        repositoryManager.openRepository(projectControl.getProject().getNameKey())) {
       List<Ref> allRefs = repo.getRefDatabase().getRefs();
       return allRefs.stream()
           .filter(

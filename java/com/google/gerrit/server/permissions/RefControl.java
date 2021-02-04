@@ -691,22 +691,22 @@ class RefControl {
         return true;
       }
 
+      Ref resolvedRef;
       try (Repository repo =
           repositoryManager.openRepository(projectControl.getProject().getNameKey())) {
-        // Tag visibility requires going through RefFilter because it entails loading all taggable
-        // refs and filtering them all by visibility.
-        Ref resolvedRef = repo.getRefDatabase().exactRef(refName);
-        if (resolvedRef == null) {
-          return false;
-        }
-        return projectControl.asForProject()
-            .filter(
-                ImmutableList.of(resolvedRef), repo, PermissionBackend.RefFilterOptions.defaults())
-            .stream()
-            .anyMatch(r -> refName.equals(r.getName()));
+        resolvedRef = repo.getRefDatabase().exactRef(refName);
       } catch (IOException e) {
         throw new PermissionBackendException(e);
       }
+      if (resolvedRef == null) {
+        return false;
+      }
+      // Tag visibility requires going through RefFilter because it entails loading all taggable
+      // refs and filtering them all by visibility.
+      return projectControl.asForProject()
+          .filter(ImmutableList.of(resolvedRef), PermissionBackend.RefFilterOptions.defaults())
+          .stream()
+          .anyMatch(r -> refName.equals(r.getName()));
     }
   }
 

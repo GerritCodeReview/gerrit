@@ -113,6 +113,11 @@ against making the suggested change. Reviewers don't want to seem like
 nags and pester you if you haven't replied or made a fix, so it helps
 them know if you missed it or decided against it.
 
+Features or API extensions, even if they are small, will incur
+long-time maintenance and support burden, so they should be left
+pending for at least 24 hours to give maintainers in all timezones a
+chance to evaluate.
+
 [[design-driven-contribution-process]]
 === Design-driven Contribution Process
 

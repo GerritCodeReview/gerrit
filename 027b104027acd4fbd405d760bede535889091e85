@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0e0d3da_9c26c1c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-04T11:05:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89a378e1_afbdbbc4",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 62
+      },
+      "revId": "027b104027acd4fbd405d760bede535889091e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69361888_3a638a89",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbf39dde_6a3d31b0",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentPorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-04T11:05:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69361888_3a638a89",
+      "revId": "027b104027acd4fbd405d760bede535889091e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9945698c_45673399",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-02-04T10:07:09Z",
       "side": 1,
       "message": "better use ImmutableMap.toImmutableMap",
+      "range": {
+        "startLine": 249,
+        "startChar": 16,
+        "endLine": 249,
+        "endChar": 32
+      },
+      "revId": "027b104027acd4fbd405d760bede535889091e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "632810a0_ecbee795",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentPorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-04T11:05:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9945698c_45673399",
       "range": {
         "startLine": 249,
         "startChar": 16,

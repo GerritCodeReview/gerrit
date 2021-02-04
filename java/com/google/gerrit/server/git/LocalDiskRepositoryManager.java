@@ -208,6 +208,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         || name.charAt(0) == '/' // no absolute paths
         || new File(name).isAbsolute() // no absolute paths
         || name.startsWith("../") // no "l../etc/passwd"
+        || name.startsWith("-") // no "l-/etc/passwd"
         || name.contains("/../") // no "foo/../etc/passwd"
         || name.contains("/./") // "foo/./foo" is insane to ask
         || name.contains("//") // windows UNC path can be "//..."

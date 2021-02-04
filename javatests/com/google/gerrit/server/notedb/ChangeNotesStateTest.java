@@ -17,7 +17,6 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
-import static com.google.gerrit.server.notedb.ChangeNotesState.Serializer.toByteString;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -40,6 +39,8 @@ import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.converter.ChangeMessageProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
+import com.google.gerrit.proto.Entities;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -332,7 +333,8 @@ public class ChangeNotesStateTest {
             .uploader(Account.id(2000))
             .createdOn(cols.createdOn())
             .build();
-    ByteString ps1Bytes = toByteString(ps1, PatchSetProtoConverter.INSTANCE);
+    Entities.PatchSet ps1Proto = PatchSetProtoConverter.INSTANCE.toProto(ps1);
+    ByteString ps1Bytes = Protos.toByteString(ps1Proto);
     assertThat(ps1Bytes.size()).isEqualTo(66);
 
     PatchSet ps2 =
@@ -342,7 +344,8 @@ public class ChangeNotesStateTest {
             .uploader(Account.id(3000))
             .createdOn(cols.lastUpdatedOn())
             .build();
-    ByteString ps2Bytes = toByteString(ps2, PatchSetProtoConverter.INSTANCE);
+    Entities.PatchSet ps2Proto = PatchSetProtoConverter.INSTANCE.toProto(ps2);
+    ByteString ps2Bytes = Protos.toByteString(ps2Proto);
     assertThat(ps2Bytes.size()).isEqualTo(66);
     assertThat(ps2Bytes).isNotEqualTo(ps1Bytes);
 
@@ -352,8 +355,8 @@ public class ChangeNotesStateTest {
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
             .setColumns(colsProto)
-            .addPatchSet(ps2Bytes)
-            .addPatchSet(ps1Bytes)
+            .addPatchSet(ps2Proto)
+            .addPatchSet(ps1Proto)
             .build());
   }
 
@@ -367,8 +370,8 @@ public class ChangeNotesStateTest {
             .value(1)
             .granted(new Timestamp(1212L))
             .build();
-    ByteString a1Bytes = toByteString(a1, PatchSetApprovalProtoConverter.INSTANCE);
-    assertThat(a1Bytes.size()).isEqualTo(43);
+    Entities.PatchSetApproval psa1 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a1);
+    ByteString a1Bytes = Protos.toByteString(psa1);
 
     PatchSetApproval a2 =
         PatchSetApproval.builder()
@@ -378,7 +381,8 @@ public class ChangeNotesStateTest {
             .value(-1)
             .granted(new Timestamp(3434L))
             .build();
-    ByteString a2Bytes = toByteString(a2, PatchSetApprovalProtoConverter.INSTANCE);
+    Entities.PatchSetApproval psa2 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a2);
+    ByteString a2Bytes = Protos.toByteString(psa2);
     assertThat(a2Bytes.size()).isEqualTo(49);
     assertThat(a2Bytes).isNotEqualTo(a1Bytes);
 
@@ -390,8 +394,8 @@ public class ChangeNotesStateTest {
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
             .setColumns(colsProto)
-            .addApproval(a2Bytes)
-            .addApproval(a1Bytes)
+            .addApproval(psa2)
+            .addApproval(psa1)
             .build());
   }
 
@@ -722,7 +726,8 @@ public class ChangeNotesStateTest {
             Account.id(1000),
             new Timestamp(1212L),
             PatchSet.id(ID, 1));
-    ByteString m1Bytes = toByteString(m1, ChangeMessageProtoConverter.INSTANCE);
+    Entities.ChangeMessage m1Proto = ChangeMessageProtoConverter.INSTANCE.toProto(m1);
+    ByteString m1Bytes = Protos.toByteString(m1Proto);
     assertThat(m1Bytes.size()).isEqualTo(35);
 
     ChangeMessage m2 =
@@ -731,7 +736,8 @@ public class ChangeNotesStateTest {
             Account.id(2000),
             new Timestamp(3434L),
             PatchSet.id(ID, 2));
-    ByteString m2Bytes = toByteString(m2, ChangeMessageProtoConverter.INSTANCE);
+    Entities.ChangeMessage m2Proto = ChangeMessageProtoConverter.INSTANCE.toProto(m2);
+    ByteString m2Bytes = Protos.toByteString(m2Proto);
     assertThat(m2Bytes.size()).isEqualTo(35);
     assertThat(m2Bytes).isNotEqualTo(m1Bytes);
 
@@ -741,8 +747,8 @@ public class ChangeNotesStateTest {
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
             .setColumns(colsProto)
-            .addChangeMessage(m2Bytes)
-            .addChangeMessage(m1Bytes)
+            .addChangeMessage(m2Proto)
+            .addChangeMessage(m1Proto)
             .build());
   }
 

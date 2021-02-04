@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "386c3d79_7b8d2d4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-04T14:30:53Z",
+      "side": 1,
+      "message": "I think this should be safe, but should we double check this?\n\nMaybe import + build internally + deploy to staging, and verify that nothing explodes?",
+      "revId": "bd64f61f5bcba51105cdfbd6e8a4348306beea8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

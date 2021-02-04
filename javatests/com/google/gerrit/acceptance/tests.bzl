@@ -4,7 +4,7 @@ def acceptance_tests(
         group,
         deps = [],
         labels = [],
-        vm_args = ["-Xmx512m"],
+        vm_args = ["-Xmx256m"],
         **kwargs):
     junit_tests(
         name = group,

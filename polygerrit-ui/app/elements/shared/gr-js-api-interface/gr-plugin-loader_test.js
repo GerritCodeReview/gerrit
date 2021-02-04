@@ -16,15 +16,12 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import './gr-js-api-interface.js';
 import {PRELOADED_PROTOCOL, PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {_testOnly_resetPluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins, stubBaseUrl} from '../../../test/test-utils.js';
 import {_testOnly_flushPreinstalls} from './gr-gerrit.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
-
-const basicFixture = fixtureFromElement('gr-js-api-interface');
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -42,7 +39,6 @@ suite('gr-plugin-loader tests', () => {
     stubRestApi('send').returns(Promise.resolve({status: 200}));
     pluginLoader = _testOnly_resetPluginLoader();
     sinon.stub(document.body, 'appendChild');
-    basicFixture.instantiate();
     url = window.location.origin;
   });
 

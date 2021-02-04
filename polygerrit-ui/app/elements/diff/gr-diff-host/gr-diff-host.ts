@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../shared/gr-comment-thread/gr-comment-thread';
-import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import '../gr-diff/gr-diff';
 import '../gr-syntax-layer/gr-syntax-layer';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
@@ -60,7 +59,6 @@ import {
   DiffPreferencesInfo,
   IgnoreWhitespaceType,
 } from '../../../types/diff';
-import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
 import {GrDiff, LineOfInterest} from '../gr-diff/gr-diff';
 import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
@@ -115,7 +113,6 @@ interface LineInfo {
 
 export interface GrDiffHost {
   $: {
-    jsAPI: JsApiService & Element;
     syntaxLayer: GrSyntaxLayer & Element;
     diff: GrDiff;
   };
@@ -267,6 +264,8 @@ export class GrDiffHost extends GestureEventListeners(
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly jsAPI = appContext.jsApiService;
+
   /** @override */
   created() {
     super.created();
@@ -399,7 +398,7 @@ export class GrDiffHost extends GestureEventListeners(
 
   private _getLayers(path: string, changeNum: NumericChangeId): DiffLayer[] {
     // Get layers from plugins (if any).
-    return [this.$.syntaxLayer, ...this.$.jsAPI.getDiffLayers(path, changeNum)];
+    return [this.$.syntaxLayer, ...this.jsAPI.getDiffLayers(path, changeNum)];
   }
 
   private _onRenderOnce(): Promise<CustomEvent> {
@@ -413,7 +412,7 @@ export class GrDiffHost extends GestureEventListeners(
   }
 
   clear() {
-    if (this.path) this.$.jsAPI.disposeDiffLayers(this.path);
+    if (this.path) this.jsAPI.disposeDiffLayers(this.path);
     this._layers = [];
   }
 
@@ -432,7 +431,7 @@ export class GrDiffHost extends GestureEventListeners(
 
     const basePatchNum = toNumberOnly(this.patchRange.basePatchNum);
     const patchNum = toNumberOnly(this.patchRange.patchNum);
-    this.$.jsAPI
+    this.jsAPI
       .getCoverageAnnotationApis()
       .then(coverageAnnotationApis => {
         coverageAnnotationApis.forEach(coverageAnnotationApi => {

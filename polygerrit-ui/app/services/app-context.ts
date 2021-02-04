@@ -21,6 +21,7 @@ import {AuthService} from './gr-auth/gr-auth';
 import {RestApiService} from './gr-rest-api/gr-rest-api';
 import {ChangeService} from './change/change-service';
 import {ChecksService} from './checks/checks-service';
+import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 
 export interface AppContext {
   flagsService: FlagsService;
@@ -30,6 +31,7 @@ export interface AppContext {
   restApiService: RestApiService;
   changeService: ChangeService;
   checksService: ChecksService;
+  jsApiService: JsApiService;
 }
 
 /**

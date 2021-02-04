@@ -16,10 +16,7 @@
  */
 
 import '../../test/common-test-setup-karma.js';
-import '../../elements/shared/gr-js-api-interface/gr-js-api-interface.js';
 import {EventEmitter} from './gr-event-interface_impl.js';
-
-const basicFixture = fixtureFromElement('gr-js-api-interface');
 
 suite('gr-event-interface tests', () => {
   let gerrit;
@@ -29,7 +26,6 @@ suite('gr-event-interface tests', () => {
 
   suite('test on Gerrit', () => {
     setup(() => {
-      basicFixture.instantiate();
       gerrit.removeAllListeners();
     });
 

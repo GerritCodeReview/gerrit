@@ -16,7 +16,6 @@
  */
 
 import {getBaseUrl} from '../../../utils/url-util';
-import {getSharedApiEl} from '../../../utils/dom-util';
 import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper';
 import {GrChangeActionsInterface} from './gr-change-actions-js-api';
 import {GrChangeReplyInterface} from './gr-change-reply-js-api';
@@ -44,7 +43,6 @@ import {
 } from '../../plugins/gr-plugin-types';
 import {RequestPayload} from '../../../types/common';
 import {HttpMethod} from '../../../constants/constants';
-import {JsApiService} from './gr-js-api-types';
 import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
 import {GrChecksApi} from '../../plugins/gr-checks-api/gr-checks-api';
 import {appContext} from '../../../services/app-context';
@@ -76,11 +74,9 @@ export class Plugin implements PluginApi {
 
   private readonly _name: string = PLUGIN_NAME_NOT_SET;
 
-  // TODO(TS): Change type to GrJsApiInterface
-  private readonly sharedApiElement: JsApiService;
+  private readonly jsApi = appContext.jsApiService;
 
   constructor(url?: string) {
-    this.sharedApiElement = getSharedApiEl();
     this._domHooks = new GrDomHooksManager(this);
 
     if (!url) {
@@ -174,7 +170,7 @@ export class Plugin implements PluginApi {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   on(eventName: EventType, callback: (...args: any[]) => any) {
-    this.sharedApiElement.addEventCallback(eventName, callback);
+    this.jsApi.addEventCallback(eventName, callback);
   }
 
   url(path?: string) {
@@ -243,14 +239,14 @@ export class Plugin implements PluginApi {
   changeActions() {
     return new GrChangeActionsInterface(
       this,
-      (this.sharedApiElement.getElement(
+      (this.jsApi.getElement(
         TargetElement.CHANGE_ACTIONS
       ) as unknown) as GrChangeActions
     );
   }
 
   changeReply() {
-    return new GrChangeReplyInterface(this, this.sharedApiElement);
+    return new GrChangeReplyInterface(this, this.jsApi);
   }
 
   checks(): GrChecksApi {

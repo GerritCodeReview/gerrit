@@ -14,9 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ActionInfo, ChangeInfo, PatchSetNum} from '../../../types/common';
+import {
+  ActionInfo,
+  ChangeInfo,
+  PatchSetNum,
+  ReviewInput,
+  RevisionInfo,
+} from '../../../types/common';
 import {EventType, TargetElement} from '../../plugins/gr-plugin-types';
-import {DiffLayer} from '../../../types/types';
+import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
 import {MenuLink} from '../../plugins/gr-admin-api/gr-admin-api';
 
@@ -54,5 +60,7 @@ export interface JsApiService {
   disposeDiffLayers(path: string): void;
   getCoverageAnnotationApis(): Promise<GrAnnotationActionsInterface[]>;
   getAdminMenuLinks(): MenuLink[];
-  // TODO(TS): Add more methods when needed for the TS conversion.
+  handleCommitMessage(change: ChangeInfo | ParsedChangeInfo, msg: string): void;
+  canSubmitChange(change: ChangeInfo, revision?: RevisionInfo | null): boolean;
+  getReviewPostRevert(change?: ChangeInfo): ReviewInput;
 }

@@ -1069,19 +1069,13 @@ export class GrFileList extends KeyboardShortcutMixin(
 
   _openCursorFile() {
     const diff = this.$.diffCursor.getTargetDiffElement();
-    if (
-      !this.change ||
-      !diff ||
-      !this.patchRange ||
-      !diff.path ||
-      !diff.patchRange
-    ) {
+    if (!this.change || !diff || !this.patchRange || !diff.path) {
       throw new Error('change, diff and patchRange must be all set and valid');
     }
     GerritNav.navigateToDiff(
       this.change,
       diff.path,
-      diff.patchRange.patchNum,
+      this.patchRange.patchNum,
       this.patchRange.basePatchNum
     );
   }

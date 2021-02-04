@@ -26,6 +26,7 @@ import {createChange} from '../../../test/test-data-generators.js';
 import {CoverageType} from '../../../types/types.js';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';
+import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
@@ -659,6 +660,30 @@ suite('gr-diff-host tests', () => {
     });
   });
 
+  test('cannot create comments when not logged in', () => {
+    element.patchRange = {
+      basePatchNum: 'PARENT',
+      patchNum: 2,
+    };
+    const showAuthRequireSpy = sinon.spy();
+    element.addEventListener('show-auth-required', showAuthRequireSpy);
+
+    element.dispatchEvent(new CustomEvent('create-comment', {
+      detail: {
+        lineNum: 3,
+        side: Side.LEFT,
+        path: '/p',
+      },
+    }));
+
+    const threads = dom(element.$.diff)
+        .queryDistributedElements('gr-comment-thread');
+
+    assert.equal(threads.length, 0);
+
+    assert.isTrue(showAuthRequireSpy.called);
+  });
+
   test('delegates cancel()', () => {
     const stub = sinon.stub(element.$.diff, 'cancel');
     element.patchRange = {};
@@ -787,12 +812,6 @@ suite('gr-diff-host tests', () => {
     const value = true;
     element.noAutoRender = value;
     assert.equal(element.$.diff.noAutoRender, value);
-  });
-
-  test('passes in patchRange', () => {
-    const value = {patchNum: 'foo', basePatchNum: 'bar'};
-    element.patchRange = value;
-    assert.equal(element.$.diff.patchRange, value);
   });
 
   test('passes in path', () => {
@@ -949,6 +968,12 @@ suite('gr-diff-host tests', () => {
   });
 
   suite('create-comment', () => {
+    setup(async () => {
+      loggedIn = true;
+      element.attached();
+      await flush();
+    });
+
     test('creates comments if they do not exist yet', () => {
       const diffSide = Side.LEFT;
       element.patchRange = {
@@ -1146,6 +1171,50 @@ suite('gr-diff-host tests', () => {
       assert.equal(threads.length, 1);
       assert.equal(threads[0].diffSide, diffSide);
       assert.equal(threads[0].path, element.file.path);
+    });
+
+    test('cannot create thread on an edit', () => {
+      const alertSpy = sinon.spy();
+      element.addEventListener('show-alert', alertSpy);
+
+      const diffSide = Side.LEFT;
+      element.patchRange = {
+        basePatchNum: EditPatchSetNum,
+        patchNum: 3,
+      };
+      element.dispatchEvent(new CustomEvent('create-comment', {
+        detail: {
+          side: diffSide,
+          path: '/p',
+        },
+      }));
+
+      const threads = dom(element.$.diff)
+          .queryDistributedElements('gr-comment-thread');
+      assert.equal(threads.length, 0);
+      assert.isTrue(alertSpy.called);
+    });
+
+    test('cannot create thread on an edit base', () => {
+      const alertSpy = sinon.spy();
+      element.addEventListener('show-alert', alertSpy);
+
+      const diffSide = Side.LEFT;
+      element.patchRange = {
+        basePatchNum: ParentPatchSetNum,
+        patchNum: EditPatchSetNum,
+      };
+      element.dispatchEvent(new CustomEvent('create-comment', {
+        detail: {
+          side: diffSide,
+          path: '/p',
+        },
+      }));
+
+      const threads = dom(element.$.diff)
+          .queryDistributedElements('gr-comment-thread');
+      assert.equal(threads.length, 0);
+      assert.isTrue(alertSpy.called);
     });
   });
 

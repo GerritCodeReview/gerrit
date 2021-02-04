@@ -21,7 +21,6 @@ export const htmlTemplate = html`
     id="diff"
     change-num="[[changeNum]]"
     no-auto-render="[[noAutoRender]]"
-    patch-range="[[patchRange]]"
     path="[[path]]"
     prefs="[[prefs]]"
     display-line="[[displayLine]]"

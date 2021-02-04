@@ -46,7 +46,7 @@ export class GrChecksApi implements GrChecksApiInterface {
   constructor(readonly plugin: PluginApi) {}
 
   announceUpdate() {
-    this.checksService.announceUpdate(this.plugin.getPluginName());
+    this.checksService.reload(this.plugin.getPluginName());
   }
 
   register(provider: ChecksProvider, config?: ChecksApiConfig): void {

@@ -554,6 +554,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   restApiService = appContext.restApiService;
 
+  checksService = appContext.checksService;
+
   keyboardShortcuts() {
     return {
       [Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
@@ -2198,6 +2200,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     // are loaded.
     const detailCompletes = this._getChangeDetail();
     allDataPromises.push(detailCompletes);
+    this.checksService.reloadAll();
 
     // Resolves when the loading flag is set to false, meaning that some
     // change content may start appearing.

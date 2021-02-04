@@ -76,6 +76,8 @@ class ProjectsImpl implements Projects {
   public ProjectApi create(ProjectInput in) throws RestApiException {
     if (in.name == null) {
       throw new BadRequestException("input.name is required");
+    } else if (in.name.startsWith("-") {
+      throw new BadRequestException("input.name can't start '-'");
     }
     return name(in.name).create(in);
   }

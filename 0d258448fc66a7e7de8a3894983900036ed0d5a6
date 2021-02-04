@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfb885b4_7a186d03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-04T00:11:06Z",
+      "side": 1,
+      "message": "Seems there is some issue where patchset 3 and 4 are identical.",
+      "revId": "0d258448fc66a7e7de8a3894983900036ed0d5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

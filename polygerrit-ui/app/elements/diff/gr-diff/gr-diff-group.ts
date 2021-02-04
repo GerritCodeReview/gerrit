@@ -324,7 +324,12 @@ export class GrDiffGroup {
   }
 
   _updateRange(line: GrDiffLine) {
-    if (line.beforeNumber === 'FILE' || line.afterNumber === 'FILE') {
+    if (
+      line.beforeNumber === 'FILE' ||
+      line.afterNumber === 'FILE' ||
+      line.beforeNumber === 'LOST' ||
+      line.afterNumber === 'LOST'
+    ) {
       return;
     }
 

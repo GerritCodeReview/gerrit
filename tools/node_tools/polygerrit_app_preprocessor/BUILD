@@ -7,7 +7,6 @@ package(default_visibility = ["//visibility:public"])
 ts_library(
     name = "preprocessor",
     srcs = glob(["*.ts"]),
-    node_modules = "@tools_npm//:node_modules",
     tsconfig = "tsconfig.json",
     deps = [
         "//tools/node_tools/utils",

@@ -400,6 +400,30 @@
       },
       "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f937f10c_1037c9d1",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDynamicOptionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-02-04T16:29:48Z",
+      "side": 1,
+      "message": "\u003e Here, PluginFour calls into PluginThree, but in order for this to work, both plugins have to see the MyBean interface. How would this work in a scenario where the plugins are compiled separately? Do you have to copy MyBean into both source trees, and hope they don\u0027t go out of sync?\n\nYes, PluginFour and PluginThree have to share MyBean interface. (one of the approaches to maintain the interface to be in sync is to soft link the interface file).",
+      "parentUuid": "db33334c_c7de7d17",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 18
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

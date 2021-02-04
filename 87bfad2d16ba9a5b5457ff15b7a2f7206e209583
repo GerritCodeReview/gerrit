@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8997df6_c24d8982",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-04T15:36:22Z",
+      "side": 1,
+      "message": "this looks OK for me, but please let Nasser confirm.",
+      "revId": "87bfad2d16ba9a5b5457ff15b7a2f7206e209583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

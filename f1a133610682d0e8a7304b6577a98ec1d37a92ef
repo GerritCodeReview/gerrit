@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b7bdb61_0465a792",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-04T19:45:33Z",
+      "side": 1,
+      "message": "Thanks! This really does help. I took the repo/project thing further in a follow up change. I\u0027ll add you on it and you can let me know what you think.",
+      "revId": "f1a133610682d0e8a7304b6577a98ec1d37a92ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

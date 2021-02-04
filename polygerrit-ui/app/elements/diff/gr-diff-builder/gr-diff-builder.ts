@@ -30,6 +30,7 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 import {pluralize} from '../../../utils/string-util';
+import {PortedThreadsWithoutRange} from '../gr-diff-host/gr-diff-host';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -81,6 +82,11 @@ export abstract class GrDiffBuilder {
   readonly groups: GrDiffGroup[];
 
   private _blameInfo: BlameInfo[] | null;
+
+  hasPortedThreadsWithoutRange: PortedThreadsWithoutRange = {
+    [Side.LEFT]: false,
+    [Side.RIGHT]: false,
+  };
 
   private readonly _layerUpdateListener: (
     start: LineNumber,
@@ -541,7 +547,10 @@ export abstract class GrDiffBuilder {
       td.classList.add('lineNum');
       td.dataset['value'] = number.toString();
 
-      if (this._prefs.show_file_comment_button === false && number === 'FILE') {
+      if (
+        (this._prefs.show_file_comment_button === false && number === 'FILE') ||
+        number === 'LOST'
+      ) {
         return td;
       }
 
@@ -577,9 +586,19 @@ export abstract class GrDiffBuilder {
     line: GrDiffLine,
     side?: Side
   ) {
+    const showPortedThreadsWithoutRangeMessage =
+      line.beforeNumber === 'LOST' &&
+      side &&
+      this.hasPortedThreadsWithoutRange[side];
     const td = this._createElement('td');
+    if (showPortedThreadsWithoutRangeMessage) {
+      td.appendChild(this._portedCommentsWithoutRangeMessage());
+    }
+
     if (line.type !== GrDiffLineType.BLANK) {
       td.classList.add('content');
+      if (showPortedThreadsWithoutRangeMessage)
+        td.classList.add('portedCommentsWithoutRangeMessage');
     }
 
     // If intraline info is not available, the entire line will be
@@ -589,7 +608,7 @@ export abstract class GrDiffBuilder {
     }
     td.classList.add(line.type);
 
-    if (line.beforeNumber !== 'FILE') {
+    if (line.beforeNumber !== 'FILE' && line.beforeNumber !== 'LOST') {
       const lineLimit = !this._prefs.line_wrapping
         ? this._prefs.line_length
         : Infinity;
@@ -615,7 +634,7 @@ export abstract class GrDiffBuilder {
 
       td.appendChild(contentText);
     } else {
-      td.classList.add('file');
+      if (line.beforeNumber === 'FILE') td.classList.add('file');
     }
 
     return td;
@@ -869,6 +888,17 @@ export abstract class GrDiffBuilder {
       controls.appendChild(c);
     });
     return controls;
+  }
+
+  _portedCommentsWithoutRangeMessage() {
+    const div = this._createElement('div');
+    const icon = this._createElement('iron-icon');
+    icon.setAttribute('icon', 'gr-icons:info');
+    div.appendChild(icon);
+    const span = this._createElement('span');
+    span.innerText = 'Position could not be calculated';
+    div.appendChild(span);
+    return div;
   }
 
   /**

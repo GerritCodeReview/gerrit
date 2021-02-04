@@ -67,6 +67,7 @@ import {MovedLinkClickedEvent} from '../../../types/events';
 import * as shadow from 'shadow-selection-polyfill/shadow.js';
 
 import {CreateCommentEventDetail as CreateCommentEventDetailApi} from '../../../api/diff';
+import {PortedThreadsWithoutRange} from '../gr-diff-host/gr-diff-host';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -241,6 +242,12 @@ export class GrDiff extends GestureEventListeners(
 
   @property({type: Boolean})
   showNewlineWarningRight = false;
+
+  @property({type: Object})
+  hasPortedThreadsWithoutRange: PortedThreadsWithoutRange = {
+    [Side.LEFT]: false,
+    [Side.RIGHT]: false,
+  };
 
   @property({
     type: String,
@@ -518,8 +525,9 @@ export class GrDiff extends GestureEventListeners(
       );
       this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
     } else if (
-      el.classList.contains('lineNum') ||
-      el.classList.contains('lineNumButton')
+      el.getAttribute('data-value') !== 'LOST' &&
+      (el.classList.contains('lineNum') ||
+        el.classList.contains('lineNumButton'))
     ) {
       this.addDraftAtLine(el);
     } else if (
@@ -767,15 +775,17 @@ export class GrDiff extends GestureEventListeners(
 
     const keyLocations = this._computeKeyLocations();
     const bypassPrefs = this._getBypassPrefs(this.prefs);
-    this.$.diffBuilder.render(keyLocations, bypassPrefs).then(() => {
-      this.dispatchEvent(
-        new CustomEvent('render', {
-          bubbles: true,
-          composed: true,
-          detail: {contentRendered: true},
-        })
-      );
-    });
+    this.$.diffBuilder
+      .render(keyLocations, bypassPrefs, this.hasPortedThreadsWithoutRange)
+      .then(() => {
+        this.dispatchEvent(
+          new CustomEvent('render', {
+            bubbles: true,
+            composed: true,
+            detail: {contentRendered: true},
+          })
+        );
+      });
   }
 
   _handleRenderContent() {

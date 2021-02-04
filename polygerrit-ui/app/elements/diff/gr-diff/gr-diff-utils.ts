@@ -48,12 +48,14 @@ export function getLineNumber(lineEl?: Element | null): LineNumber | null {
   const lineNumberStr = lineEl.getAttribute('data-value');
   if (!lineNumberStr) return null;
   if (lineNumberStr === FILE) return FILE;
+  if (lineNumberStr === 'LOST') return 'LOST';
   const lineNumber = Number(lineNumberStr);
   return Number.isInteger(lineNumber) ? lineNumber : null;
 }
 
 export function getLine(threadEl: HTMLElement): LineNumber {
   const lineAtt = threadEl.getAttribute('line-num');
+  if (lineAtt === 'LOST') return lineAtt;
   if (!lineAtt || lineAtt === 'FILE') return FILE;
   const line = Number(lineAtt);
   if (isNaN(line)) throw new Error(`cannot parse line number: ${lineAtt}`);

@@ -32,6 +32,7 @@ import {CancelablePromise, util} from '../../../scripts/util';
 import {customElement, property} from '@polymer/decorators';
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
+import {PortedThreadsWithoutRange} from '../gr-diff-host/gr-diff-host';
 
 const WHOLE_FILE = -1;
 
@@ -144,12 +145,18 @@ export class GrDiffProcessor extends GestureEventListeners(
    * @return A promise that resolves with an
    * array of GrDiffGroups when the diff is completely processed.
    */
-  process(chunks: DiffContent[], isBinary: boolean) {
+  process(
+    chunks: DiffContent[],
+    isBinary: boolean,
+    hasPortedThreadsWithoutRange: PortedThreadsWithoutRange
+  ) {
     // Cancel any still running process() calls, because they append to the
     // same groups field.
     this.cancel();
 
     this.groups = [];
+    if (hasPortedThreadsWithoutRange.left || hasPortedThreadsWithoutRange.right)
+      this.push('groups', this._makePortedCommentsWithoutRange());
     this.push('groups', this._makeFileComments());
 
     // If it's a binary diff, we won't be rendering hunks of text differences
@@ -455,6 +462,14 @@ export class GrDiffProcessor extends GestureEventListeners(
     line.beforeNumber = FILE;
     line.afterNumber = FILE;
     return new GrDiffGroup(GrDiffGroupType.BOTH, [line]);
+  }
+
+  _makePortedCommentsWithoutRange() {
+    const line = new GrDiffLine(GrDiffLineType.BOTH);
+    line.beforeNumber = 'LOST';
+    line.afterNumber = 'LOST';
+    const group = new GrDiffGroup(GrDiffGroupType.BOTH, [line]);
+    return group;
   }
 
   /**

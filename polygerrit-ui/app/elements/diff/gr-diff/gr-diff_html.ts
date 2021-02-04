@@ -427,6 +427,13 @@ export const htmlTemplate = html`
     .target-row td.blame {
       background: var(--diff-selection-background-color);
     }
+    .portedCommentsWithoutRangeMessage {
+      background-color: #e8f0fe;
+      padding: var(--spacing-s) var(--spacing-s) var(--spacing-m);
+    }
+    .portedCommentsWithoutRangeMessage iron-icon {
+      padding-right: var(--spacing-s);
+    }
     col.blame {
       display: none;
     }

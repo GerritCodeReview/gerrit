@@ -15,7 +15,6 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
 import static java.util.stream.Collectors.toCollection;
@@ -24,11 +23,8 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -43,19 +39,14 @@ import com.google.gerrit.server.git.TagMatcher;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -73,7 +64,6 @@ class DefaultRefFilter {
 
   private final TagCache tagCache;
   private final ChangeNotes.Factory changeNotesFactory;
-  @Nullable private final SearchingChangeCacheImpl changeCache;
   private final PermissionBackend permissionBackend;
   private final RefVisibilityControl refVisibilityControl;
   private final ProjectControl projectControl;
@@ -83,22 +73,20 @@ class DefaultRefFilter {
   private final Counter0 fullFilterCount;
   private final Counter0 skipFilterCount;
   private final boolean skipFullRefEvaluationIfAllRefsAreVisible;
-
-  private Map<Change.Id, ChangeNotes> visibleChanges;
+  private final VisibleChangesCache visibleChangesCache;
 
   @Inject
   DefaultRefFilter(
       TagCache tagCache,
       ChangeNotes.Factory changeNotesFactory,
-      @Nullable SearchingChangeCacheImpl changeCache,
       PermissionBackend permissionBackend,
       RefVisibilityControl refVisibilityControl,
       @GerritServerConfig Config config,
       MetricMaker metricMaker,
+      VisibleChangesCache.Factory visibleChangesCacheFactory,
       @Assisted ProjectControl projectControl) {
     this.tagCache = tagCache;
     this.changeNotesFactory = changeNotesFactory;
-    this.changeCache = changeCache;
     this.permissionBackend = permissionBackend;
     this.refVisibilityControl = refVisibilityControl;
     this.skipFullRefEvaluationIfAllRefsAreVisible =
@@ -109,6 +97,7 @@ class DefaultRefFilter {
     this.projectState = projectControl.getProjectState();
     this.permissionBackendForProject =
         permissionBackend.user(user).project(projectState.getNameKey());
+    this.visibleChangesCache = visibleChangesCacheFactory.create(projectControl);
     this.fullFilterCount =
         metricMaker.newCounter(
             "permissions/ref_filter/full_filter_count",
@@ -147,21 +136,11 @@ class DefaultRefFilter {
     }
 
     // See if we can get away with a single, cheap ref evaluation.
-    if (refs.size() == 1) {
-      String refName = Iterables.getOnlyElement(refs).getName();
-      if (opts.filterMeta() && isMetadata(refName)) {
-        logger.atFinest().log("Filter out metadata ref %s", refName);
-        return ImmutableList.of();
+    if (refs.size() == 1 && !opts.returnMostRecentRefChanges()) {
+      if (shouldSingleRefBeReturned(Iterables.getOnlyElement(refs), opts)) {
+        return refs;
       }
-      if (RefNames.isRefsChanges(refName) && !opts.returnMostRecentRefChanges()) {
-        boolean isChangeRefVisisble = canSeeSingleChangeRef(refName);
-        if (isChangeRefVisisble) {
-          logger.atFinest().log("Change ref %s is visible", refName);
-          return refs;
-        }
-        logger.atFinest().log("Filter out non-visible change ref %s", refName);
-        return ImmutableList.of();
-      }
+      return ImmutableList.of();
     }
 
     // Perform an initial ref filtering with all the refs the caller asked for. If we find tags that
@@ -197,7 +176,7 @@ class DefaultRefFilter {
     }
 
     if (opts.returnMostRecentRefChanges()) {
-      visibleChanges(repo).values().stream()
+      visibleChangesCache.cachedVisibleChanges(repo).values().stream()
           .forEach(n -> addAllChangeAndPatchsetRefs(visibleRefs, n));
     }
 
@@ -292,7 +271,7 @@ class DefaultRefFilter {
         // most recent changes).
         if (hasAccessDatabase) {
           resultRefs.add(ref);
-        } else if (!visible(repo, changeId)) {
+        } else if (!visibleChangesCache.visible(repo, changeId)) {
           logger.atFinest().log("Filter out invisible change ref %s", refName);
         } else if (RefNames.isRefsEdit(refName) && !visibleEdit(repo, refName)) {
           logger.atFinest().log("Filter out invisible change edit ref %s", refName);
@@ -347,23 +326,6 @@ class DefaultRefFilter {
     return refs;
   }
 
-  private boolean visible(Repository repo, Change.Id changeId) throws PermissionBackendException {
-    return visibleChanges(repo).containsKey(changeId);
-  }
-
-  private Map<Change.Id, ChangeNotes> visibleChanges(Repository repo)
-      throws PermissionBackendException {
-    if (visibleChanges == null) {
-      if (changeCache == null) {
-        visibleChanges = visibleChangesByScan(repo);
-      } else {
-        visibleChanges = visibleChangesBySearch();
-      }
-      logger.atFinest().log("Visible changes: %s", visibleChanges.keySet());
-    }
-    return visibleChanges;
-  }
-
   private boolean visibleEdit(Repository repo, String name) throws PermissionBackendException {
     Change.Id id = Change.Id.fromEditRefPart(name);
     if (id == null) {
@@ -373,16 +335,22 @@ class DefaultRefFilter {
 
     if (user.isIdentifiedUser()
         && name.startsWith(RefNames.refsEditPrefix(user.asIdentifiedUser().getAccountId()))
-        && visible(repo, id)) {
+        && visibleChangesCache.visible(repo, id)) {
       logger.atFinest().log("Own change edit ref is visible: %s", name);
       return true;
     }
 
-    if (visible(repo, id)) {
+    if (visibleChangesCache.visible(repo, id)) {
       try {
         // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
         permissionBackendForProject
-            .ref(visibleChanges(repo).get(id).getChange().getDest().branch())
+            .ref(
+                visibleChangesCache
+                    .cachedVisibleChanges(repo)
+                    .get(id)
+                    .getChange()
+                    .getDest()
+                    .branch())
             .check(RefPermission.READ_PRIVATE_CHANGES);
         logger.atFinest().log("Foreign change edit ref is visible: %s", name);
         return true;
@@ -394,72 +362,6 @@ class DefaultRefFilter {
 
     logger.atFinest().log("Change %d of change edit ref %s is not visible", id.get(), name);
     return false;
-  }
-
-  private Map<Change.Id, ChangeNotes> visibleChangesBySearch() throws PermissionBackendException {
-    Project.NameKey project = projectState.getNameKey();
-    try {
-      Map<Change.Id, ChangeNotes> visibleChanges = new HashMap<>();
-      for (ChangeData cd : changeCache.getChangeData(project)) {
-        if (!projectState.statePermitsRead()) {
-          continue;
-        }
-        try {
-          permissionBackendForProject.change(cd).check(ChangePermission.READ);
-          visibleChanges.put(cd.getId(), cd.notes());
-        } catch (AuthException e) {
-          // Do nothing.
-        }
-      }
-      return visibleChanges;
-    } catch (StorageException e) {
-      logger.atSevere().withCause(e).log(
-          "Cannot load changes for project %s, assuming no changes are visible", project);
-      return Collections.emptyMap();
-    }
-  }
-
-  private Map<Change.Id, ChangeNotes> visibleChangesByScan(Repository repo)
-      throws PermissionBackendException {
-    Project.NameKey p = projectState.getNameKey();
-    ImmutableList<ChangeNotesResult> changes;
-    try {
-      changes = changeNotesFactory.scan(repo, p).collect(toImmutableList());
-    } catch (IOException e) {
-      logger.atSevere().withCause(e).log(
-          "Cannot load changes for project %s, assuming no changes are visible", p);
-      return Collections.emptyMap();
-    }
-
-    Map<Change.Id, ChangeNotes> result = Maps.newHashMapWithExpectedSize(changes.size());
-    for (ChangeNotesResult notesResult : changes) {
-      ChangeNotes notes = toNotes(notesResult);
-      if (notes != null) {
-        result.put(notes.getChangeId(), notes);
-      }
-    }
-    return result;
-  }
-
-  @Nullable
-  private ChangeNotes toNotes(ChangeNotesResult r) throws PermissionBackendException {
-    if (r.error().isPresent()) {
-      logger.atWarning().withCause(r.error().get()).log(
-          "Failed to load change %s in %s", r.id(), projectState.getName());
-      return null;
-    }
-
-    if (!projectState.statePermitsRead()) {
-      return null;
-    }
-
-    try {
-      permissionBackendForProject.change(r.notes()).check(ChangePermission.READ);
-      return r.notes();
-    } catch (AuthException e) {
-      // Skip.
-    }
-    return null;
   }
 
   private boolean isMetadata(String name) {
@@ -490,6 +392,26 @@ class DefaultRefFilter {
       return false;
     }
     return true;
+  }
+
+  private boolean shouldSingleRefBeReturned(Ref ref, RefFilterOptions opts)
+      throws PermissionBackendException {
+    String refName = ref.getName();
+    if (opts.filterMeta() && isMetadata(refName)) {
+      logger.atFinest().log("Filter out metadata ref %s", refName);
+      return false;
+    }
+    if (RefNames.isRefsChanges(refName)) {
+      boolean isChangeRefVisible = canSeeSingleChangeRef(refName);
+      if (isChangeRefVisible) {
+        logger.atFinest().log("Change ref %s is visible", refName);
+        return true;
+      }
+      logger.atFinest().log("Filter out non-visible change ref %s", refName);
+      return false;
+    }
+    // Only refs/changes could ever be checked for visibility this way.
+    return false;
   }
 
   /**

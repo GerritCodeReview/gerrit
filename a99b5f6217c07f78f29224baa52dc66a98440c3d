@@ -194,6 +194,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "86c05fdf_7372edb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-04T10:54:54Z",
+      "side": 1,
+      "message": "You can run \n\n  jgit convert-ref-storage \n\non the .git repo that you want to use reftable with. It\u0027s not documented because we don\u0027t have enough field experience to put it into \u0027normal\u0027 users, but I think Luca wanted to load test it this year.",
+      "parentUuid": "531a6f5b_aea79c66",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "a99b5f6217c07f78f29224baa52dc66a98440c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3bfe865b_e70684db",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

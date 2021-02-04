@@ -50,9 +50,6 @@ export const htmlTemplate = html`
     #emptyOutgoing {
       display: block;
     }
-    #emptyYourTurn {
-      text-align: center;
-    }
     @media only screen and (max-width: 50em) {
       .loading {
         padding: 0 var(--spacing-l);
@@ -100,7 +97,7 @@ export const htmlTemplate = html`
         </template>
       </div>
       <div id="emptyYourTurn" slot="empty-your-turn">
-        <span>&#x1f389; No changes need your attention &#x1f389;</span>
+        <span>No changes need your attention &nbsp;&#x1f389;</span>
       </div>
     </gr-change-list>
   </div>

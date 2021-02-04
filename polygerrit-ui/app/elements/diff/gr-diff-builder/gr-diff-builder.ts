@@ -30,6 +30,7 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 import {pluralize} from '../../../utils/string-util';
+import {PortedThreadsWithoutRange} from '../gr-diff-host/gr-diff-host';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -81,6 +82,11 @@ export abstract class GrDiffBuilder {
   readonly groups: GrDiffGroup[];
 
   private _blameInfo: BlameInfo[] | null;
+
+  portedThreadsWithoutRange: PortedThreadsWithoutRange = {
+    [Side.LEFT]: false,
+    [Side.RIGHT]: false,
+  };
 
   private readonly _layerUpdateListener: (
     start: LineNumber,
@@ -546,7 +552,7 @@ export abstract class GrDiffBuilder {
       }
 
       const button = this._createElement('button');
-      td.appendChild(button);
+      if (number !== 'LOST') td.appendChild(button);
       button.tabIndex = -1;
       button.classList.add('lineNumButton');
       button.classList.add(side);
@@ -577,9 +583,19 @@ export abstract class GrDiffBuilder {
     line: GrDiffLine,
     side?: Side
   ) {
+    const showPortedThreadsWithoutRangeMessage =
+      line.beforeNumber === 'LOST' &&
+      side &&
+      this.portedThreadsWithoutRange[side];
     const td = this._createElement('td');
+    if (showPortedThreadsWithoutRangeMessage) {
+      td.appendChild(this._portedCommentsWithoutRangeMessage());
+    }
+
     if (line.type !== GrDiffLineType.BLANK) {
       td.classList.add('content');
+      if (showPortedThreadsWithoutRangeMessage)
+        td.classList.add('portedCommentsWithoutRangeMessage');
     }
 
     // If intraline info is not available, the entire line will be
@@ -589,7 +605,7 @@ export abstract class GrDiffBuilder {
     }
     td.classList.add(line.type);
 
-    if (line.beforeNumber !== 'FILE') {
+    if (line.beforeNumber !== 'FILE' && line.beforeNumber !== 'LOST') {
       const lineLimit = !this._prefs.line_wrapping
         ? this._prefs.line_length
         : Infinity;
@@ -869,6 +885,17 @@ export abstract class GrDiffBuilder {
       controls.appendChild(c);
     });
     return controls;
+  }
+
+  _portedCommentsWithoutRangeMessage() {
+    const div = this._createElement('div');
+    const icon = this._createElement('iron-icon');
+    icon.setAttribute('icon', 'gr-icons:info');
+    div.appendChild(icon);
+    const span = this._createElement('span');
+    span.innerText = 'Position could not be calculated';
+    div.appendChild(span);
+    return div;
   }
 
   /**

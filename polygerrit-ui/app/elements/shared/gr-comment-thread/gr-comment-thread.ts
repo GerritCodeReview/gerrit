@@ -174,6 +174,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   showPortedComment = false;
 
   @property({type: Boolean})
+  rangeInfoLost = false;
+
+  @property({type: Boolean})
   showPatchset = true;
 
   get keyBindings() {
@@ -277,6 +280,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       (this.comments.length && this.comments[0].side === 'PARENT') ||
       isDraft(this.comments[0])
     ) {
+      if (this.lineNum === 'LOST') throw new Error('invalid lineNum lost');
       return GerritNav.getUrlForDiffById(
         changeNum,
         projectName,
@@ -503,7 +507,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       __draftID: Math.random().toString(36),
       __date: new Date(),
     };
-
+    if (lineNum === 'LOST') throw new Error('invalid lineNum lost');
     // For replies, always use same meta info as root.
     if (this.comments && this.comments.length >= 1) {
       const rootComment = this.comments[0];

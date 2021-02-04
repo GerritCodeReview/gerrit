@@ -357,7 +357,7 @@ export class GrDiffHighlight extends GestureEventListeners(
     const side = this.diffBuilder.getSideByLineEl(lineEl);
     if (!side) return null;
     const line = this.diffBuilder.getLineNumberByChild(lineEl);
-    if (!line || line === FILE) return null;
+    if (!line || line === FILE || line === 'LOST') return null;
     const contentTd = this.diffBuilder.getContentTdByLineEl(lineEl);
     if (!contentTd) return null;
     const contentText = contentTd.querySelector('.contentText');

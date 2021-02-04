@@ -214,7 +214,7 @@ export class GrSyntaxLayer
     if (!this.enabled) return;
     if (line.beforeNumber === FILE) return;
     if (line.afterNumber === FILE) return;
-
+    if (line.beforeNumber === 'LOST' || line.afterNumber === 'LOST') return;
     // Determine the side.
     let side;
     if (

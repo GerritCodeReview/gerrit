@@ -482,13 +482,11 @@ public abstract class ChangeNotesState {
       object.hashtags().forEach(b::addHashtag);
       object
           .patchSets()
-          .forEach(e -> b.addPatchSet(toByteString(e.getValue(), PatchSetProtoConverter.INSTANCE)));
+          .forEach(e -> b.addPatchSet(PatchSetProtoConverter.INSTANCE.toProto(e.getValue())));
       object
           .approvals()
           .forEach(
-              e ->
-                  b.addApproval(
-                      toByteString(e.getValue(), PatchSetApprovalProtoConverter.INSTANCE)));
+              e -> b.addApproval(PatchSetApprovalProtoConverter.INSTANCE.toProto(e.getValue())));
 
       object.reviewers().asTable().cellSet().forEach(c -> b.addReviewer(toReviewerSetEntry(c)));
       object
@@ -519,7 +517,7 @@ public abstract class ChangeNotesState {
           .forEach(r -> b.addSubmitRecord(GSON.toJson(new StoredSubmitRecord(r))));
       object
           .changeMessages()
-          .forEach(m -> b.addChangeMessage(toByteString(m, ChangeMessageProtoConverter.INSTANCE)));
+          .forEach(m -> b.addChangeMessage(ChangeMessageProtoConverter.INSTANCE.toProto(m)));
       object.publishedComments().values().forEach(c -> b.addPublishedComment(GSON.toJson(c)));
       b.setUpdateCount(object.updateCount());
       if (object.mergedOn() != null) {
@@ -635,12 +633,12 @@ public abstract class ChangeNotesState {
               .hashtags(proto.getHashtagList())
               .patchSets(
                   proto.getPatchSetList().stream()
-                      .map(bytes -> parseProtoFrom(PatchSetProtoConverter.INSTANCE, bytes))
+                      .map(msg -> PatchSetProtoConverter.INSTANCE.fromProto(msg))
                       .map(ps -> Maps.immutableEntry(ps.id(), ps))
                       .collect(toImmutableList()))
               .approvals(
                   proto.getApprovalList().stream()
-                      .map(bytes -> parseProtoFrom(PatchSetApprovalProtoConverter.INSTANCE, bytes))
+                      .map(msg -> PatchSetApprovalProtoConverter.INSTANCE.fromProto(msg))
                       .map(a -> Maps.immutableEntry(a.patchSetId(), a))
                       .collect(toImmutableList()))
               .reviewers(toReviewerSet(proto.getReviewerList()))
@@ -660,7 +658,7 @@ public abstract class ChangeNotesState {
                       .collect(toImmutableList()))
               .changeMessages(
                   proto.getChangeMessageList().stream()
-                      .map(bytes -> parseProtoFrom(ChangeMessageProtoConverter.INSTANCE, bytes))
+                      .map(msg -> ChangeMessageProtoConverter.INSTANCE.fromProto(msg))
                       .collect(toImmutableList()))
               .publishedComments(
                   proto.getPublishedCommentList().stream()

@@ -129,7 +129,7 @@ public class ListTags implements RestReadView<ProjectResource> {
         RevWalk rw = new RevWalk(repo)) {
       Collection<Ref> all =
           visibleTags(
-              resource.getNameKey(), repo, repo.getRefDatabase().getRefsByPrefix(Constants.R_TAGS));
+              resource.getNameKey(), repo.getRefDatabase().getRefsByPrefix(Constants.R_TAGS));
       for (Ref ref : all) {
         tags.add(
             createTagInfo(perm.ref(ref.getName()), ref, rw, resource.getProjectState(), links));
@@ -156,8 +156,7 @@ public class ListTags implements RestReadView<ProjectResource> {
         tagName = Constants.R_TAGS + tagName;
       }
       Ref ref = repo.getRefDatabase().exactRef(tagName);
-      if (ref != null
-          && !visibleTags(resource.getNameKey(), repo, ImmutableList.of(ref)).isEmpty()) {
+      if (ref != null && !visibleTags(resource.getNameKey(), ImmutableList.of(ref)).isEmpty()) {
         return createTagInfo(
             permissionBackend
                 .user(resource.getUser())
@@ -223,11 +222,11 @@ public class ListTags implements RestReadView<ProjectResource> {
     }
   }
 
-  private Collection<Ref> visibleTags(Project.NameKey project, Repository repo, List<Ref> tags)
+  private Collection<Ref> visibleTags(Project.NameKey project, List<Ref> tags)
       throws PermissionBackendException {
     return permissionBackend
         .currentUser()
         .project(project)
-        .filter(tags, repo, RefFilterOptions.builder().setFilterMeta(true).build());
+        .filter(tags, RefFilterOptions.builder().setFilterMeta(true).build());
   }
 }

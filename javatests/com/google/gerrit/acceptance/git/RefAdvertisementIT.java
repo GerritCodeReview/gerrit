@@ -1411,14 +1411,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       PermissionBackend.ForProject forProject = newFilter(allUsers, admin);
       assertThat(
               names(
-                  forProject.filter(
-                      repo.getRefDatabase().getRefs(), repo, RefFilterOptions.defaults())))
+                  forProject.filter(repo.getRefDatabase().getRefs(), RefFilterOptions.defaults())))
           .containsExactlyElementsIn(expectedAllRefs);
       assertThat(
               names(
                   forProject.filter(
                       repo.getRefDatabase().getRefs(),
-                      repo,
                       RefFilterOptions.builder().setFilterMeta(true).build())))
           .containsExactlyElementsIn(expectedNonMetaRefs);
     }
@@ -1435,7 +1433,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           permissionBackend
               .user(user(admin))
               .project(project)
-              .filter(singleRef, repo, RefFilterOptions.defaults());
+              .filter(singleRef, RefFilterOptions.defaults());
       assertThat(filteredRefs).isEqualTo(singleRef);
     }
   }

@@ -59,7 +59,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 
 /** Access control management for a user accessing a project's data. */
 class ProjectControl {
@@ -414,12 +413,12 @@ class ProjectControl {
     }
 
     @Override
-    public Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
+    public Collection<Ref> filter(Collection<Ref> refs, RefFilterOptions opts)
         throws PermissionBackendException {
       if (refFilter == null) {
         refFilter = refFilterFactory.create(ProjectControl.this);
       }
-      return refFilter.filter(refs, repo, opts);
+      return refFilter.filter(refs, opts);
     }
 
     private boolean can(CoreOrPluginProjectPermission perm) throws PermissionBackendException {

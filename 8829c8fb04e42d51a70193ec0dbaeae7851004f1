@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "327ec589_13aead74",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-04T13:27:37Z",
+      "side": 1,
+      "message": "NIT - maybe we could have different label for buttons in reply\n\nlike \u0027Click to deselect the user from getting attention.",
+      "range": {
+        "startLine": 303,
+        "startChar": 11,
+        "endLine": 303,
+        "endChar": 18
+      },
+      "revId": "8829c8fb04e42d51a70193ec0dbaeae7851004f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

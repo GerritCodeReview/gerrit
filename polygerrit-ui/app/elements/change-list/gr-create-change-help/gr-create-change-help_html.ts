@@ -21,10 +21,10 @@ export const htmlTemplate = html`
     :host {
       display: block;
     }
-    #graphic,
-    #help {
+    #graphic {
       display: inline-block;
       margin: var(--spacing-m);
+      margin-left: 0;
     }
     #graphic #circle {
       align-items: center;
@@ -45,6 +45,8 @@ export const htmlTemplate = html`
       text-align: center;
     }
     #help {
+      display: inline-block;
+      margin: var(--spacing-m);
       padding-top: var(--spacing-xl);
       vertical-align: top;
     }

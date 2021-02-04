@@ -606,7 +606,7 @@ suite('gr-diff-cursor tests', () => {
 
   test('_findRowByNumberAndFile', () => {
     // Get the first ab row after the first chunk.
-    const row = diffElement.root.querySelectorAll('tr')[8];
+    const row = diffElement.root.querySelectorAll('tr')[9];
 
     // It should be line 8 on the right, but line 5 on the left.
     assert.equal(cursorElement._findRowByNumberAndFile(8, 'right'), row);

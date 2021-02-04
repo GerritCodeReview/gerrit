@@ -82,7 +82,11 @@ export const htmlTemplate = html`
         <template is="dom-if" if="[[_isEmpty(changeSection)]]">
           <tr class="noChanges">
             <td aria-hidden="true" class="leftPadding"></td>
-            <td aria-hidden="true" class="star" hidden></td>
+            <td
+              aria-hidden="[[!showStar]]"
+              class="star"
+              hidden$="[[!showStar]]"
+            ></td>
             <td
               class="cell"
               colspan$="[[_computeColspan(changeSection, visibleChangeTableColumns, labelNames)]]"

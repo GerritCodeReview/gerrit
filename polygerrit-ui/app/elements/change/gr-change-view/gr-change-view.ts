@@ -38,6 +38,7 @@ import '../gr-file-list-header/gr-file-list-header';
 import '../gr-included-in-dialog/gr-included-in-dialog';
 import '../gr-messages-list/gr-messages-list';
 import '../gr-related-changes-list/gr-related-changes-list';
+import '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
 import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
@@ -218,15 +219,12 @@ export interface GrChangeView {
     replyOverlay: GrOverlay;
     replyDialog: GrReplyDialog;
     mainContent: HTMLDivElement;
-    relatedChanges: GrRelatedChangesList;
     changeStar: GrChangeStar;
     actions: GrChangeActions;
     commitMessage: HTMLDivElement;
     commitAndRelated: HTMLDivElement;
     metadata: GrChangeMetadata;
-    relatedChangesToggle: HTMLDivElement;
     mainChangeInfo: HTMLDivElement;
-    relatedChangesToggleButton: GrButton;
     replyBtn: GrButton;
   };
 }
@@ -707,11 +705,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   get messagesList(): GrMessagesList | null {
-    return this.shadowRoot!.querySelector('gr-messages-list');
+    return this.shadowRoot!.querySelector<GrMessagesList>('gr-messages-list');
   }
 
   get threadList(): GrThreadList | null {
-    return this.shadowRoot!.querySelector('gr-thread-list');
+    return this.shadowRoot!.querySelector<GrThreadList>('gr-thread-list');
   }
 
   _changeStatusString(change: ChangeInfo) {
@@ -767,13 +765,14 @@ export class GrChangeView extends KeyboardShortcutMixin(
    * @param paperTabs - the parent tabs container
    */
   _setActiveTab(
-    paperTabs: PaperTabsElement,
+    paperTabs: PaperTabsElement | null,
     activeDetails: {
       activeTabName?: string;
       activeTabIndex?: number;
       scrollIntoView?: boolean;
     }
   ) {
+    if (!paperTabs) return;
     const {activeTabName, activeTabIndex, scrollIntoView} = activeDetails;
     const tabs = paperTabs.querySelectorAll('paper-tab') as NodeListOf<
       HTMLElement
@@ -809,9 +808,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
    * Changes active primary tab.
    */
   _setActivePrimaryTab(e: SwitchTabEvent) {
-    const primaryTabs = this.shadowRoot!.querySelector(
+    const primaryTabs = this.shadowRoot!.querySelector<PaperTabsElement>(
       '#primaryTabs'
-    ) as PaperTabsElement;
+    );
     const activeTabName = this._setActiveTab(primaryTabs, {
       activeTabName: e.detail.tab,
       activeTabIndex: e.detail.value,
@@ -842,9 +841,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
    * Changes active secondary tab.
    */
   _setActiveSecondaryTab(e: SwitchTabEvent) {
-    const secondaryTabs = this.shadowRoot!.querySelector(
+    const secondaryTabs = this.shadowRoot!.querySelector<PaperTabsElement>(
       '#secondaryTabs'
-    ) as PaperTabsElement;
+    );
     const activeTabName = this._setActiveTab(secondaryTabs, {
       activeTabName: e.detail.tab,
       activeTabIndex: e.detail.value,
@@ -1313,8 +1312,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
     this._initialLoadComplete = false;
     this._changeNum = value.changeNum;
-    this.$.relatedChanges.clear();
-
+    this.getRelatedChangesList()?.clear();
     this._reload(true).then(() => {
       this._performPostLoadTasks();
     });
@@ -2281,9 +2279,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
     if (isLocationChange) {
       this._editingCommitMessage = false;
-      const relatedChangesLoaded = coreDataPromise.then(() =>
-        this.$.relatedChanges.reload()
-      );
+      const relatedChangesLoaded = coreDataPromise.then(() => {
+        this.getRelatedChangesList()?.reload();
+      });
       allDataPromises.push(relatedChangesLoaded);
     }
 
@@ -2470,9 +2468,13 @@ export class GrChangeView extends KeyboardShortcutMixin(
     }
     const stylesToUpdate: {[key: string]: string} = {};
 
+    const relatedChanges = this.getRelatedChangesList();
     // Get the line height of related changes, and convert it to the nearest
     // integer.
-    const lineHeight = this._getLineHeight(this.$.relatedChanges);
+    const DEFAULT_LINE_HEIGHT = 20;
+    const lineHeight = relatedChanges
+      ? this._getLineHeight(relatedChanges)
+      : DEFAULT_LINE_HEIGHT;
 
     // Figure out a new height that is divisible by the rounded line height.
     const remainder = newHeight % lineHeight;
@@ -2496,25 +2498,34 @@ export class GrChangeView extends KeyboardShortcutMixin(
     }
     // Prevents showMore from showing when click on related change, since the
     // line height would be positive, but related changes height is 0.
-    if (!this._getScrollHeight(this.$.relatedChanges)) {
-      return (this._showRelatedToggle = false);
-    }
+    const relatedChanges = this.getRelatedChangesList();
+    if (relatedChanges) {
+      if (!this._getScrollHeight(relatedChanges)) {
+        return (this._showRelatedToggle = false);
+      }
 
-    if (
-      this._getScrollHeight(this.$.relatedChanges) >
-      this._getOffsetHeight(this.$.relatedChanges) +
-        this._getLineHeight(this.$.relatedChanges)
-    ) {
-      return (this._showRelatedToggle = true);
+      if (
+        this._getScrollHeight(relatedChanges) >
+        this._getOffsetHeight(relatedChanges) +
+          this._getLineHeight(relatedChanges)
+      ) {
+        return (this._showRelatedToggle = true);
+      }
     }
     return (this._showRelatedToggle = false);
   }
 
   _updateToggleContainerClass(showRelatedToggle: boolean) {
+    const relatedChangesToggle = this.shadowRoot!.querySelector<HTMLDivElement>(
+      '#relatedChangesToggle'
+    );
+    if (!relatedChangesToggle) {
+      return;
+    }
     if (showRelatedToggle) {
-      this.$.relatedChangesToggle.classList.add('showToggle');
+      relatedChangesToggle.classList.add('showToggle');
     } else {
-      this.$.relatedChangesToggle.classList.remove('showToggle');
+      relatedChangesToggle.classList.remove('showToggle');
     }
   }
 
@@ -2597,7 +2608,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleTopicChanged() {
-    this.$.relatedChanges.reload();
+    this.getRelatedChangesList()?.reload();
   }
 
   _computeHeaderClass(editMode?: boolean) {
@@ -2632,9 +2643,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _handleFileActionTap(e: CustomEvent<{path: string; action: string}>) {
     e.preventDefault();
-    const controls = this.$.fileListHeader.shadowRoot!.querySelector(
-      '#editControls'
-    ) as GrEditControls | null;
+    const controls = this.$.fileListHeader.shadowRoot!.querySelector<
+      GrEditControls
+    >('#editControls');
     if (!controls) throw new Error('Missing edit controls');
     if (!this._change) throw new Error('missing required change property');
     if (!this._patchRange)
@@ -2786,6 +2797,12 @@ export class GrChangeView extends KeyboardShortcutMixin(
    */
   _computeAllPatchSets(change: ChangeInfo) {
     return computeAllPatchSets(change);
+  }
+
+  getRelatedChangesList() {
+    return this.shadowRoot!.querySelector<GrRelatedChangesList>(
+      '#relatedChanges'
+    );
   }
 }
 

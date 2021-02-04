@@ -377,6 +377,29 @@
       },
       "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db33334c_c7de7d17",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDynamicOptionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-04T16:00:44Z",
+      "side": 1,
+      "message": "I\u0027m returning to this change, because of the larger discussion of inter-plugin communication, but I don\u0027t understand this example at all.\n\nHere, PluginFour calls into PluginThree, but in order for this to work, both plugins have to see the MyBean interface. How would this work in a scenario where the plugins are compiled separately? Do you have to copy MyBean into both source trees, and hope they don\u0027t go out of sync?",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 18
+      },
+      "revId": "7082976096e3d6abf6356d110d9c0b08b2b72385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "Thanks!",
       "revId": "ce9d90332807a07cd4249f4a67acb0bcb59650ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af31166f_cab20e6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-04T15:38:59Z",
+      "side": 1,
+      "message": "Thanks, Han-Wen, for this useful addition.\nLet me rebase it on latest master.",
+      "revId": "ce9d90332807a07cd4249f4a67acb0bcb59650ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

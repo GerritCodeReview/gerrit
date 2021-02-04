@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdb662db_437d5b3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-02-04T15:35:20Z",
+      "side": 1,
+      "message": "Adding myself to the AS because I miss the notification if the change is in CC, I think.",
+      "revId": "a35cca7a42581d3030990a1cd4fe22f083866ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7bb28ef_1bc601bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-02-04T15:35:20Z",
+      "side": 1,
+      "message": "The space between chips looks like 8px, in the specs it is 4px",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 76,
+        "endChar": 29
+      },
+      "revId": "a35cca7a42581d3030990a1cd4fe22f083866ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

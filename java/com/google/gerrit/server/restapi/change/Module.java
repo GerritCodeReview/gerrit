@@ -29,7 +29,6 @@ import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.server.CommentContextLoader;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
@@ -49,6 +48,7 @@ import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.change.SetTopicOp;
 import com.google.gerrit.server.change.WorkInProgressOp;
+import com.google.gerrit.server.comment.CommentContextLoader;
 import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
 import com.google.gerrit.server.util.AttentionSetEmail;

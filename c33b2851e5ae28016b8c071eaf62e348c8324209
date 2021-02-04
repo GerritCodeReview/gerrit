@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67864da1_2a3354c0",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-04T08:28:31Z",
+      "side": 1,
+      "message": "This is not the right place to restrict characters in project names. I think this should rather be done in LocalDiskRepositoryManager#isUnreasonableName(Project.NameKey)",
+      "revId": "c33b2851e5ae28016b8c071eaf62e348c8324209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

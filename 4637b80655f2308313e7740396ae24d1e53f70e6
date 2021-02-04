@@ -16,6 +16,24 @@
       "message": "Note that I have recently introduced the RestMockApi, which returns\n\n   return Promise.resolve(true);\n\nSee test/mocks/gr-rest-api_mock.ts.\n\nSo alternatively you could do the stubbing only in the test cases where you want to return false.\n\nAnd it might also explain why tests using loggedIn look like they do not make sense. The default being a that the mock returns `true` is new.",
       "revId": "4637b80655f2308313e7740396ae24d1e53f70e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "258ead45_e7f77736",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-04T14:55:33Z",
+      "side": 1,
+      "message": "Okay - I was going that direction initially, too (making everything have log in true unless otherwise specified), but then I thought it might actually be desirable to test which features also work when not logged in - and here, almost all tested things do work when not logged in. So I would be in favor of having it this way around unless you feel strongly.",
+      "parentUuid": "0ac489eb_78956382",
+      "revId": "4637b80655f2308313e7740396ae24d1e53f70e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -72,7 +72,7 @@ public class Reachable {
               .map(permissionBackend::user)
               .orElse(permissionBackend.currentUser())
               .project(project)
-              .filter(refs, repo, RefFilterOptions.defaults());
+              .filter(refs, RefFilterOptions.defaults());
 
       // The filtering above already produces a voluminous trace. To separate the permission check
       // from the reachability check, do the trace here:

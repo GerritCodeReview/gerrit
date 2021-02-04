@@ -43,7 +43,6 @@ import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 
 /**
  * Checks authorization to perform an action on a project, reference, or change.
@@ -312,14 +311,12 @@ public abstract class PermissionBackend {
      * Filter a list of references by visibility.
      *
      * @param refs a collection of references to filter.
-     * @param repo an open {@link Repository} handle for this instance's project
      * @param opts further options for filtering.
      * @return a partition of the provided refs that are visible to the user that this instance is
      *     scoped to.
      * @throws PermissionBackendException if failure consulting backend configuration.
      */
-    public abstract Collection<Ref> filter(
-        Collection<Ref> refs, Repository repo, RefFilterOptions opts)
+    public abstract Collection<Ref> filter(Collection<Ref> refs, RefFilterOptions opts)
         throws PermissionBackendException;
   }
 

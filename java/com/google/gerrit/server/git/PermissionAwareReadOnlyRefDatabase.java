@@ -79,7 +79,7 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
 
     Collection<Ref> result;
     try {
-      result = forProject.filter(ImmutableList.of(ref), getDelegate(), RefFilterOptions.defaults());
+      result = forProject.filter(ImmutableList.of(ref), RefFilterOptions.defaults());
     } catch (PermissionBackendException e) {
       if (e.getCause() instanceof IOException) {
         throw (IOException) e.getCause();
@@ -104,7 +104,7 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
 
     Collection<Ref> result;
     try {
-      result = forProject.filter(refs, getDelegate(), RefFilterOptions.defaults());
+      result = forProject.filter(refs, RefFilterOptions.defaults());
     } catch (PermissionBackendException e) {
       throw new IOException("", e);
     }

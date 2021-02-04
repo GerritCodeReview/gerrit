@@ -24,6 +24,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
@@ -45,15 +46,16 @@ class VisibleChangesCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   interface Factory {
-    VisibleChangesCache create(ProjectControl projectControl, Repository repository);
+    VisibleChangesCache create(ProjectControl projectControl);
   }
 
   @Nullable private final SearchingChangeCacheImpl changeCache;
+  private final ProjectControl projectControl;
   private final ProjectState projectState;
   private final ChangeNotes.Factory changeNotesFactory;
   private final PermissionBackend.ForProject permissionBackendForProject;
+  private final GitRepositoryManager repositoryManager;
 
-  private final Repository repository;
   private Map<Change.Id, ChangeNotes> visibleChanges;
 
   @Inject
@@ -61,14 +63,15 @@ class VisibleChangesCache {
       @Nullable SearchingChangeCacheImpl changeCache,
       PermissionBackend permissionBackend,
       ChangeNotes.Factory changeNotesFactory,
-      @Assisted ProjectControl projectControl,
-      @Assisted Repository repository) {
+      GitRepositoryManager repositoryManager,
+      @Assisted ProjectControl projectControl) {
     this.changeCache = changeCache;
+    this.projectControl = projectControl;
     this.projectState = projectControl.getProjectState();
     this.permissionBackendForProject =
         permissionBackend.user(projectControl.getUser()).project(projectState.getNameKey());
     this.changeNotesFactory = changeNotesFactory;
-    this.repository = repository;
+    this.repositoryManager = repositoryManager;
   }
 
   /**
@@ -121,8 +124,9 @@ class VisibleChangesCache {
   private Map<Change.Id, ChangeNotes> visibleChangesByScan() throws PermissionBackendException {
     Project.NameKey p = projectState.getNameKey();
     ImmutableList<ChangeNotesResult> changes;
-    try {
-      changes = changeNotesFactory.scan(repository, p).collect(toImmutableList());
+    try (Repository repo =
+        repositoryManager.openRepository(projectControl.getProject().getNameKey())) {
+      changes = changeNotesFactory.scan(repo, p).collect(toImmutableList());
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(
           "Cannot load changes for project %s, assuming no changes are visible", p);

@@ -17,41 +17,50 @@ package com.google.gerrit.scenarios
 import io.gatling.core.Predef.{atOnceUsers, _}
 import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
-import io.gatling.http.Predef._
+import io.gatling.http.Predef.http
 
 import scala.collection.mutable
 import scala.concurrent.duration._
 
-class CreateBranch extends ProjectSimulation {
+class SubmitChangeInBranch extends GerritSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
-  private val branchIdKey = "branchId"
-  private var counter = 0
-  var branches: mutable.Queue[String] = mutable.Queue[String]()
+  private var changesCopy: mutable.Queue[Int] = mutable.Queue[Int]()
+  private val projectName = className
 
-  def this(projectName: String) {
-    this()
-    this.projectName = projectName
-  }
+  override def relativeRuntimeWeight = 10
 
-  val test: ScenarioBuilder = scenario(uniqueName)
+  private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(session => {
-        counter += 1
-        val branchId = "branch-" + counter
-        branches += branchId
-        session.set(branchIdKey, branchId)
+        if (changesCopy.isEmpty) {
+          changesCopy = createChange.numbers.clone()
+        }
+        session.set("number", changesCopy.dequeue())
       })
-      .exec(http(uniqueName)
-          .post("${url}${" + branchIdKey + "}")
-          .body(ElFileBody(body)).asJson)
+      .exec(http(uniqueName).post("${url}${number}/submit"))
 
   private val createProject = new CreateProject(projectName)
+  private val createBranch = new CreateBranch(projectName)
+  private val createChange = new CreateChange(projectName, createBranch)
+  private val approveChange = new ApproveChange(createChange)
   private val deleteProject = new DeleteProject(projectName)
 
   setUp(
     createProject.test.inject(
       nothingFor(stepWaitTime(createProject) seconds),
       atOnceUsers(single)
+    ),
+    createBranch.test.inject(
+      nothingFor(stepWaitTime(createBranch) seconds),
+      atOnceUsers(numberOfUsers)
+    ),
+    createChange.test.inject(
+      nothingFor(stepWaitTime(createChange) seconds),
+      atOnceUsers(numberOfUsers)
+    ),
+    approveChange.test.inject(
+      nothingFor(stepWaitTime(approveChange) seconds),
+      atOnceUsers(numberOfUsers)
     ),
     test.inject(
       nothingFor(stepWaitTime(this) seconds),

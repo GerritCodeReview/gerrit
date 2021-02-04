@@ -21,9 +21,9 @@ import io.gatling.core.structure.ScenarioBuilder
 import scala.concurrent.duration._
 
 class CloneUsingBothProtocols extends GitSimulation {
-  private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
+  private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
   private val projectName = className
-  private val duration = 2
+  private val duration = 2 * numberOfUsers
 
   override def replaceOverride(in: String): String = {
     replaceKeyWith("_project", projectName, in)
@@ -43,7 +43,7 @@ class CloneUsingBothProtocols extends GitSimulation {
     ),
     test.inject(
       nothingFor(stepWaitTime(this) seconds),
-      constantUsersPerSec(single) during (duration seconds)
+      constantUsersPerSec(numberOfUsers) during (duration seconds)
     ).protocols(gitProtocol),
     deleteProject.test.inject(
       nothingFor(stepWaitTime(deleteProject) + duration seconds),

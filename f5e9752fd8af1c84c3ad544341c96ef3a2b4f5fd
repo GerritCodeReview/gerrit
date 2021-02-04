@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78f8505c_38530181",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-04T14:28:28Z",
+      "side": 1,
+      "message": "There is a proposal for removing the chips altogether. Would you still like to move forward with this change?",
+      "revId": "f5e9752fd8af1c84c3ad544341c96ef3a2b4f5fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

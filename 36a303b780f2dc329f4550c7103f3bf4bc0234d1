@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "388a39fb_16d82103",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-04T16:36:31Z",
+      "side": 1,
+      "message": "I\u0027m not sure it is. I think it\u0027s drastically oversizing.",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "36a303b780f2dc329f4550c7103f3bf4bc0234d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e8c46eb_e419193d",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-04T16:36:31Z",
+      "side": 1,
+      "message": "I find it hard to believe that the size of refs is going to be dominated by the # of branches (which I think is all that isn\u0027t filtered out above). There could still be 1000s of branches, but that\u0027s likely in a repo with 10x total refs. I think if we want to leave this optimization it needs a scaling factor to account for the filtering above.",
+      "range": {
+        "startLine": 329,
+        "startChar": 54,
+        "endLine": 329,
+        "endChar": 68
+      },
+      "revId": "36a303b780f2dc329f4550c7103f3bf4bc0234d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

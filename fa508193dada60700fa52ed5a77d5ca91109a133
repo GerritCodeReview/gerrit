@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f82c5f0_4765e21d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-04T11:11:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b0d92f8_e28500a8",
+      "range": {
+        "startLine": 1316,
+        "startChar": 27,
+        "endLine": 1318,
+        "endChar": 5
+      },
+      "revId": "fa508193dada60700fa52ed5a77d5ca91109a133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22d39a88_282caf36",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-04T11:11:49Z",
+      "side": 1,
+      "message": "I put relatedChanges under \u003cdom-if\u003e and $ reference works only when element is static and always presented.",
+      "parentUuid": "f1ee72d1_7ad1940e",
+      "range": {
+        "startLine": 1316,
+        "startChar": 27,
+        "endLine": 1318,
+        "endChar": 6
+      },
+      "revId": "fa508193dada60700fa52ed5a77d5ca91109a133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ccc70b4_1a03b5bf",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-02-04T09:48:35Z",
       "side": 1,
       "message": "Please add a comment why relatedChanges is not null in this method? The relatedChanges variable is the same as in other places, looks unexpected.",
+      "range": {
+        "startLine": 2487,
+        "startChar": 57,
+        "endLine": 2487,
+        "endChar": 58
+      },
+      "revId": "fa508193dada60700fa52ed5a77d5ca91109a133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea502728_411abc5d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2487,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-04T11:11:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ccc70b4_1a03b5bf",
       "range": {
         "startLine": 2487,
         "startChar": 57,

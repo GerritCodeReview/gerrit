@@ -16,7 +16,7 @@
  */
 
 export const FILE = 'FILE';
-export type LineNumber = number | 'FILE';
+export type LineNumber = number | 'FILE' | 'LOST';
 
 export enum GrDiffLineType {
   ADD = 'add',

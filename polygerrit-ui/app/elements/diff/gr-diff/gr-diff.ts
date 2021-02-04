@@ -522,8 +522,9 @@ export class GrDiff extends GestureEventListeners(
       );
       this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
     } else if (
-      el.classList.contains('lineNum') ||
-      el.classList.contains('lineNumButton')
+      el.getAttribute('data-value') !== 'LOST' &&
+      (el.classList.contains('lineNum') ||
+        el.classList.contains('lineNumButton'))
     ) {
       this.addDraftAtLine(el);
     } else if (

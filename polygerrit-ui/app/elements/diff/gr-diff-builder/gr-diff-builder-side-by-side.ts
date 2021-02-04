@@ -56,6 +56,10 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     if (group.ignoredWhitespaceOnly) {
       sectionEl.classList.add('ignoredWhitespaceOnly');
     }
+    // if (group.portedCommentsWithoutRange) {
+    //   sectionEl.append(this._portedCommentsWithoutRangeMessage());
+    //   sectionEl.classList.add('portedCommentsWithoutRange');
+    // }
     if (group.type === GrDiffGroupType.CONTEXT_CONTROL) {
       this._createContextControls(
         sectionEl,
@@ -121,6 +125,9 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     side: Side
   ) {
     const lineNumberEl = this._createLineEl(line, lineNumber, line.type, side);
+    if (lineNumber === 'LOST') {
+      row.appendChild(this._portedCommentsWithoutRangeMessage());
+    }
     row.appendChild(lineNumberEl);
     row.appendChild(this._createTextEl(lineNumberEl, line, side));
   }

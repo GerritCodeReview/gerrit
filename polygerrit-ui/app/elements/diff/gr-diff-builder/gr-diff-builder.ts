@@ -541,7 +541,7 @@ export abstract class GrDiffBuilder {
       }
 
       const button = this._createElement('button');
-      td.appendChild(button);
+      if (number !== 'LOST') td.appendChild(button);
       button.tabIndex = -1;
       button.classList.add('lineNumButton');
       button.classList.add(side);
@@ -864,6 +864,17 @@ export abstract class GrDiffBuilder {
       controls.appendChild(c);
     });
     return controls;
+  }
+
+  _portedCommentsWithoutRangeMessage() {
+    const div = this._createElement('div');
+    const icon = this._createElement('iron-icon');
+    icon.setAttribute('icon', 'gr-icons:info');
+    div.appendChild(icon);
+    const span = this._createElement('span');
+    span.innerText = 'Range could not be calculated';
+    div.appendChild(span);
+    return div;
   }
 
   /**

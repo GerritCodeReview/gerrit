@@ -124,6 +124,11 @@ export interface GrDiffHost {
   };
 }
 
+export interface PortedThreadsWithoutRange {
+  [Side.LEFT]: boolean;
+  [Side.RIGHT]: boolean;
+}
+
 /**
  * Wrapper around gr-diff.
  *
@@ -202,6 +207,12 @@ export class GrDiffHost extends GestureEventListeners(
 
   @property({type: Boolean})
   noRenderOnPrefsChange = false;
+
+  @property({type: Object})
+  portedThreadsWithoutRange: PortedThreadsWithoutRange = {
+    [Side.LEFT]: false,
+    [Side.RIGHT]: false,
+  };
 
   @property({type: Object, observer: '_threadsChanged'})
   threads?: CommentThread[];
@@ -713,13 +724,21 @@ export class GrDiffHost extends GestureEventListeners(
       this._attachThreadElement(threadEl);
     }
     const portedThreadsCount = threads.filter(thread => thread.ported).length;
-    const portedThreadsWithoutRange = threads.filter(
+    const portedThreads = threads.filter(
       thread => thread.ported && thread.rangeInfoLost
-    ).length;
+    );
+    this.portedThreadsWithoutRange = {
+      [Side.LEFT]:
+        portedThreads.filter(thread => thread.diffSide === Side.LEFT).length >
+        0,
+      [Side.RIGHT]:
+        portedThreads.filter(thread => thread.diffSide === Side.RIGHT).length >
+        0,
+    };
     if (portedThreadsCount > 0) {
       this.reporting.reportInteraction('ported-threads-shown', {
         ported: portedThreadsCount,
-        portedThreadsWithoutRange,
+        portedThreadsWithoutRange: portedThreads.length,
       });
     }
   }
@@ -840,7 +859,10 @@ export class GrDiffHost extends GestureEventListeners(
   _createThreadElement(thread: CommentThread) {
     const threadEl = document.createElement('gr-comment-thread');
     threadEl.className = 'comment-thread';
-    threadEl.setAttribute('slot', `${thread.diffSide}-${thread.line}`);
+    threadEl.setAttribute(
+      'slot',
+      `${thread.diffSide}-${thread.line || 'LOST'}`
+    );
     threadEl.comments = thread.comments;
     threadEl.diffSide = thread.diffSide;
     threadEl.isOnParent = thread.commentSide === CommentSide.PARENT;
@@ -861,8 +883,10 @@ export class GrDiffHost extends GestureEventListeners(
     threadEl.patchNum = thread.patchNum;
     threadEl.showPatchset = false;
     threadEl.showPortedComment = !!thread.ported;
+    threadEl.rangeInfoLost = !!thread.rangeInfoLost;
+    if (threadEl.rangeInfoLost) threadEl.lineNum = 'LOST';
     // GrCommentThread does not understand 'FILE', but requires undefined.
-    threadEl.lineNum = thread.line !== 'FILE' ? thread.line : undefined;
+    else threadEl.lineNum = thread.line !== 'FILE' ? thread.line : undefined;
     threadEl.projectName = this.projectName;
     threadEl.range = thread.range;
     const threadDiscardListener = (e: Event) => {

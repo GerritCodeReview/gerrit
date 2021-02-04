@@ -50,6 +50,7 @@ import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {getLineNumber} from '../gr-diff/gr-diff-utils';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
+import {PortedThreadsWithoutRange} from '../gr-diff-host/gr-diff-host';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
@@ -183,7 +184,11 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     return coverageRanges.filter(range => range && range.side === 'right');
   }
 
-  render(keyLocations: KeyLocations, prefs: DiffPreferencesInfo) {
+  render(
+    keyLocations: KeyLocations,
+    prefs: DiffPreferencesInfo,
+    portedThreadsWithoutRange: PortedThreadsWithoutRange
+  ) {
     // Setting up annotation layers must happen after plugins are
     // installed, and |render| satisfies the requirement, however,
     // |attached| doesn't because in the diff view page, the element is
@@ -203,6 +208,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
       throw Error('Cannot render a diff without DiffInfo.');
     }
     this._builder = this._getDiffBuilder(this.diff, prefs);
+    this._builder.portedThreadsWithoutRange = portedThreadsWithoutRange;
 
     this.$.processor.context = prefs.context;
     this.$.processor.keyLocations = keyLocations;
@@ -214,12 +220,14 @@ export class GrDiffBuilderElement extends GestureEventListeners(
 
     fireEvent(this, 'render-start');
     this._cancelableRenderPromise = util.makeCancelable(
-      this.$.processor.process(this.diff.content, isBinary).then(() => {
-        if (this.isImageDiff) {
-          (this._builder as GrDiffBuilderImage).renderDiff();
-        }
-        fireEvent(this, 'render-content');
-      })
+      this.$.processor
+        .process(this.diff.content, isBinary, portedThreadsWithoutRange)
+        .then(() => {
+          if (this.isImageDiff) {
+            (this._builder as GrDiffBuilderImage).renderDiff();
+          }
+          fireEvent(this, 'render-content');
+        })
     );
     return (
       this._cancelableRenderPromise

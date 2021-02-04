@@ -41,6 +41,7 @@ export const htmlTemplate = html`
     show-newline-warning-left="[[_showNewlineWarningLeft(diff)]]"
     show-newline-warning-right="[[_showNewlineWarningRight(diff)]]"
     use-new-context-controls="[[_useNewContextControls()]]"
+    ported-threads-without-range="[[portedThreadsWithoutRange]]"
   >
   </gr-diff>
   <gr-syntax-layer

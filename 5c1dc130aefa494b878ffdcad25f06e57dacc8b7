@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31709870_4c18f12a",
+        "filename": "java/com/google/gerrit/server/permissions/VisibleChangesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-04T15:32:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44b18e3b_3dd06220",
+      "range": {
+        "startLine": 41,
+        "startChar": 12,
+        "endLine": 41,
+        "endChar": 18
+      },
+      "revId": "5c1dc130aefa494b878ffdcad25f06e57dacc8b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc8322f1_e9b8b278",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-04T15:27:31Z",
       "side": 1,
       "message": "private ? or package local?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 6
+      },
+      "revId": "5c1dc130aefa494b878ffdcad25f06e57dacc8b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cceee98_950f8909",
+        "filename": "java/com/google/gerrit/server/permissions/VisibleChangesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-04T15:32:56Z",
+      "side": 1,
+      "message": "local sgtm",
+      "parentUuid": "cc8322f1_e9b8b278",
       "range": {
         "startLine": 44,
         "startChar": 0,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ee8a8a9_027f840d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-04T13:23:57Z",
+      "side": 1,
+      "message": "\u003e Patch Set 33: Library-Compliance+1\n\nthis was a mistake. It actually needs still google internal adjustments; I haven\u0027t looked in detail what those are yet.",
+      "revId": "41c37759de5b3be1d1395490f9146fd8573871da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

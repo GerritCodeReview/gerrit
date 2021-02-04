@@ -161,6 +161,7 @@ import {
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
+import {GrRelatedChangesListExperimental} from '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -2281,6 +2282,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
       this._editingCommitMessage = false;
       const relatedChangesLoaded = coreDataPromise.then(() => {
         this.getRelatedChangesList()?.reload();
+        if (this._isNewChangeSummaryUiEnabled) {
+          this.getRelatedChangesListExperimental()?.reload();
+        }
       });
       allDataPromises.push(relatedChangesLoaded);
     }
@@ -2802,6 +2806,12 @@ export class GrChangeView extends KeyboardShortcutMixin(
   getRelatedChangesList() {
     return this.shadowRoot!.querySelector<GrRelatedChangesList>(
       '#relatedChanges'
+    );
+  }
+
+  getRelatedChangesListExperimental() {
+    return this.shadowRoot!.querySelector<GrRelatedChangesListExperimental>(
+      '#relatedChangesExperimental'
     );
   }
 }

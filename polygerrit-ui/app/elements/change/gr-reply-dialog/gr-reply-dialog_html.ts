@@ -419,15 +419,6 @@ export const htmlTemplate = html`
           </div>
           <div>
             <a
-              href="https://bugs.chromium.org/p/gerrit/issues/entry?template=Attention+Set"
-              target="_blank"
-            >
-              <iron-icon
-                icon="gr-icons:bug"
-                title="report a problem"
-              ></iron-icon>
-            </a>
-            <a
               href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
               target="_blank"
             >
@@ -449,15 +440,6 @@ export const htmlTemplate = html`
           </div>
           <div></div>
           <div>
-            <a
-              href="https://bugs.chromium.org/p/gerrit/issues/entry?template=Attention+Set"
-              target="_blank"
-            >
-              <iron-icon
-                icon="gr-icons:bug"
-                title="report a problem"
-              ></iron-icon>
-            </a>
             <a
               href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
               target="_blank"

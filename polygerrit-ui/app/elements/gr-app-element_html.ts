@@ -230,7 +230,6 @@ export const htmlTemplate = html`
   ></gr-error-manager>
   <gr-router id="router"></gr-router>
   <gr-plugin-host id="plugins" config="[[_serverConfig]]"> </gr-plugin-host>
-  <gr-lib-loader id="libLoader"></gr-lib-loader>
   <gr-external-style
     id="externalStyleForAll"
     name="app-theme"

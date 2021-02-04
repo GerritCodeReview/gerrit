@@ -17,23 +17,22 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-lib-loader.js';
-
-const basicFixture = fixtureFromElement('gr-lib-loader');
+import {GrLibLoader} from './gr-lib-loader.js';
 
 suite('gr-lib-loader tests', () => {
-  let element;
+  let grLibLoader;
   let resolveLoad;
   let loadStub;
 
   setup(() => {
-    element = basicFixture.instantiate();
+    grLibLoader = new GrLibLoader();
 
-    loadStub = sinon.stub(element, '_loadScript').callsFake(() =>
+    loadStub = sinon.stub(grLibLoader, '_loadScript').callsFake(() =>
       new Promise(resolve => resolveLoad = resolve)
     );
 
     // Assert preconditions:
-    assert.isFalse(element._hljsState.loading);
+    assert.isFalse(grLibLoader._hljsState.loading);
   });
 
   teardown(() => {
@@ -42,26 +41,26 @@ suite('gr-lib-loader tests', () => {
     }
 
     // Because the element state is a singleton, clean it up.
-    element._hljsState.configured = false;
-    element._hljsState.loading = false;
-    element._hljsState.callbacks = [];
+    grLibLoader._hljsState.configured = false;
+    grLibLoader._hljsState.loading = false;
+    grLibLoader._hljsState.callbacks = [];
   });
 
   test('only load once', async () => {
-    sinon.stub(element, '_getHLJSUrl').returns('');
+    sinon.stub(grLibLoader, '_getHLJSUrl').returns('');
     const firstCallHandler = sinon.stub();
-    element.getHLJS().then(firstCallHandler);
+    grLibLoader.getHLJS().then(firstCallHandler);
 
     // It should now be in the loading state.
     assert.isTrue(loadStub.called);
-    assert.isTrue(element._hljsState.loading);
+    assert.isTrue(grLibLoader._hljsState.loading);
     assert.isFalse(firstCallHandler.called);
 
     const secondCallHandler = sinon.stub();
-    element.getHLJS().then(secondCallHandler);
+    grLibLoader.getHLJS().then(secondCallHandler);
 
     // No change in state.
-    assert.isTrue(element._hljsState.loading);
+    assert.isTrue(grLibLoader._hljsState.loading);
     assert.isFalse(firstCallHandler.called);
     assert.isFalse(secondCallHandler.called);
 
@@ -69,7 +68,7 @@ suite('gr-lib-loader tests', () => {
     resolveLoad();
     await flush();
     // The state should be loaded and both handlers called.
-    assert.isFalse(element._hljsState.loading);
+    assert.isFalse(grLibLoader._hljsState.loading);
     assert.isTrue(firstCallHandler.called);
     assert.isTrue(secondCallHandler.called);
   });
@@ -90,13 +89,13 @@ suite('gr-lib-loader tests', () => {
 
     test('returns hljs', async () => {
       const firstCallHandler = sinon.stub();
-      element.getHLJS().then(firstCallHandler);
+      grLibLoader.getHLJS().then(firstCallHandler);
       await flush();
       assert.isTrue(firstCallHandler.called);
       assert.isTrue(firstCallHandler.calledWith(hljsStub));
     });
 
-    test('configures hljs', () => element.getHLJS().then(() => {
+    test('configures hljs', () => grLibLoader.getHLJS().then(() => {
       assert.isTrue(window.hljs.configure.calledOnce);
     }));
   });
@@ -106,16 +105,16 @@ suite('gr-lib-loader tests', () => {
       let root;
 
       setup(() => {
-        sinon.stub(element, '_getLibRoot').callsFake(() => root);
+        sinon.stub(grLibLoader, '_getLibRoot').callsFake(() => root);
       });
 
       test('with no root', () => {
-        assert.isNull(element._getHLJSUrl());
+        assert.isNull(grLibLoader._getHLJSUrl());
       });
 
       test('with root', () => {
         root = 'test-root.com/';
-        assert.equal(element._getHLJSUrl(),
+        assert.equal(grLibLoader._getHLJSUrl(),
             'test-root.com/bower_components/highlightjs/highlight.min.js');
       });
     });

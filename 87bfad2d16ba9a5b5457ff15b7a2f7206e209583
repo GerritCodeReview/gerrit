@@ -39,6 +39,30 @@
       },
       "revId": "87bfad2d16ba9a5b5457ff15b7a2f7206e209583",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab10a36f_155a5af5",
+        "filename": "java/com/google/gerrit/server/permissions/VisibleChangesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-04T19:16:40Z",
+      "side": 1,
+      "message": "Done\nWe still need Repository, but I can add it in the factory.",
+      "parentUuid": "6c25f528_04b0aa9e",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 3
+      },
+      "revId": "87bfad2d16ba9a5b5457ff15b7a2f7206e209583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

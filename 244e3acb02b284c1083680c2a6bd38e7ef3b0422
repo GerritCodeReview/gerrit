@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bf70003_29c7aa2e",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-04T18:49:45Z",
+      "side": 1,
+      "message": "Maybe add a constant to the MessageTag enum and even check equality?",
+      "range": {
+        "startLine": 274,
+        "startChar": 42,
+        "endLine": 274,
+        "endChar": 66
+      },
+      "revId": "244e3acb02b284c1083680c2a6bd38e7ef3b0422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fc75264_c3a20661",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-04T18:49:45Z",
+      "side": 1,
+      "message": "Are you confusing `tag` and `message` here?",
+      "range": {
+        "startLine": 278,
+        "startChar": 39,
+        "endLine": 278,
+        "endChar": 75
+      },
+      "revId": "244e3acb02b284c1083680c2a6bd38e7ef3b0422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffff2802_6e9e9ce6",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-04T18:49:45Z",
+      "side": 1,
+      "message": "`match` is not used outside the `if`. Maybe just declare where it is used.",
+      "revId": "244e3acb02b284c1083680c2a6bd38e7ef3b0422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a089604_a2a6505e",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-04T18:49:45Z",
+      "side": 1,
+      "message": "I would prefer to not duplicate this code, and instead introduce a `basePatchNum` variable.",
+      "range": {
+        "startLine": 299,
+        "startChar": 6,
+        "endLine": 306,
+        "endChar": 13
+      },
+      "revId": "244e3acb02b284c1083680c2a6bd38e7ef3b0422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "IMO If something is wrong, the UI should show it. If we know of cases where the message is ugly, we could do one offs to make the message more palatable, but only if we\u0027re sure what is going on.",
       "revId": "d3312a54f1e8db6b73e96df60b8dfb793c9dedbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6df8463e_1778195c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-04T09:54:59Z",
+      "side": 1,
+      "message": "I thought we discussed it in chat and agreed that some message shouldn\u0027t be exposed?\nLet\u0027s discuss in team meeting (resolving since it\u0027s a more general topic).",
+      "parentUuid": "18bd9a08_bc5ba763",
+      "revId": "d3312a54f1e8db6b73e96df60b8dfb793c9dedbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

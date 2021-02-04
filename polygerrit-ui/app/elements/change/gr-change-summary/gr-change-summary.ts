@@ -29,7 +29,12 @@ import {
   isRunningOrHasCompleted,
 } from '../../../services/checks/checks-util';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
-import {CommentThread, isResolved} from '../../../utils/comment-util';
+import {
+  CommentThread,
+  isResolved,
+  isUnresolved,
+} from '../../../utils/comment-util';
+import {pluralize} from '../../../utils/string-util';
 
 function filterResults(runs: CheckRun[], category: Category): RunResult[] {
   return runs.filter(isRunningOrHasCompleted).reduce((results, run) => {
@@ -43,10 +48,20 @@ function filterResults(runs: CheckRun[], category: Category): RunResult[] {
   }, [] as RunResult[]);
 }
 
+export enum SummaryChipStyles {
+  INFO = 'info',
+  WARNING = 'warning',
+  CHECK = 'check',
+  UNDEFINED = '',
+}
+
 @customElement('gr-summary-chip')
 export class GrSummaryChip extends GrLitElement {
   @property()
   icon = '';
+
+  @property()
+  styleType = SummaryChipStyles.UNDEFINED;
 
   static get styles() {
     return [
@@ -68,12 +83,33 @@ export class GrSummaryChip extends GrLitElement {
           height: var(--line-height-small);
           vertical-align: top;
         }
+        .summaryChip.warning {
+          border-color: var(--warning-foreground);
+          background-color: var(--warning-background);
+        }
+        .summaryChip.warning iron-icon {
+          color: var(--warning-foreground);
+        }
+        .summaryChip.check {
+          border-color: var(--gray-foreground);
+          background-color: var(--gray-background);
+        }
+        .summaryChip.check iron-icon {
+          color: var(--gray-foreground);
+        }
+        .summaryChip.info {
+          border-color: var(--info-deemphasized-foreground;
+          background-color: var(--info-deemphasized-background);
+        }
+        .summaryChip.info iron-icon {
+          color: var(--info-deemphasized-foreground);
+        }
       `,
     ];
   }
 
   render() {
-    const chipClass = `summaryChip font-small ${this.icon ?? ''}`;
+    const chipClass = `summaryChip font-small ${this.styleType}`;
     const grIcon = this.icon ? `gr-icons:${this.icon}` : '';
     return html`
       <div class="${chipClass}" role="button">
@@ -282,6 +318,8 @@ export class GrChangeSummary extends GrLitElement {
     const infos = filterResults(runs, Category.INFO);
     const numResolvedComments =
       this.commentThreads?.filter(isResolved).length ?? 0;
+    const numUnResolvedComments =
+      this.commentThreads?.filter(isUnresolved).length ?? 0;
     const draftCount = this.changeComments?.computeDraftCount() ?? 0;
     return html`
       <div>
@@ -319,13 +357,29 @@ export class GrChangeSummary extends GrLitElement {
           <tr ?hidden=${!this.newChangeSummaryUiEnabled}>
             <td class="key">Comments</td>
             <td class="value">
-              <gr-summary-chip ?hidden=${!!numResolvedComments || !!draftCount}>
+              <gr-summary-chip
+                styleType=${SummaryChipStyles.INFO}
+                ?hidden=${!!numResolvedComments ||
+                !!draftCount ||
+                !!numUnResolvedComments}
+              >
                 No Comments</gr-summary-chip
               >
-              <gr-summary-chip icon="edit" ?hidden=${!draftCount}>
-                ${draftCount} draft</gr-summary-chip
+              <gr-summary-chip
+                styleType=${SummaryChipStyles.WARNING}
+                icon="edit"
+                ?hidden=${!draftCount}
+              >
+                ${pluralize(draftCount, 'draft')}</gr-summary-chip
               >
               <gr-summary-chip
+                styleType=${SummaryChipStyles.WARNING}
+                icon="message"
+                ?hidden=${!numUnResolvedComments}
+                >${numUnResolvedComments} unresolved</gr-summary-chip
+              >
+              <gr-summary-chip
+                styleType=${SummaryChipStyles.CHECK}
                 icon="markChatRead"
                 ?hidden=${!numResolvedComments}
                 >${numResolvedComments} resolved</gr-summary-chip

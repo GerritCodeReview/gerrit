@@ -27,7 +27,6 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.inject.TypeLiteral;
-import com.google.protobuf.Parser;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -163,29 +162,6 @@ public class PatchSetApprovalProtoConverterTest {
     assertThat(patchSetApproval.value()).isEqualTo(0);
     assertThat(patchSetApproval.granted()).isEqualTo(new Timestamp(0));
     assertThat(patchSetApproval.postSubmit()).isEqualTo(false);
-  }
-
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.PatchSetApproval proto =
-        Entities.PatchSetApproval.newBuilder()
-            .setKey(
-                Entities.PatchSetApproval_Key.newBuilder()
-                    .setPatchSetId(
-                        Entities.PatchSet_Id.newBuilder()
-                            .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                            .setId(14))
-                    .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-                    .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
-            .setValue(456)
-            .setGranted(987654L)
-            .build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.PatchSetApproval> parser = protoConverter.getParser();
-    Entities.PatchSetApproval parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */

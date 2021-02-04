@@ -16,22 +16,215 @@
  */
 import {html} from 'lit-html';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {customElement} from 'lit-element';
+import {customElement, property, css} from 'lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {
+  SubmittedTogetherInfo,
+  ChangeInfo,
+  RelatedChangeAndCommitInfo,
+} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
+import {ParsedChangeInfo} from '../../../types/types';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {pluralize} from '../../../utils/string-util';
+import {ChangeStatus} from '../../../constants/constants';
 
+function getEmptySubmitTogetherInfo(): SubmittedTogetherInfo {
+  return {changes: [], non_visible_changes: 0};
+}
+
+function isChangeInfo(
+  x: ChangeInfo | RelatedChangeAndCommitInfo | ParsedChangeInfo
+): x is ChangeInfo | ParsedChangeInfo {
+  return (x as ChangeInfo)._number !== undefined;
+}
 @customElement('gr-related-changes-list-experimental')
 export class GrRelatedChangesListExperimental extends GrLitElement {
+  @property()
+  change?: ParsedChangeInfo;
+
   static get styles() {
-    return [sharedStyles];
+    return [
+      sharedStyles,
+      css`
+        .title {
+          font-weight: var(--font-weight-bold);
+          color: var(--deemphasized-text-color);
+          padding-left: var(--metadata-horizontal-padding);
+        }
+        h4,
+        section gr-related-change {
+          display: flex;
+        }
+        h4:before,
+        section gr-related-change:before {
+          content: ' ';
+          flex-shrink: 0;
+          width: 1.2em;
+        }
+        .note {
+          color: var(--error-text-color);
+        }
+      `,
+    ];
+  }
+
+  _submittedTogether?: SubmittedTogetherInfo = getEmptySubmitTogetherInfo();
+
+  private readonly restApiService = appContext.restApiService;
+
+  reload() {
+    if (!this.change) return Promise.reject(new Error('change missing'));
+    return this.restApiService
+      .getChangesSubmittedTogether(this.change._number)
+      .then(response => {
+        this._submittedTogether = response;
+        this.requestUpdate();
+      });
   }
 
   render() {
-    return html``;
+    const submittedTogetherChanges = this._submittedTogether?.changes ?? [];
+    return html` <section
+      id="submittedTogether"
+      ?hidden=${!submittedTogetherChanges?.length &&
+      !this._submittedTogether?.non_visible_changes}
+    >
+      <h4 class="title">Submitted together</h4>
+      ${submittedTogetherChanges.map(
+        relatedChange =>
+          html`<gr-related-change
+            .currentChange="${this._changesEqual(relatedChange, this.change)}"
+            .change="${relatedChange}"
+          ></gr-related-change>`
+      )}
+      <div
+        class="note"
+        ?hidden=${!this._submittedTogether?.non_visible_changes}
+      >
+        (+
+        ${pluralize(
+          this._submittedTogether?.non_visible_changes ?? 0,
+          'non-visible change'
+        )})
+      </div>
+    </section>`;
+  }
+
+  /**
+   * Do the given objects describe the same change? Compares the changes by
+   * their numbers.
+   */
+  _changesEqual(
+    a?: ChangeInfo | RelatedChangeAndCommitInfo,
+    b?: ChangeInfo | ParsedChangeInfo | RelatedChangeAndCommitInfo
+  ) {
+    const aNum = this._getChangeNumber(a);
+    const bNum = this._getChangeNumber(b);
+    return aNum === bNum;
+  }
+
+  /**
+   * Get the change number from either a ChangeInfo (such as those included in
+   * SubmittedTogetherInfo responses) or get the change number from a
+   * RelatedChangeAndCommitInfo (such as those included in a
+   * RelatedChangesInfo response).
+   */
+  _getChangeNumber(
+    change?: ChangeInfo | ParsedChangeInfo | RelatedChangeAndCommitInfo
+  ) {
+    // Default to 0 if change property is not defined.
+    if (!change) return 0;
+
+    if (isChangeInfo(change)) {
+      return change._number;
+    }
+    return change._change_number;
+  }
+}
+
+@customElement('gr-related-change')
+export class GrRelatedChange extends GrLitElement {
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        a {
+          display: block;
+        }
+        .changeContainer,
+        a {
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .changeContainer {
+          display: flex;
+        }
+        .strikethrough {
+          color: var(--deemphasized-text-color);
+          text-decoration: line-through;
+        }
+        .submittableCheck {
+          padding-left: var(--spacing-s);
+          color: var(--positive-green-text-color);
+          display: none;
+        }
+        .submittableCheck.submittable {
+          display: inline;
+        }
+        .arrowToCurrentChange {
+          position: absolute;
+        }
+      `,
+    ];
+  }
+
+  @property()
+  change?: ChangeInfo;
+
+  @property()
+  currentChange = false;
+
+  render() {
+    const change = this.change;
+    if (!change) throw new Error('Missing change');
+    const linkClass = this._computeLinkClass(change);
+    return html`<span
+        role="img"
+        class="arrowToCurrentChange"
+        aria-label="Arrow marking current change"
+        ?hidden=${!this.currentChange}
+        >➔</span
+      >
+      <div class="changeContainer">
+        <a
+          href="${GerritNav.getUrlForChangeById(
+            change._number,
+            change.project
+          )}"
+          class="${linkClass}"
+          >${change.project}: ${change.branch}: ${change.subject}</a
+        >
+      </div>`;
+  }
+
+  _computeLinkClass(change: ChangeInfo) {
+    const statuses = [];
+    if (change.status === ChangeStatus.ABANDONED) {
+      statuses.push('strikethrough');
+    }
+    if (change.submittable) {
+      statuses.push('submittable');
+    }
+    return statuses.join(' ');
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-related-changes-list-experimental': GrRelatedChangesListExperimental;
+    'gr-related-change': GrRelatedChange;
   }
 }

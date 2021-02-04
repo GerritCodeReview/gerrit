@@ -81,6 +81,24 @@
       "parentUuid": "42565010_00da7caa",
       "revId": "23a198cdae7717a6ea916248b4d39867f5f682a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df85cd3d_2364f45d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-04T09:27:57Z",
+      "side": 1,
+      "message": "I think what could work is:\n1. Throw a new kind of exception (InternalServerErrorWithUserMessage)\n2. in ExceptionHookImpl#getUserMessages check if it\u0027s a InternalServerErrorWithUserMessage and if yes return its message from that method",
+      "parentUuid": "f9334088_3fa9a34e",
+      "revId": "23a198cdae7717a6ea916248b4d39867f5f682a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

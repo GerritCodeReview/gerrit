@@ -33,7 +33,11 @@ import {GrAlert} from '../../shared/gr-alert/gr-alert';
 import {ErrorType, FixIronA11yAnnouncer} from '../../../types/types';
 import {AccountId} from '../../../types/common';
 import {EventType} from '../../../utils/event-util';
-import {NetworkErrorEvent, ServerErrorEvent} from '../../../types/events';
+import {
+  NetworkErrorEvent,
+  ServerErrorEvent,
+  ShowAlertEventDetail,
+} from '../../../types/events';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -274,12 +278,14 @@ export class GrErrorManager extends GestureEventListeners(
     return err;
   }
 
-  _handleShowAlert(e: CustomEvent) {
+  _handleShowAlert(e: CustomEvent<ShowAlertEventDetail>) {
     this._showAlert(
       e.detail.message,
       e.detail.action,
       e.detail.callback,
-      e.detail.dismissOnNavigation
+      e.detail.dismissOnNavigation,
+      undefined,
+      e.detail.showDismiss
     );
   }
 
@@ -299,7 +305,8 @@ export class GrErrorManager extends GestureEventListeners(
     actionText?: string,
     actionCallback?: () => void,
     dismissOnNavigation?: boolean,
-    type?: ErrorType
+    type?: ErrorType,
+    showDismiss?: boolean
   ) {
     if (this._alertElement) {
       // check priority before hiding
@@ -317,7 +324,7 @@ export class GrErrorManager extends GestureEventListeners(
         HIDE_ALERT_TIMEOUT_MS
       );
     }
-    const el = this._createToastAlert();
+    const el = this._createToastAlert(showDismiss);
     el.show(text, actionText, actionCallback);
     this._alertElement = el;
     this.fire('iron-announce', {text: `Alert: ${text}`}, {bubbles: true});
@@ -363,9 +370,10 @@ export class GrErrorManager extends GestureEventListeners(
     }
   }
 
-  _createToastAlert() {
+  _createToastAlert(showDismiss?: boolean) {
     const el = document.createElement('gr-alert');
     el.toast = true;
+    el.showDismiss = !!showDismiss;
     return el;
   }
 

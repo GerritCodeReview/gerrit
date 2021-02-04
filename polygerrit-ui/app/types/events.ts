@@ -186,6 +186,10 @@ declare global {
 
 export interface ShowAlertEventDetail {
   message: string;
+  dismissOnNavigation?: boolean;
+  showDismiss?: boolean;
+  action?: string;
+  callback?: () => void;
 }
 
 export type ShowAlertEvent = CustomEvent<ShowAlertEventDetail>;

@@ -146,6 +146,7 @@ import {
   CustomKeyboardEvent,
   EditableContentSaveEvent,
   OpenFixPreviewEvent,
+  ShowAlertEventDetail,
   SwitchTabEvent,
   ThreadListModifiedEvent,
 } from '../../../types/events';
@@ -2571,11 +2572,12 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
         this._cancelUpdateCheckTimer();
         this.dispatchEvent(
-          new CustomEvent('show-alert', {
+          new CustomEvent<ShowAlertEventDetail>('show-alert', {
             detail: {
               message: toastMessage,
               // Persist this alert.
               dismissOnNavigation: true,
+              showDismiss: true,
               action: 'Reload',
               callback: () => {
                 this._reload(

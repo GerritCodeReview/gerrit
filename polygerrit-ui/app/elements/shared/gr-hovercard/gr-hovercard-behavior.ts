@@ -28,12 +28,7 @@ import {
   pushScrollLock,
   removeScrollLock,
 } from '@polymer/iron-overlay-behavior/iron-scroll-manager';
-
-interface ShowAlertEventDetail {
-  message: string;
-  dismissOnNavigation?: boolean;
-}
-
+import {ShowAlertEventDetail} from '../../../types/events';
 interface ReloadEventDetail {
   clearPatchset?: boolean;
 }

@@ -62,6 +62,9 @@ export class GrAlert extends GestureEventListeners(
   @property({type: Boolean})
   _hideActionButton?: boolean;
 
+  @property({type: Boolean})
+  showDismiss = false;
+
   @property()
   _boundTransitionEndHandler?: (
     this: HTMLElement,
@@ -103,6 +106,10 @@ export class GrAlert extends GestureEventListeners(
     if (this._hasZeroTransitionDuration()) {
       getRootElement().removeChild(this);
     }
+  }
+
+  _handleDismissTap() {
+    this.hide();
   }
 
   _hasZeroTransitionDuration() {

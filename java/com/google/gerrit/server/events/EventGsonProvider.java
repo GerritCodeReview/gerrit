@@ -25,6 +25,7 @@ public class EventGsonProvider implements Provider<Gson> {
   @Override
   public Gson get() {
     return new GsonBuilder()
+        .registerTypeAdapter(Event.class, new EventSerializer())
         .registerTypeAdapter(Event.class, new EventDeserializer())
         .registerTypeAdapter(Supplier.class, new SupplierSerializer())
         .registerTypeAdapter(Supplier.class, new SupplierDeserializer())

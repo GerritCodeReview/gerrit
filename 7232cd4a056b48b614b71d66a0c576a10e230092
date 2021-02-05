@@ -16,6 +16,24 @@
       "message": "still found the following references to jsch in documentation and comments which should be removed\n\n$ git grep -i jsch\nDocumentation/dev-e2e-tests.txt:`/tmp/ssh-keys`. The keys need to be generated this way (JSch won\u0027t validate them\nDocumentation/dev-e2e-tests.txt:link:https://stackoverflow.com/questions/53134212/invalid-privatekey-when-using-jsch[otherwise,role\u003dexternal,window\u003d_blank]):\nDocumentation/licenses.txt:Gerrit includes an SSH client (JSch), to support authenticated\ntools/bzl/license-map.py:Gerrit includes an SSH client (JSch), to support authenticated",
       "revId": "7232cd4a056b48b614b71d66a0c576a10e230092",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e003597_a49ff2b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-05T11:52:36Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "06f17b72_84813c94",
+      "revId": "7232cd4a056b48b614b71d66a0c576a10e230092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77a40bb4_13b27f83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-05T13:14:39Z",
+      "side": 1,
+      "message": "The description would be clearer if you mention that we previously embeded byte arrays.",
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33c17691_1392a541",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-05T13:14:39Z",
+      "side": 1,
+      "message": "I realize it\u0027s not your change, but \"object\" is not a very descriptive identifier for an object.",
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ac4d4b3_689ae4e1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-05T13:14:39Z",
+      "side": 1,
+      "message": "Could you add Javadoc for this class? The code is obvious enough, but why do we convert from one proto to another?",
+      "range": {
+        "startLine": 485,
+        "startChar": 38,
+        "endLine": 485,
+        "endChar": 60
+      },
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96d4e4b6_59d2b83c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-05T13:14:39Z",
+      "side": 1,
+      "message": "This seems to be unused now.",
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "071f3137_3fc735c2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-05T13:14:39Z",
+      "side": 1,
+      "message": "Unused.",
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "895c63fa_31a83ea3",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-05T13:14:39Z",
+      "side": 1,
+      "message": "Could you add a test that verifies the binary equality mentioned in the description?",
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

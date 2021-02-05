@@ -413,6 +413,7 @@ public interface ChangeApi {
 
   abstract class CommentsRequest {
     private boolean enableContext;
+    private int contextPadding;
 
     /**
      * Get all published comments on a change.
@@ -436,6 +437,11 @@ public interface ChangeApi {
       return this;
     }
 
+    public CommentsRequest contextPadding(int contextPadding) {
+      this.contextPadding = contextPadding;
+      return this;
+    }
+
     public CommentsRequest withContext() {
       this.enableContext = true;
       return this;
@@ -443,6 +449,10 @@ public interface ChangeApi {
 
     public boolean getContext() {
       return enableContext;
+    }
+
+    public int getContextPadding() {
+      return contextPadding;
     }
   }
 

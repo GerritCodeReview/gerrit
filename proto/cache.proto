@@ -511,7 +511,7 @@ message ProjectCacheKeyProto {
 }
 
 // Serialized form of com.google.gerrit.server.comment.CommentContextCacheImpl.Key
-// Next ID: 6
+// Next ID: 7
 message CommentContextKeyProto {
   string project = 1;
   string change_id = 2;
@@ -520,6 +520,8 @@ message CommentContextKeyProto {
 
   // hashed with the murmur3_128 hash function
   string path_hash = 5;
+
+  int32 context_padding = 6;
 }
 
 // Serialized form of a list of com.google.gerrit.extensions.common.ContextLineInfo

@@ -98,15 +98,20 @@ public class CommentContextLoader {
             case COMMIT_MSG:
               result.put(
                   contextInput,
-                  getContextForCommitMessage(rw.getObjectReader(), commit, range.get()));
+                  getContextForCommitMessage(
+                      rw.getObjectReader(), commit, range.get(), contextInput.contextPadding()));
               break;
             case MERGE_LIST:
               result.put(
-                  contextInput, getContextForMergeList(rw.getObjectReader(), commit, range.get()));
+                  contextInput,
+                  getContextForMergeList(
+                      rw.getObjectReader(), commit, range.get(), contextInput.contextPadding()));
               break;
             default:
               result.put(
-                  contextInput, getContextForFilePath(repo, rw, commit, filePath, range.get()));
+                  contextInput,
+                  getContextForFilePath(
+                      repo, rw, commit, filePath, range.get(), contextInput.contextPadding()));
           }
         }
       }
@@ -115,20 +120,27 @@ public class CommentContextLoader {
   }
 
   private CommentContext getContextForCommitMessage(
-      ObjectReader reader, RevCommit commit, Range range) throws IOException {
+      ObjectReader reader, RevCommit commit, Range commentRange, int contextPadding)
+      throws IOException {
     Text text = Text.forCommit(reader, commit);
-    return createContext(text, range);
+    return createContext(text, commentRange, contextPadding);
   }
 
-  private CommentContext getContextForMergeList(ObjectReader reader, RevCommit commit, Range range)
+  private CommentContext getContextForMergeList(
+      ObjectReader reader, RevCommit commit, Range commentRange, int contextPadding)
       throws IOException {
     ComparisonType cmp = ComparisonType.againstParent(1);
     Text text = Text.forMergeList(cmp, reader, commit);
-    return createContext(text, range);
+    return createContext(text, commentRange, contextPadding);
   }
 
   private CommentContext getContextForFilePath(
-      Repository repo, RevWalk rw, RevCommit commit, String filePath, Range range)
+      Repository repo,
+      RevWalk rw,
+      RevCommit commit,
+      String filePath,
+      Range commentRange,
+      int contextPadding)
       throws IOException {
     // TODO(ghareeb): We can further group the comments by file paths to avoid opening
     // the same file multiple times.
@@ -140,21 +152,36 @@ public class CommentContextLoader {
       }
       ObjectId id = tw.getObjectId(0);
       Text src = new Text(repo.open(id, Constants.OBJ_BLOB));
-      return createContext(src, range);
+      return createContext(src, commentRange, contextPadding);
     }
   }
 
-  private static CommentContext createContext(Text src, Range range) {
-    if (range.start() < 1 || range.end() > src.size()) {
+  private static CommentContext createContext(Text src, Range commentRange, int contextPadding) {
+    if (commentRange.start() < 1 || commentRange.end() - 1 > src.size()) {
       throw new StorageException(
-          "Invalid comment range " + range + ". Text only contains " + src.size() + " lines.");
+          "Invalid comment range "
+              + commentRange
+              + ". Text only contains "
+              + src.size()
+              + " lines.");
     }
+    commentRange = adjustRange(commentRange, contextPadding, src.size());
     ImmutableMap.Builder<Integer, String> context =
-        ImmutableMap.builderWithExpectedSize(range.end() - range.start());
-    for (int i = range.start(); i < range.end(); i++) {
+        ImmutableMap.builderWithExpectedSize(commentRange.end() - commentRange.start());
+    for (int i = commentRange.start(); i < commentRange.end(); i++) {
       context.put(i, src.getString(i - 1));
     }
     return CommentContext.create(context.build());
+  }
+
+  /**
+   * Adjust the {@code commentRange} parameter by adding {@code contextPadding} lines before and
+   * after the comment range.
+   */
+  private static Range adjustRange(Range commentRange, int contextPadding, int fileLines) {
+    int newStartLine = commentRange.start() - contextPadding;
+    int newEndLine = commentRange.end() + contextPadding;
+    return Range.create(Math.max(1, newStartLine), Math.min(fileLines + 1, newEndLine));
   }
 
   private static Optional<Range> getStartAndEndLines(ContextInput comment) {
@@ -177,17 +204,23 @@ public class CommentContextLoader {
 
     /** End line of the comment (exclusive). */
     abstract int end();
+
+    /** Number of lines covered by this range. */
+    int size() {
+      return end() - start();
+    }
   }
 
   /** This entity only contains comment fields needed to load the comment context. */
   @AutoValue
   abstract static class ContextInput {
-    static ContextInput fromComment(Comment comment) {
+    static ContextInput fromComment(Comment comment, int contextPadding) {
       return new AutoValue_CommentContextLoader_ContextInput.Builder()
           .commitId(comment.getCommitId())
           .filePath(comment.key.filename)
           .range(comment.range)
           .lineNumber(comment.lineNbr)
+          .contextPadding(contextPadding)
           .build();
     }
 
@@ -210,6 +243,9 @@ public class CommentContextLoader {
      */
     abstract Integer lineNumber();
 
+    /** Number of extra lines of context that should be added before and after the comment range. */
+    abstract Integer contextPadding();
+
     @AutoValue.Builder
     public abstract static class Builder {
 
@@ -220,6 +256,8 @@ public class CommentContextLoader {
       public abstract Builder range(@Nullable Comment.Range range);
 
       public abstract Builder lineNumber(Integer lineNumber);
+
+      public abstract Builder contextPadding(Integer contextPadding);
 
       public abstract ContextInput build();
     }

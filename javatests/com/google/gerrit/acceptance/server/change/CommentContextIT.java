@@ -286,6 +286,64 @@ public class CommentContextIT extends AbstractDaemonTest {
     assertThat(comments.get(0).contextLines).isEmpty();
   }
 
+  @Test
+  public void commentContextWithZeroPadding() throws Exception {
+    String changeId = createChangeWithComment(3, 4);
+    assertContextLines(changeId, /* contextPadding= */ 0, ImmutableList.of(3, 4));
+  }
+
+  @Test
+  public void commentContextWithSmallPadding() throws Exception {
+    String changeId = createChangeWithComment(3, 4);
+    assertContextLines(changeId, /* contextPadding= */ 1, ImmutableList.of(2, 3, 4, 5));
+  }
+
+  @Test
+  public void commentContextWithSmallPaddingAtTheBeginningOfFile() throws Exception {
+    String changeId = createChangeWithComment(1, 2);
+    assertContextLines(changeId, /* contextPadding= */ 2, ImmutableList.of(1, 2, 3, 4));
+  }
+
+  @Test
+  public void commentContextWithPaddingLargerThanFileSize() throws Exception {
+    String changeId = createChangeWithComment(3, 3);
+    assertContextLines(
+        changeId,
+        /* contextPadding= */ 20,
+        ImmutableList.of(1, 2, 3, 4, 5, 6)); // file only contains six lines.
+  }
+
+  private String createChangeWithComment(int startLine, int endLine) throws Exception {
+    PushOneCommit.Result result =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, FILE_CONTENT, "topic");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    Comment.Range commentRange = createCommentRange(startLine, endLine);
+    CommentInput comment =
+        CommentsUtil.newComment(FILE_NAME, Side.REVISION, commentRange, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+    return changeId;
+  }
+
+  private void assertContextLines(
+      String changeId, int contextPadding, ImmutableList<Integer> expectedLines) throws Exception {
+    List<CommentInfo> comments =
+        gApi.changes()
+            .id(changeId)
+            .commentsRequest()
+            .withContext(true)
+            .contextPadding(contextPadding)
+            .getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(
+            comments.get(0).contextLines.stream()
+                .map(c -> c.lineNumber)
+                .collect(Collectors.toList()))
+        .containsExactlyElementsIn(expectedLines);
+  }
+
   private Comment.Range createCommentRange(int startLine, int endLine) {
     Comment.Range range = new Comment.Range();
     range.startLine = startLine;

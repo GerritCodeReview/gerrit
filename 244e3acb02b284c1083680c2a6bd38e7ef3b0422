@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ccef050_3d5872af",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-05T11:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bf70003_29c7aa2e",
+      "range": {
+        "startLine": 274,
+        "startChar": 42,
+        "endLine": 274,
+        "endChar": 66
+      },
+      "revId": "244e3acb02b284c1083680c2a6bd38e7ef3b0422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fc75264_c3a20661",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-04T18:49:45Z",
       "side": 1,
       "message": "Are you confusing `tag` and `message` here?",
+      "range": {
+        "startLine": 278,
+        "startChar": 39,
+        "endLine": 278,
+        "endChar": 75
+      },
+      "revId": "244e3acb02b284c1083680c2a6bd38e7ef3b0422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "534fc46c_001c8546",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-05T11:54:49Z",
+      "side": 1,
+      "message": "Yeah. Updated.",
+      "parentUuid": "4fc75264_c3a20661",
       "range": {
         "startLine": 278,
         "startChar": 39,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "febe63e1_1ec772f7",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-05T11:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffff2802_6e9e9ce6",
+      "revId": "244e3acb02b284c1083680c2a6bd38e7ef3b0422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a089604_a2a6505e",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-02-04T18:49:45Z",
       "side": 1,
       "message": "I would prefer to not duplicate this code, and instead introduce a `basePatchNum` variable.",
+      "range": {
+        "startLine": 299,
+        "startChar": 6,
+        "endLine": 306,
+        "endChar": 13
+      },
+      "revId": "244e3acb02b284c1083680c2a6bd38e7ef3b0422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae139250_872d10ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-05T11:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a089604_a2a6505e",
       "range": {
         "startLine": 299,
         "startChar": 6,

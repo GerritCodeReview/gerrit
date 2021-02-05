@@ -15,14 +15,45 @@
  * limitations under the License.
  */
 import {Category, CheckRun, RunStatus} from '../../api/checks';
+import {assertNever} from '../../utils/common-util';
 
 export function worstCategory(run: CheckRun) {
-  const results = run.results ?? [];
-  if (results.some(r => r.category === Category.ERROR)) return Category.ERROR;
-  if (results.some(r => r.category === Category.WARNING))
-    return Category.WARNING;
-  if (results.some(r => r.category === Category.INFO)) return Category.INFO;
+  if (hasResultsOf(run, Category.ERROR)) return Category.ERROR;
+  if (hasResultsOf(run, Category.WARNING)) return Category.WARNING;
+  if (hasResultsOf(run, Category.INFO)) return Category.INFO;
   return undefined;
+}
+
+export function iconForCategory(category: Category) {
+  switch (category) {
+    case Category.ERROR:
+      return 'error';
+    case Category.INFO:
+      return 'info-outline';
+    case Category.WARNING:
+      return 'warning';
+    default:
+      assertNever(category, `Unsupported category: ${category}`);
+  }
+}
+
+export function iconForRun(run: CheckRun) {
+  const category = worstCategory(run);
+  return category ? iconForCategory(category) : iconForStatus(run.status);
+}
+
+export function iconForStatus(status: RunStatus) {
+  switch (status) {
+    // Note that this is only for COMPLETED without results!
+    case RunStatus.COMPLETED:
+      return 'check-circle';
+    case RunStatus.RUNNABLE:
+      return 'placeholder';
+    case RunStatus.RUNNING:
+      return 'timelapse';
+    default:
+      assertNever(status, `Unsupported status: ${status}`);
+  }
 }
 
 export function hasCompleted(run: CheckRun) {
@@ -39,6 +70,18 @@ export function isRunningOrHasCompleted(run: CheckRun) {
 
 export function hasCompletedWithoutResults(run: CheckRun) {
   return run.status === RunStatus.COMPLETED && (run.results ?? []).length === 0;
+}
+
+export function hasCompletedWith(run: CheckRun, category: Category) {
+  return hasCompleted(run) && hasResultsOf(run, category);
+}
+
+export function hasResultsOf(run: CheckRun, category: Category) {
+  return getResultsOf(run, category).length > 0;
+}
+
+export function getResultsOf(run: CheckRun, category: Category) {
+  return (run.results ?? []).filter(r => r.category === category);
 }
 
 export function compareByWorstCategory(a: CheckRun, b: CheckRun) {

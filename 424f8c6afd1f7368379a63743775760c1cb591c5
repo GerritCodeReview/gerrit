@@ -16,6 +16,24 @@
       "message": "Here is example change 296010, where this refactoring is used.",
       "revId": "424f8c6afd1f7368379a63743775760c1cb591c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd905997_7f214ead",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-05T15:46:32Z",
+      "side": 1,
+      "message": "That really helps see what abstraction is needed, thanks!",
+      "parentUuid": "634d7b57_df58a8fa",
+      "revId": "424f8c6afd1f7368379a63743775760c1cb591c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

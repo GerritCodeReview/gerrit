@@ -22,6 +22,30 @@
       },
       "revId": "1c412ffd9b6a0da2b5296550b97fc3dfef652cca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edfa404c_fb981f2d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2203,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-05T17:34:25Z",
+      "side": 1,
+      "message": "I have thought about that, but I don\u0027t know how we can make this work easily, because of the decoupled nature of the service. We don\u0027t really have a handle on when the call will be completed. We cannot simply return a promise for that. :-/ I will submit as is for now.",
+      "parentUuid": "03f0d3a5_2e8c24f9",
+      "range": {
+        "startLine": 2203,
+        "startChar": 9,
+        "endLine": 2203,
+        "endChar": 22
+      },
+      "revId": "1c412ffd9b6a0da2b5296550b97fc3dfef652cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

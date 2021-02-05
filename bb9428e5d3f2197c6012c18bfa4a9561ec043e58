@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b72901d_53431869",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-05T21:38:16Z",
+      "side": 1,
+      "message": "What would be best way how to highlight the code that should be reviewed?\n\n1, related-change-list-utils.ts where I would copy functionality from related-change-list and reference/call it from both old list and experimental?\n\n1b, should old gr-related-change-list start using new lit elements like gr-related-change? So I would extract code to lit element and reuse it on both?\n\n2, Just add comment to functions that there are from old gr-related-change-list?\n\nMy goal is to almost replicate structure and visual of gr-related-change-list. And then I want to modify it with different expanding functionality. This rewriting helps me to better understand all concepts of gr-related-change-list.",
+      "parentUuid": "b63cad50_0e96f467",
+      "revId": "bb9428e5d3f2197c6012c18bfa4a9561ec043e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de35059e_919f8c14",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
         "patchSetId": 3

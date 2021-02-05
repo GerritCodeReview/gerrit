@@ -245,3 +245,41 @@ export declare interface MovedLinkClickedEventDetail {
   side: Side;
   lineNum: LineNumber;
 }
+
+export enum GrDiffLineType {
+  ADD = 'add',
+  BOTH = 'both',
+  BLANK = 'blank',
+  REMOVE = 'remove',
+}
+
+/** Describes a line to be rendered in a diff. */
+export declare interface GrDiffLine {
+  readonly type: GrDiffLineType;
+  /** The line number on the left side of the diff - 0 means none.  */
+  beforeNumber: LineNumber;
+  /** The line number on the right side of the diff - 0 means none.  */
+  afterNumber: LineNumber;
+}
+
+/**
+ * Interface to implemented to define a new layer in the diff.
+ *
+ * Layers can affect how the text of the diff or its line numbers
+ * are rendered.
+ */
+export declare interface DiffLayer {
+  /**
+   * Called during rendering and allows annotating the diff text or line number
+   * by mutating those elements.
+   *
+   * @param textElement The rendered text of one side of the diff.
+   * @param lineNumberElement The rendered line number of one side of the diff.
+   * @param line Describes the line that should be annotated.
+   */
+  annotate(
+    textElement: HTMLElement,
+    lineNumberElement: HTMLElement,
+    line: GrDiffLine
+  ): void;
+}

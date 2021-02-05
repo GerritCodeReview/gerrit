@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ContentLoadNeededEventDetail} from '../../../api/diff';
+import {
+  ContentLoadNeededEventDetail,
+  MovedLinkClickedEventDetail,
+} from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
 import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
 import {
@@ -26,7 +29,6 @@ import {BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
-import {MovedChunkGoToLineDetail} from '../../../types/events';
 import {pluralize} from '../../../utils/string-util';
 
 /**
@@ -794,9 +796,9 @@ export abstract class GrDiffBuilder {
     anchor.addEventListener('click', e => {
       e.preventDefault();
       anchor.dispatchEvent(
-        new CustomEvent<MovedChunkGoToLineDetail>('moved-link-clicked', {
+        new CustomEvent<MovedLinkClickedEventDetail>('moved-link-clicked', {
           detail: {
-            line,
+            lineNum: line,
             side,
           },
           composed: true,

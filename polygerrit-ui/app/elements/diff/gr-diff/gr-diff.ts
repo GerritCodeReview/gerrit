@@ -61,7 +61,7 @@ import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {AbortStop} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
-import {MovedChunkGoToLineEvent} from '../../../types/events';
+import {MovedLinkClickedEvent} from '../../../types/events';
 // TODO(davido): See: https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
 // @ts-ignore
 import * as shadow from 'shadow-selection-polyfill/shadow.js';
@@ -554,8 +554,8 @@ export class GrDiff extends GestureEventListeners(
     );
   }
 
-  _movedLinkClicked(e: MovedChunkGoToLineEvent) {
-    this._dispatchSelectedLine(e.detail.line, e.detail.side);
+  _movedLinkClicked(e: MovedLinkClickedEvent) {
+    this._dispatchSelectedLine(e.detail.lineNum, e.detail.side);
   }
 
   addDraftAtLine(el: Element) {

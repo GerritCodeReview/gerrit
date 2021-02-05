@@ -229,8 +229,8 @@ export declare type LineNumber = number | 'FILE';
 
 /** The detail of the 'create-comment' event dispatched by gr-diff. */
 export declare interface CreateCommentEventDetail {
-  lineNum: LineNumber;
   side: Side;
+  lineNum: LineNumber;
   range: CommentRange | undefined;
 }
 
@@ -239,4 +239,9 @@ export declare interface ContentLoadNeededEventDetail {
     left: LineRange;
     right: LineRange;
   };
+}
+
+export declare interface MovedLinkClickedEventDetail {
+  side: Side;
+  lineNum: LineNumber;
 }

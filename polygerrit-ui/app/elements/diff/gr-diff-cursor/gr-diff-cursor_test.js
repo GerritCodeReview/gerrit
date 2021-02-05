@@ -421,7 +421,7 @@ suite('gr-diff-cursor tests', () => {
       const [startLineAnchor] = movedIn.querySelectorAll('a');
 
       const onMovedLinkClicked = e => {
-        assert.deepEqual(e.detail, {line: 4, side: 'left'});
+        assert.deepEqual(e.detail, {lineNum: 4, side: 'left'});
         done();
       };
       assert.equal(startLineAnchor.textContent, '4');
@@ -436,7 +436,7 @@ suite('gr-diff-cursor tests', () => {
       const [, endLineAnchor] = movedOut.querySelectorAll('a');
 
       const onMovedLinkClicked = e => {
-        assert.deepEqual(e.detail, {line: 4, side: 'right'});
+        assert.deepEqual(e.detail, {lineNum: 4, side: 'right'});
         done();
       };
       assert.equal(endLineAnchor.textContent, '4');

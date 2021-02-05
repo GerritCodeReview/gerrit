@@ -15,7 +15,13 @@
  * limitations under the License.
  */
 
-import {switchMap, takeWhile, tap, withLatestFrom} from 'rxjs/operators';
+import {
+  switchMap,
+  takeWhile,
+  tap,
+  throttleTime,
+  withLatestFrom,
+} from 'rxjs/operators';
 import {
   ChecksApiConfig,
   ChecksProvider,
@@ -36,12 +42,16 @@ import {
 export class ChecksService {
   private readonly providers: {[name: string]: ChecksProvider} = {};
 
-  private readonly anouncementSubjects: {[name: string]: Subject<void>} = {};
+  private readonly reloadSubjects: {[name: string]: Subject<void>} = {};
 
   private changeAndPatchNum$ = change$.pipe(withLatestFrom(currentPatchNum$));
 
-  announceUpdate(pluginName: string) {
-    this.anouncementSubjects[pluginName].next();
+  reload(pluginName: string) {
+    this.reloadSubjects[pluginName].next();
+  }
+
+  reloadAll() {
+    Object.keys(this.providers).forEach(key => this.reload(key));
   }
 
   register(
@@ -50,12 +60,12 @@ export class ChecksService {
     config: ChecksApiConfig
   ) {
     this.providers[pluginName] = provider;
-    this.anouncementSubjects[pluginName] = new BehaviorSubject<void>(undefined);
+    this.reloadSubjects[pluginName] = new BehaviorSubject<void>(undefined);
     updateStateSetProvider(pluginName, config);
     // Both, changed numbers and and announceUpdate request should trigger.
     combineLatest([
       this.changeAndPatchNum$,
-      this.anouncementSubjects[pluginName],
+      this.reloadSubjects[pluginName].pipe(throttleTime(1000)),
     ])
       .pipe(
         takeWhile(_ => !!this.providers[pluginName]),
@@ -77,5 +87,6 @@ export class ChecksService {
         })
       )
       .subscribe(() => {});
+    this.reload(pluginName);
   }
 }

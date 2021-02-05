@@ -19,22 +19,11 @@ import {css, customElement, property, PropertyValues} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {Category, CheckRun, Link, RunStatus, Tag} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
-import {assertNever} from '../../utils/common-util';
 import {RunResult} from '../../services/checks/checks-model';
-import {hasCompletedWithoutResults} from '../../services/checks/checks-util';
-
-export function iconForCategory(category: Category) {
-  switch (category) {
-    case Category.ERROR:
-      return 'error';
-    case Category.INFO:
-      return 'info-outline';
-    case Category.WARNING:
-      return 'warning';
-    default:
-      assertNever(category, `Unsupported category: ${category}`);
-  }
-}
+import {
+  hasCompletedWithoutResults,
+  iconForCategory,
+} from '../../services/checks/checks-util';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {

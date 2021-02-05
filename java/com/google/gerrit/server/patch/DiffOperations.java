@@ -27,7 +27,7 @@ import org.eclipse.jgit.lib.ObjectId;
  * <ul>
  *   <li>The list of modified files between two commits.
  *   <li>The list of modified files between a commit and its parent or the auto-merge.
- *   <li>The detailed file diff for a single file path (TODO:ghareeb).
+ *   <li>The detailed file diff for a single file path.
  *   <li>The Intra-line diffs for a single file path (TODO:ghareeb).
  * </ul>
  */
@@ -51,7 +51,7 @@ public interface DiffOperations {
    *     parents, if the {@code newCommit} could not be parsed for extracting the base commit, or if
    *     an internal error occurred in Git while evaluating the diff.
    */
-  Map<String, FileDiffOutput> getModifiedFilesAgainstParentOrAutoMerge(
+  Map<String, FileDiffOutput> listModifiedFilesAgainstParent(
       Project.NameKey project, ObjectId newCommit, @Nullable Integer parentNum)
       throws DiffNotAvailableException;
 
@@ -66,7 +66,41 @@ public interface DiffOperations {
    * @throws DiffNotAvailableException if an internal error occurred in Git while evaluating the
    *     diff.
    */
-  Map<String, FileDiffOutput> getModifiedFilesBetweenPatchsets(
+  Map<String, FileDiffOutput> listModifiedFiles(
       Project.NameKey project, ObjectId oldCommit, ObjectId newCommit)
+      throws DiffNotAvailableException;
+
+  /**
+   * Returns the diff for a single file between a patchset commit against its parent or the
+   * auto-merge commit. For deleted files, the {@code fileName} parameter should contain the old
+   * name of the file.
+   *
+   * @param project a project name representing a git repository.
+   * @param newCommit 20 bytes SHA-1 of the new commit used in the diff.
+   * @param parentNum integer specifying which parent to use as base. If null, the only parent will
+   *     be used or the auto-merge if {@code newCommit} is a merge commit.
+   * @param fileName the file name for which the diff should be evaluated.
+   * @return the diff for the single file between the two commits.
+   * @throws DiffNotAvailableException if an internal error occurred in Git while evaluating the
+   *     diff, or if an exception happened while parsing the base commit.
+   */
+  FileDiffOutput getModifiedFileAgainstParent(
+      Project.NameKey project, ObjectId newCommit, @Nullable Integer parentNum, String fileName)
+      throws DiffNotAvailableException;
+
+  /**
+   * Returns the diff for a single file between two patchset commits. For deleted files, the {@code
+   * fileName} parameter should contain the old name of the file.
+   *
+   * @param project a project name representing a git repository.
+   * @param oldCommit 20 bytes SHA-1 of the old commit used in the diff.
+   * @param newCommit 20 bytes SHA-1 of the new commit used in the diff.
+   * @param fileName the file name for which the diff should be evaluated.
+   * @return the diff for the single file between the two commits.
+   * @throws DiffNotAvailableException if an internal error occurred in Git while evaluating the
+   *     diff.
+   */
+  FileDiffOutput getModifiedFile(
+      Project.NameKey project, ObjectId oldCommit, ObjectId newCommit, String fileName)
       throws DiffNotAvailableException;
 }

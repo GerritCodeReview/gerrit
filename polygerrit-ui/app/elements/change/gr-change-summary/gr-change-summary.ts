@@ -14,34 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html, TemplateResult} from 'lit-html';
+import {html} from 'lit-html';
 import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {Category, CheckRun, Link} from '../../../api/checks';
-import {allRuns$, RunResult} from '../../../services/checks/checks-model';
+import {Category, CheckResult, CheckRun, Link, RunStatus} from '../../../api/checks';
+import {allRuns$} from '../../../services/checks/checks-model';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
-import {
-  hasCompleted,
-  isRunning,
-  isRunningOrHasCompleted,
-} from '../../../services/checks/checks-util';
+import {getResultsOf, hasCompletedWithoutResults, hasResultsOf, iconForCategory, iconForStatus, isRunning,} from '../../../services/checks/checks-util';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {CommentThread, isResolved} from '../../../utils/comment-util';
-
-function filterResults(runs: CheckRun[], category: Category): RunResult[] {
-  return runs.filter(isRunningOrHasCompleted).reduce((results, run) => {
-    return results.concat(
-      (run.results ?? [])
-        .filter(result => result.category === category)
-        .map(result => {
-          return {...run, ...result};
-        })
-    );
-  }, [] as RunResult[]);
-}
 
 @customElement('gr-summary-chip')
 export class GrSummaryChip extends GrLitElement {
@@ -84,135 +68,136 @@ export class GrSummaryChip extends GrLitElement {
   }
 }
 
-@customElement('gr-checks-chip')
-export class GrChecksChip extends GrLitElement {
+const chipStyles = css`
+  .checksChip {
+    color: var(--chip-color);
+    cursor: pointer;
+    display: inline-block;
+    margin-right: var(--spacing-s);
+    padding: var(--spacing-xxs) var(--spacing-m) var(--spacing-xxs)
+      var(--spacing-s);
+    border-radius: 12px;
+    border: 1px solid gray;
+    vertical-align: top;
+  }
+  .checksChip .checkName {
+    display: inline-block;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+  }
+  iron-icon {
+    width: var(--line-height-small);
+    height: var(--line-height-small);
+    vertical-align: top;
+  }
+  div.checksChip iron-icon.launch {
+    color: var(--gray-foreground);
+  }
+  .checksChip.error {
+    color: var(--error-color);
+    border-color: var(--error-foreground);
+    background-color: var(--error-background);
+  }
+  .checksChip.error iron-icon {
+    color: var(--error-foreground);
+  }
+  .checksChip.warning {
+    border-color: var(--warning-foreground);
+    background-color: var(--warning-background);
+  }
+  .checksChip.warning iron-icon {
+    color: var(--warning-foreground);
+  }
+  .checksChip.info-outline {
+    border-color: var(--info-foreground);
+    background-color: var(--info-background);
+  }
+  .checksChip.info-outline iron-icon {
+    color: var(--info-foreground);
+  }
+  .checksChip.check-circle {
+    border-color: var(--success-foreground);
+    background-color: var(--success-background);
+  }
+  .checksChip.check-circle iron-icon {
+    color: var(--success-foreground);
+  }
+  .checksChip.timelapse {
+  }
+  .checksChip.timelapse {
+    border-color: var(--gray-foreground);
+    background-color: var(--gray-background);
+  }
+  .checksChip.timelapse iron-icon {
+    color: var(--gray-foreground);
+  }
+`;
+
+@customElement('gr-checks-count-chip')
+export class GrChecksCountChip extends GrLitElement {
   @property()
   icon = '';
 
   @property()
-  expandMax = 0;
-
-  @property()
-  runs: CheckRun[] = [];
-
-  @property()
-  results: RunResult[] = [];
+  count = 0;
 
   static get styles() {
-    return [
-      sharedStyles,
-      css`
-        .checksChip {
-          color: var(--chip-color);
-          cursor: pointer;
-          display: inline-block;
-          margin-right: var(--spacing-s);
-          padding: var(--spacing-xxs) var(--spacing-m) var(--spacing-xxs)
-            var(--spacing-s);
-          border-radius: 12px;
-          border: 1px solid gray;
-          vertical-align: top;
-        }
-        .checksChip .checkName {
-          display: inline-block;
-          max-width: 120px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          vertical-align: top;
-        }
-        iron-icon {
-          width: var(--line-height-small);
-          height: var(--line-height-small);
-          vertical-align: top;
-        }
-        div.checksChip iron-icon.launch {
-          color: var(--gray-foreground);
-        }
-        .checksChip.error {
-          color: var(--error-color);
-          border-color: var(--error-foreground);
-          background-color: var(--error-background);
-        }
-        .checksChip.error iron-icon {
-          color: var(--error-foreground);
-        }
-        .checksChip.warning {
-          border-color: var(--warning-foreground);
-          background-color: var(--warning-background);
-        }
-        .checksChip.warning iron-icon {
-          color: var(--warning-foreground);
-        }
-        .checksChip.info-outline {
-          border-color: var(--info-foreground);
-          background-color: var(--info-background);
-        }
-        .checksChip.info-outline iron-icon {
-          color: var(--info-foreground);
-        }
-        .checksChip.check {
-          border-color: var(--gray-foreground);
-          background-color: var(--gray-background);
-        }
-        .checksChip.check iron-icon {
-          color: var(--gray-foreground);
-        }
-        .checksChip.timelapse {
-          border-color: var(--gray-foreground);
-          background-color: var(--gray-background);
-        }
-        .checksChip.timelapse iron-icon {
-          color: var(--gray-foreground);
-        }
-      `,
-    ];
+    return [sharedStyles, chipStyles];
   }
 
   render() {
-    const count = this.runs.length || this.results.length;
-    if (count === 0) return;
-    if (count > this.expandMax || !this.results.length) {
-      return this.renderChip(html`${count}`);
-    }
-    return this.results.map(result =>
-      this.renderChip(this.renderNameAndLinks(result))
-    );
-  }
-
-  private renderChip(content: TemplateResult) {
+    if (this.count === 0) return;
     const chipClass = `checksChip font-small ${this.icon}`;
     const grIcon = `gr-icons:${this.icon}`;
     return html`
       <div class="${chipClass}" role="button" @click="${this.handleClick}">
         <iron-icon icon="${grIcon}"></iron-icon>
-        ${content}
+        ${this.count}
       </div>
     `;
   }
 
-  private renderNameAndLinks(result: RunResult) {
+  private handleClick() {
+    fireShowPrimaryTab(this, 'checks');
+  }
+}
+
+@customElement('gr-checks-detail-chip')
+export class GrChecksDetailChip extends GrLitElement {
+  @property()
+  icon = '';
+
+  @property()
+  text = '';
+
+  @property()
+  links: Link[] = [];
+
+  static get styles() {
+    return [sharedStyles, chipStyles];
+  }
+
+  render() {
+    const chipClass = `checksChip font-small ${this.icon}`;
+    const grIcon = `gr-icons:${this.icon}`;
     return html`
-      <div class="checkName">${result.checkName}</div>
-      ${this.renderResultLinks(result.links ?? [])}
+      <div class="${chipClass}" role="button" @click="${this.handleClick}">
+        <iron-icon icon="${grIcon}"></iron-icon>
+        <div class="checkName">${this.text}</div>
+        ${this.links.map(link => this.renderLink(link))}
+      </div>
     `;
   }
 
-  private renderResultLinks(links: Link[]) {
-    return links
-      .filter(link => link.primary)
-      .slice(0, 2)
-      .map(
-        link => html`
-          <a
-            href="${link.url}"
-            target="_blank"
-            @click="${this.handleClickLink}"
-          >
-            <iron-icon class="launch" icon="gr-icons:launch"></iron-icon>
-          </a>
-        `
-      );
+  private renderLink(link: Link) {
+    return html`
+      <a href="${link.url}" target="_blank" @click="${this.handleClickLink}"
+        ><iron-icon class="launch" icon="gr-icons:launch"></iron-icon
+      ></a>
+    `;
   }
 
   private handleClick() {
@@ -244,6 +229,9 @@ export class GrChangeSummary extends GrLitElement {
   @property()
   runs: CheckRun[] = [];
 
+  /** What is the maximum number of expanded checks chips? */
+  private detailsQuota = 3;
+
   constructor() {
     super();
     this.subscribe('runs', allRuns$);
@@ -267,19 +255,81 @@ export class GrChangeSummary extends GrLitElement {
         td.value {
           padding-right: var(--spacing-l);
         }
-        .runs {
-          margin-right: var(--spacing-s);
-          margin-left: var(--spacing-m);
+        .runningSeparator {
+          display: inline-block;
+          width: var(--spacing-s);
+        }
+        .runningSeparator:first-child {
+          display: none;
         }
       `,
     ];
   }
 
+  renderChecksChipForCategory(category: Category) {
+    const icon = iconForCategory(category);
+    const runs = this.runs.filter(run => hasResultsOf(run, category));
+    const count = (run: CheckRun) => getResultsOf(run, category);
+    return this.renderChecksChip(icon, runs, count);
+  }
+
+  renderChecksChipForStatus(
+    status: RunStatus,
+    filter: (run: CheckRun) => boolean
+  ) {
+    const icon = iconForStatus(status);
+    const runs = this.runs.filter(filter);
+    return this.renderChecksChip(icon, runs, () => []);
+  }
+
+  renderChecksChip(
+    icon: string,
+    runs: CheckRun[],
+    resultFilter: (run: CheckRun) => CheckResult[]
+  ) {
+    if (runs.length === 0) {
+      return html``;
+    }
+    if (runs.length <= this.detailsQuota) {
+      this.detailsQuota -= runs.length;
+      // TODO: Render the link icons.
+      return runs.map(run => {
+        const links = resultFilter(run)
+          .reduce((links, result) => {
+            return links.concat(result.links ?? []);
+          }, [] as Link[])
+          .filter(link => link)
+          .slice(0, 3);
+        const count = resultFilter(run).length;
+        const countText = count > 1 ? ` ${count}` : '';
+        const text = `${run.checkName}${countText}`;
+        return html`
+          <gr-checks-detail-chip
+            class="${icon}"
+            .icon="${icon}"
+            .text="${text}"
+            .links="${links}"
+          ></gr-checks-detail-chip>
+        `;
+      });
+    }
+    // runs.length > this.detailsQuota
+    this.detailsQuota = 0;
+    const sum = runs.reduce(
+      (sum, run) => sum + (resultFilter(run).length || 1),
+      0
+    );
+    return html`
+      <gr-checks-count-chip
+        class="${icon}"
+        .icon="${icon}"
+        .count="${sum}"
+      ></gr-checks-count-chip>
+    `;
+  }
+
   render() {
-    const runs: CheckRun[] = this.runs;
-    const errors = filterResults(runs, Category.ERROR);
-    const warnings = filterResults(runs, Category.WARNING);
-    const infos = filterResults(runs, Category.INFO);
+    this.detailsQuota = 3;
     const numResolvedComments =
       this.commentThreads?.filter(isResolved).length ?? 0;
     const draftCount = this.changeComments?.computeDraftCount() ?? 0;
@@ -289,31 +339,15 @@ export class GrChangeSummary extends GrLitElement {
           <tr ?hidden=${!this.ciRebootChecksEnabled}>
             <td class="key">Checks</td>
             <td class="value">
-              <gr-checks-chip
-                icon="error"
-                .results="${errors}"
-                expandMax="2"
-              ></gr-checks-chip>
-              <gr-checks-chip
-                icon="warning"
-                .results="${warnings}"
-                expandMax="${2 - errors.length}"
-              ></gr-checks-chip>
-              <gr-checks-chip
-                icon="info-outline"
-                .results="${infos}"
-              ></gr-checks-chip>
-              <span ?hidden=${!runs.some(isRunningOrHasCompleted)} class="runs"
-                >Runs</span
-              >
-              <gr-checks-chip
-                icon="check"
-                .runs="${runs.filter(hasCompleted)}"
-              ></gr-checks-chip>
-              <gr-checks-chip
-                icon="timelapse"
-                .runs="${runs.filter(isRunning)}"
-              ></gr-checks-chip>
+              ${this.renderChecksChipForCategory(Category.ERROR)}
+              ${this.renderChecksChipForCategory(Category.WARNING)}
+              ${this.renderChecksChipForCategory(Category.INFO)}
+              ${this.renderChecksChipForStatus(
+                RunStatus.COMPLETED,
+                hasCompletedWithoutResults
+              )}
+              <div class="runningSeparator"></div>
+              ${this.renderChecksChipForStatus(RunStatus.RUNNING, isRunning)}
             </td>
           </tr>
           <tr ?hidden=${!this.newChangeSummaryUiEnabled}>
@@ -345,7 +379,8 @@ export class GrChangeSummary extends GrLitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-change-summary': GrChangeSummary;
-    'gr-checks-chip': GrChecksChip;
+    'gr-checks-detail-chip': GrChecksDetailChip;
+    'gr-checks-count-chip': GrChecksCountChip;
     'gr-summary-chip': GrSummaryChip;
   }
 }

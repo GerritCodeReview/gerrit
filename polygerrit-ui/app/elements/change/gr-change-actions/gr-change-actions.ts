@@ -114,6 +114,7 @@ import {
   getApprovalInfo,
   getVotingRange,
 } from '../../../utils/label-util';
+import {CommentThread} from '../../../utils/comment-util';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -441,6 +442,9 @@ export class GrChangeActions
 
   @property({type: String})
   _actionLoadingMessage = '';
+
+  @property({type: Array})
+  commentThreads?: CommentThread[];
 
   @property({
     type: Array,

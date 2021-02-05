@@ -113,6 +113,13 @@ export const fakeRun0: CheckRun = {
       ],
       tags: [{name: 'OBSOLETE'}, {name: 'E2E'}],
     },
+    {
+      category: Category.ERROR,
+      summary: 'Running the mighty test has failed by crashing.',
+      links: [
+        {primary: true, url: 'https://www.google.com', icon: LinkIcon.EXTERNAL},
+      ],
+    },
   ],
   status: RunStatus.COMPLETED,
 };

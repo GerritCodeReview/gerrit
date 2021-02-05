@@ -36,6 +36,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.AllCommentContextProto;
 import com.google.gerrit.server.cache.proto.Cache.AllCommentContextProto.CommentContextProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.comment.CommentContextLoader.ContextInput;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -216,11 +217,12 @@ public class CommentContextCacheImpl implements CommentContextCache {
       ChangeNotes notes = notesFactory.createChecked(project, changeId);
       List<HumanComment> humanComments = commentsUtil.publishedHumanCommentsByChange(notes);
       CommentContextLoader loader = factory.create(project);
-      Map<Comment, CommentContextKey> commentsToKeys = new HashMap<>();
+      Map<ContextInput, CommentContextKey> commentsToKeys = new HashMap<>();
       for (CommentContextKey key : keys) {
-        commentsToKeys.put(getCommentForKey(humanComments, key), key);
+        Comment comment = getCommentForKey(humanComments, key);
+        commentsToKeys.put(ContextInput.fromComment(comment), key);
       }
-      Map<Comment, CommentContext> allContext = loader.getContext(commentsToKeys.keySet());
+      Map<ContextInput, CommentContext> allContext = loader.getContext(commentsToKeys.keySet());
       return allContext.entrySet().stream()
           .collect(Collectors.toMap(e -> commentsToKeys.get(e.getKey()), Map.Entry::getValue));
     }

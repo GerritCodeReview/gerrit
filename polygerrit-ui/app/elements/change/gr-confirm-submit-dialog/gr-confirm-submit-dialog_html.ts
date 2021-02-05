@@ -67,6 +67,16 @@ export const htmlTemplate = html`
             ></iron-icon>
             [[_computeUnresolvedCommentsWarning(change)]]
           </p>
+          <gr-thread-list
+            id="commentList"
+            hidden$="[[!_includeComments]]"
+            threads="[[_computeUnresolvedThreads(commentThreads)]]"
+            change="[[change]]"
+            change-num="[[change._number]]"
+            logged-in="true"
+            hide-toggle-buttons
+          >
+          </gr-thread-list>
         </template>
         <template is="dom-if" if="[[_computeHasChangeEdit(change)]]">
           <iron-icon
@@ -81,4 +91,5 @@ export const htmlTemplate = html`
       </gr-endpoint-decorator>
     </div>
   </gr-dialog>
+  <gr-comment-api id="commentAPI"></gr-comment-api>
 `;

@@ -82,6 +82,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker;
 import com.google.gerrit.server.events.StreamEventsApiListener;
+import com.google.gerrit.server.experiments.ExperimentFeaturesImpl;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
@@ -464,6 +465,7 @@ public class Daemon extends SiteProgram {
     modules.add(new StartupChecks.Module());
     modules.add(new GerritInstanceNameModule());
     modules.add(new GerritInstanceIdModule());
+    modules.add(new ExperimentFeaturesImpl.Module());
     if (MoreObjects.firstNonNull(httpd, true)) {
       modules.add(
           new CanonicalWebUrlModule() {

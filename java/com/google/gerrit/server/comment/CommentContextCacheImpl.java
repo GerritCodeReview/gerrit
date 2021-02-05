@@ -16,6 +16,7 @@ package com.google.gerrit.server.comment;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
@@ -23,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
@@ -51,7 +53,15 @@ import java.util.stream.Collectors;
 
 /** Implementation of {@link CommentContextCache}. */
 public class CommentContextCacheImpl implements CommentContextCache {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String CACHE_NAME = "comment_context";
+
+  /**
+   * Comment context is expected to contain just few lines of code to be displayed beside the
+   * comment. Setting an upper bound of 100.
+   */
+  @VisibleForTesting public static final int MAX_NUM_CONTEXT_LINES = 100;
 
   public static Module module() {
     return new CacheModule() {
@@ -89,9 +99,14 @@ public class CommentContextCacheImpl implements CommentContextCache {
       Iterable<CommentContextKey> inputKeys) {
     ImmutableMap.Builder<CommentContextKey, CommentContext> result = ImmutableMap.builder();
 
+    List<CommentContextKey> adjustedKeys =
+        Streams.stream(inputKeys)
+            .map(CommentContextCacheImpl::adjustMaxContextLines)
+            .collect(ImmutableList.toImmutableList());
+
     // Convert the input keys to the same keys but with their file paths hashed
     Map<CommentContextKey, CommentContextKey> keysToCacheKeys =
-        Streams.stream(inputKeys)
+        adjustedKeys.stream()
             .collect(
                 Collectors.toMap(
                     Function.identity(),
@@ -102,13 +117,24 @@ public class CommentContextCacheImpl implements CommentContextCache {
           contextCache.getAll(keysToCacheKeys.values());
 
       for (CommentContextKey inputKey : inputKeys) {
-        CommentContextKey cacheKey = keysToCacheKeys.get(inputKey);
+        CommentContextKey cacheKey = keysToCacheKeys.get(adjustMaxContextLines(inputKey));
         result.put(inputKey, allContext.get(cacheKey));
       }
       return result.build();
     } catch (ExecutionException e) {
       throw new StorageException("Failed to retrieve comments' context", e);
     }
+  }
+
+  private static CommentContextKey adjustMaxContextLines(CommentContextKey key) {
+    if (key.numContextLines() > MAX_NUM_CONTEXT_LINES) {
+      logger.atWarning().log(
+          "Number of requested context lines is %d and exceeding the configured maximum of %d."
+              + " Adjusting the number to the maximum.",
+          key.numContextLines(), MAX_NUM_CONTEXT_LINES);
+      return key.toBuilder().numContextLines(MAX_NUM_CONTEXT_LINES).build();
+    }
+    return key;
   }
 
   public enum CommentContextSerializer implements CacheSerializer<CommentContext> {

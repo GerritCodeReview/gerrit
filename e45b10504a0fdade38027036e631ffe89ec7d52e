@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0a6eda6_940282c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-05T19:20:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba3b5f46_375f3f4c",
+      "range": {
+        "startLine": 332,
+        "startChar": 78,
+        "endLine": 332,
+        "endChar": 79
+      },
+      "revId": "e45b10504a0fdade38027036e631ffe89ec7d52e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ed0a13b_0c9508b9",
@@ -70,6 +94,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "327b5278_9ac159e8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-05T19:20:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ed0a13b_0c9508b9",
+      "range": {
+        "startLine": 333,
+        "startChar": 10,
+        "endLine": 333,
+        "endChar": 31
+      },
+      "revId": "e45b10504a0fdade38027036e631ffe89ec7d52e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e5db3df_dcaadebe",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-05T19:20:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a376f4f_3e3f6225",
+      "range": {
+        "startLine": 333,
+        "startChar": 10,
+        "endLine": 333,
+        "endChar": 13
+      },
+      "revId": "e45b10504a0fdade38027036e631ffe89ec7d52e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d6bbc77_56652097",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-02-05T14:25:03Z",
       "side": 1,
       "message": "Could not resist. Would this also work?\n\n  const authors \u003d (commentThreads ?? [])\n    .map(getFirstComment)\n    .map(comment \u003d\u003e comment?.author ?? this.selfAccount);\n    .filter(uniqueDefinedAvatar)\n    .slice(0, 3);\n\nWith adding these two functions to account utilities?\n\n  export function uniqueDefinedAvatar(account, index, accountArray) {\n    return !!account?.avatars?.[0]?.url \u0026\u0026 \n           accountArray.findIndex(hasSameAvatar(account)) \u003d\u003d\u003d index;\n  }\n\n  export function hasSameAvatar(account) {\n    return other \u003d\u003e account?.avatars?.[0]?.url \u003d\u003d\u003d\n                    other?.avatars?.[0]?.url;\n  }",
+      "range": {
+        "startLine": 420,
+        "startChar": 4,
+        "endLine": 439,
+        "endChar": 43
+      },
+      "revId": "e45b10504a0fdade38027036e631ffe89ec7d52e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d7493f4_4043d5a6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-05T19:20:50Z",
+      "side": 1,
+      "message": "Ok 😊 I was missing simple imperative code.",
+      "parentUuid": "5d6bbc77_56652097",
       "range": {
         "startLine": 420,
         "startChar": 4,

@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.ContextLineInfo;
+import com.google.gerrit.server.comment.CommentContextCacheImpl;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -370,6 +371,43 @@ public class CommentContextIT extends AbstractDaemonTest {
                 .map(c -> c.lineNumber)
                 .collect(Collectors.toList()))
         .containsExactly(1, 2, 3, 4, 5, 6);
+  }
+
+  @Test
+  public void commentContextWithLargeNumLinesReturnsAdjustedMaximum() throws Exception {
+    int lineOfComment = 250;
+    int numContextLines = 300;
+
+    StringBuilder largeContent = new StringBuilder();
+    for (int i = 0; i < 1000; i++) {
+      largeContent.append("line " + i + "\n");
+    }
+    PushOneCommit.Result result =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, largeContent.toString(), "topic");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    // Create a comment on line 250
+    CommentInput comment =
+        CommentsUtil.newComment(FILE_NAME, Side.REVISION, lineOfComment, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+
+    // Request 300 context lines
+    List<CommentInfo> comments =
+        gApi.changes()
+            .id(changeId)
+            .commentsRequest()
+            .withContext(true)
+            .numContextLines(numContextLines)
+            .getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).contextLines).hasSize(CommentContextCacheImpl.MAX_NUM_CONTEXT_LINES);
+    assertThat(
+            comments.get(0).contextLines.stream()
+                .map(c -> c.lineNumber)
+                .collect(Collectors.toList()))
+        .contains(lineOfComment);
   }
 
   private Comment.Range createCommentRange(int startLine, int endLine) {

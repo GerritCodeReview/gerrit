@@ -30,6 +30,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provides;
@@ -221,11 +222,12 @@ public class StaticModule extends ServletModule {
     HttpServlet getPolyGerritUiIndexServlet(
         @CanonicalWebUrl @Nullable String canonicalUrl,
         @GerritServerConfig Config cfg,
-        GerritApi gerritApi) {
+        GerritApi gerritApi,
+        ExperimentFeatures experimentFeatures) {
       String cdnPath =
           options.useDevCdn() ? options.devCdn() : cfg.getString("gerrit", null, "cdnPath");
       String faviconPath = cfg.getString("gerrit", null, "faviconPath");
-      return new IndexServlet(canonicalUrl, cdnPath, faviconPath, gerritApi, cfg);
+      return new IndexServlet(canonicalUrl, cdnPath, faviconPath, gerritApi, experimentFeatures);
     }
 
     @Provides

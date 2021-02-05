@@ -50,6 +50,7 @@ import com.google.gerrit.pgm.Init;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.ssh.NoSshModule;
@@ -437,7 +438,8 @@ public class GerritServer implements AutoCloseable {
               protected void configure() {
                 bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
               }
-            }));
+            },
+            new ConfigExperimentFeatures.Module()));
     daemon.addAdditionalSysModuleForTesting(
         new ReindexProjectsAtStartup.Module(), new ReindexGroupsAtStartup.Module());
     daemon.start();

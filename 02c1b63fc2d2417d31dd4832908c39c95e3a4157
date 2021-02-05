@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f67903d_919f3134",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-05T21:02:35Z",
+      "side": 1,
+      "message": "@Nasser @Davido thanks for your reviews and help. Can you find at any use-case that won\u0027t work with this change?",
+      "revId": "02c1b63fc2d2417d31dd4832908c39c95e3a4157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

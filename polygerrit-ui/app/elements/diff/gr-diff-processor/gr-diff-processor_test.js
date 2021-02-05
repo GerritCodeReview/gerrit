@@ -202,8 +202,8 @@ suite('gr-diff-processor tests', () => {
         const skipGroup = commonGroup.contextGroups[1];
         assert.equal(skipGroup.skip, 43900);
         const expectedRange = {
-          left: {start: 21, end: 43920},
-          right: {start: 21, end: 43920},
+          left: {start_line: 21, end_line: 43920},
+          right: {start_line: 21, end_line: 43920},
         };
         assert.deepEqual(skipGroup.lineRange, expectedRange);
 
@@ -499,8 +499,8 @@ suite('gr-diff-processor tests', () => {
       const skipGroup = commonGroup.contextGroups[1];
       assert.equal(skipGroup.skip, 60);
       const expectedRange = {
-        left: {start: 22, end: 81},
-        right: {start: 21, end: 80},
+        left: {start_line: 22, end_line: 81},
+        right: {start_line: 21, end_line: 80},
       };
       assert.deepEqual(skipGroup.lineRange, expectedRange);
 
@@ -834,20 +834,26 @@ suite('gr-diff-processor tests', () => {
         assert.deepEqual(
             skippedGroup.lineRange,
             {
-              left: {start: lineNums.left + 1, end: lineNums.left + skip},
-              right: {start: lineNums.right + 1, end: lineNums.right + skip},
+              left: {
+                start_line: lineNums.left + 1,
+                end_line: lineNums.left + skip,
+              },
+              right: {
+                start_line: lineNums.right + 1,
+                end_line: lineNums.right + skip,
+              },
             });
 
         assert.deepEqual(
             abGroup.lineRange,
             {
               left: {
-                start: lineNums.left + skip + 1,
-                end: lineNums.left + skip + rows.length,
+                start_line: lineNums.left + skip + 1,
+                end_line: lineNums.left + skip + rows.length,
               },
               right: {
-                start: lineNums.right + skip + 1,
-                end: lineNums.right + skip + rows.length,
+                start_line: lineNums.right + skip + 1,
+                end_line: lineNums.right + skip + rows.length,
               },
             });
       });

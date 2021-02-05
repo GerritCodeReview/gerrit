@@ -32,8 +32,8 @@ suite('gr-diff-group tests', () => {
     assert.deepEqual(group.adds, [l1, l2]);
     assert.deepEqual(group.removes, [l3]);
     assert.deepEqual(group.lineRange, {
-      left: {start: 64, end: 64},
-      right: {start: 128, end: 129},
+      left: {start_line: 64, end_line: 64},
+      right: {start_line: 128, end_line: 129},
     });
 
     let pairs = group.getSideBySidePairs();
@@ -66,8 +66,8 @@ suite('gr-diff-group tests', () => {
     assert.deepEqual(group.removes, []);
 
     assert.deepEqual(group.lineRange, {
-      left: {start: 64, end: 66},
-      right: {start: 128, end: 130},
+      left: {start_line: 64, end_line: 66},
+      right: {start_line: 128, end_line: 130},
     });
 
     let pairs = group.getSideBySidePairs();
@@ -184,8 +184,8 @@ suite('gr-diff-group tests', () => {
         const skipGroup = new GrDiffGroup(GrDiffGroupType.BOTH);
         skipGroup.skip = 60;
         skipGroup.lineRange = {
-          left: {start: 8, end: 67},
-          right: {start: 10, end: 69},
+          left: {start_line: 8, end_line: 67},
+          right: {start_line: 10, end_line: 69},
         };
         groups = [
           new GrDiffGroup(GrDiffGroupType.BOTH, [

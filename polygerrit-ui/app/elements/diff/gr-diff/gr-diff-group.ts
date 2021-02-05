@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {BLANK_LINE, GrDiffLine, GrDiffLineType} from './gr-diff-line';
+import {LineRange} from '../../../api/diff';
 import {Side} from '../../../constants/constants';
 
 export enum GrDiffGroupType {
@@ -33,17 +34,12 @@ export interface GrDiffLinePair {
   right: GrDiffLine;
 }
 
-interface Range {
-  start: number | null;
-  end: number | null;
-}
-
 export interface GrDiffGroupRange {
-  left: Range;
-  right: Range;
+  left: LineRange;
+  right: LineRange;
 }
 
-export function rangeBySide(range: GrDiffGroupRange, side: Side): Range {
+export function rangeBySide(range: GrDiffGroupRange, side: Side): LineRange {
   return side === Side.LEFT ? range.left : range.right;
 }
 
@@ -92,8 +88,8 @@ export function hideInContextControl(
     if (hiddenEnd) {
       let beforeLength = 0;
       if (before.length > 0) {
-        const beforeStart = before[0].lineRange.left.start || 0;
-        const beforeEnd = before[before.length - 1].lineRange.left.end || 0;
+        const beforeStart = before[0].lineRange.left.start_line;
+        const beforeEnd = before[before.length - 1].lineRange.left.end_line;
         beforeLength = beforeEnd - beforeStart + 1;
       }
       [hidden, after] = _splitCommonGroups(hidden, hiddenEnd - beforeLength);
@@ -137,8 +133,8 @@ function _splitGroupInTwo(
     // group will in the future mean load more data - and therefore we want to
     // fire an event when user wants to do it.
     const closerToStartThanEnd =
-      leftSplit - (group.lineRange.left.start || 0) <
-      (group.lineRange.right.end || 0) - leftSplit;
+      leftSplit - group.lineRange.left.start_line <
+      group.lineRange.right.end_line - leftSplit;
     if (closerToStartThanEnd) {
       afterSplit = group;
     } else {
@@ -191,18 +187,18 @@ function _splitCommonGroups(
   split: number
 ): GrDiffGroup[][] {
   if (groups.length === 0) return [[], []];
-  const leftSplit = (groups[0].lineRange.left.start || 0) + split;
-  const rightSplit = (groups[0].lineRange.right.start || 0) + split;
+  const leftSplit = groups[0].lineRange.left.start_line + split;
+  const rightSplit = groups[0].lineRange.right.start_line + split;
 
   const beforeGroups = [];
   const afterGroups = [];
   for (const group of groups) {
     const isCompletelyBefore =
-      (group.lineRange.left.end || 0) < leftSplit ||
-      (group.lineRange.right.end || 0) < rightSplit;
+      group.lineRange.left.end_line < leftSplit ||
+      group.lineRange.right.end_line < rightSplit;
     const isCompletelyAfter =
-      leftSplit <= (group.lineRange.left.start || 0) ||
-      rightSplit <= (group.lineRange.right.start || 0);
+      leftSplit <= group.lineRange.left.start_line ||
+      rightSplit <= group.lineRange.right.start_line;
     if (isCompletelyBefore) {
       beforeGroups.push(group);
     } else if (isCompletelyAfter) {
@@ -264,8 +260,8 @@ export class GrDiffGroup {
 
   /** Both start and end line are inclusive. */
   lineRange: GrDiffGroupRange = {
-    left: {start: null, end: null},
-    right: {start: null, end: null},
+    left: {start_line: 0, end_line: 0},
+    right: {start_line: 0, end_line: 0},
   };
 
   moveDetails?: {
@@ -344,16 +340,13 @@ export class GrDiffGroup {
 
     if (line.type === GrDiffLineType.ADD || line.type === GrDiffLineType.BOTH) {
       if (
-        this.lineRange.right.start === null ||
-        line.afterNumber < this.lineRange.right.start
+        this.lineRange.right.start_line === 0 ||
+        line.afterNumber < this.lineRange.right.start_line
       ) {
-        this.lineRange.right.start = line.afterNumber;
+        this.lineRange.right.start_line = line.afterNumber;
       }
-      if (
-        this.lineRange.right.end === null ||
-        line.afterNumber > this.lineRange.right.end
-      ) {
-        this.lineRange.right.end = line.afterNumber;
+      if (line.afterNumber > this.lineRange.right.end_line) {
+        this.lineRange.right.end_line = line.afterNumber;
       }
     }
 
@@ -362,16 +355,13 @@ export class GrDiffGroup {
       line.type === GrDiffLineType.BOTH
     ) {
       if (
-        this.lineRange.left.start === null ||
-        line.beforeNumber < this.lineRange.left.start
+        this.lineRange.left.start_line === 0 ||
+        line.beforeNumber < this.lineRange.left.start_line
       ) {
-        this.lineRange.left.start = line.beforeNumber;
+        this.lineRange.left.start_line = line.beforeNumber;
       }
-      if (
-        this.lineRange.left.end === null ||
-        line.beforeNumber > this.lineRange.left.end
-      ) {
-        this.lineRange.left.end = line.beforeNumber;
+      if (line.beforeNumber > this.lineRange.left.end_line) {
+        this.lineRange.left.end_line = line.beforeNumber;
       }
     }
   }

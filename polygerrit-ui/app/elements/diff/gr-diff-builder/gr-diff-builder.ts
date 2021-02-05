@@ -182,8 +182,8 @@ export abstract class GrDiffBuilder {
       let groupEndLine = 0;
       if (side) {
         const range = rangeBySide(group.lineRange, side);
-        groupStartLine = range.start || 0;
-        groupEndLine = range.end || 0;
+        groupStartLine = range.start_line;
+        groupEndLine = range.end_line;
       }
 
       if (groupStartLine === 0) {
@@ -312,8 +312,9 @@ export abstract class GrDiffBuilder {
     contextGroups: GrDiffGroup[],
     viewMode: DiffViewMode
   ) {
-    const leftStart = contextGroups[0].lineRange.left.start!;
-    const leftEnd = contextGroups[contextGroups.length - 1].lineRange.left.end!;
+    const leftStart = contextGroups[0].lineRange.left.start_line;
+    const leftEnd =
+      contextGroups[contextGroups.length - 1].lineRange.left.end_line;
     const numLines = leftEnd - leftStart + 1;
 
     if (numLines === 0) console.error('context group without lines');
@@ -493,8 +494,14 @@ export abstract class GrDiffBuilder {
         const firstRange = groups[0].lineRange;
         const lastRange = groups[groups.length - 1].lineRange;
         const lineRange = {
-          left: {start: firstRange.left.start, end: lastRange.left.end},
-          right: {start: firstRange.right.start, end: lastRange.right.end},
+          left: {
+            start_line: firstRange.left.start_line,
+            end_line: lastRange.left.end_line,
+          },
+          right: {
+            start_line: firstRange.right.start_line,
+            end_line: lastRange.right.end_line,
+          },
         };
         button.dispatchEvent(
           new CustomEvent<ContentLoadNeededEventDetail>('content-load-needed', {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2da0fdd_2ff849f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-05T07:54:44Z",
+      "side": 1,
+      "message": "fix the delete-project plugin to support this ?",
+      "revId": "6d4a6b2dd3ff538dd9c48f70fb7029edea5ecced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

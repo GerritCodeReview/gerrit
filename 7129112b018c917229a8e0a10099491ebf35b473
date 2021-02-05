@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b4b65f7_a285b0ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-05T08:24:14Z",
+      "side": 1,
+      "message": "There are about a dozen more occurences of this (at least; I just searched for the test name). Do you want to remove them too?",
+      "revId": "7129112b018c917229a8e0a10099491ebf35b473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

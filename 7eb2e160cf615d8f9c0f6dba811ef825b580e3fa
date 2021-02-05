@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8b21bc7_b9fa1eb8",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-05T15:46:32Z",
+      "side": 1,
+      "message": "Could/should this live on PersistentCacheBaseFactory?",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 49
+      },
+      "revId": "7eb2e160cf615d8f9c0f6dba811ef825b580e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08d63414_d1b3cd51",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-05T15:46:32Z",
+      "side": 1,
+      "message": "If you used generics in the PersistentBaseCacheFactory, could you push this whole method down into it? The code looks almost identical to https://gerrit-review.googlesource.com/c/modules/cache-chroniclemap/+/296010/1/src/main/java/com/googlesource/gerrit/modules/cache/chroniclemap/ChronicleMapCacheFactory.java except for the cast and calling cache.stop() vs cache.close() (which could probably be solved by making one of those a method in the PersistentCache interface).\n\nOr (probably simpler) can you change the PersistentCache interface to have that common stop/close method and then cast to PersistentCache here? I think that lets you move this whole onStop() to PersistentBaseCacheFactory?",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 0
+      },
+      "revId": "7eb2e160cf615d8f9c0f6dba811ef825b580e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

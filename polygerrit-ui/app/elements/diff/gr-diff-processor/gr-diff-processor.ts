@@ -371,8 +371,11 @@ export class GrDiffProcessor extends GestureEventListeners(
     group.ignoredWhitespaceOnly = !!chunk.common;
     if (chunk.skip) {
       group.lineRange = {
-        left: {start: offsetLeft, end: offsetLeft + chunk.skip - 1},
-        right: {start: offsetRight, end: offsetRight + chunk.skip - 1},
+        left: {start_line: offsetLeft, end_line: offsetLeft + chunk.skip - 1},
+        right: {
+          start_line: offsetRight,
+          end_line: offsetRight + chunk.skip - 1,
+        },
       };
     }
     return group;

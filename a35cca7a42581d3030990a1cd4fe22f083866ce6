@@ -63,6 +63,30 @@
       },
       "revId": "a35cca7a42581d3030990a1cd4fe22f083866ce6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e440a8aa_eb588be0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-05T11:12:11Z",
+      "side": 1,
+      "message": "It will be fixed in https://gerrit-review.googlesource.com/c/gerrit/+/296104",
+      "parentUuid": "db4b25e0_723f139a",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 76,
+        "endChar": 29
+      },
+      "revId": "a35cca7a42581d3030990a1cd4fe22f083866ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

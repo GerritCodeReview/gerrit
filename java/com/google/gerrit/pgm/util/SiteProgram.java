@@ -28,6 +28,7 @@ import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.git.SystemReaderInstaller;
 import com.google.gerrit.server.schema.SchemaModule;
@@ -128,6 +129,9 @@ public abstract class SiteProgram extends AbstractProgram {
 
     modules.add(new SchemaModule());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
+    // The only implementation of experiments is available in all programs that can use
+    // gerrit.config
+    modules.add(new ConfigExperimentFeatures.Module());
 
     try {
       return Guice.createInjector(

@@ -466,5 +466,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ReloadPluginListener.class)
         .annotatedWith(UniqueAnnotations.create())
         .to(PluginConfigFactory.class);
+
+    bind(ExperimentFeatures.class);
   }
 }

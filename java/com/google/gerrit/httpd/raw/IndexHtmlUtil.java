@@ -20,7 +20,6 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -31,6 +30,7 @@ import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.json.OutputFormat;
+import com.google.gerrit.server.config.ExperimentFeatures;
 import com.google.gson.Gson;
 import com.google.template.soy.data.SanitizedContent;
 import java.net.URI;
@@ -38,20 +38,14 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import org.eclipse.jgit.lib.Config;
 
 /** Helper for generating parts of {@code index.html}. */
 @UsedAt(Project.GOOGLE)
 public class IndexHtmlUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  static final ImmutableSet<String> DEFAULT_EXPERIMENTS =
-      ImmutableSet.of(
-          "UiFeature__patchset_comments", "UiFeature__patchset_choice_for_comment_links");
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
   /**
@@ -60,7 +54,7 @@ public class IndexHtmlUtil {
    */
   public static ImmutableMap<String, Object> templateData(
       GerritApi gerritApi,
-      Config gerritServerConfig,
+      ExperimentFeatures experimentFeatures,
       String canonicalURL,
       String cdnPath,
       String faviconPath,
@@ -73,14 +67,8 @@ public class IndexHtmlUtil {
             staticTemplateData(
                 canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
         .putAll(dynamicTemplateData(gerritApi, requestedURL));
+    Set<String> enabledExperiments = experimentFeatures.getEnabledExperimentFeatures();
 
-    Set<String> enabledExperiments = new HashSet<>();
-    Arrays.stream(gerritServerConfig.getStringList("experiments", null, "enabled"))
-        .forEach(enabledExperiments::add);
-    DEFAULT_EXPERIMENTS.forEach(enabledExperiments::add);
-    Arrays.stream(gerritServerConfig.getStringList("experiments", null, "disabled"))
-        .forEach(enabledExperiments::remove);
-    experimentData(urlParameterMap).forEach(enabledExperiments::add);
     if (!enabledExperiments.isEmpty()) {
       data.put("enabledExperiments", serializeObject(GSON, enabledExperiments).toString());
     }

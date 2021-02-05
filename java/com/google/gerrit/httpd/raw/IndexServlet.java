@@ -22,6 +22,7 @@ import com.google.common.io.Resources;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.ExperimentFeatures;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
@@ -34,7 +35,6 @@ import java.util.function.Function;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jgit.lib.Config;
 
 public class IndexServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -43,7 +43,7 @@ public class IndexServlet extends HttpServlet {
   @Nullable private final String cdnPath;
   @Nullable private final String faviconPath;
   private final GerritApi gerritApi;
-  private final Config gerritServerConfig;
+  private final ExperimentFeatures experimentFeatures;
   private final SoySauce soySauce;
   private final Function<String, SanitizedContent> urlOrdainer;
 
@@ -52,12 +52,12 @@ public class IndexServlet extends HttpServlet {
       @Nullable String cdnPath,
       @Nullable String faviconPath,
       GerritApi gerritApi,
-      Config gerritServerConfig) {
+      ExperimentFeatures experimentFeatures) {
     this.canonicalUrl = canonicalUrl;
     this.cdnPath = cdnPath;
     this.faviconPath = faviconPath;
     this.gerritApi = gerritApi;
-    this.gerritServerConfig = gerritServerConfig;
+    this.experimentFeatures = experimentFeatures;
     this.soySauce =
         SoyFileSet.builder()
             .add(Resources.getResource("com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy"))
@@ -79,7 +79,7 @@ public class IndexServlet extends HttpServlet {
       ImmutableMap<String, Object> templateData =
           IndexHtmlUtil.templateData(
               gerritApi,
-              gerritServerConfig,
+              experimentFeatures,
               canonicalUrl,
               cdnPath,
               faviconPath,

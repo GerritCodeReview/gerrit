@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "73fbf1d5_7660cc89",
         "filename": "Documentation/config-gerrit.txt",
@@ -20,10 +21,10 @@
         "endChar": 24
       },
       "revId": "ebb6eb25f539e9b3bf191ba74fe9cb5ab99f8a52",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "458a6ead_d88f2846",
         "filename": "Documentation/config-gerrit.txt",
@@ -43,8 +44,55 @@
         "endChar": 6
       },
       "revId": "ebb6eb25f539e9b3bf191ba74fe9cb5ab99f8a52",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce0ece36_add46bca",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 4583,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-05T20:51:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73fbf1d5_7660cc89",
+      "range": {
+        "startLine": 4583,
+        "startChar": 7,
+        "endLine": 4583,
+        "endChar": 24
+      },
+      "revId": "ebb6eb25f539e9b3bf191ba74fe9cb5ab99f8a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a22b2f22_f75ec188",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 4583,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-05T20:51:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "458a6ead_d88f2846",
+      "range": {
+        "startLine": 4583,
+        "startChar": 2,
+        "endLine": 4583,
+        "endChar": 6
+      },
+      "revId": "ebb6eb25f539e9b3bf191ba74fe9cb5ab99f8a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

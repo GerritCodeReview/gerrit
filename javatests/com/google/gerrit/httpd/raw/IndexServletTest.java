@@ -15,19 +15,24 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.util.stream.Collectors.joining;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 
 public class IndexServletTest {
@@ -55,14 +60,19 @@ public class IndexServletTest {
     String testCdnPath = "bar-cdn";
     String testFaviconURL = "zaz-url";
 
-    String disabledDefault = IndexHtmlUtil.DEFAULT_EXPERIMENTS.asList().get(0);
+    // Pick any known experiment enabled by default;
+    String disabledDefault = ExperimentFeaturesConstants.UI_FEATURE_PATCHSET_COMMENTS;
+    assertThat(ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES).contains(disabledDefault);
+
     org.eclipse.jgit.lib.Config serverConfig = new org.eclipse.jgit.lib.Config();
     serverConfig.setStringList(
         "experiments", null, "enabled", ImmutableList.of("NewFeature", "DisabledFeature"));
     serverConfig.setStringList(
         "experiments", null, "disabled", ImmutableList.of("DisabledFeature", disabledDefault));
+    ExperimentFeatures experimentFeatures = new ConfigExperimentFeatures(serverConfig);
     IndexServlet servlet =
-        new IndexServlet(testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi, serverConfig);
+        new IndexServlet(
+            testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi, experimentFeatures);
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 
@@ -85,14 +95,17 @@ public class IndexServletTest {
                 + "\\x22\\/config\\/server\\/info\\x22: \\x7b\\x22default_theme\\x22:"
                 + "\\x22my-default-theme\\x22\\x7d, \\x22\\/config\\/server\\/top-menus\\x22: "
                 + "\\x5b\\x5d\\x7d');");
-    String enabledDefaults =
-        IndexHtmlUtil.DEFAULT_EXPERIMENTS.stream()
+    ImmutableSet<String> enabledDefaults =
+        ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES.stream()
             .filter(e -> !e.equals(disabledDefault))
-            .collect(joining("\\x22,"));
+            .collect(ImmutableSet.toImmutableSet());
+    List<String> expectedEnabled = new ArrayList<>();
+    expectedEnabled.add("NewFeature");
+    expectedEnabled.addAll(enabledDefaults);
     assertThat(output)
         .contains(
-            "window.ENABLED_EXPERIMENTS = JSON.parse('\\x5b\\x22NewFeature\\x22,\\x22"
-                + enabledDefaults
+            "window.ENABLED_EXPERIMENTS = JSON.parse('\\x5b\\x22"
+                + String.join("\\x22,", expectedEnabled)
                 + "\\x22\\x5d');</script>");
   }
 }

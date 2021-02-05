@@ -286,6 +286,92 @@ public class CommentContextIT extends AbstractDaemonTest {
     assertThat(comments.get(0).contextLines).isEmpty();
   }
 
+  @Test
+  public void commentContextWithNumLinesLessThanCommentRange() throws Exception {
+    PushOneCommit.Result result =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, FILE_CONTENT, "topic");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    // Create a range comment from line 3 to line 6
+    Comment.Range commentRange = createCommentRange(3, 6);
+    CommentInput comment =
+        CommentsUtil.newComment(FILE_NAME, Side.REVISION, commentRange, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+
+    // Request one line of context
+    List<CommentInfo> comments =
+        gApi.changes()
+            .id(changeId)
+            .commentsRequest()
+            .withContext(true)
+            .numContextLines(1)
+            .getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(
+            comments.get(0).contextLines.stream()
+                .map(c -> c.lineNumber)
+                .collect(Collectors.toList()))
+        .containsExactly(3);
+  }
+
+  @Test
+  public void commentContextWithNumLinesGreaterThanCommentRange() throws Exception {
+    PushOneCommit.Result result =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, FILE_CONTENT, "topic");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    // Create a comment on line 3
+    CommentInput comment = CommentsUtil.newComment(FILE_NAME, Side.REVISION, 3, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+
+    // Request 4 context lines
+    List<CommentInfo> comments =
+        gApi.changes()
+            .id(changeId)
+            .commentsRequest()
+            .withContext(true)
+            .numContextLines(4)
+            .getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(
+            comments.get(0).contextLines.stream()
+                .map(c -> c.lineNumber)
+                .collect(Collectors.toList()))
+        .containsExactly(2, 3, 4, 5);
+  }
+
+  @Test
+  public void commentContextWithNumLinesLargerThanFileSizeReturnsWholeFile() throws Exception {
+    PushOneCommit.Result result =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, FILE_CONTENT, "topic");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    // Create a comment on line 3
+    CommentInput comment = CommentsUtil.newComment(FILE_NAME, Side.REVISION, 3, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+
+    // Request 20 context lines, but file only has 6 lines
+    List<CommentInfo> comments =
+        gApi.changes()
+            .id(changeId)
+            .commentsRequest()
+            .withContext(true)
+            .numContextLines(20)
+            .getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(
+            comments.get(0).contextLines.stream()
+                .map(c -> c.lineNumber)
+                .collect(Collectors.toList()))
+        .containsExactly(1, 2, 3, 4, 5, 6);
+  }
+
   private Comment.Range createCommentRange(int startLine, int endLine) {
     Comment.Range range = new Comment.Range();
     range.startLine = startLine;

@@ -28,6 +28,19 @@ public abstract class CommentContextKey {
 
   abstract Integer patchset();
 
+  /**
+   * Number of context lines that the cache will return. If 0, the cache will return the exact lines
+   * where the comment is written. Otherwise:
+   *
+   * <p>1) If {@link #numContextLines()} is less than the comment range, the cache will return
+   * {@link #numContextLines()} lines starting at the first line of the comment range.
+   *
+   * <p>2) If {@link #numContextLines()} is greater than the number of lines of the comment range,
+   * the comment range will be expanded equally before and after so that {@link #numContextLines()}
+   * are returned.
+   */
+  abstract int numContextLines();
+
   abstract Builder toBuilder();
 
   public static Builder builder() {
@@ -47,6 +60,8 @@ public abstract class CommentContextKey {
 
     public abstract Builder patchset(Integer patchset);
 
+    public abstract Builder numContextLines(Integer numLines);
+
     public abstract CommentContextKey build();
   }
 
@@ -62,6 +77,7 @@ public abstract class CommentContextKey {
               .setPatchset(key.patchset())
               .setPathHash(key.path())
               .setCommentId(key.id())
+              .setNumContextLines(key.numContextLines())
               .build());
     }
 
@@ -75,6 +91,7 @@ public abstract class CommentContextKey {
           .patchset(proto.getPatchset())
           .id(proto.getCommentId())
           .path(proto.getPathHash())
+          .numContextLines(proto.getNumContextLines())
           .build();
     }
   }

@@ -612,6 +612,7 @@ class ChangeApiImpl implements ChangeApi {
         try {
           ListChangeComments listComments = listCommentsProvider.get();
           listComments.setContext(this.getContext());
+          listComments.setNumContextLines(this.getNumContextLines());
           return listComments.apply(change).value();
         } catch (Exception e) {
           throw asRestApiException("Cannot get comments", e);
@@ -623,6 +624,7 @@ class ChangeApiImpl implements ChangeApi {
         try {
           ListChangeComments listComments = listCommentsProvider.get();
           listComments.setContext(this.getContext());
+          listComments.setNumContextLines(this.getNumContextLines());
           return listComments.getComments(change);
         } catch (Exception e) {
           throw asRestApiException("Cannot get comments", e);

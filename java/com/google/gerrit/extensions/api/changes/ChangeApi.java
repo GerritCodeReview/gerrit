@@ -413,6 +413,7 @@ public interface ChangeApi {
 
   abstract class CommentsRequest {
     private boolean enableContext;
+    private int numContextLines;
 
     /**
      * Get all published comments on a change.
@@ -436,6 +437,11 @@ public interface ChangeApi {
       return this;
     }
 
+    public CommentsRequest numContextLines(int numContextLines) {
+      this.numContextLines = numContextLines;
+      return this;
+    }
+
     public CommentsRequest withContext() {
       this.enableContext = true;
       return this;
@@ -443,6 +449,10 @@ public interface ChangeApi {
 
     public boolean getContext() {
       return enableContext;
+    }
+
+    public int getNumContextLines() {
+      return numContextLines;
     }
   }
 

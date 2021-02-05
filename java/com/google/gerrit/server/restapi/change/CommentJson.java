@@ -61,6 +61,7 @@ public class CommentJson {
   private boolean fillAccounts = true;
   private boolean fillPatchSet;
   private boolean fillCommentContext;
+  private int numContextLines;
 
   @Inject
   CommentJson(AccountLoader.Factory accountLoaderFactory, CommentContextCache commentContextCache) {
@@ -80,6 +81,11 @@ public class CommentJson {
 
   CommentJson setFillCommentContext(boolean fillCommentContext) {
     this.fillCommentContext = fillCommentContext;
+    return this;
+  }
+
+  CommentJson setNumContextLines(int numContextLines) {
+    this.numContextLines = numContextLines;
     return this;
   }
 
@@ -184,6 +190,7 @@ public class CommentJson {
           .id(r.id)
           .path(r.path)
           .patchset(r.patchSet)
+          .numContextLines(numContextLines)
           .build();
     }
 

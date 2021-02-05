@@ -16,7 +16,6 @@
  */
 import {BLANK_LINE, GrDiffLine, GrDiffLineType} from './gr-diff-line';
 import {LineRange} from '../../../api/diff';
-import {Side} from '../../../constants/constants';
 
 export enum GrDiffGroupType {
   /** Unchanged context. */
@@ -32,15 +31,6 @@ export enum GrDiffGroupType {
 export interface GrDiffLinePair {
   left: GrDiffLine;
   right: GrDiffLine;
-}
-
-export interface GrDiffGroupRange {
-  left: LineRange;
-  right: LineRange;
-}
-
-export function rangeBySide(range: GrDiffGroupRange, side: Side): LineRange {
-  return side === Side.LEFT ? range.left : range.right;
 }
 
 /**
@@ -259,9 +249,9 @@ export class GrDiffGroup {
   skip?: number;
 
   /** Both start and end line are inclusive. */
-  lineRange: GrDiffGroupRange = {
-    left: {start_line: 0, end_line: 0},
-    right: {start_line: 0, end_line: 0},
+  lineRange = {
+    left: {start_line: 0, end_line: 0} as LineRange,
+    right: {start_line: 0, end_line: 0} as LineRange,
   };
 
   moveDetails?: {

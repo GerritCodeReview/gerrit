@@ -231,3 +231,10 @@ export declare interface CreateCommentEventDetail {
   side: Side;
   range: CommentRange | undefined;
 }
+
+export declare interface ContentLoadNeededEventDetail {
+  lineRange: {
+    left: LineRange;
+    right: LineRange;
+  };
+}

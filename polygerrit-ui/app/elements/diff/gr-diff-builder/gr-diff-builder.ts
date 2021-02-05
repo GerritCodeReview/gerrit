@@ -14,14 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {ContentLoadNeededEventDetail} from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
 import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
 import {
   GrDiffGroup,
-  GrDiffGroupRange,
   GrDiffGroupType,
   hideInContextControl,
-  rangeBySide,
 } from '../gr-diff/gr-diff-group';
 import {BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -66,10 +65,6 @@ export interface ContextEvent extends Event {
     section: HTMLElement;
     numLines: number;
   };
-}
-
-export interface ContentLoadNeededEventDetail {
-  lineRange: GrDiffGroupRange;
 }
 
 export abstract class GrDiffBuilder {
@@ -181,7 +176,8 @@ export abstract class GrDiffBuilder {
       let groupStartLine = 0;
       let groupEndLine = 0;
       if (side) {
-        const range = rangeBySide(group.lineRange, side);
+        const range =
+          side === Side.LEFT ? group.lineRange.left : group.lineRange.right;
         groupStartLine = range.start_line;
         groupEndLine = range.end_line;
       }

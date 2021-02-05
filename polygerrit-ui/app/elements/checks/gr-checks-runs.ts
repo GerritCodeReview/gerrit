@@ -19,12 +19,10 @@ import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {CheckRun, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
-import {iconForCategory} from './gr-checks-results';
 import {
   compareByWorstCategory,
-  worstCategory,
+  iconForRun,
 } from '../../services/checks/checks-util';
-import {assertNever} from '../../utils/common-util';
 import {
   allRuns$,
   fakeRun0,
@@ -36,31 +34,11 @@ import {
 } from '../../services/checks/checks-model';
 
 function renderRun(run: CheckRun) {
-  return html`<div class="runChip ${iconClass(run)}">
-    ${renderIcon(run)}
+  const icon = iconForRun(run);
+  return html`<div class="runChip ${icon}">
+    <iron-icon icon="gr-icons:${icon}" class="${icon}"></iron-icon>
     <span>${run.checkName}</span>
   </div>`;
-}
-
-function renderIcon(run: CheckRun) {
-  const icon = iconClass(run);
-  if (!icon) return;
-  return html`<iron-icon icon="gr-icons:${icon}" class="${icon}"></iron-icon>`;
-}
-
-function iconClass(run: CheckRun) {
-  const category = worstCategory(run);
-  if (category) return iconForCategory(category);
-  switch (run.status) {
-    case RunStatus.COMPLETED:
-      return 'check-circle';
-    case RunStatus.RUNNABLE:
-      return 'placeholder';
-    case RunStatus.RUNNING:
-      return 'timelapse';
-    default:
-      assertNever(run.status, `Unsupported status: ${run.status}`);
-  }
 }
 
 @customElement('gr-checks-runs')

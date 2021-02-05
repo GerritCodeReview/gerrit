@@ -176,6 +176,24 @@
       "parentUuid": "274fb34a_352cb2f8",
       "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1239382_06798b97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-05T07:47:00Z",
+      "side": 1,
+      "message": "We have decided to move everything into a folder named api/ and into .ts files that must only contain types and enums.",
+      "parentUuid": "cd8bb9ae_8d62d581",
+      "revId": "52af5fb7f7b7e18e3bd127179f1a4134f9e76f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

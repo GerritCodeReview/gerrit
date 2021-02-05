@@ -15,8 +15,11 @@
  * limitations under the License.
  */
 
+import {LineNumber} from '../../../api/diff';
+
+export {LineNumber};
+
 export const FILE = 'FILE';
-export type LineNumber = number | 'FILE';
 
 export enum GrDiffLineType {
   ADD = 'add',

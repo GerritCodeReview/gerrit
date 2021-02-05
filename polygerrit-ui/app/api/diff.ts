@@ -225,9 +225,11 @@ export interface CoverageRange {
   code_range: LineRange;
 }
 
+export declare type LineNumber = number | 'FILE';
+
 /** The detail of the 'create-comment' event dispatched by gr-diff. */
 export declare interface CreateCommentEventDetail {
-  lineNum: number | 'FILE';
+  lineNum: LineNumber;
   side: Side;
   range: CommentRange | undefined;
 }

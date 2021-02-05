@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {DiffLayer as DiffLayerApi} from '../api/diff';
 import {DiffViewMode, MessageTag, Side} from '../constants/constants';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
-import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {
@@ -150,8 +150,7 @@ export type DiffLayerListener = (
   side: Side
 ) => void;
 
-export interface DiffLayer {
-  annotate(el: HTMLElement, lineEl: HTMLElement, line: GrDiffLine): void;
+export interface DiffLayer extends DiffLayerApi {
   addListener?(listener: DiffLayerListener): void;
   removeListener?(listener: DiffLayerListener): void;
 }

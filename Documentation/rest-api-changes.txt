@@ -2056,6 +2056,14 @@ If the `enable-context` request parameter is set to true, the comment entries
 will contain a list of link:#context-line[ContextLine] containing the lines of
 the source file where the comment was written.
 
+The `num-context-lines` request parameter can be used to specify the number of
+context lines to be returned by the endpoint. This parameter only works if
+`enable-context` is set to true. If the number of requested lines is less than
+the comment range, the endpoint will return `num-context-lines` lines starting
+at the first line of the comment range. Otherwise the comment range will be
+expanded equally before and after so that `num-context-lines` are returned. If
+set to zero, the endpoint will return the exact lines of the comment range.
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/comments HTTP/1.0

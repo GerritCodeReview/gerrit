@@ -42,6 +42,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   private final CommentsUtil commentsUtil;
 
   private boolean includeContext;
+  private int numContextLines;
 
   /**
    * Optional parameter. If set, the contextLines field of the {@link ContextLineInfo} of the
@@ -52,6 +53,18 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   @Option(name = "--enable-context")
   public void setContext(boolean context) {
     this.includeContext = context;
+  }
+
+  /**
+   * Optional parameter. Works only if {@link #includeContext} is set to true. If {@link
+   * #numContextLines} is set, the response will contain a number of context lines equal to this
+   * parameter, otherwise the number of context lines will be equal to the comment range. The
+   * comment context is expanded equally before and after the comment range so that {@link
+   * #numContextLines} are returned.
+   */
+  @Option(name = "--num-context-lines")
+  public void setNumContextLines(int numContextLines) {
+    this.numContextLines = numContextLines;
   }
 
   @Inject
@@ -105,6 +118,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
         .setFillAccounts(true)
         .setFillPatchSet(true)
         .setFillCommentContext(includeContext)
+        .setNumContextLines(numContextLines)
         .setProjectKey(rsrc.getProject())
         .setChangeId(rsrc.getId())
         .newHumanCommentFormatter();

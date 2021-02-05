@@ -58,7 +58,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
       @Override
       protected void configure() {
         persist(CACHE_NAME, CommentContextKey.class, CommentContext.class)
-            .version(1)
+            .version(2)
             .diskLimit(1 << 30) // limit the total cache size to 1 GB
             .maximumWeight(1 << 23) // Limit the size of the in-memory cache to 8 MB
             .weigher(CommentContextWeigher.class)
@@ -220,7 +220,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
       Map<ContextInput, CommentContextKey> commentsToKeys = new HashMap<>();
       for (CommentContextKey key : keys) {
         Comment comment = getCommentForKey(humanComments, key);
-        commentsToKeys.put(ContextInput.fromComment(comment), key);
+        commentsToKeys.put(ContextInput.fromComment(comment, key.numContextLines()), key);
       }
       Map<ContextInput, CommentContext> allContext = loader.getContext(commentsToKeys.keySet());
       return allContext.entrySet().stream()

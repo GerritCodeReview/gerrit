@@ -3423,9 +3423,9 @@ By default, true.
 [[experiments]]
 === Section experiments
 
-This section covers experimental new features. Gerrit's frontend uses experiments
-to research new behavior. Once the research is done, the experimental feature
-either stays and the experimentation flag gets removed, or the feature as a whole
+This section covers experimental new features. Gerrit uses experiments
+to research new behavior in frontend and core backend. Once the research is done, the experimental
+feature either stays and the experimentation flag gets removed, or the feature as a whole
 gets removed
 
 [[experiments.enabled]]experiments.enabled::

@@ -27,7 +27,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-message_html';
-import {SpecialFilePath} from '../../../constants/constants';
+import {MessageTag, SpecialFilePath} from '../../../constants/constants';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {
   ChangeInfo,
@@ -54,6 +54,8 @@ import {
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?(?:P|p)atch (?:S|s)et \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
+const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
+const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -268,28 +270,49 @@ export class GrMessage extends GestureEventListeners(
     return this._patchsetCommentSummary(commentThreads);
   }
 
+  _showViewDiffButton(message?: ChangeMessage) {
+    return (
+      this._isNewPatchsetTag(message?.tag) || this._isMergePatchset(message)
+    );
+  }
+
+  _isMergePatchset(message?: ChangeMessage) {
+    return (
+      message?.tag === MessageTag.TAG_MERGED &&
+      message?.message.match(MERGED_PATCHSET_PATTERN)
+    );
+  }
+
   _isNewPatchsetTag(tag?: ReviewInputTag) {
-    return tag?.endsWith(':newPatchSet') || tag?.endsWith(':newWipPatchSet');
+    return (
+      tag === MessageTag.TAG_NEW_PATCHSET ||
+      tag === MessageTag.TAG_NEW_WIP_PATCHSET
+    );
   }
 
   _handleViewPatchsetDiff(e: Event) {
     if (!this.message || !this.change) return;
-    const match = this.message.message.match(/Uploaded patch set (\d+)./);
     let patchNum: PatchSetNum;
-    // Message is of the form "Commit Message was updated" or "Patchset X
-    // was rebased"
-    if (!match || match.length < 1) {
-      patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
-    } else {
+    let basePatchNum: PatchSetNum;
+    if (this.message.message.match(UPLOADED_NEW_PATCHSET_PATTERN)) {
+      const match = this.message.message.match(UPLOADED_NEW_PATCHSET_PATTERN)!;
       if (isNaN(Number(match[1])))
         throw new Error('invalid patchnum in message');
       patchNum = Number(match[1]) as PatchSetNum;
+      basePatchNum = computePredecessor(patchNum)!;
+    } else if (this.message.message.match(MERGED_PATCHSET_PATTERN)) {
+      const match = this.message.message.match(MERGED_PATCHSET_PATTERN)!;
+      if (isNaN(Number(match[1])))
+        throw new Error('invalid patchnum in message');
+      basePatchNum = Number(match[1]) as PatchSetNum;
+      patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
+    } else {
+      // Message is of the form "Commit Message was updated" or "Patchset X
+      // was rebased"
+      patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
+      basePatchNum = computePredecessor(patchNum)!;
     }
-    GerritNav.navigateToChange(
-      this.change,
-      patchNum,
-      computePredecessor(patchNum)
-    );
+    GerritNav.navigateToChange(this.change, patchNum, basePatchNum);
     // stop propagation to stop message expansion
     e.stopPropagation();
   }

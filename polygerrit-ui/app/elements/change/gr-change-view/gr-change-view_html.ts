@@ -580,6 +580,7 @@ export const htmlTemplate = html`
                 class$="new-change-summary-[[_isNewChangeSummaryUiEnabled]]"
                 change-comments="[[_changeComments]]"
                 comment-threads="[[_commentThreads]]"
+                self-account="[[_account]]"
               >
               </gr-change-summary>
               <gr-endpoint-decorator name="commit-container">

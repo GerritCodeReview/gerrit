@@ -22,6 +22,30 @@
       },
       "revId": "f95daa8d244f43464ebf3740c3f556fb0c02a836",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "576c081d_42a4154e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-05T23:42:42Z",
+      "side": 1,
+      "message": "24h have passed, merging it.",
+      "parentUuid": "b0d10f3e_35a66fdd",
+      "range": {
+        "startLine": 118,
+        "startChar": 12,
+        "endLine": 118,
+        "endChar": 30
+      },
+      "revId": "f95daa8d244f43464ebf3740c3f556fb0c02a836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

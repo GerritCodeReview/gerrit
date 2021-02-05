@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "f4cd0610_a09474d4",
         "filename": "java/com/google/gerrit/acceptance/KeyPairResourceWriter.java",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "To not mess around with 2.4.1-SNAPSHOT build for MINA SSHD library, I borrowed this file partly from OpenSSHKeyPairResourceWriter.java, but preserved the license header. The idea is t switch using the original, once new MINA SSHD release is available.",
       "revId": "1db11aba94b6d89536936aee410a6c1924e09031",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "80bcf961_fe0dec6d",
         "filename": "java/com/google/gerrit/acceptance/SshSession.java",
@@ -37,8 +38,31 @@
         "endChar": 45
       },
       "revId": "1db11aba94b6d89536936aee410a6c1924e09031",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c01cf5e7_d706301a",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-05T21:08:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80bcf961_fe0dec6d",
+      "range": {
+        "startLine": 180,
+        "startChar": 6,
+        "endLine": 182,
+        "endChar": 45
+      },
+      "revId": "1db11aba94b6d89536936aee410a6c1924e09031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

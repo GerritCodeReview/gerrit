@@ -26,6 +26,9 @@ import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
 import org.junit.Test;
@@ -55,14 +58,19 @@ public class IndexServletTest {
     String testCdnPath = "bar-cdn";
     String testFaviconURL = "zaz-url";
 
-    String disabledDefault = IndexHtmlUtil.DEFAULT_EXPERIMENTS.asList().get(0);
+    // Pick any known experiment enabled by default;
+    String disabledDefault = ExperimentFeaturesConstants.UI_FEATURE_PATCHSET_COMMENTS;
+    assertThat(ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES).contains(disabledDefault);
+
     org.eclipse.jgit.lib.Config serverConfig = new org.eclipse.jgit.lib.Config();
     serverConfig.setStringList(
         "experiments", null, "enabled", ImmutableList.of("NewFeature", "DisabledFeature"));
     serverConfig.setStringList(
         "experiments", null, "disabled", ImmutableList.of("DisabledFeature", disabledDefault));
+    ExperimentFeatures experimentFeatures = new ConfigExperimentFeatures(serverConfig);
     IndexServlet servlet =
-        new IndexServlet(testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi, serverConfig);
+        new IndexServlet(
+            testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi, experimentFeatures);
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 
@@ -86,7 +94,7 @@ public class IndexServletTest {
                 + "\\x22my-default-theme\\x22\\x7d, \\x22\\/config\\/server\\/top-menus\\x22: "
                 + "\\x5b\\x5d\\x7d');");
     String enabledDefaults =
-        IndexHtmlUtil.DEFAULT_EXPERIMENTS.stream()
+        ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES.stream()
             .filter(e -> !e.equals(disabledDefault))
             .collect(joining("\\x22,"));
     assertThat(output)

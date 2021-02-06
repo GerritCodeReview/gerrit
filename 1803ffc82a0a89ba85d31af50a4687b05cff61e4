@@ -269,6 +269,30 @@
       },
       "revId": "1803ffc82a0a89ba85d31af50a4687b05cff61e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "daca186f_b1b97bfc",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-06T00:21:25Z",
+      "side": 1,
+      "message": "+1, let me do this in the next PS.",
+      "parentUuid": "42e31fbd_a7b47483",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 27
+      },
+      "revId": "1803ffc82a0a89ba85d31af50a4687b05cff61e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

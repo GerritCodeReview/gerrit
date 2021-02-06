@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8aff6dd3_b4506624",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheBaseFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-06T00:21:25Z",
+      "side": 1,
+      "message": "Best to reuse !diskEnabled",
+      "range": {
+        "startLine": 80,
+        "startChar": 11,
+        "endLine": 80,
+        "endChar": 28
+      },
+      "revId": "7eb2e160cf615d8f9c0f6dba811ef825b580e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8b21bc7_b9fa1eb8",
         "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
         "patchSetId": 3
@@ -14,6 +37,30 @@
       "writtenOn": "2021-02-05T15:46:32Z",
       "side": 1,
       "message": "Could/should this live on PersistentCacheBaseFactory?",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 49
+      },
+      "revId": "7eb2e160cf615d8f9c0f6dba811ef825b580e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b6fb2ed_747ef96e",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-06T00:21:25Z",
+      "side": 1,
+      "message": "Yes, it could. However, I would prefer that to be a separate change, as this one is focussing on resolving the in-memory cache factory delegation.",
+      "parentUuid": "e8b21bc7_b9fa1eb8",
       "range": {
         "startLine": 56,
         "startChar": 2,
@@ -37,6 +84,30 @@
       "writtenOn": "2021-02-05T15:46:32Z",
       "side": 1,
       "message": "If you used generics in the PersistentBaseCacheFactory, could you push this whole method down into it? The code looks almost identical to https://gerrit-review.googlesource.com/c/modules/cache-chroniclemap/+/296010/1/src/main/java/com/googlesource/gerrit/modules/cache/chroniclemap/ChronicleMapCacheFactory.java except for the cast and calling cache.stop() vs cache.close() (which could probably be solved by making one of those a method in the PersistentCache interface).\n\nOr (probably simpler) can you change the PersistentCache interface to have that common stop/close method and then cast to PersistentCache here? I think that lets you move this whole onStop() to PersistentBaseCacheFactory?",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 0
+      },
+      "revId": "7eb2e160cf615d8f9c0f6dba811ef825b580e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f25c4f1e_c8e224bf",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-06T00:21:25Z",
+      "side": 1,
+      "message": "Yes, it\u0027s a good idea. However, it should be addressed in the same follow-up change where the cacheMap gets pushed up to the superclass.\n\nThis change is purely for the in-memory cache delegation.",
+      "parentUuid": "08d63414_d1b3cd51",
       "range": {
         "startLine": 170,
         "startChar": 0,

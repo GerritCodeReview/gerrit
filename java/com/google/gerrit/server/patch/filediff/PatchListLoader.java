@@ -348,7 +348,7 @@ public class PatchListLoader implements Callable<PatchList> {
         newName = Optional.of(patchListEntry.getNewName());
         break;
     }
-    return FileEdits.create(patchListEntry.getEdits(), oldName, newName);
+    return FileEdits.create2(patchListEntry.getEdits(), oldName, newName);
   }
 
   private static boolean isRootOrMergeCommit(RevCommit commit) {

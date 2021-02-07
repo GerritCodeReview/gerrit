@@ -117,6 +117,30 @@
       },
       "revId": "a1130c4730c0d8cda201f88ba2a94246d6eabe26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65a1f311_925d7995",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-07T13:37:47Z",
+      "side": 1,
+      "message": "Done, change 294399 was updated.",
+      "parentUuid": "46a565d8_6b18441f",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 39
+      },
+      "revId": "a1130c4730c0d8cda201f88ba2a94246d6eabe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -767,10 +767,7 @@ class ChangeApiImpl implements ChangeApi {
     private final CmdLineParser.Factory cmdLineParserFactory;
 
     @Inject
-    DynamicOptionParser(
-        CmdLineParser.Factory cmdLineParserFactory,
-        Injector injector,
-        DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
+    DynamicOptionParser(CmdLineParser.Factory cmdLineParserFactory) {
       this.cmdLineParserFactory = cmdLineParserFactory;
     }
 

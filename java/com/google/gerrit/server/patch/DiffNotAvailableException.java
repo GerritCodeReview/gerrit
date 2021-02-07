@@ -22,6 +22,8 @@ import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
  * if the implementations failed to retrieve the modified files between the 2 commits.
  */
 public class DiffNotAvailableException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public DiffNotAvailableException(Throwable cause) {
     super(cause);
   }

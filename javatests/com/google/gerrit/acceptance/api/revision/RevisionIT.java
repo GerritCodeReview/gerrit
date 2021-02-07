@@ -767,7 +767,6 @@ public class RevisionIT extends AbstractDaemonTest {
         pushFactory
             .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "a")
             .to("refs/for/master");
-    String t1 = project.get() + "~master~" + r1.getChangeId();
 
     BranchInput bin = new BranchInput();
     bin.revision = r1.getCommit().getParent(0).name();

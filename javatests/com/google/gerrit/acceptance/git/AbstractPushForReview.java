@@ -2753,6 +2753,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(r.getChange().attentionSet()).isEmpty();
   }
 
+  @Test
+  public void pushForMasterWithUnknownOption() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(ImmutableList.of("unknown=foo"));
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus("\"--unknown\" is not a valid option");
+  }
+
   private DraftInput newDraft(String path, int line, String message) {
     DraftInput d = new DraftInput();
     d.path = path;

@@ -288,7 +288,6 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
 
     try (AutoCloseable ignored =
         installPlugin("my-plugin", PluginDefinedBulkExceptionModule.class)) {
-      PluginDefinedInfo errorInfo = new PluginDefinedInfo();
       List<PluginDefinedInfo> outputInfos = getter.call(id).get(id);
       assertThat(outputInfos).hasSize(1);
       assertThat(outputInfos.get(0).name).isEqualTo("my-plugin");

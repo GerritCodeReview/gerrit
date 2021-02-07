@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -96,8 +97,7 @@ public class StarredChanges
 
   @Singleton
   public static class Create
-      implements RestCollectionCreateView<
-          AccountResource, AccountResource.StarredChange, EmptyInput> {
+      implements RestCollectionCreateView<AccountResource, AccountResource.StarredChange, Input> {
     private final Provider<CurrentUser> self;
     private final ChangesCollection changes;
     private final StarredChangesUtil starredChangesUtil;
@@ -113,7 +113,7 @@ public class StarredChanges
     }
 
     @Override
-    public Response<?> apply(AccountResource rsrc, IdString id, EmptyInput in)
+    public Response<?> apply(AccountResource rsrc, IdString id, Input in)
         throws RestApiException, IOException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to add starred change");
@@ -148,7 +148,7 @@ public class StarredChanges
   }
 
   @Singleton
-  public static class Put implements RestModifyView<AccountResource.StarredChange, EmptyInput> {
+  public static class Put implements RestModifyView<AccountResource.StarredChange, Input> {
     private final Provider<CurrentUser> self;
 
     @Inject
@@ -157,8 +157,7 @@ public class StarredChanges
     }
 
     @Override
-    public Response<?> apply(AccountResource.StarredChange rsrc, EmptyInput in)
-        throws AuthException {
+    public Response<?> apply(AccountResource.StarredChange rsrc, Input in) throws AuthException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed update starred changes");
       }
@@ -167,7 +166,7 @@ public class StarredChanges
   }
 
   @Singleton
-  public static class Delete implements RestModifyView<AccountResource.StarredChange, EmptyInput> {
+  public static class Delete implements RestModifyView<AccountResource.StarredChange, Input> {
     private final Provider<CurrentUser> self;
     private final StarredChangesUtil starredChangesUtil;
 
@@ -178,7 +177,7 @@ public class StarredChanges
     }
 
     @Override
-    public Response<?> apply(AccountResource.StarredChange rsrc, EmptyInput in)
+    public Response<?> apply(AccountResource.StarredChange rsrc, Input in)
         throws AuthException, IOException, IllegalLabelException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed remove starred change");
@@ -192,6 +191,4 @@ public class StarredChanges
       return Response.none();
     }
   }
-
-  public static class EmptyInput {}
 }

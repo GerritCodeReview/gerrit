@@ -26,7 +26,6 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.BranchNameKey;
-import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -388,7 +387,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     // Create a change
     PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "fix", "a.txt", "foo");
     PushOneCommit.Result changeResult = change.to("refs/for/master");
-    PatchSet.Id patchSetId = changeResult.getPatchSetId();
 
     // Create a successor change.
     PushOneCommit change2 =

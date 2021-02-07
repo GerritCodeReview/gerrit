@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
  * <ul>
  *   <li>providing plugin defined attributes to {@link
  *       com.google.gerrit.extensions.common.ChangeInfo#plugins} (see {@link
- *       ChangeAttributeFactory})
+ *       ChangePluginDefinedInfoFactory})
  *   <li>implementing a {@link com.google.gerrit.server.rules.SubmitRule} which affects the
  *       computation of {@link com.google.gerrit.extensions.common.ChangeInfo#submittable}
  * </ul>

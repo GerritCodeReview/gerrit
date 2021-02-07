@@ -812,8 +812,7 @@ public abstract class AbstractDaemonTest {
                 .boxed()
                 .collect(
                     Collectors.toMap(
-                        i -> fileNames.get((int) i - 1),
-                        i -> fileNames.get((int) i - 1) + "-" + i)));
+                        i -> fileNames.get(i - 1), i -> fileNames.get(i - 1) + "-" + i)));
 
     m.setParents(pushResults.stream().map(PushOneCommit.Result::getCommit).collect(toList()));
     PushOneCommit.Result result = m.to(ref);

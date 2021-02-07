@@ -418,7 +418,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
 
     private static ImmutableList<TaggedEdit> asTaggedEdits(
         List<Edit> normalEdits, List<Edit> rebaseEdits) {
-      Set<Edit> rebaseEditsSet = new HashSet(rebaseEdits);
+      Set<Edit> rebaseEditsSet = new HashSet<>(rebaseEdits);
       ImmutableList.Builder<TaggedEdit> result =
           ImmutableList.builderWithExpectedSize(normalEdits.size());
       for (Edit e : normalEdits) {
@@ -497,7 +497,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
       String filePath = editsPerFilePath.keys().iterator().next();
       Collection<ContextAwareEdit> edits = editsPerFilePath.get(filePath);
       return FileEdits.create(
-          Streams.stream(edits)
+          edits.stream()
               .map(ContextAwareEdit::toEdit)
               .filter(Optional::isPresent)
               .map(Optional::get)

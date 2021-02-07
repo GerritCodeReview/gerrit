@@ -161,6 +161,9 @@ import {
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
+import {takeUntil} from 'rxjs/operators';
+import {aPluginHasRegistered} from '../../../services/checks/checks-model';
+import {Subject} from 'rxjs';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -544,7 +547,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _throttledToggleChangeStar?: EventListener;
 
-  _isChecksEnabled = false;
+  @property({type: Boolean})
+  _showChecksTab = false;
 
   @property({type: Boolean})
   _isNewChangeSummaryUiEnabled = false;
@@ -576,12 +580,14 @@ export class GrChangeView extends KeyboardShortcutMixin(
     };
   }
 
+  disconnected$ = new Subject();
+
   /** @override */
   ready() {
     super.ready();
-    this._isChecksEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.CI_REBOOT_CHECKS
-    );
+    aPluginHasRegistered.pipe(takeUntil(this.disconnected$)).subscribe(b => {
+      this._showChecksTab = b;
+    });
     this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
       KnownExperimentId.NEW_CHANGE_SUMMARY_UI
     );
@@ -593,6 +599,12 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this._throttledToggleChangeStar = this._throttleWrap(e =>
       this._handleToggleChangeStar(e as CustomKeyboardEvent)
     );
+  }
+
+  /** @override */
+  disconnectedCallback() {
+    this.disconnected$.next();
+    super.disconnectedCallback();
   }
 
   /** @override */

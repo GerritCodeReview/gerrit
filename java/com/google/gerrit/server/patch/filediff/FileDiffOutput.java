@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 /** File diff for a single file path. Produced as output of the {@link FileDiffCache}. */
 @AutoValue
 public abstract class FileDiffOutput implements Serializable {
+  private static final long serialVersionUID = 1L;
 
   /**
    * The file path at the old commit. Returns an empty Optional if {@link #changeType()} is equal to

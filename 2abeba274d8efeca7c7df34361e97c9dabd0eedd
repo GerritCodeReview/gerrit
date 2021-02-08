@@ -45,6 +45,40 @@
       },
       "revId": "2abeba274d8efeca7c7df34361e97c9dabd0eedd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dc2c415_2558905a",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T10:35:48Z",
+      "side": 1,
+      "message": "This says that the only purpose of those fields is to load the comment context. But what you want to say is that only these fields are required to load the comment context.",
+      "revId": "2abeba274d8efeca7c7df34361e97c9dabd0eedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74bb716b_f23528a6",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T10:35:48Z",
+      "side": 1,
+      "message": "I\u0027m a bit concerned about proliferation of data holders. This is effectively a comment key, but there is already Comment.Key, and there\u0027s CommentContextKey. Can we make this clearer somehow?",
+      "revId": "2abeba274d8efeca7c7df34361e97c9dabd0eedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

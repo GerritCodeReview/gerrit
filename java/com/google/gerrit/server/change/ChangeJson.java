@@ -120,6 +120,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Produces {@link ChangeInfo} (which is serialized to JSON afterwards) from {@link ChangeData}.
@@ -282,6 +283,11 @@ public class ChangeJson {
     return format(changeDataFactory.create(change));
   }
 
+  public ChangeInfo format(Change change, Optional<ObjectId> metaRevId) {
+    ChangeNotes notes = notesFactory.createChecked(change.getProject(), change.getId(), metaRevId);
+    return format(changeDataFactory.create(notes));
+  }
+
   public ChangeInfo format(ChangeData cd) {
     return format(cd, Optional.empty(), true, getPluginInfos(cd));
   }
@@ -324,9 +330,14 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(Project.NameKey project, Change.Id id) {
+    return format(project, id, Optional.empty());
+  }
+
+  // nullable?
+  public ChangeInfo format(Project.NameKey project, Change.Id id, Optional<ObjectId> metaRevId) {
     ChangeNotes notes;
     try {
-      notes = notesFactory.createChecked(project, id);
+      notes = notesFactory.createChecked(project, id, metaRevId);
     } catch (StorageException e) {
       if (!has(CHECK)) {
         throw e;

@@ -22,6 +22,8 @@ import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.DynamicOptions;
@@ -31,12 +33,16 @@ import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PluginDefinedAttributesFactories;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.notedb.MissingMetaObjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Option;
 
 public class GetChange
@@ -52,6 +58,9 @@ public class GetChange
   public void addOption(ListChangesOption o) {
     options.add(o);
   }
+
+  @Option(name = "--meta", usage = "meta SHA1, in hex")
+  String metaRevId = "";
 
   @Option(name = "-O", usage = "Output option flags, in hex")
   void setOptionFlagsHex(String hex) {
@@ -75,8 +84,23 @@ public class GetChange
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc) {
-    return Response.withMustRevalidate(newChangeJson().format(rsrc));
+  public Response<ChangeInfo> apply(ChangeResource rsrc)
+      throws BadRequestException, PreconditionFailedException {
+
+    Optional<ObjectId> metaId = Optional.empty();
+    if (!metaRevId.isEmpty()) {
+      try {
+        metaId = Optional.of(ObjectId.fromString(metaRevId));
+      } catch (InvalidObjectIdException e) {
+        throw new BadRequestException("invalid meta SHA1: " + metaRevId, e);
+      }
+    }
+
+    try {
+      return Response.withMustRevalidate(newChangeJson().format(rsrc.getChange(), metaId));
+    } catch (MissingMetaObjectException e) {
+      throw new PreconditionFailedException(e.getMessage());
+    }
   }
 
   Response<ChangeInfo> apply(RevisionResource rsrc) {

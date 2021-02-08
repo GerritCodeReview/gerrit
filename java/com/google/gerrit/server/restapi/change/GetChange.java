@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.DynamicOptions;
@@ -37,6 +38,8 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Option;
 
 public class GetChange
@@ -52,6 +55,9 @@ public class GetChange
   public void addOption(ListChangesOption o) {
     options.add(o);
   }
+
+  @Option(name = "--meta", usage = "meta SHA1, in hex")
+  String metaSha1 = "";
 
   @Option(name = "-O", usage = "Output option flags, in hex")
   void setOptionFlagsHex(String hex) {
@@ -75,8 +81,22 @@ public class GetChange
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc) {
-    return Response.withMustRevalidate(newChangeJson().format(rsrc));
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws BadRequestException {
+    ChangeJson changeJson = newChangeJson();
+    if (!metaSha1.isEmpty()) {
+      ObjectId metaShaId;
+      try {
+        metaShaId = ObjectId.fromString(metaSha1);
+      } catch (InvalidObjectIdException e) {
+        throw new BadRequestException("invalid meta SHA1: " + metaSha1, e);
+      }
+
+      // NOSUBMIT - must return a client error if the SHA1 isn't there yet. Maybe 424, 428 ?
+      // NOSUBMIT - must verify that it's reachable from refs/changes/CHANGE/meta
+      return Response.withMustRevalidate(changeJson.format(rsrc.getChange(), metaShaId));
+    }
+
+    return Response.withMustRevalidate(changeJson.format(rsrc));
   }
 
   Response<ChangeInfo> apply(RevisionResource rsrc) {

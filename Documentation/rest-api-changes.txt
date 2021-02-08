@@ -563,6 +563,12 @@ describes the change.
   }
 ----
 
+Historical state of the change can be retrieved by specifying the
+`meta=SHA1` parameter. This will use a historical NoteDb snapshot to
+populate ChangeInfo. If the SHA1 is not reachable as a NoteDb state,
+status code 412 is returned.
+
+
 [[get-change-detail]]
 === Get Change Detail
 --

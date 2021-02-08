@@ -16,12 +16,15 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.DynamicOptions;
@@ -31,12 +34,15 @@ import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PluginDefinedAttributesFactories;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.notedb.MissingMetaObjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Option;
 
 public class GetChange
@@ -52,6 +58,9 @@ public class GetChange
   public void addOption(ListChangesOption o) {
     options.add(o);
   }
+
+  @Option(name = "--meta", usage = "NoteDb meta SHA1")
+  String metaRevId = "";
 
   @Option(name = "-O", usage = "Output option flags, in hex")
   void setOptionFlagsHex(String hex) {
@@ -75,12 +84,33 @@ public class GetChange
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc) {
-    return Response.withMustRevalidate(newChangeJson().format(rsrc));
+  public Response<ChangeInfo> apply(ChangeResource rsrc)
+      throws BadRequestException, PreconditionFailedException {
+    try {
+      return Response.withMustRevalidate(newChangeJson().format(rsrc.getChange(), getMetaRevId()));
+    } catch (MissingMetaObjectException e) {
+      throw new PreconditionFailedException(e.getMessage());
+    }
   }
 
   Response<ChangeInfo> apply(RevisionResource rsrc) {
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
+  }
+
+  @Nullable
+  private ObjectId getMetaRevId() throws BadRequestException {
+    if (metaRevId.isEmpty()) {
+      return null;
+    }
+
+    // It might be interesting to also allow {SHA1}^^, so callers can walk back into history
+    // without having to fetch the entire /meta ref. If we do so, we have to be careful that
+    // the error messages can't be abused to fetch hidden data.
+    try {
+      return ObjectId.fromString(metaRevId);
+    } catch (InvalidObjectIdException e) {
+      throw new BadRequestException("invalid meta SHA1: " + metaRevId, e);
+    }
   }
 
   private ChangeJson newChangeJson() {

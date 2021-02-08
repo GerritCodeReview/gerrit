@@ -47,6 +47,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
@@ -121,6 +122,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Produces {@link ChangeInfo} (which is serialized to JSON afterwards) from {@link ChangeData}.
@@ -283,6 +285,11 @@ public class ChangeJson {
     return format(changeDataFactory.create(change));
   }
 
+  public ChangeInfo format(Change change, @Nullable ObjectId metaRevId) {
+    ChangeNotes notes = notesFactory.createChecked(change.getProject(), change.getId(), metaRevId);
+    return format(changeDataFactory.create(notes));
+  }
+
   public ChangeInfo format(ChangeData cd) {
     return format(cd, Optional.empty(), true, getPluginInfos(cd));
   }
@@ -325,9 +332,13 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(Project.NameKey project, Change.Id id) {
+    return format(project, id, null);
+  }
+
+  public ChangeInfo format(Project.NameKey project, Change.Id id, @Nullable ObjectId metaRevId) {
     ChangeNotes notes;
     try {
-      notes = notesFactory.createChecked(project, id);
+      notes = notesFactory.createChecked(project, id, metaRevId);
     } catch (StorageException e) {
       if (!has(CHECK)) {
         throw e;
@@ -575,10 +586,7 @@ public class ChangeJson {
     if (cd.getRefStates() != null) {
       String metaName = RefNames.changeMetaRef(cd.getId());
       RefState metaState =
-          cd.getRefStates().values().stream()
-              .filter(r -> r.ref().equals(metaName))
-              .findAny()
-              .get();
+          cd.getRefStates().values().stream().filter(r -> r.ref().equals(metaName)).findAny().get();
       // NOSUBMIT: can lazyLoad be false here?
       out.metaRevId = metaState.id().getName();
     }

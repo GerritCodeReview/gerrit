@@ -169,7 +169,9 @@ export class GrRepoList extends ListViewMixin(
   }
 
   _handleCreateClicked() {
-    this.$.createOverlay.open();
+    this.$.createOverlay.open().then(() => {
+      this.$.createNewModal.focus();
+    });
   }
 
   _readOnly(repo: ProjectInfoWithName) {

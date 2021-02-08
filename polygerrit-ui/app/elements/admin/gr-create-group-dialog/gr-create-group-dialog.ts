@@ -55,6 +55,10 @@ export class GrCreateGroupDialog extends GestureEventListeners(
     this.hasNewGroupName = !!name;
   }
 
+  focus() {
+    this.shadowRoot?.querySelector('input')?.focus();
+  }
+
   handleCreateGroup() {
     const name = this._name as GroupName;
     return this.restApiService.createGroup({name}).then(groupRegistered => {

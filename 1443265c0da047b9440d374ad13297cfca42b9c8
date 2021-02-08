@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "f703e7c9_1ae6d389",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "\u003e \u003d\u003e [2] https://gerrit-review.googlesource.com/c/gerrit/+/264096 (for this record).\n\nI pushed this comment to above [2]\u0027s thread but here it is, as proposed by @Jacek -from [2]:\n\n\"Documentation [3] for sshd backend configuration states \u0027NIO2\u0027 as the default for (the \"new\") MINA. We\u0027re internally still sticking to the non-default /old \u0027MINA\u0027 for reliability purposes so far. Maybe that \u0027NIO2\u0027 default will become confusing for some, while comparing it to its \u0027MINA\u0027 counterpart and this change\u0027s own \u0027MINA\u0027 option to eventually become default (over JSCH).\n\n[3] https://gerrit-documentation.storage.googleapis.com/Documentation/3.1.0/config-gerrit.html#sshd.backend\n\nThat eventuality will lend 3 possible values for ssh-related configuration parameters, along with differing defaults. These are differing parameters indeed, but they will use terms and defaults differing in potentially confusing ways for users, whole ssh-wise.\n\nI\u0027d either clarify the documentation accordingly, or revisit how to name the configuration values (and their defaults). Of course, names and defaults can hardly change in stable revisions. This would then be done for breaking or not so stable versions.\"",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c0e92178_4a514595",
         "filename": "/PATCHSET_LEVEL",
@@ -32,10 +33,10 @@
       "message": "\u003e I\u0027d either clarify the documentation accordingly, or revisit how to name the configuration values (and their defaults).\n\nDo you have any suggestions how to name the new config option and the corresponding values added by this CL:\n\n  ssh.clientImplementation\u003dJSCH|MINA\n\n?",
       "parentUuid": "f703e7c9_1ae6d389",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "804f6169_09453833",
         "filename": "/PATCHSET_LEVEL",
@@ -50,10 +51,10 @@
       "message": "\u003e \u003e I\u0027d either clarify the documentation accordingly, or revisit how to name the configuration values (and their defaults).\n\u003e \n\u003e Do you have any suggestions how to name the new config option and the corresponding values added by this CL:\n\u003e \n\u003e   ssh.clientImplementation\u003dJSCH|MINA\n\u003e \n\u003e ?\n\n1. If we decide to stick with NIO2 as default for sshd.backend (likely for now),\n2. and if this change or series is about NIO2 more than straight MINA (\"NIO-1\"),\nthen how about JSCH|NIO2?\n\nWould this fit with JGit\u0027s own implementation?\n(Is that based on MINA NIO v2, or straight v1?)",
       "parentUuid": "c0e92178_4a514595",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "fbb937e1_b3763dbc",
         "filename": "/PATCHSET_LEVEL",
@@ -68,10 +69,10 @@
       "message": "\u003e then how about JSCH|NIO2?\n\nBut that would mix Apache SSHD backends in server part: NIO2/MINA, with two different libraries:\n\n* JCraft JSch for client part\n* Apache SSHD for client part\n\nBut I see how this can be confusing. Note, though, that while backend should stay: NIO2/MINA backends, the client library option is only introduced temporary and the goal is to get rid of unmaintained JCraft JSch in JGit/Gerrit.\n\nHow about to avoid MINA at all and just call it APACHE-SSHD? or even without \"D\", just APACHE-SSH or APACHE-SSH?\n\n  ssh.clientImplementation\u003dJSCH|APACHE-SSH",
       "parentUuid": "804f6169_09453833",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "4d311554_c129168a",
         "filename": "/PATCHSET_LEVEL",
@@ -86,10 +87,10 @@
       "message": "\u003e But I see how this can be confusing. Note, though, that while backend should stay: NIO2/MINA backends, the client library option is only introduced temporary and the goal is to get rid of unmaintained JCraft JSch in JGit/Gerrit.\n\nAck.\n\n\u003e How about to avoid MINA at all and just call it APACHE-SSHD? or even without \"D\", just APACHE-SSH or APACHE-SSH?\n\u003e \n\u003e   ssh.clientImplementation\u003dJSCH|APACHE-SSH\n\nI think this would be the best naming proposal so far, yes; JSCH|APACHE-SSH\n(no D, as it would get too close to sshd[.backend] config matters).\n-Seems like this would also fit JGit.",
       "parentUuid": "fbb937e1_b3763dbc",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "440f07d3_24e7684c",
         "filename": "/PATCHSET_LEVEL",
@@ -104,10 +105,10 @@
       "message": "in EGit we name these configuration choices which client implementation to use\n- for ssh client: JSCH | APACHE \n- similarly for the http client: JDK | APACHE\n\nin JGit there is no name associated since the implementation is chosen by setting the desired session factory by calling SshSessionFactory.setInstance(factory object)",
       "parentUuid": "4d311554_c129168a",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f8d969cb_faaee500",
         "filename": "/PATCHSET_LEVEL",
@@ -122,10 +123,10 @@
       "message": "\u003e in EGit we name these configuration choices which client implementation to use\n\u003e - for ssh client: JSCH | APACHE \n\u003e - similarly for the http client: JDK | APACHE\n\nAPACHE is another good candidate yes; would fit with EGit then. As far as we discriminate these options from the sshd.backend ones, so the two configs are orthogonal that way.",
       "parentUuid": "440f07d3_24e7684c",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "610376b9_2236b7ad",
         "filename": "/PATCHSET_LEVEL",
@@ -140,10 +141,10 @@
       "message": "+1 for APACHE",
       "parentUuid": "f8d969cb_faaee500",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f4288630_74f7fe67",
         "filename": "/PATCHSET_LEVEL",
@@ -158,10 +159,10 @@
       "message": "changed to APACHE",
       "parentUuid": "610376b9_2236b7ad",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6f30cfbc_79bd0555",
         "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
@@ -175,10 +176,28 @@
       "side": 1,
       "message": "The mina logic would have to move out of here to a place where we can ignore it.",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c47d247b_93841ed0",
+        "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-08T18:55:13Z",
+      "side": 1,
+      "message": "The tip of the series replaced JCraft JSch dependency with Mina SSHD client, so that we cannot ignore it anymore. Google would have to switch to using Mina SSHD client for its test code and abandon unmaintained and unsupported JCraft JSch dependency.",
+      "parentUuid": "6f30cfbc_79bd0555",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d5acf7d0_11eb1394",
         "filename": "java/com/google/gerrit/acceptance/SshSession.java",
@@ -192,10 +211,10 @@
       "side": 1,
       "message": "We currently don\u0027t have this dependency inside Google. For testing only, we could add it. The problem is that our Apache SSH lib is at 2.1 and JGit is using 2.4 which is incompatible as well.\n\nIt will require effort to get Apache SSH updated to 2.4 and make JGit test dependencies for our Gerrit to have a test dependency on.\n\nI would prefer if we didn\u0027t have to do this and I believe that path will also be faster to execute on:\nIf you separate the JSch/Mina logic into two classes that have the same interface and then call either one with reflection or Guice bindings, we can just skip importing the Mina file and nothing will break as no existing class would grow a dependency on mina.",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "41d4edf5_935e5cb4",
         "filename": "java/com/google/gerrit/acceptance/SshSession.java",
@@ -210,10 +229,10 @@
       "message": "\u003e We currently don\u0027t have this dependency inside Google. For testing only, we could add it. The problem is that our Apache SSH lib is at 2.1 and JGit is using 2.4 which is incompatible as well.\n\u003e \n\u003e It will require effort to get Apache SSH updated to 2.4 and make JGit test dependencies for our Gerrit to have a test dependency on.\n\u003e \n\u003e I would prefer if we didn\u0027t have to do this [...]\n\nIn light of this major issue: switching SSH implementaion in JGit: [1]\nI don\u0027t think you have much a choise to avoid (or even procrastinate) adding new dependencies to Google\u0027s monorepo related to JCraft JSch and Apache MINA SSH clients, see Matthias Sohn\u0027s summary provided in this comment: [2].\n\nThe current way how JGit core is undconditionally packaging its dependency on JCraft\u0027s JSch will be abandoned once this CL is merged: [2]. So even in short term\n(next couple of weeks?) you would have to add new dependency to new JGit \"org.eclipse.jgit.ssh.jsch\" artifact, once this CL is merged upstream: [3], see also the related issue: [4].\n\nNow it is probably easier to understand what this change is doing: it is adding new dependency on \"org.eclipse.jgit.ssh.apache\" for the SSH client transport layer, because JSch is known to have major bugs and is unmaintained.\n\nAgain, in mid term, Gerrit would offer both SSH clients with a switch, but long term plan is to drop support for org.eclipse.jgit.ssh.jsch SSH client implementation entirely.\n\nThat all means for Google:\n\n* Add 2 new JGit dependencies on \"org.eclipse.jgit.ssh.apache\" and \"org.eclipse.jgit.ssh.jsch\"\n* Bump JGit to master\n* Bump Apache MINA SSHD to 2.4\n\nI know, that the above plan will take months (or years?), but you have to start at some point and file those requests against third-party team @Google. Please let me know, if justification above and the pointer to upstream issues I gave you is enough to file those requests, or if you need more informations.\n\n[1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d520927\n[2] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12599#c7\n[3] https://git.eclipse.org/r/#/c/156153\n[4] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d553625",
       "parentUuid": "d5acf7d0_11eb1394",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b842f496_ed21a36f",
         "filename": "java/com/google/gerrit/acceptance/SshSession.java",
@@ -228,10 +247,10 @@
       "message": "Thanks for the additional context from the JGit world. I can follow up internally, but want be sure I understand the issue well enough first.\n\n\u003e In light of this major issue: switching SSH implementaion in JGit: [1]\n\u003e I don\u0027t think you have much a choise to avoid (or even procrastinate) adding new dependencies to Google\u0027s monorepo related to JCraft JSch and Apache MINA SSH clients, see Matthias Sohn\u0027s summary provided in this comment: [2].\n\nThe way that I read Matthias change is that he is moving all SSH related things into an SSH sub package? So by that you could build JGit without any ssh support?\n\n\u003e I know, that the above plan will take months (or years?)\n\nI hope not years :-)\n\nI think this won\u0027t make it into 3.2 regardless. I am also not so sure adding a library on such short notice would be a good idea. Last time we enabled a feature (Gitv2) on a stable branch before a release we got burnt. But leaving this to you.",
       "parentUuid": "41d4edf5_935e5cb4",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "77226cb7_8a04ce45",
         "filename": "java/com/google/gerrit/acceptance/SshSession.java",
@@ -246,10 +265,10 @@
       "message": "\u003e The way that I read Matthias change is that he is moving all SSH related things into an SSH sub package? So by that you could build JGit without any ssh support?\n\nThat\u0027s correct. I have uploaded the adaptation change to gerrit: [1] to demonstrate what would have to be done to adapt the build tool chain to: [2]. Note, though, that the package names have not changed. So, basically you would only need to add new third party dependency to your monorepo and only for the test part of your build, done.\n\n\u003e I think this won\u0027t make it into 3.2 regardless. I am also not so sure adding a library on such short notice would be a good idea.\n\nLet\u0027s move that change to master, then.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/268846\n[2] https://git.eclipse.org/r/#/c/156153",
       "parentUuid": "b842f496_ed21a36f",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "94f2c3a2_34262d18",
         "filename": "java/com/google/gerrit/acceptance/SshSession.java",
@@ -264,10 +283,10 @@
       "message": "\u003e Let\u0027s move that change to master, then.\n\nDone.",
       "parentUuid": "77226cb7_8a04ce45",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e8bcfe37_79081b8f",
         "filename": "java/com/google/gerrit/acceptance/SshSession.java",
@@ -282,10 +301,10 @@
       "message": "With these changes jgit code depending on any of the 2 supported ssh clients\nand jgit code depending on bouncycastle are built in separate artefacts\n\norg.eclipse.jgit.ssh.jsch\norg.eclipse.jgit.ssh.apache\n\norg.eclipse.jgit.gpg.bc\n\nso that the rest of jgit can be built and used without these dependencies.",
       "parentUuid": "b842f496_ed21a36f",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9d15e1ae_f44b294a",
         "filename": "java/com/google/gerrit/acceptance/SshSession.java",
@@ -300,10 +319,28 @@
       "message": "I rebased this change on top of the JGit\u0027s jsch split change, that is adapting gerrit build tool chain for addition dependency: org.eclipse.jgit.ssh.jsch.",
       "parentUuid": "e8bcfe37_79081b8f",
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dad5d758_737dca89",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-08T18:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d15e1ae_f44b294a",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "b69f60e5_c78af6d5",
         "filename": "java/com/google/gerrit/server/BUILD",
@@ -323,8 +360,31 @@
         "endChar": 32
       },
       "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7754c54_3a6afcbb",
+        "filename": "java/com/google/gerrit/server/BUILD",
+        "patchSetId": 19
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-08T18:55:13Z",
+      "side": 1,
+      "message": "Moved this dependency to pgm package, see: [1]. Done.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/263692/37/java/com/google/gerrit/pgm/BUILD#47",
+      "parentUuid": "b69f60e5_c78af6d5",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 32
+      },
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

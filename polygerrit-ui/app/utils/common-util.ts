@@ -47,6 +47,26 @@ export function assertNever(obj: never, msg: string): never {
 }
 
 /**
+ * Throws an error with the provided error message if the condition is false.
+ */
+export function check(
+  condition: boolean,
+  errorMessage: string
+): asserts condition {
+  if (!condition) throw new Error(errorMessage);
+}
+
+/**
+ * Throws an error if the property is not defined.
+ */
+export function checkProperty(
+  condition: boolean,
+  propertyName: string
+): asserts condition {
+  check(condition, `missing required property '${propertyName}'`);
+}
+
+/**
  * Returns true, if both sets contain the same members.
  */
 export function areSetsEqual<T>(a: Set<T>, b: Set<T>): boolean {

@@ -106,6 +106,13 @@ go_repository(
     importpath = "github.com/howeyc/fsnotify",
 )
 
+http_archive(
+    name = "com_github_bazelbuild_buildtools",
+    sha256 = "0d3ca4ed434958dda241fb129f77bd5ef0ce246250feed2d5a5470c6f29a77fa",
+    strip_prefix = "buildtools-4.0.0",
+    url = "https://github.com/bazelbuild/buildtools/archive/4.0.0.tar.gz",
+)
+
 # JGit external repository consumed from git submodule
 local_repository(
     name = "jgit",

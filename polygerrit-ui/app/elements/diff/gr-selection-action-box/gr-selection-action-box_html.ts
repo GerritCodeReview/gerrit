@@ -27,7 +27,7 @@ export const htmlTemplate = html`
   </style>
   <gr-tooltip
     id="tooltip"
-    text="Press c to comment"
+    text="[[_getTextForTooltip(disableKeyboardShortcuts)]]"
     position-below="[[positionBelow]]"
   ></gr-tooltip>
 `;

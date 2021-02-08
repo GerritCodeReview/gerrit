@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f55363d1_b6498c79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T20:08:11Z",
+      "side": 1,
+      "message": "Edwin, does this look like a viable approach? I was pleasantly surprised at how easy this was.",
+      "revId": "b98f8cc71d496042b354c7192a14a81f7125c8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

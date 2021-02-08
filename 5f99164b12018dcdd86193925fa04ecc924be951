@@ -16,6 +16,29 @@
       "message": "This is breaking the migration from Gerrit v2.14.\n\nMy test case was:\n- Install Gerrit v2.14\n- Create 3 users (account_id sequence reaches 1000003)\n- Upgrade to Gerrit v2.16\n- Create a new users\n- Exception \u003d\u003e Caused by: com.google.gwtorm.server.OrmDuplicateKeyException: account 1000001 already exists",
       "revId": "5f99164b12018dcdd86193925fa04ecc924be951",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "325280ad_0a48b4e5",
+        "filename": "java/com/google/gerrit/server/schema/Schema_155.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-08T23:04:48Z",
+      "side": 1,
+      "message": "This is wrong: when performing the migration to schema-155, we do need to get the next account-id from the account_id sequence on ReviewDb and NOT the first account_id",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 49,
+        "endChar": 43
+      },
+      "revId": "5f99164b12018dcdd86193925fa04ecc924be951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "FYI: This is introducing same regression as was fixed in https://gerrit-review.googlesource.com/c/gerrit/+/267741\n\nIt will add 10000+ new elements on first load, because it will always render these comments. ",
       "revId": "552614783cb27eaa31f3319711ca89ad9b167d25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2004e13_3d13fc1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-08T13:30:56Z",
+      "side": 1,
+      "message": "Tackled in https://gerrit-review.googlesource.com/c/gerrit/+/296264/",
+      "parentUuid": "975d2f3a_81a715e7",
+      "revId": "552614783cb27eaa31f3319711ca89ad9b167d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

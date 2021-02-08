@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.DynamicOptions;
@@ -58,7 +59,7 @@ public class GetDetail implements RestReadView<ChangeResource>, DynamicOptions.B
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc) {
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws BadRequestException {
     return delegate.apply(rsrc);
   }
 }

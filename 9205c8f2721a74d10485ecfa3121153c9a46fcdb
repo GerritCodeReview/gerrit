@@ -16,6 +16,24 @@
       "message": "gitiles apparently also needs to be adapted.",
       "revId": "9205c8f2721a74d10485ecfa3121153c9a46fcdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ba55e6b_97d4913a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-08T21:09:30Z",
+      "side": 1,
+      "message": "yes, done in https://gerrit-review.googlesource.com/c/plugins/gitiles/+/296023 but not sure how to get CI to pick up both",
+      "parentUuid": "ef86c670_507df8b9",
+      "revId": "9205c8f2721a74d10485ecfa3121153c9a46fcdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

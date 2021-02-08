@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88194901_c3ae7584",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-08T19:47:30Z",
+      "side": 1,
+      "message": "Still doesn\u0027t work because dynamic item from lib modules is not resolved correctly",
+      "revId": "fc140c3695796e7cff3f9570aaf6bb27533d9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa9b154f_f9206fec",
+        "filename": "java/com/google/gerrit/pgm/init/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-08T19:47:30Z",
+      "side": 1,
+      "message": "I don\u0027t think we need all those deps I will clean this up",
+      "revId": "fc140c3695796e7cff3f9570aaf6bb27533d9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "990b9872_18999a41",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-08T19:47:30Z",
+      "side": 1,
+      "message": "this is the batch modules initialization",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 52
+      },
+      "revId": "fc140c3695796e7cff3f9570aaf6bb27533d9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8803b48a_8e064d69",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-08T19:47:30Z",
+      "side": 1,
+      "message": "this will scan plugins for batch modules",
+      "range": {
+        "startLine": 132,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 25
+      },
+      "revId": "fc140c3695796e7cff3f9570aaf6bb27533d9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc5df6b3_df233937",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-08T19:47:30Z",
+      "side": 1,
+      "message": "this needs to be fixed, we cannot assume that we always have latest version and it\u0027s not a slave. Code is in Reindex need to be reuse here",
+      "range": {
+        "startLine": 433,
+        "startChar": 40,
+        "endLine": 433,
+        "endChar": 61
+      },
+      "revId": "fc140c3695796e7cff3f9570aaf6bb27533d9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b863f0e1_e779c642",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-08T19:47:30Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 435,
+        "startChar": 41,
+        "endLine": 435,
+        "endChar": 54
+      },
+      "revId": "fc140c3695796e7cff3f9570aaf6bb27533d9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01b9fb34_fc209649",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-08T19:47:30Z",
+      "side": 1,
+      "message": "we have different way to initialise indexers because we cannot duplicate modules with BatchProgramModule",
+      "range": {
+        "startLine": 440,
+        "startChar": 18,
+        "endLine": 440,
+        "endChar": 29
+      },
+      "revId": "fc140c3695796e7cff3f9570aaf6bb27533d9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "672f35ee_bfad4a4d",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-08T19:47:30Z",
+      "side": 1,
+      "message": "this is loading batch modules",
+      "range": {
+        "startLine": 441,
+        "startChar": 5,
+        "endLine": 441,
+        "endChar": 68
+      },
+      "revId": "fc140c3695796e7cff3f9570aaf6bb27533d9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

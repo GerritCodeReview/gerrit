@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0781b96c_c70eaac6",
+        "filename": "java/com/google/gerrit/pgm/init/index/IndexManagerOnInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-08T19:47:30Z",
+      "side": 0,
+      "message": "No needed it is covered my LifecycleManager",
+      "revId": "7ce72d33444e93d0ac0d30b634112009ebbd52c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2694a3d_1715c217",
+        "filename": "java/com/google/gerrit/pgm/init/index/IndexModuleOnInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-08T19:47:30Z",
+      "side": 0,
+      "message": "I think removing this is breaking compatibility. IndexDefinitions are already binded by BatchProgramModule so we cannot override here. But this method setup only two indexes account and groups while the one from BatchProgramModule return all of them",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 3
+      },
+      "revId": "7ce72d33444e93d0ac0d30b634112009ebbd52c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f81384d3_dcbe0278",
+        "filename": "java/com/google/gerrit/pgm/init/index/elasticsearch/ElasticIndexModuleOnInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-08T19:47:30Z",
+      "side": 0,
+      "message": "No needed we will use standard elastic search index",
+      "revId": "7ce72d33444e93d0ac0d30b634112009ebbd52c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91be12f2_c458b3d9",
+        "filename": "java/com/google/gerrit/pgm/init/index/lucene/LuceneIndexModuleOnInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-08T19:47:30Z",
+      "side": 0,
+      "message": "No needed anymore",
+      "revId": "7ce72d33444e93d0ac0d30b634112009ebbd52c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

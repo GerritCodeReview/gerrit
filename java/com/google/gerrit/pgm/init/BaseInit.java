@@ -22,8 +22,12 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.common.IoUtil;
+import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.index.IndexType;
+import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
@@ -31,16 +35,17 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InstallAllPlugins;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.LibraryDownload;
-import com.google.gerrit.pgm.init.index.IndexManagerOnInit;
-import com.google.gerrit.pgm.init.index.elasticsearch.ElasticIndexModuleOnInit;
-import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
+import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.server.cache.h2.H2CacheModule;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.plugins.JarScanner;
+import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.schema.NoteDbSchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
@@ -113,11 +118,20 @@ public class BaseInit extends SiteProgram {
       init.initializer.run();
       init.flags.deleteOnFailure = false;
 
-      Injector sysInjector = createSysInjector(init);
-      IndexManagerOnInit indexManager = sysInjector.getInstance(IndexManagerOnInit.class);
+      Injector dbInjector = createDbInjector();
+      LifecycleManager dbManager = new LifecycleManager();
+      dbManager.add(dbInjector);
+      dbManager.start();
+
+      Injector sysInjector = createSysInjector(init, dbInjector);
+      sysInjector
+          .getInstance(PluginGuiceEnvironment.class)
+          .setDbCfgInjector(dbInjector, dbInjector);
+      LifecycleManager sysManager = new LifecycleManager();
+      sysManager.add(sysInjector);
+      sysManager.start();
       try {
-        indexManager.start();
-        run = createSiteRun(init);
+        run = createSiteRun(init, dbInjector);
         try {
           run.upgradeSchema();
         } catch (StorageException e) {
@@ -128,7 +142,8 @@ public class BaseInit extends SiteProgram {
 
         init.initializer.postRun(sysInjector);
       } finally {
-        indexManager.stop();
+        sysManager.stop();
+        dbManager.stop();
       }
     } catch (Exception | Error failure) {
       if (init.flags.deleteOnFailure) {
@@ -396,11 +411,11 @@ public class BaseInit extends SiteProgram {
     }
   }
 
-  private SiteRun createSiteRun(SiteInit init) {
-    return createSysInjector(init).getInstance(SiteRun.class);
+  private SiteRun createSiteRun(SiteInit init, Injector dbInjector) {
+    return createSysInjector(init, dbInjector).getInstance(SiteRun.class);
   }
 
-  private Injector createSysInjector(SiteInit init) {
+  private Injector createSysInjector(SiteInit init, Injector dbInjector) {
     if (sysInjector == null) {
       final List<Module> modules = new ArrayList<>();
       modules.add(
@@ -411,16 +426,28 @@ public class BaseInit extends SiteProgram {
               bind(InitFlags.class).toInstance(init.flags);
             }
           });
-      Injector dbInjector = createDbInjector();
 
       IndexType indexType = IndexModule.getIndexType(dbInjector);
+      Module indexModule;
       if (indexType.isLucene()) {
-        modules.add(new LuceneIndexModuleOnInit());
+        indexModule = LuceneIndexModule.latestVersion(false);
       } else if (indexType.isElasticsearch()) {
-        modules.add(new ElasticIndexModuleOnInit());
+        indexModule = ElasticIndexModule.latestVersion(false);
       } else {
         throw new IllegalStateException("unsupported index.type = " + indexType);
       }
+
+      modules.add(indexModule);
+      modules.add(dbInjector.getInstance(BatchProgramModule.class));
+      modules.add(new H2CacheModule());
+      modules.add(
+          new FactoryModule() {
+            @Override
+            protected void configure() {
+              factory(ChangeResource.Factory.class);
+            }
+          });
+
       sysInjector = dbInjector.createChildInjector(modules);
     }
     return sysInjector;

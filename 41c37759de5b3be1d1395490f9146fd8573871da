@@ -51,6 +51,24 @@
       "message": "remaining open comments need to be addressed",
       "revId": "41c37759de5b3be1d1395490f9146fd8573871da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa7bb483_88261774",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T15:15:11Z",
+      "side": 1,
+      "message": "what is the tip of the changeseries? note that it says \"merge conflict\".",
+      "parentUuid": "578486d5_81cfcf2b",
+      "revId": "41c37759de5b3be1d1395490f9146fd8573871da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

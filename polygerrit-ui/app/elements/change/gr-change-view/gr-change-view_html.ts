@@ -641,7 +641,7 @@ export const htmlTemplate = html`
           <span>Comments</span></gr-tooltip-content
         >
       </paper-tab>
-      <template is="dom-if" if="[[_isChecksEnabled]]">
+      <template is="dom-if" if="[[_showChecksTab]]">
         <paper-tab data-name$="[[_constants.PrimaryTab.CHECKS]]"
           >Checks</paper-tab
         >

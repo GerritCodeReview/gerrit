@@ -21,7 +21,11 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {Category, CheckRun, Link} from '../../../api/checks';
-import {allRuns$, RunResult} from '../../../services/checks/checks-model';
+import {
+  allRuns$,
+  aPluginHasRegistered,
+  RunResult,
+} from '../../../services/checks/checks-model';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import '../../shared/gr-avatar/gr-avatar';
 import {
@@ -267,10 +271,6 @@ export class GrChecksChip extends GrLitElement {
 
 @customElement('gr-change-summary')
 export class GrChangeSummary extends GrLitElement {
-  private readonly ciRebootChecksEnabled = appContext.flagsService.isEnabled(
-    KnownExperimentId.CI_REBOOT_CHECKS
-  );
-
   private readonly newChangeSummaryUiEnabled = appContext.flagsService.isEnabled(
     KnownExperimentId.NEW_CHANGE_SUMMARY_UI
   );
@@ -287,9 +287,13 @@ export class GrChangeSummary extends GrLitElement {
   @property()
   runs: CheckRun[] = [];
 
+  @property()
+  showChecksSummary = false;
+
   constructor() {
     super();
     this.subscribe('runs', allRuns$);
+    this.subscribe('showChecksSummary', aPluginHasRegistered);
   }
 
   static get styles() {
@@ -338,7 +342,7 @@ export class GrChangeSummary extends GrLitElement {
     return html`
       <div>
         <table>
-          <tr ?hidden=${!this.ciRebootChecksEnabled}>
+          <tr ?hidden=${!this.showChecksSummary}>
             <td class="key">Checks</td>
             <td class="value">
               <gr-checks-chip

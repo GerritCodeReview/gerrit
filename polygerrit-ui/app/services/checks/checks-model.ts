@@ -24,7 +24,7 @@ import {
   LinkIcon,
   RunStatus,
 } from '../../api/checks';
-import {map} from 'rxjs/operators';
+import {distinctUntilChanged, map} from 'rxjs/operators';
 
 // This is a convenience type for working with results, because when working
 // with a bunch of results you will typically also want to know about the run
@@ -47,6 +47,11 @@ const privateState$ = new BehaviorSubject(initialState);
 
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const checksState$: Observable<ChecksState> = privateState$;
+
+export const aPluginHasRegistered = checksState$.pipe(
+  map(state => Object.keys(state).length > 0),
+  distinctUntilChanged()
+);
 
 export const allRuns$ = checksState$.pipe(
   map(state => {

@@ -25,6 +25,8 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-editable-content_html';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
+import {appContext} from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -67,7 +69,7 @@ export class GrEditableContent extends GestureEventListeners(
   @property({type: Boolean, reflectToAttribute: true})
   disabled = false;
 
-  @property({type: Boolean, observer: '_editingChanged'})
+  @property({type: Boolean, observer: '_editingChanged', notify: true})
   editing = false;
 
   @property({type: Boolean})
@@ -76,6 +78,29 @@ export class GrEditableContent extends GestureEventListeners(
   // If no storage key is provided, content is not stored.
   @property({type: String})
   storageKey?: string;
+
+  /** If false, then the "Show more" button was used to expand. */
+  @property({type: Boolean})
+  _commitCollapsed = true;
+
+  @property({type: Boolean})
+  commitCollapsible = true;
+
+  @property({
+    type: Boolean,
+    computed:
+      '_computeHideShowAllContainer(hideEditCommitMessage, _hideShowAllButton, editing)',
+  })
+  _hideShowAllContainer = false;
+
+  @property({
+    type: Boolean,
+    computed: '_computeHideShowAllButton(commitCollapsible, editing)',
+  })
+  _hideShowAllButton = false;
+
+  @property({type: Boolean})
+  hideEditCommitMessage?: boolean;
 
   @property({
     type: Boolean,
@@ -86,7 +111,20 @@ export class GrEditableContent extends GestureEventListeners(
   @property({type: String, observer: '_newContentChanged'})
   _newContent?: string;
 
+  @property({type: Boolean})
+  _isNewChangeSummaryUiEnabled = false;
+
   private readonly storage = new GrStorage();
+
+  private readonly flagsService = appContext.flagsService;
+
+  /** @override */
+  ready() {
+    super.ready();
+    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.NEW_CHANGE_SUMMARY_UI
+    );
+  }
 
   _contentChanged() {
     /* A changed content means that either a different change has been loaded
@@ -185,5 +223,38 @@ export class GrEditableContent extends GestureEventListeners(
     e.preventDefault();
     this.editing = false;
     fireEvent(this, 'editable-content-cancel');
+  }
+
+  _computeCollapseText(collapsed: boolean) {
+    return collapsed ? 'Show all' : 'Show less';
+  }
+
+  _toggleCommitCollapsed() {
+    this._commitCollapsed = !this._commitCollapsed;
+    if (this._commitCollapsed) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  _computeHideShowAllContainer(
+    hideEditCommitMessage?: boolean,
+    _hideShowAllButton?: boolean,
+    editing?: boolean
+  ) {
+    if (editing) return false;
+    return _hideShowAllButton && hideEditCommitMessage;
+  }
+
+  _computeHideShowAllButton(commitCollapsible?: boolean, editing?: boolean) {
+    return !commitCollapsible || editing;
+  }
+
+  _computeCommitMessageCollapsed(collapsed?: boolean, collapsible?: boolean) {
+    return collapsible && collapsed;
+  }
+
+  _handleEditCommitMessage() {
+    this.editing = true;
+    this.focusTextarea();
   }
 }

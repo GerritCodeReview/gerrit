@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ed43421_8f5ae0c1",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T09:43:33Z",
+      "side": 1,
+      "message": "Please add a comment about how you came up with this number, e.g. \"this is the 99th percentile\".",
+      "revId": "e5365f850193675260bc9680ac4d4f6f5e9433bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "108976c1_9e3be092",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T09:43:33Z",
+      "side": 1,
+      "message": "No performance impact, but IMHO the printf-style is more readable.",
+      "revId": "e5365f850193675260bc9680ac4d4f6f5e9433bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

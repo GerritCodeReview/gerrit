@@ -147,6 +147,7 @@ public class GeneralPreferencesInfo {
   public EmailFormat emailFormat;
   public DefaultBase defaultBaseForMerges;
   public Boolean publishCommentsOnPush;
+  public Boolean disableKeyboardShortcuts;
   public Boolean workInProgressByDefault;
   public List<MenuItem> my;
   public List<String> changeTable;
@@ -205,6 +206,7 @@ public class GeneralPreferencesInfo {
     p.emailFormat = EmailFormat.HTML_PLAINTEXT;
     p.defaultBaseForMerges = DefaultBase.FIRST_PARENT;
     p.publishCommentsOnPush = false;
+    p.disableKeyboardShortcuts = false;
     p.workInProgressByDefault = false;
     return p;
   }

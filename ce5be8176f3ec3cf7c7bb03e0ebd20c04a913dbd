@@ -16,6 +16,24 @@
       "message": "This is somewhat opaque. Can\u0027t you just use the previous code to produce the expectation?",
       "revId": "ce5be8176f3ec3cf7c7bb03e0ebd20c04a913dbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31f772a6_8a0409f4",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T17:01:44Z",
+      "side": 1,
+      "message": "we want to assert binary compatibility, ie. that the binary data that we have in the persisted cache in production can still be read with the new code. You can only do that if you actually check in the binary data. \n\nThe fact that this test passes tells you that the opaque data is correct. The follow-on commit changes the code. Since we don\u0027t touch the opaque data in the follow-on commit, we know it\u0027s compatible.",
+      "parentUuid": "0d3f658e_7a30cc0e",
+      "revId": "ce5be8176f3ec3cf7c7bb03e0ebd20c04a913dbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

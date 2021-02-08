@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1ee5368_02ddfda7",
+        "filename": "java/com/google/gerrit/server/restapi/project/FilesInCommitCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-08T13:12:22Z",
+      "side": 1,
+      "message": "cool, thanks for looking into it!",
+      "parentUuid": "4c39d356_80f62653",
+      "range": {
+        "startLine": 101,
+        "startChar": 63,
+        "endLine": 101,
+        "endChar": 76
+      },
+      "revId": "a5a263daf43e3aa012ce5c86eaaf2e0b3f39320c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5369c9fc_6fd1e5f4",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "5369c9fc_6fd1e5f4",
+      "range": {
+        "startLine": 62,
+        "startChar": 71,
+        "endLine": 62,
+        "endChar": 72
+      },
+      "revId": "a5a263daf43e3aa012ce5c86eaaf2e0b3f39320c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "352de374_011eea2b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/FilesInCommitIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-08T13:12:22Z",
+      "side": 1,
+      "message": "actually meant something else (sent you a link internally)\nnot super important though.",
+      "parentUuid": "3962b196_48fadf24",
       "range": {
         "startLine": 62,
         "startChar": 71,

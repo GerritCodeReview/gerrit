@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "d99a9ff8_b67fff60",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Release 2.5.0 of Mina SSHD version was released last week: [1]. Can we proceed with this series?\n\n[1] https://repo1.maven.org/maven2/org/apache/sshd/sshd-core/2.5.0",
       "revId": "13502f451911e856de5a2160c0c239638e09f512",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bfea46d7_c86f5944",
         "filename": "/PATCHSET_LEVEL",
@@ -32,10 +33,10 @@
       "message": "2.5.0 has a bug in the SFTP subsystem.[1] They\u0027re going to release a 2.5.1 shortly. JGit will have to skip 2.5.0 for client-side use, TransportSftp doesn\u0027t work with 2.5.0.\n\n[1] https://issues.apache.org/jira/projects/SSHD/issues/SSHD-1022",
       "parentUuid": "d99a9ff8_b67fff60",
       "revId": "13502f451911e856de5a2160c0c239638e09f512",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "fca46eda_35b6f540",
         "filename": "/PATCHSET_LEVEL",
@@ -50,8 +51,43 @@
       "message": "Thanks for the pointer, Thomas. We have to wait until 2.5.1 is released then.",
       "parentUuid": "bfea46d7_c86f5944",
       "revId": "13502f451911e856de5a2160c0c239638e09f512",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d37491dd_665ec009",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-08T18:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fca46eda_35b6f540",
+      "revId": "13502f451911e856de5a2160c0c239638e09f512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad5cbb75_612bfc66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-08T18:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fca46eda_35b6f540",
+      "revId": "13502f451911e856de5a2160c0c239638e09f512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

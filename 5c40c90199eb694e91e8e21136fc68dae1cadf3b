@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "7cd46264_80a3bbb7",
         "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
@@ -20,10 +21,10 @@
         "endChar": 72
       },
       "revId": "5c40c90199eb694e91e8e21136fc68dae1cadf3b",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "12f5f790_dc6cbdfc",
         "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
@@ -44,8 +45,31 @@
         "endChar": 72
       },
       "revId": "5c40c90199eb694e91e8e21136fc68dae1cadf3b",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4813a318_14ab2741",
+        "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-08T19:11:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12f5f790_dc6cbdfc",
+      "range": {
+        "startLine": 58,
+        "startChar": 29,
+        "endLine": 58,
+        "endChar": 72
+      },
+      "revId": "5c40c90199eb694e91e8e21136fc68dae1cadf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

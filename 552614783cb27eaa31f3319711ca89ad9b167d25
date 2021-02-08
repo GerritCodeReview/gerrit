@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "975d2f3a_81a715e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-08T11:21:36Z",
+      "side": 1,
+      "message": "FYI: This is introducing same regression as was fixed in https://gerrit-review.googlesource.com/c/gerrit/+/267741\n\nIt will add 10000+ new elements on first load, because it will always render these comments. ",
+      "revId": "552614783cb27eaa31f3319711ca89ad9b167d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

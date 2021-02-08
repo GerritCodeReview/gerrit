@@ -183,6 +183,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf06a371_8ae47ddf",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-08T10:23:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f915066_210cf04d",
+      "range": {
+        "startLine": 93,
+        "startChar": 19,
+        "endLine": 93,
+        "endChar": 63
+      },
+      "revId": "bb9428e5d3f2197c6012c18bfa4a9561ec043e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "655fadb5_bbacad26",
@@ -196,6 +220,24 @@
       "writtenOn": "2021-02-08T08:44:43Z",
       "side": 1,
       "message": "If you would make `_submittedTogether` a property, then you would not need to call `requestUpdate`, because then it will get a magic setter that does that for you.",
+      "revId": "bb9428e5d3f2197c6012c18bfa4a9561ec043e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78b167b2_89efeaa6",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-08T10:23:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655fadb5_bbacad26",
       "revId": "bb9428e5d3f2197c6012c18bfa4a9561ec043e58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

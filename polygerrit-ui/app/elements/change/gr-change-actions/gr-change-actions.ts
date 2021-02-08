@@ -317,6 +317,7 @@ interface ActionPriorityOverride {
 
 interface ChangeActionDialog extends HTMLElement {
   resetFocus?(): void;
+  init?(): void;
 }
 
 export interface GrChangeActions {
@@ -1598,7 +1599,7 @@ export class GrChangeActions
 
   _showActionDialog(dialog: ChangeActionDialog) {
     this._hideAllDialogs();
-
+    if (dialog.init) dialog.init();
     dialog.hidden = false;
     this.$.overlay.open().then(() => {
       if (dialog.resetFocus) {

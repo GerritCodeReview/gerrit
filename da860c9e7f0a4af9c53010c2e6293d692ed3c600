@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc10f4ec_4340883b",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-08T09:21:23Z",
+      "side": 1,
+      "message": "maybe rather name this \"createFromJgitEdits\"\r?",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 33
+      },
+      "revId": "da860c9e7f0a4af9c53010c2e6293d692ed3c600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

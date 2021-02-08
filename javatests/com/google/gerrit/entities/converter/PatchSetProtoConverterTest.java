@@ -26,7 +26,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.inject.TypeLiteral;
-import com.google.protobuf.Parser;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -146,23 +145,6 @@ public class PatchSetProtoConverterTest {
                 .uploader(Account.id(0))
                 .createdOn(new Timestamp(0))
                 .build());
-  }
-
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.PatchSet proto =
-        Entities.PatchSet.newBuilder()
-            .setId(
-                Entities.PatchSet_Id.newBuilder()
-                    .setChangeId(Entities.Change_Id.newBuilder().setId(103))
-                    .setId(73))
-            .build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.PatchSet> parser = patchSetProtoConverter.getParser();
-    Entities.PatchSet parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */

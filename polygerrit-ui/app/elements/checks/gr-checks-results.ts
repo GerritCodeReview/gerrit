@@ -350,7 +350,10 @@ export class GrChecksResults extends GrLitElement {
     if (runs.length === 0) return;
     return html`
       <h3 class="categoryHeader heading-3">
-        <iron-icon icon="gr-icons:check-circle" class="success"></iron-icon>
+        <iron-icon
+          icon="gr-icons:check-circle-outline"
+          class="success"
+        ></iron-icon>
         Success
       </h3>
       <table class="resultsTable">

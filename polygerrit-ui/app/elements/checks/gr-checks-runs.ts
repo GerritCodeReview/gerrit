@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {html} from 'lit-html';
+import {classMap} from 'lit-html/directives/class-map';
 import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {CheckRun, RunStatus} from '../../api/checks';
@@ -35,25 +36,12 @@ import {
   updateStateSetResults,
 } from '../../services/checks/checks-model';
 
-function renderRun(run: CheckRun) {
-  return html`<div class="runChip ${iconClass(run)}">
-    ${renderIcon(run)}
-    <span>${run.checkName}</span>
-  </div>`;
-}
-
-function renderIcon(run: CheckRun) {
-  const icon = iconClass(run);
-  if (!icon) return;
-  return html`<iron-icon icon="gr-icons:${icon}" class="${icon}"></iron-icon>`;
-}
-
 function iconClass(run: CheckRun) {
   const category = worstCategory(run);
   if (category) return iconForCategory(category);
   switch (run.status) {
     case RunStatus.COMPLETED:
-      return 'check-circle';
+      return 'check-circle-outline';
     case RunStatus.RUNNABLE:
       return 'placeholder';
     case RunStatus.RUNNING:
@@ -63,10 +51,125 @@ function iconClass(run: CheckRun) {
   }
 }
 
+/* The RunSelectedEvent is only used locally to communicate from <gr-checks-run>
+   to its <gr-checks-runs> pareant. */
+
+interface RunSelectedEventDetail {
+  checkName: string;
+}
+
+type RunSelectedEvent = CustomEvent<RunSelectedEventDetail>;
+
+declare global {
+  interface HTMLElementEventMap {
+    'run-selected': RunSelectedEvent;
+  }
+}
+
+function fireRunSelected(target: EventTarget, checkName: string) {
+  target.dispatchEvent(
+    new CustomEvent('run-selected', {
+      detail: {checkName},
+      composed: false,
+      bubbles: false,
+    })
+  );
+}
+
+@customElement('gr-checks-run')
+export class GrChecksRun extends GrLitElement {
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+        }
+        .chip {
+          display: block;
+          font-weight: var(--font-weight-bold);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          padding: var(--spacing-s) var(--spacing-m);
+          margin-top: var(--spacing-s);
+          cursor: default;
+        }
+        .chip.error {
+          border-left: var(--thick-border) solid var(--error-foreground);
+        }
+        .chip.warning {
+          border-left: var(--thick-border) solid var(--warning-foreground);
+        }
+        .chip.info-outline {
+          border-left: var(--thick-border) solid var(--info-foreground);
+        }
+        .chip.check-circle-outline {
+          border-left: var(--thick-border) solid var(--success-foreground);
+        }
+        .chip.timelapse {
+          border-left: var(--thick-border) solid var(--border-color);
+        }
+        .chip.placeholder {
+          border-left: var(--thick-border) solid var(--border-color);
+        }
+        .chip.error iron-icon {
+          color: var(--error-foreground);
+        }
+        .chip.warning iron-icon {
+          color: var(--warning-foreground);
+        }
+        .chip.info-outline iron-icon {
+          color: var(--info-foreground);
+        }
+        .chip.check-circle-outline iron-icon {
+          color: var(--success-foreground);
+        }
+        /* Additional 'div' for increased specificity. */
+        div.chip.selected {
+          border: 1px solid var(--selected-foreground);
+          background-color: var(--selected-background);
+          padding-left: calc(var(--spacing-m) + var(--thick-border) - 1px);
+        }
+        div.chip.selected iron-icon {
+          color: var(--selected-foreground);
+        }
+      `,
+    ];
+  }
+
+  @property()
+  run!: CheckRun;
+
+  @property()
+  selected = false;
+
+  @property()
+  icon = '';
+
+  render() {
+    const classes = {chip: true, [this.icon]: true, selected: this.selected};
+
+    return html`
+      <div @click="${this._handleChipClick}" class="${classMap(classes)}">
+        <iron-icon icon="gr-icons:${this.icon}"></iron-icon>
+        <span>${this.run.checkName}</span>
+      </div>
+    `;
+  }
+
+  _handleChipClick(e: MouseEvent) {
+    e.stopPropagation();
+    e.preventDefault();
+    fireRunSelected(this, this.run.checkName);
+  }
+}
+
 @customElement('gr-checks-runs')
 export class GrChecksRuns extends GrLitElement {
   @property()
   runs: CheckRun[] = [];
+
+  private selectedRuns = new Set<string>();
 
   constructor() {
     super();
@@ -80,47 +183,11 @@ export class GrChecksRuns extends GrLitElement {
         :host {
           display: block;
           padding: var(--spacing-xl);
+          --thick-border: 6px;
         }
         .statusHeader {
           padding-top: var(--spacing-l);
           text-transform: capitalize;
-        }
-        .runChip {
-          font-weight: var(--font-weight-bold);
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
-          padding: var(--spacing-s) var(--spacing-m);
-          margin-top: var(--spacing-s);
-        }
-        .runChip.error {
-          border-left: 6px solid var(--error-foreground);
-        }
-        .runChip.warning {
-          border-left: 6px solid var(--warning-foreground);
-        }
-        .runChip.info-outline {
-          border-left: 6px solid var(--info-foreground);
-        }
-        .runChip.check-circle {
-          border-left: 6px solid var(--success-foreground);
-        }
-        .runChip.timelapse {
-          border-left: 6px solid var(--border-color);
-        }
-        .runnable .runChip.placeholder iron-icon {
-          display: none;
-        }
-        .runChip.error iron-icon {
-          color: var(--error-foreground);
-        }
-        .runChip.warning iron-icon {
-          color: var(--warning-foreground);
-        }
-        .runChip.info-outline iron-icon {
-          color: var(--info-foreground);
-        }
-        .runChip.check-circle iron-icon {
-          color: var(--success-foreground);
         }
         .testing {
           margin-top: var(--spacing-xxl);
@@ -197,14 +264,35 @@ export class GrChecksRuns extends GrLitElement {
     return html`
       <div class="${status.toLowerCase()}">
         <h3 class="statusHeader heading-3">${status.toLowerCase()}</h3>
-        ${runs.map(renderRun)}
+        ${runs.map(run => this.renderRun(run))}
       </div>
     `;
+  }
+
+  renderRun(run: CheckRun) {
+    const selected = this.selectedRuns.has(run.checkName);
+    return html`<gr-checks-run
+      .run="${run}"
+      .selected="${selected}"
+      .icon="${selected ? 'check-circle' : iconClass(run)}"
+      @run-selected="${this.handleRunSelected}"
+    ></gr-checks-run>`;
+  }
+
+  handleRunSelected(e: RunSelectedEvent) {
+    const checkName = e.detail.checkName;
+    if (this.selectedRuns.has(checkName)) {
+      this.selectedRuns.delete(checkName);
+    } else {
+      this.selectedRuns.add(checkName);
+    }
+    this.requestUpdate();
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
+    'gr-checks-run': GrChecksRun;
     'gr-checks-runs': GrChecksRuns;
   }
 }

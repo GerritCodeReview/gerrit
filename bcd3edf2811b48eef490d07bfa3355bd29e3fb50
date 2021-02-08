@@ -16,6 +16,24 @@
       "message": "LGTM, but IIUC you\u0027re planning to add a test for the binary equality to this change?",
       "revId": "bcd3edf2811b48eef490d07bfa3355bd29e3fb50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdb21e8a_d613f4a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T14:46:32Z",
+      "side": 1,
+      "message": "It\u0027s added in the predecessor change.",
+      "parentUuid": "e98b6956_8ea84d6b",
+      "revId": "bcd3edf2811b48eef490d07bfa3355bd29e3fb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

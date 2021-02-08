@@ -23,6 +23,7 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {Category, CheckRun, Link} from '../../../api/checks';
 import {allRuns$, RunResult} from '../../../services/checks/checks-model';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
+import '../../shared/gr-avatar/gr-avatar';
 import {
   hasCompleted,
   isRunning,
@@ -33,8 +34,12 @@ import {
   CommentThread,
   isResolved,
   isUnresolved,
+  getFirstComment,
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
+import {AccountInfo} from '../../../types/common';
+import {notUndefined} from '../../../types/types';
+import {uniqueDefinedAvatar} from '../../../utils/account-util';
 
 function filterResults(runs: CheckRun[], category: Category): RunResult[] {
   return runs.filter(isRunningOrHasCompleted).reduce((results, run) => {
@@ -71,8 +76,7 @@ export class GrSummaryChip extends GrLitElement {
           color: var(--chip-color);
           cursor: pointer;
           display: inline-block;
-          margin-right: var(--spacing-s);
-          padding: var(--spacing-xxs) var(--spacing-m) var(--spacing-xxs)
+          padding: var(--spacing-xxs) var(--spacing-s) var(--spacing-xxs)
             var(--spacing-s);
           border-radius: 12px;
           border: 1px solid gray;
@@ -271,11 +275,14 @@ export class GrChangeSummary extends GrLitElement {
     KnownExperimentId.NEW_CHANGE_SUMMARY_UI
   );
 
-  @property({type: Array})
+  @property({type: Object})
   changeComments?: ChangeComments;
 
-  @property({type: Object})
+  @property({type: Array})
   commentThreads?: CommentThread[];
+
+  @property({type: Object})
+  selfAccount?: AccountInfo;
 
   @property()
   runs: CheckRun[] = [];
@@ -307,6 +314,12 @@ export class GrChangeSummary extends GrLitElement {
           margin-right: var(--spacing-s);
           margin-left: var(--spacing-m);
         }
+        gr-avatar {
+          height: var(--line-height-small, 16px);
+          width: var(--line-height-small, 16px);
+          vertical-align: top;
+          margin-right: var(--spacing-xs);
+        }
       `,
     ];
   }
@@ -316,10 +329,11 @@ export class GrChangeSummary extends GrLitElement {
     const errors = filterResults(runs, Category.ERROR);
     const warnings = filterResults(runs, Category.WARNING);
     const infos = filterResults(runs, Category.INFO);
-    const numResolvedComments =
+    const countResolvedComments =
       this.commentThreads?.filter(isResolved).length ?? 0;
-    const numUnResolvedComments =
-      this.commentThreads?.filter(isUnresolved).length ?? 0;
+    const unresolvedThreads = this.commentThreads?.filter(isUnresolved) ?? [];
+    const countUnresolvedComments = unresolvedThreads.length;
+    const unresolvedAuthors = this.getAccounts(unresolvedThreads);
     const draftCount = this.changeComments?.computeDraftCount() ?? 0;
     return html`
       <div>
@@ -359,9 +373,9 @@ export class GrChangeSummary extends GrLitElement {
             <td class="value">
               <gr-summary-chip
                 styleType=${SummaryChipStyles.INFO}
-                ?hidden=${!!numResolvedComments ||
+                ?hidden=${!!countResolvedComments ||
                 !!draftCount ||
-                !!numUnResolvedComments}
+                !!countUnresolvedComments}
               >
                 No Comments</gr-summary-chip
               >
@@ -375,14 +389,23 @@ export class GrChangeSummary extends GrLitElement {
               <gr-summary-chip
                 styleType=${SummaryChipStyles.WARNING}
                 icon="message"
-                ?hidden=${!numUnResolvedComments}
-                >${numUnResolvedComments} unresolved</gr-summary-chip
+                ?hidden=${!countUnresolvedComments}
+              >
+                ${unresolvedAuthors.map(
+                  account =>
+                    html`<gr-avatar
+                      .account="${account}"
+                      image-size="32"
+                      aria-label="Account avatar"
+                    ></gr-avatar>`
+                )}
+                ${countUnresolvedComments} unresolved</gr-summary-chip
               >
               <gr-summary-chip
                 styleType=${SummaryChipStyles.CHECK}
                 icon="markChatRead"
-                ?hidden=${!numResolvedComments}
-                >${numResolvedComments} resolved</gr-summary-chip
+                ?hidden=${!countResolvedComments}
+                >${countResolvedComments} resolved</gr-summary-chip
               >
             </td>
           </tr>
@@ -393,6 +416,16 @@ export class GrChangeSummary extends GrLitElement {
         </table>
       </div>
     `;
+  }
+
+  getAccounts(commentThreads: CommentThread[]): AccountInfo[] {
+    const uniqueAuthors = commentThreads
+      .map(getFirstComment)
+      .map(comment => comment?.author ?? this.selfAccount)
+      .filter(notUndefined)
+      .filter(account => !!account?.avatars?.[0]?.url)
+      .filter(uniqueDefinedAvatar);
+    return uniqueAuthors.slice(0, 3);
   }
 }
 

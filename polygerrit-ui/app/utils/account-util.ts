@@ -35,3 +35,17 @@ export function isSelf(account?: AccountInfo, self?: AccountInfo): boolean {
 export function removeServiceUsers(accounts?: AccountInfo[]): AccountInfo[] {
   return accounts?.filter(a => !isServiceUser(a)) || [];
 }
+
+export function hasSameAvatar(account?: AccountInfo, other?: AccountInfo) {
+  return account?.avatars?.[0]?.url === other?.avatars?.[0]?.url;
+}
+
+export function uniqueDefinedAvatar(
+  account: AccountInfo,
+  index: number,
+  accountArray: AccountInfo[]
+) {
+  return (
+    index === accountArray.findIndex(other => hasSameAvatar(account, other))
+  );
+}

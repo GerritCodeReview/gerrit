@@ -34,6 +34,24 @@
       "parentUuid": "0d3f658e_7a30cc0e",
       "revId": "ce5be8176f3ec3cf7c7bb03e0ebd20c04a913dbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88473796_cf4460c0",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T17:02:32Z",
+      "side": 1,
+      "message": "(resolve)",
+      "parentUuid": "31f772a6_8a0409f4",
+      "revId": "ce5be8176f3ec3cf7c7bb03e0ebd20c04a913dbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfae1b0c_a65e0631",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-02-08T13:01:37Z",
+      "side": 1,
+      "message": "SGTM to remove the \"Runs\" label when there is only Runs chips.",
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4914f582_cd926ae2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-02-08T13:01:37Z",
+      "side": 1,
+      "message": "From the screenshot, it seems the Runs chips have more margin, let\u0027s use the same margin as the Checks chips for the Run chips too. \nAlso it visually looks like the Checks chip margin is --spacing-m: 8px; (when inspecting, it looks like there is 4px extra added to the margin right but I don\u0027t know where they are coming from since there is no margin-left to the next chip).",
+      "range": {
+        "startLine": 129,
+        "startChar": 3,
+        "endLine": 129,
+        "endChar": 35
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d147e5e7_43b70f0c",
@@ -111,6 +151,29 @@
         "startChar": 24,
         "endLine": 394,
         "endChar": 25
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "726fb050_535f14c1",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-02-08T13:01:37Z",
+      "side": 1,
+      "message": "Seems like the error chips text is using this color, I propose we use --red-700: #c5221f;  In the experiment, the colors is not looking like the one in the screenshot.\n\nI have added the text colors for the app in our Styles doc, the text color could be updated in another change.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 28
       },
       "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

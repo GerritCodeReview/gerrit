@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {html} from 'lit-html';
+import {classMap} from 'lit-html/directives/class-map';
 import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {CheckRun, RunStatus} from '../../api/checks';
@@ -35,25 +36,12 @@ import {
   updateStateSetResults,
 } from '../../services/checks/checks-model';
 
-function renderRun(run: CheckRun) {
-  return html`<div class="runChip ${iconClass(run)}">
-    ${renderIcon(run)}
-    <span>${run.checkName}</span>
-  </div>`;
-}
-
-function renderIcon(run: CheckRun) {
-  const icon = iconClass(run);
-  if (!icon) return;
-  return html`<iron-icon icon="gr-icons:${icon}" class="${icon}"></iron-icon>`;
-}
-
 function iconClass(run: CheckRun) {
   const category = worstCategory(run);
   if (category) return iconForCategory(category);
   switch (run.status) {
     case RunStatus.COMPLETED:
-      return 'check-circle';
+      return 'check-circle-outline';
     case RunStatus.RUNNABLE:
       return 'placeholder';
     case RunStatus.RUNNING:
@@ -68,6 +56,8 @@ export class GrChecksRuns extends GrLitElement {
   @property()
   runs: CheckRun[] = [];
 
+  private selectedRuns = new Set<string>();
+
   constructor() {
     super();
     this.subscribe('runs', allRuns$);
@@ -80,6 +70,7 @@ export class GrChecksRuns extends GrLitElement {
         :host {
           display: block;
           padding: var(--spacing-xl);
+          --thick-border: 6px;
         }
         .statusHeader {
           padding-top: var(--spacing-l);
@@ -91,21 +82,22 @@ export class GrChecksRuns extends GrLitElement {
           border-radius: var(--border-radius);
           padding: var(--spacing-s) var(--spacing-m);
           margin-top: var(--spacing-s);
+          cursor: pointer;
         }
         .runChip.error {
-          border-left: 6px solid var(--error-foreground);
+          border-left: var(--thick-border) solid var(--error-foreground);
         }
         .runChip.warning {
-          border-left: 6px solid var(--warning-foreground);
+          border-left: var(--thick-border) solid var(--warning-foreground);
         }
         .runChip.info-outline {
-          border-left: 6px solid var(--info-foreground);
+          border-left: var(--thick-border) solid var(--info-foreground);
         }
-        .runChip.check-circle {
-          border-left: 6px solid var(--success-foreground);
+        .runChip.check-circle-outline {
+          border-left: var(--thick-border) solid var(--success-foreground);
         }
         .runChip.timelapse {
-          border-left: 6px solid var(--border-color);
+          border-left: var(--thick-border) solid var(--border-color);
         }
         .runnable .runChip.placeholder iron-icon {
           display: none;
@@ -119,8 +111,16 @@ export class GrChecksRuns extends GrLitElement {
         .runChip.info-outline iron-icon {
           color: var(--info-foreground);
         }
-        .runChip.check-circle iron-icon {
+        .runChip.check-circle-outline iron-icon {
           color: var(--success-foreground);
+        }
+        div div.runChip.selected {
+          border: 1px solid var(--selected-foreground);
+          background-color: var(--selected-background);
+          padding-left: calc(var(--spacing-m) + var(--thick-border) + 1px);
+        }
+        div div.runChip.selected iron-icon {
+          color: var(--selected-foreground);
         }
         .testing {
           margin-top: var(--spacing-xxl);
@@ -197,9 +197,35 @@ export class GrChecksRuns extends GrLitElement {
     return html`
       <div class="${status.toLowerCase()}">
         <h3 class="statusHeader heading-3">${status.toLowerCase()}</h3>
-        ${runs.map(renderRun)}
+        ${runs.map(run => this.renderRun(run))}
       </div>
     `;
+  }
+
+  renderRun(run: CheckRun) {
+    const selected = this.selectedRuns.has(run.checkName);
+    const icon = selected ? 'check-circle' : iconClass(run);
+    const classes = {runChip: true, [icon]: true, selected};
+    return html`
+      <div
+        @click="${(e: MouseEvent) => this._handleChipClick(e, run)}"
+        class="${classMap(classes)}"
+      >
+        <iron-icon icon="gr-icons:${icon}" class="${icon}"></iron-icon>
+        <span>${run.checkName}</span>
+      </div>
+    `;
+  }
+
+  _handleChipClick(e: MouseEvent, run: CheckRun) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (this.selectedRuns.has(run.checkName)) {
+      this.selectedRuns.delete(run.checkName);
+    } else {
+      this.selectedRuns.add(run.checkName);
+    }
+    this.requestUpdate();
   }
 }
 

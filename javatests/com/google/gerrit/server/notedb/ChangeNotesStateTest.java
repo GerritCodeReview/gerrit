@@ -1007,6 +1007,60 @@ public class ChangeNotesStateTest {
                 .build());
   }
 
+  /* Transitional test. Remove once follow-up change is live without accidents. */
+  @Test
+  public void binaryCompatibility() throws Exception {
+    ChangeNotesState.Builder builder = newBuilder();
+    PatchSet ps1 =
+        PatchSet.builder()
+            .id(PatchSet.id(ID, 1))
+            .commitId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
+            .uploader(Account.id(2000))
+            .createdOn(cols.createdOn())
+            .build();
+    PatchSetApproval a1 =
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    ps1.id(), Account.id(2001), LabelId.create(LabelId.CODE_REVIEW)))
+            .value(1)
+            .granted(new Timestamp(1212L))
+            .build();
+
+    ChangeMessage m1 =
+        new ChangeMessage(
+            ChangeMessage.key(ID, "uuid1"),
+            Account.id(1000),
+            new Timestamp(1212L),
+            PatchSet.id(ID, 1));
+    ChangeNotesState state =
+        builder
+            .approvals(ImmutableMap.of(PatchSet.id(ID, 1), a1).entrySet())
+            .patchSets(ImmutableMap.of(ps1.id(), ps1).entrySet())
+            .changeMessages(ImmutableList.of(m1))
+            .build();
+
+    byte got[] = ChangeNotesState.Serializer.INSTANCE.serialize(state);
+    byte want[] =
+        new byte[] {
+          10, 20, 18, 52, 86, 120, 18, 52, 86, 120, 18, 52, 86, 120, 18, 52, 86, 120, 18, 52, 86,
+          120, 16, 123, 26, 89, 10, 41, 73, 97, 98, 99, 100, 97, 98, 99, 100, 97, 98, 99, 100, 97,
+          98, 99, 100, 97, 98, 99, 100, 97, 98, 99, 100, 97, 98, 99, 100, 97, 98, 99, 100, 97, 98,
+          99, 100, 97, 98, 99, 100, 16, -64, -60, 7, 24, -57, -88, 14, 32, -24, 7, 42, 17, 114, 101,
+          102, 115, 47, 104, 101, 97, 100, 115, 47, 109, 97, 115, 116, 101, 114, 66, 11, 84, 101,
+          115, 116, 32, 99, 104, 97, 110, 103, 101, -88, 1, 1, 50, 66, 10, 6, 10, 2, 8, 123, 16, 1,
+          18, 42, 10, 40, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+          97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+          26, 3, 8, -48, 15, 33, 64, -30, 1, 0, 0, 0, 0, 0, 58, 43, 10, 28, 10, 6, 10, 2, 8, 123,
+          16, 1, 18, 3, 8, -47, 15, 26, 13, 10, 11, 67, 111, 100, 101, 45, 82, 101, 118, 105, 101,
+          119, 16, 1, 25, -68, 4, 0, 0, 0, 0, 0, 0, 64, 0, 122, 35, 10, 11, 10, 2, 8, 123, 18, 5,
+          117, 117, 105, 100, 49, 18, 3, 8, -24, 7, 25, -68, 4, 0, 0, 0, 0, 0, 0, 42, 6, 10, 2, 8,
+          123, 16, 1
+        };
+
+    assertThat(got).isEqualTo(want);
+  }
+
   @Test
   public void commentFields() throws Exception {
     assertThatSerializedClass(Comment.Key.class)

@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "476e9ea9_f273fdaa",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T10:09:07Z",
+      "side": 1,
+      "message": "How will we roll this out? Will it ignore the file written with version 1 and simply start cold?",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7452da2e_0386faab",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T10:09:07Z",
+      "side": 1,
+      "message": "Context range, no?",
+      "range": {
+        "startLine": 39,
+        "startChar": 9,
+        "endLine": 39,
+        "endChar": 16
+      },
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19723fb5_489c5e33",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T10:09:07Z",
+      "side": 1,
+      "message": "Isn\u0027t that double the padding? I.e. if this is 100 then we have a padding of 50 on top and bottom.",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03969ea7_2da0d7ef",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T10:09:07Z",
+      "side": 1,
+      "message": "This extends the context range further beyond the comment than specified. Shouldn\u0027t this be min(commentRange.end() + padding/2, fileLines)?",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0775b84b_1ff4a081",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T10:09:07Z",
+      "side": 1,
+      "message": "Would it be helpful to mention here that this value divided by 2 is the number of lines before and after?",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1e4457a_c22d5f9c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentContextIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T10:09:07Z",
+      "side": 1,
+      "message": "I think you could extract the setup and assertion code so that these three tests become very short, and then add more tests for ranges that are partially outside the file, e.g. comment on line 3, 20 lines total, 10 lines context, etc.",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

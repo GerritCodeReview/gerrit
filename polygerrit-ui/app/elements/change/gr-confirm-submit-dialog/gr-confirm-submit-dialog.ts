@@ -77,7 +77,8 @@ export class GrConfirmSubmitDialog extends GestureEventListeners(
     );
   }
 
-  _computeUnresolvedThreads(commentThreads: CommentThread[]) {
+  _computeUnresolvedThreads(commentThreads?: CommentThread[]) {
+    if (!commentThreads) return [];
     return commentThreads.filter(thread => isUnresolved(thread));
   }
 

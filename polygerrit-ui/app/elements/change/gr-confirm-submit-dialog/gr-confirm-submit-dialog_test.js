@@ -25,6 +25,7 @@ suite('gr-file-list-header tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
+    element._initialised = true;
   });
 
   test('display', () => {

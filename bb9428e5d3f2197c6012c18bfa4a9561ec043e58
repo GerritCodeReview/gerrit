@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db7a2e18_fdeaf80b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T07:29:57Z",
+      "side": 1,
+      "message": "I am fine with the code changes and how you approach it. I just want a guide as a reviewer telling me what I should review and what I can ignore. Maybe either:\n\n001-034 ignore\n035-082 review\n083-150 ignore\n151-299 review\n\nOr use range comments to indicate either the sections to ignore or the sections to review.",
+      "parentUuid": "7b72901d_53431869",
+      "revId": "bb9428e5d3f2197c6012c18bfa4a9561ec043e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de35059e_919f8c14",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
         "patchSetId": 3

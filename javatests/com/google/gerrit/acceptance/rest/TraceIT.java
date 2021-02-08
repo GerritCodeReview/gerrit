@@ -43,7 +43,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.httpd.restapi.ParameterParser;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
-import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -713,7 +712,7 @@ public class TraceIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "retry.retryWithTraceOnFailure", value = "true")
-  public void autoRetryWithTrace() throws Exception {
+  public void noAutoRetryIfExceptionCausesNormalRetrying() throws Exception {
     String changeId = createChange().getChangeId();
     approve(changeId);
 
@@ -723,49 +722,6 @@ public class TraceIT extends AbstractDaemonTest {
       RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
       assertThat(response.getStatusCode()).isEqualTo(SC_INTERNAL_SERVER_ERROR);
       assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).startsWith("retry-on-failure-");
-      assertThat(traceSubmitRule.traceId).startsWith("retry-on-failure-");
-      assertThat(traceSubmitRule.isLoggingForced).isTrue();
-    }
-  }
-
-  @Test
-  @GerritConfig(name = "retry.retryWithTraceOnFailure", value = "true")
-  public void noAutoRetryIfExceptionCausesNormalRetrying() throws Exception {
-    String changeId = createChange().getChangeId();
-    approve(changeId);
-
-    TraceSubmitRule traceSubmitRule = new TraceSubmitRule();
-    traceSubmitRule.failAlways = true;
-    try (Registration registration =
-        extensionRegistry
-            .newRegistration()
-            .add(traceSubmitRule)
-            .add(
-                new ExceptionHook() {
-                  @Override
-                  public boolean shouldRetry(String actionType, String actionName, Throwable t) {
-                    return true;
-                  }
-                })) {
-      RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
-      assertThat(response.getStatusCode()).isEqualTo(SC_INTERNAL_SERVER_ERROR);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
-      assertThat(traceSubmitRule.traceId).isNull();
-      assertThat(traceSubmitRule.isLoggingForced).isFalse();
-    }
-  }
-
-  @Test
-  public void noAutoRetryWithTraceIfDisabled() throws Exception {
-    String changeId = createChange().getChangeId();
-    approve(changeId);
-
-    TraceSubmitRule traceSubmitRule = new TraceSubmitRule();
-    traceSubmitRule.failOnce = true;
-    try (Registration registration = extensionRegistry.newRegistration().add(traceSubmitRule)) {
-      RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
-      assertThat(response.getStatusCode()).isEqualTo(SC_INTERNAL_SERVER_ERROR);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
       assertThat(traceSubmitRule.traceId).isNull();
       assertThat(traceSubmitRule.isLoggingForced).isFalse();
     }

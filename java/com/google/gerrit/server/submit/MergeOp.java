@@ -533,6 +533,9 @@ public class MergeOp implements AutoCloseable {
             // Multiply the timeout by the number of projects we're actually attempting to
             // submit.
             .defaultTimeoutMultiplier(cs.projects().size())
+            // By default, we only retry lock failures. Here it's better to also retry unexpected
+            // runtime exceptions.
+            .retryOn(t -> t instanceof RuntimeException)
             .call();
         submissionExecutor.afterExecutions(orm);
 

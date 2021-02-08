@@ -22,6 +22,30 @@
       },
       "revId": "18d58af607b6b7e338c09766134182b2fe132af7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39f5c781_3ecda7ea",
+        "filename": "java/com/google/gerrit/pgm/init/api/SequencesOnInit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-08T23:16:20Z",
+      "side": 1,
+      "message": "The check was actually for detecting if you were coming from a ReviewDb-based migration (e.g. v2.14 or earlier) or not.",
+      "parentUuid": "75c46e0f_23c6f8b6",
+      "range": {
+        "startLine": 50,
+        "startChar": 8,
+        "endLine": 50,
+        "endChar": 96
+      },
+      "revId": "18d58af607b6b7e338c09766134182b2fe132af7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

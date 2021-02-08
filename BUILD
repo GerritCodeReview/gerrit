@@ -1,3 +1,4 @@
+load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
@@ -15,6 +16,18 @@ config_setting(
     values = {
         "java_toolchain": "//tools:toolchain_vanilla",
     },
+)
+
+buildifier(
+    name = "check_buildifier",
+    diff_command = "diff -u",
+    mode = "diff",
+)
+
+buildifier(
+    name = "fix_buildifier",
+    lint_mode = "fix",
+    mode = "fix",
 )
 
 genrule(

@@ -63,7 +63,7 @@ export class GrConfirmSubmitDialog extends GestureEventListeners(
   action?: ActionInfo;
 
   @property({type: Array})
-  commentThreads: CommentThread[] = [];
+  commentThreads?: CommentThread[] = [];
 
   resetFocus() {
     this.$.dialog.resetFocus();
@@ -77,7 +77,8 @@ export class GrConfirmSubmitDialog extends GestureEventListeners(
     );
   }
 
-  _computeUnresolvedThreads(commentThreads: CommentThread[]) {
+  _computeUnresolvedThreads(commentThreads?: CommentThread[]) {
+    if (!commentThreads) return [];
     return commentThreads.filter(thread => isUnresolved(thread));
   }
 

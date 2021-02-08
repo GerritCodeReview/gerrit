@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "eb40683b_9b040b7f",
         "filename": "java/com/google/gerrit/pgm/Daemon.java",
@@ -20,10 +21,10 @@
         "endChar": 15
       },
       "revId": "d1fd2987c07c9bbcc5882ba3092c853e99b83b08",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "da311fec_4211f909",
         "filename": "java/com/google/gerrit/pgm/Daemon.java",
@@ -44,8 +45,31 @@
         "endChar": 15
       },
       "revId": "d1fd2987c07c9bbcc5882ba3092c853e99b83b08",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "975e41d1_3cec1265",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-08T18:46:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "da311fec_4211f909",
+      "range": {
+        "startLine": 482,
+        "startChar": 4,
+        "endLine": 482,
+        "endChar": 15
+      },
+      "revId": "d1fd2987c07c9bbcc5882ba3092c853e99b83b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

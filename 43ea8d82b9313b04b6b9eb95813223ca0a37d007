@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f261eca_8e21ac97",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T14:24:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4914f582_cd926ae2",
+      "range": {
+        "startLine": 129,
+        "startChar": 3,
+        "endLine": 129,
+        "endChar": 35
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d147e5e7_43b70f0c",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-08T09:53:18Z",
       "side": 1,
       "message": "I don\u0027t understand why there are two Checks Chips when they share same css. \n\nWouldn\u0027t be easier to have one checksChip will have a slot and you either put count or text - link inside?\n\nOr having general check chip with css and two count and detail chip using it.",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 53
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "310eb1ee_f58f3784",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T14:24:50Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "d147e5e7_43b70f0c",
       "range": {
         "startLine": 192,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb33f859_1a0d9e33",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T14:24:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99eace55_ccf081f5",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 6
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a12ab125_cfe140bb",
@@ -100,6 +172,30 @@
       "writtenOn": "2021-02-08T09:53:18Z",
       "side": 1,
       "message": "What is this filter doing? if you are checking for undefined you can use `notUndefined`. But typescript is not showing me that link could be undefined.",
+      "range": {
+        "startLine": 363,
+        "startChar": 26,
+        "endLine": 363,
+        "endChar": 30
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45a2a003_d949e91a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T14:24:50Z",
+      "side": 1,
+      "message": "Good catch. Forgot to add `.primary`. :-)",
+      "parentUuid": "a12ab125_cfe140bb",
       "range": {
         "startLine": 363,
         "startChar": 26,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1670119f_b64be380",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T14:24:50Z",
+      "side": 1,
+      "message": "This is another limit.\n\nThe details quota is for the amount of detailed chips. This is for the amount of links rendered within one chip.\n\nRenamed.",
+      "parentUuid": "068aff32_a7ed0d51",
+      "range": {
+        "startLine": 364,
+        "startChar": 19,
+        "endLine": 364,
+        "endChar": 21
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50dfacf1_97e72055",
@@ -156,6 +276,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c535c16_a9c492ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T14:24:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50dfacf1_97e72055",
+      "range": {
+        "startLine": 394,
+        "startChar": 24,
+        "endLine": 394,
+        "endChar": 25
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "726fb050_535f14c1",
@@ -169,6 +313,30 @@
       "writtenOn": "2021-02-08T13:01:37Z",
       "side": 1,
       "message": "Seems like the error chips text is using this color, I propose we use --red-700: #c5221f;  In the experiment, the colors is not looking like the one in the screenshot.\n\nI have added the text colors for the app in our Styles doc, the text color could be updated in another change.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 28
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "780f0e70_c56f20c6",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T14:24:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "726fb050_535f14c1",
       "range": {
         "startLine": 93,
         "startChar": 4,

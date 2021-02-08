@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16a62da9_3a560af4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T15:38:02Z",
+      "side": 1,
+      "message": "I get\n\n\n```\nbuildifier: selecting diff program with the BUILDIFIER_DIFF, BUILDIFIER_MULTIDIFF, and DISPLAY environment variables is deprecated, use flags -diff_command and -multi_diff instead\n./tools/node_tools/node_modules/@bazel/typescript/third_party/github.com/bazelbuild/bazel/src/main/protobuf/BUILD.bazel:\n./tools/node_tools/node_modules/@bazel/typescript/internal/ts_project.bzl:\n./tools/node_tools/node_modules/@bazel/typescript/internal/worker/BUILD.bazel:\n./tools/node_tools/node_modules/@bazel/typescript/internal/common/tsconfig.bzl:\n./tools/node_tools/node_modules/@bazel/typescript/internal/build_defs.bzl:\n./tools/node_tools/node_modules/@bazel/rollup/rollup_bundle.bzl:\n./tools/js/BUILD:\n./tools/js/eslint.bzl:\n./plugins/oauth/tools/BUILD:\n./node_modules/@bazel/typescript/third_party/github.com/bazelbuild/bazel/src/main/protobuf/BUILD.bazel:\n./node_modules/@bazel/typescript/internal/ts_project.bzl:\n./node_modules/@bazel/typescript/internal/worker/BUILD.bazel:\n./node_modules/@bazel/typescript/internal/common/tsconfig.bzl:\n./node_modules/@bazel/typescript/internal/build_defs.bzl:\n./node_modules/@bazel/rollup/rollup_bundle.bzl:\n--: line 1: tkdiff: command not found\nexit status 127\n```",
+      "revId": "e4b240bae45c5c1f06a055d1aa325bc7efa757d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

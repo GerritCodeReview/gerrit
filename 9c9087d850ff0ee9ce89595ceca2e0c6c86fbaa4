@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9f4c916_e2c685b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T12:06:04Z",
+      "side": 1,
+      "message": "By this sentence I meant that the previous refactoring change did that. This change is already merged.\n\nI modified the wording here.",
+      "parentUuid": "f3b337b3_47c2d12a",
+      "range": {
+        "startLine": 11,
+        "startChar": 18,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "9c9087d850ff0ee9ce89595ceca2e0c6c86fbaa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5477ed5_83803e43",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-02-08T11:36:54Z",
       "side": 1,
       "message": "nit: missing license header",
+      "revId": "9c9087d850ff0ee9ce89595ceca2e0c6c86fbaa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d08b9e9f_27d95696",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/FilesInCommitIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T12:06:04Z",
+      "side": 1,
+      "message": "Thanks. Done.",
+      "parentUuid": "a5477ed5_83803e43",
       "revId": "9c9087d850ff0ee9ce89595ceca2e0c6c86fbaa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

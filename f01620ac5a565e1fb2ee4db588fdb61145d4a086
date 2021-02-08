@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc828eec_74ee6d88",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-08T15:48:56Z",
+      "side": 1,
+      "message": "I think this is not recommended\n\n\n  \u003c!-- Good. --\u003e\n      \u003cmwc-button @click\u003d${this.handleClick}\u003e\u003c/mwc-button\u003e\n      \u003c!-- Bad. Registers/deregisters a new event handler every render. --\u003e\n      \u003cmwc-button @click\u003d${(ev) \u003d\u003e console.log(\u0027event: \u0027, ev)}\u003e\u003c/mwc-button\u003e\n      \u003c!-- Also bad. Registers/deregisters a new event handler every render. --\u003e\n      \u003cmwc-button @click\u003d${this.handleClick.bind(this)}\u003e\u003c/mwc-button\u003e",
+      "range": {
+        "startLine": 211,
+        "startChar": 22,
+        "endLine": 211,
+        "endChar": 32
+      },
+      "revId": "f01620ac5a565e1fb2ee4db588fdb61145d4a086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

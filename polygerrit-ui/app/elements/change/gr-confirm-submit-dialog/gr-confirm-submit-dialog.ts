@@ -65,6 +65,13 @@ export class GrConfirmSubmitDialog extends GestureEventListeners(
   @property({type: Array})
   commentThreads: CommentThread[] = [];
 
+  @property({type: Boolean})
+  _initialised = false;
+
+  init() {
+    this._initialised = true;
+  }
+
   resetFocus() {
     this.$.dialog.resetFocus();
   }

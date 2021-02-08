@@ -2704,7 +2704,10 @@ sorted by file path.
 The integer-valued request parameter `parent` changes the response to return a
 list of the files which are different in this commit compared to the given
 parent commit. This is useful for supporting review of merge commits. The value
-is the 1-based index of the parent's position in the commit object.
+is the 1-based index of the parent's position in the commit object. If the
+value 0 is used for `parent`, the default base commit will be used, which is
+the only parent for commits having one parent or the auto-merge commit
+otherwise.
 
 [[dashboard-endpoints]]
 == Dashboard Endpoints

@@ -25,6 +25,8 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-editable-content_html';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
+import { appContext } from '../../../services/app-context';
+import { KnownExperimentId } from '../../../services/flags/flags';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -86,7 +88,20 @@ export class GrEditableContent extends GestureEventListeners(
   @property({type: String, observer: '_newContentChanged'})
   _newContent?: string;
 
+  @property({type: Boolean})
+  _isNewChangeSummaryUiEnabled = false;
+
   private readonly storage = new GrStorage();
+
+  private readonly flagsService = appContext.flagsService;
+
+  /** @override */
+  ready() {
+    super.ready();
+    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.NEW_CHANGE_SUMMARY_UI
+    );
+  }
 
   _contentChanged() {
     /* A changed content means that either a different change has been loaded

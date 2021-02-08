@@ -38,6 +38,7 @@ export const htmlTemplate = html`
     .editor iron-autogrow-textarea {
       background-color: var(--view-background-color);
       width: 100%;
+      display: block;
 
       /* You have to also repeat everything from shared-styles here, because
            you can only *replace* --iron-autogrow-textarea vars as a whole. */
@@ -57,18 +58,20 @@ export const htmlTemplate = html`
     <slot></slot>
   </div>
   <div class="editor" hidden$="[[!editing]]">
-    <iron-autogrow-textarea
-      autocomplete="on"
-      bind-value="{{_newContent}}"
-      disabled="[[disabled]]"
-    ></iron-autogrow-textarea>
-    <div class="editButtons">
-      <gr-button primary="" on-click="_handleSave" disabled="[[_saveDisabled]]"
-        >Save</gr-button
-      >
-      <gr-button on-click="_handleCancel" disabled="[[disabled]]"
-        >Cancel</gr-button
-      >
+    <div>
+      <iron-autogrow-textarea
+        autocomplete="on"
+        bind-value="{{_newContent}}"
+        disabled="[[disabled]]"
+      ></iron-autogrow-textarea>
+      <div class="editButtons" hidden="[[_isNewChangeSummaryUiEnabled]]">
+        <gr-button primary="" on-click="_handleSave" disabled="[[_saveDisabled]]"
+          >Save</gr-button
+        >
+        <gr-button on-click="_handleCancel" disabled="[[disabled]]"
+          >Cancel</gr-button
+        >
+      </div>
     </div>
   </div>
 `;

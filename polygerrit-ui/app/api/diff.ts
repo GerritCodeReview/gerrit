@@ -219,7 +219,7 @@ export declare interface LineRange {
   end_line: number;
 }
 
-export interface CoverageRange {
+export declare interface CoverageRange {
   type: CoverageType;
   side: Side;
   code_range: LineRange;

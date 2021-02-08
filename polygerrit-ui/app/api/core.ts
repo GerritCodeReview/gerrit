@@ -32,7 +32,7 @@
  * however a range with end_line set to 5 and end_character equal to 0 will not
  * include any characters on line 5.
  */
-export interface CommentRange {
+export declare interface CommentRange {
   /** The start line number of the range. (1-based) */
   start_line: number;
 

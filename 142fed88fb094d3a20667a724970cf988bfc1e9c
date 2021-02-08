@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56ae57d1_f93b8d38",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T13:25:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "33c17691_1392a541",
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ac4d4b3_689ae4e1",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-02-05T13:14:39Z",
       "side": 1,
       "message": "Could you add Javadoc for this class? The code is obvious enough, but why do we convert from one proto to another?",
+      "range": {
+        "startLine": 485,
+        "startChar": 38,
+        "endLine": 485,
+        "endChar": 60
+      },
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01dc0750_bba3b7cd",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T13:25:43Z",
+      "side": 1,
+      "message": "added javadoc. \n\nWe don\u0027t convert from one proto to another. This is going from AutoValues to proto.",
+      "parentUuid": "4ac4d4b3_689ae4e1",
       "range": {
         "startLine": 485,
         "startChar": 38,
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d70d8edb_e60a4a3f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T13:25:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96d4e4b6_59d2b83c",
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "071f3137_3fc735c2",
@@ -92,6 +152,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02d8e9c8_31f86a8b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T13:25:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "071f3137_3fc735c2",
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "895c63fa_31a83ea3",
@@ -105,6 +183,24 @@
       "writtenOn": "2021-02-05T13:14:39Z",
       "side": 1,
       "message": "Could you add a test that verifies the binary equality mentioned in the description?",
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1302b59c_a17ebd28",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T13:25:43Z",
+      "side": 1,
+      "message": "yeah, let me cook up something.",
+      "parentUuid": "895c63fa_31a83ea3",
       "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

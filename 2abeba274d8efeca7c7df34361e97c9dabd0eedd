@@ -64,6 +64,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84b8dc76_30c311de",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T14:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dc2c415_2558905a",
+      "revId": "2abeba274d8efeca7c7df34361e97c9dabd0eedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74bb716b_f23528a6",
@@ -77,6 +95,24 @@
       "writtenOn": "2021-02-08T10:35:48Z",
       "side": 1,
       "message": "I\u0027m a bit concerned about proliferation of data holders. This is effectively a comment key, but there is already Comment.Key, and there\u0027s CommentContextKey. Can we make this clearer somehow?",
+      "revId": "2abeba274d8efeca7c7df34361e97c9dabd0eedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0013da06_437ca6a9",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T14:39:10Z",
+      "side": 1,
+      "message": "Comment.Key is lightweight and only has {comment_uuid, filename, patchset_id}. This entity is used in other parts of the code base.\n\nCommentContextKey is the key for the comment context cache. This contains {project, change_id, comment_id, filename, patchset_id} (and later on we\u0027ll add the numContextLines field to it). This entity is not sufficient to load the comment context because it does not contain:\n  * The commit Id that will be used to load the file.\n  * The comment range, i.e. start / end lines.\n  * numContextLines (we\u0027ll add this field in the next follow up change).\n\nThe handler of the comment context cache first loads the comment entities using the cache keys, builds these three extra args and passes them, along with other args, to the comment context loader. Prior to this change, I used to pass a list of {@link Comment}s to the CommentContextLoader, but this will not work if we want to pass additional args, such as numContextLines, hence I did this refactoring.\n\nHaving three entities is a bit confusing, but the new ContextInput is package private and is not visible to external callers.",
+      "parentUuid": "74bb716b_f23528a6",
       "revId": "2abeba274d8efeca7c7df34361e97c9dabd0eedd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

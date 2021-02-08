@@ -16,6 +16,24 @@
       "message": "The chip will only show 1 button option. Is it a bug that \"Fake Error finder 2\" is showing 2 buttons? https://imgur.com/a/jBrCAHz\n",
       "revId": "913ab76f7bf9c47a950cea6a4106df7919dad26f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa4cd0a9_fe0c890b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T15:14:14Z",
+      "side": 1,
+      "message": "That is one of the things to talk about tomorrow. There are lots of small nits to discuss.\n\nGenerally the unexpected problem that I was facing is that the name of the chip is that of a \"run\", not a \"result\". So the red chip in the example is summarizing 2 results for 1 run. That is where \"2\" comes from, and that is also the reason why we are showing two link icons. We can of course limit this to just one icon.\n\nLet\u0027s talk about this tomorrow and fix in a follow-up.",
+      "parentUuid": "365cbd5b_c2750641",
+      "revId": "913ab76f7bf9c47a950cea6a4106df7919dad26f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

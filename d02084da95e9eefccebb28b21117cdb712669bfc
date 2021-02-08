@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19672db4_be980660",
+        "filename": "java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-08T13:16:26Z",
+      "side": 1,
+      "message": "shouldn\u0027t we do the same here in case of Upload ?\n\n    CurrentUser currentUser \u003d session.getUser();",
+      "revId": "d02084da95e9eefccebb28b21117cdb712669bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

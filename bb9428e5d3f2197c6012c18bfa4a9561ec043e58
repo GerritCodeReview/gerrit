@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0a12394_dfa867ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T08:44:43Z",
+      "side": 1,
+      "message": "Thank you. Much appreciated!",
+      "parentUuid": "785ac972_7547d41b",
+      "revId": "bb9428e5d3f2197c6012c18bfa4a9561ec043e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de35059e_919f8c14",
@@ -138,6 +156,46 @@
         "endLine": 72,
         "endChar": 8
       },
+      "revId": "bb9428e5d3f2197c6012c18bfa4a9561ec043e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f915066_210cf04d",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T08:44:43Z",
+      "side": 1,
+      "message": "Nit: Maybe the \u003cdiv\u003e becomes more readable, if you extract this into a `nonVisibleChanges` variable (similar to `submittedTogetherChanges`).",
+      "range": {
+        "startLine": 93,
+        "startChar": 19,
+        "endLine": 93,
+        "endChar": 63
+      },
+      "revId": "bb9428e5d3f2197c6012c18bfa4a9561ec043e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "655fadb5_bbacad26",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T08:44:43Z",
+      "side": 1,
+      "message": "If you would make `_submittedTogether` a property, then you would not need to call `requestUpdate`, because then it will get a magic setter that does that for you.",
       "revId": "bb9428e5d3f2197c6012c18bfa4a9561ec043e58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

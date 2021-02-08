@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa03132e_2c5ad347",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T14:39:10Z",
+      "side": 1,
+      "message": "Yes, the version is encoded into the file cache keys in prd. When this is modified, this will cause reload for all keys.\n\nRight now the feature is not yet available in the frontend, so there is no impact on anyone.",
+      "parentUuid": "476e9ea9_f273fdaa",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7452da2e_0386faab",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-02-08T10:09:07Z",
       "side": 1,
       "message": "Context range, no?",
+      "range": {
+        "startLine": 39,
+        "startChar": 9,
+        "endLine": 39,
+        "endChar": 16
+      },
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ee92765_07ab01a4",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T14:39:10Z",
+      "side": 1,
+      "message": "Comment range is also fine. The range is an attribute of the comment, specifying the start/end lines of the source code where the comment is written.\n\nComment range or context range are actually the same.",
+      "parentUuid": "7452da2e_0386faab",
       "range": {
         "startLine": 39,
         "startChar": 9,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "715ee936_7629c4be",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T14:39:10Z",
+      "side": 1,
+      "message": "If numContextLines \u003d 10, and comment range \u003d 4, padding will be 6.\n\nPadding is the extra number of lines that we want to add. See line 190: I add padding/2 before the first line, and the remaining of the padding after.",
+      "parentUuid": "19723fb5_489c5e33",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03969ea7_2da0d7ef",
@@ -71,6 +131,24 @@
       "writtenOn": "2021-02-08T10:09:07Z",
       "side": 1,
       "message": "This extends the context range further beyond the comment than specified. Shouldn\u0027t this be min(commentRange.end() + padding/2, fileLines)?",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "777f9ecb_1b353aec",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T14:39:10Z",
+      "side": 1,
+      "message": "The idea is to return exactly the number of context lines specified by the caller, which will usually imply ending at few lines after the comment range, i.e. if comment is written at lines [7-8] and we request 6 context lines, caller should expect lines [5-10] inclusive.\n\nnumContextLines are respected, unless the file contains less lines than the number of requested context lines. In this case, we return the whole file.",
+      "parentUuid": "03969ea7_2da0d7ef",
       "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +170,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eae504d4_d34367ce",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T14:39:10Z",
+      "side": 1,
+      "message": "Yes. Done. Also checked the change I did in documentation and it was already mentioned.",
+      "parentUuid": "0775b84b_1ff4a081",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1e4457a_c22d5f9c",
@@ -105,6 +201,24 @@
       "writtenOn": "2021-02-08T10:09:07Z",
       "side": 1,
       "message": "I think you could extract the setup and assertion code so that these three tests become very short, and then add more tests for ranges that are partially outside the file, e.g. comment on line 3, 20 lines total, 10 lines context, etc.",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfa6759c_bd080caa",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentContextIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T14:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1e4457a_c22d5f9c",
       "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

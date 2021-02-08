@@ -34,6 +34,29 @@
       "parentUuid": "a76bf23a_69f74447",
       "revId": "5a2fc8289d5c09f431c1b422ebfdd0ae52278aad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67fffc9c_ccb7edd1",
+        "filename": "java/com/google/gerrit/server/restapi/project/FilesInCommitCollection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-08T08:44:51Z",
+      "side": 1,
+      "message": "parentNum \u003d 0, this will return index of -1, which matches the error we found in the logs:\n\ncom.google.common.util.concurrent.UncheckedExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index -1 out of bounds for length 2",
+      "range": {
+        "startLine": 96,
+        "startChar": 63,
+        "endLine": 96,
+        "endChar": 76
+      },
+      "revId": "5a2fc8289d5c09f431c1b422ebfdd0ae52278aad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -69,6 +69,24 @@
       "parentUuid": "578486d5_81cfcf2b",
       "revId": "41c37759de5b3be1d1395490f9146fd8573871da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ab3e37c_f9563a3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-08T15:39:57Z",
+      "side": 1,
+      "message": "\u003e what is the tip of the changeseries? \n\nThe tip of this series is change 269976. Note, that also replication plugin must be adapted for the removal of JCraft JSch dependency, see change 269975.\n\n\u003e https://gerrit-review.googlesource.com/c/gerrit/+/269976\n\nLet me rebase it, will update this series in a moment.",
+      "parentUuid": "aa7bb483_88261774",
+      "revId": "41c37759de5b3be1d1395490f9146fd8573871da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

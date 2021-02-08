@@ -107,6 +107,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39d936ab_9eb2d2a8",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T17:08:32Z",
+      "side": 1,
+      "message": "OK I think I got your point: comment range is fixed but context range is variable. I updated the description here and in CommentContextLoader.",
+      "parentUuid": "80359463_11d898a0",
+      "range": {
+        "startLine": 39,
+        "startChar": 9,
+        "endLine": 39,
+        "endChar": 16
+      },
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19723fb5_489c5e33",
@@ -160,6 +184,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38b688d3_5a31140e",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T17:08:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "9cbb8b8d_c02a1d52",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03969ea7_2da0d7ef",
@@ -209,6 +251,24 @@
       "side": 1,
       "message": "IIUC if you have a comment at line 10 and request 50 context lines then you\u0027d get lines 1-50 in this case. Wouldn\u0027t you rather expect lines 1-35?",
       "parentUuid": "777f9ecb_1b353aec",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6696fdc4_8cc21b84",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T17:08:32Z",
+      "side": 1,
+      "message": "I modified this to context-padding as per our discussion.",
+      "parentUuid": "bc2fb401_2e916a85",
       "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

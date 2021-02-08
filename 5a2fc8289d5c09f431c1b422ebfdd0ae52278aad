@@ -57,6 +57,30 @@
       },
       "revId": "5a2fc8289d5c09f431c1b422ebfdd0ae52278aad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63e852f6_d91fb793",
+        "filename": "java/com/google/gerrit/server/restapi/project/FilesInCommitCollection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T12:59:52Z",
+      "side": 1,
+      "message": "Thanks for catching the error! I uploaded a fix with https://gerrit-review.googlesource.com/c/gerrit/+/296261.",
+      "parentUuid": "67fffc9c_ccb7edd1",
+      "range": {
+        "startLine": 96,
+        "startChar": 63,
+        "endLine": 96,
+        "endChar": 76
+      },
+      "revId": "5a2fc8289d5c09f431c1b422ebfdd0ae52278aad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

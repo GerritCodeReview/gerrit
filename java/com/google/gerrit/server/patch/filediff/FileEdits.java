@@ -18,7 +18,6 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,12 +27,16 @@ import java.util.Optional;
 @AutoValue
 public abstract class FileEdits {
   public static FileEdits create(
-      List<org.eclipse.jgit.diff.Edit> jgitEdits,
+      ImmutableList<Edit> edits, Optional<String> oldPath, Optional<String> newPath) {
+    return new AutoValue_FileEdits(edits, oldPath, newPath);
+  }
+
+  public static FileEdits createFromJgitEdits(
+      ImmutableList<org.eclipse.jgit.diff.Edit> jgitEdits,
       Optional<String> oldPath,
       Optional<String> newPath) {
-    ImmutableList<Edit> edits =
-        jgitEdits.stream().map(Edit::fromJGitEdit).collect(toImmutableList());
-    return new AutoValue_FileEdits(edits, oldPath, newPath);
+    return new AutoValue_FileEdits(
+        jgitEdits.stream().map(Edit::fromJGitEdit).collect(toImmutableList()), oldPath, newPath);
   }
 
   public abstract ImmutableList<Edit> edits();

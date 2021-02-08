@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch.filediff;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 
@@ -457,9 +458,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
           new EditTransformer(
               ImmutableList.of(
                   FileEdits.create(
-                      parentVsParentDiff.edits().stream()
-                          .map(Edit::toJGitEdit)
-                          .collect(Collectors.toList()),
+                      parentVsParentDiff.edits().stream().collect(toImmutableList()),
                       parentVsParentDiff.oldPath(),
                       parentVsParentDiff.newPath())));
 
@@ -468,9 +467,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         editTransformer.transformReferencesOfSideA(
             ImmutableList.of(
                 FileEdits.create(
-                    oldVsParDiff.edits().stream()
-                        .map(Edit::toJGitEdit)
-                        .collect(Collectors.toList()),
+                    oldVsParDiff.edits().stream().collect(toImmutableList()),
                     oldVsParDiff.oldPath(),
                     oldVsParDiff.newPath())));
       }
@@ -480,9 +477,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         editTransformer.transformReferencesOfSideB(
             ImmutableList.of(
                 FileEdits.create(
-                    newVsParDiff.edits().stream()
-                        .map(Edit::toJGitEdit)
-                        .collect(Collectors.toList()),
+                    newVsParDiff.edits().stream().collect(toImmutableList()),
                     newVsParDiff.oldPath(),
                     newVsParDiff.newPath())));
       }
@@ -501,7 +496,8 @@ public class FileDiffCacheImpl implements FileDiffCache {
               .map(ContextAwareEdit::toEdit)
               .filter(Optional::isPresent)
               .map(Optional::get)
-              .collect(Collectors.toList()),
+              .map(Edit::fromJGitEdit)
+              .collect(toImmutableList()),
           edits.iterator().next().getOldFilePath(),
           edits.iterator().next().getNewFilePath());
     }

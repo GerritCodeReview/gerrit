@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d147e5e7_43b70f0c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-08T09:53:18Z",
+      "side": 1,
+      "message": "I don\u0027t understand why there are two Checks Chips when they share same css. \n\nWouldn\u0027t be easier to have one checksChip will have a slot and you either put count or text - link inside?\n\nOr having general check chip with css and two count and detail chip using it.",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 53
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99eace55_ccf081f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-08T09:53:18Z",
+      "side": 1,
+      "message": "NIT: Imho this would be fine inside render(). It\u0027s simple.",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 6
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a12ab125_cfe140bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-08T09:53:18Z",
+      "side": 1,
+      "message": "What is this filter doing? if you are checking for undefined you can use `notUndefined`. But typescript is not showing me that link could be undefined.",
+      "range": {
+        "startLine": 363,
+        "startChar": 26,
+        "endLine": 363,
+        "endChar": 30
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "068aff32_a7ed0d51",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-08T09:53:18Z",
+      "side": 1,
+      "message": "NIT: This is as well INITIAL_QUOTA.",
+      "range": {
+        "startLine": 364,
+        "startChar": 19,
+        "endLine": 364,
+        "endChar": 21
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50dfacf1_97e72055",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-08T09:53:18Z",
+      "side": 1,
+      "message": "NIT: Maybe introduce constant INITIAL_QUOTA since it is used on 2 places",
+      "range": {
+        "startLine": 394,
+        "startChar": 24,
+        "endLine": 394,
+        "endChar": 25
+      },
+      "revId": "43ea8d82b9313b04b6b9eb95813223ca0a37d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

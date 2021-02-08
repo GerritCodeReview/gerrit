@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80359463_11d898a0",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T15:03:35Z",
+      "side": 1,
+      "message": "I thought the context range includes lines before and after the comment range (hence the \"con\" prefix)?",
+      "parentUuid": "8ee92765_07ab01a4",
+      "range": {
+        "startLine": 39,
+        "startChar": 9,
+        "endLine": 39,
+        "endChar": 16
+      },
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19723fb5_489c5e33",
         "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
         "patchSetId": 1
@@ -120,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9cbb8b8d_c02a1d52",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T15:03:35Z",
+      "side": 1,
+      "message": "[I realize this is just a nit...] I think padding means the distance from the content to the border [1], which is half of \"padding\" in this case. If an element has 50px of padding then it will have 100px of vertical whitespace.\n\n[1] https://www.w3schools.com/css/css_padding.asp",
+      "parentUuid": "715ee936_7629c4be",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "03969ea7_2da0d7ef",
         "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
         "patchSetId": 1
@@ -149,6 +191,24 @@
       "side": 1,
       "message": "The idea is to return exactly the number of context lines specified by the caller, which will usually imply ending at few lines after the comment range, i.e. if comment is written at lines [7-8] and we request 6 context lines, caller should expect lines [5-10] inclusive.\n\nnumContextLines are respected, unless the file contains less lines than the number of requested context lines. In this case, we return the whole file.",
       "parentUuid": "03969ea7_2da0d7ef",
+      "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc2fb401_2e916a85",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T15:03:35Z",
+      "side": 1,
+      "message": "IIUC if you have a comment at line 10 and request 50 context lines then you\u0027d get lines 1-50 in this case. Wouldn\u0027t you rather expect lines 1-35?",
+      "parentUuid": "777f9ecb_1b353aec",
       "revId": "adaacd66ee72fb5a783de1b3e07215d447dd4836",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

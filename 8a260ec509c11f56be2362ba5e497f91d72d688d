@@ -16,6 +16,97 @@
       "message": "Minor tweaks left but it\u0027s ready for the first pass.",
       "revId": "8a260ec509c11f56be2362ba5e497f91d72d688d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "855223c6_1d378e77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T15:10:28Z",
+      "side": 1,
+      "message": "Can you try a similar approach to what Frank did for the ranged comment chip?\n\nHe is adding the extra content in _handleRenderContent() of gr-diff.ts. The advantage is that the diff does not have to be re-rendered when only the comments change. Also, you don\u0027t have to pass information about ported comments into the diff builder.",
+      "revId": "8a260ec509c11f56be2362ba5e497f91d72d688d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4af26f67_cca0d0d1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T15:10:28Z",
+      "side": 1,
+      "message": "What about \n\n  if (number \u003d\u003d\u003d \u0027LOST\u0027) return td;\n\nsimilar to lines 550-552?",
+      "revId": "8a260ec509c11f56be2362ba5e497f91d72d688d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45cff83f_969fd944",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T15:10:28Z",
+      "side": 1,
+      "message": "This is ok also for \u0027lost\u0027?",
+      "revId": "8a260ec509c11f56be2362ba5e497f91d72d688d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41402f1c_7572c7d8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T15:10:28Z",
+      "side": 1,
+      "message": "Why do these have to be passed separately from the other threads into gr-diff?",
+      "revId": "8a260ec509c11f56be2362ba5e497f91d72d688d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f43f3c24_fe9bba19",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T15:10:28Z",
+      "side": 1,
+      "message": "Can this be derived from `lineNum \u003d\u003d\u003d \u0027LOST\u0027`?",
+      "range": {
+        "startLine": 177,
+        "startChar": 2,
+        "endLine": 177,
+        "endChar": 15
+      },
+      "revId": "8a260ec509c11f56be2362ba5e497f91d72d688d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

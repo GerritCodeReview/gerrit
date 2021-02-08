@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4091a3c4_ac9bb5aa",
+        "filename": "java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-08T23:12:00Z",
+      "side": 0,
+      "message": "This needs to stay here: it is needed for migration from v2.14 or earlier releases.",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 42
+      },
+      "revId": "fce488d7dc45396dae3bde6011e3c296ce7f1357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

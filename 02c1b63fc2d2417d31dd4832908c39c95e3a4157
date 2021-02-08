@@ -33,6 +33,24 @@
       "message": "Verified E2E: I\u0027ve run the Gatling tests again Gerrit v2.16 with NoteDb.\n\nBefore the change: tens of thousands of connections, open/closed.\nAfter the change: no connections.\n\nFrom a user\u0027s perspective, there are no functional differences at all.",
       "revId": "02c1b63fc2d2417d31dd4832908c39c95e3a4157",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "345ac82a_26985ddf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-08T22:01:11Z",
+      "side": 1,
+      "message": "I figured that we could cherry-pick more changes to disable ReviewDb usage for accounts and group sequence, as it\u0027s already migrated to NoteDb. I uploaded follow-up changes.",
+      "parentUuid": "2f67903d_919f3134",
+      "revId": "02c1b63fc2d2417d31dd4832908c39c95e3a4157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

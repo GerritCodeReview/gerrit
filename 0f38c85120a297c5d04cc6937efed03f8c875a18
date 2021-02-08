@@ -33,6 +33,24 @@
       "message": "Nit: It is nice to rely on properties being defined. For arrays that is simple to achieve. You can just initialize with [].",
       "revId": "0f38c85120a297c5d04cc6937efed03f8c875a18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a69a28c_a0a4a675",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-08T09:17:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be9ab5d2_7df19961",
+      "revId": "0f38c85120a297c5d04cc6937efed03f8c875a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

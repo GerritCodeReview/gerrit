@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e98b6956_8ea84d6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-08T14:44:40Z",
+      "side": 1,
+      "message": "LGTM, but IIUC you\u0027re planning to add a test for the binary equality to this change?",
+      "revId": "bcd3edf2811b48eef490d07bfa3355bd29e3fb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

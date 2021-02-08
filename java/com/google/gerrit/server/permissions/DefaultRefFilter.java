@@ -318,7 +318,7 @@ class DefaultRefFilter {
                       && !r.getName().startsWith(RefNames.REFS_TAGS)
                       && !r.isSymbolic()
                       && !r.getName().equals(RefNames.REFS_CONFIG))
-          .collect(toCollection(() -> new ArrayList<>(allRefs.size())));
+          .collect(Collectors.toList());
     } catch (IOException e) {
       throw new PermissionBackendException(e);
     }

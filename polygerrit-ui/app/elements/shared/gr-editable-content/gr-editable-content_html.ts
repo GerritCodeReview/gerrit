@@ -38,6 +38,7 @@ export const htmlTemplate = html`
     .editor iron-autogrow-textarea {
       background-color: var(--view-background-color);
       width: 100%;
+      display: block;
 
       /* You have to also repeat everything from shared-styles here, because
            you can only *replace* --iron-autogrow-textarea vars as a whole. */
@@ -52,23 +53,75 @@ export const htmlTemplate = html`
       display: flex;
       justify-content: space-between;
     }
+    .show-all-container {
+      background-color: var(--view-background-color);
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+      border-top-width: 1px;
+      border-top-style: solid;
+      border-radius: 0 0 4px 4px;
+      border-color: var(--border-color);
+      box-shadow: var(--elevation-level-1);
+    }
+    .show-all-container .show-all-button {
+      margin-right: auto;
+    }
+    .show-all-container iron-icon {
+      color: inherit;
+      --iron-icon-height: 18px;
+      --iron-icon-width: 18px;
+    }
   </style>
   <div class="viewer" hidden$="[[editing]]">
     <slot></slot>
   </div>
   <div class="editor" hidden$="[[!editing]]">
-    <iron-autogrow-textarea
-      autocomplete="on"
-      bind-value="{{_newContent}}"
-      disabled="[[disabled]]"
-    ></iron-autogrow-textarea>
-    <div class="editButtons">
-      <gr-button primary="" on-click="_handleSave" disabled="[[_saveDisabled]]"
-        >Save</gr-button
-      >
-      <gr-button on-click="_handleCancel" disabled="[[disabled]]"
-        >Cancel</gr-button
-      >
+    <div>
+      <iron-autogrow-textarea
+        autocomplete="on"
+        bind-value="{{_newContent}}"
+        disabled="[[disabled]]"
+      ></iron-autogrow-textarea>
+      <div class="editButtons" hidden="[[_isNewChangeSummaryUiEnabled]]">
+        <gr-button primary="" on-click="_handleSave" disabled="[[_saveDisabled]]"
+          >Save</gr-button
+        >
+        <gr-button on-click="_handleCancel" disabled="[[disabled]]"
+          >Cancel</gr-button
+        >
+      </div>
     </div>
   </div>
+  <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
+    <div
+      class="show-all-container"
+      hidden$="[[_hideShowAllContainer]]"
+    >
+      <gr-button
+        link=""
+        class="show-all-button"
+        on-click="_toggleCommitCollapsed"
+        hidden$="[[!_commitCollapsible]]"
+        ><iron-icon
+          icon="gr-icons:expand-more"
+          hidden$="[[!_commitCollapsed]]"
+        ></iron-icon
+        ><iron-icon
+          icon="gr-icons:expand-less"
+          hidden$="[[_commitCollapsed]]"
+        ></iron-icon>
+        [[_computeCollapseText(_commitCollapsed)]]
+      </gr-button>
+      <gr-button
+        link=""
+        class="edit-commit-message"
+        title="Edit commit message"
+        on-click="_handleEditCommitMessage"
+        hidden$="[[_hideEditCommitMessage]]"
+        ><iron-icon icon="gr-icons:edit"></iron-icon>
+        Edit</gr-button
+      >
+    </div>
+  </template>
 `;

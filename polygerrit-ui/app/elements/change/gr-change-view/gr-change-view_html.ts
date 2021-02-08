@@ -505,37 +505,6 @@ export const htmlTemplate = html`
                     remove-zero-width-space=""
                   ></gr-linked-text>
                 </gr-editable-content>
-                <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
-                  <div
-                    class="show-all-container"
-                    hidden$="[[_hideShowAllContainer]]"
-                  >
-                    <gr-button
-                      link=""
-                      class="show-all-button"
-                      on-click="_toggleCommitCollapsed"
-                      hidden$="[[!_commitCollapsible]]"
-                      ><iron-icon
-                        icon="gr-icons:expand-more"
-                        hidden$="[[!_commitCollapsed]]"
-                      ></iron-icon
-                      ><iron-icon
-                        icon="gr-icons:expand-less"
-                        hidden$="[[_commitCollapsed]]"
-                      ></iron-icon>
-                      [[_computeCollapseText(_commitCollapsed)]]
-                    </gr-button>
-                    <gr-button
-                      link=""
-                      class="edit-commit-message"
-                      title="Edit commit message"
-                      on-click="_handleEditCommitMessage"
-                      hidden$="[[_hideEditCommitMessage]]"
-                      ><iron-icon icon="gr-icons:edit"></iron-icon>
-                      Edit</gr-button
-                    >
-                  </div>
-                </template>
                 <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
                   <gr-button
                     link=""

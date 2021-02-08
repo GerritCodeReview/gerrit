@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4415861d_df2d64c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T13:29:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77a40bb4_13b27f83",
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33c17691_1392a541",
@@ -90,6 +108,30 @@
       "side": 1,
       "message": "added javadoc. \n\nWe don\u0027t convert from one proto to another. This is going from AutoValues to proto.",
       "parentUuid": "4ac4d4b3_689ae4e1",
+      "range": {
+        "startLine": 485,
+        "startChar": 38,
+        "endLine": 485,
+        "endChar": 60
+      },
+      "revId": "142fed88fb094d3a20667a724970cf988bfc1e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eee7300_9cb3ae02",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-08T13:29:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "01dc0750_bba3b7cd",
       "range": {
         "startLine": 485,
         "startChar": 38,

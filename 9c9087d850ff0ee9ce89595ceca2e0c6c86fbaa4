@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3b337b3_47c2d12a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-08T11:36:40Z",
+      "side": 1,
+      "message": "that\u0027s not super safe considering we\u0027re trying to make sure the bug is fixed, and it will be confusing if the bug remains after the change but for different reasons.\n\nCan you split it into two changes (that we roll incrementally?)",
+      "range": {
+        "startLine": 11,
+        "startChar": 18,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "9c9087d850ff0ee9ce89595ceca2e0c6c86fbaa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

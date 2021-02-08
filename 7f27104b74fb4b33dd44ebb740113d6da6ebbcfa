@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "c38ab629_50bfda03",
         "filename": "java/com/google/gerrit/sshd/BUILD",
@@ -20,10 +21,10 @@
         "endChar": 32
       },
       "revId": "7f27104b74fb4b33dd44ebb740113d6da6ebbcfa",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "2f543c8a_6f0f4b1b",
         "filename": "java/com/google/gerrit/testing/TestLoggingActivator.java",
@@ -37,10 +38,10 @@
       "side": 1,
       "message": "The same changes as in this file should be done in resources/log4j.properties.",
       "revId": "7f27104b74fb4b33dd44ebb740113d6da6ebbcfa",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "931430a0_1f4e5d2e",
         "filename": "resources/log4j.properties",
@@ -54,8 +55,25 @@
       "side": 1,
       "message": "Left over debug diagnsotic changes.",
       "revId": "7f27104b74fb4b33dd44ebb740113d6da6ebbcfa",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2404642e_b186f48b",
+        "filename": "resources/log4j.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-08T18:55:13Z",
+      "side": 1,
+      "message": "Reverted. Done.",
+      "parentUuid": "931430a0_1f4e5d2e",
+      "revId": "7f27104b74fb4b33dd44ebb740113d6da6ebbcfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,8 +18,10 @@ import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import java.util.Map;
 
 public interface CommitApi {
   CommitInfo get() throws RestApiException;
@@ -27,6 +29,9 @@ public interface CommitApi {
   ChangeApi cherryPick(CherryPickInput input) throws RestApiException;
 
   IncludedInInfo includedIn() throws RestApiException;
+
+  /** List files in a specific commit against the parent commit. */
+  Map<String, FileInfo> files(int parentNum) throws RestApiException;
 
   /** A default implementation for source compatibility when adding new methods to the interface. */
   class NotImplemented implements CommitApi {
@@ -42,6 +47,11 @@ public interface CommitApi {
 
     @Override
     public IncludedInInfo includedIn() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, FileInfo> files(int parentNum) throws RestApiException {
       throw new NotImplementedException();
     }
   }

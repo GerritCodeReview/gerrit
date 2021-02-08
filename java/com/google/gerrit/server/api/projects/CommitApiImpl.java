@@ -22,13 +22,16 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.projects.CommitApi;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.restapi.change.CherryPickCommit;
 import com.google.gerrit.server.restapi.project.CommitIncludedIn;
+import com.google.gerrit.server.restapi.project.FilesInCommitCollection;
 import com.google.gerrit.server.restapi.project.GetCommit;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Map;
 
 public class CommitApiImpl implements CommitApi {
   public interface Factory {
@@ -40,6 +43,7 @@ public class CommitApiImpl implements CommitApi {
   private final CherryPickCommit cherryPickCommit;
   private final CommitIncludedIn includedIn;
   private final CommitResource commitResource;
+  private final FilesInCommitCollection.ListFiles listFiles;
 
   @Inject
   CommitApiImpl(
@@ -47,11 +51,13 @@ public class CommitApiImpl implements CommitApi {
       GetCommit getCommit,
       CherryPickCommit cherryPickCommit,
       CommitIncludedIn includedIn,
+      FilesInCommitCollection.ListFiles listFiles,
       @Assisted CommitResource commitResource) {
     this.changes = changes;
     this.getCommit = getCommit;
     this.cherryPickCommit = cherryPickCommit;
     this.includedIn = includedIn;
+    this.listFiles = listFiles;
     this.commitResource = commitResource;
   }
 
@@ -79,6 +85,15 @@ public class CommitApiImpl implements CommitApi {
       return includedIn.apply(commitResource).value();
     } catch (Exception e) {
       throw asRestApiException("Could not extract IncludedIn data", e);
+    }
+  }
+
+  @Override
+  public Map<String, FileInfo> files(int parentNum) throws RestApiException {
+    try {
+      return listFiles.setParent(parentNum).apply(commitResource).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve files", e);
     }
   }
 }

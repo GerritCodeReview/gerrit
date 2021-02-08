@@ -87,6 +87,11 @@ public class FilesInCommitCollection implements ChildCollection<CommitResource, 
       this.fileInfoJson = fileInfoJson;
     }
 
+    public ListFiles setParent(int parentNum) {
+      this.parentNum = parentNum;
+      return this;
+    }
+
     @Override
     public Response<Map<String, FileInfo>> apply(CommitResource resource)
         throws ResourceConflictException, PatchListNotAvailableException {

@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
-import com.google.protobuf.Parser;
 import org.junit.Test;
 
 public class ProjectNameKeyProtoConverterTest {
@@ -48,18 +47,6 @@ public class ProjectNameKeyProtoConverterTest {
         projectNameKeyProtoConverter.fromProto(projectNameKeyProtoConverter.toProto(nameKey));
 
     assertThat(convertedNameKey).isEqualTo(nameKey);
-  }
-
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.Project_NameKey proto =
-        Entities.Project_NameKey.newBuilder().setName("project 36").build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.Project_NameKey> parser = projectNameKeyProtoConverter.getParser();
-    Entities.Project_NameKey parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */

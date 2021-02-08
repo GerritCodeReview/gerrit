@@ -23,7 +23,6 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
-import com.google.protobuf.Parser;
 import java.lang.reflect.Type;
 import org.junit.Test;
 
@@ -53,21 +52,6 @@ public class BranchNameKeyProtoConverterTest {
         branchNameKeyProtoConverter.fromProto(branchNameKeyProtoConverter.toProto(nameKey));
 
     assertThat(convertedNameKey).isEqualTo(nameKey);
-  }
-
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.Branch_NameKey proto =
-        Entities.Branch_NameKey.newBuilder()
-            .setProject(Entities.Project_NameKey.newBuilder().setName("project 1"))
-            .setBranch("branch 36")
-            .build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.Branch_NameKey> parser = branchNameKeyProtoConverter.getParser();
-    Entities.Branch_NameKey parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */

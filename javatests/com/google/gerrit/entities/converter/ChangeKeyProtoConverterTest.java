@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
-import com.google.protobuf.Parser;
 import org.junit.Test;
 
 public class ChangeKeyProtoConverterTest {
@@ -46,17 +45,6 @@ public class ChangeKeyProtoConverterTest {
         changeKeyProtoConverter.fromProto(changeKeyProtoConverter.toProto(changeKey));
 
     assertThat(convertedChangeKey).isEqualTo(changeKey);
-  }
-
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.Change_Key proto = Entities.Change_Key.newBuilder().setId("change 36").build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.Change_Key> parser = changeKeyProtoConverter.getParser();
-    Entities.Change_Key parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */

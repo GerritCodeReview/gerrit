@@ -26,7 +26,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
-import com.google.protobuf.Parser;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import org.junit.Test;
@@ -275,40 +274,6 @@ public class ChangeProtoConverterTest {
     Change change = changeProtoConverter.fromProto(proto);
 
     assertThat(change.getLastUpdatedOn()).isEqualTo(new Timestamp(987654L));
-  }
-
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.Change proto =
-        Entities.Change.newBuilder()
-            .setChangeId(Entities.Change_Id.newBuilder().setId(14))
-            .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
-            .setRowVersion(0)
-            .setCreatedOn(987654L)
-            .setLastUpdatedOn(1234567L)
-            .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
-            .setDest(
-                Entities.Branch_NameKey.newBuilder()
-                    .setProject(Entities.Project_NameKey.newBuilder().setName("project 67"))
-                    .setBranch("branch 74"))
-            .setStatus(Change.STATUS_MERGED)
-            .setCurrentPatchSetId(23)
-            .setSubject("subject XYZ")
-            .setTopic("my topic")
-            .setOriginalSubject("original subject ABC")
-            .setSubmissionId("submission ID 234")
-            .setAssignee(Entities.Account_Id.newBuilder().setId(100001))
-            .setIsPrivate(true)
-            .setWorkInProgress(true)
-            .setReviewStarted(true)
-            .setRevertOf(Entities.Change_Id.newBuilder().setId(180))
-            .build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.Change> parser = changeProtoConverter.getParser();
-    Entities.Change parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */

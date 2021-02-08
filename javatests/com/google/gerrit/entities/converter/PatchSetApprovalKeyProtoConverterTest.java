@@ -26,7 +26,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
-import com.google.protobuf.Parser;
 import java.lang.reflect.Type;
 import org.junit.Test;
 
@@ -63,25 +62,6 @@ public class PatchSetApprovalKeyProtoConverterTest {
     PatchSetApproval.Key convertedKey = protoConverter.fromProto(protoConverter.toProto(key));
 
     assertThat(convertedKey).isEqualTo(key);
-  }
-
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.PatchSetApproval_Key proto =
-        Entities.PatchSetApproval_Key.newBuilder()
-            .setPatchSetId(
-                Entities.PatchSet_Id.newBuilder()
-                    .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                    .setId(14))
-            .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-            .setLabelId(Entities.LabelId.newBuilder().setId("label-8"))
-            .build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.PatchSetApproval_Key> parser = protoConverter.getParser();
-    Entities.PatchSetApproval_Key parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */

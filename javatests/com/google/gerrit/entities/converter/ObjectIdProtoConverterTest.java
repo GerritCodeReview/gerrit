@@ -20,7 +20,6 @@ import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatS
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
-import com.google.protobuf.Parser;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -46,18 +45,6 @@ public class ObjectIdProtoConverterTest {
         objectIdProtoConverter.fromProto(objectIdProtoConverter.toProto(objectId));
 
     assertThat(convertedObjectId).isEqualTo(objectId);
-  }
-
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.ObjectId proto =
-        Entities.ObjectId.newBuilder().setName("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef").build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.ObjectId> parser = objectIdProtoConverter.getParser();
-    Entities.ObjectId parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */

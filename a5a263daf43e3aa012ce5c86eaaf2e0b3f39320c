@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c39d356_80f62653",
+        "filename": "java/com/google/gerrit/server/restapi/project/FilesInCommitCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T13:09:00Z",
+      "side": 1,
+      "message": "FileInfoJson\u0027s API is used in other parts of the codebase and expects callers to pass a 0-based parent number. This line here is converting the parameter from 1-based to 0-based, since the REST API accepts a 1-based parent.\n\nInside FileInfoJson, we increment the parent again because the old diff cache expects 1-based parent. I did not change the logic there with my current/previous refactoring, but we could refactor the whole API in a later change to avoid this confusion.",
+      "parentUuid": "83e8beb8_b9c7648b",
+      "range": {
+        "startLine": 101,
+        "startChar": 63,
+        "endLine": 101,
+        "endChar": 76
+      },
+      "revId": "a5a263daf43e3aa012ce5c86eaaf2e0b3f39320c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5369c9fc_6fd1e5f4",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-08T12:16:27Z",
       "side": 1,
       "message": "nit: comment to explain the number (also below)\n\n/* parameterName\u003d */ 0",
+      "range": {
+        "startLine": 62,
+        "startChar": 71,
+        "endLine": 62,
+        "endChar": 72
+      },
+      "revId": "a5a263daf43e3aa012ce5c86eaaf2e0b3f39320c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3962b196_48fadf24",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/FilesInCommitIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-08T13:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5369c9fc_6fd1e5f4",
       "range": {
         "startLine": 62,
         "startChar": 71,

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83e8beb8_b9c7648b",
+        "filename": "java/com/google/gerrit/server/restapi/project/FilesInCommitCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-08T12:16:27Z",
+      "side": 1,
+      "message": "you\u0027re using -1 here, but +1 in FilesInfoJsonOldImpl, looks like also in the NewImpl.\nWill it work to get rid of the +1s and -1s?\n\nThen the default parent will be 0, and not -1, too.",
+      "range": {
+        "startLine": 101,
+        "startChar": 63,
+        "endLine": 101,
+        "endChar": 76
+      },
+      "revId": "a5a263daf43e3aa012ce5c86eaaf2e0b3f39320c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5369c9fc_6fd1e5f4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/FilesInCommitIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-08T12:16:27Z",
+      "side": 1,
+      "message": "nit: comment to explain the number (also below)\n\n/* parameterName\u003d */ 0",
+      "range": {
+        "startLine": 62,
+        "startChar": 71,
+        "endLine": 62,
+        "endChar": 72
+      },
+      "revId": "a5a263daf43e3aa012ce5c86eaaf2e0b3f39320c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

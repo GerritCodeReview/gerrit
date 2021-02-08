@@ -46,7 +46,7 @@ export function iconForStatus(status: RunStatus) {
   switch (status) {
     // Note that this is only for COMPLETED without results!
     case RunStatus.COMPLETED:
-      return 'check-circle';
+      return 'check-circle-outline';
     case RunStatus.RUNNABLE:
       return 'placeholder';
     case RunStatus.RUNNING:

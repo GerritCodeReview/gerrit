@@ -32,6 +32,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -118,9 +119,15 @@ public abstract class AbstractChangeNotes<T> {
   private ObjectId revision;
   private boolean loaded;
 
-  protected AbstractChangeNotes(Args args, Change.Id changeId) {
+  // todo - should check if metasha1 is on the meta branch?
+  protected AbstractChangeNotes(Args args, Change.Id changeId, Optional<ObjectId> metaSha1) {
     this.args = requireNonNull(args);
     this.changeId = requireNonNull(changeId);
+    this.revision = metaSha1.isPresent() ? metaSha1.get() : null;
+  }
+
+  protected AbstractChangeNotes(Args args, Change.Id changeId) {
+    this(args, changeId, Optional.empty());
   }
 
   public Change.Id getChangeId() {
@@ -144,7 +151,7 @@ public abstract class AbstractChangeNotes<T> {
         Repository repo = args.repoManager.openRepository(getProjectName());
         // Call openHandle even if reading is disabled, to trigger
         // auto-rebuilding before this object may get passed to a ChangeUpdate.
-        LoadHandle handle = openHandle(repo)) {
+        LoadHandle handle = openHandle(repo, revision)) {
       revision = handle.id();
       onLoad(handle);
       loaded = true;
@@ -170,11 +177,11 @@ public abstract class AbstractChangeNotes<T> {
    * @throws NoSuchChangeException change does not exist.
    * @throws IOException a repo-level error occurred.
    */
-  protected LoadHandle openHandle(Repository repo) throws NoSuchChangeException, IOException {
-    return openHandle(repo, readRef(repo));
-  }
-
-  protected LoadHandle openHandle(Repository repo, ObjectId id) {
+  protected LoadHandle openHandle(Repository repo, @Nullable ObjectId id)
+      throws NoSuchChangeException, IOException {
+    if (id == null) {
+      id = readRef(repo);
+    }
     return new LoadHandle(repo, id);
   }
 

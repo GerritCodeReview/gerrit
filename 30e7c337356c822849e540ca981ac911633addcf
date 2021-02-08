@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3a17b70_5d214347",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T07:49:27Z",
+      "side": 1,
+      "message": "Maybe use instead\n\n  var(--line-height-small)",
+      "range": {
+        "startLine": 318,
+        "startChar": 10,
+        "endLine": 319,
+        "endChar": 22
+      },
+      "revId": "30e7c337356c822849e540ca981ac911633addcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa9ae8e7_d9ce762e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T07:49:27Z",
+      "side": 1,
+      "message": "This should be 32. Smaller size. Same size as in account-label. Thus more caching.",
+      "range": {
+        "startLine": 398,
+        "startChar": 34,
+        "endLine": 398,
+        "endChar": 37
+      },
+      "revId": "30e7c337356c822849e540ca981ac911633addcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a96184d_592dc58d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T07:49:27Z",
+      "side": 1,
+      "message": "Why the additional assignment to another variable instead of just continuing with the filter?",
+      "range": {
+        "startLine": 427,
+        "startChar": 10,
+        "endLine": 427,
+        "endChar": 23
+      },
+      "revId": "30e7c337356c822849e540ca981ac911633addcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "830e8a6a_3f0090b8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-08T07:49:27Z",
+      "side": 1,
+      "message": "Instead of adding a comment like this I find it easier to just extract a function with that name. WDYT?\n\nCould be extracted into account-util maybe.",
+      "range": {
+        "startLine": 429,
+        "startChar": 9,
+        "endLine": 429,
+        "endChar": 28
+      },
+      "revId": "30e7c337356c822849e540ca981ac911633addcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

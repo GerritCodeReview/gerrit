@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
-import com.google.protobuf.Parser;
 import org.junit.Test;
 
 public class LabelIdProtoConverterTest {
@@ -46,17 +45,6 @@ public class LabelIdProtoConverterTest {
         labelIdProtoConverter.fromProto(labelIdProtoConverter.toProto(labelId));
 
     assertThat(convertedLabelId).isEqualTo(labelId);
-  }
-
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.LabelId proto = Entities.LabelId.newBuilder().setId("label-23").build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.LabelId> parser = labelIdProtoConverter.getParser();
-    Entities.LabelId parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */

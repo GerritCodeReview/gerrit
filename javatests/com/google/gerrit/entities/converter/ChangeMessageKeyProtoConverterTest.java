@@ -23,7 +23,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
-import com.google.protobuf.Parser;
 import java.lang.reflect.Type;
 import org.junit.Test;
 
@@ -53,21 +52,6 @@ public class ChangeMessageKeyProtoConverterTest {
         messageKeyProtoConverter.fromProto(messageKeyProtoConverter.toProto(messageKey));
 
     assertThat(convertedMessageKey).isEqualTo(messageKey);
-  }
-
-  @Test
-  public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.ChangeMessage_Key proto =
-        Entities.ChangeMessage_Key.newBuilder()
-            .setChangeId(Entities.Change_Id.newBuilder().setId(704))
-            .setUuid("aabbcc")
-            .build();
-    byte[] bytes = proto.toByteArray();
-
-    Parser<Entities.ChangeMessage_Key> parser = messageKeyProtoConverter.getParser();
-    Entities.ChangeMessage_Key parsedProto = parser.parseFrom(bytes);
-
-    assertThat(parsedProto).isEqualTo(proto);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */

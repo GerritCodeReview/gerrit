@@ -69,7 +69,8 @@ public interface FileInfoJson {
   /**
    * Computes the list of modified files for a given project and commit against its parent. For
    * merge commits, callers can use 0, 1, 2, etc... to choose a specific parent. The first parent is
-   * 0.
+   * 0. A value of -1 for parent can be passed to use the default base commit, which is the only
+   * parent for commits having only one parent, or the auto-merge otherwise.
    *
    * @param project a project identifying a repository.
    * @param objectId a commit SHA-1 identifying a patchset commit.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a396873_6cb130aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-09T08:29:06Z",
+      "side": 1,
+      "message": "I have just tried out the change and there are no \"cancel\" and \"save\" buttons visible in EDIT state.",
+      "revId": "4c4a8bf73e4692624824088471850329139b4589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10e978aa_15f4df7e",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-09T14:24:11Z",
+      "side": 1,
+      "message": "add some doc: this is decided on a per-request basis, so outcomes should not persisted in @Singleton.",
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ee3cc02_b5db6411",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-09T14:24:11Z",
+      "side": 1,
+      "message": "this follows from getEnabledExperimentFeatures() ? Ie. you only need getEnabledExperimentFeatures in the interface definition, and isFeatureEnabled should be a convenience wrapper.",
+      "range": {
+        "startLine": 31,
+        "startChar": 10,
+        "endLine": 31,
+        "endChar": 26
+      },
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3f43b27_24cc610e",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-09T14:24:11Z",
+      "side": 1,
+      "message": "I think this is deprecated by now. Can you check with Dhruv?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 85
+      },
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

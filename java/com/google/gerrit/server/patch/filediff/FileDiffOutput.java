@@ -95,10 +95,11 @@ public abstract class FileDiffOutput implements Serializable {
   }
 
   /** Returns an entity representing an unchanged file between two commits. */
-  static FileDiffOutput empty(String filePath) {
+  public static FileDiffOutput empty(String filePath) {
     return builder()
         .oldPath(Optional.empty())
         .newPath(Optional.of(filePath))
+        .changeType(Optional.of(ChangeType.MODIFIED))
         .headerLines(ImmutableList.of())
         .edits(ImmutableList.of())
         .size(0)

@@ -237,9 +237,6 @@ export class GrChecksChip extends GrLitElement {
 /** What is the maximum number of expanded checks chips? */
 const DETAILS_QUOTA = 3;
 
-/** What is the maximum number of links renderend within one chip? */
-const MAX_LINKS_PER_CHIP = 3;
-
 @customElement('gr-change-summary')
 export class GrChangeSummary extends GrLitElement {
   private readonly newChangeSummaryUiEnabled = appContext.flagsService.isEnabled(
@@ -284,9 +281,11 @@ export class GrChangeSummary extends GrLitElement {
         }
         td.key {
           padding-right: var(--spacing-l);
+          padding-bottom: var(--spacing-m);
         }
         td.value {
           padding-right: var(--spacing-l);
+          padding-bottom: var(--spacing-m);
         }
         iron-icon.launch {
           color: var(--gray-foreground);
@@ -331,15 +330,13 @@ export class GrChangeSummary extends GrLitElement {
     if (runs.length <= this.detailsQuota) {
       this.detailsQuota -= runs.length;
       return runs.map(run => {
-        const links = resultFilter(run)
+        const allLinks = resultFilter(run)
           .reduce((links, result) => {
             return links.concat(result.links ?? []);
           }, [] as Link[])
-          .filter(link => link.primary)
-          .slice(0, MAX_LINKS_PER_CHIP);
-        const count = resultFilter(run).length;
-        const countText = count > 1 ? ` ${count}` : '';
-        const text = `${run.checkName}${countText}`;
+          .filter(link => link.primary);
+        const links = allLinks.length === 1 ? allLinks : [];
+        const text = `${run.checkName}`;
         return html`<gr-checks-chip
           class="${icon}"
           .icon="${icon}"

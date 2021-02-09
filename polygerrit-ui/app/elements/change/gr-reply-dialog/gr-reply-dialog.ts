@@ -991,7 +991,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       const notIsReviewerAndHasDraftOrLabel = (r: AccountInfo) =>
         !(r._account_id === currentUser._account_id && (hasDrafts || hasVote));
       reviewers.base
-        .filter(r => r._pendingAdd && r._account_id)
+        .filter(r => (r._pendingAdd || this.canBeStarted) && r._account_id)
         .filter(notIsReviewerAndHasDraftOrLabel)
         .forEach(r => newAttention.add(r._account_id!));
       // Add owner and uploader, if someone else replies.

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5e7aebd_00c54c58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-09T19:05:20Z",
+      "side": 1,
+      "message": "Yeah, I missed this use case, unfortunately. I only tested with already migrated sites to 2.16 or with creation of new site 😞.",
+      "parentUuid": "87146b50_ec77e760",
+      "revId": "5f99164b12018dcdd86193925fa04ecc924be951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "325280ad_0a48b4e5",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-02-08T23:04:48Z",
       "side": 1,
       "message": "This is wrong: when performing the migration to schema-155, we do need to get the next account-id from the account_id sequence on ReviewDb and NOT the first account_id",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 49,
+        "endChar": 43
+      },
+      "revId": "5f99164b12018dcdd86193925fa04ecc924be951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "370ebc43_f4498427",
+        "filename": "java/com/google/gerrit/server/schema/Schema_155.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-09T19:05:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "325280ad_0a48b4e5",
       "range": {
         "startLine": 49,
         "startChar": 18,

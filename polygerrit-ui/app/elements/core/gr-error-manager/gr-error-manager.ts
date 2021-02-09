@@ -33,7 +33,11 @@ import {GrAlert} from '../../shared/gr-alert/gr-alert';
 import {ErrorType, FixIronA11yAnnouncer} from '../../../types/types';
 import {AccountId} from '../../../types/common';
 import {EventType} from '../../../utils/event-util';
-import {NetworkErrorEvent, ServerErrorEvent} from '../../../types/events';
+import {
+  NetworkErrorEvent,
+  ServerErrorEvent,
+  ShowAlertEventDetail,
+} from '../../../types/events';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -274,7 +278,7 @@ export class GrErrorManager extends GestureEventListeners(
     return err;
   }
 
-  _handleShowAlert(e: CustomEvent) {
+  _handleShowAlert(e: CustomEvent<ShowAlertEventDetail>) {
     this._showAlert(
       e.detail.message,
       e.detail.action,

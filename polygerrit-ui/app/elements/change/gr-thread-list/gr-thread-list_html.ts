@@ -68,24 +68,28 @@ export const htmlTemplate = html`
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
     <div class="header">
-      <div class="toggleItem">
-        <paper-toggle-button
-          id="unresolvedToggle"
-          checked="{{!unresolvedOnly}}"
-          on-tap="_onTapUnresolvedToggle"
-          >All comments</paper-toggle-button
+      <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
+        <div class="toggleItem">
+          <paper-toggle-button
+            id="unresolvedToggle"
+            checked="{{!unresolvedOnly}}"
+            on-tap="_onTapUnresolvedToggle"
+            >All comments</paper-toggle-button
+          >
+        </div>
+        <div
+          class$="toggleItem draftToggle [[_computeShowDraftToggle(loggedIn)]]"
         >
-      </div>
-      <div
-        class$="toggleItem draftToggle [[_computeShowDraftToggle(loggedIn)]]"
-      >
-        <paper-toggle-button
-          id="draftToggle"
-          checked="{{_draftsOnly}}"
-          on-tap="_onTapUnresolvedToggle"
-          >Comments with drafts</paper-toggle-button
-        >
-      </div>
+          <paper-toggle-button
+            id="draftToggle"
+            checked="{{_draftsOnly}}"
+            on-tap="_onTapUnresolvedToggle"
+            >Comments with drafts</paper-toggle-button
+          >
+        </div>
+      </template>
+      <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
+      </template>
     </div>
   </template>
   <div id="threads">

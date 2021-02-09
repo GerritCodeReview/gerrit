@@ -34,6 +34,8 @@ import {ChangeInfo} from '../../../types/common';
 import {CommentThread, isDraft, UIRobot} from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {fireThreadListModifiedEvent} from '../../../utils/event-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {appContext} from '../../../services/app-context';
 
 interface CommentThreadWithInfo {
   thread: CommentThread;
@@ -90,6 +92,19 @@ export class GrThreadList extends GestureEventListeners(
 
   @property({type: Boolean})
   hideToggleButtons = false;
+
+  @property({type: Boolean})
+  _isNewChangeSummaryUiEnabled = false;
+
+  flagsService = appContext.flagsService;
+
+  /** @override */
+  ready() {
+    super.ready();
+    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.NEW_CHANGE_SUMMARY_UI
+    );
+  }
 
   _computeShowDraftToggle(loggedIn?: boolean) {
     return loggedIn ? 'show' : '';

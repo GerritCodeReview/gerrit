@@ -562,19 +562,21 @@ public class CmdLineParser {
      *
      * @param name name
      * @return the {@code OptionHandler} or {@code null}
-     *     <p>Note: this is cut & pasted from the parent class in arg4j, it was private and it
-     *     needed to be exposed.
+     *     <p>Note: this was originally cut & pasted from the parent class in arg4j, it was private
+     *     and it needed to be exposed.
      */
     @SuppressWarnings("rawtypes")
     public OptionHandler findOptionByName(String name) {
       for (OptionHandler h : optionsList) {
-        NamedOptionDef option = (NamedOptionDef) h.option;
-        if (name.equals(option.name())) {
-          return h;
-        }
-        for (String alias : option.aliases()) {
-          if (name.equals(alias)) {
+        if (h.option instanceof NamedOptionDef) {
+          NamedOptionDef option = (NamedOptionDef) h.option;
+          if (name.equals(option.name())) {
             return h;
+          }
+          for (String alias : option.aliases()) {
+            if (name.equals(alias)) {
+              return h;
+            }
           }
         }
       }

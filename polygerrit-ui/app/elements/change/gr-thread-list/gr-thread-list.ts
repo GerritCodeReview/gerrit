@@ -31,9 +31,17 @@ import {
   PolymerDeepPropertyChange,
 } from '@polymer/polymer/interfaces';
 import {ChangeInfo} from '../../../types/common';
-import {CommentThread, isDraft, UIRobot} from '../../../utils/comment-util';
+import {
+  CommentThread,
+  isDraft,
+  UIRobot,
+  isUnresolved,
+  isDraftThread,
+} from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {fireThreadListModifiedEvent} from '../../../utils/event-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {appContext} from '../../../services/app-context';
 
 interface CommentThreadWithInfo {
   thread: CommentThread;
@@ -90,6 +98,19 @@ export class GrThreadList extends GestureEventListeners(
 
   @property({type: Boolean})
   hideToggleButtons = false;
+
+  @property({type: Boolean})
+  _isNewChangeSummaryUiEnabled = false;
+
+  flagsService = appContext.flagsService;
+
+  /** @override */
+  ready() {
+    super.ready();
+    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.NEW_CHANGE_SUMMARY_UI
+    );
+  }
 
   _computeShowDraftToggle(loggedIn?: boolean) {
     return loggedIn ? 'show' : '';
@@ -429,6 +450,37 @@ export class GrThreadList extends GestureEventListeners(
     // TODO(TS): That looks like a bug? CommentSide.REVISION will also be
     // classified as parent??
     return !!side;
+  }
+
+  _handleOnlyUnresolved() {
+    this.unresolvedOnly = true;
+    this._draftsOnly = false;
+  }
+
+  _handleOnlyDrafts() {
+    this._draftsOnly = true;
+    this.unresolvedOnly = false;
+  }
+
+  _handleAllComments() {
+    this._draftsOnly = false;
+    this.unresolvedOnly = false;
+  }
+
+  _showAllComments(draftsOnly?: boolean, unresolvedOnly?: boolean) {
+    return !draftsOnly && !unresolvedOnly;
+  }
+
+  _countUnresolved(threads?: CommentThread[]) {
+    return threads?.filter(isUnresolved).length ?? 0;
+  }
+
+  _countAllThreads(threads?: CommentThread[]) {
+    return threads?.length ?? 0;
+  }
+
+  _countDrafts(threads?: CommentThread[]) {
+    return threads?.filter(isDraftThread).length ?? 0;
   }
 
   /**

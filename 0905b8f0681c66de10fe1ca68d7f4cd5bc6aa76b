@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "115d5997_73929928",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2593,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-09T13:58:01Z",
+      "side": 1,
+      "message": "Optional: Also create a fire... method in event-util.",
+      "revId": "0905b8f0681c66de10fe1ca68d7f4cd5bc6aa76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "480a8196_569c69f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2594,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-09T13:58:01Z",
+      "side": 1,
+      "message": "ShowAlertEvent",
+      "range": {
+        "startLine": 2594,
+        "startChar": 14,
+        "endLine": 2594,
+        "endChar": 47
+      },
+      "revId": "0905b8f0681c66de10fe1ca68d7f4cd5bc6aa76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fe03eca_606eb3cb",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-09T13:58:01Z",
+      "side": 1,
+      "message": "ShowAlertEvent",
+      "range": {
+        "startLine": 281,
+        "startChar": 22,
+        "endLine": 281,
+        "endChar": 55
+      },
+      "revId": "0905b8f0681c66de10fe1ca68d7f4cd5bc6aa76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

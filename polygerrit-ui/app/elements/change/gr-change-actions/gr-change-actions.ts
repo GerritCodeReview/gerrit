@@ -114,6 +114,7 @@ import {
   getApprovalInfo,
   getVotingRange,
 } from '../../../utils/label-util';
+import {ShowAlertEventDetail} from '../../../types/events';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -1748,7 +1749,7 @@ export class GrChangeActions
     return fetchChangeUpdates(change, this.restApiService).then(result => {
       if (!result.isLatest) {
         this.dispatchEvent(
-          new CustomEvent('show-alert', {
+          new CustomEvent<ShowAlertEventDetail>('show-alert', {
             detail: {
               message:
                 'Cannot set label: a newer patch has been ' +

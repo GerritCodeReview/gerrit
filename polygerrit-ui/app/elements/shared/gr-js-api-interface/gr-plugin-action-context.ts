@@ -16,6 +16,7 @@
  */
 
 import {RevisionInfo, ChangeInfo, RequestPayload} from '../../../types/common';
+import {ShowAlertEventDetail} from '../../../types/events';
 import {PluginApi} from '../../plugins/gr-plugin-types';
 import {UIActionInfo} from './gr-change-actions-js-api';
 
@@ -117,7 +118,7 @@ export class GrPluginActionContext {
       .then(onSuccess)
       .catch((error: unknown) => {
         document.dispatchEvent(
-          new CustomEvent('show-alert', {
+          new CustomEvent<ShowAlertEventDetail>('show-alert', {
             detail: {
               message: `Plugin network error: ${error}`,
             },

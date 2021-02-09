@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88355cdf_54c40a7a",
+        "filename": "java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-09T19:05:20Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "4091a3c4_ac9bb5aa",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 42
+      },
+      "revId": "fce488d7dc45396dae3bde6011e3c296ce7f1357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "441e599f_d22d3894",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-08T23:12:17Z",
       "side": 0,
       "message": "This needs to stay",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 34
+      },
+      "revId": "fce488d7dc45396dae3bde6011e3c296ce7f1357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "127bd694_429da9c5",
+        "filename": "java/com/google/gerrit/reviewdb/server/ReviewDbWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-09T19:05:20Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "441e599f_d22d3894",
       "range": {
         "startLine": 139,
         "startChar": 0,

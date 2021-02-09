@@ -47,7 +47,6 @@ import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.converter.ChangeMessageProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
-import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.AssigneeStatusUpdate;
@@ -65,8 +64,6 @@ import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord;
 import com.google.gson.Gson;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -455,6 +452,9 @@ public abstract class ChangeNotesState {
     abstract ChangeNotesState build();
   }
 
+  /**
+   * Convert ChangeNotesState (which is AutoValue based) to byte[] and back, using protocol buffers.
+   */
   enum Serializer implements CacheSerializer<ChangeNotesState> {
     INSTANCE;
 
@@ -482,13 +482,11 @@ public abstract class ChangeNotesState {
       object.hashtags().forEach(b::addHashtag);
       object
           .patchSets()
-          .forEach(e -> b.addPatchSet(toByteString(e.getValue(), PatchSetProtoConverter.INSTANCE)));
+          .forEach(e -> b.addPatchSet(PatchSetProtoConverter.INSTANCE.toProto(e.getValue())));
       object
           .approvals()
           .forEach(
-              e ->
-                  b.addApproval(
-                      toByteString(e.getValue(), PatchSetApprovalProtoConverter.INSTANCE)));
+              e -> b.addApproval(PatchSetApprovalProtoConverter.INSTANCE.toProto(e.getValue())));
 
       object.reviewers().asTable().cellSet().forEach(c -> b.addReviewer(toReviewerSetEntry(c)));
       object
@@ -519,7 +517,7 @@ public abstract class ChangeNotesState {
           .forEach(r -> b.addSubmitRecord(GSON.toJson(new StoredSubmitRecord(r))));
       object
           .changeMessages()
-          .forEach(m -> b.addChangeMessage(toByteString(m, ChangeMessageProtoConverter.INSTANCE)));
+          .forEach(m -> b.addChangeMessage(ChangeMessageProtoConverter.INSTANCE.toProto(m)));
       object.publishedComments().values().forEach(c -> b.addPublishedComment(GSON.toJson(c)));
       b.setUpdateCount(object.updateCount());
       if (object.mergedOn() != null) {
@@ -528,12 +526,6 @@ public abstract class ChangeNotesState {
       }
 
       return Protos.toByteArray(b.build());
-    }
-
-    @VisibleForTesting
-    static <T> ByteString toByteString(T object, ProtoConverter<?, T> converter) {
-      MessageLite message = converter.toProto(object);
-      return Protos.toByteString(message);
     }
 
     private static ChangeColumnsProto toChangeColumnsProto(ChangeColumns cols) {
@@ -635,12 +627,12 @@ public abstract class ChangeNotesState {
               .hashtags(proto.getHashtagList())
               .patchSets(
                   proto.getPatchSetList().stream()
-                      .map(bytes -> parseProtoFrom(PatchSetProtoConverter.INSTANCE, bytes))
+                      .map(msg -> PatchSetProtoConverter.INSTANCE.fromProto(msg))
                       .map(ps -> Maps.immutableEntry(ps.id(), ps))
                       .collect(toImmutableList()))
               .approvals(
                   proto.getApprovalList().stream()
-                      .map(bytes -> parseProtoFrom(PatchSetApprovalProtoConverter.INSTANCE, bytes))
+                      .map(msg -> PatchSetApprovalProtoConverter.INSTANCE.fromProto(msg))
                       .map(a -> Maps.immutableEntry(a.patchSetId(), a))
                       .collect(toImmutableList()))
               .reviewers(toReviewerSet(proto.getReviewerList()))
@@ -660,7 +652,7 @@ public abstract class ChangeNotesState {
                       .collect(toImmutableList()))
               .changeMessages(
                   proto.getChangeMessageList().stream()
-                      .map(bytes -> parseProtoFrom(ChangeMessageProtoConverter.INSTANCE, bytes))
+                      .map(msg -> ChangeMessageProtoConverter.INSTANCE.fromProto(msg))
                       .collect(toImmutableList()))
               .publishedComments(
                   proto.getPublishedCommentList().stream()
@@ -669,12 +661,6 @@ public abstract class ChangeNotesState {
               .updateCount(proto.getUpdateCount())
               .mergedOn(proto.getHasMergedOn() ? new Timestamp(proto.getMergedOnMillis()) : null);
       return b.build();
-    }
-
-    private static <P extends MessageLite, T> T parseProtoFrom(
-        ProtoConverter<P, T> converter, ByteString byteString) {
-      P message = Protos.parseUnchecked(converter.getParser(), byteString);
-      return converter.fromProto(message);
     }
 
     private static ChangeColumns toChangeColumns(Change.Id changeId, ChangeColumnsProto proto) {

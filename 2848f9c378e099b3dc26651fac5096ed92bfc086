@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc812ef9_370deda6",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-09T13:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96639ee0_47fed559",
+      "range": {
+        "startLine": 38,
+        "startChar": 27,
+        "endLine": 38,
+        "endChar": 34
+      },
+      "revId": "2848f9c378e099b3dc26651fac5096ed92bfc086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbb9c748_9bf059e7",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-09T09:50:05Z",
       "side": 1,
       "message": "Is this used somewhere? I really like the idea. Maybe I would introduce as well following check\n\n```\nexport function checkProperty(condition: boolean, propertyName: string) {\n   return check(condition, `missing required ${propertyName} property`);\n}\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 1
+      },
+      "revId": "2848f9c378e099b3dc26651fac5096ed92bfc086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa3b6317_f6fcc0b3",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-09T13:24:33Z",
+      "side": 1,
+      "message": "I had one usage, but then removed that. But the `check` function seemed nice enough to keep it around. :-)\n\nAnd yes, I have added yours, as well.",
+      "parentUuid": "bbb9c748_9bf059e7",
       "range": {
         "startLine": 53,
         "startChar": 4,

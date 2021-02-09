@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "669a6767_37922637",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2593,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T14:33:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "115d5997_73929928",
+      "revId": "0905b8f0681c66de10fe1ca68d7f4cd5bc6aa76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "480a8196_569c69f2",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fddae1b6_84d4216e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2594,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T14:33:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "480a8196_569c69f2",
+      "range": {
+        "startLine": 2594,
+        "startChar": 14,
+        "endLine": 2594,
+        "endChar": 47
+      },
+      "revId": "0905b8f0681c66de10fe1ca68d7f4cd5bc6aa76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fe03eca_606eb3cb",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-02-09T13:58:01Z",
       "side": 1,
       "message": "ShowAlertEvent",
+      "range": {
+        "startLine": 281,
+        "startChar": 22,
+        "endLine": 281,
+        "endChar": 55
+      },
+      "revId": "0905b8f0681c66de10fe1ca68d7f4cd5bc6aa76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "249b113e_1fabe525",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T14:33:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fe03eca_606eb3cb",
       "range": {
         "startLine": 281,
         "startChar": 22,

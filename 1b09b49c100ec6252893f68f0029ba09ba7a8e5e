@@ -16,6 +16,24 @@
       "message": "Can you work this into events.ts and event-util.ts? You will have to add some stuff to ShowAlertEventDetail, but then this firing and handling will become much nicer.",
       "revId": "1b09b49c100ec6252893f68f0029ba09ba7a8e5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce812fdc_ebe6c07d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2574,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T14:33:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24809023_11841c24",
+      "revId": "1b09b49c100ec6252893f68f0029ba09ba7a8e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,8 +16,11 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
+import * as noReplyFooter from 'com/google/gerrit/server/mail/NoReplyFooter.soy';
+import * as noReplyFooterHtml from 'com/google/gerrit/server/mail/NoReplyFooterHtml.soy';
 
-{template .InboundEmailRejectionFooterHtml}
+
+{template InboundEmailRejectionFooterHtml}
   <p>
     Thus, no actions were taken by Gerrit in response to this email,
     and you should use the Gerrit website to continue.
@@ -25,7 +28,7 @@
   <p>
     In case you did not send Gerrit an email, feel free to ignore this.
   </p>
-  {call .NoReplyFooterHtml /}
+  {call noReplyFooterHtml.NoReplyFooterHtml /}
 {/template}
 
 /**
@@ -33,7 +36,7 @@
  * to warning users of error in inbound emails
  */
 
-{template .InboundEmailRejectionHtml_PARSING_ERROR}
+{template InboundEmailRejectionHtml_PARSING_ERROR}
   <p>
     Gerrit Code Review was unable to parse your email.
   </p>
@@ -42,20 +45,20 @@
     because you are using an unsupported email client,
     or because of a bug.
   </p>
-  {call .InboundEmailRejectionFooterHtml /}
+  {call InboundEmailRejectionFooterHtml /}
 {/template}
 
-{template .InboundEmailRejectionHtml_UNKNOWN_ACCOUNT}
+{template InboundEmailRejectionHtml_UNKNOWN_ACCOUNT}
   <p>
     Gerrit Code Review was unable to match your email to an account.
   </p>
   <p>
     This may happen if several accounts are linked to this email address.
   </p>
-  {call .InboundEmailRejectionFooterHtml /}
+  {call InboundEmailRejectionFooterHtml /}
 {/template}
 
-{template .InboundEmailRejectionHtml_INACTIVE_ACCOUNT}
+{template InboundEmailRejectionHtml_INACTIVE_ACCOUNT}
   <p>
     Your account on this Gerrit Code Review instance is marked as inactive,
     so your email has been ignored.
@@ -66,23 +69,23 @@
   <p>
     In case you did not send Gerrit an email, feel free to ignore this.
   </p>
-  {call .NoReplyFooter /}
+  {call noReplyFooter.NoReplyFooter /}
 {/template}
 
-{template .InboundEmailRejectionHtml_INTERNAL_EXCEPTION}
+{template InboundEmailRejectionHtml_INTERNAL_EXCEPTION}
   <p>
     Gerrit Code Review encountered an internal exception and was unable to fulfil your request.
   </p>
   <p>
     This might be caused by an ongoing maintenance or a data corruption.
   <p>
-  {call .InboundEmailRejectionFooterHtml /}
+  {call InboundEmailRejectionFooterHtml /}
 {/template}
 
-{template .InboundEmailRejectionHtml_COMMENT_REJECTED}
+{template InboundEmailRejectionHtml_COMMENT_REJECTED}
   <p>
     Gerrit Code Review rejected one or more comments because they did not pass validation, or
     because the maximum number of comments per change would be exceeded.
   </p>
-  {call .InboundEmailRejectionFooterHtml /}
+  {call InboundEmailRejectionFooterHtml /}
 {/template}

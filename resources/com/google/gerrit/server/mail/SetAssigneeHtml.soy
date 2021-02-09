@@ -16,7 +16,9 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-{template .SetAssigneeHtml}
+import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
+
+{template SetAssigneeHtml}
   {@param diffLines: ?}
   {@param email: ?}
   {@param fromName: ?}
@@ -29,20 +31,26 @@
 
   {if $email.changeUrl}
     <p>
-      {call .ViewChangeButton data="all" /}
+      {call mailTemplate.ViewChangeButton data="all" /}
     </p>
   {/if}
 
-  {call .Pre}{param content: $email.changeDetail /}{/call}
+  {call mailTemplate.Pre}
+    {param content: $email.changeDetail /}
+  {/call}
 
   {if $email.sshHost}
-    {call .Pre}{param content kind="html"}
-      git pull ssh:{print '//'}{$email.sshHost}/{$projectName}
-          {sp}{$patchSet.refName}
-    {/param}{/call}
+    {call mailTemplate.Pre}
+      {param content kind="html"}
+        git pull ssh:{print '//'}{$email.sshHost}/{$projectName}
+        {sp}{$patchSet.refName}
+      {/param}
+    {/call}
   {/if}
 
   {if $email.includeDiff}
-    {call .UnifiedDiff}{param diffLines: $diffLines /}{/call}
+    {call mailTemplate.UnifiedDiff}
+      {param diffLines: $diffLines /}
+    {/call}
   {/if}
 {/template}

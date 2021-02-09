@@ -20,7 +20,7 @@
  * The .DeleteKey template will determine the contents of the email related to
  * deleting a SSH or GPG key.
  */
-{template .DeleteKey kind="text"}
+{template DeleteKey kind="text"}
   {@param email: ?}
   One or more {$email.keyType} keys have been deleted on Gerrit Code Review at
   {sp}{$email.gerritHost}:

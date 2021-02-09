@@ -16,11 +16,13 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
+import * as mailTemplate from 'com/google/gerrit/server/mail/NoReplyFooter.soy';
+
 /**
  * The .AddKey template will determine the contents of the email related to
  * adding a new SSH or GPG key to an account.
  */
-{template .AddKey kind="text"}
+{template AddKey kind="text"}
   {@param email: ?}
   One or more new {$email.keyType} keys have been added to Gerrit Code Review at
   {sp}{$email.gerritHost}:
@@ -64,5 +66,5 @@
   browser window instead.
 
   {\n}
-  {call .NoReplyFooter /}
+  {call mailTemplate.NoReplyFooter /}
 {/template}

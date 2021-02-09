@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
@@ -80,12 +81,17 @@ public interface DiffOperations {
    * @param parentNum integer specifying which parent to use as base. If null, the only parent will
    *     be used or the auto-merge if {@code newCommit} is a merge commit.
    * @param fileName the file name for which the diff should be evaluated.
+   * @param whitespace preference controlling whitespace effect in diff computation.
    * @return the diff for the single file between the two commits.
    * @throws DiffNotAvailableException if an internal error occurred in Git while evaluating the
    *     diff, or if an exception happened while parsing the base commit.
    */
   FileDiffOutput getModifiedFileAgainstParent(
-      Project.NameKey project, ObjectId newCommit, @Nullable Integer parentNum, String fileName)
+      Project.NameKey project,
+      ObjectId newCommit,
+      @Nullable Integer parentNum,
+      String fileName,
+      @Nullable DiffPreferencesInfo.Whitespace whitespace)
       throws DiffNotAvailableException;
 
   /**
@@ -96,11 +102,16 @@ public interface DiffOperations {
    * @param oldCommit 20 bytes SHA-1 of the old commit used in the diff.
    * @param newCommit 20 bytes SHA-1 of the new commit used in the diff.
    * @param fileName the file name for which the diff should be evaluated.
+   * @param whitespace preference controlling whitespace effect in diff computation.
    * @return the diff for the single file between the two commits.
    * @throws DiffNotAvailableException if an internal error occurred in Git while evaluating the
    *     diff.
    */
   FileDiffOutput getModifiedFile(
-      Project.NameKey project, ObjectId oldCommit, ObjectId newCommit, String fileName)
+      Project.NameKey project,
+      ObjectId oldCommit,
+      ObjectId newCommit,
+      String fileName,
+      @Nullable DiffPreferencesInfo.Whitespace whitespace)
       throws DiffNotAvailableException;
 }

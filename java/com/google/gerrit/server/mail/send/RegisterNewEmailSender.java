@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.Address;
@@ -54,7 +55,9 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   protected void init() throws EmailException {
     super.init();
     setHeader("Subject", "[Gerrit Code Review] Email Verification");
-    add(RecipientType.TO, Address.create(addr));
+    if (!Strings.isNullOrEmpty(addr)) {
+      add(RecipientType.TO, Address.create(addr));
+    }
   }
 
   @Override

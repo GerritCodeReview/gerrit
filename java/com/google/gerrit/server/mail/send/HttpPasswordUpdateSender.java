@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.Address;
@@ -42,7 +43,10 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
   protected void init() throws EmailException {
     super.init();
     setHeader("Subject", "[Gerrit Code Review] HTTP password was " + operation);
-    add(RecipientType.TO, Address.create(getEmail()));
+    String email = getEmail();
+    if (!Strings.isNullOrEmpty(email)) {
+      add(RecipientType.TO, Address.create(email));
+    }
   }
 
   @Override

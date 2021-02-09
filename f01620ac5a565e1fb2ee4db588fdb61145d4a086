@@ -46,6 +46,30 @@
       },
       "revId": "f01620ac5a565e1fb2ee4db588fdb61145d4a086",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f7a18de_2df04a45",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-09T08:23:48Z",
+      "side": 1,
+      "message": "Broken up into two components. WDYT?",
+      "parentUuid": "9ef628ae_2547a599",
+      "range": {
+        "startLine": 211,
+        "startChar": 22,
+        "endLine": 211,
+        "endChar": 32
+      },
+      "revId": "f01620ac5a565e1fb2ee4db588fdb61145d4a086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

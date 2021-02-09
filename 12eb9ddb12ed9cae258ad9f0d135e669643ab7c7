@@ -34,6 +34,24 @@
       "parentUuid": "6da42b32_a6659041",
       "revId": "12eb9ddb12ed9cae258ad9f0d135e669643ab7c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d50d2238_6a3ef49e",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-09T13:18:06Z",
+      "side": 1,
+      "message": "Ah sorry. I thought these are new controls, but you are just changing them.",
+      "parentUuid": "41943d3e_1fce0561",
+      "revId": "12eb9ddb12ed9cae258ad9f0d135e669643ab7c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

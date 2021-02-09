@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "077ffe86_74cdb59c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-09T13:55:28Z",
+      "side": 1,
+      "message": "How does this work when user clicks MARKS AS ACTIVE? Will reviewers get attention? ",
+      "revId": "5286ba94011d40ddba431e71b8db4c2f7f246731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

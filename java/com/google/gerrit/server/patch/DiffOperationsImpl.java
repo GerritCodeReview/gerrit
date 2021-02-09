@@ -124,7 +124,8 @@ public class DiffOperationsImpl implements DiffOperations {
       DiffParameters diffParams = computeDiffParameters(project, newCommit, parent);
       FileDiffCacheKey key =
           createFileDiffCacheKey(project, diffParams.baseCommit(), newCommit, fileName, whitespace);
-      return getModifiedFilesForKeys(ImmutableList.of(key)).get(fileName);
+      Map<String, FileDiffOutput> result = getModifiedFilesForKeys(ImmutableList.of(key));
+      return result.containsKey(fileName) ? result.get(fileName) : FileDiffOutput.empty(fileName);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           "Failed to evaluate the parent/base commit for commit " + newCommit, e);
@@ -141,7 +142,8 @@ public class DiffOperationsImpl implements DiffOperations {
       throws DiffNotAvailableException {
     FileDiffCacheKey key =
         createFileDiffCacheKey(project, oldCommit, newCommit, fileName, whitespace);
-    return getModifiedFilesForKeys(ImmutableList.of(key)).get(fileName);
+    Map<String, FileDiffOutput> result = getModifiedFilesForKeys(ImmutableList.of(key));
+    return result.containsKey(fileName) ? result.get(fileName) : FileDiffOutput.empty(fileName);
   }
 
   private Map<String, FileDiffOutput> getModifiedFiles(

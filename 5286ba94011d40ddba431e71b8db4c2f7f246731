@@ -16,6 +16,24 @@
       "message": "How does this work when user clicks MARKS AS ACTIVE? Will reviewers get attention? ",
       "revId": "5286ba94011d40ddba431e71b8db4c2f7f246731",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d975fcf_80a4bb7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-09T13:59:25Z",
+      "side": 1,
+      "message": "That is a \"ready\" action and will be handled fine by the backend.",
+      "parentUuid": "077ffe86_74cdb59c",
+      "revId": "5286ba94011d40ddba431e71b8db4c2f7f246731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "142866f2_1b540e7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-09T09:55:47Z",
+      "side": 1,
+      "message": "With or without feature flag? I was checking both and I see edit buttons.",
+      "parentUuid": "2a396873_6cb130aa",
+      "revId": "4c4a8bf73e4692624824088471850329139b4589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b21b3c22_14e4f625",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_html.ts",
         "patchSetId": 5
@@ -31,6 +49,30 @@
       "writtenOn": "2021-02-09T08:40:31Z",
       "side": 1,
       "message": "hidden$",
+      "range": {
+        "startLine": 97,
+        "startChar": 31,
+        "endLine": 97,
+        "endChar": 37
+      },
+      "revId": "4c4a8bf73e4692624824088471850329139b4589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9727bf88_11b4657a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-09T09:55:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b21b3c22_14e4f625",
       "range": {
         "startLine": 97,
         "startChar": 31,
@@ -77,6 +119,54 @@
       "writtenOn": "2021-02-09T08:40:31Z",
       "side": 1,
       "message": "Should this be outside of the show-all-container?",
+      "range": {
+        "startLine": 135,
+        "startChar": 6,
+        "endLine": 135,
+        "endChar": 53
+      },
+      "revId": "4c4a8bf73e4692624824088471850329139b4589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47fcf2ae_08d48b45",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-09T09:55:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea1a20e3_69eba8fa",
+      "range": {
+        "startLine": 135,
+        "startChar": 31,
+        "endLine": 135,
+        "endChar": 37
+      },
+      "revId": "4c4a8bf73e4692624824088471850329139b4589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba9fd1ec_d53e9b92",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-09T09:55:47Z",
+      "side": 1,
+      "message": "This is inside of show-all-container. That\u0027s why I had to move show-all-container to gr-editable-content.",
+      "parentUuid": "40481c7e_e81c5f25",
       "range": {
         "startLine": 135,
         "startChar": 6,

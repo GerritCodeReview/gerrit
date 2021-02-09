@@ -18,7 +18,7 @@ package gerrit.cache;
 
 option java_package = "com.google.gerrit.server.cache.proto";
 
-import "proto/entities.proto";
+import "third_party/java_src/gerritcodereview/gerrit/proto/entities.proto";
 
 // Serialized form of com.google.gerrit.server.change.ChangeKindCacheImpl.Key.
 // Next ID: 4

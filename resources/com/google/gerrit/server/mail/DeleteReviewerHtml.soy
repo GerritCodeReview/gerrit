@@ -16,7 +16,9 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-{template .DeleteReviewerHtml}
+import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
+
+{template DeleteReviewerHtml}
   {@param email: ?}
   {@param fromName: ?}
   <p>
@@ -35,7 +37,7 @@
 
   {if $email.changeUrl}
     <p>
-      {call .ViewChangeButton data="all" /}
+      {call mailTemplate.ViewChangeButton data="all" /}
     </p>
   {/if}
 {/template}

@@ -793,7 +793,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
 
     // Using response.clone() here, because getResponseObject() and
     // potentially the generic error handler will want to call text() on the
-    // response object, which can only be done once per object.
+    // response object, which can only be done once per object. asdf
     const jsonPromise = this.restApiService.getResponseObject(response.clone());
     return jsonPromise.then((parsed: ParsedJSON) => {
       const result = parsed as ReviewResult;

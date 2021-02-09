@@ -46,6 +46,30 @@
       },
       "revId": "18d58af607b6b7e338c09766134182b2fe132af7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6db7339_6afd1551",
+        "filename": "java/com/google/gerrit/pgm/init/api/SequencesOnInit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-09T19:07:22Z",
+      "side": 1,
+      "message": "This doesn\u0027t really matter, if on new site creation, database sequence or NoteDb seed is used. In follow-up change, that was cherry-picked form stable-3.0 database is removed here anyway.",
+      "parentUuid": "39f5c781_3ecda7ea",
+      "range": {
+        "startLine": 50,
+        "startChar": 8,
+        "endLine": 50,
+        "endChar": 96
+      },
+      "revId": "18d58af607b6b7e338c09766134182b2fe132af7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

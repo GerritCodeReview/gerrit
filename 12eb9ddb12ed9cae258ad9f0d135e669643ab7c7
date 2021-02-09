@@ -16,6 +16,24 @@
       "message": "\u003cgr-thread-list\u003e is used in 5 different places in the UI.\n\nWhether the radio buttons are shown should probably be dependent on a property that can be set from the outside? Or maybe this is a feature only interesting the comment tab anyway? Then maybe it is time for a \u003cgr-comments-tab\u003e component?",
       "revId": "12eb9ddb12ed9cae258ad9f0d135e669643ab7c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41943d3e_1fce0561",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-09T13:09:26Z",
+      "side": 1,
+      "message": "Yes, 5 different places are using hide-toggle-buttons. I agree we can refactor this to different component. Could I do it in next change?",
+      "parentUuid": "6da42b32_a6659041",
+      "revId": "12eb9ddb12ed9cae258ad9f0d135e669643ab7c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

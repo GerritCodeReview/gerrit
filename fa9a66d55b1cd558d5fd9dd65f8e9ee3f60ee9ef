@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "56a64f47_26ae1ecb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-09T14:05:40Z",
+      "side": 1,
+      "message": "And if you change the css rule from `.lost` to `td.lost div`?",
+      "parentUuid": "6bb6afb6_8a850a7f",
+      "revId": "fa9a66d55b1cd558d5fd9dd65f8e9ee3f60ee9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88b76123_c56aaae7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.ts",
         "patchSetId": 14

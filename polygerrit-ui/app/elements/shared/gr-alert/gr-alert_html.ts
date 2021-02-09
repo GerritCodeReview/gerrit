@@ -74,6 +74,10 @@ export const htmlTemplate = html`
       hidden$="[[_hideActionButton]]"
       on-click="_handleActionTap"
       >[[actionText]]</gr-button
+    ><template is="dom-if" if="[[showDismiss]]"
+      ><gr-button link="" class="action" on-click="_handleDismissTap"
+        >Dismiss</gr-button
+      ></template
     >
   </div>
 `;

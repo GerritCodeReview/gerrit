@@ -194,7 +194,7 @@ public class DiffOperationsImpl implements DiffOperations {
       if (fileDiffOutput.isEmpty() || allDueToRebase(fileDiffOutput)) {
         continue;
       }
-      if (fileDiffOutput.changeType().get() == Patch.ChangeType.DELETED) {
+      if (fileDiffOutput.changeType() == ChangeType.DELETED) {
         files.put(fileDiffOutput.oldPath().get(), fileDiffOutput);
       } else {
         files.put(fileDiffOutput.newPath().get(), fileDiffOutput);
@@ -205,8 +205,8 @@ public class DiffOperationsImpl implements DiffOperations {
 
   private static boolean allDueToRebase(FileDiffOutput fileDiffOutput) {
     return fileDiffOutput.allEditsDueToRebase()
-        && (!(fileDiffOutput.changeType().get() == ChangeType.RENAMED
-            || fileDiffOutput.changeType().get() == ChangeType.COPIED));
+        && (!(fileDiffOutput.changeType() == ChangeType.RENAMED
+            || fileDiffOutput.changeType() == ChangeType.COPIED));
   }
 
   private boolean isMergeAgainstParent(ComparisonType cmp, Project.NameKey project, ObjectId commit)

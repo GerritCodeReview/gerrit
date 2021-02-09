@@ -288,7 +288,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
       return FileDiffOutput.builder()
           .oldPath(FileHeaderUtil.getOldPath(fileHeader))
           .newPath(FileHeaderUtil.getNewPath(fileHeader))
-          .changeType(Optional.of(changeType))
+          .changeType(changeType)
           .patchType(Optional.of(FileHeaderUtil.getPatchType(fileHeader)))
           .headerLines(FileHeaderUtil.getHeaderLines(fileHeader))
           .edits(

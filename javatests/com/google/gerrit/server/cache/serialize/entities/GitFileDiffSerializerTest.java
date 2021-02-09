@@ -47,7 +47,7 @@ public class GitFileDiffSerializerTest {
             .newPath(Optional.empty())
             .oldId(AbbreviatedObjectId.fromObjectId(OLD_ID))
             .newId(AbbreviatedObjectId.fromObjectId(NEW_ID))
-            .changeType(Optional.of(ChangeType.DELETED))
+            .changeType(ChangeType.DELETED)
             .patchType(Optional.of(PatchType.UNIFIED))
             .oldMode(Optional.of(FileMode.REGULAR_FILE))
             .newMode(Optional.of(FileMode.REGULAR_FILE))

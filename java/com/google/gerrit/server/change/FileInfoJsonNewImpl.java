@@ -90,8 +90,8 @@ public class FileInfoJsonNewImpl implements FileInfoJson {
       FileDiffOutput fileDiff = fileDiffs.get(path);
       FileInfo fileInfo = new FileInfo();
       fileInfo.status =
-          fileDiff.changeType().get() != Patch.ChangeType.MODIFIED
-              ? fileDiff.changeType().get().getCode()
+          fileDiff.changeType() != Patch.ChangeType.MODIFIED
+              ? fileDiff.changeType().getCode()
               : null;
       fileInfo.oldPath = fileDiff.oldPath().orElse(null);
       fileInfo.sizeDelta = fileDiff.sizeDelta();

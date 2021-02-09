@@ -77,7 +77,7 @@ public abstract class GitFileDiff {
         .fileHeader(FileHeaderUtil.toString(fileHeader))
         .oldPath(FileHeaderUtil.getOldPath(fileHeader))
         .newPath(FileHeaderUtil.getNewPath(fileHeader))
-        .changeType(Optional.of(FileHeaderUtil.getChangeType(fileHeader)))
+        .changeType(FileHeaderUtil.getChangeType(fileHeader))
         .patchType(Optional.of(FileHeaderUtil.getPatchType(fileHeader)))
         .oldMode(Optional.of(mapFileMode(diffEntry.getOldMode())))
         .newMode(Optional.of(mapFileMode(diffEntry.getNewMode())))
@@ -96,6 +96,7 @@ public abstract class GitFileDiff {
         .oldId(oldId)
         .newId(newId)
         .newPath(Optional.of(newFilePath))
+        .changeType(ChangeType.MODIFIED)
         .edits(ImmutableList.of())
         .fileHeader("")
         .build();
@@ -126,7 +127,7 @@ public abstract class GitFileDiff {
   public abstract Optional<Patch.FileMode> newMode();
 
   /** The change type associated with the file. */
-  public abstract Optional<ChangeType> changeType();
+  public abstract ChangeType changeType();
 
   /** The patch type associated with the file. */
   public abstract Optional<PatchType> patchType();
@@ -150,9 +151,7 @@ public abstract class GitFileDiff {
     if (newPath().isPresent()) {
       result += stringSize(newPath().get());
     }
-    if (changeType().isPresent()) {
-      result += 4;
-    }
+    result += 4;
     if (patchType().isPresent()) {
       result += 4;
     }
@@ -188,7 +187,7 @@ public abstract class GitFileDiff {
 
     public abstract Builder newMode(Optional<Patch.FileMode> value);
 
-    public abstract Builder changeType(Optional<ChangeType> value);
+    public abstract Builder changeType(ChangeType value);
 
     public abstract Builder patchType(Optional<PatchType> value);
 
@@ -223,7 +222,8 @@ public abstract class GitFileDiff {
           GitFileDiffProto.newBuilder()
               .setFileHeader(gitFileDiff.fileHeader())
               .setOldId(idConverter.toByteString(gitFileDiff.oldId().toObjectId()))
-              .setNewId(idConverter.toByteString(gitFileDiff.newId().toObjectId()));
+              .setNewId(idConverter.toByteString(gitFileDiff.newId().toObjectId()))
+              .setChangeType(gitFileDiff.changeType().name());
       gitFileDiff
           .edits()
           .forEach(
@@ -246,9 +246,6 @@ public abstract class GitFileDiff {
       if (gitFileDiff.newMode().isPresent()) {
         builder.setNewMode(gitFileDiff.newMode().get().name());
       }
-      if (gitFileDiff.changeType().isPresent()) {
-        builder.setChangeType(gitFileDiff.changeType().get().name());
-      }
       if (gitFileDiff.patchType().isPresent()) {
         builder.setPatchType(gitFileDiff.patchType().get().name());
       }
@@ -267,7 +264,8 @@ public abstract class GitFileDiff {
                   .collect(toImmutableList()))
           .fileHeader(proto.getFileHeader())
           .oldId(AbbreviatedObjectId.fromObjectId(idConverter.fromByteString(proto.getOldId())))
-          .newId(AbbreviatedObjectId.fromObjectId(idConverter.fromByteString(proto.getNewId())));
+          .newId(AbbreviatedObjectId.fromObjectId(idConverter.fromByteString(proto.getNewId())))
+          .changeType(ChangeType.valueOf(proto.getChangeType()));
 
       if (proto.hasField(OLD_PATH_DESCRIPTOR)) {
         builder.oldPath(Optional.of(proto.getOldPath()));
@@ -280,9 +278,6 @@ public abstract class GitFileDiff {
       }
       if (proto.hasField(NEW_MODE_DESCRIPTOR)) {
         builder.newMode(Optional.of(Patch.FileMode.valueOf(proto.getNewMode())));
-      }
-      if (proto.hasField(CHANGE_TYPE_DESCRIPTOR)) {
-        builder.changeType(Optional.of(Patch.ChangeType.valueOf(proto.getChangeType())));
       }
       if (proto.hasField(PATCH_TYPE_DESCRIPTOR)) {
         builder.patchType(Optional.of(Patch.PatchType.valueOf(proto.getPatchType())));

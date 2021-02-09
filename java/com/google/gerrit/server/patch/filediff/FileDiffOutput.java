@@ -47,7 +47,7 @@ public abstract class FileDiffOutput implements Serializable {
   public abstract Optional<String> newPath();
 
   /** The change type of the underlying file, e.g. added, deleted, renamed, etc... */
-  public abstract Optional<Patch.ChangeType> changeType();
+  public abstract Patch.ChangeType changeType();
 
   /** The patch type of the underlying file, e.g. unified, binary , etc... */
   public abstract Optional<Patch.PatchType> patchType();
@@ -95,10 +95,11 @@ public abstract class FileDiffOutput implements Serializable {
   }
 
   /** Returns an entity representing an unchanged file between two commits. */
-  static FileDiffOutput empty(String filePath) {
+  public static FileDiffOutput empty(String filePath) {
     return builder()
         .oldPath(Optional.empty())
         .newPath(Optional.of(filePath))
+        .changeType(ChangeType.MODIFIED)
         .headerLines(ImmutableList.of())
         .edits(ImmutableList.of())
         .size(0)
@@ -123,9 +124,7 @@ public abstract class FileDiffOutput implements Serializable {
     if (newPath().isPresent()) {
       result += stringSize(newPath().get());
     }
-    if (changeType().isPresent()) {
-      result += 4;
-    }
+    result += 4; // changeType
     if (patchType().isPresent()) {
       result += 4;
     }
@@ -145,7 +144,7 @@ public abstract class FileDiffOutput implements Serializable {
 
     public abstract Builder newPath(Optional<String> value);
 
-    public abstract Builder changeType(Optional<ChangeType> value);
+    public abstract Builder changeType(ChangeType value);
 
     public abstract Builder patchType(Optional<PatchType> value);
 
@@ -169,9 +168,6 @@ public abstract class FileDiffOutput implements Serializable {
     private static final FieldDescriptor NEW_PATH_DESCRIPTOR =
         FileDiffOutputProto.getDescriptor().findFieldByNumber(2);
 
-    private static final FieldDescriptor CHANGE_TYPE_DESCRIPTOR =
-        FileDiffOutputProto.getDescriptor().findFieldByNumber(3);
-
     private static final FieldDescriptor PATCH_TYPE_DESCRIPTOR =
         FileDiffOutputProto.getDescriptor().findFieldByNumber(4);
 
@@ -182,6 +178,7 @@ public abstract class FileDiffOutput implements Serializable {
               .setSize(fileDiff.size())
               .setSizeDelta(fileDiff.sizeDelta())
               .addAllHeaderLines(fileDiff.headerLines())
+              .setChangeType(fileDiff.changeType().name())
               .addAllEdits(
                   fileDiff.edits().stream()
                       .map(
@@ -206,10 +203,6 @@ public abstract class FileDiffOutput implements Serializable {
         builder.setNewPath(fileDiff.newPath().get());
       }
 
-      if (fileDiff.changeType().isPresent()) {
-        builder.setChangeType(fileDiff.changeType().get().name());
-      }
-
       if (fileDiff.patchType().isPresent()) {
         builder.setPatchType(fileDiff.patchType().get().name());
       }
@@ -225,6 +218,7 @@ public abstract class FileDiffOutput implements Serializable {
           .size(proto.getSize())
           .sizeDelta(proto.getSizeDelta())
           .headerLines(proto.getHeaderLinesList().stream().collect(ImmutableList.toImmutableList()))
+          .changeType(ChangeType.valueOf(proto.getChangeType()))
           .edits(
               proto.getEditsList().stream()
                   .map(
@@ -243,9 +237,6 @@ public abstract class FileDiffOutput implements Serializable {
       }
       if (proto.hasField(NEW_PATH_DESCRIPTOR)) {
         builder.newPath(Optional.of(proto.getNewPath()));
-      }
-      if (proto.hasField(CHANGE_TYPE_DESCRIPTOR)) {
-        builder.changeType(Optional.of(Patch.ChangeType.valueOf(proto.getChangeType())));
       }
       if (proto.hasField(PATCH_TYPE_DESCRIPTOR)) {
         builder.patchType(Optional.of(Patch.PatchType.valueOf(proto.getPatchType())));

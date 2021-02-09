@@ -52,6 +52,7 @@ import {pluralize} from '../../../utils/string-util';
 import {AccountInfo} from '../../../types/common';
 import {notUndefined} from '../../../types/types';
 import {uniqueDefinedAvatar} from '../../../utils/account-util';
+import {PrimaryTab} from '../../../constants/constants';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -115,10 +116,20 @@ export class GrSummaryChip extends GrLitElement {
   render() {
     const chipClass = `summaryChip font-small ${this.styleType}`;
     const grIcon = this.icon ? `gr-icons:${this.icon}` : '';
-    return html`<div class="${chipClass}" role="button">
+    return html`<div
+      class="${chipClass}"
+      role="button"
+      @click="${this.handleClick}"
+    >
       ${this.icon && html`<iron-icon icon="${grIcon}"></iron-icon>`}
       <slot></slot>
     </div>`;
+  }
+
+  private handleClick(e: MouseEvent) {
+    e.stopPropagation();
+    e.preventDefault();
+    fireShowPrimaryTab(this, PrimaryTab.COMMENT_THREADS);
   }
 }
 
@@ -219,7 +230,7 @@ export class GrChecksChip extends GrLitElement {
   private handleClick(e: MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
-    fireShowPrimaryTab(this, 'checks');
+    fireShowPrimaryTab(this, PrimaryTab.CHECKS);
   }
 }
 

@@ -16,6 +16,24 @@
       "message": "Thanks, @Matthias, for fixing this. Isn\u0027t this the same error I\u0027ve notified as Issue 12862?\nCan we write a test-case for it?",
       "revId": "43ae32f8114535a49279756194b09bc1ee33123d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d017ad8b_43bb52e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-09T23:26:27Z",
+      "side": 1,
+      "message": "These look the same to me 😊\n\nI was also thinking a test case would be nice, but also not required for such a trivial fix.",
+      "parentUuid": "c9a385b8_fc08be9e",
+      "revId": "43ae32f8114535a49279756194b09bc1ee33123d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

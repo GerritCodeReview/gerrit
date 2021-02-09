@@ -22,6 +22,30 @@
       },
       "revId": "941f10b8d8dff59839bfaa12c311baf201c5df82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "915b3912_f0479e4c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-09T14:00:04Z",
+      "side": 1,
+      "message": "Exactly. Discussed with Delphine this morning.",
+      "parentUuid": "4b638b18_9fecf36a",
+      "range": {
+        "startLine": 327,
+        "startChar": 22,
+        "endLine": 327,
+        "endChar": 30
+      },
+      "revId": "941f10b8d8dff59839bfaa12c311baf201c5df82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

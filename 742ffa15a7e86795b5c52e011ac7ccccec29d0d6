@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbea1ba6_8db00fed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-09T13:26:18Z",
+      "side": 1,
+      "message": "control",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 8
+      },
+      "revId": "742ffa15a7e86795b5c52e011ac7ccccec29d0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80b89cfe_8d47fa45",
+        "filename": "java/com/google/gerrit/server/config/ExperimentFeatures.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-09T13:26:18Z",
+      "side": 1,
+      "message": "(c) header",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 40
+      },
+      "revId": "742ffa15a7e86795b5c52e011ac7ccccec29d0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "155a1e58_277ab1e8",
+        "filename": "java/com/google/gerrit/server/config/ExperimentFeatures.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-09T13:26:18Z",
+      "side": 1,
+      "message": "we want to override this so we can bind it to a internal implementation. Shouldn\u0027t this be an interface?",
+      "range": {
+        "startLine": 16,
+        "startChar": 13,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "742ffa15a7e86795b5c52e011ac7ccccec29d0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

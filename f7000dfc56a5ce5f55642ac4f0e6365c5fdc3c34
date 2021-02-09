@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0e97a33_6a09ff1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-09T16:23:11Z",
+      "side": 1,
+      "message": "typo: control",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0d766de8_0e8df821",
@@ -14,6 +37,23 @@
       "writtenOn": "2021-02-09T15:33:50Z",
       "side": 1,
       "message": "Thank you for taking the review!",
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64d22386_150addfa",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-09T16:23:11Z",
+      "side": 1,
+      "message": "Won\u0027t this eventually want to dynamically switch between upstream and internal modules?",
       "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -60,6 +100,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5defcd95_d1167512",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-09T16:23:11Z",
+      "side": 1,
+      "message": "If this interface also serves for Mendel experiments, wouldn\u0027t this need to take other parameters to support gradual rollouts etc.?",
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3f43b27_24cc610e",
         "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
         "patchSetId": 3
@@ -76,6 +133,46 @@
         "startChar": 0,
         "endLine": 23,
         "endChar": 85
+      },
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21ac5e76_ae338130",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-09T16:23:11Z",
+      "side": 1,
+      "message": "I assume that internally we\u0027ll have a different module that supports Mendel? In that case maybe this class should be named e.g. ConfigExperimentFeatures (vs. MendelExperimentFeatures).",
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3684f28_b75fd96e",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-09T16:23:11Z",
+      "side": 1,
+      "message": "This will break when there are no default enabled features. Has that never happened? Can it never happen?",
+      "range": {
+        "startLine": 61,
+        "startChar": 90,
+        "endLine": 61,
+        "endChar": 97
       },
       "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

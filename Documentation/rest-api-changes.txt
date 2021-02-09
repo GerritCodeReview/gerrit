@@ -7195,7 +7195,7 @@ and/or remove from, a change.
 |=======================
 |Field Name||Description
 |`add`     |optional|The list of hashtags to be added to the change.
-|`remove   |optional|The list of hashtags to be removed from the change.
+|`remove`  |optional|The list of hashtags to be removed from the change.
 |=======================
 
 [[included-in-info]]

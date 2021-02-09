@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -28,6 +29,7 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitTypeRecord;
@@ -328,7 +330,13 @@ public class Submit
     String topic = change.getTopic();
     int topicSize = 0;
     if (!Strings.isNullOrEmpty(topic)) {
-      topicSize = queryProvider.get().noFields().byTopicOpen(topic).size();
+      topicSize =
+          queryProvider.get().noFields().byTopicOpen(topic).stream()
+              .filter(/* filter changes
+          that are not new in case of change index inconsistency
+          */ c -> c.change().getStatus().equals(Status.NEW))
+              .collect(toSet())
+              .size();
     }
     boolean treatWithTopic = submitWholeTopic && !Strings.isNullOrEmpty(topic) && topicSize > 1;
 

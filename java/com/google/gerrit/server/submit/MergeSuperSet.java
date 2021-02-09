@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -197,7 +199,11 @@ public class MergeSuperSet {
   }
 
   private List<ChangeData> byTopicOpen(String topic) {
-    return queryProvider.get().byTopicOpen(topic);
+    return queryProvider.get().byTopicOpen(topic).stream()
+        .filter(/* filter changes
+          that are not new in case of change index inconsistency
+          */ c -> c.change().getStatus().equals(Status.NEW))
+        .collect(Collectors.toList());
   }
 
   private boolean canRead(CurrentUser user, ChangeData cd) throws PermissionBackendException {

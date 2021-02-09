@@ -314,6 +314,39 @@ suite('gr-reply-dialog tests', () => {
     assert.sameMembers([...element._newAttentionSet], [2, 5]);
   });
 
+  test('computeNewAttention when sending wip change for review', () => {
+    const reviewers = {base: [
+      {_account_id: 2},
+      {_account_id: 3},
+    ]};
+    const change = {
+      owner: {_account_id: 1},
+      status: 'NEW',
+      attention_set: {},
+    };
+    element.change = change;
+    element._reviewers = reviewers.base;
+    flush();
+
+    // For an active change there is no reason to add anyone to the set.
+    let user = {_account_id: 1};
+    element._computeNewAttention(user, reviewers, [], change, [], false);
+    assert.sameMembers([...element._newAttentionSet], []);
+
+    // If the change is "work in progress" and the owner sends a reply, then
+    // add all reviewers.
+    element.canBeStarted = true;
+    flush();
+    user = {_account_id: 1};
+    element._computeNewAttention(user, reviewers, [], change, [], false);
+    assert.sameMembers([...element._newAttentionSet], [2, 3]);
+
+    // ... but not when someone else replies.
+    user = {_account_id: 4};
+    element._computeNewAttention(user, reviewers, [], change, [], false);
+    assert.sameMembers([...element._newAttentionSet], []);
+  });
+
   test('computeNewAttentionAccounts', () => {
     element._reviewers = [
       {_account_id: 123, display_name: 'Ernie'},

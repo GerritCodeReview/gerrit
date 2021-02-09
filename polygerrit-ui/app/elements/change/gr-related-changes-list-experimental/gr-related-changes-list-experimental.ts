@@ -23,6 +23,8 @@ import {
   SubmittedTogetherInfo,
   ChangeInfo,
   RelatedChangeAndCommitInfo,
+  RelatedChangesInfo,
+  PatchSetNum,
 } from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -44,11 +46,17 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
   @property()
   change?: ParsedChangeInfo;
 
+  @property({type: String})
+  patchNum?: PatchSetNum;
+
   @property()
   _submittedTogether?: SubmittedTogetherInfo = {
     changes: [],
     non_visible_changes: 0,
   };
+
+  @property()
+  _relatedResponse?: RelatedChangesInfo = {changes: []};
 
   private readonly restApiService = appContext.restApiService;
 
@@ -81,16 +89,52 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
   }
 
   render() {
+    const relatedChanges = this._relatedResponse?.changes ?? [];
+    let showWhenCollapsedPredicate = this.showWhenCollapsedPredicateFactory(
+      relatedChanges.length,
+      relatedChanges.findIndex(relatedChange =>
+        this._changesEqual(relatedChange, this.change)
+      )
+    );
+
+    const relatedChangeSection = html` <section
+      class="relatedChanges"
+      ?hidden$=${!relatedChanges?.length}
+    >
+      <h4 class="title">Relation chain</h4>
+      <gr-related-collapse .length=${relatedChanges.length}>
+        ${relatedChanges.map(
+          (change, index) =>
+            html`<gr-related-change
+              class="${classMap({
+                ['show-when-collapsed']: showWhenCollapsedPredicate(index),
+              })}"
+              .isCurrentChange="${this._changesEqual(change, this.change)}"
+              .change="${change}"
+              .href="${change?._change_number
+                ? GerritNav.getUrlForChangeById(
+                    change._change_number,
+                    change.project,
+                    change._revision_number as PatchSetNum
+                  )
+                : ''}"
+              .showChangeStatus=${true}
+              >${change.commit.subject}</gr-related-change
+            >`
+        )}
+      </gr-related-collapse>
+    </section>`;
+
     const submittedTogetherChanges = this._submittedTogether?.changes ?? [];
     const countNonVisibleChanges =
       this._submittedTogether?.non_visible_changes ?? 0;
-    const showWhenCollapsedPredicate = this.showWhenCollapsedPredicateFactory(
+    showWhenCollapsedPredicate = this.showWhenCollapsedPredicateFactory(
       submittedTogetherChanges.length,
       submittedTogetherChanges.findIndex(relatedChange =>
         this._changesEqual(relatedChange, this.change)
       )
     );
-    return html` <section
+    const submittedTogetherSection = html`<section
       id="submittedTogether"
       ?hidden=${!submittedTogetherChanges?.length &&
       !this._submittedTogether?.non_visible_changes}
@@ -98,20 +142,29 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       <h4 class="title">Submitted together</h4>
       <gr-related-collapse .length=${submittedTogetherChanges.length}>
         ${submittedTogetherChanges.map(
-          (relatedChange, index) =>
+          (change, index) =>
             html`<gr-related-change
               class="${classMap({
                 ['show-when-collapsed']: showWhenCollapsedPredicate(index),
               })}"
-              .currentChange="${this._changesEqual(relatedChange, this.change)}"
-              .change="${relatedChange}"
-            ></gr-related-change>`
+              .currentChange="${this._changesEqual(change, this.change)}"
+              .change="${change}"
+              .href="${GerritNav.getUrlForChangeById(
+                change._number,
+                change.project
+              )}"
+              .showSubmittableCheck=${true}
+              >${change.project}: ${change.branch}:
+              ${change.subject}</gr-related-change
+            >`
         )}
       </gr-related-collapse>
       <div class="note" ?hidden=${!countNonVisibleChanges}>
         (+ ${pluralize(countNonVisibleChanges, 'non-visible change')})
       </div>
     </section>`;
+
+    return html`${relatedChangeSection}${submittedTogetherSection}`;
   }
 
   showWhenCollapsedPredicateFactory(length: number, highlightIndex: number) {
@@ -128,11 +181,24 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
 
   reload() {
     if (!this.change) return Promise.reject(new Error('change missing'));
-    return this.restApiService
-      .getChangesSubmittedTogether(this.change._number)
-      .then(response => {
-        this._submittedTogether = response;
-      });
+    if (!this.patchNum) return Promise.reject(new Error('patchNum missing'));
+    const promises: Array<Promise<void>> = [
+      this.restApiService
+        .getRelatedChanges(this.change._number, this.patchNum)
+        .then(response => {
+          if (!response) {
+            throw new Error('getRelatedChanges returned undefined response');
+          }
+          this._relatedResponse = response;
+        }),
+      this.restApiService
+        .getChangesSubmittedTogether(this.change._number)
+        .then(response => {
+          this._submittedTogether = response;
+        }),
+    ];
+
+    return Promise.all(promises);
   }
 
   /**
@@ -232,10 +298,19 @@ export class GrRelatedCollapse extends GrLitElement {
 @customElement('gr-related-change')
 export class GrRelatedChange extends GrLitElement {
   @property()
-  change?: ChangeInfo;
+  change?: ChangeInfo | RelatedChangeAndCommitInfo;
 
   @property()
-  currentChange = false;
+  href?: string;
+
+  @property()
+  isCurrentChange = false;
+
+  @property()
+  showSubmittableCheck = false;
+
+  @property()
+  showChangeStatus = false;
 
   static get styles() {
     return [
@@ -258,6 +333,29 @@ export class GrRelatedChange extends GrLitElement {
           color: var(--deemphasized-text-color);
           text-decoration: line-through;
         }
+        .status {
+          color: var(--deemphasized-text-color);
+          font-weight: var(--font-weight-bold);
+          margin-left: var(--spacing-xs);
+        }
+        .notCurrent {
+          color: #e65100;
+        }
+        .indirectAncestor {
+          color: #33691e;
+        }
+        .submittableCheck {
+          padding-left: var(--spacing-s);
+          color: var(--positive-green-text-color);
+          display: none;
+        }
+        .submittableCheck.submittable {
+          display: inline;
+        }
+        .hidden,
+        .mobile {
+          display: none;
+        }
         .submittableCheck {
           padding-left: var(--spacing-s);
           color: var(--positive-green-text-color);
@@ -277,34 +375,35 @@ export class GrRelatedChange extends GrLitElement {
     const change = this.change;
     if (!change) throw new Error('Missing change');
     const linkClass = this._computeLinkClass(change);
+    // const statusClass = this._computeChangeStatusClass(change);
     return html`<span
         role="img"
         class="arrowToCurrentChange"
         aria-label="Arrow marking current change"
-        ?hidden=${!this.currentChange}
+        ?hidden=${!this.isCurrentChange}
         >➔</span
       >
       <div class="changeContainer">
-        <a
-          href="${GerritNav.getUrlForChangeById(
-            change._number,
-            change.project
-          )}"
-          class="${linkClass}"
-          >${change.project}: ${change.branch}: ${change.subject}</a
-        >
-        <span
-          tabindex="-1"
-          title="Submittable"
-          class="submittableCheck ${linkClass}"
-          role="img"
-          aria-label="Submittable"
-          >✓</span
-        >
+        <a href="${this.href}" class="${linkClass}"><slot></slot></a>
+        ${this.showSubmittableCheck
+          ? html`<span
+              tabindex="-1"
+              title="Submittable"
+              class="submittableCheck ${linkClass}"
+              role="img"
+              aria-label="Submittable"
+              >✓</span
+            >`
+          : ''}
+        ${this.showChangeStatus && !isChangeInfo(change)
+          ? html`<span class="${this._computeChangeStatusClass(change)}">
+              (${this._computeChangeStatus(change)})
+            </span>`
+          : ''}
       </div> `;
   }
 
-  _computeLinkClass(change: ChangeInfo) {
+  _computeLinkClass(change: ChangeInfo | RelatedChangeAndCommitInfo) {
     const statuses = [];
     if (change.status === ChangeStatus.ABANDONED) {
       statuses.push('strikethrough');
@@ -313,6 +412,37 @@ export class GrRelatedChange extends GrLitElement {
       statuses.push('submittable');
     }
     return statuses.join(' ');
+  }
+
+  _computeChangeStatusClass(change: RelatedChangeAndCommitInfo) {
+    const classes = ['status'];
+    if (change._revision_number !== change._current_revision_number) {
+      classes.push('notCurrent');
+      // } else if (this._isIndirectAncestor(change)) {
+      //   classes.push('indirectAncestor');
+    } else if (change.submittable) {
+      classes.push('submittable');
+    } else if (change.status === ChangeStatus.NEW) {
+      classes.push('hidden');
+    }
+    return classes.join(' ');
+  }
+
+  _computeChangeStatus(change: RelatedChangeAndCommitInfo) {
+    switch (change.status) {
+      case ChangeStatus.MERGED:
+        return 'Merged';
+      case ChangeStatus.ABANDONED:
+        return 'Abandoned';
+    }
+    if (change._revision_number !== change._current_revision_number) {
+      return 'Not current';
+      // } else if (this._isIndirectAncestor(change)) {
+      //   return 'Indirect ancestor';
+    } else if (change.submittable) {
+      return 'Submittable';
+    }
+    return '';
   }
 }
 

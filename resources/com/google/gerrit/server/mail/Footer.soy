@@ -21,7 +21,7 @@
  * appended to the end of all outgoing emails after the ChangeFooter and
  * CommentFooter.
  */
-{template .Footer kind="text"}
+{template Footer kind="text"}
   {@param footers: ?}
   {for $footer in $footers}
     {$footer}{\n}

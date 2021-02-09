@@ -16,7 +16,9 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-{template .CommentHtml}
+import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
+
+{template CommentHtml}
   {@param commentFiles: ?}
   {@param commentCount: ?}
   {@param email: ?}
@@ -71,7 +73,9 @@
   {/let}
 
   {if $patchSetCommentBlocks}
-    {call .WikiFormat}{param content: $patchSetCommentBlocks /}{/call}
+    {call mailTemplate.WikiFormat}
+      {param content: $patchSetCommentBlocks /}
+    {/call}
   {/if}
 
   {if length($labels) > 0}
@@ -97,7 +101,7 @@
 
   {if $email.changeUrl}
     <p>
-      {call .ViewChangeButton data="all" /}
+      {call mailTemplate.ViewChangeButton data="all" /}
     </p>
   {/if}
 
@@ -146,11 +150,13 @@
               {if length($comment.lines) > 1}
                 <p>
                   <blockquote style="{$blockquoteStyle}">
-                    {call .Pre}{param content kind="html"}
-                      {for $line in $comment.lines}
-                        {$line}{\n}
-                      {/for}
-                    {/param}{/call}
+                    {call mailTemplate.Pre}
+                      {param content kind="html"}
+                        {for $line in $comment.lines}
+                          {$line}{\n}
+                        {/for}
+                      {/param}
+                    {/call}
                   </blockquote>
                 </p>
               {/if}
@@ -163,7 +169,9 @@
                 </p>
               {/if}
 
-              {call .WikiFormat}{param content: $comment.messageBlocks /}{/call}
+              {call mailTemplate.WikiFormat}
+                {param content: $comment.messageBlocks /}
+              {/call}
             </li>
           {/for}
         </ul>

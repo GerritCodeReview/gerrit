@@ -23,7 +23,7 @@
 /**
  * Private template to generate "View Change" buttons.
  */
-{template .ViewChangeButton}
+{template ViewChangeButton}
   {@param email: ?}
   <a href="{$email.changeUrl}">View Change</a>
 {/template}
@@ -31,7 +31,7 @@
 /**
  * Private template to render PRE block with consistent font-sizing.
  */
-{template .Pre}
+{template Pre}
   {@param content: ?}
   {let $preStyle kind="css"}
     font-family: monospace,monospace; // Use this to avoid browsers scaling down
@@ -54,7 +54,7 @@
  * This mechanism encodes as little structure as possible in order to depend on
  * the Soy autoescape mechanism for all of the content.
  */
-{template .WikiFormat}
+{template WikiFormat}
   {@param content: ?}
   {let $blockquoteStyle kind="css"}
     border-left: 1px solid #aaa;
@@ -72,10 +72,10 @@
       <p style="{$pStyle}">{$block.text|changeNewlineToBr}</p>
     {elseif $block.type == 'quote'}
       <blockquote style="{$blockquoteStyle}">
-        {call .WikiFormat}{param content: $block.quotedBlocks /}{/call}
+        {call WikiFormat}{param content: $block.quotedBlocks /}{/call}
       </blockquote>
     {elseif $block.type == 'pre'}
-      {call .Pre}{param content: $block.text /}{/call}
+      {call Pre}{param content: $block.text /}{/call}
     {elseif $block.type == 'list'}
       <ul>
         {for $item in $block.items}
@@ -86,7 +86,7 @@
   {/for}
 {/template}
 
-{template .UnifiedDiff}
+{template UnifiedDiff}
   {@param diffLines: ?}
   {let $addStyle kind="css"}
     color: hsl(120, 100%, 40%);

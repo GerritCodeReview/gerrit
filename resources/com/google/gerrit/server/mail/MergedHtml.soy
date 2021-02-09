@@ -16,7 +16,9 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-{template .MergedHtml}
+import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
+
+{template MergedHtml}
   {@param diffLines: ?}
   {@param email: ?}
   {@param fromName: ?}
@@ -26,16 +28,20 @@
 
   {if $email.changeUrl}
     <p>
-      {call .ViewChangeButton data="all" /}
+      {call mailTemplate.ViewChangeButton data="all" /}
     </p>
   {/if}
 
   <div style="white-space:pre-wrap">{$email.approvals}</div>
 
-  {call .Pre}{param content: $email.changeDetail /}{/call}
+  {call mailTemplate.Pre}
+    {param content: $email.changeDetail /}
+  {/call}
 
   {if $email.includeDiff}
-    {call .UnifiedDiff}{param diffLines: $diffLines /}{/call}
+    {call mailTemplate.UnifiedDiff}
+      {param diffLines: $diffLines /}
+    {/call}
   {/if}
   <div style="white-space:pre-wrap">{$email.stickyApprovalDiff}</div>
 {/template}

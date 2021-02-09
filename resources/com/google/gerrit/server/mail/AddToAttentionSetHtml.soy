@@ -16,7 +16,9 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-{template .AddToAttentionSetHtml}
+import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
+
+{template AddToAttentionSetHtml}
   {@param coverLetter: ?}
   {@param email: ?}
   {@param fromName: ?}
@@ -33,7 +35,7 @@
 
   {if $email.changeUrl}
     <p>
-      {call .ViewChangeButton data="all" /}
+      {call mailTemplate.ViewChangeButton data="all" /}
     </p>
   {/if}
 

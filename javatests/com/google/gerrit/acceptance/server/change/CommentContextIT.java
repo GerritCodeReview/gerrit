@@ -37,6 +37,7 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -284,6 +285,90 @@ public class CommentContextIT extends AbstractDaemonTest {
 
     assertThat(comments).hasSize(1);
     assertThat(comments.get(0).contextLines).isEmpty();
+  }
+
+  @Test
+  public void commentContextWithZeroPadding() throws Exception {
+    String changeId = createChangeWithComment(3, 4);
+    assertContextLines(changeId, /* contextPadding= */ 0, ImmutableList.of(3, 4));
+  }
+
+  @Test
+  public void commentContextWithSmallPadding() throws Exception {
+    String changeId = createChangeWithComment(3, 4);
+    assertContextLines(changeId, /* contextPadding= */ 1, ImmutableList.of(2, 3, 4, 5));
+  }
+
+  @Test
+  public void commentContextWithSmallPaddingAtTheBeginningOfFile() throws Exception {
+    String changeId = createChangeWithComment(1, 2);
+    assertContextLines(changeId, /* contextPadding= */ 2, ImmutableList.of(1, 2, 3, 4));
+  }
+
+  @Test
+  public void commentContextWithPaddingLargerThanFileSize() throws Exception {
+    String changeId = createChangeWithComment(3, 3);
+    assertContextLines(
+        changeId,
+        /* contextPadding= */ 20,
+        ImmutableList.of(1, 2, 3, 4, 5, 6)); // file only contains six lines.
+  }
+
+  @Test
+  public void commentContextWithLargePaddingReturnsAdjustedMaximumPadding() throws Exception {
+    String changeId = createChangeWithCommentLarge(250, 250);
+    assertContextLines(
+        changeId,
+        /* contextPadding= */ 300,
+        IntStream.range(200, 301).boxed().collect(ImmutableList.toImmutableList()));
+  }
+
+  private String createChangeWithComment(int startLine, int endLine) throws Exception {
+    PushOneCommit.Result result =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, FILE_CONTENT, "topic");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    Comment.Range commentRange = createCommentRange(startLine, endLine);
+    CommentInput comment =
+        CommentsUtil.newComment(FILE_NAME, Side.REVISION, commentRange, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+    return changeId;
+  }
+
+  private String createChangeWithCommentLarge(int startLine, int endLine) throws Exception {
+    StringBuilder largeContent = new StringBuilder();
+    for (int i = 0; i < 1000; i++) {
+      largeContent.append("line " + i + "\n");
+    }
+    PushOneCommit.Result result =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, largeContent.toString(), "topic");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    Comment.Range commentRange = createCommentRange(startLine, endLine);
+    CommentInput comment =
+        CommentsUtil.newComment(FILE_NAME, Side.REVISION, commentRange, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+    return changeId;
+  }
+
+  private void assertContextLines(
+      String changeId, int contextPadding, ImmutableList<Integer> expectedLines) throws Exception {
+    List<CommentInfo> comments =
+        gApi.changes()
+            .id(changeId)
+            .commentsRequest()
+            .withContext(true)
+            .contextPadding(contextPadding)
+            .getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(
+            comments.get(0).contextLines.stream()
+                .map(c -> c.lineNumber)
+                .collect(Collectors.toList()))
+        .containsExactlyElementsIn(expectedLines);
   }
 
   private Comment.Range createCommentRange(int startLine, int endLine) {

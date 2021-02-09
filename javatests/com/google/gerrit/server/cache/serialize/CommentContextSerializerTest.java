@@ -34,6 +34,7 @@ public class CommentContextSerializerTest {
             .id("commentId")
             .path("pathHash")
             .patchset(1)
+            .contextPadding(3)
             .build();
     byte[] serialized = CommentContextKey.Serializer.INSTANCE.serialize(k);
     assertThat(k).isEqualTo(CommentContextKey.Serializer.INSTANCE.deserialize(serialized));

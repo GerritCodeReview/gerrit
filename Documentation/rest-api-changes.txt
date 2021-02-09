@@ -2056,6 +2056,10 @@ If the `enable-context` request parameter is set to true, the comment entries
 will contain a list of link:#context-line[ContextLine] containing the lines of
 the source file where the comment was written.
 
+The `context-padding` request parameter can be used to specify an extra number
+of context lines to be added before and after the comment range. This parameter
+only works if `enable-context` is set to true.
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/comments HTTP/1.0

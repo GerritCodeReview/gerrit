@@ -42,6 +42,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   private final CommentsUtil commentsUtil;
 
   private boolean includeContext;
+  private int contextPadding;
 
   /**
    * Optional parameter. If set, the contextLines field of the {@link ContextLineInfo} of the
@@ -52,6 +53,16 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   @Option(name = "--enable-context")
   public void setContext(boolean context) {
     this.includeContext = context;
+  }
+
+  /**
+   * Optional parameter. Works only if {@link #includeContext} is set to true. If {@link
+   * #contextPadding} is set, the context lines in the response will be padded with {@link
+   * #contextPadding} extra lines before and after the comment range.
+   */
+  @Option(name = "--context-padding")
+  public void setContextPadding(int contextPadding) {
+    this.contextPadding = contextPadding;
   }
 
   @Inject
@@ -105,6 +116,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
         .setFillAccounts(true)
         .setFillPatchSet(true)
         .setFillCommentContext(includeContext)
+        .setContextPadding(contextPadding)
         .setProjectKey(rsrc.getProject())
         .setChangeId(rsrc.getId())
         .newHumanCommentFormatter();

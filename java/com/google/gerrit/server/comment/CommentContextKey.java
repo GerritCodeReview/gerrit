@@ -28,6 +28,9 @@ public abstract class CommentContextKey {
 
   abstract Integer patchset();
 
+  /** Number of extra lines of context that should be added before and after the comment range. */
+  abstract int contextPadding();
+
   abstract Builder toBuilder();
 
   public static Builder builder() {
@@ -47,6 +50,8 @@ public abstract class CommentContextKey {
 
     public abstract Builder patchset(Integer patchset);
 
+    public abstract Builder contextPadding(Integer numLines);
+
     public abstract CommentContextKey build();
   }
 
@@ -62,6 +67,7 @@ public abstract class CommentContextKey {
               .setPatchset(key.patchset())
               .setPathHash(key.path())
               .setCommentId(key.id())
+              .setContextPadding(key.contextPadding())
               .build());
     }
 
@@ -75,6 +81,7 @@ public abstract class CommentContextKey {
           .patchset(proto.getPatchset())
           .id(proto.getCommentId())
           .path(proto.getPathHash())
+          .contextPadding(proto.getContextPadding())
           .build();
     }
   }

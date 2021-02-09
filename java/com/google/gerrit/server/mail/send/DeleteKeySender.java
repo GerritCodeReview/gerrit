@@ -17,7 +17,6 @@ package com.google.gerrit.server.mail.send;
 import com.google.common.base.Joiner;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.inject.assistedinject.Assisted;
@@ -63,7 +62,7 @@ public class DeleteKeySender extends OutgoingEmail {
   protected void init() throws EmailException {
     super.init();
     setHeader("Subject", String.format("[Gerrit Code Review] %s Keys Deleted", getKeyType()));
-    add(RecipientType.TO, Address.create(getEmail()));
+    add(RecipientType.TO, user.getAccountId());
   }
 
   @Override

@@ -16,7 +16,6 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -42,7 +41,7 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
   protected void init() throws EmailException {
     super.init();
     setHeader("Subject", "[Gerrit Code Review] HTTP password was " + operation);
-    add(RecipientType.TO, Address.create(getEmail()));
+    add(RecipientType.TO, user.getAccountId());
   }
 
   @Override

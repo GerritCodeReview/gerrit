@@ -246,7 +246,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         RawTextComparator rawTextComparator,
         GitFileDiffCacheImpl.DiffAlgorithm diffAlgorithm)
         throws IOException {
-      Text aText = newCommit != null ? Text.forCommit(reader, newCommit) : Text.EMPTY;
+      Text aText = oldCommit != null ? Text.forCommit(reader, oldCommit) : Text.EMPTY;
       Text bText = Text.forCommit(reader, newCommit);
       return createMagicFileDiffOutput(
           rawTextComparator, oldCommit, aText, bText, Patch.COMMIT_MSG, diffAlgorithm);

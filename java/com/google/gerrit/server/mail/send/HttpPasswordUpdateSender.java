@@ -42,7 +42,10 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
   protected void init() throws EmailException {
     super.init();
     setHeader("Subject", "[Gerrit Code Review] HTTP password was " + operation);
-    add(RecipientType.TO, Address.create(getEmail()));
+    String email = getEmail();
+    if (email != null) {
+      add(RecipientType.TO, Address.create(email));
+    }
   }
 
   @Override

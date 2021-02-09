@@ -456,19 +456,13 @@ public final class Change {
    */
   protected Timestamp lastUpdatedOn;
 
-  // DELETED: id = 6 (sortkey)
-
   protected Account.Id owner;
 
   /** The branch (and project) this change merges into. */
   protected BranchNameKey dest;
 
-  // DELETED: id = 9 (open)
-
   /** Current state code; see {@link Status}. */
   protected char status;
-
-  // DELETED: id = 11 (nbrPatchSets)
 
   /** The current patch set. */
   protected int currentPatchSetId;
@@ -478,9 +472,6 @@ public final class Change {
 
   /** Topic name assigned by the user, if any. */
   @Nullable protected String topic;
-
-  // DELETED: id = 15 (lastSha1MergeTested)
-  // DELETED: id = 16 (mergeable)
 
   /**
    * First line of first patch set's commit message.
@@ -553,12 +544,12 @@ public final class Change {
     cherryPickOf = other.cherryPickOf;
   }
 
-  /** Legacy 32 bit integer identity for a change. */
+  /** 32 bit integer identity for a change. */
   public Change.Id getId() {
     return changeId;
   }
 
-  /** Legacy 32 bit integer identity for a change. */
+  /** 32 bit integer identity for a change. */
   public int getChangeId() {
     return changeId.get();
   }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b638b18_9fecf36a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-09T13:58:06Z",
+      "side": 1,
+      "message": "So when there is one link we show link\nif there are 2 or more links we do not show any links?",
+      "range": {
+        "startLine": 327,
+        "startChar": 22,
+        "endLine": 327,
+        "endChar": 30
+      },
+      "revId": "941f10b8d8dff59839bfaa12c311baf201c5df82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

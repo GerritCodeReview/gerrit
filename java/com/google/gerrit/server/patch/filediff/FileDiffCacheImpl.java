@@ -342,7 +342,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         GitFileDiff mainGitDiff = allDiffs.mainDiff().gitDiff();
 
         Long oldSize =
-            mainGitDiff.oldPath().isPresent()
+            mainGitDiff.oldMode().isPresent() && mainGitDiff.oldPath().isPresent()
                 ? new FileSizeEvaluator(reader, aTree)
                     .compute(
                         mainGitDiff.oldId(),
@@ -350,7 +350,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
                         mainGitDiff.oldPath().get())
                 : 0;
         Long newSize =
-            mainGitDiff.newPath().isPresent()
+            mainGitDiff.newMode().isPresent() && mainGitDiff.newPath().isPresent()
                 ? new FileSizeEvaluator(reader, bTree)
                     .compute(
                         mainGitDiff.newId(),

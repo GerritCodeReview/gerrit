@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86a9b65d_e9186de3",
+        "filename": "java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-09T16:52:26Z",
+      "side": 1,
+      "message": "This matches the logic on line 227, so it seems it was just missing from here. Is it missing anywhere else?",
+      "range": {
+        "startLine": 571,
+        "startChar": 8,
+        "endLine": 571,
+        "endChar": 49
+      },
+      "revId": "38379c3b582e5f64e695fbfda29074b722204840",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

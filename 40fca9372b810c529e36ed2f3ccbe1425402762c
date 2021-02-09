@@ -41,6 +41,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a526376_c5bd4ee1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T13:08:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac4e7171_2f8367b4",
+      "revId": "40fca9372b810c529e36ed2f3ccbe1425402762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bce57176_031ac973",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T13:08:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f4958b7_de892815",
+      "range": {
+        "startLine": 622,
+        "startChar": 53,
+        "endLine": 622,
+        "endChar": 65
+      },
+      "revId": "40fca9372b810c529e36ed2f3ccbe1425402762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "822137ff_d86ef47a",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-02-09T07:49:36Z",
       "side": 1,
       "message": "Does this need an if-condition? Can we maybe just create the row (which will have zero height)?\n\nThat would make the code simpler.\n\nIt would also be consistent with the FILE row, which is not used by Critique, but is still created here anyway.",
+      "revId": "40fca9372b810c529e36ed2f3ccbe1425402762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8080204_f6c4db9e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T13:08:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "822137ff_d86ef47a",
       "revId": "40fca9372b810c529e36ed2f3ccbe1425402762c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "639096b3_bf311277",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T13:08:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04bcafe6_d417aac4",
+      "range": {
+        "startLine": 834,
+        "startChar": 34,
+        "endLine": 834,
+        "endChar": 77
+      },
+      "revId": "40fca9372b810c529e36ed2f3ccbe1425402762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33ac9f85_79902dac",
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20073165_8565be86",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T13:08:23Z",
+      "side": 1,
+      "message": "The class is adding a background color so we need to add it only when we have threads present.",
+      "parentUuid": "33ac9f85_79902dac",
+      "revId": "40fca9372b810c529e36ed2f3ccbe1425402762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c85ce06_e64ee4a6",
@@ -111,6 +213,30 @@
       "writtenOn": "2021-02-09T07:49:36Z",
       "side": 1,
       "message": "Colors must be defined in app-theme.",
+      "range": {
+        "startLine": 431,
+        "startChar": 24,
+        "endLine": 431,
+        "endChar": 32
+      },
+      "revId": "40fca9372b810c529e36ed2f3ccbe1425402762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "785c2a27_71c2d0c9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T13:08:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c85ce06_e64ee4a6",
       "range": {
         "startLine": 431,
         "startChar": 24,
@@ -144,6 +270,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ac00c0a_b30dd418",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T13:08:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb27755d_71716cd5",
+      "range": {
+        "startLine": 432,
+        "startChar": 6,
+        "endLine": 432,
+        "endChar": 66
+      },
+      "revId": "40fca9372b810c529e36ed2f3ccbe1425402762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e868c76_eb8dd6c1",
@@ -167,6 +317,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5da2305_941ac6cd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T13:08:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e868c76_eb8dd6c1",
+      "range": {
+        "startLine": 435,
+        "startChar": 6,
+        "endLine": 435,
+        "endChar": 13
+      },
+      "revId": "40fca9372b810c529e36ed2f3ccbe1425402762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f4e9b44_16cd638f",
@@ -180,6 +354,30 @@
       "writtenOn": "2021-02-09T07:49:36Z",
       "side": 1,
       "message": "Nit: Handling of FILE and LOST would be nice to have symmetric.",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 217,
+        "endChar": 76
+      },
+      "revId": "40fca9372b810c529e36ed2f3ccbe1425402762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7c370d3_fd31782c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-09T13:08:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f4e9b44_16cd638f",
       "range": {
         "startLine": 215,
         "startChar": 4,

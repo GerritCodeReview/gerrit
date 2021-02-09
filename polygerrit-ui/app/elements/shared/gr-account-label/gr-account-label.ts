@@ -31,6 +31,7 @@ import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {fireEvent} from '../../../utils/event-util';
 import {isInvolved} from '../../../utils/change-util';
+import {ShowAlertEventDetail} from '../../../types/events';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends GestureEventListeners(
@@ -213,7 +214,7 @@ export class GrAccountLabel extends GestureEventListeners(
     if (!this.account._account_id) return;
 
     this.dispatchEvent(
-      new CustomEvent('show-alert', {
+      new CustomEvent<ShowAlertEventDetail>('show-alert', {
         detail: {
           message: 'Saving attention set update ...',
           dismissOnNavigation: true,

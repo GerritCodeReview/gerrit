@@ -27,6 +27,7 @@ import {getPluginEndpoints} from './gr-plugin-endpoints';
 import {PluginApi} from '../../plugins/gr-plugin-types';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {ShowAlertEventDetail} from '../../../types/events';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -248,7 +249,7 @@ export class PluginLoader {
   _failToLoad(message: string, pluginUrl?: string) {
     // Show an alert with the error
     document.dispatchEvent(
-      new CustomEvent('show-alert', {
+      new CustomEvent<ShowAlertEventDetail>('show-alert', {
         detail: {
           message: `Plugin install error: ${message} from ${pluginUrl}`,
         },

@@ -52,6 +52,24 @@
       "parentUuid": "31f772a6_8a0409f4",
       "revId": "ce5be8176f3ec3cf7c7bb03e0ebd20c04a913dbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "258e4005_e11c5c4e",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-09T10:33:50Z",
+      "side": 1,
+      "message": "SGTM. I was thinking it would have been easier to use the code that created the binary data you took from the persisted cache in the first place, and use it in the test to generate the reference. But your method is more authentic :-)",
+      "parentUuid": "88473796_cf4460c0",
+      "revId": "ce5be8176f3ec3cf7c7bb03e0ebd20c04a913dbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

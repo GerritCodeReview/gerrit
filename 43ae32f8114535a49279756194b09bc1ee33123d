@@ -69,6 +69,24 @@
       "parentUuid": "372adadc_06948a53",
       "revId": "43ae32f8114535a49279756194b09bc1ee33123d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2262568_530b99ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-09T23:38:46Z",
+      "side": 1,
+      "message": "See the stacktrace mentioned in Issue 12847:\n\n[2020-06-01T16:52:38.836-0600] [HTTP POST /accounts/self/sshkeys (nasserg from \u003cIP\u003e)] ERROR com.google.gerrit.httpd.restapi.RestApiServlet : Error in POST /accounts/self/sshkeys: NullPointerException\njava.lang.NullPointerException: Null email\n        at com.google.gerrit.mail.AutoValue_Address.\u003cinit\u003e(AutoValue_Address.java:18)\n        at com.google.gerrit.mail.Address.create(Address.java:61)\n        at com.google.gerrit.mail.Address.create(Address.java:57)\n        at com.google.gerrit.server.mail.send.AddKeySender.init(AddKeySender.java:61)\n        at com.google.gerrit.server.mail.send.OutgoingEmail.send(OutgoingEmail.java:110)\n        at com.google.gerrit.server.restapi.account.AddSshKey.apply(AddSshKey.java:109)\n \nIt looks like the introduction of the AutoValue has broken other use-cases where Gerrit was trying to send an e-mail and ended up in an NPE.\n\nThe root cause is the same, introduced with the conversion to AutoValue. I am wondering if it would make sense to make a change to fix that problem in all places.",
+      "parentUuid": "2a81b385_42fdad11",
+      "revId": "43ae32f8114535a49279756194b09bc1ee33123d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b118cfe_7ca59801",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-09T13:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbea1ba6_8db00fed",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 8
+      },
+      "revId": "742ffa15a7e86795b5c52e011ac7ccccec29d0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80b89cfe_8d47fa45",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04ba42c1_d4596415",
+        "filename": "java/com/google/gerrit/server/config/ExperimentFeatures.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-09T13:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80b89cfe_8d47fa45",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 40
+      },
+      "revId": "742ffa15a7e86795b5c52e011ac7ccccec29d0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "155a1e58_277ab1e8",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-02-09T13:26:18Z",
       "side": 1,
       "message": "we want to override this so we can bind it to a internal implementation. Shouldn\u0027t this be an interface?",
+      "range": {
+        "startLine": 16,
+        "startChar": 13,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "742ffa15a7e86795b5c52e011ac7ccccec29d0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1617e750_60b5eebc",
+        "filename": "java/com/google/gerrit/server/config/ExperimentFeatures.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-09T13:53:22Z",
+      "side": 1,
+      "message": "I was about to upload a new patch set :)",
+      "parentUuid": "155a1e58_277ab1e8",
       "range": {
         "startLine": 16,
         "startChar": 13,

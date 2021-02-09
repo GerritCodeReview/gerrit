@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "391139cd_846765bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-09T13:11:43Z",
+      "side": 1,
+      "message": "With feature enabled and short commit message: https://imgur.com/a/jYivMeI\n\nSee my other comment: show-all-container is hidden (correct, because commit message is short), editButtons are inside show-all-container, so they are also hidden.",
+      "parentUuid": "142866f2_1b540e7d",
+      "revId": "4c4a8bf73e4692624824088471850329139b4589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b21b3c22_14e4f625",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_html.ts",
         "patchSetId": 5

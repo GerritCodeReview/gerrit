@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3362d929_f192ba70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-10T13:30:12Z",
+      "side": 1,
+      "message": "looks like CI is broken, doesn\u0027t work on other changes as well\nself verified",
+      "revId": "14b72caa742fe79fc6648c69ada3311cb2ba49a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

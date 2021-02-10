@@ -34,7 +34,6 @@ import {
   LabelNameToInfoMap,
   LabelInfo,
 } from '../../../types/common';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
@@ -51,6 +50,7 @@ interface ChangeWIP {
 }
 
 interface Label {
+  labelName: string;
   labelInfo: LabelInfo;
   icon: string;
   style: string;
@@ -133,22 +133,19 @@ class GrChangeRequirements extends GestureEventListeners(
       LabelNameToInfoMap
     >
   ) {
-    const labels = labelsRecord.base;
-    this._optionalLabels = [];
-    this._requiredLabels = [];
+    const labels = labelsRecord.base || {};
+    const allLabels: Label[] = [];
 
-    for (const label of Object.keys(labels || {}).sort()) {
-      if (!hasOwnProperty(labels, label)) {
-        continue;
-      }
-
-      const labelInfo = labels[label];
-      const icon = this._computeLabelIcon(labelInfo);
-      const style = this._computeLabelClass(labelInfo);
-      const path = labelInfo.optional ? '_optionalLabels' : '_requiredLabels';
-
-      this.push(path, {label, icon, style, labelInfo});
+    for (const label of Object.keys(labels).sort()) {
+      allLabels.push({
+        labelName: label,
+        icon: this._computeLabelIcon(labels[label]),
+        style: this._computeLabelClass(labels[label]),
+        labelInfo: labels[label],
+      });
     }
+    this._optionalLabels = allLabels.filter(label => label.labelInfo.optional);
+    this._requiredLabels = allLabels.filter(label => !label.labelInfo.optional);
   }
 
   /**

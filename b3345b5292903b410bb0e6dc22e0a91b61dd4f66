@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d0834a8_6956045d",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-10T10:13:43Z",
+      "side": 1,
+      "message": "I see, this idea doesn\u0027t work then.\nI\u0027ll have to reindex when the failure occurs, so I\u0027ll abandon this.",
+      "parentUuid": "f1c3e6f0_2d3354f2",
+      "range": {
+        "startLine": 203,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 60
+      },
+      "revId": "b3345b5292903b410bb0e6dc22e0a91b61dd4f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7044a0fc_5139f349",
         "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
         "patchSetId": 1

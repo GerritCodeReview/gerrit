@@ -201,6 +201,15 @@ export function getCurrentRevision(change?: ChangeInfo) {
   return change.revisions[change.current_revision];
 }
 
+export function getRevisionKey(
+  change: ChangeInfo | ParsedChangeInfo,
+  patchNum: PatchSetNum
+) {
+  return Object.keys(change.revisions ?? []).find(
+    rev => change?.revisions?.[rev]._number === patchNum
+  );
+}
+
 export function changeStatusString(change: ChangeInfo) {
   return changeStatuses(change).join(', ');
 }

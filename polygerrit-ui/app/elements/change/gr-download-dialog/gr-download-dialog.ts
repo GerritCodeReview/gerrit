@@ -20,7 +20,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-download-dialog_html';
-import {changeBaseURL} from '../../../utils/change-util';
+import {changeBaseURL, getRevisionKey} from '../../../utils/change-util';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {ChangeInfo, ServerInfo, PatchSetNum} from '../../../types/common';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
@@ -168,13 +168,9 @@ export class GrDownloadDialog extends GestureEventListeners(
       return '';
     }
 
-    let shortRev = '';
-    for (const rev in change.revisions) {
-      if (change.revisions[rev]._number === patchNum) {
-        shortRev = rev.substr(0, 7);
-        break;
-      }
-    }
+    const rev = getRevisionKey(change, patchNum) ?? '';
+    const shortRev = rev.substr(0, 7);
+
     return shortRev + '.diff.' + (zip ? 'zip' : 'base64');
   }
 

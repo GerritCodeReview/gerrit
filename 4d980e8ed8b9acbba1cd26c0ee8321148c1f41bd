@@ -94,6 +94,30 @@
       },
       "revId": "4d980e8ed8b9acbba1cd26c0ee8321148c1f41bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "894ba6f6_c950194e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DelegatingClassLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-02-10T19:53:12Z",
+      "side": 1,
+      "message": "FYI, I believe that an improvement to this approach would be to use a classloader that does not load the bytes from the same jar (effectively duplicating the class), but instead just passes it through in the loadClass() method instead to either classloader (a true mixing of the classloaders). This would save space and make static variables available to both plugins. The new approach would also allow more than one classloader to be mixed efficiently. We are working for a prototype for this.",
+      "parentUuid": "0d5f053f_365e73f3",
+      "range": {
+        "startLine": 70,
+        "startChar": 31,
+        "endLine": 70,
+        "endChar": 37
+      },
+      "revId": "4d980e8ed8b9acbba1cd26c0ee8321148c1f41bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

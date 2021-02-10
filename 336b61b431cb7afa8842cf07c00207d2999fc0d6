@@ -63,6 +63,24 @@
       "message": "we shouldn\u0027t check this here, registering an email sender not having an email address should rather throw an NPE",
       "revId": "336b61b431cb7afa8842cf07c00207d2999fc0d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc004e7e_f1d15b1d",
+        "filename": "java/com/google/gerrit/server/mail/send/RegisterNewEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-10T16:56:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47771156_dfe6a033",
+      "revId": "336b61b431cb7afa8842cf07c00207d2999fc0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

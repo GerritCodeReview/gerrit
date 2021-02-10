@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42931543_143557bd",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-10T10:08:09Z",
+      "side": 1,
+      "message": "Since we are requesting noFields(), the returned ChangeData objects will only have the change ID and the project name populated. Accessing any other field, like status, will cause a lazy load from NoteDb, which we want to avoid here.",
+      "range": {
+        "startLine": 334,
+        "startChar": 10,
+        "endLine": 339,
+        "endChar": 22
+      },
+      "revId": "b3345b5292903b410bb0e6dc22e0a91b61dd4f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c3e6f0_2d3354f2",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-10T10:08:09Z",
+      "side": 1,
+      "message": "I doubt that this is working. byTopicOpen only returns changes that have status NEW in the change index. The ChangeData objects that are returned are created from the Change proto that is stored in the index. This means if the index is stale, you would also get a ChangeData with a stale Change instance and the status that is returned by c.change().getStatus() would be always new (even if it\u0027s MERGED in NoteDb). To know the actual status, you would need to load the changes from NoteDb (e.g. via ChangeData#reloadChange()) but we don\u0027t want to do this as a topic can span many projects and the current task may not have all projects in the cache (which is why internally we have a MergeSuperSetComputation implementation which forwards the processing of changes to tasks that have the project in cache).",
+      "range": {
+        "startLine": 203,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 60
+      },
+      "revId": "b3345b5292903b410bb0e6dc22e0a91b61dd4f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7044a0fc_5139f349",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-10T10:08:09Z",
+      "side": 1,
+      "message": "If this is always needed when calling byTopicOpen, it should rather be done as part of that method.",
+      "range": {
+        "startLine": 202,
+        "startChar": 49,
+        "endLine": 206,
+        "endChar": 38
+      },
+      "revId": "b3345b5292903b410bb0e6dc22e0a91b61dd4f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

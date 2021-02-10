@@ -34,6 +34,7 @@ import java.util.Optional;
 public class AbstractPluginProvidedApiTest extends AbstractDaemonTest {
   protected static final String PLUGIN_PROVIDING_API = "plugin-providing-api";
   protected static final String PLUGIN_USING_API = "plugin-using-api";
+  protected static final String PLUGIN_USING_API_TYPE_CAST = "plugin-using-api-with-type-cast";
 
   protected interface MyApi extends PluginProvidedApi {
     public String getData();
@@ -92,6 +93,38 @@ public class AbstractPluginProvidedApiTest extends AbstractDaemonTest {
     public void configure() {
       DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class)
           .to(PluginUsingApiAttributeFactory.class);
+    }
+  }
+
+  protected static class PluginUsingApiWithTypeCastAttributeFactory
+      implements ChangePluginDefinedInfoFactory {
+    protected DynamicMap<PluginProvidedApi> pluginProvidedApis;
+
+    @Inject
+    public PluginUsingApiWithTypeCastAttributeFactory(
+        DynamicMap<PluginProvidedApi> pluginProvidedApis) {
+      this.pluginProvidedApis = pluginProvidedApis;
+    }
+
+    @Override
+    public Map<Change.Id, PluginDefinedInfo> createPluginDefinedInfos(
+        Collection<ChangeData> cds, DynamicOptions.BeanProvider beanProvider, String plugin) {
+      Map<Change.Id, PluginDefinedInfo> out = new HashMap<>();
+      PluginDefinedInfo pluginDefinedInfo = new PluginDefinedInfo();
+      PluginProvidedApi pluginProvidedApi =
+          pluginProvidedApis.get(this.getClass().getClassLoader(), PLUGIN_PROVIDING_API, "MyApi");
+      String data = pluginProvidedApi == null ? null : ((MyApi) pluginProvidedApi).getData();
+      pluginDefinedInfo.message = data;
+      cds.forEach(cd -> out.put(cd.getId(), pluginDefinedInfo));
+      return out;
+    }
+  }
+
+  protected static class PluginUsingApiWithTypeCastModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class)
+          .to(PluginUsingApiWithTypeCastAttributeFactory.class);
     }
   }
 }

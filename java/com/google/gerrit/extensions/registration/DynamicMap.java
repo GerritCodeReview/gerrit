@@ -14,13 +14,16 @@
 
 package com.google.gerrit.extensions.registration;
 
+import com.google.gerrit.server.plugins.DelegatingClassLoader;
 import com.google.inject.Binder;
+import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
+import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,6 +31,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -89,8 +93,13 @@ public abstract class DynamicMap<T> implements Iterable<Extension<T>> {
   }
 
   final ConcurrentMap<NamePair, Provider<T>> items;
+  protected final Injector injector;
+  protected static Map<ClassLoader, Map<ClassLoader, WeakReference<ClassLoader>>> mergedClByCls =
+      Collections.synchronizedMap(
+          new WeakHashMap<ClassLoader, Map<ClassLoader, WeakReference<ClassLoader>>>());
 
-  DynamicMap() {
+  DynamicMap(Injector injector) {
+    this.injector = injector;
     items =
         new ConcurrentHashMap<>(
             16 /* initial size */,
@@ -111,6 +120,43 @@ public abstract class DynamicMap<T> implements Iterable<Extension<T>> {
   public T get(String pluginName, String exportName) throws ProvisionException {
     Provider<T> p = items.get(new NamePair(pluginName, exportName));
     return p != null ? p.get() : null;
+  }
+
+  @SuppressWarnings("unchecked")
+  public T get(ClassLoader pluginConsumingApiCl, String pluginName, String exportName) {
+    T p = get(pluginName, exportName);
+    if (p != null) {
+      try {
+        ClassLoader mergedCl =
+            getMergedClassLoader(pluginConsumingApiCl, p.getClass().getClassLoader());
+        return (T) injector.getInstance(mergedCl.loadClass(p.getClass().getCanonicalName()));
+      } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return null;
+  }
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  protected ClassLoader getMergedClassLoader(
+      ClassLoader pluginConsumingApiCl, ClassLoader pluginProvidingApiCl) {
+    Map<ClassLoader, WeakReference<ClassLoader>> mergedClByCl =
+        mergedClByCls.get(pluginProvidingApiCl);
+    if (mergedClByCl == null) {
+      mergedClByCl =
+          Collections.synchronizedMap(new WeakHashMap<ClassLoader, WeakReference<ClassLoader>>());
+      mergedClByCls.put(pluginProvidingApiCl, mergedClByCl);
+    }
+    WeakReference<ClassLoader> mergedClRef = mergedClByCl.get(pluginConsumingApiCl);
+    ClassLoader mergedCl = null;
+    if (mergedClRef != null) {
+      mergedCl = mergedClRef.get();
+    }
+    if (mergedCl == null) {
+      mergedCl = new DelegatingClassLoader(pluginConsumingApiCl, pluginProvidingApiCl);
+      mergedClByCl.put(pluginConsumingApiCl, new WeakReference(mergedCl));
+    }
+    return mergedCl;
   }
 
   /**

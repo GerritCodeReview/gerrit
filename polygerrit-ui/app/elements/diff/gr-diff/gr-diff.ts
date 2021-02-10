@@ -67,6 +67,7 @@ import {MovedLinkClickedEvent} from '../../../types/events';
 import * as shadow from 'shadow-selection-polyfill/shadow.js';
 
 import {CreateCommentEventDetail as CreateCommentEventDetailApi} from '../../../api/diff';
+import {isSafari} from '../../../utils/dom-util';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -355,11 +356,13 @@ export class GrDiff extends GestureEventListeners(
   _getShadowOrDocumentSelection() {
     // When using native shadow DOM, the selection returned by
     // document.getSelection() cannot reference the actual DOM elements making
-    // up the diff, because they are in the shadow DOM of the gr-diff element.
-    // This takes the shadow DOM selection if one exists.
+    // up the diff in Safari because they are in the shadow DOM of the gr-diff
+    // element. This takes the shadow DOM selection if one exists.
     return this.root instanceof ShadowRoot && this.root.getSelection
       ? this.root.getSelection()
-      : shadow.getRange(this.root);
+      : isSafari()
+      ? shadow.getRange(this.root)
+      : document.getSelection();
   }
 
   _observeNodes() {

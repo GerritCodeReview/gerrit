@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0984e93b_7409ec7e",
+        "filename": "WORKSPACE",
+        "patchSetId": 13
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-10T13:42:28Z",
+      "side": 1,
+      "message": "we\u0027re 1.10.7",
+      "range": {
+        "startLine": 920,
+        "startChar": 21,
+        "endLine": 920,
+        "endChar": 30
+      },
+      "revId": "7842541506fc035dccd07cc57319e1bac5cecb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "196a14ec_139f72e3",
+        "filename": "WORKSPACE",
+        "patchSetId": 13
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-10T13:42:28Z",
+      "side": 1,
+      "message": "we\u0027re at 3.0.1",
+      "range": {
+        "startLine": 936,
+        "startChar": 39,
+        "endLine": 937,
+        "endChar": 4
+      },
+      "revId": "7842541506fc035dccd07cc57319e1bac5cecb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

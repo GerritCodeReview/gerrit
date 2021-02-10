@@ -22,7 +22,6 @@ import com.google.gerrit.acceptance.SshEnabled;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
-import com.google.gerrit.server.config.SshClientImplementation;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -105,9 +104,8 @@ public class TestSshKeys {
   }
 
   public static KeyPair genSshKey() throws GeneralSecurityException {
-    SshClientImplementation client = getFromEnvironment();
     KeyPairGenerator gen;
-    if (client == SshClientImplementation.APACHE) {
+    if (getFromEnvironment().isMina()) {
       int size = 256;
       gen = SecurityUtils.getKeyPairGenerator(KeyUtils.EC_ALGORITHM);
       ECCurves curve = ECCurves.fromCurveSize(size);
@@ -141,8 +139,7 @@ public class TestSshKeys {
   }
 
   public static byte[] privateKey(KeyPair keyPair) throws IOException, GeneralSecurityException {
-    SshClientImplementation client = getFromEnvironment();
-    if (client == SshClientImplementation.APACHE) {
+    if (getFromEnvironment().isMina()) {
       OpenSSHKeyPairResourceWriter keyPairWriter = new OpenSSHKeyPairResourceWriter();
       ByteArrayOutputStream out = new ByteArrayOutputStream();
       keyPairWriter.writePrivateKey(keyPair, null, null, out);

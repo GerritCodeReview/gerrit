@@ -40,6 +40,7 @@ import {
   NumericChangeId,
   ChangeMessageId,
   PatchSetNum,
+  AccountInfo,
 } from '../../../types/common';
 import {CommentThread} from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
@@ -51,6 +52,7 @@ import {
   computeLatestPatchNum,
   computePredecessor,
 } from '../../../utils/patch-set-util';
+import {isServiceUser} from '../../../utils/account-util';
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?(?:P|p)atch (?:S|s)et \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
@@ -472,9 +474,10 @@ export class GrMessage extends GestureEventListeners(
     return classes.join(' ');
   }
 
-  _computeClass(expanded: boolean) {
+  _computeClass(expanded?: boolean, author?: AccountInfo) {
     const classes = [];
     classes.push(expanded ? 'expanded' : 'collapsed');
+    if (isServiceUser(author)) classes.push('serviceUser');
     return classes.join(' ');
   }
 

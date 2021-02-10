@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5005c3d_5700cf72",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-10T08:41:15Z",
+      "side": 1,
+      "message": "My plan was to just bind it to the different implementation in the upstream. We don\u0027t run Daemon internally, so this binding is only needed for the upstream support.\n\nI moved it to the Db injector:\nhttps://gerrit.googlesource.com/gerrit/+/c22cbd39eaa01cf3a59ee9a73971bfa9912e3cb5/java/com/google/gerrit/pgm/util/SiteProgram.java#84\n\nTo make it available in all upstream SitePrograms.\n\nWDYT?",
+      "parentUuid": "64d22386_150addfa",
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "10e978aa_15f4df7e",
         "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
         "patchSetId": 3
@@ -71,6 +89,24 @@
       "writtenOn": "2021-02-09T14:24:11Z",
       "side": 1,
       "message": "add some doc: this is decided on a per-request basis, so outcomes should not persisted in @Singleton.",
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d386429_4e119a90",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-10T08:41:15Z",
+      "side": 1,
+      "message": "Added a clarification: It depends on the implementation if the result is decided per-request basis or not, so the outcomes should not be persisted in @Singleton. \n\n\nLet me know if it looks good?",
+      "parentUuid": "10e978aa_15f4df7e",
       "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -117,6 +153,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78f083cd_6c904e3a",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-10T08:41:15Z",
+      "side": 1,
+      "message": "This left on the Mendel implementation of ExperimentFeatures to figure out the rollout stage (if the flag is disabled/enabled) based on the system properties. I can send you a draft change for the downstream implementation?\n\nI think it is best if we don\u0027t over complicate upstream implementation, so made the interface simple (can be extended if needed). Also, I think it makes sense to keep it close to what we have for the frontend now (flags tied to releases).",
+      "parentUuid": "5defcd95_d1167512",
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "854ad218_64e543a0",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-10T08:41:15Z",
+      "side": 1,
+      "message": "Depends on the implementation, it can be more efficient to test a single feature rather then getting all enabled features and filtering them out.\n\nDo you suggest to move it to a separate Util class?",
+      "parentUuid": "9ee3cc02_b5db6411",
+      "range": {
+        "startLine": 31,
+        "startChar": 10,
+        "endLine": 31,
+        "endChar": 26
+      },
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3f43b27_24cc610e",
         "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
         "patchSetId": 3
@@ -128,6 +206,30 @@
       "writtenOn": "2021-02-09T14:24:11Z",
       "side": 1,
       "message": "I think this is deprecated by now. Can you check with Dhruv?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 85
+      },
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0005445c_ebfc8c4b",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-10T08:41:15Z",
+      "side": 1,
+      "message": "Found this:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/services/flags/flags.ts\n\nWill double-check with the frontend team if this is properly maintained and can be mirrored here.",
+      "parentUuid": "c3f43b27_24cc610e",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -155,6 +257,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec5e8a83_cc830133",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-10T08:41:15Z",
+      "side": 1,
+      "message": "My thinking was that it is likely going to be the only upstream implementation (at least for now), so the name, to make it less confusing for the upstream.\n\nNo strong opinion, renamed.",
+      "parentUuid": "21ac5e76_ae338130",
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3684f28_b75fd96e",
@@ -168,6 +288,30 @@
       "writtenOn": "2021-02-09T16:23:11Z",
       "side": 1,
       "message": "This will break when there are no default enabled features. Has that never happened? Can it never happen?",
+      "range": {
+        "startLine": 61,
+        "startChar": 90,
+        "endLine": 61,
+        "endChar": 97
+      },
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9ba9c17_d9152115",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-10T08:41:15Z",
+      "side": 1,
+      "message": "Good point! I just changed the test to use new implementation, reworked to use one of the known features instead.",
+      "parentUuid": "c3684f28_b75fd96e",
       "range": {
         "startLine": 61,
         "startChar": 90,

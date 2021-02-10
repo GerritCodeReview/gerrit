@@ -195,6 +195,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75c21cf3_2c9e3fa2",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-10T10:17:12Z",
+      "side": 1,
+      "message": "\"it can be\" , ie. our internal implementation prefers this? That\u0027s reasonable, but document. Maybe you can provide a default implementation of the method.",
+      "parentUuid": "854ad218_64e543a0",
+      "range": {
+        "startLine": 31,
+        "startChar": 10,
+        "endLine": 31,
+        "endChar": 26
+      },
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3f43b27_24cc610e",
         "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
         "patchSetId": 3

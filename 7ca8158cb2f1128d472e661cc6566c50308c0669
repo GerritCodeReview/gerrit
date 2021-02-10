@@ -16,6 +16,23 @@
       "message": "verified this fixes the issue",
       "revId": "7ca8158cb2f1128d472e661cc6566c50308c0669",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1dd3123_e3c7de23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-10T14:06:28Z",
+      "side": 1,
+      "message": "Let me check why we don\u0027t get any verification from the CI !",
+      "revId": "7ca8158cb2f1128d472e661cc6566c50308c0669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

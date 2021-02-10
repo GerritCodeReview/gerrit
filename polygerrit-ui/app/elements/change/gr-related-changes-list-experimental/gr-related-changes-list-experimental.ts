@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from 'lit-html';
+import {html, nothing} from 'lit-html';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {customElement, property, css} from 'lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -34,6 +34,7 @@ function isChangeInfo(
 ): x is ChangeInfo | ParsedChangeInfo {
   return (x as ChangeInfo)._number !== undefined;
 }
+
 @customElement('gr-related-changes-list-experimental')
 export class GrRelatedChangesListExperimental extends GrLitElement {
   @property()
@@ -56,12 +57,12 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
           color: var(--deemphasized-text-color);
           padding-left: var(--metadata-horizontal-padding);
         }
-        h4,
-        section gr-related-change {
+        h4 {
           display: flex;
         }
         h4:before,
-        section gr-related-change:before {
+        section gr-button:before,
+        gr-related-change:before {
           content: ' ';
           flex-shrink: 0;
           width: 1.2em;
@@ -77,23 +78,40 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
     const submittedTogetherChanges = this._submittedTogether?.changes ?? [];
     const countNonVisibleChanges =
       this._submittedTogether?.non_visible_changes ?? 0;
+    const showWhenCollapse = this.createShowWhenCollapse(
+      submittedTogetherChanges.length,
+      submittedTogetherChanges.findIndex(relatedChange =>
+        this._changesEqual(relatedChange, this.change)
+      )
+    );
     return html` <section
       id="submittedTogether"
       ?hidden=${!submittedTogetherChanges?.length &&
       !this._submittedTogether?.non_visible_changes}
     >
       <h4 class="title">Submitted together</h4>
-      ${submittedTogetherChanges.map(
-        relatedChange =>
-          html`<gr-related-change
-            .currentChange="${this._changesEqual(relatedChange, this.change)}"
-            .change="${relatedChange}"
-          ></gr-related-change>`
-      )}
+      <gr-related-collapse .length=${submittedTogetherChanges.length}>
+        ${submittedTogetherChanges.map(
+          (relatedChange, index) =>
+            html`<gr-related-change
+              class="${showWhenCollapse(index) ? 'showwhencollapsed' : ''}"
+              .currentChange="${this._changesEqual(relatedChange, this.change)}"
+              .change="${relatedChange}"
+            ></gr-related-change>`
+        )}
+      </gr-related-collapse>
       <div class="note" ?hidden=${!countNonVisibleChanges}>
         (+ ${pluralize(countNonVisibleChanges, 'non-visible change')})
       </div>
     </section>`;
+  }
+
+  createShowWhenCollapse(length: number, highlightIndex: number) {
+    return (index: number) => {
+      if (highlightIndex === 0) return index <= 2;
+      if (highlightIndex === length - 1) return index >= length - 3;
+      return highlightIndex - 1 <= index && index <= highlightIndex + 1;
+    };
   }
 
   reload() {
@@ -134,6 +152,79 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       return change._number;
     }
     return change._change_number;
+  }
+}
+
+@customElement('gr-related-collapse')
+export class GrRelatedCollapse extends GrLitElement {
+  @property()
+  showAll = false;
+
+  @property()
+  length = 0;
+
+  @property()
+  collapsedChanges?: Node[];
+
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        gr-button {
+          display: flex;
+        }
+        gr-button:before {
+          content: ' ';
+          flex-shrink: 0;
+          width: 1.2em;
+        }
+        .collapsed ::slotted(gr-related-change.currentchange) {
+          display: flex;
+        }
+        .collapsed ::slotted(gr-related-change.showwhencollapsed) {
+          display: flex;
+        }
+        .collapsed ::slotted(gr-related-change) {
+          display: none;
+        }
+        ::slotted(gr-related-change) {
+          display: flex;
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const collapsible = this.length > 3;
+    const items = html` <div
+      class="${!this.showAll && collapsible ? 'collapsed' : ''}"
+    >
+      <slot></slot>
+    </div>`;
+    let button = nothing;
+    if (collapsible) {
+      if (this.showAll) {
+        button = html`<gr-button link="" @click="${this.collapse}"
+          >Show less</gr-button
+        >`;
+      } else {
+        button = html`<gr-button link="" @click="${this.expand}"
+          >+ ${this.length - 3} more</gr-button
+        >`;
+      }
+    }
+
+    return html`${items}${button}`;
+  }
+
+  private expand(e: MouseEvent) {
+    e.stopPropagation();
+    this.showAll = true;
+  }
+
+  private collapse(e: MouseEvent) {
+    e.stopPropagation();
+    this.showAll = false;
   }
 }
 
@@ -227,6 +318,7 @@ export class GrRelatedChange extends GrLitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-related-changes-list-experimental': GrRelatedChangesListExperimental;
+    'gr-related-collapse': GrRelatedCollapse;
     'gr-related-change': GrRelatedChange;
   }
 }

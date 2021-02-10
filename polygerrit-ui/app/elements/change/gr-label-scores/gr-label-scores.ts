@@ -32,11 +32,12 @@ import {
 } from '../../../types/common';
 import {
   GrLabelScoreRow,
+  Label,
   LabelValuesMap,
 } from '../gr-label-score-row/gr-label-score-row';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import {appContext} from '../../../services/app-context';
 
-type Labels = {[label: string]: number};
 @customElement('gr-label-scores')
 export class GrLabelScores extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -46,7 +47,7 @@ export class GrLabelScores extends GestureEventListeners(
   }
 
   @property({type: Array, computed: '_computeLabels(change.labels.*, account)'})
-  _labels?: Labels;
+  _labels: Label[] = [];
 
   @property({type: Object, observer: '_computeColumns'})
   permittedLabels?: LabelNameToValueMap;
@@ -60,6 +61,8 @@ export class GrLabelScores extends GestureEventListeners(
   @property({type: Object})
   _labelValues?: LabelValuesMap;
 
+  private readonly reporting = appContext.reportingService;
+
   getLabelValues(includeDefaults = true): LabelNameToValuesMap {
     const labels: LabelNameToValuesMap = {};
     if (this.shadowRoot === null || !this.change) {
@@ -69,23 +72,14 @@ export class GrLabelScores extends GestureEventListeners(
       const selectorEl = this.shadowRoot.querySelector(
         `gr-label-score-row[name="${label}"]`
       ) as null | GrLabelScoreRow;
-      if (!selectorEl) {
-        continue;
-      }
-
-      // The user may have not voted on this label.
-      if (!selectorEl.selectedItem) {
-        continue;
-      }
+      if (!selectorEl?.selectedItem) continue;
 
       const selectedVal =
         typeof selectorEl.selectedValue === 'string'
           ? Number(selectorEl.selectedValue)
           : selectorEl.selectedValue;
 
-      if (selectedVal === undefined) {
-        continue;
-      }
+      if (selectedVal === undefined) continue;
 
       const defValNum = this._getDefaultValue(this.change.labels, label);
       if (includeDefaults || selectedVal !== defValNum) {
@@ -99,14 +93,16 @@ export class GrLabelScores extends GestureEventListeners(
     labels: LabelNameToInfoMap,
     labelName: string,
     numberValue?: number
-  ) {
+  ): string {
     const detailedInfo = labels[labelName] as DetailedLabelInfo;
     for (const labelValue of Object.keys(detailedInfo.values)) {
       if (Number(labelValue) === numberValue) {
         return labelValue;
       }
     }
-    return numberValue;
+    const stringVal = `${numberValue}`;
+    this.reporting.reportExecution('label-value-not-found', {value: stringVal});
+    return stringVal;
   }
 
   _getDefaultValue(labels?: LabelNameToInfoMap, labelName?: string) {
@@ -119,7 +115,7 @@ export class GrLabelScores extends GestureEventListeners(
     labels: LabelNameToInfoMap | undefined,
     labelName: string,
     account?: AccountInfo
-  ) {
+  ): string | null {
     if (!labels) return null;
     const votes = labels[labelName] as DetailedLabelInfo;
     if (votes.all && votes.all.length > 0) {
@@ -144,16 +140,10 @@ export class GrLabelScores extends GestureEventListeners(
       LabelNameToInfoMap
     >,
     account?: AccountInfo
-  ) {
-    // Polymer 2: check for undefined
-    if ([labelRecord, account].includes(undefined)) {
-      return undefined;
-    }
-
+  ): Label[] {
+    if (!account) return [];
+    if (!labelRecord?.base) return [];
     const labelsObj = labelRecord.base;
-    if (!labelsObj) {
-      return [];
-    }
     return Object.keys(labelsObj)
       .sort()
       .map(key => {

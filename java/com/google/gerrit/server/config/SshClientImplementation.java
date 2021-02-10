@@ -54,4 +54,8 @@ public enum SshClientImplementation {
     }
     return client;
   }
+
+  public boolean isMina() {
+    return this == APACHE;
+  }
 }

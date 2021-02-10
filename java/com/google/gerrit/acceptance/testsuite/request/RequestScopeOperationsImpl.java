@@ -19,7 +19,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.GerritServer.TestSshServerAddress;
-import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
@@ -82,7 +81,7 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
   public AcceptanceTestRequestScope.Context setApiUser(TestAccount testAccount) {
     return atrScope.set(
         atrScope.newContext(
-            new SshSession(testSshKeys, sshAddress, testAccount),
+            SshSessionFactory.createSession(testSshKeys, sshAddress, testAccount),
             createIdentifiedUser(testAccount.accountId())));
   }
 

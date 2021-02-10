@@ -33,6 +33,29 @@
       "message": "Han-Wen, this is a very rough implementation of an idea that we had to extend the existing proposal to allow some additional use cases to be addressed without having to use reflection.",
       "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "548b06d5_34b46e9a",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-10T19:38:56Z",
+      "side": 1,
+      "message": "I spent 2 hrs trying to understand classloaders.\n\nAs I understand it, classes are characterized by (classloader, fullname), so you can have two versions of the same class \"gerrit.MyApi\", those being (providerClassLoader, \"gerrit.MyApi\") and  (consumerClassLoader, \"gerrit.MyApi\"), and these are considered completely unrelated, so it is an error to cast one to the other.\n\nIn this case, you\u0027ll get (providerClassLoader, \"gerrit.MyApi\") out of your DynamicMap, but you\u0027re trying to cast it to (consumerClassLoader, \"gerrit.MyApi\"), which would be an error. \n\nAm I missing something?",
+      "range": {
+        "startLine": 114,
+        "startChar": 6,
+        "endLine": 114,
+        "endChar": 23
+      },
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -412,6 +412,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22cb2a5d_d3e01116",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-10T20:29:41Z",
+      "side": 1,
+      "message": "Done in: [1], PTAL. We could squash this series if your prefer.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/296602",
+      "parentUuid": "d21414c4_9e7884c9",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b69f60e5_c78af6d5",

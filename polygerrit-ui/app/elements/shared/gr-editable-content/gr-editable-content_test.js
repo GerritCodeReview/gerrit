@@ -105,7 +105,7 @@ suite('gr-editable-content tests', () => {
 
       assert.equal(element._newContent, 'stored content');
       assert.isTrue(dispatchSpy.called);
-      assert.equal(dispatchSpy.lastCall.args[0].type, 'show-alert');
+      assert.equal(dispatchSpy.firstCall.args[0].type, 'show-alert');
     });
 
     test('editing toggled to true, has no stored data', () => {
@@ -114,7 +114,7 @@ suite('gr-editable-content tests', () => {
       element.editing = true;
 
       assert.equal(element._newContent, 'current content');
-      assert.isFalse(dispatchSpy.called);
+      assert.equal(dispatchSpy.firstCall.args[0].type, 'editing-changed');
     });
 
     test('edits are cached', () => {

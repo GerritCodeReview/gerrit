@@ -372,13 +372,6 @@ export class GrChangeView extends KeyboardShortcutMixin(
   })
   _hideEditCommitMessage?: boolean;
 
-  @property({
-    type: Boolean,
-    computed:
-      '_computeHideShowAllContainer(_hideEditCommitMessage, _commitCollapsible)',
-  })
-  _hideShowAllContainer = false;
-
   @property({type: String})
   _diffAgainst?: string;
 
@@ -930,13 +923,6 @@ export class GrChangeView extends KeyboardShortcutMixin(
       submitEnabled: !!submitEnabled,
     };
     return changeStatuses(change, options);
-  }
-
-  _computeHideShowAllContainer(
-    _hideEditCommitMessage?: boolean,
-    _commitCollapsible?: boolean
-  ) {
-    return !_commitCollapsible && _hideEditCommitMessage;
   }
 
   _computeHideEditCommitMessage(
@@ -2380,6 +2366,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _computeCommitMessageCollapsed(collapsed?: boolean, collapsible?: boolean) {
+    if (this._isNewChangeSummaryUiEnabled) {
+      return false;
+    }
     return collapsible && collapsed;
   }
 
@@ -2388,9 +2377,6 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _computeCollapseText(collapsed: boolean) {
-    if (this._isNewChangeSummaryUiEnabled) {
-      return collapsed ? 'Show all' : 'Show less';
-    }
     // Symbols are up and down triangles.
     return collapsed ? '\u25bc Show more' : '\u25b2 Show less';
   }

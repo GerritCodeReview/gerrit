@@ -139,6 +139,11 @@ public class RefNames {
     return ref;
   }
 
+  /**
+   * Warning: Change refs have to manually be advertised in {@link
+   * com.google.gerrit.server.permissions.DefaultRefFilter}; this should be done when adding new
+   * change refs.
+   */
   public static String changeMetaRef(Change.Id id) {
     StringBuilder r = newStringBuilder().append(REFS_CHANGES);
     return shard(id.get(), r).append(META_SUFFIX).toString();

@@ -75,6 +75,7 @@ import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
@@ -2001,7 +2002,7 @@ public class AccountIT extends AbstractDaemonTest {
 
       // Add a new key
       sender.clear();
-      String newKey = TestSshKeys.publicKey(TestSshKeys.genSshKey(), admin.email());
+      String newKey = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), admin.email());
       gApi.accounts().self().addSshKey(newKey);
       info = gApi.accounts().self().listSshKeys();
       assertThat(info).hasSize(2);
@@ -2023,7 +2024,7 @@ public class AccountIT extends AbstractDaemonTest {
 
       // Add another new key
       sender.clear();
-      String newKey2 = TestSshKeys.publicKey(TestSshKeys.genSshKey(), admin.email());
+      String newKey2 = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), admin.email());
       gApi.accounts().self().addSshKey(newKey2);
       info = gApi.accounts().self().listSshKeys();
       assertThat(info).hasSize(3);
@@ -2074,7 +2075,7 @@ public class AccountIT extends AbstractDaemonTest {
 
       // Add a new key
       sender.clear();
-      String newKey = TestSshKeys.publicKey(TestSshKeys.genSshKey(), user.email());
+      String newKey = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), user.email());
       gApi.accounts().id(user.username()).addSshKey(newKey);
       info = gApi.accounts().id(user.username()).listSshKeys();
       assertThat(info).hasSize(2);
@@ -2103,7 +2104,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @UseSsh
   public void userCannotAddSshKeyToOtherAccount() throws Exception {
-    String newKey = TestSshKeys.publicKey(TestSshKeys.genSshKey(), admin.email());
+    String newKey = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), admin.email());
     requestScopeOperations.setApiUser(user.id());
     assertThrows(AuthException.class, () -> gApi.accounts().id(admin.username()).addSshKey(newKey));
   }

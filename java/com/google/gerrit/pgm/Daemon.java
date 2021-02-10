@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm;
 
 import static com.google.gerrit.common.Version.getVersion;
-import static com.google.gerrit.server.config.SshClientImplementation.APACHE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -115,6 +114,7 @@ import com.google.gerrit.server.update.SuperprojectUpdateSubmissionListener;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
+import com.google.gerrit.sshd.SshSessionFactoryInitializer;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.gerrit.sshd.commands.SequenceCommandsModule;
@@ -134,11 +134,6 @@ import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.transport.sshd.DefaultProxyDataFactory;
-import org.eclipse.jgit.transport.sshd.JGitKeyCache;
-import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
-import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Option;
 
 /** Run SSH daemon portions of Gerrit. */
@@ -488,12 +483,7 @@ public class Daemon extends SiteProgram {
           });
     }
     modules.add(new DefaultUrlFormatter.Module());
-    if (APACHE == config.getEnum("ssh", null, "clientImplementation", APACHE)) {
-      SshdSessionFactory factory =
-          new SshdSessionFactory(new JGitKeyCache(), new DefaultProxyDataFactory());
-      factory.setHomeDirectory(FS.DETECTED.userHome());
-      SshSessionFactory.setInstance(factory);
-    }
+    SshSessionFactoryInitializer.init(config);
     if (sshd) {
       modules.add(SshKeyCacheImpl.module());
     } else {

@@ -115,6 +115,7 @@ import com.google.gerrit.server.update.SuperprojectUpdateSubmissionListener;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
+import com.google.gerrit.sshd.SshSessionFactoryInitializer;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.gerrit.sshd.commands.SequenceCommandsModule;
@@ -488,12 +489,7 @@ public class Daemon extends SiteProgram {
           });
     }
     modules.add(new DefaultUrlFormatter.Module());
-    if (APACHE == config.getEnum("ssh", null, "clientImplementation", APACHE)) {
-      SshdSessionFactory factory =
-          new SshdSessionFactory(new JGitKeyCache(), new DefaultProxyDataFactory());
-      factory.setHomeDirectory(FS.DETECTED.userHome());
-      SshSessionFactory.setInstance(factory);
-    }
+    SshSessionFactoryInitializer.init(config);
     if (sshd) {
       modules.add(SshKeyCacheImpl.module());
     } else {
@@ -529,6 +525,15 @@ public class Daemon extends SiteProgram {
     modules.add(new AuthModule(authConfig));
 
     return cfgInjector.createChildInjector(ModuleOverloader.override(modules, libModules));
+  }
+
+  static void init(Config config) {
+    if (APACHE == config.getEnum("ssh", null, "clientImplementation", APACHE)) {
+      SshdSessionFactory factory =
+          new SshdSessionFactory(new JGitKeyCache(), new DefaultProxyDataFactory());
+      factory.setHomeDirectory(FS.DETECTED.userHome());
+      SshSessionFactory.setInstance(factory);
+    }
   }
 
   private Module createIndexModule() {

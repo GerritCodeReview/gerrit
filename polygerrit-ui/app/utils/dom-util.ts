@@ -253,3 +253,11 @@ export function getSharedApiEl(): JsApiService {
   }
   return _sharedApiEl;
 }
+
+// Whether the browser is Safari. Used for polyfilling unique browser behavior.
+export function isSafari() {
+  return (
+    /^((?!chrome|android).)*safari/i.test(navigator.userAgent) ||
+    (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+  );
+}

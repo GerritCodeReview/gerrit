@@ -58,6 +58,8 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 // @ts-ignore
 import * as shadow from 'shadow-selection-polyfill/shadow.js';
 
+import {isSafari} from '../../../utils/dom-util';
+
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
 
@@ -361,7 +363,7 @@ export class GrDiff extends GestureEventListeners(
     // element. This takes the shadow DOM selection if one exists.
     return this.root instanceof ShadowRoot && this.root.getSelection
       ? this.root.getSelection()
-      : this._isSafari()
+      : isSafari()
       ? shadow.getRange(this.root)
       : document.getSelection();
   }
@@ -1073,13 +1075,6 @@ export class GrDiff extends GestureEventListeners(
         );
       }
     }, 0);
-  }
-
-  _isSafari() {
-    return (
-      /^((?!chrome|android).)*safari/i.test(navigator.userAgent) ||
-      (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
-    );
   }
 }
 

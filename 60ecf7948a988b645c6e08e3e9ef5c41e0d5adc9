@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b5a9d8_0746b89b",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-10T12:05:05Z",
+      "side": 1,
+      "message": "If specifying a ChangeType is required should changeType in FileDiffOutput be changed from Optional\u003cPatch.ChangeType\u003e to Patch.ChangeType?",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 53
+      },
+      "revId": "60ecf7948a988b645c6e08e3e9ef5c41e0d5adc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

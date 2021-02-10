@@ -340,6 +340,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fe69fef_83a5758e",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-10T10:08:30Z",
+      "side": 1,
+      "message": "You said \u0027done\u0027, but the import \n\n org.eclipse.jgit.transport.sshd.*\n\ndoesn\u0027t exist for us. We only have JSch (more precisely, we have a build target that includes org.eclipse.jgit.ssh.jsch/src/**/*.java from JGit, and a separate one for JSch). \n\n\u003e file those requests against third-party team @Google\n\nThere will be questions from the security team about adding a second SSH library in Java.\n\nFor the rest, there is nobody doing the work for us, ie. we (the git/gerrit team) have to import this library. I chatted with tparker@google.com who is a JGit committer: we use SSH in our deployment (mainly for mirroring), so we will have to migrate to MINA at some point, but it\u0027s not urgent enough to start work on now.  So that leaves two options: arrange the classes so we don\u0027t have to depend on MINA-related code (as Patrick suggests), or wait until we can prioritize the work on the MINA migration.",
+      "parentUuid": "dad5d758_737dca89",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b69f60e5_c78af6d5",

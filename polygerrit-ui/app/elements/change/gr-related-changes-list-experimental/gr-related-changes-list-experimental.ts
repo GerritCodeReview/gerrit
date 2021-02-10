@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from 'lit-html';
+import {html, nothing} from 'lit-html';
+import {classMap} from 'lit-html/directives/class-map';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {customElement, property, css} from 'lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -34,6 +35,10 @@ function isChangeInfo(
 ): x is ChangeInfo | ParsedChangeInfo {
   return (x as ChangeInfo)._number !== undefined;
 }
+
+/** What is the maximum number of shown changes in collapsed list? */
+const MAX_CHANGES_WHEN_COLLAPSED = 3;
+
 @customElement('gr-related-changes-list-experimental')
 export class GrRelatedChangesListExperimental extends GrLitElement {
   @property()
@@ -56,12 +61,14 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
           color: var(--deemphasized-text-color);
           padding-left: var(--metadata-horizontal-padding);
         }
-        h4,
-        section gr-related-change {
+        h4 {
           display: flex;
         }
+        /* This is a hacky solution from old gr-related-change-list
+         * TODO(milutin): find layout without needing it
+         */
         h4:before,
-        section gr-related-change:before {
+        gr-related-change:before {
           content: ' ';
           flex-shrink: 0;
           width: 1.2em;
@@ -77,23 +84,46 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
     const submittedTogetherChanges = this._submittedTogether?.changes ?? [];
     const countNonVisibleChanges =
       this._submittedTogether?.non_visible_changes ?? 0;
+    const showWhenCollapsedPredicate = this.showWhenCollapsedPredicateFactory(
+      submittedTogetherChanges.length,
+      submittedTogetherChanges.findIndex(relatedChange =>
+        this._changesEqual(relatedChange, this.change)
+      )
+    );
     return html` <section
       id="submittedTogether"
       ?hidden=${!submittedTogetherChanges?.length &&
       !this._submittedTogether?.non_visible_changes}
     >
       <h4 class="title">Submitted together</h4>
-      ${submittedTogetherChanges.map(
-        relatedChange =>
-          html`<gr-related-change
-            .currentChange="${this._changesEqual(relatedChange, this.change)}"
-            .change="${relatedChange}"
-          ></gr-related-change>`
-      )}
+      <gr-related-collapse .length=${submittedTogetherChanges.length}>
+        ${submittedTogetherChanges.map(
+          (relatedChange, index) =>
+            html`<gr-related-change
+              class="${classMap({
+                ['show-when-collapsed']: showWhenCollapsedPredicate(index),
+              })}"
+              .currentChange="${this._changesEqual(relatedChange, this.change)}"
+              .change="${relatedChange}"
+            ></gr-related-change>`
+        )}
+      </gr-related-collapse>
       <div class="note" ?hidden=${!countNonVisibleChanges}>
         (+ ${pluralize(countNonVisibleChanges, 'non-visible change')})
       </div>
     </section>`;
+  }
+
+  showWhenCollapsedPredicateFactory(length: number, highlightIndex: number) {
+    return (index: number) => {
+      if (highlightIndex === 0) return index <= MAX_CHANGES_WHEN_COLLAPSED - 1;
+      if (highlightIndex === length - 1)
+        return index >= length - MAX_CHANGES_WHEN_COLLAPSED;
+      return (
+        highlightIndex - MAX_CHANGES_WHEN_COLLAPSED + 2 <= index &&
+        index <= highlightIndex + MAX_CHANGES_WHEN_COLLAPSED - 2
+      );
+    };
   }
 
   reload() {
@@ -134,6 +164,68 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       return change._number;
     }
     return change._change_number;
+  }
+}
+
+@customElement('gr-related-collapse')
+export class GrRelatedCollapse extends GrLitElement {
+  @property()
+  showAll = false;
+
+  @property()
+  length = 0;
+
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        gr-button {
+          display: flex;
+        }
+        gr-button:before {
+          content: ' ';
+          flex-shrink: 0;
+          width: 1.2em;
+        }
+        .collapsed ::slotted(gr-related-change.show-when-collapsed) {
+          display: flex;
+        }
+        .collapsed ::slotted(gr-related-change) {
+          display: none;
+        }
+        ::slotted(gr-related-change) {
+          display: flex;
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const collapsible = this.length > MAX_CHANGES_WHEN_COLLAPSED;
+    const items = html` <div
+      class="${!this.showAll && collapsible ? 'collapsed' : ''}"
+    >
+      <slot></slot>
+    </div>`;
+    let button = nothing;
+    if (collapsible) {
+      if (this.showAll) {
+        button = html`<gr-button link="" @click="${this.toggle}"
+          >Show less</gr-button
+        >`;
+      } else {
+        button = html`<gr-button link="" @click="${this.toggle}"
+          >+ ${this.length - MAX_CHANGES_WHEN_COLLAPSED} more</gr-button
+        >`;
+      }
+    }
+
+    return html`${items}${button}`;
+  }
+
+  private toggle(e: MouseEvent) {
+    e.stopPropagation();
+    this.showAll = !this.showAll;
   }
 }
 
@@ -227,6 +319,7 @@ export class GrRelatedChange extends GrLitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-related-changes-list-experimental': GrRelatedChangesListExperimental;
+    'gr-related-collapse': GrRelatedCollapse;
     'gr-related-change': GrRelatedChange;
   }
 }

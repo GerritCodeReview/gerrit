@@ -211,6 +211,14 @@ class DefaultRefFilter {
                 refs.add(
                     new ObjectIdRef.PeeledNonTag(
                         Storage.PACKED, RefNames.patchSetRef(p.id()), p.commitId())));
+    if (changeNotes.getRobotCommentNotes() != null
+        && changeNotes.getRobotCommentNotes().getMetaId() != null) {
+      refs.add(
+          new ObjectIdRef.PeeledNonTag(
+              Storage.PACKED,
+              RefNames.robotCommentsRef(changeNotes.getChangeId()),
+              changeNotes.getRobotCommentNotes().getMetaId()));
+    }
   }
 
   /**

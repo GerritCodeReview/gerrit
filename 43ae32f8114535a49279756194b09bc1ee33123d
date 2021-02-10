@@ -105,6 +105,24 @@
       "parentUuid": "c2262568_530b99ae",
       "revId": "43ae32f8114535a49279756194b09bc1ee33123d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f132f87_789b213d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-10T08:27:30Z",
+      "side": 1,
+      "message": "I hit it in a different scenario, both issues have the same root cause.",
+      "parentUuid": "d017ad8b_43bb52e9",
+      "revId": "43ae32f8114535a49279756194b09bc1ee33123d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -56,6 +56,30 @@
       },
       "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a6c2280_ddbf0985",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-02-10T21:12:48Z",
+      "side": 1,
+      "message": "\u003e As I understand it, classes are characterized by (classloader, fullname), so you can have two versions of the same class \"gerrit.MyApi\", those being (providerClassLoader, \"gerrit.MyApi\") and  (consumerClassLoader, \"gerrit.MyApi\"), and these are considered completely unrelated, so it is an error to cast one to the other.\n\nThat is my experience, yes.\n\n\u003e In this case, you\u0027ll get (providerClassLoader, \"gerrit.MyApi\") out of your DynamicMap, but you\u0027re trying to cast it to (consumerClassLoader, \"gerrit.MyApi\"), which would be an error. \n\u003e \n\u003e Am I missing something?\n\nI think so, it\u0027s tricky (I missed this too at first). In this change (providerClassLoader, \"gerrit.MyApi\") will come out of the DynamicMap.get(pluginName, exportName) call, however get(ClassLoader pluginConsumingApiCl, String pluginName, String exportName) will then re-instantiate that class as (consumerClassLoader, \"gerrit.MyApi\") and return it. This is sort of the opposite of what happens in https://gerrit-review.googlesource.com/c/gerrit/+/91449  This approach has the advantage of not having to use reflection. However, I believe it has the disadvantage that the newly re-instantiated API does not share the providerClassLoader, so I don\u0027t think it will have access to any caches or static data in the providing plugin (I have not confirmed this).",
+      "parentUuid": "548b06d5_34b46e9a",
+      "range": {
+        "startLine": 114,
+        "startChar": 6,
+        "endLine": 114,
+        "endChar": 23
+      },
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

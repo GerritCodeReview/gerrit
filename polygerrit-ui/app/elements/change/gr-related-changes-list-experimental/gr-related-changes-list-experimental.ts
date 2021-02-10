@@ -34,6 +34,8 @@ function isChangeInfo(
 ): x is ChangeInfo | ParsedChangeInfo {
   return (x as ChangeInfo)._number !== undefined;
 }
+
+
 @customElement('gr-related-changes-list-experimental')
 export class GrRelatedChangesListExperimental extends GrLitElement {
   @property()
@@ -44,6 +46,9 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
     changes: [],
     non_visible_changes: 0,
   };
+
+  @property()
+  showAll = false;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -57,10 +62,12 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
           padding-left: var(--metadata-horizontal-padding);
         }
         h4,
+        section gr-button,
         section gr-related-change {
           display: flex;
         }
         h4:before,
+        section gr-button:before,
         section gr-related-change:before {
           content: ' ';
           flex-shrink: 0;
@@ -77,23 +84,48 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
     const submittedTogetherChanges = this._submittedTogether?.changes ?? [];
     const countNonVisibleChanges =
       this._submittedTogether?.non_visible_changes ?? 0;
+    const currentChangePos = submittedTogetherChanges.findIndex(relatedChange =>
+      this._changesEqual(relatedChange, this.change)
+    );
     return html` <section
       id="submittedTogether"
       ?hidden=${!submittedTogetherChanges?.length &&
       !this._submittedTogether?.non_visible_changes}
     >
       <h4 class="title">Submitted together</h4>
-      ${submittedTogetherChanges.map(
-        relatedChange =>
-          html`<gr-related-change
-            .currentChange="${this._changesEqual(relatedChange, this.change)}"
-            .change="${relatedChange}"
-          ></gr-related-change>`
-      )}
+      ${submittedTogetherChanges
+        .slice(
+          this.showAll ? 0 : currentChangePos - 1,
+          this.showAll ? undefined : currentChangePos + 2
+        )
+        .map(
+          relatedChange =>
+            html`<gr-related-change
+              .currentChange="${this._changesEqual(relatedChange, this.change)}"
+              .change="${relatedChange}"
+            ></gr-related-change>`
+        )}
+      ${!this.showAll
+        ? html`<gr-button link="" @click="${this.expand}"
+            >+ ${submittedTogetherChanges.length - 3} more</gr-button
+          >`
+        : html`<gr-button link="" @click="${this.collapse}"
+            >show less</gr-button
+          >`}
       <div class="note" ?hidden=${!countNonVisibleChanges}>
         (+ ${pluralize(countNonVisibleChanges, 'non-visible change')})
       </div>
     </section>`;
+  }
+
+  private expand(e: MouseEvent) {
+    e.stopPropagation();
+    this.showAll = true;
+  }
+
+  private collapse(e: MouseEvent) {
+    e.stopPropagation();
+    this.showAll = false;
   }
 
   reload() {

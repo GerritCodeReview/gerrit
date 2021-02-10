@@ -358,6 +358,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ec158f4_e3867693",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-10T10:46:14Z",
+      "side": 1,
+      "message": "\u003e You said \u0027done\u0027, but the import \n\nI meant, that the glue code to activate Mina SSHD client factory was moved to Daemon.java:\n\n  if (SshClientImplementation.APACHE\n        \u003d\u003d config.getEnum(\"ssh\", null, \"clientImplementation\", SshClientImplementation.JSCH)) {\n      SshdSessionFactory factory \u003d\n          new SshdSessionFactory(new JGitKeyCache(), new DefaultProxyDataFactory());\n      factory.setHomeDirectory(FS.DETECTED.userHome());\n      SshSessionFactory.setInstance(factory);\n    }\n\nSo that I expect production Gerrit work @Google should just work with this commit.\n\n\u003e So that leaves two options: arrange the classes so we don\u0027t have to depend on MINA-related code (as Patrick suggests)\n\nThat\u0027s the test code only. So, are you seriously suggesting that open source gerrit continues to use JCraft JSch in acceptance tests, that is slow, outdated, unmaintained and unsupported, but switch to using MINA SSHD client in production?\n\n\u003e or wait until we can prioritize the work on the MINA migration.\n\nThis series has high priority for open source gerrit, because JCraft JSch is slow and dead. This change was uploaded on Apr 21, 2020. My expectation would be that whatever you mean with: \"wait until we can prioritize the work on the MINA migration\" should have been started on Apr 21, 2020, or start ASAP and not waiting for years.\n\nAs you mentioned, Terry Parker found a way to merge/import JGit tree in Google with MINA SSHD client, why it works for JGit@Google? Can\u0027t you do the same for Gerrit@Google?",
+      "parentUuid": "3fe69fef_83a5758e",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b69f60e5_c78af6d5",

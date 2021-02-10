@@ -22,6 +22,47 @@
       },
       "revId": "336b61b431cb7afa8842cf07c00207d2999fc0d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0140751_dbf0c4ed",
+        "filename": "java/com/google/gerrit/server/mail/send/AddKeySender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-10T08:27:30Z",
+      "side": 1,
+      "message": "using add(RecipientType, Account.Id) is better since it already checks if the preferred email is null and also checks if the user is active.",
+      "parentUuid": "6e8e1f74_cb8d18ad",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 5
+      },
+      "revId": "336b61b431cb7afa8842cf07c00207d2999fc0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47771156_dfe6a033",
+        "filename": "java/com/google/gerrit/server/mail/send/RegisterNewEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-10T08:27:30Z",
+      "side": 1,
+      "message": "we shouldn\u0027t check this here, registering an email sender not having an email address should rather throw an NPE",
+      "revId": "336b61b431cb7afa8842cf07c00207d2999fc0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

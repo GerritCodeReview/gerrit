@@ -33,6 +33,24 @@
       "message": "What about refs/changes/\u003csharded-id\u003e/robot-comments refs? Are those not fetchable anymore?\n\nI guess this also means that plugins can no longer add additional change refs (e.g. the checks plugin added refs/changes/\u003csharded-id\u003e/checks). Not sure if this is important?",
       "revId": "a0037092b5b1844b9ac48bf74e7f9ecef3f27be2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd69a81a_7d9a1c91",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-10T09:29:30Z",
+      "side": 1,
+      "message": "That is a good point, I think.\n\nI\u0027ll make a follow-up to fix it.",
+      "parentUuid": "cda53326_2c4d5cc1",
+      "revId": "a0037092b5b1844b9ac48bf74e7f9ecef3f27be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -427,6 +427,13 @@ export const htmlTemplate = html`
     .target-row td.blame {
       background: var(--diff-selection-background-color);
     }
+    td.lost div {
+      background-color: var(--blue-50);
+      padding: var(--spacing-s);
+    }
+    td.lost iron-icon {
+      margin-right: var(--spacing-s);
+    }
     col.blame {
       display: none;
     }

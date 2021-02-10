@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4fd46e7e_277e0526",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-10T11:18:34Z",
+      "side": 1,
+      "message": "hmm, it\u0027s not safe to ignore the changes with inconsistency, but maybe if there is an inconsistency that we find this way, we can afford loading the changeData (with reloadChange)?",
+      "parentUuid": "ca672171_d1f85261",
+      "range": {
+        "startLine": 203,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 60
+      },
+      "revId": "b3345b5292903b410bb0e6dc22e0a91b61dd4f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7044a0fc_5139f349",
         "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
         "patchSetId": 1

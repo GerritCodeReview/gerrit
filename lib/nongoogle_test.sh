@@ -23,7 +23,7 @@ flogger-log4j-backend
 flogger-system-backend
 guava
 guice-assistedinject
-guice-library-no-aop
+guice-library
 guice-servlet
 httpasyncclient
 httpcore-nio

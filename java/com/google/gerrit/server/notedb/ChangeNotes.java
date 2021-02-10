@@ -512,6 +512,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   public RobotCommentNotes getRobotCommentNotes() {
+    loadRobotComments();
     return robotCommentNotes;
   }
 

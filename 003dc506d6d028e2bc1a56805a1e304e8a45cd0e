@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9030b708_f0021fbe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-10T17:21:32Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "003dc506d6d028e2bc1a56805a1e304e8a45cd0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "513d2650_a9752d80",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-10T17:21:32Z",
+      "side": 1,
+      "message": "It would probably not hurt to also return [] here. WDYT?",
+      "range": {
+        "startLine": 399,
+        "startChar": 13,
+        "endLine": 399,
+        "endChar": 22
+      },
+      "revId": "003dc506d6d028e2bc1a56805a1e304e8a45cd0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9e76d38_fbf267e8",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-10T17:21:32Z",
+      "side": 1,
+      "message": "Optional alternative. :-)\n\n  return Object.keys(change.revisions)\n      .find(rev \u003d\u003e change.revisions[rev]._number \u003d\u003d\u003d patchNum);",
+      "revId": "003dc506d6d028e2bc1a56805a1e304e8a45cd0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

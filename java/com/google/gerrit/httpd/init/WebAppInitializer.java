@@ -46,6 +46,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
+import com.google.gerrit.pgm.SshSessionFactoryInitializer;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.LibModuleType;
@@ -351,6 +352,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
         });
     modules.add(new DefaultUrlFormatter.Module());
 
+    SshSessionFactoryInitializer.init(config);
     modules.add(SshKeyCacheImpl.module());
     modules.add(
         new AbstractModule() {

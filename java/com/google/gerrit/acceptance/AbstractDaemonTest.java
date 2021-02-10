@@ -48,6 +48,7 @@ import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
@@ -561,7 +562,7 @@ public abstract class AbstractDaemonTest {
         && (adminSshSession == null || userSshSession == null)) {
       // Create Ssh sessions
       KeyPair adminKeyPair = sshKeys.getKeyPair(admin);
-      GitUtil.initSsh(adminKeyPair);
+      SshSessionFactory.initSsh(adminKeyPair);
       Context ctx = newRequestContext(user);
       atrScope.set(ctx);
       userSshSession = ctx.getSession();

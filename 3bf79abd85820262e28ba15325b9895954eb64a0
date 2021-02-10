@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "aab88064_050c7557",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-10T13:11:17Z",
+      "side": 1,
+      "message": "Looks like a lot of work, depending how many more types you have to try.\n\nYou could add a test endpoint with a test protobuf that returns one field of each type, and work on that.",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "3bf79abd85820262e28ba15325b9895954eb64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8eee67f5_3396ab3e",

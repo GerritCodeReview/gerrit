@@ -394,6 +394,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d21414c4_9e7884c9",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-10T14:16:46Z",
+      "side": 1,
+      "message": "\u003e That\u0027s the test code only.\n\nwe run tests of Gerrit as we import it, to make sure our internal bindings work as expected.\n\n\u003e  So, are you seriously suggesting that open source gerrit continues to use JCraft JSch in acceptance test\n\nI\u0027m echoing Patrick\u0027s suggestion\n\n\"If you separate the JSch/Mina logic into two classes that have the same interface and then call either one with reflection or Guice bindings, \"\n\neg. you could make a derived GitUtilSsh extending GitUtil which has this logic. Then we could patch out the SSH support by doing a single-line change, eg.\n\n - util \u003d new GitUtilSsh();\n + util \u003d new GitUtil();\n\nsimilarly, you have a SshSession which does \n\n  public String exec(String command) throws Exception {\n    return client \u003d\u003d JSCH ? execJsch(command) : execMina(command);\n  }\n\nthe suggestion here is to have a \n\n```\n  class SshSession {\n \n     void exec() {\n        throw NotImplemented(); \n     } \n  }\n\n  class SshSessionMina extends SshSession {\n     void exec() { ... }\n  } \n```\n\nthis is better design than having \"client \u003d\u003d JSCH ? fooJsch() : fooMina()\" all over the place, and makes it much easier to patch out SSH support on our side.",
+      "parentUuid": "21bad513_46a255e0",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b69f60e5_c78af6d5",

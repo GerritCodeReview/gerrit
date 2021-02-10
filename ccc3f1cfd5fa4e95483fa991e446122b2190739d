@@ -16,6 +16,24 @@
       "message": "What about adding the \u0027hideOnEdit\u0027 class to this list?",
       "revId": "ccc3f1cfd5fa4e95483fa991e446122b2190739d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37e5668d_9f7fdea5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-10T18:05:36Z",
+      "side": 0,
+      "message": "There was the \u0027editMode\u0027 class already added. Used that.",
+      "parentUuid": "0568e942_1bdfd679",
+      "revId": "ccc3f1cfd5fa4e95483fa991e446122b2190739d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

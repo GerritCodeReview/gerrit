@@ -138,7 +138,7 @@ export const htmlTemplate = html`
         <gr-limited-text
           class="name"
           limit="25"
-          text="[[item.label]]"
+          text="[[item.labelName]]"
         ></gr-limited-text>
       </div>
       <div class="value">
@@ -146,7 +146,7 @@ export const htmlTemplate = html`
           change="{{change}}"
           account="[[account]]"
           mutable="[[mutable]]"
-          label="[[item.label]]"
+          label="[[item.labelName]]"
           label-info="[[item.labelInfo]]"
         ></gr-label-info>
       </div>
@@ -206,7 +206,7 @@ export const htmlTemplate = html`
         <gr-limited-text
           class="name"
           limit="25"
-          text="[[item.label]]"
+          text="[[item.labelName]]"
         ></gr-limited-text>
       </div>
       <div class="value">
@@ -214,7 +214,7 @@ export const htmlTemplate = html`
           change="{{change}}"
           account="[[account]]"
           mutable="[[mutable]]"
-          label="[[item.label]]"
+          label="[[item.labelName]]"
           label-info="[[item.labelInfo]]"
         ></gr-label-info>
       </div>

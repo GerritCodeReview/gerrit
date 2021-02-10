@@ -34,15 +34,30 @@ public class PluginProvidedApiIT extends AbstractPluginProvidedApiTest {
     try (AutoCloseable ignored1 =
             installPlugin(PLUGIN_PROVIDING_API, PluginProvidedApiModule.class);
         AutoCloseable ignored2 = installPlugin(PLUGIN_USING_API, PluginUsingApiModule.class)) {
-      createChange();
-      List<ChangeAttribute> changes =
-          getChanges(adminSshSession.exec("gerrit query --format json status:open"));
-      adminSshSession.assertSuccess();
-      assertThat(changes).hasSize(1);
-      assertThat(changes.get(0).plugins).isNotNull();
-      assertThat(changes.get(0).plugins).hasSize(1);
-      assertThat(changes.get(0).plugins.get(0).message).isEqualTo("test_data");
+      testChangeApi();
     }
+  }
+
+  @Test
+  public void testPluginProvidedApiUsingProxyInstance() throws Exception {
+    try (AutoCloseable ignored1 =
+            installPlugin(PLUGIN_PROVIDING_API, PluginProvidedApiModule.class);
+        AutoCloseable ignored2 =
+            installPlugin(PLUGIN_USING_API_TYPE_CAST, PluginUsingApiWithTypeCastModule.class)) {
+      testChangeApi();
+    }
+  }
+
+  protected void testChangeApi() throws Exception {
+    createChange();
+    List<ChangeAttribute> changes =
+        getChanges(adminSshSession.exec("gerrit query --format json status:open"));
+    adminSshSession.assertSuccess();
+    assertThat(changes).isNotEmpty();
+    assertThat(changes.get(0)).isNotNull();
+    assertThat(changes.get(0).plugins).isNotNull();
+    assertThat(changes.get(0).plugins).hasSize(1);
+    assertThat(changes.get(0).plugins.get(0).message).isEqualTo("test_data");
   }
 
   protected static List<ChangeAttribute> getChanges(String rawResponse) {

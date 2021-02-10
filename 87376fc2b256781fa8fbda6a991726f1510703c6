@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33384894_53d2dba8",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-10T14:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "343ab732_0610615a",
+      "range": {
+        "startLine": 158,
+        "startChar": 90,
+        "endLine": 158,
+        "endChar": 94
+      },
+      "revId": "87376fc2b256781fa8fbda6a991726f1510703c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f195adcf_ff8822bd",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-10T12:02:41Z",
       "side": 1,
       "message": "nit: /* whitespace\u003d */ null",
+      "range": {
+        "startLine": 161,
+        "startChar": 92,
+        "endLine": 161,
+        "endChar": 96
+      },
+      "revId": "87376fc2b256781fa8fbda6a991726f1510703c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5529844a_8d05fa31",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-10T14:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f195adcf_ff8822bd",
       "range": {
         "startLine": 161,
         "startChar": 92,

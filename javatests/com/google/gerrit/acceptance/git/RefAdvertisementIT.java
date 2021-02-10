@@ -45,6 +45,7 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -58,6 +59,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,6 +88,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private PermissionBackend permissionBackend;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private TestCommentHelper testCommentHelper;
 
   private AccountGroup.UUID admins;
   private AccountGroup.UUID nonInteractiveUsers;
@@ -1593,6 +1596,84 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           .containsExactlyElementsIn(
               ImmutableList.of(
                   "HEAD", psRef1, metaRef1, psRef2, metaRef2, psRef3, metaRef3, psRef4, metaRef4));
+    }
+  }
+
+  @Test
+  public void advertiseMostRecentRefChangesWithRobotCommentRef() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    // user doesn't have refs/* permission.
+    requestScopeOperations.setApiUser(user.id());
+    RobotCommentInput input = TestCommentHelper.createRobotCommentInput(Patch.COMMIT_MSG);
+    testCommentHelper.addRobotComment(cd1.getId(), input);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      PermissionBackend.ForProject forProject = newFilter(project, admin);
+      assertThat(
+              names(
+                  forProject.filter(
+                      repo.getRefDatabase().getRefs(),
+                      repo,
+                      RefFilterOptions.builder().setReturnMostRecentRefChanges(false).build())))
+          .containsExactlyElementsIn(
+              ImmutableList.of(
+                  "HEAD",
+                  RefNames.changeRefPrefix(cd1.getId()) + "robot-comments",
+                  psRef1,
+                  metaRef1,
+                  psRef2,
+                  metaRef2,
+                  psRef3,
+                  metaRef3,
+                  psRef4,
+                  metaRef4,
+                  "refs/heads/branch",
+                  "refs/heads/master",
+                  "refs/meta/config",
+                  "refs/tags/branch-tag",
+                  "refs/tags/master-tag",
+                  "refs/tags/tree-tag"));
+    }
+  }
+
+  @Test
+  public void advertiseMostRecentRefChangesWithRobotCommentRefWithReturnMostRecentRefChanges()
+      throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    // user doesn't have refs/* permission.
+    requestScopeOperations.setApiUser(user.id());
+    RobotCommentInput input = TestCommentHelper.createRobotCommentInput(Patch.COMMIT_MSG);
+    testCommentHelper.addRobotComment(cd1.getId(), input);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      PermissionBackend.ForProject forProject = newFilter(project, admin);
+      assertThat(
+              names(
+                  forProject.filter(
+                      ImmutableList.of(),
+                      repo,
+                      RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
+          .containsExactlyElementsIn(
+              ImmutableList.of(
+                  RefNames.changeRefPrefix(cd1.getId()) + "robot-comments",
+                  psRef1,
+                  metaRef1,
+                  psRef2,
+                  metaRef2,
+                  psRef3,
+                  metaRef3,
+                  psRef4,
+                  metaRef4));
     }
   }
 

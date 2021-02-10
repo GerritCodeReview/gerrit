@@ -96,7 +96,9 @@ export const htmlTemplate = html`
       margin-right: var(--spacing-s);
     }
     .authorLabel {
-      width: 140px;
+      min-width: 130px;
+      --account-max-length: 120px;
+      margin-right: var(--spacing-s);
     }
     .expanded .author {
       cursor: pointer;

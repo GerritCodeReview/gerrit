@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "221eac42_2bf94804",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-10T10:38:30Z",
+      "side": 1,
+      "message": "as discussed, we\u0027re still on 3.3.12",
+      "revId": "4c61507d6c0e5493c8fee6bec94f2bc6f5e98b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

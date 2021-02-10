@@ -34,6 +34,9 @@ function isChangeInfo(
 ): x is ChangeInfo | ParsedChangeInfo {
   return (x as ChangeInfo)._number !== undefined;
 }
+
+const NUM_LINES_WHEN_COLLAPSED = 1;
+
 @customElement('gr-related-changes-list-experimental')
 export class GrRelatedChangesListExperimental extends GrLitElement {
   @property()
@@ -44,6 +47,9 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
     changes: [],
     non_visible_changes: 0,
   };
+
+  @property()
+  limit = NUM_LINES_WHEN_COLLAPSED;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -57,10 +63,12 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
           padding-left: var(--metadata-horizontal-padding);
         }
         h4,
+        section gr-button,
         section gr-related-change {
           display: flex;
         }
         h4:before,
+        section gr-button:before,
         section gr-related-change:before {
           content: ' ';
           flex-shrink: 0;
@@ -83,17 +91,36 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       !this._submittedTogether?.non_visible_changes}
     >
       <h4 class="title">Submitted together</h4>
-      ${submittedTogetherChanges.map(
-        relatedChange =>
-          html`<gr-related-change
-            .currentChange="${this._changesEqual(relatedChange, this.change)}"
-            .change="${relatedChange}"
-          ></gr-related-change>`
-      )}
+      ${submittedTogetherChanges
+        .slice(0, this.limit)
+        .map(
+          relatedChange =>
+            html`<gr-related-change
+              .currentChange="${this._changesEqual(relatedChange, this.change)}"
+              .change="${relatedChange}"
+            ></gr-related-change>`
+        )}
+      ${submittedTogetherChanges.length - this.limit > 0
+        ? html`<gr-button link="" @click="${this.showAll}"
+            >+ ${submittedTogetherChanges.length - this.limit} more</gr-button
+          >`
+        : html`<gr-button link="" @click="${this.showLess}"
+            >show less</gr-button
+          >`}
       <div class="note" ?hidden=${!countNonVisibleChanges}>
         (+ ${pluralize(countNonVisibleChanges, 'non-visible change')})
       </div>
     </section>`;
+  }
+
+  private showAll(e: MouseEvent) {
+    e.stopPropagation();
+    this.limit = this._submittedTogether?.changes?.length ?? 0;
+  }
+
+  private showLess(e: MouseEvent) {
+    e.stopPropagation();
+    this.limit = NUM_LINES_WHEN_COLLAPSED;
   }
 
   reload() {

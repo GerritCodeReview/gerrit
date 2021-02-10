@@ -376,6 +376,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21bad513_46a255e0",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-10T13:44:53Z",
+      "side": 1,
+      "message": "\u003e As you mentioned, Terry Parker found a way to merge/import JGit tree in Google with MINA SSHD client [...]\n\nThe issue 7377 linked to the tip of this series is pending since October 9, 2017. \n\nI\u0027ve escalated that issue to ESC, to discuss the options how to unblock open source gerrit from switching to MINA SSHD client, and ideally shipping it in upcoming Gerrit 3.4 release, that supposed to be released in April 2021.",
+      "parentUuid": "4ec158f4_e3867693",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b69f60e5_c78af6d5",

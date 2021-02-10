@@ -22,6 +22,30 @@
       },
       "revId": "60ecf7948a988b645c6e08e3e9ef5c41e0d5adc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a082d7b9_d6d73e67",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-10T14:54:14Z",
+      "side": 1,
+      "message": "mmm, the only case I used to put an Optional#empty here was for empty file diffs, i.e. when a file is unchanged between the old and new commits. I got rid of that optional according to your suggestion.\n\nDone.",
+      "parentUuid": "96b5a9d8_0746b89b",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 53
+      },
+      "revId": "60ecf7948a988b645c6e08e3e9ef5c41e0d5adc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -26,7 +26,7 @@ import {htmlTemplate} from './gr-related-changes-list_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {ChangeStatus} from '../../../constants/constants';
 
-import {changeIsOpen} from '../../../utils/change-util';
+import {changeIsOpen, getRevisionKey} from '../../../utils/change-util';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
@@ -395,25 +395,15 @@ export class GrRelatedChangesList extends GestureEventListeners(
     patchNum?: PatchSetNum,
     relatedChanges?: RelatedChangeAndCommitInfo[]
   ) {
-    // Polymer 2: check for undefined
-    if (
-      change === undefined ||
-      patchNum === undefined ||
-      relatedChanges === undefined
-    ) {
+    if (patchNum === undefined || relatedChanges === undefined) {
       return undefined;
     }
-
-    const connected: CommitId[] = [];
-    let changeRevision;
     if (!change) {
       return [];
     }
-    for (const rev in change.revisions) {
-      if (change.revisions[rev]._number === patchNum) {
-        changeRevision = rev;
-      }
-    }
+
+    const connected: CommitId[] = [];
+    const changeRevision = getRevisionKey(change, patchNum);
     const commits = relatedChanges.map(c => c.commit);
     let pos = commits.length - 1;
 

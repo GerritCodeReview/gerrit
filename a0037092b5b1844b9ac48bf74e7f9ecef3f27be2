@@ -16,6 +16,23 @@
       "message": "Sorry, I jumped the gun here. I should have let Nasser have another round of review.\n\nGal will get the follow up cleanup done today. ",
       "revId": "a0037092b5b1844b9ac48bf74e7f9ecef3f27be2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cda53326_2c4d5cc1",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-10T09:16:55Z",
+      "side": 1,
+      "message": "What about refs/changes/\u003csharded-id\u003e/robot-comments refs? Are those not fetchable anymore?\n\nI guess this also means that plugins can no longer add additional change refs (e.g. the checks plugin added refs/changes/\u003csharded-id\u003e/checks). Not sure if this is important?",
+      "revId": "a0037092b5b1844b9ac48bf74e7f9ecef3f27be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

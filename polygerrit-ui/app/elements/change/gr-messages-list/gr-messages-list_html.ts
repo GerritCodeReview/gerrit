@@ -50,9 +50,6 @@ export const htmlTemplate = html`
     gr-message:not(:last-of-type) {
       border-bottom: 1px solid var(--border-color);
     }
-    gr-message {
-      background-color: var(--background-color-secondary);
-    }
   </style>
   <div class="header">
     <div id="showAllActivityToggleContainer" class="container">

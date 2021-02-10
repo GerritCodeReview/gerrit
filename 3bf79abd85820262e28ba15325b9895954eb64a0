@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fc87e29_f6c27719",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-10T13:47:43Z",
+      "side": 1,
+      "message": "There are not plenty of types. I looked at many entities already and the types I found are: string, int, boolean, enum, list, map, timestamp, object or a nested object.\n\nWe don\u0027t need to write tests for all entities, just enough to cover all types. The test protobuf is a nice idea to have only one test. I can try that.",
+      "parentUuid": "aab88064_050c7557",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "3bf79abd85820262e28ba15325b9895954eb64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8eee67f5_3396ab3e",

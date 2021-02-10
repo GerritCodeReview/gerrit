@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e8e1f74_cb8d18ad",
+        "filename": "java/com/google/gerrit/server/mail/send/AddKeySender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-10T00:06:32Z",
+      "side": 1,
+      "message": "Seeing this copied into multiple files now, it seems like this should get pushed down into OutgoingEmail add(). Are we not using add(RecipientType rt, Account.Id to) because that will do extra work?",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 5
+      },
+      "revId": "336b61b431cb7afa8842cf07c00207d2999fc0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

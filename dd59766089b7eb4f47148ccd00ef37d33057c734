@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f3322e7_c492e41a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T17:10:19Z",
+      "side": 1,
+      "message": "This is not relevant for other users of gr-diff, so it should not be part of gr-diff-utils. It should be part of Gerrit\u0027s diff-util or comment-util.",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8d93736_3ec6aca9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T17:10:19Z",
+      "side": 1,
+      "message": "Not this change, but to make the feature useful we will have to add lines of context. Just seeing one line as context for most of the comments seems fairly ugly. :-)",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "272c12b3_e76e7266",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T17:10:19Z",
+      "side": 1,
+      "message": "Didn\u0027t we say that we want to use `ab`? And set context to -1?",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8672bfd2_d6294b82",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T17:10:19Z",
+      "side": 1,
+      "message": "Maybe deal with `renderPrefs` being undefined?",
+      "range": {
+        "startLine": 732,
+        "startChar": 22,
+        "endLine": 732,
+        "endChar": 33
+      },
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d0b990b_39033c41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T17:10:19Z",
+      "side": 1,
+      "message": "Can this be assigned in line 181? It is not supposed to change, right?",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc3fa6f1_e773d5ee",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T17:10:19Z",
+      "side": 1,
+      "message": "if statements that span more than one line should have brackets.",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a62b760_3aa3d089",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T17:10:19Z",
+      "side": 1,
+      "message": "Consistency: Either return; or return undefined; everywhere.",
+      "range": {
+        "startLine": 249,
+        "startChar": 50,
+        "endLine": 249,
+        "endChar": 56
+      },
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90afd75a_e35d14b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T17:10:19Z",
+      "side": 1,
+      "message": "Please find it now. :-)",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16a8d5ee_b5974af4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T17:10:19Z",
+      "side": 1,
+      "message": "Anything beyond 120ch does not really look nice. Maybe even 100ch.\n\nAlternatively since you specify width anyway, then maybe \"flex: 0 0\" will avoid the comment box to grow and to shrink? Is that what we want?",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3160112f_331a9e86",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T17:10:19Z",
+      "side": 1,
+      "message": "Not required for this change, but you will have to play around with the \"fit to screen\" pref that a user can set. It will mess up the layout. Either overwrite that or find some way to deal with it.\n\nGenerally I am not sure what the growing/shrinking behavior of this is supposed to look like. Are there specs? Can also be a follow-up.",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

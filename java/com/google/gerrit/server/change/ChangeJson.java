@@ -27,6 +27,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACC
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
+import static com.google.gerrit.extensions.client.ListChangesOption.META_REF;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_DIFFSTAT;
@@ -569,6 +570,11 @@ public class ChangeJson {
     out._number = in.getId().get();
     out.totalCommentCount = cd.totalCommentCount();
     out.unresolvedCommentCount = cd.unresolvedCommentCount();
+
+    if (has(META_REF)) {
+      // TODO - can we get this out of ChangeData efficiently?
+      out.metaRef = cd.notes().getMetaId().getName();
+    }
 
     if (user.isIdentifiedUser()) {
       Collection<String> stars = cd.stars(user.getAccountId());

@@ -194,11 +194,11 @@ export class GrChecksChip extends GrLitElement {
         .checksChip.info-outline iron-icon {
           color: var(--info-foreground);
         }
-        .checksChip.check-circle {
+        .checksChip.check-circle-outline {
           border-color: var(--success-foreground);
           background-color: var(--success-background);
         }
-        .checksChip.check-circle iron-icon {
+        .checksChip.check-circle-outline iron-icon {
           color: var(--success-foreground);
         }
         .checksChip.timelapse {

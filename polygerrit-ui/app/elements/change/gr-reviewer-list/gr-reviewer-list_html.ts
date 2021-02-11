@@ -27,6 +27,11 @@ export const htmlTemplate = html`
     }
     .container {
       display: block;
+      /* line-height-normal for the chips, 2px for the chip border, spacing-s
+         for the gap between lines, negative bottom margin for eliminating the
+         gap after the last line */
+      line-height: calc(var(--line-height-normal) + 2px + var(--spacing-s));
+      margin-bottom: calc(0px - var(--spacing-s));
     }
     .addReviewer iron-icon {
       color: inherit;
@@ -39,11 +44,14 @@ export const htmlTemplate = html`
       top: 1px;
     }
     gr-button {
+      line-height: var(--line-height-normal);
       --gr-button: {
         padding: 0px 0px;
       }
     }
     gr-account-chip {
+      line-height: var(--line-height-normal);
+      vertical-align: top;
       display: inline-block;
     }
   </style>

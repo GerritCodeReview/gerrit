@@ -26,6 +26,8 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
+import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-dialog/gr-dialog';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
@@ -50,6 +52,10 @@ import {
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {pluralize} from '../../../utils/string-util';
+import { GrOverlay } from '../../shared/gr-overlay/gr-overlay';
+import { GrDialog } from '../../shared/gr-dialog/gr-dialog';
+import { ChangeStatus, HttpMethod } from '../../../constants/constants';
+import { GrConfirmAbandonDialog } from '../../change/gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
 
 enum ChangeSize {
   XS = 10,
@@ -76,6 +82,13 @@ export interface ChangeListToggleReviewedDetail {
 
 // How many reviewers should be shown with an account-label?
 const PRIMARY_REVIEWERS_COUNT = 2;
+
+export interface GrChangeListItem {
+  $: {
+    overlay: GrOverlay;
+    confirmAbandonDialog: GrConfirmAbandonDialog;
+  };
+}
 
 @customElement('gr-change-list-item')
 export class GrChangeListItem extends ChangeTableMixin(
@@ -124,6 +137,8 @@ export class GrChangeListItem extends ChangeTableMixin(
   _dynamicCellEndpoints?: string[];
 
   reporting: ReportingService = appContext.reportingService;
+
+  restApiService = appContext.restApiService;
 
   /** @override */
   attached() {
@@ -416,6 +431,37 @@ export class GrChangeListItem extends ChangeTableMixin(
         detail,
       })
     );
+  }
+
+  _showAbandon(account ?: AccountInfo, change ?: ChangeInfo) {
+    if (account === undefined || change === undefined) return false;
+    return change.owner?._account_id === account._account_id &&
+      change.work_in_progress;
+  }
+
+  _handleAbandonChange() {
+    this.$.overlay.open();
+  }
+
+  _handleAbandonDialogConfirm() {
+    if (!this.change) return;
+    this.restApiService
+      .executeChangeAction(
+        this.change._number,
+        HttpMethod.POST,
+        '/abandon',
+        undefined,
+        {
+          message: this.$.confirmAbandonDialog.message,
+        }
+      )
+      .then(response => {
+        console.log("abandon successful", response);
+      });
+  }
+
+  _handleAbandonDialogCancel() {
+    this.$.overlay.close();
   }
 
   _handleChangeClick() {

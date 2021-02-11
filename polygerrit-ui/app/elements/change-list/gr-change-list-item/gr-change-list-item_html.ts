@@ -115,6 +115,9 @@ export const htmlTemplate = html`
         display: flex;
       }
     }
+    iron-icon {
+      cursor: pointer;
+    }
   </style>
   <style include="gr-change-list-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
@@ -122,6 +125,11 @@ export const htmlTemplate = html`
   <td aria-hidden="true" class="cell leftPadding"></td>
   <td class="cell star" hidden$="[[!showStar]]" hidden="">
     <gr-change-star change="{{change}}"></gr-change-star>
+  </td>
+  <td class="cell abandon">
+    <template is="dom-if" if="[[_showAbandon(account, change)]]">
+      <iron-icon id="icon" on-click="_handleAbandonChange" icon="gr-icons:delete"></iron-icon>
+    </template>
   </td>
   <td class="cell number" hidden$="[[!showNumber]]" hidden="">
     <a href$="[[changeURL]]">[[change._number]]</a>
@@ -322,4 +330,12 @@ export const htmlTemplate = html`
       </gr-endpoint-decorator>
     </td>
   </template>
+  <gr-overlay id="overlay" with-backdrop="">
+    <gr-confirm-abandon-dialog
+      id="confirmAbandonDialog"
+      class="confirmDialog"
+      on-confirm="_handleAbandonDialogConfirm"
+      on-cancel="_handleAbandonDialogCancel"
+    ></gr-confirm-abandon-dialog>
+  </gr-overlay>
 `;

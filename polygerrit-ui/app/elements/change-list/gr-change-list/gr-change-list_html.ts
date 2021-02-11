@@ -115,6 +115,10 @@ export const htmlTemplate = html`
               hidden$="[[!showStar]]"
               hidden=""
             ></td>
+            <td
+              aria-hidden="true"
+              class="abandon"
+            ></td>
             <td class="number" hidden$="[[!showNumber]]" hidden="">#</td>
             <template
               is="dom-repeat"

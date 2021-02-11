@@ -212,6 +212,53 @@
       },
       "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35c09a2e_880ae352",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-11T16:03:26Z",
+      "side": 1,
+      "message": "\u003e Patrick collected a list of internal prolog uses somewhere. You could double check against this.\n\nLink in go/gerrit-composable-submit-requirements",
+      "parentUuid": "8533e19e_5f6e54fb",
+      "range": {
+        "startLine": 95,
+        "startChar": 5,
+        "endLine": 95,
+        "endChar": 15
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0a331df_345ff352",
+        "filename": "java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-11T16:03:26Z",
+      "side": 1,
+      "message": "This should be 1? For merge commit commit.getParentCount() will be 2 or more.",
+      "range": {
+        "startLine": 96,
+        "startChar": 40,
+        "endLine": 96,
+        "endChar": 41
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

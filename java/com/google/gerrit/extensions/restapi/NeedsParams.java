@@ -19,7 +19,9 @@ import com.google.common.collect.ListMultimap;
 /**
  * Optional interface for {@link RestCollection}.
  *
- * <p>Collections that implement this interface can get to know about the request parameters.
+ * <p>Collections that implement this interface can get to know about the request parameters. The
+ * request parameters are passed only if the collection is the endpoint, e.g. {@code
+ * /changes/?q=abc} would trigger, but {@code /changes/100/?q=abc} does not.
  */
 public interface NeedsParams {
   /**

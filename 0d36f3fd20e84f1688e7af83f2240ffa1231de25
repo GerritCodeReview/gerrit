@@ -1,0 +1,216 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "669a0da9_541a5abb",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T08:37:23Z",
+      "side": 1,
+      "message": "TBH I find using \":before\" a bit hacky here and would be grateful if the new layout could do without.",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 34
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb646883_f989b8b6",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T08:37:23Z",
+      "side": 1,
+      "message": "Maybe rename to\n\n  showWhenCollapsedPredicateFactory",
+      "range": {
+        "startLine": 81,
+        "startChar": 34,
+        "endLine": 81,
+        "endChar": 56
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb851939_80da11e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T08:37:23Z",
+      "side": 1,
+      "message": "Maybe rename to\n\n  showWhenCollapsedPredicate",
+      "range": {
+        "startLine": 81,
+        "startChar": 18,
+        "endLine": 81,
+        "endChar": 26
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cc869bb_e96840dc",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T08:37:23Z",
+      "side": 1,
+      "message": "unused?",
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97e66a43_ab653718",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T08:37:23Z",
+      "side": 1,
+      "message": "I think we are camel casing css classes. I would also be open to using hyphens which more aligned with typical style guides I think.",
+      "range": {
+        "startLine": 181,
+        "startChar": 47,
+        "endLine": 181,
+        "endChar": 64
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96bc3366_d29d58ee",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T08:37:23Z",
+      "side": 1,
+      "message": "Maybe \"display:flex\" should be defined in \u003cgr-related-changes-list-experimental\u003e or \u003cgr-related-change\u003e.\n\n\u003cgr-related-collapse\u003e should not care about that. Maybe using `hide-when-collapsed` is better then.",
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34b6175f_03013d17",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T08:37:23Z",
+      "side": 1,
+      "message": "Can 3 become a property?",
+      "range": {
+        "startLine": 195,
+        "startChar": 38,
+        "endLine": 195,
+        "endChar": 39
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8868d7d_1c95b9e9",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T08:37:23Z",
+      "side": 1,
+      "message": "I am not sure whether using slotting helps the readability. Maybe consider rendering \u003cgr-related-change\u003e elements directly here and have the component maintain a list changes. Up to you.",
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dc7b7c6_826a8853",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T08:37:23Z",
+      "side": 1,
+      "message": "Maybe just use `toggle` here. Then you don\u0027t need two html`` templates.",
+      "range": {
+        "startLine": 204,
+        "startChar": 56,
+        "endLine": 204,
+        "endChar": 64
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7c89738_e4221f0c",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T08:37:23Z",
+      "side": 1,
+      "message": "Maybe just `Show all`?",
+      "range": {
+        "startLine": 209,
+        "startChar": 11,
+        "endLine": 209,
+        "endChar": 36
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

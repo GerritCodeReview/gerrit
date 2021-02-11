@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88eb842c_97f6a35a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-02-11T20:31:28Z",
+      "side": 1,
+      "message": "This is a neat system!\n\nIt might make sense to build the old event system output on top of this input. That would allow the internals of the old system to be gutted and it would no longer need to be maintained. It also should ensure that no users or use cases are broken/lost.",
+      "revId": "f421d0ef5cc908814b4f42d0488482abd519b406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "872e1d1f_30183fac",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

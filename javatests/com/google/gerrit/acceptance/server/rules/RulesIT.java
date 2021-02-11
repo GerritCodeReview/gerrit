@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.rules;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -30,6 +31,7 @@ import com.google.inject.Inject;
 import java.util.Collection;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 /**
@@ -89,12 +91,34 @@ public class RulesIT extends AbstractDaemonTest {
     assertThat(statusForRuleRemoveFile()).isEqualTo(SubmitRecord.Status.OK);
   }
 
+  @Test
+  public void testCommitDelta_pass() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('file1\\.txt')");
+    assertThat(statusForRuleAddFile()).isEqualTo(SubmitRecord.Status.OK);
+  }
+
+  @Test
+  public void testCommitDelta_fail() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('no such file')");
+    assertThat(statusForRuleAddFile()).isEqualTo(SubmitRecord.Status.RULE_ERROR);
+  }
+
   private SubmitRecord.Status statusForRule() throws Exception {
     String oldHead = projectOperations.project(project).getHead("master").name();
-    PushOneCommit.Result result1 =
+    PushOneCommit.Result result =
         pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
     testRepo.reset(oldHead);
-    return getStatus(result1);
+    return getStatus(result);
+  }
+
+  private SubmitRecord.Status statusForRuleAddFile() throws Exception {
+    String oldHead = projectOperations.project(project).getHead("master").name();
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo,
+        "subject", ImmutableMap.of("file1.txt", "file1 content"));
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+    testRepo.reset(oldHead);
+    return getStatus(result);
   }
 
   private SubmitRecord.Status statusForRuleRemoveFile() throws Exception {
@@ -110,8 +134,8 @@ public class RulesIT extends AbstractDaemonTest {
     return getStatus(result);
   }
 
-  private SubmitRecord.Status getStatus(PushOneCommit.Result result1) throws Exception {
-    ChangeData cd = result1.getChange();
+  private SubmitRecord.Status getStatus(PushOneCommit.Result result) throws Exception {
+    ChangeData cd = result.getChange();
 
     Collection<SubmitRecord> records;
     try (AutoCloseable changeIndex = disableChangeIndex()) {

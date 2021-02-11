@@ -16,6 +16,24 @@
       "message": "I think it would be sufficient to mention the current limit and skip currentSessionCount since if the attempt to exceed the limit fails with this error we know that currentSessionCount \u003d maxSessionCount\n\n\"Max connection count for user %s reached maxSessionCount %s, rejecting new connection.\"",
       "revId": "7a1980e9e558e03ae8238127c4703fe6b7d7e480",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a353d42_78fbb1fe",
+        "filename": "java/com/google/gerrit/sshd/LogMaxConnectionsPerUserExceeded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-02-11T09:32:20Z",
+      "side": 1,
+      "message": "Actually, the only thing we know is that this method is called when:\n\n  currentSessionCount \u003e\u003d maxSessionCount\n\nSee the javadoc [1] of that method. Another purpose of this callback would also be to allow a new session even if the limit is exceeded.\nHere is the calling place in the sshd-core code [2].\n\nI agree that this API is not really intuitive... For example what shall this method return, true or false? Can this be concluded from the method name? NO.\nThe method is called \"handle...\" and we need to return true or false. Reading the full javadoc [1] of that method is the only way to find that out.\n\n[1] https://github.com/apache/mina-sshd/blob/master/sshd-core/src/main/java/org/apache/sshd/common/session/SessionDisconnectHandler.java#L54\n[2] https://github.com/apache/mina-sshd/blob/master/sshd-core/src/main/java/org/apache/sshd/server/session/ServerUserAuthService.java#L387",
+      "parentUuid": "ae9f9fe6_9dd81ad5",
+      "revId": "7a1980e9e558e03ae8238127c4703fe6b7d7e480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

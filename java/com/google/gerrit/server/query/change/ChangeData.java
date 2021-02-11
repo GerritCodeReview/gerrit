@@ -1169,6 +1169,7 @@ public class ChangeData {
     }
   }
 
+  @Nullable
   public ImmutableList<byte[]> getRefStates() {
     return refStates;
   }

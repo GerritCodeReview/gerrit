@@ -6466,6 +6466,8 @@ patch set to a link:#revision-info[RevisionInfo] entity. +
 Only set if link:#current-revision[the current revision] is requested
 (in which case it will only contain a key for the current revision) or
 if link:#all-revisions[all revisions] are requested.
+|`meta_rev_id`           |optional|
+The SHA1 of the NoteDb meta ref.
 |`tracking_ids`       |optional|
 A list of link:#tracking-id-info[TrackingIdInfo] entities describing
 references to external tracking systems. Only set if

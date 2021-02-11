@@ -34,6 +34,24 @@
       "parentUuid": "52c87148_e5db0868",
       "revId": "b1bf0dd5c9cded95c77422407e924249e0b33b91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9179e1e_a3a97c1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-11T17:59:31Z",
+      "side": 1,
+      "message": "we don\u0027t run Gerrit SSH tests, so it\u0027s ok to remove from our perspective. The SSH support we have is only used for separate infrastructure for mirroring Git data (say, from Github).\n\nI think it is OK to leave the series as is. Squashing will make it harder to review and make sense of.\n\nI\u0027ll try another test import and see what happens.",
+      "parentUuid": "a974591f_b145754e",
+      "revId": "b1bf0dd5c9cded95c77422407e924249e0b33b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

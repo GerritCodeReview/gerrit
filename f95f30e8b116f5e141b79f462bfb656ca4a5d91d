@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a073d18b_e19d5638",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-11T17:33:37Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d6bfcd52_a951368e",
+      "range": {
+        "startLine": 7,
+        "startChar": 51,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a05e1568_8c030c02",
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "it\u0027s open source, so everyone can, but is it admin-friendly? The docs look like this https://gerrit-review.googlesource.com/Documentation/prolog-change-facts.html ; most entries have some description. Maybe you could you copy the relevant bits of doc into here?",
       "parentUuid": "dfe04af0_60d0fab6",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 19
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcc407c8_f069b012",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-11T17:33:37Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "2ec85496_88161e1e",
       "range": {
         "startLine": 94,
         "startChar": 4,
@@ -238,6 +286,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04e4df52_24eefb0e",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-11T17:33:37Z",
+      "side": 1,
+      "message": "Here\u0027s why I think the current docs need clarification:\n\n\"if the change type is `rename`, it also returns the old path. If the change type is `rename`, it returns a delete for old path and an add for new path.\"\n\nThe first statement is implied by the second, more comprehensive statement. Also, the docs fail to mention that in the case of deletions the file name is returned as the new path. Maybe that\u0027s fortunate because this way it\u0027s unlikely anyone relies on this :-)\n\nThanks for the link. Of the 36 occurrences I found two that use \u003e1 arguments:\n\nhas_non_markdown :-\n  gerrit:commit_delta(\u0027.*\u0027, _, F, _),\n  \\+ regex_matches(\u0027.+\\\\.md$\u0027, F),\n  !.\n\nno_approval_required(In, Out) :-\n    forall(\n        gerrit:commit_delta(\u0027.*\u0027, Type, Path),\n        regex_matches(\u0027^experimental/.*\u0027, Path)\n    ), !,\n    gerrit:commit_author(Author),\n    Out \u003d [label(\u0027Experimental\u0027, ok(Author)) | In].\n\nThese usages seem to be OK with the new semantics.\n\nMentioned in release notes: https://gerrit-review.googlesource.com/c/homepage/+/296644",
+      "parentUuid": "35c09a2e_880ae352",
+      "range": {
+        "startLine": 95,
+        "startChar": 5,
+        "endLine": 95,
+        "endChar": 15
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0a331df_345ff352",
@@ -251,6 +323,30 @@
       "writtenOn": "2021-02-11T16:03:26Z",
       "side": 1,
       "message": "This should be 1? For merge commit commit.getParentCount() will be 2 or more.",
+      "range": {
+        "startLine": 96,
+        "startChar": 40,
+        "endLine": 96,
+        "endChar": 41
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08f09681_6ffe757f",
+        "filename": "java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-11T17:33:37Z",
+      "side": 1,
+      "message": "Alice informed me the convention is to use the first parent. Why should it be 1?",
+      "parentUuid": "b0a331df_345ff352",
       "range": {
         "startLine": 96,
         "startChar": 40,

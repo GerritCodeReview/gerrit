@@ -17,6 +17,7 @@
 import './common-test-setup';
 import '@polymer/test-fixture/test-fixture';
 import 'chai/chai';
+import {getEventPath} from '../utils/dom-util';
 
 declare global {
   interface Window {
@@ -43,23 +44,16 @@ window.addEventListener('error', e => {
 let originalOnBeforeUnload: typeof window.onbeforeunload;
 
 suiteSetup(() => {
-  // This suiteSetup() method is called only once before all tests
+  // This suiteSetup() method is called only once before all tests.
 
   // Can't use window.addEventListener("beforeunload",...) here,
   // the handler is raised too late.
   originalOnBeforeUnload = window.onbeforeunload;
   window.onbeforeunload = function (e: BeforeUnloadEvent) {
     // If a test reloads a page, we can't prevent it.
-    // However we can print earror and the stack trace with assert.fail
-    try {
-      throw new Error();
-    } catch (e) {
-      console.error('Page reloading attempt detected.');
-      console.error(e.stack.toString());
-    }
-    if (originalOnBeforeUnload) {
-      originalOnBeforeUnload.call(this, e);
-    }
+    // However we can print an error and the path of the event target.
+    console.error(`Page reloading attempt detected: ${getEventPath(e)}`);
+    if (originalOnBeforeUnload) originalOnBeforeUnload.call(this, e);
   };
 });
 

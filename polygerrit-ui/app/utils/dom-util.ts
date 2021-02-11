@@ -163,7 +163,7 @@ export function querySelectorAll(
  *  getEventPath(e); // eg: div.class1>p#pid.class2
  * }
  */
-export function getEventPath<T extends PolymerEvent>(e?: T) {
+export function getEventPath(e?: Event) {
   if (!e) return '';
 
   let path = e.composedPath();

@@ -29,12 +29,11 @@ export const htmlTemplate = html`
     }
     .header {
       align-items: center;
-      background-color: var(--table-header-background-color);
+      background-color: var(--background-color-primary);
       border-bottom: 1px solid var(--border-color);
       border-top: 1px solid var(--border-color);
       display: flex;
       justify-content: left;
-      min-height: 3.2em;
       padding: var(--spacing-m) var(--spacing-l);
     }
     .toggleItem.draftToggle {

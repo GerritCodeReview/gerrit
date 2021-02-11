@@ -180,6 +180,16 @@ public class RefNames {
     return ref.startsWith(REFS_CHANGES);
   }
 
+  /** True if the provided ref is in {@code refs/changes/../meta}. */
+  public static boolean isRefsMetaChanges(String ref) {
+    return ref.startsWith(REFS_CHANGES) && ref.endsWith(META_SUFFIX);
+  }
+
+  /** True if the provided ref is in {@code refs/changes/../robot-comments}. */
+  public static boolean isRobotCommentMetaRef(String ref) {
+    return ref.startsWith(REFS_CHANGES) && ref.endsWith(ROBOT_COMMENTS_SUFFIX);
+  }
+
   public static String refsGroups(AccountGroup.UUID groupUuid) {
     return REFS_GROUPS + shardUuid(groupUuid.get());
   }

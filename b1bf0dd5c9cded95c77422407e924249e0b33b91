@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52c87148_e5db0868",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-11T13:09:21Z",
+      "side": 1,
+      "message": "this looks promising.\n\n* There is \n\n```\n  if (APACHE \u003d\u003d config.getEnum(\"ssh\", null, \"clientImplementation\", APACHE)) {\n      SshdSessionFactory factory \u003d\n          new SshdSessionFactory(new JGitKeyCache(), new DefaultProxyDataFactory());\n      factory.setHomeDirectory(FS.DETECTED.userHome());\n      SshSessionFactory.setInstance(factory);\n    }\n```\n\nin daemon.java. Could you also work that into a static SshSession.configFactory() or similar?\n\n* TestSshKeys has \"if (isMina())\" could that also be split?\n\nin other news, someone on Terry\u0027s team was assigned to work on the mina SSH bug. It may still take a while before it gets completed, though.\n\n\n",
+      "revId": "b1bf0dd5c9cded95c77422407e924249e0b33b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

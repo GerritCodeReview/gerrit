@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4ce5ded_1a543f3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-11T16:24:04Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "11e00f12_52c8b946",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "ceb0a2658dba087b1417aea1ba41d6f6247bc7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5371f239_ae93b6da",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-11T16:14:18Z",
       "side": 1,
       "message": "I think this sentence is missing a verb.",
+      "range": {
+        "startLine": 11,
+        "startChar": 64,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "ceb0a2658dba087b1417aea1ba41d6f6247bc7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2062597c_4188805e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-11T16:24:04Z",
+      "side": 1,
+      "message": "I counted equals as a verb. Modified it to \"equal to\".",
+      "parentUuid": "5371f239_ae93b6da",
       "range": {
         "startLine": 11,
         "startChar": 64,
@@ -72,6 +120,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "41a71c60_8a6039ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-11T16:24:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac27b99_db205393",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "ceb0a2658dba087b1417aea1ba41d6f6247bc7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0e844863_c591afb9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -83,6 +155,24 @@
       "writtenOn": "2021-02-11T16:14:18Z",
       "side": 1,
       "message": "Could you add a test?",
+      "revId": "ceb0a2658dba087b1417aea1ba41d6f6247bc7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da7daaf7_b08e9dab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-11T16:24:04Z",
+      "side": 1,
+      "message": "There are some tests for this already:\n* RevisionDiffIT#diffOnMergeCommitChange\n* RevisionDiffIT#diffBetweenPatchSetsOfMergeCommitCanBeRetrievedForCommitMessageAndMergeList\n* RevisionDiffIT#diffWithThreeParentsMergeCommitChange\n\nThese tests were not hit until I modified the GET diff endpoint to use the redesigned diff cache. This will be the next change in this chain.",
+      "parentUuid": "0e844863_c591afb9",
       "revId": "ceb0a2658dba087b1417aea1ba41d6f6247bc7c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -100,6 +190,24 @@
       "writtenOn": "2021-02-11T16:14:18Z",
       "side": 1,
       "message": "This should be useed in AutoMerger so that it doesn\u0027t break if the text there is changed.",
+      "revId": "ceb0a2658dba087b1417aea1ba41d6f6247bc7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b12bff0_93b7283e",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-11T16:24:04Z",
+      "side": 1,
+      "message": "It is used, see line 203. Am I missing something?",
+      "parentUuid": "3911e3de_37374faa",
       "revId": "ceb0a2658dba087b1417aea1ba41d6f6247bc7c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

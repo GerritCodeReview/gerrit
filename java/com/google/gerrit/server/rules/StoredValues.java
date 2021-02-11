@@ -42,8 +42,11 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 public final class StoredValues {
   public static final StoredValue<Accounts> ACCOUNTS = create(Accounts.class);
@@ -145,6 +148,28 @@ public final class StoredValues {
           }
           env.addToCleanup(repo::close);
           return repo;
+        }
+      };
+
+  public static final StoredValue<RevWalk> REV_WALK =
+      new StoredValue<RevWalk>() {
+        @Override
+        public RevWalk createValue(Prolog engine) {
+          RevWalk revWalk = new RevWalk(REPOSITORY.get(engine));
+          PrologEnvironment env = (PrologEnvironment) engine.control;
+          env.addToCleanup(revWalk::close);
+          return revWalk;
+        }
+      };
+
+  public static final StoredValue<DiffFormatter> DIFF_FORMATTER =
+      new StoredValue<DiffFormatter>() {
+        @Override
+        public DiffFormatter createValue(Prolog engine) {
+          DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
+          PrologEnvironment env = (PrologEnvironment) engine.control;
+          env.addToCleanup(diffFormatter::close);
+          return diffFormatter;
         }
       };
 

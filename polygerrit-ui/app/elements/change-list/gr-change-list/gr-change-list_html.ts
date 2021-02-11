@@ -115,6 +115,7 @@ export const htmlTemplate = html`
               hidden$="[[!showStar]]"
               hidden=""
             ></td>
+            <td aria-hidden="true" class="abandon" hidden$="[[!_showAbandon(changeSection)]]"></td>
             <td class="number" hidden$="[[!showNumber]]" hidden="">#</td>
             <template
               is="dom-repeat"
@@ -156,6 +157,8 @@ export const htmlTemplate = html`
             show-star="[[showStar]]"
             tabindex$="[[_computeTabIndex(sectionIndex, index, selectedIndex)]]"
             label-names="[[labelNames]]"
+            can-abandon="[[canAbandon]]"
+            show-abandon="[[_showAbandon(changeSection)]]"
           ></gr-change-list-item>
         </template>
       </tbody>

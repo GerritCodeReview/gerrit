@@ -237,6 +237,30 @@
       },
       "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2335323c_5e30a021",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-11T14:09:10Z",
+      "side": 1,
+      "message": "Thanks, Han-Wen, for the pointer. I read the code and I have now a better understanding of what it does.\n\nI\u0027ll continue the review of this change later today.",
+      "parentUuid": "c96eac33_3c53d57b",
+      "range": {
+        "startLine": 156,
+        "startChar": 21,
+        "endLine": 156,
+        "endChar": 42
+      },
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

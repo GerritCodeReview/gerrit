@@ -92,6 +92,8 @@ class FileInfoJsonOldImpl implements FileInfoJson {
       FileInfo fileInfo = new FileInfo();
       fileInfo.status =
           e.getChangeType() != Patch.ChangeType.MODIFIED ? e.getChangeType().getCode() : null;
+      fileInfo.oldMode = e.getOldMode();
+      fileInfo.newMode = e.getNewMode();
       fileInfo.oldPath = e.getOldName();
       fileInfo.sizeDelta = e.getSizeDelta();
       fileInfo.size = e.getSize();

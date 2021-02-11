@@ -40,6 +40,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.patch.CombinedFileHeader;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.util.IntList;
@@ -56,6 +57,8 @@ public class PatchListEntry {
     return new PatchListEntry(
         changeType,
         PatchType.UNIFIED,
+        FileMode.TYPE_MISSING,
+        FileMode.TYPE_MISSING,
         null,
         fileName,
         EMPTY_HEADER,
@@ -71,6 +74,8 @@ public class PatchListEntry {
   private final PatchType patchType;
   private final String oldName;
   private final String newName;
+  private final int oldMode;
+  private final int newMode;
   private final byte[] header;
   private final ImmutableList<Edit> edits;
   private final ImmutableSet<Edit> editsDueToRebase;
@@ -85,6 +90,10 @@ public class PatchListEntry {
       FileHeader hdr, List<Edit> editList, Set<Edit> editsDueToRebase, long size, long sizeDelta) {
     changeType = toChangeType(hdr);
     patchType = toPatchType(hdr);
+    oldMode =
+        hdr.getOldMode() == null ? FileMode.TYPE_MISSING : toOctal(hdr.getOldMode().getBits());
+    newMode =
+        hdr.getNewMode() == null ? FileMode.TYPE_MISSING : toOctal(hdr.getNewMode().getBits());
 
     switch (changeType) {
       case DELETED:
@@ -135,6 +144,8 @@ public class PatchListEntry {
   private PatchListEntry(
       ChangeType changeType,
       PatchType patchType,
+      int oldMode,
+      int newMode,
       String oldName,
       String newName,
       byte[] header,
@@ -148,6 +159,8 @@ public class PatchListEntry {
     this.patchType = patchType;
     this.oldName = oldName;
     this.newName = newName;
+    this.oldMode = oldMode;
+    this.newMode = newMode;
     this.header = header;
     this.edits = edits;
     this.editsDueToRebase = editsDueToRebase;
@@ -158,7 +171,7 @@ public class PatchListEntry {
   }
 
   int weigh() {
-    int size = 16 + 6 * 8 + 2 * 4 + 20 + 16 + 8 + 4 + 20;
+    int size = 16 + 6 * 8 + 2 * 4 + 20 + 16 + 8 + 4 + 20 + 4 + 4;
     size += stringSize(oldName);
     size += stringSize(newName);
     size += header.length;
@@ -180,6 +193,14 @@ public class PatchListEntry {
 
   public PatchType getPatchType() {
     return patchType;
+  }
+
+  public int getOldMode() {
+    return oldMode;
+  }
+
+  public int getNewMode() {
+    return newMode;
   }
 
   public String getOldName() {
@@ -246,6 +267,8 @@ public class PatchListEntry {
   void writeTo(OutputStream out) throws IOException {
     writeEnum(out, changeType);
     writeEnum(out, patchType);
+    writeVarInt32(out, oldMode);
+    writeVarInt32(out, newMode);
     writeString(out, oldName);
     writeString(out, newName);
     writeBytes(out, header);
@@ -271,6 +294,8 @@ public class PatchListEntry {
   static PatchListEntry readFrom(InputStream in) throws IOException {
     ChangeType changeType = readEnum(in, ChangeType.values());
     PatchType patchType = readEnum(in, PatchType.values());
+    int oldMode = readVarInt32(in);
+    int newMode = readVarInt32(in);
     String oldName = readString(in);
     String newName = readString(in);
     byte[] hdr = readBytes(in);
@@ -285,6 +310,8 @@ public class PatchListEntry {
     return new PatchListEntry(
         changeType,
         patchType,
+        oldMode,
+        newMode,
         oldName,
         newName,
         hdr,
@@ -378,5 +405,9 @@ public class PatchListEntry {
     }
 
     return pt;
+  }
+
+  private static int toOctal(int decimal) {
+    return Integer.parseInt(Integer.toString(decimal, 8));
   }
 }

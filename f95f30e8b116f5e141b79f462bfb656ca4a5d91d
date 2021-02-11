@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6bfcd52_a951368e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-11T15:55:22Z",
+      "side": 1,
+      "message": "hmm. if you can\u0027t quantify, maybe qualify?\n\n\"We observe X minute timeouts in changes with a Y Gb binaries add/remove. The same problems was fixed in change xyz by using DiffFormatter.\"",
+      "parentUuid": "8b9c546e_5587ddc1",
+      "range": {
+        "startLine": 7,
+        "startChar": 51,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a05e1568_8c030c02",
@@ -97,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2ec85496_88161e1e",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-11T15:55:22Z",
+      "side": 1,
+      "message": "it\u0027s open source, so everyone can, but is it admin-friendly? The docs look like this https://gerrit-review.googlesource.com/Documentation/prolog-change-facts.html ; most entries have some description. Maybe you could you copy the relevant bits of doc into here?",
+      "parentUuid": "dfe04af0_60d0fab6",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 19
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7bf455cc_cde168e1",
         "filename": "Documentation/prolog-change-facts.txt",
         "patchSetId": 3
@@ -132,6 +180,30 @@
       "side": 1,
       "message": "\u003e huh? paths never start with \u0027/\u0027 - how could you have /dev/null ?\n\u003e \n\u003e \u003cedit\u003e - looks like this happens for deletions? Maybe rephrase? \"For deletions, nil is returned\"\n\nYes, and done.\n\n\u003e the docs are changed. Are you clarifying behavior, or is this introducing subtle semantic changes?\n\nI\u0027m trying to clarify the documentation, but the semantics have also changed, e.g. DiffFormatter uses rename detection. Given that we want to deprecate Prolog, and that this rule is, AFAICT, only ever used with a single argument, I think we shouldn\u0027t spend too many cycles on it. It\u0027s more important to ensure compatibility for the one use case we currently have.",
       "parentUuid": "7bf455cc_cde168e1",
+      "range": {
+        "startLine": 95,
+        "startChar": 5,
+        "endLine": 95,
+        "endChar": 15
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8533e19e_5f6e54fb",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-11T15:55:22Z",
+      "side": 1,
+      "message": "Patrick collected a list of internal prolog uses somewhere. You could double check against this.\n\n\u003e I\u0027m trying to clarify the documentation, but the semantics have also changed, e.g. DiffFormatter uses rename detection\n\nI think the change is justified on the basis of the performance impact, but the commit message could call out the incompatible change explicitly. Maybe also add a note to our current release docs.",
+      "parentUuid": "918e7f08_a4b9cd4f",
       "range": {
         "startLine": 95,
         "startChar": 5,

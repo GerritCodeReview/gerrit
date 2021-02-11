@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10eab2d0_6f93ea2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-11T19:26:04Z",
+      "side": 1,
+      "message": "Hi Luca, Marcin.\n\nYou wanted to know where we are with notifications. Our initial plan was based on ChangeNotesStateProto, but it wasn\u0027t intended as a public API, so we changed plans\na little. The idea is actually quite simple, and you should get \nthe gist from the commit message. \n\nAlexa is working on the protocol buffer-based differ, and we could open that up, \nbut I\u0027m not sure if that will help your use cases. We\u0027re going to leave the current\nGerrit-internal event system alone.\n",
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

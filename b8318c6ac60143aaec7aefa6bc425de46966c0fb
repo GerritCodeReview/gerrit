@@ -34,6 +34,24 @@
       "parentUuid": "01fcf8f1_43de9b4c",
       "revId": "b8318c6ac60143aaec7aefa6bc425de46966c0fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71ceba17_b3ec7e75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-11T16:44:40Z",
+      "side": 1,
+      "message": "I think most tests run on top of DfsRepository. You might try to poke at that to see if it keeps track of read statistics somewhere.",
+      "parentUuid": "a9dae079_f4b12fe7",
+      "revId": "b8318c6ac60143aaec7aefa6bc425de46966c0fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

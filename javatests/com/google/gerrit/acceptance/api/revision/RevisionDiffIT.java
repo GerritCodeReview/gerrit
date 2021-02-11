@@ -162,6 +162,32 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void fileModeChangeIsIncludedInListFilesDiff() throws Exception {
+    // TODO(ghareeb): add support for file mode diffs in the new diff cache as well.
+    assume().that(useNewDiffCache).isFalse();
+
+    String fileName = "file.txt";
+    PushOneCommit push =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Commit Subject", /* files= */ ImmutableMap.of())
+            .addFile(fileName, "content", /* fileMode= */ 100644);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    String commitRev1 = gApi.changes().id(result.getChangeId()).get().currentRevision;
+    push =
+        pushFactory
+            .create(admin.newIdent(), testRepo, result.getChangeId())
+            .addFile(fileName, "content", /* fileMode= */ 100755);
+    result = push.to("refs/for/master");
+    String commitRev2 = gApi.changes().id(result.getChangeId()).get().currentRevision;
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(result.getChangeId()).revision(commitRev2).files(commitRev1);
+
+    assertThat(changedFiles.get(fileName)).oldMode().isEqualTo(100644);
+    assertThat(changedFiles.get(fileName)).newMode().isEqualTo(100755);
+  }
+
+  @Test
   public void numberOfLinesInDiffOfDeletedFileWithoutNewlineAtEndIsCorrect() throws Exception {
     String filePath = "a_new_file.txt";
     String fileContent = "Line 1\nLine 2\nLine 3";

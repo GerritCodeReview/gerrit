@@ -7085,6 +7085,8 @@ The status of the file ("`A`"=Added, "`D`"=Deleted, "`R`"=Renamed,
 "`C`"=Copied, "`W`"=Rewritten). +
 Not set if the file was Modified ("`M`").
 |`binary`        |not set if `false`|Whether the file is binary.
+|`old_mode`      || File mode in octal (e.g. 100644) at the old commit.
+|`new_mode`      || File mode in octal (e.g. 100644) at the new commit.
 |`old_path`      |optional|
 The old file path. +
 Only set if the file was renamed or copied.

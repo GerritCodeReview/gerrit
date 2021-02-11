@@ -18,6 +18,8 @@ import java.util.Objects;
 
 public class FileInfo {
   public Character status;
+  public int oldMode;
+  public int newMode;
   public Boolean binary;
   public String oldPath;
   public Integer linesInserted;

@@ -205,6 +205,20 @@ export class GrChangeList extends ChangeTableMixin(
     return column.toLowerCase();
   }
 
+  canAbandon(account?: AccountInfo, change?: ChangeInfo) {
+    if (account === undefined || change === undefined) return false;
+    return (
+      change.owner?._account_id === account._account_id &&
+      change.work_in_progress
+    );
+  }
+
+  _showAbandon(section: ChangeListSection) {
+    return section.results.some(change =>
+      this.canAbandon(this.account, change)
+    );
+  }
+
   @observe('account', 'preferences', '_config')
   _computePreferences(
     account?: AccountInfo,

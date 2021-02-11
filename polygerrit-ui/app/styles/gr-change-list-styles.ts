@@ -98,14 +98,12 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       .repo {
         white-space: nowrap;
       }
-      .star {
-        vertical-align: middle;
-      }
       .leftPadding {
         width: var(--spacing-l);
       }
-      .star {
+      .abandon,.star {
         width: 30px;
+        vertical-align: middle;
       }
       .reviewers div {
         overflow: hidden;

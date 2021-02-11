@@ -379,6 +379,30 @@
       },
       "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91d4a815_68780a37",
+        "filename": "java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-11T17:49:27Z",
+      "side": 1,
+      "message": "Oh, that\u0027s not what I meant.\n\nI mean the condition should be: commit.getParentCount() \u003e 1",
+      "parentUuid": "08f09681_6ffe757f",
+      "range": {
+        "startLine": 96,
+        "startChar": 40,
+        "endLine": 96,
+        "endChar": 41
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.documentation;
 
 import com.vladsch.flexmark.ast.Heading;
-import com.vladsch.flexmark.ast.Node;
 import com.vladsch.flexmark.ext.anchorlink.AnchorLink;
 import com.vladsch.flexmark.ext.anchorlink.internal.AnchorLinkNodeRenderer;
 import com.vladsch.flexmark.html.HtmlRenderer;
@@ -28,8 +27,9 @@ import com.vladsch.flexmark.html.renderer.NodeRendererFactory;
 import com.vladsch.flexmark.html.renderer.NodeRenderingHandler;
 import com.vladsch.flexmark.profiles.pegdown.Extensions;
 import com.vladsch.flexmark.profiles.pegdown.PegdownOptionsAdapter;
-import com.vladsch.flexmark.util.options.DataHolder;
-import com.vladsch.flexmark.util.options.MutableDataHolder;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.util.data.DataHolder;
+import com.vladsch.flexmark.util.data.MutableDataHolder;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -119,7 +119,7 @@ public class MarkdownFormatterHeader {
 
     public static class Factory implements DelegatingNodeRendererFactory {
       @Override
-      public NodeRenderer create(final DataHolder options) {
+      public NodeRenderer apply(final DataHolder options) {
         return new HeadingNodeRenderer();
       }
 

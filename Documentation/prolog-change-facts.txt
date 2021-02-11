@@ -90,16 +90,15 @@ the following table.
     |True if any file name from the last patch set matches the given regex.
 
 |`commit_delta/3`           |`commit_delta('\\.java$', T, P)`
-    |Returns the change type (via `T`) and path (via `P`), if the change type
-    is `rename`, it also returns the old path. If the change type is `rename`, it
-    returns a delete for old path and an add for new path. If the change type
-    is `copy`, an add is returned along with new path.
+    |Returns the change type (via `T`) and new path (via `P`). See
+    DiffEntry.java for "new path" semantics. Exception: When the new path is
+    `/dev/null`, nil is returned.
 
     Possible values for the change type are the following symbols: `add`,
     `modify`, `delete`, `rename`, `copy`
 
 |`commit_delta/4`           |`commit_delta('\\.java$', T, P, O)`
-    |Like `commit_delta/3` plus the old path (via `O`) if applicable.
+    |Like `commit_delta/3` plus the old path (via `O`).
 
 |`commit_edits/2`           |`commit_edits('/pom.xml$', 'dependency')`
     |True if any of the files matched by the file name regex (first parameter)

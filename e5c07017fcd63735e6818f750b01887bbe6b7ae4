@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d5cf182_d64656e6",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-11T01:18:29Z",
+      "side": 1,
+      "message": "Can you help me locate the place where we load the two plugins and demonstrate that one can discover and use the interface of the other?\n\nI am most likely missing the point of this test and how it demonstrates that the cross-plugin discovery works.",
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "548b06d5_34b46e9a",
         "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
         "patchSetId": 2
@@ -77,6 +94,52 @@
         "startChar": 6,
         "endLine": 114,
         "endChar": 23
+      },
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "681a139d_cfdc3fbd",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-11T01:18:29Z",
+      "side": 1,
+      "message": "Can you elaborate on why a WeakReference is needed here?",
+      "range": {
+        "startLine": 99,
+        "startChar": 56,
+        "endLine": 99,
+        "endChar": 69
+      },
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eec823dc_ed26de5d",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-11T01:18:29Z",
+      "side": 1,
+      "message": "I recall that being given the injector directly in this way introduced a significant performance degradation. Have you double-checked that the DynamicMap will continue to be as fast as before?",
+      "range": {
+        "startLine": 101,
+        "startChar": 13,
+        "endLine": 101,
+        "endChar": 30
       },
       "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

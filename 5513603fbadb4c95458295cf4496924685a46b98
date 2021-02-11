@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a278d3f_302a5172",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-11T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e495055_84bcf1b3",
+      "revId": "5513603fbadb4c95458295cf4496924685a46b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b09a90e3_ce2d7f04",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "accc0eb0_58d582e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-11T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b09a90e3_ce2d7f04",
+      "range": {
+        "startLine": 189,
+        "startChar": 8,
+        "endLine": 189,
+        "endChar": 22
+      },
+      "revId": "5513603fbadb4c95458295cf4496924685a46b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce506be5_0f126aa7",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-02-11T09:00:26Z",
       "side": 1,
       "message": "Adding yet another property to \u003cgr-diff\u003e and passing this down the element hierarchy individually does not scale. Maybe move this into the diff prefs.\n\nThen you can also consider hiding by using a css class in gr-diff instead of telling the builder explicitly to not render the controls.",
+      "revId": "5513603fbadb4c95458295cf4496924685a46b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd2e6fe4_766f873e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-11T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce506be5_0f126aa7",
       "revId": "5513603fbadb4c95458295cf4496924685a46b98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

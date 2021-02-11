@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f944ad9_45126d77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-11T22:41:52Z",
+      "side": 1,
+      "message": "If the safari regex is incorrect then safari won\u0027t use the polyfill and break. It\u0027s the same regex as the polyfill code though so it should be fine..",
+      "parentUuid": "18b9a504_d7566ff0",
+      "revId": "4e0e2815f9329edacac166fc2eebfc09b5418174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e372ca90_64e5b586",
@@ -49,6 +67,24 @@
       "writtenOn": "2021-02-11T08:45:56Z",
       "side": 1,
       "message": "move to dom-util",
+      "revId": "4e0e2815f9329edacac166fc2eebfc09b5418174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbf40ea7_513e1198",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-11T22:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e372ca90_64e5b586",
       "revId": "4e0e2815f9329edacac166fc2eebfc09b5418174",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

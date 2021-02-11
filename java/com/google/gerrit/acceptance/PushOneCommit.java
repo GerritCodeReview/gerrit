@@ -307,6 +307,11 @@ public class PushOneCommit {
     return this;
   }
 
+  public PushOneCommit rmFile(String filename) {
+    commitBuilder.rm(filename);
+    return this;
+  }
+
   public Result to(String ref) throws Exception {
     for (Map.Entry<String, String> e : files.entrySet()) {
       commitBuilder.add(e.getKey(), e.getValue());

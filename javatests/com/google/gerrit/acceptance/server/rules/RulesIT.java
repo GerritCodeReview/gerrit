@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.rules;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -27,7 +28,9 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
@@ -39,7 +42,7 @@ import org.junit.Test;
 @NoHttpd
 public class RulesIT extends AbstractDaemonTest {
   private static final String RULE_TEMPLATE =
-      "submit_rule(submit(W)) :- \n" + "%s,\n" + "W = label('OK', ok(user(1000000))).";
+      "submit_rule(submit(W)) :- \n%s,\nW = label('OK', ok(user(1000000))).";
 
   @Inject private ProjectOperations projectOperations;
   @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
@@ -89,12 +92,116 @@ public class RulesIT extends AbstractDaemonTest {
     assertThat(statusForRuleRemoveFile()).isEqualTo(SubmitRecord.Status.OK);
   }
 
+  @Test
+  public void testCommitDelta_pass() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('file1\\.txt')");
+    assertThat(statusForRuleAddFile("file1.txt")).isEqualTo(SubmitRecord.Status.OK);
+  }
+
+  @Test
+  public void testCommitDelta_fail() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('no such file')");
+    assertThat(statusForRuleAddFile("file1.txt")).isEqualTo(SubmitRecord.Status.RULE_ERROR);
+  }
+
+  @Test
+  public void testCommitDelta_addOwners_pass() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('OWNERS', add, _, _)");
+    assertThat(statusForRuleAddFile("foo/OWNERS")).isEqualTo(SubmitRecord.Status.OK);
+  }
+
+  @Test
+  public void testCommitDelta_addOwners_fail() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('OWNERS', add, _, _)");
+    assertThat(statusForRuleAddFile("foobar")).isEqualTo(SubmitRecord.Status.RULE_ERROR);
+  }
+
+  @Test
+  public void testCommitDelta_regexp() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('.*')");
+    assertThat(statusForRuleAddFile("foo/bar")).isEqualTo(SubmitRecord.Status.OK);
+  }
+
+  @Test
+  public void testCommitDelta_add_provideNewName() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('.*', _, 'foo')");
+    assertThat(statusForRuleAddFile("foo")).isEqualTo(SubmitRecord.Status.OK);
+  }
+
+  @Test
+  public void testCommitDelta_modify_provideNewName() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('.*', _, 'a.txt')");
+    assertThat(statusForRuleModifyFile()).isEqualTo(SubmitRecord.Status.OK);
+  }
+
+  @Test
+  public void testCommitDelta_delete_provideNewName() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('.*', _, 'a.txt')");
+    assertThat(statusForRuleRemoveFile()).isEqualTo(SubmitRecord.Status.OK);
+  }
+
+  @Test
+  public void testCommitDelta_rename_provideOldName() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('.*', _, 'a.txt')");
+    assertThat(statusForRuleRenamedFile()).isEqualTo(SubmitRecord.Status.OK);
+  }
+
+  @Test
+  public void testCommitDelta_rename_provideNewName() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('.*', _, 'b.txt')");
+    assertThat(statusForRuleRenamedFile()).isEqualTo(SubmitRecord.Status.OK);
+  }
+
+  @Test
+  public void testCommitDelta_rename_matchOldName() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('a\\.txt')");
+    assertThat(statusForRuleRenamedFile()).isEqualTo(SubmitRecord.Status.OK);
+  }
+
+  @Test
+  public void testCommitDelta_rename_matchNewName() throws Exception {
+    modifySubmitRules("gerrit:commit_delta('b\\.txt')");
+    assertThat(statusForRuleRenamedFile()).isEqualTo(SubmitRecord.Status.OK);
+  }
+
   private SubmitRecord.Status statusForRule() throws Exception {
     String oldHead = projectOperations.project(project).getHead("master").name();
-    PushOneCommit.Result result1 =
+    PushOneCommit.Result result =
         pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
     testRepo.reset(oldHead);
-    return getStatus(result1);
+    return getStatus(result);
+  }
+
+  private SubmitRecord.Status statusForRuleAddFile(String... filenames) throws Exception {
+    Map<String, String> fileToContentMap =
+        Arrays.stream(filenames).collect(ImmutableMap.toImmutableMap(f -> f, f -> "file content"));
+    String oldHead = projectOperations.project(project).getHead("master").name();
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "subject", fileToContentMap);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+    testRepo.reset(oldHead);
+    return getStatus(result);
+  }
+
+  private SubmitRecord.Status statusForRuleModifyFile() throws Exception {
+    String oldHead = projectOperations.project(project).getHead("master").name();
+
+    // create a.txt
+    commitBuilder().add(PushOneCommit.FILE_NAME, "Hey, it's me!").message("subject").create();
+    pushHead(testRepo, "refs/heads/master", false);
+
+    PushOneCommit.Result result =
+        pushFactory
+            .create(
+                user.newIdent(),
+                testRepo,
+                "subject",
+                ImmutableMap.of(PushOneCommit.FILE_NAME, "I've changed!"))
+            .rmFile(PushOneCommit.FILE_NAME)
+            .to("refs/for/master");
+    testRepo.reset(oldHead);
+    return getStatus(result);
   }
 
   private SubmitRecord.Status statusForRuleRemoveFile() throws Exception {
@@ -110,15 +217,30 @@ public class RulesIT extends AbstractDaemonTest {
     return getStatus(result);
   }
 
-  private SubmitRecord.Status getStatus(PushOneCommit.Result result1) throws Exception {
-    ChangeData cd = result1.getChange();
+  private SubmitRecord.Status statusForRuleRenamedFile() throws Exception {
+    String oldHead = projectOperations.project(project).getHead("master").name();
+
+    // create a.txt
+    commitBuilder().add(PushOneCommit.FILE_NAME, "Hey, it's me!").message("subject").create();
+    pushHead(testRepo, "refs/heads/master", false);
+
+    PushOneCommit.Result result =
+        pushFactory
+            .create(user.newIdent(), testRepo, "subject", ImmutableMap.of("b.txt", "Hey, it's me!"))
+            .rmFile(PushOneCommit.FILE_NAME)
+            .to("refs/for/master");
+    testRepo.reset(oldHead);
+    return getStatus(result);
+  }
+
+  private SubmitRecord.Status getStatus(PushOneCommit.Result result) throws Exception {
+    ChangeData cd = result.getChange();
 
     Collection<SubmitRecord> records;
-    try (AutoCloseable changeIndex = disableChangeIndex()) {
-      try (AutoCloseable accountIndex = disableAccountIndex()) {
-        SubmitRuleEvaluator ruleEvaluator = evaluatorFactory.create(SubmitRuleOptions.defaults());
-        records = ruleEvaluator.evaluate(cd);
-      }
+    try (AutoCloseable ignored1 = disableChangeIndex();
+        AutoCloseable ignored2 = disableAccountIndex()) {
+      SubmitRuleEvaluator ruleEvaluator = evaluatorFactory.create(SubmitRuleOptions.defaults());
+      records = ruleEvaluator.evaluate(cd);
     }
 
     assertThat(records).hasSize(1);

@@ -16,6 +16,29 @@
       "message": "Made a small fix.",
       "revId": "ac2bbd3c46e3a3652938ce97cd02f03a06bf8432",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "630b4719_49abb92c",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-11T19:20:19Z",
+      "side": 1,
+      "message": "Can we add a comment here what this means? number and \u0027FILE\u0027 I can imagine, but \u0027LOST\u0027 is not clear to me and potentially others.",
+      "range": {
+        "startLine": 228,
+        "startChar": 52,
+        "endLine": 228,
+        "endChar": 56
+      },
+      "revId": "ac2bbd3c46e3a3652938ce97cd02f03a06bf8432",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

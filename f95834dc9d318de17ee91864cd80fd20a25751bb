@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2ffc80a_fd4fade0",
+        "filename": "java/com/google/gerrit/server/permissions/VisibleChangesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-11T16:06:36Z",
+      "side": 1,
+      "message": "Already fixed with ps2.",
+      "parentUuid": "33b2a3f1_406df1e1",
+      "range": {
+        "startLine": 100,
+        "startChar": 23,
+        "endLine": 100,
+        "endChar": 25
+      },
+      "revId": "f95834dc9d318de17ee91864cd80fd20a25751bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5684b56_56e5fb13",

@@ -16,6 +16,41 @@
       "message": "Needs to be verified on Safari",
       "revId": "4e0e2815f9329edacac166fc2eebfc09b5418174",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18b9a504_d7566ff0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T08:45:56Z",
+      "side": 1,
+      "message": "I would be fine testing this in staging/canary, because I don\u0027t see how this would break Safari.",
+      "parentUuid": "7718e9a2_3c40b3e3",
+      "revId": "4e0e2815f9329edacac166fc2eebfc09b5418174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e372ca90_64e5b586",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-11T08:45:56Z",
+      "side": 1,
+      "message": "move to dom-util",
+      "revId": "4e0e2815f9329edacac166fc2eebfc09b5418174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

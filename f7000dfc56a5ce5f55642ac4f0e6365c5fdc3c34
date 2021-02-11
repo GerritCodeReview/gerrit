@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "85d61325_c3a871f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-11T08:13:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0e97a33_6a09ff1b",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0d766de8_0e8df821",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -76,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09569a84_dc40426e",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-11T08:13:05Z",
+      "side": 1,
+      "message": "LGTM",
+      "parentUuid": "f5005c3d_5700cf72",
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10e978aa_15f4df7e",
@@ -107,6 +149,24 @@
       "side": 1,
       "message": "Added a clarification: It depends on the implementation if the result is decided per-request basis or not, so the outcomes should not be persisted in @Singleton. \n\n\nLet me know if it looks good?",
       "parentUuid": "10e978aa_15f4df7e",
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efde972c_2780ed7b",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-11T08:13:05Z",
+      "side": 1,
+      "message": "LGTM",
+      "parentUuid": "2d386429_4e119a90",
       "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -237,6 +297,24 @@
         "endLine": 31,
         "endChar": 26
       },
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f7c1a3d_58cbe677",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-11T08:13:05Z",
+      "side": 1,
+      "message": "\u003e This left on the Mendel implementation of ExperimentFeatures to figure out the rollout stage (if the flag is disabled/enabled) based on the system properties. I can send you a draft change for the downstream implementation?\n\nYes, that would be helpful, thanks.\n \n\u003e I think it is best if we don\u0027t over complicate upstream implementation, so made the interface simple (can be extended if needed). Also, I think it makes sense to keep it close to what we have for the frontend now (flags tied to releases).\n\nSGTM",
+      "parentUuid": "78f083cd_6c904e3a",
       "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

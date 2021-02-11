@@ -55,7 +55,10 @@ import {
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
-import {getComputedStyleValue} from '../../../utils/dom-util';
+import {
+  getComputedStyleValue,
+  windowLocationReload,
+} from '../../../utils/dom-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -896,7 +899,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _reloadWindow() {
-    window.location.reload();
+    windowLocationReload();
   }
 
   _handleCommitMessageCancel() {

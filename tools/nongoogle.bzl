@@ -1,5 +1,4 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 
 GUAVA_VERSION = "29.0-jre"
 

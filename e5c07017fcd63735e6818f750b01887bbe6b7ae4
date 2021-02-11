@@ -101,6 +101,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fdbbb205_61fc52eb",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-11T09:30:40Z",
+      "side": 1,
+      "message": "\u003e re-instantiate that class as (consumerClassLoader, \"gerrit.MyApi\")\n\nhow does that help you?  You want to have an instance of (providerClassLoader, \"gerrit.MyApiImpl\") so you have the  functionality, but then cast that to  (consumerClassLoader,\"gerrit.MyApi\") to call the method on the interface. That cast is impossible. \n\nThis test may pass, but I suspect it does because all the classes come out of the same classloader. It appears to retrieve (providerClassLoader, \"gerrit.MyApiImpl\") from the dynamic map. This class is in actuality (acceptanceTestClassLoader, \"gerrit.MyApiImpl\"). Then it tries to instantiate (consumerClassLoader, className). This works because consumerClassLoader is also acceptanceTestClassLoader. In a real plugin setup, the consumerClassLoader has no access to \"gerrit.MyApiImpl\".\n\nYou said yesterday you wanted to discuss features on the basis of code reviews rather than design docs.  It would help if you could provide code that compiles, and works in the setting you are designing it for. That means that you have to create a test which loads two separately compiled plugins from two .jar files, and then demonstrates that the call works.\n\nIn order for a consumer to have access to the provider\u0027s data types, the consumer\u0027s classloader must have the provider class loader as a parent. Gerrit can only make this happen if it knows which plugin calls into which other plugin upfront. In other words, you\u0027ll have to add some sort of annotation framework where each plugin can declare its dependencies.  \n\nThe side effect of such a classloader mechanism, is that the provider will have access to the entire consumer plugin\u0027s internals, including the ones that weren\u0027t intended for public consumption.\n\nIt\u0027s also fundamentally limited, because a class loader can have only one parent. If you have a consumer that needs two different providers, you have to pick which goes first, and you can easily create situations which can\u0027t be resolved.\n\n\n\u003e I think so, it\u0027s tricky (I missed this too at first).\n\nthis is my other complaint with classloader and reflection trickery. It can probably be made to work, but it\u0027s hard to understand, and hard to review. If we accept this code, it will be costly to maintain because everyone touching it will have to understand the details of how classloaders and reflection work.\n\n\nFundamentally, it looks like you are want to have two conflicting properties: loose coupling (plugins can be separately compiled and (un)loaded), but also type-safety (cross-plugin calls use classes defined by the provider). I think this is ultimately impossible. Plugins are loosely coupled entities, so any cross plugin call can always fail for a host of reasons (plugin not loaded, plugin at wrong version, etc.). In essence, it has all of the same failure modes as a RPC call, but with the benefit/drawback that data is transferred without serialization.\n\nFor this reason, I proposed https://gerrit-review.googlesource.com/c/gerrit/+/295135 ; this lets you do calls across plugins. If you need request/response types that don\u0027t exist, you can use Map\u003cString,Object\u003e as the in-memory equivalent of JSON. \n\nSince the soundness of such a setup can\u0027t checked in advance, failures will still be inscrutable, so I think it should be coupled with an annotation mechanism, where a provider can say \"I am my-api 2.0\", and a consumer can say \"I need my-api \u003e\u003d 2.1\".",
+      "parentUuid": "8a6c2280_ddbf0985",
+      "range": {
+        "startLine": 114,
+        "startChar": 6,
+        "endLine": 114,
+        "endChar": 23
+      },
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03344a86_ab5260fe",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-11T09:30:40Z",
+      "side": 1,
+      "message": "This doesn\u0027t build, and it\u0027s actually a dependency cycle: the DelegatingClassLoader is defined in the server BUILD target, but adding it as a dependency yields\n\n```\n$ bazel build gerrit\nINFO: Invocation ID: 13d6d118-9b3e-4a08-97ce-02034be62328\nDEBUG: /home/hanwen/.cache/bazel/_bazel_hanwen/92cfb41f49554b16e2b6f54cafbeca56/external/bazel_toolchains/rules/rbe_repo/version_check.bzl:68:14: \nCurrent running Bazel is ahead of bazel-toolchains repo. Please update your pin to bazel-toolchains repo in your WORKSPACE file.\nDEBUG: /home/hanwen/.cache/bazel/_bazel_hanwen/92cfb41f49554b16e2b6f54cafbeca56/external/bazel_toolchains/rules/rbe_repo/checked_in.bzl:125:14: rbe_jdk11 not using checked in configs; Bazel version 3.7.0 was picked/selected but no checked in config was found in map {\"0.20.0\": [\"8.0.0\"], \"0.21.0\": [\"8.0.0\"], \"0.22.0\": [\"8.0.0\", \"9.0.0\"], \"0.23.0\": [\"8.0.0\", \"9.0.0\"], \"0.23.1\": [\"8.0.0\", \"9.0.0\"], \"0.23.2\": [\"9.0.0\"], \"0.24.0\": [\"9.0.0\"], \"0.24.1\": [\"9.0.0\"], \"0.25.0\": [\"9.0.0\"], \"0.25.1\": [\"9.0.0\"], \"0.25.2\": [\"9.0.0\"], \"0.26.0\": [\"9.0.0\"], \"0.26.1\": [\"9.0.0\"], \"0.27.0\": [\"9.0.0\"], \"0.27.1\": [\"9.0.0\"], \"0.28.0\": [\"9.0.0\"], \"0.28.1\": [\"9.0.0\"], \"0.29.0\": [\"9.0.0\"], \"0.29.1\": [\"9.0.0\", \"10.0.0\"], \"1.0.0\": [\"9.0.0\", \"10.0.0\"], \"1.0.1\": [\"10.0.0\"], \"1.1.0\": [\"10.0.0\"], \"1.2.0\": [\"10.0.0\"], \"1.2.1\": [\"10.0.0\"], \"2.0.0\": [\"10.0.0\"], \"2.1.0\": [\"10.0.0\"], \"2.1.1\": [\"10.0.0\", \"11.0.0\"], \"2.2.0\": [\"11.0.0\"], \"3.0.0\": [\"11.0.0\"], \"3.1.0\": [\"11.0.0\"]}\nERROR: /home/hanwen/vc/gerrit/java/com/google/gerrit/common/BUILD:15:13: in java_library rule //java/com/google/gerrit/common:server: cycle in dependency graph:\n    //:gerrit\n    //prolog:gerrit-prolog-common\n    //java/gerrit:prolog-predicates\n.-\u003e //java/com/google/gerrit/common:server\n|   //java/com/google/gerrit/extensions:api\n|   //java/com/google/gerrit/server:server\n`-- //java/com/google/gerrit/common:server\nThis cycle occurred because of a configuration option\nERROR: Analysis of target \u0027//:gerrit\u0027 failed; build aborted\nINFO: Elapsed time: 0.216s\nINFO: 0 processes.\nFAILED: Build did NOT complete successfully (0 packages loaded, 0 targets configured)\n```",
+      "range": {
+        "startLine": 17,
+        "startChar": 40,
+        "endLine": 17,
+        "endChar": 61
+      },
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "681a139d_cfdc3fbd",
         "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
         "patchSetId": 2
@@ -158,6 +205,30 @@
       "writtenOn": "2021-02-11T01:20:04Z",
       "side": 1,
       "message": "I am not familiar with DelegatingClassLoader and I could not find it in this change.\nCan you elaborate on what is the purpose of this class? Where can we find the source code associated? Did you just forget to push it to this change?",
+      "range": {
+        "startLine": 156,
+        "startChar": 21,
+        "endLine": 156,
+        "endChar": 42
+      },
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c96eac33_3c53d57b",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-11T09:30:40Z",
+      "side": 1,
+      "message": "see change If2cff8235a9680eb64c58b77f2d482c5896baf0f",
+      "parentUuid": "d13b7b54_aefb6b7f",
       "range": {
         "startLine": 156,
         "startChar": 21,

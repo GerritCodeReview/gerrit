@@ -153,6 +153,12 @@ export function querySelectorAll(
   return [...results];
 }
 
+export function windowLocationReload() {
+  const e = new Error();
+  console.info(`Calling window.location.realod(): ${e.stack}`);
+  window.location.reload();
+}
+
 /**
  * Retrieves the dom path of the current event.
  *

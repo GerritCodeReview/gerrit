@@ -55,6 +55,7 @@ import {
 } from '../../../utils/attention-set-util';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
+import {windowLocationReload} from '../../../utils/dom-util';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -478,7 +479,7 @@ export class GrChangeList extends ChangeTableMixin(
   }
 
   _reloadWindow() {
-    window.location.reload();
+    windowLocationReload();
   }
 
   _toggleChangeStar(e: CustomKeyboardEvent) {

@@ -38,6 +38,7 @@ import {
   ServerErrorEvent,
   ShowAlertEvent,
 } from '../../../types/events';
+import {windowLocationReload} from '../../../utils/dom-util';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -446,7 +447,7 @@ export class GrErrorManager extends GestureEventListeners(
   }
 
   _reloadPage() {
-    window.location.reload();
+    windowLocationReload();
   }
 
   _createLoginPopup() {

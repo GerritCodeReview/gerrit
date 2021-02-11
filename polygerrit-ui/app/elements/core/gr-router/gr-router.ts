@@ -67,6 +67,7 @@ import {LocationChangeEventDetail} from '../../../types/events';
 import {GerritView, updateState} from '../../../services/router/router-model';
 import {firePageError} from '../../../utils/event-util';
 import {addQuotesWhen} from '../../../utils/string-util';
+import {windowLocationReload} from '../../../utils/dom-util';
 
 const RoutePattern = {
   ROOT: '/',
@@ -1725,7 +1726,7 @@ export class GrRouter extends GestureEventListeners(
    * by the catchall _handleDefaultRoute handler.
    */
   _handlePassThroughRoute() {
-    location.reload();
+    windowLocationReload();
   }
 
   /**
@@ -1762,7 +1763,7 @@ export class GrRouter extends GestureEventListeners(
 
   _handleDocumentationRedirectRoute(data: PageContextWithQueryMap) {
     if (data.params[1]) {
-      location.reload();
+      windowLocationReload();
     } else {
       // Redirect /Documentation to /Documentation/index.html
       this._redirect('/Documentation/index.html');

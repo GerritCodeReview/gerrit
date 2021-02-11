@@ -34,6 +34,24 @@
       "parentUuid": "ae9f9fe6_9dd81ad5",
       "revId": "7a1980e9e558e03ae8238127c4703fe6b7d7e480",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b1a2f3e_0fb2c129",
+        "filename": "java/com/google/gerrit/sshd/LogMaxConnectionsPerUserExceeded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-11T14:55:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7a353d42_78fbb1fe",
+      "revId": "7a1980e9e558e03ae8238127c4703fe6b7d7e480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

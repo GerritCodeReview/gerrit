@@ -52,6 +52,24 @@
       "parentUuid": "a974591f_b145754e",
       "revId": "b1bf0dd5c9cded95c77422407e924249e0b33b91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84aa3317_94e833f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-11T18:23:29Z",
+      "side": 1,
+      "message": "\u003e we don\u0027t run Gerrit SSH tests, so it\u0027s ok to remove from our perspective.\n\nThanks for clarifying. I think I understand now, that all this code refactoring is only needed to simplify the import of this series for Gerrit@Google and to reduce the amount the code, that needs to be commented out, because MINA SSH client library is not yet available as third-party dependency @Google and it would take some time to add.\n\nI will rebase JCraft JSch removal change on top of this change then. Please hold on with the import, and try it from the tip of this series: change 269976.",
+      "parentUuid": "b9179e1e_a3a97c1f",
+      "revId": "b1bf0dd5c9cded95c77422407e924249e0b33b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

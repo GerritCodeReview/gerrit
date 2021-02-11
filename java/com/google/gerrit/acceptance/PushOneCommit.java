@@ -281,6 +281,19 @@ public class PushOneCommit {
     return this;
   }
 
+  public PushOneCommit addFile(String path, String content, int fileMode) throws Exception {
+    RevBlob blobId = testRepo.blob(content);
+    commitBuilder.edit(
+        new PathEdit(path) {
+          @Override
+          public void apply(DirCacheEntry ent) {
+            ent.setFileMode(FileMode.fromBits(fileMode));
+            ent.setObjectId(blobId);
+          }
+        });
+    return this;
+  }
+
   public PushOneCommit addSymlink(String path, String target) throws Exception {
     RevBlob blobId = testRepo.blob(target);
     commitBuilder.edit(

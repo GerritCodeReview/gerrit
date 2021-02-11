@@ -67,6 +67,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * is that these refs should never be deleted.
  */
 public class AutoMerger {
+  public static final String AUTO_MERGE_MSG_PREFIX = "Auto-merge of ";
+
   @UsedAt(UsedAt.Project.GOOGLE)
   public static boolean cacheAutomerge(Config cfg) {
     return cfg.getBoolean("change", null, "cacheAutomerge", true);
@@ -198,7 +200,7 @@ public class AutoMerger {
     cb.setAuthor(ident);
     cb.setCommitter(ident);
     cb.setTreeId(tree);
-    cb.setMessage("Auto-merge of " + merge.name() + '\n');
+    cb.setMessage(AUTO_MERGE_MSG_PREFIX + merge.name() + '\n');
     for (RevCommit p : merge.getParents()) {
       cb.addParentId(p);
     }

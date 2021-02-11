@@ -3,6 +3,98 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0ac503c6_b1697edb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-11T20:07:20Z",
+      "side": 1,
+      "message": "I just want to note, I think this is really cool!",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd897b55_8eff6351",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-11T20:07:20Z",
+      "side": 1,
+      "message": "I don\u0027t think you mean stream here the same way it\u0027s used in \u0027stream-events\u0027. Maybe clarify that wording?",
+      "range": {
+        "startLine": 29,
+        "startChar": 27,
+        "endLine": 29,
+        "endChar": 43
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "996bb570_ec3c2719",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-11T20:07:20Z",
+      "side": 1,
+      "message": "nit: remove :",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 5
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6160c06c_07c508ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-11T20:07:20Z",
+      "side": 1,
+      "message": "I think I understand what you mean here, but it might help to see example command usage.\n\nI think you intend something like:\n\n for each project:\n   git ls-remote $project\n   # find all the /meta refs and record their SHA1s\n # ... sometime later\n for each project\n   git ls-remote $project\n   # find all the /meta refs and diff against earlier SHA1s to see which changed\n for each changed meta ref:\n   changeId \u003d getChangeIdFromMetaRef($metaRef)\n   old_change \u003d curl .../changes/$changeId/?meta\u003d$oldMetaRefSHA1\n   new_change \u003d curl .../changes/$changeId/?meta\u003d$newMetaRefSHA1\n\nI think that would get me \"complete\" change output for the old and new states. Would a JSON diff then be expected to tell you everything that changed?\n\nI put \"complete\" in quotes because I think that\u0027s depending on options passed to /changes/. I also think those options could include plugin options. Do plugins \"just work\" because the ChangeData they see is created from that metaSHA1?",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 11
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "10eab2d0_6f93ea2b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -14,6 +106,132 @@
       "writtenOn": "2021-02-11T19:26:04Z",
       "side": 1,
       "message": "Hi Luca, Marcin.\n\nYou wanted to know where we are with notifications. Our initial plan was based on ChangeNotesStateProto, but it wasn\u0027t intended as a public API, so we changed plans\na little. The idea is actually quite simple, and you should get \nthe gist from the commit message. \n\nAlexa is working on the protocol buffer-based differ, and we could open that up, \nbut I\u0027m not sure if that will help your use cases. We\u0027re going to leave the current\nGerrit-internal event system alone.\n",
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acaee7d2_ac747f8f",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-11T20:07:20Z",
+      "side": 1,
+      "message": "Return here? Doing that, I think you can remove \u0027found\u0027 and move your throw to the end of the method.",
+      "range": {
+        "startLine": 195,
+        "startChar": 12,
+        "endLine": 196,
+        "endChar": 18
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acefa831_ff7ce02b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-11T20:07:20Z",
+      "side": 1,
+      "message": "Should we be encoding in the variable name that this is a SHA1? If not, \u0027metaRevision\u0027 or \u0027metaId\u0027 might work.",
+      "range": {
+        "startLine": 118,
+        "startChar": 72,
+        "endLine": 118,
+        "endChar": 80
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d20b64b_70fe4e30",
+        "filename": "java/com/google/gerrit/server/notedb/MissingMetaObjectException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-11T20:07:20Z",
+      "side": 1,
+      "message": "Needs copyright/license header",
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32cb02bc_b9923cb0",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-11T20:07:20Z",
+      "side": 1,
+      "message": "redundant?",
+      "range": {
+        "startLine": 61,
+        "startChar": 45,
+        "endLine": 61,
+        "endChar": 53
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ee76b81_19075b6a",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-11T20:07:20Z",
+      "side": 1,
+      "message": "I think this is a duplicate of line 106 if you factor out how you get the ChangeInfo. Using helpers for the different changeJson() calls would keep apply() small and simple too.",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 47
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eed8d904_fef2b2a3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-11T20:07:20Z",
+      "side": 1,
+      "message": "Also assert that the subject changes if you get using the after.metaRef?",
       "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

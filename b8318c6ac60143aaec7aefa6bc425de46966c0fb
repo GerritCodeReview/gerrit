@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01fcf8f1_43de9b4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-11T16:18:02Z",
+      "side": 1,
+      "message": "Is there a way we can check that this codepath doesn\u0027t touch primary storage?",
+      "revId": "b8318c6ac60143aaec7aefa6bc425de46966c0fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

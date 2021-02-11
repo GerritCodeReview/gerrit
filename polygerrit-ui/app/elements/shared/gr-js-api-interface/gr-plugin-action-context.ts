@@ -19,6 +19,7 @@ import {RevisionInfo, ChangeInfo, RequestPayload} from '../../../types/common';
 import {ShowAlertEventDetail} from '../../../types/events';
 import {PluginApi} from '../../plugins/gr-plugin-types';
 import {UIActionInfo} from './gr-change-actions-js-api';
+import {windowLocationReload} from '../../../utils/dom-util';
 
 interface GrPopupInterface {
   close(): void;
@@ -57,7 +58,7 @@ export class GrPluginActionContext {
   }
 
   refresh() {
-    window.location.reload();
+    windowLocationReload();
   }
 
   textfield(): HTMLElement {

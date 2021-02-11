@@ -153,6 +153,12 @@ export function querySelectorAll(
   return [...results];
 }
 
+export function windowLocationReload() {
+  console.info('Calling window.location.realod() ...');
+  console.trace();
+  window.location.reload();
+}
+
 /**
  * Retrieves the dom path of the current event.
  *

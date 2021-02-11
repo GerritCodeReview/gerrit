@@ -17,10 +17,12 @@ package com.google.gerrit.server.git;
 import com.google.auto.value.AutoValue;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
@@ -42,6 +44,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.util.Providers;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -96,6 +99,10 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
 
     @Nullable
     abstract ReviewerSet reviewers();
+
+    abstract Collection<PatchSet> patchSets();
+
+    abstract ImmutableList<byte[]> refStates();
   }
 
   private final LoadingCache<Project.NameKey, List<CachedChange>> cache;
@@ -125,6 +132,8 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
       for (CachedChange cc : cached) {
         ChangeData cd = changeDataFactory.create(cc.change());
         cd.setReviewers(cc.reviewers());
+        cd.setPatchSets(cc.patchSets());
+        cd.setRefStates(cc.refStates());
         cds.add(cd);
       }
       return Collections.unmodifiableList(cds);
@@ -160,12 +169,17 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
         List<ChangeData> cds =
             queryProvider
                 .get()
-                .setRequestedFields(ChangeField.CHANGE, ChangeField.REVIEWER)
+                .setRequestedFields(
+                    ChangeField.CHANGE,
+                    ChangeField.REVIEWER,
+                    ChangeField.REF_STATE,
+                    ChangeField.PATCH_SET)
                 .byProject(key);
         List<CachedChange> result = new ArrayList<>(cds.size());
         for (ChangeData cd : cds) {
           result.add(
-              new AutoValue_SearchingChangeCacheImpl_CachedChange(cd.change(), cd.reviewers()));
+              new AutoValue_SearchingChangeCacheImpl_CachedChange(
+                  cd.change(), cd.reviewers(), cd.patchSets(), cd.getRefStates()));
         }
         return Collections.unmodifiableList(result);
       }

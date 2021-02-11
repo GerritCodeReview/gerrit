@@ -118,6 +118,23 @@
       "message": "\u003e Patch Set 1:\n\u003e \n\u003e 295682\n\n+.3",
       "revId": "736bd8233b75f673b837936f0ade48cc49d2bb5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e180ce9_c31d2747",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1129071
+      },
+      "writtenOn": "2021-02-11T14:19:03Z",
+      "side": 1,
+      "message": "+2",
+      "revId": "736bd8233b75f673b837936f0ade48cc49d2bb5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

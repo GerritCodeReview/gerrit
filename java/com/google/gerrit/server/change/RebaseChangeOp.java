@@ -219,8 +219,13 @@ public class RebaseChangeOp implements BatchUpdateOp {
             .setFireRevisionCreated(fireRevisionCreated)
             .setCheckAddPatchSetPermission(checkAddPatchSetPermission)
             .setValidate(validate)
-            .setSendEmail(sendEmail)
-            .setWorkInProgress(!rebasedCommit.getFilesWithGitConflicts().isEmpty());
+            .setSendEmail(sendEmail);
+
+    if (!rebasedCommit.getFilesWithGitConflicts().isEmpty()
+        && !notes.getChange().isWorkInProgress()) {
+      patchSetInserter.setWorkInProgress(true);
+    }
+
     if (postMessage) {
       patchSetInserter.setMessage(
           messageForRebasedChange(rebasedPatchSetId, originalPatchSet.id(), rebasedCommit));

@@ -1360,6 +1360,39 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseDoesNotAddWorkInProgress() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // create an unrelated change so that we can rebase
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result unrelated = createChange();
+    gApi.changes().id(unrelated.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(unrelated.getChangeId()).current().submit();
+
+    gApi.changes().id(r.getChangeId()).rebase();
+
+    // change is still ready for review after rebase
+    assertThat(gApi.changes().id(r.getChangeId()).get().workInProgress).isNull();
+  }
+
+  @Test
+  public void rebaseDoesNotRemoveWorkInProgress() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).setWorkInProgress();
+
+    // create an unrelated change so that we can rebase
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result unrelated = createChange();
+    gApi.changes().id(unrelated.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(unrelated.getChangeId()).current().submit();
+
+    gApi.changes().id(r.getChangeId()).rebase();
+
+    // change is still work in progress after rebase
+    assertThat(gApi.changes().id(r.getChangeId()).get().workInProgress).isTrue();
+  }
+
+  @Test
   public void rebaseConflict_conflictsAllowed() throws Exception {
     String patchSetSubject = "patch set change";
     String patchSetContent = "patch set content";

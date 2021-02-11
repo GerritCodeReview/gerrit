@@ -215,6 +215,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16f1bf2c_2e1fece1",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-11T18:15:42Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "9a1dbdc6_86abd877",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 19
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bf455cc_cde168e1",
@@ -395,6 +419,30 @@
       "side": 1,
       "message": "Oh, that\u0027s not what I meant.\n\nI mean the condition should be: commit.getParentCount() \u003e 1",
       "parentUuid": "08f09681_6ffe757f",
+      "range": {
+        "startLine": 96,
+        "startChar": 40,
+        "endLine": 96,
+        "endChar": 41
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "161d588d_41feed37",
+        "filename": "java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-11T18:15:42Z",
+      "side": 1,
+      "message": "Can you explain why?",
+      "parentUuid": "91d4a815_68780a37",
       "range": {
         "startLine": 96,
         "startChar": 40,

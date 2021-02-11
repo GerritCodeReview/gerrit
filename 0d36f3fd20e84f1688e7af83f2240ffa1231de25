@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ffc7dd7_5d2f1fe6",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T10:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "669a0da9_541a5abb",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 34
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb646883_f989b8b6",
@@ -235,6 +259,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b98a3f4d_e62725bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T10:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a70a500_0d81d577",
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34b6175f_03013d17",
@@ -248,6 +290,30 @@
       "writtenOn": "2021-02-11T08:37:23Z",
       "side": 1,
       "message": "Can 3 become a property?",
+      "range": {
+        "startLine": 195,
+        "startChar": 38,
+        "endLine": 195,
+        "endChar": 39
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e36919d6_e8a13279",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T10:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34b6175f_03013d17",
       "range": {
         "startLine": 195,
         "startChar": 38,
@@ -289,6 +355,24 @@
       "side": 1,
       "message": "I was experimenting with it, but it will be messy, because other lists like  related changes have different types then submitted together. And I would need to share many calculations. I found this much clearer. I actually spend significant time to come with more generic gr-related-collapse with slots so I can have logic and properties in gr-related-list. \n\nYou can check what is coming in https://gerrit-review.googlesource.com/c/gerrit/+/296483",
       "parentUuid": "f8868d7d_1c95b9e9",
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a542a1a6_992317ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T10:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "507df5fc_b9bf5fd3",
       "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -377,6 +461,30 @@
       "side": 1,
       "message": "This is according to spec. We probably want to give user information about the size of list.",
       "parentUuid": "a7c89738_e4221f0c",
+      "range": {
+        "startLine": 209,
+        "startChar": 11,
+        "endLine": 209,
+        "endChar": 36
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7395eba_768deb45",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T10:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "297b4e03_5cf36469",
       "range": {
         "startLine": 209,
         "startChar": 11,

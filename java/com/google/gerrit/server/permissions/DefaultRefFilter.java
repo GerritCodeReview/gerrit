@@ -189,35 +189,42 @@ class DefaultRefFilter {
     }
 
     if (opts.returnMostRecentRefChanges()) {
-      visibleChangesCache.cachedVisibleChanges().values().stream()
-          .forEach(n -> addAllChangeAndPatchsetRefs(visibleRefs, n));
+      visibleChangesCache.cachedVisibleChanges().keySet().stream()
+          .forEach(c -> addAllChangeAndPatchsetRefs(visibleRefs, c));
     }
 
     logger.atFinest().log("visible refs = %s", visibleRefs);
     return visibleRefs;
   }
 
-  private void addAllChangeAndPatchsetRefs(Collection<Ref> refs, ChangeNotes changeNotes) {
-    refs.add(
-        new ObjectIdRef.PeeledNonTag(
-            Storage.PACKED,
-            RefNames.changeMetaRef(changeNotes.getChangeId()),
-            changeNotes.getMetaId()));
-    changeNotes
-        .getPatchSets()
-        .values()
-        .forEach(
-            p ->
-                refs.add(
-                    new ObjectIdRef.PeeledNonTag(
-                        Storage.PACKED, RefNames.patchSetRef(p.id()), p.commitId())));
-    if (changeNotes.getRobotCommentNotes() != null
-        && changeNotes.getRobotCommentNotes().getMetaId() != null) {
+  private void addAllChangeAndPatchsetRefs(Collection<Ref> refs, Change.Id changeId) {
+    try {
       refs.add(
           new ObjectIdRef.PeeledNonTag(
               Storage.PACKED,
-              RefNames.robotCommentsRef(changeNotes.getChangeId()),
-              changeNotes.getRobotCommentNotes().getMetaId()));
+              RefNames.changeMetaRef(changeId),
+              visibleChangesCache.getMetaId(changeId)));
+      visibleChangesCache
+          .getPatchSets(changeId)
+          .forEach(
+              p ->
+                  refs.add(
+                      new ObjectIdRef.PeeledNonTag(
+                          Storage.PACKED, RefNames.patchSetRef(p.id()), p.commitId())));
+      if (visibleChangesCache.getRobotCommentsMetaId(changeId) != null) {
+        refs.add(
+            new ObjectIdRef.PeeledNonTag(
+                Storage.PACKED,
+                RefNames.robotCommentsRef(changeId),
+                visibleChangesCache.getRobotCommentsMetaId(changeId)));
+      }
+    } catch (PermissionBackendException ex) {
+      // this can't happen since the changes are all already in the cache, so we don't need to
+      // perform permission checks at all to get those changes.
+      throw new IllegalStateException(
+          "this shouldn't happen since all permission checks should have been "
+              + "done previously, exception: %s",
+          ex);
     }
   }
 
@@ -359,7 +366,7 @@ class DefaultRefFilter {
       try {
         // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
         permissionBackendForProject
-            .ref(visibleChangesCache.cachedVisibleChanges().get(id).getChange().getDest().branch())
+            .ref(visibleChangesCache.getChange(id).getDest().branch())
             .check(RefPermission.READ_PRIVATE_CHANGES);
         logger.atFinest().log("Foreign change edit ref is visible: %s", name);
         return true;

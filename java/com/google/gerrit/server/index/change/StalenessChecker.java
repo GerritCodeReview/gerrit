@@ -127,7 +127,7 @@ public class StalenessChecker {
     return StalenessCheckResult.notStale();
   }
 
-  private SetMultimap<Project.NameKey, RefState> parseStates(ChangeData cd) {
+  public SetMultimap<Project.NameKey, RefState> parseStates(ChangeData cd) {
     return RefState.parseStates(cd.getRefStates());
   }
 

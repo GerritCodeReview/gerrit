@@ -70,6 +70,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d0e47da_413a4512",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T09:08:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb851939_80da11e4",
+      "range": {
+        "startLine": 81,
+        "startChar": 18,
+        "endLine": 81,
+        "endChar": 26
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61030b4f_b3b9aa34",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T09:08:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb646883_f989b8b6",
+      "range": {
+        "startLine": 81,
+        "startChar": 34,
+        "endLine": 81,
+        "endChar": 56
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cc869bb_e96840dc",
@@ -83,6 +131,24 @@
       "writtenOn": "2021-02-11T08:37:23Z",
       "side": 1,
       "message": "unused?",
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fc9975f_e7daff1d",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T09:08:22Z",
+      "side": 1,
+      "message": "Thanks. This is 7th version, sorry for leftover",
+      "parentUuid": "4cc869bb_e96840dc",
       "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -110,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94875426_7a47655c",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T09:08:22Z",
+      "side": 1,
+      "message": "Actually somehow lit-element lowercased all class names. I will introduce hyphens.",
+      "parentUuid": "97e66a43_ab653718",
+      "range": {
+        "startLine": 181,
+        "startChar": 47,
+        "endLine": 181,
+        "endChar": 64
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96bc3366_d29d58ee",
@@ -123,6 +213,24 @@
       "writtenOn": "2021-02-11T08:37:23Z",
       "side": 1,
       "message": "Maybe \"display:flex\" should be defined in \u003cgr-related-changes-list-experimental\u003e or \u003cgr-related-change\u003e.\n\n\u003cgr-related-collapse\u003e should not care about that. Maybe using `hide-when-collapsed` is better then.",
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a70a500_0d81d577",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T09:08:22Z",
+      "side": 1,
+      "message": "Yes, that was plan, but then specificity is higher than .collapsed ::slotted(gr-related-change), so I cannot hide them",
+      "parentUuid": "96bc3366_d29d58ee",
       "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -169,6 +277,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "507df5fc_b9bf5fd3",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T09:08:22Z",
+      "side": 1,
+      "message": "I was experimenting with it, but it will be messy, because other lists like  related changes have different types then submitted together. And I would need to share many calculations. I found this much clearer. I actually spend significant time to come with more generic gr-related-collapse with slots so I can have logic and properties in gr-related-list. \n\nYou can check what is coming in https://gerrit-review.googlesource.com/c/gerrit/+/296483",
+      "parentUuid": "f8868d7d_1c95b9e9",
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5dc7b7c6_826a8853",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
         "patchSetId": 4
@@ -180,6 +306,30 @@
       "writtenOn": "2021-02-11T08:37:23Z",
       "side": 1,
       "message": "Maybe just use `toggle` here. Then you don\u0027t need two html`` templates.",
+      "range": {
+        "startLine": 204,
+        "startChar": 56,
+        "endLine": 204,
+        "endChar": 64
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65ba8ee6_d62bf3bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T09:08:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dc7b7c6_826a8853",
       "range": {
         "startLine": 204,
         "startChar": 56,
@@ -203,6 +353,30 @@
       "writtenOn": "2021-02-11T08:37:23Z",
       "side": 1,
       "message": "Maybe just `Show all`?",
+      "range": {
+        "startLine": 209,
+        "startChar": 11,
+        "endLine": 209,
+        "endChar": 36
+      },
+      "revId": "0d36f3fd20e84f1688e7af83f2240ffa1231de25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "297b4e03_5cf36469",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-11T09:08:22Z",
+      "side": 1,
+      "message": "This is according to spec. We probably want to give user information about the size of list.",
+      "parentUuid": "a7c89738_e4221f0c",
       "range": {
         "startLine": 209,
         "startChar": 11,

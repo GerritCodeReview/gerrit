@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f2cd00d_4b917b53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-11T00:38:25Z",
+      "side": 1,
+      "message": "Thanks, Ben, for the extra variable on the Service user.\n@Ponch can you test it E2E and confirm that resolves your use-case?",
+      "revId": "24c47ed82a1043f678601b1db8ef18977c856829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

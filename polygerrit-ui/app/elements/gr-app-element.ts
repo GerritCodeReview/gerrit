@@ -79,6 +79,7 @@ import {
 import {ViewState} from '../types/types';
 import {EventType} from '../utils/event-util';
 import {GerritView} from '../services/router/router-model';
+import {windowLocationReload} from '../utils/dom-util';
 
 interface ErrorInfo {
   text: string;
@@ -241,7 +242,7 @@ export class GrAppElement extends KeyboardShortcutMixin(
     // Ideally individual views should handle this event and respond with a soft
     // reload. This is a catch-all for all views that cannot or have not
     // implemented that.
-    this.addEventListener('reload', () => window.location.reload());
+    this.addEventListener('reload', () => windowLocationReload());
   }
 
   /** @override */

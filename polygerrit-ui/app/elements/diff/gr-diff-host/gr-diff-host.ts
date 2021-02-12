@@ -567,8 +567,8 @@ export class GrDiffHost extends GestureEventListeners(
     this.$.diff.clearDiffContent();
   }
 
-  expandAllContext() {
-    this.$.diff.expandAllContext();
+  toggleAllContext() {
+    this.$.diff.toggleAllContext();
   }
 
   _getLoggedIn() {

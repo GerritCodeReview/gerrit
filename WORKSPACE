@@ -45,11 +45,9 @@ http_archive(
 load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
 
 # Creates a default toolchain config for RBE.
-rbe_autoconfig(
-    name = "rbe_jdk11",
-    java_home = "/usr/lib/jvm/11.29.3-ca-jdk11.0.2/reduced",
-    use_checked_in_confs = "Force",
-)
+# Use this as is if you are using the rbe_ubuntu16_04 container,
+# otherwise refer to RBE docs.
+rbe_autoconfig(name = "rbe_default")
 
 http_archive(
     name = "com_google_protobuf",

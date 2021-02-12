@@ -140,7 +140,7 @@ public class RefNames {
   }
 
   /**
-   * Warning: Change refs have to manually be advertised in {@link
+   * Warning: Change refs have to manually be advertised in {@code
    * com.google.gerrit.server.permissions.DefaultRefFilter}; this should be done when adding new
    * change refs.
    */

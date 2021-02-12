@@ -33,6 +33,24 @@
       "message": "sorry, I was doing some fixes in this area hence the merge conflict.\nIf you fix the merge conflicts I\u0027ll make sure to submit it before my next fixes.",
       "revId": "28aba66f53e59e225895d8c249af92f521872cc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "979fbbba_e38e894b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-12T16:12:10Z",
+      "side": 1,
+      "message": "No worries, didn\u0027t notice it had a conflict until now. I pushed the fixed version so hopefully you can take another look 😊",
+      "parentUuid": "671c685b_489e6887",
+      "revId": "28aba66f53e59e225895d8c249af92f521872cc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

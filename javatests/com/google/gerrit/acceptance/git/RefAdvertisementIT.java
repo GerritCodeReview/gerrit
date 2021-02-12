@@ -1409,17 +1409,21 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     expectedAllRefs.addAll(expectedMetaRefs);
 
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      PermissionBackend.ForProject forProject = newFilter(allUsers, admin);
-      assertThat(
-              names(
-                  forProject.filter(repo.getRefDatabase().getRefs(), RefFilterOptions.defaults())))
-          .containsExactlyElementsIn(expectedAllRefs);
-      assertThat(
-              names(
-                  forProject.filter(
-                      repo.getRefDatabase().getRefs(),
-                      RefFilterOptions.builder().setFilterMeta(true).build())))
-          .containsExactlyElementsIn(expectedNonMetaRefs);
+      assertFilteredRefsWithBlockedNoteDB(
+          allUsers,
+          repo,
+          admin,
+          RefFilterOptions.defaults(),
+          /* inputRefs= */ repo.getRefDatabase().getRefs(),
+          expectedAllRefs);
+
+      assertFilteredRefsWithBlockedNoteDB(
+          allUsers,
+          repo,
+          admin,
+          RefFilterOptions.builder().setFilterMeta(true).build(),
+          /* inputRefs= */ repo.getRefDatabase().getRefs(),
+          expectedNonMetaRefs);
     }
   }
 
@@ -1430,17 +1434,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
 
     try (Repository repo = repoManager.openRepository(project)) {
-      PermissionBackend.ForProject forProject = newFilter(project, admin);
-      assertThat(
-              names(
-                  forProject.filter(
-                      // set empty list of refs to filter
-                      new ArrayList<>(),
-                      RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
-          // all the change refs are still returned since returnMostRecentRefChanges = true
-          .containsExactlyElementsIn(
-              ImmutableList.of(
-                  psRef1, metaRef1, psRef2, metaRef2, psRef3, metaRef3, psRef4, metaRef4));
+      assertFilteredRefsWithBlockedNoteDB(
+          project,
+          repo,
+          admin,
+          RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build(),
+          /* inputRefs= */ new ArrayList<>(), /* expectedRefs= all the change refs are still returned since returnMostRecentRefChanges = true*/
+          ImmutableList.of(psRef1, metaRef1, psRef2, metaRef2, psRef3, metaRef3, psRef4, metaRef4));
     }
   }
 
@@ -1457,17 +1457,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
 
     try (Repository repo = repoManager.openRepository(project)) {
-      PermissionBackend.ForProject forProject = newFilter(project, admin);
-      assertThat(
-              names(
-                  forProject.filter(
-                      // set empty list of refs to filter
-                      new ArrayList<>(),
-                      RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
-          // all the change refs are still returned since returnMostRecentRefChanges = true
-          .containsExactlyElementsIn(
-              ImmutableList.of(
-                  psRef1, metaRef1, psRef2, metaRef2, psRef3, metaRef3, psRef4, metaRef4));
+      assertFilteredRefsWithBlockedNoteDB(
+          project,
+          repo,
+          admin,
+          RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build(),
+          /* inputRefs= */ new ArrayList<>(), /* expectedRefs= all the change refs are still returned since returnMostRecentRefChanges = true*/
+          ImmutableList.of(psRef1, metaRef1, psRef2, metaRef2, psRef3, metaRef3, psRef4, metaRef4));
     }
   }
 
@@ -1477,31 +1473,30 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
 
     try (Repository repo = repoManager.openRepository(project)) {
-      PermissionBackend.ForProject forProject = newFilter(project, admin);
-      assertThat(
-              names(
-                  forProject.filter(
-                      repo.getRefDatabase().getRefs(),
-                      RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
-          // all the change refs are still returned since returnMostRecentRefChanges = true. Make
-          // sure they are only returned once.
-          .containsExactlyElementsIn(
-              ImmutableList.of(
-                  "HEAD",
-                  psRef1,
-                  metaRef1,
-                  psRef2,
-                  metaRef2,
-                  psRef3,
-                  metaRef3,
-                  psRef4,
-                  metaRef4,
-                  "refs/heads/branch",
-                  "refs/heads/master",
-                  "refs/meta/config",
-                  "refs/tags/branch-tag",
-                  "refs/tags/master-tag",
-                  "refs/tags/tree-tag"));
+      assertFilteredRefsWithBlockedNoteDB(
+          project,
+          repo,
+          admin,
+          RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build(),
+          /* inputRefs= */ repo.getRefDatabase().getRefs(), /* expectedRefs= all the change refs
+          are still returned since returnMostRecentRefChanges = true Make sure
+          they are only returned once*/
+          ImmutableList.of(
+              "HEAD",
+              psRef1,
+              metaRef1,
+              psRef2,
+              metaRef2,
+              psRef3,
+              metaRef3,
+              psRef4,
+              metaRef4,
+              "refs/heads/branch",
+              "refs/heads/master",
+              "refs/meta/config",
+              "refs/tags/branch-tag",
+              "refs/tags/master-tag",
+              "refs/tags/tree-tag"));
     }
   }
 
@@ -1517,31 +1512,30 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
 
     try (Repository repo = repoManager.openRepository(project)) {
-      PermissionBackend.ForProject forProject = newFilter(project, admin);
-      assertThat(
-              names(
-                  forProject.filter(
-                      repo.getRefDatabase().getRefs(),
-                      RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
-          // all the change refs are still returned since returnMostRecentRefChanges = true. Make
-          // sure they are only returned once.
-          .containsExactlyElementsIn(
-              ImmutableList.of(
-                  "HEAD",
-                  psRef1,
-                  metaRef1,
-                  psRef2,
-                  metaRef2,
-                  psRef3,
-                  metaRef3,
-                  psRef4,
-                  metaRef4,
-                  "refs/heads/branch",
-                  "refs/heads/master",
-                  "refs/meta/config",
-                  "refs/tags/branch-tag",
-                  "refs/tags/master-tag",
-                  "refs/tags/tree-tag"));
+      assertFilteredRefsWithBlockedNoteDB(
+          project,
+          repo,
+          admin,
+          RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build(),
+          /* inputRefs= */ repo.getRefDatabase().getRefs(), /* expectedRefs= all the change refs
+          are still returned since returnMostRecentRefChanges = true Make sure
+          they are only returned once*/
+          ImmutableList.of(
+              "HEAD",
+              psRef1,
+              metaRef1,
+              psRef2,
+              metaRef2,
+              psRef3,
+              metaRef3,
+              psRef4,
+              metaRef4,
+              "refs/heads/branch",
+              "refs/heads/master",
+              "refs/meta/config",
+              "refs/tags/branch-tag",
+              "refs/tags/master-tag",
+              "refs/tags/tree-tag"));
     }
   }
 
@@ -1552,16 +1546,15 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
 
     try (Repository repo = repoManager.openRepository(project)) {
-      PermissionBackend.ForProject forProject = newFilter(project, admin);
-      assertThat(
-              names(
-                  forProject.filter(
-                      ImmutableList.of(repo.exactRef("HEAD")),
-                      RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
-          // all the change refs are still returned since returnMostRecentRefChanges = true.
-          .containsExactlyElementsIn(
-              ImmutableList.of(
-                  "HEAD", psRef1, metaRef1, psRef2, metaRef2, psRef3, metaRef3, psRef4, metaRef4));
+      assertFilteredRefsWithBlockedNoteDB(
+          project,
+          repo,
+          admin,
+          RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build(),
+          /* inputRefs= */ ImmutableList.of(repo.exactRef("HEAD")), /* expectedRefs= all the
+          change refs are still returned since returnMostRecentRefChanges = true*/
+          ImmutableList.of(
+              "HEAD", psRef1, metaRef1, psRef2, metaRef2, psRef3, metaRef3, psRef4, metaRef4));
     }
   }
 
@@ -1578,16 +1571,15 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
 
     try (Repository repo = repoManager.openRepository(project)) {
-      PermissionBackend.ForProject forProject = newFilter(project, admin);
-      assertThat(
-              names(
-                  forProject.filter(
-                      ImmutableList.of(repo.exactRef("HEAD")),
-                      RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
-          // all the change refs are still returned since returnMostRecentRefChanges = true.
-          .containsExactlyElementsIn(
-              ImmutableList.of(
-                  "HEAD", psRef1, metaRef1, psRef2, metaRef2, psRef3, metaRef3, psRef4, metaRef4));
+      assertFilteredRefsWithBlockedNoteDB(
+          project,
+          repo,
+          admin,
+          RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build(),
+          /* inputRefs= */ ImmutableList.of(repo.exactRef("HEAD")), /* expectedRefs= all the
+          change refs are still returned since returnMostRecentRefChanges = true*/
+          ImmutableList.of(
+              "HEAD", psRef1, metaRef1, psRef2, metaRef2, psRef3, metaRef3, psRef4, metaRef4));
     }
   }
 
@@ -1605,30 +1597,29 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     testCommentHelper.addRobotComment(cd1.getId(), input);
 
     try (Repository repo = repoManager.openRepository(project)) {
-      PermissionBackend.ForProject forProject = newFilter(project, admin);
-      assertThat(
-              names(
-                  forProject.filter(
-                      repo.getRefDatabase().getRefs(),
-                      RefFilterOptions.builder().setReturnMostRecentRefChanges(false).build())))
-          .containsExactlyElementsIn(
-              ImmutableList.of(
-                  "HEAD",
-                  RefNames.changeRefPrefix(cd1.getId()) + "robot-comments",
-                  psRef1,
-                  metaRef1,
-                  psRef2,
-                  metaRef2,
-                  psRef3,
-                  metaRef3,
-                  psRef4,
-                  metaRef4,
-                  "refs/heads/branch",
-                  "refs/heads/master",
-                  "refs/meta/config",
-                  "refs/tags/branch-tag",
-                  "refs/tags/master-tag",
-                  "refs/tags/tree-tag"));
+      assertFilteredRefsWithBlockedNoteDB(
+          project,
+          repo,
+          admin,
+          RefFilterOptions.builder().setReturnMostRecentRefChanges(false).build(),
+          /* inputRefs= */ repo.getRefDatabase().getRefs(),
+          /* expectedRefs=*/ ImmutableList.of(
+              "HEAD",
+              RefNames.changeRefPrefix(cd1.getId()) + "robot-comments",
+              psRef1,
+              metaRef1,
+              psRef2,
+              metaRef2,
+              psRef3,
+              metaRef3,
+              psRef4,
+              metaRef4,
+              "refs/heads/branch",
+              "refs/heads/master",
+              "refs/meta/config",
+              "refs/tags/branch-tag",
+              "refs/tags/master-tag",
+              "refs/tags/tree-tag"));
     }
   }
 
@@ -1647,23 +1638,29 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     testCommentHelper.addRobotComment(cd1.getId(), input);
 
     try (Repository repo = repoManager.openRepository(project)) {
-      PermissionBackend.ForProject forProject = newFilter(project, admin);
-      assertThat(
-              names(
-                  forProject.filter(
-                      ImmutableList.of(),
-                      RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build())))
-          .containsExactlyElementsIn(
-              ImmutableList.of(
-                  RefNames.changeRefPrefix(cd1.getId()) + "robot-comments",
-                  psRef1,
-                  metaRef1,
-                  psRef2,
-                  metaRef2,
-                  psRef3,
-                  metaRef3,
-                  psRef4,
-                  metaRef4));
+      assertFilteredRefsWithBlockedNoteDB(
+          project,
+          repo,
+          admin,
+          RefFilterOptions.builder().setReturnMostRecentRefChanges(true).build(),
+          /* inputRefs= */ repo.getRefDatabase().getRefs(),
+          /* expectedRefs=*/ ImmutableList.of(
+              "HEAD",
+              RefNames.changeRefPrefix(cd1.getId()) + "robot-comments",
+              psRef1,
+              metaRef1,
+              psRef2,
+              metaRef2,
+              psRef3,
+              metaRef3,
+              psRef4,
+              metaRef4,
+              "refs/heads/branch",
+              "refs/heads/master",
+              "refs/meta/config",
+              "refs/tags/branch-tag",
+              "refs/tags/master-tag",
+              "refs/tags/tree-tag"));
     }
   }
 
@@ -1729,6 +1726,30 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       if (disableDb) {
         ctx.close();
       }
+    }
+  }
+
+  /**
+   * Assert that refs filtered by the {@code PermissionBackend.ForProject#filter} method with {@code
+   * refFilterOptions}, {@code user} and {@code project} return the expected refs.
+   *
+   * <p>NoteDB is disabled for this operation. If NoteDB is accessed, this test will fail.
+   */
+  private void assertFilteredRefsWithBlockedNoteDB(
+      Project.NameKey project,
+      Repository repository,
+      TestAccount user,
+      RefFilterOptions refFilterOptions,
+      List<Ref> inputRefs,
+      List<String> expectedRefs)
+      throws Exception {
+    AutoCloseable ctx = disableNoteDb();
+    try {
+      PermissionBackend.ForProject forProject = newFilter(project, user);
+      assertThat(names(forProject.filter(inputRefs, refFilterOptions)))
+          .containsExactlyElementsIn(expectedRefs);
+    } finally {
+      ctx.close();
     }
   }
 

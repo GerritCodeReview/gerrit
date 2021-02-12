@@ -72,7 +72,6 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {LineNumber, FILE} from '../gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   firePageError,
   fireAlert,
@@ -265,8 +264,6 @@ export class GrDiffHost extends GestureEventListeners(
   _layers: DiffLayer[] = [];
 
   private readonly reporting = appContext.reportingService;
-
-  private readonly flags = appContext.flagsService;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -1146,10 +1143,6 @@ export class GrDiffHost extends GestureEventListeners(
 
   _showNewlineWarningRight(diff?: DiffInfo) {
     return this._hasTrailingNewlines(diff, false) === false;
-  }
-
-  _useNewContextControls() {
-    return this.flags.isEnabled(KnownExperimentId.NEW_CONTEXT_CONTROLS);
   }
 }
 

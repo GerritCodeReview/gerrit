@@ -22,6 +22,30 @@
       },
       "revId": "f57f4cec69985349c354a528579f3263fc451db5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aed43c0f_2708b309",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-12T21:28:54Z",
+      "side": 1,
+      "message": "_safetyBypass is an override value of the user\u0027s context preference. We do the overriding in line 885 when the bypass is present. We do this local override because we don\u0027t want to forget what their original preference was.\n\nIf the user\u0027s context preference is WHOLE_FILE, we show them a warning for files longer than 10k lines. This is triggered by the _getBypassPrefs() around line 760 using LARGE_DIFF_THRESHOLD_LINES. Once the user clicks one of the warnings, _safetyBypass is set by either _handleFullBypass() or _collapseContent() and the if statement won\u0027t show the warning again.\n\nI cleaned this if-statement up here to just check _getBypassPrefs() to be simpler.",
+      "parentUuid": "ae7dc89f_99dec72e",
+      "range": {
+        "startLine": 948,
+        "startChar": 6,
+        "endLine": 951,
+        "endChar": 31
+      },
+      "revId": "f57f4cec69985349c354a528579f3263fc451db5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

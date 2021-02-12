@@ -65,11 +65,7 @@ export class GrLabelScores extends GestureEventListeners(
     if (this.shadowRoot === null || !this.change) {
       return labels;
     }
-    for (const label in this.permittedLabels) {
-      if (!hasOwnProperty(this.permittedLabels, label)) {
-        continue;
-      }
-
+    for (const label of Object.keys(this.permittedLabels ?? {})) {
       const selectorEl = this.shadowRoot.querySelector(
         `gr-label-score-row[name="${label}"]`
       ) as null | GrLabelScoreRow;
@@ -104,9 +100,10 @@ export class GrLabelScores extends GestureEventListeners(
     labelName: string,
     numberValue?: number
   ) {
-    for (const k in (labels[labelName] as DetailedLabelInfo).values) {
-      if (Number(k) === numberValue) {
-        return k;
+    const detailedInfo = labels[labelName] as DetailedLabelInfo;
+    for (const labelValue of Object.keys(detailedInfo.values)) {
+      if (Number(labelValue) === numberValue) {
+        return labelValue;
       }
     }
     return numberValue;

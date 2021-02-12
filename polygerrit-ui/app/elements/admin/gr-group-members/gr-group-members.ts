@@ -39,9 +39,11 @@ import {
   GroupInfo,
   GroupName,
 } from '../../../types/common';
-import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {
+  AutocompleteQuery,
+  AutocompleteSuggestion,
+} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {PolymerDomRepeatEvent} from '../../../types/types';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {
   fireAlert,
   firePageError,
@@ -339,23 +341,18 @@ export class GrGroupMembers extends GestureEventListeners(
     return this.restApiService
       .getSuggestedAccounts(input, SUGGESTIONS_LIMIT)
       .then(accounts => {
+        if (!accounts) return [];
         const accountSuggestions = [];
-        let nameAndEmail;
-        if (!accounts) {
-          return [];
-        }
-        for (const key in accounts) {
-          if (!hasOwnProperty(accounts, key)) {
-            continue;
-          }
-          if (accounts[key].email !== undefined) {
-            nameAndEmail = `${accounts[key].name} <${accounts[key].email}>`;
+        for (const account of accounts) {
+          let nameAndEmail;
+          if (account.email !== undefined) {
+            nameAndEmail = `${account.name} <${account.email}>`;
           } else {
-            nameAndEmail = accounts[key].name;
+            nameAndEmail = account.name;
           }
           accountSuggestions.push({
             name: nameAndEmail,
-            value: accounts[key]._account_id?.toString(),
+            value: account._account_id?.toString(),
           });
         }
         return accountSuggestions;
@@ -364,15 +361,9 @@ export class GrGroupMembers extends GestureEventListeners(
 
   _getGroupSuggestions(input: string) {
     return this.restApiService.getSuggestedGroups(input).then(response => {
-      const groups = [];
-      for (const key in response) {
-        if (!hasOwnProperty(response, key)) {
-          continue;
-        }
-        groups.push({
-          name: key,
-          value: decodeURIComponent(response[key].id),
-        });
+      const groups: AutocompleteSuggestion[] = [];
+      for (const [name, group] of Object.entries(response ?? {})) {
+        groups.push({name, value: decodeURIComponent(group.id)});
       }
       return groups;
     });

@@ -122,14 +122,8 @@ export class GrDownloadDialog extends GestureEventListeners(
       }
     }
     const commands = [];
-    for (const title in commandObj) {
-      if (!commandObj || !hasOwnProperty(commandObj, title)) {
-        continue;
-      }
-      commands.push({
-        title,
-        command: commandObj[title],
-      });
+    for (const [title, command] of Object.entries(commandObj ?? {})) {
+      commands.push({title, command});
     }
     return commands;
   }

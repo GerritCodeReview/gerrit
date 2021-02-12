@@ -33,7 +33,6 @@ import {
   PermissionArray,
 } from '../../../utils/access-util';
 import {customElement, property, observe} from '@polymer/decorators';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {
   LabelNameToLabelTypeInfoMap,
   LabelTypeInfoValues,
@@ -333,14 +332,8 @@ export class GrPermission extends GestureEventListeners(
       .getSuggestedGroups(this._groupFilter || '', MAX_AUTOCOMPLETE_RESULTS)
       .then(response => {
         const groups: GroupSuggestion[] = [];
-        for (const key in response) {
-          if (!hasOwnProperty(response, key)) {
-            continue;
-          }
-          groups.push({
-            name: key,
-            value: response[key],
-          });
+        for (const [name, value] of Object.entries(response ?? {})) {
+          groups.push({name, value});
         }
         // Does not return groups in which we already have rules for.
         return groups

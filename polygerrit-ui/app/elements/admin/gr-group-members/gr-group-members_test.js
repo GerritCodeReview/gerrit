@@ -100,7 +100,7 @@ suite('gr-group-members tests', () => {
           },
         ]);
       } else {
-        return Promise.resolve({});
+        return Promise.resolve([]);
       }
     });
     stubRestApi('getSuggestedGroups').callsFake(input => {

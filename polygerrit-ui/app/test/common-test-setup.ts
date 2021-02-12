@@ -43,7 +43,6 @@ import {
   _testOnly_defaultResinReportHandler,
   installPolymerResin,
 } from '../scripts/polymer-resin-install';
-import {hasOwnProperty} from '../utils/common-util';
 
 declare global {
   interface Window {
@@ -132,12 +131,9 @@ function stubImpl<T extends keyof HTMLElementTagNameMap>(
   // This method is inspired by web-component-tester method
   const proto = document.createElement(tagName).constructor
     .prototype as HTMLElementTagNameMap[T];
-  let key: keyof HTMLElementTagNameMap[T];
   const stubs: SinonSpy[] = [];
-  for (key in implementation) {
-    if (hasOwnProperty(implementation, key)) {
-      stubs.push(sinon.stub(proto, key).callsFake(implementation[key]));
-    }
+  for (const [key, value] of Object.entries(implementation)) {
+    stubs.push(sinon.stub(proto, key).callsFake(value));
   }
   registerTestCleanup(() => {
     stubs.forEach(stub => {

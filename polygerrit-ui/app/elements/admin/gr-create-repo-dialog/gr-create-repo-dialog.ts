@@ -28,7 +28,6 @@ import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {customElement, observe, property} from '@polymer/decorators';
 import {ProjectInput, RepoName} from '../../../types/common';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {appContext} from '../../../services/app-context';
 
@@ -115,14 +114,8 @@ export class GrCreateRepoDialog extends GestureEventListeners(
   _getRepoSuggestions(input: string) {
     return this.restApiService.getSuggestedProjects(input).then(response => {
       const repos = [];
-      for (const key in response) {
-        if (!hasOwnProperty(response, key)) {
-          continue;
-        }
-        repos.push({
-          name: key,
-          value: response[key].id,
-        });
+      for (const [name, project] of Object.entries(response ?? {})) {
+        repos.push({name, value: project.id});
       }
       return repos;
     });
@@ -131,14 +124,8 @@ export class GrCreateRepoDialog extends GestureEventListeners(
   _getGroupSuggestions(input: string) {
     return this.restApiService.getSuggestedGroups(input).then(response => {
       const groups = [];
-      for (const key in response) {
-        if (!hasOwnProperty(response, key)) {
-          continue;
-        }
-        groups.push({
-          name: key,
-          value: decodeURIComponent(response[key].id),
-        });
+      for (const [name, group] of Object.entries(response ?? {})) {
+        groups.push({name, value: decodeURIComponent(group.id)});
       }
       return groups;
     });

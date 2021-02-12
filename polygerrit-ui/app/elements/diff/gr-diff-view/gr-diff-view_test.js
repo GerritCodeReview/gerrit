@@ -812,10 +812,7 @@ suite('gr-diff-view tests', () => {
     }
 
     test('edit visible only when logged and status NEW', async () => {
-      for (const changeStatus in ChangeStatus) {
-        if (!ChangeStatus.hasOwnProperty(changeStatus)) {
-          continue;
-        }
+      for (const changeStatus of Object.keys(ChangeStatus)) {
         assert.isFalse(await isEditVisibile({loggedIn: false, changeStatus}),
             `loggedIn: false, changeStatus: ${changeStatus}`);
 

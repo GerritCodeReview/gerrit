@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99436f24_5c15a29e",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-12T10:03:06Z",
+      "side": 1,
+      "message": "can you explain the change in this file?",
+      "revId": "99a44b7003478de47740802efb8e752d2bfba6a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "657ab844_27ad75d5",
+        "filename": "resources/com/google/gerrit/server/mail/SetAssigneeHtml.soy",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-12T10:03:06Z",
+      "side": 1,
+      "message": "it\u0027s a bit strange to import this, since Private.soy is unrelated. Should we just have a file called mailTemplate.soy?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 74
+      },
+      "revId": "99a44b7003478de47740802efb8e752d2bfba6a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

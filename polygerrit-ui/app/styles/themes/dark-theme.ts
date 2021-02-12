@@ -149,8 +149,7 @@ function getStyleEl() {
       --light-remove-highlight-color: #320404;
       --coverage-covered: #112826;
       --coverage-not-covered: #6b3600;
-      --ranged-comment-chip-background: #e8f0fe;
-      --ranged-comment-chip-text-color: #174ea6;
+      --ranged-comment-chip-text-color: var(--blue-50);
 
       /* syntax colors */
       --syntax-attr-color: #80cbbf;

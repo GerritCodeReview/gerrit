@@ -34,7 +34,7 @@ suite('gr-ranged-comment-chip tests', () => {
       end_character: 3,
     } as CommentRange;
     await flush();
-    const textDiv = element.root!.querySelector<HTMLDivElement>('.chip');
+    const textDiv = element.root!.querySelector<HTMLDivElement>('.row');
     assert.equal(textDiv!.innerText.trim(), 'Long comment range 2 - 5');
   });
 });

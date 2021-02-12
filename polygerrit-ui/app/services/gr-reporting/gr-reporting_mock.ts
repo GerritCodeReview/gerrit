@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ReportingService, Timer} from './gr-reporting';
+import {EventDetails, ReportingService, Timer} from './gr-reporting';
 
 export class MockTimer implements Timer {
   end(): this {
@@ -30,6 +30,10 @@ export class MockTimer implements Timer {
   }
 }
 
+const log = function (msg: string) {
+  console.info(`ReportingMock.${msg}`);
+};
+
 export const grReportingMock: ReportingService = {
   appStarted: () => {},
   beforeLocationChanged: () => {},
@@ -43,17 +47,29 @@ export const grReportingMock: ReportingService = {
   getTimer: () => {
     return new MockTimer();
   },
-  locationChanged: () => {},
-  onVisibilityChange: () => {},
+  locationChanged: (page: string) => {
+    log(`locationChanged: ${page}`);
+  },
+  onVisibilityChange: () => {
+    log('onVisibilityChange');
+  },
   pluginLoaded: () => {},
   pluginsLoaded: () => {},
   recordDraftInteraction: () => {},
   reporter: () => {},
-  reportErrorDialog: () => {},
-  error: () => {},
-  reportExecution: () => {},
+  reportErrorDialog: (message: string) => {
+    log(`reportErrorDialog: ${message}`);
+  },
+  error: () => {
+    log('error');
+  },
+  reportExecution: (id: string, details: EventDetails) => {
+    log(`reportExecution '${id}': ${JSON.stringify(details)}`);
+  },
   reportExtension: () => {},
-  reportInteraction: () => {},
+  reportInteraction: (eventName: string, details?: EventDetails) => {
+    log(`reportInteraction '${eventName}': ${JSON.stringify(details)}`);
+  },
   reportLifeCycle: () => {},
   reportRpcTiming: () => {},
   setRepoName: () => {},

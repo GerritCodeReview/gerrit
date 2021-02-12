@@ -364,6 +364,7 @@ export class GrErrorManager extends GestureEventListeners(
       this._createLoginPopup()
     );
     this.fire('iron-announce', {text: errorText}, {bubbles: true});
+    this.reporting.reportInteraction('show-auth-error', {text: errorText});
     this._refreshingCredentials = true;
     this._requestCheckLoggedIn();
     if (!document.hidden) {
@@ -379,11 +380,8 @@ export class GrErrorManager extends GestureEventListeners(
   }
 
   _handleVisibilityChange() {
-    // Ignore when the page is transitioning to hidden (or hidden is
-    // undefined).
-    if (document.hidden !== false) {
-      return;
-    }
+    // Ignore when the page is transitioning to hidden (or hidden is undefined).
+    if (document.hidden !== false) return;
 
     // If not currently refreshing credentials and the credentials are old,
     // request them to confirm their validity or (display an auth toast if it
@@ -394,8 +392,7 @@ export class GrErrorManager extends GestureEventListeners(
       this.knownAccountId !== undefined &&
       timeSinceLastCheck > STALE_CREDENTIAL_THRESHOLD_MS
     ) {
-      this._lastCredentialCheck = Date.now();
-
+      this.reporting.reportInteraction('visibility-sign-in-check');
       // check auth status in case:
       // - user signed out
       // - user switched account
@@ -419,7 +416,6 @@ export class GrErrorManager extends GestureEventListeners(
     this._authService.clearCache();
 
     this.restApiService.getLoggedIn().then(isLoggedIn => {
-      // do nothing if its refreshing
       if (!this._refreshingCredentials) return;
 
       if (!isLoggedIn) {
@@ -429,13 +425,16 @@ export class GrErrorManager extends GestureEventListeners(
         // in case #2, auth-error is taken care of separately
         this._requestCheckLoggedIn();
       } else {
-        // check account
         this.restApiService.getAccount().then(account => {
           if (this._refreshingCredentials) {
-            // If the credentials were refreshed but the account is different
+            // If the credentials were refreshed but the account is different,
             // then reload the page completely.
             if (account?._account_id !== this.knownAccountId) {
-              this._reloadPage();
+              this.reporting.reportInteraction('sign-in-window-reload', {
+                oldAccount: !!this.knownAccountId,
+                newAccount: !!account?._account_id,
+              });
+              windowLocationReload();
               return;
             }
 
@@ -444,10 +443,6 @@ export class GrErrorManager extends GestureEventListeners(
         });
       }
     });
-  }
-
-  _reloadPage() {
-    windowLocationReload();
   }
 
   _createLoginPopup() {

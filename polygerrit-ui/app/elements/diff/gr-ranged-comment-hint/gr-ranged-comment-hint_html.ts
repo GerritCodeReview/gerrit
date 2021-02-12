@@ -22,31 +22,25 @@ export const htmlTemplate = html`
   </style>
   <style include="shared-styles">
     .row {
-      color: var(--ranged-comment-chip-text-color);
+      color: var(--ranged-comment-hint-text-color);
       display: flex;
       font-family: var(--font-family, ''), 'Roboto Mono';
       font-size: var(--font-size-small, 12px);
+      font-weight: var(--font-weight-bold, 500);
       line-height: var(--line-height-small, 16px);
       justify-content: flex-end;
       margin: var(--spacing-xs) 0;
+      padding: var(--spacing-s) var(--spacing-l);
     }
     .icon {
-      color: var(--ranged-comment-chip-text-color);
+      color: var(--ranged-comment-hint-text-color);
       height: var(--line-height-small, 16px);
       width: var(--line-height-small, 16px);
       margin-right: var(--spacing-s);
     }
-    .chip {
-      background-color: var(--ranged-comment-chip-background);
-      border-radius: var(--fully-rounded-radius, 1000px);
-      margin: var(--spacing-s);
-      padding: var(--spacing-s) var(--spacing-m);
-    }
   </style>
   <div class="row rangeHighlight">
-    <div class="chip">
-      <iron-icon class="icon" icon="gr-icons:comment-outline"></iron-icon>
-      [[_computeRangeLabel(range)]]
-    </div>
+    <iron-icon class="icon" icon="gr-icons:comment"></iron-icon>
+    [[_computeRangeLabel(range)]]
   </div>
 `;

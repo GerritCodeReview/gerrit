@@ -17,11 +17,11 @@
 
 import {customElement, property} from '@polymer/decorators';
 import {CommentRange} from '../../../types/common';
-import {htmlTemplate} from './gr-ranged-comment-chip_html';
+import {htmlTemplate} from './gr-ranged-comment-hint_html';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 
-@customElement('gr-ranged-comment-chip')
-export class GrRangedCommentChip extends PolymerElement {
+@customElement('gr-ranged-comment-hint')
+export class GrRangedCommentHint extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -37,6 +37,6 @@ export class GrRangedCommentChip extends PolymerElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-ranged-comment-chip': GrRangedCommentChip;
+    'gr-ranged-comment-hint': GrRangedCommentHint;
   }
 }

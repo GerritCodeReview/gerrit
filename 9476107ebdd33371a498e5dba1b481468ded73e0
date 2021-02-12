@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef979733_85ec4397",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-12T11:36:37Z",
+      "side": 1,
+      "message": "tests failed because of the bug that accessed NoteDB, as they should have failed (but since they didn\u0027t, we didn\u0027t realize that it was broken).\n\nNow, after rebase, tests no longer fail since it is fixed.",
+      "revId": "9476107ebdd33371a498e5dba1b481468ded73e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

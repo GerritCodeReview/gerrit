@@ -210,6 +210,24 @@
       "parentUuid": "3911e3de_37374faa",
       "revId": "ceb0a2658dba087b1417aea1ba41d6f6247bc7c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03b5fcbf_5ef70361",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-12T14:12:25Z",
+      "side": 1,
+      "message": "Sorry, I missed line 203.",
+      "parentUuid": "8b12bff0_93b7283e",
+      "revId": "ceb0a2658dba087b1417aea1ba41d6f6247bc7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "804cf766_f471a68c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-02-12T10:20:55Z",
+      "side": 1,
+      "message": "nit: you can write it as one-liner (in other places it is also possible)\n  return Object.entries(response ?? {}).map(([name, project]) \u003d\u003e ({name, value: project.id}));",
+      "range": {
+        "startLine": 116,
+        "startChar": 6,
+        "endLine": 120,
+        "endChar": 19
+      },
+      "revId": "60fedd98ed7c674d3e12748961b1f6f687280cda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39311112_5bd7a078",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-02-12T10:20:55Z",
+      "side": 1,
+      "message": "nit:\n  return !patchRange || isInPatchRange(c, patchRange);",
+      "range": {
+        "startLine": 155,
+        "startChar": 19,
+        "endLine": 155,
+        "endChar": 68
+      },
+      "revId": "60fedd98ed7c674d3e12748961b1f6f687280cda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f6c26c9e_1eaae8ad",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1128710
+      },
+      "writtenOn": "2021-02-12T16:58:22Z",
+      "side": 1,
+      "message": "This change gives every loaded Soy file a fixed logical path, which is then used in the Soy import statements. Without this change the logical path can change depending on how the file is loaded.",
+      "parentUuid": "99436f24_5c15a29e",
+      "revId": "99a44b7003478de47740802efb8e752d2bfba6a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "657ab844_27ad75d5",
         "filename": "resources/com/google/gerrit/server/mail/SetAssigneeHtml.soy",
         "patchSetId": 4
@@ -31,6 +49,30 @@
       "writtenOn": "2021-02-12T10:03:06Z",
       "side": 1,
       "message": "it\u0027s a bit strange to import this, since Private.soy is unrelated. Should we just have a file called mailTemplate.soy?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 74
+      },
+      "revId": "99a44b7003478de47740802efb8e752d2bfba6a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b8e270e_ac882826",
+        "filename": "resources/com/google/gerrit/server/mail/SetAssigneeHtml.soy",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1128710
+      },
+      "writtenOn": "2021-02-12T16:58:22Z",
+      "side": 1,
+      "message": "i agree Private.soy is an odd name for a common library. our auto migration tool called it \"mailTemplate\" everywhere I think because it considers \"private\" a reserved word.",
+      "parentUuid": "657ab844_27ad75d5",
       "range": {
         "startLine": 19,
         "startChar": 0,

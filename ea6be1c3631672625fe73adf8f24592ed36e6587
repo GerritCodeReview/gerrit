@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ff71e25_611e6def",
+        "filename": "java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-12T09:07:55Z",
+      "side": 1,
+      "message": "I guess this requires increasing serialVersionUID in PatchListKey, which means all existing entries in the cache will be invalidated and need to be computed newly?",
+      "range": {
+        "startLine": 270,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 32
+      },
+      "revId": "ea6be1c3631672625fe73adf8f24592ed36e6587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

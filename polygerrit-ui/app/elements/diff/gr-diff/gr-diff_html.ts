@@ -223,25 +223,22 @@ export const htmlTemplate = html`
     }
 
     .delta.dueToMove .movedIn .moveDescription {
-      color: var(--diff-moved-in-background);
-      background-color: var(--diff-moved-in-label-background);
+      color: var(--diff-moved-in-label-color);
     }
     .delta.dueToMove .movedOut .moveDescription {
-      color: var(--diff-moved-out-background);
-      background-color: var(--diff-moved-out-label-background);
+      color: var(--diff-moved-out-label-color);
     }
     .moveLabel {
-      display: flex;
-      justify-content: flex-end;
       font-family: var(--font-family, ''), 'Roboto Mono';
       font-size: var(--font-size-small, 12px);
-    }
-    .delta.dueToMove .moveDescription {
-      border-radius: var(--fully-rounded-radius, 1000px);
+      font-weight: var(--font-weight-bold, 500);
+      line-height: var(--line-height-small, 16px);
       padding: var(--spacing-s) var(--spacing-m);
       margin: var(--spacing-s);
-      line-height: var(--line-height-small, 16px);
+    }
+    .delta.dueToMove .moveDescription {
       display: flex;
+      justify-content: flex-end;
     }
 
     .moveDescription iron-icon {

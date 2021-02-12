@@ -142,16 +142,15 @@ function getStyleEl() {
       --diff-trailing-whitespace-indicator: #ff9ad2;
       --light-add-highlight-color: #0f401f;
       --light-rebased-add-highlight-color: #487165;
-      --diff-moved-in-background: #006066;
-      --diff-moved-out-background: #681da8;
-      --diff-moved-in-label-background: #cbf0f8;
-      --diff-moved-out-label-background: #e9d2fd;
+      --diff-moved-in-background: #1d4042;
+      --diff-moved-out-background: #230e34;
+      --diff-moved-in-label-color: var(--cyan-50);
+      --diff-moved-out-label-color: var(--purple-50);  
       --light-remove-add-highlight-color: #2f3f2f;
       --light-remove-highlight-color: #320404;
       --coverage-covered: #112826;
       --coverage-not-covered: #6b3600;
-      --ranged-comment-chip-background: #e8f0fe;
-      --ranged-comment-chip-text-color: #174ea6;
+      --ranged-comment-hint-text-color: var(--blue-50);
 
       /* syntax colors */
       --syntax-attr-color: #80cbbf;

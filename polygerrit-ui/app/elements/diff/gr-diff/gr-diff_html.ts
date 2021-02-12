@@ -223,12 +223,10 @@ export const htmlTemplate = html`
     }
 
     .delta.dueToMove .movedIn .moveDescription {
-      color: var(--diff-moved-in-background);
-      background-color: var(--diff-moved-in-label-background);
+      color: var(--diff-moved-in-label-color);
     }
     .delta.dueToMove .movedOut .moveDescription {
-      color: var(--diff-moved-out-background);
-      background-color: var(--diff-moved-out-label-background);
+      color: var(--diff-moved-out-label-color);
     }
     .moveLabel {
       display: flex;
@@ -237,7 +235,7 @@ export const htmlTemplate = html`
       font-size: var(--font-size-small, 12px);
     }
     .delta.dueToMove .moveDescription {
-      border-radius: var(--fully-rounded-radius, 1000px);
+      font-weight: var(--font-weight-bold, 500);
       padding: var(--spacing-s) var(--spacing-m);
       margin: var(--spacing-s);
       line-height: var(--line-height-small, 16px);

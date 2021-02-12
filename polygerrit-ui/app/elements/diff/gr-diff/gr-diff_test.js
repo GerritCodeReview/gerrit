@@ -555,7 +555,7 @@ suite('gr-diff tests', () => {
           .calledWithExactly(fakeLineEl, 42));
     });
 
-    test('adds long range comment chip', async () => {
+    test('adds long range comment hint', async () => {
       const range = {
         start_line: 1,
         end_line: 12,
@@ -580,10 +580,10 @@ suite('gr-diff tests', () => {
       await flush();
 
       assert.deepEqual(
-          element.querySelector('gr-ranged-comment-chip').range, range);
+          element.querySelector('gr-ranged-comment-hint').range, range);
     });
 
-    test('no duplicate range chip for same thread', async () => {
+    test('no duplicate range hint for same thread', async () => {
       const range = {
         start_line: 1,
         end_line: 12,
@@ -596,10 +596,10 @@ suite('gr-diff tests', () => {
       threadEl.setAttribute('line-num', 1);
       threadEl.setAttribute('range', JSON.stringify(range));
       threadEl.setAttribute('slot', 'right-1');
-      const firstChip = document.createElement('gr-ranged-comment-chip');
-      firstChip.range = range;
-      firstChip.setAttribute('threadElRootId', threadEl.rootId);
-      firstChip.setAttribute('slot', 'right-1');
+      const firstHint = document.createElement('gr-ranged-comment-hint');
+      firstHint.range = range;
+      firstHint.setAttribute('threadElRootId', threadEl.rootId);
+      firstHint.setAttribute('slot', 'right-1');
       const content = [{
         a: [],
         b: [],
@@ -608,7 +608,7 @@ suite('gr-diff tests', () => {
       }];
       setupSampleDiff({content});
 
-      element.appendChild(firstChip);
+      element.appendChild(firstHint);
       await flush();
       element._handleRenderContent();
       await flush();
@@ -616,10 +616,10 @@ suite('gr-diff tests', () => {
       await flush();
 
       assert.equal(
-          element.querySelectorAll('gr-ranged-comment-chip').length, 1);
+          element.querySelectorAll('gr-ranged-comment-hint').length, 1);
     });
 
-    test('removes long range comment chip when comment is discarded',
+    test('removes long range comment hint when comment is discarded',
         async () => {
           const range = {
             start_line: 1,
@@ -646,7 +646,7 @@ suite('gr-diff tests', () => {
           threadEl.remove();
           await flush();
 
-          assert.isEmpty(element.querySelectorAll('gr-ranged-comment-chip'));
+          assert.isEmpty(element.querySelectorAll('gr-ranged-comment-hint'));
         });
 
     suite('change in preferences', () => {

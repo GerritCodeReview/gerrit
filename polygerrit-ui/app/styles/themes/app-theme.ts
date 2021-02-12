@@ -65,6 +65,8 @@ const styleSheet = safeStyleSheet`
     --gray-300: #dadce0;
     --gray-100: #f1f3f4;
     --gray-50: #f8f9fa;
+    --purple-900: #681da8;
+    --purple-50: #f3e8fd;
 
     --chip-color: var(--gray-900);
     --error-color: var(--red-900);
@@ -219,16 +221,15 @@ const styleSheet = safeStyleSheet`
     --diff-trailing-whitespace-indicator: #ff9ad2;
     --light-add-highlight-color: #d8fed8;
     --light-rebased-add-highlight-color: #eef;
-    --diff-moved-in-background: #e4f7fb;
-    --diff-moved-out-background: #f3e8fd;
-    --diff-moved-in-label-background: #007b83;
-    --diff-moved-out-label-background: #681da8;
+    --diff-moved-in-background: var(--cyan-50);
+    --diff-moved-out-background: var(--purple-50);
+    --diff-moved-in-label-color: var(--cyan-900);
+    --diff-moved-out-label-color: var(--purple-900);
     --light-remove-add-highlight-color: #fff8dc;
     --light-remove-highlight-color: #ffebee;
     --coverage-covered: #e0f2f1;
     --coverage-not-covered: #ffd1a4;
-    --ranged-comment-chip-background: #b06000;
-    --ranged-comment-chip-text-color: #feefe3;
+    --ranged-comment-hint-text-color: var(--orange-900);
 
     /* syntax colors */
     --syntax-attr-color: #219;

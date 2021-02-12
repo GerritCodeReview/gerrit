@@ -171,11 +171,11 @@ export class GrDiffHighlight extends GestureEventListeners(
         rangeNodes.forEach(rangeNode => {
           rangeNode.classList.add('rangeHoverHighlight');
         });
-        const chipNode = threadEl.parentElement?.querySelector(
-          `gr-ranged-comment-chip[threadElRootId="${threadEl.rootId}"]`
+        const hintNode = threadEl.parentElement?.querySelector(
+          `gr-ranged-comment-hint[threadElRootId="${threadEl.rootId}"]`
         );
-        if (chipNode) {
-          chipNode.shadowRoot
+        if (hintNode) {
+          hintNode.shadowRoot
             ?.querySelectorAll('.rangeHighlight')
             .forEach(highlightNode =>
               highlightNode.classList.add('rangeHoverHighlight')
@@ -188,11 +188,11 @@ export class GrDiffHighlight extends GestureEventListeners(
         rangeNodes.forEach(rangeNode => {
           rangeNode.classList.remove('rangeHoverHighlight');
         });
-        const chipNode = threadEl.parentElement?.querySelector(
-          `gr-ranged-comment-chip[threadElRootId="${threadEl.rootId}"]`
+        const hintNode = threadEl.parentElement?.querySelector(
+          `gr-ranged-comment-hint[threadElRootId="${threadEl.rootId}"]`
         );
-        if (chipNode) {
-          chipNode.shadowRoot
+        if (hintNode) {
+          hintNode.shadowRoot
             ?.querySelectorAll('.rangeHoverHighlight')
             .forEach(highlightNode =>
               highlightNode.classList.remove('rangeHoverHighlight')

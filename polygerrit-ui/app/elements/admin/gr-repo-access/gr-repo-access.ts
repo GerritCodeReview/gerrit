@@ -37,7 +37,6 @@ import {
   UrlEncodedRepoName,
   ProjectAccessGroups,
 } from '../../../types/common';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAccessSection} from '../gr-access-section/gr-access-section';
 import {
@@ -370,11 +369,9 @@ export class GrRepoAccess extends GestureEventListeners(
   /**
    * Used to recursively remove any objects with a 'deleted' bit.
    */
-  _recursivelyRemoveDeleted(obj: PropertyTreeNode) {
-    for (const k in obj) {
-      if (!hasOwnProperty(obj, k)) {
-        continue;
-      }
+  _recursivelyRemoveDeleted(obj?: PropertyTreeNode) {
+    if (!obj) return;
+    for (const k of Object.keys(obj)) {
       const node = obj[k];
       if (typeof node === 'object') {
         if (node.deleted) {
@@ -387,17 +384,15 @@ export class GrRepoAccess extends GestureEventListeners(
   }
 
   _recursivelyUpdateAddRemoveObj(
-    obj: PropertyTreeNode,
+    obj: PropertyTreeNode | undefined,
     addRemoveObj: {
       add: PropertyTreeNode;
       remove: PropertyTreeNode;
     },
     path: string[] = []
   ) {
-    for (const k in obj) {
-      if (!hasOwnProperty(obj, k)) {
-        continue;
-      }
+    if (!obj) return;
+    for (const k of Object.keys(obj)) {
       const node = obj[k];
       if (typeof node === 'object') {
         const updatedId = node.updatedId;

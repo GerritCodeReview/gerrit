@@ -2077,21 +2077,15 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _getLatestRevisionSHA(change: ChangeInfo | ParsedChangeInfo) {
-    if (change.current_revision) {
-      return change.current_revision;
-    }
+    if (change.current_revision) return change.current_revision;
     // current_revision may not be present in the case where the latest rev is
     // a draft and the user doesn’t have permission to view that rev.
     let latestRev = null;
     let latestPatchNum = -1 as PatchSetNum;
-    for (const rev in change.revisions) {
-      if (!hasOwnProperty(change.revisions, rev)) {
-        continue;
-      }
-
-      if (change.revisions[rev]._number > latestPatchNum) {
+    for (const [rev, revInfo] of Object.entries(change.revisions ?? {})) {
+      if (revInfo._number > latestPatchNum) {
         latestRev = rev;
-        latestPatchNum = change.revisions[rev]._number;
+        latestPatchNum = revInfo._number;
       }
     }
     return latestRev;

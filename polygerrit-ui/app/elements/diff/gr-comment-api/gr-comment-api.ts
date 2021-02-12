@@ -32,7 +32,6 @@ import {
   FileInfo,
   ParentPatchSetNum,
 } from '../../../types/common';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {
   Comment,
   CommentMap,
@@ -149,15 +148,11 @@ export class ChangeComments {
     ];
     const commentMap: CommentMap = {};
     for (const response of responses) {
-      for (const path in response) {
+      for (const [path, comments] of Object.entries(response)) {
         if (
-          hasOwnProperty(response, path) &&
-          response[path].some(c => {
+          comments.some(c => {
             // If don't care about patch range, we know that the path exists.
-            if (!patchRange) {
-              return true;
-            }
-            return isInPatchRange(c, patchRange);
+            return !patchRange || isInPatchRange(c, patchRange);
           })
         ) {
           commentMap[path] = true;

@@ -67,7 +67,6 @@ import {
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrDiffPreferencesDialog} from '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {GrDiffCursor} from '../../diff/gr-diff-cursor/gr-diff-cursor';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
@@ -1241,13 +1240,9 @@ export class GrFileList extends KeyboardShortcutMixin(
     const files: FileNameToReviewedFileInfoMap = {...filesByPath};
     addUnmodifiedFiles(files, commentedPaths);
     const reviewedSet = new Set(reviewed || []);
-    for (const filePath in files) {
-      if (!hasOwnProperty(files, filePath)) {
-        continue;
-      }
-      files[filePath].isReviewed = reviewedSet.has(filePath);
+    for (const [filePath, reviewedFileInfo] of Object.entries(files)) {
+      reviewedFileInfo.isReviewed = reviewedSet.has(filePath);
     }
-
     this._files = this._normalizeChangeFilesResponse(files);
   }
 

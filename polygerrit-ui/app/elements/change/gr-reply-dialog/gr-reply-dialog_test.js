@@ -1001,8 +1001,8 @@ suite('gr-reply-dialog tests', () => {
       };
     };
     const checkObjEmpty = function(obj) {
-      for (const prop in obj) {
-        if (obj.hasOwnProperty(prop) && obj[prop].length) { return false; }
+      for (const prop of Object.keys(obj)) {
+        if (obj[prop].length) { return false; }
       }
       return true;
     };

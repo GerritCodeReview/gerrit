@@ -34,7 +34,6 @@ import {
   InheritedBooleanInfo,
 } from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {appContext} from '../../../services/app-context';
@@ -174,19 +173,12 @@ export class GrCreateChangeDialog extends GestureEventListeners(
       .then(response => {
         if (!response) return [];
         const branches = [];
-        let branch;
-        for (const key in response) {
-          if (!hasOwnProperty(response, key)) {
-            continue;
+        for (const branchInfo of response) {
+          let name: string = branchInfo.ref;
+          if (name.startsWith('refs/heads/')) {
+            name = name.substring('refs/heads/'.length);
           }
-          if (response[key].ref.startsWith('refs/heads/')) {
-            branch = response[key].ref.substring('refs/heads/'.length);
-          } else {
-            branch = response[key].ref;
-          }
-          branches.push({
-            name: branch,
-          });
+          branches.push({name});
         }
         return branches;
       });

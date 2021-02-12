@@ -25,7 +25,6 @@ import {
   ReviewerUpdateInfo,
   Timestamp,
 } from '../../../types/common';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {accountKey} from '../../../utils/account-util';
 import {
   FormattedReviewerUpdateInfo,
@@ -122,12 +121,10 @@ export class GrReviewerUpdatesParser {
    */
   private _completeBatch(batch: ParserBatch) {
     const items = [];
-    for (const accountId in this._updateItems) {
-      if (!hasOwnProperty(this._updateItems, accountId)) continue;
-      const updateItem = this._updateItems[accountId];
-      if (this._lastState[accountId] !== updateItem.state) {
-        this._lastState[accountId] = updateItem.state;
-        items.push(updateItem);
+    for (const [accountId, item] of Object.entries(this._updateItems ?? {})) {
+      if (this._lastState[accountId] !== item.state) {
+        this._lastState[accountId] = item.state;
+        items.push(item);
       }
     }
     if (items.length) {
@@ -233,15 +230,10 @@ export class GrReviewerUpdatesParser {
     const reviewerUpdates = (this.result
       .reviewer_updates as unknown) as ParserBatchWithNonEmptyUpdates[];
     for (const update of reviewerUpdates) {
-      const grouppedReviewers = this._groupUpdatesByMessage(update.updates);
+      const groupedReviewers = this._groupUpdatesByMessage(update.updates);
       const newUpdates: {message: string; reviewers: AccountInfo[]}[] = [];
-      for (const message in grouppedReviewers) {
-        if (hasOwnProperty(grouppedReviewers, message)) {
-          newUpdates.push({
-            message,
-            reviewers: grouppedReviewers[message],
-          });
-        }
+      for (const [message, reviewers] of Object.entries(groupedReviewers)) {
+        newUpdates.push({message, reviewers});
       }
       ((update as unknown) as FormattedReviewerUpdateInfo).updates = newUpdates;
     }

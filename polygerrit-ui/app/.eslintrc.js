@@ -55,6 +55,7 @@ module.exports = {
     }],
     // https://eslint.org/docs/rules/eol-last
     'eol-last': 'off',
+    'guard-for-in': 'error',
     // https://eslint.org/docs/rules/indent
     'indent': ['error', 2, {
       MemberExpression: 2,

@@ -172,12 +172,10 @@ suite('gr-styles-api tests', () => {
     }
 
     function assertDisplayPropertyValues(elements, expectedDisplayValues) {
-      for (const key in elements) {
-        if (elements.hasOwnProperty(key)) {
-          assert.equal(
-              getComputedStyle(elements[key]).getPropertyValue('display'),
-              expectedDisplayValues[key]);
-        }
+      for (let i = 0; i < elements.length; i++) {
+        assert.equal(
+            getComputedStyle(elements[i]).getPropertyValue('display'),
+            expectedDisplayValues[i]);
       }
     }
   });

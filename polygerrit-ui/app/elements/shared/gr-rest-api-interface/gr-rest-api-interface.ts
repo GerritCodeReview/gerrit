@@ -259,27 +259,6 @@ interface GetDiffParams {
 type SendChangeRequest = SendRawChangeRequest | SendJSONChangeRequest;
 
 export function _testOnlyResetGrRestApiSharedObjects() {
-  // TODO(TS): The commented code below didn't do anything.
-  // It is impossible to reject an existing promise. Should be rewritten in a
-  // different way
-  // const fetchPromisesCacheData = fetchPromisesCache.testOnlyGetData();
-  // for (const key in fetchPromisesCacheData) {
-  //   if (hasOwnProperty(fetchPromisesCacheData, key)) {
-  //     // reject already fulfilled promise does nothing
-  //     fetchPromisesCacheData[key]!.reject();
-  //   }
-  // }
-  //
-  // for (const key in pendingRequest) {
-  //   if (!hasOwnProperty(pendingRequest, key)) {
-  //     continue;
-  //   }
-  //   for (const req of pendingRequest[key]) {
-  //     // reject already fulfilled promise does nothing
-  //     req.reject();
-  //   }
-  // }
-
   siteBasedCache = new SiteBasedCache();
   fetchPromisesCache = new FetchPromisesCache();
   pendingRequest = {};

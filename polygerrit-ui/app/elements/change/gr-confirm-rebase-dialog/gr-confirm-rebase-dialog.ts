@@ -22,7 +22,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-rebase-dialog_html';
 import {customElement, property, observe} from '@polymer/decorators';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {NumericChangeId, BranchName} from '../../../types/common';
 import {
   GrAutocomplete,
@@ -109,13 +108,10 @@ export class GrConfirmRebaseDialog extends GestureEventListeners(
       .then(response => {
         if (!response) return [];
         const changes: RebaseChange[] = [];
-        for (const key in response) {
-          if (!hasOwnProperty(response, key)) {
-            continue;
-          }
+        for (const change of response) {
           changes.push({
-            name: `${response[key]._number}: ${response[key].subject}`,
-            value: response[key]._number,
+            name: `${change._number}: ${change.subject}`,
+            value: change._number,
           });
         }
         this._recentChanges = changes;

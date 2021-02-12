@@ -37,7 +37,6 @@ import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {customElement, property, observe} from '@polymer/decorators';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {HttpMethod, ChangeStatus} from '../../../constants/constants';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 
 const SUGGESTIONS_LIMIT = 15;
@@ -401,19 +400,14 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
       .then((response: BranchInfo[] | undefined) => {
         const branches = [];
         if (!response) return [];
-        let branch;
-        for (const key in response) {
-          if (!hasOwnProperty(response, key)) {
-            continue;
-          }
-          if (response[key].ref.startsWith('refs/heads/')) {
-            branch = response[key].ref.substring('refs/heads/'.length);
+        for (const branchInfo of response) {
+          let branch;
+          if (branchInfo.ref.startsWith('refs/heads/')) {
+            branch = branchInfo.ref.substring('refs/heads/'.length);
           } else {
-            branch = response[key].ref;
+            branch = branchInfo.ref;
           }
-          branches.push({
-            name: branch,
-          });
+          branches.push({name: branch});
         }
         return branches;
       });

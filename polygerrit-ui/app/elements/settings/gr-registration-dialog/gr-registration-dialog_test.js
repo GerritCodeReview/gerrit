@@ -61,10 +61,8 @@ suite('gr-registration-dialog tests', () => {
   });
 
   teardown(() => {
-    for (const eventType in _listeners) {
-      if (_listeners.hasOwnProperty(eventType)) {
-        element.removeEventListener(eventType, _listeners[eventType]);
-      }
+    for (const [eventType, listeners] of Object.entries(_listeners)) {
+      element.removeEventListener(eventType, listeners);
     }
   });
 

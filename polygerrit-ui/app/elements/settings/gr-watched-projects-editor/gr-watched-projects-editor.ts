@@ -121,14 +121,8 @@ export class GrWatchedProjectsEditor extends GestureEventListeners(
   _getProjectSuggestions(input: string) {
     return this.restApiService.getSuggestedProjects(input).then(response => {
       const projects: AutocompleteSuggestion[] = [];
-      for (const key in response) {
-        if (!hasOwnProperty(response, key)) {
-          continue;
-        }
-        projects.push({
-          name: key,
-          value: response[key].id,
-        });
+      for (const [name, project] of Object.entries(response ?? {})) {
+        projects.push({name, value: project.id});
       }
       return projects;
     });

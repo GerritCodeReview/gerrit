@@ -940,14 +940,14 @@ export class GrChangeActions
       return null;
     }
     let result;
-    for (const label in this.change.labels) {
+    for (const [label, labelInfo] of Object.entries(this.change.labels)) {
       if (!(label in this.change.permitted_labels)) {
         continue;
       }
       if (this.change.permitted_labels[label].length === 0) {
         continue;
       }
-      const status = this._getLabelStatus(this.change.labels[label]);
+      const status = this._getLabelStatus(labelInfo);
       if (status === LabelStatus.NEED) {
         if (result) {
           // More than one label is missing, so it's unclear which to quick

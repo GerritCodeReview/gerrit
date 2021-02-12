@@ -33,7 +33,6 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {
   fireEvent,
   firePageError,
@@ -301,14 +300,8 @@ export class GrGroup extends GestureEventListeners(
   _getGroupSuggestions(input: string) {
     return this.restApiService.getSuggestedGroups(input).then(response => {
       const groups: AutocompleteSuggestion[] = [];
-      for (const key in response) {
-        if (!hasOwnProperty(response, key)) {
-          continue;
-        }
-        groups.push({
-          name: key,
-          value: decodeURIComponent(response[key].id),
-        });
+      for (const [name, group] of Object.entries(response ?? {})) {
+        groups.push({name, value: decodeURIComponent(group.id)});
       }
       return groups;
     });

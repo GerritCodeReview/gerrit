@@ -306,11 +306,8 @@ suite('gr-file-list tests', () => {
         '-1073741824': '-1 GiB',
         '0': '+/-0 B',
       };
-
-      for (const bytes in table) {
-        if (table.hasOwnProperty(bytes)) {
-          assert.equal(element._formatBytes(Number(bytes)), table[bytes]);
-        }
+      for (const [bytes, expected] of Object.entries(table)) {
+        assert.equal(element._formatBytes(Number(bytes)), expected);
       }
     });
 
@@ -590,12 +587,8 @@ suite('gr-file-list tests', () => {
         flush();
         assert.equal(element.diffs.length, paths.length);
         assert.equal(element._expandedFiles.length, paths.length);
-        for (const index in element.diffs) {
-          if (!element.diffs.hasOwnProperty(index)) { continue; }
-          assert.isTrue(
-              element._expandedFiles
-                  .some(f => f.path === element.diffs[index].path)
-          );
+        for (const diff of element.diffs) {
+          assert.isTrue(element._expandedFiles.some(f => f.path === diff.path));
         }
 
         MockInteractions.keyUpOn(element, 73, 'shift', 'i');

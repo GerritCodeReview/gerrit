@@ -37,17 +37,16 @@ import {
 } from '../../../types/common';
 import {ChangeListToggleReviewedDetail} from '../gr-change-list-item/gr-change-list-item';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {ChangeListViewState} from '../../../types/types';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
 
-const LookupQueryPatterns = {
-  CHANGE_ID: /^\s*i?[0-9a-f]{7,40}\s*$/i,
-  CHANGE_NUM: /^\s*[1-9][0-9]*\s*$/g,
-  COMMIT: /[0-9a-f]{40}/,
-};
+const LOOKUP_QUERY_PATTERNS: RegExp[] = [
+  /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
+  /^\s*[1-9][0-9]*\s*$/g, // CHANGE_NUM
+  /[0-9a-f]{40}/, // COMMIT
+];
 
 const USER_QUERY_PATTERN = /^owner:\s?("[^"]+"|[^ ]+)$/;
 
@@ -159,12 +158,8 @@ export class GrChangeListView extends GestureEventListeners(
       .then(changes => {
         changes = changes || [];
         if (this._query && changes.length === 1) {
-          let query: keyof typeof LookupQueryPatterns;
-          for (query in LookupQueryPatterns) {
-            if (
-              hasOwnProperty(LookupQueryPatterns, query) &&
-              this._query.match(LookupQueryPatterns[query])
-            ) {
+          for (const queryPattern of LOOKUP_QUERY_PATTERNS) {
+            if (this._query.match(queryPattern)) {
               // "Back"/"Forward" buttons work correctly only with
               // opt_redirect options
               GerritNav.navigateToChange(

@@ -85,7 +85,6 @@ import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrDiffCursor} from '../gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {LineOfInterest} from '../gr-diff/gr-diff';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
@@ -896,9 +895,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
     let baseCommit: CommitId | undefined;
     if (!this._change) return;
     if (!this._patchRange || !this._patchRange.patchNum) return;
-    for (const commitSha in this._change.revisions) {
-      if (!hasOwnProperty(this._change.revisions, commitSha)) continue;
-      const revision = this._change.revisions[commitSha];
+    const revisions = this._change.revisions ?? {};
+    for (const [commitSha, revision] of Object.entries(revisions)) {
       const patchNum = revision._number;
       if (patchNum === this._patchRange.patchNum) {
         commit = commitSha as CommitId;

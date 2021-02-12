@@ -324,7 +324,7 @@ suite('gr-diff-processor tests', () => {
                 '  all work and no play make jill a dull girl'),
             common: true,
           },
-          {ab: new Array(3)
+          {ab: new Array(5)
               .fill('all work and no play make jill a dull girl')},
         ];
 
@@ -399,7 +399,7 @@ suite('gr-diff-processor tests', () => {
           assert.equal(
               groups[6].contextGroups[1].type,
               GrDiffGroupType.BOTH);
-          assert.equal(groups[6].contextGroups[1].lines.length, 3);
+          assert.equal(groups[6].contextGroups[1].lines.length, 5);
           for (const l of groups[6].contextGroups[1].lines) {
             assert.equal(
                 l.text, 'all work and no play make jill a dull girl');

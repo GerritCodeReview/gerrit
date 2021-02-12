@@ -23,12 +23,12 @@ export function getMockDiffResponse() {
     meta_a: {
       name: 'lorem-ipsum.txt',
       content_type: 'text/plain',
-      lines: 45,
+      lines: 47,
     },
     meta_b: {
       name: 'lorem-ipsum.txt',
       content_type: 'text/plain',
-      lines: 48,
+      lines: 50,
     },
     intraline_status: 'OK',
     change_type: 'MODIFIED',
@@ -68,6 +68,8 @@ export function getMockDiffResponse() {
         a: [
           'Est amet, vestibulum pellentesque.',
           'Erat ligula.',
+          'Justo eros.',
+          'Fringilla quisque.',
           'Justo eros.',
           'Fringilla quisque.',
         ],

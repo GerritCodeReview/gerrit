@@ -40,7 +40,6 @@ export const htmlTemplate = html`
     diff="[[diff]]"
     show-newline-warning-left="[[_showNewlineWarningLeft(diff)]]"
     show-newline-warning-right="[[_showNewlineWarningRight(diff)]]"
-    use-new-context-controls="[[_useNewContextControls()]]"
   >
   </gr-diff>
   <gr-syntax-layer

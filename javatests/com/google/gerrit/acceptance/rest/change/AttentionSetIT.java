@@ -495,6 +495,24 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseDoesNotAddToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).setWorkInProgress();
+    change(r).addReviewer(user.email());
+
+    // create an unrelated change so that we can rebase
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result unrelated = createChange();
+    gApi.changes().id(unrelated.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(unrelated.getChangeId()).current().submit();
+
+    gApi.changes().id(r.getChangeId()).rebase();
+
+    // rebase has no impact on the attention set
+    assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
+  @Test
   public void readyForReviewWhileRemovingReviewerRemovesThemToAttentionSet() throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).setWorkInProgress();

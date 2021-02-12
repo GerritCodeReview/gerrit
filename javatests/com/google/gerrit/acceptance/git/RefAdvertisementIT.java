@@ -1408,17 +1408,19 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     expectedAllRefs.addAll(expectedMetaRefs);
 
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      PermissionBackend.ForProject forProject = newFilter(allUsers, admin);
-      assertThat(
-              names(
-                  forProject.filter(repo.getRefDatabase().getRefs(), RefFilterOptions.defaults())))
-          .containsExactlyElementsIn(expectedAllRefs);
-      assertThat(
-              names(
-                  forProject.filter(
-                      repo.getRefDatabase().getRefs(),
-                      RefFilterOptions.builder().setFilterMeta(true).build())))
-          .containsExactlyElementsIn(expectedNonMetaRefs);
+      assertFilteredRefsWithBlockedNoteDB(
+          allUsers,
+          admin,
+          RefFilterOptions.defaults(),
+          /* inputRefs= */ repo.getRefDatabase().getRefs(),
+          expectedAllRefs);
+
+      assertFilteredRefsWithBlockedNoteDB(
+          allUsers,
+          admin,
+          RefFilterOptions.builder().setFilterMeta(true).build(),
+          /* inputRefs= */ repo.getRefDatabase().getRefs(),
+          expectedNonMetaRefs);
     }
   }
 
@@ -1484,6 +1486,29 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       if (disableDb) {
         ctx.close();
       }
+    }
+  }
+
+  /**
+   * Assert that refs filtered by the {@code PermissionBackend.ForProject#filter} method with {@code
+   * refFilterOptions}, {@code user} and {@code project} return the expected refs.
+   *
+   * <p>NoteDB is disabled for this operation. If NoteDB is accessed, this test will fail.
+   */
+  private void assertFilteredRefsWithBlockedNoteDB(
+      Project.NameKey project,
+      TestAccount user,
+      RefFilterOptions refFilterOptions,
+      List<Ref> inputRefs,
+      List<String> expectedRefs)
+      throws Exception {
+    AutoCloseable ctx = disableNoteDb();
+    try {
+      PermissionBackend.ForProject forProject = newFilter(project, user);
+      assertThat(names(forProject.filter(inputRefs, refFilterOptions)))
+          .containsExactlyElementsIn(expectedRefs);
+    } finally {
+      ctx.close();
     }
   }
 

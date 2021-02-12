@@ -88,6 +88,24 @@
       "parentUuid": "5eff6599_6b0430da",
       "revId": "b8318c6ac60143aaec7aefa6bc425de46966c0fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1053125a_088ab473",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-12T09:25:25Z",
+      "side": 1,
+      "message": "Yea that makes sense, I actually thought of something else: disableNoteDB in the tests. Do you think that\u0027s maybe better? See follow-up change.",
+      "parentUuid": "878f8f58_24c6cdb4",
+      "revId": "b8318c6ac60143aaec7aefa6bc425de46966c0fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

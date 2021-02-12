@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0f59a4c_8644d987",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-12T11:16:44Z",
+      "side": 1,
+      "message": "Can someone from Google give the LC +1?\n(it is a revert of an existing change)",
+      "revId": "b5b9bbe60d7779119faac6197d64544c7073ba36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

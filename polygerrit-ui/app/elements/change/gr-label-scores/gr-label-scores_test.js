@@ -85,12 +85,10 @@ suite('gr-label-scores tests', () => {
   });
 
   test('get and set label scores', () => {
-    for (const label in element.permittedLabels) {
-      if (element.permittedLabels.hasOwnProperty(label)) {
-        const row = element.shadowRoot
-            .querySelector('gr-label-score-row[name="' + label + '"]');
-        row.setSelectedValue(-1);
-      }
+    for (const label of Object.keys(element.permittedLabels)) {
+      const row = element.shadowRoot
+          .querySelector('gr-label-score-row[name="' + label + '"]');
+      row.setSelectedValue(-1);
     }
     assert.deepEqual(element.getLabelValues(), {
       'Code-Review': -1,

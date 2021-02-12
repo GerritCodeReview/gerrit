@@ -23,7 +23,6 @@ import {
   AuthRequestInit,
   AuthService,
 } from '../../../../services/gr-auth/gr-auth';
-import {hasOwnProperty} from '../../../../utils/common-util';
 import {
   AccountDetailInfo,
   EmailInfo,
@@ -379,11 +378,7 @@ s   */
     }
 
     const params: Array<string | number | boolean> = [];
-    for (const p in fetchParams) {
-      if (!hasOwnProperty(fetchParams, p)) {
-        continue;
-      }
-      const paramValue = fetchParams[p];
+    for (const [p, paramValue] of Object.entries(fetchParams)) {
       // TODO(TS): Replace == null with === and check for null and undefined
       // eslint-disable-next-line eqeqeq
       if (paramValue == null) {
@@ -482,11 +477,8 @@ s   */
       if (!options.headers) {
         options.headers = new Headers();
       }
-      for (const header in req.headers) {
-        if (!hasOwnProperty(req.headers, header)) {
-          continue;
-        }
-        options.headers.set(header, req.headers[header]);
+      for (const [name, value] of Object.entries(req.headers)) {
+        options.headers.set(name, value);
       }
     }
     const url = req.url.startsWith('http') ? req.url : getBaseUrl() + req.url;

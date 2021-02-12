@@ -231,7 +231,7 @@ export class GrReviewerList extends GestureEventListeners(
     }
     let result: AccountInfo[] = [];
     const reviewers = changeRecord.base;
-    for (const key in reviewers) {
+    for (const key of Object.keys(reviewers)) {
       if (this.reviewersOnly && key !== 'REVIEWER') {
         continue;
       }

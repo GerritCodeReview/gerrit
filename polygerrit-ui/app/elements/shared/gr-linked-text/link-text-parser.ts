@@ -350,27 +350,27 @@ export class GrLinkTextParser {
     // The outputArray is used to store all of the matches found for all
     // patterns.
     const outputArray: CommentLinkItem[] = [];
-    for (const p in config) {
+    for (const [configName, linkInfo] of Object.entries(config)) {
       // TODO(TS): it seems, the following line can be rewritten as:
       // if(enabled === false || enabled === 0 || enabled === '')
       // Should be double-checked before update
       // eslint-disable-next-line eqeqeq
-      if (config[p].enabled != null && config[p].enabled == false) {
+      if (linkInfo.enabled != null && linkInfo.enabled == false) {
         continue;
       }
       // PolyGerrit doesn't use hash-based navigation like the GWT UI.
       // Account for this.
-      const html = config[p].html;
-      const link = config[p].link;
+      const html = linkInfo.html;
+      const link = linkInfo.link;
       if (html) {
-        config[p].html = html.replace(/<a href="#\//g, '<a href="/');
+        linkInfo.html = html.replace(/<a href="#\//g, '<a href="/');
       } else if (link) {
         if (link[0] === '#') {
-          config[p].link = link.substr(1);
+          linkInfo.link = link.substr(1);
         }
       }
 
-      const pattern = new RegExp(config[p].match, 'g');
+      const pattern = new RegExp(linkInfo.match, 'g');
 
       let match;
       let textToCheck = text;
@@ -382,10 +382,10 @@ export class GrLinkTextParser {
           pattern,
           // Either html or link has a value. Otherwise an exception is thrown
           // in the code below.
-          (config[p].html || config[p].link)!
+          (linkInfo.html || linkInfo.link)!
         );
 
-        if (config[p].html) {
+        if (linkInfo.html) {
           let i;
           // Skip portion of replacement string that is equal to original to
           // allow overlapping patterns.
@@ -402,7 +402,7 @@ export class GrLinkTextParser {
             match[0].length - i,
             outputArray
           );
-        } else if (config[p].link) {
+        } else if (linkInfo.link) {
           this.addLink(
             match[0],
             result,
@@ -413,7 +413,7 @@ export class GrLinkTextParser {
         } else {
           throw Error(
             'linkconfig entry ' +
-              p +
+              configName +
               ' doesn’t contain a link or html attribute.'
           );
         }

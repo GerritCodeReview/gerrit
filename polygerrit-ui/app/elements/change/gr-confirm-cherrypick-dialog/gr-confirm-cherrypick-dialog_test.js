@@ -39,7 +39,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
           },
         ]);
       } else {
-        return Promise.resolve({});
+        return Promise.resolve([]);
       }
     });
     element = basicFixture.instantiate();
@@ -77,11 +77,9 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     assert.equal(element.message, myNewMessage);
   });
 
-  test('_getProjectBranchesSuggestions empty', done => {
-    element._getProjectBranchesSuggestions('nonexistent').then(branches => {
-      assert.equal(branches.length, 0);
-      done();
-    });
+  test('_getProjectBranchesSuggestions empty', async () => {
+    const branches = await element._getProjectBranchesSuggestions('asdf');
+    assert.isEmpty(branches);
   });
 
   suite('cherry pick topic', () => {

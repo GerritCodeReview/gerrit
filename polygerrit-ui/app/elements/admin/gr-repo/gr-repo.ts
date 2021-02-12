@@ -392,21 +392,14 @@ export class GrRepo extends GestureEventListeners(
     schemesObj?: SchemesInfoMap,
     _selectedScheme?: string
   ) {
-    if (!schemesObj || !repo || !_selectedScheme) {
-      return [];
-    }
+    if (!schemesObj || !repo || !_selectedScheme) return [];
+    if (!hasOwnProperty(schemesObj, _selectedScheme)) return [];
+    const commandObj = schemesObj[_selectedScheme].clone_commands;
     const commands = [];
-    let commandObj: {[title: string]: string} = {};
-    if (hasOwnProperty(schemesObj, _selectedScheme)) {
-      commandObj = schemesObj[_selectedScheme].clone_commands;
-    }
-    for (const title in commandObj) {
-      if (!hasOwnProperty(commandObj, title)) {
-        continue;
-      }
+    for (const [title, command] of Object.entries(commandObj)) {
       commands.push({
         title,
-        command: commandObj[title]
+        command: command
           .replace(/\${project}/gi, encodeURI(repo))
           .replace(
             /\${project-base-name}/gi,

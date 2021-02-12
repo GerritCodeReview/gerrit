@@ -16,6 +16,23 @@
       "message": "Tests pass",
       "revId": "28aba66f53e59e225895d8c249af92f521872cc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "671c685b_489e6887",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-12T11:39:25Z",
+      "side": 1,
+      "message": "sorry, I was doing some fixes in this area hence the merge conflict.\nIf you fix the merge conflicts I\u0027ll make sure to submit it before my next fixes.",
+      "revId": "28aba66f53e59e225895d8c249af92f521872cc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

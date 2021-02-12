@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aed8bb6_aa5705ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-12T11:15:57Z",
+      "side": 1,
+      "message": "It would be best to record the breakage in the commit message, so that we remember why we did it.\n\nRBE fails building with the following error:\nError in fail: Target \u0027rbe_jdk11\u0027 failed: use_checked_in_confs\nwas set to \u0027Force\u0027 but no checked-in configs were found.\n\nGerrit should still be verified with Java 8 at the\nmoment, having a JDK 11 target isn\u0027t yet a priority for now.\nThis revert is needed to unblock the RBE validation now, and then we\nwill need to investigate on how to build with JDK 11 on RBE again.",
+      "revId": "be50bd68bd8a212b6e7f58b3c89eb34043c70301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3246a077_301374bd",

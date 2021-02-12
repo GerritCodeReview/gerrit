@@ -45,7 +45,7 @@ public abstract class AbstractChangeNotes<T> {
   @UsedAt(UsedAt.Project.PLUGIN_CHECKS)
   public static class Args {
     // TODO(dborowitz): Some less smelly way of disabling NoteDb in tests.
-    public final AtomicBoolean failOnLoadForTest;
+    public static final AtomicBoolean failOnLoadForTest = new AtomicBoolean();
     public final ChangeNoteJson changeNoteJson;
     public final GitRepositoryManager repoManager;
     public final AllUsersName allUsers;
@@ -65,7 +65,6 @@ public abstract class AbstractChangeNotes<T> {
         NoteDbMetrics metrics,
         Provider<ChangeNotesCache> cache,
         @GerritServerId String serverId) {
-      this.failOnLoadForTest = new AtomicBoolean();
       this.repoManager = repoManager;
       this.allUsers = allUsers;
       this.changeNoteJson = changeNoteJson;
@@ -136,7 +135,6 @@ public abstract class AbstractChangeNotes<T> {
     if (loaded) {
       return self();
     }
-
     if (args.failOnLoadForTest.get()) {
       throw new StorageException("Reading from NoteDb is disabled");
     }

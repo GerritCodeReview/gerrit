@@ -796,9 +796,9 @@ suite('gr-diff-host tests', () => {
     assert.equal(stub.lastCall.args.length, 0);
   });
 
-  test('delegates expandAllContext()', () => {
-    const stub = sinon.stub(element.$.diff, 'expandAllContext');
-    element.expandAllContext();
+  test('delegates toggleAllContext()', () => {
+    const stub = sinon.stub(element.$.diff, 'toggleAllContext');
+    element.toggleAllContext();
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
   });

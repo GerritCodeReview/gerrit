@@ -571,7 +571,6 @@ export class GrChangeView extends KeyboardShortcutMixin(
       [Shortcut.UP_TO_DASHBOARD]: '_handleUpToDashboard',
       [Shortcut.EXPAND_ALL_MESSAGES]: '_handleExpandAllMessages',
       [Shortcut.COLLAPSE_ALL_MESSAGES]: '_handleCollapseAllMessages',
-      [Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_expandAllDiffs',
       [Shortcut.OPEN_DIFF_PREFS]: '_handleOpenDiffPrefsShortcut',
       [Shortcut.EDIT_TOPIC]: '_handleEditTopic',
       [Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',

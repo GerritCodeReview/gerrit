@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "54279746_ca44ef5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-12T10:56:55Z",
+      "side": 1,
+      "message": "good point, no idea. Maybe that reveals a deeper bug about @Singleton?\nI\u0027m a bit puzzled, as I triple verified that the tests fail when I add this \"static\" (as they should), but succeed otherwise (even if NoteDB is accessed).\n\nHere\u0027s my change which tests fail/succeed based on the static being present if you\u0027re interested:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/296711\n\nNext thing I can try is to take the \"Args\" into a separate file and not make it static, I\u0027ll try that later.",
+      "parentUuid": "e72cf4ff_37ff17ca",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "6a44a2adcc0cd2b7f40d2a35bed5872128e0fbdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08b304f4_728fc81d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-12T10:12:27Z",
       "side": 1,
       "message": "Wouldn\u0027t making it static interfere with running multiple tests in parallel, as Bazel does?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "6a44a2adcc0cd2b7f40d2a35bed5872128e0fbdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "284fa96f_4e9d23fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-12T10:56:55Z",
+      "side": 1,
+      "message": "I think not, as the different tests that run in parallel have different Context, and each context has their own static methods, AFAIK.\nI verified this in the debugger running the tests in parallel, seeing the Args class initialising many times.",
+      "parentUuid": "08b304f4_728fc81d",
       "range": {
         "startLine": 12,
         "startChar": 0,

@@ -48,9 +48,8 @@ public class FileInfoJsonNewImpl implements FileInfoJson {
       if (base == null) {
         return asFileInfo(
             diffs.listModifiedFilesAgainstParent(change.getProject(), objectId, null));
-      } else {
-        return asFileInfo(diffs.listModifiedFiles(change.getProject(), base.commitId(), objectId));
       }
+      return asFileInfo(diffs.listModifiedFiles(change.getProject(), base.commitId(), objectId));
     } catch (DiffNotAvailableException e) {
       convertException(e);
       return null; // unreachable. handleAndThrow will throw an exception anyway

@@ -196,6 +196,24 @@
       "parentUuid": "faf048f0_d191f32a",
       "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7f8390c_1e2612a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-12T15:25:47Z",
+      "side": 1,
+      "message": "Let\u0027s merge then it to move forward here.",
+      "parentUuid": "b77d78c0_b2e3a1de",
+      "revId": "6553c026b75efab10b1f27864679ce0f1dd03271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -15,6 +15,8 @@
 package com.google.gerrit.exceptions;
 
 public class InternalServerWithUserMessageException extends RuntimeException {
+  private static final long serialVersionUID = 1L;
+
   public InternalServerWithUserMessageException(String msg, Throwable cause) {
     super(msg, cause);
   }

@@ -291,7 +291,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
       [Shortcut.OPEN_DIFF_PREFS]: '_handleCommaKey',
       [Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
       [Shortcut.TOGGLE_FILE_REVIEWED]: '_throttledToggleFileReviewed',
-      [Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_handleExpandAllDiffContext',
+      [Shortcut.TOGGLE_ALL_DIFF_CONTEXT]: '_handleToggleAllDiffContext',
       [Shortcut.NEXT_UNREVIEWED_FILE]: '_handleNextUnreviewedFile',
       [Shortcut.TOGGLE_BLAME]: '_handleToggleBlame',
       [Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
@@ -1744,10 +1744,10 @@ export class GrDiffView extends KeyboardShortcutMixin(
     return '';
   }
 
-  _handleExpandAllDiffContext(e: CustomKeyboardEvent) {
+  _handleToggleAllDiffContext(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e)) return;
 
-    this.$.diffHost.expandAllContext();
+    this.$.diffHost.toggleAllContext();
   }
 
   _computeDiffPrefsDisabled(disableDiffPrefs?: boolean, loggedIn?: boolean) {

@@ -392,7 +392,7 @@ export class GrAppElement extends KeyboardShortcutMixin(
     }
     this.bindShortcut(Shortcut.NEXT_CHUNK, 'n');
     this.bindShortcut(Shortcut.PREV_CHUNK, 'p');
-    this.bindShortcut(Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
+    this.bindShortcut(Shortcut.TOGGLE_ALL_DIFF_CONTEXT, 'shift+x');
     this.bindShortcut(Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
     this.bindShortcut(Shortcut.PREV_COMMENT_THREAD, 'shift+p');
     this.bindShortcut(

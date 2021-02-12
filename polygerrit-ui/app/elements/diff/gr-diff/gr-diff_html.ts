@@ -623,7 +623,7 @@ export const htmlTemplate = html`
       Prevented render because "Whole file" is enabled and this diff is very
       large (about [[_diffLength]] lines).
     </p>
-    <gr-button on-click="_handleLimitedBypass">
+    <gr-button on-click="_collapseContext">
       Render with limited context
     </gr-button>
     <gr-button on-click="_handleFullBypass">

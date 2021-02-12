@@ -70,6 +70,24 @@
       "parentUuid": "71ceba17_b3ec7e75",
       "revId": "b8318c6ac60143aaec7aefa6bc425de46966c0fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "878f8f58_24c6cdb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-12T08:56:14Z",
+      "side": 1,
+      "message": "Can SearchingChangeCacheImpl just call setLazyLoad(false) on the ChangeData instances that it creates, so that any attempt to lazy load would fail?\nProbably shouldn\u0027t be part of this change though.",
+      "parentUuid": "5eff6599_6b0430da",
+      "revId": "b8318c6ac60143aaec7aefa6bc425de46966c0fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

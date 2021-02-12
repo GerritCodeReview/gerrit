@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae7dc89f_99dec72e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-02-12T15:25:40Z",
+      "side": 1,
+      "message": "Sorry, I am not sure that I understand the whole picture - how _safetyBypass works now and how it affects _showWarning variable.\nIn particular, it is hard to understand why warning is shown only once.",
+      "range": {
+        "startLine": 948,
+        "startChar": 6,
+        "endLine": 951,
+        "endChar": 31
+      },
+      "revId": "f57f4cec69985349c354a528579f3263fc451db5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

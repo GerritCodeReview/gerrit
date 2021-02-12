@@ -124,17 +124,21 @@ suite('gr-diff-group tests', () => {
           new GrDiffLine(GrDiffLineType.ADD, 0, 12),
           new GrDiffLine(GrDiffLineType.REMOVE, 11),
           new GrDiffLine(GrDiffLineType.ADD, 0, 13),
+          new GrDiffLine(GrDiffLineType.REMOVE, 12),
+          new GrDiffLine(GrDiffLineType.ADD, 0, 14),
+          new GrDiffLine(GrDiffLineType.REMOVE, 13),
+          new GrDiffLine(GrDiffLineType.ADD, 0, 15),
         ]),
         new GrDiffGroup(GrDiffGroupType.BOTH, [
-          new GrDiffLine(GrDiffLineType.BOTH, 12, 14),
-          new GrDiffLine(GrDiffLineType.BOTH, 13, 15),
           new GrDiffLine(GrDiffLineType.BOTH, 14, 16),
+          new GrDiffLine(GrDiffLineType.BOTH, 15, 17),
+          new GrDiffLine(GrDiffLineType.BOTH, 16, 18),
         ]),
       ];
     });
 
     test('hides hidden groups in context control', () => {
-      const collapsedGroups = hideInContextControl(groups, 3, 7);
+      const collapsedGroups = hideInContextControl(groups, 3, 9);
       assert.equal(collapsedGroups.length, 3);
 
       assert.equal(collapsedGroups[0], groups[0]);
@@ -147,7 +151,7 @@ suite('gr-diff-group tests', () => {
     });
 
     test('splits partially hidden groups', () => {
-      const collapsedGroups = hideInContextControl(groups, 4, 8);
+      const collapsedGroups = hideInContextControl(groups, 4, 10);
       assert.equal(collapsedGroups.length, 4);
       assert.equal(collapsedGroups[0], groups[0]);
 

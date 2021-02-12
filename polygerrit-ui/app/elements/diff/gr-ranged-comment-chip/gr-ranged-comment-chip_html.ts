@@ -29,6 +29,9 @@ export const htmlTemplate = html`
       line-height: var(--line-height-small, 16px);
       justify-content: flex-end;
       margin: var(--spacing-xs) 0;
+      /* margin: var(--spacing-s); */
+      padding: var(--spacing-s) var(--spacing-m);
+
     }
     .icon {
       color: var(--ranged-comment-chip-text-color);
@@ -44,9 +47,9 @@ export const htmlTemplate = html`
     }
   </style>
   <div class="row rangeHighlight">
-    <div class="chip">
-      <iron-icon class="icon" icon="gr-icons:comment-outline"></iron-icon>
-      [[_computeRangeLabel(range)]]
-    </div>
+    <!-- <div class="chip"> -->
+    <iron-icon class="icon" icon="gr-icons:comment"></iron-icon>
+    [[_computeRangeLabel(range)]]
+    <!-- </div> -->
   </div>
 `;

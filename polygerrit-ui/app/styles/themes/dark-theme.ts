@@ -149,8 +149,8 @@ function getStyleEl() {
       --light-remove-highlight-color: #320404;
       --coverage-covered: #112826;
       --coverage-not-covered: #6b3600;
-      --ranged-comment-chip-background: #e8f0fe;
-      --ranged-comment-chip-text-color: #174ea6;
+      --ranged-comment-chip-background: var(--blue-50);
+      --ranged-comment-chip-text-color: var(--blue-50);
 
       /* syntax colors */
       --syntax-attr-color: #80cbbf;
@@ -173,12 +173,7 @@ function getStyleEl() {
       --syntax-selector-id-color: #f77669;
       --syntax-selector-pseudo-color: #c792ea;
       --syntax-string-color: #c3e88d;
-      --syntax-tag-color: #f77669;
-      --syntax-template-tag-color: #c792ea;
-      --syntax-template-variable-color: #f77669;
-      --syntax-title-color: #75a5ff;
-      --syntax-type-color: #dd5f5f;
-      --syntax-variable-color: #f77669;
+
 
       /* misc */
 
@@ -187,6 +182,13 @@ function getStyleEl() {
 
       /* rules applied to html */
       background-color: var(--view-background-color);
+
+      --syntax-tag-color: #f77669;
+      --syntax-template-tag-color: #c792ea;
+      --syntax-template-variable-color: #f77669;
+      --syntax-title-color: #75a5ff;
+      --syntax-type-color: #dd5f5f;
+      --syntax-variable-color: #f77669;
     }
   `;
 

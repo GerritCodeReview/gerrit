@@ -71,7 +71,7 @@ export function hideInContextControl(
 
   // Showing a context control row for less than 4 lines does not make much,
   // because then that row would consume as much space as the collapsed code.
-  if (numHidden > 3) {
+  if (numHidden > 5) {
     if (hiddenStart) {
       [before, hidden] = _splitCommonGroups(hidden, hiddenStart);
     }

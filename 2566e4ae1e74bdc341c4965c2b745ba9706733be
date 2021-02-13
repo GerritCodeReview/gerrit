@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "683f79e3_cecb9d66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-13T08:42:14Z",
+      "side": 1,
+      "message": "I found the root cause, and it\u0027s a know issue (see: [1]) : bazel-toolchains version: 3.1.0 it outdated and is not compatible with recent bazel releases (4.x). Update of bazel-toolchains to 5.0.0 fixed the problem. I will update a fix in a moment.\n\n[1] https://github.com/bazelbuild/bazel/issues/11166",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 56
+      },
+      "revId": "2566e4ae1e74bdc341c4965c2b745ba9706733be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

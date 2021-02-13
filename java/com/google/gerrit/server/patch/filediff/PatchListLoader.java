@@ -93,7 +93,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 public class PatchListLoader implements Callable<PatchList> {
-  public static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     PatchListLoader create(PatchListKey key, Project.NameKey project);

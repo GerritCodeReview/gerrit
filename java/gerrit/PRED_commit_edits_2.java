@@ -75,8 +75,8 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
     try (ObjectReader reader = repo.newObjectReader();
         RevWalk rw = new RevWalk(reader)) {
       final RevTree aTree;
-      final RevTree bTree;
       final RevCommit bCommit = rw.parseCommit(pl.getNewId());
+      final RevTree bTree = bCommit.getTree();
 
       if (pl.getOldId() != null) {
         aTree = rw.parseTree(pl.getOldId());
@@ -85,7 +85,6 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
         // web UI returns no files to match against, just fail.
         return engine.fail();
       }
-      bTree = bCommit.getTree();
 
       for (PatchListEntry entry : pl.getPatches()) {
         String newName = entry.getNewName();

@@ -1090,7 +1090,7 @@ class ReceiveCommits {
     // the command went through or not.
     return new ReceiveCommand(cmd.getOldId(), cmd.getNewId(), refname, cmd.getType()) {
       @Override
-      public void setResult(Result s, String m) {
+      public void setResult(ReceiveCommand.Result s, String m) {
         if (getResult() == NOT_ATTEMPTED) { // Only report the progress update once.
           progress.update(1);
         }

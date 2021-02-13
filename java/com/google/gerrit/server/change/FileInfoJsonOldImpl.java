@@ -19,7 +19,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -62,8 +61,7 @@ class FileInfoJsonOldImpl implements FileInfoJson {
     PatchListKey key =
         parentNum == -1
             ? PatchListKey.againstDefaultBase(objectId, Whitespace.IGNORE_NONE)
-            : PatchListKey.againstParentNum(
-                parentNum + 1, objectId, DiffPreferencesInfo.Whitespace.IGNORE_NONE);
+            : PatchListKey.againstParentNum(parentNum + 1, objectId, Whitespace.IGNORE_NONE);
     return toFileInfoMap(project, key);
   }
 

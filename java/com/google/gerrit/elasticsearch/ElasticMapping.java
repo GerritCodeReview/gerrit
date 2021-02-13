@@ -67,8 +67,7 @@ class ElasticMapping {
     Builder addExactField(String name) {
       FieldProperties key = new FieldProperties(adapter.exactFieldType());
       key.index = adapter.indexProperty();
-      FieldProperties properties;
-      properties = new FieldProperties(adapter.exactFieldType());
+      FieldProperties properties = new FieldProperties(adapter.exactFieldType());
       properties.fields = ImmutableMap.of("key", key);
       fields.put(name, properties);
       return this;

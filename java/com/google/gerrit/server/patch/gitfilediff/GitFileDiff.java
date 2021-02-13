@@ -282,10 +282,10 @@ public abstract class GitFileDiff {
         builder.newMode(Optional.of(Patch.FileMode.valueOf(proto.getNewMode())));
       }
       if (proto.hasField(CHANGE_TYPE_DESCRIPTOR)) {
-        builder.changeType(Optional.of(Patch.ChangeType.valueOf(proto.getChangeType())));
+        builder.changeType(Optional.of(ChangeType.valueOf(proto.getChangeType())));
       }
       if (proto.hasField(PATCH_TYPE_DESCRIPTOR)) {
-        builder.patchType(Optional.of(Patch.PatchType.valueOf(proto.getPatchType())));
+        builder.patchType(Optional.of(PatchType.valueOf(proto.getPatchType())));
       }
       return builder.build();
     }

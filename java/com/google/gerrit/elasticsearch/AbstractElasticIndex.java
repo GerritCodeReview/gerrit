@@ -94,6 +94,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return BaseEncoding.base64().decode(base64String);
   }
 
+  @Nullable
   protected static <T> List<T> decodeProtos(
       JsonObject doc, String fieldName, ProtoConverter<?, T> converter) {
     JsonArray field = doc.getAsJsonArray(fieldName);

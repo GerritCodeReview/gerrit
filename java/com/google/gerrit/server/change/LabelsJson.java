@@ -79,6 +79,7 @@ public class LabelsJson {
    * lazily populate accounts. Callers have to call {@link AccountLoader#fill()} afterwards to
    * populate all accounts in the returned {@link LabelInfo}s.
    */
+  @Nullable
   Map<String, LabelInfo> labelsFor(
       AccountLoader accountLoader, ChangeData cd, boolean standard, boolean detailed)
       throws PermissionBackendException {
@@ -278,8 +279,7 @@ public class LabelsJson {
     // all labels are required for submit or if the change was auto-closed due
     // to direct push or if new labels were defined after the change was
     // merged).
-    Map<String, LabelWithStatus> labels;
-    labels = initLabels(accountLoader, cd, labelTypes, standard);
+    Map<String, LabelWithStatus> labels = initLabels(accountLoader, cd, labelTypes, standard);
 
     // Also include all labels for which approvals exists. E.g. there can be
     // approvals for labels that are ignored by a Prolog submit rule and hence

@@ -207,9 +207,8 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   }
 
   private Iterable<PatchSetApproval> approvals(ChangeContext ctx, Account.Id accountId) {
-    Iterable<PatchSetApproval> approvals;
-    approvals = approvalsUtil.byChange(ctx.getNotes()).values();
-    return Iterables.filter(approvals, psa -> accountId.equals(psa.accountId()));
+    return Iterables.filter(
+        approvalsUtil.byChange(ctx.getNotes()).values(), psa -> accountId.equals(psa.accountId()));
   }
 
   private String formatLabelValue(short value) {

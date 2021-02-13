@@ -95,7 +95,7 @@ public abstract class BaseCommand implements Command {
 
   @Inject private PermissionBackend permissionBackend;
 
-  @Inject private SshScope.Context context;
+  @Inject private Context context;
 
   /** Commands declared by a plugin can be scoped by the plugin name. */
   @Inject(optional = true)

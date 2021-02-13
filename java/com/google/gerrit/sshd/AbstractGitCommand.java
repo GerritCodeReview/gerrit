@@ -40,7 +40,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
   @Inject private GitRepositoryManager repoManager;
 
-  @Inject private SshScope.Context context;
+  @Inject private Context context;
 
   @Inject private IdentifiedUser.GenericFactory userFactory;
 

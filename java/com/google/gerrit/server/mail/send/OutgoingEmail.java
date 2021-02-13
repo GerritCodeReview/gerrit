@@ -228,7 +228,7 @@ public abstract class OutgoingEmail {
         shallowCopy.remove(FieldName.CC);
         for (Address a : smtpRcptToPlaintextOnly) {
           // Add new To
-          EmailHeader.AddressList to = new EmailHeader.AddressList();
+          AddressList to = new AddressList();
           to.add(a);
           shallowCopy.put(FieldName.TO, to);
         }
@@ -277,9 +277,9 @@ public abstract class OutgoingEmail {
 
     smtpFromAddress = args.fromAddressGenerator.get().from(fromId);
     setHeader(FieldName.DATE, new Date());
-    headers.put(FieldName.FROM, new EmailHeader.AddressList(smtpFromAddress));
-    headers.put(FieldName.TO, new EmailHeader.AddressList());
-    headers.put(FieldName.CC, new EmailHeader.AddressList());
+    headers.put(FieldName.FROM, new AddressList(smtpFromAddress));
+    headers.put(FieldName.TO, new AddressList());
+    headers.put(FieldName.CC, new AddressList());
     setHeader(MailHeader.AUTO_SUBMITTED.fieldName(), "auto-generated");
 
     for (RecipientType recipientType : notify.accounts().keySet()) {
@@ -521,15 +521,15 @@ public abstract class OutgoingEmail {
           if (!override) {
             return;
           }
-          ((EmailHeader.AddressList) headers.get(FieldName.TO)).remove(addr.email());
-          ((EmailHeader.AddressList) headers.get(FieldName.CC)).remove(addr.email());
+          ((AddressList) headers.get(FieldName.TO)).remove(addr.email());
+          ((AddressList) headers.get(FieldName.CC)).remove(addr.email());
         }
         switch (rt) {
           case TO:
-            ((EmailHeader.AddressList) headers.get(FieldName.TO)).add(addr);
+            ((AddressList) headers.get(FieldName.TO)).add(addr);
             break;
           case CC:
-            ((EmailHeader.AddressList) headers.get(FieldName.CC)).add(addr);
+            ((AddressList) headers.get(FieldName.CC)).add(addr);
             break;
           case BCC:
             break;

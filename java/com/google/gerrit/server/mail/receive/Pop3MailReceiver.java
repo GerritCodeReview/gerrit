@@ -102,7 +102,7 @@ public class Pop3MailReceiver extends MailReceiver {
               mailMessages.add(mailMessage);
             }
           } catch (MailParsingException e) {
-            logger.atSevere().log("Could not parse message %d", msginfo.number);
+            logger.atSevere().withCause(e).log("Could not parse message %d", msginfo.number);
           }
         }
         dispatchMailProcessor(mailMessages, async);

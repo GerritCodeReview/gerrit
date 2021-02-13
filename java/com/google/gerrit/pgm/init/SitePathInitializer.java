@@ -27,7 +27,6 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.gerrit.pgm.init.api.Section.Factory;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.inject.Binding;
@@ -46,7 +45,7 @@ public class SitePathInitializer {
   private final InitFlags flags;
   private final SitePaths site;
   private final List<InitStep> steps;
-  private final Factory sectionFactory;
+  private final Section.Factory sectionFactory;
   private final SecureStoreInitData secureStoreInitData;
 
   @Inject

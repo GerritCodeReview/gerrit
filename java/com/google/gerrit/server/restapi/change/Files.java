@@ -241,8 +241,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
       Account.Id userId = user.getAccountId();
       PatchSet patchSetId = resource.getPatchSet();
-      Optional<PatchSetWithReviewedFiles> o;
-      o = accountPatchReviewStore.call(s -> s.findReviewed(patchSetId.id(), userId));
+      Optional<PatchSetWithReviewedFiles> o =
+          accountPatchReviewStore.call(s -> s.findReviewed(patchSetId.id(), userId));
 
       if (o.isPresent()) {
         PatchSetWithReviewedFiles res = o.get();

@@ -18,7 +18,6 @@ import static com.google.gerrit.server.patch.DiffUtil.stringSize;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Patch.PatchType;
 import com.google.gerrit.proto.Protos;
@@ -47,10 +46,10 @@ public abstract class FileDiffOutput implements Serializable {
   public abstract Optional<String> newPath();
 
   /** The change type of the underlying file, e.g. added, deleted, renamed, etc... */
-  public abstract Optional<Patch.ChangeType> changeType();
+  public abstract Optional<ChangeType> changeType();
 
   /** The patch type of the underlying file, e.g. unified, binary , etc... */
-  public abstract Optional<Patch.PatchType> patchType();
+  public abstract Optional<PatchType> patchType();
 
   /**
    * A list of strings representation of the header lines of the {@link
@@ -245,10 +244,10 @@ public abstract class FileDiffOutput implements Serializable {
         builder.newPath(Optional.of(proto.getNewPath()));
       }
       if (proto.hasField(CHANGE_TYPE_DESCRIPTOR)) {
-        builder.changeType(Optional.of(Patch.ChangeType.valueOf(proto.getChangeType())));
+        builder.changeType(Optional.of(ChangeType.valueOf(proto.getChangeType())));
       }
       if (proto.hasField(PATCH_TYPE_DESCRIPTOR)) {
-        builder.patchType(Optional.of(Patch.PatchType.valueOf(proto.getPatchType())));
+        builder.patchType(Optional.of(PatchType.valueOf(proto.getPatchType())));
       }
       return builder.build();
     }

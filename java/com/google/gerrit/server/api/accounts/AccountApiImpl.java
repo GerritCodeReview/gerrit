@@ -256,7 +256,7 @@ public class AccountApiImpl implements AccountApi {
     try {
       Response<String> result = getActive.apply(account);
       return result.statusCode() == SC_OK && result.value().equals("ok");
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get active", e);
     }
   }
@@ -465,7 +465,7 @@ public class AccountApiImpl implements AccountApi {
   public EmailApi email(String email) throws RestApiException {
     try {
       return emailApi.create(account, email);
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot parse email", e);
     }
   }

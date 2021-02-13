@@ -117,13 +117,12 @@ public class DeleteRef {
         .check(RefPermission.DELETE);
 
     try (Repository repository = repoManager.openRepository(projectState.getNameKey())) {
-      RefUpdate.Result result;
       RefUpdate u = repository.updateRef(ref);
       u.setExpectedOldObjectId(repository.exactRef(ref).getObjectId());
       u.setNewObjectId(ObjectId.zeroId());
       u.setForceUpdate(true);
       refDeletionValidator.validateRefOperation(projectState.getName(), identifiedUser.get(), u);
-      result = u.delete();
+      RefUpdate.Result result = u.delete();
 
       switch (result) {
         case NEW:
@@ -210,15 +209,15 @@ public class DeleteRef {
       ProjectState projectState, Repository r, String refName)
       throws IOException, ResourceConflictException, PermissionBackendException {
     Ref ref = r.getRefDatabase().exactRef(refName);
-    ReceiveCommand command;
     if (ref == null) {
-      command = new ReceiveCommand(ObjectId.zeroId(), ObjectId.zeroId(), refName);
+      ReceiveCommand command = new ReceiveCommand(ObjectId.zeroId(), ObjectId.zeroId(), refName);
       command.setResult(
           Result.REJECTED_OTHER_REASON,
           "it doesn't exist or you do not have permission to delete it");
       return command;
     }
-    command = new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName());
+    ReceiveCommand command =
+        new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName());
 
     if (isConfigRef(refName)) {
       // Never allow to delete the meta config branch.

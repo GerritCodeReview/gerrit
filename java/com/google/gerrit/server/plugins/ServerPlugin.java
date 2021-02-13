@@ -73,7 +73,7 @@ public class ServerPlugin extends Plugin {
         srcJar,
         pluginUser,
         snapshot,
-        scanner == null ? ApiType.PLUGIN : Plugin.getApiType(getPluginManifest(scanner)));
+        scanner == null ? Plugin.ApiType.PLUGIN : Plugin.getApiType(getPluginManifest(scanner)));
     this.pluginCanonicalWebUrl = pluginCanonicalWebUrl;
     this.scanner = scanner;
     this.dataDir = dataDir;
@@ -220,7 +220,7 @@ public class ServerPlugin extends Plugin {
 
     if (env.hasSshModule()) {
       List<Module> modules = new ArrayList<>();
-      if (getApiType() == ApiType.PLUGIN) {
+      if (getApiType() == Plugin.ApiType.PLUGIN) {
         modules.add(env.getSshModule());
       }
       if (sshModule != null) {
@@ -236,7 +236,7 @@ public class ServerPlugin extends Plugin {
 
     if (env.hasHttpModule()) {
       List<Module> modules = new ArrayList<>();
-      if (getApiType() == ApiType.PLUGIN) {
+      if (getApiType() == Plugin.ApiType.PLUGIN) {
         modules.add(env.getHttpModule());
       }
       if (httpModule != null) {
@@ -255,7 +255,7 @@ public class ServerPlugin extends Plugin {
 
   private Injector newRootInjector(PluginGuiceEnvironment env) {
     List<Module> modules = Lists.newArrayListWithCapacity(2);
-    if (getApiType() == ApiType.PLUGIN) {
+    if (getApiType() == Plugin.ApiType.PLUGIN) {
       modules.add(env.getSysModule());
     }
     modules.add(new ServerPluginInfoModule(this, env.getServerMetrics()));

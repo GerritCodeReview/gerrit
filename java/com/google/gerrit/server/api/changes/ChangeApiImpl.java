@@ -436,7 +436,7 @@ class ChangeApiImpl implements ChangeApi {
   public String topic() throws RestApiException {
     try {
       return getTopic.apply(change).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get topic", e);
     }
   }

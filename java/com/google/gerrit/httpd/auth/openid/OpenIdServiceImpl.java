@@ -141,8 +141,7 @@ class OpenIdServiceImpl {
       SignInMode mode,
       boolean remember,
       String returnToken) {
-    final State state;
-    state = init(req, openidIdentifier, mode, remember, returnToken);
+    State state = init(req, openidIdentifier, mode, remember, returnToken);
     if (state == null) {
       return new DiscoveryResult(DiscoveryResult.Status.NO_PROVIDER);
     }
@@ -215,7 +214,6 @@ class OpenIdServiceImpl {
     final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
     final String rediscoverIdentifier =
         claimedIdentifier != null ? claimedIdentifier : openidIdentifier;
-    final State state;
 
     if (!isAllowedOpenID(rediscoverIdentifier)
         || !isAllowedOpenID(openidIdentifier)
@@ -224,7 +222,7 @@ class OpenIdServiceImpl {
       return;
     }
 
-    state = init(req, rediscoverIdentifier, mode, remember, returnToken);
+    State state = init(req, rediscoverIdentifier, mode, remember, returnToken);
     if (state == null) {
       // Re-discovery must have failed, we can't run a login.
       //

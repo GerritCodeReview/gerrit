@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.ContributorAgreement;
 import com.google.gerrit.entities.PermissionRule;
@@ -91,10 +90,9 @@ public class ContributorAgreementsChecker {
     IdentifiedUser iUser = user.asIdentifiedUser();
     Collection<ContributorAgreement> contributorAgreements =
         projectCache.getAllProjects().getConfig().getContributorAgreements().values();
-    List<UUID> okGroupIds = new ArrayList<>();
+    List<AccountGroup.UUID> okGroupIds = new ArrayList<>();
     for (ContributorAgreement ca : contributorAgreements) {
-      List<AccountGroup.UUID> groupIds;
-      groupIds = okGroupIds;
+      List<AccountGroup.UUID> groupIds = okGroupIds;
 
       // matchProjects defaults to match all projects when missing.
       List<String> matchProjectsRegexes = ca.getMatchProjectsRegexes();

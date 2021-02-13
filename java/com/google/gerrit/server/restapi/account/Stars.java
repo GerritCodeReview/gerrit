@@ -53,19 +53,19 @@ import java.util.SortedSet;
  * /accounts/<account-identifier>/stars.changes/<change ID>}.
  */
 @Singleton
-public class Stars implements ChildCollection<AccountResource, AccountResource.Star> {
+public class Stars implements ChildCollection<AccountResource, Star> {
 
   private final ChangesCollection changes;
   private final ListStarredChanges listStarredChanges;
   private final StarredChangesUtil starredChangesUtil;
-  private final DynamicMap<RestView<AccountResource.Star>> views;
+  private final DynamicMap<RestView<Star>> views;
 
   @Inject
   Stars(
       ChangesCollection changes,
       ListStarredChanges listStarredChanges,
       StarredChangesUtil starredChangesUtil,
-      DynamicMap<RestView<AccountResource.Star>> views) {
+      DynamicMap<RestView<Star>> views) {
     this.changes = changes;
     this.listStarredChanges = listStarredChanges;
     this.starredChangesUtil = starredChangesUtil;
@@ -79,7 +79,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
     // This enforces visibility of the change.
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     Set<String> labels = starredChangesUtil.getLabels(user.getAccountId(), change.getId());
-    return new AccountResource.Star(user, change, labels);
+    return new Star(user, change, labels);
   }
 
   @Override
@@ -128,7 +128,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
   }
 
   @Singleton
-  public static class Get implements RestReadView<AccountResource.Star> {
+  public static class Get implements RestReadView<Star> {
 
     private final Provider<CurrentUser> self;
     private final StarredChangesUtil starredChangesUtil;
@@ -140,7 +140,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
     }
 
     @Override
-    public Response<SortedSet<String>> apply(AccountResource.Star rsrc) throws AuthException {
+    public Response<SortedSet<String>> apply(Star rsrc) throws AuthException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to get stars of another account");
       }
@@ -150,7 +150,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
   }
 
   @Singleton
-  public static class Post implements RestModifyView<AccountResource.Star, StarsInput> {
+  public static class Post implements RestModifyView<Star, StarsInput> {
 
     private final Provider<CurrentUser> self;
     private final StarredChangesUtil starredChangesUtil;
@@ -162,7 +162,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
     }
 
     @Override
-    public Response<Collection<String>> apply(AccountResource.Star rsrc, StarsInput in)
+    public Response<Collection<String>> apply(Star rsrc, StarsInput in)
         throws AuthException, BadRequestException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to update stars of another account");

@@ -165,7 +165,7 @@ public abstract class RequestScopePropagator {
 
   protected <T> Callable<T> context(RequestContext context, Callable<T> callable) {
     return () -> {
-      RequestContext old = local.setContext(context::getUser);
+      RequestContext old = local.setContext(context);
       try {
         return callable.call();
       } finally {

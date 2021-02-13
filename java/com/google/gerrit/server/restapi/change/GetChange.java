@@ -65,7 +65,7 @@ public class GetChange
   }
 
   @Override
-  public void setDynamicBean(String plugin, DynamicOptions.DynamicBean dynamicBean) {
+  public void setDynamicBean(String plugin, DynamicBean dynamicBean) {
     dynamicBeans.put(plugin, dynamicBean);
   }
 

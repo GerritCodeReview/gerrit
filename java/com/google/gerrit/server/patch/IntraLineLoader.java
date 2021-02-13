@@ -38,7 +38,7 @@ import org.eclipse.jgit.diff.MyersDiff;
 import org.eclipse.jgit.lib.Config;
 
 class IntraLineLoader implements Callable<IntraLineDiff> {
-  static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   interface Factory {
     IntraLineLoader create(IntraLineDiffKey key, IntraLineDiffArgs args);

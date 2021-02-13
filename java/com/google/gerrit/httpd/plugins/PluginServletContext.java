@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.plugins;
 
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.server.plugins.Plugin;
 import java.io.InputStream;
@@ -113,6 +114,7 @@ class PluginServletContext {
 
     @SuppressWarnings("rawtypes")
     @Override
+    @Nullable
     public Set getResourcePaths(String name) {
       return null;
     }

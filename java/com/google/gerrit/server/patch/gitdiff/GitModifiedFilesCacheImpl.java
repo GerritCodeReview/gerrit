@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -45,7 +44,7 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 /** Implementation of the {@link GitModifiedFilesCache} */
 public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
   private static final String GIT_MODIFIED_FILES = "git_modified_files";
-  private static final ImmutableMap<ChangeType, Patch.ChangeType> changeTypeMap =
+  private static final ImmutableMap<DiffEntry.ChangeType, Patch.ChangeType> changeTypeMap =
       ImmutableMap.of(
           DiffEntry.ChangeType.ADD,
           Patch.ChangeType.ADDED,

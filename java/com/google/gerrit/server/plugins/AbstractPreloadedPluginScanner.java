@@ -19,7 +19,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.annotations.Export;
-import com.google.gerrit.server.plugins.Plugin.ApiType;
 import com.google.inject.Module;
 import com.google.inject.servlet.ServletModule;
 import java.io.ByteArrayInputStream;
@@ -47,7 +46,7 @@ public abstract class AbstractPreloadedPluginScanner implements PluginContentSca
   protected final String pluginName;
   protected final String pluginVersion;
   protected final Set<Class<?>> preloadedClasses;
-  protected final ApiType apiType;
+  protected final Plugin.ApiType apiType;
 
   private Class<?> sshModuleClass;
   private Class<?> httpModuleClass;

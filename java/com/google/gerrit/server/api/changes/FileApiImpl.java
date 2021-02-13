@@ -114,7 +114,7 @@ class FileApiImpl implements FileApi {
       } else {
         deleteReviewed.apply(file, new Input());
       }
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException(String.format("Cannot set %sreviewed", reviewed ? "" : "un"), e);
     }
   }

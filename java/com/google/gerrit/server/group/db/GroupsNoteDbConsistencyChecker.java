@@ -26,7 +26,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.group.InternalGroup;
@@ -231,7 +230,7 @@ public class GroupsNoteDbConsistencyChecker {
 
   public static void ensureConsistentWithGroupNameNotes(
       Repository allUsersRepo, InternalGroup group) throws IOException {
-    List<ConsistencyCheckInfo.ConsistencyProblemInfo> problems =
+    List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, group.getNameKey(), group.getGroupUUID());
     problems.forEach(GroupsNoteDbConsistencyChecker::logConsistencyProblem);

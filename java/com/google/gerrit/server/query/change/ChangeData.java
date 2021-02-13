@@ -874,6 +874,7 @@ public class ChangeData {
     return getCachedSubmitRecord(options);
   }
 
+  @Nullable
   private List<SubmitRecord> getCachedSubmitRecord(SubmitRuleOptions options) {
     List<SubmitRecord> records = submitRecords.get(options);
     if (records != null) {

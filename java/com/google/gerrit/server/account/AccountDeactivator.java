@@ -97,7 +97,7 @@ public class AccountDeactivator implements Runnable {
       }
       logger.atInfo().log(
           "Deactivations complete, %d account(s) were deactivated", numberOfAccountsDeactivated);
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       logger.atSevere().withCause(e).log(
           "Failed to complete deactivation of accounts: %s", e.getMessage());
     }

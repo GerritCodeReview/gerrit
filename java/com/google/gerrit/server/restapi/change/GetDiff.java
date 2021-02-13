@@ -262,14 +262,14 @@ public class GetDiff implements RestReadView<FileResource> {
 
   @Deprecated
   enum IgnoreWhitespace {
-    NONE(DiffPreferencesInfo.Whitespace.IGNORE_NONE),
-    TRAILING(DiffPreferencesInfo.Whitespace.IGNORE_TRAILING),
-    CHANGED(DiffPreferencesInfo.Whitespace.IGNORE_LEADING_AND_TRAILING),
-    ALL(DiffPreferencesInfo.Whitespace.IGNORE_ALL);
+    NONE(Whitespace.IGNORE_NONE),
+    TRAILING(Whitespace.IGNORE_TRAILING),
+    CHANGED(Whitespace.IGNORE_LEADING_AND_TRAILING),
+    ALL(Whitespace.IGNORE_ALL);
 
-    private final DiffPreferencesInfo.Whitespace whitespace;
+    private final Whitespace whitespace;
 
-    IgnoreWhitespace(DiffPreferencesInfo.Whitespace whitespace) {
+    IgnoreWhitespace(Whitespace whitespace) {
       this.whitespace = whitespace;
     }
   }

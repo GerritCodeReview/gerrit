@@ -62,14 +62,13 @@ class LdapQuery {
   }
 
   List<Result> query(DirContext ctx, Map<String, String> params) throws NamingException {
-    final SearchControls sc = new SearchControls();
-    final NamingEnumeration<SearchResult> res;
-
+    SearchControls sc = new SearchControls();
     sc.setSearchScope(searchScope.scope());
     sc.setReturningAttributes(returnAttributes);
-    res = ctx.search(base, pattern.getRawPattern(), pattern.bind(params), sc);
+    NamingEnumeration<SearchResult> res =
+        ctx.search(base, pattern.getRawPattern(), pattern.bind(params), sc);
     try {
-      final List<Result> r = new ArrayList<>();
+      List<Result> r = new ArrayList<>();
       try {
         while (res.hasMore()) {
           r.add(new Result(res.next()));

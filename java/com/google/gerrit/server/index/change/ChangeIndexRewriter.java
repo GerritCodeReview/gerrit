@@ -19,8 +19,8 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexRewriter;
@@ -83,18 +83,19 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     return s != null ? s : EnumSet.allOf(Change.Status.class);
   }
 
+  @Nullable
   private static EnumSet<Change.Status> extractStatus(Predicate<ChangeData> in) {
     if (in instanceof ChangeStatusPredicate) {
-      Status status = ((ChangeStatusPredicate) in).getStatus();
+      Change.Status status = ((ChangeStatusPredicate) in).getStatus();
       return status != null ? EnumSet.of(status) : null;
     } else if (in instanceof NotPredicate) {
-      EnumSet<Status> s = extractStatus(in.getChild(0));
+      EnumSet<Change.Status> s = extractStatus(in.getChild(0));
       return s != null ? EnumSet.complementOf(s) : null;
     } else if (in instanceof OrPredicate) {
       EnumSet<Change.Status> r = null;
       int childrenWithStatus = 0;
       for (int i = 0; i < in.getChildCount(); i++) {
-        EnumSet<Status> c = extractStatus(in.getChild(i));
+        EnumSet<Change.Status> c = extractStatus(in.getChild(i));
         if (c != null) {
           if (r == null) {
             r = EnumSet.noneOf(Change.Status.class);

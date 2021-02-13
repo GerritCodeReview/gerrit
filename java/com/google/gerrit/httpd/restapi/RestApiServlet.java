@@ -187,7 +187,6 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.Heap;
 
 public class RestApiServlet extends HttpServlet {
@@ -1343,7 +1342,7 @@ public class RestApiServlet extends HttpServlet {
       ListMultimap<String, String> config,
       Object result)
       throws IOException {
-    TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
+    Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
     buf.write(JSON_MAGIC);
     Writer w = new BufferedWriter(new OutputStreamWriter(buf, UTF_8));
     Gson gson = newGson(config);
@@ -1469,7 +1468,7 @@ public class RestApiServlet extends HttpServlet {
 
   private static BinaryResult stackJsonString(HttpServletResponse res, BinaryResult src)
       throws IOException {
-    TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
+    Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
     buf.write(JSON_MAGIC);
     try (Writer w = new BufferedWriter(new OutputStreamWriter(buf, UTF_8));
         JsonWriter json = new JsonWriter(w)) {
@@ -1919,7 +1918,7 @@ public class RestApiServlet extends HttpServlet {
   private static BinaryResult base64(BinaryResult bin) throws IOException {
     int maxSize = base64MaxSize(bin.getContentLength());
     int estSize = Math.min(base64MaxSize(HEAP_EST_SIZE), maxSize);
-    TemporaryBuffer.Heap buf = heap(estSize, maxSize);
+    Heap buf = heap(estSize, maxSize);
     try (OutputStream encoded =
         BaseEncoding.base64().encodingStream(new OutputStreamWriter(buf, ISO_8859_1))) {
       bin.writeTo(encoded);
@@ -1928,7 +1927,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static BinaryResult compress(BinaryResult bin) throws IOException {
-    TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, 20 << 20);
+    Heap buf = heap(HEAP_EST_SIZE, 20 << 20);
     try (GZIPOutputStream gz = new GZIPOutputStream(buf)) {
       bin.writeTo(gz);
     }
@@ -1936,7 +1935,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   @SuppressWarnings("resource")
-  private static BinaryResult asBinaryResult(TemporaryBuffer.Heap buf) {
+  private static BinaryResult asBinaryResult(Heap buf) {
     return new BinaryResult() {
       @Override
       public void writeTo(OutputStream os) throws IOException {
@@ -1946,7 +1945,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static Heap heap(int est, int max) {
-    return new TemporaryBuffer.Heap(est, max);
+    return new Heap(est, max);
   }
 
   private static class AmbiguousViewException extends Exception {

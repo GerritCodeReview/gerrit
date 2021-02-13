@@ -24,7 +24,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
-import com.google.gerrit.server.quota.QuotaResponse.Aggregated;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -175,7 +174,7 @@ public class DefaultQuotaBackend implements QuotaBackend {
     }
 
     @Override
-    public Aggregated availableTokens(String quotaGroup) {
+    public QuotaResponse.Aggregated availableTokens(String quotaGroup) {
       return DefaultQuotaBackend.availableTokens(quotaEnforcers, quotaGroup, requestContext);
     }
   }

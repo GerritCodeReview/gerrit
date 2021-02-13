@@ -27,7 +27,6 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.prettify.common.SparseFileContent.Accessor;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.LargeObjectException;
@@ -154,8 +153,8 @@ public class SubmitWithStickyApprovalDiff {
               "The file %s was renamed to %s\n",
               patchListEntry.getOldName(), patchListEntry.getNewName());
     }
-    SparseFileContent.Accessor fileA = patchScript.getA().createAccessor();
-    SparseFileContent.Accessor fileB = patchScript.getB().createAccessor();
+    Accessor fileA = patchScript.getA().createAccessor();
+    Accessor fileB = patchScript.getB().createAccessor();
     boolean editsExist = false;
     if (patchScript.getEdits().stream().anyMatch(e -> e.getType() != Edit.Type.EMPTY)) {
       diff += "```\n";
@@ -241,8 +240,7 @@ public class SubmitWithStickyApprovalDiff {
    */
   private PatchList getPatchList(Project.NameKey project, PatchSet ps, PatchSet priorPatchSet) {
     PatchListKey key =
-        PatchListKey.againstCommit(
-            priorPatchSet.commitId(), ps.commitId(), DiffPreferencesInfo.Whitespace.IGNORE_NONE);
+        PatchListKey.againstCommit(priorPatchSet.commitId(), ps.commitId(), Whitespace.IGNORE_NONE);
     try {
       return patchListCache.get(key, project);
     } catch (PatchListNotAvailableException ex) {

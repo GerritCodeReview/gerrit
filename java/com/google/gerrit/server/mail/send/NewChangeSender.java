@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.exceptions.EmailException;
@@ -85,6 +86,7 @@ public abstract class NewChangeSender extends ChangeEmail {
     }
   }
 
+  @Nullable
   public List<String> getReviewerNames() {
     if (reviewers.isEmpty()) {
       return null;

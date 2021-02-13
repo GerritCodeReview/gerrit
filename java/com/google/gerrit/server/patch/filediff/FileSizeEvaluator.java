@@ -18,7 +18,6 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.FileMode;
 import com.google.gerrit.exceptions.StorageException;
 import java.io.IOException;
@@ -44,7 +43,7 @@ class FileSizeEvaluator {
    * Computes the file size identified by the {@code path} parameter at the given git tree
    * identified by {@code gitTreeId}.
    */
-  long compute(AbbreviatedObjectId gitTreeId, Patch.FileMode mode, String path) throws IOException {
+  long compute(AbbreviatedObjectId gitTreeId, FileMode mode, String path) throws IOException {
     if (!isBlob(mode)) {
       return 0;
     }
@@ -89,7 +88,7 @@ class FileSizeEvaluator {
         : Optional.empty();
   }
 
-  private static boolean isBlob(Patch.FileMode mode) {
+  private static boolean isBlob(FileMode mode) {
     return mode.equals(FileMode.REGULAR_FILE) || mode.equals(FileMode.SYMLINK);
   }
 }

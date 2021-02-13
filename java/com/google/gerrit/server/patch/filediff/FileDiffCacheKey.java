@@ -18,8 +18,6 @@ import static com.google.gerrit.server.patch.DiffUtil.stringSize;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.Project.NameKey;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.FileDiffKeyProto;
@@ -53,7 +51,7 @@ public abstract class FileDiffCacheKey {
   /** The diff algorithm that should be used in the computation. */
   public abstract DiffAlgorithm diffAlgorithm();
 
-  public abstract DiffPreferencesInfo.Whitespace whitespace();
+  public abstract Whitespace whitespace();
 
   /** Number of bytes that this entity occupies. */
   public int weight() {
@@ -72,7 +70,7 @@ public abstract class FileDiffCacheKey {
   @AutoValue.Builder
   public abstract static class Builder {
 
-    public abstract FileDiffCacheKey.Builder project(NameKey value);
+    public abstract FileDiffCacheKey.Builder project(Project.NameKey value);
 
     public abstract FileDiffCacheKey.Builder oldCommit(ObjectId value);
 

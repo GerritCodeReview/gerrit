@@ -174,7 +174,7 @@ public abstract class CacheBasedWebSession implements WebSession {
     return user;
   }
 
-  private static PropertyMap getUserProperties(@Nullable WebSessionManager.Val val) {
+  private static PropertyMap getUserProperties(@Nullable Val val) {
     if (val == null || val.getExternalId() == null) {
       return PropertyMap.EMPTY;
     }

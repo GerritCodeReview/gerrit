@@ -57,7 +57,7 @@ import org.eclipse.jgit.lib.Config;
 
 /** Implementation of GroupBackend for the LDAP group system. */
 public class LdapGroupBackend implements GroupBackend {
-  static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String LDAP_NAME = "ldap/";
   private static final String GROUPNAME = "groupname";

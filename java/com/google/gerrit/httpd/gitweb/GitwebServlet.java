@@ -138,7 +138,7 @@ class GitwebServlet extends HttpServlet {
       try {
         uri = new URI(url);
       } catch (URISyntaxException e) {
-        logger.atSevere().log("Invalid gitweb.url: %s", url);
+        logger.atSevere().withCause(e).log("Invalid gitweb.url: %s", url);
       }
       gitwebUrl = uri;
     } else {

@@ -171,7 +171,7 @@ public class GetCapabilities implements RestReadView<AccountResource> {
    * /accounts/<account-identifier>/capabilities/<capability-identifier>} requests.
    */
   @Singleton
-  public static class CheckOne implements RestReadView<AccountResource.Capability> {
+  public static class CheckOne implements RestReadView<Capability> {
     private final PermissionBackend permissionBackend;
 
     @Inject

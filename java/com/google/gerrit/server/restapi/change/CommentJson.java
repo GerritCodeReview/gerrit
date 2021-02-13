@@ -260,6 +260,7 @@ public class CommentJson {
       return rci;
     }
 
+    @Nullable
     private List<FixSuggestionInfo> toFixSuggestionInfos(
         @Nullable List<FixSuggestion> fixSuggestions) {
       if (fixSuggestions == null || fixSuggestions.isEmpty()) {

@@ -62,7 +62,7 @@ public class AgreementJson {
         GroupResource group = new GroupResource(gc);
         info.autoVerifyGroup = groupJson.format(group);
       } catch (NoSuchGroupException | StorageException e) {
-        logger.atWarning().log(
+        logger.atWarning().withCause(e).log(
             "autoverify group \"%s\" does not exist, referenced in CLA \"%s\"",
             autoVerifyGroup.getName(), ca.getName());
       }

@@ -810,8 +810,8 @@ public class CommitValidators {
                           new CommitValidationMessage(
                               p.message,
                               p.status == ConsistencyProblemInfo.Status.ERROR
-                                  ? ValidationMessage.Type.ERROR
-                                  : ValidationMessage.Type.OTHER))
+                                  ? Type.ERROR
+                                  : Type.OTHER))
                   .collect(toList());
           if (msgs.stream().anyMatch(ValidationMessage::isError)) {
             throw new CommitValidationException("invalid external IDs", msgs);

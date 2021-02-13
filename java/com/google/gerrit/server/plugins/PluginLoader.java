@@ -660,8 +660,7 @@ public class PluginLoader implements LifecycleListener {
   //       Server plugin provider.
   public SetMultimap<String, Path> prunePlugins(Path pluginsDir) {
     List<Path> pluginPaths = scanPathsInPluginsDirectory(pluginsDir);
-    SetMultimap<String, Path> map;
-    map = asMultimap(pluginPaths);
+    SetMultimap<String, Path> map = asMultimap(pluginPaths);
     for (String plugin : map.keySet()) {
       Collection<Path> files = map.asMap().get(plugin);
       if (files.size() == 1) {

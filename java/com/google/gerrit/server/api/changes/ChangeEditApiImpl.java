@@ -95,7 +95,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
           return ChangeEditApiImpl.this.get(this);
         }
       };
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot retrieve change edit", e);
     }
   }

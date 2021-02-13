@@ -37,7 +37,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.entities.PatchSet.Id;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -293,7 +292,7 @@ public class BatchUpdate implements AutoCloseable {
      * commit in NoteDb by re-using the same ChangeUpdate instance. Will still be one commit per
      * patch set.
      */
-    private final ListMultimap<Id, ChangeUpdate> distinctUpdates;
+    private final ListMultimap<PatchSet.Id, ChangeUpdate> distinctUpdates;
 
     private boolean deleted;
 

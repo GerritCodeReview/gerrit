@@ -69,7 +69,8 @@ public class ProjectCacheWarmer implements LifecycleListener {
                   pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
                   logger.atInfo().log("Finished loading project cache");
                 } catch (InterruptedException e) {
-                  logger.atWarning().log("Interrupted while waiting for project cache to load");
+                  logger.atWarning().withCause(e).log(
+                      "Interrupted while waiting for project cache to load");
                 }
               });
       scheduler.setName("ProjectCacheWarmer");

@@ -216,7 +216,7 @@ public class PermissionCollection {
           continue;
         }
 
-        if (pr.getAction() == PermissionRule.Action.DENY) {
+        if (pr.getAction() == Action.DENY) {
           // DENY rules work by not adding ALLOW rules. Nothing else to do.
           continue;
         }

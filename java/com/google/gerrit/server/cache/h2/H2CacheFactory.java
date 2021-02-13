@@ -120,7 +120,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
           logger.atInfo().log("Timeout waiting for disk cache to close");
         }
       } catch (InterruptedException e) {
-        logger.atWarning().log("Interrupted waiting for disk cache to shutdown");
+        logger.atWarning().withCause(e).log("Interrupted waiting for disk cache to shutdown");
       }
     }
     synchronized (caches) {

@@ -15,6 +15,7 @@
 package com.google.gerrit.auth.ldap;
 
 import com.google.common.cache.LoadingCache;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
@@ -25,6 +26,8 @@ import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Config;
 
 class LdapGroupMembership implements GroupMembership {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;
   private final ProjectCache projectCache;
   private final String id;
@@ -71,10 +74,7 @@ class LdapGroupMembership implements GroupMembership {
       try {
         membership = new ListGroupMembership(membershipCache.get(id));
       } catch (ExecutionException e) {
-        LdapGroupBackend.logger
-            .atWarning()
-            .withCause(e)
-            .log("Cannot lookup membershipsOf %s in LDAP", id);
+        logger.atWarning().withCause(e).log("Cannot lookup membershipsOf %s in LDAP", id);
         membership = GroupMembership.EMPTY;
       }
     }

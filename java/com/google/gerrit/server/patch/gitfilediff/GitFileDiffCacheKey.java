@@ -18,8 +18,6 @@ import static com.google.gerrit.server.patch.DiffUtil.stringSize;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.Project.NameKey;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.GitFileDiffKeyProto;
@@ -51,7 +49,7 @@ public abstract class GitFileDiffCacheKey {
 
   public abstract DiffAlgorithm diffAlgorithm();
 
-  public abstract DiffPreferencesInfo.Whitespace whitespace();
+  public abstract Whitespace whitespace();
 
   public int weight() {
     return stringSize(project().get())
@@ -69,7 +67,7 @@ public abstract class GitFileDiffCacheKey {
   @AutoValue.Builder
   public abstract static class Builder {
 
-    public abstract Builder project(NameKey value);
+    public abstract Builder project(Project.NameKey value);
 
     public abstract Builder oldTree(ObjectId value);
 

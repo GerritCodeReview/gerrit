@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.BranchNameKey;
@@ -214,9 +215,7 @@ public class Submit
     }
 
     try (MergeOp op = mergeOpProvider.get()) {
-      Change updatedChange;
-
-      updatedChange = op.merge(change, submitter, true, input, false);
+      Change updatedChange = op.merge(change, submitter, true, input, false);
       if (updatedChange.isMerged()) {
         return Response.ok(new Output(updatedChange));
       }
@@ -375,6 +374,7 @@ public class Submit
         .setEnabled(Boolean.TRUE.equals(enabled));
   }
 
+  @Nullable
   public Collection<ChangeData> unmergeableChanges(ChangeSet cs) throws IOException {
     Set<ChangeData> mergeabilityMap = new HashSet<>();
     Set<ObjectId> outDatedPatchsets = new HashSet<>();

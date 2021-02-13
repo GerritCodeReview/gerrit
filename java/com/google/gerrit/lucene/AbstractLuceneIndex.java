@@ -62,7 +62,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.LegacyIntField;
@@ -409,8 +408,8 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     return new FieldBundle(rawFields);
   }
 
-  private static Field.Store store(FieldDef<?, ?> f) {
-    return f.isStored() ? Field.Store.YES : Field.Store.NO;
+  private static Store store(FieldDef<?, ?> f) {
+    return f.isStored() ? Store.YES : Store.NO;
   }
 
   private final class NrtFuture extends AbstractFuture<Void> {

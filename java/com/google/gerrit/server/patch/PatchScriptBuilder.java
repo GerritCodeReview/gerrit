@@ -179,7 +179,7 @@ class PatchScriptBuilder {
         b.mimeType,
         intralineResult.failure,
         intralineResult.timeout,
-        content.getPatchType() == Patch.PatchType.BINARY,
+        content.getPatchType() == PatchType.BINARY,
         a.treeId == null ? null : a.treeId.getName(),
         b.treeId == null ? null : b.treeId.getName());
   }
@@ -476,7 +476,7 @@ class PatchScriptBuilder {
     private final String oldName;
     private final String newName;
     private final ChangeType changeType;
-    private final Patch.PatchType patchType;
+    private final PatchType patchType;
 
     public PatchFileChange(
         ImmutableList<Edit> edits,
@@ -485,7 +485,7 @@ class PatchScriptBuilder {
         String oldName,
         String newName,
         ChangeType changeType,
-        Patch.PatchType patchType) {
+        PatchType patchType) {
       this.edits = edits;
       this.editsDueToRebase = editsDueToRebase;
       this.headerLines = headerLines;
@@ -519,7 +519,7 @@ class PatchScriptBuilder {
       return changeType;
     }
 
-    Patch.PatchType getPatchType() {
+    PatchType getPatchType() {
       return patchType;
     }
   }

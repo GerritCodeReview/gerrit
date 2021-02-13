@@ -107,7 +107,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
                   }
                   verboseWriter.println("Reindexed " + desc);
                   done.incrementAndGet();
-                } catch (Exception e) {
+                } catch (RuntimeException e) {
                   failed.incrementAndGet();
                   throw e;
                 }

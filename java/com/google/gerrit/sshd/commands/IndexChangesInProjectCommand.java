@@ -53,7 +53,7 @@ final class IndexChangesInProjectCommand extends SshCommand {
   private void index(ProjectState projectState) {
     try {
       index.apply(new ProjectResource(projectState, user), null);
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       writeError(
           "error", String.format("Unable to index %s: %s", projectState.getName(), e.getMessage()));
     }

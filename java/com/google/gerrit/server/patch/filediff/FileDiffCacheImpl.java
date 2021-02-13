@@ -217,7 +217,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
             : createMergeListEntry(
                 reader, aCommit, bCommit, comparisonType, cmp, key.diffAlgorithm());
       } catch (IOException e) {
-        logger.atWarning().log("Failed to compute commit entry for key %s", key);
+        logger.atWarning().withCause(e).log("Failed to compute commit entry for key %s", key);
       }
       return FileDiffOutput.empty(key.newFilePath());
     }
@@ -405,7 +405,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
             result.add(AugmentedFileDiffCacheKey.builder().key(key).ignoreRebase(true).build());
           }
         } catch (IOException e) {
-          logger.atWarning().log(
+          logger.atWarning().withCause(e).log(
               "Failed to evaluate commits relation for key "
                   + key
                   + ". Skipping this key: "

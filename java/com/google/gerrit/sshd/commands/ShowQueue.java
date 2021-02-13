@@ -101,7 +101,7 @@ final class ShowQueue extends SshCommand {
       throw die(e);
     } catch (PermissionBackendException e) {
       throw new Failure(1, "permission backend unavailable", e);
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw new Failure(1, "unavailable", e);
     }
 

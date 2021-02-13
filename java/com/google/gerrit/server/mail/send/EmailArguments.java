@@ -21,7 +21,6 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupBackend;
@@ -109,7 +108,7 @@ public class EmailArguments {
       Provider<FromAddressGenerator> fromAddressGenerator,
       EmailSender emailSender,
       PatchSetInfoFactory patchSetInfoFactory,
-      GenericFactory identifiedUserFactory,
+      IdentifiedUser.GenericFactory identifiedUserFactory,
       ChangeNotes.Factory changeNotesFactory,
       Provider<AnonymousUser> anonymousUser,
       @AnonymousCowardName String anonymousCowardName,

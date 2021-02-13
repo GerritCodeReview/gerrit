@@ -37,17 +37,17 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
   }
 
   @Override
-  public String newChange(ChangeReportFormatter.Input input) {
+  public String newChange(Input input) {
     return formatChangeUrl(input) + NEW_CHANGE_INDICATOR;
   }
 
   @Override
-  public String changeUpdated(ChangeReportFormatter.Input input) {
+  public String changeUpdated(Input input) {
     return formatChangeUrl(input);
   }
 
   @Override
-  public String changeClosed(ChangeReportFormatter.Input input) {
+  public String changeClosed(Input input) {
     Change c = input.change();
     return String.format(
         "change %s closed",

@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -38,6 +39,7 @@ import org.eclipse.jgit.lib.ObjectId;
 /** Provides a cached list of {@link PatchListEntry}. */
 @Singleton
 public class PatchListCacheImpl implements PatchListCache {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   public static final String FILE_NAME = "diff";
   static final String INTRA_NAME = "diff_intraline";
   static final String DIFF_SUMMARY = "diff_summary";
@@ -110,14 +112,14 @@ public class PatchListCacheImpl implements PatchListCache {
       }
       return pl;
     } catch (ExecutionException e) {
-      PatchListLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
+      logger.atWarning().withCause(e).log("Error computing %s", key);
       throw new PatchListNotAvailableException(e);
     } catch (UncheckedExecutionException e) {
       if (e.getCause() instanceof LargeObjectException) {
         // Cache negative result so we don't need to redo expensive computations that would yield
         // the same result.
         fileCache.put(key, new LargeObjectTombstone());
-        PatchListLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
+        logger.atWarning().withCause(e).log("Error computing %s", key);
         throw new PatchListNotAvailableException(e);
       }
       throw e;
@@ -151,7 +153,7 @@ public class PatchListCacheImpl implements PatchListCache {
       try {
         return intraCache.get(key, intraLoaderFactory.create(key, args));
       } catch (ExecutionException | LargeObjectException e) {
-        IntraLineLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
+        logger.atWarning().withCause(e).log("Error computing %s", key);
         return new IntraLineDiff(IntraLineDiff.Status.ERROR);
       }
     }
@@ -164,11 +166,11 @@ public class PatchListCacheImpl implements PatchListCache {
     try {
       return diffSummaryCache.get(key, diffSummaryLoaderFactory.create(key, project));
     } catch (ExecutionException e) {
-      PatchListLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
+      logger.atWarning().withCause(e).log("Error computing %s", key);
       throw new PatchListNotAvailableException(e);
     } catch (UncheckedExecutionException e) {
       if (e.getCause() instanceof LargeObjectException) {
-        PatchListLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
+        logger.atWarning().withCause(e).log("Error computing %s", key);
         throw new PatchListNotAvailableException(e);
       }
       throw e;

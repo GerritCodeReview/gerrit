@@ -274,7 +274,7 @@ class ChangeNotesParser {
       try {
         PatchSet ps = e.getValue().build();
         result.put(ps.id(), ps);
-      } catch (Exception ex) {
+      } catch (RuntimeException ex) {
         ConfigInvalidException cie = parseException("Error building patch set %s", e.getKey());
         cie.initCause(ex);
         throw cie;

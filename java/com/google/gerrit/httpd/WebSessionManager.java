@@ -80,12 +80,11 @@ public class WebSessionManager {
 
   private String newUniqueToken(Account.Id who) {
     try {
-      final int nonceLen = 20;
-      final ByteArrayOutputStream buf;
-      final byte[] rnd = new byte[nonceLen];
+      int nonceLen = 20;
+      ByteArrayOutputStream buf = new ByteArrayOutputStream(3 + nonceLen);
+      byte[] rnd = new byte[nonceLen];
       prng.nextBytes(rnd);
 
-      buf = new ByteArrayOutputStream(3 + nonceLen);
       writeVarInt32(buf, (int) Val.serialVersionUID);
       writeVarInt32(buf, who.get());
       writeBytes(buf, rnd);

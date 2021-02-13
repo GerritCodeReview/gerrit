@@ -338,7 +338,7 @@ public class AsyncReceiveCommits {
         receivePack.sendError("timeout while processing changes");
         rejectCommandsNotAttempted(commands);
         return;
-      } catch (Exception e) {
+      } catch (RuntimeException e) {
         logger.atSevere().withCause(e.getCause()).log("error while processing push");
         receivePack.sendError("internal error");
         rejectCommandsNotAttempted(commands);

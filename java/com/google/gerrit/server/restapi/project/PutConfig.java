@@ -53,7 +53,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.ProjectState.Factory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -91,7 +90,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       @EnableSignedPush boolean serverEnableSignedPush,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       ProjectCache projectCache,
-      Factory projectStateFactory,
+      ProjectState.Factory projectStateFactory,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,

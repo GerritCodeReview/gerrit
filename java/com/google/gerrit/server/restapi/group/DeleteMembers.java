@@ -107,7 +107,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     public Response<?> apply(MemberResource resource, Input input)
         throws AuthException, MethodNotAllowedException, UnprocessableEntityException, IOException,
             ConfigInvalidException, ResourceNotFoundException {
-      AddMembers.Input in = new AddMembers.Input();
+      Input in = new Input();
       in._oneMember = resource.getMember().getAccountId().toString();
       return delete.get().apply(resource, in);
     }

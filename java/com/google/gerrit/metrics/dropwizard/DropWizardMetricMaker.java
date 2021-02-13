@@ -357,7 +357,7 @@ public class DropWizardMetricMaker extends MetricMaker {
     return result;
   }
 
-  static String name(Description.FieldOrdering ordering, String codeName, String fieldValues) {
+  static String name(FieldOrdering ordering, String codeName, String fieldValues) {
     if (ordering == FieldOrdering.PREFIX_FIELDS_BASENAME) {
       int s = codeName.lastIndexOf('/');
       if (s > 0) {

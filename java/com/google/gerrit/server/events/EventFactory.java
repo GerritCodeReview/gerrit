@@ -126,7 +126,7 @@ public class EventFactory {
     a.subject = change.getSubject();
     try {
       a.commitMessage = changeDataFactory.create(change).commitMessage();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       logger.atSevere().withCause(e).log(
           "Error while getting full commit message for change %d", a.number);
     }

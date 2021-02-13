@@ -138,7 +138,7 @@ class GroupApiImpl implements GroupApi {
   public String name() throws RestApiException {
     try {
       return getName.apply(rsrc).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get group name", e);
     }
   }
@@ -198,7 +198,7 @@ class GroupApiImpl implements GroupApi {
   public GroupOptionsInfo options() throws RestApiException {
     try {
       return getOptions.apply(rsrc).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get group options", e);
     }
   }

@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.account;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountResource.SshKey;
 import com.google.inject.Singleton;
 
@@ -28,7 +27,7 @@ import com.google.inject.Singleton;
  * /accounts/<account-identifier>/sshkeys/<ssh-key-identifier>} requests.
  */
 @Singleton
-public class GetSshKey implements RestReadView<AccountResource.SshKey> {
+public class GetSshKey implements RestReadView<SshKey> {
 
   @Override
   public Response<SshKeyInfo> apply(SshKey rsrc) {

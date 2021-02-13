@@ -328,7 +328,7 @@ public class ReviewCommand extends SshCommand {
     ProjectState allProjectsState;
     try {
       allProjectsState = projectCache.getAllProjects();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw die("missing " + allProjects.get(), e);
     }
 

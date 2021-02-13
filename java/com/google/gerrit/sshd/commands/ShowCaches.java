@@ -191,7 +191,7 @@ final class ShowCaches extends SshCommand {
           jvmSummary(summary.jvmSummary);
         }
       }
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw new Failure(1, "unavailable", e);
     }
 

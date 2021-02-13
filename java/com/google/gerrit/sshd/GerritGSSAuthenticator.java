@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -42,7 +41,7 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
       AccountCache accounts,
       SshScope sshScope,
       SshLog sshLog,
-      IdentifiedUser.GenericFactory userFactory,
+      GenericFactory userFactory,
       @GerritServerConfig Config config) {
     this.accounts = accounts;
     this.sshScope = sshScope;

@@ -306,7 +306,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       } catch (RejectedExecutionException e) {
         // Server shutdown, don't spam the logs.
         failSilently();
-      } catch (Exception e) {
+      } catch (RuntimeException e) {
         fail("Failed to index change " + r.id(), true, e);
       }
     }

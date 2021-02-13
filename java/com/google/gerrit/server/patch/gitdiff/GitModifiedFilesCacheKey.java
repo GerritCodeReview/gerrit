@@ -18,7 +18,6 @@ import static com.google.gerrit.server.patch.DiffUtil.stringSize;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.GitModifiedFilesKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
@@ -83,7 +82,7 @@ public abstract class GitModifiedFilesCacheKey {
   @AutoValue.Builder
   public abstract static class Builder {
 
-    public abstract Builder project(NameKey value);
+    public abstract Builder project(Project.NameKey value);
 
     public abstract Builder aTree(ObjectId value);
 
@@ -119,7 +118,7 @@ public abstract class GitModifiedFilesCacheKey {
       GitModifiedFilesKeyProto proto = Protos.parseUnchecked(GitModifiedFilesKeyProto.parser(), in);
       ObjectIdConverter idConverter = ObjectIdConverter.create();
       return GitModifiedFilesCacheKey.builder()
-          .project(NameKey.parse(proto.getProject()))
+          .project(Project.NameKey.parse(proto.getProject()))
           .aTree(idConverter.fromByteString(proto.getATree()))
           .bTree(idConverter.fromByteString(proto.getBTree()))
           .renameScore(proto.getRenameScore())

@@ -228,19 +228,19 @@ class LdapRealm extends AbstractRealm {
       who.setLocalUser(who.getLocalUser().toLowerCase(Locale.US));
     }
 
-    final String username = who.getLocalUser();
+    String username = who.getLocalUser();
     try {
-      final DirContext ctx;
+      DirContext ctx;
       if (authConfig.getAuthType() == AuthType.LDAP_BIND) {
         ctx = helper.authenticate(username, who.getPassword());
       } else {
         ctx = helper.open();
       }
       try {
-        final Helper.LdapSchema schema = helper.getSchema(ctx);
-        LdapQuery.Result m;
+        Helper.LdapSchema schema = helper.getSchema(ctx);
+        LdapQuery.Result m = helper.findAccount(schema, ctx, username, fetchMemberOfEagerly);
+
         who.setAuthProvidesAccountActiveStatus(true);
-        m = helper.findAccount(schema, ctx, username, fetchMemberOfEagerly);
         who.setActive(true);
 
         if (authConfig.getAuthType() == AuthType.LDAP && !who.isSkipAuthentication()) {

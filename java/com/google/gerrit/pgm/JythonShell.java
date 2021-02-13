@@ -96,8 +96,7 @@ public class JythonShell {
       Class<?> klazz, Object instance, String name, Class<?>[] sig, Object[] args)
       throws InvocationTargetException {
     try {
-      Method m;
-      m = klazz.getMethod(name, sig);
+      Method m = klazz.getMethod(name, sig);
       return m.invoke(instance, args);
     } catch (NoSuchMethodException
         | IllegalAccessException

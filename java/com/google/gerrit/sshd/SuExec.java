@@ -57,7 +57,7 @@ public final class SuExec extends BaseCommand {
   private CurrentUser caller;
   private SshSession session;
   private IdentifiedUser.GenericFactory userFactory;
-  private SshScope.Context callingContext;
+  private Context callingContext;
 
   @Option(name = "--as", required = true)
   private Account.Id accountId;
@@ -72,13 +72,13 @@ public final class SuExec extends BaseCommand {
 
   @Inject
   SuExec(
-      final SshScope sshScope,
-      @CommandName(Commands.ROOT) final DispatchCommandProvider dispatcher,
+      SshScope sshScope,
+      @CommandName(Commands.ROOT) DispatchCommandProvider dispatcher,
       PermissionBackend permissionBackend,
-      final CurrentUser caller,
-      final SshSession session,
-      final IdentifiedUser.GenericFactory userFactory,
-      final SshScope.Context callingContext,
+      CurrentUser caller,
+      SshSession session,
+      IdentifiedUser.GenericFactory userFactory,
+      Context callingContext,
       AuthConfig config) {
     this.sshScope = sshScope;
     this.dispatcher = dispatcher;

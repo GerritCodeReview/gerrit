@@ -38,17 +38,17 @@ import com.google.inject.Singleton;
 import java.util.Optional;
 
 @Singleton
-public class Capabilities implements ChildCollection<AccountResource, AccountResource.Capability> {
+public class Capabilities implements ChildCollection<AccountResource, Capability> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final DynamicMap<RestView<AccountResource.Capability>> views;
+  private final DynamicMap<RestView<Capability>> views;
   private final Provider<GetCapabilities> get;
 
   @Inject
   Capabilities(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      DynamicMap<RestView<AccountResource.Capability>> views,
+      DynamicMap<RestView<Capability>> views,
       Provider<GetCapabilities> get) {
     this.self = self;
     this.permissionBackend = permissionBackend;
@@ -73,7 +73,7 @@ public class Capabilities implements ChildCollection<AccountResource, AccountRes
     GlobalOrPluginPermission perm = parse(id);
     try {
       permissionBackend.absentUser(target.getAccountId()).check(perm);
-      return new AccountResource.Capability(target, globalOrPluginPermissionName(perm));
+      return new Capability(target, globalOrPluginPermissionName(perm));
     } catch (AuthException e) {
       throw new ResourceNotFoundException(id, e);
     }

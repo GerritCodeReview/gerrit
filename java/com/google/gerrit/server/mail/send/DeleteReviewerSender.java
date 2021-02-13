@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
@@ -74,6 +75,7 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
     }
   }
 
+  @Nullable
   public List<String> getReviewerNames() {
     if (reviewers.isEmpty() && reviewersByEmail.isEmpty()) {
       return null;

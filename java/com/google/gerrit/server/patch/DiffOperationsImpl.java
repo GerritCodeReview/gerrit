@@ -178,7 +178,7 @@ public class DiffOperationsImpl implements DiffOperations {
       if (fileDiffOutput.isEmpty() || allDueToRebase(fileDiffOutput)) {
         continue;
       }
-      if (fileDiffOutput.changeType().get() == Patch.ChangeType.DELETED) {
+      if (fileDiffOutput.changeType().get() == ChangeType.DELETED) {
         files.put(fileDiffOutput.oldPath().get(), fileDiffOutput);
       } else {
         files.put(fileDiffOutput.newPath().get(), fileDiffOutput);

@@ -144,17 +144,13 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   }
 
   public static PluginInfo toPluginInfo(Plugin p) {
-    String id;
-    String version;
-    String apiVersion;
+    String id = Url.encode(p.getName());
+    String version = p.getVersion();
+    String apiVersion = p.getApiVersion();
+    Boolean disabled = p.isDisabled() ? true : null;
     String indexUrl;
     String filename;
-    Boolean disabled;
 
-    id = Url.encode(p.getName());
-    version = p.getVersion();
-    apiVersion = p.getApiVersion();
-    disabled = p.isDisabled() ? true : null;
     if (p.getSrcFile() != null) {
       indexUrl = String.format("plugins/%s/", p.getName());
       filename = p.getSrcFile().getFileName().toString();

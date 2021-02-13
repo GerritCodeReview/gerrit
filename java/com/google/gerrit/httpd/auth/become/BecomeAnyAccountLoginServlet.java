@@ -103,8 +103,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       res = byAccountId(req.getParameter("account_id")).orElse(null);
 
     } else {
-      byte[] raw;
-      raw = prepareHtmlOutput();
+      byte[] raw = prepareHtmlOutput();
       rsp.setContentType("text/html");
       rsp.setCharacterEncoding(HtmlDomUtil.ENC.name());
       rsp.setContentLength(raw.length);

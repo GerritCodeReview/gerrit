@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.projects.BanCommitInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -64,6 +65,7 @@ public class BanCommit implements RestModifyView<ProjectResource, BanCommitInput
     return Response.ok(r);
   }
 
+  @Nullable
   private static List<String> transformCommits(List<ObjectId> commits) {
     if (commits == null || commits.isEmpty()) {
       return null;

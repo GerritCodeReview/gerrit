@@ -107,7 +107,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
       return currentUser.get().isIdentifiedUser()
           ? Optional.of(currentUser.get().getAccountId())
           : Optional.empty();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       logger.atFine().withCause(e).log("Unable to get current user");
       return Optional.empty();
     }
@@ -130,7 +130,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
                 PerThreadCache.Key.create(ProjectControl.class, project, user.getCacheKey()),
                 () -> projectControlFactory.create(user, state));
         return control.asForProject();
-      } catch (Exception e) {
+      } catch (RuntimeException e) {
         Throwable cause = e.getCause() != null ? e.getCause() : e;
         return FailedPermissionBackend.project(
             "project '" + project.get() + "' is unavailable", cause);

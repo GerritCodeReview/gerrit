@@ -98,7 +98,7 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
                   }
                   verboseWriter.println("Reindexed " + desc);
                   done.incrementAndGet();
-                } catch (Exception e) {
+                } catch (RuntimeException e) {
                   failed.incrementAndGet();
                   throw e;
                 }

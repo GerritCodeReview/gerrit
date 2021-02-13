@@ -270,7 +270,7 @@ public final class StreamEvents extends BaseCommand {
     String msg = null;
     try {
       msg = gson.toJson(message) + "\n";
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       logger.atWarning().withCause(e).log("Could not deserialize the msg");
     }
     if (msg != null) {

@@ -159,7 +159,7 @@ public class ServerImpl implements Server {
   public List<TopMenu.MenuEntry> topMenus() throws RestApiException {
     try {
       return listTopMenus.apply(new ConfigResource()).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get top menus", e);
     }
   }

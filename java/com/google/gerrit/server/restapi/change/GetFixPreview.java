@@ -122,7 +122,7 @@ public class GetFixPreview implements RestReadView<FixResource> {
             ps.getFileInfoA(),
             MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName()),
             Type.SIDE_A);
-    DiffSide sideB = DiffSide.create(ps.getFileInfoB(), ps.getNewName(), DiffSide.Type.SIDE_B);
+    DiffSide sideB = DiffSide.create(ps.getFileInfoB(), ps.getNewName(), Type.SIDE_B);
 
     DiffInfoCreator diffInfoCreator =
         new DiffInfoCreator(state, new DiffWebLinksProviderImpl(), true);

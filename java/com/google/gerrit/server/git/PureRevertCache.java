@@ -24,7 +24,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.cache.proto.Cache.PureRevertKeyProto;
 import com.google.gerrit.server.cache.serialize.BooleanCacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
@@ -62,11 +61,11 @@ public class PureRevertCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        persist(ID_CACHE, Cache.PureRevertKeyProto.class, Boolean.class)
+        persist(ID_CACHE, PureRevertKeyProto.class, Boolean.class)
             .maximumWeight(100)
             .loader(Loader.class)
             .version(1)
-            .keySerializer(new ProtobufSerializer<>(Cache.PureRevertKeyProto.parser()))
+            .keySerializer(new ProtobufSerializer<>(PureRevertKeyProto.parser()))
             .valueSerializer(BooleanCacheSerializer.INSTANCE);
       }
     };

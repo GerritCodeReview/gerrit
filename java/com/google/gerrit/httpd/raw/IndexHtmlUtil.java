@@ -98,7 +98,7 @@ public class IndexHtmlUtil {
     initialData.put("\"/config/server/top-menus\"", serializeObject(GSON, serverApi.topMenus()));
 
     String requestedPath = IndexPreloadingUtil.getPath(requestedURL);
-    IndexPreloadingUtil.RequestedPage page = IndexPreloadingUtil.parseRequestedPage(requestedPath);
+    RequestedPage page = IndexPreloadingUtil.parseRequestedPage(requestedPath);
     switch (page) {
       case CHANGE:
         data.put(

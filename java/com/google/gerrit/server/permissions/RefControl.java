@@ -355,8 +355,7 @@ class RefControl {
 
     int voteMin = 0, voteMax = 0;
     for (PermissionRule pr : relevant.getAllowRules(permissionName)) {
-      if (pr.getAction() == PermissionRule.Action.ALLOW
-          && projectControl.match(pr, isChangeOwner)) {
+      if (pr.getAction() == Action.ALLOW && projectControl.match(pr, isChangeOwner)) {
         // For votes, contrary to normal permissions, we aggregate all applicable rules.
         voteMin = Math.min(voteMin, pr.getMin());
         voteMax = Math.max(voteMax, pr.getMax());

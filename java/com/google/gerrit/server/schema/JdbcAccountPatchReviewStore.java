@@ -368,8 +368,7 @@ public abstract class JdbcAccountPatchReviewStore
             builder.add(rs.getString("file_name"));
           } while (rs.next());
 
-          return Optional.of(
-              AccountPatchReviewStore.PatchSetWithReviewedFiles.create(id, builder.build()));
+          return Optional.of(PatchSetWithReviewedFiles.create(id, builder.build()));
         }
 
         return Optional.empty();

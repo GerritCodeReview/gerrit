@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
@@ -82,6 +83,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     }
   }
 
+  @Nullable
   public List<String> getReviewerNames() {
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {

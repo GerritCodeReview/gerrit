@@ -108,7 +108,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
     public Response<?> apply(SubgroupResource resource, Input input)
         throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
             ResourceNotFoundException, IOException, ConfigInvalidException {
-      AddSubgroups.Input in = new AddSubgroups.Input();
+      Input in = new Input();
       in.groups = ImmutableList.of(resource.getMember().get());
       return delete.get().apply(resource, in);
     }

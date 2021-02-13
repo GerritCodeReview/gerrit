@@ -32,15 +32,15 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class EmailsCollection implements ChildCollection<AccountResource, AccountResource.Email> {
-  private final DynamicMap<RestView<AccountResource.Email>> views;
+public class EmailsCollection implements ChildCollection<AccountResource, Email> {
+  private final DynamicMap<RestView<Email>> views;
   private final GetEmails list;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
 
   @Inject
   EmailsCollection(
-      DynamicMap<RestView<AccountResource.Email>> views,
+      DynamicMap<RestView<Email>> views,
       GetEmails list,
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend) {
@@ -56,7 +56,7 @@ public class EmailsCollection implements ChildCollection<AccountResource, Accoun
   }
 
   @Override
-  public AccountResource.Email parse(AccountResource rsrc, IdString id)
+  public Email parse(AccountResource rsrc, IdString id)
       throws ResourceNotFoundException, PermissionBackendException, AuthException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
@@ -67,9 +67,9 @@ public class EmailsCollection implements ChildCollection<AccountResource, Accoun
       if (Strings.isNullOrEmpty(email)) {
         throw new ResourceNotFoundException(id);
       }
-      return new AccountResource.Email(rsrc.getUser(), email);
+      return new Email(rsrc.getUser(), email);
     } else if (rsrc.getUser().hasEmailAddress(id.get())) {
-      return new AccountResource.Email(rsrc.getUser(), id.get());
+      return new Email(rsrc.getUser(), id.get());
     } else {
       throw new ResourceNotFoundException(id);
     }

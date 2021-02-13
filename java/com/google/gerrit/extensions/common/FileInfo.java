@@ -34,8 +34,8 @@ public class FileInfo {
           && Objects.equals(oldPath, fileInfo.oldPath)
           && Objects.equals(linesInserted, fileInfo.linesInserted)
           && Objects.equals(linesDeleted, fileInfo.linesDeleted)
-          && Objects.equals(sizeDelta, fileInfo.sizeDelta)
-          && Objects.equals(size, fileInfo.size);
+          && sizeDelta == fileInfo.sizeDelta
+          && size == fileInfo.size;
     }
     return false;
   }

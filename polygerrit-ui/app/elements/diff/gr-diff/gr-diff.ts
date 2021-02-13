@@ -291,6 +291,7 @@ export class GrDiff extends GestureEventListeners(
 
   /** @override */
   detached() {
+    this.cancelDebouncer(RENDER_DIFF_TABLE_DEBOUNCE_NAME);
     super.detached();
     this._unobserveIncrementalNodes();
     this._unobserveNodes();

@@ -54,6 +54,8 @@ interface CommentThreadElement extends HTMLElement {
   rootId: string;
 }
 
+const DEBOUNCER_SELECTION_CHANGE = 'selectionChange';
+
 @customElement('gr-diff-highlight')
 export class GrDiffHighlight extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -86,6 +88,11 @@ export class GrDiffHighlight extends GestureEventListeners(
     this.addEventListener('create-comment-requested', e =>
       this._handleRangeCommentRequest(e)
     );
+  }
+
+  /** @override */
+  detached() {
+    this.cancelDebouncer(DEBOUNCER_SELECTION_CHANGE);
   }
 
   get diffBuilder() {
@@ -123,7 +130,7 @@ export class GrDiffHighlight extends GestureEventListeners(
     // ms, then you will have about 50 _handleSelection calls when doing a
     // simple drag for select.
     this.debounce(
-      'selectionChange',
+      DEBOUNCER_SELECTION_CHANGE,
       () => this._handleSelection(selection, isMouseUp),
       10
     );

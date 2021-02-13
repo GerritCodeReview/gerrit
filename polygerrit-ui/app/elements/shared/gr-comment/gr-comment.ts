@@ -100,6 +100,12 @@ export interface GrComment {
   };
 }
 
+const DEBOUNCER_FIRE_UPDATE = 'fire-update';
+
+const DEBOUNCER_STORE = 'store';
+
+const DEBOUNCER_DRAFT_TOAST = 'draft-toast';
+
 @customElement('gr-comment')
 export class GrComment extends KeyboardShortcutMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -293,7 +299,9 @@ export class GrComment extends KeyboardShortcutMixin(
   /** @override */
   detached() {
     super.detached();
-    this.cancelDebouncer('fire-update');
+    this.cancelDebouncer(DEBOUNCER_FIRE_UPDATE);
+    this.cancelDebouncer(DEBOUNCER_STORE);
+    this.cancelDebouncer(DEBOUNCER_DRAFT_TOAST);
     if (this.textarea) {
       this.textarea.closeDropdown();
     }
@@ -486,7 +494,7 @@ export class GrComment extends KeyboardShortcutMixin(
   _eraseDraftComment() {
     // Prevents a race condition in which removing the draft comment occurs
     // prior to it being saved.
-    this.cancelDebouncer('store');
+    this.cancelDebouncer(DEBOUNCER_STORE);
 
     if (!this.comment?.path) throw new Error('Cannot erase Draft Comment');
     if (this.changeNum === undefined) {
@@ -538,7 +546,7 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   _fireUpdate() {
-    this.debounce('fire-update', () => {
+    this.debounce(DEBOUNCER_FIRE_UPDATE, () => {
       this.dispatchEvent(
         new CustomEvent('comment-update', {
           detail: this._getEventPayload(),
@@ -647,7 +655,7 @@ export class GrComment extends KeyboardShortcutMixin(
     const {path, line, range} = this.comment;
     if (path) {
       this.debounce(
-        'store',
+        DEBOUNCER_STORE,
         () => {
           const message = this._messageText;
           if (this.changeNum === undefined) {
@@ -729,7 +737,7 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   _fireDiscard() {
-    this.cancelDebouncer('fire-update');
+    this.cancelDebouncer(DEBOUNCER_FIRE_UPDATE);
     this.dispatchEvent(
       new CustomEvent('comment-discard', {
         detail: this._getEventPayload(),
@@ -852,7 +860,7 @@ export class GrComment extends KeyboardShortcutMixin(
 
     // Cancel the debouncer so that error toasts from the error-manager will
     // not be overridden.
-    this.cancelDebouncer('draft-toast');
+    this.cancelDebouncer(DEBOUNCER_DRAFT_TOAST);
     this._updateRequestToast(
       this._numPendingDraftRequests.number,
       /* requestFailed=*/ true
@@ -862,7 +870,7 @@ export class GrComment extends KeyboardShortcutMixin(
   _updateRequestToast(numPending: number, requestFailed?: boolean) {
     const message = this._getSavingMessage(numPending, requestFailed);
     this.debounce(
-      'draft-toast',
+      DEBOUNCER_DRAFT_TOAST,
       () => {
         // Note: the event is fired on the body rather than this element because
         // this element may not be attached by the time this executes, in which

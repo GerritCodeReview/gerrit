@@ -37,6 +37,8 @@ declare global {
   }
 }
 
+const DEBOUNCER_STORE = 'store';
+
 @customElement('gr-editable-content')
 export class GrEditableContent extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -126,6 +128,11 @@ export class GrEditableContent extends GestureEventListeners(
     );
   }
 
+  /** @override */
+  detached() {
+    this.cancelDebouncer(DEBOUNCER_STORE);
+  }
+
   _contentChanged() {
     /* A changed content means that either a different change has been loaded
      * or new content was saved. Either way, let's reset the component.
@@ -143,7 +150,7 @@ export class GrEditableContent extends GestureEventListeners(
     const storageKey = this.storageKey;
 
     this.debounce(
-      'store',
+      DEBOUNCER_STORE,
       () => {
         if (newContent.length) {
           this.storage.setEditableContentItem(storageKey, newContent);

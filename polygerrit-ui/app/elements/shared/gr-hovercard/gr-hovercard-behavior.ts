@@ -143,6 +143,8 @@ export const hovercardBehaviorMixin = dedupingMixin(
 
       detached() {
         super.detached();
+        this.cancelShowDebouncer();
+        this.cancelHideDebouncer();
         this.unlock();
       }
 

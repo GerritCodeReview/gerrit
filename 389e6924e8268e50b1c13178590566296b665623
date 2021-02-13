@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7601f285_f53c6522",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-13T16:29:08Z",
+      "side": 1,
+      "message": "It\u0027s documented, that this id discouraged: [1], quoting:\n\n  Using fine grained npm dependencies is recommended\n  to minimize the number of inputs to your rules.\n\n[1] https://bazelbuild.github.io/rules_nodejs/dependencies.html#coarse-node_modules-dependencies",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "389e6924e8268e50b1c13178590566296b665623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3,9 +3,9 @@
   "version": "3.1.0-SNAPSHOT",
   "description": "Gerrit Code Review",
   "dependencies": {
-    "@bazel/rollup": "^3.1.0",
-    "@bazel/terser": "^3.1.0",
-    "@bazel/typescript": "^3.1.0"
+    "@bazel/rollup": "^3.2.0",
+    "@bazel/terser": "^3.2.0",
+    "@bazel/typescript": "^3.2.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.11.0",

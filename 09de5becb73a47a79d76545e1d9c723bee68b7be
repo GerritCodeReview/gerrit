@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd9bdb42_536883cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-14T22:27:49Z",
+      "side": 1,
+      "message": "looks like this is the fix most relevant for Gerrit:\n#5794 - ServerConnector leaks closed sockets which can lead to file descriptor exhaustion",
+      "revId": "09de5becb73a47a79d76545e1d9c723bee68b7be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

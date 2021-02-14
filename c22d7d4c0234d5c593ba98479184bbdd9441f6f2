@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c2770e5_df4e993d",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-14T17:10:59Z",
+      "side": 1,
+      "message": "This should be moved to createSysInjector(), similar to where it was added in Daemon class.",
+      "range": {
+        "startLine": 220,
+        "startChar": 6,
+        "endLine": 226,
+        "endChar": 7
+      },
+      "revId": "c22d7d4c0234d5c593ba98479184bbdd9441f6f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

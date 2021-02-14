@@ -47,11 +47,6 @@ public class TestLoggingActivator {
           .put("org.openid4java.server.RealmVerifier", Level.ERROR)
           .put("org.openid4java.message.AuthSuccess", Level.ERROR)
 
-          // Silence non-critical messages from c3p0 (if used).
-          .put("com.mchange.v2.c3p0", Level.WARN)
-          .put("com.mchange.v2.resourcepool", Level.WARN)
-          .put("com.mchange.v2.sql", Level.WARN)
-
           // Silence non-critical messages from apache.http.
           .put("org.apache.http", Level.WARN)
 

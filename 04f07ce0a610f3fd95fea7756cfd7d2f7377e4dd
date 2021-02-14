@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9162911_a75058e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-14T16:31:02Z",
+      "side": 1,
+      "message": "Not sure, if this change should be split to one change pro bug pattern?",
+      "revId": "04f07ce0a610f3fd95fea7756cfd7d2f7377e4dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

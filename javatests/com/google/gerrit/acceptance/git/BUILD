@@ -21,7 +21,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
         "//java/com/google/gerrit/git",
-        "//java/com/google/gerrit/mail",
     ],
 )
 

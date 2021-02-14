@@ -18,8 +18,6 @@ java_library(
         "//java/com/google/gerrit/acceptance:lib",
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
-        "//java/com/google/gerrit/server/logging",
-        "//java/com/google/gerrit/server/util/time",
         "@guava//jar",
     ],
 )

@@ -16,6 +16,23 @@
       "message": "Not sure, if this change should be split to one change pro bug pattern?",
       "revId": "04f07ce0a610f3fd95fea7756cfd7d2f7377e4dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc706670_dbb4c6d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-14T21:56:44Z",
+      "side": 1,
+      "message": "split this commit into one commit per fixed error pattern ?",
+      "revId": "04f07ce0a610f3fd95fea7756cfd7d2f7377e4dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

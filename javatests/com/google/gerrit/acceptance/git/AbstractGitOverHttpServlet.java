@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.FakeGroupAuditService;
 import com.google.gerrit.acceptance.Sandboxed;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.pgm.http.jetty.JettyServer;
 import com.google.gerrit.server.audit.HttpAuditEvent;
@@ -80,6 +81,7 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
   }
 
   @Test
+  @TestProjectInput(createEmptyCommit = false)
   public void authenticatedUploadPackAuditEventLog() throws Exception {
     String remote = "authenticated";
     Config cfg = testRepo.git().getRepository().getConfig();
@@ -92,6 +94,7 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
   }
 
   @Test
+  @TestProjectInput(createEmptyCommit = false)
   public void anonymousUploadPackAuditEventLog() throws Exception {
     String remote = "anonymous";
     Config cfg = testRepo.git().getRepository().getConfig();
@@ -110,16 +113,18 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
    */
   private void uploadPackAuditEventLog(String remote, Optional<Account.Id> accountId)
       throws Exception {
+    // Make a server-side change to have a common base.
+    createCommit("foo");
+    testRepo.git().fetch().call();
+
+    // Make a server-side change so we have something to fetch.
+    createCommit("bar");
+
     auditService.drainHttpAuditEvents();
-    // testRepo is already a clone. Make a server-side change so we have something to fetch.
-    try (Repository repo = repoManager.openRepository(project);
-        TestRepository<?> testRepo = new TestRepository<>(repo)) {
-      testRepo.branch("master").commit().create();
-    }
     testRepo.git().fetch().setRemote(remote).call();
 
     ImmutableList<HttpAuditEvent> auditEvents = auditService.drainHttpAuditEvents();
-    assertThat(auditEvents).hasSize(4);
+    assertThat(auditEvents).hasSize(3);
 
     // Protocol V2 Capability advertisement
     // https://git-scm.com/docs/protocol-v2#_capability_advertisement
@@ -147,11 +152,13 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     assertThat(uploadPackFetch.what).endsWith("/git-upload-pack");
     assertThat(uploadPackFetch.params).isEmpty();
     assertThat(uploadPackFetch.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
-    HttpAuditEvent uploadPackDone = auditEvents.get(3);
-
-    assertThat(uploadPackDone.what).endsWith("/git-upload-pack");
-    assertThat(uploadPackDone.params).isEmpty();
-    assertThat(uploadPackDone.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
     assertThat(jettyServer.numActiveSessions()).isEqualTo(0);
+  }
+
+  private void createCommit(String message) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      tr.branch("master").commit().message(message).create();
+    }
   }
 }

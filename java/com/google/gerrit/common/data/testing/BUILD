@@ -6,7 +6,6 @@ java_library(
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/entities",
         "//lib/truth",
     ],

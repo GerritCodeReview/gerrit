@@ -16,7 +16,6 @@
  */
 import {CoverageRange, Side} from './diff';
 import {StyleObject} from './styles';
-import {ChangeInfo, NumericChangeId} from '../types/common';
 
 export type AddLayerFunc = (ctx: AnnotationContext) => void;
 
@@ -28,11 +27,16 @@ export type NotifyFunc = (
 ) => void;
 
 export type CoverageProvider = (
-  changeNum: NumericChangeId,
+  changeNum: number,
   path: string,
   basePatchNum?: number,
   patchNum?: number,
-  change?: ChangeInfo
+  /**
+   * This is a ChangeInfo object as defined here:
+   * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info
+   * We neither want to repeat it nor add a dependency on it here.
+   */
+  change?: unknown
 ) => Promise<Array<CoverageRange>>;
 
 export interface AnnotationContext {

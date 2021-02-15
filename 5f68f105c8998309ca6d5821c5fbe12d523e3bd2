@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d6cc1e3_35fff1e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-15T14:18:48Z",
+      "side": 1,
+      "message": "IMO: Yes. Otherwise we are forcing all tool owners to implement this differ themselves while we could easily do this in Gerrit.\n\nI very much like this idea because it allows for both opaque and rich notifications to be built on top of it: To build rich notifications, we call the diff logic and squash the output into the notification. For opaque notifications, the client can call Gerrit to get the diff (DiffChange).\n\nWhen discussing notifications internally with stakeholders, I had the feeling that the current state is good enough (we have opaque notifications at Google), especially when an opaque payload proposal specifically for Gerrit was discussed internally 2yrs ago. When we showed them a proposal for rich notifications things (unexpectedly to me) changed and the whole proposal got a lot more interest, because it can help tool owners reduce complexity. Would be interesting to poll these stakeholders again to see what they think of a callback-to-get-diff idea.\n\nOne issue to keep in mind is scalability: Rich notifications allow for client-side filtering and most tools will only act on certain notifications like \"change now submittable\". Opaque notifications means that any tool will always call Gerrit back.\n\nIn any case, I think this change has value in itself because it feels natural to me that you can request change details at a certain state given that we keep this state in Gerrit.",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 14
+      },
+      "revId": "5f68f105c8998309ca6d5821c5fbe12d523e3bd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74fda2e9_6f8066c5",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-15T14:18:48Z",
+      "side": 1,
+      "message": "nit: Optionals in arguments are discouraged (use Nullable instead)",
+      "range": {
+        "startLine": 286,
+        "startChar": 42,
+        "endLine": 286,
+        "endChar": 50
+      },
+      "revId": "5f68f105c8998309ca6d5821c5fbe12d523e3bd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e7429af_e1a6e68e",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-15T14:18:48Z",
+      "side": 1,
+      "message": "Return types should be objects or Optionals of objects, but not null/nullable.\n\nThis makes things simpler as right now you just convert optional to nullable further down.",
+      "range": {
+        "startLine": 336,
+        "startChar": 5,
+        "endLine": 336,
+        "endChar": 13
+      },
+      "revId": "5f68f105c8998309ca6d5821c5fbe12d523e3bd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d05b3d03_fe867203",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-15T14:18:48Z",
+      "side": 1,
+      "message": "you do this in verifyMetaId, no?",
+      "range": {
+        "startLine": 124,
+        "startChar": 13,
+        "endLine": 124,
+        "endChar": 59
+      },
+      "revId": "5f68f105c8998309ca6d5821c5fbe12d523e3bd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96f6bba1_89289c79",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-15T14:18:48Z",
+      "side": 1,
+      "message": "We need a test to make sure I can\u0027t use this as a loophole to load change notes of a change that I am not supposed to see. This method guarantees that, but a test would boost confidence :-)",
+      "range": {
+        "startLine": 232,
+        "startChar": 15,
+        "endLine": 232,
+        "endChar": 27
+      },
+      "revId": "5f68f105c8998309ca6d5821c5fbe12d523e3bd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -19,7 +19,6 @@ public class ChangeConfigInfo {
   public Boolean allowBlame;
   public Boolean showAssigneeInChangesTable;
   public Boolean disablePrivateChanges;
-  public int largeChange;
   public String replyLabel;
   public String replyTooltip;
   public int updateDelay;

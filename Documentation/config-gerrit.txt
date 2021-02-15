@@ -1319,17 +1319,6 @@ assignee are enabled.
 +
 The default is false.
 
-[[change.largeChange]]change.largeChange::
-+
-Number of changed lines from which on a change is considered as a large
-change. The number of changed lines of a change is the sum of the lines
-that were inserted and deleted in the change.
-+
-The specified value is used to visualize the change sizes in the Web UI
-in change tables and user dashboards.
-+
-By default 500.
-
 [[change.maxComments]]change.maxComments::
 +
 Maximum number of comments (regular plus robot) allowed per change. Additional

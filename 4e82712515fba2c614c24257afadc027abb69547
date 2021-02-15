@@ -50,6 +50,23 @@
       "message": "Thanks Frank! I tried out the change, LGTM.",
       "revId": "4e82712515fba2c614c24257afadc027abb69547",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2021c235_a6a5afef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-02-15T15:09:15Z",
+      "side": 1,
+      "message": "Hi Frank. I see this change doesn\u0027t affect the move in/out chips. I\u0027m afraid we will have inconsistencies (like before) in gr-diff clients that make use of move chunks if we submit this change without taking into account these other chips.\n\nMaybe we should reuse the same UI component in both places so we can guarantee they will look the same (except the use of colors)? I\u0027ve sent you an e-mail with more details.",
+      "revId": "4e82712515fba2c614c24257afadc027abb69547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

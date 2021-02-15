@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d88b7f9_aed1e983",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-15T22:05:33Z",
+      "side": 1,
+      "message": "By looking again at the problem and what this change does, I am convinced this is the wrong solution and creates too many problems compared to the ones it should solve.\n\nI am going to propose an alternative solution shortly.",
+      "revId": "fc140c3695796e7cff3f9570aaf6bb27533d9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa9b154f_f9206fec",

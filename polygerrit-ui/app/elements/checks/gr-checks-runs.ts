@@ -18,11 +18,12 @@ import {html} from 'lit-html';
 import {classMap} from 'lit-html/directives/class-map';
 import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
-import {CheckRun, RunStatus} from '../../api/checks';
+import {Action, CheckRun, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {
   compareByWorstCategory,
   iconForRun,
+  primaryRunAction,
 } from '../../services/checks/checks-util';
 import {
   allRuns$,
@@ -59,6 +60,33 @@ function fireRunSelected(target: EventTarget, checkName: string) {
   );
 }
 
+export interface ActionTriggeredEventDetail {
+  action: Action;
+  run: CheckRun;
+}
+
+export type ActionTriggeredEvent = CustomEvent<ActionTriggeredEventDetail>;
+
+declare global {
+  interface HTMLElementEventMap {
+    'action-triggered': ActionTriggeredEvent;
+  }
+}
+
+function fireActionTriggered(
+  target: EventTarget,
+  action: Action,
+  run: CheckRun
+) {
+  target.dispatchEvent(
+    new CustomEvent('action-triggered', {
+      detail: {action, run},
+      composed: true,
+      bubbles: true,
+    })
+  );
+}
+
 @customElement('gr-checks-run')
 export class GrChecksRun extends GrLitElement {
   static get styles() {
@@ -70,13 +98,16 @@ export class GrChecksRun extends GrLitElement {
           --thick-border: 6px;
         }
         .chip {
-          display: block;
-          font-weight: var(--font-weight-bold);
+          display: flex;
+          justify-content: space-between;
           border: 1px solid var(--border-color);
           border-radius: var(--border-radius);
           padding: var(--spacing-s) var(--spacing-m);
           margin-top: var(--spacing-s);
           cursor: default;
+        }
+        .name {
+          font-weight: var(--font-weight-bold);
         }
         .chip.error {
           border-left: var(--thick-border) solid var(--error-foreground);
@@ -117,6 +148,14 @@ export class GrChecksRun extends GrLitElement {
         div.chip.selected iron-icon {
           color: var(--selected-foreground);
         }
+        gr-button.action {
+          --padding: var(--spacing-xs) var(--spacing-m);
+          /* The button should fit into the 20px line-height. The negative
+             margin provides the extra space needed for the vertical padding.
+             Alternatively we could have set the vertical padding to 0, but
+             that would not have been a nice click target. */
+          margin: calc(0px - var(--spacing-xs));
+        }
       `,
     ];
   }
@@ -130,19 +169,38 @@ export class GrChecksRun extends GrLitElement {
   render() {
     const icon = this.selected ? 'check-circle' : iconForRun(this.run);
     const classes = {chip: true, [icon]: true, selected: this.selected};
+    const action = primaryRunAction(this.run);
 
     return html`
-      <div @click="${this._handleChipClick}" class="${classMap(classes)}">
-        <iron-icon icon="gr-icons:${icon}"></iron-icon>
-        <span>${this.run.checkName}</span>
+      <div @click="${this.handleChipClick}" class="${classMap(classes)}">
+        <div class="left">
+          <iron-icon icon="gr-icons:${icon}"></iron-icon>
+          <span class="name">${this.run.checkName}</span>
+        </div>
+        <div class="right">
+          ${action
+            ? html`<gr-button
+                class="action"
+                link
+                @click="${(e: MouseEvent) => this.handleAction(e, action)}"
+                >${action.name}</gr-button
+              >`
+            : ''}
+        </div>
       </div>
     `;
   }
 
-  _handleChipClick(e: MouseEvent) {
+  private handleChipClick(e: MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
     fireRunSelected(this, this.run.checkName);
+  }
+
+  private handleAction(e: MouseEvent, action: Action) {
+    e.stopPropagation();
+    e.preventDefault();
+    fireActionTriggered(this, action, this.run);
   }
 }
 

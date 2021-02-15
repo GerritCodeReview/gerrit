@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Category, CheckRun, RunStatus} from '../../api/checks';
+import {Action, Category, CheckRun, RunStatus} from '../../api/checks';
 import {assertNever} from '../../utils/common-util';
 
 export function worstCategory(run: CheckRun) {
@@ -35,6 +35,42 @@ export function iconForCategory(category: Category) {
     default:
       assertNever(category, `Unsupported category: ${category}`);
   }
+}
+
+enum PRIMARY_STATUS_ACTIONS {
+  RERUN = 'rerun',
+  RUN = 'run',
+  CANCEL = 'cancel',
+}
+
+export function toCanonicalAction(action: Action, status: RunStatus) {
+  let name = action.name.toLowerCase();
+  if (status === RunStatus.COMPLETED && (name === 'run' || name === 're-run')) {
+    name = PRIMARY_STATUS_ACTIONS.RERUN;
+  }
+  if (status === RunStatus.RUNNING && name === 'stop') {
+    name = PRIMARY_STATUS_ACTIONS.CANCEL;
+  }
+  return {...action, name};
+}
+
+export function primaryActionName(status: RunStatus) {
+  switch (status) {
+    case RunStatus.COMPLETED:
+      return PRIMARY_STATUS_ACTIONS.RERUN;
+    case RunStatus.RUNNABLE:
+      return PRIMARY_STATUS_ACTIONS.RUN;
+    case RunStatus.RUNNING:
+      return PRIMARY_STATUS_ACTIONS.CANCEL;
+    default:
+      assertNever(status, `Unsupported status: ${status}`);
+  }
+}
+
+export function primaryRunAction(run: CheckRun): Action | undefined {
+  return (run.actions ?? [])
+    .map(action => toCanonicalAction(action, run.status))
+    .filter(action => action.name === primaryActionName(run.status))[0];
 }
 
 export function iconForRun(run: CheckRun) {

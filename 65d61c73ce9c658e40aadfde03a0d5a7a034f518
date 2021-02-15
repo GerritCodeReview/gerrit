@@ -104,6 +104,30 @@
       },
       "revId": "65d61c73ce9c658e40aadfde03a0d5a7a034f518",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "746ec502_f9745541",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-15T13:42:20Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. I changed the wording.\n\nDone.",
+      "parentUuid": "ebe43a39_5e5ce738",
+      "range": {
+        "startLine": 78,
+        "startChar": 5,
+        "endLine": 78,
+        "endChar": 21
+      },
+      "revId": "65d61c73ce9c658e40aadfde03a0d5a7a034f518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

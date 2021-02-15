@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21d93df6_9d870cc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T12:01:42Z",
+      "side": 1,
+      "message": "i\u0027ve reworded the commit msg.",
+      "parentUuid": "cd897b55_8eff6351",
+      "range": {
+        "startLine": 29,
+        "startChar": 27,
+        "endLine": 29,
+        "endChar": 43
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "996bb570_ec3c2719",
@@ -117,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd67f42a_6497839c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T12:01:42Z",
+      "side": 1,
+      "message": "\u003e Would a JSON diff then be expected to tell you everything that changed?\n\nyes, that\u0027s the idea.\n\n\u003e I put \"complete\" in quotes because I think that\u0027s depending on options passed to /changes/. I also think those options could include plugin options. Do plugins \"just work\" because the ChangeData they see is created from that metaSHA1?\n\nI added some wording. I think we\u0027d have to process the meta\u003dXXX parameter at the ChangeCollection level, and we don\u0027t have machinery to do that right now.",
+      "parentUuid": "6160c06c_07c508ba",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 11
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "10eab2d0_6f93ea2b",
@@ -157,6 +205,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35ecc38b_4fbc76be",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T12:01:42Z",
+      "side": 1,
+      "message": "separated out function. I\u0027d rather not mix up the verification of the ID and the LoadHandle call.",
+      "parentUuid": "acaee7d2_ac747f8f",
+      "range": {
+        "startLine": 195,
+        "startChar": 12,
+        "endLine": 196,
+        "endChar": 18
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "acefa831_ff7ce02b",
@@ -180,6 +252,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9a9a7fa_9c1d540b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T12:01:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acefa831_ff7ce02b",
+      "range": {
+        "startLine": 118,
+        "startChar": 72,
+        "endLine": 118,
+        "endChar": 80
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d20b64b_70fe4e30",
@@ -193,6 +289,24 @@
       "writtenOn": "2021-02-11T20:07:20Z",
       "side": 1,
       "message": "Needs copyright/license header",
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a14344d8_6f510393",
+        "filename": "java/com/google/gerrit/server/notedb/MissingMetaObjectException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T12:01:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d20b64b_70fe4e30",
       "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -243,6 +357,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74d08cd3_32370c76",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T12:01:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ee76b81_19075b6a",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 47
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eed8d904_fef2b2a3",
@@ -256,6 +394,24 @@
       "writtenOn": "2021-02-11T20:07:20Z",
       "side": 1,
       "message": "Also assert that the subject changes if you get using the after.metaRef?",
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70cc9389_c107b205",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T12:01:42Z",
+      "side": 1,
+      "message": "why? It\u0027s the default of the GetChange. Without this change, you\u0027d also get after.subject if you specify \"meta\u003d\" after.metaRef",
+      "parentUuid": "eed8d904_fef2b2a3",
       "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

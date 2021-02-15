@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56da7bb3_76dfc870",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-02-15T09:19:26Z",
+      "side": 1,
+      "message": "Comment removed by: Dmitrii Filippov; Reason: Incorrect",
+      "revId": "4e82712515fba2c614c24257afadc027abb69547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

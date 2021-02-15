@@ -1759,6 +1759,39 @@ export class GrDiffView extends KeyboardShortcutMixin(
     this._navToFile(this._path, unreviewedFiles, 1);
   }
 
+  _navigateToNextFileWithCommentThread() {
+    if (!this._path) return;
+    if (!this._fileList) return;
+    if (!this._patchRange) return;
+    if (!this._change) return;
+    const comments = this._changeComments?.getAllComments(true);
+    if (!comments) return;
+    const index = this._fileList.indexOf(this._path);
+    if (index === -1) throw new Error('file not found in file list');
+    for (let i = index + 1; i < this._fileList.length; i++) {
+      const comment = comments[this._fileList[i]]?.find(
+        comment =>
+          comment.patch_set === this._patchRange?.basePatchNum ||
+          comment.patch_set === this._patchRange?.patchNum
+      );
+      if (comment) {
+        GerritNav.navigateToDiff(
+          this._change,
+          this._fileList[i],
+          this._patchRange.patchNum,
+          this._patchRange.basePatchNum,
+          comment?.line
+        );
+        return;
+      }
+    }
+    GerritNav.navigateToChange(
+      this._change,
+      this._patchRange.patchNum,
+      this._patchRange.basePatchNum
+    );
+  }
+
   _handleReloadingDiffPreference() {
     this._getDiffPreferences();
   }

@@ -16,6 +16,24 @@
       "message": "Don\u0027t we have to keep \u0027ForRef#check should permit internal users to read all refs\u0027 ?",
       "revId": "7a2116ae124cd8e97e7646568fc3fe90948613d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ac303e0_b5bf357d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-15T10:54:14Z",
+      "side": 1,
+      "message": "It\u0027s there already due to this cherry-pick: [1], and this test was executed:\n\n  @Test\n  public void userRefIsVisibleForInternalUser() throws Exception {\n  [...]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/292105",
+      "parentUuid": "640e235e_2d381a1c",
+      "revId": "7a2116ae124cd8e97e7646568fc3fe90948613d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

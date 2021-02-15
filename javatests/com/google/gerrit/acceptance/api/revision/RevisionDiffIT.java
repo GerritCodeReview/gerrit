@@ -105,7 +105,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     baseConfig.setString("cache", "diff_intraline", "timeout", "1 minute");
 
     intraline = baseConfig.getBoolean(TEST_PARAMETER_MARKER, "intraline", false);
-    useNewDiffCache = baseConfig.getBoolean("cache", "diff_cache", "useNewDiffCache", true);
+    useNewDiffCache = baseConfig.getBoolean("cache", "diff_cache", "useNewDiffCache", false);
 
     ObjectId headCommit = testRepo.getRepository().resolve("HEAD");
     commit1 =

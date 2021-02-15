@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2573f427_18352111",
+        "filename": "java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-15T13:03:40Z",
+      "side": 1,
+      "message": "Can we just always populate this field. Since we load it from the index, it\u0027s extremely cheap and seems like a good way to keep options limited to expensive fields.",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 92,
+        "endChar": 0
+      },
+      "revId": "525a4bb86813317b954bbbd202cdc2ec66fa6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7406d84a_5514e9f1",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-15T13:03:40Z",
+      "side": 1,
+      "message": "Yes: The change index stores RefStates that we also reconstruct from there. You can use:\n\nCollection\u003cRefState\u003e refStates \u003d RefState.parseStates(cd.getRefStates()).values();\n\nA RefState has a name and ObjectId. So it\u0027s:\n\nRefState.parseStates(cd.getRefStates()).values().filter(r -\u003e r.getName().equals(RefNames.changeMetaRef(cd.id()))).findAny();",
+      "range": {
+        "startLine": 575,
+        "startChar": 0,
+        "endLine": 576,
+        "endChar": 53
+      },
+      "revId": "525a4bb86813317b954bbbd202cdc2ec66fa6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90cc4a1d_157e0d7e",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-15T13:03:40Z",
+      "side": 1,
+      "message": "Shall we export a set of \"generator\" refs (\u003d refs used to produce this object?).\n\nAs you noted in your commit message, the robot comment ref might also play a role here.",
+      "range": {
+        "startLine": 576,
+        "startChar": 10,
+        "endLine": 576,
+        "endChar": 17
+      },
+      "revId": "525a4bb86813317b954bbbd202cdc2ec66fa6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a49c774_d0144753",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-15T13:03:40Z",
+      "side": 1,
+      "message": "nit: missing JavaDoc.",
+      "revId": "525a4bb86813317b954bbbd202cdc2ec66fa6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

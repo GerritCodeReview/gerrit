@@ -16,6 +16,24 @@
       "message": "this fails in \n\n```\n1) allChangeOptionsAreServedWithoutExceptions(com.google.gerrit.acceptance.ssh.QueryIT)\nOption: META_REF\nvalue of    : iterable.size()\nexpected    : 1\nbut was     : 0\niterable was: []\n\tat com.google.gerrit.acceptance.ssh.QueryIT.allChangeOptionsAreServedWithoutExceptions(QueryIT.java:300)\n```\n\ndo I have to wire up this option in the query system too? \n",
       "revId": "0d16d4fdbd0f19f72168a88c0e23b6ceac3faee9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d901cb1_8f4e0a5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-15T13:03:40Z",
+      "side": 1,
+      "message": "You have added a query option that requires lazy loading (loading change notes as you noted in your comment). That option would need to be added to the list of options that are allowed to load from the repo.\n\nThis warning will vanish when you load the meta ID from RefStates.",
+      "parentUuid": "d3f6c7f2_d8fc40a7",
+      "revId": "0d16d4fdbd0f19f72168a88c0e23b6ceac3faee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

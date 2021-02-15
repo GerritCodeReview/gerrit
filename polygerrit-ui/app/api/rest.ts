@@ -14,14 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  AccountCapabilityInfo,
-  AccountDetailInfo,
-  ParsedJSON,
-  ProjectInfoWithName,
-  RequestPayload,
-  ServerInfo,
-} from '../types/common';
+export type RequestPayload = string | object;
 
 export enum HttpMethod {
   HEAD = 'HEAD',
@@ -38,21 +31,14 @@ export interface RestPluginApi {
 
   getVersion(): Promise<string | undefined>;
 
-  getConfig(): Promise<ServerInfo | undefined>;
+  /**
+   * Returns a ServerInfo object as defined here:
+   * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#server-info
+   * We neither want to repeat it nor add a dependency on it here.
+   */
+  getConfig(): Promise<unknown>;
 
   invalidateReposCache(): void;
-
-  getAccount(): Promise<AccountDetailInfo | undefined>;
-
-  getAccountCapabilities(
-    capabilities: string[]
-  ): Promise<AccountCapabilityInfo | undefined>;
-
-  getRepos(
-    filter: string,
-    reposPerPage: number,
-    offset?: number
-  ): Promise<ProjectInfoWithName[] | undefined>;
 
   fetch(
     method: HttpMethod,
@@ -98,23 +84,23 @@ export interface RestPluginApi {
     payload?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string
-  ): Promise<ParsedJSON>;
+  ): Promise<unknown>;
 
-  get(url: string): Promise<ParsedJSON>;
+  get(url: string): Promise<unknown>;
 
   post(
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string
-  ): Promise<ParsedJSON>;
+  ): Promise<unknown>;
 
   put(
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string
-  ): Promise<ParsedJSON>;
+  ): Promise<unknown>;
 
   delete(url: string): Promise<Response>;
 }

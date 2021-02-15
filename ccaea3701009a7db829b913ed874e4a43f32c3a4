@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "524e85d1_f4d4a67b",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T19:56:44Z",
+      "side": 1,
+      "message": "question: i\u0027ve made this exception \u0027abstract\u0027 - ie. independent of HTTP exceptions, but maybe it\u0027s better to throw PreconditionException directly over here. Whaddayathink?",
+      "range": {
+        "startLine": 243,
+        "startChar": 14,
+        "endLine": 243,
+        "endChar": 40
+      },
+      "revId": "ccaea3701009a7db829b913ed874e4a43f32c3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

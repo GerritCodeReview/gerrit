@@ -24,7 +24,6 @@ export interface FlagsService {
  * @desc Experiment ids used in Gerrit.
  */
 export enum KnownExperimentId {
-  NEW_CONTEXT_CONTROLS = 'UiFeature__new_context_controls',
   // Note that this flag is not supposed to be used by Gerrit itself, but can
   // be used by plugins. The new Checks UI will show up, if a plugin registers
   // with the new Checks plugin API.

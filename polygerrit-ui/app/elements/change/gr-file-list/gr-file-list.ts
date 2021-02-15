@@ -152,6 +152,8 @@ interface FileRow {
 
 export type FileNameToReviewedFileInfoMap = {[name: string]: ReviewedFileInfo};
 
+const DEBOUNCER_LOADING_CHANGE = 'loading-change';
+
 /**
  * Type for FileInfo
  *
@@ -406,6 +408,7 @@ export class GrFileList extends KeyboardShortcutMixin(
   detached() {
     super.detached();
     this._cancelDiffs();
+    this.cancelDebouncer(DEBOUNCER_LOADING_CHANGE);
   }
 
   /**
@@ -1593,7 +1596,7 @@ export class GrFileList extends KeyboardShortcutMixin(
    */
   _loadingChanged(loading?: boolean) {
     this.debounce(
-      'loading-change',
+      DEBOUNCER_LOADING_CHANGE,
       () => {
         // Only show set the loading if there have been files loaded to show. In
         // this way, the gray loading style is not shown on initial loads.

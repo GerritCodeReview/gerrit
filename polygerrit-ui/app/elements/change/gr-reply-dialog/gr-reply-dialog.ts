@@ -168,6 +168,8 @@ export interface GrReplyDialog {
   };
 }
 
+const DEBOUNCER_STORE = 'store';
+
 @customElement('gr-reply-dialog')
 export class GrReplyDialog extends KeyboardShortcutMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -423,6 +425,11 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   ready() {
     super.ready();
     this.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
+  }
+
+  /** @override */
+  detached() {
+    this.cancelDebouncer(DEBOUNCER_STORE);
   }
 
   open(focusTarget?: FocusTarget) {
@@ -1332,7 +1339,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
 
   _draftChanged(newDraft: string, oldDraft?: string) {
     this.debounce(
-      'store',
+      DEBOUNCER_STORE,
       () => {
         if (!newDraft.length && oldDraft) {
           // If the draft has been modified to be empty, then erase the storage

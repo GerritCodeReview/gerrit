@@ -64,6 +64,8 @@ export interface KeyLocations {
  */
 const MAX_GROUP_SIZE = 120;
 
+const DEBOUNCER_RESET_IS_SCROLLING = 'resetIsScrolling';
+
 /**
  * Converts the API's `DiffContent`s  to `GrDiffGroup`s for rendering.
  *
@@ -123,6 +125,7 @@ export class GrDiffProcessor extends GestureEventListeners(
   /** @override */
   detached() {
     super.detached();
+    this.cancelDebouncer(DEBOUNCER_RESET_IS_SCROLLING);
     this.cancel();
     this.unlisten(window, 'scroll', '_handleWindowScroll');
   }
@@ -130,7 +133,7 @@ export class GrDiffProcessor extends GestureEventListeners(
   _handleWindowScroll() {
     this._isScrolling = true;
     this.debounce(
-      'resetIsScrolling',
+      DEBOUNCER_RESET_IS_SCROLLING,
       () => {
         this._isScrolling = false;
       },

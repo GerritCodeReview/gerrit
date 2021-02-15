@@ -55,6 +55,8 @@ const PUBLISH_FAILED_MSG = 'Failed to publish edit';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
 
+const DEBOUNCER_STORE = 'store';
+
 @customElement('gr-editor-view')
 export class GrEditorView extends KeyboardShortcutMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -143,6 +145,11 @@ export class GrEditorView extends KeyboardShortcutMixin(
     this._getEditPrefs().then(prefs => {
       this._prefs = prefs;
     });
+  }
+
+  /** @override */
+  detached() {
+    this.cancelDebouncer(DEBOUNCER_STORE);
   }
 
   get storageKey() {
@@ -348,7 +355,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
 
   _handleContentChange(e: CustomEvent<{value: string}>) {
     this.debounce(
-      'store',
+      DEBOUNCER_STORE,
       () => {
         const content = e.detail.value;
         if (content) {

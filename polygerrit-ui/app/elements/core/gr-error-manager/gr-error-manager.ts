@@ -73,6 +73,9 @@ export interface GrErrorManager {
     errorOverlay: GrOverlay;
   };
 }
+
+const DEBOUNCER_CHECK_LOGGED_IN = 'checkLoggedIn';
+
 @customElement('gr-error-manager')
 export class GrErrorManager extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -148,6 +151,7 @@ export class GrErrorManager extends GestureEventListeners(
     this.unlisten(document, 'show-error', '_handleShowErrorDialog');
     this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
     this.unlisten(document, 'show-auth-required', '_handleAuthRequired');
+    this.cancelDebouncer(DEBOUNCER_CHECK_LOGGED_IN);
 
     if (this._authErrorHandlerDeregistrationHook) {
       this._authErrorHandlerDeregistrationHook();
@@ -404,7 +408,7 @@ export class GrErrorManager extends GestureEventListeners(
 
   _requestCheckLoggedIn() {
     this.debounce(
-      'checkLoggedIn',
+      DEBOUNCER_CHECK_LOGGED_IN,
       this._checkSignedIn,
       CHECK_SIGN_IN_INTERVAL_MS
     );
@@ -480,7 +484,7 @@ export class GrErrorManager extends GestureEventListeners(
   }
 
   _handleWindowFocus() {
-    this.flushDebouncer('checkLoggedIn');
+    this.flushDebouncer(DEBOUNCER_CHECK_LOGGED_IN);
   }
 
   _handleShowErrorDialog(e: CustomEvent) {

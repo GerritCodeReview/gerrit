@@ -239,6 +239,10 @@ export interface GrChangeView {
 
 export type ChangeViewPatchRange = Partial<PatchRange>;
 
+const DEBOUNCER_REPLY_OVERLAY_REFIT = 'reply-overlay-refit';
+
+const DEBOUNCER_SCROLL = 'scroll';
+
 @customElement('gr-change-view')
 export class GrChangeView extends KeyboardShortcutMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -710,6 +714,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
     super.detached();
     this.unlisten(window, 'scroll', '_handleScroll');
     this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
+    this.cancelDebouncer(DEBOUNCER_REPLY_OVERLAY_REFIT);
+    this.cancelDebouncer(DEBOUNCER_SCROLL);
 
     if (this._updateCheckTimerHandle) {
       this._cancelUpdateCheckTimer();
@@ -1230,7 +1236,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   _handleReplyAutogrow() {
     // If the textarea resizes, we need to re-fit the overlay.
     this.debounce(
-      'reply-overlay-refit',
+      DEBOUNCER_REPLY_OVERLAY_REFIT,
       () => {
         this.$.replyOverlay.refit();
       },
@@ -1248,7 +1254,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _handleScroll() {
     this.debounce(
-      'scroll',
+      DEBOUNCER_SCROLL,
       () => {
         this.viewState.scrollTop = document.body.scrollTop;
       },

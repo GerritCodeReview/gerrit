@@ -35,6 +35,8 @@ declare global {
   }
 }
 
+const DEBOUNCER_RELOAD = 'reload';
+
 @customElement('gr-list-view')
 class GrListView extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -67,7 +69,7 @@ class GrListView extends GestureEventListeners(
   /** @override */
   detached() {
     super.detached();
-    this.cancelDebouncer('reload');
+    this.cancelDebouncer(DEBOUNCER_RELOAD);
   }
 
   _filterChanged(newFilter?: string, oldFilter?: string) {
@@ -81,7 +83,7 @@ class GrListView extends GestureEventListeners(
 
   _debounceReload(filter?: string) {
     this.debounce(
-      'reload',
+      DEBOUNCER_RELOAD,
       () => {
         if (this.path) {
           if (filter) {

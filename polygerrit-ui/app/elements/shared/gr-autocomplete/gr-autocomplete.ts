@@ -68,6 +68,8 @@ export type AutocompleteCommitEvent = CustomEvent<
   AutocompleteCommitEventDetail
 >;
 
+const DEBOUNCER_UPDATE_SUGGESTIONS = 'update-suggestions';
+
 @customElement('gr-autocomplete')
 export class GrAutocomplete extends KeyboardShortcutMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -217,7 +219,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
   detached() {
     super.detached();
     this.unlisten(document.body, 'click', '_handleBodyClick');
-    this.cancelDebouncer('update-suggestions');
+    this.cancelDebouncer(DEBOUNCER_UPDATE_SUGGESTIONS);
   }
 
   get focusStart() {
@@ -330,7 +332,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
     if (noDebounce) {
       update();
     } else {
-      this.debounce('update-suggestions', update, DEBOUNCE_WAIT_MS);
+      this.debounce(DEBOUNCER_UPDATE_SUGGESTIONS, update, DEBOUNCE_WAIT_MS);
     }
   }
 

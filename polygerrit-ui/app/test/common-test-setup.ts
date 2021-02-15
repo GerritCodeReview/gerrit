@@ -195,5 +195,10 @@ teardown(() => {
   checkGlobalSpace();
   removeIronOverlayBackdropStyleEl();
   // Clean Polymer debouncer queue, so next tests will not be affected.
+  // WARNING! This will most likely not do what you expect. `flushDebouncers()`
+  // will only flush debouncers that were added using `enqueueDebouncer()`. So
+  // this will not affect "normal" debouncers that were added using
+  // `this.debounce()`. For those please be careful and cancel them using
+  // `this.cancelDebouncer()` in the `detached()` lifecycle hook.
   flushDebouncers();
 });

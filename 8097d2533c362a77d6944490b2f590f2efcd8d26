@@ -16,6 +16,24 @@
       "message": "Thanks for fixing this. This is still rendering as bold in the browser. Should we get rid of the asterisks then? ",
       "revId": "8097d2533c362a77d6944490b2f590f2efcd8d26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db80d1e7_3db21cee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-15T17:10:30Z",
+      "side": 1,
+      "message": "It should be possible to escape \u0027*\u0027 as \"\\*\".",
+      "parentUuid": "755491b1_351d875d",
+      "revId": "8097d2533c362a77d6944490b2f590f2efcd8d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

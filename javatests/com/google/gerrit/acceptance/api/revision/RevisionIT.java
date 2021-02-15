@@ -88,15 +88,12 @@ import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
-import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.restapi.change.GetRevisionActions;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
@@ -122,7 +119,6 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 public class RevisionIT extends AbstractDaemonTest {
-  @Inject private GetRevisionActions getRevisionActions;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
@@ -1828,23 +1824,6 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void actionsETag() throws Exception {
-    PushOneCommit.Result r1 = createChange();
-    PushOneCommit.Result r2 = createChange();
-
-    String oldETag = checkETag(getRevisionActions, r2, null);
-    current(r2).review(ReviewInput.approve());
-    oldETag = checkETag(getRevisionActions, r2, oldETag);
-
-    // Dependent change is included in ETag.
-    current(r1).review(ReviewInput.approve());
-    oldETag = checkETag(getRevisionActions, r2, oldETag);
-
-    current(r2).submit();
-    checkETag(getRevisionActions, r2, oldETag);
-  }
-
-  @Test
   public void deleteVoteOnNonCurrentPatchSet() throws Exception {
     PushOneCommit.Result r = createChange(); // patch set 1
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
@@ -2013,13 +1992,6 @@ public class RevisionIT extends AbstractDaemonTest {
 
   private RevisionApi current(PushOneCommit.Result r) throws Exception {
     return gApi.changes().id(r.getChangeId()).current();
-  }
-
-  private String checkETag(ETagView<RevisionResource> view, PushOneCommit.Result r, String oldETag)
-      throws Exception {
-    String eTag = view.getETag(parseRevisionResource(r));
-    assertThat(eTag).isNotEqualTo(oldETag);
-    return eTag;
   }
 
   private PushOneCommit.Result createCherryPickableMerge(

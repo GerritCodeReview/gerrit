@@ -106,7 +106,7 @@ import java.util.Set;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-class RevisionApiImpl implements RevisionApi {
+class RevisionApiImpl extends RevisionApi.NotImplemented {
   interface Factory {
     RevisionApiImpl create(RevisionResource r);
   }
@@ -684,11 +684,6 @@ class RevisionApiImpl implements RevisionApi {
     } catch (Exception e) {
       throw asRestApiException("Cannot get description", e);
     }
-  }
-
-  @Override
-  public String etag() throws RestApiException {
-    return revisionActions.getETag(revision);
   }
 
   @Override

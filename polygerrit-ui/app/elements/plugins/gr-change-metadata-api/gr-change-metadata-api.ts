@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {HookApi, PluginApi} from '../gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
+import {ChangeMetadataPluginApi} from '../../../api/change-metadata';
+import {HookApi} from '../../../api/hook';
 
-export class GrChangeMetadataApi {
+export class GrChangeMetadataApi implements ChangeMetadataPluginApi {
   private _hook: HookApi | null;
 
   public plugin: PluginApi;

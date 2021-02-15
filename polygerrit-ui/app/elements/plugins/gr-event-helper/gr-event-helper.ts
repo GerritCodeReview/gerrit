@@ -14,13 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {
+  EventHelperPluginApi,
+  UnsubscribeCallback,
+} from '../../../api/event-helper';
 
 export interface ListenOptions {
   event?: string;
   capture?: boolean;
 }
 
-export class GrEventHelper {
+export class GrEventHelper implements EventHelperPluginApi {
   constructor(readonly element: HTMLElement) {}
 
   /**
@@ -50,7 +54,7 @@ export class GrEventHelper {
    * Alias for @see captureClick
    */
   captureTap(callback: (event: Event) => boolean) {
-    this.captureClick(callback);
+    return this.captureClick(callback);
   }
 
   /**
@@ -68,7 +72,7 @@ export class GrEventHelper {
     container: HTMLElement,
     callback: (event: Event) => boolean,
     options?: ListenOptions | null
-  ) {
+  ): UnsubscribeCallback {
     const capture = options?.capture;
     const event = options?.event || 'click';
     const handler = (e: Event) => {

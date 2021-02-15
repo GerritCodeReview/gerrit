@@ -16,9 +16,9 @@
  */
 import './gr-plugin-repo-command';
 import {ConfigInfo} from '../../../types/common';
-import {HookApi, PluginApi} from '../gr-plugin-types';
-
-type RepoCommandCallback = (repo?: string, config?: ConfigInfo) => boolean;
+import {PluginApi} from '../../../api/plugin';
+import {RepoCommandCallback, RepoPluginApi} from '../../../api/repo';
+import {HookApi} from '../../../api/hook';
 
 /**
  * Parameters provided on repo-command endpoint
@@ -28,7 +28,7 @@ export interface GrRepoCommandEndpointEl extends HTMLElement {
   config: ConfigInfo;
 }
 
-export class GrRepoApi {
+export class GrRepoApi implements RepoPluginApi {
   private _hook?: HookApi;
 
   constructor(readonly plugin: PluginApi) {}
@@ -45,7 +45,7 @@ export class GrRepoApi {
   createCommand(title: string, callback: RepoCommandCallback) {
     if (this._hook) {
       console.warn('Already set up.');
-      return this._hook;
+      return this;
     }
     this._hook = this._createHook(title);
     this._hook.onAttached(element => {

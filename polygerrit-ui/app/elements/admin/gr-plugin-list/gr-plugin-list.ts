@@ -26,11 +26,11 @@ import {
   ListViewParams,
 } from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {customElement, property} from '@polymer/decorators';
-import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {PluginInfo} from '../../../types/common';
 import {firePageError} from '../../../utils/event-util';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {ErrorCallback} from '../../../api/rest';
 
 interface PluginInfoWithName extends PluginInfo {
   name: string;

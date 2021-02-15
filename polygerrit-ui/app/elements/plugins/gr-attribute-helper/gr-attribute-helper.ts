@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {AttributeHelperPluginApi} from '../../../api/attribute-helper';
 
-export class GrAttributeHelper {
+export class GrAttributeHelper implements AttributeHelperPluginApi {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private readonly _promises = new Map<string, Promise<any>>();
 

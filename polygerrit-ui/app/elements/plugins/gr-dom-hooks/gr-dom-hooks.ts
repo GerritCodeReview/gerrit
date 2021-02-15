@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {HookApi, HookCallback, PluginApi} from '../gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
+import {HookApi, HookCallback} from '../../../api/hook';
 
 export class GrDomHooksManager {
   private _hooks: Record<string, GrDomHook>;

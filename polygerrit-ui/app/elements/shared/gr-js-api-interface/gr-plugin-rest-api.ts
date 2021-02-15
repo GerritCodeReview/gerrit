@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {HttpMethod} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
+import {ErrorCallback, RestPluginApi} from '../../../api/rest';
 
 async function getErrorMessage(response: Response): Promise<string> {
   const text = await response.text();
@@ -33,7 +33,7 @@ class ResponseError extends Error {
   }
 }
 
-export class GrPluginRestApi {
+export class GrPluginRestApi implements RestPluginApi {
   private readonly restApi = appContext.restApiService;
 
   constructor(private readonly prefix = '') {}

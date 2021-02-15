@@ -61,7 +61,7 @@ import {SinonStubbedMember} from 'sinon/pkg/sinon-esm';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
-import {PluginApi} from '../../plugins/gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {ParsedChangeInfo} from '../../../types/types';

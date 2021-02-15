@@ -17,20 +17,18 @@
 
 import {RevisionInfo, ChangeInfo, RequestPayload} from '../../../types/common';
 import {ShowAlertEventDetail} from '../../../types/events';
-import {PluginApi} from '../../plugins/gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
 import {UIActionInfo} from './gr-change-actions-js-api';
 import {windowLocationReload} from '../../../utils/dom-util';
-
-interface GrPopupInterface {
-  close(): void;
-}
+import {PopupPluginApi} from '../../../api/popup';
+import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface';
 
 interface ButtonCallBacks {
   onclick: (event: Event) => boolean;
 }
 
 export class GrPluginActionContext {
-  private _popups: GrPopupInterface[] = [];
+  private _popups: PopupPluginApi[] = [];
 
   constructor(
     public readonly plugin: PluginApi,
@@ -41,7 +39,7 @@ export class GrPluginActionContext {
 
   popup(element: Node) {
     this.plugin.popup().then(popApi => {
-      const popupEl = popApi._getElement();
+      const popupEl = (popApi as GrPopupInterface)._getElement();
       if (!popupEl) {
         throw new Error('Popup element not found');
       }

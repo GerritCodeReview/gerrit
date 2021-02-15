@@ -16,25 +16,20 @@
  */
 
 import {GrReplyDialog} from '../../../services/gr-rest-api/gr-rest-api';
-import {PluginApi, TargetElement} from '../../plugins/gr-plugin-types';
+import {PluginApi, TargetElement} from '../../../api/plugin';
 import {JsApiService} from './gr-js-api-types';
-
-// TODO(TS): maybe move interfaces\types to other files when convertion complete
-interface LabelsChangedDetail {
-  name: string;
-  value: string;
-}
-interface ValueChangedDetail {
-  value: string;
-}
-
-type ReplyChangedCallback = (text: string) => void;
-type LabelsChangedCallback = (detail: LabelsChangedDetail) => void;
+import {
+  ChangeReplyPluginApi,
+  LabelsChangedCallback,
+  LabelsChangedDetail,
+  ReplyChangedCallback,
+  ValueChangedDetail,
+} from '../../../api/change-reply';
 
 /**
  * GrChangeReplyInterface, provides a set of handy methods on reply dialog.
  */
-export class GrChangeReplyInterface {
+export class GrChangeReplyInterface implements ChangeReplyPluginApi {
   constructor(
     readonly plugin: PluginApi,
     readonly sharedApiElement: JsApiService
@@ -46,7 +41,7 @@ export class GrChangeReplyInterface {
     ) as unknown) as GrReplyDialog;
   }
 
-  getLabelValue(label: string) {
+  getLabelValue(label: string): string {
     return this._el.getLabelValue(label);
   }
 
@@ -100,6 +95,6 @@ export class GrChangeReplyInterface {
   }
 
   showMessage(message: string) {
-    return this._el.setPluginMessage(message);
+    this._el.setPluginMessage(message);
   }
 }

@@ -16,8 +16,9 @@
  */
 
 import {importHref} from '../../../scripts/import-href';
-import {HookApi, PluginApi} from '../../plugins/gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
 import {notUndefined} from '../../../types/types';
+import {HookApi} from '../../../api/hook';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (value: any) => void;

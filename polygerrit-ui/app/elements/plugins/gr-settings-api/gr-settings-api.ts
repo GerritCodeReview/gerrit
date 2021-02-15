@@ -16,9 +16,10 @@
  */
 import '../../settings/gr-settings-view/gr-settings-item';
 import '../../settings/gr-settings-view/gr-settings-menu-item';
-import {PluginApi} from '../gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
+import {SettingsPluginApi} from '../../../api/settings';
 
-export class GrSettingsApi {
+export class GrSettingsApi implements SettingsPluginApi {
   private _token: string;
 
   private _title = '(no title)';

@@ -78,7 +78,7 @@ import {
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {changeStatuses, changeStatusString} from '../../../utils/change-util';
-import {EventType as PluginEventType} from '../../plugins/gr-plugin-types';
+import {EventType as PluginEventType} from '../../../api/plugin';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';

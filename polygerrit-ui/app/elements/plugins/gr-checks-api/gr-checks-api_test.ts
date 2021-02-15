@@ -18,13 +18,13 @@
 import '../../../test/common-test-setup-karma.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
-import {GrChecksApi} from './gr-checks-api';
-import {PluginApi} from '../gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
+import {ChecksPluginApi} from '../../../api/checks';
 
 const gerritPluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-settings-api tests', () => {
-  let checksApi: GrChecksApi | undefined;
+  let checksApi: ChecksPluginApi | undefined;
 
   setup(() => {
     let pluginApi: PluginApi | undefined = undefined;

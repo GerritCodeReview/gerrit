@@ -33,7 +33,7 @@ import {getComputedStyleValue} from '../../../utils/dom-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit';
-import {EventType, PluginApi} from '../../plugins/gr-plugin-types';
+import {EventType, PluginApi} from '../../../api/plugin';
 
 import 'lodash/lodash';
 import {

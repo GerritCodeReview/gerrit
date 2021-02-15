@@ -17,97 +17,12 @@
 
 import {HttpMethod} from '../../constants/constants';
 import {
-  AccountDetailInfo,
-  AccountExternalIdInfo,
-  AccountInfo,
-  NumericChangeId,
-  ServerInfo,
-  ProjectInfo,
-  AccountCapabilityInfo,
-  SuggestedReviewerInfo,
-  GroupNameToGroupInfoMap,
-  ParsedJSON,
-  PatchSetNum,
-  RequestPayload,
-  PreferencesInput,
-  EditPreferencesInfo,
-  DiffPreferenceInput,
-  SshKeyInfo,
-  RepoName,
-  BranchName,
-  BranchInput,
-  TagInput,
-  GpgKeysInput,
-  GpgKeyId,
-  GpgKeyInfo,
-  PreferencesInfo,
-  EmailInfo,
-  ProjectAccessInfo,
-  CapabilityInfoMap,
-  ProjectAccessInput,
-  ChangeInfo,
-  ProjectInfoWithName,
-  GroupId,
-  GroupInfo,
-  GroupOptionsInput,
-  BranchInfo,
-  ConfigInfo,
-  ReviewInput,
-  EditInfo,
-  ChangeId,
-  DashboardInfo,
-  ProjectAccessInfoMap,
-  IncludedInInfo,
-  RobotCommentInfo,
-  CommentInfo,
-  PathToCommentsInfoMap,
-  PathToRobotCommentsInfoMap,
-  CommentInput,
-  GroupInput,
-  PluginInfo,
-  DocResult,
-  ContributorAgreementInfo,
-  ContributorAgreementInput,
-  Password,
-  ProjectWatchInfo,
-  NameToProjectInfoMap,
-  ProjectInput,
-  AccountId,
-  ChangeMessageId,
-  GroupAuditEventInfo,
-  EncodedGroupId,
-  Base64FileContent,
-  UrlEncodedCommentId,
-  TagInfo,
-  GitRef,
-  ConfigInput,
-  RelatedChangesInfo,
-  SubmittedTogetherInfo,
-  EmailAddress,
-  FixId,
-  FilePathToDiffInfoMap,
-  BlameInfo,
-  PatchRange,
-  ImagesForDiff,
-  ActionNameToActionInfoMap,
-  RevisionId,
-  GroupName,
-  DashboardId,
-  HashtagsInput,
-  Hashtag,
-  FileNameToFileInfoMap,
-  TopMenuEntryInfo,
-  MergeableInfo,
-  CommitInfo,
+  AccountCapabilityInfo, AccountDetailInfo, AccountExternalIdInfo, AccountId, AccountInfo, ActionNameToActionInfoMap, Base64FileContent, BlameInfo, BranchInfo, BranchInput, BranchName, CapabilityInfoMap, ChangeId, ChangeInfo, ChangeMessageId, CommentInfo, CommentInput, CommitInfo, ConfigInfo, ConfigInput, ContributorAgreementInfo, ContributorAgreementInput, DashboardId, DashboardInfo, DiffPreferenceInput, DocResult, EditInfo, EditPreferencesInfo, EmailAddress, EmailInfo, EncodedGroupId, FileNameToFileInfoMap, FilePathToDiffInfoMap, FixId, GitRef, GpgKeyId, GpgKeyInfo, GpgKeysInput, GroupAuditEventInfo, GroupId, GroupInfo, GroupInput, GroupName, GroupNameToGroupInfoMap, GroupOptionsInput, Hashtag, HashtagsInput, ImagesForDiff, IncludedInInfo, MergeableInfo, NameToProjectInfoMap, NumericChangeId, ParsedJSON, Password, PatchRange, PatchSetNum, PathToCommentsInfoMap, PathToRobotCommentsInfoMap, PluginInfo, PreferencesInfo, PreferencesInput, ProjectAccessInfo, ProjectAccessInfoMap, ProjectAccessInput, ProjectInfo, ProjectInfoWithName, ProjectInput, ProjectWatchInfo, RelatedChangesInfo, RepoName, RequestPayload, ReviewInput, RevisionId, RobotCommentInfo, ServerInfo, SshKeyInfo, SubmittedTogetherInfo, SuggestedReviewerInfo, TagInfo, TagInput, TopMenuEntryInfo, UrlEncodedCommentId,
 } from '../../types/common';
-import {
-  DiffInfo,
-  DiffPreferencesInfo,
-  IgnoreWhitespaceType,
-} from '../../types/diff';
+import {DiffInfo, DiffPreferencesInfo, IgnoreWhitespaceType,} from '../../types/diff';
 import {ParsedChangeInfo} from '../../types/types';
+import {ErrorCallback} from '../../api/rest';
 
-export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 export type CancelConditionCallback = () => boolean;
 
 // TODO(TS): remove when GrReplyDialog converted to typescript
@@ -116,21 +31,6 @@ export interface GrReplyDialog {
   setLabelValue(label: string, value: string): void;
   send(includeComments?: boolean, startReview?: boolean): Promise<unknown>;
   setPluginMessage(message: string): void;
-}
-
-// Copied from gr-change-actions.js
-export enum ActionType {
-  CHANGE = 'change',
-  REVISION = 'revision',
-}
-
-// Copied from gr-change-actions.js
-export enum ActionPriority {
-  CHANGE = 2,
-  DEFAULT = 0,
-  PRIMARY = 3,
-  REVIEW = -3,
-  REVISION = 1,
 }
 
 export interface GetDiffCommentsOutput {

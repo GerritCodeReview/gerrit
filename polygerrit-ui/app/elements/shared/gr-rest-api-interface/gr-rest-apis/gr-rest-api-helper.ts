@@ -17,7 +17,7 @@
 import {getBaseUrl} from '../../../../utils/url-util';
 import {
   CancelConditionCallback,
-  ErrorCallback,
+
 } from '../../../../services/gr-rest-api/gr-rest-api';
 import {
   AuthRequestInit,
@@ -33,6 +33,7 @@ import {HttpMethod} from '../../../../constants/constants';
 import {RpcLogEventDetail} from '../../../../types/events';
 import {fireNetworkError, fireServerError} from '../../../../utils/event-util';
 import {FetchRequest} from '../../../../types/types';
+import {ErrorCallback} from '../../../../api/rest';
 
 export const JSON_PREFIX = ")]}'";
 

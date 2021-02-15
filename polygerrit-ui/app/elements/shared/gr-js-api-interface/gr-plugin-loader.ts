@@ -24,7 +24,7 @@ import {
 import {Plugin} from './gr-public-js-api';
 import {getBaseUrl} from '../../../utils/url-util';
 import {getPluginEndpoints} from './gr-plugin-endpoints';
-import {PluginApi} from '../../plugins/gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {ShowAlertEventDetail} from '../../../types/events';

@@ -21,10 +21,10 @@ import {
   ReviewInput,
   RevisionInfo,
 } from '../../../types/common';
-import {EventType, TargetElement} from '../../plugins/gr-plugin-types';
+import {EventType, TargetElement} from '../../../api/plugin';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
-import {MenuLink} from '../../plugins/gr-admin-api/gr-admin-api';
+import {MenuLink} from '../../../api/admin';
 
 export interface ShowChangeDetail {
   change: ChangeInfo;

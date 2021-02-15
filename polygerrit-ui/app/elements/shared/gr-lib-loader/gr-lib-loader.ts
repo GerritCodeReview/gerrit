@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import '../gr-js-api-interface/gr-js-api-interface';
-import {EventType} from '../../plugins/gr-plugin-types';
+import {EventType} from '../../../api/plugin';
 import {HighlightJS} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
 

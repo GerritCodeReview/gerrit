@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {StyleObject, StylesPluginApi} from '../../../api/styles';
 
 /**
  * @fileoverview We should consider dropping support for this API:
@@ -30,7 +31,7 @@ interface PgElement extends Element {
   };
 }
 
-export class GrStyleObject {
+export class GrStyleObject implements StyleObject {
   private className = '';
 
   constructor(private readonly rulesStr: string) {
@@ -66,7 +67,6 @@ export class GrStyleObject {
 
   /**
    * Apply shared style to the element.
-   *
    */
   apply(element: Element) {
     element.classList.add(this.getClassName(element));
@@ -76,7 +76,7 @@ export class GrStyleObject {
 /**
  * TODO(TS): move to util
  */
-export class GrStylesApi {
+export class GrStylesApi implements StylesPluginApi {
   /**
    * Creates a new GrStyleObject with specified style properties.
    */

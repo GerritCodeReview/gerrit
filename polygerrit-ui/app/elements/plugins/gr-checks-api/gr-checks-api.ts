@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {PluginApi} from '../gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
 import {
   ChecksApiConfig,
   ChecksProvider,
-  GrChecksApiInterface,
+  ChecksPluginApi,
 } from '../../../api/checks';
 import {appContext} from '../../../services/app-context';
 
@@ -38,7 +38,7 @@ enum State {
  * Plugins normally just call register() once at startup and then wait for
  * fetch() being called on the provider interface.
  */
-export class GrChecksApi implements GrChecksApiInterface {
+export class GrChecksApi implements ChecksPluginApi {
   private state = State.NOT_REGISTERED;
 
   private readonly checksService = appContext.checksService;

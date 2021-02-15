@@ -23,16 +23,17 @@ import {
   RevisionInfo,
 } from '../../../types/common';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
-import {GrAdminApi, MenuLink} from '../../plugins/gr-admin-api/gr-admin-api';
+import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
 import {
   JsApiService,
   EventCallback,
   ShowChangeDetail,
   ShowRevisionActionsDetail,
 } from './gr-js-api-types';
-import {EventType, TargetElement} from '../../plugins/gr-plugin-types';
+import {EventType, TargetElement} from '../../../api/plugin';
 import {DiffLayer, HighlightJS, ParsedChangeInfo} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
+import {MenuLink} from '../../../api/admin';
 
 const elements: {[key: string]: HTMLElement} = {};
 const eventCallbacks: {[key: string]: EventCallback[]} = {};

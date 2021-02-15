@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {EventDetails, ReportingService, Timer} from './gr-reporting';
+import {ReportingService, Timer} from './gr-reporting';
+import {EventDetails} from '../../api/reporting';
 
 export class MockTimer implements Timer {
   end(): this {

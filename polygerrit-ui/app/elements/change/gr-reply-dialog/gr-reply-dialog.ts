@@ -46,9 +46,8 @@ import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/key
 import {accountKey, removeServiceUsers} from '../../../utils/account-util';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
-import {TargetElement} from '../../plugins/gr-plugin-types';
+import {TargetElement} from '../../../api/plugin';
 import {customElement, observe, property} from '@polymer/decorators';
-import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {
   AccountAddition,
@@ -110,6 +109,7 @@ import {
 import {isUnresolved} from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {fireAlert, fireEvent, fireServerError} from '../../../utils/event-util';
+import {ErrorCallback} from '../../../api/rest';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 

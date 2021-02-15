@@ -17,7 +17,8 @@
 import './gr-plugin-popup';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrPluginPopup} from './gr-plugin-popup';
-import {PluginApi} from '../gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
+import {PopupPluginApi} from '../../../api/popup';
 
 interface CustomPolymerPluginEl extends HTMLElement {
   plugin: PluginApi;
@@ -29,7 +30,7 @@ interface CustomPolymerPluginEl extends HTMLElement {
  * opt_moduleName is a name of custom element that will be automatically
  * inserted on popup opening.
  */
-export class GrPopupInterface {
+export class GrPopupInterface implements PopupPluginApi {
   private _openingPromise: Promise<GrPopupInterface> | null = null;
 
   private _popup: GrPluginPopup | null = null;
@@ -50,7 +51,7 @@ export class GrPopupInterface {
    * Creates the popup if not previously created. Creates popup content element,
    * if it was provided with constructor.
    */
-  open(): Promise<GrPopupInterface> {
+  open(): Promise<PopupPluginApi> {
     if (!this._openingPromise) {
       this._openingPromise = this.plugin
         .hook('plugin-overlay')

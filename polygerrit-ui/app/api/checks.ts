@@ -224,8 +224,8 @@ export interface Action {
 export type ActionCallback = (
   change: number,
   patchset: number,
-  attempt: number,
-  externalId: string,
+  attempt: number | undefined,
+  externalId: string | undefined,
   /** Identical to 'checkName' property of CheckRun. */
   checkName: string,
   /** Identical to 'name' property of Action entity. */

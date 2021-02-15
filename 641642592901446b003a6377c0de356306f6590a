@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "239f10f0_12e7dffa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-15T15:34:32Z",
+      "side": 1,
+      "message": "Should this bug fix rather be extracted in its own change, and referenced the original change 290871, or alternatively abbreviated Change-Id: Ia3a97599f80.\n\nI know, it\u0027s just one line: [1], but still:\n\n  useNewDiffCache \u003d baseConfig.getBoolean(\"cache\", \"diff_cache\", \"useNewDiffCache\", false);\n\nSo that we were erroneously running new diff cache mode twice, and the old diff cache mode zero time.\n\n  https://gerrit-review.googlesource.com/c/gerrit/+/290871/9/javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java#108",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 16
+      },
+      "revId": "641642592901446b003a6377c0de356306f6590a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

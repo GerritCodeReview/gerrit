@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "bdd1f337_eda5da2d",
         "filename": "/PATCHSET_LEVEL",
@@ -14,8 +15,24 @@
       "side": 1,
       "message": "\u003e Patch Set 3:\n\u003e \n\u003e Patch Set 3: Library-Compliance-1\n\u003e \u003e \n\u003e \u003e Sorry, we do not have JUnit 4.13 yet, but it looks like someone already started to add it. We should recheck on this in some weeks from now.\n\u003e \n\u003e It is already there, OK almost there: \"4.13-beta-1\". I can see, that another Google project: error prone already pointing to junit \"4.13-beta1\" in their build file: [1]. Given that Google has a monorepo and strict policy of providing \"one single version\" for each and every dependency this can be approved now, correct?\n\u003e \n\u003e [1] https://github.com/google/error-prone/blob/master/pom.xml#L40\n\nThey are now pointing to 4.13 [1]",
       "revId": "55d1f35a743fe7192ff89cbf05883a39dd427769",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65ab35ce_32517826",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-15T15:26:39Z",
+      "side": 1,
+      "message": "Ping?",
+      "revId": "55d1f35a743fe7192ff89cbf05883a39dd427769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

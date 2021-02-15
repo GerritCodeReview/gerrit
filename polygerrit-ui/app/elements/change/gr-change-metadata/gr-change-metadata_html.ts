@@ -110,6 +110,10 @@ export const htmlTemplate = html`
     .metadata-header {
       display: flex;
       justify-content: space-between;
+      align-items: flex-end;
+      /* The goal is to achieve alignment of the owner account chip and the
+         commit message box. Their top border should be on the same line. */
+      margin-bottom: var(--spacing-s);
     }
   </style>
   <gr-external-style id="externalStyle" name="change-metadata">

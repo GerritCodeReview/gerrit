@@ -34,6 +34,24 @@
       "parentUuid": "640e235e_2d381a1c",
       "revId": "7a2116ae124cd8e97e7646568fc3fe90948613d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f670c88d_a102c1b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-15T10:56:39Z",
+      "side": 1,
+      "message": "I see, I recall he mentioned he would use two approaches for the fix:\n- merge from stable-3.1 onwards\n- cherry-pick for older branches",
+      "parentUuid": "8ac303e0_b5bf357d",
+      "revId": "7a2116ae124cd8e97e7646568fc3fe90948613d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

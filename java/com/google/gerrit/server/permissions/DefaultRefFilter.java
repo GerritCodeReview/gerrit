@@ -51,9 +51,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.Repository;
 
 class DefaultRefFilter {
@@ -130,15 +128,6 @@ class DefaultRefFilter {
         "Project state %s permits read = %s",
         projectState.getProject().getState(), projectState.statePermitsRead());
 
-    // If we anyway always return all available (most recent) changes in the change index and cache,
-    // we shouldn't care about refs/changes.
-    if (opts.returnMostRecentRefChanges()) {
-      refs =
-          refs.stream()
-              .filter(r -> !RefNames.isRefsChanges(r.getName()))
-              .collect(Collectors.toList());
-    }
-
     // See if we can get away with a single, cheap ref evaluation.
     if (refs.size() == 1) {
       String refName = Iterables.getOnlyElement(refs).getName();
@@ -146,7 +135,7 @@ class DefaultRefFilter {
         logger.atFinest().log("Filter out metadata ref %s", refName);
         return ImmutableList.of();
       }
-      if (RefNames.isRefsChanges(refName) && !opts.returnMostRecentRefChanges()) {
+      if (RefNames.isRefsChanges(refName)) {
         boolean isChangeRefVisisble = canSeeSingleChangeRef(refName);
         if (isChangeRefVisisble) {
           logger.atFinest().log("Change ref %s is visible", refName);
@@ -190,44 +179,8 @@ class DefaultRefFilter {
       }
     }
 
-    if (opts.returnMostRecentRefChanges()) {
-      visibleChangesCache.cachedVisibleChanges().keySet().stream()
-          .forEach(c -> addAllChangeAndPatchsetRefs(visibleRefs, c));
-    }
-
     logger.atFinest().log("visible refs = %s", visibleRefs);
     return visibleRefs;
-  }
-
-  private void addAllChangeAndPatchsetRefs(Collection<Ref> refs, Change.Id changeId) {
-    try {
-      refs.add(
-          new ObjectIdRef.PeeledNonTag(
-              Storage.PACKED,
-              RefNames.changeMetaRef(changeId),
-              visibleChangesCache.getMetaId(changeId)));
-      visibleChangesCache
-          .getPatchSets(changeId)
-          .forEach(
-              p ->
-                  refs.add(
-                      new ObjectIdRef.PeeledNonTag(
-                          Storage.PACKED, RefNames.patchSetRef(p.id()), p.commitId())));
-      if (visibleChangesCache.getRobotCommentsMetaId(changeId) != null) {
-        refs.add(
-            new ObjectIdRef.PeeledNonTag(
-                Storage.PACKED,
-                RefNames.robotCommentsRef(changeId),
-                visibleChangesCache.getRobotCommentsMetaId(changeId)));
-      }
-    } catch (PermissionBackendException ex) {
-      // this can't happen since the changes are all already in the cache, so we don't need to
-      // perform permission checks at all to get those changes.
-      throw new IllegalStateException(
-          "this shouldn't happen since all permission checks should have been "
-              + "done previously, exception: %s",
-          ex);
-    }
   }
 
   /**
@@ -368,7 +321,7 @@ class DefaultRefFilter {
       try {
         // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
         permissionBackendForProject
-            .ref(visibleChangesCache.getChange(id).getDest().branch())
+            .ref(visibleChangesCache.getBranchNameKey(id).branch())
             .check(RefPermission.READ_PRIVATE_CHANGES);
         logger.atFinest().log("Foreign change edit ref is visible: %s", name);
         return true;

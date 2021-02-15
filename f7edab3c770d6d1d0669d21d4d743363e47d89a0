@@ -167,6 +167,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9a9425ef_5ba7d0f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T19:47:59Z",
+      "side": 1,
+      "message": "\u003e I also think those options could include plugin options. Do plugins \"just work\" because the ChangeData they see is created from that metaSHA1?\n\nI added a test that verifies this. Surprisingly, it just works out of the box.",
+      "parentUuid": "bd67f42a_6497839c",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 11
+      },
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "10eab2d0_6f93ea2b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b02ad17a_e8cb4f24",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-15T13:43:54Z",
+      "side": 1,
+      "message": "Can you do the same here :)",
+      "range": {
+        "startLine": 101,
+        "startChar": 35,
+        "endLine": 102,
+        "endChar": 21
+      },
+      "revId": "7a0b576ad9f111db40752afbfb9b5130da9baff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09a4e07c_06373f95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T19:52:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "df19f9eb_781734c4",
+      "revId": "f421d0ef5cc908814b4f42d0488482abd519b406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "872e1d1f_30183fac",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "I\u0027ve added some discussion. Perhaps it\u0027s best to simply assume old\u003d00000000000000 for old\u003dnon-existing",
       "parentUuid": "872e1d1f_30183fac",
+      "range": {
+        "startLine": 56,
+        "startChar": 42,
+        "endLine": 57,
+        "endChar": 58
+      },
+      "revId": "f421d0ef5cc908814b4f42d0488482abd519b406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e271fed0_eb59129f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T19:52:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6db4603f_d79c619b",
       "range": {
         "startLine": 56,
         "startChar": 42,

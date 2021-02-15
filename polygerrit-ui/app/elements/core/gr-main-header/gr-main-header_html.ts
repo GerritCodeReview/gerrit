@@ -79,6 +79,7 @@ export const htmlTemplate = html`
       flex-grow: 1;
       margin: 0 var(--spacing-m);
       max-width: 500px;
+      min-width: 150px;
     }
     gr-dropdown,
     .browse {

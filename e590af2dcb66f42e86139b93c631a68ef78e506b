@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2e3348e_10a608d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-15T12:31:31Z",
+      "side": 1,
+      "message": "Thanks Bazel team it was now uploaded to Bazel mirror, see: [1].\n\n[1] https://github.com/bazelbuild/bazel-toolchains/issues/943",
+      "revId": "e590af2dcb66f42e86139b93c631a68ef78e506b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

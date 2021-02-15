@@ -37,7 +37,7 @@ public class FileDiffOutputSerializerTest {
         FileDiffOutput.builder()
             .oldPath(Optional.of("old_file_path.txt"))
             .newPath(Optional.empty())
-            .changeType(Optional.of(ChangeType.DELETED))
+            .changeType(ChangeType.DELETED)
             .patchType(Optional.of(PatchType.UNIFIED))
             .size(23)
             .sizeDelta(10)

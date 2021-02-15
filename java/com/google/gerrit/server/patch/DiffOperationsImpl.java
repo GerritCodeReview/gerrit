@@ -25,6 +25,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
@@ -55,6 +56,7 @@ public class DiffOperationsImpl implements DiffOperations {
 
   private static final int RENAME_SCORE = 60;
   private static final DiffAlgorithm DEFAULT_DIFF_ALGORITHM = DiffAlgorithm.HISTOGRAM;
+  private static final Whitespace DEFAULT_WHITESPACE = Whitespace.IGNORE_NONE;
 
   private final ModifiedFilesCache modifiedFilesCache;
   private final FileDiffCache fileDiffCache;
@@ -112,12 +114,16 @@ public class DiffOperationsImpl implements DiffOperations {
 
   @Override
   public FileDiffOutput getModifiedFileAgainstParent(
-      Project.NameKey project, ObjectId newCommit, @Nullable Integer parent, String fileName)
+      Project.NameKey project,
+      ObjectId newCommit,
+      @Nullable Integer parent,
+      String fileName,
+      @Nullable DiffPreferencesInfo.Whitespace whitespace)
       throws DiffNotAvailableException {
     try {
       DiffParameters diffParams = computeDiffParameters(project, newCommit, parent);
       FileDiffCacheKey key =
-          createFileDiffCacheKey(project, diffParams.baseCommit(), newCommit, fileName);
+          createFileDiffCacheKey(project, diffParams.baseCommit(), newCommit, fileName, whitespace);
       return getModifiedFilesForKeys(ImmutableList.of(key)).get(fileName);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
@@ -127,9 +133,14 @@ public class DiffOperationsImpl implements DiffOperations {
 
   @Override
   public FileDiffOutput getModifiedFile(
-      Project.NameKey project, ObjectId oldCommit, ObjectId newCommit, String fileName)
+      Project.NameKey project,
+      ObjectId oldCommit,
+      ObjectId newCommit,
+      String fileName,
+      @Nullable DiffPreferencesInfo.Whitespace whitespace)
       throws DiffNotAvailableException {
-    FileDiffCacheKey key = createFileDiffCacheKey(project, oldCommit, newCommit, fileName);
+    FileDiffCacheKey key =
+        createFileDiffCacheKey(project, oldCommit, newCommit, fileName, whitespace);
     return getModifiedFilesForKeys(ImmutableList.of(key)).get(fileName);
   }
 
@@ -144,10 +155,14 @@ public class DiffOperationsImpl implements DiffOperations {
           modifiedFilesCache.get(createModifiedFilesKey(project, oldCommit, newCommit));
 
       List<FileDiffCacheKey> fileCacheKeys = new ArrayList<>();
-      fileCacheKeys.add(createFileDiffCacheKey(project, oldCommit, newCommit, COMMIT_MSG));
+      fileCacheKeys.add(
+          createFileDiffCacheKey(
+              project, oldCommit, newCommit, COMMIT_MSG, /* whitespace= */ null));
 
       if (cmp.isAgainstAutoMerge() || isMergeAgainstParent(cmp, project, newCommit)) {
-        fileCacheKeys.add(createFileDiffCacheKey(project, oldCommit, newCommit, MERGE_LIST));
+        fileCacheKeys.add(
+            createFileDiffCacheKey(
+                project, oldCommit, newCommit, MERGE_LIST, /*whitespace = */ null));
       }
 
       if (diffParams.skipFiles() == null) {
@@ -160,7 +175,8 @@ public class DiffOperationsImpl implements DiffOperations {
                         newCommit,
                         entity.newPath().isPresent()
                             ? entity.newPath().get()
-                            : entity.oldPath().get()))
+                            : entity.oldPath().get(),
+                        /* whitespace= */ null))
             .forEach(fileCacheKeys::add);
       }
       return getModifiedFilesForKeys(fileCacheKeys);
@@ -178,7 +194,7 @@ public class DiffOperationsImpl implements DiffOperations {
       if (fileDiffOutput.isEmpty() || allDueToRebase(fileDiffOutput)) {
         continue;
       }
-      if (fileDiffOutput.changeType().get() == Patch.ChangeType.DELETED) {
+      if (fileDiffOutput.changeType() == ChangeType.DELETED) {
         files.put(fileDiffOutput.oldPath().get(), fileDiffOutput);
       } else {
         files.put(fileDiffOutput.newPath().get(), fileDiffOutput);
@@ -189,8 +205,8 @@ public class DiffOperationsImpl implements DiffOperations {
 
   private static boolean allDueToRebase(FileDiffOutput fileDiffOutput) {
     return fileDiffOutput.allEditsDueToRebase()
-        && (!(fileDiffOutput.changeType().get() == ChangeType.RENAMED
-            || fileDiffOutput.changeType().get() == ChangeType.COPIED));
+        && (!(fileDiffOutput.changeType() == ChangeType.RENAMED
+            || fileDiffOutput.changeType() == ChangeType.COPIED));
   }
 
   private boolean isMergeAgainstParent(ComparisonType cmp, Project.NameKey project, ObjectId commit)
@@ -209,7 +225,12 @@ public class DiffOperationsImpl implements DiffOperations {
   }
 
   private static FileDiffCacheKey createFileDiffCacheKey(
-      Project.NameKey project, ObjectId aCommit, ObjectId bCommit, String newPath) {
+      Project.NameKey project,
+      ObjectId aCommit,
+      ObjectId bCommit,
+      String newPath,
+      @Nullable Whitespace whitespace) {
+    whitespace = whitespace == null ? DEFAULT_WHITESPACE : whitespace;
     return FileDiffCacheKey.builder()
         .project(project)
         .oldCommit(aCommit)
@@ -217,7 +238,7 @@ public class DiffOperationsImpl implements DiffOperations {
         .newFilePath(newPath)
         .renameScore(RENAME_SCORE)
         .diffAlgorithm(DEFAULT_DIFF_ALGORITHM)
-        .whitespace(Whitespace.IGNORE_NONE)
+        .whitespace(whitespace)
         .build();
   }
 

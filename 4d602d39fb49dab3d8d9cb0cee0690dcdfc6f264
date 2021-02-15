@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62abb67f_e77cd909",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-15T15:04:34Z",
+      "side": 1,
+      "message": "You could benchmark locally if it\u0027s faster to loop once over all change refs from RefDatabase and check if they are contained in visibleChanges (current implementation) OR exclude them when loading refs and loop over visibleChanges and call exactRef to x-check the index state with RefDatabase.\n\nI bet the current is faster or that there is no material speedup, though.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4d602d39fb49dab3d8d9cb0cee0690dcdfc6f264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

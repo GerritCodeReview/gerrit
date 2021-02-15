@@ -137,7 +137,7 @@ const ButtonLabels = {
 };
 
 const ButtonTooltips = {
-  SAVE: 'Save but do not send notification or change review state',
+  SAVE: 'Send changes and comments as work in progress but do not start review',
   START_REVIEW: 'Mark as ready for review and send reply',
   SEND: 'Send reply',
   DISABLED_COMMENT_EDITING: 'Save draft comments to enable send',

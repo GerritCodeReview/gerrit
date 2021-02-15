@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ConfigInfo} from '../types/common';
-
 export type RepoCommandCallback = (
   repo?: string,
-  config?: ConfigInfo
+  /**
+   * This is a ConfigInfo object as defined here:
+   * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-info
+   * We neither want to repeat it nor add a dependency on it here.
+   */
+  config?: unknown
 ) => boolean;
 
 export interface RepoPluginApi {

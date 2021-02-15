@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ServerInfo} from '../types/common';
-
 import {AdminPluginApi} from './admin';
 import {AnnotationPluginApi} from './annotation';
 import {AttributeHelperPluginApi} from './attribute-helper';
@@ -66,7 +64,6 @@ export interface PluginApi {
   checks(): ChecksPluginApi;
   eventHelper(element: Node): EventHelperPluginApi;
   getPluginName(): string;
-  getServerInfo(): Promise<ServerInfo | undefined>;
   hook(endpointName: string, opt_options?: RegisterOptions): HookApi;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   on(eventName: EventType, target: any): void;

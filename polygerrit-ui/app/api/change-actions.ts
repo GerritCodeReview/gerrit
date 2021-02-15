@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ActionInfo} from '../types/common';
+import {HttpMethod} from './rest';
+
+export interface ActionInfo {
+  method?: HttpMethod;
+  label?: string;
+  title?: string;
+  enabled?: boolean;
+}
 
 export enum ActionType {
   CHANGE = 'change',

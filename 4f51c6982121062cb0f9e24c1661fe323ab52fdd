@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad994583_24d0cd60",
+        "filename": "polygerrit-ui/app/services/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-15T09:35:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10fab3aa_e8de76c0",
+      "range": {
+        "startLine": 43,
+        "startChar": 12,
+        "endLine": 43,
+        "endChar": 17
+      },
+      "revId": "4f51c6982121062cb0f9e24c1661fe323ab52fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93e6bcd1_be31da5b",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-15T09:29:52Z",
       "side": 1,
       "message": "[0] is maybe not defined if []",
+      "range": {
+        "startLine": 67,
+        "startChar": 68,
+        "endLine": 67,
+        "endChar": 71
+      },
+      "revId": "4f51c6982121062cb0f9e24c1661fe323ab52fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc579c88_ad779837",
+        "filename": "polygerrit-ui/app/services/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-15T09:35:33Z",
+      "side": 1,
+      "message": "Yes, but that is intentional. Added an explicit return type to make this clearer.",
+      "parentUuid": "93e6bcd1_be31da5b",
       "range": {
         "startLine": 67,
         "startChar": 68,

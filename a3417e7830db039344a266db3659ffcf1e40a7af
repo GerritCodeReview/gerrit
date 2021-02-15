@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06fac0dd_191995f9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIntralineIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-15T14:50:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "654b5fc5_bcbc581d",
+      "revId": "a3417e7830db039344a266db3659ffcf1e40a7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47f28797_7d3f8324",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c4a6e6f_7a21192d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionNewDiffCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-15T14:50:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47f28797_7d3f8324",
+      "revId": "a3417e7830db039344a266db3659ffcf1e40a7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e42003b0_9770fa4e",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-02-15T14:40:27Z",
       "side": 1,
       "message": "May be add a comment here, why this class is temporary and should be removed when newDiffCache will be flipped to default/removed?",
+      "revId": "a3417e7830db039344a266db3659ffcf1e40a7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73d44be0_17589860",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionNewDiffCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-15T14:50:12Z",
+      "side": 1,
+      "message": "Added javadoc to the class.\n\nDone.",
+      "parentUuid": "e42003b0_9770fa4e",
       "revId": "a3417e7830db039344a266db3659ffcf1e40a7af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

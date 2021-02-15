@@ -29,10 +29,6 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.server.LibModuleLoader;
-import com.google.gerrit.server.LibModuleType;
-import com.google.gerrit.server.ModuleOverloader;
-import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
@@ -163,7 +159,6 @@ public class Reindex extends SiteProgram {
     }
     modules.add(indexModule);
     modules.add(new BatchProgramModule());
-    modules.add(new H2CacheModule());
     modules.add(
         new FactoryModule() {
           @Override
@@ -172,9 +167,7 @@ public class Reindex extends SiteProgram {
           }
         });
 
-    return dbInjector.createChildInjector(
-        ModuleOverloader.override(
-            modules, LibModuleLoader.loadModules(dbInjector, LibModuleType.SYS_MODULE)));
+    return dbInjector.createChildInjector(modules);
   }
 
   private void overrideConfig() {

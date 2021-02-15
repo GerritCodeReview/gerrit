@@ -58,7 +58,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
-import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +86,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private PermissionBackend permissionBackend;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
-  @Inject private TestCommentHelper testCommentHelper;
 
   private AccountGroup.UUID admins;
   private AccountGroup.UUID nonInteractiveUsers;

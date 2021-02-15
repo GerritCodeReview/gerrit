@@ -22,6 +22,30 @@
       },
       "revId": "641642592901446b003a6377c0de356306f6590a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76e6002f_041cfd0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-15T16:23:04Z",
+      "side": 1,
+      "message": "Yes, this was erroneously running the new diff cache twice. \n\nThis is not related to this change, but I sneaked it in this change since it\u0027s a one line. I extracted this in its own change.\n\nDone.",
+      "parentUuid": "239f10f0_12e7dffa",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 16
+      },
+      "revId": "641642592901446b003a6377c0de356306f6590a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

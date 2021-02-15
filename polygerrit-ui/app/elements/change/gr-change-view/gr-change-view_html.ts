@@ -65,7 +65,7 @@ export const htmlTemplate = html`
       margin-left: var(--spacing-s);
     }
     #replyBtn {
-      margin-bottom: var(--spacing-l);
+      margin-bottom: var(--spacing-m);
     }
     gr-change-star {
       margin-left: var(--spacing-s);

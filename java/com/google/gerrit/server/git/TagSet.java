@@ -16,9 +16,9 @@ package com.google.gerrit.server.git;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto;
@@ -37,6 +37,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -44,6 +45,12 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 class TagSet {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final ImmutableSet<String> SKIPPABLE_REF_PREFIXES =
+      ImmutableSet.of(
+          RefNames.REFS_CHANGES,
+          RefNames.REFS_CACHE_AUTOMERGE,
+          RefNames.REFS_DRAFT_COMMENTS,
+          RefNames.REFS_STARRED_CHANGES);
 
   private final Project.NameKey projectName;
   private final Map<String, CachedRef> refs;
@@ -179,7 +186,9 @@ class TagSet {
 
     try (TagWalk rw = new TagWalk(git)) {
       rw.setRetainBody(false);
-      for (Ref ref : git.getRefDatabase().getRefs()) {
+      for (Ref ref :
+          git.getRefDatabase()
+              .getRefsByPrefixWithExclusions(RefDatabase.ALL, SKIPPABLE_REF_PREFIXES)) {
         if (skip(ref)) {
           continue;
 
@@ -365,9 +374,7 @@ class TagSet {
   static boolean skip(Ref ref) {
     return ref.isSymbolic()
         || ref.getObjectId() == null
-        || PatchSet.isChangeRef(ref.getName())
-        || RefNames.isNoteDbMetaRef(ref.getName())
-        || ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE);
+        || SKIPPABLE_REF_PREFIXES.stream().anyMatch(p -> ref.getName().startsWith(p));
   }
 
   private static boolean isTag(Ref ref) {

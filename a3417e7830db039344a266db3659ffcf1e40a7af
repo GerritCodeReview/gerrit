@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10bde5e7_a6ba75ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-15T14:40:27Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "a3417e7830db039344a266db3659ffcf1e40a7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "654b5fc5_bcbc581d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIntralineIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-15T14:40:27Z",
+      "side": 1,
+      "message": "Missing license header.",
+      "revId": "a3417e7830db039344a266db3659ffcf1e40a7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47f28797_7d3f8324",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionNewDiffCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-15T14:40:27Z",
+      "side": 1,
+      "message": "Missing license header.",
+      "revId": "a3417e7830db039344a266db3659ffcf1e40a7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e42003b0_9770fa4e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionNewDiffCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-15T14:40:27Z",
+      "side": 1,
+      "message": "May be add a comment here, why this class is temporary and should be removed when newDiffCache will be flipped to default/removed?",
+      "revId": "a3417e7830db039344a266db3659ffcf1e40a7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

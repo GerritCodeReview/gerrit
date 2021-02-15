@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d210c9dd_a962b5ed",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-15T13:36:56Z",
+      "side": 0,
+      "message": "FYI I am somewhat re-adding this functionality in https://gerrit-review.googlesource.com/c/gerrit/+/296102\n\n\nSo I would keep it as an empty Set?",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 90
+      },
+      "revId": "bb1daef20c8b670a96bad54bf9e2b2d81bb78647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

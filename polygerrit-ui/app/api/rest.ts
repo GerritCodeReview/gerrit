@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {HttpMethod} from '../constants/constants';
 import {
   AccountCapabilityInfo,
   AccountDetailInfo,
@@ -23,6 +22,14 @@ import {
   RequestPayload,
   ServerInfo,
 } from '../types/common';
+
+export enum HttpMethod {
+  HEAD = 'HEAD',
+  POST = 'POST',
+  GET = 'GET',
+  DELETE = 'DELETE',
+  PUT = 'PUT',
+}
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 

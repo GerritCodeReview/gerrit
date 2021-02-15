@@ -22,6 +22,30 @@
       },
       "revId": "4d602d39fb49dab3d8d9cb0cee0690dcdfc6f264",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd6b5624_d9eb608e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-15T15:56:16Z",
+      "side": 1,
+      "message": "based on this:\nhttps://git.eclipse.org/r/c/jgit/jgit/+/173498/13\n\nI already have estimates here:\ntotal time the action took using seek:       9020 usec\ntotal time the action took using filter:     143166 usec\nnumber of refs that start with prefix: 296.\nnumber of refs that don\u0027t start with prefix: 60400.\n\n\nIt\u0027s not proof but I can clearly see that exactRef takes \u003e\u003e\u003e100 usec here (based on quick math: 60400 / 296 \u003d 200, hence we should have expected to see a x200 improvement, but we only see x15 improvement, pointing that the reason of the improvement not being x200 is the latency of exactRef (or in this case seek, but it\u0027s the same algorithm).\n\nDoing exactRef 10000 times will easily be much worse, then.\n\nI think it\u0027s enough to justify not checking this further.",
+      "parentUuid": "62abb67f_e77cd909",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4d602d39fb49dab3d8d9cb0cee0690dcdfc6f264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

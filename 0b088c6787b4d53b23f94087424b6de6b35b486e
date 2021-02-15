@@ -70,6 +70,24 @@
       "parentUuid": "2ab87c0d_1730f5cd",
       "revId": "0b088c6787b4d53b23f94087424b6de6b35b486e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6064d150_c550a9ec",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2021-02-15T11:13:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9f60c7fc_5a58dbe8",
+      "revId": "0b088c6787b4d53b23f94087424b6de6b35b486e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

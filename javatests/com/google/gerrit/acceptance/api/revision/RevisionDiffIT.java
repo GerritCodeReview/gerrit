@@ -42,7 +42,6 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.testing.ConfigSuite;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -55,7 +54,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 import javax.imageio.ImageIO;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -66,7 +64,8 @@ import org.junit.Test;
 public class RevisionDiffIT extends AbstractDaemonTest {
   // @RunWith(Parameterized.class) can't be used as AbstractDaemonTest is annotated with another
   // runner. Using different configs is a workaround to achieve the same.
-  private static final String TEST_PARAMETER_MARKER = "test_only_parameter";
+  protected static final String TEST_PARAMETER_MARKER = "test_only_parameter";
+
   private static final String CURRENT = "current";
   private static final String FILE_NAME = "some_file.txt";
   private static final String FILE_NAME2 = "another_file.txt";
@@ -83,20 +82,6 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   private String changeId;
   private String initialPatchSetId;
 
-  @ConfigSuite.Config
-  public static Config intralineConfig() {
-    Config config = new Config();
-    config.setBoolean(TEST_PARAMETER_MARKER, null, "intraline", true);
-    return config;
-  }
-
-  @ConfigSuite.Config
-  public static Config newDiffCacheConfig() {
-    Config config = new Config();
-    config.setBoolean("cache", "diff_cache", "useNewDiffCache", true);
-    return config;
-  }
-
   @Before
   public void setUp() throws Exception {
     // Reduce flakiness of tests. (If tests aren't fast enough, we would use a fall-back
@@ -105,7 +90,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     baseConfig.setString("cache", "diff_intraline", "timeout", "1 minute");
 
     intraline = baseConfig.getBoolean(TEST_PARAMETER_MARKER, "intraline", false);
-    useNewDiffCache = baseConfig.getBoolean("cache", "diff_cache", "useNewDiffCache", true);
+    useNewDiffCache = baseConfig.getBoolean("cache", "diff_cache", "useNewDiffCache", false);
 
     ObjectId headCommit = testRepo.getRepository().resolve("HEAD");
     commit1 =

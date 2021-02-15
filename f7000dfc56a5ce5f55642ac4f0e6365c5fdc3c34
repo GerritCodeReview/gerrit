@@ -366,6 +366,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c401e839_fd053281",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-15T09:56:51Z",
+      "side": 1,
+      "message": "Discussed in a separate thread, will only keep UiFeature__patchset_comments (it is uses in Stable 3.3 and we can not be sure that it does not break more CI systems).\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/290844/4\n\nWe can remove it in a separate change before the next release, if needed.",
+      "parentUuid": "0005445c_ebfc8c4b",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 85
+      },
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21ac5e76_ae338130",

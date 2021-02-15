@@ -137,6 +137,7 @@ suite('gr-diff-view tests', () => {
         computeUnresolvedNum: () => {},
         getPaths: () => {},
         getThreadsBySideForFile: () => [],
+        getAllComments: () => {},
         findCommentById: _testOnly_findCommentById,
 
       }));
@@ -463,6 +464,47 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(element._handleToggleFileReviewed.calledTwice);
       assert.isTrue(element._setReviewed.called);
       assert.equal(element._setReviewed.lastCall.args[0], true);
+    });
+
+    test('moveToNextCommentThread navigates to next file', () => {
+      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
+      const diffChangeStub = sinon.stub(GerritNav, 'navigateToChange');
+      sinon.stub(element.$.cursor, 'isAtEnd').returns(true);
+      sinon.stub(element._changeComments, 'getAllComments').returns({
+        'wheatley.md': [{
+          ...createComment(),
+          patch_set: 10,
+          line: 21,
+        }],
+      });
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: PARENT,
+        patchNum: 10,
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 10, commit: {parents: []}},
+        },
+      };
+      element._files = getFilesFromFileList(
+          ['chell.go', 'glados.txt', 'wheatley.md']);
+      element._path = 'glados.txt';
+      element.changeViewState.selectedFileIndex = 1;
+      element._loggedIn = true;
+
+      MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+      flush();
+      assert.isTrue(diffNavStub.calledWithExactly(
+          element._change, 'wheatley.md', 10, PARENT, 21));
+
+      element._path = 'wheatley.md'; // navigated to next file
+      MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+      flush();
+
+      assert.isTrue(diffChangeStub.calledWithExactly(
+          element._change, 10, PARENT));
     });
 
     test('shift+x shortcut expands all diff context', () => {

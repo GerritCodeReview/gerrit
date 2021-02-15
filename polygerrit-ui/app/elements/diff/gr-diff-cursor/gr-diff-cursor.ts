@@ -235,7 +235,11 @@ export class GrDiffCursor extends GestureEventListeners(
     return result;
   }
 
-  moveToNextCommentThread(): CursorMoveResult {
+  moveToNextCommentThread(): CursorMoveResult | undefined {
+    if (this.isAtEnd()) {
+      fireEvent(this, 'navigate-to-next-file-with-comments');
+      return;
+    }
     const result = this.$.cursorManager.next({
       filter: (row: HTMLElement) => this._rowHasThread(row),
     });

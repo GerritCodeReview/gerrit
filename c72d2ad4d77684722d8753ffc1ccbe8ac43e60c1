@@ -16,6 +16,23 @@
       "message": "tests just passed and this rebase was clean on top of master (where the parent change was not significant). just submitting since this blocks the release.",
       "revId": "c72d2ad4d77684722d8753ffc1ccbe8ac43e60c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0077cf3e_36bafe36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-15T11:56:13Z",
+      "side": 1,
+      "message": "What is the root cause that requires this fix?\n\nI read through the bug description and got suspicious when I saw this change: The index can be stale, so emitting refs and SHA1s based on index state is almost guaranteed to make trouble and IIRC we did not do this before.\n\nA practical example for this trouble is: The index has a change/PS that doesn\u0027t exist. We emit a SHA1/ref pair that will cause issues in another Git server or the client.\n\nThis seems like a regression so it\u0027s better to look at the root cause.",
+      "revId": "c72d2ad4d77684722d8753ffc1ccbe8ac43e60c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

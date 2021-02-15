@@ -28,6 +28,9 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.LibModuleLoader;
+import com.google.gerrit.server.LibModuleType;
+import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
@@ -84,22 +87,33 @@ import com.google.gerrit.server.rules.IgnoreSelfApprovalRule;
 import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 /** Module for programs that perform batch operations on a site. */
 public class BatchProgramModule extends FactoryModule {
+  private Injector parentInjector;
+
+  public BatchProgramModule(Injector parentInjector) {
+    this.parentInjector = parentInjector;
+  }
+
   @SuppressWarnings("rawtypes")
   @Override
   protected void configure() {
-    install(new DiffExecutorModule());
-    install(new SysExecutorModule());
-    install(BatchUpdate.module());
-    install(PatchListCacheImpl.module());
-    install(new DefaultUrlFormatter.Module());
+    List<Module> modules = new ArrayList<>();
+
+    modules.add(new DiffExecutorModule());
+    modules.add(new SysExecutorModule());
+    modules.add(BatchUpdate.module());
+    modules.add(PatchListCacheImpl.module());
+    modules.add(new DefaultUrlFormatter.Module());
 
     // There is the concept of LifecycleModule, in Gerrit's own extension to Guice, which has these:
     //  listener().to(SomeClassImplementingLifecycleListener.class);
@@ -108,7 +122,7 @@ public class BatchProgramModule extends FactoryModule {
     // plugins get loaded and the respective Guice modules installed so that the on-line reindexing
     // will happen with the proper classes (e.g. group backends, custom Prolog predicates) and the
     // associated rules ready to be evaluated.
-    install(new PluginModule());
+    modules.add(new PluginModule());
 
     // We're just running through each change
     // once, so don't worry about cache removal.
@@ -150,24 +164,24 @@ public class BatchProgramModule extends FactoryModule {
         .annotatedWith(GitReceivePackGroups.class)
         .toInstance(Collections.emptySet());
 
-    install(new BatchGitModule());
-    install(new DefaultPermissionBackendModule());
-    install(new DefaultMemoryCacheModule());
-    install(new H2CacheModule());
-    install(new ExternalIdModule());
-    install(new GroupModule());
-    install(new NoteDbModule());
-    install(AccountCacheImpl.module());
-    install(DefaultPreferencesCacheImpl.module());
-    install(GroupCacheImpl.module());
-    install(GroupIncludeCacheImpl.module());
-    install(ProjectCacheImpl.module());
-    install(SectionSortCache.module());
-    install(ChangeKindCacheImpl.module());
-    install(MergeabilityCacheImpl.module());
-    install(ServiceUserClassifierImpl.module());
-    install(TagCache.module());
-    install(PureRevertCache.module());
+    modules.add(new BatchGitModule());
+    modules.add(new DefaultPermissionBackendModule());
+    modules.add(new DefaultMemoryCacheModule());
+    modules.add(new H2CacheModule());
+    modules.add(new ExternalIdModule());
+    modules.add(new GroupModule());
+    modules.add(new NoteDbModule());
+    modules.add(AccountCacheImpl.module());
+    modules.add(DefaultPreferencesCacheImpl.module());
+    modules.add(GroupCacheImpl.module());
+    modules.add(GroupIncludeCacheImpl.module());
+    modules.add(ProjectCacheImpl.module());
+    modules.add(SectionSortCache.module());
+    modules.add(ChangeKindCacheImpl.module());
+    modules.add(MergeabilityCacheImpl.module());
+    modules.add(ServiceUserClassifierImpl.module());
+    modules.add(TagCache.module());
+    modules.add(PureRevertCache.module());
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);
     factory(ChangeIsVisibleToPredicate.Factory.class);
@@ -176,9 +190,9 @@ public class BatchProgramModule extends FactoryModule {
     // Submit rules
     DynamicSet.setOf(binder(), SubmitRule.class);
     factory(SubmitRuleEvaluator.Factory.class);
-    install(new PrologModule());
-    install(new DefaultSubmitRule.Module());
-    install(new IgnoreSelfApprovalRule.Module());
+    modules.add(new PrologModule());
+    modules.add(new DefaultSubmitRule.Module());
+    modules.add(new IgnoreSelfApprovalRule.Module());
 
     bind(ChangeJson.Factory.class).toProvider(Providers.of(null));
     bind(EventUtil.class).toProvider(Providers.of(null));
@@ -186,5 +200,10 @@ public class BatchProgramModule extends FactoryModule {
     bind(RevisionCreated.class).toInstance(RevisionCreated.DISABLED);
     bind(WorkInProgressStateChanged.class).toInstance(WorkInProgressStateChanged.DISABLED);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
+
+    ModuleOverloader.override(
+            modules, LibModuleLoader.loadModules(parentInjector, LibModuleType.SYS_BATCH_MODULE))
+        .stream()
+        .forEach(this::install);
   }
 }

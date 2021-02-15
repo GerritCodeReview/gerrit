@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "497e1f26_5652c611",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T18:37:41Z",
+      "side": 1,
+      "message": "Looks like this imports OK with only very minor edits. Patrick, how shall we proceed?",
+      "revId": "e73e5e9c673d8c417354463ba13a238fc89aceb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

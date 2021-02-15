@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3f6c7f2_d8fc40a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T10:10:00Z",
+      "side": 1,
+      "message": "this fails in \n\n```\n1) allChangeOptionsAreServedWithoutExceptions(com.google.gerrit.acceptance.ssh.QueryIT)\nOption: META_REF\nvalue of    : iterable.size()\nexpected    : 1\nbut was     : 0\niterable was: []\n\tat com.google.gerrit.acceptance.ssh.QueryIT.allChangeOptionsAreServedWithoutExceptions(QueryIT.java:300)\n```\n\ndo I have to wire up this option in the query system too? \n",
+      "revId": "0d16d4fdbd0f19f72168a88c0e23b6ceac3faee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

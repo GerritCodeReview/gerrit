@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a79f2c45_df112947",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T16:36:05Z",
+      "side": 1,
+      "message": "yeah, agree to most of this.",
+      "parentUuid": "6d6cc1e3_35fff1e0",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 14
+      },
+      "revId": "5f68f105c8998309ca6d5821c5fbe12d523e3bd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74fda2e9_6f8066c5",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-15T14:18:48Z",
       "side": 1,
       "message": "nit: Optionals in arguments are discouraged (use Nullable instead)",
+      "range": {
+        "startLine": 286,
+        "startChar": 42,
+        "endLine": 286,
+        "endChar": 50
+      },
+      "revId": "5f68f105c8998309ca6d5821c5fbe12d523e3bd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1e7df56_295f4b11",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T16:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74fda2e9_6f8066c5",
       "range": {
         "startLine": 286,
         "startChar": 42,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2313d304_5cbd20e4",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T16:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e7429af_e1a6e68e",
+      "range": {
+        "startLine": 336,
+        "startChar": 5,
+        "endLine": 336,
+        "endChar": 13
+      },
+      "revId": "5f68f105c8998309ca6d5821c5fbe12d523e3bd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d05b3d03_fe867203",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "faf20132_1a08d807",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T16:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d05b3d03_fe867203",
+      "range": {
+        "startLine": 124,
+        "startChar": 13,
+        "endLine": 124,
+        "endChar": 59
+      },
+      "revId": "5f68f105c8998309ca6d5821c5fbe12d523e3bd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96f6bba1_89289c79",
@@ -106,6 +202,30 @@
       "writtenOn": "2021-02-15T14:18:48Z",
       "side": 1,
       "message": "We need a test to make sure I can\u0027t use this as a loophole to load change notes of a change that I am not supposed to see. This method guarantees that, but a test would boost confidence :-)",
+      "range": {
+        "startLine": 232,
+        "startChar": 15,
+        "endLine": 232,
+        "endChar": 27
+      },
+      "revId": "5f68f105c8998309ca6d5821c5fbe12d523e3bd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dee3d56b_ed7e63ee",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T16:36:05Z",
+      "side": 1,
+      "message": "ChangeCollection already ensures that you can see the change only when you\u0027re allowed. There is already a test that verifies you can\u0027t even see notes for a different change that you do have access to  :)",
+      "parentUuid": "96f6bba1_89289c79",
       "range": {
         "startLine": 232,
         "startChar": 15,

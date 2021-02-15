@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae652126_e44bb533",
+        "filename": "java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T16:58:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2573f427_18352111",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 92,
+        "endChar": 0
+      },
+      "revId": "525a4bb86813317b954bbbd202cdc2ec66fa6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7406d84a_5514e9f1",
@@ -72,6 +96,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ea33a01_688f8b44",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T16:58:03Z",
+      "side": 1,
+      "message": "I think it might be annoying to use from the client side, and there won\u0027t be a lot of users for the general thing.\n\nWe could export the robotRef separately if there is a good use case for it?",
+      "parentUuid": "90cc4a1d_157e0d7e",
+      "range": {
+        "startLine": 576,
+        "startChar": 10,
+        "endLine": 576,
+        "endChar": 17
+      },
+      "revId": "525a4bb86813317b954bbbd202cdc2ec66fa6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e70d559_0f18f6ca",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T16:58:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7406d84a_5514e9f1",
+      "range": {
+        "startLine": 575,
+        "startChar": 0,
+        "endLine": 576,
+        "endChar": 53
+      },
+      "revId": "525a4bb86813317b954bbbd202cdc2ec66fa6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a49c774_d0144753",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
         "patchSetId": 3
@@ -83,6 +155,24 @@
       "writtenOn": "2021-02-15T13:03:40Z",
       "side": 1,
       "message": "nit: missing JavaDoc.",
+      "revId": "525a4bb86813317b954bbbd202cdc2ec66fa6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35569b5d_74f3dad6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T16:58:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a49c774_d0144753",
       "revId": "525a4bb86813317b954bbbd202cdc2ec66fa6b72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

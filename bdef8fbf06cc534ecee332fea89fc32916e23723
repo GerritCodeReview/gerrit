@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d43b8253_e2ddfb68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T16:08:38Z",
+      "side": 1,
+      "message": "regrettably, Edwin\u0027s latest update still is current: we\u0027re midway a 4.12 -\u003e 4.13 update, but not much is moving, it seems.",
+      "revId": "bdef8fbf06cc534ecee332fea89fc32916e23723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

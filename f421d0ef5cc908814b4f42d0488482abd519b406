@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df19f9eb_781734c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T12:01:42Z",
+      "side": 1,
+      "message": "yeah, that might be an option. I haven\u0027t looked at it in detail, though, so I don\u0027t know how feasible that is. I think you\u0027d have to write bridges from the ChangeInfo diffs to the old data types, so it might not save a lot of work.",
+      "parentUuid": "88eb842c_97f6a35a",
+      "revId": "f421d0ef5cc908814b4f42d0488482abd519b406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "872e1d1f_30183fac",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -31,6 +49,30 @@
       "writtenOn": "2021-02-11T20:11:41Z",
       "side": 1,
       "message": "This adds some complexity to the workflow I exampled on PS6 😞 Every client having to track old versions of changes is a lot of duplicated effort across clients.",
+      "range": {
+        "startLine": 56,
+        "startChar": 42,
+        "endLine": 57,
+        "endChar": 58
+      },
+      "revId": "f421d0ef5cc908814b4f42d0488482abd519b406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6db4603f_d79c619b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-15T12:01:42Z",
+      "side": 1,
+      "message": "I\u0027ve added some discussion. Perhaps it\u0027s best to simply assume old\u003d00000000000000 for old\u003dnon-existing",
+      "parentUuid": "872e1d1f_30183fac",
       "range": {
         "startLine": 56,
         "startChar": 42,

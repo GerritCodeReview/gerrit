@@ -319,6 +319,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57194505_6f168498",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-02-15T10:26:03Z",
+      "side": 1,
+      "message": "Sent you the change for internal implementation,please, let me know if any feedback should be applied here.",
+      "parentUuid": "5f7c1a3d_58cbe677",
+      "revId": "f7000dfc56a5ce5f55642ac4f0e6365c5fdc3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3f43b27_24cc610e",

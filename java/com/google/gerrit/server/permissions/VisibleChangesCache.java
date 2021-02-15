@@ -16,18 +16,14 @@ package com.google.gerrit.server.permissions;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.index.RefState;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
@@ -36,10 +32,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -59,10 +53,7 @@ class VisibleChangesCache {
   private final PermissionBackend.ForProject permissionBackendForProject;
 
   private final Repository repository;
-  private Map<Change.Id, Change> visibleChanges;
-  private Map<Change.Id, ObjectId> metaIds = new HashMap<>();
-  private Map<Change.Id, ObjectId> robotCommentsMetaIds = new HashMap<>();
-  private Multimap<Change.Id, PatchSet> patchSets = HashMultimap.create();
+  private Map<Change.Id, BranchNameKey> visibleChanges;
 
   @Inject
   VisibleChangesCache(
@@ -92,7 +83,7 @@ class VisibleChangesCache {
    * Returns the visible changes in the repository {@code repo}. If not cached, computes the visible
    * changes and caches them.
    */
-  public Map<Change.Id, Change> cachedVisibleChanges() throws PermissionBackendException {
+  public Map<Change.Id, BranchNameKey> cachedVisibleChanges() throws PermissionBackendException {
     if (visibleChanges == null) {
       if (changeCache == null) {
         visibleChangesByScan();
@@ -105,44 +96,13 @@ class VisibleChangesCache {
   }
 
   /**
-   * Returns the change for {@code changeId}. If not cached, computes *all* visible changes and
-   * caches them before returning this specific change. If not visible or not found, returns null.
+   * Returns the {@code BranchNameKey} for {@code changeId}. If not cached, computes *all* visible
+   * changes and caches them before returning this specific change. If not visible or not found,
+   * returns {@code null}.
    */
   @Nullable
-  public Change getChange(Change.Id changeId) throws PermissionBackendException {
+  public BranchNameKey getBranchNameKey(Change.Id changeId) throws PermissionBackendException {
     return cachedVisibleChanges().get(changeId);
-  }
-
-  /**
-   * Returns the change's meta id for {@code changeId}. If not cached, computes *all* visible
-   * changes and caches them before returning this specific meta id. If not visible or not found,
-   * returns null.
-   */
-  @Nullable
-  public ObjectId getMetaId(Change.Id changeId) throws PermissionBackendException {
-    cachedVisibleChanges();
-    return metaIds.get(changeId);
-  }
-
-  /**
-   * Returns the change's robot comment meta id for {@code changeId}. If not cached, computes *all*
-   * visible changes and caches them before returning this specific robot comments meta id. If not
-   * visible, not found or there are no robot comments on this change, returns null.
-   */
-  @Nullable
-  public ObjectId getRobotCommentsMetaId(Change.Id changeId) throws PermissionBackendException {
-    cachedVisibleChanges();
-    return robotCommentsMetaIds.get(changeId);
-  }
-
-  /**
-   * Returns the change's patch-sets for {@code changeId}. If not cached, computes *all* visible
-   * changes and caches them before returning this collection of patch-sets. If not visible or not
-   * found, returns an empty collection.
-   */
-  public Collection<PatchSet> getPatchSets(Change.Id changeId) throws PermissionBackendException {
-    cachedVisibleChanges();
-    return patchSets.get(changeId);
   }
 
   private void visibleChangesBySearch() throws PermissionBackendException {
@@ -155,20 +115,7 @@ class VisibleChangesCache {
         }
         try {
           permissionBackendForProject.change(cd).check(ChangePermission.READ);
-          visibleChanges.put(cd.getId(), cd.change());
-          Collection<RefState> refStates = RefState.parseStates(cd.getRefStates()).values();
-          for (RefState refState : refStates) {
-            if (RefNames.isRobotCommentMetaRef(refState.ref())) {
-              if (!refState.id().equals(ObjectId.zeroId())) {
-                robotCommentsMetaIds.put(cd.getId(), refState.id());
-              }
-            }
-            if (RefNames.isRefsMetaChanges(refState.ref())) {
-              metaIds.put(cd.getId(), refState.id());
-            }
-          }
-          cd.patchSets().stream().forEach(ps -> patchSets.put(cd.getId(), ps));
-
+          visibleChanges.put(cd.getId(), cd.change().getDest());
         } catch (AuthException e) {
           // Do nothing.
         }
@@ -194,14 +141,7 @@ class VisibleChangesCache {
     for (ChangeNotesResult notesResult : changes) {
       ChangeNotes notes = toNotes(notesResult);
       if (notes != null) {
-        visibleChanges.put(notes.getChangeId(), notes.getChange());
-        metaIds.put(notes.getChangeId(), notes.getMetaId());
-        if (notes.getRobotCommentNotes() != null
-            && notes.getRobotCommentNotes().getMetaId() != null) {
-          robotCommentsMetaIds.put(notes.getChangeId(), notes.getRobotCommentNotes().getMetaId());
-        }
-        notes.getPatchSets().values().stream()
-            .forEach(ps -> patchSets.put(notes.getChangeId(), ps));
+        visibleChanges.put(notes.getChangeId(), notes.getChange().getDest());
       }
     }
   }

@@ -16,26 +16,26 @@
  */
 
 import {appContext} from '../../../services/app-context';
-import {EventDetails} from '../../../services/gr-reporting/gr-reporting';
-import {PluginApi} from '../../plugins/gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
+import {EventDetails, ReportingPluginApi} from '../../../api/reporting';
 
 /**
  * Defines all methods that will be exported to plugin from reporting service.
  */
-export class GrReportingJsApi {
+export class GrReportingJsApi implements ReportingPluginApi {
   private readonly reporting = appContext.reportingService;
 
   constructor(private readonly plugin: PluginApi) {}
 
   reportInteraction(eventName: string, details?: EventDetails) {
-    return this.reporting.reportInteraction(
+    this.reporting.reportInteraction(
       `${this.plugin.getPluginName()}-${eventName}`,
       details
     );
   }
 
   reportLifeCycle(eventName: string, details?: EventDetails) {
-    return this.reporting.reportLifeCycle(
+    this.reporting.reportLifeCycle(
       `${this.plugin.getPluginName()}-${eventName}`,
       details
     );

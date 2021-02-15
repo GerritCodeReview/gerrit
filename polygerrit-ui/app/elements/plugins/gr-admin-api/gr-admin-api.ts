@@ -14,27 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {PluginApi} from '../gr-plugin-types';
-
-/** Interface for menu link */
-export interface MenuLink {
-  text: string;
-  url: string;
-  capability: string | null;
-}
+import {EventType, PluginApi} from '../../../api/plugin';
+import {AdminPluginApi, MenuLink} from '../../../api/admin';
 
 /**
  * GrAdminApi class.
  *
  * Defines common methods to register / retrieve menu links.
  */
-export class GrAdminApi {
+export class GrAdminApi implements AdminPluginApi {
   // TODO(TS): maybe define as enum if its a limited set
   private menuLinks: MenuLink[] = [];
 
   constructor(private readonly plugin: PluginApi) {
-    this.plugin.on('admin-menu-links', this);
+    this.plugin.on(EventType.ADMIN_MENU_LINKS, this);
   }
 
   addMenuLink(text: string, url: string, capability?: string) {

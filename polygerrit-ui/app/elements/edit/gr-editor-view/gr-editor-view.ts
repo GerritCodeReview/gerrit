@@ -32,7 +32,6 @@ import {
 } from '../../core/gr-navigation/gr-navigation';
 import {computeTruncatedPath} from '../../../utils/path-list-util';
 import {customElement, property} from '@polymer/decorators';
-import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {
   ChangeInfo,
   PatchSetNum,
@@ -45,6 +44,7 @@ import {GrStorage} from '../../shared/gr-storage/gr-storage';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {ErrorCallback} from '../../../api/rest';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';

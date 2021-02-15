@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
 import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
-import {EventType} from '../../plugins/gr-plugin-types.js';
+import {EventType} from '../../../api/hook.js';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {getPluginLoader} from './gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';

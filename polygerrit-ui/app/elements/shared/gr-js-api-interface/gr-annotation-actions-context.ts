@@ -19,6 +19,7 @@ import {GrAnnotation} from '../../diff/gr-diff-highlight/gr-annotation';
 import {GrStyleObject} from '../../plugins/gr-styles-api/gr-styles-api';
 import {GrDiffLine} from '../../diff/gr-diff/gr-diff-line';
 import {appContext} from '../../../services/app-context';
+import {AnnotationContext} from '../../../api/annotation';
 
 /**
  * Used to create a context for GrAnnotationActionsInterface.
@@ -32,7 +33,7 @@ import {appContext} from '../../../services/app-context';
  * @param changeNum The Gerrit change number.
  * @param patchNum The Gerrit patch number.
  */
-export class GrAnnotationActionsContext {
+export class GrAnnotationActionsContext implements AnnotationContext {
   private _contentEl: HTMLElement;
 
   private _lineNumberEl: HTMLElement;

@@ -24,9 +24,9 @@ import {htmlTemplate} from './gr-repo-dashboards_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
 import {RepoName, DashboardId, DashboardInfo} from '../../../types/common';
-import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {firePageError} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {ErrorCallback} from '../../../api/rest';
 
 interface DashboardRef {
   section: string;

@@ -30,7 +30,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe} from '@polymer/decorators';
-import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {
   ConfigInfo,
   RepoName,
@@ -47,6 +46,7 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {WebLinkInfo} from '../../../types/diff';
+import {ErrorCallback} from '../../../api/rest';
 
 const STATES = {
   active: {value: ProjectState.ACTIVE, label: 'Active'},

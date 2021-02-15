@@ -16,14 +16,10 @@
  */
 import {AppContext} from '../app-context';
 import {FlagsService} from '../flags/flags';
-import {
-  EventDetails,
-  EventValue,
-  ReportingService,
-  Timer,
-} from './gr-reporting';
+import {EventValue, ReportingService, Timer} from './gr-reporting';
 import {hasOwnProperty} from '../../utils/common-util';
 import {NumericChangeId} from '../../types/common';
+import {EventDetails} from '../../api/reporting';
 
 // Latency reporting constants.
 

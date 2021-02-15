@@ -50,16 +50,8 @@ import {
   HttpMethod,
   NotifyType,
 } from '../../../constants/constants';
-import {
-  EventType as PluginEventType,
-  TargetElement,
-} from '../../plugins/gr-plugin-types';
+import {EventType as PluginEventType, TargetElement} from '../../../api/plugin';
 import {customElement, observe, property} from '@polymer/decorators';
-import {
-  ActionPriority,
-  ActionType,
-  ErrorCallback,
-} from '../../../services/gr-rest-api/gr-rest-api';
 import {
   AccountInfo,
   ActionInfo,
@@ -102,10 +94,7 @@ import {
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {
-  ChangeActions,
   GrChangeActionsElement,
-  PrimaryActionKey,
-  RevisionActions,
   UIActionInfo,
 } from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
 import {fireAlert} from '../../../utils/event-util';
@@ -116,6 +105,14 @@ import {
 } from '../../../utils/label-util';
 import {CommentThread} from '../../../utils/comment-util';
 import {ShowAlertEventDetail} from '../../../types/events';
+import {
+  ActionPriority,
+  ActionType,
+  ChangeActions,
+  PrimaryActionKey,
+  RevisionActions,
+} from '../../../api/change-actions';
+import {ErrorCallback} from '../../../api/rest';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';

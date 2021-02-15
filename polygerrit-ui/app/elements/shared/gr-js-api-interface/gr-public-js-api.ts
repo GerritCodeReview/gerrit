@@ -32,20 +32,28 @@ import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api';
 import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api';
 import {getPluginEndpoints} from './gr-plugin-endpoints';
 
-import {PRELOADED_PROTOCOL, getPluginNameFromUrl, send} from './gr-api-utils';
+import {getPluginNameFromUrl, PRELOADED_PROTOCOL, send} from './gr-api-utils';
 import {GrReportingJsApi} from './gr-reporting-js-api';
-import {
-  EventType,
-  HookApi,
-  PluginApi,
-  RegisterOptions,
-  TargetElement,
-} from '../../plugins/gr-plugin-types';
+import {EventType, PluginApi, TargetElement} from '../../../api/plugin';
 import {RequestPayload} from '../../../types/common';
 import {HttpMethod} from '../../../constants/constants';
 import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
 import {GrChecksApi} from '../../plugins/gr-checks-api/gr-checks-api';
 import {appContext} from '../../../services/app-context';
+import {AdminPluginApi} from '../../../api/admin';
+import {AnnotationPluginApi} from '../../../api/annotation';
+import {StylesPluginApi} from '../../../api/styles';
+import {ThemePluginApi} from '../../../api/theme';
+import {EventHelperPluginApi} from '../../../api/event-helper';
+import {PopupPluginApi} from '../../../api/popup';
+import {SettingsPluginApi} from '../../../api/settings';
+import {ReportingPluginApi} from '../../../api/reporting';
+import {ChangeActionsPluginApi} from '../../../api/change-actions';
+import {ChangeMetadataPluginApi} from '../../../api/change-metadata';
+import {RepoPluginApi} from '../../../api/repo';
+import {ChangeReplyPluginApi} from '../../../api/change-reply';
+import {RestPluginApi} from '../../../api/rest';
+import {HookApi, RegisterOptions} from '../../../api/hook';
 
 /**
  * Plugin-provided custom components can affect content in extension
@@ -232,11 +240,11 @@ export class Plugin implements PluginApi {
       });
   }
 
-  annotationApi() {
+  annotationApi(): AnnotationPluginApi {
     return new GrAnnotationActionsInterface(this);
   }
 
-  changeActions() {
+  changeActions(): ChangeActionsPluginApi {
     return new GrChangeActionsInterface(
       this,
       (this.jsApi.getElement(
@@ -245,7 +253,7 @@ export class Plugin implements PluginApi {
     );
   }
 
-  changeReply() {
+  changeReply(): ChangeReplyPluginApi {
     return new GrChangeReplyInterface(this, this.jsApi);
   }
 
@@ -253,42 +261,35 @@ export class Plugin implements PluginApi {
     return new GrChecksApi(this);
   }
 
-  reporting() {
+  reporting(): ReportingPluginApi {
     return new GrReportingJsApi(this);
   }
 
-  theme() {
+  theme(): ThemePluginApi {
     return new GrThemeApi(this);
   }
 
-  project() {
+  project(): RepoPluginApi {
     return new GrRepoApi(this);
   }
 
-  changeMetadata() {
+  changeMetadata(): ChangeMetadataPluginApi {
     return new GrChangeMetadataApi(this);
   }
 
-  admin() {
+  admin(): AdminPluginApi {
     return new GrAdminApi(this);
   }
 
-  settings() {
+  settings(): SettingsPluginApi {
     return new GrSettingsApi(this);
   }
 
-  styles() {
+  styles(): StylesPluginApi {
     return new GrStylesApi();
   }
 
-  /**
-   * To make REST requests for plugin-provided endpoints, use
-   *
-   * @example
-   * const pluginRestApi = plugin.restApi(plugin.url());
-   * @param prefix url for subsequent .get(), .post() etc requests.
-   */
-  restApi(prefix?: string) {
+  restApi(prefix?: string): RestPluginApi {
     return new GrPluginRestApi(prefix);
   }
 
@@ -296,15 +297,15 @@ export class Plugin implements PluginApi {
     return new GrAttributeHelper(element);
   }
 
-  eventHelper(element: HTMLElement) {
+  eventHelper(element: HTMLElement): EventHelperPluginApi {
     return new GrEventHelper(element);
   }
 
-  popup(): Promise<GrPopupInterface>;
+  popup(): Promise<PopupPluginApi>;
 
-  popup(moduleName: string): Promise<GrPopupInterface>;
+  popup(moduleName: string): Promise<PopupPluginApi>;
 
-  popup(moduleName?: string): Promise<GrPopupInterface | null> {
+  popup(moduleName?: string): Promise<PopupPluginApi | null> {
     if (moduleName !== undefined && typeof moduleName !== 'string') {
       console.error('.popup(element) deprecated, use .popup(moduleName)!');
       return Promise.resolve(null);

@@ -139,7 +139,6 @@ import {
 } from '../../../types/diff';
 import {
   CancelConditionCallback,
-  ErrorCallback,
   GetDiffCommentsOutput,
   GetDiffRobotCommentsOutput,
   RestApiService,
@@ -155,6 +154,7 @@ import {
 } from '../../../constants/constants';
 import {firePageError, fireServerError} from '../../../utils/event-util';
 import {ParsedChangeInfo} from '../../../types/types';
+import {ErrorCallback} from '../../../api/rest';
 
 const MAX_PROJECT_RESULTS = 25;
 // This value is somewhat arbitrary and not based on research or calculations.

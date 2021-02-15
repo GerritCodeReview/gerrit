@@ -24,7 +24,8 @@ import {
 } from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {customElement, property} from '@polymer/decorators';
-import {HookApi, PluginApi} from '../gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
+import {HookApi} from '../../../api/hook';
 
 const INIT_PROPERTIES_TIMEOUT_MS = 10000;
 

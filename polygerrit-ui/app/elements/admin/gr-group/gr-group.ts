@@ -32,13 +32,13 @@ import {
   AutocompleteQuery,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
-import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {
   fireEvent,
   firePageError,
   fireTitleChange,
 } from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {ErrorCallback} from '../../../api/rest';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 

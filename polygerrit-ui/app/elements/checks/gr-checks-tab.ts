@@ -17,13 +17,14 @@
 import {html} from 'lit-html';
 import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
-import {CheckResult, CheckRun} from '../../api/checks';
+import {Action, CheckResult, CheckRun} from '../../api/checks';
 import {allResults$, allRuns$} from '../../services/checks/checks-model';
 import './gr-checks-runs';
 import './gr-checks-results';
 import {sharedStyles} from '../../styles/shared-styles';
-import {currentPatchNum$} from '../../services/change/change-model';
-import {PatchSetNum} from '../../types/common';
+import {changeNum$, currentPatchNum$} from '../../services/change/change-model';
+import {NumericChangeId, PatchSetNum} from '../../types/common';
+import {ActionTriggeredEvent, ActionTriggeredEventDetail} from './gr-checks-runs';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -39,11 +40,19 @@ export class GrChecksTab extends GrLitElement {
   @property()
   currentPatchNum: PatchSetNum | undefined = undefined;
 
+  @property()
+  changeNum: NumericChangeId | undefined = undefined;
+
   constructor() {
     super();
     this.subscribe('runs', allRuns$);
     this.subscribe('results', allResults$);
     this.subscribe('currentPatchNum', currentPatchNum$);
+    this.subscribe('changeNum', changeNum$);
+
+    this.addEventListener('action-triggered', (e: ActionTriggeredEvent) =>
+      this.handleActionTriggered(e.detail.action, e.detail.run)
+    );
   }
 
   static get styles() {
@@ -70,7 +79,7 @@ export class GrChecksTab extends GrLitElement {
           display: flex;
         }
         .runs {
-          min-width: 250px;
+          min-width: 300px;
           min-height: 400px;
           border-right: 1px solid var(--border-color);
         }
@@ -104,6 +113,22 @@ export class GrChecksTab extends GrLitElement {
         ></gr-checks-results>
       </div>
     `;
+  }
+
+  private handleActionTriggered(action: Action, run: CheckRun) {
+    if (!this.changeNum) return;
+    if (!this.currentPatchNum) return;
+    // TODO(brohlfs): The callback is supposed to be returning a promise.
+    // A toast should be displayed until the promise completes. And then the
+    // data should be updated.
+    action.callback(
+      this.changeNum,
+      this.currentPatchNum as number,
+      run.attempt,
+      run.externalId,
+      run.checkName,
+      action.name
+    );
   }
 }
 

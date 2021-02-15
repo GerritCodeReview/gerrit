@@ -49,10 +49,6 @@ import org.eclipse.jgit.lib.Config;
 public class IndexHtmlUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  static final ImmutableSet<String> DEFAULT_EXPERIMENTS =
-      ImmutableSet.of(
-          "UiFeature__patchset_comments", "UiFeature__patchset_choice_for_comment_links");
-
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
   /**
    * Returns both static and dynamic parameters of {@code index.html}. The result is to be used when
@@ -77,7 +73,6 @@ public class IndexHtmlUtil {
     Set<String> enabledExperiments = new HashSet<>();
     Arrays.stream(gerritServerConfig.getStringList("experiments", null, "enabled"))
         .forEach(enabledExperiments::add);
-    DEFAULT_EXPERIMENTS.forEach(enabledExperiments::add);
     Arrays.stream(gerritServerConfig.getStringList("experiments", null, "disabled"))
         .forEach(enabledExperiments::remove);
     experimentData(urlParameterMap).forEach(enabledExperiments::add);

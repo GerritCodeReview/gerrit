@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68077e5b_4be30e65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-16T12:01:10Z",
+      "side": 1,
+      "message": "Thanks I didn\u0027t know",
+      "parentUuid": "fe50364c_e34e9634",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "baf86e3831e6f2e82ac2501ba7b8d6981a1d84f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53ec8f07_2f9f49c1",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-16T11:35:16Z",
       "side": 1,
       "message": "maybe mention that fact that threads with human replies are not filtered out?\nso filterRobotThreadsWithoutHumanReply?",
+      "range": {
+        "startLine": 492,
+        "startChar": 2,
+        "endLine": 492,
+        "endChar": 20
+      },
+      "revId": "baf86e3831e6f2e82ac2501ba7b8d6981a1d84f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04d4625f_30111517",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-16T12:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53ec8f07_2f9f49c1",
       "range": {
         "startLine": 492,
         "startChar": 2,

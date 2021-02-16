@@ -88,6 +88,24 @@
       "parentUuid": "9f5cff61_c70f330f",
       "revId": "8097d2533c362a77d6944490b2f590f2efcd8d26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5477d6b_76390187",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-16T13:25:50Z",
+      "side": 1,
+      "message": "OK, I don\u0027t mind much.",
+      "parentUuid": "48d425d6_d04a90c1",
+      "revId": "8097d2533c362a77d6944490b2f590f2efcd8d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

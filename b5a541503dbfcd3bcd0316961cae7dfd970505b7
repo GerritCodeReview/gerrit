@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aa8fbae_a7b545b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-16T08:19:06Z",
+      "side": 1,
+      "message": "This is tempting from a code health and readability perspective, but I it breaks a current assumption:\n\nA JGit operation (say UploadPack) opens the repo once and uses that same instance all the time. It uses PermissionAwareRepoRefDatabase and passes its delegate down to the ref filter as well.\n\nI am not all that knowledgable about the different JGit Repository (e.g. FileRepo) implementations to tell if that\u0027s a problem or not.",
+      "revId": "b5a541503dbfcd3bcd0316961cae7dfd970505b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

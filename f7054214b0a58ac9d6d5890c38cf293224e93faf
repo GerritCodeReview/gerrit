@@ -16,6 +16,23 @@
       "message": "This is how it renders now: https://i.imgur.com/rCn9Wpy.png",
       "revId": "f7054214b0a58ac9d6d5890c38cf293224e93faf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba65f37a_8f0f0f39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-16T09:55:06Z",
+      "side": 1,
+      "message": "This is really a broken feature of asciidoc. It will continue to fail randomly if you re-wrap the paragraph due to editing.",
+      "revId": "f7054214b0a58ac9d6d5890c38cf293224e93faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -177,6 +177,10 @@ export function getFirstComment(thread?: CommentThread): UIComment | undefined {
   return thread?.comments?.[0];
 }
 
+export function countComments(thread?: CommentThread) {
+  return thread?.comments?.length ?? 0;
+}
+
 export function isUnresolved(thread?: CommentThread): boolean {
   return !isResolved(thread);
 }
@@ -187,6 +191,14 @@ export function isResolved(thread?: CommentThread): boolean {
 
 export function isDraftThread(thread?: CommentThread): boolean {
   return isDraft(getLastComment(thread));
+}
+
+export function isRobotThread(thread?: CommentThread): boolean {
+  return isRobot(getFirstComment(thread));
+}
+
+export function hasHumanReply(thread?: CommentThread): boolean {
+  return countComments(thread) > 1 && !isRobot(getLastComment(thread));
 }
 
 /**

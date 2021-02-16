@@ -34,9 +34,10 @@ import {ChangeInfo} from '../../../types/common';
 import {
   CommentThread,
   isDraft,
-  UIRobot,
   isUnresolved,
   isDraftThread,
+  isRobotThread,
+  hasHumanReply,
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {fireThreadListModifiedEvent} from '../../../utils/event-util';
@@ -136,8 +137,12 @@ export class GrThreadList extends GestureEventListeners(
   _computeResolvedCommentsMessage(
     threads: CommentThread[],
     displayedThreads: CommentThread[],
-    unresolvedOnly: boolean
+    unresolvedOnly: boolean,
+    onlyShowRobotCommentsWithHumanReply: boolean
   ) {
+    if (onlyShowRobotCommentsWithHumanReply) {
+      threads = this.filterRobotThreadsWithoutHumanReply(threads) ?? [];
+    }
     if (unresolvedOnly && threads.length && !displayedThreads.length) {
       return `Show ${pluralize(threads.length, 'resolved comment')}`;
     }
@@ -401,15 +406,9 @@ export class GrThreadList extends GestureEventListeners(
     const lastComment = comments.length
       ? comments[comments.length - 1]
       : undefined;
-    let hasRobotComment = false;
-    let hasHumanReplyToRobotComment = false;
-    comments.forEach(comment => {
-      if ((comment as UIRobot).robot_id) {
-        hasRobotComment = true;
-      } else if (hasRobotComment) {
-        hasHumanReplyToRobotComment = true;
-      }
-    });
+    const hasRobotComment = isRobotThread(thread);
+    const hasHumanReplyToRobotComment =
+      hasRobotComment && hasHumanReply(thread);
     let updated = undefined;
     if (lastComment) {
       if (isDraft(lastComment)) updated = lastComment.__date;
@@ -472,15 +471,21 @@ export class GrThreadList extends GestureEventListeners(
   }
 
   _countUnresolved(threads?: CommentThread[]) {
-    return threads?.filter(isUnresolved).length ?? 0;
+    return (
+      this.filterRobotThreadsWithoutHumanReply(threads)?.filter(isUnresolved)
+        .length ?? 0
+    );
   }
 
   _countAllThreads(threads?: CommentThread[]) {
-    return threads?.length ?? 0;
+    return this.filterRobotThreadsWithoutHumanReply(threads)?.length ?? 0;
   }
 
   _countDrafts(threads?: CommentThread[]) {
-    return threads?.filter(isDraftThread).length ?? 0;
+    return (
+      this.filterRobotThreadsWithoutHumanReply(threads)?.filter(isDraftThread)
+        .length ?? 0
+    );
   }
 
   /**
@@ -488,6 +493,10 @@ export class GrThreadList extends GestureEventListeners(
    */
   _onTapUnresolvedToggle(e: Event) {
     e.preventDefault();
+  }
+
+  filterRobotThreadsWithoutHumanReply(threads?: CommentThread[]) {
+    return threads?.filter(t => !isRobotThread(t) || hasHumanReply(t));
   }
 }
 

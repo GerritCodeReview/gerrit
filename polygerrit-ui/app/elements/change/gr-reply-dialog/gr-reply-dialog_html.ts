@@ -577,7 +577,7 @@ export const htmlTemplate = html`
               has-tooltip=""
               title="[[_saveTooltip]]"
               on-click="_saveClickHandler"
-              >Save</gr-button
+              >Send As WIP</gr-button
             >
           </template>
           <gr-button

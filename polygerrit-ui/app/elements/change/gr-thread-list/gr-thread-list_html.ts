@@ -150,7 +150,7 @@ export const htmlTemplate = html`
               link
               on-click="_handleResolvedCommentsMessageClick">
                 [[_computeResolvedCommentsMessage(threads, _displayedThreads,
-                unresolvedOnly)]]
+                unresolvedOnly, onlyShowRobotCommentsWithHumanReply)]]
             </gr-button>
           </template>
         </span>

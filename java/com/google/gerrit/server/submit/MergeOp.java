@@ -35,6 +35,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -96,6 +97,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
@@ -495,10 +497,20 @@ public class MergeOp implements AutoCloseable {
         // Reload ChangeSet so that we don't rely on (potentially) stale index data for merging
         ChangeSet cs = reloadChanges(indexBackedChangeSet);
 
+        // At this point, any change that isn't new can be filtered out since they were only here
+        // in the first place due to stale index.
+        // There are no hidden change (or else we would have thrown AuthException above).
+        ChangeSet noteDbChangeSet =
+            new ChangeSet(
+                cs.changes().stream()
+                    .filter(c -> c.change().getStatus().equals(Status.NEW))
+                    .collect(Collectors.toList()),
+                /* hiddenChanges= */ ImmutableList.of());
+
         // Count cross-project submissions outside of the retry loop. The chance of a single project
         // failing increases with the number of projects, so the failure count would be inflated if
         // this metric were incremented inside of integrateIntoHistory.
-        int projects = cs.projects().size();
+        int projects = noteDbChangeSet.projects().size();
         if (projects > 1) {
           topicMetrics.topicSubmissions.increment();
         }
@@ -517,22 +529,22 @@ public class MergeOp implements AutoCloseable {
                     this.ts = TimeUtil.nowTs();
                     openRepoManager();
                   }
-                  this.commitStatus = new CommitStatus(cs, isRetry);
+                  this.commitStatus = new CommitStatus(noteDbChangeSet, isRetry);
                   if (checkSubmitRules) {
                     logger.atFine().log("Checking submit rules and state");
-                    checkSubmitRulesAndState(cs, isRetry);
+                    checkSubmitRulesAndState(noteDbChangeSet, isRetry);
                   } else {
                     logger.atFine().log("Bypassing submit rules");
-                    bypassSubmitRules(cs, isRetry);
+                    bypassSubmitRules(noteDbChangeSet, isRetry);
                   }
-                  integrateIntoHistory(cs, submissionExecutor);
+                  integrateIntoHistory(noteDbChangeSet, submissionExecutor);
                   return null;
                 })
             .listener(retryTracker)
             // Up to the entire submit operation is retried, including possibly many projects.
             // Multiply the timeout by the number of projects we're actually attempting to
             // submit.
-            .defaultTimeoutMultiplier(cs.projects().size())
+            .defaultTimeoutMultiplier(noteDbChangeSet.projects().size())
             // By default, we only retry lock failures. Here it's better to also retry unexpected
             // runtime exceptions.
             .retryOn(t -> t instanceof RuntimeException)

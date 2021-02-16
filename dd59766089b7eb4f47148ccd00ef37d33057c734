@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1164afac_fa7ca6f8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-16T12:26:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f3322e7_c492e41a",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8d93736_3ec6aca9",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14d3b5bb_22f0df00",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-16T12:26:55Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/296124\n\nBE recently submitted the change, we can tackle in a follow up change.",
+      "parentUuid": "c8d93736_3ec6aca9",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "272c12b3_e76e7266",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-02-11T17:10:19Z",
       "side": 1,
       "message": "Didn\u0027t we say that we want to use `ab`? And set context to -1?",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c323a00e_8335520f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-16T12:26:55Z",
+      "side": 1,
+      "message": "As discussed, this doesn\u0027t work because it merged the ab chunk with the skip chunk and hides it behind the context control buttons.",
+      "parentUuid": "272c12b3_e76e7266",
       "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03ea5474_3de37dcd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-16T12:26:55Z",
+      "side": 1,
+      "message": "Added check for undefined.",
+      "parentUuid": "8672bfd2_d6294b82",
+      "range": {
+        "startLine": 732,
+        "startChar": 22,
+        "endLine": 732,
+        "endChar": 33
+      },
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d0b990b_39033c41",
@@ -92,6 +170,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50dc0979_1908bf13",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-16T12:26:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d0b990b_39033c41",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc3fa6f1_e773d5ee",
@@ -105,6 +201,24 @@
       "writtenOn": "2021-02-11T17:10:19Z",
       "side": 1,
       "message": "if statements that span more than one line should have brackets.",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58c28172_b7d395b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-16T12:26:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc3fa6f1_e773d5ee",
       "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -132,6 +246,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a5fa43f_a4a18986",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-16T12:26:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a62b760_3aa3d089",
+      "range": {
+        "startLine": 249,
+        "startChar": 50,
+        "endLine": 249,
+        "endChar": 56
+      },
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90afd75a_e35d14b6",
@@ -145,6 +283,24 @@
       "writtenOn": "2021-02-11T17:10:19Z",
       "side": 1,
       "message": "Please find it now. :-)",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6629b683_16228f42",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-16T12:26:55Z",
+      "side": 1,
+      "message": "Going with the css variable approach.",
+      "parentUuid": "90afd75a_e35d14b6",
       "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -168,6 +324,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "59b203e2_0b42d3fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-16T12:26:55Z",
+      "side": 1,
+      "message": "max-width: 100%; is actually ensuring that the width is not more than width of the parent(which is the width of gr-diff content), since 80ch for comment-thread is more than the width of the diff component.\nIt\u0027s setting the width to be min(80ch, width of parent) I think.",
+      "parentUuid": "16a8d5ee_b5974af4",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3160112f_331a9e86",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
         "patchSetId": 29
@@ -179,6 +353,24 @@
       "writtenOn": "2021-02-11T17:10:19Z",
       "side": 1,
       "message": "Not required for this change, but you will have to play around with the \"fit to screen\" pref that a user can set. It will mess up the layout. Either overwrite that or find some way to deal with it.\n\nGenerally I am not sure what the growing/shrinking behavior of this is supposed to look like. Are there specs? Can also be a follow-up.",
+      "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4891b524_2bc9f707",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-16T12:26:55Z",
+      "side": 1,
+      "message": "Overrode the setting and set it to default.",
+      "parentUuid": "3160112f_331a9e86",
       "revId": "dd59766089b7eb4f47148ccd00ef37d33057c734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

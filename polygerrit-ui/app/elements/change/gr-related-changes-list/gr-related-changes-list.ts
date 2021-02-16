@@ -113,6 +113,8 @@ export class GrRelatedChangesList extends GestureEventListeners(
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly reportingService = appContext.reportingService;
+
   clear() {
     this.loading = true;
     this.hidden = true;
@@ -439,6 +441,31 @@ export class GrRelatedChangesList extends GestureEventListeners(
 
   _computeNonVisibleChangesNote(n: number) {
     return `(+ ${pluralize(n, 'non-visible change')})`;
+  }
+
+  // TODO(milutin): Temporary for data collection, remove when data collected
+  _reportClick(e: Event) {
+    const target = e.target as HTMLAnchorElement;
+    const section = target?.parentElement?.parentElement;
+    const sectionName = section?.getElementsByTagName('h4')[0]?.innerText;
+    const index =
+      Array.prototype.indexOf.call(section?.getElementsByTagName('a'), target) +
+      1;
+    const countChanges = section?.getElementsByTagName('a').length;
+    const currentChange = section
+      ?.getElementsByClassName('arrowToCurrentChange')[0]
+      ?.nextElementSibling?.nextElementSibling?.getElementsByTagName('a')[0];
+    const currentChangeIndex =
+      Array.prototype.indexOf.call(
+        section?.getElementsByTagName('a'),
+        currentChange
+      ) + 1;
+    this.reportingService.reportInteraction('related-change-click', {
+      sectionName,
+      index,
+      countChanges,
+      currentChangeIndex,
+    });
   }
 }
 

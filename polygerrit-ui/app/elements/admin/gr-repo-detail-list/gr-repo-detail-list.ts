@@ -35,7 +35,6 @@ import {htmlTemplate} from './gr-repo-detail-list_html';
 import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {encodeURL} from '../../../utils/url-util';
 import {customElement, property} from '@polymer/decorators';
-import {ErrorCallback} from '../../../services/gr-rest-api/gr-rest-api';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrCreatePointerDialog} from '../gr-create-pointer-dialog/gr-create-pointer-dialog';
 import {
@@ -51,6 +50,7 @@ import {PolymerDomRepeatEvent} from '../../../types/types';
 import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
 import {firePageError} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {ErrorCallback} from '../../../api/rest';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 

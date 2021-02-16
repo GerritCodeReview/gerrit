@@ -16,34 +16,18 @@
  */
 import {GrAnnotationActionsContext} from './gr-annotation-actions-context';
 import {GrDiffLine} from '../../diff/gr-diff/gr-diff-line';
-import {
-  CoverageRange,
-  DiffLayer,
-  DiffLayerListener,
-} from '../../../types/types';
+import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {Side} from '../../../constants/constants';
-import {PluginApi} from '../../plugins/gr-plugin-types';
-import {ChangeInfo, NumericChangeId} from '../../../types/common';
+import {EventType, PluginApi} from '../../../api/plugin';
 import {appContext} from '../../../services/app-context';
+import {
+  AddLayerFunc,
+  AnnotationPluginApi,
+  CoverageProvider,
+  NotifyFunc,
+} from '../../../api/annotation';
 
-type AddLayerFunc = (ctx: GrAnnotationActionsContext) => void;
-
-type NotifyFunc = (
-  path: string,
-  start: number,
-  end: number,
-  side: Side
-) => void;
-
-export type CoverageProvider = (
-  changeNum: NumericChangeId,
-  path: string,
-  basePatchNum?: number,
-  patchNum?: number,
-  change?: ChangeInfo
-) => Promise<Array<CoverageRange>>;
-
-export class GrAnnotationActionsInterface {
+export class GrAnnotationActionsInterface implements AnnotationPluginApi {
   // Collect all annotation layers instantiated by getLayer. Will be used when
   // notifying their listeners in the notify function.
   private annotationLayers: AnnotationLayer[] = [];
@@ -57,7 +41,7 @@ export class GrAnnotationActionsInterface {
 
   constructor(private readonly plugin: PluginApi) {
     // Return this instance when there is an annotatediff event.
-    plugin.on('annotatediff', this);
+    plugin.on(EventType.ANNOTATE_DIFF, this);
   }
 
   /**

@@ -25,9 +25,9 @@ import {
   AccountDetailInfo,
   AccountCapabilityInfo,
 } from '../types/common';
-import {MenuLink} from '../elements/plugins/gr-admin-api/gr-admin-api';
 import {hasOwnProperty} from './common-util';
 import {GerritView} from '../services/router/router-model';
+import {MenuLink} from '../api/admin';
 
 const ADMIN_LINKS: NavLink[] = [
   {

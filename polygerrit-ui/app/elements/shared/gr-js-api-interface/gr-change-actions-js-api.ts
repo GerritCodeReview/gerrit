@@ -14,47 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ActionType,
-  ActionPriority,
-} from '../../../services/gr-rest-api/gr-rest-api';
-import {PluginApi, TargetElement} from '../../plugins/gr-plugin-types';
+import {PluginApi, TargetElement} from '../../../api/plugin';
 import {ActionInfo, RequireProperties} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
-
-export enum ChangeActions {
-  ABANDON = 'abandon',
-  DELETE = '/',
-  DELETE_EDIT = 'deleteEdit',
-  EDIT = 'edit',
-  FOLLOW_UP = 'followup',
-  IGNORE = 'ignore',
-  MOVE = 'move',
-  PRIVATE = 'private',
-  PRIVATE_DELETE = 'private.delete',
-  PUBLISH_EDIT = 'publishEdit',
-  REBASE = 'rebase',
-  REBASE_EDIT = 'rebaseEdit',
-  READY = 'ready',
-  RESTORE = 'restore',
-  REVERT = 'revert',
-  REVERT_SUBMISSION = 'revert_submission',
-  REVIEWED = 'reviewed',
-  STOP_EDIT = 'stopEdit',
-  SUBMIT = 'submit',
-  UNIGNORE = 'unignore',
-  UNREVIEWED = 'unreviewed',
-  WIP = 'wip',
-}
-
-export enum RevisionActions {
-  CHERRYPICK = 'cherrypick',
-  REBASE = 'rebase',
-  SUBMIT = 'submit',
-  DOWNLOAD = 'download',
-}
-
-export type PrimaryActionKey = ChangeActions | RevisionActions;
+import {
+  ActionPriority,
+  ActionType,
+  ChangeActions,
+  ChangeActionsPluginApi,
+  PrimaryActionKey,
+  RevisionActions,
+} from '../../../api/change-actions';
 
 export interface UIActionInfo extends RequireProperties<ActionInfo, 'label'> {
   __key: string;
@@ -89,7 +59,7 @@ export interface GrChangeActionsElement extends Element {
   getActionDetails(actionName: string): ActionInfo | undefined;
 }
 
-export class GrChangeActionsInterface {
+export class GrChangeActionsInterface implements ChangeActionsPluginApi {
   private _el?: GrChangeActionsElement;
 
   RevisionActions = RevisionActions;

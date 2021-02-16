@@ -16,12 +16,13 @@
  */
 import './gr-custom-plugin-header';
 import {GrCustomPluginHeader} from './gr-custom-plugin-header';
-import {PluginApi} from '../gr-plugin-types';
+import {PluginApi} from '../../../api/plugin';
+import {ThemePluginApi} from '../../../api/theme';
 
 /**
  * Defines api for theme, can be used to set header logo and title.
  */
-export class GrThemeApi {
+export class GrThemeApi implements ThemePluginApi {
   constructor(private readonly plugin: PluginApi) {}
 
   setHeaderLogoAndTitle(logoUrl: string, title: string) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e26949d3_d3b0c70b",
+        "filename": "polygerrit-ui/app/api/annotation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-16T07:22:10Z",
+      "side": 1,
+      "message": "This type is undocumented here, but seems to be the same as below? Should this be the same type? Maybe you could\n* document it here and use `notify: NotifyFunc` below. Or you use `export type NotifyFunc \u003d typeof AnnotationPluginApi.notify;` here?",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 7
+      },
+      "revId": "a7ab9509d5329276365f5dbd4a3b1284465d7cdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

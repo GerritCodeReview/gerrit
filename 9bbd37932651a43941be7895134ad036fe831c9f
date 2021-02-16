@@ -16,6 +16,46 @@
       "message": "I toyed a bit with your proposal. \n\nI think this is better, but nevertheless it would be good to first document the entire scope of what you want to achieve. ",
       "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca7336b2_bf376fa6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-16T10:23:14Z",
+      "side": 1,
+      "message": "I like this approach way better than the one based on reflection over in I62e3b346.\n\nFrom our conversation yesterday, I understood that the test is different from what a Gerrit server would do in that it uses the same class loader for both plugins.\n\nI double checked that JarPluginProvider will use a new class loader for each plugin.\n\nFrom my understanding and some reading [1] if PluginA defines FooEntity and PluginB wants to get that through your interface (and it\u0027s own compiled in definition) that would give a ClassCastException because each class is a triplet of (package, class name, class loader).\n\nSo you can basically only use core data types provided by Gerrit\u0027s class loader or the JVM\u0027s system class loader. Is that what you mean with \"susceptible to runtime type mismatches\" or did I look at it the wrong way?\n\n[1] https://medium.com/@swayamraina/class-loading-in-java-8167fe43d54f",
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54ef5ee7_bcb6e004",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-16T10:23:14Z",
+      "side": 1,
+      "message": "If this was: \"? extends MessageLite\" then you\u0027d force implementors to use protocol buffers",
+      "range": {
+        "startLine": 32,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

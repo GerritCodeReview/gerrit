@@ -475,30 +475,31 @@ public class MergeOp implements AutoCloseable {
       try {
         ChangeSet indexBackedChangeSet =
             mergeSuperSet.setMergeOpRepoManager(orm).completeChangeSet(change, caller);
-        if (!indexBackedChangeSet.ids().contains(change.getId())) {
-          // indexBackedChangeSet contains only open changes, if the change is missing in this set
+
+        // Reload ChangeSet so that we don't rely on (potentially) stale index data for merging
+        ChangeSet noteDbChangeSet = reloadChanges(indexBackedChangeSet);
+
+        if (!noteDbChangeSet.ids().contains(change.getId())) {
+          // noteDbChangeSet contains only open changes, if the change is missing in this set
           // it might be that the change was concurrently submitted in the meantime.
           change = changeDataFactory.create(change).reloadChange();
           if (!change.isNew()) {
             throw new ResourceConflictException("change is " + ChangeUtil.status(change));
           }
           throw new IllegalStateException(
-              String.format("change %s missing from %s", change.getId(), indexBackedChangeSet));
+              String.format("change %s missing from %s", change.getId(), noteDbChangeSet));
         }
 
-        if (indexBackedChangeSet.furtherHiddenChanges()) {
+        if (noteDbChangeSet.furtherHiddenChanges()) {
           throw new AuthException(
               "A change to be submitted with " + change.getId() + " is not visible");
         }
-        logger.atFine().log("Calculated to merge %s", indexBackedChangeSet);
-
-        // Reload ChangeSet so that we don't rely on (potentially) stale index data for merging
-        ChangeSet cs = reloadChanges(indexBackedChangeSet);
+        logger.atFine().log("Calculated to merge %s", noteDbChangeSet);
 
         // Count cross-project submissions outside of the retry loop. The chance of a single project
         // failing increases with the number of projects, so the failure count would be inflated if
         // this metric were incremented inside of integrateIntoHistory.
-        int projects = cs.projects().size();
+        int projects = noteDbChangeSet.projects().size();
         if (projects > 1) {
           topicMetrics.topicSubmissions.increment();
         }
@@ -517,22 +518,22 @@ public class MergeOp implements AutoCloseable {
                     this.ts = TimeUtil.nowTs();
                     openRepoManager();
                   }
-                  this.commitStatus = new CommitStatus(cs, isRetry);
+                  this.commitStatus = new CommitStatus(noteDbChangeSet, isRetry);
                   if (checkSubmitRules) {
                     logger.atFine().log("Checking submit rules and state");
-                    checkSubmitRulesAndState(cs, isRetry);
+                    checkSubmitRulesAndState(noteDbChangeSet, isRetry);
                   } else {
                     logger.atFine().log("Bypassing submit rules");
-                    bypassSubmitRules(cs, isRetry);
+                    bypassSubmitRules(noteDbChangeSet, isRetry);
                   }
-                  integrateIntoHistory(cs, submissionExecutor);
+                  integrateIntoHistory(noteDbChangeSet, submissionExecutor);
                   return null;
                 })
             .listener(retryTracker)
             // Up to the entire submit operation is retried, including possibly many projects.
             // Multiply the timeout by the number of projects we're actually attempting to
             // submit.
-            .defaultTimeoutMultiplier(cs.projects().size())
+            .defaultTimeoutMultiplier(noteDbChangeSet.projects().size())
             // By default, we only retry lock failures. Here it's better to also retry unexpected
             // runtime exceptions.
             .retryOn(t -> t instanceof RuntimeException)

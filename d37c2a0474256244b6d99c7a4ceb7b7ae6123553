@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d81f8577_f67d90c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-16T20:06:25Z",
+      "side": 1,
+      "message": "Thanks for the fix!",
+      "revId": "d37c2a0474256244b6d99c7a4ceb7b7ae6123553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53e7ad7e_21cdb2d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-16T20:06:25Z",
+      "side": 1,
+      "message": "Nit: The common pattern I have applied elsewhere is\n\n  Object.keys(detailedInfo.values ?? {})",
+      "range": {
+        "startLine": 99,
+        "startChar": 43,
+        "endLine": 99,
+        "endChar": 62
+      },
+      "revId": "d37c2a0474256244b6d99c7a4ceb7b7ae6123553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

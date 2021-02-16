@@ -22,6 +22,30 @@
       },
       "revId": "a7ab9509d5329276365f5dbd4a3b1284465d7cdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6be6e1cf_3a1eddf1",
+        "filename": "polygerrit-ui/app/api/annotation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-16T08:04:02Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/296982",
+      "parentUuid": "e26949d3_d3b0c70b",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 7
+      },
+      "revId": "a7ab9509d5329276365f5dbd4a3b1284465d7cdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

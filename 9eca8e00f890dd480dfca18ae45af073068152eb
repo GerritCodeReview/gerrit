@@ -140,6 +140,30 @@
       },
       "revId": "9eca8e00f890dd480dfca18ae45af073068152eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb3ba91a_7ed57d7d",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-16T17:18:36Z",
+      "side": 1,
+      "message": "My $0.02: Thematically, it\u0027s the index (implementation)\u0027s job to parse back the indexed document and provide sane data types to core code.\n\nI\u0027d put it into the 4 index implementations (\u003d current callers of setRefStatePatterns(doc.bytes() just call \nsetRefStatePatterns(RefState.parseStates(doc.bytes()))).\n\nIt also seems that ImmutableSetMultimap is better than ImmutalbeListMultiMap.",
+      "parentUuid": "72adc31d_df91174d",
+      "range": {
+        "startLine": 576,
+        "startChar": 6,
+        "endLine": 582,
+        "endChar": 45
+      },
+      "revId": "9eca8e00f890dd480dfca18ae45af073068152eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

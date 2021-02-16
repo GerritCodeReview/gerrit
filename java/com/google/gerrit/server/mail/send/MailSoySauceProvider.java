@@ -113,6 +113,11 @@ public class MailSoySauceProvider implements Provider<SoySauce> {
 
   private void addTemplate(SoyFileSet.Builder builder, String resourcePath, String name)
       throws ProvisionException {
+    if (!resourcePath.endsWith("/")) {
+      resourcePath += "/";
+    }
+    String logicalPath = resourcePath + name;
+
     // Load as a file in the mail templates directory if present.
     Path tmpl = site.mail_dir.resolve(name);
     if (Files.isRegularFile(tmpl)) {
@@ -125,14 +130,11 @@ public class MailSoySauceProvider implements Provider<SoySauce> {
         throw new ProvisionException(
             "Failed to read template file " + tmpl.toAbsolutePath().toString(), err);
       }
-      builder.add(content, tmpl.toAbsolutePath().toString());
+      builder.add(content, logicalPath);
       return;
     }
 
     // Otherwise load the template as a resource.
-    if (!resourcePath.endsWith("/")) {
-      resourcePath += "/";
-    }
-    builder.add(Resources.getResource(resourcePath + name));
+    builder.add(Resources.getResource(logicalPath), logicalPath);
   }
 }

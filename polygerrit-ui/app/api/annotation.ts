@@ -19,6 +19,15 @@ import {StyleObject} from './styles';
 
 export type AddLayerFunc = (ctx: AnnotationContext) => void;
 
+/**
+ * For plugins notifying Gerrit about new annotations being ready to be applied
+ * for a certain range.
+ *
+ * @param path The file path whose listeners should be notified.
+ * @param start The line where the update starts.
+ * @param end The line where the update ends.
+ * @param side The side of the update ('left' or 'right').
+ */
 export type NotifyFunc = (
   path: string,
   start: number,
@@ -119,12 +128,7 @@ export interface AnnotationPluginApi {
   /**
    * The notify function will call the listeners of all required annotation
    * layers. Intended to be called by the plugin when all required data for
-   * annotation is available.
-   *
-   * @param path The file path whose listeners should be notified.
-   * @param start The line where the update starts.
-   * @param end The line where the update ends.
-   * @param side The side of the update ('left' or 'right').
+   * an annotation is available.
    */
-  notify(path: string, start: number, end: number, side: Side): void;
+  notify: NotifyFunc;
 }

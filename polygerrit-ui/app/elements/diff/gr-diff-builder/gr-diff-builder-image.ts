@@ -30,7 +30,8 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
     private readonly _baseImage: ImageInfo | null,
-    private readonly _revisionImage: ImageInfo | null
+    private readonly _revisionImage: ImageInfo | null,
+    private readonly _useNewImageDiffUi: boolean = false
   ) {
     super(diff, prefs, outputEl, []);
   }

@@ -243,6 +243,9 @@ export class GrDiff extends GestureEventListeners(
   @property({type: Boolean})
   showNewlineWarningRight = false;
 
+  @property({type: String})
+  useNewImageDiffUi = false;
+
   @property({
     type: String,
     computed:

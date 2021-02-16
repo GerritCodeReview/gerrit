@@ -77,8 +77,9 @@ export class GrSummaryChip extends GrLitElement {
           color: var(--chip-color);
           cursor: pointer;
           display: inline-block;
-          padding: var(--spacing-xxs) var(--spacing-s) var(--spacing-xxs)
-            var(--spacing-s);
+          padding: var(--spacing-xxs) var(--spacing-m) var(--spacing-xxs)
+                   var(--spacing-s);
+          margin-right: var(--spacing-s);
           border-radius: 12px;
           border: 1px solid gray;
           vertical-align: top;
@@ -406,15 +407,13 @@ export class GrChangeSummary extends GrLitElement {
                 !!countUnresolvedComments}
               >
                 No Comments</gr-summary-chip
-              >
-              <gr-summary-chip
+              ><gr-summary-chip
                 styleType=${SummaryChipStyles.WARNING}
                 icon="edit"
                 ?hidden=${!draftCount}
               >
                 ${pluralize(draftCount, 'draft')}</gr-summary-chip
-              >
-              <gr-summary-chip
+              ><gr-summary-chip
                 styleType=${SummaryChipStyles.WARNING}
                 icon="message"
                 ?hidden=${!countUnresolvedComments}
@@ -428,8 +427,7 @@ export class GrChangeSummary extends GrLitElement {
                     ></gr-avatar>`
                 )}
                 ${countUnresolvedComments} unresolved</gr-summary-chip
-              >
-              <gr-summary-chip
+              ><gr-summary-chip
                 styleType=${SummaryChipStyles.CHECK}
                 icon="markChatRead"
                 ?hidden=${!countResolvedComments}

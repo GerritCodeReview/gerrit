@@ -836,7 +836,7 @@ suite('comment action tests with unresolved thread', () => {
     element.unresolved = false;
     const label = element.shadowRoot?.querySelector('#unresolvedLabel');
     assert.isOk(label);
-    assert.isTrue(label!.hasAttribute('hidden'));
+    assert.isFalse(label!.hasAttribute('hidden'));
     element.unresolved = true;
     assert.isFalse(label!.hasAttribute('hidden'));
   });

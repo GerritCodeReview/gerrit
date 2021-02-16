@@ -326,6 +326,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     return this.restApiService.getLoggedIn();
   }
 
+  _getUnresolvedLabel(unresolved?: boolean) {
+    return unresolved ? 'Unresolved' : 'Resolved';
+  }
+
   @observe('comments.*')
   _commentsChanged() {
     this._orderedComments = sortComments(this.comments);

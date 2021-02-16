@@ -41,7 +41,7 @@ Gerrit.install(plugin => {
   const coverageStyle = styleApi.css('background-color: #EF9B9B !important');
   const emptyStyle = styleApi.css('');
 
-  annotationApi.addLayer(context => {
+  annotationApi.setLayer(context => {
     if (Object.keys(coverageData).length === 0) {
       // Coverage data is not ready yet.
       return;
@@ -64,19 +64,13 @@ Gerrit.install(plugin => {
       }
     }
   }).enableToggleCheckbox('Display Coverage', checkbox => {
-    // Checkbox is attached so now add the notifier that will be controlled
-    // by the checkbox.
-    // Checkbox will only be added to the file diff page, in the top right
-    // section near the "Diff view".
-    annotationApi.addNotifier(notifyFunc => {
-      populateWithDummyData(coverageData);
-      checkbox.disabled = false;
-      checkbox.onclick = e => {
-        displayCoverage = e.target.checked;
-        Object.keys(coverageData).forEach(file => {
-          notifyFunc(file, 0, coverageData[file].totalLines, 'right');
-        });
-      };
-    });
+    populateWithDummyData(coverageData);
+    checkbox.disabled = false;
+    checkbox.onclick = e => {
+      displayCoverage = e.target.checked;
+      Object.keys(coverageData).forEach(file => {
+        annotationApi.notify(file, 0, coverageData[file].totalLines, 'right');
+      });
+    };
   });
 });

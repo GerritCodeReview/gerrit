@@ -29,14 +29,13 @@ import {AnnotationContext} from '../../../api/annotation';
  * @param lineNumberEl The TD element of the line number to
  * apply the annotation to using annotateLineNumber.
  * @param line The line object.
- * @param path The file path (eg: /COMMIT_MSG').
+ * @param path The file path (eg: '/COMMIT_MSG').
  * @param changeNum The Gerrit change number.
- * @param patchNum The Gerrit patch number.
  */
 export class GrAnnotationActionsContext implements AnnotationContext {
-  private _contentEl: HTMLElement;
+  contentEl: HTMLElement;
 
-  private _lineNumberEl: HTMLElement;
+  lineNumberEl: HTMLElement;
 
   line: GrDiffLine;
 
@@ -53,9 +52,8 @@ export class GrAnnotationActionsContext implements AnnotationContext {
     path: string,
     changeNum: string | number
   ) {
-    this._contentEl = contentEl;
-    this._lineNumberEl = lineNumberEl;
-
+    this.contentEl = contentEl;
+    this.lineNumberEl = lineNumberEl;
     this.line = line;
     this.path = path;
     this.changeNum = Number(changeNum);
@@ -80,12 +78,12 @@ export class GrAnnotationActionsContext implements AnnotationContext {
     styleObject: GrStyleObject,
     side: string
   ) {
-    if (this._contentEl?.getAttribute('data-side') === side) {
+    if (this.contentEl?.getAttribute('data-side') === side) {
       GrAnnotation.annotateElement(
-        this._contentEl,
+        this.contentEl,
         offset,
         length,
-        styleObject.getClassName(this._contentEl)
+        styleObject.getClassName(this.contentEl)
       );
     }
   }
@@ -97,8 +95,8 @@ export class GrAnnotationActionsContext implements AnnotationContext {
    * @param side The side of the update. ('left' or 'right')
    */
   annotateLineNumber(styleObject: GrStyleObject, side: string) {
-    if (this._lineNumberEl?.classList.contains(side)) {
-      styleObject.apply(this._lineNumberEl);
+    if (this.lineNumberEl?.classList.contains(side)) {
+      styleObject.apply(this.lineNumberEl);
     }
   }
 }

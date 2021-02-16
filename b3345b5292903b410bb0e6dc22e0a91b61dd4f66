@@ -145,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf364f02_0190b188",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-16T08:57:40Z",
+      "side": 1,
+      "message": "re \"MergeSuperSetComputation implementation which forwards the processing of changes to tasks that have the project in cache\"\n\nWhile trying to implement Han-Wen\u0027s solution, I found that we anyway reload all the changes from NoteDB in the end. All I did to fix the bug was move the line that reloads the changes a little bit earlier to avoid exception throws due to stale changes.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/296983\n\nI\u0027ll look into further optimizing this.",
+      "parentUuid": "9d64c137_9fa61beb",
+      "range": {
+        "startLine": 203,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 60
+      },
+      "revId": "b3345b5292903b410bb0e6dc22e0a91b61dd4f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7044a0fc_5139f349",
         "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
         "patchSetId": 1

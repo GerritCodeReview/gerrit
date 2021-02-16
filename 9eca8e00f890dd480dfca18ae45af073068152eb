@@ -116,6 +116,30 @@
       },
       "revId": "9eca8e00f890dd480dfca18ae45af073068152eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72adc31d_df91174d",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-16T16:59:13Z",
+      "side": 1,
+      "message": "where does the bit that goes from byte[] back to RefState go?",
+      "parentUuid": "33ab094d_0245190c",
+      "range": {
+        "startLine": 576,
+        "startChar": 6,
+        "endLine": 582,
+        "endChar": 45
+      },
+      "revId": "9eca8e00f890dd480dfca18ae45af073068152eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

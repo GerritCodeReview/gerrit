@@ -198,7 +198,7 @@ export interface DetailedLabelInfo extends LabelCommonInfo {
   // This is not set when the change has no reviewers.
   all?: ApprovalInfo[];
   // Docs claim that 'values' is optional, but it is actually always set.
-  values: LabelValueToDescriptionMap; // A map of all values that are allowed for this label
+  values?: LabelValueToDescriptionMap; // A map of all values that are allowed for this label
   default_value?: number;
 }
 

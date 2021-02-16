@@ -95,9 +95,11 @@ export class GrLabelScores extends GestureEventListeners(
     numberValue?: number
   ): string {
     const detailedInfo = labels[labelName] as DetailedLabelInfo;
-    for (const labelValue of Object.keys(detailedInfo.values)) {
-      if (Number(labelValue) === numberValue) {
-        return labelValue;
+    if (detailedInfo.values) {
+      for (const labelValue of Object.keys(detailedInfo.values)) {
+        if (Number(labelValue) === numberValue) {
+          return labelValue;
+        }
       }
     }
     const stringVal = `${numberValue}`;

@@ -93,7 +93,7 @@ public class StalenessChecker {
       return StalenessCheckResult.stale("Document %s missing from index", id);
     }
     ChangeData cd = result.get();
-    return check(repoManager, id, parseStates(cd), parsePatterns(cd));
+    return check(repoManager, id, cd.getRefStates(), parsePatterns(cd));
   }
 
   /**
@@ -125,10 +125,6 @@ public class StalenessChecker {
     }
 
     return StalenessCheckResult.notStale();
-  }
-
-  private SetMultimap<Project.NameKey, RefState> parseStates(ChangeData cd) {
-    return RefState.parseStates(cd.getRefStates());
   }
 
   private ListMultimap<Project.NameKey, RefStatePattern> parsePatterns(ChangeData cd) {

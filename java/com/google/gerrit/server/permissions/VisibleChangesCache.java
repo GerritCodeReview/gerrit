@@ -156,7 +156,7 @@ class VisibleChangesCache {
         try {
           permissionBackendForProject.change(cd).check(ChangePermission.READ);
           visibleChanges.put(cd.getId(), cd.change());
-          Collection<RefState> refStates = RefState.parseStates(cd.getRefStates()).values();
+          Collection<RefState> refStates = cd.getRefStates().values();
           for (RefState refState : refStates) {
             if (RefNames.isRobotCommentMetaRef(refState.ref())) {
               if (!refState.id().equals(ObjectId.zeroId())) {

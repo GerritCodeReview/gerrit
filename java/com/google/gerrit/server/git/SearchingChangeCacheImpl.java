@@ -17,7 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.auto.value.AutoValue;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -27,6 +27,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.index.RefState;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -102,7 +103,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
 
     abstract Collection<PatchSet> patchSets();
 
-    abstract ImmutableList<byte[]> refStates();
+    abstract SetMultimap<Project.NameKey, RefState> refStates();
   }
 
   private final LoadingCache<Project.NameKey, List<CachedChange>> cache;

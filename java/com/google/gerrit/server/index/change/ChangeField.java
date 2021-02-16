@@ -57,7 +57,6 @@ import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.proto.Protos;
@@ -66,9 +65,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gerrit.server.notedb.RobotCommentNotes;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -982,27 +979,9 @@ public class ChangeField {
           .buildRepeatable(
               cd -> {
                 List<byte[]> result = new ArrayList<>();
-                Project.NameKey project = cd.change().getProject();
-
-                cd.editRefs()
-                    .values()
-                    .forEach(r -> result.add(RefState.of(r).toByteArray(project)));
-                cd.starRefs()
-                    .values()
-                    .forEach(r -> result.add(RefState.of(r.ref()).toByteArray(allUsers(cd))));
-
-                ChangeNotes notes = cd.notes();
-                result.add(
-                    RefState.create(notes.getRefName(), notes.getMetaId()).toByteArray(project));
-                notes.getRobotComments(); // Force loading robot comments.
-                RobotCommentNotes robotNotes = notes.getRobotCommentNotes();
-                result.add(
-                    RefState.create(robotNotes.getRefName(), robotNotes.getMetaId())
-                        .toByteArray(project));
-                cd.draftRefs()
-                    .values()
-                    .forEach(r -> result.add(RefState.of(r).toByteArray(allUsers(cd))));
-
+                cd.getRefStates()
+                    .entries()
+                    .forEach(e -> result.add(e.getValue().toByteArray(e.getKey())));
                 return result;
               });
 

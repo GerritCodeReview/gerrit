@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f88525a1_02beb625",
+        "filename": "polygerrit-ui/app/api/annotation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-16T08:15:54Z",
+      "side": 1,
+      "message": "It is still not completely clear to me how this standalone function type is used. Is it the plugin or the core code tat calls addNotifier? Maybe some examples would help.",
+      "revId": "1d59acad9085c5c22d08f0145b1f62a92408c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

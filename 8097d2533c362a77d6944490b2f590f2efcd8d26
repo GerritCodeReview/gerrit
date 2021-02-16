@@ -52,6 +52,24 @@
       "parentUuid": "db80d1e7_3db21cee",
       "revId": "8097d2533c362a77d6944490b2f590f2efcd8d26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f5cff61_c70f330f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-16T09:04:18Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s tricky to make this work, but possible:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/296984",
+      "parentUuid": "90697ac5_7d9aa1fd",
+      "revId": "8097d2533c362a77d6944490b2f590f2efcd8d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

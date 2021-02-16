@@ -31,6 +31,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.patch.ComparisonType;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffUtil;
@@ -184,7 +185,8 @@ public class FileDiffCacheImpl implements FileDiffCache {
       return result.build();
     }
 
-    private ComparisonType getComparisonType(RevWalk rw, ObjectId oldCommitId, ObjectId newCommitId)
+    private ComparisonType getComparisonType(
+        RevWalk rw, ObjectReader reader, ObjectId oldCommitId, ObjectId newCommitId)
         throws IOException {
       RevCommit oldCommit = DiffUtil.getRevCommit(rw, oldCommitId);
       RevCommit newCommit = DiffUtil.getRevCommit(rw, newCommitId);
@@ -193,7 +195,16 @@ public class FileDiffCacheImpl implements FileDiffCache {
           return ComparisonType.againstParent(i + 1);
         }
       }
-      if (newCommit.getParentCount() > 0) {
+      // TODO(ghareeb): it's not trivial to distinguish if diff with old commit is against another
+      // patchset or auto-merge. Looking at the commit message of old commit gives a strong
+      // signal that we are diffing against auto-merge, though not 100% accurate (e.g. if old commit
+      // has the auto-merge prefix in the commit message). A better resolution would be to move the
+      // COMMIT_MSG and MERGE_LIST evaluations outside of the diff cache. For more details, see
+      // discussion in
+      // https://gerrit-review.googlesource.com/c/gerrit/+/280519/6..18/java/com/google/gerrit/server/patch/FileDiffCache.java#b540
+      Text oldCommitMsgTxt = Text.forCommit(reader, oldCommit);
+      if (oldCommitMsgTxt.size() > 0
+          && oldCommitMsgTxt.getString(0).startsWith(AutoMerger.AUTO_MERGE_MSG_PREFIX)) {
         return ComparisonType.againstAutoMerge();
       }
       return ComparisonType.againstOtherPatchSet();
@@ -206,7 +217,8 @@ public class FileDiffCacheImpl implements FileDiffCache {
         FileDiffCacheKey key, ObjectReader reader, RevWalk rw, MagicPath magicPath) {
       try {
         RawTextComparator cmp = comparatorFor(key.whitespace());
-        ComparisonType comparisonType = getComparisonType(rw, key.oldCommit(), key.newCommit());
+        ComparisonType comparisonType =
+            getComparisonType(rw, reader, key.oldCommit(), key.newCommit());
         RevCommit aCommit =
             comparisonType.isAgainstParentOrAutoMerge()
                 ? null
@@ -342,7 +354,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         GitFileDiff mainGitDiff = allDiffs.mainDiff().gitDiff();
 
         Long oldSize =
-            mainGitDiff.oldPath().isPresent()
+            mainGitDiff.oldMode().isPresent() && mainGitDiff.oldPath().isPresent()
                 ? new FileSizeEvaluator(reader, aTree)
                     .compute(
                         mainGitDiff.oldId(),
@@ -350,7 +362,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
                         mainGitDiff.oldPath().get())
                 : 0;
         Long newSize =
-            mainGitDiff.newPath().isPresent()
+            mainGitDiff.newMode().isPresent() && mainGitDiff.newPath().isPresent()
                 ? new FileSizeEvaluator(reader, bTree)
                     .compute(
                         mainGitDiff.newId(),

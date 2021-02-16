@@ -254,6 +254,9 @@ export class GrDiff extends PolymerElement {
   @property({type: Boolean})
   showNewlineWarningRight = false;
 
+  @property({type: String})
+  useNewImageDiffUi = false;
+
   @property({
     type: String,
     computed:

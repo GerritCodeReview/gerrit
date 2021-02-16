@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d603b5de_154e49f4",
+        "filename": "polygerrit-ui/app/api/annotation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-16T11:26:22Z",
+      "side": 1,
+      "message": "Why no dependency? Does that not mean any user of the API needs to add that dependency and cast to it?",
+      "range": {
+        "startLine": 33,
+        "startChar": 5,
+        "endLine": 33,
+        "endChar": 66
+      },
+      "revId": "5dea3b30aafb36693954bfed71d0e069e1b8dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "683aa5b0_d68b4cb0",
+        "filename": "polygerrit-ui/app/api/annotation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-16T11:26:22Z",
+      "side": 1,
+      "message": "Should all of these be readonly then? I guess these should never be mutated by the plugin?",
+      "revId": "5dea3b30aafb36693954bfed71d0e069e1b8dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bd3275d_3d2853e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-16T11:26:22Z",
+      "side": 1,
+      "message": "Nit: You could use the `public` shorthand in the parameter list to avoid the assignments.",
+      "revId": "5dea3b30aafb36693954bfed71d0e069e1b8dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8d25578_8c44b6a9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-02-16T11:26:22Z",
+      "side": 1,
+      "message": "So the method is called \"addLayer\", but there can actually only be a single layer?",
+      "revId": "5dea3b30aafb36693954bfed71d0e069e1b8dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -88,6 +88,24 @@
       "parentUuid": "ddaffc38_6f8d7c6b",
       "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba363cb9_4bbbcd5c",
+        "filename": "java/com/google/gerrit/extensions/api/config/AccessCheckInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-16T15:36:42Z",
+      "side": 0,
+      "message": "+1 to Nasser\u0027s comment on being more clear in the commit message. One can always be more precise in commit messages :-)\n\nWe discussed this migration in the ESC a while ago [1]. I think the migration for users of the extension API is quite trivial: Method calls .fooBar() instead of field access .fooBar and builders instead of constructors.\n\nYoussef is exploring some more options like nanopb that might further reduce any inconvenience.\n\nThe motivation is roughly (as already outlined):\n1) Let folks who implement services that call Gerrit use at least the entity definitions in any language they desire.\n2) Have immutable objects in the Gerrit code (we pass the API objects around quite a bit and reuse them in the events system, so immutability helps reason about system state and race-free implementation).\n3) The Gerrit FE, BE and docs are 3 places where we redefine entities. FE/BE are written in different languages, so the solution has to be x-platform.\n\nAll of that should come at no cost for users of the REST API and at a tiny cost (as state above) for users of the extension API.\n\nThis isn\u0027t entirely self motivated (though, I am a fan of it anyway). We\u0027ve been hearing consistently that Gerrit is hard to integrate with (recent example [2]). Swagger and other REST frameworks seemed too complex and too much of a change (e.g. with Swagger we could not support our plugin REST API the way we do today). So my thinking was that protocol buffers strike a nice balance between reliving users from the pain of c\u0026p\n\n[1] https://www.gerritcodereview.com/2020-12-01-esc-minutes.html#api-object-migration-pojo---proto\n[2] https://github.com/andygrunwald/go-gerrit/issues/86#issuecomment-779144819",
+      "parentUuid": "74a853d8_37ab7341",
+      "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

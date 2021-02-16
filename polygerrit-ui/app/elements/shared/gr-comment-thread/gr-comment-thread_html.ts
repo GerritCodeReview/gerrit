@@ -132,7 +132,7 @@ export const htmlTemplate = html`
       id="commentInfoContainer"
       hidden$="[[_hideActions(_showActions, _lastComment)]]"
     >
-      <span id="unresolvedLabel" hidden$="[[!unresolved]]">Unresolved</span>
+      <span id="unresolvedLabel">[[_getUnresolvedLabel(unresolved)]]</span>
       <div id="actions">
         <gr-button
           id="replyBtn"

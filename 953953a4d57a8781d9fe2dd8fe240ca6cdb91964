@@ -142,6 +142,24 @@
       "parentUuid": "8d6311f6_2931a0b5",
       "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "001824ed_e7bfac7a",
+        "filename": "java/com/google/gerrit/extensions/api/config/AccessCheckInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-16T17:53:54Z",
+      "side": 0,
+      "message": "I am all supportive of looking at this in more detail in a design doc (in general, not just in this case ;-)). Originally I thought looking just at the code of converting the most gnarly entities is enough to convince us that this is a good idea, but since there seems to be doubt, a DD is a good chance to clarify further.\n\nIMO we should make judgement calls based on the effort that plugin owners have to invest, not just the fact that something breaks them. There is a difference if resolving that breakage is trivial and requires no logical rewrite: If all we are asking them for is to do s/.fooBar/.fooBar()/ and s/new Foo(arg)/Foo.builder().arg(arg).build();/ then I am just not so worried about compatibility. \n\nI recall a discussion about a rename of Project to Repository a while ago where a counter argument was that it is forcing plugin owners to migrate and one of the plugin owners said something along: \"it\u0027s just a rename, stop talking and just do it and when I see my plugin doesn\u0027t compile, I\u0027ll rename my usages\").",
+      "parentUuid": "09f3cb2d_625ee140",
+      "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96267ec1_4c48b4a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-16T16:34:31Z",
+      "side": 1,
+      "message": "\u003e the basic observation is that you either need a Gerrit core data type to connect both plugins, or you have to do a lot of complicated acrobatics with class loaders.\n\nRight, this I believe why the Qualcomm folks used reflection in their proposal. It prevents any class loader issues, because, well, it doesn\u0027t load the class :-)\n\n\u003e An option that I didn\u0027t explore is to encode types in GUICE name annotations\n\nThis could be a good way to add some syntactic sugar to the implementation. \n\nConcept wise, I think it won\u0027t solve the class cast problem because you can still have a mismatch between what that string says the API consumes and what MyPluginImpl actually consumes. That\u0027s because the actual type used in a place where at compile time a generic was used is not available from the class definition at runtime (i.e. if you have a MyApiImpl.class or an object, Java can\u0027t tell you if call returns a Change.Id or an Integer at runtime without actually looking at a return value).\n\nBut it\u0027s not the end of the world in any case IMO.",
+      "parentUuid": "4547e821_11f3931f",
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54ef5ee7_bcb6e004",
         "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
         "patchSetId": 4
@@ -90,6 +108,30 @@
       "side": 1,
       "message": "Not everyone is as enthousiastic about PBs as we are :-)\n\nI think it\u0027s OK for plugins to talk in terms of native Gerrit types, eg. I \u003d Change.Id, O \u003d String",
       "parentUuid": "54ef5ee7_bcb6e004",
+      "range": {
+        "startLine": 32,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a619abd1_aa3914f6",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-16T16:34:31Z",
+      "side": 1,
+      "message": "\u003e Not everyone is as enthousiastic about PBs as we are :-)\n\nHa :-)",
+      "parentUuid": "c8ebda89_126a0f99",
       "range": {
         "startLine": 32,
         "startChar": 22,

@@ -55,7 +55,11 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ChangeListToggleReviewedDetail} from '../gr-change-list-item/gr-change-list-item';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {DashboardViewState} from '../../../types/types';
-import {firePageError, fireTitleChange} from '../../../utils/event-util';
+import {
+  fireAlert,
+  firePageError,
+  fireTitleChange,
+} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
@@ -143,7 +147,7 @@ export class GrDashboardView extends GestureEventListeners(
           Date.now() - this.lastVisibleTimestampMs >
           RELOAD_DASHBOARD_INTERVAL_MS
         )
-          this._reload(this.params);
+          this._reload(this.params, true);
       } else {
         this.lastVisibleTimestampMs = Date.now();
       }
@@ -223,11 +227,11 @@ export class GrDashboardView extends GestureEventListeners(
   /**
    * Reloads the element.
    */
-  _reload(params?: AppElementParams) {
+  _reload(params?: AppElementParams, ignoreLoadingState?: boolean) {
     if (!params || !this._isViewActive(params)) {
       return Promise.resolve();
     }
-    this._loading = true;
+    if (!ignoreLoadingState) this._loading = true;
     const {project, dashboard, title, user, sections} = params;
     const dashboardPromise: Promise<UserDashboard | undefined> = project
       ? this._getProjectDashboard(project, dashboard)
@@ -263,7 +267,8 @@ export class GrDashboardView extends GestureEventListeners(
         console.warn(err);
       })
       .then(() => {
-        this._loading = false;
+        if (ignoreLoadingState) fireAlert(this, 'Reloaded changes');
+        else this._loading = false;
       });
   }
 

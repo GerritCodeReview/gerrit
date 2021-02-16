@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c08e3f0d_89fb3262",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-16T14:15:13Z",
+      "side": 1,
+      "message": "\u003e this is core server code so it should not throw HTTP-agnostic exceptions (think: what if we also had some RPC interfaces that don\u0027t know what a 412 is).\n\nyou mean it *should* throw HTTP-agnostic exceptions? (a-gnostic \u003d not-knowing)\n\n\u003e Ideally, the REST handler could verify the precondition and throw directly, then this could be a plain StorageException. But I see how that could be inefficient here. So leaving as is SGTM.\n\nit probably doesn\u0027t make a huge difference. After the first revwalk all the pack data will be in cache.",
+      "parentUuid": "3c34e660_cf2eaa93",
+      "range": {
+        "startLine": 243,
+        "startChar": 14,
+        "endLine": 243,
+        "endChar": 40
+      },
+      "revId": "ccaea3701009a7db829b913ed874e4a43f32c3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c0fdb19_809215e6",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
         "patchSetId": 13
@@ -78,6 +102,30 @@
       "writtenOn": "2021-02-16T08:09:45Z",
       "side": 1,
       "message": "never used?",
+      "range": {
+        "startLine": 57,
+        "startChar": 7,
+        "endLine": 57,
+        "endChar": 55
+      },
+      "revId": "ccaea3701009a7db829b913ed874e4a43f32c3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32790942_41ebcceb",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-16T14:15:13Z",
+      "side": 1,
+      "message": "I tried for a bit to parse {SHA1}^^^ as well and then decided I could do it later.",
+      "parentUuid": "3c0fdb19_809215e6",
       "range": {
         "startLine": 57,
         "startChar": 7,

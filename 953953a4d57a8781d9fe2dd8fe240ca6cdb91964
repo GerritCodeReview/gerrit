@@ -124,6 +124,24 @@
       "parentUuid": "ba363cb9_4bbbcd5c",
       "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09f3cb2d_625ee140",
+        "filename": "java/com/google/gerrit/extensions/api/config/AccessCheckInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-16T17:31:17Z",
+      "side": 0,
+      "message": "\u003e  Also, looking at [1], I find this statement surprising: \"Since it’s under the hood, no design doc is required.\n\nI think the idea was that this could be a transparent, backward compatible change.  We were wrong.",
+      "parentUuid": "8d6311f6_2931a0b5",
+      "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -106,6 +106,24 @@
       "parentUuid": "74a853d8_37ab7341",
       "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d6311f6_2931a0b5",
+        "filename": "java/com/google/gerrit/extensions/api/config/AccessCheckInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-16T15:56:52Z",
+      "side": 0,
+      "message": "\u003e +1 to Nasser\u0027s comment on being more clear in the commit message. One can always be more precise in commit messages :-)\n\u003e \n\u003e We discussed this migration in the ESC a while ago [1]. I think the migration for users of the extension API is quite trivial: Method calls .fooBar() instead of field access .fooBar and builders instead of constructors.\n\nSmall code change or not, it breaks every caller. Also, looking at [1], I find this statement surprising: \"Since it’s under the hood, no design doc is required.\" That doesn\u0027t seem to be the standard applied elsewhere. Note that [3] even suggests creating a design doc.\n\n\u003e \n\u003e Youssef is exploring some more options like nanopb that might further reduce any inconvenience.\n\u003e \n\u003e The motivation is roughly (as already outlined):\n\u003e 1) Let folks who implement services that call Gerrit use at least the entity definitions in any language they desire.\n\nI think this is already possible, but maybe you meant \"without copy\u0026paste\" or \"without human translation\"? Or maybe I\u0027m not following exactly what you mean by \"use\".\n\n\u003e 2) Have immutable objects in the Gerrit code (we pass the API objects around quite a bit and reuse them in the events system, so immutability helps reason about system state and race-free implementation).\n\u003e 3) The Gerrit FE, BE and docs are 3 places where we redefine entities. FE/BE are written in different languages, so the solution has to be x-platform.\n\u003e \n\u003e All of that should come at no cost for users of the REST API and at a tiny cost (as state above) for users of the extension API.\n\nThe bullets above provide a nice start to a design doc or commit message and help to explain the motivation. Thanks!\n\n\u003e \n\u003e This isn\u0027t entirely self motivated (though, I am a fan of it anyway). We\u0027ve been hearing consistently that Gerrit is hard to integrate with (recent example [2]). Swagger and other REST frameworks seemed too complex and too much of a change (e.g. with Swagger we could not support our plugin REST API the way we do today). So my thinking was that protocol buffers strike a nice balance between reliving users from the pain of c\u0026p\n\nThey might be a great solution to very real problems. My concern raised here was that this seemed like the start of a big \"change\" without preface to why we\u0027re making that change. I\u0027m not passing judgement on the problems or solutions here.\n\n\u003e \n\u003e [1] https://www.gerritcodereview.com/2020-12-01-esc-minutes.html#api-object-migration-pojo---proto\n\u003e [2] https://github.com/andygrunwald/go-gerrit/issues/86#issuecomment-779144819\n\n[3] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11401",
+      "parentUuid": "ba363cb9_4bbbcd5c",
+      "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -160,6 +160,24 @@
       "parentUuid": "09f3cb2d_625ee140",
       "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0edeb002_6cc6d01d",
+        "filename": "java/com/google/gerrit/extensions/api/config/AccessCheckInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-16T23:13:48Z",
+      "side": 0,
+      "message": "\u003e I am all supportive of looking at this in more detail in a design doc (in general, not just in this case ;-)). Originally I thought looking just at the code of converting the most gnarly entities is enough to convince us that this is a good idea, but since there seems to be doubt, a DD is a good chance to clarify further.\n\nI\u0027m not looking for a DD. I think you could justify this in the commit message.\n\n\u003e \n\u003e IMO we should make judgement calls based on the effort that plugin owners have to invest, not just the fact that something breaks them.\n\nYes, complexity is certainly a factor. However, I don\u0027t think we should trivialize a broad breaking change even when the fix is simple. And this point is the one where I\u0027d like to see a different mindset shared in the approach to the problem. Assume this change will break a plugin and that plugin will never work again. Address that in the change and in the commit message, and I think it\u0027ll be fine.\n\n\u003e There is a difference if resolving that breakage is trivial and requires no logical rewrite: If all we are asking them for is to do s/.fooBar/.fooBar()/ and s/new Foo(arg)/Foo.builder().arg(arg).build();/ then I am just not so worried about compatibility. \n\u003e \n\u003e I recall a discussion about a rename of Project to Repository a while ago where a counter argument was that it is forcing plugin owners to migrate and one of the plugin owners said something along: \"it\u0027s just a rename, stop talking and just do it and when I see my plugin doesn\u0027t compile, I\u0027ll rename my usages\").\n\nTo elaborate a bit on what I have above, some people could encounter brokenness and not pursue the fix (due to time, not knowing the fix will be simple, etc). I don\u0027t think that\u0027s going to happen often, but it would be a shame to have it happen at all. For plugins where a Gerrit maintainer has visibility to the breakage, I very much expect this to be as simple as you describe (or at least hope it will be). Other plugins may not have devoted maintainers. Maybe those plugins have already broken from other changes, but maybe they\u0027re so small they\u0027ve been fine for years (such as [4] whose entire git history fits on one page yet is probably used at many Gerrit installs). Let\u0027s try to protect the 1%.\n\nAll that said, do I think the pros outweigh the cons? Yes, most likely (waiting for that commit message update to say for sure). Should we still try to minimize the cons (by using nanopb, etc)? Yes and I think we\u0027re already on the same page there.\n\n[4] https://gerrit.googlesource.com/plugins/avatars-external/+log/refs/heads/master",
+      "parentUuid": "001824ed_e7bfac7a",
+      "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

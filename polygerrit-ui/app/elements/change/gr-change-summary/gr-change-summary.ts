@@ -47,6 +47,8 @@ import {
   isResolved,
   isUnresolved,
   getFirstComment,
+  isRobotThread,
+  hasHumanReply,
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {AccountInfo} from '../../../types/common';
@@ -373,9 +375,11 @@ export class GrChangeSummary extends GrLitElement {
 
   render() {
     this.detailsQuota = DETAILS_QUOTA;
-    const countResolvedComments =
-      this.commentThreads?.filter(isResolved).length ?? 0;
-    const unresolvedThreads = this.commentThreads?.filter(isUnresolved) ?? [];
+    const commentThreads =
+      this.commentThreads?.filter(t => !isRobotThread(t) || hasHumanReply(t)) ??
+      [];
+    const countResolvedComments = commentThreads.filter(isResolved).length;
+    const unresolvedThreads = commentThreads.filter(isUnresolved);
     const countUnresolvedComments = unresolvedThreads.length;
     const unresolvedAuthors = this.getAccounts(unresolvedThreads);
     const draftCount = this.changeComments?.computeDraftCount() ?? 0;

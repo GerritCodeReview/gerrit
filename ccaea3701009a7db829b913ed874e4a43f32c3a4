@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a37de60_1e26e3e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-16T08:09:45Z",
+      "side": 1,
+      "message": "This change LGTM. I am happy to upgrade my +1 to a +2 but want to give Martin/Nasser and others a chance to chime in as well.\n\nMartin and I had some discussions in the past of how much value it adds that we add the NoteDb SHA1 to cache keys. Back then the strongest argument was that in a distributed system, this ensures freshness and keeps you race-free. This endpoint is adding another argument to this design: Now we also load old states from the cache :-)",
+      "revId": "ccaea3701009a7db829b913ed874e4a43f32c3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "524e85d1_f4d4a67b",
@@ -19,6 +36,53 @@
         "startChar": 14,
         "endLine": 243,
         "endChar": 40
+      },
+      "revId": "ccaea3701009a7db829b913ed874e4a43f32c3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c34e660_cf2eaa93",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-16T08:09:45Z",
+      "side": 1,
+      "message": "I think the way you have it is fine, this is core server code so it should not throw HTTP-agnostic exceptions (think: what if we also had some RPC interfaces that don\u0027t know what a 412 is).\n\nIdeally, the REST handler could verify the precondition and throw directly, then this could be a plain StorageException. But I see how that could be inefficient here. So leaving as is SGTM.",
+      "parentUuid": "524e85d1_f4d4a67b",
+      "range": {
+        "startLine": 243,
+        "startChar": 14,
+        "endLine": 243,
+        "endChar": 40
+      },
+      "revId": "ccaea3701009a7db829b913ed874e4a43f32c3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c0fdb19_809215e6",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-16T08:09:45Z",
+      "side": 1,
+      "message": "never used?",
+      "range": {
+        "startLine": 57,
+        "startChar": 7,
+        "endLine": 57,
+        "endChar": 55
       },
       "revId": "ccaea3701009a7db829b913ed874e4a43f32c3a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

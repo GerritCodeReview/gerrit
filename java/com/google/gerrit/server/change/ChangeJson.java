@@ -54,6 +54,7 @@ import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRecord.Status;
 import com.google.gerrit.entities.SubmitRequirement;
@@ -75,6 +76,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
@@ -569,6 +571,15 @@ public class ChangeJson {
     out._number = in.getId().get();
     out.totalCommentCount = cd.totalCommentCount();
     out.unresolvedCommentCount = cd.unresolvedCommentCount();
+
+    if (cd.getRefStates() != null) {
+      String metaName = RefNames.changeMetaRef(cd.getId());
+      Optional<RefState> metaState =
+          cd.getRefStates().values().stream().filter(r -> r.ref().equals(metaName)).findAny();
+
+      // metaState should always be there, but it doesn't hurt to be extra careful.
+      metaState.ifPresent(rs -> out.metaRevId = rs.id().getName());
+    }
 
     if (user.isIdentifiedUser()) {
       Collection<String> stars = cd.stars(user.getAccountId());

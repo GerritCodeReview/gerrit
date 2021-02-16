@@ -38,7 +38,7 @@ export const htmlTemplate = html`
     }
     .editor.new-change-summary-true iron-autogrow-textarea,
     .viewer.new-change-summary-true {
-      min-height: 160px;
+      min-height: 100px;
     }
     .editor iron-autogrow-textarea {
       background-color: var(--view-background-color);

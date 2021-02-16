@@ -61,7 +61,7 @@ suite('gr-annotation-actions-js-api tests', () => {
     };
     annotationActions.addLayer(testLayerFunc);
 
-    const annotationLayer = annotationActions.getLayer(
+    const annotationLayer = annotationActions.createLayer(
         '/dummy/path', changeNum);
 
     const lineNumberEl = document.createElement('td');
@@ -72,8 +72,8 @@ suite('gr-annotation-actions-js-api tests', () => {
   test('add notifier', () => {
     const path1 = '/dummy/path1';
     const path2 = '/dummy/path2';
-    const annotationLayer1 = annotationActions.getLayer(path1, 1);
-    const annotationLayer2 = annotationActions.getLayer(path2, 1);
+    const annotationLayer1 = annotationActions.createLayer(path1, 1);
+    const annotationLayer2 = annotationActions.createLayer(path2, 1);
     const layer1Spy = sinon.spy(annotationLayer1, 'notifyListeners');
     const layer2Spy = sinon.spy(annotationLayer2, 'notifyListeners');
 
@@ -143,7 +143,7 @@ suite('gr-annotation-actions-js-api tests', () => {
   });
 
   test('layer notify listeners', () => {
-    const annotationLayer = annotationActions.getLayer('/dummy/path', 1);
+    const annotationLayer = annotationActions.createLayer('/dummy/path', 1);
     let listenerCalledTimes = 0;
     const startRange = 10;
     const endRange = 20;

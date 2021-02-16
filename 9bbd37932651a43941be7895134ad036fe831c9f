@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4547e821_11f3931f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-16T12:25:42Z",
+      "side": 1,
+      "message": "Your analysis is mostly correct (classloaders form a hierarchy, and you can cross class loaders if the cast destination is a parent clasloader), but the basic observation is that you either need a Gerrit core data type to connect both plugins, or you have to do a lot of complicated acrobatics with class loaders.\n\n\u003e Is that what you mean with \"susceptible to runtime type mismatches\" or did I look at it the wrong way?\n\nWhat I mean here: the interface uses \n```\nObject call(Object)\n```\n\nIt\u0027s up to the plugins to make sure they really mean the same types. You could have a plugin provider that wants to receive Change.Id argument. If you supply a boxed integer instead, the call at runtime will fail because somewhere a cast of Integer to Change.Id will be attempted, and it will fail.\n\nIf you specify to use Protocol Buffers, and cast, it will fail for the same reasons.\n\nIf you specify to use Protocol Buffers, but pass through serialization, mistakes won\u0027t fail with an exception, but instead all incoming requests will appear to be zeroed out, which is also not desirable. \n\nAn option that I didn\u0027t explore is to encode types in GUICE name annotations (analogous to C++ symbol mangling), eg. have the registration look like\n\n  class MyPluginImpl extends MyPluginApiProvider\u003cChange.Id, String\u003e \n...\n  bind(@Exports.named(\"my-plugin\")).to(MyPluginImpl.class)\n\nwhich uses some translation layer to translate this to\n\n  bind(@Exports.named(\"my-plugin-Change.Id-String\")).to(MyPluginImpl.class)\n\nand the same on the client side. Then, if there is a mismatch with in the types \nthe consuming plugin will fail to load, because it can\u0027t find the right provider. \n\nI don\u0027t enough about Java generics if this is possible, technically.",
+      "parentUuid": "ca7336b2_bf376fa6",
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54ef5ee7_bcb6e004",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-02-16T10:23:14Z",
       "side": 1,
       "message": "If this was: \"? extends MessageLite\" then you\u0027d force implementors to use protocol buffers",
+      "range": {
+        "startLine": 32,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8ebda89_126a0f99",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-16T12:25:42Z",
+      "side": 1,
+      "message": "Not everyone is as enthousiastic about PBs as we are :-)\n\nI think it\u0027s OK for plugins to talk in terms of native Gerrit types, eg. I \u003d Change.Id, O \u003d String",
+      "parentUuid": "54ef5ee7_bcb6e004",
       "range": {
         "startLine": 32,
         "startChar": 22,

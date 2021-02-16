@@ -22,6 +22,30 @@
       },
       "revId": "bb1daef20c8b670a96bad54bf9e2b2d81bb78647",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "addefc4e_f172bf81",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-16T09:45:59Z",
+      "side": 0,
+      "message": "Ok, but then let me just abandon this change. And you can remove the two flags?",
+      "parentUuid": "d210c9dd_a962b5ed",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 90
+      },
+      "revId": "bb1daef20c8b670a96bad54bf9e2b2d81bb78647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -27,7 +27,7 @@ import {
 export const CODE_REVIEW = 'Code-Review';
 
 export function getVotingRange(label?: LabelInfo): VotingRangeInfo | undefined {
-  if (!label || !isDetailedLabelInfo(label)) return undefined;
+  if (!label || !isDetailedLabelInfo(label) || !label.values) return undefined;
   const values = Object.keys(label.values).map(v => Number(v));
   values.sort((a, b) => a - b);
   if (!values.length) return undefined;

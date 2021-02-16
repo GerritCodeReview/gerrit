@@ -223,7 +223,7 @@ export class GrLabelInfo extends GestureEventListeners(
     if (
       !labelInfo ||
       !isDetailedLabelInfo(labelInfo) ||
-      !labelInfo.values[score]
+      !labelInfo.values?.[score]
     ) {
       return '';
     }

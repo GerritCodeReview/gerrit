@@ -32,7 +32,7 @@ export const htmlTemplate = html`
       padding: var(--spacing-m);
     }
     :host([collapsed]) .viewer,
-    .viewer[collapsed] {
+    .viewer.new-change-summary-true[collapsed] {
       max-height: var(--collapsed-max-height, 300px);
       overflow: hidden;
     }

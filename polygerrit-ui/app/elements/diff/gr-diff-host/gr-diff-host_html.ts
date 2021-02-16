@@ -40,6 +40,7 @@ export const htmlTemplate = html`
     diff="[[diff]]"
     show-newline-warning-left="[[_showNewlineWarningLeft(diff)]]"
     show-newline-warning-right="[[_showNewlineWarningRight(diff)]]"
+    use-new-image-diff-ui="[[_useNewImageDiffUi()]]"
   >
   </gr-diff>
   <gr-syntax-layer

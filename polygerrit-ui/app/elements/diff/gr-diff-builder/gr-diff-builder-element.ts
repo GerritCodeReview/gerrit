@@ -143,6 +143,9 @@ export class GrDiffBuilderElement extends GestureEventListeners(
   @property({type: Array})
   coverageRanges: CoverageRange[] = [];
 
+  @property({type: Boolean})
+  useNewImageDiffUi = false;
+
   @property({
     type: Array,
     computed: '_computeLeftCoverageRanges(coverageRanges)',
@@ -367,7 +370,8 @@ export class GrDiffBuilderElement extends GestureEventListeners(
         localPrefs,
         this.diffElement,
         this.baseImage,
-        this.revisionImage
+        this.revisionImage,
+        this.useNewImageDiffUi,
       );
     } else if (diff.binary) {
       // If the diff is binary, but not an image.

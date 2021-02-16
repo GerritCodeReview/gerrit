@@ -140,6 +140,9 @@ export class GrDiffBuilderElement extends PolymerElement {
   @property({type: Array})
   coverageRanges: CoverageRange[] = [];
 
+  @property({type: Boolean})
+  useNewImageDiffUi = false;
+
   @property({
     type: Array,
     computed: '_computeLeftCoverageRanges(coverageRanges)',
@@ -351,7 +354,8 @@ export class GrDiffBuilderElement extends PolymerElement {
         this.diffElement,
         this.baseImage,
         this.revisionImage,
-        renderPrefs
+        renderPrefs,
+        this.useNewImageDiffUi
       );
     } else if (diff.binary) {
       // If the diff is binary, but not an image.

@@ -20,6 +20,8 @@ import {ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrEndpointParam} from '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {RenderPreferences} from '../../../api/diff';
+import '../gr-diff-image-viewer/gr-image-viewer';
+import {GrImageViewer} from '../gr-diff-image-viewer/gr-image-viewer';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -32,7 +34,8 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     outputEl: HTMLElement,
     private readonly _baseImage: ImageInfo | null,
     private readonly _revisionImage: ImageInfo | null,
-    renderPrefs?: RenderPreferences
+    renderPrefs?: RenderPreferences,
+    private readonly _useNewImageDiffUi: boolean = false
   ) {
     super(diff, prefs, outputEl, [], renderPrefs);
   }
@@ -40,11 +43,17 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   public renderDiff() {
     const section = this._createElement('tbody', 'image-diff');
 
-    this._emitImagePair(section);
-    this._emitImageLabels(section);
+    if (this._useNewImageDiffUi) {
+      this._emitImageViewer(section);
 
-    this._outputEl.appendChild(section);
-    this._outputEl.appendChild(this._createEndpoint());
+      this._outputEl.appendChild(section);
+    } else {
+      this._emitImagePair(section);
+      this._emitImageLabels(section);
+
+      this._outputEl.appendChild(section);
+      this._outputEl.appendChild(this._createEndpoint());
+    }
   }
 
   private _createEndpoint() {
@@ -76,6 +85,34 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     endpointParam.name = name;
     endpointParam.value = value;
     return endpointParam;
+  }
+
+  private _emitImageViewer(section: HTMLElement) {
+    const tr = this._createElement('tr');
+    const td = this._createElement('td');
+    // TODO(hermannloose): Support blame for image diffs, see above.
+    td.setAttribute('colspan', '4');
+    const imageViewer = this._createElement('gr-image-viewer') as GrImageViewer;
+
+    const baseSrc = this._getImageSrc(this._baseImage);
+    const revisionSrc = this._getImageSrc(this._revisionImage);
+
+    if (baseSrc) {
+      imageViewer.baseUrl = baseSrc;
+    }
+    if (revisionSrc) {
+      imageViewer.revisionUrl = revisionSrc;
+    }
+
+    td.appendChild(imageViewer);
+    tr.appendChild(td);
+    section.appendChild(tr);
+  }
+
+  private _getImageSrc(image: ImageInfo | null) {
+    return image && IMAGE_MIME_PATTERN.test(image.type)
+      ? `data:${image.type};base64, ${image.body}`
+      : '';
   }
 
   private _emitImagePair(section: HTMLElement) {

@@ -77,8 +77,7 @@ export class GrSummaryChip extends GrLitElement {
           color: var(--chip-color);
           cursor: pointer;
           display: inline-block;
-          padding: var(--spacing-xxs) var(--spacing-s) var(--spacing-xxs)
-            var(--spacing-s);
+          padding: var(--spacing-xxs) var(--spacing-m);
           border-radius: 12px;
           border: 1px solid gray;
           vertical-align: top;

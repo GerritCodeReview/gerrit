@@ -21,7 +21,7 @@ import com.google.common.collect.ImmutableSet;
  * the current release).
  *
  * <p>It may depend on the implementation if the result is decided on the per-request basis or not,
- * so the outcomes should not be persisted in {@link @Singleton}.
+ * so the outcomes should not be persisted in {@link com.google.inject.Singleton}.
  */
 public interface ExperimentFeatures {
 

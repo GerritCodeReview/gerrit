@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e7904be_5801abe8",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-02-16T16:36:23Z",
+      "side": 1,
+      "message": "I am concerned that this is a maintenance problem since it is not tied to the code in the skip() method and thus can get out of sync easily.",
+      "revId": "d65cc03665f922ccb7f2a6d4ad4dcfc4ad6a2913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

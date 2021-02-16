@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b760665_24c22767",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-16T16:57:40Z",
+      "side": 1,
+      "message": "\u003e That\u0027s because the actual type used in a place where at compile time a generic was used is not available from the class definition at runtime (i.e. if you have a MyApiImpl.class or an object, Java \n\nyeah, so it needs some compile time construct to translate the declared types into a string. Maybe it\u0027s possible with an annotation processor?",
+      "parentUuid": "96267ec1_4c48b4a7",
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54ef5ee7_bcb6e004",
         "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
         "patchSetId": 4

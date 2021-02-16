@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8025344b_2ce71cee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1792,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-16T14:13:53Z",
+      "side": 1,
+      "message": "Can this be simplified to use code like in _handleNextUnreviewedFile?\n\n  const filesWithComments \u003d this._fileList.filter(\n    file \u003d\u003e file \u003d\u003d\u003d this._path || comments.hasCommentFor(file)\n  );\n  this._navToFile(this._path, filesWithComments, 1);",
+      "range": {
+        "startLine": 1767,
+        "startChar": 4,
+        "endLine": 1792,
+        "endChar": 6
+      },
+      "revId": "81f47435dd4eb81042403c10542263b00324ac13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

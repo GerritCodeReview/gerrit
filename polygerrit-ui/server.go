@@ -43,7 +43,7 @@ import (
 var (
 	plugins               = flag.String("plugins", "", "comma seperated plugin paths to serve")
 	port                  = flag.String("port", "localhost:8081", "address to serve HTTP requests on")
-	host                  = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
+	host                  = flag.String("host", "chromium-review.googlesource.com", "Host to proxy requests to")
 	scheme                = flag.String("scheme", "https", "URL scheme")
 	cdnPattern            = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_ui/[0-9.]*")
 	bundledPluginsPattern = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_assets/[0-9.]*")

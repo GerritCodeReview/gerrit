@@ -70,6 +70,7 @@ public class ChangeInfo {
   public String submissionId;
   public Integer cherryPickOfChange;
   public Integer cherryPickOfPatchSet;
+  public String metaRevId;
 
   /**
    * Whether the change contains conflicts.

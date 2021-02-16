@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db1086b2_f6e4ea2c",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-16T14:15:13Z",
+      "side": 1,
+      "message": "metaRevId ?",
+      "parentUuid": "7ff8e240_2fb9b04f",
+      "range": {
+        "startLine": 73,
+        "startChar": 23,
+        "endLine": 73,
+        "endChar": 24
+      },
+      "revId": "9eca8e00f890dd480dfca18ae45af073068152eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09bd3799_68bbe241",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4
@@ -60,6 +84,30 @@
       "writtenOn": "2021-02-16T07:56:26Z",
       "side": 1,
       "message": "Some of this logic should happen inside ChangeData#getRefStates because that\u0027s the best place to handle lazyLoading (decide if loading from NoteDb is appropriate).\n\nWhile at it, I think it makes sense to change the return type from ImmutableList\u003cbyte[]\u003e to ImmutableMultiMap\u003cProject.NameKey, RefState\u003e. Seems easier to handle because it keeps the byte serialization contained in the indexing code and lets the rest of the server deal with Java types. It\u0027s unfortunate that RefState doesn\u0027t encode the Project.NameKey.\n\nSo, I\u0027d refactor together the logic from ChangeField#REF_STATE, ChangeData#getRefStates and here to be:\n\nChangeData (logic mostly copied from ChangeField):\n\n  public ImmutableMultiMap\u003cProject.NameKey, RefState\u003e getRefStates() {\n    if (refStates \u003d\u003d null) {\n      if (!lazyLoad()) {\n        return ImmutableList.of();\n      }\n      ImmutableMultiMap.Builder states...\n      Project.NameKey project \u003d cd.change().getProject();\n\n      editRefs()\n          .values()\n          .forEach(r -\u003e states.add(project, RefState.of(r));\n      starRefs()\n          .values()\n          .forEach(r -\u003e result.add(allUsers(this), RefState.of(r.ref()));\n\n      result.add(\n          RefState.create(notes().getRefName(), notes().getMetaId()));\n      notes().getRobotComments(); // Force loading robot comments.\n      RobotCommentNotes robotNotes \u003d notes().getRobotCommentNotes();\n      result.add(project,\n          RefState.create(robotNotes.getRefName(), robotNotes.getMetaId()));\n      draftRefs()\n          .values()\n          .forEach(r -\u003e result.add(allUsers(cd), RefState.of(r)));\n    }\n    return refStates;\n  }\n\nChangeField#REF_STATE:\n\n  public static final FieldDef\u003cChangeData, Iterable\u003cbyte[]\u003e\u003e REF_STATE \u003d\n      storedOnly(\"ref_state\")\n          .buildRepeatable(\n              cd -\u003e {\n                List\u003cbyte[]\u003e result \u003d new ArrayList\u003c\u003e();\n                cd.getRefStates().entries().forEach(e -\u003e result.add(e.getValue().toByteArray(e.getKey())))\n                return result;\n              });\n\nhere:\noutMetaRef \u003d cd.getRefStates().entries().stream().filter(e -\u003e e.getKey().equals(cd.project()) \u0026\u0026 e.getValue().ref().equals(metaName()).map(e.getValue().sha1()).findAny();",
+      "range": {
+        "startLine": 576,
+        "startChar": 6,
+        "endLine": 582,
+        "endChar": 45
+      },
+      "revId": "9eca8e00f890dd480dfca18ae45af073068152eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33ab094d_0245190c",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-16T14:15:13Z",
+      "side": 1,
+      "message": "hmm, ok. Let me do a separate change for that first.",
+      "parentUuid": "09bd3799_68bbe241",
       "range": {
         "startLine": 576,
         "startChar": 6,

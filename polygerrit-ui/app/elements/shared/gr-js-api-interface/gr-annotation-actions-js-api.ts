@@ -21,65 +21,37 @@ import {Side} from '../../../constants/constants';
 import {EventType, PluginApi} from '../../../api/plugin';
 import {appContext} from '../../../services/app-context';
 import {
-  AddLayerFunc,
+  AnnotationCallback,
   AnnotationPluginApi,
   CoverageProvider,
-  NotifyFunc,
 } from '../../../api/annotation';
 
 export class GrAnnotationActionsInterface implements AnnotationPluginApi {
-  // Collect all annotation layers instantiated by getLayer. Will be used when
-  // notifying their listeners in the notify function.
+  /**
+   * Collect all annotation layers instantiated by createLayer. This is only
+   * used for being able to look up the appropriate layer when notify() is
+   * being called by plugins.
+   */
   private annotationLayers: AnnotationLayer[] = [];
 
-  private coverageProvider: CoverageProvider | null = null;
+  private coverageProvider?: CoverageProvider;
 
-  // Default impl is a no-op.
-  private addLayerFunc: AddLayerFunc = () => {};
+  private annotationCallback?: AnnotationCallback;
 
-  reporting = appContext.reportingService;
+  private readonly reporting = appContext.reportingService;
 
   constructor(private readonly plugin: PluginApi) {
-    // Return this instance when there is an annotatediff event.
     plugin.on(EventType.ANNOTATE_DIFF, this);
   }
 
-  /**
-   * Register a function to call to apply annotations. Plugins should use
-   * GrAnnotationActionsContext.annotateRange and
-   * GrAnnotationActionsContext.annotateLineNumber to apply a CSS class to the
-   * line content or the line number.
-   *
-   * @param addLayerFunc The function
-   * that will be called when the AnnotationLayer is ready to annotate.
-   */
-  addLayer(addLayerFunc: AddLayerFunc) {
-    this.addLayerFunc = addLayerFunc;
+  addLayer(annotationCallback: AnnotationCallback) {
+    if (this.annotationCallback) {
+      console.warn('Overwriting an existing plugin annotation layer.');
+    }
+    this.annotationCallback = annotationCallback;
     return this;
   }
 
-  /**
-   * The specified function will be called with a notify function for the plugin
-   * to call when it has all required data for annotation. Optional.
-   *
-   * @param notifyFunc See doc of the notify function below to see what it does.
-   */
-  addNotifier(notifyFunc: (n: NotifyFunc) => void) {
-    notifyFunc(
-      (path: string, startRange: number, endRange: number, side: Side) =>
-        this.notify(path, startRange, endRange, side)
-    );
-    return this;
-  }
-
-  /**
-   * The specified function will be called when a gr-diff component is built,
-   * and feeds the returned coverage data into the diff. Optional.
-   *
-   * Be sure to call this only once and only from one plugin. Multiple coverage
-   * providers are not supported. A second call will just overwrite the
-   * provider of the first call.
-   */
   setCoverageProvider(
     coverageProvider: CoverageProvider
   ): GrAnnotationActionsInterface {
@@ -98,23 +70,6 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
     return this.coverageProvider;
   }
 
-  /**
-   * Returns a checkbox HTMLElement that can be used to toggle annotations
-   * on/off. The checkbox will be initially disabled. Plugins should enable it
-   * when data is ready and should add a click handler to toggle CSS on/off.
-   *
-   * Note1: Calling this method from multiple plugins will only work for the
-   * 1st call. It will print an error message for all subsequent calls
-   * and will not invoke their onAttached functions.
-   * Note2: This method will be deprecated and eventually removed when
-   * https://bugs.chromium.org/p/gerrit/issues/detail?id=8077 is
-   * implemented.
-   *
-   * @param checkboxLabel Will be used as the label for the checkbox.
-   * Optional. "Enable" is used if this is not specified.
-   * @param onAttached The function that will be called
-   * when the checkbox is attached to the page.
-   */
   enableToggleCheckbox(
     checkboxLabel: string,
     onAttached: (checkboxEl: Element | null) => void
@@ -148,16 +103,6 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
     return this;
   }
 
-  /**
-   * The notify function will call the listeners of all required annotation
-   * layers. Intended to be called by the plugin when all required data for
-   * annotation is available.
-   *
-   * @param path The file path whose listeners should be notified.
-   * @param start The line where the update starts.
-   * @param end The line where the update ends.
-   * @param side The side of the update ('left' or 'right').
-   */
   notify(path: string, start: number, end: number, side: Side) {
     for (const annotationLayer of this.annotationLayers) {
       // Notify only the annotation layer that is associated with the specified
@@ -169,24 +114,25 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
   }
 
   /**
-   * Should be called to register annotation layers by the framework. Not
-   * intended to be called by plugins.
+   * Factory method called by Gerrit for creating a DiffLayer for each diff that
+   * is rendered.
    *
-   * Don't forget to dispose layer.
-   *
-   * @param path The file path (eg: /COMMIT_MSG').
-   * @param changeNum The Gerrit change number.
+   * Don't forget to also call disposeLayer().
    */
-  getLayer(path: string, changeNum: number) {
+  createLayer(path: string, changeNum: number) {
+    if (!this.annotationCallback) return undefined;
     const annotationLayer = new AnnotationLayer(
       path,
       changeNum,
-      this.addLayerFunc
+      this.annotationCallback
     );
     this.annotationLayers.push(annotationLayer);
     return annotationLayer;
   }
 
+  /**
+   * Called by Gerrit for each diff renderer that had called createLayer().
+   */
   disposeLayer(path: string) {
     this.annotationLayers = this.annotationLayers.filter(
       annotationLayer => annotationLayer.path !== path
@@ -194,6 +140,10 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
   }
 }
 
+/**
+ * An AnnotationLayer exists for each file that is being rendered. This class is
+ * not exposed to plugins, but being used by Gerrit's diff rendering.
+ */
 export class AnnotationLayer implements DiffLayer {
   private listeners: DiffLayerListener[] = [];
 
@@ -202,13 +152,13 @@ export class AnnotationLayer implements DiffLayer {
    *
    * @param path The file path (eg: /COMMIT_MSG').
    * @param changeNum The Gerrit change number.
-   * @param addLayerFunc The function
+   * @param annotationCallback The function
    * that will be called when the AnnotationLayer is ready to annotate.
    */
   constructor(
     readonly path: string,
     private readonly changeNum: number,
-    private readonly addLayerFunc: AddLayerFunc
+    private readonly annotationCallback: AnnotationCallback
   ) {
     this.listeners = [];
   }
@@ -230,7 +180,8 @@ export class AnnotationLayer implements DiffLayer {
   }
 
   /**
-   * Layer method to add annotations to a line.
+   * Called by Gerrit during diff rendering for each line. Delegates to the
+   * plugin provided callback for potentially annotating this line.
    *
    * @param contentEl The DIV.contentText element of the line
    * content to apply the annotation to using annotateRange.
@@ -243,18 +194,20 @@ export class AnnotationLayer implements DiffLayer {
     lineNumberEl: HTMLElement,
     line: GrDiffLine
   ) {
-    const annotationActionsContext = new GrAnnotationActionsContext(
+    const context = new GrAnnotationActionsContext(
       contentEl,
       lineNumberEl,
       line,
       this.path,
       this.changeNum
     );
-    this.addLayerFunc(annotationActionsContext);
+    this.annotationCallback(context);
   }
 
   /**
-   * Notify Layer listeners of changes to annotations.
+   * Notify layer listeners (which typically is just Gerrit's diff renderer) of
+   * changes to annotations after the diff rendering had already completed. This
+   * is indirectly called by plugins using the AnnotationPluginApi.notify().
    *
    * @param start The line where the update starts.
    * @param end The line where the update ends.

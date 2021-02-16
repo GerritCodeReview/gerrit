@@ -252,8 +252,8 @@ export class GrJsApiInterface implements JsApiService {
     for (const cb of this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
       const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
       try {
-        const layer = annotationApi.getLayer(path, changeNum);
-        layers.push(layer);
+        const layer = annotationApi.createLayer(path, changeNum);
+        if (layer) layers.push(layer);
       } catch (err) {
         this.reporting.error(err);
       }

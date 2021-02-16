@@ -14,18 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {CoverageRange, Side} from './diff';
+import {CoverageRange, GrDiffLine, Side} from './diff';
 import {StyleObject} from './styles';
 
-export type AddLayerFunc = (ctx: AnnotationContext) => void;
-
-export type NotifyFunc = (
-  path: string,
-  start: number,
-  end: number,
-  side: Side
-) => void;
-
+/**
+ * This is the callback object that Gerrit calls once for each diff. Gerrit
+ * is then responsible for styling the diff according the returned array of
+ * CoverageRanges.
+ */
 export type CoverageProvider = (
   changeNum: number,
   path: string,
@@ -39,9 +35,28 @@ export type CoverageProvider = (
   change?: unknown
 ) => Promise<Array<CoverageRange>>;
 
+export type AnnotationCallback = (ctx: AnnotationContext) => void;
+
+/**
+ * This object is passed to the plugin from Gerrit for each line of a diff that
+ * is being rendered. The plugin can then call annotateRange() or
+ * annotateLineNumber() to apply additional styles to the diff.
+ */
 export interface AnnotationContext {
+  /** Set by Gerrit and consumed by the plugin provided AddLayerFunc. */
+  changeNum: number;
+  /** Set by Gerrit and consumed by the plugin provided AddLayerFunc. */
+  path: string;
+  /** Set by Gerrit and consumed by the plugin provided AddLayerFunc. */
+  line: GrDiffLine;
+  /** Set by Gerrit and consumed by the plugin provided AddLayerFunc. */
+  contentEl: HTMLElement;
+  /** Set by Gerrit and consumed by the plugin provided AddLayerFunc. */
+  lineNumberEl: HTMLElement;
+
   /**
-   * Method to add annotations to a content line.
+   * Can be called by the plugin to style a part of the given line of the
+   * context.
    *
    * @param offset The char offset where the update starts.
    * @param length The number of chars that the update covers.
@@ -56,7 +71,8 @@ export interface AnnotationContext {
   ): void;
 
   /**
-   * Method to add a CSS class to the line number TD element.
+   * Can be called by the plugin to style a part of the given line of the
+   * context.
    *
    * @param styleObject The style object for the range.
    * @param side The side of the update. ('left' or 'right')
@@ -66,23 +82,12 @@ export interface AnnotationContext {
 
 export interface AnnotationPluginApi {
   /**
-   * Register a function to call to apply annotations. Plugins should use
-   * GrAnnotationActionsContext.annotateRange and
-   * GrAnnotationActionsContext.annotateLineNumber to apply a CSS class to the
-   * line content or the line number.
-   *
-   * @param addLayerFunc The function
-   * that will be called when the AnnotationLayer is ready to annotate.
+   * Registers a callback for applying annotations. Gerrit will call the
+   * callback for every line of every file that is rendered and pass the
+   * information about the file and line as an AnnotationContext, which also
+   * provides methods for the plugin to style the content.
    */
-  addLayer(addLayerFunc: AddLayerFunc): AnnotationPluginApi;
-
-  /**
-   * The specified function will be called with a notify function for the plugin
-   * to call when it has all required data for annotation. Optional.
-   *
-   * @param notifyFunc See doc of the notify function below to see what it does.
-   */
-  addNotifier(notifyFunc: (n: NotifyFunc) => void): AnnotationPluginApi;
+  addLayer(callback: AnnotationCallback): AnnotationPluginApi;
 
   /**
    * The specified function will be called when a gr-diff component is built,
@@ -117,9 +122,10 @@ export interface AnnotationPluginApi {
   ): AnnotationPluginApi;
 
   /**
-   * The notify function will call the listeners of all required annotation
-   * layers. Intended to be called by the plugin when all required data for
-   * annotation is available.
+   * For plugins notifying Gerrit about new annotations being ready to be
+   * applied for a certain range. Gerrit will then re-render the relevant lines
+   * of the diff and call back to the layer annotation function that was
+   * registered in addLayer().
    *
    * @param path The file path whose listeners should be notified.
    * @param start The line where the update starts.

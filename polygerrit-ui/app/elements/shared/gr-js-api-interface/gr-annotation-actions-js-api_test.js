@@ -61,7 +61,7 @@ suite('gr-annotation-actions-js-api tests', () => {
     };
     annotationActions.addLayer(testLayerFunc);
 
-    const annotationLayer = annotationActions.getLayer(
+    const annotationLayer = annotationActions.createLayer(
         '/dummy/path', changeNum);
 
     const lineNumberEl = document.createElement('td');
@@ -72,27 +72,19 @@ suite('gr-annotation-actions-js-api tests', () => {
   test('add notifier', () => {
     const path1 = '/dummy/path1';
     const path2 = '/dummy/path2';
-    const annotationLayer1 = annotationActions.getLayer(path1, 1);
-    const annotationLayer2 = annotationActions.getLayer(path2, 1);
+    annotationActions.addLayer(context => {});
+    const annotationLayer1 = annotationActions.createLayer(path1, 1);
+    const annotationLayer2 = annotationActions.createLayer(path2, 1);
     const layer1Spy = sinon.spy(annotationLayer1, 'notifyListeners');
     const layer2Spy = sinon.spy(annotationLayer2, 'notifyListeners');
 
-    let notify;
-    let notifyFuncCalled;
-    const notifyFunc = n => {
-      notifyFuncCalled = true;
-      notify = n;
-    };
-    annotationActions.addNotifier(notifyFunc);
-    assert.isTrue(notifyFuncCalled);
-
     // Assert that no layers are invoked with a different path.
-    notify('/dummy/path3', 0, 10, 'right');
+    annotationActions.notify('/dummy/path3', 0, 10, 'right');
     assert.isFalse(layer1Spy.called);
     assert.isFalse(layer2Spy.called);
 
     // Assert that only the 1st layer is invoked with path1.
-    notify(path1, 0, 10, 'right');
+    annotationActions.notify(path1, 0, 10, 'right');
     assert.isTrue(layer1Spy.called);
     assert.isFalse(layer2Spy.called);
 
@@ -101,7 +93,7 @@ suite('gr-annotation-actions-js-api tests', () => {
     layer2Spy.resetHistory();
 
     // Assert that only the 2nd layer is invoked with path2.
-    notify(path2, 0, 20, 'left');
+    annotationActions.notify(path2, 0, 20, 'left');
     assert.isFalse(layer1Spy.called);
     assert.isTrue(layer2Spy.called);
   });
@@ -143,7 +135,8 @@ suite('gr-annotation-actions-js-api tests', () => {
   });
 
   test('layer notify listeners', () => {
-    const annotationLayer = annotationActions.getLayer('/dummy/path', 1);
+    annotationActions.addLayer(context => {});
+    const annotationLayer = annotationActions.createLayer('/dummy/path', 1);
     let listenerCalledTimes = 0;
     const startRange = 10;
     const endRange = 20;

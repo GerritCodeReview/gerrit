@@ -35,6 +35,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -493,12 +494,29 @@ public class MergeOp implements AutoCloseable {
         logger.atFine().log("Calculated to merge %s", indexBackedChangeSet);
 
         // Reload ChangeSet so that we don't rely on (potentially) stale index data for merging
-        ChangeSet cs = reloadChanges(indexBackedChangeSet);
+        ChangeSet noteDbChangeSet = reloadChanges(indexBackedChangeSet);
+
+        // At this point, any change that isn't new can be filtered out since they were only here
+        // in the first place due to stale index.
+        List<ChangeData> filteredChanges = new ArrayList<>();
+        for (ChangeData changeData : noteDbChangeSet.changes()) {
+          if (!changeData.change().getStatus().equals(Status.NEW)) {
+            logger.atFine().log(
+                "Change %s has status %s due to stale index, so it is skipped during submit",
+                changeData.getId().toString(), changeData.change().getStatus().name());
+            continue;
+          }
+          filteredChanges.add(changeData);
+        }
+
+        // There are no hidden changes (or else we would have thrown AuthException above).
+        ChangeSet filteredNoteDbChangeSet =
+            new ChangeSet(filteredChanges, /* hiddenChanges= */ ImmutableList.of());
 
         // Count cross-project submissions outside of the retry loop. The chance of a single project
         // failing increases with the number of projects, so the failure count would be inflated if
         // this metric were incremented inside of integrateIntoHistory.
-        int projects = cs.projects().size();
+        int projects = filteredNoteDbChangeSet.projects().size();
         if (projects > 1) {
           topicMetrics.topicSubmissions.increment();
         }
@@ -517,22 +535,22 @@ public class MergeOp implements AutoCloseable {
                     this.ts = TimeUtil.nowTs();
                     openRepoManager();
                   }
-                  this.commitStatus = new CommitStatus(cs, isRetry);
+                  this.commitStatus = new CommitStatus(filteredNoteDbChangeSet, isRetry);
                   if (checkSubmitRules) {
                     logger.atFine().log("Checking submit rules and state");
-                    checkSubmitRulesAndState(cs, isRetry);
+                    checkSubmitRulesAndState(filteredNoteDbChangeSet, isRetry);
                   } else {
                     logger.atFine().log("Bypassing submit rules");
-                    bypassSubmitRules(cs, isRetry);
+                    bypassSubmitRules(filteredNoteDbChangeSet, isRetry);
                   }
-                  integrateIntoHistory(cs, submissionExecutor);
+                  integrateIntoHistory(filteredNoteDbChangeSet, submissionExecutor);
                   return null;
                 })
             .listener(retryTracker)
             // Up to the entire submit operation is retried, including possibly many projects.
             // Multiply the timeout by the number of projects we're actually attempting to
             // submit.
-            .defaultTimeoutMultiplier(cs.projects().size())
+            .defaultTimeoutMultiplier(filteredNoteDbChangeSet.projects().size())
             // By default, we only retry lock failures. Here it's better to also retry unexpected
             // runtime exceptions.
             .retryOn(t -> t instanceof RuntimeException)

@@ -258,6 +258,30 @@
       },
       "revId": "5f68f105c8998309ca6d5821c5fbe12d523e3bd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bcc5d74_f7ae8f50",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-16T08:09:45Z",
+      "side": 1,
+      "message": "Great!\n\nMy concern specifically was: I pass a change number that I am allowed to see, but the SHA1 of change notes that I am not allowed to see. Since you walk history, this won\u0027t let me inspect hidden changes and I\u0027d also need to know the SHA1 of that other change which is hard, but not a security mechanism.",
+      "parentUuid": "dee3d56b_ed7e63ee",
+      "range": {
+        "startLine": 232,
+        "startChar": 15,
+        "endLine": 232,
+        "endChar": 27
+      },
+      "revId": "5f68f105c8998309ca6d5821c5fbe12d523e3bd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

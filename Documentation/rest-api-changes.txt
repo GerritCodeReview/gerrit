@@ -14,10 +14,11 @@ link:rest-api.html[REST API].
 'POST /changes/'
 --
 
-The change input link:#change-input[ChangeInput] entity must be provided in the
-request body. It is not allowed to create changes on refs/tags/* or Gerrit
-internal refs such as refs/changes/*, refs/meta/external-ids/*, refs/users/*,
-etc.. and the request would fail with `400 Bad Request` in this case.
+The change input link:#change-input[ChangeInput] entity must be
+provided in the request body. It is not allowed to create changes
+under `refs/tags/` or Gerrit internal ref namespaces such as
+`refs/changes/`, `refs/meta/external-ids/`, and `refs/users/`. The
+request would fail with `400 Bad Request` in this case.
 
 To create a change the calling user must be allowed to
 link:access-control.html#category_push_review[upload to code review].

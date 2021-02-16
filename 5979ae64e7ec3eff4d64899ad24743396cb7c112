@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aa62625_3be9eece",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-16T13:42:03Z",
+      "side": 1,
+      "message": "Moved from gr-related-change-list",
+      "range": {
+        "startLine": 242,
+        "startChar": 1,
+        "endLine": 276,
+        "endChar": 3
+      },
+      "revId": "5979ae64e7ec3eff4d64899ad24743396cb7c112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cac7b314_af792a66",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-16T13:42:03Z",
+      "side": 1,
+      "message": "Moved from gr-related-change-list",
+      "range": {
+        "startLine": 382,
+        "startChar": 5,
+        "endLine": 404,
+        "endChar": 9
+      },
+      "revId": "5979ae64e7ec3eff4d64899ad24743396cb7c112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7fbe738_831e8227",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-16T13:42:03Z",
+      "side": 1,
+      "message": "Moved from gr-related-change-list",
+      "range": {
+        "startLine": 462,
+        "startChar": 1,
+        "endLine": 498,
+        "endChar": 3
+      },
+      "revId": "5979ae64e7ec3eff4d64899ad24743396cb7c112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

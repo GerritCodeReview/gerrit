@@ -39,6 +39,24 @@
       "message": "CI seems to complain about the merge conflict",
       "revId": "8f24e44fa0d4edbfadeafe027475ffebcbbaba2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "735bc621_c7c121df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-17T08:18:46Z",
+      "side": 1,
+      "message": "I also see \"Merge conflicts\" on the Gerrit GUI.",
+      "parentUuid": "d9d3c43f_dca1e22c",
+      "revId": "8f24e44fa0d4edbfadeafe027475ffebcbbaba2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

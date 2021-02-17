@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f60bd8c4_45f1a1e3",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-17T13:07:22Z",
+      "side": -1,
+      "message": "Bad conflict resolution.",
+      "range": {
+        "startLine": 149,
+        "startChar": 81,
+        "endLine": 149,
+        "endChar": 109
+      },
+      "revId": "7ca8158cb2f1128d472e661cc6566c50308c0669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a89ee09d_070f25ae",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-17T13:07:22Z",
+      "side": -1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 151,
+        "startChar": 83,
+        "endLine": 151,
+        "endChar": 111
+      },
+      "revId": "7ca8158cb2f1128d472e661cc6566c50308c0669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

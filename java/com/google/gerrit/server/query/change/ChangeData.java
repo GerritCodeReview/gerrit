@@ -958,8 +958,9 @@ public class ChangeData {
       if (!loadCommitData()) {
         return null;
       }
+      merge = parentCount > 1;
     }
-    return parentCount > 1;
+    return merge;
   }
 
   public Set<Account.Id> editsByUser() {

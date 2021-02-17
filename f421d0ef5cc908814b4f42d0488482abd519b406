@@ -123,6 +123,30 @@
       },
       "revId": "f421d0ef5cc908814b4f42d0488482abd519b406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66de1e6e_87a74073",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-17T09:38:36Z",
+      "side": 1,
+      "message": "there is another way of finding missed notifications: if we extend the meta\u003d parameter to accept\n\n  {SHA1}^^\n\nyou can walk backwards in time using repeated GetChange calls. If the CI system keeps a record of the timestamp of the oldest change not yet processed, it can use a change query to reconstruct notifications it missed precisely.",
+      "parentUuid": "e271fed0_eb59129f",
+      "range": {
+        "startLine": 56,
+        "startChar": 42,
+        "endLine": 57,
+        "endChar": 58
+      },
+      "revId": "f421d0ef5cc908814b4f42d0488482abd519b406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

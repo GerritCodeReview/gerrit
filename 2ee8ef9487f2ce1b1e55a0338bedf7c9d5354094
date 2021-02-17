@@ -16,6 +16,24 @@
       "message": "nit: Please leave a blank line after the license header.",
       "revId": "2ee8ef9487f2ce1b1e55a0338bedf7c9d5354094",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b939395_f96d55be",
+        "filename": "javatests/com/google/gerrit/server/mail/send/MailSoySauceProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1128710
+      },
+      "writtenOn": "2021-02-17T17:31:33Z",
+      "side": 1,
+      "message": "I don\u0027t know how to make any changes to this PR. Do you want me to push a new one from copybara?",
+      "parentUuid": "fa073ed1_5f5f85d5",
+      "revId": "2ee8ef9487f2ce1b1e55a0338bedf7c9d5354094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

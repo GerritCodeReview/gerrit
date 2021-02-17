@@ -49,6 +49,7 @@ import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
@@ -702,7 +703,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private void decodeRefStates(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setRefStates(copyAsBytes(doc.get(REF_STATE_FIELD)));
+    cd.setRefStates(RefState.parseStates(copyAsBytes(doc.get(REF_STATE_FIELD))));
   }
 
   private void decodeRefStatePatterns(ListMultimap<String, IndexableField> doc, ChangeData cd) {

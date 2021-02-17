@@ -17,7 +17,7 @@
 
 import {UrlEncodedCommentId} from '../types/common';
 import {FetchRequest} from '../types/types';
-import {DialogChangeEventDetail} from '../types/events';
+import {DialogChangeEventDetail, TabState} from '../types/events';
 
 export enum EventType {
   SHOW_ALERT = 'show-alert',
@@ -27,6 +27,7 @@ export enum EventType {
   TITLE_CHANGE = 'title-change',
   THREAD_LIST_MODIFIED = 'thread-list-modified',
   DIALOG_CHANGE = 'dialog-change',
+  SHOW_PRIMARY_TAB = 'show-primary-tab',
 }
 
 export function fireEvent(target: EventTarget, type: string) {
@@ -117,10 +118,14 @@ export function fireThreadListModifiedEvent(
   );
 }
 
-export function fireShowPrimaryTab(target: EventTarget, tab: string) {
+export function fireShowPrimaryTab(
+  target: EventTarget,
+  tab: string,
+  tabState?: TabState
+) {
   target.dispatchEvent(
-    new CustomEvent('show-primary-tab', {
-      detail: {tab},
+    new CustomEvent(EventType.SHOW_PRIMARY_TAB, {
+      detail: {tab, tabState},
       composed: true,
       bubbles: true,
     })

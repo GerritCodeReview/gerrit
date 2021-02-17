@@ -19,6 +19,7 @@ import {PatchSetNum, UrlEncodedCommentId} from './common';
 import {UIComment} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {MovedLinkClickedEventDetail} from '../api/diff';
+import {CommentTabState} from '../elements/change/gr-thread-list/gr-thread-list';
 
 export interface TitleChangeEventDetail {
   title: string;
@@ -146,6 +147,12 @@ interface SwitchTabEventDetail {
   value?: number;
   // scroll into the tab afterwards, from custom event
   scrollIntoView?: boolean;
+  // define state of tab after opening
+  tabState?: TabState;
+}
+
+export interface TabState {
+  commentTab?: CommentTabState;
 }
 
 export type SwitchTabEvent = CustomEvent<SwitchTabEventDetail>;

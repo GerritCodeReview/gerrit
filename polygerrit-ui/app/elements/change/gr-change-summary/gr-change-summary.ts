@@ -55,6 +55,7 @@ import {AccountInfo} from '../../../types/common';
 import {notUndefined} from '../../../types/types';
 import {uniqueDefinedAvatar} from '../../../utils/account-util';
 import {PrimaryTab} from '../../../constants/constants';
+import {CommentTabState} from '../gr-thread-list/gr-thread-list';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -70,6 +71,9 @@ export class GrSummaryChip extends GrLitElement {
 
   @property()
   styleType = SummaryChipStyles.UNDEFINED;
+
+  @property()
+  category?: CommentTabState;
 
   static get styles() {
     return [
@@ -105,13 +109,6 @@ export class GrSummaryChip extends GrLitElement {
         .summaryChip.check iron-icon {
           color: var(--gray-foreground);
         }
-        .summaryChip.info {
-          border-color: var(--info-deemphasized-foreground;
-          background-color: var(--info-deemphasized-background);
-        }
-        .summaryChip.info iron-icon {
-          color: var(--info-deemphasized-foreground);
-        }
       `,
     ];
   }
@@ -132,7 +129,9 @@ export class GrSummaryChip extends GrLitElement {
   private handleClick(e: MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
-    fireShowPrimaryTab(this, PrimaryTab.COMMENT_THREADS);
+    fireShowPrimaryTab(this, PrimaryTab.COMMENT_THREADS, {
+      commentTab: this.category,
+    });
   }
 }
 
@@ -212,6 +211,13 @@ export class GrChecksChip extends GrLitElement {
         }
         .checksChip.timelapse iron-icon {
           color: var(--gray-foreground);
+        }
+        .summaryChip.info {
+          border-color: var(--info-deemphasized-foreground;
+          background-color: var(--info-deemphasized-background);
+        }
+        .summaryChip.info iron-icon {
+          color: var(--info-deemphasized-foreground);
         }
       `,
     ];
@@ -413,12 +419,14 @@ export class GrChangeSummary extends GrLitElement {
                 No Comments</gr-summary-chip
               ><gr-summary-chip
                 styleType=${SummaryChipStyles.WARNING}
+                category=${CommentTabState.DRAFTS}
                 icon="edit"
                 ?hidden=${!draftCount}
               >
                 ${pluralize(draftCount, 'draft')}</gr-summary-chip
               ><gr-summary-chip
                 styleType=${SummaryChipStyles.WARNING}
+                category=${CommentTabState.UNRESOLVED}
                 icon="message"
                 ?hidden=${!countUnresolvedComments}
               >
@@ -433,6 +441,7 @@ export class GrChangeSummary extends GrLitElement {
                 ${countUnresolvedComments} unresolved</gr-summary-chip
               ><gr-summary-chip
                 styleType=${SummaryChipStyles.CHECK}
+                category=${CommentTabState.SHOW_ALL}
                 icon="markChatRead"
                 ?hidden=${!countResolvedComments}
                 >${countResolvedComments} resolved</gr-summary-chip

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d904341_077a3efc",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 0,
+      "message": "Unless you have reason to believe a lot of the content removed here is irrelevant now, I would keep it. I think it\u0027s interesting (and still relevant) background for how the numbers in the table above came to be.",
+      "range": {
+        "startLine": 410,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 14
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2c43edb_6f5d2b9b",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 0,
+      "message": "This should be updated, not removed.",
+      "range": {
+        "startLine": 480,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 22
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2123501b_6219f7bc",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 0,
+      "message": "Update, don\u0027t remove.",
+      "range": {
+        "startLine": 539,
+        "startChar": 0,
+        "endLine": 539,
+        "endChar": 14
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

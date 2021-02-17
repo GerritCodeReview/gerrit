@@ -8,6 +8,7 @@
     "@bazel/typescript": "^3.2.0"
   },
   "devDependencies": {
+    "@types/resize-observer-browser": "^0.1.5",
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "eslint": "^7.16.0",
     "eslint-config-google": "^0.14.0",

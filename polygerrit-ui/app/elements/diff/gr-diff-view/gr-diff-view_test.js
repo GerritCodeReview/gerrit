@@ -21,7 +21,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {_testOnly_findCommentById} from '../gr-comment-api/gr-comment-api.js';
+import {ChangeComments, _testOnly_findCommentById, _testOnly_getCommentsForPath} from '../gr-comment-api/gr-comment-api.js';
 import {GerritView} from '../../../services/router/router-model.js';
 import {
   createChange,
@@ -137,6 +137,7 @@ suite('gr-diff-view tests', () => {
         computeUnresolvedNum: () => {},
         getPaths: () => {},
         getThreadsBySideForFile: () => [],
+        getCommentsForPath: _testOnly_getCommentsForPath,
         findCommentById: _testOnly_findCommentById,
 
       }));
@@ -465,6 +466,48 @@ suite('gr-diff-view tests', () => {
       assert.equal(element._setReviewed.lastCall.args[0], true);
     });
 
+    test('moveToNextCommentThread navigates to next file', () => {
+      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
+      const diffChangeStub = sinon.stub(element, '_navigateToChange');
+      sinon.stub(element.$.cursor, 'isAtEnd').returns(true);
+      element._changeNum = '42';
+      const comment = {
+        'wheatley.md': [{
+          ...createComment(),
+          patch_set: 10,
+          line: 21,
+        }],
+      };
+      element._changeComments = new ChangeComments(comment);
+      element._patchRange = {
+        basePatchNum: PARENT,
+        patchNum: 10,
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 10, commit: {parents: []}},
+        },
+      };
+      element._files = getFilesFromFileList(
+          ['chell.go', 'glados.txt', 'wheatley.md']);
+      element._path = 'glados.txt';
+      element.changeViewState.selectedFileIndex = 1;
+      element._loggedIn = true;
+
+      MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+      flush();
+      assert.isTrue(diffNavStub.calledWithExactly(
+          element._change, 'wheatley.md', 10, PARENT, 21));
+
+      element._path = 'wheatley.md'; // navigated to next file
+
+      MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+      flush();
+
+      assert.isTrue(diffChangeStub.called);
+    });
+
     test('shift+x shortcut expands all diff context', () => {
       const expandStub = sinon.stub(element.$.diffHost, 'expandAllContext');
       MockInteractions.pressAndReleaseKeyOn(element, 88, 'shift', 'x');
@@ -621,14 +664,14 @@ suite('gr-diff-view tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert.isTrue(element._loading);
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
-          'wheatley.md', 10, 5),
+          'wheatley.md', 10, 5, undefined),
       'Should navigate to /c/42/5..10/wheatley.md');
       element._path = 'wheatley.md';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert.isTrue(element._loading);
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
-          'glados.txt', 10, 5),
+          'glados.txt', 10, 5, undefined),
       'Should navigate to /c/42/5..10/glados.txt');
       element._path = 'glados.txt';
 
@@ -638,7 +681,8 @@ suite('gr-diff-view tests', () => {
           element._change,
           'chell.go',
           10,
-          5),
+          5,
+          undefined),
       'Should navigate to /c/42/5..10/chell.go');
       element._path = 'chell.go';
 
@@ -692,13 +736,13 @@ suite('gr-diff-view tests', () => {
 
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
-          'wheatley.md', 1, PARENT),
+          'wheatley.md', 1, PARENT, undefined),
       'Should navigate to /c/42/1/wheatley.md');
       element._path = 'wheatley.md';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
-          'glados.txt', 1, PARENT),
+          'glados.txt', 1, PARENT, undefined),
       'Should navigate to /c/42/1/glados.txt');
       element._path = 'glados.txt';
 
@@ -707,7 +751,8 @@ suite('gr-diff-view tests', () => {
           element._change,
           'chell.go',
           1,
-          PARENT), 'Should navigate to /c/42/1/chell.go');
+          PARENT,
+          undefined), 'Should navigate to /c/42/1/chell.go');
       element._path = 'chell.go';
 
       changeNavStub.reset();

@@ -594,6 +594,8 @@ export class ChangeComments {
 export const _testOnly_findCommentById =
   ChangeComments.prototype.findCommentById;
 
+export const _testOnly_getCommentsForPath =
+  ChangeComments.prototype.getCommentsForPath;
 @customElement('gr-comment-api')
 export class GrCommentApi extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)

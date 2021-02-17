@@ -711,7 +711,12 @@ export class GrDiffView extends KeyboardShortcutMixin(
     );
   }
 
-  _navToFile(path: string, fileList: string[], direction: -1 | 1) {
+  _navToFile(
+    path: string,
+    fileList: string[],
+    direction: -1 | 1,
+    navigateToFirstComment?: boolean
+  ) {
     const newPath = this._getNavLinkPath(path, fileList, direction);
     if (!newPath) return;
     if (!this._change) return;
@@ -727,11 +732,18 @@ export class GrDiffView extends KeyboardShortcutMixin(
     }
 
     if (!newPath.path) return;
+    let lineNum;
+    if (navigateToFirstComment)
+      lineNum = this._changeComments?.getCommentsForPath(
+        newPath.path,
+        this._patchRange
+      )?.[0].line;
     GerritNav.navigateToDiff(
       this._change,
       newPath.path,
       this._patchRange.patchNum,
-      this._patchRange.basePatchNum
+      this._patchRange.basePatchNum,
+      lineNum
     );
   }
 
@@ -1755,6 +1767,23 @@ export class GrDiffView extends KeyboardShortcutMixin(
       file => file === this._path || !this._reviewedFiles.has(file)
     );
     this._navToFile(this._path, unreviewedFiles, 1);
+  }
+
+  _navigateToNextFileWithCommentThread() {
+    if (!this._path) return;
+    if (!this._fileList) return;
+    if (!this._patchRange) return;
+    if (!this._change) return;
+    const hasComment = (path: string) => {
+      return (
+        this._changeComments?.getCommentsForPath(path, this._patchRange!)
+          ?.length ?? 0 > 0
+      );
+    };
+    const filesWithComments = this._fileList.filter(
+      file => file === this._path || hasComment(file)
+    );
+    this._navToFile(this._path, filesWithComments, 1, true);
   }
 
   _handleReloadingDiffPreference() {

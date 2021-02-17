@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbe5b379_c68168f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-17T09:21:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3631f00d_27519c4a",
+      "range": {
+        "startLine": 452,
+        "startChar": 6,
+        "endLine": 452,
+        "endChar": 29
+      },
+      "revId": "4966894440d6f1b258558dfd00e4442fbbd7f443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e28be7d_7e862156",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-17T09:12:59Z",
       "side": 1,
       "message": "extract var",
+      "range": {
+        "startLine": 460,
+        "startChar": 8,
+        "endLine": 460,
+        "endChar": 42
+      },
+      "revId": "4966894440d6f1b258558dfd00e4442fbbd7f443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e417a5e2_a15bb379",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-17T09:21:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e28be7d_7e862156",
       "range": {
         "startLine": 460,
         "startChar": 8,

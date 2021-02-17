@@ -548,6 +548,7 @@ export const htmlTemplate = html`
                 <gr-related-changes-list-experimental
                   change="[[_change]]"
                   id="relatedChangesExperimental"
+                  patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
                 ></gr-related-changes-list-experimental>
               </template>
               <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">

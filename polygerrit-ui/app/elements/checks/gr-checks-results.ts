@@ -21,8 +21,9 @@ import {Category, CheckRun, Link, RunStatus, Tag} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {RunResult} from '../../services/checks/checks-model';
 import {
+  hasCompleted,
   hasCompletedWithoutResults,
-  iconForCategory,
+  iconForCategory, isRunning,
 } from '../../services/checks/checks-util';
 
 @customElement('gr-result-row')
@@ -270,6 +271,9 @@ export class GrChecksResults extends GrLitElement {
         .categoryHeader iron-icon.success {
           color: var(--success-foreground);
         }
+        .noCompleted {
+          margin-top: var(--spacing-l);
+        }
         table.resultsTable {
           width: 100%;
           max-width: 1280px;
@@ -289,10 +293,19 @@ export class GrChecksResults extends GrLitElement {
   render() {
     return html`
       <div><h2 class="heading-2">Results</h2></div>
-      ${this.renderSection(Category.ERROR)}
+      ${this.renderNoCompleted()} ${this.renderSection(Category.ERROR)}
       ${this.renderSection(Category.WARNING)}
       ${this.renderSection(Category.INFO)} ${this.renderSuccess()}
     `;
+  }
+
+  renderNoCompleted() {
+    if (this.runs.some(hasCompleted)) return;
+    let text = 'No results.';
+    if (this.runs.some(isRunning)) {
+      text = 'Checks are running ...';
+    }
+    return html`<div class="noCompleted">${text}</div>`;
   }
 
   renderSection(category: Category) {

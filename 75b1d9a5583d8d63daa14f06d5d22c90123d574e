@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "693d6848_50f80cc7",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-17T21:02:42Z",
+      "side": 1,
+      "message": "Should this be put into the methods below that load from NoteDb or the Index?",
+      "range": {
+        "startLine": 107,
+        "startChar": 68,
+        "endLine": 108,
+        "endChar": 90
+      },
+      "revId": "75b1d9a5583d8d63daa14f06d5d22c90123d574e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

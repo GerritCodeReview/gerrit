@@ -86,9 +86,9 @@ class GrResultRow extends GrLitElement {
           flex-shrink: 1;
           overflow: hidden;
           text-overflow: ellipsis;
+          margin-right: var(--spacing-s);
         }
         td .summary-cell .message {
-          margin-left: var(--spacing-s);
           flex-grow: 1;
           /* Looks a bit stupid, but the idea is that .message shrinks first,
              and only when that has shrunken to 0, then .summary should also
@@ -119,7 +119,7 @@ class GrResultRow extends GrLitElement {
 
   update(changedProperties: PropertyValues) {
     if (changedProperties.has('result')) {
-      this.isExpandable = !!this.result?.message;
+      this.isExpandable = !!this.result?.summary && !!this.result?.message;
     }
     super.update(changedProperties);
   }
@@ -137,9 +137,7 @@ class GrResultRow extends GrLitElement {
         <td class="summaryCol">
           <div class="summary-cell">
             ${(this.result.links ?? []).map(this.renderLink)}
-            <!-- The &nbsp; is for being able to shrink a tiny amount without
-                 the text itself getting shrunk with an ellipsis. -->
-            <div class="summary">${this.result.summary}&nbsp;</div>
+            ${this.renderSummary(this.result.summary)}
             <div class="message">
               ${this.isExpanded ? '' : this.result.message}
             </div>
@@ -180,6 +178,15 @@ class GrResultRow extends GrLitElement {
   private toggleExpanded() {
     if (!this.isExpandable) return;
     this.isExpanded = !this.isExpanded;
+  }
+
+  renderSummary(text?: string) {
+    if (!text) return;
+    return html`
+      <!-- The &nbsp; is for being able to shrink a tiny amount without
+       the text itself getting shrunk with an ellipsis. -->
+      <div class="summary">${text}&nbsp;</div>
+    `;
   }
 
   renderLink(link: Link) {
@@ -360,7 +367,8 @@ export class GrChecksResults extends GrLitElement {
   renderSuccessfulRun(run: CheckRun) {
     const adaptedRun: RunResult = {
       category: Category.INFO, // will not be used, but is required
-      summary: run.statusDescription ?? 'Completed without results.',
+      summary: run.statusDescription ?? '',
+      message: 'Completed without results.',
       ...run,
     };
     return html`<gr-result-row .result="${adaptedRun}"></gr-result-row>`;

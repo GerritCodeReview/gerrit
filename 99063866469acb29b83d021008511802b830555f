@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "846085c9_fdae987f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-17T21:05:20Z",
+      "side": 1,
+      "message": "Good catch !",
+      "revId": "99063866469acb29b83d021008511802b830555f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b7ee0b5_f32e2975",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-17T21:05:20Z",
+      "side": 1,
+      "message": "Looking at all the other methods, it seems that loadCommitData() is the method that is delegated to fill-up all the fields.\n\nThis L961 should therefore moved to loadCommitData() to make it consistent with the other fields.",
+      "range": {
+        "startLine": 961,
+        "startChar": 6,
+        "endLine": 961,
+        "endChar": 30
+      },
+      "revId": "99063866469acb29b83d021008511802b830555f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

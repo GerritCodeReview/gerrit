@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66a427b5_7e4d9016",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-17T07:43:24Z",
+      "side": 1,
+      "message": "\u003e you mean it *should* throw HTTP-agnostic exceptions? (a-gnostic \u003d not-knowing)\n\ns/agnostic/specifc/ Thanks :-)\n\nSo I think it\u0027s fine as-is.",
+      "parentUuid": "c08e3f0d_89fb3262",
+      "range": {
+        "startLine": 243,
+        "startChar": 14,
+        "endLine": 243,
+        "endChar": 40
+      },
+      "revId": "ccaea3701009a7db829b913ed874e4a43f32c3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c0fdb19_809215e6",

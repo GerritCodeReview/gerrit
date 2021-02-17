@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77ec2ef3_f0defb2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-17T17:59:39Z",
+      "side": 1,
+      "message": "I was recently asked to produce a design doc for gerrit, so I\u0027m updating this a bit.\n\nThere is a lot of stuff that is historically interesting, but not very relevant today. Most of it I simply deleted, but happy to hear suggestions on what to replace it with.",
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -103,6 +103,10 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * ChangeData provides unified interface access to change metadata. It can load data from either
+ * NoteDb (slow, but always up-to-date) or from an index (fast, but potentially outdated.)
+ */
 public class ChangeData {
   public static List<Change> asChanges(List<ChangeData> changeDatas) {
     List<Change> result = new ArrayList<>(changeDatas.size());

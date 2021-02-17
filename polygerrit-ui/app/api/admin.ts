@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+
 /** Interface for menu link */
 export interface MenuLink {
   text: string;

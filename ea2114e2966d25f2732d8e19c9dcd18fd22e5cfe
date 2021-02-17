@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c746d771_c2381bc8",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-17T11:46:51Z",
+      "side": 1,
+      "message": "Here is No results. with `.` and on the top is No results without \u0027.`. Is it intended?",
+      "range": {
+        "startLine": 304,
+        "startChar": 19,
+        "endLine": 304,
+        "endChar": 26
+      },
+      "revId": "ea2114e2966d25f2732d8e19c9dcd18fd22e5cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

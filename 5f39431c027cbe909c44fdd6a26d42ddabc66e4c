@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6388ccd_5555998c",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-17T23:56:54Z",
+      "side": 0,
+      "message": "I agree this is obsolete, however, it gives the perspective of where Gerrit comes from. What about keeping it in a \"History\" section after L17?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 49
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d904341_077a3efc",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1

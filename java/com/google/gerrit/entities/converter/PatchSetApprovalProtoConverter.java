@@ -39,7 +39,8 @@ public enum PatchSetApprovalProtoConverter
             .setKey(patchSetApprovalKeyProtoConverter.toProto(patchSetApproval.key()))
             .setValue(patchSetApproval.value())
             .setGranted(patchSetApproval.granted().getTime())
-            .setPostSubmit(patchSetApproval.postSubmit());
+            .setPostSubmit(patchSetApproval.postSubmit())
+            .setCopiedOver(patchSetApproval.copiedOver());
 
     patchSetApproval.tag().ifPresent(builder::setTag);
     Account.Id realAccountId = patchSetApproval.realAccountId();
@@ -61,7 +62,8 @@ public enum PatchSetApprovalProtoConverter
             .key(patchSetApprovalKeyProtoConverter.fromProto(proto.getKey()))
             .value(proto.getValue())
             .granted(new Timestamp(proto.getGranted()))
-            .postSubmit(proto.getPostSubmit());
+            .postSubmit(proto.getPostSubmit())
+            .copiedOver(proto.getCopiedOver());
     if (proto.hasTag()) {
       builder.tag(proto.getTag());
     }

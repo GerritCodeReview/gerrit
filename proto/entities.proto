@@ -133,6 +133,7 @@ message PatchSetApproval {
   optional string tag = 6;
   optional Account_Id real_account_id = 7;
   optional bool post_submit = 8;
+  optional bool copied_over = 9;
 
   // Deleted fields, should not be reused:
   reserved 4;  // changeOpen

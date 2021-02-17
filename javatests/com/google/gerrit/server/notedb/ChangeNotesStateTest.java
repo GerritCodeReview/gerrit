@@ -383,7 +383,7 @@ public class ChangeNotesStateTest {
             .build();
     Entities.PatchSetApproval psa2 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a2);
     ByteString a2Bytes = Protos.toByteString(psa2);
-    assertThat(a2Bytes.size()).isEqualTo(49);
+    assertThat(a2Bytes.size()).isEqualTo(51);
     assertThat(a2Bytes).isNotEqualTo(a1Bytes);
 
     assertRoundTrip(
@@ -905,6 +905,7 @@ public class ChangeNotesStateTest {
                 .put("tag", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("realAccountId", Account.Id.class)
                 .put("postSubmit", boolean.class)
+                .put("copiedOver", boolean.class)
                 .put("toBuilder", PatchSetApproval.Builder.class)
                 .build());
   }

@@ -41,7 +41,7 @@ public abstract class PatchSetApproval {
   }
 
   public static Builder builder() {
-    return new AutoValue_PatchSetApproval.Builder().postSubmit(false);
+    return new AutoValue_PatchSetApproval.Builder().postSubmit(false).copiedOver(false);
   }
 
   @AutoValue.Builder
@@ -71,6 +71,8 @@ public abstract class PatchSetApproval {
     abstract Optional<Account.Id> realAccountId();
 
     public abstract Builder postSubmit(boolean isPostSubmit);
+
+    public abstract Builder copiedOver(boolean isCopiedOver);
 
     abstract PatchSetApproval autoBuild();
 
@@ -111,10 +113,12 @@ public abstract class PatchSetApproval {
 
   public abstract boolean postSubmit();
 
+  public abstract boolean copiedOver();
+
   public abstract Builder toBuilder();
 
   public PatchSetApproval copyWithPatchSet(PatchSet.Id psId) {
-    return toBuilder().key(key(psId, key().accountId(), key().labelId())).build();
+    return toBuilder().key(key(psId, key().accountId(), key().labelId())).copiedOver(true).build();
   }
 
   public PatchSet.Id patchSetId() {

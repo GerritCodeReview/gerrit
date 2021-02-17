@@ -134,6 +134,11 @@ message PatchSetApproval {
   optional Account_Id real_account_id = 7;
   optional bool post_submit = 8;
 
+  // optional bool copied_over is intentionally omitted since this field has to
+  // be recomputed each time since whether a label is sticky could change (which
+  // is based on the label configs). This field is a part of
+  // com.google.gerrit.entities.PatchSetApproval.
+
   // Deleted fields, should not be reused:
   reserved 4;  // changeOpen
   reserved 5;  // changeSortKey

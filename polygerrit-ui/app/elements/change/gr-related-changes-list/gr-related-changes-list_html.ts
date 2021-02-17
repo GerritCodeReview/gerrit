@@ -117,6 +117,7 @@ export const htmlTemplate = html`
               href$="[[_computeChangeURL(related._change_number, related.project, related._revision_number)]]"
               class$="[[_computeLinkClass(related)]]"
               title$="[[related.commit.subject]]"
+              on-click="_reportClick"
             >
               [[related.commit.subject]]
             </a>
@@ -149,6 +150,7 @@ export const htmlTemplate = html`
               href$="[[_computeChangeURL(related._number, related.project)]]"
               class$="[[_computeLinkClass(related)]]"
               title$="[[related.project]]: [[related.branch]]: [[related.subject]]"
+              on-click="_reportClick"
             >
               [[related.project]]: [[related.branch]]: [[related.subject]]
             </a>
@@ -176,6 +178,7 @@ export const htmlTemplate = html`
               href$="[[_computeChangeURL(change._number, change.project)]]"
               class$="[[_computeLinkClass(change)]]"
               title$="[[change.project]]: [[change.branch]]: [[change.subject]]"
+              on-click="_reportClick"
             >
               [[change.project]]: [[change.branch]]: [[change.subject]]
             </a>
@@ -204,6 +207,7 @@ export const htmlTemplate = html`
               href$="[[_computeChangeURL(change._number, change.project)]]"
               class$="[[_computeLinkClass(change)]]"
               title$="[[change.branch]]: [[change.subject]]"
+              on-click="_reportClick"
             >
               [[change.branch]]: [[change.subject]]
             </a>

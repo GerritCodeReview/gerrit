@@ -132,7 +132,7 @@ export class GrSummaryChip extends GrLitElement {
   private handleClick(e: MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
-    fireShowPrimaryTab(this, PrimaryTab.COMMENT_THREADS);
+    fireShowPrimaryTab(this, PrimaryTab.COMMENT_THREADS, 'Show all');
   }
 }
 
@@ -433,6 +433,7 @@ export class GrChangeSummary extends GrLitElement {
                 ${countUnresolvedComments} unresolved</gr-summary-chip
               ><gr-summary-chip
                 styleType=${SummaryChipStyles.CHECK}
+                category=${}
                 icon="markChatRead"
                 ?hidden=${!countResolvedComments}
                 >${countResolvedComments} resolved</gr-summary-chip

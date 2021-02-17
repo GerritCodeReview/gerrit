@@ -157,6 +157,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {
+  EventType,
   fireAlert,
   fireEvent,
   firePageError,
@@ -694,7 +695,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this.listen(window, 'scroll', '_handleScroll');
     this.listen(document, 'visibilitychange', '_handleVisibilityChange');
 
-    this.addEventListener('show-primary-tab', e =>
+    this.addEventListener(EventType.SHOW_PRIMARY_TAB, e =>
       this._setActivePrimaryTab(e)
     );
     this.addEventListener('show-secondary-tab', e =>

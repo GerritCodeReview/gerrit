@@ -675,6 +675,7 @@ export const htmlTemplate = html`
         if="[[_isTabActive(_constants.PrimaryTab.COMMENT_THREADS, _activeTabs)]]"
       >
         <gr-thread-list
+          state="[[_threadState]]"
           threads="[[_commentThreads]]"
           change="[[_change]]"
           change-num="[[_changeNum]]"

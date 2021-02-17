@@ -103,6 +103,9 @@ export class GrThreadList extends GestureEventListeners(
   @property({type: Boolean})
   _isNewChangeSummaryUiEnabled = false;
 
+  @property({type: String, observer: '_preferredStateChange'})
+  preferredState = 'Show All';
+
   flagsService = appContext.flagsService;
 
   /** @override */
@@ -497,6 +500,19 @@ export class GrThreadList extends GestureEventListeners(
 
   filterRobotThreadsWithoutHumanReply(threads?: CommentThread[]) {
     return threads?.filter(t => !isRobotThread(t) || hasHumanReply(t));
+  }
+
+  _preferredStateChange(newValue?: string, oldValue?: string) {
+    if (!newValue || !oldValue) return;
+    if (newValue !== oldValue) {
+      if (newValue === 'Unresolved') {
+        this._handleOnlyUnresolved();
+      } else if (newValue === 'Drafts') {
+        this._handleOnlyDrafts();
+      } else if (newValue === 'Show All') {
+        this._handleAllComments();
+      }
+    }
   }
 }
 

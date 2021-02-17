@@ -163,7 +163,6 @@ class GrResultRow extends GrLitElement {
             aria-label="${this.isExpanded
               ? 'Collapse result row'
               : 'Expand result row'}"
-            @click="${this.toggleExpanded}"
             @keydown="${this.toggleExpanded}"
           >
             <iron-icon

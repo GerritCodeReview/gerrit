@@ -174,8 +174,6 @@ export declare interface DiffPreferencesInfo {
   font_size: number;
   // TODO: Missing documentation
   show_file_comment_button?: boolean;
-  // TODO: Missing documentation
-  theme?: string;
 }
 
 export declare interface RenderPreferences {

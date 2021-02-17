@@ -416,7 +416,6 @@ export function createDefaultDiffPrefs(): DiffPreferencesInfo {
     show_whitespace_errors: true,
     syntax_highlighting: true,
     tab_size: 8,
-    theme: 'DEFAULT',
   };
 }
 

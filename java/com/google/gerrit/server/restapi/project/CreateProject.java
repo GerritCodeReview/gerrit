@@ -208,4 +208,19 @@ public class CreateProject
     }
     return normalizedBranches;
   }
+
+  static class ValidateBranchListener implements ProjectCreationValidationListener {
+    @Override
+    public void validateNewProject(CreateProjectArgs args) throws ValidationException {
+      for (String branch : args.branch) {
+        if (!isValidBranch(branch)) {
+          throw new ValidationException("Cannot create a project with branch " + branch);
+        }
+      }
+    }
+
+    private boolean isValidBranch(String branch) {
+      return !RefNames.isRefsChanges(branch);
+    }
+  }
 }

@@ -208,4 +208,18 @@ public class CreateProject
     }
     return normalizedBranches;
   }
+
+  static class ValidBranchListener implements ProjectCreationValidationListener {
+    @Override
+    public void validateNewProject(CreateProjectArgs args) throws ValidationException {
+      for (String branch : args.branch) {
+        if (RefNames.isRefsChanges(branch)) {
+          throw new ValidationException(
+              String.format(
+                  "Cannot create a project with branch %s. Branches in the %s ref space are not allowed",
+                  branch, RefNames.REFS_CHANGES));
+        }
+      }
+    }
+  }
 }

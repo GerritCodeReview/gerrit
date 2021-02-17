@@ -53,6 +53,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.Optional;
@@ -325,6 +326,21 @@ public class CreateProjectIT extends AbstractDaemonTest {
     gApi.projects().create(in);
     assertHead(newProjectName, "refs/heads/test");
     assertEmptyCommit(newProjectName, "refs/heads/test", "refs/heads/master", "refs/heads/release");
+  }
+
+  @Test
+  public void createProjectWithInvalidBranch() throws Exception {
+    String newProjectName = name("newProject");
+    ProjectInput in = new ProjectInput();
+    in.name = newProjectName;
+    in.createEmptyCommit = true;
+    in.branches = ImmutableList.of("refs/heads/test", "refs/changes/34/1234");
+    Throwable thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.projects().create(in));
+    assertThat(thrown).hasCauseThat().isInstanceOf(ValidationException.class);
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Cannot create a project with branch refs/changes/34/1234");
   }
 
   @Test

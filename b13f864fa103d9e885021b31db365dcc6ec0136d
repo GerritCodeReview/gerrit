@@ -16,6 +16,24 @@
       "message": "confused here. I thought the plan was to have MINA and JSch working alongside for a while?",
       "revId": "b13f864fa103d9e885021b31db365dcc6ec0136d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "436d9c79_d0c995ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-17T11:49:44Z",
+      "side": 1,
+      "message": "\u003e I thought the plan was to have MINA and JSch working alongside for a while?\n\nWe could postpone this removal until after stable-3.4 branch is cut off, so that release 3.4 would be the last release, that has both SSHD client implementations.\n\nBut why would we want to do it? SSHD client library is only needed in production in two use cases:\n\n* to read ssh keys and\n* for replication plugin to work\n\nAnd, as we know, JCraft JSch is slow, outdated and unmaintained...",
+      "parentUuid": "25b1d2cf_40a26dfa",
+      "revId": "b13f864fa103d9e885021b31db365dcc6ec0136d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

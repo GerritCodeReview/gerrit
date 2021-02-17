@@ -1,0 +1,322 @@
+import {objectProperty} from 'goog:goog.reflect';  // from //third_party/javascript/closure/reflect
+import {css, customElement, html, internalProperty, LitElement, property, PropertyValues, query} from 'lit-element';
+import {StyleInfo, styleMap} from 'lit-html/directives/style-map';
+
+import {Dimensions, fitToFrame, FrameConstrainer, Point} from './util';
+
+/**
+ * Displays a scaled-down version of an image with a draggable frame for
+ * choosing a portion of the image to be magnified by other components.
+ *
+ * Slotted content can be arbitrary elements, but should be limited to images or
+ * stacks of image-like elements (e.g. for overlays) with limited interactivity,
+ * to prevent confusion, as the component only captures a limited set of events.
+ * Slotted content is scaled to fit the bounds of the component, with
+ * letterboxing if aspect ratios differ. For slotted content smaller than the
+ * component, it will cap the scale at 1x and also apply letterboxing.
+ */
+@customElement('gr-overview-image')
+export class GrOverviewImage extends LitElement {
+  /**
+   * The requested horizontal center of the frame, in source image pixels. The
+   * component will scale this accordingly and ensure the frame remains within
+   * the bounds of the image; the resulting center of the frame may differ from
+   * this value.
+   */
+  @property({type: Number}) centerX = 0;
+  /**
+   * The requested vertical center of the frame, in source image pixels. The
+   * component will scale this accordingly and ensure the frame remains within
+   * the bounds of the image; the resulting center of the frame may differ from
+   * this value.
+   */
+  @property({type: Number}) centerY = 0;
+  /**
+   * The width of the frame, in source image pixels. The component will scale
+   * this accordingly. Changes will maintain the previous horizontal center of
+   * the frame if possible.
+   */
+  @property({type: Number}) frameWidth = 0;
+  /**
+   * The height of the frame, in source image pixels. The component will scale
+   * this accordingly. Changes will maintain the previous vertical center of the
+   * frame if possible.
+   */
+  @property({type: Number}) frameHeight = 0;
+
+  @internalProperty() protected contentStyle: StyleInfo = {};
+  @internalProperty() protected contentTransformStyle: StyleInfo = {};
+  @internalProperty() protected frameStyle: StyleInfo = {};
+  @internalProperty() protected overlayStyle: StyleInfo = {};
+
+  @internalProperty()
+  protected contentBounds: Dimensions = {width: 0, height: 0};
+  @internalProperty() protected imageBounds: Dimensions = {width: 0, height: 0};
+  @internalProperty() protected scale: number = 1;
+  @internalProperty() protected dragging = false;
+
+  @query('.content-box') protected contentBox!: HTMLDivElement;
+  @query('.content') protected content!: HTMLDivElement;
+  @query('.content-transform') protected contentTransform!: HTMLDivElement;
+  @query('.frame') protected frame!: HTMLDivElement;
+
+  // When grabbing the frame to drag it around, this stores the offset of the
+  // cursor from the center of the frame at the start of the drag.
+  private grabOffset: Point = {x: 0, y: 0};
+
+  private readonly frameConstrainer = new FrameConstrainer();
+  private readonly resizeObserver =
+      new ResizeObserver((entries: ResizeObserverEntry[]) => {
+        for (const entry of entries) {
+          if (entry.target === this.contentBox) {
+            this.contentBounds = {
+              width: entry.contentRect.width,
+              height: entry.contentRect.height,
+            };
+          }
+          if (entry.target === this.contentTransform) {
+            this.imageBounds = {
+              width: entry.contentRect.width,
+              height: entry.contentRect.height,
+            };
+          }
+          this.updateScale();
+        }
+      });
+
+  static styles = css`
+      :host {
+        --background-color: #000;
+        --frame-color: #f00;
+        display: flex;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      ::slotted(*) {
+        display: block;
+      }
+      div {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+      }
+      .content-box {
+        border: 1px solid var(--background-color);
+        background-color: var(--background-color);
+        width: 100%;
+        position: relative;
+      }
+      .content {
+        position: absolute;
+        cursor: pointer;
+      }
+      .content-transform {
+        position: absolute;
+        transform-origin: top left;
+        will-change: transform;
+      }
+      .frame {
+        border: 1px solid var(--frame-color);
+        position: absolute;
+        will-change: transform;
+      }
+      .overlay {
+        box-sizing: border-box;
+        position: absolute;
+        z-index: 10000;
+        cursor: grabbing;
+      }
+      `;
+
+  render() {
+    return html`
+        <div class="content-box">
+          <div
+              class="content"
+              style="${styleMap({
+      ...this.contentStyle,
+    })}"
+              @mousemove="${this.maybeDragFrame}"
+              @mousedown=${this.clickOverview}
+              @mouseup="${this.releaseFrame}">
+            <div
+                class="content-transform"
+                style="${styleMap(this.contentTransformStyle)}">
+              <slot></slot>
+            </div>
+            <div
+                class="frame"
+                style="${styleMap({
+      ...this.frameStyle,
+      'cursor': this.dragging ? 'grabbing' : 'grab',
+    })}"
+                @mousedown="${this.grabFrame}">
+            </div>
+          </div>
+          <div
+              class="overlay"
+              style="${styleMap({
+      ...this.overlayStyle,
+      'display': this.dragging ? 'block' : 'none'
+    })}"
+              @mousemove="${this.overlayMouseMove}"
+              @mouseleave="${this.releaseFrame}"
+              @mouseup="${this.releaseFrame}">
+          </div>
+        </div>
+        `;
+  }
+
+  firstUpdated(changedProperties: PropertyValues) {
+    this.resizeObserver.observe(this.contentBox);
+    this.resizeObserver.observe(this.contentTransform);
+  }
+
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('centerX') || changedProperties.has('centerY') ||
+        changedProperties.has(objectProperty('scale', this))) {
+      this.frameConstrainer.requestCenter(
+          {x: this.centerX * this.scale, y: this.centerY * this.scale});
+      this.updateFrameStyle();
+    }
+
+    if (changedProperties.has('frameWidth') ||
+        changedProperties.has('frameHeight') ||
+        changedProperties.has(objectProperty('scale', this))) {
+      this.frameConstrainer.setFrameSize({
+        width: this.frameWidth * this.scale,
+        height: this.frameHeight * this.scale
+      });
+      this.updateFrameStyle();
+      this.notifyNewCenter();
+    }
+  }
+
+  clickOverview(event: MouseEvent) {
+    event.preventDefault();
+
+    this.updateOverlaySize(event);
+
+    this.dragging = true;
+    const rect = this.content.getBoundingClientRect();
+    this.frameConstrainer.requestCenter({
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    });
+    this.updateFrameStyle();
+    this.notifyNewCenter();
+  }
+
+  grabFrame(event: MouseEvent) {
+    event.preventDefault();
+    // Do not bubble up into clickOverview().
+    event.stopPropagation();
+
+    this.updateOverlaySize(event);
+
+    this.dragging = true;
+    const rect = this.frame.getBoundingClientRect();
+    const frameCenterX = rect.x + rect.width / 2;
+    const frameCenterY = rect.y + rect.height / 2;
+    this.grabOffset = {
+      x: event.clientX - frameCenterX,
+      y: event.clientY - frameCenterY
+    };
+  }
+
+  maybeDragFrame(event: MouseEvent) {
+    event.preventDefault();
+    if (!this.dragging) return;
+    const rect = this.content.getBoundingClientRect();
+    const center = {
+      x: event.clientX - rect.left - this.grabOffset.x,
+      y: event.clientY - rect.top - this.grabOffset.y
+    };
+    this.frameConstrainer.requestCenter(center);
+    this.updateFrameStyle();
+    this.notifyNewCenter();
+  }
+
+  releaseFrame(event: MouseEvent) {
+    event.preventDefault();
+    this.dragging = false;
+    this.grabOffset = {x: 0, y: 0};
+  }
+
+  overlayMouseMove(event: MouseEvent) {
+    event.preventDefault();
+    this.maybeDragFrame(event);
+  }
+
+  private updateScale() {
+    const fitted = fitToFrame(this.imageBounds, this.contentBounds);
+    this.scale = fitted.scale;
+    this.frameConstrainer.setBounds(
+        {width: fitted.width, height: fitted.height});
+
+    this.contentStyle = {
+      ...this.contentStyle,
+      'top': `${fitted.top}px`,
+      'left': `${fitted.left}px`,
+      'width': `${fitted.width}px`,
+      'height': `${fitted.height}px`,
+    };
+
+    this.contentTransformStyle = {
+      'transform': `scale(${this.scale})`,
+    };
+
+    this.updateFrameStyle();
+  }
+
+  private updateFrameStyle() {
+    const frame = this.frameConstrainer.getFrame();
+    this.frameStyle = {
+      ...this.frameStyle,
+      'transform': `translate(${frame.origin.x}px, ${frame.origin.y}px)`,
+      'width': `${frame.dimensions.width}px`,
+      'height': `${frame.dimensions.height}px`,
+    };
+  }
+
+  private updateOverlaySize(event: MouseEvent) {
+    const rect = this.contentBox.getBoundingClientRect();
+    // Create a whole-page overlay to capture mouse events, so that the drag
+    // interaction continues until the user releases the mouse button. Since
+    // innerWidth and innerHeight include scrollbars, we subtract 20 pixels each
+    // to prevent the overlay from extending offscreen under any existing
+    // scrollbar and causing the scrollbar for the other dimension to show up
+    // unnecessarily.
+    const width = window.innerWidth - 20;
+    const height = window.innerHeight - 20;
+    this.overlayStyle = {
+      ...this.overlayStyle,
+      'top': `-${rect.top + 1}px`,
+      'left': `-${rect.left + 1}px`,
+      'width': `${width}px`,
+      'height': `${height}px`,
+    };
+  }
+
+  private notifyNewCenter() {
+    const center = this.frameConstrainer.getCenter();
+    this.dispatchEvent(new CustomEvent('center-updated', {
+      detail: {
+        x: center.x / this.scale,
+        y: center.y / this.scale,
+      },
+      bubbles: true,
+      composed: true,
+    }));
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-overview-image': GrOverviewImage;
+  }
+}

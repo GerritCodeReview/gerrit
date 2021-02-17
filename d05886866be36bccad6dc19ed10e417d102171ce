@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4cf9e37_a6dc6017",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-17T07:39:42Z",
+      "side": 1,
+      "message": "There is only two ways how we can get here:\n1) We have loaded the change from NoteDb of the notes cache. So lazyload\u003dtrue. RefStates can just be loaded.\n2) We have loaded the change from the index. This will have triggered the index implementation to call setRefStates. lazyload\u003dfalse but we don\u0027t care, because the field was already set.\n\nThis is a pretty central component (HTTP 500s here will require a rollback), so how about we do:\n\nOptional\u003cRefState\u003e metaState ...\nmetaState.ifPresent(rs -\u003e out.metaRevId \u003d rs.id().getName());\n\nJust to be safe :-)",
+      "range": {
+        "startLine": 582,
+        "startChar": 1,
+        "endLine": 583,
+        "endChar": 47
+      },
+      "revId": "d05886866be36bccad6dc19ed10e417d102171ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5d2877f_5264c135",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-17T07:39:42Z",
+      "side": 1,
+      "message": "It\u0027s simple to test the lazyload case as well:\n\n    try (AutoCloseable ignored \u003d disableNoteDb()) {\n     ChangeInfo change \u003d Iterables.getOnlyElement(gApi.changes()\n                  .query()\n                  .withQuery(\"change:\" + changeId)\n                  .get());\n      ... assert that newly crafted ID is there ...\n    }",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 3
+      },
+      "revId": "d05886866be36bccad6dc19ed10e417d102171ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

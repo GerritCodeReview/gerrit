@@ -178,6 +178,24 @@
       "parentUuid": "001824ed_e7bfac7a",
       "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6d020b4_109ff143",
+        "filename": "java/com/google/gerrit/extensions/api/config/AccessCheckInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-17T07:25:28Z",
+      "side": 0,
+      "message": "\u003e I\u0027m not looking for a DD. I think you could justify this in the commit message.\n\nSGTM. Let\u0027s leave it to Youssef then to decide which format (commit message vs DD) he wants to use to explain pros, cons, plan and risk. Btw. thanks for taking this on, Youssef!!!\n\n\u003e Other plugins may not have devoted maintainers. Maybe those plugins have already broken from other changes, but maybe they\u0027re so small they\u0027ve been fine for years (such as [4] whose entire git history fits on one page yet is probably used at many Gerrit installs). Let\u0027s try to protect the 1%.\n\nI see your point. While generally my thinking is \"if as plugin owner you can\u0027t commit to investing a very small amount of time 1-2 a year we will break you in the future, no matter how hard we try not to\". I certainly want to prevent forcing many plugin owners to do substantial rewrites (i.e. changes where you have to \"think deeply\" about how your plugin can work with the new APIs, etc) - this is not the case here :-).\n\nTo your point: Maybe we can use Luca\u0027s stats on plugin downloads and help a few popular, yet underinvested (unmaintained) plugins move over in a small hackathon.\n\n\u003e All that said, do I think the pros outweigh the cons? Yes, most likely (waiting for that commit message update to say for sure). Should we still try to minimize the cons (by using nanopb, etc)? Yes and I think we\u0027re already on the same page there.\n\nSGTM. Thanks!",
+      "parentUuid": "0edeb002_6cc6d01d",
+      "revId": "953953a4d57a8781d9fe2dd8fe240ca6cdb91964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

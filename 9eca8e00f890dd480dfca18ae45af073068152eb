@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d5de081_6515505d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-17T07:39:42Z",
+      "side": 1,
+      "message": "resolved",
+      "parentUuid": "e71a39c9_0c21c480",
+      "range": {
+        "startLine": 372,
+        "startChar": 0,
+        "endLine": 378,
+        "endChar": 0
+      },
+      "revId": "9eca8e00f890dd480dfca18ae45af073068152eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ff8e240_2fb9b04f",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "metaRevId ?",
       "parentUuid": "7ff8e240_2fb9b04f",
+      "range": {
+        "startLine": 73,
+        "startChar": 23,
+        "endLine": 73,
+        "endChar": 24
+      },
+      "revId": "9eca8e00f890dd480dfca18ae45af073068152eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f09b660_0354d870",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-17T07:39:42Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "db1086b2_f6e4ea2c",
       "range": {
         "startLine": 73,
         "startChar": 23,

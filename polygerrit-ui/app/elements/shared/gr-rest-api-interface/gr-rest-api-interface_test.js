@@ -409,7 +409,6 @@ suite('gr-rest-api-interface tests', () => {
       assert.equal(obj.show_whitespace_errors, true);
       assert.equal(obj.syntax_highlighting, true);
       assert.equal(obj.tab_size, 8);
-      assert.equal(obj.theme, 'DEFAULT');
     });
   });
 

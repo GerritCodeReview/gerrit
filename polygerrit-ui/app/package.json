@@ -36,5 +36,8 @@
     "shadow-selection-polyfill": "^1.1.0"
   },
   "license": "Apache-2.0",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@types/resize-observer-browser": "^0.1.5"
+  }
 }

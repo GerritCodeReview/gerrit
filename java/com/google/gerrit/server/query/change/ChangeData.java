@@ -26,13 +26,16 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.SetMultimap;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
@@ -43,6 +46,7 @@ import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRecord;
@@ -50,6 +54,7 @@ import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.index.RefState;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -69,6 +74,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.RobotCommentNotes;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -308,7 +314,7 @@ public class ChangeData {
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
   private Optional<Timestamp> mergedOn;
-  private ImmutableList<byte[]> refStates;
+  private ImmutableSetMultimap<NameKey, RefState> refStates;
   private ImmutableList<byte[]> refStatePatterns;
 
   @Inject
@@ -1169,12 +1175,38 @@ public class ChangeData {
     }
   }
 
-  public ImmutableList<byte[]> getRefStates() {
+  public SetMultimap<NameKey, RefState> getRefStates() {
+    if (refStates == null) {
+      if (!lazyLoad) {
+        return ImmutableSetMultimap.of();
+      }
+
+      ImmutableSetMultimap.Builder<NameKey, RefState> result = ImmutableSetMultimap.builder();
+      editRefs().values().forEach(r -> result.put(project, RefState.of(r)));
+      starRefs().values().forEach(r -> result.put(allUsersName, RefState.of(r.ref())));
+
+      // TODO: instantiating the notes is too much. We don't want to parse NoteDb, we just want the
+      // refs.
+      result.put(project, RefState.create(notes().getRefName(), notes().getMetaId()));
+      notes().getRobotComments(); // Force loading robot comments.
+      RobotCommentNotes robotNotes = notes().getRobotCommentNotes();
+      result.put(project, RefState.create(robotNotes.getRefName(), robotNotes.getMetaId()));
+      draftRefs().values().forEach(r -> result.put(allUsersName, RefState.of(r)));
+
+      refStates = result.build();
+    }
+
     return refStates;
   }
 
+  @UsedAt(UsedAt.Project.GOOGLE)
   public void setRefStates(Iterable<byte[]> refStates) {
-    this.refStates = ImmutableList.copyOf(refStates);
+    // TODO(hanwen): remove Google use, and drop this method.
+    setRefStates(RefState.parseStates(refStates));
+  }
+
+  public void setRefStates(ImmutableSetMultimap<Project.NameKey, RefState> refStates) {
+    this.refStates = refStates;
   }
 
   public ImmutableList<byte[]> getRefStatePatterns() {

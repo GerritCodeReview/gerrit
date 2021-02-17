@@ -37,6 +37,7 @@ import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
@@ -354,7 +355,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     // Ref-state.
     if (fields.contains(ChangeField.REF_STATE.getName())) {
-      cd.setRefStates(getByteArray(source, ChangeField.REF_STATE.getName()));
+      cd.setRefStates(RefState.parseStates(getByteArray(source, ChangeField.REF_STATE.getName())));
     }
 
     // Ref-state-pattern.

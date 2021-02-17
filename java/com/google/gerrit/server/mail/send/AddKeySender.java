@@ -68,7 +68,7 @@ public class AddKeySender extends OutgoingEmail {
     super.init();
     setHeader("Subject", String.format("[Gerrit Code Review] New %s Keys Added", getKeyType()));
     setMessageId(messageIdGenerator.fromAccountUpdate(user.getAccountId()));
-    add(RecipientType.TO, Address.create(getEmail()));
+    add(RecipientType.TO, user.getAccountId());
   }
 
   @Override

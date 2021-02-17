@@ -147,7 +147,7 @@ To format Java source code, Gerrit uses the
 link:https://github.com/google/google-java-format[`google-java-format`,role=external,window=_blank]
 tool (version 1.7), and to format Bazel BUILD, WORKSPACE and .bzl files the
 link:https://github.com/bazelbuild/buildtools/tree/master/buildifier[`buildifier`,role=external,window=_blank]
-tool (version 3.5.0). Unused dependencies are found and removed using the
+tool (version 4.0.0). Unused dependencies are found and removed using the
 link:https://github.com/bazelbuild/buildtools/tree/master/unused_deps[`unused_deps`,role=external,window=_blank]
 build tool, a sibling of `buildifier`.
 
@@ -160,6 +160,9 @@ run `./tools/setup_gjf.sh` to download a local copy and set up a
 wrapper script. If you run your own copy, please use the same version,
 as there may be slight differences between versions.
 
+[[code-rules]]
+== Code Rules
+=== Final
 When to use `final` modifier and when not (in new code):
 
 Always:
@@ -180,6 +183,12 @@ Never:
   readable. When copying old code to new location, finals should
   be removed
   * method parameters: similar to local variables
+
+=== Optional / Nullable
+Recommended:
+
+  * Optionals in arguments are discouraged (use @Nullable instead)
+  * Return types should be objects or Optionals of objects, but not null/nullable
 
 [[code-organization]]
 == Code Organization

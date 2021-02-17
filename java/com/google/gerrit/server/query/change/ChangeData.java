@@ -103,6 +103,13 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * ChangeData provides lazily loaded interface to change metadata loaded from NoteDb. It can be
+ * constructed by loading from NoteDb, or calling setters. The latter happens when ChangeData is
+ * retrieved through the change index. This happens for Applications that are performance sensitive
+ * (eg. dashboard loads, git protocol negotiation) but can tolerate staleness. In that case, setting
+ * lazyLoad=false disables loading from NoteDb, so we don't accidentally enable a slow path.
+ */
 public class ChangeData {
   public static List<Change> asChanges(List<ChangeData> changeDatas) {
     List<Change> result = new ArrayList<>(changeDatas.size());

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c8696a0_2ed999e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:39:03Z",
+      "side": 1,
+      "message": "-1 is just for the copyright date fix, otherwise +2 from me",
+      "revId": "9507a2c55ce75c2e43b41a10d6c30c92a9c1a18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

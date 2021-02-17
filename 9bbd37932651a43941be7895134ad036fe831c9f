@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a733074_c1640641",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-17T08:50:43Z",
+      "side": 1,
+      "message": "good idea, an annotation processor would work AFAICS (at the cost of some extra complexity in the build).\n\nI was thinking about how we can get static typing and no classcastexceptions cheaper and think we can with TypeLiterals:\n\nDynamicMap (Function is a generalization of your MyApi):\n\n  public \u003cX, Y\u003e Function\u003cX, Y\u003e apiFromOtherPlugin(TypeLiteral\u003cX\u003e arg, TypeLiteral\u003cY\u003e ret) {\n    arg.toString() // This gives \"java.lang.String\" so the generic was preserved because of the subclassing.\n    ... load a plugin from the map that was bound to \"my-api.\" + arg.toString() + arg.toString() ...\n  }\n\n\nUsage:\n\n    Function\u003cString, Integer\u003e apiFromOtherPlugin \u003d dynamicMap.getOtherPluginsApi(new TypeLiteral\u003cString\u003e(){}, new TypeLiteral\u003cInteger\u003e(){});\n// Could be a list or an optional or whatever.\n\nIf we further tweak the binder, we we could even spare the intermediary string representation of types and just use type literals in the first place.",
+      "parentUuid": "7b760665_24c22767",
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54ef5ee7_bcb6e004",
         "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
         "patchSetId": 4

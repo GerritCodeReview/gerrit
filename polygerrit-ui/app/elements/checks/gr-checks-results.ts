@@ -249,7 +249,7 @@ export class GrChecksResults extends GrLitElement {
           padding: var(--spacing-xl);
         }
         .categoryHeader {
-          margin-top: var(--spacing-xxl);
+          margin-top: var(--spacing-l);
           margin-left: var(--spacing-l);
           text-transform: capitalize;
         }

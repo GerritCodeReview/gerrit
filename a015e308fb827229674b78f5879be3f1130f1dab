@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d059393_0ba7485d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-17T07:33:15Z",
+      "side": 1,
+      "message": "CI is unhappy because of the merge conflict",
+      "revId": "a015e308fb827229674b78f5879be3f1130f1dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceb9ed0f_e128ff48",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-17T07:33:15Z",
+      "side": 1,
+      "message": "nit: should be ImmutableSetMultiMap to match immutability for refStatePatterns",
+      "range": {
+        "startLine": 317,
+        "startChar": 10,
+        "endLine": 317,
+        "endChar": 11
+      },
+      "revId": "a015e308fb827229674b78f5879be3f1130f1dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "589797ed_61d7d792",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1204,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-17T07:33:15Z",
+      "side": 1,
+      "message": "Noble :-)\n\nI am usually too lazy to make 2 changes upstream and just remove this in this change, submit when I like and immediately import and fix the issue.",
+      "range": {
+        "startLine": 1204,
+        "startChar": 7,
+        "endLine": 1204,
+        "endChar": 16
+      },
+      "revId": "a015e308fb827229674b78f5879be3f1130f1dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -63,7 +63,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.restapi.change.OnPostReview;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.CommentsRejectedException;
-import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -597,7 +596,7 @@ public class PostReviewIT extends AbstractDaemonTest {
       input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
       gApi.changes().id(r.getChangeId()).current().review(input);
       testOnPostReview.assertApproval(
-          LabelId.CODE_REVIEW, /* expectedOldValue= */ 2, /* expectedNewValue= */ 2);
+          LabelId.CODE_REVIEW, /* expectedOldValue= */ null, /* expectedNewValue= */ 2);
 
       // Delete the vote.
       input = new ReviewInput().label(LabelId.CODE_REVIEW, 0);
@@ -627,21 +626,19 @@ public class PostReviewIT extends AbstractDaemonTest {
     assertThat(r.getChange().approvals().values()).hasSize(1);
     List<ChangeMessageInfo> changeMessages = gApi.changes().id(r.getChangeId()).messages();
 
-    // The two latest change messages are both about Code-Review+2
+    // Only the last change message is about Code-Review+2
     assertThat(Iterables.getLast(changeMessages).message).isEqualTo("Patch Set 1: Code-Review+2");
     changeMessages.remove(changeMessages.size() - 1);
-    assertThat(Iterables.getLast(changeMessages).message).isEqualTo("Patch Set 1: Code-Review+2");
+    assertThat(Iterables.getLast(changeMessages).message)
+        .isNotEqualTo("Patch Set 1: Code-Review+2");
 
-    // The two latest emails are about Code-Review +2.
-    List<FakeEmailSender.Message> messages = sender.getMessages();
-    assertThat(messages).hasSize(2);
-    for (FakeEmailSender.Message message : messages) {
-      assertThat(message.body()).contains("Patch Set 1: Code-Review+2");
-    }
+    // Only one email is about Code-Review +2 was sent.
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
+        .contains("Patch Set 1: Code-Review+2");
   }
 
   @Test
-  public void votingTheSameVoteSecondTimeExtendsOnPostReview() throws Exception {
+  public void votingTheSameVoteSecondTimeExtendsOnPostReviewWithOldNullValue() throws Exception {
     PushOneCommit.Result r = createChange();
 
     // Add a new vote.
@@ -656,12 +653,12 @@ public class PostReviewIT extends AbstractDaemonTest {
       gApi.changes().id(r.getChangeId()).current().review(input);
 
       testOnPostReview.assertApproval(
-          LabelId.CODE_REVIEW, /* expectedOldValue= */ 2, /* expectedNewValue= */ 2);
+          LabelId.CODE_REVIEW, /* expectedOldValue= */ null, /* expectedNewValue= */ 2);
     }
   }
 
   @Test
-  public void votingTheSameVoteSecondTimeFiresOnCommentAdded() throws Exception {
+  public void votingTheSameVoteSecondTimeDoesNotFireOnCommentAdded() throws Exception {
     PushOneCommit.Result r = createChange();
 
     // Add a new vote.
@@ -675,8 +672,8 @@ public class PostReviewIT extends AbstractDaemonTest {
       input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
       gApi.changes().id(r.getChangeId()).current().review(input);
 
-      assertThat(testListener.lastCommentAddedEvent.getComment())
-          .isEqualTo("Patch Set 1: Code-Review+2");
+      // Event not fired.
+      assertThat(testListener.lastCommentAddedEvent).isNull();
     }
   }
 

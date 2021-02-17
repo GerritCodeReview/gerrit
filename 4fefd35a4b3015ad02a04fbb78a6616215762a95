@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99f409ab_35dc0457",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-17T07:13:16Z",
+      "side": 1,
+      "message": "Thanks Nasser!\n\ncc Edwin who originally recommended this to me",
+      "revId": "4fefd35a4b3015ad02a04fbb78a6616215762a95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

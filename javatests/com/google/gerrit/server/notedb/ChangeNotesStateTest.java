@@ -905,6 +905,8 @@ public class ChangeNotesStateTest {
                 .put("tag", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("realAccountId", Account.Id.class)
                 .put("postSubmit", boolean.class)
+                // copiedOver doesn't need to be serialized.
+                .put("copiedOver", boolean.class)
                 .put("toBuilder", PatchSetApproval.Builder.class)
                 .build());
   }

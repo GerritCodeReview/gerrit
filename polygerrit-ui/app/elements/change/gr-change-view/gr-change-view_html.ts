@@ -682,6 +682,7 @@ export const htmlTemplate = html`
           logged-in="[[_loggedIn]]"
           only-show-robot-comments-with-human-reply=""
           unresolved-only
+          show-comment-context
         ></gr-thread-list>
       </template>
       <template

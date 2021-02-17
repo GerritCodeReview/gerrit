@@ -77,6 +77,9 @@ export class GrThreadList extends GestureEventListeners(
   @property({type: Array})
   _sortedThreads: CommentThread[] = [];
 
+  @property({type: Boolean})
+  showCommentContext = false;
+
   @property({
     computed:
       '_computeDisplayedThreads(_sortedThreads.*, unresolvedOnly, ' +

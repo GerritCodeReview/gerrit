@@ -24,12 +24,14 @@ import {
   CommentRange,
   PatchRange,
   ParentPatchSetNum,
+  ContextLine,
 } from '../types/common';
 import {CommentSide, Side} from '../constants/constants';
 import {parseDate} from './date-util';
 import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
 import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {isMergeParent, getParentIndex} from './patch-set-util';
+import {DiffInfo} from '../types/diff';
 
 export interface DraftCommentProps {
   __draft?: boolean;
@@ -284,4 +286,33 @@ export function getPatchRangeForCommentUrl(
       basePatchNum: comment.patch_set,
     };
   }
+}
+
+export function computeDiffFromContext(context: ContextLine[], path: string) {
+  const diff: DiffInfo = {
+    meta_a: {
+      name: '',
+      content_type: '',
+      lines: 0,
+      web_links: [],
+    },
+    meta_b: {
+      name: path,
+      content_type: '',
+      lines: context.length + context?.[0].line_number,
+      web_links: [],
+    },
+    change_type: 'MODIFIED',
+    intraline_status: 'OK',
+    diff_header: [],
+    content: [
+      {
+        skip: context[0].line_number - 1,
+      },
+      {
+        b: context.map(line => line.context_line),
+      },
+    ],
+  };
+  return diff;
 }

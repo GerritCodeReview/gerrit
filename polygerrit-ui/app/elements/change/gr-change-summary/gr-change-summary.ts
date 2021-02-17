@@ -71,6 +71,9 @@ export class GrSummaryChip extends GrLitElement {
   @property()
   styleType = SummaryChipStyles.UNDEFINED;
 
+  @property()
+  category?: string;
+
   static get styles() {
     return [
       sharedStyles,
@@ -132,7 +135,7 @@ export class GrSummaryChip extends GrLitElement {
   private handleClick(e: MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
-    fireShowPrimaryTab(this, PrimaryTab.COMMENT_THREADS);
+    fireShowPrimaryTab(this, PrimaryTab.COMMENT_THREADS, this.category);
   }
 }
 
@@ -404,21 +407,23 @@ export class GrChangeSummary extends GrLitElement {
           <tr ?hidden=${!this.newChangeSummaryUiEnabled}>
             <td class="key">Comments</td>
             <td class="value">
-              <gr-summary-chip
-                styleType=${SummaryChipStyles.INFO}
+              <div
                 ?hidden=${!!countResolvedComments ||
                 !!draftCount ||
                 !!countUnresolvedComments}
               >
-                No Comments</gr-summary-chip
-              ><gr-summary-chip
+                No Comments
+              </div>
+              <gr-summary-chip
                 styleType=${SummaryChipStyles.WARNING}
+                category="Drafts"
                 icon="edit"
                 ?hidden=${!draftCount}
               >
                 ${pluralize(draftCount, 'draft')}</gr-summary-chip
               ><gr-summary-chip
                 styleType=${SummaryChipStyles.WARNING}
+                category="Unresolved"
                 icon="message"
                 ?hidden=${!countUnresolvedComments}
               >
@@ -433,6 +438,7 @@ export class GrChangeSummary extends GrLitElement {
                 ${countUnresolvedComments} unresolved</gr-summary-chip
               ><gr-summary-chip
                 styleType=${SummaryChipStyles.CHECK}
+                category="Show All"
                 icon="markChatRead"
                 ?hidden=${!countResolvedComments}
                 >${countResolvedComments} resolved</gr-summary-chip

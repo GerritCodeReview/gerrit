@@ -146,6 +146,8 @@ interface SwitchTabEventDetail {
   value?: number;
   // scroll into the tab afterwards, from custom event
   scrollIntoView?: boolean;
+  // define state of tab after opening
+  tabState?: string;
 }
 
 export type SwitchTabEvent = CustomEvent<SwitchTabEventDetail>;

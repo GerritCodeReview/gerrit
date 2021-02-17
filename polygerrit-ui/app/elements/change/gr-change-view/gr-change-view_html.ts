@@ -675,10 +675,12 @@ export const htmlTemplate = html`
         if="[[_isTabActive(_constants.PrimaryTab.COMMENT_THREADS, _activeTabs)]]"
       >
         <gr-thread-list
+          state="[[_threadState]]"
           threads="[[_commentThreads]]"
           change="[[_change]]"
           change-num="[[_changeNum]]"
           logged-in="[[_loggedIn]]"
+          preferred-state="[[_threadPreferredState]]"
           only-show-robot-comments-with-human-reply=""
           unresolved-only
         ></gr-thread-list>

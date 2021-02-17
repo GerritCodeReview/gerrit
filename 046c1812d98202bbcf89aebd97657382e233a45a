@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29106cd5_c9633f6c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-17T10:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dd84af0_9a5fcfc5",
+      "revId": "046c1812d98202bbcf89aebd97657382e233a45a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8946f36f_4ba877b6",
@@ -58,6 +76,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e557f418_3d925284",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-17T10:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8946f36f_4ba877b6",
+      "revId": "046c1812d98202bbcf89aebd97657382e233a45a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "acd4d06f_bf3c4efd",
@@ -71,6 +107,30 @@
       "writtenOn": "2021-02-17T10:35:44Z",
       "side": 1,
       "message": "getFirstComment",
+      "range": {
+        "startLine": 322,
+        "startChar": 11,
+        "endLine": 322,
+        "endChar": 51
+      },
+      "revId": "046c1812d98202bbcf89aebd97657382e233a45a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4d1e432_0199e40b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-17T10:49:31Z",
+      "side": 1,
+      "message": "Applicable to a thread and not comment array.\nI updated to use conditional operator.",
+      "parentUuid": "acd4d06f_bf3c4efd",
       "range": {
         "startLine": 322,
         "startChar": 11,

@@ -800,15 +800,17 @@ export class GrDiff extends GestureEventListeners(
 
     const keyLocations = this._computeKeyLocations();
     const bypassPrefs = this._getBypassPrefs(this.prefs);
-    this.$.diffBuilder.render(keyLocations, bypassPrefs).then(() => {
-      this.dispatchEvent(
-        new CustomEvent('render', {
-          bubbles: true,
-          composed: true,
-          detail: {contentRendered: true},
-        })
-      );
-    });
+    this.$.diffBuilder
+      .render(keyLocations, bypassPrefs, this.renderPrefs)
+      .then(() => {
+        this.dispatchEvent(
+          new CustomEvent('render', {
+            bubbles: true,
+            composed: true,
+            detail: {contentRendered: true},
+          })
+        );
+      });
   }
 
   _handleRenderContent() {

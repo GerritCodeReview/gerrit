@@ -105,7 +105,7 @@ export const htmlTemplate = html`
       font-size: var(--font-size-mono);
       line-height: var(--line-height-mono);
       margin-right: var(--spacing-l);
-      margin-bottom: var(--spacing-l);
+      margin-bottom: var(--spacing-s);
       /* Account for border and padding and rounding errors. */
       max-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
     }

@@ -39,7 +39,7 @@ import {
   hasResultsOf,
   iconForCategory,
   iconForStatus,
-  isRunning,
+  isRunning, isRunningOrHasCompleted,
 } from '../../../services/checks/checks-util';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
@@ -282,6 +282,9 @@ export class GrChangeSummary extends GrLitElement {
         :host.new-change-summary-true {
           margin-bottom: var(--spacing-m);
         }
+        .noResults {
+          color: var(--primary-text-color);
+        }
         td.key {
           padding-right: var(--spacing-l);
           padding-bottom: var(--spacing-m);
@@ -304,6 +307,11 @@ export class GrChangeSummary extends GrLitElement {
         }
       `,
     ];
+  }
+
+  renderChecksZeroState() {
+    if (this.runs.some(isRunningOrHasCompleted)) return;
+    return html`<span class="noResults">No results</span>`;
   }
 
   renderChecksChipForCategory(category: Category) {
@@ -389,7 +397,7 @@ export class GrChangeSummary extends GrLitElement {
           <tr ?hidden=${!this.showChecksSummary}>
             <td class="key">Checks</td>
             <td class="value">
-              ${this.renderChecksChipForCategory(
+              ${this.renderChecksZeroState()}${this.renderChecksChipForCategory(
                 Category.ERROR
               )}${this.renderChecksChipForCategory(
                 Category.WARNING

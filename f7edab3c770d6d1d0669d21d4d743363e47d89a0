@@ -462,6 +462,24 @@
       "parentUuid": "eed8d904_fef2b2a3",
       "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f88482a6_b61bb78d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-17T09:41:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "70cc9389_c107b205",
+      "revId": "f7edab3c770d6d1d0669d21d4d743363e47d89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

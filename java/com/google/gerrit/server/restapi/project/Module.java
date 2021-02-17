@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.restapi.change.CherryPickCommit;
+import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 
 public class Module extends RestApiModule {
 
@@ -47,6 +48,8 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), LABEL_KIND);
 
     DynamicSet.bind(binder(), GerritConfigListener.class).to(SetParent.class);
+    DynamicSet.bind(binder(), ProjectCreationValidationListener.class)
+        .to(CreateProject.ValidBranchListener.class);
 
     create(PROJECT_KIND).to(CreateProject.class);
     put(PROJECT_KIND).to(PutProject.class);

@@ -4211,8 +4211,10 @@ repository.<name>.defaultSubmitType] is set to a different value.
 |`branches`                  |optional|
 A list of branches that should be initially created. +
 For the branch names the `refs/heads/` prefix can be omitted. +
-The first entry of the list will be the default branch (ie. the target +
-of the `HEAD` symbolic ref).
+The first entry of the list will be the default branch (ie. the target
+of the `HEAD` symbolic ref). +
+Branches in the Gerrit internal ref space are not allowed, such as
+refs/groups/, refs/changes/, etc...
 |`owners`                    |optional|
 A list of groups that should be assigned as project owner. +
 Each group in the list must be specified as

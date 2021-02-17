@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1adee8c_b83eb5b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-17T12:52:49Z",
+      "side": 1,
+      "message": "Oh thanks, I did it as well in another change. I will remove it.",
+      "revId": "3af24fea4125b31b174f8df4985bd1613d6b42a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

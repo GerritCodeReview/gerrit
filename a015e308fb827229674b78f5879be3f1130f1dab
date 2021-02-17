@@ -62,6 +62,30 @@
       },
       "revId": "a015e308fb827229674b78f5879be3f1130f1dab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf97aafd_e6643262",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1204,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-17T09:17:49Z",
+      "side": 1,
+      "message": "my time is pretty fragmented, so I\u0027m otherwise likely to trip up the sheriff\u0027s import duty.",
+      "parentUuid": "589797ed_61d7d792",
+      "range": {
+        "startLine": 1204,
+        "startChar": 7,
+        "endLine": 1204,
+        "endChar": 16
+      },
+      "revId": "a015e308fb827229674b78f5879be3f1130f1dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -146,6 +146,18 @@ interface SwitchTabEventDetail {
   value?: number;
   // scroll into the tab afterwards, from custom event
   scrollIntoView?: boolean;
+  // define state of tab after opening
+  tabState?: TabState;
+}
+
+export interface TabState {
+  commentTab?: CommentTabState;
+}
+
+export enum CommentTabState {
+  UNRESOLVED = 'unresolved',
+  DRAFTS = 'drafts',
+  SHOW_ALL = 'show all',
 }
 
 export type SwitchTabEvent = CustomEvent<SwitchTabEventDetail>;

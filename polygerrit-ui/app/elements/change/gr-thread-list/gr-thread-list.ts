@@ -43,6 +43,8 @@ import {pluralize} from '../../../utils/string-util';
 import {fireThreadListModifiedEvent} from '../../../utils/event-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {appContext} from '../../../services/app-context';
+import {assertNever} from '../../../utils/common-util';
+import {TabState, CommentTabState} from '../../../types/events';
 
 interface CommentThreadWithInfo {
   thread: CommentThread;
@@ -102,6 +104,9 @@ export class GrThreadList extends GestureEventListeners(
 
   @property({type: Boolean})
   _isNewChangeSummaryUiEnabled = false;
+
+  @property({type: Object, observer: '_tabStateChange'})
+  tabState?: TabState;
 
   flagsService = appContext.flagsService;
 
@@ -497,6 +502,24 @@ export class GrThreadList extends GestureEventListeners(
 
   filterRobotThreadsWithoutHumanReply(threads?: CommentThread[]) {
     return threads?.filter(t => !isRobotThread(t) || hasHumanReply(t));
+  }
+
+  _tabStateChange(newValue?: TabState, oldValue?: TabState) {
+    if (!newValue?.commentTab || newValue?.commentTab === oldValue?.commentTab)
+      return;
+    switch (newValue.commentTab) {
+      case CommentTabState.UNRESOLVED:
+        this._handleOnlyUnresolved();
+        break;
+      case CommentTabState.DRAFTS:
+        this._handleOnlyDrafts();
+        break;
+      case CommentTabState.SHOW_ALL:
+        this._handleAllComments();
+        break;
+      default:
+        assertNever(newValue.commentTab, 'Unsupported preferred state');
+    }
   }
 }
 

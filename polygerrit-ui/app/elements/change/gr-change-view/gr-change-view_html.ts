@@ -679,6 +679,7 @@ export const htmlTemplate = html`
           change="[[_change]]"
           change-num="[[_changeNum]]"
           logged-in="[[_loggedIn]]"
+          tab-state="[[_tabState]]"
           only-show-robot-comments-with-human-reply=""
           unresolved-only
         ></gr-thread-list>

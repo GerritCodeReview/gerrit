@@ -3397,7 +3397,7 @@ Defaults to all available options minus `CHANGE_ACTIONS`,
 config is backwards compatible with what the default was before the config
 was added.
 
-[[event.comment-added.publishPatchSetLevelComment]][event.comment-added.publishPatchSetLevelComment::
+[[event.comment-added.publishPatchSetLevelComment]]event.comment-added.publishPatchSetLevelComment::
 +
 Add patch set level comment as event comment. Without this option, patch set
 level comment will not be included in the event comment attribute. Given that

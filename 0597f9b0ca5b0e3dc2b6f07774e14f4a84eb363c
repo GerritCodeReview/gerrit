@@ -22,6 +22,30 @@
       },
       "revId": "0597f9b0ca5b0e3dc2b6f07774e14f4a84eb363c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6698d74_ef691ff6",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-17T14:06:59Z",
+      "side": 1,
+      "message": "There is. I considered that, but some of the refs are only relevant in the All-Users / All-Projects repo (e.g. refs/users).\nShould we disallow all of those for any project anyway?\n\nNote:  Here is a list of all gerrit internal refs:\n\npublic static final ImmutableList\u003cString\u003e GERRIT_REFS \u003d\n      ImmutableList.of(\n          REFS_CHANGES,\n          REFS_EXTERNAL_IDS,\n          REFS_CACHE_AUTOMERGE,\n          REFS_DRAFT_COMMENTS,\n          REFS_DELETED_GROUPS,\n          REFS_SEQUENCES,\n          REFS_GROUPS,\n          REFS_GROUPNAMES,\n          REFS_USERS,\n          REFS_STARRED_CHANGES,\n          REFS_REJECT_COMMITS);",
+      "parentUuid": "b45a2e4e_2e9a19dd",
+      "range": {
+        "startLine": 216,
+        "startChar": 21,
+        "endLine": 216,
+        "endChar": 34
+      },
+      "revId": "0597f9b0ca5b0e3dc2b6f07774e14f4a84eb363c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

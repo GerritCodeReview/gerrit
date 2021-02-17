@@ -43,6 +43,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2a141629_0d316e74",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-17T09:19:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceb9ed0f_e128ff48",
+      "range": {
+        "startLine": 317,
+        "startChar": 10,
+        "endLine": 317,
+        "endChar": 11
+      },
+      "revId": "a015e308fb827229674b78f5879be3f1130f1dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "589797ed_61d7d792",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1

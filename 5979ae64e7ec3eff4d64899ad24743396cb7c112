@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a8b87dc_ca755115",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-17T09:52:31Z",
+      "side": 1,
+      "message": "I prefer this style. It\u0027s in 1 place. I can look at it again once I will add more sections.",
+      "parentUuid": "edf49aec_c3e8304c",
+      "revId": "5979ae64e7ec3eff4d64899ad24743396cb7c112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "522daad7_ea59253b",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-02-17T09:23:34Z",
       "side": 1,
       "message": "Maybe add a comment. What is a connected revision?",
+      "revId": "5979ae64e7ec3eff4d64899ad24743396cb7c112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b49852a_0fb9b5f1",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-17T09:52:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522daad7_ea59253b",
       "revId": "5979ae64e7ec3eff4d64899ad24743396cb7c112",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -71,6 +107,24 @@
       "writtenOn": "2021-02-17T09:23:34Z",
       "side": 1,
       "message": "Maybe add a comment?",
+      "revId": "5979ae64e7ec3eff4d64899ad24743396cb7c112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68009313_ab04ded5",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-17T09:52:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef32ccd0_1c880aa9",
       "revId": "5979ae64e7ec3eff4d64899ad24743396cb7c112",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

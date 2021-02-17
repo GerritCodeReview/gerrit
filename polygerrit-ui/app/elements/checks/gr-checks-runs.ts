@@ -104,7 +104,7 @@ export class GrChecksRun extends GrLitElement {
           border-radius: var(--border-radius);
           padding: var(--spacing-s) var(--spacing-m);
           margin-top: var(--spacing-s);
-          cursor: default;
+          cursor: pointer;
         }
         .name {
           font-weight: var(--font-weight-bold);

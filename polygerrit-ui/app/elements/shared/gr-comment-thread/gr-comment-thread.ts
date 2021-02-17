@@ -317,6 +317,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     return GerritNav.getUrlForComment(changeNum, projectName, id);
   }
 
+  getHighlightRange() {
+    return this.comments?.[0]?.range;
+  }
+
   _getDiffUrlForComment(
     projectName?: RepoName,
     changeNum?: NumericChangeId,

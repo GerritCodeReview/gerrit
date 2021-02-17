@@ -60,25 +60,11 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
     return [
       sharedStyles,
       css`
-        .title {
-          font-weight: var(--font-weight-bold);
-          color: var(--deemphasized-text-color);
-          padding-left: var(--metadata-horizontal-padding);
-        }
-        h4 {
-          display: flex;
-        }
-        /* This is a hacky solution from old gr-related-change-list
-         * TODO(milutin): find layout without needing it
-         */
-        h4:before,
-        gr-related-change:before {
-          content: ' ';
-          flex-shrink: 0;
-          width: 1.2em;
-        }
         .note {
           color: var(--error-text-color);
+        }
+        section {
+          margin-bottom: var(--spacing-m);
         }
       `,
     ];
@@ -101,8 +87,10 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       class="relatedChanges"
       ?hidden=${!relatedChanges.length}
     >
-      <h4 class="title">Relation chain</h4>
-      <gr-related-collapse .length=${relatedChanges.length}>
+      <gr-related-collapse
+        title="Relation chain"
+        .length=${relatedChanges.length}
+      >
         ${relatedChanges.map(
           (change, index) =>
             html`<gr-related-change
@@ -140,8 +128,10 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       ?hidden=${!submittedTogetherChanges?.length &&
       !this._submittedTogether?.non_visible_changes}
     >
-      <h4 class="title">Submitted together</h4>
-      <gr-related-collapse .length=${submittedTogetherChanges.length}>
+      <gr-related-collapse
+        title="Submitted together"
+        .length=${submittedTogetherChanges.length}
+      >
         ${submittedTogetherChanges.map(
           (change, index) =>
             html`<gr-related-change
@@ -277,6 +267,9 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
 @customElement('gr-related-collapse')
 export class GrRelatedCollapse extends GrLitElement {
   @property()
+  title = '';
+
+  @property()
   showAll = false;
 
   @property()
@@ -286,10 +279,24 @@ export class GrRelatedCollapse extends GrLitElement {
     return [
       sharedStyles,
       css`
+        .title {
+          font-weight: var(--font-weight-bold);
+          color: var(--deemphasized-text-color);
+          padding-left: var(--metadata-horizontal-padding);
+        }
+        h4 {
+          display: flex;
+          align-self: flex-end;
+        }
         gr-button {
           display: flex;
         }
-        gr-button:before {
+        /* This is a hacky solution from old gr-related-change-list
+         * TODO(milutin): find layout without needing it
+         */
+        h4:before,
+        gr-button:before,
+        ::slotted(gr-related-change):before {
           content: ' ';
           flex-shrink: 0;
           width: 1.2em;
@@ -303,31 +310,52 @@ export class GrRelatedCollapse extends GrLitElement {
         ::slotted(gr-related-change) {
           display: flex;
         }
+        gr-button iron-icon {
+          color: inherit;
+          --iron-icon-height: 18px;
+          --iron-icon-width: 18px;
+        }
+        .container {
+          justify-content: space-between;
+          display: flex;
+          margin-bottom: var(--spacing-s);
+        }
       `,
     ];
   }
 
   render() {
+    const title = html`<h4 class="title">${this.title}</h4>`;
+
     const collapsible = this.length > MAX_CHANGES_WHEN_COLLAPSED;
     const items = html` <div
       class="${!this.showAll && collapsible ? 'collapsed' : ''}"
     >
       <slot></slot>
     </div>`;
+
     let button = nothing;
     if (collapsible) {
       if (this.showAll) {
         button = html`<gr-button link="" @click="${this.toggle}"
-          >Show less</gr-button
-        >`;
+          >Show less<iron-icon
+            icon="gr-icons:expand-less"
+            hidden$="[[_commitCollapsed]]"
+          ></iron-icon
+        ></gr-button>`;
       } else {
         button = html`<gr-button link="" @click="${this.toggle}"
-          >+ ${this.length - MAX_CHANGES_WHEN_COLLAPSED} more</gr-button
-        >`;
+          >Show all (${this.length})
+          <iron-icon
+            icon="gr-icons:expand-more"
+            hidden$="[[!_commitCollapsed]]"
+          ></iron-icon
+        ></gr-button>`;
       }
     }
 
-    return html`${items}${button}`;
+    return html`<div class="container">${title}${button}</div>
+      ${items}`;
   }
 
   private toggle(e: MouseEvent) {

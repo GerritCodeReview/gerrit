@@ -16,6 +16,7 @@ package com.google.gerrit.common;
 
 public class Die extends RuntimeException {
   private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID1 = 1L;
 
   public Die(String why) {
     super(why);

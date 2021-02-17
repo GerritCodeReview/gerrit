@@ -19,6 +19,7 @@ import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrEndpointParam} from '../../plugins/gr-endpoint-param/gr-endpoint-param';
+import {RenderPreferences} from '../../../api/diff';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -30,9 +31,10 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
     private readonly _baseImage: ImageInfo | null,
-    private readonly _revisionImage: ImageInfo | null
+    private readonly _revisionImage: ImageInfo | null,
+    renderPrefs?: RenderPreferences
   ) {
-    super(diff, prefs, outputEl, []);
+    super(diff, prefs, outputEl, [], renderPrefs);
   }
 
   public renderDiff() {

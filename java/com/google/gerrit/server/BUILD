@@ -62,7 +62,6 @@ java_library(
         "//java/com/google/gerrit/server/util/git",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/util/cli",
-        "//java/com/google/gerrit/util/ssl",
         "//java/org/apache/commons/net",
         "//lib:args4j",
         "//lib:autolink",
@@ -144,7 +143,6 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":server",
-        "//java/com/google/gerrit/auth",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/logging",

@@ -12,7 +12,6 @@ java_library(
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/metrics/dropwizard",
         "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/cache/mem",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",

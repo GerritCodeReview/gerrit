@@ -9,7 +9,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
-        "//java/org/apache/commons/net",
         "//lib:gson",
     ],
 )

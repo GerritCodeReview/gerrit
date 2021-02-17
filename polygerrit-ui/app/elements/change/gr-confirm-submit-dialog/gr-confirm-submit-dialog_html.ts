@@ -53,7 +53,7 @@ export const htmlTemplate = html`
           <template is="dom-if" if="[[change.is_private]]">
             <p>
               <iron-icon
-                icon="gr-icons:error"
+                icon="gr-icons:warning"
                 class="warningBeforeSubmit"
               ></iron-icon>
               <strong>Heads Up!</strong>
@@ -63,7 +63,7 @@ export const htmlTemplate = html`
           <template is="dom-if" if="[[change.unresolved_comment_count]]">
             <p>
               <iron-icon
-                icon="gr-icons:error"
+                icon="gr-icons:warning"
                 class="warningBeforeSubmit"
               ></iron-icon>
               [[_computeUnresolvedCommentsWarning(change)]]

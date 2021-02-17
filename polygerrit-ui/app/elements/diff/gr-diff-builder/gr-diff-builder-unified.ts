@@ -20,15 +20,17 @@ import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
+import {RenderPreferences} from '../../../api/diff';
 
 export class GrDiffBuilderUnified extends GrDiffBuilder {
   constructor(
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
-    readonly layers: DiffLayer[] = []
+    readonly layers: DiffLayer[] = [],
+    renderPrefs?: RenderPreferences
   ) {
-    super(diff, prefs, outputEl, layers);
+    super(diff, prefs, outputEl, layers, renderPrefs);
   }
 
   _getMoveControlsConfig() {

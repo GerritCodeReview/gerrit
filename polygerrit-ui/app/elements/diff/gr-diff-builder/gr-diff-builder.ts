@@ -17,6 +17,7 @@
 import {
   ContentLoadNeededEventDetail,
   MovedLinkClickedEventDetail,
+  RenderPreferences,
 } from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
 import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
@@ -76,6 +77,8 @@ export abstract class GrDiffBuilder {
 
   private readonly _prefs: DiffPreferencesInfo;
 
+  private readonly _renderPrefs?: RenderPreferences;
+
   protected readonly _outputEl: HTMLElement;
 
   readonly groups: GrDiffGroup[];
@@ -92,7 +95,8 @@ export abstract class GrDiffBuilder {
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
-    readonly layers: DiffLayer[] = []
+    readonly layers: DiffLayer[] = [],
+    renderPrefs?: RenderPreferences
   ) {
     this._diff = diff;
     this._numLinesLeft = this._diff.content
@@ -102,6 +106,7 @@ export abstract class GrDiffBuilder {
         }, 0)
       : 0;
     this._prefs = prefs;
+    this._renderPrefs = renderPrefs;
     this._outputEl = outputEl;
     this.groups = [];
     this._blameInfo = null;
@@ -542,7 +547,9 @@ export abstract class GrDiffBuilder {
       td.dataset['value'] = number.toString();
 
       if (
-        (this._prefs.show_file_comment_button === false && number === 'FILE') ||
+        ((this._prefs.show_file_comment_button === false ||
+          this._renderPrefs?.show_file_comment_button) === false &&
+          number === 'FILE') ||
         number === 'LOST'
       ) {
         return td;

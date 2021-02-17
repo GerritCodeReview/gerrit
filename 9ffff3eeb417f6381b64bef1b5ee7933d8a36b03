@@ -16,6 +16,288 @@
       "message": "I was recently asked to produce a design doc for gerrit, so I\u0027m updating this a bit.\n\nThere is a lot of stuff that is historically interesting, but not very relevant today. Most of it I simply deleted, but happy to hear suggestions on what to replace it with.",
       "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43fdec45_ad7b0656",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "Thanks for taking a stab at this. I threw some comments in and I can try to do more to help with updating content if you need it.",
+      "parentUuid": "77ec2ef3_f0defb2a",
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42119464_3a908b8c",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "leave the \"and an SQL database\" at the end of this sentence? Otherwise the next line discussing replacing it seems to lack context.",
+      "range": {
+        "startLine": 47,
+        "startChar": 27,
+        "endLine": 47,
+        "endChar": 28
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7a38f2c_d341dd1b",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "or HTTPS (update the next sentence too)",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 11
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a382051_f4beb8b7",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "This seems inaccurate? I know there are plugins that try to provide this, but Gerrit out of the box doesn\u0027t.",
+      "range": {
+        "startLine": 69,
+        "startChar": 29,
+        "endLine": 71,
+        "endChar": 26
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9b2c1e2_8c43daba",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "Add the GitHub equivalent too while here?",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 91,
+        "endChar": 33
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d713f4bc_6f29bebb",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "unfinished phrase? \"a Git ref\"?",
+      "range": {
+        "startLine": 137,
+        "startChar": 31,
+        "endLine": 137,
+        "endChar": 39
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "070686fc_f2aa351c",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "doesn\u0027t read correctly (applies to this whole paragraph really, not sure what the intent here is).",
+      "range": {
+        "startLine": 137,
+        "startChar": 58,
+        "endLine": 138,
+        "endChar": 7
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42e98f74_734279f5",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "Is this still true with PG?",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 32
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3b4fa04_a0dbdd70",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "or HTTP",
+      "range": {
+        "startLine": 262,
+        "startChar": 12,
+        "endLine": 262,
+        "endChar": 15
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7e02c9a_5d959946",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "same thing now?",
+      "range": {
+        "startLine": 360,
+        "startChar": 13,
+        "endLine": 360,
+        "endChar": 45
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9099ef52_27b997e7",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "Could reference the ha-plugin here? Or more generally \"some plugins [link to plugins summary doc page] try to enhance this functionality\"?",
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ed05596_e49cf4c0",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "link?",
+      "range": {
+        "startLine": 382,
+        "startChar": 19,
+        "endLine": 382,
+        "endChar": 37
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d34324b_0850f7ea",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-17T19:28:27Z",
+      "side": 1,
+      "message": "What about the files in $site_dir/logs/ ?",
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

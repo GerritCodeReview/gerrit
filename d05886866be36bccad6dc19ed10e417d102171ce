@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7e5ea63_4f35f51e",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-17T09:34:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4cf9e37_a6dc6017",
+      "range": {
+        "startLine": 582,
+        "startChar": 1,
+        "endLine": 583,
+        "endChar": 47
+      },
+      "revId": "d05886866be36bccad6dc19ed10e417d102171ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5d2877f_5264c135",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-17T07:39:42Z",
       "side": 1,
       "message": "It\u0027s simple to test the lazyload case as well:\n\n    try (AutoCloseable ignored \u003d disableNoteDb()) {\n     ChangeInfo change \u003d Iterables.getOnlyElement(gApi.changes()\n                  .query()\n                  .withQuery(\"change:\" + changeId)\n                  .get());\n      ... assert that newly crafted ID is there ...\n    }",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 3
+      },
+      "revId": "d05886866be36bccad6dc19ed10e417d102171ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "298aa607_d46e17b5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-17T09:34:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5d2877f_5264c135",
       "range": {
         "startLine": 39,
         "startChar": 2,

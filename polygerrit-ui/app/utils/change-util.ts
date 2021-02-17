@@ -21,6 +21,7 @@ import {
   PatchSetNum,
   ChangeInfo,
   AccountInfo,
+  RelatedChangeAndCommitInfo,
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
 
@@ -224,4 +225,10 @@ export function isRemovableReviewer(
       account._account_id === reviewer._account_id ||
       (!reviewer._account_id && account.email === reviewer.email)
   );
+}
+
+export function isChangeInfo(
+  x: ChangeInfo | RelatedChangeAndCommitInfo | ParsedChangeInfo
+): x is ChangeInfo | ParsedChangeInfo {
+  return (x as ChangeInfo)._number !== undefined;
 }

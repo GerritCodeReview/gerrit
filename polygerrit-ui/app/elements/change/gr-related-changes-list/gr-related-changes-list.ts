@@ -26,7 +26,11 @@ import {htmlTemplate} from './gr-related-changes-list_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {ChangeStatus} from '../../../constants/constants';
 
-import {changeIsOpen, getRevisionKey} from '../../../utils/change-util';
+import {
+  changeIsOpen,
+  getRevisionKey,
+  isChangeInfo,
+} from '../../../utils/change-util';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
@@ -46,12 +50,6 @@ import {ParsedChangeInfo} from '../../../types/types';
 
 function getEmptySubmitTogetherInfo(): SubmittedTogetherInfo {
   return {changes: [], non_visible_changes: 0};
-}
-
-function isChangeInfo(
-  x: ChangeInfo | RelatedChangeAndCommitInfo
-): x is ChangeInfo {
-  return (x as ChangeInfo)._number !== undefined;
 }
 
 @customElement('gr-related-changes-list')

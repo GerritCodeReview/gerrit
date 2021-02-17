@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {html, nothing} from 'lit-html';
+import './gr-related-change';
 import {classMap} from 'lit-html/directives/class-map';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {customElement, property, css} from 'lit-element';
@@ -31,14 +32,7 @@ import {appContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {pluralize} from '../../../utils/string-util';
-import {ChangeStatus} from '../../../constants/constants';
-import {getRevisionKey} from '../../../utils/change-util';
-
-function isChangeInfo(
-  x: ChangeInfo | RelatedChangeAndCommitInfo | ParsedChangeInfo
-): x is ChangeInfo | ParsedChangeInfo {
-  return (x as ChangeInfo)._number !== undefined;
-}
+import {getRevisionKey, isChangeInfo} from '../../../utils/change-util';
 
 /** What is the maximum number of shown changes in collapsed list? */
 const MAX_CHANGES_WHEN_COLLAPSED = 3;
@@ -342,174 +336,9 @@ export class GrRelatedCollapse extends GrLitElement {
   }
 }
 
-@customElement('gr-related-change')
-export class GrRelatedChange extends GrLitElement {
-  @property()
-  change?: ChangeInfo | RelatedChangeAndCommitInfo;
-
-  @property()
-  href?: string;
-
-  @property()
-  isCurrentChange = false;
-
-  @property()
-  showSubmittableCheck = false;
-
-  @property()
-  showChangeStatus = false;
-
-  /*
-   * Needed for calculation if change is direct or indirect ancestor/descendant
-   * to current change.
-   */
-  @property()
-  connectedRevisions?: CommitId[];
-
-  static get styles() {
-    return [
-      sharedStyles,
-      css`
-        a {
-          display: block;
-        }
-        .changeContainer,
-        a {
-          max-width: 100%;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-        .changeContainer {
-          display: flex;
-        }
-        .strikethrough {
-          color: var(--deemphasized-text-color);
-          text-decoration: line-through;
-        }
-        .status {
-          color: var(--deemphasized-text-color);
-          font-weight: var(--font-weight-bold);
-          margin-left: var(--spacing-xs);
-        }
-        .notCurrent {
-          color: #e65100;
-        }
-        .indirectAncestor {
-          color: #33691e;
-        }
-        .submittableCheck {
-          padding-left: var(--spacing-s);
-          color: var(--positive-green-text-color);
-          display: none;
-        }
-        .submittableCheck.submittable {
-          display: inline;
-        }
-        .hidden,
-        .mobile {
-          display: none;
-        }
-        .submittableCheck {
-          padding-left: var(--spacing-s);
-          color: var(--positive-green-text-color);
-          display: none;
-        }
-        .submittableCheck.submittable {
-          display: inline;
-        }
-        .arrowToCurrentChange {
-          position: absolute;
-        }
-      `,
-    ];
-  }
-
-  render() {
-    const change = this.change;
-    if (!change) throw new Error('Missing change');
-    const linkClass = this._computeLinkClass(change);
-    return html`<span
-        role="img"
-        class="arrowToCurrentChange"
-        aria-label="Arrow marking current change"
-        ?hidden=${!this.isCurrentChange}
-        >➔</span
-      >
-      <div class="changeContainer">
-        <a href="${this.href}" class="${linkClass}"><slot></slot></a>
-        ${this.showSubmittableCheck
-          ? html`<span
-              tabindex="-1"
-              title="Submittable"
-              class="submittableCheck ${linkClass}"
-              role="img"
-              aria-label="Submittable"
-              >✓</span
-            >`
-          : ''}
-        ${this.showChangeStatus && !isChangeInfo(change)
-          ? html`<span class="${this._computeChangeStatusClass(change)}">
-              (${this._computeChangeStatus(change)})
-            </span>`
-          : ''}
-      </div> `;
-  }
-
-  _computeLinkClass(change: ChangeInfo | RelatedChangeAndCommitInfo) {
-    const statuses = [];
-    if (change.status === ChangeStatus.ABANDONED) {
-      statuses.push('strikethrough');
-    }
-    if (change.submittable) {
-      statuses.push('submittable');
-    }
-    return statuses.join(' ');
-  }
-
-  _computeChangeStatusClass(change: RelatedChangeAndCommitInfo) {
-    const classes = ['status'];
-    if (change._revision_number !== change._current_revision_number) {
-      classes.push('notCurrent');
-    } else if (this._isIndirectAncestor(change)) {
-      classes.push('indirectAncestor');
-    } else if (change.submittable) {
-      classes.push('submittable');
-    } else if (change.status === ChangeStatus.NEW) {
-      classes.push('hidden');
-    }
-    return classes.join(' ');
-  }
-
-  _computeChangeStatus(change: RelatedChangeAndCommitInfo) {
-    switch (change.status) {
-      case ChangeStatus.MERGED:
-        return 'Merged';
-      case ChangeStatus.ABANDONED:
-        return 'Abandoned';
-    }
-    if (change._revision_number !== change._current_revision_number) {
-      return 'Not current';
-    } else if (this._isIndirectAncestor(change)) {
-      return 'Indirect ancestor';
-    } else if (change.submittable) {
-      return 'Submittable';
-    }
-    return '';
-  }
-
-  _isIndirectAncestor(change: RelatedChangeAndCommitInfo) {
-    return (
-      this.connectedRevisions &&
-      !this.connectedRevisions.includes(change.commit.commit)
-    );
-  }
-}
-
 declare global {
   interface HTMLElementTagNameMap {
     'gr-related-changes-list-experimental': GrRelatedChangesListExperimental;
     'gr-related-collapse': GrRelatedCollapse;
-    'gr-related-change': GrRelatedChange;
   }
 }

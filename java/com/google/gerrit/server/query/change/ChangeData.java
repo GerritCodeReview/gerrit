@@ -600,6 +600,7 @@ public class ChangeData {
       author = c.getAuthorIdent();
       committer = c.getCommitterIdent();
       parentCount = c.getParentCount();
+      merge = parentCount > 0;
     } catch (IOException e) {
       throw new StorageException(
           String.format(
@@ -961,7 +962,7 @@ public class ChangeData {
         return null;
       }
     }
-    return parentCount > 1;
+    return merge;
   }
 
   public Set<Account.Id> editsByUser() {

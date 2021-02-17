@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6260a845_df3004d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-17T22:33:11Z",
+      "side": 1,
+      "message": "@Han-Wen @DavidO this is my first Noop build on our CI that uses RBE.\nFrom the checks metrics, the RBE side took 32 minutes, which looks a bit high for a Noop build though.\n\nAlso, from the output log, I believe the tests were not executed all on RBE, but some of them were local:\nINFO: 1197 processes: 739 internal, 458 remote.\n\nCan you double-check if is there anything that we missed in the RBE settings?\n\nLast but not least, it looked to me that RBE used Java 11 whilst it was supposed to validate on Java 8.",
+      "revId": "790b2c0e144dfa44253faf07949d1038e1c80aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

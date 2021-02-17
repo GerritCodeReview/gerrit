@@ -76,8 +76,6 @@ const styleSheet = safeStyleSheet`
     --info-background: var(--blue-50);
     --selected-foreground: var(--blue-700);
     --selected-background: var(--blue-50);
-    --info-deemphasized-foreground: var(--gray-300);
-    --info-deemphasized-background: var(--gray-50);
     --success-foreground: var(--green-700);
     --success-background: var(--green-50);
     --gray-foreground: var(--gray-700);

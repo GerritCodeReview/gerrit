@@ -56,6 +56,30 @@
       },
       "revId": "6fb355d0baae3285904957b71049db13d8a5c41b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd2b8a09_65d03adf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-18T11:31:18Z",
+      "side": 1,
+      "message": "Running into some issues. TS doesn\u0027t realise value cannot be undefined after using checkProperty().\nProbably best to fix it for the entire project in one go. \nI can do it in a follow up change.",
+      "parentUuid": "144f30fa_f9e52f0d",
+      "range": {
+        "startLine": 325,
+        "startChar": 3,
+        "endLine": 327,
+        "endChar": 68
+      },
+      "revId": "6fb355d0baae3285904957b71049db13d8a5c41b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eee76eea_17974ea5",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-18T10:07:17Z",
+      "side": 1,
+      "message": "Ah right, I forgot about this problem.",
+      "parentUuid": "2b4af36f_5de080c6",
+      "range": {
+        "startLine": 498,
+        "startChar": 18,
+        "endLine": 498,
+        "endChar": 20
+      },
+      "revId": "bb8a3f5e14d678b33560384152fbdabf478ddd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c325ad25_4f7a39af",

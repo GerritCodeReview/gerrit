@@ -16,34 +16,39 @@ package com.google.gerrit.server.patch;
 
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
-import static java.util.Objects.requireNonNull;
 
+import com.google.auto.value.AutoValue;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Optional;
 
-public class ComparisonType {
+/** Relation between the old and new commits used in the diff. */
+@AutoValue
+public abstract class ComparisonType {
 
-  /** 1-based parent */
-  private final Integer parentNum;
+  /**
+   * 1-based parent. Available if the old commit is the parent of the new commit and old commit is
+   * not the auto-merge.
+   */
+  abstract Optional<Integer> parentNum();
 
-  private final boolean autoMerge;
+  abstract boolean autoMerge();
 
   public static ComparisonType againstOtherPatchSet() {
-    return new ComparisonType(null, false);
+    return new AutoValue_ComparisonType(Optional.empty(), false);
   }
 
   public static ComparisonType againstParent(int parentNum) {
-    return new ComparisonType(parentNum, false);
+    return new AutoValue_ComparisonType(Optional.of(parentNum), false);
   }
 
   public static ComparisonType againstAutoMerge() {
-    return new ComparisonType(null, true);
+    return new AutoValue_ComparisonType(Optional.empty(), true);
   }
 
-  private ComparisonType(Integer parentNum, boolean autoMerge) {
-    this.parentNum = parentNum;
-    this.autoMerge = autoMerge;
+  private static ComparisonType create(Optional<Integer> parent, boolean automerge) {
+    return new AutoValue_ComparisonType(parent, automerge);
   }
 
   public boolean isAgainstParentOrAutoMerge() {
@@ -51,27 +56,27 @@ public class ComparisonType {
   }
 
   public boolean isAgainstParent() {
-    return parentNum != null;
+    return parentNum().isPresent();
   }
 
   public boolean isAgainstAutoMerge() {
-    return autoMerge;
+    return autoMerge();
   }
 
-  public int getParentNum() {
-    requireNonNull(parentNum);
-    return parentNum;
+  /** Returns the parent number if it's present or null otherwise. */
+  public Integer getParentNum() {
+    return parentNum().isPresent() ? parentNum().get() : null;
   }
 
   void writeTo(OutputStream out) throws IOException {
-    writeVarInt32(out, parentNum != null ? parentNum : 0);
-    writeVarInt32(out, autoMerge ? 1 : 0);
+    writeVarInt32(out, isAgainstParent() ? parentNum().get() : 0);
+    writeVarInt32(out, autoMerge() ? 1 : 0);
   }
 
   static ComparisonType readFrom(InputStream in) throws IOException {
     int p = readVarInt32(in);
-    Integer parentNum = p > 0 ? p : null;
+    Optional<Integer> parentNum = p > 0 ? Optional.of(p) : Optional.empty();
     boolean autoMerge = readVarInt32(in) != 0;
-    return new ComparisonType(parentNum, autoMerge);
+    return create(parentNum, autoMerge);
   }
 }

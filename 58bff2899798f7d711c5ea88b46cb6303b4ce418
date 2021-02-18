@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39dec768_91533d0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-18T07:51:39Z",
+      "side": 1,
+      "message": "I\u0027m confused. AFAIK sticky approvals are not stored in NoteDb at all (except on submit), but ApprovalInference computes on read which of the approvals on old patch sets still apply to the current patch set. If NoteDb stores that a vote was sticky, how would this get updated in case the label definition is changed so that the vote is no longer sticky?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "58bff2899798f7d711c5ea88b46cb6303b4ce418",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

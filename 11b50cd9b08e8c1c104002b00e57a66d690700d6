@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8281138_539aa56b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-18T12:33:51Z",
+      "side": 1,
+      "message": "If it works with typescript compiler, LGTM.",
+      "revId": "11b50cd9b08e8c1c104002b00e57a66d690700d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63e84d62_feb74007",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-18T12:33:51Z",
+      "side": 1,
+      "message": "Maybe we can use it at least in some file :).",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 72,
+        "endChar": 31
+      },
+      "revId": "11b50cd9b08e8c1c104002b00e57a66d690700d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

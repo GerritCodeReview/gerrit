@@ -16,6 +16,46 @@
       "message": "PTAL",
       "revId": "6fb355d0baae3285904957b71049db13d8a5c41b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bc6f5a1_622d2bfa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-18T11:19:41Z",
+      "side": 1,
+      "message": "Just one nit.",
+      "revId": "6fb355d0baae3285904957b71049db13d8a5c41b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "144f30fa_f9e52f0d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-18T11:19:41Z",
+      "side": 1,
+      "message": "There are new methods `check` and `checkProperty` in common-util for this. Can you give them a try? Let me know if they are not working well for you.",
+      "range": {
+        "startLine": 325,
+        "startChar": 3,
+        "endLine": 327,
+        "endChar": 68
+      },
+      "revId": "6fb355d0baae3285904957b71049db13d8a5c41b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

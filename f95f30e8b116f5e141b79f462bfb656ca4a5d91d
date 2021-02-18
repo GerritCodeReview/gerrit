@@ -475,6 +475,30 @@
       },
       "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59c0417b_bed593ec",
+        "filename": "java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-18T16:50:11Z",
+      "side": 1,
+      "message": "I think we were talking past each other. I\u0027ve updated the comment to clarify.",
+      "parentUuid": "607de91a_1f937f44",
+      "range": {
+        "startLine": 96,
+        "startChar": 40,
+        "endLine": 96,
+        "endChar": 41
+      },
+      "revId": "f95f30e8b116f5e141b79f462bfb656ca4a5d91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

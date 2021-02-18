@@ -45,6 +45,54 @@
       },
       "revId": "75b1d9a5583d8d63daa14f06d5d22c90123d574e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20d156ef_201ebe9d",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-18T09:09:24Z",
+      "side": 1,
+      "message": "maybe, but I\u0027ll leave that for anyone who wants to do follow-up changes.",
+      "parentUuid": "693d6848_50f80cc7",
+      "range": {
+        "startLine": 107,
+        "startChar": 68,
+        "endLine": 108,
+        "endChar": 90
+      },
+      "revId": "75b1d9a5583d8d63daa14f06d5d22c90123d574e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bef2250_3fb88402",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-18T09:09:24Z",
+      "side": 1,
+      "message": "Hmm. OK - in that case, it\u0027s not clear what the distinction between Change and ChangeData is.\n\nI\u0027ll update the description.",
+      "parentUuid": "e0a95e5f_84f3c96d",
+      "range": {
+        "startLine": 108,
+        "startChar": 39,
+        "endLine": 108,
+        "endChar": 90
+      },
+      "revId": "75b1d9a5583d8d63daa14f06d5d22c90123d574e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -27,7 +27,7 @@ import {htmlTemplate} from './gr-create-repo-dialog_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {customElement, observe, property} from '@polymer/decorators';
-import {ProjectInput, RepoName} from '../../../types/common';
+import {BranchName, ProjectInput, RepoName} from '../../../types/common';
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {appContext} from '../../../services/app-context';
 
@@ -53,7 +53,11 @@ export class GrCreateRepoDialog extends GestureEventListeners(
     create_empty_commit: true,
     permissions_only: false,
     name: '' as RepoName,
+    branches: [],
   };
+
+  @property({type: String})
+  _defaultBranch?: BranchName;
 
   @property({type: Boolean})
   _repoCreated = false;
@@ -101,6 +105,7 @@ export class GrCreateRepoDialog extends GestureEventListeners(
   }
 
   handleCreateRepo() {
+    if (this._defaultBranch) this._repoConfig.branches = [this._defaultBranch];
     return this.restApiService
       .createRepo(this._repoConfig)
       .then(repoRegistered => {

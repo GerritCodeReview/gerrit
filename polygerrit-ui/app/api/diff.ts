@@ -162,7 +162,6 @@ export declare type DiffIntralineInfo = [SkipLength, MarkLength];
 export declare interface DiffPreferencesInfo {
   context: number;
   ignore_whitespace: IgnoreWhitespaceType;
-  intraline_difference?: boolean;
   line_length: number;
   show_line_endings?: boolean;
   show_tabs?: boolean;

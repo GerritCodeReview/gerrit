@@ -1374,7 +1374,6 @@ suite('gr-file-list tests', () => {
         line_length: 100,
         cursor_blink_rate: 0,
         line_wrapping: false,
-        intraline_difference: true,
         show_line_endings: true,
         show_tabs: true,
         show_whitespace_errors: true,

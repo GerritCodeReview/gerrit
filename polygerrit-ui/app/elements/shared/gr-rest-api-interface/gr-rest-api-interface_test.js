@@ -400,7 +400,6 @@ suite('gr-rest-api-interface tests', () => {
       assert.equal(obj.cursor_blink_rate, 0);
       assert.equal(obj.font_size, 12);
       assert.equal(obj.ignore_whitespace, 'IGNORE_NONE');
-      assert.equal(obj.intraline_difference, true);
       assert.equal(obj.line_length, 100);
       assert.equal(obj.line_wrapping, false);
       assert.equal(obj.show_line_endings, true);

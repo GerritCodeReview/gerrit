@@ -407,7 +407,6 @@ export function createDefaultDiffPrefs(): DiffPreferencesInfo {
     cursor_blink_rate: 0,
     font_size: 12,
     ignore_whitespace: 'IGNORE_NONE',
-    intraline_difference: true,
     line_length: 100,
     line_wrapping: false,
     show_line_endings: true,

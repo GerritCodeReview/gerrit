@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "485207f2_75b9fb3f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-18T11:28:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5a9d621_c5f83ada",
+      "revId": "ae96be1697a21eec9f0c0c9c1492dbc8b5e32967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8aa4d2d6_13acd4c9",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-02-18T10:32:21Z",
       "side": 1,
       "message": "You should not depend from types/ onto elements/.\n\nMove CommentTabState into types/.",
+      "revId": "ae96be1697a21eec9f0c0c9c1492dbc8b5e32967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09129942_6b673fe2",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-18T11:28:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8aa4d2d6_13acd4c9",
       "revId": "ae96be1697a21eec9f0c0c9c1492dbc8b5e32967",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

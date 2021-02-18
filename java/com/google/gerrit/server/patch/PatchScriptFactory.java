@@ -29,12 +29,14 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchScriptBuilder.IntraLineDiffCalculatorResult;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -51,6 +53,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
@@ -92,10 +95,13 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final ChangeEditUtil editReader;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
+  private final DiffOperations diffOperations;
 
   private final Change.Id changeId;
 
   private ChangeNotes notes;
+
+  private final boolean useNewDiffCache;
 
   @AssistedInject
   PatchScriptFactory(
@@ -106,6 +112,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       ChangeEditUtil editReader,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
+      DiffOperations diffOperations,
+      @GerritServerConfig Config cfg,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
@@ -120,6 +128,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.editReader = editReader;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
+    this.diffOperations = diffOperations;
 
     this.fileName = fileName;
     this.psa = patchSetA;
@@ -127,6 +136,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.psb = patchSetB;
     this.diffPrefs = diffPrefs;
     this.currentUser = currentUser;
+
+    this.useNewDiffCache = cfg.getBoolean("cache", "diff_cache", "useNewDiffCache_getDiff", false);
 
     changeId = patchSetB.changeId();
   }
@@ -140,6 +151,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       ChangeEditUtil editReader,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
+      DiffOperations diffOperations,
+      @GerritServerConfig Config cfg,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted int parentNum,
@@ -154,6 +167,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.editReader = editReader;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
+    this.diffOperations = diffOperations;
 
     this.fileName = fileName;
     this.psa = null;
@@ -161,6 +175,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.psb = patchSetB;
     this.diffPrefs = diffPrefs;
     this.currentUser = currentUser;
+
+    this.useNewDiffCache = cfg.getBoolean("cache", "diff_cache", "useNewDiffCache_getDiff", false);
 
     changeId = patchSetB.changeId();
     checkArgument(parentNum >= 0, "parentNum must be >= 0");
@@ -200,12 +216,27 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           bId = edit.get().getEditCommit();
         }
 
-        final PatchList list = listFor(keyFor(aId, bId, diffPrefs.ignoreWhitespace));
-        final PatchScriptBuilder b = newBuilder();
-        final PatchListEntry content = list.get(fileName);
-
-        return b.toPatchScript(git, list, content);
+        PatchScriptBuilder patchScriptBuilder = newBuilder();
+        if (useNewDiffCache) {
+          FileDiffOutput content =
+              aId == null
+                  ? diffOperations.getModifiedFileAgainstParent(
+                      notes.getProjectName(),
+                      bId,
+                      parentNum == -1 ? null : parentNum + 1,
+                      fileName,
+                      diffPrefs.ignoreWhitespace)
+                  : diffOperations.getModifiedFile(
+                      notes.getProjectName(), aId, bId, fileName, diffPrefs.ignoreWhitespace);
+          return patchScriptBuilder.toPatchScript(git, content);
+        } else {
+          PatchList list = listFor(keyFor(aId, bId, diffPrefs.ignoreWhitespace));
+          PatchListEntry content = list.get(fileName);
+          return patchScriptBuilder.toPatchScript(git, list, content);
+        }
       } catch (PatchListNotAvailableException e) {
+        throw new NoSuchChangeException(changeId, e);
+      } catch (DiffNotAvailableException e) {
         throw new NoSuchChangeException(changeId, e);
       } catch (IOException e) {
         logger.atSevere().withCause(e).log("File content unavailable");

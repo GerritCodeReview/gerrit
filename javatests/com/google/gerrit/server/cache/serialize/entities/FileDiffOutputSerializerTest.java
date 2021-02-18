@@ -19,10 +19,12 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Patch.PatchType;
+import com.google.gerrit.server.patch.ComparisonType;
 import com.google.gerrit.server.patch.filediff.Edit;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.patch.filediff.TaggedEdit;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 public class FileDiffOutputSerializerTest {
@@ -35,6 +37,9 @@ public class FileDiffOutputSerializerTest {
 
     FileDiffOutput fileDiff =
         FileDiffOutput.builder()
+            .oldCommitId(ObjectId.fromString("dd4d2a1498870ca5fe415b33f65d052d69d9eaf5"))
+            .newCommitId(ObjectId.fromString("0cfaab3f2ba76f71798da0a2651f41be8d45f842"))
+            .comparisonType(ComparisonType.againstOtherPatchSet())
             .oldPath(Optional.of("old_file_path.txt"))
             .newPath(Optional.empty())
             .changeType(ChangeType.DELETED)

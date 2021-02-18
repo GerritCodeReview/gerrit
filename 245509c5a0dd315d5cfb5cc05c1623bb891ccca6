@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66aa8666_098b75c4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-18T09:03:04Z",
+      "side": 1,
+      "message": "This should be sufficient:\n\n  td.classList.add(side);\n\nYou don\u0027t need to set the `dataset.value`.",
+      "revId": "245509c5a0dd315d5cfb5cc05c1623bb891ccca6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

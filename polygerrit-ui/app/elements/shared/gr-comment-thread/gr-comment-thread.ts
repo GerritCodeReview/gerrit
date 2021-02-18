@@ -60,6 +60,7 @@ import {GrButton} from '../gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences} from '../../../api/diff';
+import {check, checkProperty} from '../../../utils/common-util';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -330,6 +331,17 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       };
     }
     return undefined;
+  }
+
+  _getUrlForViewDiff(comments: UIComment[]) {
+    checkProperty(!!this.changeNum, 'changeNum');
+    checkProperty(!!this.projectName, 'projectName');
+    check(comments.length > 0, 'comment not found');
+    return GerritNav.getUrlForComment(
+      this.changeNum,
+      this.projectName,
+      comments[0].id!
+    );
   }
 
   _getDiffUrlForComment(

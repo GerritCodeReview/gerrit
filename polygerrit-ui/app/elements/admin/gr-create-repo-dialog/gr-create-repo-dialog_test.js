@@ -39,7 +39,6 @@ suite('gr-create-repo-dialog tests', () => {
       create_empty_commit: true,
       parent: 'All-Project',
       permissions_only: false,
-      owners: ['testId'],
     };
 
     const saveStub = stubRestApi('createRepo').returns(Promise.resolve({}));
@@ -55,10 +54,10 @@ suite('gr-create-repo-dialog tests', () => {
 
     element._repoOwner = 'test';
     element._repoOwnerId = 'testId';
+    element._defaultBranch = 'main';
 
     element.$.repoNameInput.bindValue = configInputObj.name;
     element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
-    element.$.ownerInput.text = configInputObj.owners[0];
     element.$.initialCommit.bindValue =
         configInputObj.create_empty_commit;
     element.$.parentRepo.bindValue =
@@ -69,14 +68,15 @@ suite('gr-create-repo-dialog tests', () => {
     assert.deepEqual(element._repoConfig, configInputObj);
 
     element.handleCreateRepo().then(() => {
-      assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
+      assert.isTrue(saveStub.lastCall.calledWithExactly(
+          {
+            ...configInputObj,
+            owners: ['testId'],
+            branches: ['main'],
+          }
+      ));
       done();
     });
-  });
-
-  test('testing observer of _repoOwner', () => {
-    element._repoOwnerId = 'test-5';
-    assert.deepEqual(element._repoConfig.owners, ['test-5']);
   });
 });
 

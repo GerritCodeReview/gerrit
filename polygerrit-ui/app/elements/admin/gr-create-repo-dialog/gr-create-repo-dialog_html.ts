@@ -46,6 +46,17 @@ export const htmlTemplate = html`
         </iron-input>
       </section>
       <section>
+        <span class="title">Default Branch</span>
+        <iron-input autocomplete="off" bind-value="{{_defaultBranch}}">
+          <input
+            is="iron-input"
+            id="defaultBranchNameInput"
+            autocomplete="off"
+            bind-value="{{_defaultBranch}}"
+          />
+        </iron-input>
+      </section>
+      <section>
         <span class="title">Rights inherit from</span>
         <span class="value">
           <gr-autocomplete

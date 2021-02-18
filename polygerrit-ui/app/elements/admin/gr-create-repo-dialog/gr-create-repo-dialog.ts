@@ -27,7 +27,12 @@ import {htmlTemplate} from './gr-create-repo-dialog_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {customElement, observe, property} from '@polymer/decorators';
-import {ProjectInput, RepoName} from '../../../types/common';
+import {
+  BranchName,
+  GroupId,
+  ProjectInput,
+  RepoName,
+} from '../../../types/common';
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {appContext} from '../../../services/app-context';
 
@@ -53,7 +58,11 @@ export class GrCreateRepoDialog extends GestureEventListeners(
     create_empty_commit: true,
     permissions_only: false,
     name: '' as RepoName,
+    branches: [],
   };
+
+  @property({type: String})
+  _defaultBranch?: BranchName;
 
   @property({type: Boolean})
   _repoCreated = false;
@@ -62,7 +71,7 @@ export class GrCreateRepoDialog extends GestureEventListeners(
   _repoOwner?: string;
 
   @property({type: String})
-  _repoOwnerId?: string;
+  _repoOwnerId?: GroupId;
 
   @property({type: Object})
   _query: AutocompleteQuery;
@@ -91,16 +100,9 @@ export class GrCreateRepoDialog extends GestureEventListeners(
     this.hasNewRepoName = !!name;
   }
 
-  @observe('_repoOwnerId')
-  _repoOwnerIdUpdate(id?: string) {
-    if (id) {
-      this.set('_repoConfig.owners', [id]);
-    } else {
-      this.set('_repoConfig.owners', undefined);
-    }
-  }
-
   handleCreateRepo() {
+    if (this._defaultBranch) this._repoConfig.branches = [this._defaultBranch];
+    if (this._repoOwnerId) this._repoConfig.owners = [this._repoOwnerId];
     return this.restApiService
       .createRepo(this._repoConfig)
       .then(repoRegistered => {

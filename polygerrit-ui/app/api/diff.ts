@@ -169,7 +169,6 @@ export declare interface DiffPreferencesInfo {
   show_whitespace_errors?: boolean;
   skip_uncommented?: boolean;
   syntax_highlighting?: boolean;
-  auto_hide_diff_table_header?: boolean;
   tab_size: number;
   font_size: number;
   // TODO: Missing documentation

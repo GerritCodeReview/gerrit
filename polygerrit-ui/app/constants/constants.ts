@@ -403,7 +403,6 @@ export function createDefaultPreferences() {
 // (Render mode being at least one of them).
 export function createDefaultDiffPrefs(): DiffPreferencesInfo {
   return {
-    auto_hide_diff_table_header: true,
     context: 10,
     cursor_blink_rate: 0,
     font_size: 12,

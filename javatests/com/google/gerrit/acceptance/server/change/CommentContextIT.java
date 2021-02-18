@@ -19,11 +19,9 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.MoreCollectors;
-import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -148,12 +146,10 @@ public class CommentContextIT extends AbstractDaemonTest {
         CommentsUtil.newComment(COMMIT_MSG, Side.REVISION, 100, "comment", false);
     CommentsUtil.addComments(gApi, changeId, ps1, comment);
 
-    Throwable thrown =
-        assertThrows(
-            UncheckedExecutionException.class,
-            () -> gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList());
-
-    assertThat(thrown).hasCauseThat().hasMessageThat().contains("Invalid comment range");
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList();
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).contextLines).isEmpty();
   }
 
   @Test

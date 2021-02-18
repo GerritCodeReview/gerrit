@@ -70,6 +70,24 @@
       "parentUuid": "602a9bd4_c1c32dec",
       "revId": "646c8157bf12eb33ab47687e34fdc4f55c5a2e01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ad13be1_f425d322",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteAssignee.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-18T07:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "602a9bd4_c1c32dec",
+      "revId": "646c8157bf12eb33ab47687e34fdc4f55c5a2e01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

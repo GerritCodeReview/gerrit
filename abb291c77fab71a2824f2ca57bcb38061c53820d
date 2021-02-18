@@ -22,6 +22,30 @@
       },
       "revId": "abb291c77fab71a2824f2ca57bcb38061c53820d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9695e469_5d6261e3",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-18T13:10:54Z",
+      "side": 1,
+      "message": "Thanks. That would be better.\n\nI\u0027d submit this change for now to avoid round trip, especially that I still need to import and cherry pick.",
+      "parentUuid": "4558a2fb_18af4ba2",
+      "range": {
+        "startLine": 160,
+        "startChar": 24,
+        "endLine": 160,
+        "endChar": 70
+      },
+      "revId": "abb291c77fab71a2824f2ca57bcb38061c53820d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

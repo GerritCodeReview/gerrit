@@ -67,6 +67,7 @@ const SEARCH_OPERATORS = [
   'is:assigned',
   'is:closed',
   'is:ignored',
+  'is:merge',
   'is:merged',
   'is:open',
   'is:owner',

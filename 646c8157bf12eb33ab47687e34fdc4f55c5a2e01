@@ -16,6 +16,24 @@
       "message": "If wonder if this call is still needed in a NoteDb-only world. Can it be dropped?",
       "revId": "646c8157bf12eb33ab47687e34fdc4f55c5a2e01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8b7a6a1_fcb5e837",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteAssignee.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-18T07:55:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2941c49_16333b32",
+      "revId": "646c8157bf12eb33ab47687e34fdc4f55c5a2e01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

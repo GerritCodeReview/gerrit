@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb16f465_c4808033",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-18T11:46:58Z",
+      "side": 1,
+      "message": "Sorry for being pedantic: change-view should just know about tabState, but thread-list only cares about CommentTabState.",
+      "revId": "e989d60d23b829f8189bdc408b68d932135a3543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

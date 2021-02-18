@@ -34,6 +34,24 @@
       "parentUuid": "fa073ed1_5f5f85d5",
       "revId": "2ee8ef9487f2ce1b1e55a0338bedf7c9d5354094",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "792033bf_93312842",
+        "filename": "javatests/com/google/gerrit/server/mail/send/MailSoySauceProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-18T13:40:49Z",
+      "side": 1,
+      "message": "No worries. I handled that for you.\n\nNote: you could checkout the change (from the dotted menu at the top right -\u003e download patch), then edit the commit locally, amend and push.",
+      "parentUuid": "9b939395_f96d55be",
+      "revId": "2ee8ef9487f2ce1b1e55a0338bedf7c9d5354094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

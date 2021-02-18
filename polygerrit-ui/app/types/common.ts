@@ -1687,7 +1687,6 @@ export interface DiffPreferenceInput {
   show_tabs?: boolean;
   show_whitespace_errors?: boolean;
   skip_deleted?: boolean;
-  skip_uncommented?: boolean;
   syntax_highlighting?: boolean;
   hide_top_menu?: boolean;
   hide_line_numbers?: boolean;

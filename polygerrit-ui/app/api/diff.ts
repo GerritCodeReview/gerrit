@@ -166,7 +166,6 @@ export declare interface DiffPreferencesInfo {
   show_line_endings?: boolean;
   show_tabs?: boolean;
   show_whitespace_errors?: boolean;
-  skip_uncommented?: boolean;
   syntax_highlighting?: boolean;
   tab_size: number;
   font_size: number;

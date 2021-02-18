@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "081266f2_97f35cc9",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-02-18T15:20:05Z",
+      "side": 1,
+      "message": "Where this property come from? If it\u0027s from a parent element, it is better to add a property to GrRelatedCollapse, so the template of GrRelatedCollapse element doesn\u0027t depend on the outer context.",
+      "range": {
+        "startLine": 343,
+        "startChar": 21,
+        "endLine": 343,
+        "endChar": 41
+      },
+      "revId": "1231e6bb3fcf22065f1c53bc46791d70622cc0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

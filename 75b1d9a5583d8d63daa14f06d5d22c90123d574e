@@ -117,6 +117,30 @@
       },
       "revId": "75b1d9a5583d8d63daa14f06d5d22c90123d574e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a23799d0_2495a613",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-18T09:55:23Z",
+      "side": 1,
+      "message": "Yes, in my opinion ChangeData is poorly designed (at least for how it is used nowadays). For the creation a builder pattern would be much better. Also the lazy loading is not obvious for callers and makes trouble again and again, so having an immutable object instead would be better.\n\nI think the Change object is an historic artefact representing all data that was stored in the Changes db table, while ChangeData combined this data with data that was loaded from other db tables (e.g. patch set approvals etc.). With NoteDb this is ChangeNotes, but we cannot create ChangeNotes from index data. So ChangeData represents all data of a change independently of where it was loaded from (index or NoteDb). I think this code area would greatly benefit from a redesign.",
+      "parentUuid": "67a2a2ac_0cfba0e5",
+      "range": {
+        "startLine": 108,
+        "startChar": 39,
+        "endLine": 108,
+        "endChar": 90
+      },
+      "revId": "75b1d9a5583d8d63daa14f06d5d22c90123d574e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

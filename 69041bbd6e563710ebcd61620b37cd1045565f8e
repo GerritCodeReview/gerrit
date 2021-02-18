@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3d4c116_8ff1118d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-18T15:02:17Z",
+      "side": 1,
+      "message": "Not storing this in NoteDb is one thing, but PSAs are also stored in the change index and the ChangeNotesCache (there is a .proto definition and a converter). Did you consider these two places?\n\nFor more context: ApprovalInference is what generates PSAs for newer PSs based on older PSs.",
+      "revId": "69041bbd6e563710ebcd61620b37cd1045565f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8adf2f69_5ac16b50",

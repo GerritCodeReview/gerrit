@@ -93,6 +93,30 @@
       },
       "revId": "75b1d9a5583d8d63daa14f06d5d22c90123d574e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67a2a2ac_0cfba0e5",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-18T09:18:30Z",
+      "side": 1,
+      "message": "updated.\n\nThe setters seem like an antipattern, though? Shouldn\u0027t the changeIndex create the entire thing in one go, so it presents an immutable interface to the outside?\n\nAlso, why do we need a separate Change object?",
+      "parentUuid": "8bef2250_3fb88402",
+      "range": {
+        "startLine": 108,
+        "startChar": 39,
+        "endLine": 108,
+        "endChar": 90
+      },
+      "revId": "75b1d9a5583d8d63daa14f06d5d22c90123d574e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

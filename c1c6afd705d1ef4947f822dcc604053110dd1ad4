@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0ae6a34_addff708",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-18T17:35:56Z",
+      "side": 1,
+      "message": "Which ones?",
+      "parentUuid": "168be868_21ea5568",
+      "revId": "c1c6afd705d1ef4947f822dcc604053110dd1ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50a13848_2726b0ef",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "771d691a_10f6aec9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-18T17:35:56Z",
+      "side": 1,
+      "message": "You are commenting on a range that I have not changed?",
+      "parentUuid": "50a13848_2726b0ef",
+      "range": {
+        "startLine": 323,
+        "startChar": 12,
+        "endLine": 324,
+        "endChar": 20
+      },
+      "revId": "c1c6afd705d1ef4947f822dcc604053110dd1ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b25c52fc_f47810bb",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-02-18T15:12:20Z",
       "side": 1,
       "message": "Where is this method used?",
+      "range": {
+        "startLine": 336,
+        "startChar": 2,
+        "endLine": 336,
+        "endChar": 20
+      },
+      "revId": "c1c6afd705d1ef4947f822dcc604053110dd1ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34c2aa9a_b4dfaa97",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-18T17:35:56Z",
+      "side": 1,
+      "message": "In the HTML template.\n\nMy change does not add this method.",
+      "parentUuid": "b25c52fc_f47810bb",
       "range": {
         "startLine": 336,
         "startChar": 2,

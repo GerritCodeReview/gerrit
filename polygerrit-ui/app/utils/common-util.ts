@@ -67,6 +67,18 @@ export function checkProperty(
 }
 
 /**
+ * Throws an error if the property is not defined.
+ */
+export function assertIsDefined<T>(
+  val: T,
+  variableName = 'variable'
+): asserts val is NonNullable<T> {
+  if (val === undefined || val === null) {
+    throw new Error(`${variableName} is not defined`);
+  }
+}
+
+/**
  * Returns true, if both sets contain the same members.
  */
 export function areSetsEqual<T>(a: Set<T>, b: Set<T>): boolean {

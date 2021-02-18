@@ -118,7 +118,7 @@ import {
   GrCommentApi,
   ChangeComments,
 } from '../../diff/gr-comment-api/gr-comment-api';
-import {hasOwnProperty} from '../../../utils/common-util';
+import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
   CommentThread,
@@ -878,7 +878,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleCommitMessageSave(e: EditableContentSaveEvent) {
-    if (!this._change) throw new Error('missing required change property');
+    assertIsDefined(this._change, '_change');
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
     // Trim trailing whitespace from each line.
@@ -1419,7 +1419,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleMessageAnchorTap(e: CustomEvent<{id: string}>) {
-    if (!this._change) throw new Error('missing required change property');
+    assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     const hash = MSG_PREFIX + e.detail.id;
@@ -1701,7 +1701,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (this.shouldSuppressKeyboardShortcut(e)) {
       return;
     }
-    if (!this._change) throw new Error('missing required change property');
+    assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     if (this._patchRange.basePatchNum === ParentPatchSetNum) {
@@ -1715,7 +1715,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (this.shouldSuppressKeyboardShortcut(e)) {
       return;
     }
-    if (!this._change) throw new Error('missing required change property');
+    assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     if (this._patchRange.basePatchNum === ParentPatchSetNum) {
@@ -1729,7 +1729,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (this.shouldSuppressKeyboardShortcut(e)) {
       return;
     }
-    if (!this._change) throw new Error('missing required change property');
+    assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
@@ -1748,7 +1748,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (this.shouldSuppressKeyboardShortcut(e)) {
       return;
     }
-    if (!this._change) throw new Error('missing required change property');
+    assertIsDefined(this._change, '_change');
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
@@ -1767,7 +1767,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (this.shouldSuppressKeyboardShortcut(e)) {
       return;
     }
-    if (!this._change) throw new Error('missing required change property');
+    assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
@@ -1913,7 +1913,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _getProjectConfig() {
-    if (!this._change) throw new Error('missing required change property');
+    assertIsDefined(this._change, '_change');
     return this.restApiService
       .getProjectConfig(this._change.project)
       .then(config => {
@@ -2309,7 +2309,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
    * (`this._patchRange`) being defined.
    */
   _reloadPatchNumDependentResources(rightPatchNumChanged?: boolean) {
-    if (!this._changeNum) throw new Error('missing changeNum');
+    assertIsDefined(this._changeNum, '_changeNum');
     if (!this._patchRange?.patchNum) throw new Error('missing patchNum');
     const promises = [this._getCommitInfo(), this.$.fileList.reload()];
     if (rightPatchNumChanged)
@@ -2549,7 +2549,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     }
 
     this._updateCheckTimerHandle = this.async(() => {
-      if (!this._change) throw new Error('missing required change property');
+      assertIsDefined(this._change, '_change');
       const change = this._change;
       fetchChangeUpdates(change, this.restApiService).then(result => {
         let toastMessage = null;
@@ -2657,7 +2657,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
       GrEditControls
     >('#editControls');
     if (!controls) throw new Error('Missing edit controls');
-    if (!this._change) throw new Error('missing required change property');
+    assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     const path = e.detail.path;
@@ -2692,7 +2692,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!this._selectedRevision) {
       return;
     }
-    if (!this._change) throw new Error('missing required change property');
+    assertIsDefined(this._change, '_change');
 
     let patchNum: PatchSetNum;
     if (patchNumStr === 'edit') {
@@ -2740,7 +2740,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleStopEditTap() {
-    if (!this._change) throw new Error('missing required change property');
+    assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     GerritNav.navigateToChange(this._change, this._patchRange.patchNum);

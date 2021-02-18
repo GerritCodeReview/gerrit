@@ -61,6 +61,7 @@ import {
 import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {fireAlert} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -322,7 +323,7 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   _handlePortedMessageClick() {
-    if (!this.comment) throw new Error('comment not set');
+    assertIsDefined(this.comment, 'comment');
     this.reporting.reportInteraction('navigate-to-original-comment', {
       line: this.comment.line,
       range: this.comment.range,
@@ -496,10 +497,8 @@ export class GrComment extends KeyboardShortcutMixin(
     // prior to it being saved.
     this.cancelDebouncer(DEBOUNCER_STORE);
 
-    if (!this.comment?.path) throw new Error('Cannot erase Draft Comment');
-    if (this.changeNum === undefined) {
-      throw new Error('undefined changeNum');
-    }
+    assertIsDefined(this.comment?.path, 'comment.path');
+    assertIsDefined(this.changeNum, 'changeNum');
     this.storage.eraseDraftComment({
       changeNum: this.changeNum,
       patchNum: this._getPatchNum(),

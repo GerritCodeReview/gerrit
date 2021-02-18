@@ -45,6 +45,7 @@ import {HttpMethod, NotifyType} from '../../../constants/constants';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -326,7 +327,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
   }
 
   _handlePublishTap() {
-    if (!this._changeNum) throw new Error('missing changeNum');
+    assertIsDefined(this._changeNum, '_changeNum');
 
     const changeNum = this._changeNum;
     this._saveEdit().then(() => {
@@ -347,7 +348,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
           handleError
         )
         .then(() => {
-          if (!this._change) throw new Error('missing change');
+          assertIsDefined(this._change, '_change');
           GerritNav.navigateToChange(this._change);
         });
     });

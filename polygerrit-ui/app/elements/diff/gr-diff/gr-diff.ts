@@ -55,7 +55,11 @@ import {
   PolymerDomWrapper,
 } from '../../../types/types';
 import {CommentRangeLayer} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
-import {DiffViewMode, Side} from '../../../constants/constants';
+import {
+  createDefaultDiffPrefs,
+  DiffViewMode,
+  Side,
+} from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
@@ -77,7 +81,6 @@ const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
 
 const LARGE_DIFF_THRESHOLD_LINES = 10000;
 const FULL_CONTEXT = -1;
-const LIMITED_CONTEXT = 10;
 
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
 /**
@@ -968,8 +971,12 @@ export class GrDiff extends GestureEventListeners(
     this._debounceRenderDiffTable();
   }
 
-  _handleLimitedBypass() {
-    this._safetyBypass = LIMITED_CONTEXT;
+  _collapseContext() {
+    // Uses the default context amount if the preference is for the entire file.
+    this._safetyBypass =
+      this.prefs?.context && this.prefs.context >= 0
+        ? null
+        : createDefaultDiffPrefs().context;
     this._debounceRenderDiffTable();
   }
 
@@ -981,8 +988,15 @@ export class GrDiff extends GestureEventListeners(
     return errorMessage ? 'showError' : '';
   }
 
-  expandAllContext() {
-    this._handleFullBypass();
+  toggleAllContext() {
+    if (!this.prefs) {
+      return;
+    }
+    if (this._getBypassPrefs(this.prefs).context < 0) {
+      this._collapseContext();
+    } else {
+      this._handleFullBypass();
+    }
   }
 
   _computeNewlineWarning(warnLeft: boolean, warnRight: boolean) {

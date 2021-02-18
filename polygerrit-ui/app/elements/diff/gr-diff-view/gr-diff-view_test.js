@@ -63,7 +63,7 @@ suite('gr-diff-view tests', () => {
       kb.bindShortcut(Shortcut.OPEN_DIFF_PREFS, ',');
       kb.bindShortcut(Shortcut.TOGGLE_DIFF_MODE, 'm');
       kb.bindShortcut(Shortcut.TOGGLE_FILE_REVIEWED, 'r');
-      kb.bindShortcut(Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
+      kb.bindShortcut(Shortcut.TOGGLE_ALL_DIFF_CONTEXT, 'shift+x');
       kb.bindShortcut(Shortcut.EXPAND_ALL_COMMENT_THREADS, 'e');
       kb.bindShortcut(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
       kb.bindShortcut(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, 'shift+e');
@@ -508,11 +508,11 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(diffChangeStub.called);
     });
 
-    test('shift+x shortcut expands all diff context', () => {
-      const expandStub = sinon.stub(element.$.diffHost, 'expandAllContext');
+    test('shift+x shortcut toggles all diff context', () => {
+      const toggleStub = sinon.stub(element.$.diffHost, 'toggleAllContext');
       MockInteractions.pressAndReleaseKeyOn(element, 88, 'shift', 'x');
       flush();
-      assert.isTrue(expandStub.called);
+      assert.isTrue(toggleStub.called);
     });
 
     test('diff against base', () => {

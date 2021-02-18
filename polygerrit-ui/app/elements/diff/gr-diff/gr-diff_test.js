@@ -794,6 +794,43 @@ suite('gr-diff tests', () => {
       element.addEventListener('render', rendered);
       element._renderDiffTable();
     });
+
+    test('toggles expand context using bypass', async () => {
+      element.prefs = {...MINIMAL_PREFS, context: 3};
+
+      element.toggleAllContext();
+      element._renderDiffTable();
+      await flush();
+
+      assert.equal(element.prefs.context, 3);
+      assert.equal(element._safetyBypass, -1);
+      assert.equal(renderStub.firstCall.lastArg.context, -1);
+    });
+
+    test('toggles collapse context from bypass', async () => {
+      element.prefs = {...MINIMAL_PREFS, context: 3};
+      element._safetyBypass = -1;
+
+      element.toggleAllContext();
+      element._renderDiffTable();
+      await flush();
+
+      assert.equal(element.prefs.context, 3);
+      assert.isNull(element._safetyBypass);
+      assert.equal(renderStub.firstCall.lastArg.context, 3);
+    });
+
+    test('toggles collapse context from pref using default', async () => {
+      element.prefs = {...MINIMAL_PREFS, context: -1};
+
+      element.toggleAllContext();
+      element._renderDiffTable();
+      await flush();
+
+      assert.equal(element.prefs.context, -1);
+      assert.equal(element._safetyBypass, 10);
+      assert.equal(renderStub.firstCall.lastArg.context, 10);
+    });
   });
 
   suite('blame', () => {

@@ -176,7 +176,7 @@ export enum Shortcut {
   VISIBLE_LINE = 'VISIBLE_LINE',
   NEXT_CHUNK = 'NEXT_CHUNK',
   PREV_CHUNK = 'PREV_CHUNK',
-  EXPAND_ALL_DIFF_CONTEXT = 'EXPAND_ALL_DIFF_CONTEXT',
+  TOGGLE_ALL_DIFF_CONTEXT = 'TOGGLE_ALL_DIFF_CONTEXT',
   NEXT_COMMENT_THREAD = 'NEXT_COMMENT_THREAD',
   PREV_COMMENT_THREAD = 'PREV_COMMENT_THREAD',
   EXPAND_ALL_COMMENT_THREADS = 'EXPAND_ALL_COMMENT_THREADS',
@@ -404,9 +404,9 @@ _describe(
   'Go to previous diff chunk'
 );
 _describe(
-  Shortcut.EXPAND_ALL_DIFF_CONTEXT,
+  Shortcut.TOGGLE_ALL_DIFF_CONTEXT,
   ShortcutSection.DIFFS,
-  'Expand all diff context'
+  'Toggle all diff context'
 );
 _describe(
   Shortcut.NEXT_COMMENT_THREAD,

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e6b2ffb_88fc7ace",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-18T16:23:58Z",
+      "side": 1,
+      "message": "I think this should be more precise. Should a tag or commit sha1 be referred to, instead?",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 16
+      },
+      "revId": "7346d0ba86145feb41c74c0061531f9a16901332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c11d06c_49d0df37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-18T16:23:58Z",
+      "side": 1,
+      "message": "separate (plural)",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "7346d0ba86145feb41c74c0061531f9a16901332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea3c64da_fa9eae15",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckProjectsCacheFlushEntries.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-18T16:23:58Z",
+      "side": 1,
+      "message": "Are the brackets necessary, or can a single space character be used instead? I\u0027m asking as the following ? should anyway only expect none or one such space.\n\nBut then, why supporting the possibility of having a space, as this change is about fixing its removal in 3.1? I would either ponder this or amend the commit message, accordingly.",
+      "range": {
+        "startLine": 40,
+        "startChar": 43,
+        "endLine": 40,
+        "endChar": 46
+      },
+      "revId": "7346d0ba86145feb41c74c0061531f9a16901332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

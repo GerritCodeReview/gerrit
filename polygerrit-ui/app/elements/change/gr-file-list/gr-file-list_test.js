@@ -1379,7 +1379,6 @@ suite('gr-file-list tests', () => {
         show_tabs: true,
         show_whitespace_errors: true,
         syntax_highlighting: true,
-        auto_hide_diff_table_header: true,
         theme: 'DEFAULT',
         ignore_whitespace: 'IGNORE_NONE',
       };

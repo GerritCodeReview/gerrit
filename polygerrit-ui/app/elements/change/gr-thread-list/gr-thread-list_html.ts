@@ -101,7 +101,7 @@ export const htmlTemplate = html`
             name="filterComments"
             type="radio"
             on-click="_handleOnlyUnresolved"
-            checked$="[[unresolvedOnly]]"
+            checked="[[unresolvedOnly]]"
           />
           <label for="unresolvedRadio">
             Unresolved ([[_countUnresolved(threads)]])
@@ -112,7 +112,7 @@ export const htmlTemplate = html`
             name="filterComments"
             type="radio"
             on-click="_handleOnlyDrafts"
-            checked$="[[_draftsOnly]]"
+            checked="[[_draftsOnly]]"
           />
           <label for="draftsRadio">
             Drafts ([[_countDrafts(threads)]])
@@ -123,7 +123,7 @@ export const htmlTemplate = html`
             name="filterComments"
             type="radio"
             on-click="_handleAllComments"
-            checked$="[[_showAllComments(_draftsOnly, unresolvedOnly)]]"
+            checked="[[_showAllComments(_draftsOnly, unresolvedOnly)]]"
           />
           <label for="all">
             All ([[_countAllThreads(threads)]])

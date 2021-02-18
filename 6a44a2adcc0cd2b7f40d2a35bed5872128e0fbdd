@@ -93,6 +93,30 @@
       },
       "revId": "6a44a2adcc0cd2b7f40d2a35bed5872128e0fbdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7532897b_ca4ecb75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-18T08:17:41Z",
+      "side": 1,
+      "message": "Static vars exist once per class (not per instance), hence as long as the same JVM runs tests in parallel they should all see the same static value.",
+      "parentUuid": "284fa96f_4e9d23fb",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "6a44a2adcc0cd2b7f40d2a35bed5872128e0fbdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

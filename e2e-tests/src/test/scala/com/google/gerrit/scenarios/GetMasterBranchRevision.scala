@@ -23,7 +23,7 @@ class GetMasterBranchRevision extends ProjectSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
   var revision: Option[String] = None
   val revisionKey = "revision"
-  val revisionPattern: String = "\"" + revisionKey + "\": \"(.+)\""
+  val revisionPattern: String = "\"" + revisionKey + "\":\"(.+)\""
 
   val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)

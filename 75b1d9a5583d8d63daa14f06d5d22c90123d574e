@@ -22,6 +22,29 @@
       },
       "revId": "75b1d9a5583d8d63daa14f06d5d22c90123d574e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0a95e5f_84f3c96d",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-18T07:40:10Z",
+      "side": 1,
+      "message": "I think this is not accurate. ChangeData cannot load anything from the index, but only from NoteDb.\n\nIt\u0027s rather like this:\nIf you do a change query the data from the index is just to instantiate and populate ChangeData (via setter methods). ChangeData itself doesn\u0027t know that this data that was retrieved from the index and it is not capable to retrieve data from the index by itself.\n\nBy default ChangeData lazily loads data from NoteDb when data is requested that is not present in the ChangeData instance. It is possible to disallow this by setting lazyLoad to false. In this case attempting to access data that is not present in the ChangeData instance fails.",
+      "range": {
+        "startLine": 108,
+        "startChar": 39,
+        "endLine": 108,
+        "endChar": 90
+      },
+      "revId": "75b1d9a5583d8d63daa14f06d5d22c90123d574e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
@@ -31,6 +33,8 @@ import com.google.gerrit.server.fixes.FixCalculator;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.patch.DiffContentCalculator.DiffCalculatorResult;
 import com.google.gerrit.server.patch.DiffContentCalculator.TextSource;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.patch.filediff.TaggedEdit;
 import com.google.inject.Inject;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
@@ -68,6 +72,7 @@ class PatchScriptBuilder {
     intralineDiffCalculator = calculator;
   }
 
+  /** Convert into PatchScript using the old diff cache output. */
   PatchScript toPatchScript(Repository git, PatchList list, PatchListEntry content)
       throws IOException {
 
@@ -84,6 +89,36 @@ class PatchScriptBuilder {
     ResolvedSides sides =
         resolveSides(
             git, sidesResolver, oldName(change), newName(change), list.getOldId(), list.getNewId());
+    return build(sides.a, sides.b, change);
+  }
+
+  /** Convert into PatchScript using the new diff cache output. */
+  PatchScript toPatchScript(Repository git, FileDiffOutput content) throws IOException {
+    PatchFileChange change =
+        new PatchFileChange(
+            content.edits().stream().map(TaggedEdit::jgitEdit).collect(toImmutableList()),
+            content.edits().stream()
+                .filter(TaggedEdit::dueToRebase)
+                .map(TaggedEdit::jgitEdit)
+                .collect(toImmutableSet()),
+            content.headerLines(),
+            content.oldPath().orElse(null),
+            // TODO(ghareeb): logic for new path is confusing. This is needed because
+            // PatchFileChange does some tricks with paths so that they're compatible with the old
+            // diff cache. Adding this todo to cleanup this stuff when the new diff cache becomes
+            // the default.
+            content.newPath().isPresent() ? content.newPath().get() : content.oldPath().get(),
+            content.changeType(),
+            content.patchType().orElse(null));
+    SidesResolver sidesResolver = new SidesResolver(git, content.comparisonType());
+    ResolvedSides sides =
+        resolveSides(
+            git,
+            sidesResolver,
+            oldName(change),
+            newName(change),
+            content.oldCommitId(),
+            content.newCommitId());
     return build(sides.a, sides.b, change);
   }
 

@@ -16,6 +16,24 @@
       "message": "This should be sufficient:\n\n  td.classList.add(side);\n\nYou don\u0027t need to set the `dataset.value`.",
       "revId": "245509c5a0dd315d5cfb5cc05c1623bb891ccca6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a72e89a_cd4f873b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-18T09:43:31Z",
+      "side": 1,
+      "message": "Thanks @Ben for the quick reply. Done.",
+      "parentUuid": "66aa8666_098b75c4",
+      "revId": "245509c5a0dd315d5cfb5cc05c1623bb891ccca6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

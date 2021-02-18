@@ -22,6 +22,30 @@
       },
       "revId": "1231e6bb3fcf22065f1c53bc46791d70622cc0ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6614f454_b845a949",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-18T15:37:49Z",
+      "side": 1,
+      "message": "Oh thanks, I forgot to remove it when I copied \u003ciron-icon\u003e",
+      "parentUuid": "081266f2_97f35cc9",
+      "range": {
+        "startLine": 343,
+        "startChar": 21,
+        "endLine": 343,
+        "endChar": 41
+      },
+      "revId": "1231e6bb3fcf22065f1c53bc46791d70622cc0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

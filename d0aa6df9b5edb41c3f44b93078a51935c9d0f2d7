@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2110eae4_a6cd6b76",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-18T16:37:04Z",
+      "side": 1,
+      "message": "we use default implementation to keep backward compatibility",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 3
+      },
+      "revId": "d0aa6df9b5edb41c3f44b93078a51935c9d0f2d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

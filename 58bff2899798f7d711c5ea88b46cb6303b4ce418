@@ -22,6 +22,30 @@
       },
       "revId": "58bff2899798f7d711c5ea88b46cb6303b4ce418",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fab80f8_837c8e44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-18T09:43:50Z",
+      "side": 1,
+      "message": "You\u0027re right, got confused since I don\u0027t want to store this in NoteDb, but this is a part of a serialised class that is stored in NoteDb. I hope that\u0027s fine.",
+      "parentUuid": "39dec768_91533d0b",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "58bff2899798f7d711c5ea88b46cb6303b4ce418",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

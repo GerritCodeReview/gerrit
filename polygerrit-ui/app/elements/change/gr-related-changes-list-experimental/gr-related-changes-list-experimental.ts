@@ -148,7 +148,7 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
               class="${classMap({
                 ['show-when-collapsed']: showWhenCollapsedPredicate(index),
               })}"
-              .currentChange="${this._changesEqual(change, this.change)}"
+              .isCurrentChange="${this._changesEqual(change, this.change)}"
               .change="${change}"
               .href="${GerritNav.getUrlForChangeById(
                 change._number,

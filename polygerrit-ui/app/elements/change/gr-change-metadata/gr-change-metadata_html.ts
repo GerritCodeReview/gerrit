@@ -115,6 +115,11 @@ export const htmlTemplate = html`
          commit message box. Their top border should be on the same line. */
       margin-bottom: var(--spacing-s);
     }
+    .show-all-button iron-icon {
+      color: inherit;
+      --iron-icon-height: 18px;
+      --iron-icon-width: 18px;
+    }
   </style>
   <gr-external-style id="externalStyle" name="change-metadata">
     <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">

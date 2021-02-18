@@ -318,7 +318,18 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   }
 
   getHighlightRange() {
-    return this.comments?.[0]?.range;
+    const comment = this.comments?.[0];
+    if (!comment) return undefined;
+    if (comment.range) return comment.range;
+    if (comment.line) {
+      return {
+        start_line: comment.line,
+        start_character: 0,
+        end_line: comment.line,
+        end_character: 0,
+      };
+    }
+    return undefined;
   }
 
   _getDiffUrlForComment(

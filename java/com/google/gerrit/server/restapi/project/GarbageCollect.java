@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.project.ProjectResource;
@@ -66,7 +65,7 @@ public class GarbageCollect
       DynamicItem<UrlFormatter> urlFormatter) {
     this.workQueue = workQueue;
     this.urlFormatter = urlFormatter;
-    this.canGC = repoManager instanceof LocalDiskRepositoryManager;
+    this.canGC = repoManager.canPerformGC();
     this.garbageCollectionFactory = garbageCollectionFactory;
   }
 

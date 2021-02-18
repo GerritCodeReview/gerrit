@@ -162,20 +162,15 @@ export declare type DiffIntralineInfo = [SkipLength, MarkLength];
 export declare interface DiffPreferencesInfo {
   context: number;
   ignore_whitespace: IgnoreWhitespaceType;
-  intraline_difference?: boolean;
   line_length: number;
   show_line_endings?: boolean;
   show_tabs?: boolean;
   show_whitespace_errors?: boolean;
-  skip_uncommented?: boolean;
   syntax_highlighting?: boolean;
-  auto_hide_diff_table_header?: boolean;
   tab_size: number;
   font_size: number;
   // TODO: Missing documentation
   show_file_comment_button?: boolean;
-  // TODO: Missing documentation
-  theme?: string;
 }
 
 export declare interface RenderPreferences {

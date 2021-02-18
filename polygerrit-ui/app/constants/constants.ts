@@ -403,12 +403,10 @@ export function createDefaultPreferences() {
 // (Render mode being at least one of them).
 export function createDefaultDiffPrefs(): DiffPreferencesInfo {
   return {
-    auto_hide_diff_table_header: true,
     context: 10,
     cursor_blink_rate: 0,
     font_size: 12,
     ignore_whitespace: 'IGNORE_NONE',
-    intraline_difference: true,
     line_length: 100,
     line_wrapping: false,
     show_line_endings: true,
@@ -416,7 +414,6 @@ export function createDefaultDiffPrefs(): DiffPreferencesInfo {
     show_whitespace_errors: true,
     syntax_highlighting: true,
     tab_size: 8,
-    theme: 'DEFAULT',
   };
 }
 

@@ -161,12 +161,10 @@ suite('gr-diff tests', () => {
         element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
         element.isImageDiff = true;
         element.prefs = {
-          auto_hide_diff_table_header: true,
           context: 10,
           cursor_blink_rate: 0,
           font_size: 12,
           ignore_whitespace: 'IGNORE_NONE',
-          intraline_difference: true,
           line_length: 100,
           line_wrapping: false,
           show_line_endings: true,
@@ -497,12 +495,11 @@ suite('gr-diff tests', () => {
           line_length: 100,
           cursor_blink_rate: 0,
           line_wrapping: false,
-          intraline_difference: true,
+
           show_line_endings: true,
           show_tabs: true,
           show_whitespace_errors: true,
           syntax_highlighting: true,
-          auto_hide_diff_table_header: true,
           theme: 'DEFAULT',
           ignore_whitespace: 'IGNORE_NONE',
         };
@@ -959,11 +956,10 @@ suite('gr-diff tests', () => {
     element = basicFixture.instantiate();
     element.prefs = {
       ignore_whitespace: ignore_whitespace || 'IGNORE_ALL',
-      auto_hide_diff_table_header: true,
       context: 10,
       cursor_blink_rate: 0,
       font_size: 12,
-      intraline_difference: true,
+
       line_length: 100,
       line_wrapping: false,
       show_line_endings: true,

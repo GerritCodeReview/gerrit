@@ -1680,7 +1680,6 @@ export interface DiffPreferenceInput {
   context?: number;
   expand_all_comments?: boolean;
   ignore_whitespace: IgnoreWhitespaceType;
-  intraline_difference?: boolean;
   line_length?: number;
   manual_review?: boolean;
   retain_header?: boolean;
@@ -1688,10 +1687,8 @@ export interface DiffPreferenceInput {
   show_tabs?: boolean;
   show_whitespace_errors?: boolean;
   skip_deleted?: boolean;
-  skip_uncommented?: boolean;
   syntax_highlighting?: boolean;
   hide_top_menu?: boolean;
-  auto_hide_diff_table_header?: boolean;
   hide_line_numbers?: boolean;
   tab_size?: number;
   font_size?: number;

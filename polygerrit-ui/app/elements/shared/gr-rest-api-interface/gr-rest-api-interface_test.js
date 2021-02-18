@@ -396,12 +396,10 @@ suite('gr-rest-api-interface tests', () => {
     sinon.stub(element, 'getLoggedIn').callsFake(() => Promise.resolve(false));
 
     return element.getDiffPreferences().then(obj => {
-      assert.equal(obj.auto_hide_diff_table_header, true);
       assert.equal(obj.context, 10);
       assert.equal(obj.cursor_blink_rate, 0);
       assert.equal(obj.font_size, 12);
       assert.equal(obj.ignore_whitespace, 'IGNORE_NONE');
-      assert.equal(obj.intraline_difference, true);
       assert.equal(obj.line_length, 100);
       assert.equal(obj.line_wrapping, false);
       assert.equal(obj.show_line_endings, true);
@@ -409,7 +407,6 @@ suite('gr-rest-api-interface tests', () => {
       assert.equal(obj.show_whitespace_errors, true);
       assert.equal(obj.syntax_highlighting, true);
       assert.equal(obj.tab_size, 8);
-      assert.equal(obj.theme, 'DEFAULT');
     });
   });
 

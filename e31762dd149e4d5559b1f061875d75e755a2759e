@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20685bfe_a59d8e23",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1411,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-18T08:01:36Z",
+      "side": 1,
+      "message": "nit: NoteDb (lowercase b) here and elsewhere",
+      "range": {
+        "startLine": 1411,
+        "startChar": 39,
+        "endLine": 1411,
+        "endChar": 41
+      },
+      "revId": "e31762dd149e4d5559b1f061875d75e755a2759e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e73098d8_6f193d82",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1506,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-18T08:01:36Z",
+      "side": 1,
+      "message": "Please use Java\u0027s built-in autocloseable:\n\ntry (AutoCloseable ctx \u003d disableNoteDb()) {\n...\n}\n\nNo need to call close in the finally, it will do that itself",
+      "range": {
+        "startLine": 1506,
+        "startChar": 6,
+        "endLine": 1506,
+        "endChar": 9
+      },
+      "revId": "e31762dd149e4d5559b1f061875d75e755a2759e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

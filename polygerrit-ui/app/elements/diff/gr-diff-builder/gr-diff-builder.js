@@ -294,6 +294,7 @@ GrDiffBuilder.prototype._createLineEl = function(
     line, number, type, side) {
   const td = this._createElement('td');
   if (line.type === GrDiffLine.Type.BLANK) {
+    this._decorateLineEl(td, number, side);
     return td;
   }
   if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {

@@ -77,6 +77,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
   private boolean intraline;
   private boolean useNewDiffCache;
+  private boolean useNewDiffCacheGetDiff;
 
   private ObjectId commit1;
   private String changeId;
@@ -91,6 +92,8 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     intraline = baseConfig.getBoolean(TEST_PARAMETER_MARKER, "intraline", false);
     useNewDiffCache = baseConfig.getBoolean("cache", "diff_cache", "useNewDiffCache", false);
+    useNewDiffCacheGetDiff =
+        baseConfig.getBoolean("cache", "diff_cache", "useNewDiffCache_getDiff", false);
 
     ObjectId headCommit = testRepo.getRepository().resolve("HEAD");
     commit1 =
@@ -2749,6 +2752,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   public void symlinkConvertedToRegularFileIsIdentifiedAsAdded() throws Exception {
     // TODO(ghareeb): fix this test for the new diff cache implementation
     assume().that(useNewDiffCache).isFalse();
+    assume().that(useNewDiffCacheGetDiff).isFalse();
 
     String target = "file.txt";
     String symlink = "link.lnk";

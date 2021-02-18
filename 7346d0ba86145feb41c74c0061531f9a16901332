@@ -68,6 +68,30 @@
       },
       "revId": "7346d0ba86145feb41c74c0061531f9a16901332",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22c2fd77_c8fff284",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckProjectsCacheFlushEntries.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1127770
+      },
+      "writtenOn": "2021-02-18T17:09:38Z",
+      "side": 1,
+      "message": "You can try \\\\s? instead [ ]?",
+      "parentUuid": "ea3c64da_fa9eae15",
+      "range": {
+        "startLine": 40,
+        "startChar": 43,
+        "endLine": 40,
+        "endChar": 46
+      },
+      "revId": "7346d0ba86145feb41c74c0061531f9a16901332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

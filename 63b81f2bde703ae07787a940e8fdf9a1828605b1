@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c30d3a3_bae23940",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-18T09:33:26Z",
+      "side": 1,
+      "message": "`bazelisk test javatests/...` passes\n\n",
+      "revId": "63b81f2bde703ae07787a940e8fdf9a1828605b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

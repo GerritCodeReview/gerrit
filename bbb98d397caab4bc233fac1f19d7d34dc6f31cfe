@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5dd59bb_b35c5d11",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-18T11:25:27Z",
+      "side": 1,
+      "message": "Maybe nicer?\n\n  const comment \u003d this.comments?.[0];\n  if (!comment) return undefined;\n  if (comment.range) return comment.range;\n  if (comment.line) {\n    return {start_line: comment.line, end_line: comment.line};\n  }\n  return undefined;",
+      "range": {
+        "startLine": 321,
+        "startChar": 4,
+        "endLine": 331,
+        "endChar": 6
+      },
+      "revId": "bbb98d397caab4bc233fac1f19d7d34dc6f31cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

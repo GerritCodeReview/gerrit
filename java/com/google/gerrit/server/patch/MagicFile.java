@@ -93,7 +93,7 @@ public abstract class MagicFile {
           }
         default:
           int uninterestingParent =
-              comparisonType.isAgainstParent() ? comparisonType.getParentNum() : 1;
+              comparisonType.isAgainstParent() ? comparisonType.getParentNum().get() : 1;
 
           b.append("Merge List:\n\n");
           for (RevCommit commit : MergeListBuilder.build(rw, c, uninterestingParent)) {

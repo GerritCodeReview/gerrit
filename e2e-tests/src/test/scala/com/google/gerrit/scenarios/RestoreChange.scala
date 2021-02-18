@@ -22,32 +22,27 @@ import io.gatling.http.Predef.http
 import scala.collection.mutable
 import scala.concurrent.duration.DurationInt
 
-class AbandonChange extends GerritSimulation {
+class RestoreChange extends GerritSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
   private val projectName = className
   private var numbersCopy: mutable.Queue[Int] = mutable.Queue[Int]()
-  private var createChange: Option[CreateChange] = Some(new CreateChange(projectName))
 
   override def relativeRuntimeWeight = 10
 
-  def this(createChange: CreateChange) {
-    this()
-    this.createChange = Some(createChange)
-  }
-
-  val test: ScenarioBuilder = scenario(uniqueName)
+  private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(session => {
-        if (createChange.nonEmpty) {
-          if (numbersCopy.isEmpty) {
-            numbersCopy = createChange.get.numbers.clone()
-          }
+        if (numbersCopy.isEmpty) {
+          numbersCopy = createChange.numbers.clone()
         }
         session.set("number", numbersCopy.dequeue())
-      })
-      .exec(http(uniqueName).post("${url}${number}/abandon"))
+      }
+      ).exec(http(uniqueName).post("${url}${number}/restore"))
 
   private val createProject = new CreateProject(projectName)
+  private val createChange = new CreateChange(projectName)
+  private val abandonChange = new AbandonChange(createChange)
+  private val deleteChange = new DeleteChange(createChange)
   private val deleteProject = new DeleteProject(projectName)
 
   setUp(
@@ -55,12 +50,20 @@ class AbandonChange extends GerritSimulation {
       nothingFor(stepWaitTime(createProject) seconds),
       atOnceUsers(single)
     ),
-    createChange.get.test.inject(
-      nothingFor(stepWaitTime(createChange.get) seconds),
+    createChange.test.inject(
+      nothingFor(stepWaitTime(createChange) seconds),
+      atOnceUsers(numberOfUsers)
+    ),
+    abandonChange.test.inject(
+      nothingFor(stepWaitTime(createChange) seconds),
       atOnceUsers(numberOfUsers)
     ),
     test.inject(
       nothingFor(stepWaitTime(this) seconds),
+      atOnceUsers(numberOfUsers)
+    ),
+    deleteChange.test.inject(
+      nothingFor(stepWaitTime(deleteChange) seconds),
       atOnceUsers(numberOfUsers)
     ),
     deleteProject.test.inject(

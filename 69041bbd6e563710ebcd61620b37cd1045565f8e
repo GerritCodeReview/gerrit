@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8adf2f69_5ac16b50",
+        "filename": "javatests/com/google/gerrit/entities/converter/PatchSetApprovalProtoConverterTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-18T14:53:54Z",
+      "side": 1,
+      "message": "I\u0027m unsure what adding the copiedOver field in PatchSetApproval means for the serialization. I think it\u0027s not only that the field doesn\u0027t need to be serialized, but rather that the field shouldn\u0027t/mustn\u0027t be serialized. Normally this is ensured by making a field transient, but not sure if/how this can work with AutoValue classes. I would prefer if Patrick has a look at this before submitting. Other than that the change LGTM.",
+      "range": {
+        "startLine": 179,
+        "startChar": 16,
+        "endLine": 180,
+        "endChar": 49
+      },
+      "revId": "69041bbd6e563710ebcd61620b37cd1045565f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

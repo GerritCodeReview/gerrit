@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5a9d621_c5f83ada",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-18T10:32:21Z",
+      "side": 1,
+      "message": "Let\u0027s store the entire TabState here. We also need that for the checks tab. And change-view should not care much about what exactly it is passing on.",
+      "revId": "ae96be1697a21eec9f0c0c9c1492dbc8b5e32967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8aa4d2d6_13acd4c9",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-18T10:32:21Z",
+      "side": 1,
+      "message": "You should not depend from types/ onto elements/.\n\nMove CommentTabState into types/.",
+      "revId": "ae96be1697a21eec9f0c0c9c1492dbc8b5e32967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

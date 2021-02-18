@@ -45,6 +45,7 @@ import {
 import {ReviewerState} from '../../../constants/constants';
 import {CURRENT} from '../../../utils/patch-set-util';
 import {isInvolved, isRemovableReviewer} from '../../../utils/change-util';
+import {assertIsDefined} from '../../../utils/common-util';
 
 @customElement('gr-hovercard-account')
 export class GrHovercardAccount extends GestureEventListeners(
@@ -163,7 +164,7 @@ export class GrHovercardAccount extends GestureEventListeners(
   }
 
   _handleChangeReviewerOrCCStatus() {
-    if (!this.change) throw new Error('expected change object to be present');
+    assertIsDefined(this.change, 'change');
     // accountKey() throws an error if _account_id & email is not found, which
     // we want to check before showing reloading toast
     const _accountKey = accountKey(this.account);

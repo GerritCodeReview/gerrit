@@ -71,6 +71,7 @@ import {
   RenderPreferences,
 } from '../../../api/diff';
 import {isSafari} from '../../../utils/dom-util';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -626,7 +627,7 @@ export class GrDiff extends GestureEventListeners(
     const contentEl = this.$.diffBuilder.getContentTdByLineEl(lineEl);
     if (!contentEl) throw new Error('content el not found for line el');
     side = side ?? this._getCommentSideByLineAndContent(lineEl, contentEl);
-    if (!this.path) throw new Error('must have a path to create comments');
+    assertIsDefined(this.path, 'path');
     this.dispatchEvent(
       new CustomEvent<CreateCommentEventDetail>('create-comment', {
         bubbles: true,

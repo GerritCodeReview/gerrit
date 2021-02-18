@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d962aa6_c53677be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-18T07:01:13Z",
+      "side": 1,
+      "message": "yes. The predecessor change (submitted) adds them inconditionally.",
+      "parentUuid": "a7dfa3d9_73264a93",
+      "range": {
+        "startLine": 53,
+        "startChar": 40,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "f6b27fc74174f5a069303fb219f3107d18f57927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a33eb9f3_8984ec6e",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-17T19:39:03Z",
       "side": 1,
       "message": "2021",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "f6b27fc74174f5a069303fb219f3107d18f57927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e29677a8_511f209b",
+        "filename": "java/com/google/gerrit/server/notedb/MissingMetaObjectException.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-18T07:01:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a33eb9f3_8984ec6e",
       "range": {
         "startLine": 1,
         "startChar": 17,

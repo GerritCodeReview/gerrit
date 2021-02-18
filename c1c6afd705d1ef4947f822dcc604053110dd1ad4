@@ -38,6 +38,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "53f08311_df76c0d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-18T18:00:14Z",
+      "side": 1,
+      "message": "Really cool.\nThere are some occurrences still that can be changed(I searched for \" not set\u0027 \"(trim spaces, added for clarity) and found a few of them.\n(Feel free ack and just submit btw.)",
+      "revId": "c1c6afd705d1ef4947f822dcc604053110dd1ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "50a13848_2726b0ef",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
         "patchSetId": 4

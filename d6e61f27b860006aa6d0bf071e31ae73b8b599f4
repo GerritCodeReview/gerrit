@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb6a7acb_258cebce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-02-18T17:15:41Z",
+      "side": 1,
+      "message": "Worked fine for me both on Chrome and Safari. Thanks a lot!",
+      "revId": "d6e61f27b860006aa6d0bf071e31ae73b8b599f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

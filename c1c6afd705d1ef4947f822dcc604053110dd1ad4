@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "168be868_21ea5568",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-18T15:12:20Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be these new methods be part of different change?",
+      "revId": "c1c6afd705d1ef4947f822dcc604053110dd1ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50a13848_2726b0ef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-18T15:12:20Z",
+      "side": 1,
+      "message": "Isn\u0027t this equal to `if (comment?.range) return comment?.range`",
+      "range": {
+        "startLine": 323,
+        "startChar": 12,
+        "endLine": 324,
+        "endChar": 20
+      },
+      "revId": "c1c6afd705d1ef4947f822dcc604053110dd1ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b25c52fc_f47810bb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-18T15:12:20Z",
+      "side": 1,
+      "message": "Where is this method used?",
+      "range": {
+        "startLine": 336,
+        "startChar": 2,
+        "endLine": 336,
+        "endChar": 20
+      },
+      "revId": "c1c6afd705d1ef4947f822dcc604053110dd1ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

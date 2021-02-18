@@ -74,8 +74,9 @@ public interface DiffOperations {
   /**
    * Returns the diff for a single file between a patchset commit against its parent or the
    * auto-merge commit. For deleted files, the {@code fileName} parameter should contain the old
-   * name of the file. This method will return {@link FileDiffOutput#empty(String)} if the requested
-   * file identified by {@code fileName} has unchanged content or does not exist at both commits.
+   * name of the file. This method will return {@link FileDiffOutput#empty(String, ObjectId,
+   * ObjectId)} if the requested file identified by {@code fileName} has unchanged content or does
+   * not exist at both commits.
    *
    * @param project a project name representing a git repository.
    * @param newCommit 20 bytes SHA-1 of the new commit used in the diff.
@@ -98,8 +99,8 @@ public interface DiffOperations {
   /**
    * Returns the diff for a single file between two patchset commits. For deleted files, the {@code
    * fileName} parameter should contain the old name of the file. This method will return {@link
-   * FileDiffOutput#empty(String)} if the requested file identified by {@code fileName} has
-   * unchanged content or does not exist at both commits.
+   * FileDiffOutput#empty(String, ObjectId, ObjectId)} if the requested file identified by {@code
+   * fileName} has unchanged content or does not exist at both commits.
    *
    * @param project a project name representing a git repository.
    * @param oldCommit 20 bytes SHA-1 of the old commit used in the diff.

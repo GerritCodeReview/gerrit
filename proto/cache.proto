@@ -617,7 +617,7 @@ message FileDiffKeyProto {
 
 // Serialized form of
 // com.google.gerrit.server.patch.filediff.FileDiffOutput
-// Next ID: 9
+// Next ID: 12
 message FileDiffOutputProto {
   // Next ID: 5
   message Edit {
@@ -632,6 +632,11 @@ message FileDiffOutputProto {
     Edit edit = 1;
     bool due_to_rebase = 2;
   }
+  // Next ID: 3
+  message ComparisonType {
+    int32 parent_num = 1;
+    bool auto_merge = 2;
+  }
   string old_path = 1;
   string new_path = 2;
   string change_type = 3;
@@ -640,4 +645,7 @@ message FileDiffOutputProto {
   int64 size = 6;
   int64 size_delta = 7;
   repeated TaggedEdit edits = 8;
+  bytes old_commit = 9;
+  bytes new_commit = 10;
+  ComparisonType comparison_type = 11;
 }

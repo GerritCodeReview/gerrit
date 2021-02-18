@@ -26,7 +26,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.CommentContext;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.ComparisonType;
@@ -158,12 +157,10 @@ public class CommentContextLoader {
 
   private static CommentContext createContext(Text src, Range commentRange, int contextPadding) {
     if (commentRange.start() < 1 || commentRange.end() - 1 > src.size()) {
-      throw new StorageException(
-          "Invalid comment range "
-              + commentRange
-              + ". Text only contains "
-              + src.size()
-              + " lines.");
+      // TODO(ghareeb): We should throw an exception in this case. See
+      // https://bugs.chromium.org/p/gerrit/issues/detail?id=14102 which is an example where the
+      // diff contains an extra line not in the original file.
+      return CommentContext.empty();
     }
     commentRange = adjustRange(commentRange, contextPadding, src.size());
     ImmutableMap.Builder<Integer, String> context =

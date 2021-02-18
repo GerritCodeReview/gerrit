@@ -199,6 +199,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
+  @Override
+  public Boolean canPerformGC() {
+    return true;
+  }
+
   private boolean isUnreasonableName(Project.NameKey nameKey) {
     final String name = nameKey.get();
 

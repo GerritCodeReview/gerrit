@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21aa59fc_b6e56600",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-18T08:11:16Z",
+      "side": 1,
+      "message": "nit: drop this",
+      "range": {
+        "startLine": 15,
+        "startChar": 7,
+        "endLine": 15,
+        "endChar": 16
+      },
+      "revId": "bb8a3f5e14d678b33560384152fbdabf478ddd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d6f47f0_612b9c38",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-18T08:11:16Z",
+      "side": 1,
+      "message": "Maybe name this noteDbChangeSet and then just set a new value for this var below in line 503",
+      "range": {
+        "startLine": 498,
+        "startChar": 18,
+        "endLine": 498,
+        "endChar": 20
+      },
+      "revId": "bb8a3f5e14d678b33560384152fbdabf478ddd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c325ad25_4f7a39af",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-18T08:11:16Z",
+      "side": 1,
+      "message": "nit: changes",
+      "range": {
+        "startLine": 502,
+        "startChar": 31,
+        "endLine": 502,
+        "endChar": 37
+      },
+      "revId": "bb8a3f5e14d678b33560384152fbdabf478ddd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6ac18bb_a3619ed9",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-18T08:11:16Z",
+      "side": 1,
+      "message": "Can we add a fine logging statement that logs the changes that are dropped because they are not new?",
+      "revId": "bb8a3f5e14d678b33560384152fbdabf478ddd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

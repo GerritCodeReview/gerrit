@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f15dd01_61ec812e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-18T13:21:15Z",
+      "side": 1,
+      "message": "Note that even more interesting is to move top-level properties into the rendering prefs, e.g.\n\n  noAutoRender\n  displayLine\n  isImageDiff\n  noRenderOnPrefsChange\n  lineWrapping\n  viewMode\n  showNewlineWarningLeft\n  showNewlineWarningRight\n\nJust marking unresolved for acking. :-)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "e5d56dfac4a6f0ca095b66914bb70171fb496c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

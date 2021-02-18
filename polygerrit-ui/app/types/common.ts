@@ -1691,7 +1691,6 @@ export interface DiffPreferenceInput {
   skip_uncommented?: boolean;
   syntax_highlighting?: boolean;
   hide_top_menu?: boolean;
-  auto_hide_diff_table_header?: boolean;
   hide_line_numbers?: boolean;
   tab_size?: number;
   font_size?: number;

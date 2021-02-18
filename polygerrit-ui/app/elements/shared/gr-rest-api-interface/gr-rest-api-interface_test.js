@@ -396,7 +396,6 @@ suite('gr-rest-api-interface tests', () => {
     sinon.stub(element, 'getLoggedIn').callsFake(() => Promise.resolve(false));
 
     return element.getDiffPreferences().then(obj => {
-      assert.equal(obj.auto_hide_diff_table_header, true);
       assert.equal(obj.context, 10);
       assert.equal(obj.cursor_blink_rate, 0);
       assert.equal(obj.font_size, 12);

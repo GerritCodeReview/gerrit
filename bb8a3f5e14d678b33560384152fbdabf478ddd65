@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b95487b_9f0b031d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-18T10:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21aa59fc_b6e56600",
+      "range": {
+        "startLine": 15,
+        "startChar": 7,
+        "endLine": 15,
+        "endChar": 16
+      },
+      "revId": "bb8a3f5e14d678b33560384152fbdabf478ddd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d6f47f0_612b9c38",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-18T08:11:16Z",
       "side": 1,
       "message": "Maybe name this noteDbChangeSet and then just set a new value for this var below in line 503",
+      "range": {
+        "startLine": 498,
+        "startChar": 18,
+        "endLine": 498,
+        "endChar": 20
+      },
+      "revId": "bb8a3f5e14d678b33560384152fbdabf478ddd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b4af36f_5de080c6",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-18T10:03:52Z",
+      "side": 1,
+      "message": "Yea I tried that too, but it doesn\u0027t allow me:\n\"Variable used in lambda expression should be final or effectively final\"\n\nImproved names, though.",
+      "parentUuid": "7d6f47f0_612b9c38",
       "range": {
         "startLine": 498,
         "startChar": 18,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61521e0b_8167d7e9",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-18T10:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c325ad25_4f7a39af",
+      "range": {
+        "startLine": 502,
+        "startChar": 31,
+        "endLine": 502,
+        "endChar": 37
+      },
+      "revId": "bb8a3f5e14d678b33560384152fbdabf478ddd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6ac18bb_a3619ed9",
@@ -83,6 +155,24 @@
       "writtenOn": "2021-02-18T08:11:16Z",
       "side": 1,
       "message": "Can we add a fine logging statement that logs the changes that are dropped because they are not new?",
+      "revId": "bb8a3f5e14d678b33560384152fbdabf478ddd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65228207_248a4560",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-18T10:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6ac18bb_a3619ed9",
       "revId": "bb8a3f5e14d678b33560384152fbdabf478ddd65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

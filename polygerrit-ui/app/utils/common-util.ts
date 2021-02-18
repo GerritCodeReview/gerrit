@@ -23,6 +23,8 @@
  * a separate util file for them.
  */
 
+import AssertionError = Chai.AssertionError;
+
 /**
  * Wrapper for the Object.prototype.hasOwnProperty method
  */
@@ -64,6 +66,18 @@ export function checkProperty(
   propertyName: string
 ): asserts condition {
   check(condition, `missing required property '${propertyName}'`);
+}
+
+/**
+ * Throws an error if the property is not defined.
+ */
+export function assertIsDefined<T>(
+  val: T,
+  variableName = 'variable'
+): asserts val is NonNullable<T> {
+  if (val === undefined || val === null) {
+    throw new AssertionError(`${variableName} is not defined`);
+  }
 }
 
 /**

@@ -93,10 +93,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       }
       IdentifiedUser deletedAssigneeUser = userFactory.create(currentAssigneeId);
       deletedAssignee = deletedAssigneeUser.state();
-      // noteDb
       update.removeAssignee();
-      // reviewDb
-      change.setAssignee(null);
       addMessage(ctx, update, deletedAssigneeUser);
       return true;
     }

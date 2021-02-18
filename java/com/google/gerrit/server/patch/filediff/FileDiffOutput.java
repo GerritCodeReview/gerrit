@@ -24,15 +24,27 @@ import com.google.gerrit.entities.Patch.PatchType;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.FileDiffOutputProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
+import com.google.gerrit.server.patch.ComparisonType;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** File diff for a single file path. Produced as output of the {@link FileDiffCache}. */
 @AutoValue
 public abstract class FileDiffOutput implements Serializable {
   private static final long serialVersionUID = 1L;
+
+  /** The 20 bytes SHA-1 object ID of the old git commit used in the diff. */
+  public abstract ObjectId oldCommitId();
+
+  /** The 20 bytes SHA-1 object ID of the new git commit used in the diff. */
+  public abstract ObjectId newCommitId();
+
+  /** Comparison type of old and new commits: against another patchset, parent or auto-merge. */
+  public abstract ComparisonType comparisonType();
 
   /**
    * The file path at the old commit. Returns an empty Optional if {@link #changeType()} is equal to
@@ -95,8 +107,11 @@ public abstract class FileDiffOutput implements Serializable {
   }
 
   /** Returns an entity representing an unchanged file between two commits. */
-  public static FileDiffOutput empty(String filePath) {
+  public static FileDiffOutput empty(String filePath, ObjectId oldCommitId, ObjectId newCommitId) {
     return builder()
+        .oldCommitId(oldCommitId)
+        .newCommitId(newCommitId)
+        .comparisonType(ComparisonType.againstOtherPatchSet()) // not important
         .oldPath(Optional.empty())
         .newPath(Optional.of(filePath))
         .changeType(ChangeType.MODIFIED)
@@ -124,6 +139,8 @@ public abstract class FileDiffOutput implements Serializable {
     if (newPath().isPresent()) {
       result += stringSize(newPath().get());
     }
+    result += 20 + 20; // old and new commit IDs
+    result += 4; // comparison type
     result += 4; // changeType
     if (patchType().isPresent()) {
       result += 4;
@@ -139,6 +156,12 @@ public abstract class FileDiffOutput implements Serializable {
 
   @AutoValue.Builder
   public abstract static class Builder {
+
+    public abstract Builder oldCommitId(ObjectId value);
+
+    public abstract Builder newCommitId(ObjectId value);
+
+    public abstract Builder comparisonType(ComparisonType value);
 
     public abstract Builder oldPath(Optional<String> value);
 
@@ -173,8 +196,12 @@ public abstract class FileDiffOutput implements Serializable {
 
     @Override
     public byte[] serialize(FileDiffOutput fileDiff) {
+      ObjectIdConverter idConverter = ObjectIdConverter.create();
       FileDiffOutputProto.Builder builder =
           FileDiffOutputProto.newBuilder()
+              .setOldCommit(idConverter.toByteString(fileDiff.oldCommitId().toObjectId()))
+              .setNewCommit(idConverter.toByteString(fileDiff.newCommitId().toObjectId()))
+              .setComparisonType(fileDiff.comparisonType().toProto())
               .setSize(fileDiff.size())
               .setSizeDelta(fileDiff.sizeDelta())
               .addAllHeaderLines(fileDiff.headerLines())
@@ -212,9 +239,13 @@ public abstract class FileDiffOutput implements Serializable {
 
     @Override
     public FileDiffOutput deserialize(byte[] in) {
+      ObjectIdConverter idConverter = ObjectIdConverter.create();
       FileDiffOutputProto proto = Protos.parseUnchecked(FileDiffOutputProto.parser(), in);
       FileDiffOutput.Builder builder = FileDiffOutput.builder();
       builder
+          .oldCommitId(idConverter.fromByteString(proto.getOldCommit()))
+          .newCommitId(idConverter.fromByteString(proto.getNewCommit()))
+          .comparisonType(ComparisonType.fromProto(proto.getComparisonType()))
           .size(proto.getSize())
           .sizeDelta(proto.getSizeDelta())
           .headerLines(proto.getHeaderLinesList().stream().collect(ImmutableList.toImmutableList()))

@@ -18,6 +18,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.server.cache.proto.Cache.FileDiffOutputProto;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -78,5 +79,22 @@ public abstract class ComparisonType {
     Optional<Integer> parentNum = p > 0 ? Optional.of(p) : Optional.empty();
     boolean autoMerge = readVarInt32(in) != 0;
     return create(parentNum, autoMerge);
+  }
+
+  public FileDiffOutputProto.ComparisonType toProto() {
+    FileDiffOutputProto.ComparisonType.Builder builder =
+        FileDiffOutputProto.ComparisonType.newBuilder().setAutoMerge(autoMerge());
+    if (parentNum().isPresent()) {
+      builder.setParentNum(parentNum().get());
+    }
+    return builder.build();
+  }
+
+  public static ComparisonType fromProto(FileDiffOutputProto.ComparisonType proto) {
+    Optional<Integer> parentNum = Optional.empty();
+    if (proto.hasField(FileDiffOutputProto.ComparisonType.getDescriptor().findFieldByNumber(1))) {
+      parentNum = Optional.of(proto.getParentNum());
+    }
+    return create(parentNum, proto.getAutoMerge());
   }
 }

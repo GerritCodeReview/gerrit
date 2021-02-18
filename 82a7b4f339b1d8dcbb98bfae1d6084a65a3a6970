@@ -16,6 +16,23 @@
       "message": "test failure looks like ES flake. ",
       "revId": "82a7b4f339b1d8dcbb98bfae1d6084a65a3a6970",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "367d98e0_bcea563e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-18T09:24:02Z",
+      "side": 1,
+      "message": "Code-Style passed anyway.",
+      "revId": "82a7b4f339b1d8dcbb98bfae1d6084a65a3a6970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

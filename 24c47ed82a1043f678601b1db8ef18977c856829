@@ -51,6 +51,23 @@
       "parentUuid": "065921e8_794a8db1",
       "revId": "24c47ed82a1043f678601b1db8ef18977c856829",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b816ed02_e73514d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-02-19T12:41:20Z",
+      "side": 1,
+      "message": "Tested on Safari and Chrome adding this plugin:\n\nconst styleElement \u003d document.createElement(\u0027dom-module\u0027);\nstyleElement.innerHTML \u003d\n `\u003ctemplate\u003e\n    \u003cstyle\u003e\n    html {\n      --background-color-service-user: red;\n    }\n   \u003c/style\u003e\n \u003c/template\u003e`;\n\nstyleElement.register(\u0027some-style-module\u0027);\n\nGerrit.install(plugin \u003d\u003e {\n  plugin.registerStyleModule(\u0027change-metadata\u0027, \u0027some-style-module\u0027);\n});\n\n\nWorks fine. Thanks @Ben\n\nI might be worth adding it to he doc [1]? I am happy to do it in a follow up change\n\n[1]: https://gerrit-review.googlesource.com/Documentation/pg-plugin-styling.html#_change_metadata ",
+      "revId": "24c47ed82a1043f678601b1db8ef18977c856829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

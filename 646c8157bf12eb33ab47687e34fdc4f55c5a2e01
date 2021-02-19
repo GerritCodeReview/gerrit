@@ -88,6 +88,24 @@
       "parentUuid": "602a9bd4_c1c32dec",
       "revId": "646c8157bf12eb33ab47687e34fdc4f55c5a2e01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57d65645_f8075171",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteAssignee.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-19T13:01:13Z",
+      "side": 1,
+      "message": "This had a side effect that I discovered while debugging a test in google3.\n\n```\ngApi.changes().id(cd.getId().get()).setAssignee(ain);\n    long setAssigneeTs \u003d        localMillisToUtcMicros(cd.notes().reload().getChange().getLastUpdatedOn().getTime());\n    TestTimeUtil.incrementClock(1, TimeUnit.SECONDS);\n    gApi.changes().id(cd.getId().get()).deleteAssignee();\n    long removeAssigneeTs \u003d \n        localMillisToUtcMicros(cd.notes().reload().getChange().getLastUpdatedOn().getTime());\n```\n\nBefore this change, the removedAssigneeTs used to be greater than setAssigneeTs. With this change, both timestamps are equal.",
+      "parentUuid": "1ad13be1_f425d322",
+      "revId": "646c8157bf12eb33ab47687e34fdc4f55c5a2e01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

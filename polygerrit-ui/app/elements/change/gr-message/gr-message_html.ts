@@ -39,10 +39,23 @@ export const htmlTemplate = html`
     .contentContainer {
       padding: var(--spacing-m) var(--spacing-l);
     }
+    .expanded .contentContainer {
+      background-color: var(--background-color-secondary);
+    }
     .collapsed .contentContainer {
-      /* For expanded state we inherit the alternating background color
-           that is set in gr-messages-list. */
       background-color: var(--background-color-primary);
+    }
+    div.serviceUser.expanded div.contentContainer {
+      background-color: var(
+        --background-color-service-user,
+        var(--background-color-secondary)
+      );
+    }
+    div.serviceUser.collapsed div.contentContainer {
+      background-color: var(
+        --background-color-service-user,
+        var(--background-color-primary)
+      );
     }
     .name {
       font-weight: var(--font-weight-bold);
@@ -188,7 +201,7 @@ export const htmlTemplate = html`
       }
     }
   </style>
-  <div class$="[[_computeClass(_expanded)]]">
+  <div class$="[[_computeClass(_expanded, author)]]">
     <div class="contentContainer">
       <div class="author" on-click="_handleAuthorClick">
         <span hidden$="[[!showOnBehalfOf]]">

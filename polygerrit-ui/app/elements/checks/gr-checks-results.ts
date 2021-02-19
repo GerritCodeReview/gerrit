@@ -138,7 +138,7 @@ class GrResultRow extends GrLitElement {
         </td>
         <td class="summaryCol">
           <div class="summary-cell">
-            ${(this.result.links ?? []).map(this.renderLink)}
+            ${(this.result.links?.slice(0, 5) ?? []).map(this.renderLink)}
             ${this.renderSummary(this.result.summary)}
             <div class="message">
               ${this.isExpanded ? '' : this.result.message}

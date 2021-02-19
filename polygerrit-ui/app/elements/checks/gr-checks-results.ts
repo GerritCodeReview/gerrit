@@ -81,7 +81,7 @@ class GrResultRow extends GrLitElement {
         }
         td .summary-cell {
           display: flex;
-          max-width: calc(100vw - 579px);
+          max-width: calc(100vw - 700px);
         }
         td .summary-cell .summary {
           font-weight: var(--font-weight-bold);

@@ -18,13 +18,20 @@ import {html} from 'lit-html';
 import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {Action, CheckResult, CheckRun} from '../../api/checks';
-import {allResults$, allRuns$} from '../../services/checks/checks-model';
+import {
+  allActions$,
+  allResults$,
+  allRuns$,
+} from '../../services/checks/checks-model';
 import './gr-checks-runs';
 import './gr-checks-results';
 import {sharedStyles} from '../../styles/shared-styles';
 import {changeNum$, currentPatchNum$} from '../../services/change/change-model';
 import {NumericChangeId, PatchSetNum} from '../../types/common';
-import {ActionTriggeredEvent} from './gr-checks-runs';
+import {
+  ActionTriggeredEvent,
+  fireActionTriggered,
+} from '../../services/checks/checks-util';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -37,6 +44,8 @@ export class GrChecksTab extends GrLitElement {
 
   results: CheckResult[] = [];
 
+  actions: Action[] = [];
+
   @property()
   currentPatchNum: PatchSetNum | undefined = undefined;
 
@@ -46,6 +55,7 @@ export class GrChecksTab extends GrLitElement {
   constructor() {
     super();
     this.subscribe('runs', allRuns$);
+    this.subscribe('actions', allActions$);
     this.subscribe('results', allResults$);
     this.subscribe('currentPatchNum', currentPatchNum$);
     this.subscribe('changeNum', changeNum$);
@@ -63,17 +73,13 @@ export class GrChecksTab extends GrLitElement {
           display: block;
         }
         .header {
-          display: block;
+          display: flex;
+          justify-content: space-between;
           padding: var(--spacing-m) var(--spacing-l);
           border-bottom: 1px solid var(--border-color);
         }
-        .header span {
-          display: inline-block;
-          color: var(--link-color);
-          padding: var(--spacing-s) var(--spacing-m);
-          margin-right: var(--spacing-l);
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
+        .action {
+          margin-left: var(--spacing-m);
         }
         .container {
           display: flex;
@@ -95,15 +101,20 @@ export class GrChecksTab extends GrLitElement {
     const ps = `Patchset ${this.currentPatchNum} (Latest)`;
     return html`
       <div class="header">
-        <gr-dropdown-list
-          value="${ps}"
-          .items="${[
-            {
-              value: `${ps}`,
-              text: `${ps}`,
-            },
-          ]}"
-        ></gr-dropdown-list>
+        <div class="left">
+          <gr-dropdown-list
+            value="${ps}"
+            .items="${[
+              {
+                value: `${ps}`,
+                text: `${ps}`,
+              },
+            ]}"
+          ></gr-dropdown-list>
+        </div>
+        <div class="right">
+          ${this.actions.map(this.renderAction)}
+        </div>
       </div>
       <div class="container">
         <gr-checks-runs class="runs" .runs="${this.runs}"></gr-checks-runs>
@@ -115,7 +126,13 @@ export class GrChecksTab extends GrLitElement {
     `;
   }
 
-  private handleActionTriggered(action: Action, run: CheckRun) {
+  renderAction(action: Action) {
+    return html`<gr-checks-top-level-action
+      .action="${action}"
+    ></gr-checks-top-level-action>`;
+  }
+
+  handleActionTriggered(action: Action, run?: CheckRun) {
     if (!this.changeNum) return;
     if (!this.currentPatchNum) return;
     // TODO(brohlfs): The callback is supposed to be returning a promise.
@@ -124,16 +141,35 @@ export class GrChecksTab extends GrLitElement {
     action.callback(
       this.changeNum,
       this.currentPatchNum as number,
-      run.attempt,
-      run.externalId,
-      run.checkName,
+      run?.attempt,
+      run?.externalId,
+      run?.checkName,
       action.name
     );
+  }
+}
+
+@customElement('gr-checks-top-level-action')
+export class GrChecksTopLevelAction extends GrLitElement {
+  @property()
+  action!: Action;
+
+  render() {
+    return html`
+      <gr-button link class="action" @click="${this.handleClick}"
+        >${this.action.name}</gr-button
+      >
+    `;
+  }
+
+  handleClick() {
+    fireActionTriggered(this, this.action);
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-checks-tab': GrChecksTab;
+    'gr-checks-top-level-action': GrChecksTopLevelAction;
   }
 }

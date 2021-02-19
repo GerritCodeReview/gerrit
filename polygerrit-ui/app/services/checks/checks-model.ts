@@ -17,6 +17,7 @@
 
 import {BehaviorSubject, Observable} from 'rxjs';
 import {
+  Action,
   Category,
   CheckResult,
   CheckRun,
@@ -35,6 +36,7 @@ interface ChecksProviderState {
   pluginName: string;
   config?: ChecksApiConfig;
   runs: CheckRun[];
+  actions: Action[];
 }
 
 interface ChecksState {
@@ -51,6 +53,18 @@ export const checksState$: Observable<ChecksState> = privateState$;
 export const aPluginHasRegistered = checksState$.pipe(
   map(state => Object.keys(state).length > 0),
   distinctUntilChanged()
+);
+
+export const allActions$ = checksState$.pipe(
+  map(state => {
+    return Object.values(state).reduce(
+      (allActions: Action[], providerState: ChecksProviderState) => [
+        ...allActions,
+        ...providerState.actions,
+      ],
+      []
+    );
+  })
 );
 
 export const allRuns$ = checksState$.pipe(
@@ -94,6 +108,7 @@ export function updateStateSetProvider(
     pluginName,
     config,
     runs: [],
+    actions: [],
   };
   privateState$.next(nextState);
 }
@@ -162,11 +177,16 @@ export const fakeRun4: CheckRun = {
   status: RunStatus.COMPLETED,
 };
 
-export function updateStateSetResults(pluginName: string, runs: CheckRun[]) {
+export function updateStateSetResults(
+  pluginName: string,
+  runs: CheckRun[],
+  actions: Action[] = []
+) {
   const nextState = {...privateState$.getValue()};
   nextState[pluginName] = {
     ...nextState[pluginName],
     runs: [...runs],
+    actions: [...actions],
   };
   privateState$.next(nextState);
 }

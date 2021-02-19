@@ -83,7 +83,11 @@ export class ChecksService {
           }
         ),
         tap(response => {
-          updateStateSetResults(pluginName, response.runs ?? []);
+          updateStateSetResults(
+            pluginName,
+            response.runs ?? [],
+            response.actions
+          );
         })
       )
       .subscribe(() => {});

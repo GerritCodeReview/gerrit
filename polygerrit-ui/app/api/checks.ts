@@ -224,10 +224,21 @@ export interface Action {
 export type ActionCallback = (
   change: number,
   patchset: number,
+  /**
+   * Identical to 'attempt' property of CheckRun. Not set for top-level
+   * actions.
+   */
   attempt: number | undefined,
+  /**
+   * Identical to 'externalId' property of CheckRun. Not set for top-level
+   * actions.
+   */
   externalId: string | undefined,
-  /** Identical to 'checkName' property of CheckRun. */
-  checkName: string,
+  /**
+   * Identical to 'checkName' property of CheckRun. Not set for top-level
+   * actions.
+   */
+  checkName: string | undefined,
   /** Identical to 'name' property of Action entity. */
   actionName: string
 ) => Promise<ActionResult>;

@@ -135,3 +135,30 @@ export function level(cat?: Category) {
       return 2;
   }
 }
+
+export interface ActionTriggeredEventDetail {
+  action: Action;
+  run?: CheckRun;
+}
+
+export type ActionTriggeredEvent = CustomEvent<ActionTriggeredEventDetail>;
+
+declare global {
+  interface HTMLElementEventMap {
+    'action-triggered': ActionTriggeredEvent;
+  }
+}
+
+export function fireActionTriggered(
+  target: EventTarget,
+  action: Action,
+  run?: CheckRun
+) {
+  target.dispatchEvent(
+    new CustomEvent('action-triggered', {
+      detail: {action, run},
+      composed: true,
+      bubbles: true,
+    })
+  );
+}

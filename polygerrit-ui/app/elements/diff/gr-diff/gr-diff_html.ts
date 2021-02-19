@@ -432,8 +432,14 @@ export const htmlTemplate = html`
       background-color: var(--blue-50);
       padding: var(--spacing-s);
     }
+    td.lost div:first-of-type {
+      font-family: 'Roboto';
+      display: flex;
+      align-items: center;
+    }
     td.lost iron-icon {
       margin-right: var(--spacing-s);
+      color: var(--blue-700);
     }
     col.blame {
       display: none;

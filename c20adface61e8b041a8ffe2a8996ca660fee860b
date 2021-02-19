@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a712395b_57cfa77b",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-19T10:55:18Z",
+      "side": 1,
+      "message": "(nit can\u0027t be static since it\u0027s an internal class)\nbut yea, sure, that works.",
+      "parentUuid": "f505133f_5f52c23d",
+      "range": {
+        "startLine": 1277,
+        "startChar": 18,
+        "endLine": 1277,
+        "endChar": 79
+      },
+      "revId": "c20adface61e8b041a8ffe2a8996ca660fee860b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14bfc250_3f65f2c4",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-19T10:26:28Z",
       "side": 1,
       "message": "nit: snafu",
+      "range": {
+        "startLine": 629,
+        "startChar": 21,
+        "endLine": 629,
+        "endChar": 36
+      },
+      "revId": "c20adface61e8b041a8ffe2a8996ca660fee860b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6dcba81_9e729d7a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-19T10:55:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14bfc250_3f65f2c4",
       "range": {
         "startLine": 629,
         "startChar": 21,

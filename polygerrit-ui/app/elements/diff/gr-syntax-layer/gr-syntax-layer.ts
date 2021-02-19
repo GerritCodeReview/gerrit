@@ -384,7 +384,7 @@ export class GrSyntaxLayer
     return ranges;
   }
 
-  _rangesFromElement(elem: Element, offset: number): SyntaxLayerRange[] {
+   _rangesFromElement(elem: Element, offset: number): SyntaxLayerRange[] {
     let result: SyntaxLayerRange[] = [];
     for (const node of elem.childNodes) {
       const nodeLength = GrAnnotation.getLength(node);
@@ -439,6 +439,10 @@ export class GrSyntaxLayer
         revisionLine = section.b[state.lineIndex];
         state.lineNums.right++;
       }
+      if (section.skip) {
+        state.lineNums.left += section.skip;
+        state.lineNums.right += section.skip;
+      }
     }
 
     // To store the result of the syntax highlighter.
@@ -475,6 +479,7 @@ export class GrSyntaxLayer
         true,
         state.revisionContext
       );
+      console.log("Syntax result value", result.value);
       this.push(
         '_revisionRanges',
         this._rangesFromString(result.value, rangesCache)

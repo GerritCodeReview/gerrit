@@ -61,6 +61,7 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences} from '../../../api/diff';
 import {check, assertIsDefined} from '../../../utils/common-util';
+import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -331,6 +332,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       };
     }
     return undefined;
+  }
+
+  _handleDiffRender() {
+    (this.shadowRoot?.querySelector('#syntaxLayer') as GrSyntaxLayer).process();
   }
 
   _getUrlForViewDiff(comments: UIComment[]) {

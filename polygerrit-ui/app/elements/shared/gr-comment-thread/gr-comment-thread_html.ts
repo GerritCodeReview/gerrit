@@ -197,7 +197,13 @@ export const htmlTemplate = html`
           prefs="[[_prefs]]"
           render-prefs="[[_renderPrefs]]"
           highlight-range="[[getHighlightRange(comments)]]"
+          on-render="_handleDiffRender"
         >
+        <gr-syntax-layer
+          id="syntaxLayer"
+          enabled="[[true]]"
+          diff="[[_diff]]"
+        ></gr-syntax-layer>
         </gr-diff>
         <div class="view-diff-container">
           <a href="[[_getUrlForViewDiff(comments)]]">

@@ -451,12 +451,14 @@ export class GrRelatedChangesList extends GestureEventListeners(
       ?.getElementsByClassName('arrowToCurrentChange')[0]
       ?.nextElementSibling?.nextElementSibling?.getElementsByTagName('a')[0];
 
-    if (!target || !currentChange) return;
+    if (!target) return;
     this.reportingService.reportInteraction('related-change-click', {
       sectionName,
       index: sectionLinks.indexOf(target) + 1,
       countChanges: sectionLinks.length,
-      currentChangeIndex: sectionLinks.indexOf(currentChange) + 1,
+      currentChangeIndex: !currentChange
+        ? undefined
+        : sectionLinks.indexOf(currentChange) + 1,
     });
   }
 }

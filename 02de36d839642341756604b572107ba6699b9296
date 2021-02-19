@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f735fd7_4d23f868",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-19T10:25:38Z",
+      "side": 1,
+      "message": "The space version can still be accessed, if we change the request. I agree that it is confusing. I would like to have your opinion here. Should I move this change to 2.16 and then merge it up. This way the code will stay consistent across branches.",
+      "parentUuid": "3ebe4df8_e04e443e",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "02de36d839642341756604b572107ba6699b9296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c1f9b54_138317a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-19T10:25:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7601711_d87cbeba",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "02de36d839642341756604b572107ba6699b9296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e979b120_0d37c6af",

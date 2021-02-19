@@ -475,6 +475,7 @@ export class GrSyntaxLayer
         true,
         state.revisionContext
       );
+      console.log("Syntax result value", result.value);
       this.push(
         '_revisionRanges',
         this._rangesFromString(result.value, rangesCache)

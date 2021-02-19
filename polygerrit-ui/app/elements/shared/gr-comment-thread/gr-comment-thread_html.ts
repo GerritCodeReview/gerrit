@@ -193,10 +193,12 @@ export const htmlTemplate = html`
           id="diff"
           change-num="[[changeNum]]"
           diff="[[_diff]]"
+          layers="[[_getLayers(_diff)]]"
           path="[[path]]"
           prefs="[[_prefs]]"
           render-prefs="[[_renderPrefs]]"
           highlight-range="[[getHighlightRange(comments)]]"
+          on-render="_handleDiffRender"
         >
         </gr-diff>
         <div class="view-diff-container">
@@ -209,4 +211,10 @@ export const htmlTemplate = html`
       </div>
     </template>
   </div>
+  <gr-syntax-layer
+    id="syntaxLayer"
+    enabled="[[true]]"
+    diff="[[_diff]]"
+  ></gr-syntax-layer>
+
 `;

@@ -132,3 +132,15 @@ export function fireShowPrimaryTab(
     })
   );
 }
+
+export function waitForEventOnce<K extends keyof HTMLElementEventMap>(
+  el: EventTarget,
+  eventName: K
+): Promise<HTMLElementEventMap[K]> {
+  return new Promise<HTMLElementEventMap[K]>(resolve => {
+    const callback = (event: HTMLElementEventMap[K]) => {
+      resolve(event);
+    };
+    el.addEventListener(eventName, callback as EventListener, {once: true});
+  });
+}

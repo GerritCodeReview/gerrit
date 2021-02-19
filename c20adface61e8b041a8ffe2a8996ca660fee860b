@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81b8c64b_4f799fcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-19T10:16:43Z",
+      "side": 1,
+      "message": "Thanks, works for me!\nOnly +1 so that Patrick can have another look too.",
+      "revId": "c20adface61e8b041a8ffe2a8996ca660fee860b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

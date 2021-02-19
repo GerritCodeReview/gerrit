@@ -27,7 +27,6 @@ acceptance_tests(
     labels = [
         "docker",
         "elastic",
-        "exclusive",
         "pgm",
         "no_windows",
     ],

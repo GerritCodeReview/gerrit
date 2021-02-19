@@ -16,6 +16,24 @@
       "message": "The build took only 6 minutes on RBE, which is really great.\nLet me check if the traditional build also can benefit from that or not.",
       "revId": "fde140a3f0db08c240705d7da1a41ef27ee8dde4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c73a9ba_47f8e7e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-19T22:05:51Z",
+      "side": 1,
+      "message": "\u003e Let me check if the traditional build also can benefit from that or not.\n\nI\u0027m working on optimizing non RBE build: Now, that we have off loaded the load to RBE, we can remove exclusive bit and run the non-RBE tests in parallel. Will upload new change in a moment.",
+      "parentUuid": "bb9e33e3_c9cc0061",
+      "revId": "fde140a3f0db08c240705d7da1a41ef27ee8dde4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

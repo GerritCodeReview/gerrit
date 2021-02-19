@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "416a917c_02f69276",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-19T15:57:15Z",
+      "side": 1,
+      "message": "You\u0027d think I would have at least found that doc 😂\n\nI added a link to our bazel docs: https://gerrit-review.googlesource.com/c/gerrit/+/297363",
+      "parentUuid": "b4c251fa_963cfdf7",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 69
+      },
+      "revId": "354de048b435eed95e9eed4afa0b7da782de3a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ae65afee_17b4a6bf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd2ebcd_03e9d4e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039113
+      },
+      "writtenOn": "2021-02-19T11:26:11Z",
+      "side": 1,
+      "message": "While I would have prefered \"auto\", even 120ch is seen as great improvement.\n\nBetter to have this now than ending up stuck with debates. Thanks!",
+      "revId": "144d4962949aeaa9ec30414ee6ce942b46dad1ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

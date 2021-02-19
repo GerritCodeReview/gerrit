@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e62292f_6c8cf838",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-19T10:06:03Z",
+      "side": 1,
+      "message": "sure, done.",
+      "parentUuid": "f2efd879_a8b03c32",
+      "revId": "69041bbd6e563710ebcd61620b37cd1045565f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8adf2f69_5ac16b50",
         "filename": "javatests/com/google/gerrit/entities/converter/PatchSetApprovalProtoConverterTest.java",
         "patchSetId": 4

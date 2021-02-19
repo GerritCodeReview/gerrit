@@ -61,6 +61,8 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences} from '../../../api/diff';
 import {check, assertIsDefined} from '../../../utils/common-util';
+import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
+import {onRenderOnce} from '../../diff/gr-diff/gr-diff-utils';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -69,6 +71,7 @@ export interface GrCommentThread {
   $: {
     replyBtn: GrButton;
     quoteBtn: GrButton;
+    syntaxLayer: GrSyntaxLayer;
   };
 }
 
@@ -248,6 +251,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   get _diff() {
     if (this.comments === undefined || this.path === undefined) return;
     if (!this.comments[0]?.context_lines?.length) return;
+    onRenderOnce.call(this).then(() => {
+      this.$.syntaxLayer.process();
+    });
     return computeDiffFromContext(this.comments[0].context_lines, this.path);
   }
 
@@ -331,6 +337,11 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       };
     }
     return undefined;
+  }
+
+  _getLayers(diff?: DiffInfo) {
+    if (!diff) return [];
+    return [this.$.syntaxLayer];
   }
 
   _getUrlForViewDiff(comments: UIComment[]) {

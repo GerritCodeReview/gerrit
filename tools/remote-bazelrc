@@ -60,7 +60,7 @@ build:remote --remote_timeout=3600
 # Enable authentication. This will pick up application default credentials by
 # default. You can use --auth_credentials=some_file.json to use a service
 # account credential instead.
-build:remote --auth_enabled=true
+build:remote --google_default_credentials
 
 # The following flags enable the remote cache so action results can be shared
 # across machines, developers, and workspaces.

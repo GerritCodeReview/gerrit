@@ -1272,28 +1272,27 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             del.add(c);
             update.putApproval(normName, (short) 0);
           }
-        } else if (c != null) {
-          // Check if the label exists in the request input (the user voted again). If the user
-          // hadn't voted again, there is no need to re-apply the vote.
-          if (inLabels.keySet().contains(c.label())) {
-            PatchSetApproval.Builder b =
-                c.toBuilder()
-                    .value(ent.getValue())
-                    .granted(ctx.getWhen())
-                    .tag(Optional.ofNullable(in.tag));
-            ctx.getUser().updateRealAccountId(b::realAccountId);
-            c = b.build();
-            ups.add(c);
-            addLabelDelta(normName, c.value());
-            oldApprovals.put(normName, previous.get(normName));
-            approvals.put(normName, c.value());
-            update.putApproval(normName, ent.getValue());
-          } else {
-            current.put(normName, c);
-            oldApprovals.put(normName, null);
-            approvals.put(normName, c.value());
-          }
-        } else {
+          // Only allow voting again if the vote is copied over from a past patch-set, or the
+          // values are different.
+        } else if (c != null
+            && (c.value() != ent.getValue() || isApprovalCopiedOver(c, ctx.getNotes()))) {
+          PatchSetApproval.Builder b =
+              c.toBuilder()
+                  .value(ent.getValue())
+                  .granted(ctx.getWhen())
+                  .tag(Optional.ofNullable(in.tag));
+          ctx.getUser().updateRealAccountId(b::realAccountId);
+          c = b.build();
+          ups.add(c);
+          addLabelDelta(normName, c.value());
+          oldApprovals.put(normName, previous.get(normName));
+          approvals.put(normName, c.value());
+          update.putApproval(normName, ent.getValue());
+        } else if (c != null && c.value() == ent.getValue()) {
+          current.put(normName, c);
+          oldApprovals.put(normName, null);
+          approvals.put(normName, c.value());
+        } else if (c == null) {
           c =
               ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen())
                   .tag(Optional.ofNullable(in.tag))
@@ -1317,6 +1316,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
 
       return !del.isEmpty() || !ups.isEmpty();
+    }
+
+    /**
+     * Approval is copied over if it doesn't exist in the approvals of the current patch-set
+     * according to change notes (which means it was computed in {@link
+     * com.google.gerrit.server.ApprovalInference})
+     */
+    private boolean isApprovalCopiedOver(
+        PatchSetApproval patchSetApproval, ChangeNotes changeNotes) {
+      return !changeNotes.getApprovals().get(changeNotes.getChange().currentPatchSetId()).stream()
+          .anyMatch(p -> p.equals(patchSetApproval));
     }
 
     private void validatePostSubmitLabels(

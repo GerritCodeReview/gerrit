@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c02c597_b8c6fd0e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-19T10:07:25Z",
+      "side": 1,
+      "message": "Yeah, will have to add that later.",
+      "parentUuid": "5312be1b_b5b84ba7",
+      "revId": "3af24fea4125b31b174f8df4985bd1613d6b42a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f9934e2_7cb0bbfb",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-02-17T14:00:38Z",
       "side": 1,
       "message": "In this case, wouldn\u0027t we use the running checks in chips?",
+      "range": {
+        "startLine": 307,
+        "startChar": 14,
+        "endLine": 307,
+        "endChar": 32
+      },
+      "revId": "3af24fea4125b31b174f8df4985bd1613d6b42a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33a564b3_7eaf82b0",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-19T10:07:25Z",
+      "side": 1,
+      "message": "This code is for the results table in the tab, not for the chips.",
+      "parentUuid": "6f9934e2_7cb0bbfb",
       "range": {
         "startLine": 307,
         "startChar": 14,

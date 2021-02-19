@@ -87,6 +87,24 @@
       "message": "This made our build a lot slower: before this change it was 12 minus, with this change it goes up to 27 minutes.",
       "revId": "354de048b435eed95e9eed4afa0b7da782de3a54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f9683cc_21f8460f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-19T22:42:48Z",
+      "side": 1,
+      "message": "RBE build was accelerated with --test_env\u003dHOME option. The reason why splitting monolitic targets in dedicated target per test is: it can be assigned to different workers. And now that we off loaded the test execution to RBE, it should benefit potentially. So that:\n\n  change:rest_change_other\n\nwould be split to dozen different targets:\n\n  $ bazel test javatests/com/google/gerrit/acceptance/rest/change/...\n//javatests/com/google/gerrit/acceptance/rest/change:ActionsIT  (cached) PASSED in 0.0s\n//javatests/com/google/gerrit/acceptance/rest/change:AssigneeIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:AttentionSetIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:ChangeIdIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:ChangeIncludedInIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:ChangeMessagesIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:ChangeMetaIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:ChangeOwnerIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:ChangeReviewersByEmailIT (cached) PASSED in 0.2s\n//javatests/com/google/gerrit/acceptance/rest/change:ChangeReviewersIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:ConfigChangeIT (cached) PASSED in 0.2s\n//javatests/com/google/gerrit/acceptance/rest/change:CorsIT     (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:CreateChangeIT (cached) PASSED in 0.2s\n//javatests/com/google/gerrit/acceptance/rest/change:DeleteVoteIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:GetArchiveIT (cached) PASSED in 0.3s\n//javatests/com/google/gerrit/acceptance/rest/change:HashtagsIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:IndexChangeIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:LifecycleListenersIT (cached) PASSED in 0.2s\n//javatests/com/google/gerrit/acceptance/rest/change:ListChangesOptionsIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:MoveChangeIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:PluginFieldsIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:PrivateByDefaultIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:SubmitByCherryPickIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:SubmitByFastForwardIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:SubmitByMergeAlwaysIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:SubmitByMergeIfNecessaryIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:SubmitByRebaseAlwaysIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:SubmitByRebaseIfNecessaryIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:SubmitResolvingMergeCommitIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:SuggestReviewersIT (cached) PASSED in 0.1s\n//javatests/com/google/gerrit/acceptance/rest/change:TopicIT    (cached) PASSED in 0.2s\n//javatests/com/google/gerrit/acceptance/rest/change:WorkInProgressByDefaultIT (cached) PASSED in 0.1s",
+      "parentUuid": "ae65afee_17b4a6bf",
+      "revId": "354de048b435eed95e9eed4afa0b7da782de3a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

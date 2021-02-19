@@ -61,6 +61,7 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences} from '../../../api/diff';
 import {check, assertIsDefined} from '../../../utils/common-util';
+import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -69,6 +70,7 @@ export interface GrCommentThread {
   $: {
     replyBtn: GrButton;
     quoteBtn: GrButton;
+    syntaxLayer: GrSyntaxLayer;
   };
 }
 
@@ -215,6 +217,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     KnownExperimentId.COMMENT_CONTEXT
   );
 
+  private calledSyntaxProcessing = false;
+
   readonly restApiService = appContext.restApiService;
 
   /** @override */
@@ -331,6 +335,17 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       };
     }
     return undefined;
+  }
+
+  _getLayers(diff?: DiffInfo) {
+    if (!diff) return [];
+    return [this.$.syntaxLayer];
+  }
+
+  _handleDiffRender() {
+    if (this.calledSyntaxProcessing) return;
+    this.calledSyntaxProcessing = true;
+    this.$.syntaxLayer.process();
   }
 
   _getUrlForViewDiff(comments: UIComment[]) {

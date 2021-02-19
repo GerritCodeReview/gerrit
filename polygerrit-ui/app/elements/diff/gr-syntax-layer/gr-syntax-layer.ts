@@ -242,6 +242,7 @@ export class GrSyntaxLayer
 
     // Apply the ranges to the element.
     for (const range of ranges) {
+      console.log("annotating", line.afterNumber);
       GrAnnotation.annotateElement(
         el,
         range.start,
@@ -297,8 +298,9 @@ export class GrSyntaxLayer
 
     this._processPromise = util.makeCancelable(
       this._loadHLJS().then(
-        () =>
-          new Promise<void>(resolve => {
+        (response: any) => {
+          console.log(response)
+          return new Promise<void>(resolve => {
             const nextStep = () => {
               this._processHandle = null;
               this._processNextLine(state, rangesCache);
@@ -332,6 +334,7 @@ export class GrSyntaxLayer
 
             this._processHandle = this.async(nextStep, 1);
           })
+        }
       )
     );
     return this._processPromise.finally(() => {
@@ -384,7 +387,7 @@ export class GrSyntaxLayer
     return ranges;
   }
 
-  _rangesFromElement(elem: Element, offset: number): SyntaxLayerRange[] {
+   _rangesFromElement(elem: Element, offset: number): SyntaxLayerRange[] {
     let result: SyntaxLayerRange[] = [];
     for (const node of elem.childNodes) {
       const nodeLength = GrAnnotation.getLength(node);
@@ -439,6 +442,11 @@ export class GrSyntaxLayer
         revisionLine = section.b[state.lineIndex];
         state.lineNums.right++;
       }
+      if (section.skip) {
+        state.lineNums.left += section.skip;
+        state.lineNums.right += section.skip;
+        for (let i = 0;i < section.skip;i++) this._revisionRanges.push([]);
+      }
     }
 
     // To store the result of the syntax highlighter.
@@ -475,6 +483,7 @@ export class GrSyntaxLayer
         true,
         state.revisionContext
       );
+      // console.log("Syntax result value", result.value);
       this.push(
         '_revisionRanges',
         this._rangesFromString(result.value, rangesCache)

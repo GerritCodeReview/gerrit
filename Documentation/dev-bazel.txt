@@ -376,6 +376,11 @@ The following values are currently supported for the group name:
 * server
 * ssh
 
+Bazel itself supports a multitude of ways to
+link:https://docs.bazel.build/versions/master/guide.html#specifying-targets-to-build[specify targets,role=external,window=_blank]
+for fine-grained test selection that can be combined with many of the examples
+above.
+
 [[elasticsearch]]
 === Elasticsearch
 

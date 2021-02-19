@@ -105,6 +105,24 @@
       "parentUuid": "ae65afee_17b4a6bf",
       "revId": "354de048b435eed95e9eed4afa0b7da782de3a54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c04f993a_80965ef0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-19T22:45:07Z",
+      "side": 1,
+      "message": "So, we should further increase the parallelism on RBE (currently 100) to see some speedup?\n\nWith regards to penalty to pay in case of cache miss, yes, I agree 100% with you as it would reduce the test code to be re-run.",
+      "parentUuid": "7f9683cc_21f8460f",
+      "revId": "354de048b435eed95e9eed4afa0b7da782de3a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

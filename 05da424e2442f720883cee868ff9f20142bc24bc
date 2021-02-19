@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10e1e823_6281e1e7",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-19T19:17:07Z",
+      "side": 1,
+      "message": "NIT: when ! is used, Dmitrii is always asking for comment why ! is safe",
+      "range": {
+        "startLine": 155,
+        "startChar": 2,
+        "endLine": 155,
+        "endChar": 8
+      },
+      "revId": "05da424e2442f720883cee868ff9f20142bc24bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

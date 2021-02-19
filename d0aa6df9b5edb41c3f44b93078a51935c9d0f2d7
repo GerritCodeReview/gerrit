@@ -20,6 +20,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4450197_f1ffc4a5",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-19T00:50:45Z",
+      "side": 1,
+      "message": "nit: missing \u0027.\u0027 at the end of the sentence.",
+      "range": {
+        "startLine": 62,
+        "startChar": 74,
+        "endLine": 62,
+        "endChar": 75
+      },
+      "revId": "d0aa6df9b5edb41c3f44b93078a51935c9d0f2d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b799fdc_88822660",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-19T00:50:45Z",
+      "side": 1,
+      "message": "nit: missing \u0027.\u0027 at the end of the sentence",
+      "range": {
+        "startLine": 64,
+        "startChar": 61,
+        "endLine": 64,
+        "endChar": 62
+      },
+      "revId": "d0aa6df9b5edb41c3f44b93078a51935c9d0f2d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30d7bfae_542fddac",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-19T00:50:45Z",
+      "side": 1,
+      "message": "The name is misleading: it looks like the repository can enable/disable the GC function. However, this is more about exposing the capability of doing GC or not.\n\nMaybe a canPerformGC() is better? What do you think?",
+      "range": {
+        "startLine": 66,
+        "startChar": 18,
+        "endLine": 66,
+        "endChar": 29
+      },
+      "revId": "d0aa6df9b5edb41c3f44b93078a51935c9d0f2d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2110eae4_a6cd6b76",
         "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
         "patchSetId": 1

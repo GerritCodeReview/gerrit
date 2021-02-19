@@ -22,6 +22,30 @@
       },
       "revId": "193d93f6b173819b046f45991ddfb2651f3e05ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be61bce4_f08a9fcc",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-19T10:14:02Z",
+      "side": 1,
+      "message": "Good point, I was wondering, why Bazel test overriding it on Bildkite: [1]. They use value 12 though:\n\n  --local_test_jobs\u003d12\n\nBut let me remove it here, and only increase jobs number to 100.\n\n[1] https://buildkite.com/bazel/gerrit/builds/6641#b717c502-9455-4485-8014-4f65995725a3",
+      "parentUuid": "62fce162_e83a2b12",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "193d93f6b173819b046f45991ddfb2651f3e05ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

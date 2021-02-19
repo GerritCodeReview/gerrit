@@ -439,6 +439,11 @@ export class GrSyntaxLayer
         revisionLine = section.b[state.lineIndex];
         state.lineNums.right++;
       }
+      if (section.skip) {
+        state.lineNums.left += section.skip;
+        state.lineNums.right += section.skip;
+        for (let i = 0; i < section.skip; i++) this._revisionRanges.push([]);
+      }
     }
 
     // To store the result of the syntax highlighter.

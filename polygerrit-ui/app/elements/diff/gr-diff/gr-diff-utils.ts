@@ -18,6 +18,8 @@
 import {CommentRange} from '../../../types/common';
 import {FILE, LineNumber} from './gr-diff-line';
 import {Side} from '../../../constants/constants';
+import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
+import {GrDiffHost} from '../gr-diff-host/gr-diff-host';
 
 /**
  * Compare two ranges. Either argument may be falsy, but will only return
@@ -99,4 +101,16 @@ export function isThreadEl(node: Node): node is GrDiffThreadElement {
     node.nodeType === Node.ELEMENT_NODE &&
     (node as Element).classList.contains('comment-thread')
   );
+}
+
+export function onRenderOnce(
+  this: GrCommentThread | GrDiffHost
+): Promise<CustomEvent> {
+  return new Promise<CustomEvent>(resolve => {
+    const callback = (event: CustomEvent) => {
+      this.removeEventListener('render', callback);
+      resolve(event);
+    };
+    this.addEventListener('render', callback);
+  });
 }

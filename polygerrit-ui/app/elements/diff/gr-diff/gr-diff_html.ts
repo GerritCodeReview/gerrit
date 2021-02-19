@@ -431,9 +431,15 @@ export const htmlTemplate = html`
     td.lost div {
       background-color: var(--blue-50);
       padding: var(--spacing-s);
+      font-family: 'Roboto';
+    }
+    td.lost div:first-of-type {
+      display: flex;
+      align-items: center;
     }
     td.lost iron-icon {
       margin-right: var(--spacing-s);
+      color: var(--blue-700);
     }
     col.blame {
       display: none;

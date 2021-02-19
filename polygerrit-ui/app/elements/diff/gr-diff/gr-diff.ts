@@ -904,8 +904,9 @@ export class GrDiff extends GestureEventListeners(
 
   _portedCommentsWithoutRangeMessage() {
     const div = document.createElement('div');
+    div.classList.add('portedCommentsWithoutRangeMessage');
     const icon = document.createElement('iron-icon');
-    icon.setAttribute('icon', 'gr-icons:info');
+    icon.setAttribute('icon', 'gr-icons:info-outline');
     div.appendChild(icon);
     const span = document.createElement('span');
     span.innerText = 'Original comment position not found in this patchset';

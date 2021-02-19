@@ -16,6 +16,23 @@
       "message": "15 mins for running the whole Elastic tests validation isn\u0027t bad at all !\nThanks @Davido.",
       "revId": "68e860671106ef940e9abf7498935ac8a196bff1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0edc976a_f5d61dea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-19T22:39:49Z",
+      "side": 1,
+      "message": "@DavidO why do you believe RBE tests were not cached? It took 24 minutes overall, seems like they were re-executed all of them, which is unexpected IMHO.",
+      "revId": "68e860671106ef940e9abf7498935ac8a196bff1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

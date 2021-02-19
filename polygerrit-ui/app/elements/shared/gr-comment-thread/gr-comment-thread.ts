@@ -60,7 +60,7 @@ import {GrButton} from '../gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences} from '../../../api/diff';
-import {check, checkProperty} from '../../../utils/common-util';
+import {check, assertIsDefined} from '../../../utils/common-util';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -334,8 +334,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   }
 
   _getUrlForViewDiff(comments: UIComment[]) {
-    checkProperty(!!this.changeNum, 'changeNum');
-    checkProperty(!!this.projectName, 'projectName');
+    assertIsDefined(this.changeNum, 'changeNum');
+    assertIsDefined(this.projectName, 'projectName');
     check(comments.length > 0, 'comment not found');
     return GerritNav.getUrlForComment(
       this.changeNum,
@@ -633,8 +633,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   }
 
   _handleCommentDiscard(e: Event) {
-    if (!this.changeNum) throw new Error('changeNum is missing');
-    if (!this.patchNum) throw new Error('patchNum is missing');
+    assertIsDefined(this.changeNum, 'changeNum');
+    assertIsDefined(this.patchNum, 'patchNum');
     const diffCommentEl = (dom(e) as EventApi).rootTarget as GrComment;
     const comment = diffCommentEl.comment;
     const idx = this._indexOf(comment, this.comments);

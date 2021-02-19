@@ -92,6 +92,7 @@ import {
 } from '@polymer/polymer/interfaces';
 import {
   areSetsEqual,
+  assertIsDefined,
   assertNever,
   containsAll,
 } from '../../../utils/common-util';
@@ -433,7 +434,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   open(focusTarget?: FocusTarget) {
-    if (!this.change) throw new Error('missing required change property');
+    assertIsDefined(this.change, 'change');
     this.knownLatestState = LatestPatchState.CHECKING;
     fetchChangeUpdates(this.change, this.restApiService).then(result => {
       this.knownLatestState = result.isLatest
@@ -605,7 +606,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     account: AccountInfoInput | GroupInfoInput,
     type: ReviewerType
   ) {
-    if (!this.change) throw new Error('missing required change property');
+    assertIsDefined(this.change, 'change');
     if (account._pendingAdd || !isAccount(account)) {
       return;
     }
@@ -1213,7 +1214,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   cancel() {
-    if (!this.change) throw new Error('missing required change property');
+    assertIsDefined(this.change, 'change');
     if (!this._owner) throw new Error('missing required _owner property');
     this.dispatchEvent(
       new CustomEvent('cancel', {
@@ -1269,8 +1270,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   _saveReview(review: ReviewInput, errFn?: ErrorCallback) {
-    if (!this.change) throw new Error('missing required change property');
-    if (!this.patchNum) throw new Error('missing required patchNum property');
+    assertIsDefined(this.change, 'change');
+    assertIsDefined(this.patchNum, 'patchNum');
     return this.restApiService.saveChangeReview(
       this.change._number,
       this.patchNum,
@@ -1316,7 +1317,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   _getStorageLocation(): StorageLocation {
-    if (!this.change) throw new Error('missing required change property');
+    assertIsDefined(this.change, 'change');
     return {
       changeNum: this.change._number,
       patchNum: '@change',

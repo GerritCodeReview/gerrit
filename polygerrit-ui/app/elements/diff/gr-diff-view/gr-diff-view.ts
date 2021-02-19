@@ -97,6 +97,7 @@ import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
+import {assertIsDefined} from '../../../utils/common-util';
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
 const MSG_LOADED_BLAME = 'Blame loaded';
@@ -370,7 +371,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
   }
 
   _getChangeEdit() {
-    if (!this._changeNum) throw new Error('Missing this._changeNum');
+    assertIsDefined(this._changeNum, '_changeNum');
     return this.restApiService.getChangeEdit(this._changeNum);
   }
 
@@ -980,7 +981,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
         leftSide = !!this.params.leftSide;
       }
     }
-    if (!this._patchRange) throw new Error('Failed to initialize patchRange.');
+    assertIsDefined(this._patchRange, '_patchRange');
     this._initLineOfInterestAndCursor(leftSide);
 
     if (this.params?.commentId) {
@@ -1052,10 +1053,10 @@ export class GrDiffView extends KeyboardShortcutMixin(
         this._initPatchRange();
         this._initCommitRange();
 
-        if (!this._path) throw new Error('path must be defined');
+        assertIsDefined(this._path, '_path');
         if (!this._changeComments)
           throw new Error('change comments must be defined');
-        if (!this._patchRange) throw new Error('patch range must be defined');
+        assertIsDefined(this._patchRange, '_patchRange');
 
         // TODO(dhruvsri): check if basePath should be set here
         this.$.diffHost.threads = this._changeComments.getThreadsBySideForFile(
@@ -1082,9 +1083,9 @@ export class GrDiffView extends KeyboardShortcutMixin(
         if (!this._diff) throw new Error('Missing this._diff');
         const fileUnchanged = this._isFileUnchanged(this._diff);
         if (fileUnchanged && value.commentLink) {
-          if (!this._change) throw new Error('Missing this._change');
-          if (!this._path) throw new Error('Missing this._path');
-          if (!this._patchRange) throw new Error('Missing this._patchRange');
+          assertIsDefined(this._change, '_change');
+          assertIsDefined(this._path, '_path');
+          assertIsDefined(this._patchRange, '_patchRange');
 
           if (this._patchRange.basePatchNum === ParentPatchSetNum) {
             // file is unchanged between Base vs X
@@ -1493,7 +1494,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
   }
 
   _loadComments(patchSet?: PatchSetNum) {
-    if (!this._changeNum) throw new Error('Missing this._changeNum');
+    assertIsDefined(this._changeNum, '_changeNum');
     return this.$.commentAPI
       .loadAll(this._changeNum, patchSet)
       .then(comments => {
@@ -1529,7 +1530,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
   }
 
   _getDiffDrafts() {
-    if (!this._changeNum) throw new Error('Missing this._changeNum');
+    assertIsDefined(this._changeNum, '_changeNum');
 
     return this.restApiService.getDiffDrafts(this._changeNum);
   }

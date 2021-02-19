@@ -79,6 +79,7 @@ import {
   fireEvent,
 } from '../../../utils/event-util';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -324,8 +325,8 @@ export class GrDiffHost extends GestureEventListeners(
     return getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
-        if (!this.path) throw new Error('Missing required "path" property.');
-        if (!this.changeNum) throw new Error('Missing required "changeNum".');
+        assertIsDefined(this.path, 'path');
+        assertIsDefined(this.changeNum, 'changeNum');
         this._layers = this._getLayers(this.path, this.changeNum);
         this._coverageRanges = [];
         // We kick off fetching the data here, but we don't return the promise,
@@ -341,8 +342,8 @@ export class GrDiffHost extends GestureEventListeners(
    */
   async reload(shouldReportMetric?: boolean) {
     this.clear();
-    if (!this.path) throw new Error('Missing required "path" property.');
-    if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
+    assertIsDefined(this.path, 'path');
+    assertIsDefined(this.changeNum, 'changeNum');
     this.diff = undefined;
     this._errorMessage = null;
     const whitespaceLevel = this._getIgnoreWhitespace();
@@ -420,10 +421,10 @@ export class GrDiffHost extends GestureEventListeners(
   }
 
   _getCoverageData() {
-    if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
-    if (!this.change) throw new Error('Missing required "change" prop.');
-    if (!this.path) throw new Error('Missing required "path" prop.');
-    if (!this.patchRange) throw new Error('Missing required "patchRange".');
+    assertIsDefined(this.changeNum, 'changeNum');
+    assertIsDefined(this.change, 'change');
+    assertIsDefined(this.path, 'path');
+    assertIsDefined(this.patchRange, 'patchRange');
     const changeNum = this.changeNum;
     const change = this.change;
     const path = this.path;
@@ -442,7 +443,7 @@ export class GrDiffHost extends GestureEventListeners(
           if (!provider) return;
           provider(changeNum, path, basePatchNum, patchNum, change)
             .then(coverageRanges => {
-              if (!this.patchRange) throw new Error('Missing "patchRange".');
+              assertIsDefined(this.patchRange, 'patchRange');
               if (
                 !coverageRanges ||
                 changeNum !== this.changeNum ||
@@ -532,9 +533,9 @@ export class GrDiffHost extends GestureEventListeners(
    * Load and display blame information for the base of the diff.
    */
   loadBlame(): Promise<BlameInfo[]> {
-    if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
-    if (!this.patchRange) throw new Error('Missing required "patchRange".');
-    if (!this.path) throw new Error('Missing required "path" property.');
+    assertIsDefined(this.changeNum, 'changeNum');
+    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.path, 'path');
     return this.restApiService
       .getBlame(this.changeNum, this.patchRange.patchNum, this.path, true)
       .then(blame => {
@@ -599,9 +600,9 @@ export class GrDiffHost extends GestureEventListeners(
     // Wrap the diff request in a new promise so that the error handler
     // rejects the promise, allowing the error to be handled in the .catch.
     return new Promise((resolve, reject) => {
-      if (!this.changeNum) throw new Error('Missing required "changeNum".');
-      if (!this.patchRange) throw new Error('Missing required "patchRange".');
-      if (!this.path) throw new Error('Missing required "path" property.');
+      assertIsDefined(this.changeNum, 'changeNum');
+      assertIsDefined(this.patchRange, 'patchRange');
+      assertIsDefined(this.path, 'path');
       this.restApiService
         .getDiff(
           this.changeNum,
@@ -669,7 +670,7 @@ export class GrDiffHost extends GestureEventListeners(
 
     // Report the due_to_rebase percentage in the "diff" category when
     // applicable.
-    if (!this.patchRange) throw new Error('Missing required "patchRange".');
+    assertIsDefined(this.patchRange, 'patchRange');
     if (this.patchRange.basePatchNum === 'PARENT') {
       this.reporting.reportInteraction(EVENT_AGAINST_PARENT);
     } else if (percentRebaseDelta === 0) {
@@ -726,8 +727,8 @@ export class GrDiffHost extends GestureEventListeners(
   }
 
   _getImages(diff: DiffInfo) {
-    if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
-    if (!this.patchRange) throw new Error('Missing required "patchRange".');
+    assertIsDefined(this.changeNum, 'changeNum');
+    assertIsDefined(this.patchRange, 'patchRange');
     return this.restApiService.getImagesForDiff(
       this.changeNum,
       diff,

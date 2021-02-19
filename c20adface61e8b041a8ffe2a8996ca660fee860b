@@ -16,6 +16,52 @@
       "message": "Thanks, works for me!\nOnly +1 so that Patrick can have another look too.",
       "revId": "c20adface61e8b041a8ffe2a8996ca660fee860b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f505133f_5f52c23d",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-19T10:26:28Z",
+      "side": 1,
+      "message": "Instead of creating a copiedOver field and explaining what needs to happen for serialization, could we just check if the PSA was copied here by looking at the PSAs without copying?\n\nnotes.getApprovals().get(ps.id()) gives you all PSAs that were applied directly to to the PS in question. if your PSA is contained there it was not copied.\n\nPutting this logic in a small (static) method here would make the whole thing easier. WDYT?",
+      "range": {
+        "startLine": 1277,
+        "startChar": 18,
+        "endLine": 1277,
+        "endChar": 79
+      },
+      "revId": "c20adface61e8b041a8ffe2a8996ca660fee860b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14bfc250_3f65f2c4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-19T10:26:28Z",
+      "side": 1,
+      "message": "nit: snafu",
+      "range": {
+        "startLine": 629,
+        "startChar": 21,
+        "endLine": 629,
+        "endChar": 36
+      },
+      "revId": "c20adface61e8b041a8ffe2a8996ca660fee860b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

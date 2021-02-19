@@ -1713,7 +1713,7 @@ export class GrRestApiInterface extends PolymerElement
     );
     const params = {
       O: options,
-      q: `status:open conflicts:${changeNum}`,
+      q: `status: conflicts:${changeNum}`,
     };
     return this._restApiHelper.fetchJSON({
       url: '/changes/',

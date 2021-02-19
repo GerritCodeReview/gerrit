@@ -35,9 +35,9 @@ const WIP_TOOLTIP =
   "It will not appear on dashboards unless you are CC'ed or assigned, " +
   'and email notifications will be silenced until the review is started.';
 
-const MERGE_CONFLICT_TOOLTIP =
+export const MERGE_CONFLICT_TOOLTIP =
   'This change has merge conflicts. ' +
-  'Download the patch and run "git rebase master". ' +
+  'Download the patch and run "git rebase". ' +
   'Upload a new patchset after resolving all merge conflicts.';
 
 const PRIVATE_TOOLTIP =

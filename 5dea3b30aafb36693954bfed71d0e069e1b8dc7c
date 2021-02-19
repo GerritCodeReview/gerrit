@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe421eb7_926e0c31",
+        "filename": "polygerrit-ui/app/api/annotation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-19T10:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d603b5de_154e49f4",
+      "range": {
+        "startLine": 33,
+        "startChar": 5,
+        "endLine": 33,
+        "endChar": 66
+      },
+      "revId": "5dea3b30aafb36693954bfed71d0e069e1b8dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "683aa5b0_d68b4cb0",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-02-16T11:26:22Z",
       "side": 1,
       "message": "Should all of these be readonly then? I guess these should never be mutated by the plugin?",
+      "revId": "5dea3b30aafb36693954bfed71d0e069e1b8dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6efa6ca1_5dc46842",
+        "filename": "polygerrit-ui/app/api/annotation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-19T10:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "683aa5b0_d68b4cb0",
       "revId": "5dea3b30aafb36693954bfed71d0e069e1b8dc7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -71,6 +113,24 @@
       "writtenOn": "2021-02-16T11:26:22Z",
       "side": 1,
       "message": "So the method is called \"addLayer\", but there can actually only be a single layer?",
+      "revId": "5dea3b30aafb36693954bfed71d0e069e1b8dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2de3536b_63df031b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-19T10:21:34Z",
+      "side": 1,
+      "message": "Renamed to setLayer.",
+      "parentUuid": "b8d25578_8c44b6a9",
       "revId": "5dea3b30aafb36693954bfed71d0e069e1b8dc7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

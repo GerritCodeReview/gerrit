@@ -237,9 +237,19 @@ class GrResultExpanded extends GrLitElement {
   render() {
     if (!this.result) return '';
     return html`
-      <div class="message">
-        ${this.result.message}
-      </div>
+      <gr-endpoint-decorator name="check-result-expanded">
+        <gr-endpoint-param
+          name="run"
+          value="${this.result}"
+        ></gr-endpoint-param>
+        <gr-endpoint-param
+          name="result"
+          value="${this.result}"
+        ></gr-endpoint-param>
+        <div class="message">
+          ${this.result.message}
+        </div>
+      </gr-endpoint-decorator>
     `;
   }
 }

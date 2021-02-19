@@ -90,8 +90,10 @@ function fixtureImpl(fixtureId: string, model: unknown) {
 }
 
 window.fixture = fixtureImpl;
+let testSetupTimestampMs = 0;
 
 setup(() => {
+  testSetupTimestampMs = new Date().getTime();
   window.Gerrit = {};
   initGlobalVariables();
   addIronOverlayBackdropStyleEl();
@@ -201,4 +203,9 @@ teardown(() => {
   // `this.debounce()`. For those please be careful and cancel them using
   // `this.cancelDebouncer()` in the `detached()` lifecycle hook.
   flushDebouncers();
+  const testTeardownTimestampMs = new Date().getTime();
+  const elapsedMs = testTeardownTimestampMs - testSetupTimestampMs;
+  if (elapsedMs > 1000) {
+    console.warn(`ATTENTION! Test took longer than 1 second: ${elapsedMs} ms`);
+  }
 });

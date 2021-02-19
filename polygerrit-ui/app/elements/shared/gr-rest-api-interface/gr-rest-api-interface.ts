@@ -2234,13 +2234,13 @@ export class GrRestApiInterface extends PolymerElement
     if (!basePatchNum && !patchNum && !path) {
       return this._getDiffComments(changeNum, '/comments', {
         'enable-context': true,
-        'context-padding': 5,
+        'context-padding': 3,
       });
     }
     return this._getDiffComments(
       changeNum,
       '/comments',
-      {'enable-context': true, 'context-padding': 5},
+      {'enable-context': true, 'context-padding': 3},
       basePatchNum,
       patchNum,
       path

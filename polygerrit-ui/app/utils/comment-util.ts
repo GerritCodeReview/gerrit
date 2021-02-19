@@ -289,6 +289,8 @@ export function getPatchRangeForCommentUrl(
 }
 
 export function computeDiffFromContext(context: ContextLine[], path: string) {
+  // do not render more than 20 lines of context
+  context = context.slice(0, 20);
   const diff: DiffInfo = {
     meta_a: {
       name: '',

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a24196a3_07b71f69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-19T16:43:31Z",
+      "side": 1,
+      "message": "Could you add a test for the new business logic?",
+      "revId": "fc0d5af4ef442190fcd7c7e4b310bd65ccb08ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edc95831_e9bc8810",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-19T16:43:31Z",
+      "side": 1,
+      "message": "new",
+      "range": {
+        "startLine": 43,
+        "startChar": 42,
+        "endLine": 43,
+        "endChar": 45
+      },
+      "revId": "fc0d5af4ef442190fcd7c7e4b310bd65ccb08ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

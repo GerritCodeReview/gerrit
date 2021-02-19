@@ -4,6 +4,11 @@ build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
 build --java_toolchain=//tools:error_prone_warnings_toolchain_java11
 
+# Remote caching doesn't work without this option.
+# We have to add --test_env flags to `build`, too, otherwise Bazel
+# discards its analysis cache between `build` and `test`.
+build --test_env=HOME
+
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.
 # This will be the new default behavior at some point (and the flag was flipped

@@ -288,7 +288,11 @@ export function getPatchRangeForCommentUrl(
   }
 }
 
-export function computeDiffFromContext(context: ContextLine[], path: string) {
+export function computeDiffFromContext(
+  context: ContextLine[],
+  path: string,
+  content_type?: string
+) {
   // do not render more than 20 lines of context
   context = context.slice(0, 20);
   const diff: DiffInfo = {
@@ -300,7 +304,7 @@ export function computeDiffFromContext(context: ContextLine[], path: string) {
     },
     meta_b: {
       name: path,
-      content_type: '',
+      content_type: content_type || '',
       lines: context.length + context?.[0].line_number,
       web_links: [],
     },

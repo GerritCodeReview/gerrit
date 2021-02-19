@@ -1175,6 +1175,7 @@ export interface CommentInfo {
   change_message_id?: string;
   commit_id?: string;
   context_lines?: ContextLine[];
+  source_content_type?: string;
 }
 
 export type PathToCommentsInfoMap = {[path: string]: CommentInfo[]};

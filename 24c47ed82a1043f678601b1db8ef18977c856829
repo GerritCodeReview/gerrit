@@ -33,6 +33,24 @@
       "message": "Are you still interested in this change?",
       "revId": "24c47ed82a1043f678601b1db8ef18977c856829",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cc403b5_0406e781",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-02-19T11:39:40Z",
+      "side": 1,
+      "message": "Absolutely, let me verify it. Sorry about taking so long.",
+      "parentUuid": "065921e8_794a8db1",
+      "revId": "24c47ed82a1043f678601b1db8ef18977c856829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

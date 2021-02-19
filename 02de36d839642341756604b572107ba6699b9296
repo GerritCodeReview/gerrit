@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a10a1696_72fcae3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-19T18:22:33Z",
+      "side": 1,
+      "message": "As previously discussed, it would be better to tailor the change on a per branch (or version) basis. To adapt each branching of this change based on its corresponding core.",
+      "parentUuid": "8f735fd7_4d23f868",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "02de36d839642341756604b572107ba6699b9296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e979b120_0d37c6af",

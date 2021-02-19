@@ -16,6 +16,23 @@
       "message": "Thanks, Ben, for the extra variable on the Service user.\n@Ponch can you test it E2E and confirm that resolves your use-case?",
       "revId": "24c47ed82a1043f678601b1db8ef18977c856829",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "065921e8_794a8db1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-19T11:08:38Z",
+      "side": 1,
+      "message": "Are you still interested in this change?",
+      "revId": "24c47ed82a1043f678601b1db8ef18977c856829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -17,16 +17,13 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-change-status.js';
+import {MERGE_CONFLICT_TOOLTIP} from './gr-change-status.js';
 
 const basicFixture = fixtureFromElement('gr-change-status');
 
 const WIP_TOOLTIP = 'This change isn\'t ready to be reviewed or submitted. ' +
     'It will not appear on dashboards unless you are CC\'ed or assigned, ' +
     'and email notifications will be silenced until the review is started.';
-
-const MERGE_CONFLICT_TOOLTIP = 'This change has merge conflicts. ' +
-  'Download the patch and run "git rebase master". ' +
-  'Upload a new patchset after resolving all merge conflicts.';
 
 const PRIVATE_TOOLTIP = 'This change is only visible to its owner and ' +
     'current reviewers (or anyone with "View Private Changes" permission).';

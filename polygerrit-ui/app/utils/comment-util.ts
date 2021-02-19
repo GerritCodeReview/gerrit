@@ -298,7 +298,7 @@ export function computeDiffFromContext(context: ContextLine[], path: string) {
     },
     meta_b: {
       name: path,
-      content_type: '',
+      content_type: 'text/javascript',
       lines: context.length + context?.[0].line_number,
       web_links: [],
     },

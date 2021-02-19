@@ -141,6 +141,30 @@
       },
       "revId": "75b1d9a5583d8d63daa14f06d5d22c90123d574e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ede17fb4_7f0958c1",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-19T00:36:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "20d156ef_201ebe9d",
+      "range": {
+        "startLine": 107,
+        "startChar": 68,
+        "endLine": 108,
+        "endChar": 90
+      },
+      "revId": "75b1d9a5583d8d63daa14f06d5d22c90123d574e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

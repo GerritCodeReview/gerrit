@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f2ae466_cd98bbc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-19T13:58:59Z",
+      "side": 1,
+      "message": "Is this valid syntax? It doesn\u0027t look like the examples on https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#tests ? I find I\u0027m often confused on what the correct syntax is to run a subset of tests and I haven\u0027t found a super simple guide to it anywhere in the Bazel docs.",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 69
+      },
+      "revId": "354de048b435eed95e9eed4afa0b7da782de3a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ae65afee_17b4a6bf",

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2272c6b_860f7463",
+        "filename": "java/com/google/gerrit/server/patch/ComparisonType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-19T16:33:54Z",
+      "side": 1,
+      "message": "The comment should say when this is present.",
+      "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f32f9239_80cba3fc",
+        "filename": "java/com/google/gerrit/server/patch/ComparisonType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-19T16:33:54Z",
+      "side": 1,
+      "message": "This allows creating an object with undefined semantics, IIUC: Parent present and automerge\u003dtrue. Can we avoid that?",
+      "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9a3bcc0_8d1b27ea",
+        "filename": "java/com/google/gerrit/server/patch/ComparisonType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-19T16:33:54Z",
+      "side": 1,
+      "message": "This throws an NPE. Is that intended? ISTM an internal error would be clearer.",
+      "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2685d6fb_1aa240f3",
+        "filename": "java/com/google/gerrit/server/patch/ComparisonType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-19T16:33:54Z",
+      "side": 1,
+      "message": "isAgainstParent()",
+      "range": {
+        "startLine": 71,
+        "startChar": 23,
+        "endLine": 71,
+        "endChar": 46
+      },
+      "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

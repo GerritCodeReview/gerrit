@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae65afee_17b4a6bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-19T12:39:04Z",
+      "side": 1,
+      "message": "This made our build a lot slower: before this change it was 12 minus, with this change it goes up to 27 minutes.",
+      "revId": "354de048b435eed95e9eed4afa0b7da782de3a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

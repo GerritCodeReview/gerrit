@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fda60142_743be46b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-19T00:40:16Z",
+      "side": 1,
+      "message": "Good job, but we are missing one test.",
+      "revId": "d0aa6df9b5edb41c3f44b93078a51935c9d0f2d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2110eae4_a6cd6b76",
@@ -14,6 +31,30 @@
       "writtenOn": "2021-02-18T16:37:04Z",
       "side": 1,
       "message": "we use default implementation to keep backward compatibility",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 3
+      },
+      "revId": "d0aa6df9b5edb41c3f44b93078a51935c9d0f2d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ed6dfb2_3de1b087",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-19T00:40:16Z",
+      "side": 1,
+      "message": "I believe this is a good choice and also the returned value (false) is the safest one, because we don\u0027t know up-front if the subclass will support or not the GC.",
+      "parentUuid": "2110eae4_a6cd6b76",
       "range": {
         "startLine": 66,
         "startChar": 0,

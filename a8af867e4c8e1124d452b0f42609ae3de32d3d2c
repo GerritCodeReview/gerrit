@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61cf8167_0fee1abe",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-19T19:16:53Z",
+      "side": 1,
+      "message": "I am just curious why twice endpoint-param, when value is same?",
+      "range": {
+        "startLine": 241,
+        "startChar": 9,
+        "endLine": 241,
+        "endChar": 26
+      },
+      "revId": "a8af867e4c8e1124d452b0f42609ae3de32d3d2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

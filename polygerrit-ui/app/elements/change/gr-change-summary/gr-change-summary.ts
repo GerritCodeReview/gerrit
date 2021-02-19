@@ -40,6 +40,7 @@ import {
   iconForCategory,
   iconForStatus,
   isRunning,
+  isRunningOrHasCompleted,
 } from '../../../services/checks/checks-util';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
@@ -288,6 +289,9 @@ export class GrChangeSummary extends GrLitElement {
         :host.new-change-summary-true {
           margin-bottom: var(--spacing-m);
         }
+        .zeroState {
+          color: var(--primary-text-color);
+        }
         td.key {
           padding-right: var(--spacing-l);
           padding-bottom: var(--spacing-m);
@@ -310,6 +314,11 @@ export class GrChangeSummary extends GrLitElement {
         }
       `,
     ];
+  }
+
+  renderChecksZeroState() {
+    if (this.runs.some(isRunningOrHasCompleted)) return;
+    return html`<span class="font-small zeroState">No results</span>`;
   }
 
   renderChecksChipForCategory(category: Category) {
@@ -395,7 +404,7 @@ export class GrChangeSummary extends GrLitElement {
           <tr ?hidden=${!this.showChecksSummary}>
             <td class="key">Checks</td>
             <td class="value">
-              ${this.renderChecksChipForCategory(
+              ${this.renderChecksZeroState()}${this.renderChecksChipForCategory(
                 Category.ERROR
               )}${this.renderChecksChipForCategory(
                 Category.WARNING
@@ -410,13 +419,13 @@ export class GrChangeSummary extends GrLitElement {
           <tr ?hidden=${!this.newChangeSummaryUiEnabled}>
             <td class="key">Comments</td>
             <td class="value">
-              <gr-summary-chip
-                styleType=${SummaryChipStyles.INFO}
+              <span
+                class="font-small zeroState"
                 ?hidden=${!!countResolvedComments ||
                 !!draftCount ||
                 !!countUnresolvedComments}
               >
-                No Comments</gr-summary-chip
+                No Comments</span
               ><gr-summary-chip
                 styleType=${SummaryChipStyles.WARNING}
                 category=${CommentTabState.DRAFTS}

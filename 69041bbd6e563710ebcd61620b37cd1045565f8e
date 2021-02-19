@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f2efd879_a8b03c32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-19T09:59:07Z",
+      "side": 1,
+      "message": "I agree that the field will not appear in the proto if it\u0027s not added in entities.proto. Can you then please add a comment on PatchSetApproval in entities.proto saying that this field is intentionally omitted. Otherwise someone might find it missing and may add it without knowing the implications.",
+      "parentUuid": "0c2c3616_af3a972d",
+      "revId": "69041bbd6e563710ebcd61620b37cd1045565f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8adf2f69_5ac16b50",
         "filename": "javatests/com/google/gerrit/entities/converter/PatchSetApprovalProtoConverterTest.java",
         "patchSetId": 4

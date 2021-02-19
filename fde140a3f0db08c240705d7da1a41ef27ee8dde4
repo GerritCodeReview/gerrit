@@ -34,6 +34,23 @@
       "parentUuid": "bb9e33e3_c9cc0061",
       "revId": "fde140a3f0db08c240705d7da1a41ef27ee8dde4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca1cd8e3_6189415a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-19T22:46:16Z",
+      "side": 1,
+      "message": "This would be best to be part of the gerrit-ci-scripts, as it would provide benefit to *ALL* builds, not just the Gerrit ones on RBE.",
+      "revId": "fde140a3f0db08c240705d7da1a41ef27ee8dde4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

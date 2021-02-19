@@ -100,3 +100,13 @@ export function isThreadEl(node: Node): node is GrDiffThreadElement {
     (node as Element).classList.contains('comment-thread')
   );
 }
+
+export function onRenderOnce(this: any): Promise<CustomEvent> {
+  return new Promise<CustomEvent>(resolve => {
+    const callback = (event: CustomEvent) => {
+      // this.removeEventListener('render', callback);
+      resolve(event);
+    };
+    this.addEventListener('render', callback);
+  });
+}

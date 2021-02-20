@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5685053a_21ad150e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-20T02:07:55Z",
+      "side": 1,
+      "message": "Adding Han-Wen as this may have implications on gerrit@googlesource once it reaches master.",
+      "revId": "3c61dfc14509d3309689147d91816743226fd86d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d36cbaf_270686c5",
+        "filename": "javatests/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-20T02:07:55Z",
+      "side": 1,
+      "message": "Good. You should also add one test that says that if you don\u0027t implement the \u0027canPerformGC()\u0027 then it returns false.",
+      "revId": "3c61dfc14509d3309689147d91816743226fd86d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

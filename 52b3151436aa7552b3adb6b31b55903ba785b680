@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc78b244_55ddd75d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-02-20T00:54:23Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e This is already possible today: the replication plugin exposes an API that is consumed by the multi-site plugin.\n\u003e \u003e \n\u003e \u003e I don\u0027t believe this is an accurate statement. From my understanding, technically the \"lib\" mechanism exposes the API, not the plugin. \n\u003e \n\u003e You are indeed correct, it is documented at [1]. Because Davido\u0027s change about plugins dependency mechanism in the plugin loader was not merged, we still have to use this technical solution to expose a common API.\n\nThat change does something very cool, it has this class:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/54428/25/gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultiParentClassLoader.java\n\nwhich I wanted to implement also, but had not tried yet to see if it would work. If that class works, then I have a proposal that I am trying to get prototyped that will avoid the load ordering issues of that change, which I believe was the major downside of that specific approach.\n\nThe basic idea is to take advantage of the fact that most execution paths are \"short lived\", i.e. they start with a request, and they end when the request is finished. This means that you only need the MultiParentClassloader available for that short duration. Since for request based use cases you do not need the MultiParentClassloader available at plugin load time, you can simply ignore the plugin ordering issue altogether! It only matters at request time whether the other plugins are loaded. If they aren\u0027t, then the functionality of the dependent plugin can be gracefully unavailable as if none of the plugins were loaded.\n\nBasically my new proposal will combine the MultiParentClassloader with the ideas of this change: https://gerrit-review.googlesource.com/c/gerrit/+/129917 and this change: https://gerrit-review.googlesource.com/c/gerrit/+/129918 We can define another interface that would allow DynamicBeans to explicitly (the approach in those changes is implicit and can only use one other plugin) specify which other plugins to add to the current request\u0027s MultiParentClassloader and core can instantiate the DynamicBean from that classloader.\n\nCombine the approach above with this change, and I believe you will be able to access the APIs from other plugins without the need for reflection since you should now have the other plugin\u0027s classloader as a parent classloader! @DavidO, do you think this would work?\n\n\u003e Let me rephrase: I was interested to know what is the functional use-case that is not possible with the current \u0027/lib\u0027 loading mechanism. From the technical functionality perspective, I agree with you, it is not possible to share a common interface between plugins at the moment, if not through the \u0027/lib\u0027.\n\nGotcha, thanks. We will try to capture that better in the next patchset.\n\n\u003e If it is the technical problem that you are willing to address, I do understand your point and I believe we should involve Davido in the discussion as he had some interesting ideas to share.\n\nYes, agreed! I hope he will join the discussion.\n\n\u003e Thanks for sharing your views and proposals in this area.\n...\n\u003e [1] https://gerrit.googlesource.com/plugins/replication/+/refs/heads/master/src/main/resources/Documentation/extension-point.md\n\nThanks for your review and pointers, this one was very helpful, I hadn\u0027t seen it.",
+      "parentUuid": "4d9820b4_0a876fa1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 45
+      },
+      "revId": "52b3151436aa7552b3adb6b31b55903ba785b680",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "733fc14c_28bdaa29",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

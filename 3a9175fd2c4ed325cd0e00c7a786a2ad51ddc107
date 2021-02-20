@@ -16,6 +16,23 @@
       "message": "I did not see any performance improvements with this split :-(",
       "revId": "3a9175fd2c4ed325cd0e00c7a786a2ad51ddc107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ed0e587_6cbabad9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-20T22:54:42Z",
+      "side": 1,
+      "message": "here observed test runtime on my MacBook:\n- with this change: 67 min\n- without: 60 min",
+      "revId": "3a9175fd2c4ed325cd0e00c7a786a2ad51ddc107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

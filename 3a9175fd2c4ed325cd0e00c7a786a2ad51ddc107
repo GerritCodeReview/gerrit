@@ -51,6 +51,24 @@
       "parentUuid": "2ed0e587_6cbabad9",
       "revId": "3a9175fd2c4ed325cd0e00c7a786a2ad51ddc107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84217a35_3d3f0f3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-21T12:06:41Z",
+      "side": 1,
+      "message": "Splitting by file degrades a bit on test server startup. While combining the test in one single java_test() rule wil re-use the same gerrit server process. However, for remote execution it can be run in parallel, so with this change: [1], every test will be run separately and potentially faster:\n\n  //javatests/com/google/gerrit/acceptance/server/change:CommentContextIT (cached) PASSED in 123.5s\n  //javatests/com/google/gerrit/acceptance/server/change:CommentsIT (cached) PASSED in 259.5s\n  //javatests/com/google/gerrit/acceptance/server/change:ConsistencyCheckerIT (cached) PASSED in 99.2s\n  //javatests/com/google/gerrit/acceptance/server/change:GetRelatedIT (cached) PASSED in 191.3s\n  //javatests/com/google/gerrit/acceptance/server/change:PatchListCacheIT (cached) PASSED in 99.0s\n  //javatests/com/google/gerrit/acceptance/server/change:SubmittedTogetherIT (cached) PASSED in 172.1s\n\n\n\u003e @Davido we would need to increase further the 100 parallel actions to check the above benefits, isn\u0027t it?\n\nYe. Looking at RBE build for bazel on Buildkite: [2], they are using these numbers:\n\n  --jobs\u003d200\n  --local_test_jobs\u003d75\n\nLet me upload this change on top of this series.\n\n[1] http://paste.openstack.org/show/802864\n[2] https://buildkite.com/bazel/bazel-bazel/builds/15487#0121ac34-8629-4cda-950f-bedfed5e87aa",
+      "parentUuid": "304efbb6_7f6a0482",
+      "revId": "3a9175fd2c4ed325cd0e00c7a786a2ad51ddc107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

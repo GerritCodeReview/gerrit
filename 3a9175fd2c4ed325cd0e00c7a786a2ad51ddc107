@@ -69,6 +69,24 @@
       "parentUuid": "304efbb6_7f6a0482",
       "revId": "3a9175fd2c4ed325cd0e00c7a786a2ad51ddc107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "caf18024_794e7734",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-21T12:16:08Z",
+      "side": 1,
+      "message": "\u003e Let me upload this change on top of this series.\n\nDone in: [3].\n\n[3] https://gerrit-review.googlesource.com/c/gerrit/+/297503",
+      "parentUuid": "84217a35_3d3f0f3b",
+      "revId": "3a9175fd2c4ed325cd0e00c7a786a2ad51ddc107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

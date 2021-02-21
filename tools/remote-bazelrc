@@ -25,7 +25,8 @@
 # this higher can make builds faster by allowing more jobs to run in parallel.
 # Setting it too high can result in jobs that timeout, however, while waiting
 # for a remote machine to execute them.
-build:remote --jobs=100
+build:remote --jobs=200
+build:remote --local_test_jobs=75
 build:remote --disk_cache=
 
 # Set several flags related to specifying the platform, toolchain and java
@@ -52,7 +53,7 @@ build:remote --define=EXECUTOR=remote
 build:remote --remote_cache=remotebuildexecution.googleapis.com
 
 # Enable remote execution so actions are performed on the remote systems.
-build:remote --remote_executor=remotebuildexecution.googleapis.com
+build:remote --remote_executor=grpcs://remotebuildexecution.googleapis.com
 
 # Set a higher timeout value, just in case.
 build:remote --remote_timeout=3600

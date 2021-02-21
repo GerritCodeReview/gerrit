@@ -108,6 +108,9 @@ import {
   QuickLabelInfo,
   ApprovalInfo,
   ElementPropertyDeepChange,
+  ChangeId,
+  RelatedChangeAndCommitInfo,
+  RelatedChangesInfo,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrReplyDialog, FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
@@ -2293,7 +2296,26 @@ export class GrChangeView extends KeyboardShortcutMixin(
       const relatedChangesLoaded = coreDataPromise.then(() => {
         this.getRelatedChangesList()?.reload();
         if (this._isNewChangeSummaryUiEnabled) {
-          this.getRelatedChangesListExperimental()?.reload();
+          let relatedChangesPromise:
+            | Promise<RelatedChangesInfo | undefined>
+            | undefined;
+          const patchNum = this._computeLatestPatchNum(this._allPatchSets);
+          if (this._change && patchNum) {
+            relatedChangesPromise = this.restApiService
+              .getRelatedChanges(this._change._number, patchNum)
+              .then(response => {
+                if (this._change && response) {
+                  this.hasParent = this._calculateHasParent(
+                    this._change.change_id,
+                    response.changes
+                  );
+                }
+                return response;
+              });
+          }
+          this.getRelatedChangesListExperimental()?.reload(
+            relatedChangesPromise
+          );
         }
       });
       allDataPromises.push(relatedChangesLoaded);
@@ -2307,6 +2329,21 @@ export class GrChangeView extends KeyboardShortcutMixin(
     });
 
     return coreDataPromise;
+  }
+
+  /**
+   * Determines whether or not the given change has a parent change. If there
+   * is a relation chain, and the change id is not the last item of the
+   * relation chain, there is a parent.
+   */
+  _calculateHasParent(
+    currentChangeId: ChangeId,
+    relatedChanges: RelatedChangeAndCommitInfo[]
+  ) {
+    return (
+      relatedChanges.length > 0 &&
+      relatedChanges[relatedChanges.length - 1].change_id !== currentChangeId
+    );
   }
 
   /**
@@ -2780,7 +2817,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   /**
    * Wrapper for using in the element template and computed properties
    */
-  _computeLatestPatchNum(allPatchSets: PatchSet[]) {
+  _computeLatestPatchNum(allPatchSets?: PatchSet[]) {
     return computeLatestPatchNum(allPatchSets);
   }
 

@@ -170,24 +170,25 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
     };
   }
 
-  reload() {
+  reload(getRelatedChanges?: Promise<RelatedChangesInfo | undefined>) {
     if (!this.change) return Promise.reject(new Error('change missing'));
-    if (!this.patchNum) return Promise.reject(new Error('patchNum missing'));
     const promises: Array<Promise<void>> = [
-      this.restApiService
-        .getRelatedChanges(this.change._number, this.patchNum)
-        .then(response => {
-          if (!response) {
-            throw new Error('getRelatedChanges returned undefined response');
-          }
-          this._relatedResponse = response;
-        }),
       this.restApiService
         .getChangesSubmittedTogether(this.change._number)
         .then(response => {
           this._submittedTogether = response;
         }),
     ];
+    if (getRelatedChanges) {
+      promises.push(
+        getRelatedChanges.then(response => {
+          if (!response) {
+            throw new Error('getRelatedChanges returned undefined response');
+          }
+          this._relatedResponse = response;
+        })
+      );
+    }
 
     return Promise.all(promises);
   }

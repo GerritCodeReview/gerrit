@@ -564,7 +564,9 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       try {
-        if (perm.test(RefPermission.MERGE)) {
+        if ((MagicBranch.isMagicBranch(receiveEvent.getRefName())
+                && perm.test(RefPermission.MERGE_REVIEW))
+            || perm.test(RefPermission.MERGE_REGULAR)) {
           return Collections.emptyList();
         } else {
           throw new CommitValidationException("you are not allowed to upload merges");

@@ -202,8 +202,15 @@ class RefControl {
   }
 
   /** Returns true if this user can submit merge patch sets to this ref */
-  private boolean canUploadMerges() {
-    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH_MERGE);
+  private boolean canUploadMergesForReview() {
+    return projectControl
+        .controlForRef(MagicBranch.NEW_CHANGE + refName)
+        .canPerform(Permission.PUSH_MERGE);
+  }
+
+  /** Returns true if this user can submit regular merge to this ref */
+  private boolean canUploadMergesRegular() {
+    return projectControl.controlForRef(refName).canPerform(Permission.PUSH_MERGE);
   }
 
   /** Returns true if the user can update the reference as a fast-forward. */
@@ -563,9 +570,13 @@ class RefControl {
             pde.setAdvice(
                 "You need 'Forge Server' rights to push merge commits authored by the server.");
             break;
-          case MERGE:
+          case MERGE_REVIEW:
             pde.setAdvice(
-                "You need 'Push Merge' in addition to 'Push' rights to push merge commits.");
+                "You need 'Push Merge' in addition to 'Push' rights to push merge commits for review.");
+            break;
+          case MERGE_REGULAR:
+            pde.setAdvice(
+                "You need 'Push Merge' in addition to 'Push' rights to push regular merge commits.");
             break;
 
           case READ:
@@ -645,8 +656,11 @@ class RefControl {
           return canForgeCommitter();
         case FORGE_SERVER:
           return canForgeGerritServerIdentity();
-        case MERGE:
-          return canUploadMerges();
+        case MERGE_REVIEW:
+          return canUploadMergesForReview();
+        case MERGE_REGULAR:
+          // TODO Remove canUploadMergesForReview
+          return canUploadMergesRegular() || canUploadMergesForReview();
 
         case CREATE_CHANGE:
           return canUpload();
@@ -669,10 +683,11 @@ class RefControl {
           return isOwner();
 
         case SKIP_VALIDATION:
+          // TODO Remove canUploadMergesForReview
           return canForgeAuthor()
               && canForgeCommitter()
               && canForgeGerritServerIdentity()
-              && canUploadMerges();
+              && (canUploadMergesRegular() || canUploadMergesForReview());
       }
       throw new PermissionBackendException(perm + " unsupported");
     }

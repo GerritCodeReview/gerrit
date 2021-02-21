@@ -105,6 +105,24 @@
       "parentUuid": "caf18024_794e7734",
       "revId": "3a9175fd2c4ed325cd0e00c7a786a2ad51ddc107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb41476f_5cbf5234",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-21T12:47:31Z",
+      "side": 1,
+      "message": "Can you merge change 297357, so that we can easily see \"cached\" tests status?",
+      "parentUuid": "be2c0814_9e8231fb",
+      "revId": "3a9175fd2c4ed325cd0e00c7a786a2ad51ddc107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -14,8 +14,10 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /**
  * Representation of an approval in the REST API.
@@ -70,5 +72,30 @@ public class ApprovalInfo extends AccountInfo {
     this.permittedVotingRange = permittedVotingRange;
     this.date = date;
     this.tag = tag;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof ApprovalInfo) {
+      ApprovalInfo approvalInfo = (ApprovalInfo) o;
+      return super.equals(o)
+          && Objects.equals(tag, approvalInfo.tag)
+          && Objects.equals(value, approvalInfo.value)
+          && Objects.equals(date, approvalInfo.date)
+          && Objects.equals(postSubmit, approvalInfo.postSubmit)
+          && Objects.equals(permittedVotingRange, approvalInfo.permittedVotingRange);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        super.hashCode(), 
+        tag,
+        value,
+        date,
+        postSubmit,
+        permittedVotingRange);
   }
 }

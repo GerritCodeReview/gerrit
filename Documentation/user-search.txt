@@ -190,6 +190,12 @@ projects:'PREFIX'::
 +
 Changes occurring in projects starting with 'PREFIX'.
 
+[[parentof]]
+parentof:'ID'::
+Changes which are parent to the change specified by 'ID'. Change 'ID' can be
+specified as a legacy numerical 'ID' such as 15183, or a Change-Id that can be
+picked from the commit message.
+
 [[parentproject]]
 parentproject:'PROJECT'::
 +

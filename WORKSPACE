@@ -842,55 +842,55 @@ maven_jar(
     sha1 = "7e060dd5b19431e6d198e91ff670644372f60fbd",
 )
 
-JETTY_VERS = "9.4.35.v20201120"
+JETTY_VERS = "9.4.36.v20210114"
 
 maven_jar(
     name = "jetty-servlet",
     artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
-    sha1 = "3e61bcb471e1bfc545ce866cbbe33c3aedeec9b1",
+    sha1 = "b189e52a5ee55ae172e4e99e29c5c314f5daf4b9",
 )
 
 maven_jar(
     name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
-    sha1 = "80dc2f422789c78315de76d289b7a5b36c3232d5",
+    sha1 = "42030d6ed7dfc0f75818cde0adcf738efc477574",
 )
 
 maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
-    sha1 = "513502352fd689d4730b2935421b990ada8cc818",
+    sha1 = "88a7d342974aadca658e7386e8d0fcc5c0788f41",
 )
 
 maven_jar(
     name = "jetty-jmx",
     artifact = "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
-    sha1 = "38812031940a466d626ab5d9bbbd9d5d39e9f735",
+    sha1 = "bb3847eabe085832aeaedd30e872b40931632e54",
 )
 
 maven_jar(
     name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
-    sha1 = "45d35131a35a1e76991682174421e8cdf765fb9f",
+    sha1 = "1eee89a55e04ff94df0f85d95200fc48acb43d86",
 )
 
 maven_jar(
     name = "jetty-io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
-    sha1 = "eb9460700b99b71ecd82a53697f5ff99f69b9e1c",
+    sha1 = "84a8faf9031eb45a5a2ddb7681e22c483d81ab3a",
 )
 
 maven_jar(
     name = "jetty-util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
-    sha1 = "ef61b83f9715c3b5355b633d9f01d2834f908ece",
+    sha1 = "925257fbcca6b501a25252c7447dbedb021f7404",
 )
 
 maven_jar(
     name = "jetty-util-ajax",
     artifact = "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VERS,
-    sha1 = "ebbb43912c6423bedb3458e44aee28eeb4d66f27",
-    src_sha1 = "b3acea974a17493afb125a9dfbe783870ce1d2f9",
+    sha1 = "2f478130c21787073facb64d7242e06f94980c60",
+    src_sha1 = "7153d7ca38878d971fd90992c303bb7719ba7a21",
 )
 
 maven_jar(

@@ -81,9 +81,9 @@ export class GrReviewerUpdatesParser {
   // type. This class should be refactored to avoid reassignment.
   private readonly result: ChangeInfoParserInput;
 
-  private _batch: ParserBatch | null = null;
+  private batch: ParserBatch | null = null;
 
-  private _updateItems: {[accountId: string]: UpdateItem} | null = null;
+  private updateItems: {[accountId: string]: UpdateItem} | null = null;
 
   private readonly _lastState: {[accountId: string]: ReviewerState} = {};
 
@@ -105,7 +105,7 @@ export class GrReviewerUpdatesParser {
    * Is a part of _groupUpdates(). Creates a new batch of updates.
    */
   private _startBatch(update: ReviewerUpdateInfo): ParserBatch {
-    this._updateItems = {};
+    this.updateItems = {};
     return {
       author: update.updated_by,
       date: update.updated,
@@ -121,7 +121,7 @@ export class GrReviewerUpdatesParser {
    */
   private _completeBatch(batch: ParserBatch) {
     const items = [];
-    for (const [accountId, item] of Object.entries(this._updateItems ?? {})) {
+    for (const [accountId, item] of Object.entries(this.updateItems ?? {})) {
       if (this._lastState[accountId] !== item.state) {
         this._lastState[accountId] = item.state;
         items.push(item);
@@ -142,27 +142,27 @@ export class GrReviewerUpdatesParser {
   _groupUpdates(): ParserBatchWithNonEmptyUpdates[] {
     const updates = this.result.reviewer_updates;
     const newUpdates = updates.reduce((newUpdates, update) => {
-      if (!this._batch) {
-        this._batch = this._startBatch(update);
+      if (!this.batch) {
+        this.batch = this._startBatch(update);
       }
       const updateDate = parseDate(update.updated).getTime();
-      const batchUpdateDate = parseDate(this._batch.date).getTime();
+      const batchUpdateDate = parseDate(this.batch.date).getTime();
       const reviewerId = accountKey(update.reviewer);
       if (
         updateDate - batchUpdateDate > REVIEWER_UPDATE_THRESHOLD_MILLIS ||
-        update.updated_by._account_id !== this._batch.author._account_id
+        update.updated_by._account_id !== this.batch.author._account_id
       ) {
         // Next sequential update should form new group.
-        this._completeBatch(this._batch);
-        if (isParserBatchWithNonEmptyUpdates(this._batch)) {
-          newUpdates.push(this._batch);
+        this._completeBatch(this.batch);
+        if (isParserBatchWithNonEmptyUpdates(this.batch)) {
+          newUpdates.push(this.batch);
         }
-        this._batch = this._startBatch(update);
+        this.batch = this._startBatch(update);
       }
-      // _startBatch assigns _updateItems. When _groupUpdates is calling,
-      // _batch and _updateItems are not set => _startBatch is called. The
-      // _startBatch method assigns _updateItems
-      const updateItems = this._updateItems!;
+      // _startBatch assigns updateItems. When _groupUpdates is calling,
+      // batch and updateItems are not set => _startBatch is called. The
+      // _startBatch method assigns updateItems
+      const updateItems = this.updateItems!;
       updateItems[reviewerId] = {
         reviewer: update.reviewer,
         state: update.state,
@@ -174,8 +174,8 @@ export class GrReviewerUpdatesParser {
     }, [] as ParserBatchWithNonEmptyUpdates[]);
     // reviewer_updates always has at least 1 item
     // (otherwise parse is not created) => updates.reduce calls callback
-    // at least once and callback assigns this._batch
-    const batch = this._batch!;
+    // at least once and callback assigns this.batch
+    const batch = this.batch!;
     this._completeBatch(batch);
     if (isParserBatchWithNonEmptyUpdates(batch)) {
       newUpdates.push(batch);

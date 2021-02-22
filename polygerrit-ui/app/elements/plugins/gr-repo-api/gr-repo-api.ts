@@ -29,7 +29,7 @@ export interface GrRepoCommandEndpointEl extends HTMLElement {
 }
 
 export class GrRepoApi implements RepoPluginApi {
-  private _hook?: HookApi;
+  private hook?: HookApi;
 
   constructor(readonly plugin: PluginApi) {}
 
@@ -43,12 +43,12 @@ export class GrRepoApi implements RepoPluginApi {
   }
 
   createCommand(title: string, callback: RepoCommandCallback) {
-    if (this._hook) {
+    if (this.hook) {
       console.warn('Already set up.');
       return this;
     }
-    this._hook = this._createHook(title);
-    this._hook.onAttached(element => {
+    this.hook = this._createHook(title);
+    this.hook.onAttached(element => {
       if (callback(element.repoName, element.config) === false) {
         element.hidden = true;
       }
@@ -57,11 +57,11 @@ export class GrRepoApi implements RepoPluginApi {
   }
 
   onTap(callback: (event: Event) => boolean) {
-    if (!this._hook) {
+    if (!this.hook) {
       console.warn('Call createCommand first.');
       return this;
     }
-    this._hook.onAttached(element => {
+    this.hook.onAttached(element => {
       this.plugin.eventHelper(element).on('command-tap', callback);
     });
     return this;

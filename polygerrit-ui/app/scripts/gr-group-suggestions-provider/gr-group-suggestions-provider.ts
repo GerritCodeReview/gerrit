@@ -19,10 +19,10 @@ import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {GroupBaseInfo} from '../../types/common';
 
 export class GrGroupSuggestionsProvider {
-  constructor(private _restAPI: RestApiService) {}
+  constructor(private restAPI: RestApiService) {}
 
   getSuggestions(input: string) {
-    return this._restAPI.getSuggestedGroups(`${input}`).then(groups => {
+    return this.restAPI.getSuggestedGroups(`${input}`).then(groups => {
       if (!groups) {
         return [];
       }

@@ -28,7 +28,7 @@ interface ButtonCallBacks {
 }
 
 export class GrPluginActionContext {
-  private _popups: PopupPluginApi[] = [];
+  private popups: PopupPluginApi[] = [];
 
   constructor(
     public readonly plugin: PluginApi,
@@ -44,15 +44,15 @@ export class GrPluginActionContext {
         throw new Error('Popup element not found');
       }
       popupEl.appendChild(element);
-      this._popups.push(popApi);
+      this.popups.push(popApi);
     });
   }
 
   hide() {
-    for (const popupApi of this._popups) {
+    for (const popupApi of this.popups) {
       popupApi.close();
     }
-    this._popups.splice(0);
+    this.popups.splice(0);
   }
 
   refresh() {

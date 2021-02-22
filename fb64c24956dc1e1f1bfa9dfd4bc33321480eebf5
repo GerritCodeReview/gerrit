@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3edd184_41a71403",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-22T20:02:08Z",
+      "side": 1,
+      "message": "Why? Would clarify this in here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "fb64c24956dc1e1f1bfa9dfd4bc33321480eebf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dec78e8_04a93b7f",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/AbandonChange.scala",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-22T20:02:08Z",
+      "side": 1,
+      "message": "Do we have such a key unduplicated in similar sibling classes? If so, would introduce a so reused constant here too. (Duplication of line 36\u0027s.)",
+      "range": {
+        "startLine": 38,
+        "startChar": 43,
+        "endLine": 38,
+        "endChar": 49
+      },
+      "revId": "fb64c24956dc1e1f1bfa9dfd4bc33321480eebf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d645825a_6a1fa932",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/AbandonChange.scala",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-22T20:02:08Z",
+      "side": 1,
+      "message": "Needs consistent formatting as in sibling files.",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 3
+      },
+      "revId": "fb64c24956dc1e1f1bfa9dfd4bc33321480eebf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

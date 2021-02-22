@@ -611,7 +611,7 @@ export class GrCommentApi extends GestureEventListeners(
 
   private readonly flagsService = appContext.flagsService;
 
-  private _isPortingCommentsExperimentEnabled = false;
+  private isPortingCommentsExperimentEnabled = false;
 
   /** @override */
   created() {
@@ -620,7 +620,7 @@ export class GrCommentApi extends GestureEventListeners(
 
   constructor() {
     super();
-    this._isPortingCommentsExperimentEnabled = this.flagsService.isEnabled(
+    this.isPortingCommentsExperimentEnabled = this.flagsService.isEnabled(
       KnownExperimentId.PORTING_COMMENTS
     );
   }
@@ -636,10 +636,10 @@ export class GrCommentApi extends GestureEventListeners(
       this.restApiService.getDiffComments(changeNum),
       this.restApiService.getDiffRobotComments(changeNum),
       this.restApiService.getDiffDrafts(changeNum),
-      this._isPortingCommentsExperimentEnabled
+      this.isPortingCommentsExperimentEnabled
         ? this.restApiService.getPortedComments(changeNum, revision)
         : Promise.resolve({}),
-      this._isPortingCommentsExperimentEnabled
+      this.isPortingCommentsExperimentEnabled
         ? this.restApiService.getPortedDrafts(changeNum, revision)
         : Promise.resolve({}),
     ];

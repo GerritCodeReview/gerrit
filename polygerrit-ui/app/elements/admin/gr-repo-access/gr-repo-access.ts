@@ -118,7 +118,7 @@ export class GrRepoAccess extends GestureEventListeners(
   @property({type: Boolean})
   _loading = true;
 
-  private _originalInheritsFrom?: ProjectInfo | null;
+  private originalInheritsFrom?: ProjectInfo | null;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -173,7 +173,7 @@ export class GrRepoAccess extends GestureEventListeners(
               ...res.inherits_from,
             }
           : null;
-        this._originalInheritsFrom = res.inherits_from
+        this.originalInheritsFrom = res.inherits_from
           ? {
               ...res.inherits_from,
             }
@@ -306,7 +306,7 @@ export class GrRepoAccess extends GestureEventListeners(
     }
     // Restore inheritFrom.
     if (this._inheritsFrom) {
-      this._inheritsFrom = {...this._originalInheritsFrom};
+      this._inheritsFrom = {...this.originalInheritsFrom};
       this._inheritFromFilter =
         'name' in this._inheritsFrom ? this._inheritsFrom.name : undefined;
     }
@@ -446,8 +446,8 @@ export class GrRepoAccess extends GestureEventListeners(
       remove: {},
     };
 
-    const originalInheritsFromId = this._originalInheritsFrom
-      ? singleDecodeURL(this._originalInheritsFrom.id)
+    const originalInheritsFromId = this.originalInheritsFrom
+      ? singleDecodeURL(this.originalInheritsFrom.id)
       : null;
     // TODO(TS): this._inheritsFrom as ProjectInfo might be a mistake.
     // _inheritsFrom can be {}

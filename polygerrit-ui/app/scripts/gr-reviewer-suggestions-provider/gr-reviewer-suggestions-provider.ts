@@ -73,13 +73,13 @@ export class GrReviewerSuggestionsProvider {
     }
   }
 
-  private _initPromise?: Promise<void>;
+  private initPromise?: Promise<void>;
 
-  private _config?: ServerInfo;
+  private config?: ServerInfo;
 
-  private _loggedIn = false;
+  private loggedIn = false;
 
-  private _initialized = false;
+  private initialized = false;
 
   private constructor(
     private readonly _restAPI: RestApiService,
@@ -87,26 +87,25 @@ export class GrReviewerSuggestionsProvider {
   ) {}
 
   init() {
-    if (this._initPromise) {
-      return this._initPromise;
+    if (this.initPromise) {
+      return this.initPromise;
     }
     const getConfigPromise = this._restAPI.getConfig().then(cfg => {
-      this._config = cfg;
+      this.config = cfg;
     });
     const getLoggedInPromise = this._restAPI.getLoggedIn().then(loggedIn => {
-      this._loggedIn = loggedIn;
+      this.loggedIn = loggedIn;
     });
-    this._initPromise = Promise.all([
-      getConfigPromise,
-      getLoggedInPromise,
-    ]).then(() => {
-      this._initialized = true;
-    });
-    return this._initPromise;
+    this.initPromise = Promise.all([getConfigPromise, getLoggedInPromise]).then(
+      () => {
+        this.initialized = true;
+      }
+    );
+    return this.initPromise;
   }
 
   getSuggestions(input: string): Promise<Suggestion[]> {
-    if (!this._initialized || !this._loggedIn) {
+    if (!this.initialized || !this.loggedIn) {
       return Promise.resolve([]);
     }
 
@@ -117,7 +116,7 @@ export class GrReviewerSuggestionsProvider {
     if (isReviewerAccountSuggestion(suggestion)) {
       // Reviewer is an account suggestion from getChangeSuggestedReviewers.
       return {
-        name: getAccountDisplayName(this._config, suggestion.account),
+        name: getAccountDisplayName(this.config, suggestion.account),
         value: suggestion,
       };
     }
@@ -133,7 +132,7 @@ export class GrReviewerSuggestionsProvider {
     if (isAccountSuggestions(suggestion)) {
       // Reviewer is an account suggestion from getSuggestedAccounts.
       return {
-        name: getAccountDisplayName(this._config, suggestion),
+        name: getAccountDisplayName(this.config, suggestion),
         value: {account: suggestion, count: 1},
       };
     }

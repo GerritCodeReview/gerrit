@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /**
  * Represents a single user included in the attention set. Used in the API. See {@link
@@ -35,5 +36,21 @@ public class AttentionSetInfo {
     this.account = account;
     this.lastUpdate = lastUpdate;
     this.reason = reason;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof AttentionSetInfo) {
+      AttentionSetInfo attentionSetInfo = (AttentionSetInfo) o;
+      return Objects.equals(account, attentionSetInfo.account)
+          && Objects.equals(lastUpdate, attentionSetInfo.lastUpdate)
+          && Objects.equals(reason, attentionSetInfo.reason);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(account, lastUpdate, reason);
   }
 }

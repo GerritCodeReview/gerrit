@@ -173,6 +173,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_MESSAGE = "message";
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_OWNERIN = "ownerin";
+  public static final String FIELD_PARENTOF = "parentof";
   public static final String FIELD_PARENTPROJECT = "parentproject";
   public static final String FIELD_PATH = "path";
   public static final String FIELD_PENDING_REVIEWER = "pendingreviewer";
@@ -732,6 +733,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> projects(String name) {
     return new ProjectPrefixPredicate(name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> parentof(String value) throws QueryParseException {
+    List<ChangeData> changes = parseChangeData(value);
+    List<Predicate<ChangeData>> or = new ArrayList<>(changes.size());
+    for (ChangeData c : changes) {
+      or.add(new ParentOfPredicate(value, c, args.repoManager));
+    }
+    return Predicate.or(or);
   }
 
   @Operator
@@ -1560,14 +1571,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private List<Change> parseChange(String value) throws QueryParseException {
+    return asChanges(parseChangeData(value));
+  }
+
+  private List<ChangeData> parseChangeData(String value) throws QueryParseException {
     if (PAT_LEGACY_ID.matcher(value).matches()) {
       Optional<Change.Id> id = Change.Id.tryParse(value);
       if (!id.isPresent()) {
         throw error("Invalid change id " + value);
       }
-      return asChanges(args.queryProvider.get().byLegacyChangeId(id.get()));
+      return args.queryProvider.get().byLegacyChangeId(id.get());
     } else if (PAT_CHANGE_ID.matcher(value).matches()) {
-      List<Change> changes = asChanges(args.queryProvider.get().byKeyPrefix(parseChangeId(value)));
+      List<ChangeData> changes = args.queryProvider.get().byKeyPrefix(parseChangeId(value));
       if (changes.isEmpty()) {
         throw error("Change " + value + " not found");
       }

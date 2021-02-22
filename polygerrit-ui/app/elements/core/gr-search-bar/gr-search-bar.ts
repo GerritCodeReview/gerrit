@@ -93,6 +93,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'onlyextensions:',
   'owner:',
   'ownerin:',
+  'parentof:',
   'parentproject:',
   'project:',
   'projects:',

@@ -450,6 +450,23 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void suggestNoServiceAccounts() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    String changeIdReviewed = createChangeFromApi();
+    String changeId = createChangeFromApi();
+
+    String name = name("foo");
+    TestAccount foo = accountCreator.create(name);
+    reviewChange(changeIdReviewed, foo);
+
+    assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(foo), ImmutableList.of());
+
+    groupOperations.group(serviceUsersUUID()).forUpdate().addMember(foo.id()).update();
+
+    assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(), ImmutableList.of());
+  }
+
+  @Test
   public void suggestNoExistingReviewers() throws Exception {
     requestScopeOperations.setApiUser(user.id());
     String changeId = createChangeFromApi();
@@ -606,6 +623,13 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   private TestAccount user(String name, String fullName) throws Exception {
     return user(name, fullName, name);
+  }
+
+  private AccountGroup.UUID serviceUsersUUID() {
+    return groupCache
+        .get(AccountGroup.nameKey("Service Users"))
+        .orElseThrow(() -> new IllegalStateException("unable to find 'Service Users'"))
+        .getGroupUUID();
   }
 
   private void reviewChange(String changeId, TestAccount reviewer) throws RestApiException {

@@ -51,6 +51,7 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
@@ -130,6 +131,7 @@ public class ReviewersUtil {
   private final IndexConfig indexConfig;
   private final AccountControl.Factory accountControlFactory;
   private final Provider<CurrentUser> self;
+  private final ServiceUserClassifier serviceUserClassifier;
 
   @Inject
   ReviewersUtil(
@@ -143,7 +145,8 @@ public class ReviewersUtil {
       AccountIndexCollection accountIndexes,
       IndexConfig indexConfig,
       AccountControl.Factory accountControlFactory,
-      Provider<CurrentUser> self) {
+      Provider<CurrentUser> self,
+      ServiceUserClassifier serviceUserClassifier) {
     this.accountLoaderFactory = accountLoaderFactory;
     this.accountQueryBuilder = accountQueryBuilder;
     this.accountIndexRewriter = accountIndexRewriter;
@@ -155,6 +158,7 @@ public class ReviewersUtil {
     this.indexConfig = indexConfig;
     this.accountControlFactory = accountControlFactory;
     this.self = self;
+    this.serviceUserClassifier = serviceUserClassifier;
   }
 
   public interface VisibilityControl {
@@ -200,12 +204,16 @@ public class ReviewersUtil {
             reviewerState, changeNotes, suggestReviewers, projectState, candidateList);
     logger.atFine().log("Sorted recommendations: %s", sortedRecommendations);
 
-    // Filter accounts by visibility and enforce limit
+    // Filter accounts by visibility, skip service users and enforce limit
     List<Account.Id> filteredRecommendations = new ArrayList<>();
     try (Timer0.Context ctx = metrics.filterVisibility.start()) {
       for (Account.Id reviewer : sortedRecommendations) {
         if (filteredRecommendations.size() >= limit) {
           break;
+        }
+        if (suggestReviewers.isSkipServiceUsers()
+            && serviceUserClassifier.isServiceUser(reviewer)) {
+          continue;
         }
         // Check if change is visible to reviewer and if the current user can see reviewer
         if (visibilityControl.isVisibleTo(reviewer)

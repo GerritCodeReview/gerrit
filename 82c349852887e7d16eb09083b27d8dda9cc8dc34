@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6caabc0_e023b943",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-02-22T18:27:28Z",
+      "side": 1,
+      "message": "Note that GrImageViewer is very much a work in progress UI-wise from my earlier hacking, if you prefer for me to just submit the other two components as building blocks and come back with an updated version that uses gr-button instead of paper-button etc. I can do so. I included it as a reference how GrZoomedImage and GrOverviewImage would be used.",
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "Is this related to https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d14036?\nThat bug appears to be affecting us on 3.3. \nAssuming this is related: Any chance of getting a fix on 3.3?",
       "revId": "dc50e4a1a6a07fe7fed7b4a1d22ba1c8a7be74da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24a9a51a_aec52b91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-22T20:13:06Z",
+      "side": 1,
+      "message": "Yes the bug seems to be on 3.3 since it includes the Safari fix. I will work on getting it to 3.3",
+      "parentUuid": "4a91a6cd_e4c79fce",
+      "revId": "dc50e4a1a6a07fe7fed7b4a1d22ba1c8a7be74da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

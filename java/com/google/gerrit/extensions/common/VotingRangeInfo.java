@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.Objects;
+
 public class VotingRangeInfo {
   public int min;
   public int max;
@@ -21,5 +23,19 @@ public class VotingRangeInfo {
   public VotingRangeInfo(int min, int max) {
     this.min = min;
     this.max = max;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof VotingRangeInfo) {
+      VotingRangeInfo votingRangeInfo = (VotingRangeInfo) o;
+      return min == votingRangeInfo.min && max == votingRangeInfo.max;
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(min, max);
   }
 }

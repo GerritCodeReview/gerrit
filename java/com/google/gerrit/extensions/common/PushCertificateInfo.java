@@ -14,7 +14,24 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.Objects;
+
 public class PushCertificateInfo {
   public String certificate;
   public GpgKeyInfo key;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof PushCertificateInfo) {
+      PushCertificateInfo pushCertificateInfo = (PushCertificateInfo) o;
+      return Objects.equals(certificate, pushCertificateInfo.certificate)
+          && Objects.equals(key, pushCertificateInfo.key);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(certificate, key);
+  }
 }

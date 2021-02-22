@@ -22,6 +22,30 @@
       },
       "revId": "a8af867e4c8e1124d452b0f42609ae3de32d3d2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1ea69d3_38962e0f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-22T07:54:10Z",
+      "side": 1,
+      "message": "In the API run and result are separate entities. Internally we are using a RunResult here which implements both interfaces.",
+      "parentUuid": "61cf8167_0fee1abe",
+      "range": {
+        "startLine": 241,
+        "startChar": 9,
+        "endLine": 241,
+        "endChar": 26
+      },
+      "revId": "a8af867e4c8e1124d452b0f42609ae3de32d3d2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

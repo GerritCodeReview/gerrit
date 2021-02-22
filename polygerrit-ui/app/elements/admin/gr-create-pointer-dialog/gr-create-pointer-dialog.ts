@@ -68,7 +68,7 @@ export class GrCreatePointerDialog extends GestureEventListeners(
     this.hasNewItemName = !!name;
   }
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   handleCreateItem() {
     if (!this.repoName) {

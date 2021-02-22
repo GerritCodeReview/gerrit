@@ -54,7 +54,7 @@ export class GrUserHeader extends GestureEventListeners(
   @property({type: String})
   _status = '';
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   _accountChanged(userId?: AccountId) {
     if (!userId) {

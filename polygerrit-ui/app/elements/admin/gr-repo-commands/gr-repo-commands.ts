@@ -91,7 +91,7 @@ export class GrRepoCommands extends GestureEventListeners(
   @property({type: Boolean})
   _runningGC = false;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   /** @override */
   attached() {

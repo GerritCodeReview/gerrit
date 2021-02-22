@@ -89,7 +89,7 @@ export class GrConfirmRebaseDialog extends GestureEventListeners(
   @property({type: Array})
   _recentChanges?: RebaseChange[];
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   constructor() {
     super();

@@ -146,7 +146,7 @@ export class GrChangeList extends ChangeTableMixin(
 
   flagsService = appContext.flagsService;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   keyboardShortcuts() {
     return {

@@ -206,7 +206,7 @@ export class GrAppElement extends KeyboardShortcutMixin(
 
   private reporting = appContext.reportingService;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   keyboardShortcuts() {
     return {

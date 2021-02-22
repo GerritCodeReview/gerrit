@@ -141,7 +141,7 @@ export class GrRepo extends GestureEventListeners(
   @property({type: Array})
   weblinks: WebLinkInfo[] = [];
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   /** @override */
   attached() {

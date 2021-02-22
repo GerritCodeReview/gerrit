@@ -55,7 +55,7 @@ export class GrGroupAuditLog extends ListViewMixin(
   @property({type: Boolean})
   _loading = true;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   /** @override */
   attached() {

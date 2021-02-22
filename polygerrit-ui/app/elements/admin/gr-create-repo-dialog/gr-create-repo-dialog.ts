@@ -70,7 +70,7 @@ export class GrCreateRepoDialog extends GestureEventListeners(
   @property({type: Object})
   _queryGroups: AutocompleteQuery;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   constructor() {
     super();

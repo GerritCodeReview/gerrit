@@ -117,7 +117,7 @@ export class GrGroupMembers extends GestureEventListeners(
 
   _itemId?: AccountId | GroupId;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   constructor() {
     super();

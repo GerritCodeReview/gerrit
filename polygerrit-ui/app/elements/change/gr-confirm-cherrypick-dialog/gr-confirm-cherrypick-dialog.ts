@@ -144,7 +144,7 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
 
   private selectedChangeIds = new Set<ChangeInfoId>();
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   constructor() {
     super();

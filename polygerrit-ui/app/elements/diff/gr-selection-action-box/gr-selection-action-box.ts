@@ -60,7 +60,7 @@ export class GrSelectionActionBox extends GestureEventListeners(
   @property({type: Boolean})
   disableKeyboardShortcuts = false;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   /** @override */
   created() {

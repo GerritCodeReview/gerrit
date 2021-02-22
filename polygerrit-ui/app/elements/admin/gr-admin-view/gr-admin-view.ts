@@ -173,7 +173,7 @@ export class GrAdminView extends GestureEventListeners(
   @property({type: Boolean})
   _showPluginList?: boolean;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   private readonly jsAPI = appContext.jsApiService;
 

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "125b6d28_e37b1f1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-22T13:21:58Z",
+      "side": 1,
+      "message": "Looks good. Just to be on the safe side, I suggest sourcing 2-3 real world examples from the rules.pl that we have at Google. I shared a link internally. This could be interesting:\n\ngerrit:commit_delta(\u0027OWNERS\u0027, add, _, _).",
+      "revId": "aeb8961914fe55b07aa0f6181dfb084ae6a1296b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3c6941e_508f9b6b",
+        "filename": "java/com/google/gerrit/server/rules/StoredValues.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-22T13:21:58Z",
+      "side": 1,
+      "message": "A RevWalk keeps internal state that can lead to unexpected behavior when being reused unintentionally. I\u0027d therefore just create one in the commit delta predicate instead of supplying one to all predicates.\n\nSame for DIFF_FORMATTER (through, I am not 100% sure if the problem exists with that as well, but just to be sure).",
+      "range": {
+        "startLine": 154,
+        "startChar": 1,
+        "endLine": 163,
+        "endChar": 8
+      },
+      "revId": "aeb8961914fe55b07aa0f6181dfb084ae6a1296b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

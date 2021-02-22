@@ -16,6 +16,9 @@
  */
 import {html, nothing} from 'lit-html';
 import './gr-related-change';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
+import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import {classMap} from 'lit-html/directives/class-map';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {customElement, property, css} from 'lit-element';
@@ -32,7 +35,11 @@ import {appContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {pluralize} from '../../../utils/string-util';
-import {getRevisionKey, isChangeInfo} from '../../../utils/change-util';
+import {
+  changeIsOpen,
+  getRevisionKey,
+  isChangeInfo,
+} from '../../../utils/change-util';
 
 /** What is the maximum number of shown changes in collapsed list? */
 const MAX_CHANGES_WHEN_COLLAPSED = 3;
@@ -46,6 +53,9 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
   patchNum?: PatchSetNum;
 
   @property()
+  mergeable?: boolean;
+
+  @property()
   _submittedTogether?: SubmittedTogetherInfo = {
     changes: [],
     non_visible_changes: 0,
@@ -53,6 +63,15 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
 
   @property()
   _relatedResponse?: RelatedChangesInfo = {changes: []};
+
+  @property({type: Array})
+  _conflicts: ChangeInfo[] = [];
+
+  @property({type: Array})
+  _cherryPicks: ChangeInfo[] = [];
+
+  @property({type: Array})
+  _sameTopic?: ChangeInfo[] = [];
 
   private readonly restApiService = appContext.restApiService;
 
@@ -155,11 +174,106 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       </div>
     </section>`;
 
-    return html`${relatedChangeSection}${submittedTogetherSection}`;
+    const sameTopicChanges = this._sameTopic ?? [];
+    showWhenCollapsedPredicate = this.showWhenCollapsedPredicateFactory(
+      sameTopicChanges.length,
+      -1
+    );
+    const sameTopicSection = html`<section
+      id="sameTopic"
+      ?hidden=${!sameTopicChanges?.length}
+    >
+      <gr-related-collapse
+        title="Same topic"
+        .length=${sameTopicChanges.length}
+      >
+        ${sameTopicChanges.map(
+          (change, index) =>
+            html`<gr-related-change
+              class="${classMap({
+                ['show-when-collapsed']: showWhenCollapsedPredicate(index),
+              })}"
+              .change="${change}"
+              .href="${GerritNav.getUrlForChangeById(
+                change._number,
+                change.project
+              )}"
+              >${change.project}: ${change.branch}:
+              ${change.subject}</gr-related-change
+            >`
+        )}
+      </gr-related-collapse>
+    </section>`;
+
+    const mergeConflicts = this._conflicts ?? [];
+    showWhenCollapsedPredicate = this.showWhenCollapsedPredicateFactory(
+      mergeConflicts.length,
+      -1
+    );
+    const mergeConflictsSection = html`<section
+      id="mergeConflicts"
+      ?hidden=${!mergeConflicts?.length}
+    >
+      <gr-related-collapse
+        title="Merge conflicts"
+        .length=${mergeConflicts.length}
+      >
+        ${mergeConflicts.map(
+          (change, index) =>
+            html`<gr-related-change
+              class="${classMap({
+                ['show-when-collapsed']: showWhenCollapsedPredicate(index),
+              })}"
+              .change="${change}"
+              .href="${GerritNav.getUrlForChangeById(
+                change._number,
+                change.project
+              )}"
+              >${change.subject}</gr-related-change
+            >`
+        )}
+      </gr-related-collapse>
+    </section>`;
+
+    const cherryPicks = this._cherryPicks ?? [];
+    showWhenCollapsedPredicate = this.showWhenCollapsedPredicateFactory(
+      cherryPicks.length,
+      -1
+    );
+    const cherryPicksSection = html`<section
+      id="cherryPicks"
+      ?hidden=${!cherryPicks?.length}
+    >
+      <gr-related-collapse title="Cherry picks" .length=${cherryPicks.length}>
+        ${cherryPicks.map(
+          (change, index) =>
+            html`<gr-related-change
+              class="${classMap({
+                ['show-when-collapsed']: showWhenCollapsedPredicate(index),
+              })}"
+              .change="${change}"
+              .href="${GerritNav.getUrlForChangeById(
+                change._number,
+                change.project
+              )}"
+              >${change.branch}: ${change.subject}</gr-related-change
+            >`
+        )}
+      </gr-related-collapse>
+    </section>`;
+
+    return html`<gr-endpoint-decorator name="related-changes-section">
+      <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+      <gr-endpoint-slot name="top"></gr-endpoint-slot>
+      ${relatedChangeSection} ${submittedTogetherSection} ${sameTopicSection}
+      ${mergeConflictsSection} ${cherryPicksSection}
+      <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
+    </gr-endpoint-decorator>`;
   }
 
   showWhenCollapsedPredicateFactory(length: number, highlightIndex: number) {
     return (index: number) => {
+      if (highlightIndex === -1) return index < MAX_CHANGES_WHEN_COLLAPSED;
       if (highlightIndex === 0) return index <= MAX_CHANGES_WHEN_COLLAPSED - 1;
       if (highlightIndex === length - 1)
         return index >= length - MAX_CHANGES_WHEN_COLLAPSED;
@@ -171,24 +285,63 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
   }
 
   reload(getRelatedChanges?: Promise<RelatedChangesInfo | undefined>) {
-    if (!this.change) return Promise.reject(new Error('change missing'));
+    const change = this.change;
+    if (!change) return Promise.reject(new Error('change missing'));
+    if (!this.patchNum) return Promise.reject(new Error('patchNum missing'));
+    if (!getRelatedChanges) {
+      getRelatedChanges = this.restApiService.getRelatedChanges(
+        change._number,
+        this.patchNum
+      );
+    }
     const promises: Array<Promise<void>> = [
+      getRelatedChanges.then(response => {
+        if (!response) {
+          throw new Error('getRelatedChanges returned undefined response');
+        }
+        this._relatedResponse = response;
+      }),
       this.restApiService
-        .getChangesSubmittedTogether(this.change._number)
+        .getChangesSubmittedTogether(change._number)
         .then(response => {
           this._submittedTogether = response;
         }),
+      this.restApiService
+        .getChangeCherryPicks(change.project, change.change_id, change._number)
+        .then(response => {
+          this._cherryPicks = response || [];
+        }),
     ];
-    if (getRelatedChanges) {
+
+    // Get conflicts if change is open and is mergeable.
+    if (changeIsOpen(change) && this.mergeable) {
       promises.push(
-        getRelatedChanges.then(response => {
-          if (!response) {
-            throw new Error('getRelatedChanges returned undefined response');
-          }
-          this._relatedResponse = response;
-        })
+        this.restApiService
+          .getChangeConflicts(change._number)
+          .then(response => {
+            this._conflicts = response ?? [];
+          })
       );
     }
+
+    promises.push(
+      this.restApiService.getConfig().then(config => {
+        if (change.topic) {
+          if (!config) {
+            throw new Error('_getServerConfig returned undefined ');
+          }
+          if (!config.change.submit_whole_topic) {
+            return this.restApiService
+              .getChangesWithSameTopic(change.topic, change._number)
+              .then(response => {
+                this._sameTopic = response;
+              });
+          }
+        }
+        this._sameTopic = [];
+        return Promise.resolve();
+      })
+    );
 
     return Promise.all(promises);
   }

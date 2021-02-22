@@ -66,6 +66,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.DiffWebLink;
+import com.google.gerrit.extensions.webui.EditWebLink;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.ParentWebLink;
@@ -392,6 +393,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), PluginPushOption.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);
     DynamicSet.setOf(binder(), ParentWebLink.class);
+    DynamicSet.setOf(binder(), EditWebLink.class);
     DynamicSet.setOf(binder(), FileWebLink.class);
     DynamicSet.setOf(binder(), FileHistoryWebLink.class);
     DynamicSet.setOf(binder(), DiffWebLink.class);

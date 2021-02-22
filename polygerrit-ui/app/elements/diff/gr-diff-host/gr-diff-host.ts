@@ -480,6 +480,24 @@ export class GrDiffHost extends PolymerElement {
       });
   }
 
+  _getEditWeblinks(diff: DiffInfo) {
+    if (!this.projectName || !this.commitRange || !this.path) return {};
+    return {
+      meta_a: GerritNav.getEditWebLinks(
+        this.projectName,
+        this.commitRange.baseCommit,
+        this.path,
+        {weblinks: diff?.meta_a?.web_links}
+      ),
+      meta_b: GerritNav.getEditWebLinks(
+        this.projectName,
+        this.commitRange.commit,
+        this.path,
+        {weblinks: diff?.meta_b?.web_links}
+      ),
+    };
+  }
+
   _getFilesWeblinks(diff: DiffInfo) {
     if (!this.projectName || !this.commitRange || !this.path) return {};
     return {

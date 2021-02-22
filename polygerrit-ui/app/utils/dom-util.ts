@@ -16,6 +16,7 @@
  */
 
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {check} from './common-util';
 
 /**
  * Event emitted from polymer elements.
@@ -257,4 +258,23 @@ export function isSafari() {
     /^((?!chrome|android).)*safari/i.test(navigator.userAgent) ||
     (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
   );
+}
+
+export function whenVisible(
+  element: Element,
+  callback: () => void,
+  marginPx = 0
+) {
+  const observer = new IntersectionObserver(
+    (entries: IntersectionObserverEntry[]) => {
+      check(entries.length === 1, 'Expected one intersection observer entry.');
+      const entry = entries[0];
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target);
+        callback();
+      }
+    },
+    {rootMargin: String(marginPx) + 'px'}
+  );
+  observer.observe(element);
 }

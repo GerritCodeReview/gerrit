@@ -174,6 +174,9 @@ export class GrChecksRun extends GrLitElement {
     e.stopPropagation();
     e.preventDefault();
     fireRunSelected(this, this.run.checkName);
+
+    const obs = new ResizeObserver(() => {});
+    obs.observe(this);
   }
 
   private handleAction(e: MouseEvent, action: Action) {

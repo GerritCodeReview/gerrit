@@ -23,7 +23,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import {
-  ChangeData,
   ChecksApiConfig,
   ChecksProvider,
   FetchResponse,
@@ -78,12 +77,7 @@ export class ChecksService {
                 runs: [],
               });
             }
-            const data: ChangeData = {
-              changeNumber: change._number,
-              patchsetNumber: patchNum,
-              repo: change.project,
-            };
-            return from(this.providers[pluginName].fetch(data));
+            return from(this.providers[pluginName].fetch(change._number, patchNum));
           }
         ),
         tap(response => {

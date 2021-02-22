@@ -76,7 +76,6 @@ const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'email_strategy',
   'diff_view',
   'publish_comments_on_push',
-  'disable_keyboard_shortcuts',
   'work_in_progress_by_default',
   'default_base_for_merges',
   'signed_off_by',
@@ -115,7 +114,6 @@ export interface GrSettingsView {
     workInProgressByDefault: HTMLInputElement;
     showSizeBarsInFileList: HTMLInputElement;
     publishCommentsOnPush: HTMLInputElement;
-    disableKeyboardShortcuts: HTMLInputElement;
     relativeDateInChangeTable: HTMLInputElement;
   };
 }
@@ -383,13 +381,6 @@ export class GrSettingsView extends ChangeTableMixin(
     this.set(
       '_localPrefs.publish_comments_on_push',
       this.$.publishCommentsOnPush.checked
-    );
-  }
-
-  _handleDisableKeyboardShortcutsChanged() {
-    this.set(
-      '_localPrefs.disable_keyboard_shortcuts',
-      this.$.disableKeyboardShortcuts.checked
     );
   }
 

@@ -32,6 +32,7 @@ import {
   ActionTriggeredEvent,
   fireActionTriggered,
 } from '../../services/checks/checks-util';
+import {checkRequiredProperty} from '../../utils/common-util';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -153,6 +154,11 @@ export class GrChecksTab extends GrLitElement {
 export class GrChecksTopLevelAction extends GrLitElement {
   @property()
   action!: Action;
+
+  connectedCallback() {
+    super.connectedCallback();
+    checkRequiredProperty(this.action, 'action');
+  }
 
   render() {
     return html`

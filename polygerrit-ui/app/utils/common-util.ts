@@ -69,6 +69,18 @@ export function checkProperty(
 /**
  * Throws an error if the property is not defined.
  */
+export function checkRequiredProperty<T>(
+  property: T,
+  propertyName: string
+): asserts property is NonNullable<T> {
+  if (property === undefined || property === null) {
+    throw new Error(`Required property '${propertyName}' not set.`);
+  }
+}
+
+/**
+ * Throws an error if the property is not defined.
+ */
 export function assertIsDefined<T>(
   val: T,
   variableName = 'variable'

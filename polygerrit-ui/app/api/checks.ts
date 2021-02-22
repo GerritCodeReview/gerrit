@@ -57,7 +57,7 @@ export interface ChecksProvider {
    * - ... while the tab is visible in a regular polling interval, see
    *       ChecksApiConfig.
    */
-  fetch(change: ChangeData): Promise<FetchResponse>;
+  fetch(a: number, b: number): Promise<FetchResponse>;
 }
 
 export interface FetchResponse {

@@ -14,7 +14,7 @@
   "include": [
     // Items below must be in sync with the src_dirs list in the BUILD file
     // Also items must be in sync with tsconfig.json, tsconfig_test.json
-    // (include and exclude arrays are overriden when extends)
+    // (include and exclude arrays are overridden when extends)
     "api/**/*",
     "constants/**/*",
     "elements/**/*",

@@ -400,7 +400,7 @@ export class GrAdminView extends GestureEventListeners(
       }
       return '';
     }
-    // TODO(TS): The following condtion seems always false, because params
+    // TODO(TS): The following condition seems always false, because params
     // never has detailType property. Remove it.
     if (
       ((params as unknown) as AdminSubsectionLink).detailType &&

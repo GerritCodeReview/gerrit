@@ -54,8 +54,8 @@ export class AbortStop {}
 export type Stop = HTMLElement | AbortStop;
 
 /**
- * Type guard and checker to check if a stop can be targetted.
- * Abort stops cannot be targetted.
+ * Type guard and checker to check if a stop can be targeted.
+ * Abort stops cannot be targeted.
  */
 export function isTargetable(stop: Stop): stop is HTMLElement {
   return !(stop instanceof AbortStop);

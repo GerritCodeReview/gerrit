@@ -544,7 +544,7 @@ function getKeyboardEvent(e: CustomKeyboardEvent): CustomKeyboardEvent {
 }
 
 /**
- * Shortcut manager, holds all hosts, bindings and listners.
+ * Shortcut manager, holds all hosts, bindings and listeners.
  */
 export class ShortcutManager {
   private readonly activeHosts = new Map<PolymerElement, Map<string, string>>();

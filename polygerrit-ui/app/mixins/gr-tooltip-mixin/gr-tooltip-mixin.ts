@@ -69,13 +69,13 @@ export const TooltipMixin = dedupingMixin(
       // Handler for mouseenter event
       private mouseenterHandler?: (e: MouseEvent) => void;
 
-      // Hanlder for scrolling on window
+      // Handler for scrolling on window
       private readonly windowScrollHandler: () => void;
 
-      // Hanlder for showing the tooltip, will be attached to certain events
+      // Handler for showing the tooltip, will be attached to certain events
       private readonly showHandler: () => void;
 
-      // Hanlder for hiding the tooltip, will be attached to certain events
+      // Handler for hiding the tooltip, will be attached to certain events
       private readonly hideHandler: () => void;
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any

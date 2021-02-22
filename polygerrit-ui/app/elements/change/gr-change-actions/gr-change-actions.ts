@@ -2068,10 +2068,10 @@ export class GrChangeActions
    *
    */
   _waitForChangeReachable(changeNum: NumericChangeId) {
-    let attempsRemaining = AWAIT_CHANGE_ATTEMPTS;
+    let attemptsRemaining = AWAIT_CHANGE_ATTEMPTS;
     return new Promise(resolve => {
       const check = () => {
-        attempsRemaining--;
+        attemptsRemaining--;
         // Pass a no-op error handler to avoid the "not found" error toast.
         this.restApiService
           .getChange(changeNum, () => {})
@@ -2082,7 +2082,7 @@ export class GrChangeActions
               return;
             }
 
-            if (attempsRemaining) {
+            if (attemptsRemaining) {
               this.async(check, AWAIT_CHANGE_TIMEOUT_MS);
             } else {
               resolve(false);

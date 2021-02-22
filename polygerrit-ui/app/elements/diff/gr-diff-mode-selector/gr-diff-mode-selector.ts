@@ -60,17 +60,17 @@ export class GrDiffModeSelector extends GestureEventListeners(
       this.restApiService.savePreferences({diff_view: newMode});
     }
     this.mode = newMode;
-    let annoucement;
+    let announcement;
     if (this.isUnifiedSelected(newMode)) {
-      annoucement = 'Changed diff view to unified';
+      announcement = 'Changed diff view to unified';
     } else if (this.isSideBySideSelected(newMode)) {
-      annoucement = 'Changed diff view to side by side';
+      announcement = 'Changed diff view to side by side';
     }
-    if (annoucement) {
+    if (announcement) {
       this.fire(
         'iron-announce',
         {
-          text: annoucement,
+          text: announcement,
         },
         {bubbles: true}
       );

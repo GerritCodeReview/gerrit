@@ -20,7 +20,7 @@ import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import {GrAttributeHelper} from './gr-attribute-helper.js';
 
 Polymer({
-  is: 'gr-attrubute-helper-some-element',
+  is: 'gr-attribute-helper-some-element',
   properties: {
     fooBar: {
       type: Object,
@@ -29,7 +29,7 @@ Polymer({
   },
 });
 
-const basicFixture = fixtureFromElement('gr-attrubute-helper-some-element');
+const basicFixture = fixtureFromElement('gr-attribute-helper-some-element');
 
 suite('gr-attribute-helper tests', () => {
   let element;

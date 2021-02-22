@@ -52,7 +52,7 @@ export class GrDownloadCommands extends GestureEventListeners(
 
   // TODO(TS): maybe default to [] as only used in dom-repeat
   @property({type: Array})
-  comamnds?: Command[];
+  commands?: Command[];
 
   @property({type: Boolean})
   _loggedIn = false;

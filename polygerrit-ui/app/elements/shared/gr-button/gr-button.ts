@@ -61,7 +61,7 @@ export class GrButton extends LegacyElementMixin(
   tooltip = '';
 
   // Note: don't assign a value to this, since constructor is called
-  // after created, the initial value maybe overriden by this
+  // after created, the initial value maybe overridden by this
   @property({type: String})
   _initialTabindex?: string;
 

@@ -1839,6 +1839,8 @@ Gerrit base path even if this value is unset.)
 Whether to enable the web UI for editing GPG keys.
 |`report_bug_url`    |optional|
 link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
+|`instance_id`       |optional|
+link:config-gerrit.html#gerrit.instanceId[Short identifier for this Gerrit installation].
 |=================================
 
 [[index-config-info]]

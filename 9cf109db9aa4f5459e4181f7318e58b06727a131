@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9017f16_209ff1e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026270
+      },
+      "writtenOn": "2021-02-22T06:33:11Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me why the checks failed here ...\n\nI have tested this in opendev CI.  This patch is applied to a gerrit image at [1]\n\nThis image is then run in test [2] against a mariadb container.  I can\u0027t see anything in the logs that says the connection is successful but the gerrit logs are at [3] and it was failing without this.\n\nThe overall change is [4], which is converting our testing to use a mariadb container instead of H2, which is how I came across this.\n\n[1] https://zuul.opendev.org/t/openstack/build/ae4418094fd247f88d70ad6ed59a4ebd/console#5/0/1/ubuntu-bionic\n[2] https://zuul.opendev.org/t/openstack/build/7625b0ddf0864056b49737b35433ea59\n[3] https://f7a59a81b5009ca87340-4b3f718c770950e32a7b9dcba0bdae3a.ssl.cf5.rackcdn.com/775961/12/check/system-config-run-review-3.2/7625b0d/review01.openstack.org/logs/\n[4] https://review.opendev.org/c/opendev/system-config/+/775961\n",
+      "revId": "9cf109db9aa4f5459e4181f7318e58b06727a131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

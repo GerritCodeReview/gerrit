@@ -61,7 +61,7 @@ export class GrDiffCursor extends GestureEventListeners(
     return htmlTemplate;
   }
 
-  private _preventAutoScrollOnManualScroll = false;
+  private preventAutoScrollOnManualScroll = false;
 
   private lastDisplayedNavigateToNextFileToast: number | null = null;
 
@@ -338,10 +338,10 @@ export class GrDiffCursor extends GestureEventListeners(
   }
 
   private _boundHandleWindowScroll = () => {
-    if (this._preventAutoScrollOnManualScroll) {
+    if (this.preventAutoScrollOnManualScroll) {
       this._scrollMode = ScrollMode.NEVER;
       this._focusOnMove = false;
-      this._preventAutoScrollOnManualScroll = false;
+      this.preventAutoScrollOnManualScroll = false;
     }
   };
 
@@ -360,14 +360,14 @@ export class GrDiffCursor extends GestureEventListeners(
   };
 
   private _boundHandleDiffRenderStart = () => {
-    this._preventAutoScrollOnManualScroll = true;
+    this.preventAutoScrollOnManualScroll = true;
   };
 
   private _boundHandleDiffRenderContent = () => {
     this._updateStops();
     // When done rendering, turn focus on move and automatic scrolling back on
     this._focusOnMove = true;
-    this._preventAutoScrollOnManualScroll = false;
+    this.preventAutoScrollOnManualScroll = false;
   };
 
   private _boundHandleDiffLineSelected = (event: Event) => {

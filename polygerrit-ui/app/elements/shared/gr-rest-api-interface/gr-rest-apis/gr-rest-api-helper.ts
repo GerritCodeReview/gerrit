@@ -75,7 +75,7 @@ export function parsePrefixedJSON(jsonWithPrefix: string): ParsedJSON {
 export class SiteBasedCache {
   // TODO(TS): Type looks unusual. Fix it.
   // Container of per-canonical-path caches.
-  private readonly _data = new Map<
+  private readonly data = new Map<
     string | undefined,
     unknown | Map<string, ParsedJSON | null>
   >();
@@ -93,13 +93,13 @@ export class SiteBasedCache {
 
   // Returns the cache for the current canonical path.
   _cache(): Map<string, unknown> {
-    if (!this._data.has(window.CANONICAL_PATH)) {
-      this._data.set(
+    if (!this.data.has(window.CANONICAL_PATH)) {
+      this.data.set(
         window.CANONICAL_PATH,
         new Map<string, ParsedJSON | null>()
       );
     }
-    return this._data.get(window.CANONICAL_PATH) as Map<
+    return this.data.get(window.CANONICAL_PATH) as Map<
       string,
       ParsedJSON | null
     >;
@@ -140,7 +140,7 @@ export class SiteBasedCache {
         newMap.set(key, value);
       }
     }
-    this._data.set(window.CANONICAL_PATH, newMap);
+    this.data.set(window.CANONICAL_PATH, newMap);
   }
 }
 
@@ -149,25 +149,25 @@ type FetchPromisesCacheData = {
 };
 
 export class FetchPromisesCache {
-  private _data: FetchPromisesCacheData;
+  private data: FetchPromisesCacheData;
 
   constructor() {
-    this._data = {};
+    this.data = {};
   }
 
   public testOnlyGetData() {
-    return this._data;
+    return this.data;
   }
 
   /**
    * @return true only if a value for a key sets and it is not undefined
    */
   has(key: string): boolean {
-    return !!this._data[key];
+    return !!this.data[key];
   }
 
   get(key: string) {
-    return this._data[key];
+    return this.data[key];
   }
 
   /**
@@ -175,17 +175,17 @@ export class FetchPromisesCache {
    *     mark key as deleted.
    */
   set(key: string, value: Promise<ParsedJSON | undefined> | undefined) {
-    this._data[key] = value;
+    this.data[key] = value;
   }
 
   invalidatePrefix(prefix: string) {
     const newData: FetchPromisesCacheData = {};
-    Object.entries(this._data).forEach(([key, value]) => {
+    Object.entries(this.data).forEach(([key, value]) => {
       if (!key.startsWith(prefix)) {
         newData[key] = value;
       }
     });
-    this._data = newData;
+    this.data = newData;
   }
 }
 export type FetchParams = {

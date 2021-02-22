@@ -78,14 +78,14 @@ export type SendCallback = (response: unknown) => void;
 export class Plugin implements PluginApi {
   readonly _url?: URL;
 
-  private _domHooks: GrDomHooksManager;
+  private domHooks: GrDomHooksManager;
 
   private readonly _name: string = PLUGIN_NAME_NOT_SET;
 
   private readonly jsApi = appContext.jsApiService;
 
   constructor(url?: string) {
-    this._domHooks = new GrDomHooksManager(this);
+    this.domHooks = new GrDomHooksManager(this);
 
     if (!url) {
       console.warn(
@@ -151,7 +151,7 @@ export class Plugin implements PluginApi {
     const type =
       options && options.replace ? EndpointType.REPLACE : EndpointType.DECORATE;
     const slot = (options && options.slot) || '';
-    const domHook = this._domHooks.getDomHook(endpoint, moduleName);
+    const domHook = this.domHooks.getDomHook(endpoint, moduleName);
     moduleName = moduleName || domHook.getModuleName();
     getPluginEndpoints().registerModule(this, {
       slot,

@@ -99,7 +99,7 @@ export class GrAdminView extends GestureEventListeners(
     return htmlTemplate;
   }
 
-  private _account?: AccountDetailInfo;
+  private account?: AccountDetailInfo;
 
   @property({type: Object})
   params?: AdminViewParams;
@@ -189,7 +189,7 @@ export class GrAdminView extends GestureEventListeners(
       getPluginLoader().awaitPluginsLoaded(),
     ];
     return Promise.all(promises).then(result => {
-      this._account = result[0];
+      this.account = result[0];
       let options: AdminNavLinksOption | undefined = undefined;
       if (this._repoName) {
         options = {repoName: this._repoName};
@@ -204,7 +204,7 @@ export class GrAdminView extends GestureEventListeners(
       }
 
       return getAdminLinks(
-        this._account,
+        this.account,
         () =>
           this.restApiService.getAccountCapabilities().then(capabilities => {
             if (!capabilities) {

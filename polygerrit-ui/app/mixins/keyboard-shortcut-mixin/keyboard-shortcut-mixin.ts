@@ -806,7 +806,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
 
       ShortcutSection = ShortcutSection;
 
-      private _disableKeyboardShortcuts = false;
+      private disableKeyboardShortcuts = false;
 
       private readonly restApiService = appContext.restApiService;
 
@@ -831,7 +831,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       }
 
       shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent) {
-        if (this._disableKeyboardShortcuts) return true;
+        if (this.disableKeyboardShortcuts) return true;
         const e = getKeyboardEvent(event);
         // TODO(TS): maybe override the EventApi, narrow it down to Element always
         const target = (dom(e) as EventApi).rootTarget as Element;
@@ -935,7 +935,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
 
         this.restApiService.getPreferences().then(prefs => {
           if (prefs?.disable_keyboard_shortcuts) {
-            this._disableKeyboardShortcuts = true;
+            this.disableKeyboardShortcuts = true;
           }
         });
 

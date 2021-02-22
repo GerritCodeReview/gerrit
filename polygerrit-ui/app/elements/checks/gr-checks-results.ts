@@ -15,7 +15,14 @@
  * limitations under the License.
  */
 import {html} from 'lit-html';
-import {css, customElement, property, PropertyValues} from 'lit-element';
+import {
+  css,
+  customElement,
+  internalProperty,
+  property,
+  PropertyValues,
+  query,
+} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {Category, CheckRun, Link, RunStatus, Tag} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
@@ -26,6 +33,8 @@ import {
   iconForCategory,
   isRunning,
 } from '../../services/checks/checks-util';
+import {assertIsDefined} from '../../utils/common-util';
+import {whenVisible} from '../../utils/dom-util';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {
@@ -37,6 +46,9 @@ class GrResultRow extends GrLitElement {
 
   @property({type: Boolean, reflect: true})
   isExpandable = false;
+
+  @property()
+  shouldRender = false;
 
   static get styles() {
     return [
@@ -126,8 +138,26 @@ class GrResultRow extends GrLitElement {
     super.update(changedProperties);
   }
 
+  firstUpdated() {
+    const loading = this.shadowRoot?.querySelector('.container');
+    assertIsDefined(loading, '"Loading" element');
+    whenVisible(loading, () => this.setAttribute('shouldRender', 'true'), 200);
+  }
+
   render() {
     if (!this.result) return '';
+    if (!this.shouldRender) {
+      return html`
+        <tr class="container">
+          <td class="iconCol"></td>
+          <td class="nameCol">
+            <div><span class="loading">Loading...</span></div>
+          </td>
+          <td class="summaryCol"></td>
+          <td class="expanderCol"></td>
+        </tr>
+      `;
+    }
     return html`
       <tr class="container" @click="${this.toggleExpanded}">
         <td class="iconCol">
@@ -256,6 +286,12 @@ class GrResultExpanded extends GrLitElement {
 
 @customElement('gr-checks-results')
 export class GrChecksResults extends GrLitElement {
+  @query('#filterInput')
+  filterInput!: HTMLInputElement;
+
+  @internalProperty()
+  filterString = '';
+
   @property()
   runs: CheckRun[] = [];
 
@@ -266,6 +302,11 @@ export class GrChecksResults extends GrLitElement {
         :host {
           display: block;
           padding: var(--spacing-xl);
+        }
+        input#filterInput {
+          margin-top: var(--spacing-s);
+          padding: var(--spacing-s) var(--spacing-m);
+          min-width: 400px;
         }
         .categoryHeader {
           margin-top: var(--spacing-l);
@@ -310,10 +351,27 @@ export class GrChecksResults extends GrLitElement {
   render() {
     return html`
       <div><h2 class="heading-2">Results</h2></div>
-      ${this.renderNoCompleted()} ${this.renderSection(Category.ERROR)}
+      ${this.renderFilter()} ${this.renderNoCompleted()}
+      ${this.renderSection(Category.ERROR)}
       ${this.renderSection(Category.WARNING)}
       ${this.renderSection(Category.INFO)} ${this.renderSuccess()}
     `;
+  }
+
+  renderFilter() {
+    if (this.runs.length === 0) return;
+    return html`
+      <input
+        id="filterInput"
+        type="text"
+        placeholder="Filter results by regular expression"
+        @input="${this.onInput}"
+      />
+    `;
+  }
+
+  onInput() {
+    this.filterString = this.filterInput.value;
   }
 
   renderNoCompleted() {
@@ -356,8 +414,13 @@ export class GrChecksResults extends GrLitElement {
   }
 
   renderRun(category: Category, run: CheckRun) {
+    const filterRegex = new RegExp(this.filterString, 'i');
     return html`${run.results
       ?.filter(result => result.category === category)
+      .filter(
+        result =>
+          filterRegex.test(run.checkName) || filterRegex.test(result.summary)
+      )
       .map(
         result =>
           html`<gr-result-row .result="${{...run, ...result}}"></gr-result-row>`
@@ -365,7 +428,10 @@ export class GrChecksResults extends GrLitElement {
   }
 
   renderSuccess() {
-    const runs = this.runs.filter(hasCompletedWithoutResults);
+    const filterRegex = new RegExp(this.filterString, 'i');
+    const runs = this.runs
+      .filter(hasCompletedWithoutResults)
+      .filter(r => filterRegex.test(r.checkName));
     if (runs.length === 0) return;
     return html`
       <h3 class="categoryHeader heading-3">

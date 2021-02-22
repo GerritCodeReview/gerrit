@@ -16,7 +16,13 @@
  */
 import {html} from 'lit-html';
 import {classMap} from 'lit-html/directives/class-map';
-import {css, customElement, property} from 'lit-element';
+import {
+  css,
+  customElement,
+  internalProperty,
+  property,
+  query,
+} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {Action, CheckRun, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
@@ -35,15 +41,14 @@ import {
   fakeRun4,
   updateStateSetResults,
 } from '../../services/checks/checks-model';
+import {assertIsDefined} from '../../utils/common-util';
+import {whenVisible} from '../../utils/dom-util';
 
-/* The RunSelectedEvent is only used locally to communicate from <gr-checks-run>
-   to its <gr-checks-runs> parent. */
-
-interface RunSelectedEventDetail {
+export interface RunSelectedEventDetail {
   checkName: string;
 }
 
-type RunSelectedEvent = CustomEvent<RunSelectedEventDetail>;
+export type RunSelectedEvent = CustomEvent<RunSelectedEventDetail>;
 
 declare global {
   interface HTMLElementEventMap {
@@ -55,8 +60,8 @@ function fireRunSelected(target: EventTarget, checkName: string) {
   target.dispatchEvent(
     new CustomEvent('run-selected', {
       detail: {checkName},
-      composed: false,
-      bubbles: false,
+      composed: true,
+      bubbles: true,
     })
   );
 }
@@ -124,8 +129,20 @@ export class GrChecksRun extends GrLitElement {
           background-color: var(--selected-background);
           padding-left: calc(var(--spacing-m) + var(--thick-border) - 1px);
         }
+        div.chip.deselected {
+          border: 1px solid var(--gray-foreground);
+          background-color: transparent;
+          padding-left: calc(var(--spacing-m) + var(--thick-border) - 1px);
+        }
         div.chip.selected iron-icon {
           color: var(--selected-foreground);
+        }
+        div.chip.deselected iron-icon {
+          color: var(--gray-foreground);
+        }
+        .chip.selected gr-button.action,
+        .chip.deselected gr-button.action {
+          display: none;
         }
         gr-button.action {
           --padding: var(--spacing-xs) var(--spacing-m);
@@ -145,9 +162,28 @@ export class GrChecksRun extends GrLitElement {
   @property()
   selected = false;
 
+  @property()
+  deselected = false;
+
+  @property()
+  shouldRender = false;
+
+  firstUpdated() {
+    const chip = this.shadowRoot?.querySelector('.chip');
+    assertIsDefined(chip, '"chip" element');
+    whenVisible(chip, () => this.setAttribute('shouldRender', 'true'), 200);
+  }
+
   render() {
-    const icon = this.selected ? 'check-circle' : iconForRun(this.run);
-    const classes = {chip: true, [icon]: true, selected: this.selected};
+    if (!this.shouldRender) return html`<div class="chip">Loading ...</div>`;
+
+    const icon = this.selected ? 'filter' : iconForRun(this.run);
+    const classes = {
+      chip: true,
+      [icon]: true,
+      selected: this.selected,
+      deselected: this.deselected,
+    };
     const action = primaryRunAction(this.run);
 
     return html`
@@ -185,8 +221,17 @@ export class GrChecksRun extends GrLitElement {
 
 @customElement('gr-checks-runs')
 export class GrChecksRuns extends GrLitElement {
+  @query('#filterInput')
+  filterInput!: HTMLInputElement;
+
+  @internalProperty()
+  filterString = '';
+
   @property()
   runs: CheckRun[] = [];
+
+  @property()
+  filteredRuns: CheckRun[] = [];
 
   private selectedRuns = new Set<string>();
 
@@ -207,6 +252,11 @@ export class GrChecksRuns extends GrLitElement {
           padding-top: var(--spacing-l);
           text-transform: capitalize;
         }
+        input#filterInput {
+          margin-top: var(--spacing-s);
+          padding: var(--spacing-s) var(--spacing-m);
+          width: 100%;
+        }
         .testing {
           margin-top: var(--spacing-xxl);
           color: var(--deemphasized-text-color);
@@ -225,8 +275,16 @@ export class GrChecksRuns extends GrLitElement {
   }
 
   render() {
+    console.log('runs render');
+
     return html`
       <h2 class="heading-2">Runs</h2>
+      <input
+        id="filterInput"
+        type="text"
+        placeholder="Filter runs by regular expression"
+        @input="${this.onInput}"
+      />
       ${this.renderSection(RunStatus.COMPLETED)}
       ${this.renderSection(RunStatus.RUNNING)}
       ${this.renderSection(RunStatus.RUNNABLE)}
@@ -253,6 +311,11 @@ export class GrChecksRuns extends GrLitElement {
     `;
   }
 
+  onInput() {
+    console.log(`runs onInput: ${this.filterInput.value}`);
+    this.filterString = this.filterInput.value;
+  }
+
   none() {
     updateStateSetResults('f0', []);
     updateStateSetResults('f1', []);
@@ -275,8 +338,10 @@ export class GrChecksRuns extends GrLitElement {
   }
 
   renderSection(status: RunStatus) {
+    const filterRegex = new RegExp(this.filterString, 'i');
     const runs = this.runs
       .filter(r => r.status === status)
+      .filter(r => filterRegex.test(r.checkName))
       .sort(compareByWorstCategory);
     if (runs.length === 0) return;
     return html`
@@ -289,9 +354,11 @@ export class GrChecksRuns extends GrLitElement {
 
   renderRun(run: CheckRun) {
     const selected = this.selectedRuns.has(run.checkName);
+    const deselected = !selected && this.selectedRuns.size > 0;
     return html`<gr-checks-run
       .run="${run}"
       .selected="${selected}"
+      .deselected="${deselected}"
       @run-selected="${this.handleRunSelected}"
     ></gr-checks-run>`;
   }

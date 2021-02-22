@@ -651,7 +651,7 @@ export class GrReporting implements ReportingService {
     if (baseTime !== 0) {
       window.performance.measure(name, `${name}-start`);
     } else {
-      // Microsft Edge does not handle the 2nd param correctly
+      // Microsoft Edge does not handle the 2nd param correctly
       // (if undefined).
       window.performance.measure(name);
     }
@@ -659,7 +659,7 @@ export class GrReporting implements ReportingService {
 
   /**
    * Reports just line timeEnd, but additionally reports an average given a
-   * denominator and a separate reporiting name for the average.
+   * denominator and a separate reporting name for the average.
    *
    * @param name Timing name.
    * @param averageName Average timing name.
@@ -703,7 +703,7 @@ export class GrReporting implements ReportingService {
   }
 
   /**
-   * Get a timer object to for reporing a user timing. The start time will be
+   * Get a timer object to for reporting a user timing. The start time will be
    * the time that the object has been created, and the end time will be the
    * time that the "end" method is called on the object.
    */
@@ -805,7 +805,7 @@ export class GrReporting implements ReportingService {
   }
 
   /**
-   * A draft interaction was started. Update the time-betweeen-draft-actions
+   * A draft interaction was started. Update the time-between-draft-actions
    * timer.
    */
   recordDraftInteraction() {

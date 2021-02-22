@@ -484,7 +484,7 @@ export class GrMessage extends GestureEventListeners(
   _handleAnchorClick(e: Event) {
     e.preventDefault();
     // The element which triggers _handleAnchorClick is rendered only if
-    // message.id defined: the elemenet is wrapped in dom-if if="[[message.id]]"
+    // message.id defined: the element is wrapped in dom-if if="[[message.id]]"
     const detail: MessageAnchorTapDetail = {
       id: this.message!.id,
     };

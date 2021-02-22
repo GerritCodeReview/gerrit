@@ -225,7 +225,7 @@ suite('gr-plugin-loader tests', () => {
     assert.isTrue(alertStub.calledTwice);
   });
 
-  test('plugins installed failed becasue of wrong version', async () => {
+  test('plugins installed failed because of wrong version', async () => {
     const plugins = [
       'http://test.com/plugins/foo/static/test.js',
       'http://test.com/plugins/bar/static/test.js',

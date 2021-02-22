@@ -277,7 +277,8 @@ export class GrEditControls extends GestureEventListeners(
     return this.restApiService
       .queryChangeFiles(this.change._number, this.patchNum, input)
       .then(res => {
-        if (!res) throw new Error('Failed to retrieve files. Reponse not set.');
+        if (!res)
+          throw new Error('Failed to retrieve files. Response not set.');
         return res.map(file => {
           return {name: file};
         });

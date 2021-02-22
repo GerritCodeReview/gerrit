@@ -784,7 +784,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   _handle400Error(r?: Response | null) {
-    if (!r) throw new Error('Reponse is empty.');
+    if (!r) throw new Error('Response is empty.');
     let response: Response = r;
     // A call to _saveReview could fail with a server error if erroneous
     // reviewers were requested. This is signalled with a 400 Bad Request

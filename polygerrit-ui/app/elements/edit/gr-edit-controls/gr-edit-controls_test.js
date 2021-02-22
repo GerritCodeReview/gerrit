@@ -50,14 +50,14 @@ suite('gr-edit-controls tests', () => {
 
   suite('edit button CUJ', () => {
     let navStubs;
-    let openAutoCcmplete;
+    let openAutoComplete;
 
     setup(() => {
       navStubs = [
         sinon.stub(GerritNav, 'getEditUrlForDiff'),
         sinon.stub(GerritNav, 'navigateToRelativeUrl'),
       ];
-      openAutoCcmplete = element.$.openDialog.querySelector('gr-autocomplete');
+      openAutoComplete = element.$.openDialog.querySelector('gr-autocomplete');
     });
 
     test('_isValidPath', () => {
@@ -77,9 +77,9 @@ suite('gr-edit-controls tests', () => {
         assert.isFalse(queryStub.called);
         // Setup _focused manually - in headless mode Chrome sometimes don't
         // setup focus. flush and/or flushAsynchronousOperations don't help
-        openAutoCcmplete._focused = true;
-        openAutoCcmplete.noDebounce = true;
-        openAutoCcmplete.text = 'src/test.cpp';
+        openAutoComplete._focused = true;
+        openAutoComplete.noDebounce = true;
+        openAutoComplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
         assert.isFalse(element.$.openDialog.disabled);
         MockInteractions.tap(element.$.openDialog.shadowRoot
@@ -95,8 +95,8 @@ suite('gr-edit-controls tests', () => {
       MockInteractions.tap(element.shadowRoot.querySelector('#open'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.openDialog.disabled);
-        openAutoCcmplete.noDebounce = true;
-        openAutoCcmplete.text = 'src/test.cpp';
+        openAutoComplete.noDebounce = true;
+        openAutoComplete.text = 'src/test.cpp';
         assert.isFalse(element.$.openDialog.disabled);
         MockInteractions.tap(element.$.openDialog.shadowRoot
             .querySelector('gr-button'));

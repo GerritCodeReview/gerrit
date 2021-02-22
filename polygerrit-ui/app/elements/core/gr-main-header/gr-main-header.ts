@@ -304,7 +304,7 @@ export class GrMainHeader extends GestureEventListeners(
         if (!config) {
           throw new Error('getConfig returned undefined');
         }
-        this._retreiveFeedbackURL(config);
+        this._retrieveFeedbackURL(config);
         this._retrieveRegisterURL(config);
         return getDocsBaseUrl(config, this.restApiService);
       })
@@ -325,7 +325,7 @@ export class GrMainHeader extends GestureEventListeners(
     });
   }
 
-  _retreiveFeedbackURL(config: ServerInfo) {
+  _retrieveFeedbackURL(config: ServerInfo) {
     if (config.gerrit?.report_bug_url) {
       this._feedbackURL = config.gerrit.report_bug_url;
     }

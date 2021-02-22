@@ -2110,7 +2110,7 @@ suite('gr-change-actions tests', () => {
 
       element = basicFixture.instantiate();
       // getChangeRevisionActions is not called without
-      // set the following properies
+      // set the following properties
       element.change = {};
       element.changeNum = '42';
       element.latestPatchNum = '2';

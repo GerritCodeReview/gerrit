@@ -29,7 +29,7 @@ suite('common-util tests', () => {
       assert.isTrue(hasOwnProperty(obj, 'name with spaces'));
       assert.isFalse(hasOwnProperty(obj, 'def'));
     });
-    test('object prototype has overriden hasOwnProperty', () => {
+    test('object prototype has overridden hasOwnProperty', () => {
       const F = function() {
         this.abc = 23;
       };

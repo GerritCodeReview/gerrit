@@ -492,7 +492,7 @@ export class GrSyntaxLayer
    * with code it shouldn't AND to avoid executing regexes as much as
    * possible.
    * * These tests should document the issue clearly enough that the test can
-   * be condidently removed when the issue is solved in HLJS.
+   * be confidently removed when the issue is solved in HLJS.
    * * These tests should rewrite the line of code to have the same number of
    * characters. This method rewrites the string that gets parsed, but NOT
    * the string that gets displayed and highlighted. Thus, the positions

@@ -1465,9 +1465,9 @@ export class GrDiffView extends KeyboardShortcutMixin(
   ) {
     let patchNum = patchRange.patchNum;
 
-    const comparedAgainsParent = patchRange.basePatchNum === 'PARENT';
+    const comparedAgainstParent = patchRange.basePatchNum === 'PARENT';
 
-    if (isBase && !comparedAgainsParent) {
+    if (isBase && !comparedAgainstParent) {
       patchNum = patchRange.basePatchNum;
     }
 
@@ -1475,7 +1475,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
       changeBaseURL(project, changeNum, patchNum) +
       `/files/${encodeURIComponent(path)}/download`;
 
-    if (isBase && comparedAgainsParent) {
+    if (isBase && comparedAgainstParent) {
       url += '?parent=1';
     }
 

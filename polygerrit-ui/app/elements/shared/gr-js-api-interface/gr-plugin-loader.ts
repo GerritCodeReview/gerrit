@@ -74,7 +74,7 @@ interface GerritGlobal {
 const UNKNOWN_PLUGIN_PREFIX = '__$$__';
 
 // Current API version for Plugin,
-// plugins with incompatible version will not be laoded.
+// plugins with incompatible version will not be loaded.
 const API_VERSION = '0.1';
 
 /**

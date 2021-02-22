@@ -23,7 +23,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-selection-action-box_html';
 import {fireEvent} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -57,29 +56,12 @@ export class GrSelectionActionBox extends GestureEventListeners(
   @property({type: Boolean})
   positionBelow = false;
 
-  @property({type: Boolean})
-  disableKeyboardShortcuts = false;
-
-  private readonly restApiService = appContext.restApiService;
-
   /** @override */
   created() {
     super.created();
 
     // See https://crbug.com/gerrit/4767
     this.addEventListener('mousedown', e => this._handleMouseDown(e));
-  }
-
-  attached() {
-    this.restApiService.getPreferences().then(prefs => {
-      if (prefs?.disable_keyboard_shortcuts) {
-        this.disableKeyboardShortcuts = true;
-      }
-    });
-  }
-
-  _getTextForTooltip(disableKeyboardShortcuts: boolean) {
-    return disableKeyboardShortcuts ? 'Click to comment' : 'Press c to comment';
   }
 
   placeAbove(el: Text | Element | Range) {

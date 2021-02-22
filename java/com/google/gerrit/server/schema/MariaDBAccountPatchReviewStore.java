@@ -22,6 +22,7 @@ import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.SQLException;
+import java.sql.Statement;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -50,4 +51,18 @@ public class MariaDBAccountPatchReviewStore extends JdbcAccountPatchReviewStore 
         return new StorageException(op + " failure on ACCOUNT_PATCH_REVIEWS", err);
     }
   }
+
+  @Override
+  protected void doCreateTable(Statement stmt) throws SQLException {
+    stmt.executeUpdate(
+        "CREATE TABLE IF NOT EXISTS account_patch_reviews ("
+            + "account_id INTEGER DEFAULT 0 NOT NULL, "
+            + "change_id INTEGER DEFAULT 0 NOT NULL, "
+            + "patch_set_id INTEGER DEFAULT 0 NOT NULL, "
+            + "file_name VARCHAR(255) DEFAULT '' NOT NULL, "
+            + "CONSTRAINT primary_key_account_patch_reviews "
+            + "PRIMARY KEY (change_id, patch_set_id, account_id, file_name)"
+            + ")");
+  }
+
 }

@@ -193,6 +193,7 @@ export const htmlTemplate = html`
               href$="[[_computeChangeURL(change._number, change.project)]]"
               class$="[[_computeLinkClass(change)]]"
               title$="[[change.subject]]"
+              on-click="_reportClick"
             >
               [[change.subject]]
             </a>

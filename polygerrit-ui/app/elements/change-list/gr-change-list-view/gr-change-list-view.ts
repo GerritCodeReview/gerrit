@@ -111,7 +111,7 @@ export class GrChangeListView extends GestureEventListeners(
   @property({type: String})
   _repo: string | null = null;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   /** @override */
   created() {

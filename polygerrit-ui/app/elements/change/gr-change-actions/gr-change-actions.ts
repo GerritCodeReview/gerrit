@@ -553,7 +553,7 @@ export class GrChangeActions
   @property({type: Object})
   _config?: ServerInfo;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   /** @override */
   created() {

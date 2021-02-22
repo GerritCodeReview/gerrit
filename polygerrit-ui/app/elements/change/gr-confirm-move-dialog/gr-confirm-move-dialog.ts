@@ -67,7 +67,7 @@ export class GrConfirmMoveDialog extends KeyboardShortcutMixin(
     };
   }
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   constructor() {
     super();

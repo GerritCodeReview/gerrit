@@ -140,7 +140,7 @@ export class GrPermission extends GestureEventListeners(
   @property({type: Boolean})
   _originalExclusiveValue?: boolean;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   constructor() {
     super();

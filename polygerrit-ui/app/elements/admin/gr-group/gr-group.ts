@@ -126,7 +126,7 @@ export class GrGroup extends GestureEventListeners(
   @property({type: Boolean})
   _isAdmin = false;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   constructor() {
     super();

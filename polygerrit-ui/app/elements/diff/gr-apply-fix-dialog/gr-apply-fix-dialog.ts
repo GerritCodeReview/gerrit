@@ -100,7 +100,7 @@ export class GrApplyFixDialog extends GestureEventListeners(
 
   private refitOverlay?: () => void;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   /**
    * Given robot comment CustomEvent object, fetch diffs associated

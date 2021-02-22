@@ -44,7 +44,7 @@ export class GrCreateGroupDialog extends GestureEventListeners(
   @property({type: Boolean})
   _groupCreated = false;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   _computeGroupUrl(groupId: string) {
     return getBaseUrl() + '/admin/groups/' + encodeURL(groupId, true);

@@ -88,7 +88,7 @@ export class GrRepoList extends ListViewMixin(
     return this.computeShownItems(this._repos);
   }
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   /** @override */
   attached() {

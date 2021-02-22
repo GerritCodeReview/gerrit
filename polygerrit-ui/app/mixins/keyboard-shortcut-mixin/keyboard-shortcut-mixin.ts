@@ -808,7 +808,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
 
       private _disableKeyboardShortcuts = false;
 
-      private restApiService = appContext.restApiService;
+      private readonly restApiService = appContext.restApiService;
 
       modifierPressed(event: CustomKeyboardEvent) {
         /* We are checking for g/v as modifiers pressed. There are cases such as

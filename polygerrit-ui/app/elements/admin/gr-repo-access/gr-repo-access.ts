@@ -120,7 +120,7 @@ export class GrRepoAccess extends GestureEventListeners(
 
   private _originalInheritsFrom?: ProjectInfo | null;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   constructor() {
     super();

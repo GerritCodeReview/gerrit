@@ -50,7 +50,7 @@ export class GrRepoDashboards extends GestureEventListeners(
   @property({type: Array})
   _dashboards?: DashboardRef[];
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   _repoChanged(repo?: RepoName) {
     this._loading = true;

@@ -121,7 +121,7 @@ export class GrDashboardView extends GestureEventListeners(
 
   private reporting = appContext.reportingService;
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   private lastVisibleTimestampMs = 0;
 

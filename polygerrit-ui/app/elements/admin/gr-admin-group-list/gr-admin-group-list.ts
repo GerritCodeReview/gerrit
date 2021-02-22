@@ -95,7 +95,7 @@ export class GrAdminGroupList extends ListViewMixin(
   @property({type: String})
   _filter = '';
 
-  private restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   /** @override */
   attached() {

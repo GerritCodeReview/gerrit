@@ -22,6 +22,7 @@ import {Action, CheckRun, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {
   compareByWorstCategory,
+  fireActionTriggered,
   iconForRun,
   primaryRunAction,
 } from '../../services/checks/checks-util';
@@ -60,33 +61,6 @@ function fireRunSelected(target: EventTarget, checkName: string) {
   );
 }
 
-export interface ActionTriggeredEventDetail {
-  action: Action;
-  run: CheckRun;
-}
-
-export type ActionTriggeredEvent = CustomEvent<ActionTriggeredEventDetail>;
-
-declare global {
-  interface HTMLElementEventMap {
-    'action-triggered': ActionTriggeredEvent;
-  }
-}
-
-function fireActionTriggered(
-  target: EventTarget,
-  action: Action,
-  run: CheckRun
-) {
-  target.dispatchEvent(
-    new CustomEvent('action-triggered', {
-      detail: {action, run},
-      composed: true,
-      bubbles: true,
-    })
-  );
-}
-
 @customElement('gr-checks-run')
 export class GrChecksRun extends GrLitElement {
   static get styles() {
@@ -105,6 +79,11 @@ export class GrChecksRun extends GrLitElement {
           padding: var(--spacing-s) var(--spacing-m);
           margin-top: var(--spacing-s);
           cursor: pointer;
+        }
+        .left {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
         .name {
           font-weight: var(--font-weight-bold);

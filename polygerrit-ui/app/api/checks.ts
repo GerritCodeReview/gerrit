@@ -43,6 +43,12 @@ export interface ChecksApiConfig {
   fetchPollingIntervalSeconds: number;
 }
 
+export interface ChangeData {
+  changeNumber: number;
+  patchsetNumber: number;
+  repo: string;
+}
+
 export interface ChecksProvider {
   /**
    * Gerrit calls this method when ...
@@ -51,7 +57,7 @@ export interface ChecksProvider {
    * - ... while the tab is visible in a regular polling interval, see
    *       ChecksApiConfig.
    */
-  fetch(change: number, patchset: number): Promise<FetchResponse>;
+  fetch(change: ChangeData): Promise<FetchResponse>;
 }
 
 export interface FetchResponse {
@@ -224,10 +230,21 @@ export interface Action {
 export type ActionCallback = (
   change: number,
   patchset: number,
+  /**
+   * Identical to 'attempt' property of CheckRun. Not set for top-level
+   * actions.
+   */
   attempt: number | undefined,
+  /**
+   * Identical to 'externalId' property of CheckRun. Not set for top-level
+   * actions.
+   */
   externalId: string | undefined,
-  /** Identical to 'checkName' property of CheckRun. */
-  checkName: string,
+  /**
+   * Identical to 'checkName' property of CheckRun. Not set for top-level
+   * actions.
+   */
+  checkName: string | undefined,
   /** Identical to 'name' property of Action entity. */
   actionName: string
 ) => Promise<ActionResult>;

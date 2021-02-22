@@ -110,13 +110,13 @@ export const hovercardBehaviorMixin = dedupingMixin(
       @property({type: String})
       containerId = 'gr-hovercard-container';
 
-      private _hideDebouncer: Debouncer | null = null;
+      private hideDebouncer: Debouncer | null = null;
 
-      private _showDebouncer: Debouncer | null = null;
+      private showDebouncer: Debouncer | null = null;
 
-      private _isScheduledToShow?: boolean;
+      private isScheduledToShow?: boolean;
 
-      private _isScheduledToHide?: boolean;
+      private isScheduledToHide?: boolean;
 
       /** @override */
       attached() {
@@ -174,24 +174,24 @@ export const hovercardBehaviorMixin = dedupingMixin(
 
       debounceHide() {
         this.cancelShowDebouncer();
-        if (!this._isShowing || this._isScheduledToHide) return;
-        this._isScheduledToHide = true;
-        this._hideDebouncer = Debouncer.debounce(
-          this._hideDebouncer,
+        if (!this._isShowing || this.isScheduledToHide) return;
+        this.isScheduledToHide = true;
+        this.hideDebouncer = Debouncer.debounce(
+          this.hideDebouncer,
           timeOut.after(HIDE_DELAY_MS),
           () => {
             // This happens when hide immediately through click or mouse leave
             // on the hovercard
-            if (!this._isScheduledToHide) return;
+            if (!this.isScheduledToHide) return;
             this.hide();
           }
         );
       }
 
       cancelHideDebouncer() {
-        if (this._hideDebouncer) {
-          this._hideDebouncer.cancel();
-          this._isScheduledToHide = false;
+        if (this.hideDebouncer) {
+          this.hideDebouncer.cancel();
+          this.isScheduledToHide = false;
         }
       }
 
@@ -305,23 +305,23 @@ export const hovercardBehaviorMixin = dedupingMixin(
        */
       debounceShowBy(delayMs: number) {
         this.cancelHideDebouncer();
-        if (this._isShowing || this._isScheduledToShow) return;
-        this._isScheduledToShow = true;
-        this._showDebouncer = Debouncer.debounce(
-          this._showDebouncer,
+        if (this._isShowing || this.isScheduledToShow) return;
+        this.isScheduledToShow = true;
+        this.showDebouncer = Debouncer.debounce(
+          this.showDebouncer,
           timeOut.after(delayMs),
           () => {
             // This happens when the mouse leaves the target before the delay is over.
-            if (!this._isScheduledToShow) return;
+            if (!this.isScheduledToShow) return;
             this.show();
           }
         );
       }
 
       cancelShowDebouncer() {
-        if (this._showDebouncer) {
-          this._showDebouncer.cancel();
-          this._isScheduledToShow = false;
+        if (this.showDebouncer) {
+          this.showDebouncer.cancel();
+          this.isScheduledToShow = false;
         }
       }
 

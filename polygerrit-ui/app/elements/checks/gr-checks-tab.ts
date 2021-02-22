@@ -32,7 +32,8 @@ import {
   ActionTriggeredEvent,
   fireActionTriggered,
 } from '../../services/checks/checks-util';
-import {checkRequiredProperty} from '../../utils/common-util';
+import {checkRequiredProperty, toggleSetMembership} from '../../utils/common-util';
+import {RunSelectedEvent} from './gr-checks-runs';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -52,6 +53,8 @@ export class GrChecksTab extends GrLitElement {
 
   @property()
   changeNum: NumericChangeId | undefined = undefined;
+
+  private selectedRuns = new Set<string>();
 
   constructor() {
     super();
@@ -100,6 +103,9 @@ export class GrChecksTab extends GrLitElement {
 
   render() {
     const ps = `Patchset ${this.currentPatchNum} (Latest)`;
+    const filteredRuns = this.runs.filter(
+      r => this.selectedRuns.size === 0 || this.selectedRuns.has(r.checkName)
+    );
     return html`
       <div class="header">
         <div class="left">
@@ -118,10 +124,14 @@ export class GrChecksTab extends GrLitElement {
         </div>
       </div>
       <div class="container">
-        <gr-checks-runs class="runs" .runs="${this.runs}"></gr-checks-runs>
+        <gr-checks-runs
+          class="runs"
+          .runs="${this.runs}"
+          @run-selected="${this.handleRunSelected}"
+        ></gr-checks-runs>
         <gr-checks-results
           class="results"
-          .runs="${this.runs}"
+          .runs="${filteredRuns}"
         ></gr-checks-results>
       </div>
     `;
@@ -147,6 +157,11 @@ export class GrChecksTab extends GrLitElement {
       run?.checkName,
       action.name
     );
+  }
+
+  handleRunSelected(e: RunSelectedEvent) {
+    toggleSetMembership(this.selectedRuns, e.detail.checkName);
+    this.requestUpdate();
   }
 }
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "441880d9_f5c9fb9a",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/RestoreChange.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-22T20:10:02Z",
+      "side": 1,
+      "message": "Same comment as in base review; duplicates line 38\u0027s key name.",
+      "range": {
+        "startLine": 40,
+        "startChar": 44,
+        "endLine": 40,
+        "endChar": 50
+      },
+      "revId": "c90ff491c568c889d5a18d0117543c7442874401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e825960f_721cad08",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/RestoreChange.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-22T20:10:02Z",
+      "side": 1,
+      "message": "abandonChange",
+      "range": {
+        "startLine": 58,
+        "startChar": 30,
+        "endLine": 58,
+        "endChar": 42
+      },
+      "revId": "c90ff491c568c889d5a18d0117543c7442874401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

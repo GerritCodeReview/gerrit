@@ -32,7 +32,7 @@ import {Timestamp} from '../../../types/common';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 
 /**
- * Requred values are text and value. mobileText and triggerText will
+ * Required values are text and value. mobileText and triggerText will
  * fall back to text if not provided.
  *
  * If bottomText is not provided, nothing will display on the second

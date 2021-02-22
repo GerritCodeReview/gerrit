@@ -33,7 +33,7 @@ import {pluralize} from '../../../utils/string-util';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
- * For example '𐀏'.length is 2. An occurence of such a code point is called a
+ * For example '𐀏'.length is 2. An occurrence of such a code point is called a
  * surrogate pair.
  *
  * This regex segments a string along tabs ('\t') and surrogate pairs, since

@@ -200,7 +200,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
   }
 
   _handlePathChanged(e: CustomEvent<string>) {
-    // TODO(TS) could be cleand up, it was added for type requirements
+    // TODO(TS) could be cleaned up, it was added for type requirements
     if (this._changeNum === undefined || !this._path) {
       return Promise.reject(new Error('changeNum or path undefined'));
     }

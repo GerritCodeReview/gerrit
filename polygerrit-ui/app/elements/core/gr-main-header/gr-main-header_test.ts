@@ -488,7 +488,7 @@ suite('gr-main-header tests', () => {
         report_bug_url: url,
       },
     };
-    element._retreiveFeedbackURL(config);
+    element._retrieveFeedbackURL(config);
     await flush();
 
     assert.equal(element._feedbackURL, url);

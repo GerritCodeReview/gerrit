@@ -1244,7 +1244,7 @@ suite('gr-file-list tests', () => {
       // are no deletions.
       assert.equal(element._computeBarAdditionWidth(file, stats), 30);
 
-      // If there are no insetions, there is no width.
+      // If there are no insertions, there is no width.
       stats.maxInserted = 0;
       assert.equal(element._computeBarAdditionWidth(file, stats), 0);
 

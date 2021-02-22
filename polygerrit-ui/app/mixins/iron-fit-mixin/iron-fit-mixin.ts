@@ -29,7 +29,7 @@ import {Constructor} from '../../utils/common-util';
 // is used. To ensure that this import can't be avoided, the second parameter
 // is added. Usage example:
 // class Element extends IronFitMixin(PolymerElement, IronFitBehavior as IronFitBehavior)
-// The code 'IronFitBehavior as IronFitBehavior' required, becuase IronFitBehavior
+// The code 'IronFitBehavior as IronFitBehavior' required, because IronFitBehavior
 // defined as an object, not as IronFitBehavior instance.
 
 export const IronFitMixin = <T extends Constructor<PolymerElement>>(

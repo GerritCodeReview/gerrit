@@ -118,7 +118,7 @@ function computeThreads(
 
 /**
  * If messages have the same tag, then that influences grouping and whether
- * a message is initally hidden or not, see isImportant(). So we are applying
+ * a message is initially hidden or not, see isImportant(). So we are applying
  * some "magic" rules here in order to hide exactly the right messages.
  *
  * 1. If a message does not have a tag, but is associated with robot comments,
@@ -263,7 +263,7 @@ export class GrMessagesList extends KeyboardShortcutMixin(
   _combinedMessages: CombinedMessage[] = [];
 
   @property({type: Object, computed: '_computeLabelExtremes(labels.*)'})
-  _labelExtremes: {[lableName: string]: VotingRangeInfo} = {};
+  _labelExtremes: {[labelName: string]: VotingRangeInfo} = {};
 
   private readonly reporting = appContext.reportingService;
 
@@ -466,7 +466,7 @@ export class GrMessagesList extends KeyboardShortcutMixin(
       LabelNameToInfoMap
     >
   ) {
-    const extremes: {[lableName: string]: VotingRangeInfo} = {};
+    const extremes: {[labelName: string]: VotingRangeInfo} = {};
     const labels = labelRecord.base;
     if (!labels) {
       return extremes;

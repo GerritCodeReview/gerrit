@@ -156,7 +156,7 @@ export function querySelectorAll(
 
 export function windowLocationReload() {
   const e = new Error();
-  console.info(`Calling window.location.realod(): ${e.stack}`);
+  console.info(`Calling window.location.reload(): ${e.stack}`);
   window.location.reload();
 }
 

@@ -250,7 +250,7 @@ function initGerritPluginsMethods(globalGerritObj: GerritGlobal) {
    *   });
    * });
    *
-   * // Listen on your-special-event from pluignB
+   * // Listen on your-special-event from pluginB
    * Gerrit.install(pluginB => {
    *   Gerrit.on("your-special-event", ({plugin}) => {
    *     // do something, plugin is pluginA

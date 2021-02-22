@@ -112,7 +112,7 @@ export class GrTextarea extends KeyboardShortcutMixin(
   @property({type: Boolean})
   hideBorder = false;
 
-  /** Text input should be rendered in monspace font.  */
+  /** Text input should be rendered in monospace font.  */
   @property({type: Boolean})
   monospace = false;
 

@@ -457,7 +457,7 @@ s   */
    * Send an XHR.
    *
    * @return Promise resolves to Response/ParsedJSON only if the request is successful
-   *     (i.e. no exception and response.ok is trsue). If response fails then
+   *     (i.e. no exception and response.ok is true). If response fails then
    *     promise resolves either to void if errFn is set or rejects if errFn
    *     is not set   */
   send(req: SendRequest): Promise<Response | ParsedJSON | undefined> {

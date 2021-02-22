@@ -192,7 +192,7 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
 
-      // Typically called on ready since elements will have properies defined
+      // Typically called on ready since elements will have properties defined
       // by the parent element.
       element._setupValues(element.rule);
       flush();

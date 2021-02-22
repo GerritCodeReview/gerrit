@@ -803,7 +803,7 @@ export class GrFileList extends KeyboardShortcutMixin(
   }
 
   /**
-   * Handle all events from the file list dom-repeat so event handleers don't
+   * Handle all events from the file list dom-repeat so event handlers don't
    * have to get registered for potentially very long lists.
    */
   _handleFileListClick(e: MouseEvent) {

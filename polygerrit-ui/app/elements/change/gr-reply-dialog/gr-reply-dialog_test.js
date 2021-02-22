@@ -1276,7 +1276,7 @@ suite('gr-reply-dialog tests', () => {
         'Send and Start review');
   });
 
-  test('_handle400Error reviewrs and CCs', done => {
+  test('_handle400Error reviewers and CCs', done => {
     const error1 = 'error 1';
     const error2 = 'error 2';
     const error3 = 'error 3';

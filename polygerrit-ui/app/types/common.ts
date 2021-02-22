@@ -1021,7 +1021,7 @@ export interface MemSummaryInfo {
  */
 export interface PluginConfigInfo {
   has_avatars: boolean;
-  // The following 2 properies exists in Java class, but don't mention in docs
+  // The following 2 properties exists in Java class, but don't mention in docs
   js_resource_paths: string[];
   html_resource_paths: string[];
 }

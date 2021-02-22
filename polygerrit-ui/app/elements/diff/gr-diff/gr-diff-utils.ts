@@ -88,7 +88,7 @@ export function getRange(threadEl: HTMLElement): CommentRange | undefined {
 // TODO: This type should be exposed to gr-diff clients in a separate type file.
 // For Gerrit these are instances of GrCommentThread, but other gr-diff users
 // have different HTML elements in use for comment threads.
-// TODO: Also document the required HTML attritbutes that thread elements must
+// TODO: Also document the required HTML attributes that thread elements must
 // have, e.g. 'diff-side', 'range', 'line-num', 'data-value'.
 export interface GrDiffThreadElement extends HTMLElement {
   rootId: string;

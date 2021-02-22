@@ -25,15 +25,15 @@ import {
 
 suite('url-util tests', () => {
   suite('getBaseUrl tests', () => {
-    let originialCanonicalPath;
+    let originalCanonicalPath;
 
     suiteSetup(() => {
-      originialCanonicalPath = window.CANONICAL_PATH;
+      originalCanonicalPath = window.CANONICAL_PATH;
       window.CANONICAL_PATH = '/r';
     });
 
     suiteTeardown(() => {
-      window.CANONICAL_PATH = originialCanonicalPath;
+      window.CANONICAL_PATH = originalCanonicalPath;
     });
 
     test('getBaseUrl', () => {

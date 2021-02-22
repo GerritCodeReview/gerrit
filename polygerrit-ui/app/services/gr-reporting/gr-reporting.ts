@@ -61,7 +61,7 @@ export interface ReportingService {
   timeEnd(name: string, eventDetails?: EventDetails): void;
   /**
    * Reports just line timeEnd, but additionally reports an average given a
-   * denominator and a separate reporiting name for the average.
+   * denominator and a separate reporting name for the average.
    *
    * @param name Timing name.
    * @param averageName Average timing name.
@@ -74,7 +74,7 @@ export interface ReportingService {
     denominator: number
   ): void;
   /**
-   * Get a timer object to for reporing a user timing. The start time will be
+   * Get a timer object for reporting a user timing. The start time will be
    * the time that the object has been created, and the end time will be the
    * time that the "end" method is called on the object.
    */
@@ -99,7 +99,7 @@ export interface ReportingService {
   reportExecution(id: string, details: EventDetails): void;
   reportInteraction(eventName: string, details?: EventDetails): void;
   /**
-   * A draft interaction was started. Update the time-betweeen-draft-actions
+   * A draft interaction was started. Update the time-between-draft-actions
    * timer.
    */
   recordDraftInteraction(): void;

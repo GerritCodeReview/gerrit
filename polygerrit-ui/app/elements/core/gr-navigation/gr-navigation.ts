@@ -249,7 +249,7 @@ export interface GenerateUrlSearchViewParameters {
 
 export interface GenerateUrlChangeViewParameters {
   view: GerritView.CHANGE;
-  // TODO(TS): NumericChangeId - not sure about it, may be it can be removeds
+  // TODO(TS): NumericChangeId - not sure about it, may be it can be removed
   changeNum: NumericChangeId;
   project: RepoName;
   patchNum?: PatchSetNum;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39bec552_4ad2f758",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-22T07:51:21Z",
+      "side": 1,
+      "message": "The blue background color of the comment card does not extend all the way to the right like the background of the info bar.",
+      "revId": "94e7bdf426fb033d2a2b77463b9799516018b481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

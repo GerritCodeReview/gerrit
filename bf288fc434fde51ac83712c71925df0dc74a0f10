@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e2976d2_5b46be4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-22T15:41:15Z",
+      "side": 1,
+      "message": "nit: You\u0027re repeating \"this operator\" twice in this sentence. Maybe reword as:\n\n It is useful to configure the task plugin to utilize \u0027parentof\u0027\n so as to define a task ...",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "bf288fc434fde51ac83712c71925df0dc74a0f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

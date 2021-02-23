@@ -125,6 +125,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "81487e5d_8ce61a86",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-02-23T01:52:20Z",
+      "side": 1,
+      "message": "\u003e \u003e re-instantiate that class as (consumerClassLoader, \"gerrit.MyApi\")\n\u003e \n\u003e how does that help you?  You want to have an instance of (providerClassLoader, \"gerrit.MyApiImpl\") so you have the  functionality, but then cast that to  (consumerClassLoader,\"gerrit.MyApi\") to call the method on the interface.\n\nFrom my reading of the code, this is not what is being attempted. Line 128 of the proposed code in DynamicMap is not using the instance of providerClassLoader to do anything more than grab it\u0027s name as a String (it is not trying to cast it). From the name, it is looking up that class in consumerCL and instantiating a version of the class in consumerCL and then casting it. This cast will succeed since this object was created in the consumerCL, not the providerCL.\n\n\u003e You said yesterday you wanted to discuss features on the basis of code reviews rather than design docs. \n\nI do, and thank you for reviewing this, and taking the time to give feedback about it!\n\n\u003e It would help if you could provide code that compiles, and works in the setting you are designing it for.\n\nTo be fair, I did prefix this with \"this is a rough implementation\", it was rushed out in 15 minutes before our meeting to showcase possibilities. I do not want to use this approach, so I will abandon the change. I do think it is an interesting approach that could be useful for some very specific use cases (when only logic, no data, is needed from the other plugin).\n\n\n \n\u003e In order for a consumer to have access to the provider\u0027s data types, the consumer\u0027s classloader must have the provider class loader as a parent.\n\nI don\u0027t think is quite accurate, this happens to be the default logic if you extend CL, however a CL can use whatever logic it wants to look classes up.\n\n\u003e Gerrit can only make this happen if it knows which plugin calls into which other plugin upfront. In other words, you\u0027ll have to add some sort of annotation framework where each plugin can declare its dependencies.  \n\nI do agree that something like this might be useful, and I do not believe it needs to be something that is \"globally\" applicable to a plugin, i.e. it is not something that needs to be in the plugin jar properties (it could be, however it need not be and there are advantages if it is not).\n\n\u003e The side effect of such a classloader mechanism, is that the provider will have access to the entire consumer plugin\u0027s internals, including the ones that weren\u0027t intended for public consumption.\n\nIt is hard for me to grasp what you are concerned with here because I believe you are miss-reading the code in this change. I think it would be good to get on the same page as to what it is actually doing before we go any further.\n\n\u003e It\u0027s also fundamentally limited, because a class loader can have only one parent. \n\nThe parentCL is a concept that default CLs use, however you can make a CL do whatever you want, including loading from multiple loaders I believe.\n\n\u003e If you have a consumer that needs two different providers, you have to pick which goes first, and you can easily create situations which can\u0027t be resolved.\n\nI do agree that there can be ordering issues if you have to deal with more than one provider. If this is done by Gerrit implicitly and in an unpredictable way, that would be bad. I think that this is a problem better left to the developer to resolve similarly to resolving a classpath. If the developer is able to specify this explicitly, there should be fewer surprises. To do so in a \"friendly\" way would likely require doing this in a way that does not depend on plugin load ordering (Jacek\u0027s concern). I am working on a new proposal that will do this in a way that is explicit for specific pieces of plugin code. I hope to have this soon.\n\n\n\u003e \u003e I think so, it\u0027s tricky (I missed this too at first).\n\nI missed it because I had 3 minutes to read the code and missed that fact that Prudhvi was re-instantiating the provider object (this was unexpected).\n\n\u003e this is my other complaint with classloader and reflection trickery. It can probably be made to work, but it\u0027s hard to understand, and hard to review. \n\nSo far, I have not encountered anything with CLs that is anywhere near as complicated as what we face using GUICE in Gerrit, or even as complicated as protobuffers, mostly I am just newer to the subject area. I don\u0027t think it would be fair to rule solutions out based on that.\n\n\u003e If we accept this code, it will be costly to maintain because everyone touching it will have to understand the details of how classloaders and reflection work.\n\nHmm, I don\u0027t see the use of reflection in this specific code. I have to agree with not currently wanting this cost since I don\u0027t want to use the solution.\n \n\n\u003e Fundamentally, it looks like you are want to have two conflicting properties: loose coupling (plugins can be separately compiled and (un)loaded), but also type-safety (cross-plugin calls use classes defined by the provider). I think this is ultimately impossible. \n\nI don\u0027t think we are asking for type safety beyond what is already provided between core and plugins and I think we can show this to be possible intra plugins also. So I guess if we can\u0027t show it to be possible, then there will be no need to reject it. 😊\n\n\n\u003e Plugins are loosely coupled entities, so any cross plugin call can always fail for a host of reasons (plugin not loaded, plugin at wrong version, etc.). In essence, it has all of the same failure modes as a RPC call, but with the benefit/drawback that data is transferred without serialization.\n\nWith RPCs you introduce at least the following extra problems:\n\n1. Inability to program with the java objects as:\n1a. Not sharing existing shared core types\n1b. Having to defining new \"non\" java types for non core shared types\n1c. Potentially non OO programming (many RPC implementations define data types only, not objects)\n2. Memory footprint increases\n3. Performance degradation\n4. Broken communication links\n5. The potential need to learn extra frameworks\n5a. extra training costs\n5b. the need to maintain compatibility with framework upgrades\n\nWhile I am willing to accept the drawbacks you listed that our approach shares with RPCs, I would likely chose adding 2 lines to a \"libmodule\" over all the additional drawbacks above that I see RPCs as having.\n\n\u003e For this reason, I proposed https://gerrit-review.googlesource.com/c/gerrit/+/295135 ; this lets you do calls across plugins. If you need request/response types that don\u0027t exist, you can use Map\u003cString,Object\u003e as the in-memory equivalent of JSON. \n\nI don\u0027t want to review that change here. I will say that I would only choose to use it for the same 2 lines of code that we are asking for in our initial change. Those 2 lines of code provide something fundamental: \"the ability to register items from a plugin for other plugins to see with no side effects in Gerrit core\".\n\n\n\u003e Since the soundness of such a setup can\u0027t checked in advance, failures will still be inscrutable, so I think it should be coupled with an annotation mechanism, where a provider can say \"I am my-api 2.0\", and a consumer can say \"I need my-api \u003e\u003d 2.1\".\n\nAs we don\u0027t feel that versioning is a problem that we need to solve for our installations, pushing this onto us feels like asking us to solve someone what someone else should take on. I do not think we could solve it right for those who suffer from it. I would try to help if someone uploaded a change with a proposal to solve it.",
+      "parentUuid": "fdbbb205_61fc52eb",
+      "range": {
+        "startLine": 114,
+        "startChar": 6,
+        "endLine": 114,
+        "endChar": 23
+      },
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "03344a86_ab5260fe",
         "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
         "patchSetId": 2
@@ -171,6 +195,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ee8b6fe_d0590534",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-02-23T01:52:20Z",
+      "side": 1,
+      "message": "This is what we do in core to prevent \"mixed\" classloaders from sticking around after either one of the plugins has been unloaded.",
+      "parentUuid": "681a139d_cfdc3fbd",
+      "range": {
+        "startLine": 99,
+        "startChar": 56,
+        "endLine": 99,
+        "endChar": 69
+      },
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eec823dc_ed26de5d",
         "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
         "patchSetId": 2
@@ -182,6 +230,30 @@
       "writtenOn": "2021-02-11T01:18:29Z",
       "side": 1,
       "message": "I recall that being given the injector directly in this way introduced a significant performance degradation. Have you double-checked that the DynamicMap will continue to be as fast as before?",
+      "range": {
+        "startLine": 101,
+        "startChar": 13,
+        "endLine": 101,
+        "endChar": 30
+      },
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6acc4bc_39943ca2",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-02-23T01:52:20Z",
+      "side": 1,
+      "message": "I don\u0027t believe this degradation was real, were there any benchmarks, or real reports showing this? I believe this perception was a result of the bogus warning that guice outputs.",
+      "parentUuid": "eec823dc_ed26de5d",
       "range": {
         "startLine": 101,
         "startChar": 13,

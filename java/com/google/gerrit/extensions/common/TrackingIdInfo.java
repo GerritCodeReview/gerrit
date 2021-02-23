@@ -38,4 +38,6 @@ public class TrackingIdInfo {
   public int hashCode() {
     return Objects.hash(system, id);
   }
+
+  protected TrackingIdInfo() {}
 }

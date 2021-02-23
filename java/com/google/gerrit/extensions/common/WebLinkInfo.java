@@ -64,4 +64,6 @@ public class WebLinkInfo {
         + target
         + "}";
   }
+
+  protected WebLinkInfo() {}
 }

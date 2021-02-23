@@ -53,4 +53,6 @@ public class AttentionSetInfo {
   public int hashCode() {
     return Objects.hash(account, lastUpdate, reason);
   }
+
+  protected AttentionSetInfo() {}
 }

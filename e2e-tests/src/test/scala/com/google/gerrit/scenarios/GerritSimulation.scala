@@ -23,6 +23,8 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 class GerritSimulation extends Simulation {
   implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
 
+  protected val numberProperty = "number"
+
   private val packageName = getClass.getPackage.getName
   private val path = packageName.replaceAllLiterally(".", "/")
 
@@ -64,9 +66,9 @@ class GerritSimulation extends Simulation {
   protected val keys: PartialFunction[(String, Any), Any] = {
     case ("entries", entries) =>
       replaceProperty("projects_entries", "1", entries.toString)
-    case ("number", number) =>
+    case (this.`numberProperty`, number) =>
       val precedes = replaceKeyWith("_number", 0, number.toString)
-      replaceProperty("number", 1, precedes)
+      replaceProperty(this.numberProperty, 1, precedes)
     case ("parent", parent) =>
       replaceProperty("parent", "All-Projects", parent.toString)
     case ("project", project) =>

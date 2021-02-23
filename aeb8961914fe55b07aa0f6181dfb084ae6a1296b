@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35e9a0b6_9d4c5618",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-23T15:55:20Z",
+      "side": 1,
+      "message": "I\u0027ve added some tests, I think that now covers all patterns used in the doc.\n\nI did find one curious pattern that occurs three times in the samples that I believe could break:\n\nhas_non_markdown :-\n  gerrit:commit_delta(\u0027.*\u0027, _, F, _),\n  \\+ regex_matches(\u0027.+\\\\.md$\u0027, F),\n  !.\n\nThe first part extracts the new filename, the second part matches it against a regex, and I guess the trailing ! means \"None Shall Pass\". But why not put the regex directly in commit_delta?\n\nThis would change behavior because previously the new filename (\"F\" above) was never Nil, not even for deletions. Now if a file is deleted it would be Nil and the old path (the 4th argument) would be set. In this case the new behavior would probably be undesired.\n\nCan we just change these usages to this?\n\nhas_non_markdown :-\n  gerrit:commit_delta(\u0027.+\\\\.md$\u0027),\n  !.",
+      "parentUuid": "125b6d28_e37b1f1b",
+      "revId": "aeb8961914fe55b07aa0f6181dfb084ae6a1296b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3c6941e_508f9b6b",
         "filename": "java/com/google/gerrit/server/rules/StoredValues.java",
         "patchSetId": 7
@@ -31,6 +49,30 @@
       "writtenOn": "2021-02-22T13:21:58Z",
       "side": 1,
       "message": "A RevWalk keeps internal state that can lead to unexpected behavior when being reused unintentionally. I\u0027d therefore just create one in the commit delta predicate instead of supplying one to all predicates.\n\nSame for DIFF_FORMATTER (through, I am not 100% sure if the problem exists with that as well, but just to be sure).",
+      "range": {
+        "startLine": 154,
+        "startChar": 1,
+        "endLine": 163,
+        "endChar": 8
+      },
+      "revId": "aeb8961914fe55b07aa0f6181dfb084ae6a1296b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "722c5e0b_850e2c51",
+        "filename": "java/com/google/gerrit/server/rules/StoredValues.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-23T15:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3c6941e_508f9b6b",
       "range": {
         "startLine": 154,
         "startChar": 1,

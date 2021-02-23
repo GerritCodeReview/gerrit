@@ -24,7 +24,6 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.util.Collection;
@@ -42,7 +41,7 @@ public class RulesIT extends AbstractDaemonTest {
       "submit_rule(submit(W)) :- \n" + "%s,\n" + "W = label('OK', ok(user(1000000))).";
 
   @Inject private ProjectOperations projectOperations;
-  @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
+  @Inject private SubmitRuleEvaluator ruleEvaluator;
 
   @Test
   public void testUnresolvedCommentsCountPredicate() throws Exception {
@@ -116,7 +115,6 @@ public class RulesIT extends AbstractDaemonTest {
     Collection<SubmitRecord> records;
     try (AutoCloseable changeIndex = disableChangeIndex()) {
       try (AutoCloseable accountIndex = disableAccountIndex()) {
-        SubmitRuleEvaluator ruleEvaluator = evaluatorFactory.create(SubmitRuleOptions.defaults());
         records = ruleEvaluator.evaluate(cd);
       }
     }

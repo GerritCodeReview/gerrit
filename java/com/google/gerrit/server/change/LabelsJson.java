@@ -100,14 +100,9 @@ public class LabelsJson {
     boolean isMerged = cd.change().isMerged();
     LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelType> toCheck = new HashMap<>();
-    for (SubmitRecord rec : submitRecords(cd)) {
-      if (rec.labels != null) {
-        for (SubmitRecord.Label r : rec.labels) {
-          LabelType type = labelTypes.byLabel(r.label);
-          if (type != null && (!isMerged || type.isAllowPostSubmit())) {
-            toCheck.put(type.getName(), type);
-          }
-        }
+    for (LabelType type : labelTypes.getLabelTypes()) {
+      if (type != null && (!isMerged || type.isAllowPostSubmit())) {
+        toCheck.put(type.getName(), type);
       }
     }
 
@@ -115,28 +110,22 @@ public class LabelsJson {
     Set<LabelPermission.WithValue> can =
         permissionBackend.absentUser(filterApprovalsBy).change(cd).testLabels(toCheck.values());
     SetMultimap<String, String> permitted = LinkedHashMultimap.create();
-    for (SubmitRecord rec : submitRecords(cd)) {
-      if (rec.labels == null) {
+    for (LabelType type : toCheck.values()) {
+      if (type == null || (isMerged && !type.isAllowPostSubmit())) {
         continue;
       }
-      for (SubmitRecord.Label r : rec.labels) {
-        LabelType type = labelTypes.byLabel(r.label);
-        if (type == null || (isMerged && !type.isAllowPostSubmit())) {
-          continue;
-        }
 
-        for (LabelValue v : type.getValues()) {
-          boolean ok = can.contains(new LabelPermission.WithValue(type, v));
-          if (isMerged) {
-            if (labels == null) {
-              labels = currentLabels(filterApprovalsBy, cd);
-            }
-            short prev = labels.getOrDefault(type.getName(), (short) 0);
-            ok &= v.getValue() >= prev;
+      for (LabelValue v : type.getValues()) {
+        boolean ok = can.contains(new LabelPermission.WithValue(type, v));
+        if (isMerged) {
+          if (labels == null) {
+            labels = currentLabels(filterApprovalsBy, cd);
           }
-          if (ok) {
-            permitted.put(r.label, v.formatValue());
-          }
+          short prev = labels.getOrDefault(type.getName(), (short) 0);
+          ok &= v.getValue() >= prev;
+        }
+        if (ok) {
+          permitted.put(type.getName(), v.formatValue());
         }
       }
     }
@@ -272,18 +261,13 @@ public class LabelsJson {
 
     // Since voting on merged changes is allowed all labels which apply to
     // the change must be returned. All applying labels can be retrieved from
-    // the submit records, which is what initLabels does.
-    // It's not possible to only compute the labels based on the approvals
-    // since merged changes may not have approvals for all labels (e.g. if not
-    // all labels are required for submit or if the change was auto-closed due
-    // to direct push or if new labels were defined after the change was
-    // merged).
+    // the label type configured on the project. This respects inheritance.
     Map<String, LabelWithStatus> labels;
     labels = initLabels(accountLoader, cd, labelTypes, standard);
 
     // Also include all labels for which approvals exists. E.g. there can be
-    // approvals for labels that are ignored by a Prolog submit rule and hence
-    // it wouldn't be included in the submit records.
+    // approvals for labels that have since been deleted from the project's
+    // config.
     for (String name : labelNames) {
       if (!labels.containsKey(name)) {
         labels.put(name, LabelWithStatus.create(new LabelInfo(), null));
@@ -337,7 +321,7 @@ public class LabelsJson {
   private Map<String, LabelWithStatus> initLabels(
       AccountLoader accountLoader, ChangeData cd, LabelTypes labelTypes, boolean standard) {
     Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
-    for (SubmitRecord rec : submitRecords(cd)) {
+    for (SubmitRecord rec : cd.submitRecords()) {
       if (rec.labels == null) {
         continue;
       }
@@ -365,6 +349,20 @@ public class LabelsJson {
           n.optional = r.status == SubmitRecord.Label.Status.MAY ? true : null;
           labels.put(r.label, LabelWithStatus.create(n, r.status));
         }
+      }
+    }
+    if (cd.change().isClosed()) {
+      // In case the change is closed, we iterate once more over all configured label types to add
+      // labels that have
+      // been added since the change got submitted.
+      for (LabelType labelType : labelTypes.getLabelTypes()) {
+        if (labels.containsKey(labelType.getName())) {
+          continue;
+        }
+        LabelInfo labelInfo = new LabelInfo();
+        labelInfo.optional = true; // Labels added after submission are always optional.
+        labels.put(
+            labelType.getName(), LabelWithStatus.create(labelInfo, SubmitRecord.Label.Status.MAY));
       }
     }
     return labels;
@@ -463,10 +461,6 @@ public class LabelsJson {
             approvalInfo(accountLoader, accountId, value, permittedVotingRange, tag, date));
       }
     }
-  }
-
-  private List<SubmitRecord> submitRecords(ChangeData cd) {
-    return cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_LENIENT);
   }
 
   private Map<String, VotingRangeInfo> getPermittedVotingRanges(

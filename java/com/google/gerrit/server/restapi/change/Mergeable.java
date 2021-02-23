@@ -36,7 +36,6 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -75,14 +74,14 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ChangeData.Factory changeDataFactory,
       ChangeIndexer indexer,
       MergeabilityCache cache,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+      SubmitRuleEvaluator submitRuleEvaluator) {
     this.gitManager = gitManager;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeDataFactory = changeDataFactory;
     this.indexer = indexer;
     this.cache = cache;
-    submitRuleEvaluator = submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
+    this.submitRuleEvaluator = submitRuleEvaluator;
   }
 
   public void setOtherBranches(boolean otherBranches) {

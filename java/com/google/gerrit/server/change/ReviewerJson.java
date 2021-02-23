@@ -33,7 +33,6 @@ import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -55,12 +54,12 @@ public class ReviewerJson {
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       AccountLoader.Factory accountLoaderFactory,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+      SubmitRuleEvaluator submitRuleEvaluator) {
     this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.accountLoaderFactory = accountLoaderFactory;
-    submitRuleEvaluator = submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
+    this.submitRuleEvaluator = submitRuleEvaluator;
   }
 
   public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs)

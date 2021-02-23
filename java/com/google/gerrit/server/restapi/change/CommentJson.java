@@ -171,7 +171,10 @@ public class CommentJson {
           allComments.stream().map(this::createCommentContextKey).collect(toList());
       ImmutableMap<CommentContextKey, CommentContext> allContext = commentContextCache.getAll(keys);
       for (T c : allComments) {
-        c.contextLines = toContextLineInfoList(allContext.get(createCommentContextKey(c)));
+        CommentContextKey contextKey = createCommentContextKey(c);
+        CommentContext commentContext = allContext.get(contextKey);
+        c.contextLines = toContextLineInfoList(commentContext);
+        c.sourceContentType = commentContext.contentType();
       }
     }
 

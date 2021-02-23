@@ -16,6 +16,29 @@
       "message": "I hope I did the right thing for the licenses; I named the overall thing \"DefinitelyTyped\" since all typings in that repo share the same license from what I can tell and I am assuming this will group them more concisely if we happen to add more?",
       "revId": "fb1ded986977efb19b3d15ea281f2660cc38f407",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d53ca2b_01b2f310",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-overview-image.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T20:13:58Z",
+      "side": 1,
+      "message": "css vars are globals, so --background-color and --frame-color are maybe not specific enough",
+      "range": {
+        "startLine": 108,
+        "startChar": 28,
+        "endLine": 108,
+        "endChar": 46
+      },
+      "revId": "fb1ded986977efb19b3d15ea281f2660cc38f407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -120,12 +120,8 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
    * Don't forget to also call disposeLayer().
    */
   createLayer(path: string, changeNum: number) {
-    if (!this.annotationCallback) return undefined;
-    const annotationLayer = new AnnotationLayer(
-      path,
-      changeNum,
-      this.annotationCallback
-    );
+    const callbackFn = this.annotationCallback || (() => {});
+    const annotationLayer = new AnnotationLayer(path, changeNum, callbackFn);
     this.annotationLayers.push(annotationLayer);
     return annotationLayer;
   }

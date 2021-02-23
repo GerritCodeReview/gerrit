@@ -46,6 +46,30 @@
       },
       "revId": "5cece3a4983ab1f470a88df9552fb0b7a40da587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23ac2e8e_ebd11711",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-23T19:26:21Z",
+      "side": 1,
+      "message": "ah, right. This is about populating the class typed fields of ChangeInfo in the diff, for which you have to instantiate the objects generically.",
+      "parentUuid": "22b1e572_9663c4f7",
+      "range": {
+        "startLine": 14,
+        "startChar": 7,
+        "endLine": 14,
+        "endChar": 53
+      },
+      "revId": "5cece3a4983ab1f470a88df9552fb0b7a40da587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

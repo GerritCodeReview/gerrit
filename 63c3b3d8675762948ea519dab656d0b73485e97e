@@ -46,6 +46,30 @@
       },
       "revId": "63c3b3d8675762948ea519dab656d0b73485e97e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4774c74f_53a5f753",
+        "filename": "javatests/com/google/gerrit/server/git/GitRepositoryManagerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-23T13:20:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "92f02aa5_5864c1cd",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 79
+      },
+      "revId": "63c3b3d8675762948ea519dab656d0b73485e97e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

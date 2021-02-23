@@ -173,28 +173,41 @@ export function changeStatuses(
   return states;
 }
 
-export function isOwner(change?: ChangeInfo, account?: AccountInfo) {
+export function isOwner(change?: ChangeInfo, account?: AccountInfo): boolean {
   if (!change || !account) return false;
   return change.owner?._account_id === account._account_id;
 }
 
-export function isReviewer(change?: ChangeInfo, account?: AccountInfo) {
+export function isReviewer(change?: ChangeInfo, account?: AccountInfo): boolean {
   if (!change || !account) return false;
   const reviewers = change.reviewers.REVIEWER ?? [];
   return reviewers.some(r => r._account_id === account._account_id);
 }
 
-export function isUploader(change?: ChangeInfo, account?: AccountInfo) {
+export function isCc(change?: ChangeInfo, account?: AccountInfo): boolean {
+  if (!change || !account) return false;
+  const ccs = change.reviewers.CC ?? [];
+  return ccs.some(r => r._account_id === account._account_id);
+}
+
+export function isUploader(
+  change?: ChangeInfo,
+  account?: AccountInfo
+): boolean {
   if (!change || !account) return false;
   const rev = getCurrentRevision(change);
   return rev?.uploader?._account_id === account._account_id;
 }
 
-export function isInvolved(change?: ChangeInfo, account?: AccountInfo) {
+export function isInvolved(
+  change?: ChangeInfo,
+  account?: AccountInfo
+): boolean {
   const owner = isOwner(change, account);
   const uploader = isUploader(change, account);
   const reviewer = isReviewer(change, account);
-  return owner || uploader || reviewer;
+  const cc = isCc(change, account);
+  return owner || uploader || reviewer || cc;
 }
 
 export function getCurrentRevision(change?: ChangeInfo) {

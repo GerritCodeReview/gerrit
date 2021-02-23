@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class FetchInfo {
   public String url;
@@ -24,5 +25,21 @@ public class FetchInfo {
   public FetchInfo(String url, String ref) {
     this.url = url;
     this.ref = ref;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof FetchInfo) {
+      FetchInfo fetchInfo = (FetchInfo) o;
+      return Objects.equals(url, fetchInfo.url)
+          && Objects.equals(ref, fetchInfo.ref)
+          && Objects.equals(commands, fetchInfo.commands);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(url, ref, commands);
   }
 }

@@ -16,10 +16,28 @@ package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.ReviewerState;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class ReviewerUpdateInfo {
   public Timestamp updated;
   public AccountInfo updatedBy;
   public AccountInfo reviewer;
   public ReviewerState state;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof ReviewerUpdateInfo) {
+      ReviewerUpdateInfo reviewerUpdateInfo = (ReviewerUpdateInfo) o;
+      return Objects.equals(updated, reviewerUpdateInfo.updated)
+          && Objects.equals(updatedBy, reviewerUpdateInfo.updatedBy)
+          && Objects.equals(reviewer, reviewerUpdateInfo.reviewer)
+          && Objects.equals(state, reviewerUpdateInfo.state);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(updated, updatedBy, reviewer, state);
+  }
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.common;
 import com.google.gerrit.extensions.client.ChangeKind;
 import java.sql.Timestamp;
 import java.util.Map;
+import java.util.Objects;
 
 public class RevisionInfo {
   // ActionJson#copy(List, RevisionInfo) must be adapted if new fields are added that are not
@@ -34,4 +35,43 @@ public class RevisionInfo {
   public String commitWithFooters;
   public PushCertificateInfo pushCertificate;
   public String description;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof RevisionInfo) {
+      RevisionInfo revisionInfo = (RevisionInfo) o;
+      return isCurrent == revisionInfo.isCurrent
+          && Objects.equals(kind, revisionInfo.kind)
+          && _number == revisionInfo._number
+          && Objects.equals(created, revisionInfo.created)
+          && Objects.equals(uploader, revisionInfo.uploader)
+          && Objects.equals(ref, revisionInfo.ref)
+          && Objects.equals(fetch, revisionInfo.fetch)
+          && Objects.equals(commit, revisionInfo.commit)
+          && Objects.equals(files, revisionInfo.files)
+          && Objects.equals(actions, revisionInfo.actions)
+          && Objects.equals(commitWithFooters, revisionInfo.commitWithFooters)
+          && Objects.equals(pushCertificate, revisionInfo.pushCertificate)
+          && Objects.equals(description, revisionInfo.description);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        isCurrent,
+        kind,
+        _number,
+        created,
+        uploader,
+        ref,
+        fetch,
+        commit,
+        files,
+        actions,
+        commitWithFooters,
+        pushCertificate,
+        description);
+  }
 }

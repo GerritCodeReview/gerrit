@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import java.util.List;
+import java.util.Objects;
 
 public class GpgKeyInfo {
   /**
@@ -43,4 +44,22 @@ public class GpgKeyInfo {
 
   public Status status;
   public List<String> problems;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof GpgKeyInfo) {
+      GpgKeyInfo gpgKeyInfo = (GpgKeyInfo) o;
+      return Objects.equals(id, gpgKeyInfo.id)
+          && Objects.equals(fingerprint, gpgKeyInfo.fingerprint)
+          && Objects.equals(userIds, gpgKeyInfo.userIds)
+          && Objects.equals(status, gpgKeyInfo.status)
+          && Objects.equals(problems, gpgKeyInfo.problems);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, fingerprint, userIds, status, problems);
+  }
 }

@@ -14,7 +14,24 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.Objects;
+
 public class PluginDefinedInfo {
   public String name;
   public String message;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof PluginDefinedInfo) {
+      PluginDefinedInfo pluginDefinedInfo = (PluginDefinedInfo) o;
+      return Objects.equals(name, pluginDefinedInfo.name)
+          && Objects.equals(message, pluginDefinedInfo.message);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, message);
+  }
 }

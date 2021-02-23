@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.common;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class LabelInfo {
   public AccountInfo approved;
@@ -30,4 +31,37 @@ public class LabelInfo {
   public Short defaultValue;
   public Boolean optional;
   public Boolean blocking;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof LabelInfo) {
+      LabelInfo labelInfo = (LabelInfo) o;
+      return Objects.equals(approved, labelInfo.approved)
+          && Objects.equals(rejected, labelInfo.rejected)
+          && Objects.equals(recommended, labelInfo.recommended)
+          && Objects.equals(disliked, labelInfo.disliked)
+          && Objects.equals(all, labelInfo.all)
+          && Objects.equals(values, labelInfo.values)
+          && Objects.equals(value, labelInfo.value)
+          && Objects.equals(defaultValue, labelInfo.defaultValue)
+          && Objects.equals(optional, labelInfo.optional)
+          && Objects.equals(blocking, labelInfo.blocking);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        approved,
+        rejected,
+        recommended,
+        disliked,
+        all,
+        values,
+        value,
+        defaultValue,
+        optional,
+        blocking);
+  }
 }

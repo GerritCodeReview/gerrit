@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d078386_f7469a0c",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-23T13:46:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03e8366e_2d0c12b6",
+      "range": {
+        "startLine": 75,
+        "startChar": 19,
+        "endLine": 75,
+        "endChar": 30
+      },
+      "revId": "6808efd81a1b868a84cb7ac553405494a19214b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3de0017_d24ed381",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-02-23T11:44:19Z",
       "side": 1,
       "message": "Could you give this another name to avoid overloading?",
+      "revId": "6808efd81a1b868a84cb7ac553405494a19214b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1765ce12_682d1a15",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-23T13:46:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3de0017_d24ed381",
       "revId": "6808efd81a1b868a84cb7ac553405494a19214b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aa5ac52_a07aa9db",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-23T13:46:17Z",
+      "side": 1,
+      "message": "Yes, this is it.",
+      "parentUuid": "16015459_43c680b2",
+      "revId": "6808efd81a1b868a84cb7ac553405494a19214b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76fc7785_33fa5f8f",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21e603f7_5d36c0d1",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-23T13:46:17Z",
+      "side": 1,
+      "message": "Done.\n\nLet\u0027s track the metrics for a few days, before launching the new diff cache incrementally as the default done.",
+      "parentUuid": "76fc7785_33fa5f8f",
+      "revId": "6808efd81a1b868a84cb7ac553405494a19214b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca10bf12_6bef961f",
@@ -88,6 +166,24 @@
       "writtenOn": "2021-02-23T11:44:19Z",
       "side": 1,
       "message": "Will this become a 400 or a 500? I wonder if we aren\u0027t putting \"bad request\" and \"internal error\" in the same bucket. But I\u0027m not sure if we can actually have users cause \"bad request\" here at all.",
+      "revId": "6808efd81a1b868a84cb7ac553405494a19214b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6b38392_10032489",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-23T13:46:17Z",
+      "side": 1,
+      "message": "This was removed for now since the new cache runs async (check my other comment). I\u0027ll take care of that after we use the new diff cache as default.",
+      "parentUuid": "ca10bf12_6bef961f",
       "revId": "6808efd81a1b868a84cb7ac553405494a19214b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

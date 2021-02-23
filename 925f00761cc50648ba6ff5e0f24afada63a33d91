@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40772c29_05854254",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-23T08:54:23Z",
+      "side": 1,
+      "message": "Thanks for review.",
+      "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1188de39_4480bbc5",
@@ -14,6 +31,30 @@
       "writtenOn": "2021-02-23T08:29:59Z",
       "side": 1,
       "message": "Maybe rename all these properties:\n\n  submittedTogetherChanges\n  relatedChanges\n  someTopicChanges\n  conflictingChanges\n  cherryPickChanges\n  sameTopicChanges",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 71,
+        "endChar": 14
+      },
+      "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdbf8985_823da314",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-23T08:54:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1188de39_4480bbc5",
       "range": {
         "startLine": 71,
         "startChar": 2,
@@ -70,6 +111,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "167acaee_81e99a47",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-23T08:54:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a303c5_21df2a82",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 3
+      },
+      "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f5ee8f0_309c2a4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-23T08:54:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ac932a_8cab0c8e",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 13
+      },
+      "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd85c939_23464432",
@@ -87,6 +176,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fea6fe94_c4ef2f76",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-23T08:54:23Z",
+      "side": 1,
+      "message": "I prefer returning Promise in all cases.",
+      "parentUuid": "cd85c939_23464432",
+      "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "997baf3d_2917887c",
@@ -100,6 +207,24 @@
       "writtenOn": "2021-02-23T08:29:59Z",
       "side": 1,
       "message": "Maybe break up the reload() method into\n\n  reloadRelatedChanges()\n  reloadCherryPickChanges()\n  ...",
+      "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ea446c9_8bdcc580",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-23T08:54:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "997baf3d_2917887c",
       "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -127,6 +252,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49b649ef_ea7f0ea3",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-23T08:54:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f244190_d1d5bcd1",
+      "range": {
+        "startLine": 317,
+        "startChar": 32,
+        "endLine": 317,
+        "endChar": 47
+      },
+      "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92a27151_de486cfe",
@@ -140,6 +289,24 @@
       "writtenOn": "2021-02-23T08:29:59Z",
       "side": 1,
       "message": "If restApi returns undefined, then that means the user has already seen an error dialog. So I think the best to do here is to ignore, so:\n\n  if (!config) return;\n\nNote that you are not resetting in this case:\n\n  this._sameTopic \u003d [];",
+      "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f8d6618_d1c86d0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-23T08:54:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92a27151_de486cfe",
       "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -167,6 +334,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b8d61a6_84cba0e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-23T08:54:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ec733cc_a7c42d17",
+      "range": {
+        "startLine": 337,
+        "startChar": 34,
+        "endLine": 337,
+        "endChar": 42
+      },
+      "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fd1f7bb_2c7f2c91",
@@ -180,6 +371,24 @@
       "writtenOn": "2021-02-23T08:29:59Z",
       "side": 1,
       "message": "Note that the return value is not used in gr-change-view. Maybe change that?",
+      "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71be79f0_c482181c",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-23T08:54:23Z",
+      "side": 1,
+      "message": "There are complex typescript errors when promise is used. I will clean it up later.",
+      "parentUuid": "4fd1f7bb_2c7f2c91",
       "revId": "925f00761cc50648ba6ff5e0f24afada63a33d91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

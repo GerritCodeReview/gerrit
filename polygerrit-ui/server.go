@@ -400,8 +400,14 @@ func rewriteHostPage(reader io.Reader) io.Reader {
 		insertionPoint := strings.Index(replaced, "</script>")
 		builder := new(strings.Builder)
 		builder.WriteString(
+			"window.INITIAL_DATA['/config/server/info'].plugin.html_resource_paths = []; ")
+		builder.WriteString(
 			"window.INITIAL_DATA['/config/server/info'].plugin.js_resource_paths = []; ")
 		for _, p := range strings.Split(*plugins, ",") {
+			if filepath.Ext(p) == ".html" {
+				builder.WriteString(
+					"window.INITIAL_DATA['/config/server/info'].plugin.html_resource_paths.push('" + p + "'); ")
+			}
 			if filepath.Ext(p) == ".js" {
 				builder.WriteString(
 					"window.INITIAL_DATA['/config/server/info'].plugin.js_resource_paths.push('" + p + "'); ")
@@ -429,15 +435,22 @@ func injectLocalPlugins(reader io.Reader) io.Reader {
 
 	// Configuration path in the JSON server response
 	jsPluginsPath := []string{"plugin", "js_resource_paths"}
+	htmlPluginsPath := []string{"plugin", "html_resource_paths"}
+	htmlResources := getJsonPropByPath(response, htmlPluginsPath).([]interface{})
 	jsResources := getJsonPropByPath(response, jsPluginsPath).([]interface{})
 
 	for _, p := range strings.Split(*plugins, ",") {
+		if filepath.Ext(p) == ".html" {
+			htmlResources = append(htmlResources, p)
+		}
+
 		if filepath.Ext(p) == ".js" {
 			jsResources = append(jsResources, p)
 		}
 	}
 
 	setJsonPropByPath(response, jsPluginsPath, jsResources)
+	setJsonPropByPath(response, htmlPluginsPath, htmlResources)
 
 	reader, writer := io.Pipe()
 	go func() {

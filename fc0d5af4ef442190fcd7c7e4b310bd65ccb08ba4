@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73b982c7_b722e1ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-23T10:58:33Z",
+      "side": 1,
+      "message": "The current RevisionDiffIT class is an integration (acceptance) test and tests the logic end to end through the Get Diff endpoint, which currently returns DiffInfo that does not contain the new business logic.\n\nI added a new test class in the next follow up change to only test DiffOperations (the diff logic). I can add more test methods to it in the future and use it to test the diff logic only. For now, it is just focusing on testing the logic in this change. RevisionDiffIT is extensively testing the diff logic anyway so no need to write extensive tests in the new class right away.",
+      "parentUuid": "a24196a3_07b71f69",
+      "revId": "fc0d5af4ef442190fcd7c7e4b310bd65ccb08ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edc95831_e9bc8810",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-02-19T16:43:31Z",
       "side": 1,
       "message": "new",
+      "range": {
+        "startLine": 43,
+        "startChar": 42,
+        "endLine": 43,
+        "endChar": 45
+      },
+      "revId": "fc0d5af4ef442190fcd7c7e4b310bd65ccb08ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4081b049_d95d7d29",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-23T10:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edc95831_e9bc8810",
       "range": {
         "startLine": 43,
         "startChar": 42,

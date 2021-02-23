@@ -40,7 +40,7 @@ export function rangesEqual(a?: CommentRange, b?: CommentRange): boolean {
 }
 
 export function isLongCommentRange(range: CommentRange): boolean {
-  return range.end_line - range.start_line > 5;
+  return range.end_line - range.start_line > 10;
 }
 
 export function getLineNumber(lineEl?: Element | null): LineNumber | null {

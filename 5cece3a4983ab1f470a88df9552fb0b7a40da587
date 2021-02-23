@@ -22,6 +22,30 @@
       },
       "revId": "5cece3a4983ab1f470a88df9552fb0b7a40da587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22b1e572_9663c4f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-23T19:23:54Z",
+      "side": 1,
+      "message": "The reflection resembles this:\n\nc.getDeclaredConstructors() to get the constructors\nconstructor.newInstance() to construct\n\nnewInstance() can take arguments, but we won\u0027t know what to pass in just based on the field names/types.",
+      "parentUuid": "a77775a3_32b6229e",
+      "range": {
+        "startLine": 14,
+        "startChar": 7,
+        "endLine": 14,
+        "endChar": 53
+      },
+      "revId": "5cece3a4983ab1f470a88df9552fb0b7a40da587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a673c652_de51f09b",
+        "filename": "java/com/google/gerrit/server/patch/ComparisonType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-23T11:15:25Z",
+      "side": 1,
+      "message": "Right, but I think it would still improve readability. We have a lot of classes in Gerrit that have undocumented fields, and it is inefficient for every reader to have to figure out their semantics.",
+      "parentUuid": "ba821335_8d0f4256",
+      "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f32f9239_80cba3fc",
@@ -71,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c7a836_8caa5ee4",
+        "filename": "java/com/google/gerrit/server/patch/ComparisonType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-23T11:15:25Z",
+      "side": 1,
+      "message": "I agree that we can easily guarantee valid creations today, but that might not be the case in the future. That being said, I think in this case (being private now) we can leave it.",
+      "parentUuid": "adb0481d_5b7b138f",
+      "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9a3bcc0_8d1b27ea",
@@ -102,6 +138,24 @@
       "side": 1,
       "message": "My change here is a no/op, and I didn\u0027t modify the class behaviour. Before this change, this case should have also thrown a NPE.\n\nThere is only one caller for this method. The caller need to check first that #againstParent is true before calling this method.\n\nI modified the behaviour to return parentNum if it\u0027s present and null otherwise. I also added javadoc to make this clear.",
       "parentUuid": "c9a3bcc0_8d1b27ea",
+      "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "582fa750_05f5346c",
+        "filename": "java/com/google/gerrit/server/patch/ComparisonType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-23T11:15:25Z",
+      "side": 1,
+      "message": "\u003e My change here is a no/op, and I didn\u0027t modify the class behaviour. Before this change, this case should have also thrown a NPE.\n\nTrue, but why not make the world a better place en passant? ;-)\n\n\u003e There is only one caller for this method. The caller need to check first that #againstParent is true before calling this method.\n\u003e \n\u003e I modified the behaviour to return parentNum if it\u0027s present and null otherwise. I also added javadoc to make this clear.\n\nIt seems strange to convert from an Optional, which avoids nullability, to returning null. WDYT about just returning the Optional itself then?",
+      "parentUuid": "3864e9e6_896c0de9",
       "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

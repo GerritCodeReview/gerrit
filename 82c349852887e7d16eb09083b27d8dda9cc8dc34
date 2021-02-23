@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b1ebcba_f2470d86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-02-23T15:14:51Z",
+      "side": 1,
+      "message": "As discussed offline, removed the image viewer for now, until we have figured out how to proceed on the various UI elements.",
+      "parentUuid": "a399b31c_b1cfba0e",
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d29acd76_162ede6a",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0e27471_479d78b5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-02-23T15:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d29acd76_162ede6a",
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17797433_fbac5d74",
@@ -65,6 +101,30 @@
       "writtenOn": "2021-02-23T08:02:45Z",
       "side": 1,
       "message": "Maybe rename to `baseUrl`?",
+      "range": {
+        "startLine": 44,
+        "startChar": 28,
+        "endLine": 44,
+        "endChar": 32
+      },
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0094cfbf_ff637d1e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-02-23T15:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17797433_fbac5d74",
       "range": {
         "startLine": 44,
         "startChar": 28,
@@ -98,6 +158,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f07f8bfe_bd2caec0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-overview-image.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-02-23T15:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fc8358c_77a5fb1c",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 5
+      },
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91966449_f76e793c",
@@ -115,6 +199,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2476502_0b973b0f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-zoomed-image.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-02-23T15:14:51Z",
+      "side": 1,
+      "message": "As far as I can tell, for @property it does not rename, I only had issues with @internalProperty.",
+      "parentUuid": "91966449_f76e793c",
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c09dd93_a4d37131",
@@ -128,6 +230,24 @@
       "writtenOn": "2021-02-23T08:02:45Z",
       "side": 1,
       "message": "move up",
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d423201_4dc69035",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-02-23T15:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c09dd93_a4d37131",
       "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

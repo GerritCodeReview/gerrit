@@ -160,6 +160,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ff7423a_7feaea5e",
+        "filename": "java/com/google/gerrit/server/patch/ComparisonType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-23T13:46:17Z",
+      "side": 1,
+      "message": "\u003e True, but why not make the world a better place en passant? ;-)\nIt depends on the amount of work, but I agree 😄 En passant is OC good.\n\n\u003e It seems strange to convert from an Optional, which avoids nullability, to returning null. WDYT about just returning the Optional itself then?\nDone",
+      "parentUuid": "582fa750_05f5346c",
+      "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2685d6fb_1aa240f3",

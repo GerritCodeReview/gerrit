@@ -28,7 +28,6 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
@@ -53,7 +52,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Inject private ProjectOperations projectOperations;
-  @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
+  @Inject private SubmitRuleEvaluator ruleEvaluator;
 
   @Test
   @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "false")
@@ -750,7 +749,6 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
     try (AutoCloseable changeIndex = disableChangeIndex()) {
       try (AutoCloseable accountIndex = disableAccountIndex()) {
-        SubmitRuleEvaluator ruleEvaluator = evaluatorFactory.create(SubmitRuleOptions.defaults());
         return ruleEvaluator.evaluate(cd).iterator().next().status.toString();
       }
     }

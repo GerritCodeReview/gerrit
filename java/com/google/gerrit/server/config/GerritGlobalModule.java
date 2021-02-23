@@ -175,7 +175,6 @@ import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectNameLockManager;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -285,7 +284,6 @@ public class GerritGlobalModule extends FactoryModule {
         cfg.getEnum("accounts", null, "defaultDisplayName", AccountDefaultDisplayName.FULL_NAME);
     bind(AccountDefaultDisplayName.class).toInstance(accountDefaultDisplayName);
     factory(ProjectOwnerGroupsProvider.Factory.class);
-    factory(SubmitRuleEvaluator.Factory.class);
 
     bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), AuthBackend.class);

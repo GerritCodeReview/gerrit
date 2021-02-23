@@ -44,6 +44,7 @@ public class SubmitRecord {
     NOT_READY,
 
     /** The change has been closed. */
+    @Deprecated
     CLOSED,
 
     /** The change was submitted bypassing submit rules. */

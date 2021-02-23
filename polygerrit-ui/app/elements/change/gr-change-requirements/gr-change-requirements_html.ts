@@ -99,6 +99,9 @@ export const htmlTemplate = html`
       padding-left: 0;
     }
   </style>
+  <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
+    <h3 class="metadata-title">Submit requirements</h3>
+  </template>
   <template is="dom-repeat" items="[[_requirements]]">
     <gr-endpoint-decorator
       class="submit-requirement-endpoints"
@@ -125,9 +128,6 @@ export const htmlTemplate = html`
         <gr-endpoint-slot name="value"></gr-endpoint-slot>
       </div>
     </gr-endpoint-decorator>
-  </template>
-  <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
-    <h3 class="metadata-title">Submit requirements</h3>
   </template>
   <template is="dom-repeat" items="[[_requiredLabels]]">
     <section>

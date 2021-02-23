@@ -81,6 +81,7 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       css`
         .note {
           color: var(--error-text-color);
+          margin-left: 1.2em;
         }
         section {
           margin-bottom: var(--spacing-m);

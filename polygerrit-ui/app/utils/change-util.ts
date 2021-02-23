@@ -184,6 +184,12 @@ export function isReviewer(change?: ChangeInfo, account?: AccountInfo) {
   return reviewers.some(r => r._account_id === account._account_id);
 }
 
+export function isCc(change?: ChangeInfo, account?: AccountInfo) {
+  if (!change || !account) return false;
+  const ccs = change.reviewers.CC ?? [];
+  return ccs.some(r => r._account_id === account._account_id);
+}
+
 export function isUploader(change?: ChangeInfo, account?: AccountInfo) {
   if (!change || !account) return false;
   const rev = getCurrentRevision(change);
@@ -194,7 +200,8 @@ export function isInvolved(change?: ChangeInfo, account?: AccountInfo) {
   const owner = isOwner(change, account);
   const uploader = isUploader(change, account);
   const reviewer = isReviewer(change, account);
-  return owner || uploader || reviewer;
+  const cc = isCc(change, account);
+  return owner || uploader || reviewer || cc;
 }
 
 export function getCurrentRevision(change?: ChangeInfo) {

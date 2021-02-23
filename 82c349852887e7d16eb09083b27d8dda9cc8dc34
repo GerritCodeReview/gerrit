@@ -16,6 +16,120 @@
       "message": "Note that GrImageViewer is very much a work in progress UI-wise from my earlier hacking, if you prefer for me to just submit the other two components as building blocks and come back with an updated version that uses gr-button instead of paper-button etc. I can do so. I included it as a reference how GrZoomedImage and GrOverviewImage would be used.",
       "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a399b31c_b1cfba0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T08:02:45Z",
+      "side": 1,
+      "message": "Nice!\n\nPlease fix the build and add a screenshot. I will then continue the review of gr-image-viewer.",
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d29acd76_162ede6a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T08:02:45Z",
+      "side": 1,
+      "message": "A class comment would be nice.",
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17797433_fbac5d74",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T08:02:45Z",
+      "side": 1,
+      "message": "Maybe rename to `baseUrl`?",
+      "range": {
+        "startLine": 44,
+        "startChar": 28,
+        "endLine": 44,
+        "endChar": 32
+      },
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fc8358c_77a5fb1c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-overview-image.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T08:02:45Z",
+      "side": 1,
+      "message": "Do you require any of this?",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 5
+      },
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91966449_f76e793c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-zoomed-image.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T08:02:45Z",
+      "side": 1,
+      "message": "Did you find out how the compiler deals with renaming?",
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c09dd93_a4d37131",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T08:02:45Z",
+      "side": 1,
+      "message": "move up",
+      "revId": "82c349852887e7d16eb09083b27d8dda9cc8dc34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

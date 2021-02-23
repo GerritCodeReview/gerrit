@@ -524,13 +524,14 @@ message CommentContextKeyProto {
 }
 
 // Serialized form of a list of com.google.gerrit.extensions.common.ContextLineInfo
-// Next ID: 2
+// Next ID: 3
 message AllCommentContextProto {
   message CommentContextProto {
     int32 line_number = 1;
     string context_line = 2;
   }
   repeated CommentContextProto context = 1;
+  string content_type = 2;
 }
 
 // Serialized key for

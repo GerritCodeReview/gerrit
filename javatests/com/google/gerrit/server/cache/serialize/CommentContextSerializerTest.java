@@ -14,7 +14,7 @@ public class CommentContextSerializerTest {
   @Test
   public void roundTripValue() {
     CommentContext commentContext =
-        CommentContext.create(ImmutableMap.of(1, "line_1", 2, "line_2"));
+        CommentContext.create(ImmutableMap.of(1, "line_1", 2, "line_2"), "java");
 
     byte[] serialized = INSTANCE.serialize(commentContext);
     CommentContext deserialized = INSTANCE.deserialize(serialized);

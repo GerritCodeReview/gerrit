@@ -39,6 +39,24 @@
       "message": "If only we used Protocol buffers for API entities ;-)",
       "revId": "7e1967fb108bfbd5a9d4f3c550823a3874436b4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02a3c7a5_f19622e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-23T16:13:58Z",
+      "side": 1,
+      "message": "Some day soon I hope!",
+      "parentUuid": "3a076e24_0bb70310",
+      "revId": "7e1967fb108bfbd5a9d4f3c550823a3874436b4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -40,13 +40,13 @@ class ApproveChange extends GerritSimulation {
           if (numbersCopy.isEmpty) {
             numbersCopy = createChange.get.numbers.clone()
           }
-          session.set("number", numbersCopy.dequeue())
+          session.set(numberProperty, numbersCopy.dequeue())
         } else {
           session
         }
       })
       .exec(http(uniqueName)
-          .post("${url}${number}/revisions/current/review")
+          .post("${url}${" + numberProperty + "}/revisions/current/review")
           .body(ElFileBody(body)).asJson)
 
   setUp(

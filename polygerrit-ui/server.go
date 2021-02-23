@@ -203,6 +203,14 @@ func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writ
 		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)lit-(element|html).js';$")
 		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}lit-${3}/lit-${3}.js';"))
 
+		// '@material/mwc-xyz.js' imports can be found in '@material/mwc-xyz/mwc-xyz.js'.
+		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)@material/mwc-([^./]*).js';$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}@material/mwc-${3}/mwc-${3}.js';"))
+
+		// Some '@material/mwc-xyz' imports have to be resolved to '@material/mwc-xyz/mwc-xyz-directive.js'.
+		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)@material/mwc-(line-ripple|floating-label)/mwc-(line-ripple|floating-label).js';$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}@material/mwc-${3}/mwc-${3}-directive.js';"))
+
 		if strings.HasSuffix(normalizedContentPath, "/node_modules/page/page.js") {
 			// Can't import page.js directly, because this is undefined.
 			// Replace it with window

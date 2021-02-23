@@ -22,6 +22,30 @@
       },
       "revId": "1a2061771dd96ca3f23330f94a5c137012066e4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3df0f2e4_fc71b25c",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T16:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67daf0ce_65411d11",
+      "range": {
+        "startLine": 204,
+        "startChar": 9,
+        "endLine": 204,
+        "endChar": 45
+      },
+      "revId": "1a2061771dd96ca3f23330f94a5c137012066e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

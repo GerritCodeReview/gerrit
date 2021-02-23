@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a255e92_1a5f4476",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-02-23T04:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdbebac3_597423ea",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "ccacda9bb29d53d576e0e851286fbf58404b47ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a52187e_ebd39240",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-02-22T17:36:09Z",
       "side": 1,
       "message": "I don\u0027t think anyone without internal knowledge of what we are trying to do would understand this use case, or how this operator helps it. This probably deserves a better explanation.",
+      "revId": "ccacda9bb29d53d576e0e851286fbf58404b47ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ebdf1ef_054ae2ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-02-23T04:56:51Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "9a52187e_ebd39240",
       "revId": "ccacda9bb29d53d576e0e851286fbf58404b47ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

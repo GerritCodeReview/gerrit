@@ -16,6 +16,29 @@
       "message": "Friendly ping.",
       "revId": "28fa5432a0bb999ed886bddad9d36bc6658f7b0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5a3f659_e471a2a3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7088,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-23T09:21:16Z",
+      "side": 1,
+      "message": "I think we aren\u0027t current exposing file modes in octal representation and wonder if we should restify this. After all, this would be taking a unix-level representation and just serve it on the REST API.\n\nWDYT?\n\naccess_modes \u003d {\n  \"owner\": [\"read\",\"execute\"]\n  \"others\": [\"execute\"]\n}",
+      "range": {
+        "startLine": 7088,
+        "startChar": 45,
+        "endLine": 7088,
+        "endChar": 51
+      },
+      "revId": "28fa5432a0bb999ed886bddad9d36bc6658f7b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

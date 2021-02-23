@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba821335_8d0f4256",
+        "filename": "java/com/google/gerrit/server/patch/ComparisonType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-23T10:58:33Z",
+      "side": 1,
+      "message": "Done.\n\nPlease note that this field was private. In the new implementation (of this change), it is package private only to allow the auto-value implementation. This field is still not meant to be used by clients.",
+      "parentUuid": "a2272c6b_860f7463",
+      "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f32f9239_80cba3fc",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-02-19T16:33:54Z",
       "side": 1,
       "message": "This allows creating an object with undefined semantics, IIUC: Parent present and automerge\u003dtrue. Can we avoid that?",
+      "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adb0481d_5b7b138f",
+        "filename": "java/com/google/gerrit/server/patch/ComparisonType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-23T10:58:33Z",
+      "side": 1,
+      "message": "This static factory is only meant to be used from within this class. I added the private access modifier to the method. Undefined semantics should never happen then.\n\nHint about the deserialization (in #readFrom): My change did not modify the semantics of this class. The only authority to serialize and deserialize this entity is from within this class (#readFrom, #writeTo), so an object with undefined semantics should never be created.",
+      "parentUuid": "f32f9239_80cba3fc",
       "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3864e9e6_896c0de9",
+        "filename": "java/com/google/gerrit/server/patch/ComparisonType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-23T10:58:33Z",
+      "side": 1,
+      "message": "My change here is a no/op, and I didn\u0027t modify the class behaviour. Before this change, this case should have also thrown a NPE.\n\nThere is only one caller for this method. The caller need to check first that #againstParent is true before calling this method.\n\nI modified the behaviour to return parentNum if it\u0027s present and null otherwise. I also added javadoc to make this clear.",
+      "parentUuid": "c9a3bcc0_8d1b27ea",
+      "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2685d6fb_1aa240f3",
@@ -65,6 +119,30 @@
       "writtenOn": "2021-02-19T16:33:54Z",
       "side": 1,
       "message": "isAgainstParent()",
+      "range": {
+        "startLine": 71,
+        "startChar": 23,
+        "endLine": 71,
+        "endChar": 46
+      },
+      "revId": "ed069b1bd6be96948b80294bf6c8d3f665f5a647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "741b2088_d55a2305",
+        "filename": "java/com/google/gerrit/server/patch/ComparisonType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-23T10:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2685d6fb_1aa240f3",
       "range": {
         "startLine": 71,
         "startChar": 23,

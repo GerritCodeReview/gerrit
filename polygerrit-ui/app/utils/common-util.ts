@@ -111,3 +111,14 @@ export function containsAll<T>(set: Set<T>, subSet: Set<T>): boolean {
   }
   return true;
 }
+
+/**
+ * Add value, if the set does not contain it. Otherwise remove it.
+ */
+export function toggleSetMembership<T>(set: Set<T>, value: T): void {
+  if (set.has(value)) {
+    set.delete(value);
+  } else {
+    set.add(value);
+  }
+}

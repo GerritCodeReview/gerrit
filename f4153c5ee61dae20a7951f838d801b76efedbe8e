@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e1274ab_fe9e060b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T09:42:53Z",
+      "side": 1,
+      "message": "Maybe reference the master fix: https://gerrit-review.googlesource.com/c/gerrit/+/296582",
+      "revId": "f4153c5ee61dae20a7951f838d801b76efedbe8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

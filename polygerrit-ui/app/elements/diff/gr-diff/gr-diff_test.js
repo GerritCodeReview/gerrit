@@ -558,7 +558,7 @@ suite('gr-diff tests', () => {
     test('adds long range comment chip', async () => {
       const range = {
         start_line: 1,
-        end_line: 7,
+        end_line: 12,
         start_character: 0,
         end_character: 0,
       };
@@ -572,7 +572,7 @@ suite('gr-diff tests', () => {
         a: [],
         b: [],
       }, {
-        ab: Array(8).fill('text'),
+        ab: Array(13).fill('text'),
       }];
       setupSampleDiff({content});
 
@@ -586,7 +586,7 @@ suite('gr-diff tests', () => {
     test('no duplicate range chip for same thread', async () => {
       const range = {
         start_line: 1,
-        end_line: 7,
+        end_line: 12,
         start_character: 0,
         end_character: 0,
       };
@@ -604,7 +604,7 @@ suite('gr-diff tests', () => {
         a: [],
         b: [],
       }, {
-        ab: Array(8).fill('text'),
+        ab: Array(13).fill('text'),
       }];
       setupSampleDiff({content});
 

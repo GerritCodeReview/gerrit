@@ -72,7 +72,7 @@ suite('gr-ranged-comment-layer', () => {
         side: 'right',
         range: {
           end_character: 1,
-          end_line: 70,
+          end_line: 71,
           start_character: 1,
           start_line: 60,
         },
@@ -314,10 +314,10 @@ suite('gr-ranged-comment-layer', () => {
     assert.equal(element._rangesMap.left[39][0].start, 0);
     assert.equal(element._rangesMap.left[39][0].end, 9);
 
-    // The right has four ranged comments: 10-12, 55-55, 60-70, 100-100
+    // The right has four ranged comments: 10-12, 55-55, 60-71, 100-100
     const rightKeys = [];
     for (let i = 10; i <= 12; i++) { rightKeys.push('' + i); }
-    for (let i = 60; i <= 70; i++) { rightKeys.push('' + i); }
+    for (let i = 60; i <= 71; i++) { rightKeys.push('' + i); }
     rightKeys.push('55', '100');
     assert.deepEqual(Object.keys(element._rangesMap.right).sort(),
         rightKeys.sort());

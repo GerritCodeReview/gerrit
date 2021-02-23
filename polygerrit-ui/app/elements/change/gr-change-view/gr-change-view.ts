@@ -2313,6 +2313,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
                 return response;
               });
           }
+          // TODO: use returned Promise
           this.getRelatedChangesListExperimental()?.reload(
             relatedChangesPromise
           );

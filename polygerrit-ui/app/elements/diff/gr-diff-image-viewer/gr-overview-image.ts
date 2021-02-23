@@ -94,8 +94,8 @@ export class GrOverviewImage extends LitElement {
 
   static styles = css`
     :host {
-      --overview-image-background-color: #000;
-      --overview-image-frame-color: #f00;
+      --background-color: var(--overview-image-background-color, #000);
+      --frame-color: var(--overview-image-frame-color, #f00);
       display: flex;
     }
     * {
@@ -105,8 +105,8 @@ export class GrOverviewImage extends LitElement {
       display: block;
     }
     .content-box {
-      border: 1px solid var(--overview-image-background-color);
-      background-color: var(--overview-iamge-background-color);
+      border: 1px solid var(--background-color);
+      background-color: var(--background-color);
       width: 100%;
       position: relative;
     }
@@ -120,7 +120,7 @@ export class GrOverviewImage extends LitElement {
       will-change: transform;
     }
     .frame {
-      border: 1px solid var(--overview-image-frame-color);
+      border: 1px solid var(--frame-color);
       position: absolute;
       will-change: transform;
     }

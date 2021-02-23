@@ -43,9 +43,9 @@ class AbandonChange extends GerritSimulation {
             numbersCopy = createChange.get.numbers.clone()
           }
         }
-        session.set("number", numbersCopy.dequeue())
+        session.set(numberKey, numbersCopy.dequeue())
       })
-      .exec(http(uniqueName).post("${url}${number}/abandon"))
+      .exec(http(uniqueName).post("${url}${" + numberKey + "}/abandon"))
 
   private val createProject = new CreateProject(projectName)
   private val deleteProject = new DeleteProject(projectName)

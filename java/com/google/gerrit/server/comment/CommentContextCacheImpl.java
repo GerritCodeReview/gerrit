@@ -68,7 +68,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
       @Override
       protected void configure() {
         persist(CACHE_NAME, CommentContextKey.class, CommentContext.class)
-            .version(2)
+            .version(3)
             .diskLimit(1 << 30) // limit the total cache size to 1 GB
             .maximumWeight(1 << 23) // Limit the size of the in-memory cache to 8 MB
             .weigher(CommentContextWeigher.class)
@@ -149,6 +149,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
     @Override
     public byte[] serialize(CommentContext commentContext) {
       AllCommentContextProto.Builder allBuilder = AllCommentContextProto.newBuilder();
+      allBuilder.setContentType(commentContext.contentType());
 
       commentContext
           .lines()
@@ -165,9 +166,10 @@ public class CommentContextCacheImpl implements CommentContextCache {
     @Override
     public CommentContext deserialize(byte[] in) {
       ImmutableMap.Builder<Integer, String> contextLinesMap = ImmutableMap.builder();
-      Protos.parseUnchecked(AllCommentContextProto.parser(), in).getContextList().stream()
+      AllCommentContextProto proto = Protos.parseUnchecked(AllCommentContextProto.parser(), in);
+      proto.getContextList().stream()
           .forEach(c -> contextLinesMap.put(c.getLineNumber(), c.getContextLine()));
-      return CommentContext.create(contextLinesMap.build());
+      return CommentContext.create(contextLinesMap.build(), proto.getContentType());
     }
   }
 

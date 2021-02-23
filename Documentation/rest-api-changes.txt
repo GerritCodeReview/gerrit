@@ -6710,6 +6710,10 @@ this comment applies.
 A list of link:#context-line[ContextLine] containing the lines of the source
 file where the comment was written. Available only if the "enable-context"
 parameter (see link:#list-change-comments[List Change Comments]) is set.
+|`source_content_type` |optional|
+Mime type of the file where the comment is written. Available only if the
+"enable-context" parameter (see link:#list-change-comments[List Change Comments])
+is set.
 
 |===========================
 

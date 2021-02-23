@@ -405,12 +405,7 @@ class PatchScriptBuilder {
       if (mode == FileMode.MISSING) {
         displayMethod = DisplayMethod.NONE;
       }
-      PatchScript.FileMode fileMode = PatchScript.FileMode.FILE;
-      if (mode == FileMode.SYMLINK) {
-        fileMode = PatchScript.FileMode.SYMLINK;
-      } else if (mode == FileMode.GITLINK) {
-        fileMode = PatchScript.FileMode.GITLINK;
-      }
+      PatchScript.FileMode fileMode = PatchScript.FileMode.fromJgitFileMode(mode);
       return new PatchSide(
           treeId, path, id, mode, srcContent, src, mimeType, displayMethod, fileMode);
     }

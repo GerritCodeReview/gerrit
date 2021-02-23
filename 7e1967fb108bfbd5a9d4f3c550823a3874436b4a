@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84ec6dd6_d2507f4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-23T09:15:51Z",
+      "side": 1,
+      "message": "Besides a differ, there\u0027s also value in this just for the sake of having an easier time comparing entities in tests.",
+      "range": {
+        "startLine": 15,
+        "startChar": 25,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "7e1967fb108bfbd5a9d4f3c550823a3874436b4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a076e24_0bb70310",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-23T09:15:51Z",
+      "side": 1,
+      "message": "If only we used Protocol buffers for API entities ;-)",
+      "revId": "7e1967fb108bfbd5a9d4f3c550823a3874436b4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

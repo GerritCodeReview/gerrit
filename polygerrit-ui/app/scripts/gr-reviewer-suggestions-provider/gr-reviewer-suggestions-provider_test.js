@@ -130,7 +130,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
           value: {account: {}},
         });
 
-        provider._config = {
+        provider.config = {
           user: {
             anonymous_coward_name: 'Anonymous Coward Name',
           },
@@ -179,10 +179,10 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       });
 
       test('getSuggestions short circuits when logged out', () => {
-        provider._loggedIn = false;
+        provider.loggedIn = false;
         return provider.getSuggestions('').then(() => {
           assert.isFalse(getChangeSuggestedReviewersStub.called);
-          provider._loggedIn = true;
+          provider.loggedIn = true;
           return provider.getSuggestions('').then(() => {
             assert.isTrue(getChangeSuggestedReviewersStub.called);
           });

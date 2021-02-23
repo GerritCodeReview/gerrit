@@ -120,18 +120,18 @@ suite('gr-hovercard tests', () => {
     button.dispatchEvent(new CustomEvent('mouseenter'));
 
     await enterPromise;
-    assert.isTrue(element._isScheduledToShow);
-    element._showDebouncer.flush();
+    assert.isTrue(element.isScheduledToShow);
+    element.showDebouncer.flush();
     assert.isTrue(element._isShowing);
-    assert.isFalse(element._isScheduledToShow);
+    assert.isFalse(element.isScheduledToShow);
 
     button.dispatchEvent(new CustomEvent('mouseleave'));
 
     await leavePromise;
-    assert.isTrue(element._isScheduledToHide);
+    assert.isTrue(element.isScheduledToHide);
     assert.isTrue(element._isShowing);
-    element._hideDebouncer.flush();
-    assert.isFalse(element._isScheduledToShow);
+    element.hideDebouncer.flush();
+    assert.isFalse(element.isScheduledToShow);
     assert.isFalse(element._isShowing);
 
     button.removeEventListener('mouseenter', enterResolve);
@@ -152,11 +152,11 @@ suite('gr-hovercard tests', () => {
     button.dispatchEvent(new CustomEvent('mouseenter'));
 
     await enterPromise;
-    assert.isTrue(element._isScheduledToShow);
+    assert.isTrue(element.isScheduledToShow);
     MockInteractions.tap(button);
 
     await clickPromise;
-    assert.isFalse(element._isScheduledToShow);
+    assert.isFalse(element.isScheduledToShow);
     assert.isFalse(element._isShowing);
 
     button.removeEventListener('mouseenter', enterResolve);

@@ -27,23 +27,23 @@ interface CustomPolymerPluginEl extends HTMLElement {
 /**
  * Plugin popup API.
  * Provides method for opening and closing popups from plugin.
- * opt_moduleName is a name of custom element that will be automatically
+ * optmoduleName is a name of custom element that will be automatically
  * inserted on popup opening.
  */
 export class GrPopupInterface implements PopupPluginApi {
-  private _openingPromise: Promise<GrPopupInterface> | null = null;
+  private openingPromise: Promise<GrPopupInterface> | null = null;
 
-  private _popup: GrPluginPopup | null = null;
+  private popup: GrPluginPopup | null = null;
 
   constructor(
     readonly plugin: PluginApi,
-    private _moduleName: string | null = null
+    private moduleName: string | null = null
   ) {}
 
   _getElement() {
     // TODO(TS): maybe consider removing this if no one is using
     // anything other than native methods on the return
-    return (dom(this._popup) as unknown) as HTMLElement;
+    return (dom(this.popup) as unknown) as HTMLElement;
   }
 
   /**
@@ -52,34 +52,34 @@ export class GrPopupInterface implements PopupPluginApi {
    * if it was provided with constructor.
    */
   open(): Promise<PopupPluginApi> {
-    if (!this._openingPromise) {
-      this._openingPromise = this.plugin
+    if (!this.openingPromise) {
+      this.openingPromise = this.plugin
         .hook('plugin-overlay')
         .getLastAttached()
         .then(hookEl => {
           const popup = document.createElement('gr-plugin-popup');
-          if (this._moduleName) {
+          if (this.moduleName) {
             const el = popup.appendChild(
-              document.createElement(this._moduleName) as CustomPolymerPluginEl
+              document.createElement(this.moduleName) as CustomPolymerPluginEl
             );
             el.plugin = this.plugin;
           }
-          this._popup = hookEl.appendChild(popup);
+          this.popup = hookEl.appendChild(popup);
           flush();
-          return this._popup.open().then(() => this);
+          return this.popup.open().then(() => this);
         });
     }
-    return this._openingPromise;
+    return this.openingPromise;
   }
 
   /**
    * Hides the popup.
    */
   close() {
-    if (!this._popup) {
+    if (!this.popup) {
       return;
     }
-    this._popup.close();
-    this._openingPromise = null;
+    this.popup.close();
+    this.openingPromise = null;
   }
 }

@@ -61,26 +61,26 @@ export class Auth implements AuthService {
 
   static CREDS_EXPIRED_MSG = 'Credentials expired.';
 
-  private _authCheckPromise?: Promise<Response>;
+  private authCheckPromise?: Promise<Response>;
 
   private _last_auth_check_time: number = Date.now();
 
   private _status = AuthStatus.UNDETERMINED;
 
-  private _retriesLeft = MAX_GET_TOKEN_RETRIES;
+  private retriesLeft = MAX_GET_TOKEN_RETRIES;
 
-  private _cachedTokenPromise: Promise<Token | null> | null = null;
+  private cachedTokenPromise: Promise<Token | null> | null = null;
 
-  private _type?: AuthType;
+  private type?: AuthType;
 
-  private _defaultOptions: AuthRequestInit = {};
+  private defaultOptions: AuthRequestInit = {};
 
-  private _getToken: GetTokenCallback;
+  private getToken: GetTokenCallback;
 
   public eventEmitter: EventEmitterService;
 
   constructor(eventEmitter: EventEmitterService) {
-    this._getToken = () => Promise.resolve(this._cachedTokenPromise);
+    this.getToken = () => Promise.resolve(this.cachedTokenPromise);
     this.eventEmitter = eventEmitter;
   }
 
@@ -93,15 +93,15 @@ export class Auth implements AuthService {
    */
   authCheck(): Promise<boolean> {
     if (
-      !this._authCheckPromise ||
+      !this.authCheckPromise ||
       Date.now() - this._last_auth_check_time > MAX_AUTH_CHECK_WAIT_TIME_MS
     ) {
       // Refetch after last check expired
-      this._authCheckPromise = fetch(`${this.baseUrl}/auth-check`);
+      this.authCheckPromise = fetch(`${this.baseUrl}/auth-check`);
       this._last_auth_check_time = Date.now();
     }
 
-    return this._authCheckPromise
+    return this.authCheckPromise
       .then(res => {
         // auth-check will return 204 if authed
         // treat the rest as unauthed
@@ -115,14 +115,14 @@ export class Auth implements AuthService {
       })
       .catch(() => {
         this._setStatus(AuthStatus.ERROR);
-        // Reset _authCheckPromise to avoid caching the failed promise
-        this._authCheckPromise = undefined;
+        // Reset authCheckPromise to avoid caching the failed promise
+        this.authCheckPromise = undefined;
         return false;
       });
   }
 
   clearCache() {
-    this._authCheckPromise = undefined;
+    this.authCheckPromise = undefined;
   }
 
   private _setStatus(status: AuthStatus) {
@@ -149,15 +149,15 @@ export class Auth implements AuthService {
    * Enable cross-domain authentication using OAuth access token.
    */
   setup(getToken: GetTokenCallback, defaultOptions: DefaultAuthOptions) {
-    this._retriesLeft = MAX_GET_TOKEN_RETRIES;
+    this.retriesLeft = MAX_GET_TOKEN_RETRIES;
     if (getToken) {
-      this._type = AuthType.ACCESS_TOKEN;
-      this._cachedTokenPromise = null;
-      this._getToken = getToken;
+      this.type = AuthType.ACCESS_TOKEN;
+      this.cachedTokenPromise = null;
+      this.getToken = getToken;
     }
-    this._defaultOptions = {};
+    this.defaultOptions = {};
     if (defaultOptions) {
-      this._defaultOptions.credentials = defaultOptions.credentials;
+      this.defaultOptions.credentials = defaultOptions.credentials;
     }
   }
 
@@ -167,10 +167,10 @@ export class Auth implements AuthService {
   fetch(url: string, opt_options?: AuthRequestInit): Promise<Response> {
     const options: AuthRequestInitWithHeaders = {
       headers: new Headers(),
-      ...this._defaultOptions,
+      ...this.defaultOptions,
       ...opt_options,
     };
-    if (this._type === AuthType.ACCESS_TOKEN) {
+    if (this.type === AuthType.ACCESS_TOKEN) {
       return this._getAccessToken().then(accessToken =>
         this._fetchWithAccessToken(url, options, accessToken)
       );
@@ -224,17 +224,17 @@ export class Auth implements AuthService {
   }
 
   private _getAccessToken(): Promise<string | null> {
-    if (!this._cachedTokenPromise) {
-      this._cachedTokenPromise = this._getToken();
+    if (!this.cachedTokenPromise) {
+      this.cachedTokenPromise = this.getToken();
     }
-    return this._cachedTokenPromise.then(token => {
+    return this.cachedTokenPromise.then(token => {
       if (this._isTokenValid(token)) {
-        this._retriesLeft = MAX_GET_TOKEN_RETRIES;
+        this.retriesLeft = MAX_GET_TOKEN_RETRIES;
         return token.access_token;
       }
-      if (this._retriesLeft > 0) {
-        this._retriesLeft--;
-        this._cachedTokenPromise = null;
+      if (this.retriesLeft > 0) {
+        this.retriesLeft--;
+        this.cachedTokenPromise = null;
         return this._getAccessToken();
       }
       // Fall back to anonymous access.

@@ -33,6 +33,24 @@
       "message": "AFAICT, you\u0027re returning just the direct parents of a change? That could be clarified better.\n\n",
       "revId": "335c4d58157443d135fbdd4b93705a2c68bb43b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89629e3f_9680e605",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-02-23T19:37:18Z",
+      "side": 1,
+      "message": "\u003e AFAICT, you\u0027re returning just the direct parents of a change? That could be clarified better.\n\nMaybe there is a language thing here, I am not aware of any indirect parents in git, Gerrit or English. Where you asking about grandparents, great-grandparents, ... i.e. whether higher level ancestors would also be returned, or is there some other kind a parent that you are asking about?",
+      "parentUuid": "d37bc87e_dc49109d",
+      "revId": "335c4d58157443d135fbdd4b93705a2c68bb43b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -35,9 +35,9 @@ class RestoreChange extends GerritSimulation {
         if (numbersCopy.isEmpty) {
           numbersCopy = createChange.numbers.clone()
         }
-        session.set("number", numbersCopy.dequeue())
+        session.set(numberKey, numbersCopy.dequeue())
       }
-      ).exec(http(uniqueName).post("${url}${number}/restore"))
+      ).exec(http(uniqueName).post("${url}${" + numberKey + "}/restore"))
 
   private val createProject = new CreateProject(projectName)
   private val createChange = new CreateChange(projectName)

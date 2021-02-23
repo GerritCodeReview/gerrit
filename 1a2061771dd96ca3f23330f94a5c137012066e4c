@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67daf0ce_65411d11",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2021-02-23T16:38:13Z",
+      "side": 1,
+      "message": "might be good to wrap in Boolean() since technically || will return the last truthy value from the expression.\n\nAdditionally since this is ambiguous it might be good to add an explicit boolean return type from the function to avoid someone accidentally returning a non-bool value.",
+      "range": {
+        "startLine": 204,
+        "startChar": 9,
+        "endLine": 204,
+        "endChar": 45
+      },
+      "revId": "1a2061771dd96ca3f23330f94a5c137012066e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

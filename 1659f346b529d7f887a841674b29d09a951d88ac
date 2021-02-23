@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1660d5e6_f5098d1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-23T09:23:04Z",
+      "side": 1,
+      "message": "+1 Shall we gate this by a setting?",
+      "parentUuid": "4d85cdbd_ebc1a513",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "1659f346b529d7f887a841674b29d09a951d88ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e3f4594_be7dc782",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
         "patchSetId": 1

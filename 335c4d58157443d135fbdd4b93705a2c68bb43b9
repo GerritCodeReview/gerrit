@@ -16,6 +16,23 @@
       "message": "This still doesn\u0027t tell me much about \u0027parentof\u0027 or how to use it. I think that would be a good intro paragraph, with the CI use case paragraph written here coming after that.",
       "revId": "335c4d58157443d135fbdd4b93705a2c68bb43b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d37bc87e_dc49109d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-23T19:22:18Z",
+      "side": 1,
+      "message": "AFAICT, you\u0027re returning just the direct parents of a change? That could be clarified better.\n\n",
+      "revId": "335c4d58157443d135fbdd4b93705a2c68bb43b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

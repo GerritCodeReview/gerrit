@@ -173,6 +173,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25d6f371_2e7b0271",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginProvidedApiTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-02-23T18:21:53Z",
+      "side": 1,
+      "message": "\u003e \u003e I think it would be good to get on the same page as to what it is actually doing before we go any further.\n\u003e \n\u003e I agree; that\u0027s why I\u0027d like to see any follow-on exercise the actual class loader mechanism by loading the plugins from a jar. Then there can be no discussion on what it is actually doing, because we can simply inspect what is going on.\n\nI totally agree. Is there a mechanism to do this sort of testing in core tests? In the past we have done stuff like this using the example plugin; however if there is a better way, particularly if it is in the core tree, that would be way better.",
+      "parentUuid": "ea2d32dc_54352c2d",
+      "range": {
+        "startLine": 114,
+        "startChar": 6,
+        "endLine": 114,
+        "endChar": 23
+      },
+      "revId": "e5c07017fcd63735e6818f750b01887bbe6b7ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "03344a86_ab5260fe",
         "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
         "patchSetId": 2

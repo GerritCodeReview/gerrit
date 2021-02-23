@@ -42,4 +42,6 @@ public class FetchInfo {
   public int hashCode() {
     return Objects.hash(url, ref, commands);
   }
+
+  protected FetchInfo() {}
 }

@@ -18,9 +18,9 @@ import com.google.common.base.MoreObjects;
 import java.util.Objects;
 
 public class SubmitRequirementInfo {
-  public final String status;
-  public final String fallbackText;
-  public final String type;
+  public String status;
+  public String fallbackText;
+  public String type;
 
   public SubmitRequirementInfo(String status, String fallbackText, String type) {
     this.status = status;
@@ -55,4 +55,6 @@ public class SubmitRequirementInfo {
         .add("type", type)
         .toString();
   }
+
+  protected SubmitRequirementInfo() {}
 }

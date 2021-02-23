@@ -73,4 +73,6 @@ public class ActionInfo {
   public int hashCode() {
     return Objects.hash(method, label, title, enabled);
   }
+
+  protected ActionInfo() {}
 }

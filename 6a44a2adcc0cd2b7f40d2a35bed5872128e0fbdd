@@ -117,6 +117,30 @@
       },
       "revId": "6a44a2adcc0cd2b7f40d2a35bed5872128e0fbdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad6e8436_0500a066",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-23T09:13:06Z",
+      "side": 1,
+      "message": "I wonder why this is necessary at all. Args are marked as Singleton, so should exist just once per Guice injector. Are you saying that\u0027s broken?",
+      "parentUuid": "7532897b_ca4ecb75",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "6a44a2adcc0cd2b7f40d2a35bed5872128e0fbdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,7 +34,17 @@ public class PatchScript {
   public enum FileMode {
     FILE,
     SYMLINK,
-    GITLINK
+    GITLINK;
+
+    public static FileMode fromJgitFileMode(org.eclipse.jgit.lib.FileMode jgitFileMode) {
+      PatchScript.FileMode fileMode = PatchScript.FileMode.FILE;
+      if (jgitFileMode == org.eclipse.jgit.lib.FileMode.SYMLINK) {
+        fileMode = FileMode.SYMLINK;
+      } else if (jgitFileMode == org.eclipse.jgit.lib.FileMode.GITLINK) {
+        fileMode = FileMode.GITLINK;
+      }
+      return fileMode;
+    }
   }
 
   public static class PatchScriptFileInfo {

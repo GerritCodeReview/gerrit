@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5154475d_b905160f",
+        "filename": "javatests/com/google/gerrit/server/git/GitRepositoryManagerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-23T13:13:23Z",
+      "side": 1,
+      "message": "Can this be a mock instead?",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 79
+      },
+      "revId": "63c3b3d8675762948ea519dab656d0b73485e97e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

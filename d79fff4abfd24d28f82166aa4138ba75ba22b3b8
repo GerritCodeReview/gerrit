@@ -16,6 +16,24 @@
       "message": "Is this used?",
       "revId": "d79fff4abfd24d28f82166aa4138ba75ba22b3b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c3e45a3_7279d66d",
+        "filename": "java/com/google/gerrit/server/restapi/change/SuggestReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-02-23T15:52:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0da4f013_5908905e",
+      "revId": "d79fff4abfd24d28f82166aa4138ba75ba22b3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -123,6 +123,24 @@
       "parentUuid": "be2c0814_9e8231fb",
       "revId": "3a9175fd2c4ed325cd0e00c7a786a2ad51ddc107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45d35f41_0694f4a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-23T23:54:07Z",
+      "side": 1,
+      "message": "\u003e Can you merge change 297357, so that we can easily see \"cached\" tests status?\n\nI am fine in merging it, but we need to assess if the detail we are missing was useful or not. Can you comment on change 297357?",
+      "parentUuid": "bb41476f_5cbf5234",
+      "revId": "3a9175fd2c4ed325cd0e00c7a786a2ad51ddc107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

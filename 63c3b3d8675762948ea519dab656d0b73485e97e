@@ -22,6 +22,30 @@
       },
       "revId": "63c3b3d8675762948ea519dab656d0b73485e97e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92f02aa5_5864c1cd",
+        "filename": "javatests/com/google/gerrit/server/git/GitRepositoryManagerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-23T13:16:08Z",
+      "side": 1,
+      "message": "It can be but than we are testing the mocking framework instead of GitRepositoryManager interface. There is always a risk that we do not actually call real method from interface but default behaviour from mocking framework",
+      "parentUuid": "5154475d_b905160f",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 79
+      },
+      "revId": "63c3b3d8675762948ea519dab656d0b73485e97e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

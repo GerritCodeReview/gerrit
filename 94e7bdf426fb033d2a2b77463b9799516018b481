@@ -34,6 +34,24 @@
       "parentUuid": "39bec552_4ad2f758",
       "revId": "94e7bdf426fb033d2a2b77463b9799516018b481",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24f50e73_4bd528cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T14:52:47Z",
+      "side": 1,
+      "message": "background-color should be applied to `td.lost`, not `td.lost div`.",
+      "parentUuid": "e058a419_ea1c3c74",
+      "revId": "94e7bdf426fb033d2a2b77463b9799516018b481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -5189,6 +5189,13 @@ fast but inaccurate.
 +
 By default 50.
 
+[[suggest.skipServiceUsers]]suggest.skipServiceUsers::
++
+If link:access-control.html#service_users[service users] should be skipped when
+suggesting reviewers.
++
+By default true.
+
 [[tracing]]
 === Section tracing
 

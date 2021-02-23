@@ -31,6 +31,8 @@ public class SuggestReviewers {
 
   private static final int DEFAULT_MAX_SUGGESTED = 10;
 
+  private static final boolean DEFAULT_SKIP_SERVICE_USERS = true;
+
   protected final ReviewersUtil reviewersUtil;
 
   private final boolean suggestAccounts;
@@ -39,6 +41,7 @@ public class SuggestReviewers {
   protected int limit;
   protected String query;
   protected final int maxSuggestedReviewers;
+  protected boolean skipServiceUsers;
 
   @Option(
       name = "--limit",
@@ -78,6 +81,10 @@ public class SuggestReviewers {
     return maxAllowedWithoutConfirmation;
   }
 
+  public boolean isSkipServiceUsers() {
+    return skipServiceUsers;
+  }
+
   @Inject
   public SuggestReviewers(
       AccountVisibility av, @GerritServerConfig Config cfg, ReviewersUtil reviewersUtil) {
@@ -100,6 +107,9 @@ public class SuggestReviewers {
             ReviewerAdder.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
 
     logger.atFine().log("AccountVisibility: %s", av.name());
+
+    this.skipServiceUsers =
+        cfg.getBoolean("suggest", "skipServiceUsers", DEFAULT_SKIP_SERVICE_USERS);
   }
 
   public static GerritConfigListener configListener() {

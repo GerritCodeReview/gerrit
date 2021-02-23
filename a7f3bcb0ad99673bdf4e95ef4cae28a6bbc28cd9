@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa97a134_0ccc57f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T14:52:47Z",
+      "side": 1,
+      "message": "Does the icon maybe need more margin-left? Can you double-check the spec?",
+      "revId": "a7f3bcb0ad99673bdf4e95ef4cae28a6bbc28cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c4c7c1b_cab962b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T14:52:47Z",
+      "side": 1,
+      "message": "20px icon with 12px text is very unusual.\n\nIt also causes a bit of trouble, because the icon size should ideally match the line-height:\n\n  14 font, 20 line-height, 20 icon\n  12 font, 16 line-height, 16 icon\n\nCan you double check the spec?",
+      "revId": "a7f3bcb0ad99673bdf4e95ef4cae28a6bbc28cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dde03cf_47f72d26",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T14:52:47Z",
+      "side": 1,
+      "message": "You should be more explicit about the font, e.g.:\n\n  font-family: var(--font-family, \u0027Roboto\u0027);\n  font-size: var(--font-size-small, 12px);\n  line-height: var(--line-height-small, 16px);",
+      "revId": "a7f3bcb0ad99673bdf4e95ef4cae28a6bbc28cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa576f6f_a8ad61f8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-23T14:52:47Z",
+      "side": 1,
+      "message": "Aligning icon and text does not require using flex. The standard pattern is to just make sure that the icon fits into the line-height of the inline layout flow.",
+      "range": {
+        "startLine": 437,
+        "startChar": 6,
+        "endLine": 438,
+        "endChar": 26
+      },
+      "revId": "a7f3bcb0ad99673bdf4e95ef4cae28a6bbc28cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

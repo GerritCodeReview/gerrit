@@ -70,7 +70,6 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenBranch;
@@ -117,10 +116,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
  */
 public class MergeOp implements AutoCloseable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.builder().build();
-  private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_ALLOW_CLOSED =
-      SUBMIT_RULE_OPTIONS.toBuilder().allowClosed(true).build();
 
   public static class CommitStatus {
     private final ImmutableMap<Change.Id, ChangeData> changes;
@@ -189,8 +184,7 @@ public class MergeOp implements AutoCloseable {
       // date by this point.
       ChangeData cd = requireNonNull(changes.get(id), () -> String.format("ChangeData for %s", id));
       return requireNonNull(
-          cd.getSubmitRecords(submitRuleOptions(allowClosed)),
-          "getSubmitRecord only valid after submit rules are evalutated");
+          cd.submitRecords(), "getSubmitRecord only valid after submit rules are evalutated");
     }
 
     public void maybeFailVerbose() throws ResourceConflictException {
@@ -298,13 +292,12 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  public static void checkSubmitRule(ChangeData cd, boolean allowClosed)
-      throws ResourceConflictException {
+  public static void checkSubmitRule(ChangeData cd) throws ResourceConflictException {
     PatchSet patchSet = cd.currentPatchSet();
     if (patchSet == null) {
       throw new ResourceConflictException("missing current patch set for change " + cd.getId());
     }
-    List<SubmitRecord> results = getSubmitRecords(cd, allowClosed);
+    List<SubmitRecord> results = cd.submitRecords();
     if (SubmitRecord.allRecordsOK(results)) {
       // Rules supplied a valid solution.
       return;
@@ -338,14 +331,6 @@ public class MergeOp implements AutoCloseable {
       }
     }
     throw new IllegalStateException();
-  }
-
-  private static SubmitRuleOptions submitRuleOptions(boolean allowClosed) {
-    return allowClosed ? SUBMIT_RULE_OPTIONS_ALLOW_CLOSED : SUBMIT_RULE_OPTIONS;
-  }
-
-  private static List<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed) {
-    return cd.submitRecords(submitRuleOptions(allowClosed));
   }
 
   private static String describeNotReady(ChangeData cd, SubmitRecord record) {
@@ -395,21 +380,20 @@ public class MergeOp implements AutoCloseable {
     return String.format("Submit requirement not fulfilled: %s", submitRequirement.fallbackText());
   }
 
-  private void checkSubmitRulesAndState(ChangeSet cs, boolean allowMerged)
-      throws ResourceConflictException {
+  private void checkSubmitRulesAndState(ChangeSet cs) throws ResourceConflictException {
     checkArgument(
         !cs.furtherHiddenChanges(), "checkSubmitRulesAndState called for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
       try {
         if (!cd.change().isNew()) {
-          if (!(cd.change().isMerged() && allowMerged)) {
+          if (!(cd.change().isMerged())) {
             commitStatus.problem(
                 cd.getId(), "Change " + cd.getId() + " is " + ChangeUtil.status(cd.change()));
           }
         } else if (cd.change().isWorkInProgress()) {
           commitStatus.problem(cd.getId(), "Change " + cd.getId() + " is work in progress");
         } else {
-          checkSubmitRule(cd, allowMerged);
+          checkSubmitRule(cd);
         }
       } catch (ResourceConflictException e) {
         commitStatus.problem(cd.getId(), e.getMessage());
@@ -422,15 +406,15 @@ public class MergeOp implements AutoCloseable {
     commitStatus.maybeFailVerbose();
   }
 
-  private void bypassSubmitRules(ChangeSet cs, boolean allowClosed) {
+  private void bypassSubmitRules(ChangeSet cs) {
     checkArgument(
         !cs.furtherHiddenChanges(), "cannot bypass submit rules for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
-      List<SubmitRecord> records = new ArrayList<>(getSubmitRecords(cd, allowClosed));
+      List<SubmitRecord> records = new ArrayList<>(cd.submitRecords());
       SubmitRecord forced = new SubmitRecord();
       forced.status = SubmitRecord.Status.FORCED;
       records.add(forced);
-      cd.setSubmitRecords(submitRuleOptions(allowClosed), records);
+      cd.setSubmitRecords(records);
     }
   }
 
@@ -538,10 +522,10 @@ public class MergeOp implements AutoCloseable {
                   this.commitStatus = new CommitStatus(filteredNoteDbChangeSet, isRetry);
                   if (checkSubmitRules) {
                     logger.atFine().log("Checking submit rules and state");
-                    checkSubmitRulesAndState(filteredNoteDbChangeSet, isRetry);
+                    checkSubmitRulesAndState(filteredNoteDbChangeSet);
                   } else {
                     logger.atFine().log("Bypassing submit rules");
-                    bypassSubmitRules(filteredNoteDbChangeSet, isRetry);
+                    bypassSubmitRules(filteredNoteDbChangeSet);
                   }
                   integrateIntoHistory(filteredNoteDbChangeSet, submissionExecutor);
                   return null;

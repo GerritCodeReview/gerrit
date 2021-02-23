@@ -26,13 +26,11 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
-import com.google.gerrit.server.index.OnlineReindexMode;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologRule;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -52,20 +50,13 @@ public class SubmitRuleEvaluator {
   private final PluginSetContext<SubmitRule> submitRules;
   private final Timer0 submitRuleEvaluationLatency;
   private final Timer0 submitTypeEvaluationLatency;
-  private final SubmitRuleOptions opts;
-
-  public interface Factory {
-    /** Returns a new {@link SubmitRuleEvaluator} with the specified options */
-    SubmitRuleEvaluator create(SubmitRuleOptions options);
-  }
 
   @Inject
   private SubmitRuleEvaluator(
       ProjectCache projectCache,
       PrologRule prologRule,
       PluginSetContext<SubmitRule> submitRules,
-      MetricMaker metricMaker,
-      @Assisted SubmitRuleOptions options) {
+      MetricMaker metricMaker) {
     this.projectCache = projectCache;
     this.prologRule = prologRule;
     this.submitRules = submitRules;
@@ -81,8 +72,6 @@ public class SubmitRuleEvaluator {
             new Description("Latency for evaluating the submit type on a change.")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS));
-
-    this.opts = options;
   }
 
   public static SubmitRecord defaultRuleError() {
@@ -121,10 +110,10 @@ public class SubmitRuleEvaluator {
         return Collections.singletonList(ruleError("Error looking up change " + cd.getId(), e));
       }
 
-      if ((!opts.allowClosed() || OnlineReindexMode.isActive()) && change.isClosed()) {
-        SubmitRecord rec = new SubmitRecord();
-        rec.status = SubmitRecord.Status.CLOSED;
-        return Collections.singletonList(rec);
+      if (change.isClosed()) {
+        // If the change is submitted, just use the submit records we stored in NoteDb at the time
+        // of submission.
+        return cd.notes().getSubmitRecords();
       }
 
       // We evaluate all the plugin-defined evaluators,

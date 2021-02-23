@@ -51,7 +51,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -340,18 +339,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     }
 
     // Stored-submit-record-strict.
-    decodeSubmitRecords(
-        source,
-        ChangeField.STORED_SUBMIT_RECORD_STRICT.getName(),
-        ChangeField.SUBMIT_RULE_OPTIONS_STRICT,
-        cd);
-
-    // Stored-submit-record-lenient.
-    decodeSubmitRecords(
-        source,
-        ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName(),
-        ChangeField.SUBMIT_RULE_OPTIONS_LENIENT,
-        cd);
+    decodeSubmitRecords(source, ChangeField.STORED_SUBMIT_RECORD_STRICT.getName(), cd);
 
     // Ref-state.
     if (fields.contains(ChangeField.REF_STATE.getName())) {
@@ -389,8 +377,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         : Collections.emptyList();
   }
 
-  private void decodeSubmitRecords(
-      JsonObject doc, String fieldName, SubmitRuleOptions opts, ChangeData out) {
+  private void decodeSubmitRecords(JsonObject doc, String fieldName, ChangeData out) {
     JsonArray records = doc.getAsJsonArray(fieldName);
     if (records == null) {
       return;
@@ -399,7 +386,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         FluentIterable.from(records)
             .transform(ElasticChangeIndex::decodeBase64JsonElement)
             .toList(),
-        opts,
         out);
   }
 

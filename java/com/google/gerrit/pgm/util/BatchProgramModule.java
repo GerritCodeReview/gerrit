@@ -73,7 +73,6 @@ import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.restapi.group.GroupModule;
@@ -171,7 +170,6 @@ public class BatchProgramModule extends FactoryModule {
 
     // Submit rules
     DynamicSet.setOf(binder(), SubmitRule.class);
-    factory(SubmitRuleEvaluator.Factory.class);
     install(new PrologModule());
     install(new DefaultSubmitRule.Module());
     install(new IgnoreSelfApprovalRule.Module());

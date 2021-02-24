@@ -22,7 +22,7 @@ export const htmlTemplate = html`
       display: inline-block;
       border-radius: 50%;
       background-size: cover;
-      background-color: var(--avatar-background-color, #f1f2f3);
+      background-color: var(--avatar-background-color, var(--gray-background));
     }
   </style>
 `;

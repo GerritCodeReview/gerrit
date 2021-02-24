@@ -154,7 +154,7 @@ export const htmlTemplate = html`
       padding-left: var(--spacing-s);
     }
     .drafts {
-      color: #c62828;
+      color: var(--error-foreground);
       font-weight: var(--font-weight-bold);
     }
     .show-hide-icon:focus {

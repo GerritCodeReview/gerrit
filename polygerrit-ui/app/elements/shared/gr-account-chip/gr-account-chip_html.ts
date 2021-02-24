@@ -58,7 +58,6 @@ export const htmlTemplate = html`
     gr-button.remove:focus {
       --gr-button: {
         @apply --gr-remove-button-style;
-        color: #333;
       }
     }
     gr-button.remove {

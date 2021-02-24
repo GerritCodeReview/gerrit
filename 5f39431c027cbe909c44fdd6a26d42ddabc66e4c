@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f64ae8ca_ee19958c",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T18:09:14Z",
+      "side": 0,
+      "message": "I think the original intent to most of this doc was to 1) describe some intend uses of Gerrit and some limits and 2) capture Gerrit\u0027s \"fitness\" for those uses. I do think discussion of scalability is relevant to the design of Gerrit to ensure it continues to fit the needs. I would think this doc could be useful (with some cleanup like you\u0027re doing here) as a \"Why gerrit?\" starting point, or maybe a second level \"go deeper\". If I\u0027m evaluating if I should be using Gerrit or another product for my new project, where would I go to learn how well Gerrit is expected to scale, what it integrates with, etc?\n\nI do this this content is outdated, but also still relevant to Gerrit\u0027s design. If you don\u0027t want to update it (or at least not right now), you could add an \"Outdated\" disclaimer at the top of this section (and any others you think it applies to) and add a bug to the backlog to improve it.",
+      "parentUuid": "bea88ff6_d277648d",
+      "range": {
+        "startLine": 410,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 14
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e2c43edb_6f5d2b9b",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1
@@ -168,6 +192,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b4650844_8d85bb1f",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T18:09:14Z",
+      "side": 0,
+      "message": "If math around HTTP requests doesn\u0027t motivate design choices, what does? I recall a big push around web perf improvements in the past year. How were those improvements measured / evaluated for impact to server-side load?",
+      "parentUuid": "0bcc81b7_65211d81",
+      "range": {
+        "startLine": 480,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 22
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2123501b_6219f7bc",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1
@@ -203,6 +251,30 @@
       "side": 0,
       "message": "what do you want this to say? How does disk usage affect design decisions?\n\nMaybe you want a \"limits\" table where we list the largest site/repository/change/etc?",
       "parentUuid": "2123501b_6219f7bc",
+      "range": {
+        "startLine": 539,
+        "startChar": 0,
+        "endLine": 539,
+        "endChar": 14
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea6b1a3f_2d33ba8c",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T18:09:14Z",
+      "side": 0,
+      "message": "\u003e what do you want this to say? How does disk usage affect design decisions?\n\nThis is more \"what should I expect from Gerrit\" and yes, there\u0027s a lot of that in here.\n\nI\u0027m not sure the intent of this doc was to affect design decisions, but more to capture the ones that had already been made. \"Gerrit uses locally accessible git repos and tries to handle big ones, here\u0027s what you can (and what we as Gerrit devs do) expect for growth over time.\"\n\n\u003e \n\u003e Maybe you want a \"limits\" table where we list the largest site/repository/change/etc?\n\nThe limits idea does go to the \"scaling\" idea I talked about above, and seeing that all in one place would be nice.",
+      "parentUuid": "13728a89_a0c976a9",
       "range": {
         "startLine": 539,
         "startChar": 0,

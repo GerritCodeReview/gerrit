@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23fffe59_c3bd20c5",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T18:09:14Z",
+      "side": 0,
+      "message": "Keep this? (it\u0027s still correct)",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 627,
+        "endChar": 40
+      },
+      "revId": "6da0e0cf97d59a30b756dd5dcc2e1bcb576f5518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

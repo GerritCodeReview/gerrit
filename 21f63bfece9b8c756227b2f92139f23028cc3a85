@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a2e8001_7228419d",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T18:09:14Z",
+      "side": 1,
+      "message": "Don\u0027t we have retries in several areas now?",
+      "range": {
+        "startLine": 345,
+        "startChar": 58,
+        "endLine": 346,
+        "endChar": 8
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -304,6 +304,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.editGpgKeys =
         toBoolean(enableSignedPush && config.getBoolean("gerrit", null, "editGpgKeys", true));
     info.primaryWeblinkName = config.getString("gerrit", null, "primaryWeblinkName");
+    info.instanceId = config.getString("gerrit", null, "instanceId");
     return info;
   }
 

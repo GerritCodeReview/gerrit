@@ -872,34 +872,25 @@ public class ChangeData {
   }
 
   public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
-    List<SubmitRecord> records = getCachedSubmitRecord(options);
+    // If the change is not submitted yet, 'strict' and 'lenient' both have the same result. If the
+    // change is submitted,
+    // SubmitRecord requested with 'strict' will contain just a single entry that with
+    // status=CLOSED. The latter is
+    // cheap to evaluate as we don't have to run any actual evaluation.
+    // To optimize the case where the change is still open.
+    List<SubmitRecord> records = submitRecords.get(options);
     if (records == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
       records = submitRuleEvaluatorFactory.create(options).evaluate(this);
       submitRecords.put(options, records);
+      if (!change().isClosed() && submitRecords.size() == 1) {
+        // Cache the SubmitRecord with allowClosed != allowClosed as the SubmitRecord are the same.
+        submitRecords.put(options.toBuilder().allowClosed(!options.allowClosed()).build(), records);
+      }
     }
     return records;
-  }
-
-  @Nullable
-  public List<SubmitRecord> getSubmitRecords(SubmitRuleOptions options) {
-    return getCachedSubmitRecord(options);
-  }
-
-  private List<SubmitRecord> getCachedSubmitRecord(SubmitRuleOptions options) {
-    List<SubmitRecord> records = submitRecords.get(options);
-    if (records != null) {
-      return records;
-    }
-
-    if (options.allowClosed() && change != null && change.getStatus().isOpen()) {
-      SubmitRuleOptions openSubmitRuleOptions = options.toBuilder().allowClosed(false).build();
-      return submitRecords.get(openSubmitRuleOptions);
-    }
-
-    return null;
   }
 
   public void setSubmitRecords(SubmitRuleOptions options, List<SubmitRecord> records) {

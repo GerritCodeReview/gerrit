@@ -36,6 +36,21 @@ public class RevisionInfo {
   public PushCertificateInfo pushCertificate;
   public String description;
 
+  public RevisionInfo() {}
+
+  public RevisionInfo(String ref) {
+    this.ref = ref;
+  }
+
+  public RevisionInfo(String ref, int number) {
+    this.ref = ref;
+    _number = number;
+  }
+
+  public RevisionInfo(AccountInfo uploader) {
+    this.uploader = uploader;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (o instanceof RevisionInfo) {

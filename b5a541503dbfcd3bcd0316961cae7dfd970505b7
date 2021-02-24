@@ -86,6 +86,42 @@
       "parentUuid": "9cf067cb_bd41508e",
       "revId": "b5a541503dbfcd3bcd0316961cae7dfd970505b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c568fa53_eb8ffef3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T19:09:23Z",
+      "side": 1,
+      "message": "\u003e I really don\u0027t how this will affect things. I don\u0027t know if there is a correctness issue (as you hinted at), and I don\u0027t know if there is a performance hit. Nasser what sort of analysis can you do,or have you done to check for those things?\n\nI just looked at it from the perspective of aligning repo and project in a few places. I assumed re-opening an already open repo would leverage JGit caching and didn\u0027t look at performance further.\n\nBased on what Patrick says, I don\u0027t think this change should go in. If that changes, I can look more into analysis/testing.",
+      "parentUuid": "8c49cf0f_fcccb0a7",
+      "revId": "b5a541503dbfcd3bcd0316961cae7dfd970505b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7d565d5_d39988fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T19:09:23Z",
+      "side": 1,
+      "message": "\u003e A JGit operation (say UploadPack) opens the repo once and uses that same instance all the time. It uses PermissionAwareRepoRefDatabase and passes its delegate down to the ref filter as well.\n\nI wasn\u0027t aware of this assumption. Do you have a pointer where I could learn more about it (docs, email thread, code, or anything else referencing this idea)? I\u0027d like to understand it better. I\u0027m also concerned there could be many places violating this unless we have a good way to test for it.",
+      "parentUuid": "e3b50895_d6390a71",
+      "revId": "b5a541503dbfcd3bcd0316961cae7dfd970505b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -33,6 +33,9 @@ export const htmlTemplate = html`
       --diff-container-styles: {
         border-bottom: 1px solid var(--border-color);
       }
+      --diff-section-styles: {
+        border-right: 1px solid var(--border-color);
+      }
     }
     .stickyHeader {
       background-color: var(--view-background-color);

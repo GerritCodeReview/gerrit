@@ -57,7 +57,7 @@ export const htmlTemplate = html`
       on individual sections to leave a gap for the divider.
       */
     .section {
-      border-right: 1px solid var(--border-color);
+      @apply --diff-section-styles;
     }
     .section.contextControl {
       /*

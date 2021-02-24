@@ -185,6 +185,9 @@ export const htmlTemplate = html`
     gr-diff {
       display: block;
       overflow-x: auto;
+      --diff-section-styles: {
+        border-right: 1px solid var(--border-color);
+      }
     }
     .truncatedFileName {
       display: none;

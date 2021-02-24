@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6831a605_5c3fc8ee",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-change.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-24T13:54:44Z",
+      "side": 1,
+      "message": "Nit: wrong spelling, it\u0027s ancestor",
+      "range": {
+        "startLine": 83,
+        "startChar": 32,
+        "endLine": 83,
+        "endChar": 41
+      },
+      "revId": "862066d649cc717fdac0cc5f12212499a6dd1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

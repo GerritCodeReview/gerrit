@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd297367_8052091e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T20:07:11Z",
+      "side": 1,
+      "message": "It seems then that we need to set all the --strategy\u003d\u003carea\u003e\u003dremote flags for each area independently since we don\u0027t have a default?",
+      "revId": "dfe754190e4b3df975d8d123e0dee12372e80168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

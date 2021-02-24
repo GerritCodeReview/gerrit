@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a31132c_cb19dcce",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-24T14:05:12Z",
+      "side": 1,
+      "message": "Could you please enable it only if feature flag is enabled? Since this will break preloading comments for users without feature flag.",
+      "range": {
+        "startLine": 109,
+        "startChar": 98,
+        "endLine": 109,
+        "endChar": 105
+      },
+      "revId": "26fe8031c0e090d33c8c077bf126a6de07fba612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

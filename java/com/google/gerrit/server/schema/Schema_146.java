@@ -191,6 +191,12 @@ public class Schema_146 extends SchemaVersion {
   }
 
   private void gc(Repository repo, boolean refsOnly, UpdateUI ui) {
+    if (ui.yesno(
+        false,
+        "Done manually running gc NOW on %s (default is no, gc automatically)",
+        repo.getDirectory().getAbsolutePath())) { // getCanonicalPath may throw IOException
+      return;
+    }
     if (repo instanceof FileRepository && gcLock.tryLock()) {
       ProgressMonitor pm = null;
       try {

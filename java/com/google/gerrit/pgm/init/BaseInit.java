@@ -400,6 +400,11 @@ public class BaseInit extends SiteProgram {
             }
 
             @Override
+            public boolean yesno(boolean defaultValue, String messageFmt, Object... args) {
+              return ui.yesno(defaultValue, messageFmt, args);
+            }
+
+            @Override
             public void waitForUser() {
               ui.waitForUser();
             }

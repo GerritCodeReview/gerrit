@@ -30,6 +30,11 @@ public class TestUpdateUI implements UpdateUI {
   }
 
   @Override
+  public boolean yesno(boolean defaultValue, String messageFmt, Object... args) {
+    return defaultValue;
+  }
+
+  @Override
   public void waitForUser() {}
 
   @Override

@@ -1228,9 +1228,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     private boolean isReviewer(ChangeContext ctx) {
-      ChangeData cd = changeDataFactory.create(ctx.getNotes());
-      ReviewerSet reviewers = cd.reviewers();
-      return reviewers.byState(REVIEWER).contains(ctx.getAccountId());
+      return approvalsUtil.getReviewers(ctx.getNotes()).byState(REVIEWER).contains(ctx.getAccountId());
     }
 
     private boolean updateLabels(ProjectState projectState, ChangeContext ctx)

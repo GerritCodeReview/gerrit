@@ -690,7 +690,10 @@ export const htmlTemplate = html`
         is="dom-if"
         if="[[_isTabActive(_constants.PrimaryTab.CHECKS, _activeTabs)]]"
       >
-        <gr-checks-tab id="checksTab"></gr-checks-tab>
+        <gr-checks-tab
+          id="checksTab"
+          tab-state="[[_tabState.checksTab]]"
+        ></gr-checks-tab>
       </template>
       <template
         is="dom-if"

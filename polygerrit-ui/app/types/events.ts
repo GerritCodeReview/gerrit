@@ -19,6 +19,7 @@ import {PatchSetNum, UrlEncodedCommentId} from './common';
 import {UIComment} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {MovedLinkClickedEventDetail} from '../api/diff';
+import {Category, RunStatus} from '../api/checks';
 
 export interface TitleChangeEventDetail {
   title: string;
@@ -152,12 +153,18 @@ interface SwitchTabEventDetail {
 
 export interface TabState {
   commentTab?: CommentTabState;
+  checksTab?: ChecksTabState;
 }
 
 export enum CommentTabState {
   UNRESOLVED = 'unresolved',
   DRAFTS = 'drafts',
   SHOW_ALL = 'show all',
+}
+
+export interface ChecksTabState {
+  statusOrCategory?: RunStatus | Category;
+  checkName?: string;
 }
 
 export type SwitchTabEvent = CustomEvent<SwitchTabEventDetail>;

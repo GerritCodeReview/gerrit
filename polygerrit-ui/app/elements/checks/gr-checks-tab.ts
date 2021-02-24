@@ -15,7 +15,13 @@
  * limitations under the License.
  */
 import {html} from 'lit-html';
-import {css, customElement, property} from 'lit-element';
+import {
+  css,
+  customElement,
+  internalProperty,
+  property,
+  PropertyValues,
+} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {Action, CheckResult, CheckRun} from '../../api/checks';
 import {
@@ -32,11 +38,9 @@ import {
   ActionTriggeredEvent,
   fireActionTriggered,
 } from '../../services/checks/checks-util';
-import {
-  checkRequiredProperty,
-  toggleSetMembership,
-} from '../../utils/common-util';
+import {checkRequiredProperty} from '../../utils/common-util';
 import {RunSelectedEvent} from './gr-checks-runs';
+import {ChecksTabState} from '../../types/events';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -52,12 +56,16 @@ export class GrChecksTab extends GrLitElement {
   actions: Action[] = [];
 
   @property()
+  tabState?: ChecksTabState;
+
+  @property()
   currentPatchNum: PatchSetNum | undefined = undefined;
 
   @property()
   changeNum: NumericChangeId | undefined = undefined;
 
-  private selectedRuns = new Set<string>();
+  @internalProperty()
+  selectedRuns: string[] = [];
 
   constructor() {
     super();
@@ -107,7 +115,9 @@ export class GrChecksTab extends GrLitElement {
   render() {
     const ps = `Patchset ${this.currentPatchNum} (Latest)`;
     const filteredRuns = this.runs.filter(
-      r => this.selectedRuns.size === 0 || this.selectedRuns.has(r.checkName)
+      r =>
+        this.selectedRuns.length === 0 ||
+        this.selectedRuns.includes(r.checkName)
     );
     return html`
       <div class="header">
@@ -130,6 +140,7 @@ export class GrChecksTab extends GrLitElement {
         <gr-checks-runs
           class="runs"
           .runs="${this.runs}"
+          .selectedRuns="${this.selectedRuns}"
           @run-selected="${this.handleRunSelected}"
         ></gr-checks-runs>
         <gr-checks-results
@@ -138,6 +149,16 @@ export class GrChecksTab extends GrLitElement {
         ></gr-checks-results>
       </div>
     `;
+  }
+
+  protected updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (changedProperties.has('tabState')) {
+      const check = this.tabState?.checkName;
+      if (check) {
+        this.selectedRuns = [check];
+      }
+    }
   }
 
   renderAction(action: Action) {
@@ -163,8 +184,15 @@ export class GrChecksTab extends GrLitElement {
   }
 
   handleRunSelected(e: RunSelectedEvent) {
-    toggleSetMembership(this.selectedRuns, e.detail.checkName);
-    this.requestUpdate();
+    this.toggleSelected(e.detail.checkName);
+  }
+
+  toggleSelected(checkName: string) {
+    if (this.selectedRuns.includes(checkName)) {
+      this.selectedRuns = this.selectedRuns.filter(r => r !== checkName);
+    } else {
+      this.selectedRuns = [...this.selectedRuns, checkName];
+    }
   }
 }
 

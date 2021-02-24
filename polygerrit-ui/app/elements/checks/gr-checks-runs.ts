@@ -41,7 +41,7 @@ import {
   fakeRun4,
   updateStateSetResults,
 } from '../../services/checks/checks-model';
-import {assertIsDefined, toggleSetMembership} from '../../utils/common-util';
+import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
 
 export interface RunSelectedEventDetail {
@@ -236,7 +236,8 @@ export class GrChecksRuns extends GrLitElement {
   @property()
   runs: CheckRun[] = [];
 
-  private selectedRuns = new Set<string>();
+  @property()
+  selectedRuns: string[] = [];
 
   constructor() {
     super();
@@ -353,19 +354,13 @@ export class GrChecksRuns extends GrLitElement {
   }
 
   renderRun(run: CheckRun) {
-    const selected = this.selectedRuns.has(run.checkName);
-    const deselected = !selected && this.selectedRuns.size > 0;
+    const selected = this.selectedRuns.includes(run.checkName);
+    const deselected = !selected && this.selectedRuns.length > 0;
     return html`<gr-checks-run
       .run="${run}"
       .selected="${selected}"
       .deselected="${deselected}"
-      @run-selected="${this.handleRunSelected}"
     ></gr-checks-run>`;
-  }
-
-  handleRunSelected(e: RunSelectedEvent) {
-    toggleSetMembership(this.selectedRuns, e.detail.checkName);
-    this.requestUpdate();
   }
 }
 

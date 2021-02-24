@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "21c4b244_e03894d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-24T21:10:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "202a407f_4a08e77b",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "509845937c42be25d03907fcfe666f688d133f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d834a98e_3a5e56ed",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2021-02-24T15:12:40Z",
       "side": 1,
       "message": "Cool, thanks for fix. Maybe, we could do it generally for all toggles in dashboard - star, attention, _handleToggleReviewed, ...",
+      "revId": "509845937c42be25d03907fcfe666f688d133f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b414eca6_8f07f7c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-24T21:10:31Z",
+      "side": 1,
+      "message": "added toggleReviewed. attention is handled deeper in gr-account-label and should be refactored for views to know about it.",
+      "parentUuid": "d834a98e_3a5e56ed",
       "revId": "509845937c42be25d03907fcfe666f688d133f44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +96,30 @@
       "writtenOn": "2021-02-24T09:41:05Z",
       "side": 1,
       "message": "nit: occurrences",
+      "range": {
+        "startLine": 385,
+        "startChar": 7,
+        "endLine": 385,
+        "endChar": 17
+      },
+      "revId": "509845937c42be25d03907fcfe666f688d133f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db3401b6_3f239028",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-24T21:10:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b158d5e6_541b72a1",
       "range": {
         "startLine": 385,
         "startChar": 7,

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14e8c1b8_264d3dfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-24T18:16:21Z",
+      "side": 1,
+      "message": "Because I am now passing the selectedRuns around from component to component via a property. And to force updates I have to copy them more often. So I felt the array is more natural and simpler for this kind of job and for copy-by-spread [...array].",
+      "parentUuid": "fd2ae95c_102ca998",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "dadfbe6f01cbe894305c994a3f4b2e56fd58f0cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6cea4a2_d7244f71",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-24T15:07:32Z",
       "side": 1,
       "message": "I would expect to deselect other selected runs, when I click on chip.",
+      "range": {
+        "startLine": 153,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 44
+      },
+      "revId": "dadfbe6f01cbe894305c994a3f4b2e56fd58f0cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "336aaf21_7606b872",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-24T18:16:21Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "f6cea4a2_d7244f71",
       "range": {
         "startLine": 153,
         "startChar": 4,

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db71f336_8371c9c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-02-24T14:47:47Z",
+      "side": 1,
+      "message": "Checked the UI, LGTM.",
+      "revId": "9a3abb8c72b3952b38acee216df3fa4ea5d0c331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b08ae6c_8b13d962",

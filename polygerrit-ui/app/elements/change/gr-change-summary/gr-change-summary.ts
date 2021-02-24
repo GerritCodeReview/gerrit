@@ -56,7 +56,7 @@ import {AccountInfo} from '../../../types/common';
 import {notUndefined} from '../../../types/types';
 import {uniqueDefinedAvatar} from '../../../utils/account-util';
 import {PrimaryTab} from '../../../constants/constants';
-import {CommentTabState} from '../../../types/events';
+import {ChecksTabState, CommentTabState} from '../../../types/events';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -229,18 +229,12 @@ export class GrChecksChip extends GrLitElement {
     const chipClass = `checksChip font-small ${this.icon}`;
     const grIcon = `gr-icons:${this.icon}`;
     return html`
-      <div class="${chipClass}" role="button" @click="${this.handleClick}">
+      <div class="${chipClass}" role="button">
         <iron-icon icon="${grIcon}"></iron-icon>
         <div class="text">${this.text}</div>
         <slot></slot>
       </div>
     `;
-  }
-
-  private handleClick(e: MouseEvent) {
-    e.stopPropagation();
-    e.preventDefault();
-    fireShowPrimaryTab(this, PrimaryTab.CHECKS);
   }
 }
 
@@ -325,7 +319,7 @@ export class GrChangeSummary extends GrLitElement {
     const icon = iconForCategory(category);
     const runs = this.runs.filter(run => hasResultsOf(run, category));
     const count = (run: CheckRun) => getResultsOf(run, category);
-    return this.renderChecksChip(icon, runs, count);
+    return this.renderChecksChip(icon, runs, category, count);
   }
 
   renderChecksChipForStatus(
@@ -334,12 +328,13 @@ export class GrChangeSummary extends GrLitElement {
   ) {
     const icon = iconForStatus(status);
     const runs = this.runs.filter(filter);
-    return this.renderChecksChip(icon, runs, () => []);
+    return this.renderChecksChip(icon, runs, status, () => []);
   }
 
   renderChecksChip(
     icon: string,
     runs: CheckRun[],
+    statusOrCategory: RunStatus | Category,
     resultFilter: (run: CheckRun) => CheckResult[]
   ) {
     if (runs.length === 0) {
@@ -359,9 +354,10 @@ export class GrChangeSummary extends GrLitElement {
           class="${icon}"
           .icon="${icon}"
           .text="${text}"
+          @click="${() => this.onChipClick({checkName: run.checkName})}"
           >${links.map(
             link => html`
-              <a href="${link.url}" target="_blank" @click="${this.onClick}"
+              <a href="${link.url}" target="_blank" @click="${this.onLinkClick}"
                 ><iron-icon class="launch" icon="gr-icons:launch"></iron-icon
               ></a>
             `
@@ -380,11 +376,18 @@ export class GrChangeSummary extends GrLitElement {
       class="${icon}"
       .icon="${icon}"
       .text="${sum}"
+      @click="${() => this.onChipClick({statusOrCategory})}"
     ></gr-checks-chip>`;
   }
 
-  private onClick(e: MouseEvent) {
-    // Prevents handleClick() from reacting to <a> link clicks.
+  private onChipClick(state: ChecksTabState) {
+    fireShowPrimaryTab(this, PrimaryTab.CHECKS, true, {
+      checksTab: state,
+    });
+  }
+
+  private onLinkClick(e: MouseEvent) {
+    // Prevents onChipClick() from reacting to <a> link clicks.
     e.stopPropagation();
   }
 

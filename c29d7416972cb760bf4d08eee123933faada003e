@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42dbeb7b_5a167b65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-24T00:23:51Z",
+      "side": 1,
+      "message": "Do we really need to generate JavaDoc on RBE?\nAlso, stable-3.1 is going to be EOL in a couple of months, do we have so many high traffic of changes to justify RBE here?",
+      "revId": "c29d7416972cb760bf4d08eee123933faada003e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

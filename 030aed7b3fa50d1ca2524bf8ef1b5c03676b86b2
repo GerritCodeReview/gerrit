@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f4af616_8a0b103e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-24T15:30:06Z",
+      "side": 1,
+      "message": "This needs more work and thought around what LabelInfos we show on closed changes",
+      "revId": "030aed7b3fa50d1ca2524bf8ef1b5c03676b86b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7a69702_801dfbf8",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T20:38:29Z",
+      "side": 1,
+      "message": "Isn\u0027t this what getRefsByPrefixWithExclusions is already doing?",
+      "range": {
+        "startLine": 377,
+        "startChar": 11,
+        "endLine": 377,
+        "endChar": 85
+      },
+      "revId": "e4aac9ea537e3665efd17e0a864b043b9a3f56e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

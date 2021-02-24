@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af668c84_fbdaaa13",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-change.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-24T18:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6831a605_5c3fc8ee",
+      "range": {
+        "startLine": 83,
+        "startChar": 32,
+        "endLine": 83,
+        "endChar": 41
+      },
+      "revId": "862066d649cc717fdac0cc5f12212499a6dd1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "feda5973_c1807a84",
@@ -65,6 +89,54 @@
         "startChar": 15,
         "endLine": 104,
         "endChar": 24
+      },
+      "revId": "862066d649cc717fdac0cc5f12212499a6dd1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a4e35ba_4fa33415",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-24T18:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "582c9570_e96d00fb",
+      "range": {
+        "startLine": 104,
+        "startChar": 15,
+        "endLine": 104,
+        "endChar": 24
+      },
+      "revId": "862066d649cc717fdac0cc5f12212499a6dd1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e23c68c8_294da728",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-24T18:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "feda5973_c1807a84",
+      "range": {
+        "startLine": 104,
+        "startChar": 37,
+        "endLine": 104,
+        "endChar": 44
       },
       "revId": "862066d649cc717fdac0cc5f12212499a6dd1640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

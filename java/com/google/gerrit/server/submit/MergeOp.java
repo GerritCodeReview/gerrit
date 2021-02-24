@@ -189,7 +189,7 @@ public class MergeOp implements AutoCloseable {
       // date by this point.
       ChangeData cd = requireNonNull(changes.get(id), () -> String.format("ChangeData for %s", id));
       return requireNonNull(
-          cd.getSubmitRecords(submitRuleOptions(allowClosed)),
+          cd.submitRecords(submitRuleOptions(allowClosed)),
           "getSubmitRecord only valid after submit rules are evalutated");
     }
 

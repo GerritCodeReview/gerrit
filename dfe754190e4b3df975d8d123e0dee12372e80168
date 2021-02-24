@@ -16,6 +16,24 @@
       "message": "It seems then that we need to set all the --strategy\u003d\u003carea\u003e\u003dremote flags for each area independently since we don\u0027t have a default?",
       "revId": "dfe754190e4b3df975d8d123e0dee12372e80168",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "981669e6_500fd224",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-24T20:57:43Z",
+      "side": 1,
+      "message": "The commit message wasn\u0027t accurate. Should be fixed now. There are also related issue upstream: [1],[2],[3], and this commit that wiped out all those options upstream: [4] on on May 22, 2019.\n\n[1] https://github.com/bazelbuild/bazel/issues/7480\n[2] https://github.com/bazelbuild/bazel/issues/8469\n[3] https://github.com/bazelbuild/bazel/issues/8372\n[4] https://github.com/bazelbuild/bazel/commit/207c24f04453ef026c202f2962e55d2a125e388f#diff-544556920c45b42cbfe40159b082ce8af6bd929e492d076769226265f215832fL14-L17",
+      "parentUuid": "fd297367_8052091e",
+      "revId": "dfe754190e4b3df975d8d123e0dee12372e80168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

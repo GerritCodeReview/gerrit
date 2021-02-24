@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "d2a5b372_bb7155ac",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 43
       },
       "revId": "efbb46cf7b7567b0202d565dd1bd879ce9b41ba7",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "2fb5ed1e_9ed6fc2f",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,34 @@
         "endChar": 43
       },
       "revId": "efbb46cf7b7567b0202d565dd1bd879ce9b41ba7",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "406bad8e_52ba9fdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-02-24T09:52:09Z",
+      "side": 1,
+      "message": "I also don\u0027t like forcing Release-Notes footer in every change. Imagine how would that scale if we add yet another mandatory footer which is not applicable to all changes. Can we first try what David proposed and only if it doesn\u0027t work proceed with enforcing the new footer?",
+      "parentUuid": "2fb5ed1e_9ed6fc2f",
+      "range": {
+        "startLine": 13,
+        "startChar": 50,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "efbb46cf7b7567b0202d565dd1bd879ce9b41ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
       "key": {
         "uuid": "ffe6b18a_6447fc9e",
         "filename": "/PATCHSET_LEVEL",
@@ -61,8 +86,7 @@
       "side": 1,
       "message": "I see. But may be it\u0027s better to add such a check in uploadvalidator plugin and install this plugin on gerrit-review? And may be even disable the check for merge commits?\n\nAre you aware of Eclipse Foundation plugin that I adapted recently: [1]. They are checking among other things, that commit message has \"Signed-off-by:\" footer with the credentials matching those of the commit author.\n\n[1] https://github.com/EclipseFdn/gerrit-eca-plugin/blob/master/eclipse-cla/src/main/java/org/eclipse/foundation/gerrit/validation/EclipseCommitValidationListener.java#L182-L193",
       "revId": "efbb46cf7b7567b0202d565dd1bd879ce9b41ba7",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

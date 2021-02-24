@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "183b78a8_77dc3084",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-24T15:52:21Z",
+      "side": 1,
+      "message": "that",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "3af5c8121ab9da1a7c22ea54b7164fc572d93b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8605a637_6a740f24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-24T15:52:21Z",
+      "side": 1,
+      "message": "Very good find!",
+      "range": {
+        "startLine": 19,
+        "startChar": 37,
+        "endLine": 20,
+        "endChar": 54
+      },
+      "revId": "3af5c8121ab9da1a7c22ea54b7164fc572d93b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17341d49_8508d859",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-24T15:52:21Z",
+      "side": 1,
+      "message": "Code looks good :)",
+      "revId": "3af5c8121ab9da1a7c22ea54b7164fc572d93b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24e83d00_81cfd5f0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-24T15:52:21Z",
+      "side": 1,
+      "message": "nit: bad line wrapping",
+      "range": {
+        "startLine": 875,
+        "startChar": 7,
+        "endLine": 880,
+        "endChar": 59
+      },
+      "revId": "3af5c8121ab9da1a7c22ea54b7164fc572d93b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e331473_46dc8ce5",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-24T15:52:21Z",
+      "side": 1,
+      "message": "something missing here?",
+      "range": {
+        "startLine": 880,
+        "startChar": 58,
+        "endLine": 880,
+        "endChar": 59
+      },
+      "revId": "3af5c8121ab9da1a7c22ea54b7164fc572d93b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d0b1ed3_00d42c41",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 889,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-24T15:52:21Z",
+      "side": 1,
+      "message": "Did you mean\n  allowClosed \u003d !allowClosed\n?",
+      "range": {
+        "startLine": 889,
+        "startChar": 39,
+        "endLine": 889,
+        "endChar": 65
+      },
+      "revId": "3af5c8121ab9da1a7c22ea54b7164fc572d93b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fc9fd84c_c92e8546",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-24T17:37:02Z",
+      "side": 0,
+      "message": "there is a separate gerrit history doc at https://www.gerritcodereview.com/about.html\n\nfrom a technical perspective, none of this is really relevant.",
+      "parentUuid": "d6388ccd_5555998c",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 49
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d904341_077a3efc",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-17T19:28:27Z",
       "side": 0,
       "message": "Unless you have reason to believe a lot of the content removed here is irrelevant now, I would keep it. I think it\u0027s interesting (and still relevant) background for how the numbers in the table above came to be.",
+      "range": {
+        "startLine": 410,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 14
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bea88ff6_d277648d",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-24T17:37:02Z",
+      "side": 0,
+      "message": "I think the content is irrelevant.\n\nthe numbers aren\u0027t realistic today (most changes on Android are done by automation, for example), and none of these numbers motivate any design decision.\n\nI actually think the table is also not very useful. Maybe we should just put some experience reports in?",
+      "parentUuid": "1d904341_077a3efc",
       "range": {
         "startLine": 410,
         "startChar": 0,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0bcc81b7_65211d81",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-24T17:37:02Z",
+      "side": 0,
+      "message": "Sure, but how? The cost of a request is highly variable, the number of requests in polygerrit is also completely off. And again, none of these numbers motivate any particular design choice.",
+      "parentUuid": "e2c43edb_6f5d2b9b",
+      "range": {
+        "startLine": 480,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 22
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2123501b_6219f7bc",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1
@@ -83,6 +155,30 @@
       "writtenOn": "2021-02-17T19:28:27Z",
       "side": 0,
       "message": "Update, don\u0027t remove.",
+      "range": {
+        "startLine": 539,
+        "startChar": 0,
+        "endLine": 539,
+        "endChar": 14
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13728a89_a0c976a9",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-24T17:37:02Z",
+      "side": 0,
+      "message": "what do you want this to say? How does disk usage affect design decisions?\n\nMaybe you want a \"limits\" table where we list the largest site/repository/change/etc?",
+      "parentUuid": "2123501b_6219f7bc",
       "range": {
         "startLine": 539,
         "startChar": 0,

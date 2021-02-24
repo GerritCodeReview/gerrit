@@ -295,6 +295,8 @@ export class GrChecksResults extends GrLitElement {
   @property()
   runs: CheckRun[] = [];
 
+  private isSectionExpanded = new Map<Category | 'SUCCESS', boolean>();
+
   static get styles() {
     return [
       sharedStyles,
@@ -312,22 +314,35 @@ export class GrChecksResults extends GrLitElement {
           margin-top: var(--spacing-l);
           margin-left: var(--spacing-l);
           text-transform: capitalize;
+          cursor: default;
         }
-        .categoryHeader iron-icon {
+        .categoryHeader .expandIcon {
+          width: var(--line-height-h3);
+          height: var(--line-height-h3);
+          margin-right: var(--spacing-s);
+        }
+        .categoryHeader .statusIcon {
           position: relative;
-          top: 1px;
+          top: 2px;
         }
-        .categoryHeader iron-icon.error {
+        .categoryHeader .statusIcon.error {
           color: var(--error-foreground);
         }
-        .categoryHeader iron-icon.warning {
+        .categoryHeader .statusIcon.warning {
           color: var(--warning-foreground);
         }
-        .categoryHeader iron-icon.info {
+        .categoryHeader .statusIcon.info {
           color: var(--info-foreground);
         }
-        .categoryHeader iron-icon.success {
+        .categoryHeader .statusIcon.success {
           color: var(--success-foreground);
+        }
+        .collapsed table {
+          display: none;
+        }
+        .collapsed {
+          border-bottom: 1px solid var(--border-color);
+          padding-bottom: var(--spacing-m);
         }
         .noCompleted {
           margin-top: var(--spacing-l);
@@ -354,7 +369,7 @@ export class GrChecksResults extends GrLitElement {
       ${this.renderFilter()} ${this.renderNoCompleted()}
       ${this.renderSection(Category.ERROR)}
       ${this.renderSection(Category.WARNING)}
-      ${this.renderSection(Category.INFO)} ${this.renderSuccess()}
+      ${this.renderSection(Category.INFO)} ${this.renderSection('SUCCESS')}
     `;
   }
 
@@ -384,34 +399,60 @@ export class GrChecksResults extends GrLitElement {
     return html`<div class="noCompleted">${text}</div>`;
   }
 
-  renderSection(category: Category) {
+  renderSection(category: Category | 'SUCCESS') {
     const catString = category.toString().toLowerCase();
-    const runs = this.runs.filter(r =>
-      (r.results ?? []).some(res => res.category === category)
-    );
+    let runs = this.runs;
+    if (category === 'SUCCESS') {
+      runs = runs
+        .filter(hasCompletedWithoutResults)
+        .filter(r => this.filterRegExp.test(r.checkName));
+    } else {
+      runs = runs.filter(r =>
+        (r.results ?? []).some(res => res.category === category)
+      );
+    }
     if (runs.length === 0) return;
+    const expanded = this.isSectionExpanded.get(category) ?? true;
+    const expandedClass = expanded ? 'expanded' : 'collapsed';
+    const icon = expanded ? 'gr-icons:expand-more' : 'gr-icons:expand-less';
     return html`
-      <h3 class="categoryHeader heading-3">
-        <iron-icon
-          icon="gr-icons:${iconForCategory(category)}"
-          class="${catString}"
-        ></iron-icon>
-        ${catString}
-      </h3>
-      <table class="resultsTable">
-        <thead>
-          <tr class="headerRow">
-            <th class="iconCol"></th>
-            <th class="nameCol">Run</th>
-            <th class="summaryCol">Summary</th>
-            <th class="expanderCol"></th>
-          </tr>
-        </thead>
-        <tbody>
-          ${runs.map(run => this.renderRun(category, run))}
-        </tbody>
-      </table>
+      <div class="${expandedClass}">
+        <h3
+          class="categoryHeader heading-3"
+          @click="${() => this.toggleExpanded(category)}"
+        >
+          <iron-icon class="expandIcon" icon="${icon}"></iron-icon>
+          <iron-icon
+            icon="gr-icons:${iconForCategory(category)}"
+            class="statusIcon ${catString}"
+          ></iron-icon>
+          ${catString}
+        </h3>
+        <table class="resultsTable">
+          <thead>
+            <tr class="headerRow">
+              <th class="iconCol"></th>
+              <th class="nameCol">Run</th>
+              <th class="summaryCol">Summary</th>
+              <th class="expanderCol"></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${runs.map(run =>
+              category === 'SUCCESS'
+                ? this.renderSuccessfulRun(run)
+                : this.renderRun(category, run)
+            )}
+          </tbody>
+        </table>
+      </div>
     `;
+  }
+
+  toggleExpanded(category: Category | 'SUCCESS') {
+    const expanded = this.isSectionExpanded.get(category) ?? true;
+    this.isSectionExpanded.set(category, !expanded);
+    this.requestUpdate();
   }
 
   renderRun(category: Category, run: CheckRun) {
@@ -426,31 +467,6 @@ export class GrChecksResults extends GrLitElement {
         result =>
           html`<gr-result-row .result="${{...run, ...result}}"></gr-result-row>`
       )}`;
-  }
-
-  renderSuccess() {
-    const runs = this.runs
-      .filter(hasCompletedWithoutResults)
-      .filter(r => this.filterRegExp.test(r.checkName));
-    if (runs.length === 0) return;
-    return html`
-      <h3 class="categoryHeader heading-3">
-        <iron-icon
-          icon="gr-icons:check-circle-outline"
-          class="success"
-        ></iron-icon>
-        Success
-      </h3>
-      <table class="resultsTable">
-        <tr class="headerRow">
-          <th class="iconCol"></th>
-          <th class="nameCol">Run</th>
-          <th class="summaryCol">Summary</th>
-          <th class="expanderCol"></th>
-        </tr>
-        ${runs.map(run => this.renderSuccessfulRun(run))}
-      </table>
-    `;
   }
 
   renderSuccessfulRun(run: CheckRun) {

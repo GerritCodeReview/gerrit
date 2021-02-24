@@ -238,6 +238,8 @@ export class GrChecksRuns extends GrLitElement {
 
   private selectedRuns = new Set<string>();
 
+  private isSectionExpanded = new Map<RunStatus, boolean>();
+
   constructor() {
     super();
     this.subscribe('runs', allRuns$);
@@ -251,9 +253,24 @@ export class GrChecksRuns extends GrLitElement {
           display: block;
           padding: var(--spacing-xl);
         }
-        .statusHeader {
+        .expandIcon {
+          width: var(--line-height-h3);
+          height: var(--line-height-h3);
+        }
+        .sectionHeader {
           padding-top: var(--spacing-l);
           text-transform: capitalize;
+          cursor: default;
+        }
+        .sectionHeader h3 {
+          display: inline-block;
+        }
+        .collapsed .sectionRuns {
+          display: none;
+        }
+        .collapsed {
+          border-bottom: 1px solid var(--border-color);
+          padding-bottom: var(--spacing-m);
         }
         input#filterInput {
           margin-top: var(--spacing-s);
@@ -344,12 +361,29 @@ export class GrChecksRuns extends GrLitElement {
       .filter(r => this.filterRegExp.test(r.checkName))
       .sort(compareByWorstCategory);
     if (runs.length === 0) return;
+    const expanded = this.isSectionExpanded.get(status) ?? true;
+    const expandedClass = expanded ? 'expanded' : 'collapsed';
+    const icon = expanded ? 'gr-icons:expand-more' : 'gr-icons:expand-less';
     return html`
-      <div class="${status.toLowerCase()}">
-        <h3 class="statusHeader heading-3">${status.toLowerCase()}</h3>
-        ${runs.map(run => this.renderRun(run))}
+      <div class="${status.toLowerCase()} ${expandedClass}">
+        <div
+          class="sectionHeader"
+          @click="${() => this.toggleExpanded(status)}"
+        >
+          <iron-icon class="expandIcon" icon="${icon}"></iron-icon>
+          <h3 class="heading-3">${status.toLowerCase()}</h3>
+        </div>
+        <div class="sectionRuns">
+          ${runs.map(run => this.renderRun(run))}
+        </div>
       </div>
     `;
+  }
+
+  toggleExpanded(status: RunStatus) {
+    const expanded = this.isSectionExpanded.get(status) ?? true;
+    this.isSectionExpanded.set(status, !expanded);
+    this.requestUpdate();
   }
 
   renderRun(run: CheckRun) {

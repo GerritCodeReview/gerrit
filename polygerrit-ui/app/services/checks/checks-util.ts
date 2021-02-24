@@ -24,7 +24,7 @@ export function worstCategory(run: CheckRun) {
   return undefined;
 }
 
-export function iconForCategory(category: Category) {
+export function iconForCategory(category: Category | 'SUCCESS') {
   switch (category) {
     case Category.ERROR:
       return 'error';
@@ -32,6 +32,8 @@ export function iconForCategory(category: Category) {
       return 'info-outline';
     case Category.WARNING:
       return 'warning';
+    case 'SUCCESS':
+      return 'check-circle-outline';
     default:
       assertNever(category, `Unsupported category: ${category}`);
   }

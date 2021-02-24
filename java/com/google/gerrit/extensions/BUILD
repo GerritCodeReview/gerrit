@@ -34,6 +34,7 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//lib:guava",
         "//lib/auto:auto-value-annotations",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
     ],

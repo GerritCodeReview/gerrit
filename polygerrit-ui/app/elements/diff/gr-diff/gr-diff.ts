@@ -357,11 +357,13 @@ export class GrDiff extends GestureEventListeners(
   _getShadowOrDocumentSelection() {
     // When using native shadow DOM, the selection returned by
     // document.getSelection() cannot reference the actual DOM elements making
-    // up the diff, because they are in the shadow DOM of the gr-diff element.
-    // This takes the shadow DOM selection if one exists.
-    return this.root instanceof ShadowRoot && this.root.getSelection
-      ? this.root.getSelection()
-      : shadow.getRange(this.root);
+    // up the diff in Safari because they are in the shadow DOM of the gr-diff
+    // element. This takes the shadow DOM selection if one exists.
+    return this.root.getSelection ?
+      this.root.getSelection() :
+      this._isSafari() ?
+        shadow.getRange(this.root) :
+        document.getSelection();
   }
 
   _observeNodes() {
@@ -1071,6 +1073,13 @@ export class GrDiff extends GestureEventListeners(
         );
       }
     }, 0);
+  }
+
+  _isSafari() {
+    return (
+      /^((?!chrome|android).)*safari/i.test(navigator.userAgent) ||
+      (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+    );
   }
 }
 

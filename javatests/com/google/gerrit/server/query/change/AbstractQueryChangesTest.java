@@ -705,6 +705,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byParentOf() throws Exception {
+    TestRepository<Repo> repo1 = createProject("repo1");
+    RevCommit commit1 = repo1.parseBody(repo1.commit().message("message").create());
+    Change change1 = insert(repo1, newChangeForCommit(repo1, commit1));
+    RevCommit commit2 = repo1.parseBody(repo1.commit(commit1));
+    Change change2 = insert(repo1, newChangeForCommit(repo1, commit2));
+    RevCommit commit3 = repo1.parseBody(repo1.commit(commit1, commit2));
+    Change change3 = insert(repo1, newChangeForCommit(repo1, commit3));
+
+    assertQuery("parentof:" + change1.getId().get());
+    assertQuery("parentof:" + change1.getKey().get());
+    assertQuery("parentof:" + change2.getId().get(), change1);
+    assertQuery("parentof:" + change2.getKey().get(), change1);
+    assertQuery("parentof:" + change3.getId().get(), change2, change1);
+    assertQuery("parentof:" + change3.getKey().get(), change2, change1);
+  }
+
+  @Test
   public void byParentProject() throws Exception {
     TestRepository<Repo> repo1 = createProject("repo1");
     TestRepository<Repo> repo2 = createProject("repo2", "repo1");

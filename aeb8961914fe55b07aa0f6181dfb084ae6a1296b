@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45167eae_952b2fa5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-24T08:50:29Z",
+      "side": 1,
+      "message": "\u003e But why not put the regex directly in commit_delta?\n\nI bet the implementor knew as much or less Prolog than you do :-)\n\n\u003e Can we just change these usages to this?\n\nYes, if this occurs just a handful of times we can change it manually. Let\u0027s sync up internally on how to best get that done.",
+      "parentUuid": "35e9a0b6_9d4c5618",
+      "revId": "aeb8961914fe55b07aa0f6181dfb084ae6a1296b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3c6941e_508f9b6b",

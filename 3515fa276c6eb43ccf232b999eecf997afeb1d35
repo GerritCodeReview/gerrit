@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03854767_9b9d91be",
+        "filename": "java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-24T08:50:29Z",
+      "side": 1,
+      "message": "I think it would be better to use Java-foo instead of Prolog engine foo to close the RevWalk/DiffFormatter. WDYT?\n\ntry (RevWalk revWalk...) {\n\n}\n\nThere is actually no need for a RevWalk here as you just use the ObjectReader from it. You can get that cheaper: Repository#newObjectReader",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 88,
+        "endChar": 14
+      },
+      "revId": "3515fa276c6eb43ccf232b999eecf997afeb1d35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f598c3fc_531a45e6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/rules/RulesIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-24T08:50:29Z",
+      "side": 1,
+      "message": "This is surprising. RULE_ERRORs mark internal server errors. Should this be \"NOT_READY\"?\n\nFor context, see the JavaDoc in SubmitRecord.",
+      "range": {
+        "startLine": 102,
+        "startChar": 80,
+        "endLine": 102,
+        "endChar": 90
+      },
+      "revId": "3515fa276c6eb43ccf232b999eecf997afeb1d35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,52 @@
       },
       "revId": "862066d649cc717fdac0cc5f12212499a6dd1640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feda5973_c1807a84",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-02-24T14:36:22Z",
+      "side": 1,
+      "message": "We could use the color palette\n  --green-700: #188038;",
+      "range": {
+        "startLine": 104,
+        "startChar": 37,
+        "endLine": 104,
+        "endChar": 44
+      },
+      "revId": "862066d649cc717fdac0cc5f12212499a6dd1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "582c9570_e96d00fb",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-02-24T14:36:22Z",
+      "side": 1,
+      "message": "Also wrong spelling here",
+      "range": {
+        "startLine": 104,
+        "startChar": 15,
+        "endLine": 104,
+        "endChar": 24
+      },
+      "revId": "862066d649cc717fdac0cc5f12212499a6dd1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

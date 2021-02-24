@@ -18,83 +18,45 @@ centralized usage of Git.
 
 == Background
 
-Google developed Mondrian, a Perforce based code review tool to
-facilitate peer-review of changes prior to submission to the central
-code repository.  Mondrian is not open source, as it is tied to the
-use of Perforce and to many Google-only services, such as Bigtable.
-Google employees have often described how useful Mondrian and its
-peer-review process is to their day-to-day work.
-
-Guido van Rossum open sourced portions of Mondrian within Rietveld,
-a similar code review tool running on Google App Engine, but for
-use with Subversion rather than Perforce.  Rietveld is in common
-use by many open source projects, facilitating their peer reviews
-much as Mondrian does for Google employees.  Unlike Mondrian and
-the Google Perforce triggers, Rietveld is strictly advisory and
-does not enforce peer-review prior to submission.
-
 Git is a distributed version control system, wherein each repository
 is assumed to be owned/maintained by a single user.  There are no
 inherent security controls built into Git, so the ability to read
 from or write to a repository is controlled entirely by the host's
-filesystem access controls.  When multiple maintainers collaborate
-on a single shared repository a high degree of trust is required,
-as any collaborator with write access can alter the repository.
+filesystem or network access controls.
 
-Gitosis provides tools to secure centralized Git repositories,
-permitting multiple maintainers to manage the same project at once,
-by restricting the access to only over a secure network protocol,
-much like Perforce secures a repository by only permitting access
-over its network port.
+The objective of Gerrit is to facilitate Git development by larger
+teams: it provides a means to enforce organizational policies around
+code submissions, eg. "all code must be reviewed by another
+developer", "all code shall pass tests". It achieves this by
 
-The Android Open Source Project (AOSP) was founded by Google by the
-open source releasing of the Android operating system.  AOSP has
-selected Git as its primary version control tool.  As many of the
-engineers have a background of working with Mondrian at Google,
-there is a strong desire to have the same (or better) feature set
-available for Git and AOSP.
+* providing fine-grained (per-branch, per-repository, inheriting)
+  access controls, which allow a Gerrit admin to delegate permissions
+  to different team(-lead)s.
 
-Gerrit Code Review started as a simple set of patches to Rietveld,
-and was originally built to service AOSP. This quickly turned
-into a fork as we added access control features that Guido van
-Rossum did not want to see complicating the Rietveld code base. As
-the functionality and code were starting to become drastically
-different, a different name was needed. Gerrit calls back to the
-original namesake of Rietveld, Gerrit Rietveld, a Dutch architect.
-
-Gerrit 2.x is a complete rewrite of the Gerrit fork, completely
-changing the implementation from Python on Google App Engine, to Java
-on a J2EE servlet container and an SQL database.
-
-Since Gerrit 3.x link:note-db.html[NoteDb] replaced the SQL database
-and all metadata is now stored in Git.
-
-* link:http://video.google.com/videoplay?docid=-8502904076440714866[Mondrian Code Review On The Web,role=external,window=_blank]
-* link:https://github.com/rietveld-codereview/rietveld[Rietveld - Code Review for Subversion,role=external,window=_blank]
-* link:http://eagain.net/gitweb/?p=gitosis.git;a=blob;f=README.rst;hb=HEAD[Gitosis README,role=external,window=_blank]
-* link:http://source.android.com/[Android Open Source Project,role=external,window=_blank]
-
+* facilitate code review: Gerrit offers a web view of pending code
+  changes, that allows for easy reading and commenting by humans. The
+  web view can offer data coming out of automated QA processes (eg.
+  CI). The permission system also includes fine grained control of who
+  can approve pending changes for submission to further facilitate
+  delegation of code ownership.
 
 == Overview
 
 Developers create one or more changes on their local desktop system,
 then upload them for review to Gerrit using the standard `git push`
-command line program, or any GUI which can invoke `git push` on
-behalf of the user.  Authentication and data transfer are handled
-through SSH.  Users are authenticated by username and public/private
-key pair, and all data transfer is protected by the SSH connection
-and Git's own data integrity checks.
+command line program, or any GUI which can invoke `git push` on behalf
+of the user. Authentication and data transfer are handled through SSH
+and HTTPS. Uploads are protected by the authentication,
+confidentiality and integrity offered by the transport (SSH, HTTPS).
 
-Each Git commit created on the client desktop system is converted
-into a unique change record which can be reviewed independently.
-Change records are stored in NoteDb.
+Each Git commit created on the client desktop system is converted into
+a unique change record which can be reviewed independently.
 
 A summary of each newly uploaded change is automatically emailed
 to reviewers, so they receive a direct hyperlink to review the
 change on the web.  Reviewer email addresses can be specified on the
-`git push` command line, but typically reviewers are automatically
-selected by Gerrit by identifying users who have change approval
-permissions in the project.
+`git push` command line, but typically reviewers are added in the web
+interface.
 
 Reviewers use the web interface to read the side-by-side or unified
 diff of a change, and insert draft inline/file comments where
@@ -103,20 +65,16 @@ they publish those comments.  Published comments are automatically
 emailed to the change author by Gerrit, and are CC'd to all other
 reviewers who have already commented on the change.
 
-When publishing comments reviewers are also given the opportunity
-to score the change, indicating whether they feel the change is
-ready for inclusion in the project, needs more work, or should be
-rejected outright.  These scores provide direct feedback to Gerrit's
-change submit function.
+Reviewers can score the change ("vote"), indicating whether they feel the
+change is ready for inclusion in the project, needs more work, or
+should be rejected outright. These scores provide direct feedback to
+Gerrit's change submit function.
 
-After a change has been scored positively by reviewers, Gerrit
-enables a submit button on the web interface.  Authorized users
-can push the submit button to have the change enter the project
-repository.  The equivalent in Subversion or Perforce would be
-that Gerrit is invoking `svn commit` or `p4 submit` on behalf of
-the web user pressing the button.  Due to the way Git audit trails
-are maintained, the user pressing the submit button does not need
-to be the author of the change.
+After a change has been scored positively by reviewers, Gerrit enables
+a submit button on the web interface. Authorized users can push the
+submit button to have the change enter the project repository. The
+user pressing the submit button does not need to be the author of the
+change.
 
 
 == Infrastructure
@@ -125,7 +83,7 @@ End-user web browsers make HTTP requests directly to Gerrit's
 HTTP server.  As nearly all of the user interface is implemented
 through PolyGerrit, the majority of these requests are transmitting
 compressed JSON payloads, with all HTML being generated within the
-browser.  Most responses are under 1 KB.
+browser.
 
 Gerrit's HTTP server side component is implemented as a standard
 Java servlet, and thus runs within any J2EE servlet container.
@@ -133,10 +91,23 @@ Popular choices for deployments would be Tomcat or Jetty, as these
 are high-quality open-source servlet containers that are readily
 available for download.
 
-End-user uploads are performed over SSH, so Gerrit's servlets also
-start up a background thread to receive SSH connections through
-an independent SSH port.  SSH clients communicate directly with
-this port, bypassing the HTTP server used by browsers.
+End-user uploads are performed over SSH or HTTP, so Gerrit's servlets
+also start up a background thread to receive SSH connections through
+an independent SSH port. SSH clients communicate directly with this
+port, bypassing the HTTP server used by browsers.
+
+User authentication is handled by identity realms. Gerrit supports the
+following types of authentication:
+
+* OpenId (see link:http://openid.net/developers/specs/[OpenID Specifications,role=external,window=_blank])
+* OAuth2
+* LDAP
+* Google accounts (on googlesource.com)
+* SAML
+* Kerberos
+* 3rd party SSO 
+
+=== NoteDb
 
 Server side data storage for Gerrit is broken down into two different
 categories:
@@ -156,28 +127,118 @@ namespace.  Remote filesystems are likely to perform worse than
 local ones, due to Git disk IO behavior not being optimized for
 remote access.
 
-The Gerrit metadata contains a summary of the available changes,
-all comments (published and drafts), and individual user account
-information.  The metadata is mostly housed in the database (*1),
-which can be located either on the same server as Gerrit, or on
-a different (but nearby) server.  Most installations would opt to
-install both Gerrit and the metadata database on the same server,
-to reduce administration overheads.
+The Gerrit metadata contains a summary of the available changes, all
+comments (published and drafts), and individual user account
+information.
 
-User authentication is handled by OpenID, and therefore Gerrit
-requires that the OpenID provider selected by a user must be
-online and operating in order to authenticate that user.
+Gerrit metadata is also stored in Git, with the commits marking the
+historical state of metadata. Data is stored in the trees associated
+with the commits, typically using Git config file or JSON as the base
+format. For metadata, there are 3 types of data: changes, accounts and
+groups.
 
-* link:http://www.kernel.org/pub/software/scm/git/docs/gitrepository-layout.html[Git Repository Format,role=external,window=_blank]
-* link:http://openid.net/developers/specs/[OpenID Specifications,role=external,window=_blank]
+Accounts are stored in a special Git repository `All-Users`.
 
-*1  Although an effort is underway to eliminate the use of the
-database altogether, and to store all the metadata directly in
-the git repositories themselves.  So far, as of Gerrit 2.2.1, of
-all Gerrit's metadata, only the project configuration metadata
-has been migrated out of the database and into the git
-repositories for each project.
+Accounts can be grouped in groups. Gerrit has a built-in group system,
+but can also interface to external group system (eg. Google groups,
+LDAP). The built-in groups are stored in `All-Users`.
 
+Draft comments are stored in `All-Users` too.
+
+Permissions are stored in Git, in a branch `refs/meta/config` for the
+repository. Repository configuration (including permissions) supports
+single inheritance, with the `All-Projects` repository containing
+site-wide defaults.
+
+Code review metadata is stored in Git, alongside the code under
+review. Metadata includes change status, votes, comments. This review
+metadata is stored in NoteDb along with the submitted code and code
+under review. Hence, the review history can be exported with `git
+clone --mirror` by anyone with sufficient permissions.
+
+== Permissions
+
+Permissions are specified on branch names, and given to groups. For
+example,
+
+```
+[access "refs/heads/stable/*"]
+        push = group Release-Engineers
+```
+
+this provides a rule, granting Release-Engineers push permission for
+stable branches.
+
+There are fundamentally two types of permissions:
+
+* Write permissions (who can vote, push, submit etc.)
+
+* Read permissions (who can see data)
+
+Read permissions need special treatment across Gerrit, because Gerrit
+should only surface data (including repository existence) if a user
+has read permission. This means that
+
+* The git wire protocol support must omit references from
+  advertisement if the user lacks read permissions
+
+* Uploads through the git wire protocol must refuse commits that are
+  based on SHA1s for data that the user can't see.
+
+* Tags are only visible if their commits are visible to user through a
+  non-tag reference.
+
+Metadata (eg. OAuth credentials) is also stored in Git. Existing
+endpoints must refuse creating branches or changes that expose these
+metadata or allow changes to them.
+
+
+=== Indexing
+
+Almost all data is stored as Git, but Git only supports fast lookup by
+SHA1 or by ref (branch) name. Therefore Gerrit also has an indexing
+system (powered by Lucene by default) for other types of queries.
+There are 4 indices:
+
+* Project index - find repositories by name, parent project, etc.
+* Account index - find accounts by name, email, etc.
+* Group index - find groups by name, owner, description etc.
+* Change index - find changes by file, status, modification date etc.
+
+The base entities are characterized by SHA1s. Storing the
+characterizing SHA1s allows detection of stale index entries.
+
+== Plug-in architecture
+
+Gerrit has a plug-in architecture. Plugins can be installed by
+dropping them into $site_directory/plugins, or at runtime through
+plugin SSH commands, or the plugin REST API.
+
+=== Backend plugins
+
+At runtime, code can be loaded from a `.jar` file. This code can hook
+into predefined extension points. A common use of plugins is to have
+Gerrit interoperate with site-specific tools, such as CI-systems or
+issue trackers.
+
+// list some notable extension points, and notable plugins
+// link to plugin development
+
+Some backend plugins that expose the JVM for scripting (eg. Groovy,
+Scala).
+
+// Luca to expand: how do script plugins load their scripts?
+
+=== Frontend plugins
+
+The UI can be extended using Frontend plugins. This is useful for
+changing the look & feel of Gerrit, but it can also be used to surface
+data from systems that aren't integrated with the Gerrit backend, eg.
+CI systems or code coverage providers.
+
+// FE team to write a bit more:
+// * how to load ?
+// * XSRF, CORS ?
 
 == Internationalization and Localization
 
@@ -189,13 +250,10 @@ The majority of Gerrit's users will be writing change descriptions
 and comments in English, and therefore an English user interface
 is usable by the target user base.
 
-Right-to-left (RTL) support is only barely considered within the
-Gerrit code base.  Some portions of the code have tried to take
-RTL into consideration, while others probably need to be modified
-before translating the UI to an RTL language.
-
 
 == Accessibility Considerations
+
+// UI team to rewrite this.
 
 Whenever possible Gerrit displays raw text rather than image icons,
 so screen readers should still be able to provide useful information
@@ -215,7 +273,9 @@ provide hints to screen readers.
 
 == Browser Compatibility
 
-Supporting non-JavaScript enabled browsers is a non-goal for Gerrit.
+Gerrit requires a JavaScript enabled browser.
+
+// UI team to add section on minimum browser requirements.
 
 As Gerrit is a pure JavaScript application on the client side, with
 no server side rendering fallbacks, the browser must support modern
@@ -223,54 +283,21 @@ JavaScript semantics in order to access the Gerrit web application.
 Dumb clients such as `lynx`, `wget`, `curl`, or even many search engine
 spiders are not able to access Gerrit content.
 
-There are number of web browsers available with full JavaScript
-support, and nearly every operating system (including any PDA-like
-mobile phone) comes with one standard.  Users who are committed
-to developing changes for a Gerrit managed project can be expected
-to be able to run a JavaScript enabled browser, as they also would
-need to be running Git in order to contribute.
-
-There are a number of open source browsers available, including
-Firefox and Chromium.  Users have some degree of choice in their
-browser selection, including being able to build and audit their
-browser from source.
-
-The majority of the content stored within Gerrit is also available
-through other means, such as gitweb or the `git://` protocol.
-Any existing search engine spider can crawl the server-side HTML
-produced by gitweb, and thus can index the majority of the changes
-which might appear in Gerrit.  Some engines may even choose to
-crawl the native version control database, such as ohloh.net does.
-Therefore the lack of support for most search engine spiders is a
-non-issue for most Gerrit deployments.
+All of the content stored within Gerrit is also available through
+other means, such as gitweb or the `git://` protocol. Any existing
+search engine crawlers can index the server-side HTML produced by
+gitweb, and thus can index the majority of the changes which might
+appear in Gerrit. Some engines may even choose to crawl the native
+version control database, such as ohloh.net does. Therefore the lack
+of support for most search engine crawlers is a non-issue for most
+Gerrit deployments.
 
 
 == Product Integration
 
-Gerrit integrates with an existing gitweb installation by optionally
-creating hyperlinks to reference changes on the gitweb server.
-
-Gerrit integrates with an existing git-daemon installation by
-optionally displaying `git://` URLs for users to download a
-change through the native Git protocol.
-
-Gerrit integrates with any OpenID provider for user authentication,
-making it easier for users to join a Gerrit site and manage their
-authentication credentials to it.  To make use of Google Accounts
-as an OpenID provider easier, Gerrit has a shorthand "Sign in with
-a Google Account" link on its sign-in screen.  Gerrit also supports
-a shorthand sign in link for Yahoo!.  Other providers may also be
-supported more directly in the future.
-
-Site administrators may limit the range of OpenID providers to
-a subset of "reliable providers".  Users may continue to use
-any OpenID provider to publish comments, but granted privileges
-are only available to a user if the only entry point to their
-account is through the defined set of "reliable OpenID providers".
-This permits site administrators to require HTTPS for OpenID,
-and to use only large main-stream providers that are trustworthy,
-or to require users to only use a custom OpenID provider installed
-alongside Gerrit Code Review.
+Gerrit integrates with repository viewers by optionally creating
+hyperlinks to reference changes on the gitweb server. It also comes
+with a built-in code browser, called Gitiles.
 
 Gerrit integrates with some types of corporate single-sign-on (SSO)
 solutions, typically by having the SSO authentication be performed
@@ -290,16 +317,17 @@ they choose.
 Gerrit does not integrate with any Google service, or any other
 services other than those listed above.
 
+Plugins (see above) can be used to drive product integrations from the
+Gerrit side. Products that support Gerrit explicitly can use the REST
+API or the SSH API to contact Gerrit.
+
+
 == Privacy Considerations
 
 Gerrit stores the following information per user account:
 
 * Full Name
 * Preferred Email Address
-* Mailing Address '(Optional, Encrypted)'
-* Country '(Optional, Encrypted)'
-* Phone Number '(Optional, Encrypted)'
-* Fax Number '(Optional, Encrypted)'
 
 The full name and preferred email address fields are shown to any
 site visitor viewing a page containing a change uploaded by the
@@ -325,271 +353,144 @@ project's mailing list archives.
 The user's name and email address is stored unencrypted in the
 link:config-accounts.html#all-users[All-Users] repository.
 
-The snail-mail mailing address, country, and phone and fax numbers
-are gathered to help project leads contact the user should there
-be a legal question regarding any change they have uploaded.
-
-These sensitive fields are immediately encrypted upon receipt with
-a GnuPG public key, and stored "off site" in another data store,
-isolated from the main Gerrit change data.  Gerrit does not have
-access to the matching private key, and as such cannot decrypt the
-information.  Therefore these fields are write-once in Gerrit, as not
-even the account owner can recover the values they previously stored.
-
-It is expected that the address information would only need to be
-decrypted and revealed with a valid court subpoena, but this is
-really left to the discretion of the Gerrit site administrator as
-to when it is reasonable to reveal this information to a 3rd party.
-
-
 == Spam and Abuse Considerations
 
-Gerrit makes no attempt to detect spam changes or comments.  The
-somewhat high barrier to entry makes it unlikely that a spammer
-will target Gerrit.
+There is no spam protection for the Git protocol upload path.
+Uploading a change successfully requires a pre-existing account, and a
+lot of up-front effort.
 
-To upload a change, the client must speak the native Git protocol
-embedded in SSH, with some custom Gerrit semantics added on top.
-The client must have their public key already stored in the Gerrit
-database, which can only be done through the XSRF protected
-JSON-RPC interface.  The level of effort required to construct
-the necessary tools to upload a well-formatted change that isn't
-rejected outright by the Git and Gerrit checksum validations is
-too high to for a spammer to get any meaningful return.
+Gerrit makes no attempt to detect spam changes or comments in the web
+UI. To post and publish a comment a client must sign in and then use
+the XSRF protected JSON-RPC interface to publish the draft on an
+existing change record.
 
-To post and publish a comment a client must sign in with an OpenID
-provider and then use the XSRF protected JSON-RPC interface to
-publish the draft on an existing change record.  Again, the level of
-effort required to implement the Gerrit specific XSRF protections
-and the JSON-RPC payload format necessary to post a draft and then
-publish that draft is simply too high for a spammer to bother with.
-
-Both of these assumptions are also based upon the idea that Gerrit
-will be a lot less popular than blog software, and thus will be
-running on a lot fewer websites.  Spammers therefore have very little
-returned benefit for getting over the protocol hurdles.
-
-These assumptions may need to be revisited in the future if any
-public Gerrit site actually notices spam.
-
-
-== Latency
-
-Gerrit targets for sub-250 ms per page request, mostly by using
-very compact JSON payloads between client and server.  However, as
-most of the serving stack (network, hardware, metadata
-database) is out of control of the Gerrit developers, no real
-guarantees can be made about latency.
+Absence of SPAM handling is based upon the idea that Gerrit caters to
+a niche audience, and will therefore be unattractive to spammers. In
+addition, it is not a factor for corporate, on-premise deployments.
 
 
 == Scalability
 
-Gerrit is designed for a very large scale open source project, or
-large commercial development project.  Roughly this amounts to
-parameters such as the following:
+Gerrit supports the Git wire protocol, and an API (one API for HTTP,
+and one for SSH).
 
-.Design Parameters
-[options="header"]
-|======================================================
-|Parameter        | Default Maximum | Estimated Maximum
-|Projects         |         1,000   | 10,000
-|Contributors     |         1,000   | 50,000
-|Changes/Day      |           100   |  2,000
-|Revisions/Change |            20   |     20
-|Files/Change     |            50   | 16,000
-|Comments/File    |           100   |    100
-|Reviewers/Change |             8   |      8
-|======================================================
+The git wire protocol does a client/server negotiation to avoid
+sending too much data. This negotation occupies a CPU, so the number
+of concurrent push/fetch operations should be capped by the number of
+CPUs.
 
-Out of the box, Gerrit will handle the "Default Maximum". Site
-administrators may reconfigure their servers by editing gerrit.config
-to run closer to the estimated maximum if sufficient memory is made
-available to the JVM and the relevant cache.*.memoryLimit variables
-are increased from their defaults.
-
-=== Discussion
-
-Very few, if any open source projects have more than a handful of
-Git repositories associated with them.  Since Gerrit treats each
-Git repository as a project, an upper limit of 10,000 projects
-is reasonable.  If a site has more than 1,000 projects, administrators
-should increase
-link:config-gerrit.html#cache.name.memoryLimit[`cache.projects.memoryLimit`]
-to match.
-
-Almost no open source project has 1,000 contributors over all time,
-let alone on a daily basis.  This default figure of 1,000 was WAG'd by
-looking at PR statements published by cell phone companies picking
-up the Android operating system.  If all of the stated employees in
-those PR statements were working on *only* the open source Android
-repositories, we might reach the 1,000 estimate listed here.  Knowing
-these companies as being very closed-source minded in the past, it
-is very unlikely all of their Android engineers will be working on
-the open source repository, and thus 1,000 is a very high estimate.
-
-The upper maximum of 50,000 contributors is based on existing
-installations that are already handling quite a bit more than the
-default maximum of 1,000 contributors. Given how the user data is
-stored and indexed, supporting 50,000 contributor accounts (or more)
-is easily possible for a server. If a server has more than 1,000
-*active* contributors,
-link:config-gerrit.html#cache.name.memoryLimit[`cache.accounts.memoryLimit`]
-should be increased by the site administrator, if sufficient RAM
-is available to the host JVM.
-
-The estimate of 100 changes per day was WAG'd off some estimates
-originally obtained from Android's development history.  Writing a
-good change that will be accepted through a peer-review process
-takes time.  The average engineer may need 4-6 hours per change just
-to write the code and unit tests.  Proper design consideration and
-additional but equally important tasks such as meetings, interviews,
-training, and eating lunch will often pad the engineer's day out
-such that suitable changes are only posted once a day, or once
-every other day.  For reference, the entire Linux kernel has an
-average of only 79 changes/day. If more than 100 changes are active
-per day, site administrators should consider increasing the
-link:config-gerrit.html#cache.name.memoryLimit[`cache.diff.memoryLimit`]
-and `cache.diff_intraline.memoryLimit`.
-
-On average any given change will need to be modified once to address
-peer review comments before the final revision can be accepted by the
-project.  Executing these revisions also eats into the contributor's
-time, and is another factor limiting the number of changes/day
-accepted by the Gerrit instance.  However, even though this implies
-only 2 revisions/change, many existing Gerrit installations have seen
-20 or more revisions/change, when new contributors are learning the
-project's style and conventions.
-
-On average, each change will have 2 reviewers, a human and an
-automated test bed system.  Usually this would be the project lead, or
-someone who is familiar with the code being modified.  The time
-required to comment further reduces the time available for writing
-one's own changes.  However, existing Gerrit installations have seen 8
-or more reviewers frequently show up on changes that impact many
-functional areas, and therefore it is reasonable to expect 8 or more
-reviewers to be able to work together on a single change.
-
-Existing installations have successfully processed change reviews with
-more than 16,000 files per change. However, since 16,000 modified/new
-files is a massive amount of code to review, it is more typical to see
-less than 10 files modified in any single change. Changes larger than
-10 files are typically merges, for example integrating the latest
-version of an upstream library, where the reviewer has little to do
-beyond verifying the project compiles and passes a test suite.
-
-=== CPU Usage - Web UI
-
-Gerrit's web UI would require on average `4+F+F*C` HTTP requests to
-review a change and post comments.  Here `F` is the number of files
-modified by the change, and `C` is the number of inline/file comments
-left by the reviewer per file.  The constant 4 accounts for the request
-to load the reviewer's dashboard, to load the change detail page,
-to publish the review comments, and to reload the change detail
-page after comments are published.
-
-This WAG'd estimate boils down to 216,000 HTTP requests per day
-(QPD). Assuming these are evenly distributed over an 8 hour work day
-in a single time zone, we are looking at approximately 7.5 queries
-per second (QPS).
-
-----
-  QPD = Changes_Day * Revisions_Change * Reviewers_Change * (4 +  F +  F * C)
-      = 2,000       * 2                * 1                * (4 + 10 + 10 * 4)
-      = 216,000
-  QPS = QPD / 8_Hours / 60_Minutes / 60_Seconds
-      = 7.5
-----
-
-Gerrit serves most requests in under 60 ms when using the loopback
-interface and a single processor.  On a single CPU system there is
-sufficient capacity for 16 QPS.  A dual processor system should be
-more than sufficient for a site with the estimated load described above.
-
-Given a more realistic estimate of 79 changes per day (from the
-Linux kernel) suggests only 8,532 queries per day, and a much lower
-0.29 QPS when spread out over an 8 hour work day.
-
-=== CPU Usage - Git over SSH/HTTP
-
-A 24 core server is able to handle ~25 concurrent `git fetch`
-operations per second. The issue here is each concurrent operation
-demands one full core, as the computation is almost entirely server
-side CPU bound. 25 concurrent operations is known to be sufficient to
-support hundreds of active developers and 50 automated build servers
-polling for updates and building every change.  (This data was derived
-from an actual installation's performance.)
-
-Because of the distributed nature of Git, end-users don't need to
-contact the central Gerrit Code Review server very often. For `git
-fetch` traffic, link:pgm-daemon.html[replica mode] is known to be an
-effective way to offload traffic from the main server, permitting it
-to scale to a large user base without needing an excessive number of
-cores in a single system.
-
-Clients on very slow network connections (for example home office
-users on VPN over home DSL) may be network bound rather than server
-side CPU bound, in which case a core may be effectively shared with
-another user. Possible core sharing due to network bottlenecks
+Clients on slow network connections may be network bound rather than
+server side CPU bound, in which case a core may be effectively shared
+with another user. Possible core sharing due to network bottlenecks
 generally holds true for network connections running below 10 MiB/sec.
 
-If the server's own network interface is 1 Gib/sec (Gigabit Ethernet),
-the system can really only serve about 10 concurrent clients at the
-10 MiB/sec speed, no matter how many cores it has.
+Deployments for large, distributed companies can replicate Git data to
+read-only replicas to offload fetch traffic. The read-only replicas
+should also serve this data using Gerrit to ensure that permissions
+are obeyed.
 
-=== Disk Usage
+The API serves requests of varying costs. Requests that originate in
+the UI can block productivity, so care has been taken to optimize
+these for latency, using the following techniques:
 
-The average size of a revision in the Linux kernel once compressed by
-Git is 2,327 bytes, or roughly 2 KiB.  Over the course of a year a
-Gerrit server running with the estimated maximum parameters above might
-see an introduction of 1.4 GiB over the total set of 10,000 projects
-hosted in that server.  This figure assumes the majority of the content
-is human written source code, and not large binary blobs such as disk
-images or media files.
+* Async calls: the UI becomes responsive before some UI elements
+  finished loading
 
-Production Gerrit installations have been tested, and are known to
-handle Git repositories in the multigigabyte range, storing binary
-files, ranging in size from a few kilobytes (for example compressed
-icons) to 800+ megabytes (firmware images, large uncompressed original
-artwork files).  Best practices encourage breaking very large binary
-files into their Git repositories based on access, to prevent desktop
-clients from needing to clone unnecessary materials (for example a C
-developer does not need every 800+ megabyte firmware image created by
-the product's quality assurance team).
+* Caching: metadata is stored in Git, which is relatively expensive to
+  access. This is sped up by multiple caches. Metadata entities are
+  stored in Git, and can therefore be seen as immutable values keyed
+  by SHA1, which is very amenable to caching. All SHA1 keyed caches
+  can be persisted on local disk.
+
+  The size (memory, disk) of these caches should be adapted to the
+  instance size (number of users, size and quantity of repositories)
+  for optimal performance.
+
+Git does not impose fundamental limits (eg. number of files per
+change) on data. To ensure stability, Gerrit configures a number of
+default limits for these.
+
+// add a link to the default settings.
+
+=== Scaling team size
+
+A team of size N has N^2 possible interactions. As a result, features
+that expose interactions with activities of other team members has a
+quadratic cost in aggregate. The following features scale poorly with
+large team sizes:
+
+* the change screen shows conflicting changes by default. This data is
+  cached, but updates to pending changes cause cache misses. For a
+  single change, the amount of work is proportional to the number of
+  pending changes, so in aggregate, the cost of is feature is
+  quadratic in the team size.
+
+* the change screen shows if a change is mergeable to the target
+  branch. If the target branch moves quickly (large developer team),
+  this causes cache misses. In aggregate, the cost of this feature is
+  also quadratic.
+
+Both features should be turned off for repositories that involve 1000s
+of developers.
+
+=== Browser performance
+
+// say something about browser performance tuning.
+
+=== Real life numbers
+
+
+Gerrit is designed for a very large scale open source project, or
+large commercial development project. We know of the following maximum
+parameters for a single Gerrit process
+
+.Observed maximums
+[options="header"]
+|======================================================
+|Parameter        |         Maximum | deployment
+|Projects         |         50,000  | gerrithub
+|Contributors     |        150,000  | eclipse.org
+|Bytes/repo       |        100G     | Qualcomm internal
+|Changes/repo     |        300k     | Qualcomm internal
+|Revisions/Change |        300      | Qualcomm internal
+|Reviewers/Change |        87       | Qualcomm internal
+|======================================================
+
+
+// find some numbers for these stats:
+// |Files/repo       |        ? |
+// |Files/Change     |        ? |
+// |Comments/Change  |        ? |
+// |max QPS/CPU      |        ? |
+
+
+Google runs a horizontally scaled deployment. We have seen the
+following per-JVM maximums:
+
+.Observed maximums (googlesource.com)
+[options="header"]
+|======================================================
+|Files/repo       |        500,000  | chromium-review
+|Bytes/repo       |         12G     | chromium-review
+|Changes/repo     |          500k   | chromium-review
+|Revisions/Change |          1900   | chromium-review
+|Files/Change     |           10,000| android-review
+|Comments/Change  |           1,200 | chromium-review
+|======================================================
+
 
 == Redundancy & Reliability
 
-Gerrit largely assumes that the local filesystem where Git repository
-data is stored is always available.  Important data written to disk
-is also forced to the platter with an `fsync()` once it has been
-fully written.  If the local filesystem fails to respond to reads
-or becomes corrupt, Gerrit has no provisions to fallback or retry
-and errors will be returned to clients.
+Gerrit is structured as a single JVM process, reading and writing to a
+single file system. If there are hardware failures in the machine
+running the JVM, or the storage holding the repositories, there is no
+recourse; on failure, errors will be returned to the client.
 
-Gerrit largely assumes that the metadata database is online and
-answering both read and write queries.  Query failures immediately
-result in the operation aborting and errors being returned to the
-client, with no retry or fallback provisions.
+Deployments needing more stringent uptime guarantees can use
+replication/multi-master setup, which ensures availability and
+geographical distribution, at the cost of slower write actions.
 
-Due to the relatively small scale described above, it is very likely
-that the Git filesystem and metadata database are all housed on the
-same server that is running Gerrit.  If any failure arises in one of
-these components, it is likely to manifest in the others too.  It is
-also likely that the administrator cannot be bothered to deploy a
-cluster of load-balanced server hardware, as the scale and expected
-load does not justify the hardware or management costs.
-
-Most deployments caring about reliability will setup a warm-spare
-standby system and use a manual fail-over process to switch from the
-failed system to the warm-spare.
-
-As Git is a distributed version control system, and open source
-projects tend to have contributors from all over the world, most
-contributors will be able to tolerate a Gerrit down time of several
-hours while the administrator is notified, signs on, and brings the
-warm-spare up.  Pending changes are likely to need at least 24 hours
-of time on the Gerrit site anyway in order to ensure any interested
-parties around the world have had a chance to comment.  This expected
-lag largely allows for some downtime in a disaster scenario.
+// TODO: link.
 
 === Backups
 
@@ -603,7 +504,8 @@ Amazon S3 blob storage service.
 
 == Logging Plan
 
-Gerrit does not maintain logs on its own.
+Gerrit stores Apache style HTTPD logs, as well as ERROR/INFO messages
+from the Java logger, under `$site_dir/logs/`.
 
 Published comments contain a publication date, so users can judge
 when the comment was posted and decide if it was "recent" or not.

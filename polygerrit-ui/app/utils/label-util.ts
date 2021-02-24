@@ -51,3 +51,9 @@ export function getApprovalInfo(
 ): ApprovalInfo | undefined {
   return label.all?.filter(x => x._account_id === account._account_id)[0];
 }
+
+export function labelCompare(labelName1: string, labelName2: string) {
+  if (labelName1 === CODE_REVIEW) return -1;
+  if (labelName2 === CODE_REVIEW) return 1;
+  return labelName1.localeCompare(labelName2);
+}

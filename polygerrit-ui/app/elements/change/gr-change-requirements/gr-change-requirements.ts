@@ -37,6 +37,7 @@ import {
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {labelCompare} from '../../../utils/label-util';
 
 interface ChangeRequirement extends Requirement {
   satisfied: boolean;
@@ -136,7 +137,7 @@ class GrChangeRequirements extends GestureEventListeners(
     const labels = labelsRecord.base || {};
     const allLabels: Label[] = [];
 
-    for (const label of Object.keys(labels).sort()) {
+    for (const label of Object.keys(labels).sort(labelCompare)) {
       allLabels.push({
         labelName: label,
         icon: this._computeLabelIcon(labels[label]),

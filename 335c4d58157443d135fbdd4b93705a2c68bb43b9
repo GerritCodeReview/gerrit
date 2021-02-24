@@ -69,6 +69,24 @@
       "parentUuid": "d37bc87e_dc49109d",
       "revId": "335c4d58157443d135fbdd4b93705a2c68bb43b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95cf4039_cfe5132c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-24T10:39:12Z",
+      "side": 1,
+      "message": "the updated commit message is fine. thanks.",
+      "parentUuid": "89629e3f_9680e605",
+      "revId": "335c4d58157443d135fbdd4b93705a2c68bb43b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

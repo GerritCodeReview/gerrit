@@ -16,6 +16,24 @@
       "message": "Same as https://gerrit-review.googlesource.com/c/gerrit/+/297962?",
       "revId": "9f76857c71c837e1e25a756aece591f12cfb934a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "205652c4_a8f88359",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-24T15:42:01Z",
+      "side": 1,
+      "message": "Yep, snafy. Abandoned Iea34ee95.",
+      "parentUuid": "9e38f428_073e30c9",
+      "revId": "9f76857c71c837e1e25a756aece591f12cfb934a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "53bab71d_860230b1",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
@@ -14,8 +15,25 @@
       "side": 0,
       "message": "why delete this?\ncomment on base",
       "revId": "f37f034bd5921a6665a2e25a472d9df33c68ea19",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fb0cd1c_f70565bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1368,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-24T19:15:18Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "53bab71d_860230b1",
+      "revId": "f37f034bd5921a6665a2e25a472d9df33c68ea19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

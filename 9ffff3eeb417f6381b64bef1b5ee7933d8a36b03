@@ -250,6 +250,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b621060_d966974b",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T18:09:14Z",
+      "side": 1,
+      "message": "The intent here was to equate these Gerrit steps to steps in a tool familiar to the reader. Think of this as a product intro doc, not a \"info for devs on how to design new things in Gerrit\" doc.\n\nAs such, I think keeping the notes on the svn and p4 equivalents is useful, but adding the GitHub equivalent (submit your PR?) is even better since we expect a large portion of the target audience to be familiar with GH.",
+      "parentUuid": "aa266acb_0e826b4f",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 91,
+        "endChar": 33
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d713f4bc_6f29bebb",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1
@@ -391,6 +415,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52da0a84_ba4c8565",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T18:09:14Z",
+      "side": 1,
+      "message": "Can Ben or someone on the PG team do a follow-up change?",
+      "parentUuid": "4b0b72ca_5d5fe2aa",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 32
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3b4fa04_a0dbdd70",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1
@@ -518,6 +566,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70bdc234_2dc2d83d",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T18:09:14Z",
+      "side": 1,
+      "message": "Sure, I\u0027ll wait till this lands. There\u0027s probably a general \"plugins\" section missing from here too.",
+      "parentUuid": "fb40f0df_8ffcf9d2",
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ed05596_e49cf4c0",
@@ -555,6 +621,30 @@
       "side": 1,
       "message": "same.",
       "parentUuid": "0ed05596_e49cf4c0",
+      "range": {
+        "startLine": 382,
+        "startChar": 19,
+        "endLine": 382,
+        "endChar": 37
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7ec564f_ce60869d",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-24T18:09:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9b1eff87_c4c77ad3",
       "range": {
         "startLine": 382,
         "startChar": 19,

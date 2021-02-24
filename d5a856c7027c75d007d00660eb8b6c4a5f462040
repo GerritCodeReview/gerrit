@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6f49d36_041127f9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-02-24T21:12:30Z",
+      "side": 1,
+      "message": "I tried to abstract this to a updateChange function, but I was not able to get the path working nice",
+      "range": {
+        "startLine": 403,
+        "startChar": 4,
+        "endLine": 415,
+        "endChar": 6
+      },
+      "revId": "d5a856c7027c75d007d00660eb8b6c4a5f462040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

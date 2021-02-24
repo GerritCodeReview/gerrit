@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b08ae6c_8b13d962",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-24T14:17:28Z",
+      "side": 1,
+      "message": "you don\u0027t need filterRegExp for other categories? It\u0027s filtering only success?",
+      "range": {
+        "startLine": 419,
+        "startChar": 21,
+        "endLine": 419,
+        "endChar": 22
+      },
+      "revId": "9a3abb8c72b3952b38acee216df3fa4ea5d0c331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdaa6dc9_f5d3e4f8",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-24T14:17:28Z",
+      "side": 1,
+      "message": "If it is true if status is not in Map, then you don\u0027t need to set it true in constructor with\n```\nthis.isSectionExpanded.set(RunStatus.COMPLETED, true);\n...\n```",
+      "range": {
+        "startLine": 387,
+        "startChar": 48,
+        "endLine": 387,
+        "endChar": 54
+      },
+      "revId": "9a3abb8c72b3952b38acee216df3fa4ea5d0c331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

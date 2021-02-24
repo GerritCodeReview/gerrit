@@ -24,6 +24,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d834a98e_3a5e56ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-24T15:12:40Z",
+      "side": 1,
+      "message": "Cool, thanks for fix. Maybe, we could do it generally for all toggles in dashboard - star, attention, _handleToggleReviewed, ...",
+      "revId": "509845937c42be25d03907fcfe666f688d133f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b158d5e6_541b72a1",

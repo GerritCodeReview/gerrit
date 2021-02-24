@@ -37,6 +37,7 @@ import {
 } from '../gr-label-score-row/gr-label-score-row';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {appContext} from '../../../services/app-context';
+import {labelCompare} from '../../../utils/label-util';
 
 @customElement('gr-label-scores')
 export class GrLabelScores extends GestureEventListeners(
@@ -147,7 +148,7 @@ export class GrLabelScores extends GestureEventListeners(
     if (!labelRecord?.base) return [];
     const labelsObj = labelRecord.base;
     return Object.keys(labelsObj)
-      .sort()
+      .sort(labelCompare)
       .map(key => {
         return {
           name: key,

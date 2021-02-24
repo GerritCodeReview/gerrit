@@ -21,6 +21,7 @@ import {
   getVotingRangeOrDefault,
   getMaxAccounts,
   getApprovalInfo,
+  labelCompare,
 } from './label-util.js';
 
 const VALUES_1 = {
@@ -112,5 +113,12 @@ suite('label-util', () => {
       ],
     };
     assert.isUndefined(getApprovalInfo(label, myAccountInfo));
+  });
+
+  test('labelCompare', () => {
+    let sorted = ['c', 'b', 'a'].sort(labelCompare);
+    assert.sameOrderedMembers(sorted, ['a', 'b', 'c']);
+    sorted = ['b', 'a', 'Code-Review'].sort(labelCompare);
+    assert.sameOrderedMembers(sorted, ['Code-Review', 'a', 'b']);
   });
 });

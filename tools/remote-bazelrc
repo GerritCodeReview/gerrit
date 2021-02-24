@@ -42,7 +42,6 @@ build:remote --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
 # Set various strategies so that all actions execute remotely. Mixing remote
 # and local execution will lead to errors unless the toolchain and remote
 # machine exactly match the host machine.
-build:remote --spawn_strategy=remote,sandboxed
 build:remote --strategy=Javac=remote
 build:remote --strategy=Genrule=remote
 build:remote --define=EXECUTOR=remote
@@ -68,6 +67,5 @@ build:remote-cache --remote_cache=remotebuildexecution.googleapis.com
 build:remote-cache --tls_enabled=true
 build:remote-cache --remote_timeout=3600
 build:remote-cache --auth_enabled=true
-build:remote-cache --spawn_strategy=standalone
 build:remote-cache --strategy=Javac=standalone
 build:remote-cache --strategy=Genrule=standalone

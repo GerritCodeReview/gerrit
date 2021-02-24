@@ -549,8 +549,8 @@ public class MergeOp implements AutoCloseable {
             .listener(retryTracker)
             // Up to the entire submit operation is retried, including possibly many projects.
             // Multiply the timeout by the number of projects we're actually attempting to
-            // submit.
-            .defaultTimeoutMultiplier(filteredNoteDbChangeSet.projects().size())
+            // submit. Times 2 to retry more persistently, to increase success rate.
+            .defaultTimeoutMultiplier(filteredNoteDbChangeSet.projects().size() * 2)
             // By default, we only retry lock failures. Here it's better to also retry unexpected
             // runtime exceptions.
             .retryOn(t -> t instanceof RuntimeException)

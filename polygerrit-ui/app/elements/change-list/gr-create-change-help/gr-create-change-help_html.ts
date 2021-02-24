@@ -36,7 +36,7 @@ export const htmlTemplate = html`
       width: 10em;
     }
     #graphic iron-icon {
-      color: #9e9e9e;
+      color: var(--gray-foreground);
       height: 5em;
       width: 5em;
     }

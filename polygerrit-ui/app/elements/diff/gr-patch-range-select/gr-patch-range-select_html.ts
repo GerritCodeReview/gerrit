@@ -35,7 +35,6 @@ export const htmlTemplate = html`
         text-transform: none;
         font-family: var(--font-family);
       }
-      --trigger-hover-color: rgba(0, 0, 0, 0.6);
     }
     @media screen and (max-width: 50em) {
       .filesWeblinks {

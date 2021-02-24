@@ -23,7 +23,7 @@ export const htmlTemplate = html`
       width: 100%;
     }
     .status {
-      color: #ffa62f;
+      color: var(--warning-foreground);
       display: inline-block;
       text-align: center;
       vertical-align: top;

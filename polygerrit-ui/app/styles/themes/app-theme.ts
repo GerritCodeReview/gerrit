@@ -101,6 +101,7 @@ const styleSheet = safeStyleSheet`
     --tooltip-text-color: white;
     --negative-red-text-color: #d93025;
     --positive-green-text-color: #188038;
+    --indirect-ancecstor-text-color: #33691e;
 
     /* background colors */
     /* primary background colors */

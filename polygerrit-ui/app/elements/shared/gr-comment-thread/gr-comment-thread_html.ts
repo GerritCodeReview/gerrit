@@ -28,7 +28,7 @@ export const htmlTemplate = html`
        * it, diff processor assumes the chunk of type skip/ab can be collapsed
        * and hides our diff behind context control buttons.
        *  */
-      --dark-add-highlight-color: white;
+      --dark-add-highlight-color: var(--background-color-primary);
     }
     gr-button {
       margin-left: var(--spacing-m);

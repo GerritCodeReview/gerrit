@@ -22,6 +22,30 @@
       },
       "revId": "814fee09732d1885b3415a0b9ef85b0e2bb647af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d4f0aa7_83f7a8a9",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-02-24T11:35:24Z",
+      "side": 1,
+      "message": "When I move this to the parent folder (either in devDependencies or normal dependencies), running \"bazel test polygerrit-ui/app:polylint_test\" (which is run by the checks here) will fail with \"Executing genrule //polygerrit-ui/app:compile_pg_ts_compiled failed\" because it cannot find the types. Am I doing something wrong?",
+      "parentUuid": "bd34a471_e1f7d8e2",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "814fee09732d1885b3415a0b9ef85b0e2bb647af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

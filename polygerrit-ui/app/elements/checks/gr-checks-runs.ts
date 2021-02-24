@@ -111,6 +111,9 @@ export class GrChecksRun extends GrLitElement {
         .chip.placeholder {
           border-left: var(--thick-border) solid var(--border-color);
         }
+        .chip.placeholder iron-icon {
+          display: none;
+        }
         .chip.error iron-icon {
           color: var(--error-foreground);
         }

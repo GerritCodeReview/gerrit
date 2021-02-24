@@ -26,6 +26,12 @@ public class ChangeMessageInfo {
   public String message;
   public Integer _revisionNumber;
 
+  public ChangeMessageInfo() {}
+
+  public ChangeMessageInfo(String message) {
+    this.message = message;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (o instanceof ChangeMessageInfo) {

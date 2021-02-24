@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -110,4 +112,14 @@ public class ChangeInfo {
   public List<PluginDefinedInfo> plugins;
   public Collection<TrackingIdInfo> trackingIds;
   public Collection<SubmitRequirementInfo> requirements;
+
+  public ChangeInfo() {}
+
+  public ChangeInfo(ChangeMessageInfo... messages) {
+    this.messages = ImmutableList.copyOf(messages);
+  }
+
+  public ChangeInfo(Map<String, RevisionInfo> revisions) {
+    this.revisions = ImmutableMap.copyOf(revisions);
+  }
 }

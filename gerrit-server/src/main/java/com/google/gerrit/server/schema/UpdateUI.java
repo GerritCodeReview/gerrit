@@ -26,6 +26,9 @@ public interface UpdateUI {
   /** Requests the user to answer a yes/no question. */
   boolean yesno(boolean defaultValue, String message);
 
+  /** Requests the user to answer a yes/no question with formatted args. */
+  boolean yesno(boolean defaultValue, String messageFmt, Object... args);
+
   /** Prints a message asking the user to let us know when it's safe to continue. */
   void waitForUser();
 

@@ -109,6 +109,7 @@ public class AutoMerger {
               ActionType.GIT_UPDATE,
               "createAutoMerge",
               () -> createAutoMergeCommit(repo, rw, ins, merge, mergeStrategy))
+          .defaultTimeoutMultiplier(2)
           .call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);

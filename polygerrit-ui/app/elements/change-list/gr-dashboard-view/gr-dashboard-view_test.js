@@ -332,6 +332,31 @@ suite('gr-dashboard-view tests', () => {
     });
   });
 
+  test('toggling star will update change everywhere', () => {
+    // It is important that the same change is represented by multiple objects
+    // and all are updated.
+    const change = {id: '5', starred: false};
+    const sameChange = {id: '5', starred: false};
+    const differentChange = {id: '4', starred: false};
+    element._results = [
+      {query: 'has:draft', results: [change]},
+      {query: 'is:open', results: [sameChange, differentChange]},
+    ];
+
+    element._handleToggleStar(
+        new CustomEvent('toggle-star', {
+          detail: {
+            change,
+            starred: true,
+          },
+        })
+    );
+
+    assert.isTrue(change.starred);
+    assert.isTrue(sameChange.starred);
+    assert.isFalse(differentChange.starred);
+  });
+
   test('_showNewUserHelp', () => {
     element._loading = false;
     element._showNewUserHelp = false;

@@ -27,7 +27,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-voting-styles">
     <style>
       :host {
         --vote-chip-styles: {
-          border: 1px solid rgba(0,0,0,.12);
+          border: 1px solid var(--border-color);
           border-radius: 1em;
           box-shadow: none;
           box-sizing: border-box;

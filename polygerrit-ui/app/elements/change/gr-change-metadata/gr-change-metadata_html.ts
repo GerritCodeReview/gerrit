@@ -78,7 +78,7 @@ export const htmlTemplate = html`
     }
     .icon.help,
     .icon.notTrusted {
-      color: #ffa62f;
+      color: var(--warning-foreground);
     }
     .icon.invalid {
       color: var(--negative-red-text-color);
@@ -87,7 +87,7 @@ export const htmlTemplate = html`
       color: var(--positive-green-text-color);
     }
     .parentList.notCurrent.nonMerge #parentNotCurrentMessage {
-      --arrow-color: #ffa62f;
+      --arrow-color: var(--warning-foreground);
       display: inline-block;
     }
     .separatedSection {

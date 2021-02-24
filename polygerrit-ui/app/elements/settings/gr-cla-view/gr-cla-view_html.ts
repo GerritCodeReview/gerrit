@@ -25,7 +25,7 @@ export const htmlTemplate = html`
       margin-bottom: var(--spacing-m);
     }
     .agreementsUrl {
-      border: 1px solid #b0bdcc;
+      border: 1px solid var(--border-color);
       margin-bottom: var(--spacing-xl);
       margin-left: var(--spacing-xl);
       margin-right: var(--spacing-xl);

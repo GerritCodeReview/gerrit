@@ -66,10 +66,10 @@ export const htmlTemplate = html`
       margin-left: var(--spacing-xs);
     }
     .notCurrent {
-      color: #e65100;
+      color: var(--warning-foreground);
     }
     .indirectAncestor {
-      color: #33691e;
+      color: var(--indirect-ancestor-text-color);
     }
     .submittableCheck {
       padding-left: var(--spacing-s);

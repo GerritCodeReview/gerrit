@@ -23,12 +23,12 @@ export const htmlTemplate = html`
       font-size: var(--font-size-normal);
       font-weight: var(--font-weight-normal);
       line-height: var(--line-height-normal);
-      /* Explicitly set the background color of the diff to be white. We
+      /* Explicitly set the background color of the diff. We
        * cannot use the diff content type ab because of the skip chunk preceding
        * it, diff processor assumes the chunk of type skip/ab can be collapsed
        * and hides our diff behind context control buttons.
        *  */
-      --dark-add-highlight-color: white;
+      --dark-add-highlight-color: var(--background-color-primary);
     }
     gr-button {
       margin-left: var(--spacing-m);

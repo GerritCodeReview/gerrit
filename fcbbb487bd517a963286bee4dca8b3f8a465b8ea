@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b6e3c975_1d07098a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-25T20:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bbeb2a3_a7aa9e29",
+      "range": {
+        "startLine": 7,
+        "startChar": 31,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ebac6948_6c6adae3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2021-02-25T18:47:18Z",
       "side": 1,
       "message": "I think this change should lend follow-ups for similar adaptations in the plugins [1].\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/3.1.12/dev-e2e-tests.html#_plugin_scenarios\n\nThat list includes multi-site which we at Ericsson don\u0027t use yet, but we might as well update it too (alongside its HA sibling which we co-maintain).",
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "518b3f69_90b21200",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-25T20:07:05Z",
+      "side": 1,
+      "message": "I can also start on that in parallel",
+      "parentUuid": "ebac6948_6c6adae3",
       "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +96,30 @@
       "writtenOn": "2021-02-25T18:47:18Z",
       "side": 1,
       "message": "numberKey, to not clash with the other e2e environment property concept.\n\nI propose so even if this new constant here is also used for some property handling, beside session key handling.",
+      "range": {
+        "startLine": 46,
+        "startChar": 20,
+        "endLine": 46,
+        "endChar": 34
+      },
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfd12688_a84e122d",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/AbandonChange.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-25T20:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1544fcee_5fe05cbe",
       "range": {
         "startLine": 46,
         "startChar": 20,
@@ -89,6 +155,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2062d1b2_a2f1e84b",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-25T20:07:05Z",
+      "side": 1,
+      "message": "it is not possible to do it straight I think. \"this\" should be used here",
+      "parentUuid": "7c3e4ecb_06c450a3",
+      "range": {
+        "startLine": 69,
+        "startChar": 10,
+        "endLine": 69,
+        "endChar": 31
+      },
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0958678_f65f3551",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
         "patchSetId": 2
@@ -100,6 +190,30 @@
       "writtenOn": "2021-02-25T18:47:18Z",
       "side": 1,
       "message": "This part of the string here should also come from that new constant, for consistency.\n\nMaybe other files need that change but I\u0027m not sure.",
+      "range": {
+        "startLine": 70,
+        "startChar": 38,
+        "endLine": 70,
+        "endChar": 44
+      },
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a92a5c4a_ba05514f",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-25T20:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0958678_f65f3551",
       "range": {
         "startLine": 70,
         "startChar": 38,
@@ -123,6 +237,30 @@
       "writtenOn": "2021-02-25T18:47:18Z",
       "side": 1,
       "message": "Same as further above; would remove the redundant (I think) \u0027this\u0027 prefix.",
+      "range": {
+        "startLine": 71,
+        "startChar": 22,
+        "endLine": 71,
+        "endChar": 41
+      },
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb379926_bd9a97fb",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-25T20:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85ecac5c_e07e5bd7",
       "range": {
         "startLine": 71,
         "startChar": 22,

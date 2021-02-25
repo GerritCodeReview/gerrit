@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07391804_b4e297dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-02-25T16:10:37Z",
+      "side": 1,
+      "message": "Thanks Milutin, changes all look good to me in the UI. ",
+      "revId": "3a7cc5c7d58d5f99693760436b200a58a659253e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

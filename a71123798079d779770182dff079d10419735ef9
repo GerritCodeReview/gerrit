@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "008e9070_6365fa53",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-25T14:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d8aa0d6_d803d4af",
+      "range": {
+        "startLine": 222,
+        "startChar": 20,
+        "endLine": 222,
+        "endChar": 23
+      },
+      "revId": "a71123798079d779770182dff079d10419735ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d852954_fe7f98f8",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-25T12:47:45Z",
       "side": 1,
       "message": "Maybe return nothing -  import {nothing} from \u0027lit-html\u0027;",
+      "range": {
+        "startLine": 225,
+        "startChar": 47,
+        "endLine": 225,
+        "endChar": 53
+      },
+      "revId": "a71123798079d779770182dff079d10419735ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb0a4c0f_bfa70295",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-25T14:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d852954_fe7f98f8",
       "range": {
         "startLine": 225,
         "startChar": 47,

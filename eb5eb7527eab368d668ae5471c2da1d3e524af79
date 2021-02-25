@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7913a5a7_0c771f0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T23:02:51Z",
+      "side": 1,
+      "message": "ping @Edwin, @Davido, @Marco?\n\nThis fix is rather small and simple and it would avoid storing a large amount of misleading lines in the logs.",
+      "revId": "eb5eb7527eab368d668ae5471c2da1d3e524af79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

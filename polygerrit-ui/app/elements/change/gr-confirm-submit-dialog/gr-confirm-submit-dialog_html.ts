@@ -25,7 +25,7 @@ export const htmlTemplate = html`
       margin-bottom: var(--spacing-l);
     }
     .warningBeforeSubmit {
-      color: var(--error-text-color);
+      color: var(--warning-foreground);
       vertical-align: top;
       margin-right: var(--spacing-s);
     }

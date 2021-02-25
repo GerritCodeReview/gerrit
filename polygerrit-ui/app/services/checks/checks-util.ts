@@ -76,8 +76,12 @@ export function primaryRunAction(run: CheckRun): Action | undefined {
 }
 
 export function iconForRun(run: CheckRun) {
-  const category = worstCategory(run);
-  return category ? iconForCategory(category) : iconForStatus(run.status);
+  if (run.status !== RunStatus.COMPLETED) {
+    return iconForStatus(run.status);
+  } else {
+    const category = worstCategory(run);
+    return category ? iconForCategory(category) : iconForStatus(run.status);
+  }
 }
 
 export function iconForStatus(status: RunStatus) {

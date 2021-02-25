@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13c21850_f54b6e05",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-25T21:29:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27e0aed4_899903b1",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a352f532_180bfc4a",

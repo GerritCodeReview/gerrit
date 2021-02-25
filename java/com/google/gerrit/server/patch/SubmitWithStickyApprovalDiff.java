@@ -88,8 +88,10 @@ public class SubmitWithStickyApprovalDiff {
       // If the latest approved patchset is the current patchset, no need to return anything.
       return "";
     }
-    String diff =
-        String.format("\n\n%d is the latest approved patch-set.\n", latestApprovedPatchsetId.get());
+    StringBuilder diff =
+        new StringBuilder(
+            String.format(
+                "\n\n%d is the latest approved patch-set.\n", latestApprovedPatchsetId.get()));
     PatchList patchList =
         getPatchList(
             notes.getProjectName(),
@@ -103,19 +105,19 @@ public class SubmitWithStickyApprovalDiff {
             .collect(Collectors.toList());
 
     if (patchListEntryList.isEmpty()) {
-      diff +=
-          "No files were changed between the latest approved patch-set and the submitted one.\n";
-      return diff;
+      diff.append(
+          "No files were changed between the latest approved patch-set and the submitted one.\n");
+      return diff.toString();
     }
 
-    diff += "The change was submitted with unreviewed changes in the following files:\n\n";
+    diff.append("The change was submitted with unreviewed changes in the following files:\n\n");
 
     for (PatchListEntry patchListEntry : patchListEntryList) {
-      diff +=
+      diff.append(
           getDiffForFile(
-              notes, currentPatchset.id(), latestApprovedPatchsetId, patchListEntry, currentUser);
+              notes, currentPatchset.id(), latestApprovedPatchsetId, patchListEntry, currentUser));
     }
-    return diff;
+    return diff.toString();
   }
 
   private String getDiffForFile(
@@ -126,12 +128,13 @@ public class SubmitWithStickyApprovalDiff {
       CurrentUser currentUser)
       throws AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException {
-    String diff =
-        String.format(
-            "The name of the file: %s\nInsertions: %d, Deletions: %d.\n\n",
-            patchListEntry.getNewName(),
-            patchListEntry.getInsertions(),
-            patchListEntry.getDeletions());
+    StringBuilder diff =
+        new StringBuilder(
+            String.format(
+                "The name of the file: %s\nInsertions: %d, Deletions: %d.\n\n",
+                patchListEntry.getNewName(),
+                patchListEntry.getInsertions(),
+                patchListEntry.getDeletions()));
     DiffPreferencesInfo diffPreferencesInfo = createDefaultDiffPreferencesInfo();
     PatchScriptFactory patchScriptFactory =
         patchScriptFactoryFactory.create(
@@ -145,66 +148,66 @@ public class SubmitWithStickyApprovalDiff {
     try {
       patchScript = patchScriptFactory.call();
     } catch (LargeObjectException exception) {
-      diff += "The file content is too large for showing the full diff. \n\n";
-      return diff;
+      diff.append("The file content is too large for showing the full diff. \n\n");
+      return diff.toString();
     }
     if (patchScript.getChangeType() == ChangeType.RENAMED) {
-      diff +=
+      diff.append(
           String.format(
               "The file %s was renamed to %s\n",
-              patchListEntry.getOldName(), patchListEntry.getNewName());
+              patchListEntry.getOldName(), patchListEntry.getNewName()));
     }
     SparseFileContent.Accessor fileA = patchScript.getA().createAccessor();
     SparseFileContent.Accessor fileB = patchScript.getB().createAccessor();
     boolean editsExist = false;
     if (patchScript.getEdits().stream().anyMatch(e -> e.getType() != Edit.Type.EMPTY)) {
-      diff += "```\n";
+      diff.append("```\n");
       editsExist = true;
     }
     for (Edit edit : patchScript.getEdits()) {
-      diff += getDiffForEdit(fileA, fileB, edit);
+      diff.append(getDiffForEdit(fileA, fileB, edit));
     }
     if (editsExist) {
-      diff += "```\n";
+      diff.append("```\n");
     }
-    return diff;
+    return diff.toString();
   }
 
   private String getDiffForEdit(Accessor fileA, Accessor fileB, Edit edit) {
-    String diff = "";
+    StringBuilder diff = new StringBuilder();
     Edit.Type type = edit.getType();
     switch (type) {
       case INSERT:
-        diff += String.format("@@ +%d:%d @@\n", edit.getBeginB(), edit.getEndB());
-        diff += getModifiedLines(fileB, edit.getBeginB(), edit.getEndB(), '+');
-        diff += "\n";
+        diff.append(String.format("@@ +%d:%d @@\n", edit.getBeginB(), edit.getEndB()));
+        diff.append(getModifiedLines(fileB, edit.getBeginB(), edit.getEndB(), '+'));
+        diff.append("\n");
         break;
       case DELETE:
-        diff += String.format("@@ -%d:%d @@\n", edit.getBeginA(), edit.getEndA());
-        diff += getModifiedLines(fileA, edit.getBeginA(), edit.getEndA(), '-');
-        diff += "\n";
+        diff.append(String.format("@@ -%d:%d @@\n", edit.getBeginA(), edit.getEndA()));
+        diff.append(getModifiedLines(fileA, edit.getBeginA(), edit.getEndA(), '-'));
+        diff.append("\n");
         break;
       case REPLACE:
-        diff +=
+        diff.append(
             String.format(
                 "@@ -%d:%d, +%d:%d @@\n",
-                edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB());
-        diff += getModifiedLines(fileA, edit.getBeginA(), edit.getEndA(), '-');
-        diff += getModifiedLines(fileB, edit.getBeginB(), edit.getEndB(), '+');
-        diff += "\n";
+                edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB()));
+        diff.append(getModifiedLines(fileA, edit.getBeginA(), edit.getEndA(), '-'));
+        diff.append(getModifiedLines(fileB, edit.getBeginB(), edit.getEndB(), '+'));
+        diff.append("\n");
         break;
       case EMPTY:
         // do nothing since there is no change here.
     }
-    return diff;
+    return diff.toString();
   }
 
   private String getModifiedLines(Accessor file, int begin, int end, char modificationType) {
-    String diff = "";
+    StringBuilder diff = new StringBuilder();
     for (int i = begin; i < end; i++) {
-      diff += String.format("%c  %s\n", modificationType, file.get(i));
+      diff.append(String.format("%c  %s\n", modificationType, file.get(i)));
     }
-    return diff;
+    return diff.toString();
   }
 
   private DiffPreferencesInfo createDefaultDiffPreferencesInfo() {

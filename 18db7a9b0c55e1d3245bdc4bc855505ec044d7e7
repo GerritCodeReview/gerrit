@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37b283d6_608e3ffb",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-25T18:48:00Z",
+      "side": 1,
+      "message": "Will the protected constructors be a problem for the reflection if the differ is moved to a new package?",
+      "parentUuid": "4adcd472_89872aa8",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a352f532_180bfc4a",
         "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
         "patchSetId": 5
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-25T09:38:07Z",
       "side": 1,
       "message": "isn\u0027t this quadratic ?",
+      "range": {
+        "startLine": 123,
+        "startChar": 26,
+        "endLine": 123,
+        "endChar": 51
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd51a13c_db462ab7",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-25T18:48:00Z",
+      "side": 1,
+      "message": "Good note. Changed it to still accommodate duplicates, but the best case is now linear. The worst case is still quadratic.\n\nAnother option is to store Map\u003cObject, Integer\u003e where Integer is the number of items in newCollection where .equals(Object) but then you lose any uniqueness in the duplicates due to missing checks in .equals override (or purposeful omissions).\n\nAny other ideas?",
+      "parentUuid": "a352f532_180bfc4a",
       "range": {
         "startLine": 123,
         "startChar": 26,
@@ -89,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "033c24d5_19461e1b",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-25T18:48:00Z",
+      "side": 1,
+      "message": "There are 3 checked exceptions that can be thrown\n\n- InvocationTargetException when the constructor throws for some reason.\n- IllegalAccessException for visibility problems (most likely to happen)\n- InstantiationException - this won\u0027t happen. It\u0027s for abstract class instantiation\n\nThey can all be wrapped under ReflectiveOperationException.\n\nLogging an error here seems appropriate - changed.",
+      "parentUuid": "d886f1d1_41b22c6d",
+      "range": {
+        "startLine": 152,
+        "startChar": 13,
+        "endLine": 152,
+        "endChar": 41
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "abb4b3e1_e4d21e03",
         "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
         "patchSetId": 5
@@ -100,6 +172,30 @@
       "writtenOn": "2021-02-25T09:38:07Z",
       "side": 1,
       "message": "this shouldn\u0027t happen, right? log an error? Same for other IAEs",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 6
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1796fd27_09cfabbe",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-25T18:48:00Z",
+      "side": 1,
+      "message": "Used Flogger, which is hopefully correct",
+      "parentUuid": "abb4b3e1_e4d21e03",
       "range": {
         "startLine": 169,
         "startChar": 0,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61d9212d_85dac65e",
+        "filename": "javatests/com/google/gerrit/extensions/common/ChangeInfoDifferTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-25T18:48:00Z",
+      "side": 1,
+      "message": "Got it - changed this test to Collection\u003cString\u003e hashtags",
+      "parentUuid": "88891632_a086fc46",
+      "range": {
+        "startLine": 133,
+        "startChar": 14,
+        "endLine": 133,
+        "endChar": 51
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c4af551_3f51b810",
@@ -156,6 +276,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c0ada98_e7665bdf",
+        "filename": "javatests/com/google/gerrit/extensions/common/ChangeInfoDifferTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-25T18:48:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c4af551_3f51b810",
+      "range": {
+        "startLine": 332,
+        "startChar": 24,
+        "endLine": 332,
+        "endChar": 33
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29839b8b_60ac43bc",
@@ -169,6 +313,30 @@
       "writtenOn": "2021-02-25T09:38:07Z",
       "side": 1,
       "message": "dup from the class under test? if so, maybe @VisibleForTesting",
+      "range": {
+        "startLine": 341,
+        "startChar": 25,
+        "endLine": 341,
+        "endChar": 33
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09c9b647_1be6ed1b",
+        "filename": "javatests/com/google/gerrit/extensions/common/ChangeInfoDifferTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-25T18:48:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29839b8b_60ac43bc",
       "range": {
         "startLine": 341,
         "startChar": 25,

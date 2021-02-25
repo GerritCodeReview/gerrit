@@ -51,7 +51,9 @@ public class InitModule extends FactoryModule {
       step().to(InitContainer.class);
     }
     step().to(InitSshd.class);
-    step().to(InitHttpd.class);
+    if (standalone) {
+      step().to(InitHttpd.class);
+    }
     step().to(InitCache.class);
     step().to(InitPlugins.class);
     step().to(InitDev.class);

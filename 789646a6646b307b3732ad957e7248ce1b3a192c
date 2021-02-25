@@ -18,6 +18,40 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6da3ad0_26765851",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T23:37:24Z",
+      "side": 1,
+      "message": "Thanks, Han-Wen, for this initiative ! It was very much overdue and honestly embarrassing the status of the old design documentation 😞 ",
+      "revId": "789646a6646b307b3732ad957e7248ce1b3a192c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6b51d23_2eb7ce17",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T23:37:24Z",
+      "side": 1,
+      "message": "+ Kerberos\n+ 3rd party SSO",
+      "revId": "789646a6646b307b3732ad957e7248ce1b3a192c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9178a12d_c7458988",
@@ -54,6 +88,30 @@
       "writtenOn": "2021-02-25T15:53:39Z",
       "side": 1,
       "message": "Other types of loading are supported too: https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#deployment",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 13
+      },
+      "revId": "789646a6646b307b3732ad957e7248ce1b3a192c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca071f94_dd9de1b8",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T23:37:24Z",
+      "side": 1,
+      "message": "Yeah, I would add also that there are three different types of plugins:\n- backend plugins (typically a \u0027.jar\u0027 file)\n- frontend plugins (typically an \u0027.html\u0027 or \u0027.js\u0027 file)\n- scripting plugins (pluggable to potentially any Java-based scripting language)\n\nBackend plugins are for implementing Gerrit extension points or replace some existing components (e.g. websession storage), frontend plugins are for customising the Gerrit UI L\u0026F or adding additional visual components. \n\nScripting plugins are typically used for implementing very small functionalities similar to the server-side hooks, but can run inside the Gerrit JVM and can leverage a high-performance and cached access to the repositories.",
+      "parentUuid": "560cc58c_e64fe252",
       "range": {
         "startLine": 212,
         "startChar": 0,

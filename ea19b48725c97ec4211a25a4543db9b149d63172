@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "901f7e8d_80adbe75",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T23:10:02Z",
+      "side": 1,
+      "message": "Does that mean that we need then 200 local test jobs as well? If we have 200 jobs on the server (potentially) but locally we can schedule only 75, what\u0027s the point?",
+      "parentUuid": "8457dd5a_6d90a075",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "ea19b48725c97ec4211a25a4543db9b149d63172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbe6cfd1_1b77e924",

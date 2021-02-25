@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71f570c2_f87ef6a5",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T11:46:21Z",
+      "side": 1,
+      "message": "Done. (this text is already on the history section)",
+      "parentUuid": "d565e33e_d6166eb7",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 70
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ae327b8_6c78784e",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-25T00:36:28Z",
       "side": 1,
       "message": "This is the design of Gerrit master, we should remove any reference to ReviewDb and Gerrit 2.x IMHO, as it is over 4 releases behind.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 30
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59bc6347_5af2a834",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T11:46:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ae327b8_6c78784e",
       "range": {
         "startLine": 45,
         "startChar": 0,
@@ -89,6 +137,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f6c6cd8_15f567a4",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T11:46:21Z",
+      "side": 1,
+      "message": "I\u0027ve added a section about plugins.",
+      "parentUuid": "ec8395e5_b458f3c2",
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad05491f_7b6d312f",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 3
@@ -100,6 +166,24 @@
       "writtenOn": "2021-02-25T00:36:28Z",
       "side": 1,
       "message": "+ SAML",
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "199786c0_453b687a",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T11:46:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad05491f_7b6d312f",
       "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -191,6 +275,54 @@
         "startChar": 0,
         "endLine": 346,
         "endChar": 60
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f55853e_6245a355",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T11:46:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d29ed1_a20d73a9",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 346,
+        "endChar": 60
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "976add9b_18a4ff22",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T11:46:21Z",
+      "side": 1,
+      "message": "we do, but if the hardware fails, you\u0027re still hosed.",
+      "parentUuid": "2a2e8001_7228419d",
+      "range": {
+        "startLine": 345,
+        "startChar": 58,
+        "endLine": 346,
+        "endChar": 8
       },
       "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -274,6 +274,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "797fa2c5_1c90cbef",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T11:46:21Z",
+      "side": 1,
+      "message": "\u003e Think of this as a product intro doc,\n\nbut it\u0027s not. It\u0027s a doc that should describe how gerrit works.",
+      "parentUuid": "2b621060_d966974b",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 91,
+        "endChar": 33
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d713f4bc_6f29bebb",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1
@@ -427,6 +451,30 @@
       "side": 1,
       "message": "Can Ben or someone on the PG team do a follow-up change?",
       "parentUuid": "4b0b72ca_5d5fe2aa",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 32
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f283a49_c3884802",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T11:46:21Z",
+      "side": 1,
+      "message": "yes.",
+      "parentUuid": "52da0a84_ba4c8565",
       "range": {
         "startLine": 164,
         "startChar": 0,

@@ -87,6 +87,30 @@
       },
       "revId": "28fa5432a0bb999ed886bddad9d36bc6658f7b0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d37d6aac_13379bf2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7088,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-25T22:28:40Z",
+      "side": 1,
+      "message": "Git does not store, e.g., write permissions as Hanwen said. Also the git command line returns the mode in octal.\n\n$ git diff HEAD^\ndiff --git $file\nold mode 100644\nnew mode 100755\n\nI quickly checked this on Windows and it also shows permissions in octal.",
+      "parentUuid": "70c4e2a7_552a7a17",
+      "range": {
+        "startLine": 7088,
+        "startChar": 45,
+        "endLine": 7088,
+        "endChar": 51
+      },
+      "revId": "28fa5432a0bb999ed886bddad9d36bc6658f7b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

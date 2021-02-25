@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bbeb2a3_a7aa9e29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-25T18:47:18Z",
+      "side": 1,
+      "message": "\"number\" key name\n\nJust a nit, to be more precise.",
+      "range": {
+        "startLine": 7,
+        "startChar": 31,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebac6948_6c6adae3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-25T18:47:18Z",
+      "side": 1,
+      "message": "I think this change should lend follow-ups for similar adaptations in the plugins [1].\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/3.1.12/dev-e2e-tests.html#_plugin_scenarios\n\nThat list includes multi-site which we at Ericsson don\u0027t use yet, but we might as well update it too (alongside its HA sibling which we co-maintain).",
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1544fcee_5fe05cbe",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/AbandonChange.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-25T18:47:18Z",
+      "side": 1,
+      "message": "numberKey, to not clash with the other e2e environment property concept.\n\nI propose so even if this new constant here is also used for some property handling, beside session key handling.",
+      "range": {
+        "startLine": 46,
+        "startChar": 20,
+        "endLine": 46,
+        "endChar": 34
+      },
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c3e4ecb_06c450a3",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-25T18:47:18Z",
+      "side": 1,
+      "message": "numberProperty straight, rather? (Or, numberKey if applying my other comment.)",
+      "range": {
+        "startLine": 69,
+        "startChar": 10,
+        "endLine": 69,
+        "endChar": 31
+      },
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0958678_f65f3551",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-25T18:47:18Z",
+      "side": 1,
+      "message": "This part of the string here should also come from that new constant, for consistency.\n\nMaybe other files need that change but I\u0027m not sure.",
+      "range": {
+        "startLine": 70,
+        "startChar": 38,
+        "endLine": 70,
+        "endChar": 44
+      },
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85ecac5c_e07e5bd7",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-25T18:47:18Z",
+      "side": 1,
+      "message": "Same as further above; would remove the redundant (I think) \u0027this\u0027 prefix.",
+      "range": {
+        "startLine": 71,
+        "startChar": 22,
+        "endLine": 71,
+        "endChar": 41
+      },
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

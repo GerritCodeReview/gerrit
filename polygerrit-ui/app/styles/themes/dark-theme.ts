@@ -46,8 +46,6 @@ function getStyleEl() {
       --info-background: var(--blue-900);
       --selected-foreground: var(--blue-200);
       --selected-background: var(--blue-900);
-      --info-deemphasized-foreground: var(--gray-700);
-      --info-deemphasized-background: var(--primary-text-color);
       --success-foreground: var(--green-200);
       --success-background: var(--green-900);
       --gray-foreground: var(--gray-100);

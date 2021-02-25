@@ -111,13 +111,6 @@ export class GrSummaryChip extends GrLitElement {
         .summaryChip.check iron-icon {
           color: var(--gray-foreground);
         }
-        .summaryChip.info {
-          border-color: var(--info-deemphasized-foreground;
-          background-color: var(--info-deemphasized-background);
-        }
-        .summaryChip.info iron-icon {
-          color: var(--info-deemphasized-foreground);
-        }
       `,
     ];
   }
@@ -445,7 +438,6 @@ export class GrChangeSummary extends GrLitElement {
               ><gr-summary-chip
                 styleType=${SummaryChipStyles.WARNING}
                 category=${CommentTabState.UNRESOLVED}
-                icon="message"
                 ?hidden=${!countUnresolvedComments}
               >
                 ${unresolvedAuthors.map(

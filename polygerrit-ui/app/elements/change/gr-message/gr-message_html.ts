@@ -305,7 +305,7 @@ export const htmlTemplate = html`
           </gr-button>
         </template>
         <template is="dom-if" if="[[message._revision_number]]">
-          <span class="patchset">[[message._revision_number]]</span>
+          <span class="patchset">[[message._revision_number]] |</span>
         </template>
         <template is="dom-if" if="[[!message.id]]">
           <span class="date">

@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbc77fd2_6417ed7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-25T22:07:24Z",
+      "side": 1,
+      "message": "I have the plugins linked locally, and this change breaks at least multi-site\u0027s (from [1]) sbt build, [2]:\n\n[2] multi-site/src/test/scala/com/googlesource/gerrit/plugins/multisite/scenarios/CreateChangeUsingMultiGerrit.scala:28:15\noverriding value numberKey in class GerritSimulation of type String;\n value numberKey has weaker access privileges; it should not be private\n  private val numberKey \u003d \"_number\"\n\n\n-So this is because some of the plugins e2e test code already started to remove such duplication, overall. This change would then need to be built in conjunction with every plugin being adjusted, where necessary.\n\nI did that many times last year, and used a Topic to group core and plugin(s) changes together that way. Meaning, using a topic to make sure that no inter-dependent changes get merged without their consistent companion(s).",
+      "parentUuid": "518b3f69_90b21200",
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1544fcee_5fe05cbe",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/AbandonChange.scala",
         "patchSetId": 2
@@ -167,6 +185,30 @@
       "side": 1,
       "message": "it is not possible to do it straight I think. \"this\" should be used here",
       "parentUuid": "7c3e4ecb_06c450a3",
+      "range": {
+        "startLine": 69,
+        "startChar": 10,
+        "endLine": 69,
+        "endChar": 31
+      },
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d9b6022_10d67607",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-25T22:07:24Z",
+      "side": 1,
+      "message": "Why, though? The other sibling members don\u0027t require this.",
+      "parentUuid": "2062d1b2_a2f1e84b",
       "range": {
         "startLine": 69,
         "startChar": 10,

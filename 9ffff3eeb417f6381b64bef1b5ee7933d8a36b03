@@ -322,6 +322,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b528c426_64e9b361",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T19:00:11Z",
+      "side": 1,
+      "message": "\u003e That feels to me like it was targeting folks new to Gerrit that are trying to understand what the tool is.\n\nit\u0027s called dev-design.txt, ie. a document aimed at gerrit developers. If you\u0027re developing Gerrit, you\u0027d already know what it is used for?",
+      "parentUuid": "ccf6bf51_35cf8e50",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 91,
+        "endChar": 33
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d713f4bc_6f29bebb",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1

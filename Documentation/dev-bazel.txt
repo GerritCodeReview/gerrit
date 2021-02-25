@@ -41,14 +41,8 @@ ways: link:https://docs.bazel.build/install-bazelisk.html[Install,role=external,
 [[java]]
 === Java
 
-==== MacOS
-
-On MacOS, ensure that "Java for MacOS X 10.5 Update 4" (or higher) is installed
-and that `JAVA_HOME` is set to the
-link:install.html#Requirements[required Java version].
-
-Java installations can typically be found in
-"/System/Library/Frameworks/JavaVM.framework/Versions".
+Ensure that the link:install.html#Requirements[required Java version]
+is installed and that `JAVA_HOME` is set to it.
 
 To check the installed version of Java, open a terminal window and run:
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c51e50f1_c012b165",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-02-25T06:42:44Z",
+      "side": 1,
+      "message": "This should probably go to gr-diff-utils as it was in Frank\u0027s original change on master. I moved it here while downporting, since gr-diff-util didn\u0027t exist in 3.2 and typescript wasn\u0027t yet used. Let me adapt it to avoid future conflicts.",
+      "revId": "503a3a69b8a003c2e4bd881f4bf192703766b7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

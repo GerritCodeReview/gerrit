@@ -22,7 +22,8 @@ import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   allRuns$,
-  aPluginHasRegistered,
+  aPluginHasRegistered$,
+  someProvidersAreLoading$,
 } from '../../../services/checks/checks-model';
 import {
   Category,
@@ -262,13 +263,17 @@ export class GrChangeSummary extends GrLitElement {
   @property()
   showChecksSummary = false;
 
+  @property()
+  someProvidersAreLoading = false;
+
   /** Is reset when rendering beings and decreases while chips are rendered. */
   private detailsQuota = DETAILS_QUOTA;
 
   constructor() {
     super();
     this.subscribe('runs', allRuns$);
-    this.subscribe('showChecksSummary', aPluginHasRegistered);
+    this.subscribe('showChecksSummary', aPluginHasRegistered$);
+    this.subscribe('someProvidersAreLoading', someProvidersAreLoading$);
   }
 
   static get styles() {
@@ -312,7 +317,8 @@ export class GrChangeSummary extends GrLitElement {
 
   renderChecksZeroState() {
     if (this.runs.some(isRunningOrHasCompleted)) return;
-    return html`<span class="font-small zeroState">No results</span>`;
+    const msg = this.someProvidersAreLoading ? 'Loading...' : 'No results';
+    return html`<span class="font-small zeroState">${msg}</span>`;
   }
 
   renderChecksChipForCategory(category: Category) {

@@ -30,7 +30,11 @@ import {
   ResponseCode,
 } from '../../api/checks';
 import {change$, currentPatchNum$} from '../change/change-model';
-import {updateStateSetProvider, updateStateSetResults} from './checks-model';
+import {
+  updateStateSetLoading,
+  updateStateSetProvider,
+  updateStateSetResults,
+} from './checks-model';
 import {
   BehaviorSubject,
   combineLatest,
@@ -83,6 +87,7 @@ export class ChecksService {
               patchsetNumber: patchNum,
               repo: change.project,
             };
+            updateStateSetLoading(pluginName);
             return from(this.providers[pluginName].fetch(data));
           }
         ),

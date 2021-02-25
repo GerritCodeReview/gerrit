@@ -3,6 +3,155 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d565e33e_d6166eb7",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T00:36:28Z",
+      "side": 1,
+      "message": "Is this relevant for describing the current Gerrit architecture? Would it make more sense to be put into the history section on the homepage instead?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 70
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ae327b8_6c78784e",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T00:36:28Z",
+      "side": 1,
+      "message": "This is the design of Gerrit master, we should remove any reference to ReviewDb and Gerrit 2.x IMHO, as it is over 4 releases behind.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 30
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c7ee10d_e1e34d12",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T00:36:28Z",
+      "side": 1,
+      "message": "+ (Git/SSH) or username/password (Git/HTTPS)",
+      "range": {
+        "startLine": 58,
+        "startChar": 48,
+        "endLine": 58,
+        "endChar": 78
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec8395e5_b458f3c2",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T00:36:28Z",
+      "side": 1,
+      "message": "+ or most typically through repository-specific policies implemented through plugins (see reviewers and owners).",
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad05491f_7b6d312f",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T00:36:28Z",
+      "side": 1,
+      "message": "+ SAML",
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05e62bc9_c80249fd",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T00:36:28Z",
+      "side": 1,
+      "message": "We have over 50k projects on GerritHub.io",
+      "range": {
+        "startLine": 296,
+        "startChar": 39,
+        "endLine": 296,
+        "endChar": 45
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e25f2db_6c3aed6a",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T00:36:28Z",
+      "side": 1,
+      "message": "We had changes with over 100+ patch-sets on gerrit-review.gs.com",
+      "range": {
+        "startLine": 299,
+        "startChar": 43,
+        "endLine": 299,
+        "endChar": 45
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a2e8001_7228419d",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 3
@@ -19,6 +168,29 @@
         "startChar": 58,
         "endLine": 346,
         "endChar": 8
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8d29ed1_a20d73a9",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T00:36:28Z",
+      "side": 1,
+      "message": "This statement is very obsolete: nowadays we have open-source production ready and consolidated solutions for HA and multi-site.\n\nEven if they are not officially part of \u0027core\u0027 Gerrit, I would make a mention to them by linking to their design, which is very detailed on what is and is not possible and covered.",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 346,
+        "endChar": 60
       },
       "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

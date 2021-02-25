@@ -308,15 +308,6 @@ export class GrRouter extends GestureEventListeners(
 
   private readonly restApiService = appContext.restApiService;
 
-  private readonly changeService = appContext.changeService;
-
-  constructor() {
-    super();
-    // TODO: This is just an artificical dependdency such that the service is
-    // instantiated and its observables subscribed. Remove this later.
-    this.changeService.dontDoAnything();
-  }
-
   start() {
     if (!this._app) {
       return;

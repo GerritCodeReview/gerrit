@@ -274,11 +274,13 @@ export class GrChangeView extends KeyboardShortcutMixin(
    * @event show-auth-required
    */
 
-  reporting = appContext.reportingService;
+  private readonly reporting = appContext.reportingService;
 
-  flagsService = appContext.flagsService;
+  private readonly flagsService = appContext.flagsService;
 
-  readonly jsAPI = appContext.jsApiService;
+  private readonly jsAPI = appContext.jsApiService;
+
+  private readonly changeService = appContext.changeService;
 
   /**
    * URL params passed from the router.
@@ -2022,6 +2024,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
         this._lineHeight = Number(lineHeight.slice(0, lineHeight.length - 2));
 
         this._change = change;
+        this.changeService.updateChange(change);
         if (
           !this._patchRange ||
           !this._patchRange.patchNum ||

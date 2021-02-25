@@ -105,6 +105,7 @@ import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
+import {appContext} from '../../../services/app-context';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -2766,7 +2767,7 @@ suite('gr-change-view tests', () => {
     element._change = {...change};
     element._patchRange = {patchNum: 4 as PatchSetNum};
     element._mergeable = true;
-    const showStub = sinon.stub(element.jsAPI, 'handleEvent');
+    const showStub = sinon.stub(appContext.jsApiService, 'handleEvent');
     element._sendShowChangeEvent();
     assert.isTrue(showStub.calledOnce);
     assert.equal(showStub.lastCall.args[0], EventType.SHOW_CHANGE);
@@ -2968,11 +2969,11 @@ suite('gr-change-view tests', () => {
 
     test("don't report changeDisplayed on reply", done => {
       const changeDisplayStub = sinon.stub(
-        element.reporting,
+        appContext.reportingService,
         'changeDisplayed'
       );
       const changeFullyLoadedStub = sinon.stub(
-        element.reporting,
+        appContext.reportingService,
         'changeFullyLoaded'
       );
       element._handleReplySent();
@@ -2985,11 +2986,11 @@ suite('gr-change-view tests', () => {
 
     test('report changeDisplayed on _paramsChanged', done => {
       const changeDisplayStub = sinon.stub(
-        element.reporting,
+        appContext.reportingService,
         'changeDisplayed'
       );
       const changeFullyLoadedStub = sinon.stub(
-        element.reporting,
+        appContext.reportingService,
         'changeFullyLoaded'
       );
       element._paramsChanged({

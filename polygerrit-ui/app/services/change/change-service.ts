@@ -14,28 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {routerChangeNum$} from '../router/router-model';
 import {updateState} from './change-model';
-import {RestApiService} from '../gr-rest-api/gr-rest-api';
-import {switchMap, tap} from 'rxjs/operators';
-import {of, from} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {ParsedChangeInfo} from '../../types/types';
 
 export class ChangeService {
+  // TODO: In the future we will want to make restApiService.getChangeDetail()
+  // calls from a switchMap() here. For now just make sure to invalidate the
+  // change when no changeNum is set.
   private routerChangeNumEffect = routerChangeNum$.pipe(
-    switchMap(changeNum => {
-      if (!changeNum) return of(undefined);
-      return from(this.restApiService.getChangeDetail(changeNum));
-    }),
-    tap(change => {
-      updateState(change ?? undefined);
+    tap(changeNum => {
+      if (!changeNum) updateState(undefined);
     })
   );
 
-  constructor(private readonly restApiService: RestApiService) {
+  constructor() {
     this.routerChangeNumEffect.subscribe();
   }
 
-  // TODO: Remove.
-  dontDoAnything() {}
+  /**
+   * This is a temporary indirection between change-view, which currently
+   * manages what the current change is, and the change-model, which will
+   * become the source of truth in the future. We will extract a substantial
+   * amount of code from change-view and move it into this change-service. This
+   * will take some time ...
+   */
+  updateChange(change: ParsedChangeInfo) {
+    updateState(change);
+  }
 }

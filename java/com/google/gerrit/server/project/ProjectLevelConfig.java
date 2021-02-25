@@ -16,14 +16,15 @@ package com.google.gerrit.server.project;
 
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
+import com.google.gerrit.entities.ImmutableConfig;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -73,19 +74,17 @@ public class ProjectLevelConfig {
 
   private final String fileName;
   private final ProjectState project;
-  private Config cfg;
+  private final ImmutableConfig immutableConfig;
 
-  public ProjectLevelConfig(String fileName, ProjectState project, Config cfg) {
+  public ProjectLevelConfig(
+      String fileName, ProjectState project, @Nullable ImmutableConfig immutableConfig) {
     this.fileName = fileName;
     this.project = project;
-    this.cfg = cfg;
+    this.immutableConfig = immutableConfig == null ? ImmutableConfig.EMPTY : immutableConfig;
   }
 
   public Config get() {
-    if (cfg == null) {
-      cfg = new Config();
-    }
-    return cfg;
+    return immutableConfig.mutableCopy();
   }
 
   public Config getWithInheritance() {
@@ -105,58 +104,54 @@ public class ProjectLevelConfig {
    * @return a combined config.
    */
   public Config getWithInheritance(boolean merge) {
-    Config cfgWithInheritance = new Config();
-    try {
-      cfgWithInheritance.fromText(get().toText());
-    } catch (ConfigInvalidException e) {
-      // cannot happen
-    }
-    ProjectState parent = Iterables.getFirst(project.parents(), null);
-    if (parent != null) {
-      Config parentCfg = parent.getConfig(fileName).getWithInheritance();
-      for (String section : parentCfg.getSections()) {
-        Set<String> allNames = get().getNames(section);
-        for (String name : parentCfg.getNames(section)) {
-          String[] parentValues = parentCfg.getStringList(section, null, name);
-          if (!allNames.contains(name)) {
-            cfgWithInheritance.setStringList(section, null, name, Arrays.asList(parentValues));
-          } else if (merge) {
-            cfgWithInheritance.setStringList(
-                section,
-                null,
-                name,
-                Stream.concat(
-                        Arrays.stream(cfg.getStringList(section, null, name)),
-                        Arrays.stream(parentValues))
-                    .sorted()
-                    .distinct()
-                    .collect(toList()));
-          }
-        }
+    Config cfg = new Config();
+    // Traverse from All-Projects down to the current project
+    StreamSupport.stream(project.treeInOrder().spliterator(), false)
+        .forEach(
+            parent -> {
+              ImmutableConfig levelCfg = parent.getConfig(fileName).immutableConfig;
+              for (String section : levelCfg.getSections()) {
+                Set<String> allNames = cfg.getNames(section);
+                for (String name : levelCfg.getNames(section)) {
+                  String[] levelValues = levelCfg.getStringList(section, null, name);
+                  if (allNames.contains(name) && merge) {
+                    cfg.setStringList(
+                        section,
+                        null,
+                        name,
+                        Stream.concat(
+                                Arrays.stream(cfg.getStringList(section, null, name)),
+                                Arrays.stream(levelValues))
+                            .sorted()
+                            .distinct()
+                            .collect(toList()));
+                  } else {
+                    cfg.setStringList(section, null, name, Arrays.asList(levelValues));
+                  }
+                }
 
-        for (String subsection : parentCfg.getSubsections(section)) {
-          allNames = get().getNames(section, subsection);
-          for (String name : parentCfg.getNames(section, subsection)) {
-            String[] parentValues = parentCfg.getStringList(section, subsection, name);
-            if (!allNames.contains(name)) {
-              cfgWithInheritance.setStringList(
-                  section, subsection, name, Arrays.asList(parentValues));
-            } else if (merge) {
-              cfgWithInheritance.setStringList(
-                  section,
-                  subsection,
-                  name,
-                  Streams.concat(
-                          Arrays.stream(cfg.getStringList(section, subsection, name)),
-                          Arrays.stream(parentValues))
-                      .sorted()
-                      .distinct()
-                      .collect(toList()));
-            }
-          }
-        }
-      }
-    }
-    return cfgWithInheritance;
+                for (String subsection : levelCfg.getSubsections(section)) {
+                  allNames = cfg.getNames(section, subsection);
+                  for (String name : levelCfg.getNames(section, subsection)) {
+                    String[] levelValues = levelCfg.getStringList(section, subsection, name);
+                    if (allNames.contains(name) && merge) {
+                      cfg.setStringList(
+                          section,
+                          subsection,
+                          name,
+                          Streams.concat(
+                                  Arrays.stream(cfg.getStringList(section, subsection, name)),
+                                  Arrays.stream(levelValues))
+                              .sorted()
+                              .distinct()
+                              .collect(toList()));
+                    } else {
+                      cfg.setStringList(section, subsection, name, Arrays.asList(levelValues));
+                    }
+                  }
+                }
+              }
+            });
+    return cfg;
   }
 }

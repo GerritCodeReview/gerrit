@@ -162,6 +162,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62f8f6a4_a6ffd9b0",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-25T19:07:18Z",
+      "side": 1,
+      "message": "Compressing oldCollection into a set, we lose duplicates in oldCollection. These can include Strings or nonsimple objects such as comments. So if there are 2 duplicates in oldCollection and then 4 duplicates in newCollection, it should return 2 duplicates in added.\n\nHowever the code above wouldn\u0027t return any duplicates.",
+      "parentUuid": "99cd4136_6da8f9ad",
+      "range": {
+        "startLine": 123,
+        "startChar": 26,
+        "endLine": 123,
+        "endChar": 51
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d886f1d1_41b22c6d",
         "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
         "patchSetId": 5

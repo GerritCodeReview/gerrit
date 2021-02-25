@@ -29,8 +29,10 @@ import {sharedStyles} from '../../styles/shared-styles';
 import {
   compareByWorstCategory,
   fireActionTriggered,
+  iconForCategory,
   iconForRun,
   primaryRunAction,
+  worstCategory,
 } from '../../services/checks/checks-util';
 import {
   allRuns$,
@@ -114,16 +116,16 @@ export class GrChecksRun extends GrLitElement {
         .chip.placeholder iron-icon {
           display: none;
         }
-        .chip.error iron-icon {
+        iron-icon.error {
           color: var(--error-foreground);
         }
-        .chip.warning iron-icon {
+        iron-icon.warning {
           color: var(--warning-foreground);
         }
-        .chip.info-outline iron-icon {
+        iron-icon.info-outline {
           color: var(--info-foreground);
         }
-        .chip.check-circle-outline iron-icon {
+        iron-icon.check-circle-outline {
           color: var(--success-foreground);
         }
         /* Additional 'div' for increased specificity. */
@@ -198,7 +200,8 @@ export class GrChecksRun extends GrLitElement {
     return html`
       <div @click="${this.handleChipClick}" class="${classMap(classes)}">
         <div class="left">
-          <iron-icon icon="gr-icons:${icon}"></iron-icon>
+          <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
+          ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
         </div>
         <div class="right">
@@ -212,6 +215,19 @@ export class GrChecksRun extends GrLitElement {
             : ''}
         </div>
       </div>
+    `;
+  }
+
+  /**
+   * For RUNNING we als
+   */
+  renderAdditionalIcon() {
+    if (this.run.status !== RunStatus.RUNNING) return;
+    const category = worstCategory(this.run);
+    if (!category) return;
+    const icon = iconForCategory(category);
+    return html`
+      <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
     `;
   }
 

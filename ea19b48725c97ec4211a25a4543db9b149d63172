@@ -110,6 +110,30 @@
       },
       "revId": "ea19b48725c97ec4211a25a4543db9b149d63172",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e8d3c97_9a6e7439",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-25T08:36:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a83318c_552e4907",
+      "range": {
+        "startLine": 53,
+        "startChar": 31,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "ea19b48725c97ec4211a25a4543db9b149d63172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

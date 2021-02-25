@@ -41,10 +41,12 @@ import {MergeabilityComputationBehavior} from '../../../constants/constants';
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'added:',
+  'after:',
   'age:',
   'age:1week', // Give an example age
   'assignee:',
   'author:',
+  'before:',
   'branch:',
   'bug:',
   'cc:',
@@ -90,6 +92,8 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'is:watched',
   'is:wip',
   'label:',
+  'mergedafter:',
+  'mergedbefore:',
   'message:',
   'onlyexts:',
   'onlyextensions:',

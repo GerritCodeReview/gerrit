@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,12 +55,34 @@ public class CommentContextIT extends AbstractDaemonTest {
 
   private static final String FILE_CONTENT =
       String.join("\n", "Line 1 of file", "", "Line 3 of file", "", "", "Line 6 of file");
+  private static final ObjectId dummyCommit =
+      ObjectId.fromString("93e2901bc0b4719ef6081ee6353b49c9cdd97614");
 
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before
-  public void setUp() {
+  public void setup() throws Exception {
     requestScopeOperations.setApiUser(user.id());
+  }
+
+  @Test
+  public void commentContextForGitSubmoduleFiles() throws Exception {
+    String submodulePath = "submodule_path";
+
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo).addGitSubmodule(submodulePath, dummyCommit);
+    PushOneCommit.Result pushResult = push.to("refs/for/master");
+    String changeId = pushResult.getChangeId();
+    CommentInput comment =
+        CommentsUtil.newComment(submodulePath, Side.REVISION, 1, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, pushResult.getCommit().name(), comment);
+
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList();
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).path).isEqualTo(submodulePath);
+    assertThat(comments.get(0).contextLines)
+        .isEqualTo(createContextLines("1", "Subproject commit " + dummyCommit.getName()));
   }
 
   @Test

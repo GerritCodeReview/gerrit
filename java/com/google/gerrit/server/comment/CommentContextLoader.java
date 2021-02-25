@@ -33,6 +33,7 @@ import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.patch.ComparisonType;
+import com.google.gerrit.server.patch.SrcContentResolver;
 import com.google.gerrit.server.patch.Text;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -45,7 +46,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -168,9 +168,10 @@ public class CommentContextLoader {
         return CommentContext.empty();
       }
       ObjectId id = tw.getObjectId(0);
-      Text src = new Text(repo.open(id, Constants.OBJ_BLOB));
-      String contentType = getContentType(tw, filePath, src);
-      return createContext(src, commentRange, contextPadding, contentType);
+      byte[] sourceContent = SrcContentResolver.getSourceContent(repo, id, tw.getFileMode(0));
+      Text textSrc = new Text(sourceContent);
+      String contentType = getContentType(tw, filePath, textSrc);
+      return createContext(textSrc, commentRange, contextPadding, contentType);
     }
   }
 

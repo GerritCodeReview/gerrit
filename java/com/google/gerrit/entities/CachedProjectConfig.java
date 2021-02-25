@@ -14,19 +14,17 @@
 
 package com.google.gerrit.entities;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -37,6 +35,8 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 @AutoValue
 public abstract class CachedProjectConfig {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public abstract Project getProject();
 
   public abstract ImmutableMap<AccountGroup.UUID, GroupReference> getGroups();
@@ -126,33 +126,9 @@ public abstract class CachedProjectConfig {
 
   public abstract ImmutableMap<String, String> getPluginConfigs();
 
-  /**
-   * Returns the {@link Config} that got parsed from the specified {@code fileName} on {@code
-   * refs/meta/config}. The returned instance is a defensive copy of the cached value.
-   *
-   * @param fileName the name of the file. Must end in {@code .config}.
-   * @return an {@link Optional} of the {@link Config}. {@link Optional#empty()} if the file was not
-   *     found or could not be parsed. {@link com.google.gerrit.server.project.ProjectConfig} will
-   *     surface validation errors in case of a parsing issue.
-   */
-  public Optional<Config> getProjectLevelConfig(String fileName) {
-    checkState(fileName.endsWith(".config"), "file name must end in .config");
-    if (getProjectLevelConfigs().containsKey(fileName)) {
-      Config config = new Config();
-      try {
-        config.fromText(getProjectLevelConfigs().get(fileName));
-      } catch (ConfigInvalidException e) {
-        // This is OK to propagate as IllegalStateException because it's a programmer error.
-        // The config was converted to a String using Config#toText. So #fromText must not
-        // throw a ConfigInvalidException
-        throw new IllegalStateException("invalid config for " + fileName, e);
-      }
-      return Optional.of(config);
-    }
-    return Optional.empty();
-  }
-
   public abstract ImmutableMap<String, String> getProjectLevelConfigs();
+
+  public abstract ImmutableMap<String, ImmutableConfig> getParsedProjectLevelConfigs();
 
   public static Builder builder() {
     return new AutoValue_CachedProjectConfig.Builder();
@@ -235,8 +211,15 @@ public abstract class CachedProjectConfig {
 
     abstract ImmutableMap.Builder<String, String> projectLevelConfigsBuilder();
 
+    abstract ImmutableMap.Builder<String, ImmutableConfig> parsedProjectLevelConfigsBuilder();
+
     public Builder addProjectLevelConfig(String configFileName, String config) {
       projectLevelConfigsBuilder().put(configFileName, config);
+      try {
+        parsedProjectLevelConfigsBuilder().put(configFileName, ImmutableConfig.parse(config));
+      } catch (ConfigInvalidException e) {
+        logger.atInfo().withCause(e).log("Config for " + configFileName + " not parsable");
+      }
       return this;
     }
 

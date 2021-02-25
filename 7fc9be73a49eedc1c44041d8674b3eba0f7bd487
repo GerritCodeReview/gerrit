@@ -22,6 +22,30 @@
       },
       "revId": "7fc9be73a49eedc1c44041d8674b3eba0f7bd487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ff83882_4c57bcc2",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-25T17:57:00Z",
+      "side": 1,
+      "message": "oh, that looks good.\nI\u0027ll do it as a follow-up then",
+      "parentUuid": "b7761a16_77308dbd",
+      "range": {
+        "startLine": 378,
+        "startChar": 20,
+        "endLine": 378,
+        "endChar": 32
+      },
+      "revId": "7fc9be73a49eedc1c44041d8674b3eba0f7bd487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

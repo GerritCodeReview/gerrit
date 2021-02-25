@@ -247,7 +247,7 @@ export type ActionCallback = (
   checkName: string | undefined,
   /** Identical to 'name' property of Action entity. */
   actionName: string
-) => Promise<ActionResult>;
+) => Promise<ActionResult> | undefined;
 
 export interface ActionResult {
   /** An empty errorMessage means success. */

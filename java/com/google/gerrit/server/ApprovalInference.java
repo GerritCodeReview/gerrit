@@ -109,10 +109,10 @@ public class ApprovalInference {
       PatchSetApproval psa,
       PatchSet.Id psId,
       ChangeKind kind,
-      PatchList patchList) {
+      LabelType type,
+      @Nullable PatchList patchList) {
     int n = psa.key().patchSetId().get();
     checkArgument(n != psId.get());
-    LabelType type = project.getLabelTypes().byLabel(psa.labelId());
 
     if (type == null) {
       logger.atFine().log(
@@ -367,12 +367,17 @@ public class ApprovalInference {
     logger.atFine().log(
         "change kind for patch set %d of change %d against prior patch set %s is %s",
         ps.id().get(), ps.id().changeId().get(), priorPatchSet.getValue().id().changeId(), kind);
-    PatchList patchList = getPatchList(project, ps, priorPatchSet);
+    PatchList patchList = null;
     for (PatchSetApproval psa : priorApprovals) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
         continue;
       }
-      if (!canCopy(project, psa, ps.id(), kind, patchList)) {
+      LabelType type = project.getLabelTypes().byLabel(psa.labelId());
+      // Only compute patchList if there is a relevant label, since this is expensive.
+      if (patchList == null && type != null && type.isCopyAllScoresIfListOfFilesDidNotChange()) {
+        patchList = getPatchList(project, ps, priorPatchSet);
+      }
+      if (!canCopy(project, psa, ps.id(), kind, type, patchList)) {
         continue;
       }
       resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));

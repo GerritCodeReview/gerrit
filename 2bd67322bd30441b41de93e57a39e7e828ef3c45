@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78eabf23_70078d20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-25T15:23:49Z",
+      "side": 1,
+      "message": "Didn\u0027t add a test since it requires additional setup. We also don\u0027t have diff tests for submodules. I\u0027m quite confident this should fix the issue though.\n\nI can check that if it\u0027s really necessary.",
+      "revId": "2bd67322bd30441b41de93e57a39e7e828ef3c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

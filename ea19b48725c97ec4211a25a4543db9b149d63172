@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8457dd5a_6d90a075",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-25T08:34:49Z",
+      "side": 1,
+      "message": "It\u0027s scheduling test jobs remotely.",
+      "parentUuid": "399a7fa3_979254a1",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "ea19b48725c97ec4211a25a4543db9b149d63172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbe6cfd1_1b77e924",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-25T00:44:55Z",
       "side": 1,
       "message": "Is this going to be faster?",
+      "range": {
+        "startLine": 53,
+        "startChar": 31,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "ea19b48725c97ec4211a25a4543db9b149d63172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a83318c_552e4907",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-25T08:34:49Z",
+      "side": 1,
+      "message": "It\u0027s not needed because grpcs protocol already the default.",
+      "parentUuid": "cbe6cfd1_1b77e924",
       "range": {
         "startLine": 53,
         "startChar": 31,

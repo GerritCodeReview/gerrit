@@ -195,6 +195,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18319d2c_8647b719",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T23:37:24Z",
+      "side": 1,
+      "message": "Thanks 👍",
+      "parentUuid": "8c9ceeb7_425938d3",
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad05491f_7b6d312f",

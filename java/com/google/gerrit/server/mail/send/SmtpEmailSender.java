@@ -56,6 +56,8 @@ import org.eclipse.jgit.lib.Config;
 public class SmtpEmailSender implements EmailSender {
   /** The socket's connect timeout (0 = infinite timeout) */
   private static final int DEFAULT_CONNECT_TIMEOUT = 0;
+  /** The socket's socket read timeout (0 = infinite timeout) */
+  private static final int DEFAULT_SO_TIMEOUT = 0;
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -68,6 +70,7 @@ public class SmtpEmailSender implements EmailSender {
 
   private final boolean enabled;
   private final int connectTimeout;
+  private final int soTimeout;
 
   private String smtpHost;
   private int smtpPort;
@@ -90,6 +93,15 @@ public class SmtpEmailSender implements EmailSender {
                 "sendemail",
                 null,
                 "connectTimeout",
+                DEFAULT_CONNECT_TIMEOUT,
+                TimeUnit.MILLISECONDS));
+    soTimeout =
+        Ints.checkedCast(
+            ConfigUtil.getTimeUnit(
+                cfg,
+                "sendemail",
+                null,
+                "soTimeout",
                 DEFAULT_CONNECT_TIMEOUT,
                 TimeUnit.MILLISECONDS));
 
@@ -396,6 +408,7 @@ public class SmtpEmailSender implements EmailSender {
     client.setConnectTimeout(connectTimeout);
     try {
       client.connect(smtpHost, smtpPort);
+      client.setSoTimeout(soTimeout);
       int replyCode = client.getReplyCode();
       String replyString = client.getReplyString();
       if (!SMTPReply.isPositiveCompletion(replyCode)) {

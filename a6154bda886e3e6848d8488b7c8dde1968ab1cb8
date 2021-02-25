@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4da997d1_912c2719",
+        "filename": ".bazelversion",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-25T18:10:23Z",
+      "side": 1,
+      "message": "This file doesn\u0027t seem to belong in the change.",
+      "revId": "a6154bda886e3e6848d8488b7c8dde1968ab1cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "483606b1_e9cca57f",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-25T18:10:23Z",
+      "side": 1,
+      "message": "\"we\u0027d\" (\"we\u0027ll\" sounds like this is the reason we don\u0027t count the diff length).",
+      "range": {
+        "startLine": 130,
+        "startChar": 91,
+        "endLine": 130,
+        "endChar": 96
+      },
+      "revId": "a6154bda886e3e6848d8488b7c8dde1968ab1cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3de3a885_0ba68942",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-25T18:10:23Z",
+      "side": 1,
+      "message": "Should this comment maybe say that the diff isn\u0027t included because it exceeds X bytes? (Not sure if it\u0027d be wise to reveal the actual number though.)",
+      "revId": "a6154bda886e3e6848d8488b7c8dde1968ab1cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

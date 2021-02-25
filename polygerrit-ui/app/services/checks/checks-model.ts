@@ -87,6 +87,18 @@ export const allRuns$ = checksState$.pipe(
   })
 );
 
+export const checkToPluginMap$ = checksState$.pipe(
+  map(state => {
+    const map = new Map<string, string>();
+    for (const [pluginName, providerState] of Object.entries(state)) {
+      for (const run of providerState.runs) {
+        map.set(run.checkName, pluginName);
+      }
+    }
+    return map;
+  })
+);
+
 export const allResults$ = checksState$.pipe(
   map(state => {
     return Object.values(state)

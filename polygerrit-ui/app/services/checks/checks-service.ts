@@ -32,6 +32,7 @@ import {
 import {change$, currentPatchNum$} from '../change/change-model';
 import {
   updateStateSetLoading,
+  checkToPluginMap$,
   updateStateSetProvider,
   updateStateSetResults,
 } from './checks-model';
@@ -51,12 +52,24 @@ export class ChecksService {
 
   private changeAndPatchNum$ = change$.pipe(withLatestFrom(currentPatchNum$));
 
+  private checkToPluginMap = new Map<string, string>();
+
+  constructor() {
+    checkToPluginMap$.subscribe(x => (this.checkToPluginMap = x));
+  }
+
   reload(pluginName: string) {
     this.reloadSubjects[pluginName].next();
   }
 
   reloadAll() {
     Object.keys(this.providers).forEach(key => this.reload(key));
+  }
+
+  reloadForCheck(checkName?: string) {
+    if (!checkName) return;
+    const plugin = this.checkToPluginMap.get(checkName);
+    if (plugin) this.reload(plugin);
   }
 
   register(

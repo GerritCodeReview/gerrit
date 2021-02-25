@@ -28,6 +28,7 @@ import {
   allActions$,
   allResults$,
   allRuns$,
+  someProvidersAreLoading$,
 } from '../../services/checks/checks-model';
 import './gr-checks-runs';
 import './gr-checks-results';
@@ -41,6 +42,8 @@ import {
 import {checkRequiredProperty} from '../../utils/common-util';
 import {RunSelectedEvent} from './gr-checks-runs';
 import {ChecksTabState} from '../../types/events';
+import {fireAlert} from '../../utils/event-util';
+import {appContext} from '../../services/app-context';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -64,8 +67,13 @@ export class GrChecksTab extends GrLitElement {
   @property()
   changeNum: NumericChangeId | undefined = undefined;
 
+  @property()
+  someProvidersAreLoading = false;
+
   @internalProperty()
   selectedRuns: string[] = [];
+
+  private readonly checksService = appContext.checksService;
 
   constructor() {
     super();
@@ -74,6 +82,7 @@ export class GrChecksTab extends GrLitElement {
     this.subscribe('results', allResults$);
     this.subscribe('currentPatchNum', currentPatchNum$);
     this.subscribe('changeNum', changeNum$);
+    this.subscribe('someProvidersAreLoading', someProvidersAreLoading$);
 
     this.addEventListener('action-triggered', (e: ActionTriggeredEvent) =>
       this.handleActionTriggered(e.detail.action, e.detail.run)
@@ -131,6 +140,7 @@ export class GrChecksTab extends GrLitElement {
               },
             ]}"
           ></gr-dropdown-list>
+          <span ?hidden="${!this.someProvidersAreLoading}">Loading...</span>
         </div>
         <div class="right">
           ${this.actions.map(this.renderAction)}
@@ -170,10 +180,7 @@ export class GrChecksTab extends GrLitElement {
   handleActionTriggered(action: Action, run?: CheckRun) {
     if (!this.changeNum) return;
     if (!this.currentPatchNum) return;
-    // TODO(brohlfs): The callback is supposed to be returning a promise.
-    // A toast should be displayed until the promise completes. And then the
-    // data should be updated.
-    action.callback(
+    const promise = action.callback(
       this.changeNum,
       this.currentPatchNum as number,
       run?.attempt,
@@ -181,6 +188,21 @@ export class GrChecksTab extends GrLitElement {
       run?.checkName,
       action.name
     );
+    // Plugins *should* return a promise, but you never know ...
+    if (promise) {
+      const prefix = `Triggering action '${action.name}'`;
+      fireAlert(this, `${prefix} ...`);
+      promise.then(result => {
+        if (result.errorMessage) {
+          fireAlert(this, `${prefix} failed with ${result.errorMessage}.`);
+        } else {
+          fireAlert(this, `${prefix} successful.`);
+          this.checksService.reloadForCheck(run?.checkName);
+        }
+      });
+    } else {
+      fireAlert(this, `Action '${action.name}' triggered.`);
+    }
   }
 
   handleRunSelected(e: RunSelectedEvent) {

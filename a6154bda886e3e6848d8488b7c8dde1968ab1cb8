@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5105821_35fac304",
+        "filename": ".bazelversion",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-25T19:52:21Z",
+      "side": 1,
+      "message": "Done\nOne day I will fix my IntelliJ",
+      "parentUuid": "4da997d1_912c2719",
+      "revId": "a6154bda886e3e6848d8488b7c8dde1968ab1cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "483606b1_e9cca57f",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ca6e3ac_df1444c6",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-25T19:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "483606b1_e9cca57f",
+      "range": {
+        "startLine": 130,
+        "startChar": 91,
+        "endLine": 130,
+        "endChar": 96
+      },
+      "revId": "a6154bda886e3e6848d8488b7c8dde1968ab1cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3de3a885_0ba68942",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-02-25T18:10:23Z",
       "side": 1,
       "message": "Should this comment maybe say that the diff isn\u0027t included because it exceeds X bytes? (Not sure if it\u0027d be wise to reveal the actual number though.)",
+      "revId": "a6154bda886e3e6848d8488b7c8dde1968ab1cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bff8c1f_3b15485c",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-25T19:52:21Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s needed, but I added a mention that the diff is too large to show.",
+      "parentUuid": "3de3a885_0ba68942",
       "revId": "a6154bda886e3e6848d8488b7c8dde1968ab1cb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

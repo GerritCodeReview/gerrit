@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.PermissionRule.Action.ALLOW;
 import static java.util.Comparator.comparing;
@@ -176,8 +177,9 @@ public class ProjectState {
   }
 
   public ProjectLevelConfig getConfig(String fileName) {
-    Optional<Config> rawConfig = cachedConfig.getProjectLevelConfig(fileName);
-    return new ProjectLevelConfig(fileName, this, rawConfig.orElse(new Config()));
+    checkState(fileName.endsWith(".config"), "file name must end in .config");
+    return new ProjectLevelConfig(
+        fileName, this, cachedConfig.getParsedProjectLevelConfigs().get(fileName));
   }
 
   public long getMaxObjectSizeLimit() {

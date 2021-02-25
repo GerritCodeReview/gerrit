@@ -384,6 +384,7 @@ export class GrDiffHost extends GestureEventListeners(
       if (needsSyntaxHighlighting) {
         this.reporting.time(TimingLabel.SYNTAX);
         try {
+          this.$.syntaxLayer.process();
           await this.$.syntaxLayer.process();
         } finally {
           this.reporting.timeEnd(TimingLabel.SYNTAX);

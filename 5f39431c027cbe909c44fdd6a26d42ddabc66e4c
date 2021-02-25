@@ -216,6 +216,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7dd9e1a2_fab4a5a0",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T11:46:21Z",
+      "side": 0,
+      "message": "from the backend perspective, it works by analyzing slow requests, and figuring out if something can be parallelized, omitted or cached. It\u0027s not possible to give a ball-park number (1kb, 60ms) that applies to all requests.\n\nsignificant part of latency is actually the browser: rendering and highlighting diffs is expensive.\n\nI\u0027ll try to cook up a new section on performance and scalability.",
+      "parentUuid": "b4650844_8d85bb1f",
+      "range": {
+        "startLine": 480,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 22
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2123501b_6219f7bc",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1

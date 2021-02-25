@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d8aa0d6_d803d4af",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-25T12:47:45Z",
+      "side": 1,
+      "message": "Seems unfinished 😊",
+      "range": {
+        "startLine": 222,
+        "startChar": 20,
+        "endLine": 222,
+        "endChar": 23
+      },
+      "revId": "a71123798079d779770182dff079d10419735ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d852954_fe7f98f8",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-25T12:47:45Z",
+      "side": 1,
+      "message": "Maybe return nothing -  import {nothing} from \u0027lit-html\u0027;",
+      "range": {
+        "startLine": 225,
+        "startChar": 47,
+        "endLine": 225,
+        "endChar": 53
+      },
+      "revId": "a71123798079d779770182dff079d10419735ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

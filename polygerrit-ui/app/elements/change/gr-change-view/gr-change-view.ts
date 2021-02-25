@@ -171,7 +171,7 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {takeUntil} from 'rxjs/operators';
-import {aPluginHasRegistered} from '../../../services/checks/checks-model';
+import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {Subject} from 'rxjs';
 import {GrRelatedChangesListExperimental} from '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
 
@@ -596,7 +596,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   /** @override */
   ready() {
     super.ready();
-    aPluginHasRegistered.pipe(takeUntil(this.disconnected$)).subscribe(b => {
+    aPluginHasRegistered$.pipe(takeUntil(this.disconnected$)).subscribe(b => {
       this._showChecksTab = b;
     });
     this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(

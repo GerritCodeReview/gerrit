@@ -118,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "856218de_733b8972",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T11:52:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c7ee10d_e1e34d12",
+      "range": {
+        "startLine": 58,
+        "startChar": 48,
+        "endLine": 58,
+        "endChar": 78
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec8395e5_b458f3c2",
@@ -224,6 +248,30 @@
       "writtenOn": "2021-02-25T00:36:28Z",
       "side": 1,
       "message": "We had changes with over 100+ patch-sets on gerrit-review.gs.com",
+      "range": {
+        "startLine": 299,
+        "startChar": 43,
+        "endLine": 299,
+        "endChar": 45
+      },
+      "revId": "21f63bfece9b8c756227b2f92139f23028cc3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86490917_9d2c3b6c",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T11:52:15Z",
+      "side": 1,
+      "message": "we have seen 3k on other gs.com instances.\n\nI split it out, because gs.com is hard to compare.",
+      "parentUuid": "7e25f2db_6c3aed6a",
       "range": {
         "startLine": 299,
         "startChar": 43,

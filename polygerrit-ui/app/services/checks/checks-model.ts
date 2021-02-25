@@ -34,6 +34,7 @@ export type RunResult = CheckRun & CheckResult;
 
 interface ChecksProviderState {
   pluginName: string;
+  loading: boolean;
   config?: ChecksApiConfig;
   runs: CheckRun[];
   actions: Action[];
@@ -50,8 +51,15 @@ const privateState$ = new BehaviorSubject(initialState);
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const checksState$: Observable<ChecksState> = privateState$;
 
-export const aPluginHasRegistered = checksState$.pipe(
+export const aPluginHasRegistered$ = checksState$.pipe(
   map(state => Object.keys(state).length > 0),
+  distinctUntilChanged()
+);
+
+export const someProvidersAreLoading$ = checksState$.pipe(
+  map(state => {
+    return Object.values(state).some(providerState => providerState.loading);
+  }),
   distinctUntilChanged()
 );
 
@@ -106,6 +114,7 @@ export function updateStateSetProvider(
   const nextState = {...privateState$.getValue()};
   nextState[pluginName] = {
     pluginName,
+    loading: false,
     config,
     runs: [],
     actions: [],
@@ -177,6 +186,15 @@ export const fakeRun4: CheckRun = {
   status: RunStatus.COMPLETED,
 };
 
+export function updateStateSetLoading(pluginName: string) {
+  const nextState = {...privateState$.getValue()};
+  nextState[pluginName] = {
+    ...nextState[pluginName],
+    loading: true,
+  };
+  privateState$.next(nextState);
+}
+
 export function updateStateSetResults(
   pluginName: string,
   runs: CheckRun[],
@@ -185,6 +203,7 @@ export function updateStateSetResults(
   const nextState = {...privateState$.getValue()};
   nextState[pluginName] = {
     ...nextState[pluginName],
+    loading: false,
     runs: [...runs],
     actions: [...actions],
   };

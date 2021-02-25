@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b68d2378_6c706abf",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-25T14:50:32Z",
+      "side": 1,
+      "message": "NIT: If you never know, maybe you can check it returned promise type, not an integer :) \n\n`if (!!p?.then)` ?",
+      "range": {
+        "startLine": 191,
+        "startChar": 16,
+        "endLine": 191,
+        "endChar": 22
+      },
+      "revId": "18d3be99b032b156517f719ad8767b5062becb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "271d6841_35470a34",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-02-25T14:50:32Z",
+      "side": 1,
+      "message": "Could this send fire when you navigate out of changeview? Can it takes long time? Maybe it can be raced with timer(1s) or it can be invalid if current change is different.",
+      "range": {
+        "startLine": 196,
+        "startChar": 8,
+        "endLine": 196,
+        "endChar": 34
+      },
+      "revId": "18d3be99b032b156517f719ad8767b5062becb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

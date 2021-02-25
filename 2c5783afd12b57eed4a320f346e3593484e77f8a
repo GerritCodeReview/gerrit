@@ -118,6 +118,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b73abdd_38b4f2f6",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCumulativeSizeValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-02-25T19:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5403eb93_d38d8b09",
+      "revId": "2c5783afd12b57eed4a320f346e3593484e77f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "044cf724_cf46c946",

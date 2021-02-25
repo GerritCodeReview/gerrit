@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83b9e23b_523410e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-25T15:53:39Z",
+      "side": 1,
+      "message": "Hey Han-Wen, I really like the effort going into updating this, thanks!\n\nI think the scope of this change is making it pretty hard to review now. Would you be open to splitting the updates to different sections into separate changes and ordering the uncontroversial stuff first? I want to get some of the good updates you\u0027ve made merged and we can keep improving on the rest (including likely splitting up this doc into 2 or more docs with different intents).",
+      "revId": "789646a6646b307b3732ad957e7248ce1b3a192c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9178a12d_c7458988",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-25T15:53:39Z",
+      "side": 1,
+      "message": "nit: support",
+      "range": {
+        "startLine": 183,
+        "startChar": 24,
+        "endLine": 183,
+        "endChar": 32
+      },
+      "revId": "789646a6646b307b3732ad957e7248ce1b3a192c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "560cc58c_e64fe252",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-25T15:53:39Z",
+      "side": 1,
+      "message": "Other types of loading are supported too: https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#deployment",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 13
+      },
+      "revId": "789646a6646b307b3732ad957e7248ce1b3a192c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d312eeb_fcf8e315",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-25T15:53:39Z",
+      "side": 1,
+      "message": "nit: from Gerrit",
+      "range": {
+        "startLine": 296,
+        "startChar": 62,
+        "endLine": 297,
+        "endChar": 6
+      },
+      "revId": "789646a6646b307b3732ad957e7248ce1b3a192c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72fdd062_9e452e71",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-25T15:53:39Z",
+      "side": 1,
+      "message": "Missing \u0027.\u0027 at the end.",
+      "range": {
+        "startLine": 345,
+        "startChar": 55,
+        "endLine": 345,
+        "endChar": 66
+      },
+      "revId": "789646a6646b307b3732ad957e7248ce1b3a192c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

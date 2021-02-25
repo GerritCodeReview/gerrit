@@ -298,6 +298,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ccf6bf51_35cf8e50",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-25T15:53:39Z",
+      "side": 1,
+      "message": "\u003e \u003e Think of this as a product intro doc,\n\u003e \n\u003e but it\u0027s not. It\u0027s a doc that should describe how gerrit works.\n\nNot to be flippant, but since when? Shawn\u0027s initial commit describes it only as \"a document describing Gerrit\u0027s high level design\". None of his commit messages or later commits from others indicate an audience. In the initial commit (c4bcc0986df3427e36e8128a040f70e9a99f4d75) Shawn included information about the project\u0027s setup/hosting, as well as all this overview and background info. That feels to me like it was targeting folks new to Gerrit that are trying to understand what the tool is.\n\nI\u0027m perfectly ok with narrowing/defining the scope of this doc to be something specific you have in mind. I do think this \"product intro\" content is valuable and shouldn\u0027t be lost. When I think about users coming to https://gerritcodereview.com/ I would expect this kind of basic intro would be valuable there (either as a doc there or a link to something here). I\u0027m not clear on the defining line between what goes into homepage.git and what stays in Documentation/, do you know?",
+      "parentUuid": "797fa2c5_1c90cbef",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 91,
+        "endChar": 33
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d713f4bc_6f29bebb",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1

@@ -16,7 +16,6 @@ package com.google.gerrit.server.patch;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -387,16 +386,8 @@ class PatchScriptBuilder {
         byte[] srcContent;
         if (reuse) {
           srcContent = other.srcContent;
-
-        } else if (mode.getObjectType() == Constants.OBJ_BLOB) {
-          srcContent = Text.asByteArray(db.open(id, Constants.OBJ_BLOB));
-
-        } else if (mode.getObjectType() == Constants.OBJ_COMMIT) {
-          String strContent = "Subproject commit " + ObjectId.toString(id);
-          srcContent = strContent.getBytes(UTF_8);
-
         } else {
-          srcContent = Text.NO_BYTES;
+          srcContent = SrcContentResolver.getSourceContent(db, id, mode);
         }
         String mimeType = MimeUtil2.UNKNOWN_MIME_TYPE.toString();
         DisplayMethod displayMethod = DisplayMethod.DIFF;

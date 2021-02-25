@@ -16,27 +16,40 @@ package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -56,10 +69,48 @@ public class CommentContextIT extends AbstractDaemonTest {
       String.join("\n", "Line 1 of file", "", "Line 3 of file", "", "", "Line 6 of file");
 
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ProjectOperations projectOperations;
+
+  private static AtomicInteger contentCounter = new AtomicInteger(0);
+
+  /** These fields are used to test comment context with git submodule files. */
+  private TestRepository<?> superRepo;
+  private Project.NameKey superKey;
+  private TestRepository<?> subRepo;
+  private Project.NameKey subKey;
 
   @Before
-  public void setUp() {
+  public void setup() throws Exception {
     requestScopeOperations.setApiUser(user.id());
+    superKey = createProjectForPush(SubmitType.MERGE_IF_NECESSARY);
+    subKey = createProjectForPush(SubmitType.MERGE_IF_NECESSARY);
+    superRepo = cloneProject(superKey);
+    subRepo = cloneProject(subKey);
+  }
+
+  @Test
+  public void commentContextForGitSubmoduleFiles() throws Exception {
+    // Push a commit to the submodule
+    ObjectId subHead = pushChangeTo(subRepo, "refs/heads/master", "subHead commit", "");
+
+    // Update the parent repository to point to the last submodule commit
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), superRepo).addGitSubmodule(subKey.get(), subHead);
+    PushOneCommit.Result pushResult = push.to("refs/for/master");
+    String changeId = pushResult.getChangeId();
+
+    // Create a comment in the submodule file
+    CommentInput comment =
+        CommentsUtil.newComment(subKey.get(), Side.REVISION, 1, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, pushResult.getCommit().name(), comment);
+
+    // Retrieve the comment context for the submodule file
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList();
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).path).isEqualTo(subKey.get());
+    assertThat(comments.get(0).contextLines)
+        .isEqualTo(createContextLines("1", "Subproject commit " + subHead.getName()));
   }
 
   @Test
@@ -460,5 +511,49 @@ public class CommentContextIT extends AbstractDaemonTest {
       result.add(info);
     }
     return result;
+  }
+
+  private Project.NameKey createProjectForPush(SubmitType submitType) throws Exception {
+    Project.NameKey project = projectOperations.newProject().submitType(submitType).create();
+    grantPush(project);
+    return project;
+  }
+
+  protected void grantPush(Project.NameKey project) throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(adminGroupUuid()))
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/*").group(adminGroupUuid()))
+        .update();
+  }
+
+  private ObjectId pushChangeTo(TestRepository<?> repo, String ref, String message, String topic)
+      throws Exception {
+    return pushChangeTo(
+        repo, ref, "a.txt", "a contents: " + contentCounter.incrementAndGet(), message, topic);
+  }
+
+  private ObjectId pushChangeTo(
+      TestRepository<?> repo, String ref, String file, String content, String message, String topic)
+      throws Exception {
+    ObjectId ret =
+        repo.branch("HEAD").commit().insertChangeId().message(message).add(file, content).create();
+
+    String pushedRef = ref;
+    if (!topic.isEmpty()) {
+      pushedRef += "%topic=" + name(topic);
+    }
+    String refspec = "HEAD:" + pushedRef;
+
+    Iterable<PushResult> res =
+        repo.git().push().setRemote("origin").setRefSpecs(new RefSpec(refspec)).call();
+
+    RemoteRefUpdate u = Iterables.getOnlyElement(res).getRemoteUpdate(pushedRef);
+    assertThat(u).isNotNull();
+    assertThat(u.getStatus()).isEqualTo(Status.OK);
+    assertThat(u.getNewObjectId()).isEqualTo(ret);
+
+    return ret;
   }
 }

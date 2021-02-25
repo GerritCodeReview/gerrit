@@ -47,6 +47,7 @@ import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -289,6 +290,18 @@ public class PushOneCommit {
           public void apply(DirCacheEntry ent) {
             ent.setFileMode(FileMode.SYMLINK);
             ent.setObjectId(blobId);
+          }
+        });
+    return this;
+  }
+
+  public PushOneCommit addGitSubmodule(String modulePath, ObjectId commitId) {
+    commitBuilder.edit(
+        new PathEdit(modulePath) {
+          @Override
+          public void apply(DirCacheEntry ent) {
+            ent.setFileMode(FileMode.GITLINK);
+            ent.setObjectId(commitId);
           }
         });
     return this;

@@ -29,23 +29,23 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffMappings;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.GitPositionTransformer;
 import com.google.gerrit.server.patch.GitPositionTransformer.BestPositionOnConflict;
 import com.google.gerrit.server.patch.GitPositionTransformer.FileMapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Mapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Position;
 import com.google.gerrit.server.patch.GitPositionTransformer.PositionedEntity;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.patch.filediff.FileEdits;
+import com.google.gerrit.server.patch.filediff.TaggedEdit;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
@@ -99,15 +99,15 @@ public class CommentPorter {
     }
   }
 
+  private final DiffOperations diffOperations;
   private final GitPositionTransformer positionTransformer =
       new GitPositionTransformer(BestPositionOnConflict.INSTANCE);
-  private final PatchListCache patchListCache;
   private final CommentsUtil commentsUtil;
   private final Metrics metrics;
 
   @Inject
-  public CommentPorter(PatchListCache patchListCache, CommentsUtil commentsUtil, Metrics metrics) {
-    this.patchListCache = patchListCache;
+  public CommentPorter(DiffOperations diffOperations, CommentsUtil commentsUtil, Metrics metrics) {
+    this.diffOperations = diffOperations;
     this.commentsUtil = commentsUtil;
     this.metrics = metrics;
   }
@@ -258,7 +258,7 @@ public class CommentPorter {
       PatchSet originalPatchset,
       PatchSet targetPatchset,
       short side)
-      throws PatchListNotAvailableException {
+      throws DiffNotAvailableException {
     ObjectId originalCommit = determineCommitId(change, originalPatchset, side);
     ObjectId targetCommit = determineCommitId(change, targetPatchset, side);
     return loadCommitMappings(project, originalCommit, targetCommit);
@@ -277,12 +277,20 @@ public class CommentPorter {
 
   private ImmutableSet<Mapping> loadCommitMappings(
       Project.NameKey project, ObjectId originalCommit, ObjectId targetCommit)
-      throws PatchListNotAvailableException {
-    PatchList patchList =
-        patchListCache.get(
-            PatchListKey.againstCommit(originalCommit, targetCommit, Whitespace.IGNORE_NONE),
-            project);
-    return patchList.getPatches().stream().map(DiffMappings::toMapping).collect(toImmutableSet());
+      throws DiffNotAvailableException {
+    Map<String, FileDiffOutput> modifiedFiles =
+        diffOperations.listModifiedFiles(project, originalCommit, targetCommit);
+    return modifiedFiles.values().stream()
+        .map(CommentPorter::getFileEdits)
+        .map(DiffMappings::toMapping)
+        .collect(toImmutableSet());
+  }
+
+  private static FileEdits getFileEdits(FileDiffOutput fileDiffOutput) {
+    return FileEdits.create(
+        fileDiffOutput.edits().stream().map(TaggedEdit::edit).collect(toImmutableList()),
+        fileDiffOutput.oldPath(),
+        fileDiffOutput.newPath());
   }
 
   private ImmutableSet<Mapping> getFallbackMappings(List<HumanComment> comments) {

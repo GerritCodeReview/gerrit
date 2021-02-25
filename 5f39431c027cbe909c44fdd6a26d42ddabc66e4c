@@ -264,6 +264,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "827bcec3_9ab977eb",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T19:00:11Z",
+      "side": 0,
+      "message": "\u003e That\u0027s great detail to have from a design perspective, thanks.\n\ndo you mean I should put it in the design doc? Or did you mean to resolve this thread?",
+      "parentUuid": "a3c7f604_fd01e1d9",
+      "range": {
+        "startLine": 480,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 22
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2123501b_6219f7bc",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1

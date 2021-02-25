@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "708e3327_063a935a",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/RestoreChange.scala",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-25T18:32:12Z",
+      "side": 1,
+      "message": "Nice consistency.",
+      "range": {
+        "startLine": 72,
+        "startChar": 5,
+        "endLine": 72,
+        "endChar": 6
+      },
+      "revId": "8d2d51e31def479a824941642d18527bac502ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

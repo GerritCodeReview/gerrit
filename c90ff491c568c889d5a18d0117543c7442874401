@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c60778f4_11dadaea",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/RestoreChange.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-02-25T18:32:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "58ad6685_1a435129",
+      "range": {
+        "startLine": 40,
+        "startChar": 44,
+        "endLine": 40,
+        "endChar": 50
+      },
+      "revId": "c90ff491c568c889d5a18d0117543c7442874401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e825960f_721cad08",

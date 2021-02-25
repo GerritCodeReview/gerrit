@@ -37,9 +37,13 @@ export function isValidDate(date: any): date is Date {
 
 // similar to fromNow from moment.js
 export function fromNow(date: Date, noAgo = false) {
-  const now = new Date();
+  return durationString(date, new Date(), noAgo);
+}
+
+// similar to fromNow from moment.js
+export function durationString(from: Date, to: Date, noAgo = false) {
   const ago = noAgo ? '' : ' ago';
-  const secondsAgo = Math.floor((now.valueOf() - date.valueOf()) / 1000);
+  const secondsAgo = Math.floor((to.valueOf() - from.valueOf()) / 1000);
   if (secondsAgo <= 59) return 'just now';
   if (secondsAgo <= 119) return `1 minute${ago}`;
   const minutesAgo = Math.floor(secondsAgo / 60);

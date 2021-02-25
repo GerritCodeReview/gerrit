@@ -15,26 +15,15 @@
  * limitations under the License.
  */
 import {html} from 'lit-html';
-import {
-  css,
-  customElement,
-  internalProperty,
-  property,
-  PropertyValues,
-  query,
-} from 'lit-element';
+import {css, customElement, internalProperty, property, PropertyValues, query,} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
-import {Category, CheckRun, Link, RunStatus, Tag} from '../../api/checks';
+import {Category, CheckRun, Link, LinkIcon, RunStatus, Tag} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {RunResult} from '../../services/checks/checks-model';
-import {
-  hasCompleted,
-  hasCompletedWithoutResults,
-  iconForCategory,
-  isRunning,
-} from '../../services/checks/checks-util';
+import {hasCompleted, hasCompletedWithoutResults, iconForCategory, isRunning,} from '../../services/checks/checks-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
+import {durationString} from '../../utils/date-util';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {
@@ -473,9 +462,26 @@ export class GrChecksResults extends GrLitElement {
     const adaptedRun: RunResult = {
       category: Category.INFO, // will not be used, but is required
       summary: run.statusDescription ?? '',
-      message: 'Completed without results.',
       ...run,
     };
+    if (!run.statusDescription) {
+      const start = run.scheduledTimestamp ?? run.startedTimestamp;
+      const end = run.finishedTimestamp;
+      let duration = '';
+      if (start && end) {
+        duration = ` in ${durationString(start, end, true)}`;
+      }
+      adaptedRun.message = `Completed without results${duration}.`;
+    }
+    if (run.statusLink) {
+      adaptedRun.links = [
+        {
+          url: run.statusLink,
+          primary: true,
+          icon: LinkIcon.EXTERNAL,
+        },
+      ];
+    }
     return html`<gr-result-row .result="${adaptedRun}"></gr-result-row>`;
   }
 }

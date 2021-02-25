@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.prettify.common.SparseFileContent.Accessor;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -41,6 +42,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * This class is used on submit to compute the diff between the latest approved patch-set, and the
@@ -58,15 +60,18 @@ public class SubmitWithStickyApprovalDiff {
   private final ProjectCache projectCache;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final PatchListCache patchListCache;
+  private final int maxCumulativeSize;
 
   @Inject
   SubmitWithStickyApprovalDiff(
       ProjectCache projectCache,
       PatchScriptFactory.Factory patchScriptFactoryFactory,
-      PatchListCache patchListCache) {
+      PatchListCache patchListCache,
+      @GerritServerConfig Config serverConfig) {
     this.projectCache = projectCache;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.patchListCache = patchListCache;
+    maxCumulativeSize = serverConfig.getInt("change", "cumulativeCommentSizeLimit", 3 << 20);
   }
 
   public String apply(ChangeNotes notes, CurrentUser currentUser)
@@ -114,6 +119,16 @@ public class SubmitWithStickyApprovalDiff {
       diff +=
           getDiffForFile(
               notes, currentPatchset.id(), latestApprovedPatchsetId, patchListEntry, currentUser);
+    }
+
+    if (diff.length() > maxCumulativeSize * 10) {
+      // This diff can be larger than the limit since it's not computed as part of the limit.
+      // However, if it's much above the limit (10x), avoid the message and only tell the user many
+      // files changed.
+      return String.format(
+          "\n\n%d is the latest approved patch-set.\n The change was submitted "
+              + "with many unreviewed changes. Please review the diff.",
+          latestApprovedPatchsetId.get());
     }
     return diff;
   }

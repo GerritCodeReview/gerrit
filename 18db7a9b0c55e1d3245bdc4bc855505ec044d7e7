@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "27e0aed4_899903b1",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T18:57:24Z",
+      "side": 1,
+      "message": "oh, I see. maybe note this in a comment.",
+      "parentUuid": "37b283d6_608e3ffb",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a352f532_180bfc4a",
         "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
         "patchSetId": 5
@@ -114,6 +138,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99cd4136_6da8f9ad",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T18:57:24Z",
+      "side": 1,
+      "message": "I was expecting something like \n\n\n   Set\u003c?\u003e oldAsSet \u003d ..\n   List\u003c?\u003e diff \u003d new ArrayList();\n   for (? n : newcollection) { \n        if (!oldAsSet.contains(n)) diff.add(n); \n   }\n   return diff\n\nwhat kind of duplicates are you anticipating?",
+      "parentUuid": "bd51a13c_db462ab7",
+      "range": {
+        "startLine": 123,
+        "startChar": 26,
+        "endLine": 123,
+        "endChar": 51
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d886f1d1_41b22c6d",
         "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
         "patchSetId": 5
@@ -149,6 +197,30 @@
       "side": 1,
       "message": "There are 3 checked exceptions that can be thrown\n\n- InvocationTargetException when the constructor throws for some reason.\n- IllegalAccessException for visibility problems (most likely to happen)\n- InstantiationException - this won\u0027t happen. It\u0027s for abstract class instantiation\n\nThey can all be wrapped under ReflectiveOperationException.\n\nLogging an error here seems appropriate - changed.",
       "parentUuid": "d886f1d1_41b22c6d",
+      "range": {
+        "startLine": 152,
+        "startChar": 13,
+        "endLine": 152,
+        "endChar": 41
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "109fc411_9d179ae5",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-02-25T18:57:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "033c24d5_19461e1b",
       "range": {
         "startLine": 152,
         "startChar": 13,

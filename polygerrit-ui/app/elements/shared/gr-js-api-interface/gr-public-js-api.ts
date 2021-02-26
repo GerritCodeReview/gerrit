@@ -54,6 +54,7 @@ import {RepoPluginApi} from '../../../api/repo';
 import {ChangeReplyPluginApi} from '../../../api/change-reply';
 import {RestPluginApi} from '../../../api/rest';
 import {HookApi, RegisterOptions} from '../../../api/hook';
+import {AttributeHelperPluginApi} from '../../../api/attribute-helper';
 
 /**
  * Plugin-provided custom components can affect content in extension
@@ -84,6 +85,8 @@ export class Plugin implements PluginApi {
 
   private readonly jsApi = appContext.jsApiService;
 
+  private readonly report = appContext.reportingService;
+
   constructor(url?: string) {
     this.domHooks = new GrDomHooksManager(this);
 
@@ -97,13 +100,16 @@ export class Plugin implements PluginApi {
 
     this._url = new URL(url);
     this._name = getPluginNameFromUrl(this._url) ?? 'NULL';
+    this.report.trackApi(this, 'plugin', 'constructor');
   }
 
   getPluginName() {
+    this.report.trackApi(this, 'plugin', 'getPluginName');
     return this._name;
   }
 
   registerStyleModule(endpoint: string, moduleName: string) {
+    this.report.trackApi(this, 'plugin', 'registerStyleModule');
     getPluginEndpoints().registerModule(this, {
       endpoint,
       type: EndpointType.STYLE,
@@ -119,6 +125,7 @@ export class Plugin implements PluginApi {
     moduleName?: string,
     options?: RegisterOptions
   ): HookApi {
+    this.report.trackApi(this, 'plugin', 'registerCustomComponent');
     return this._registerCustomComponent(endpointName, moduleName, options);
   }
 
@@ -133,6 +140,7 @@ export class Plugin implements PluginApi {
     moduleName?: string,
     options?: RegisterOptions
   ): HookApi {
+    this.report.trackApi(this, 'plugin', 'registerDynamicCustomComponent');
     const fullEndpointName = `${endpointName}-${this.getPluginName()}`;
     return this._registerCustomComponent(
       fullEndpointName,
@@ -169,19 +177,23 @@ export class Plugin implements PluginApi {
    * element for the first call.
    */
   hook(endpointName: string, options?: RegisterOptions) {
+    this.report.trackApi(this, 'plugin', 'hook');
     return this.registerCustomComponent(endpointName, undefined, options);
   }
 
   getServerInfo() {
+    this.report.trackApi(this, 'plugin', 'getServerInfo');
     return appContext.restApiService.getConfig();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   on(eventName: EventType, callback: (...args: any[]) => any) {
+    this.report.trackApi(this, 'plugin', 'on');
     this.jsApi.addEventCallback(eventName, callback);
   }
 
   url(path?: string) {
+    this.report.trackApi(this, 'plugin', 'url');
     if (!this._url) throw new Error('plugin url not set');
     const relPath = '/plugins/' + this._name + (path || '/');
     const sameOriginPath = window.location.origin + `${getBaseUrl()}${relPath}`;
@@ -200,6 +212,7 @@ export class Plugin implements PluginApi {
   }
 
   screenUrl(screenName?: string) {
+    this.report.trackApi(this, 'plugin', 'screenUrl');
     const origin = location.origin;
     const base = getBaseUrl();
     const tokenPart = screenName ? '/' + screenName : '';
@@ -216,21 +229,25 @@ export class Plugin implements PluginApi {
   }
 
   get(url: string, callback?: SendCallback) {
+    this.report.trackApi(this, 'plugin', 'get');
     console.warn('.get() is deprecated! Use .restApi().get()');
     return this._send(HttpMethod.GET, url, callback);
   }
 
   post(url: string, payload: RequestPayload, callback?: SendCallback) {
+    this.report.trackApi(this, 'plugin', 'post');
     console.warn('.post() is deprecated! Use .restApi().post()');
     return this._send(HttpMethod.POST, url, callback, payload);
   }
 
   put(url: string, payload: RequestPayload, callback?: SendCallback) {
+    this.report.trackApi(this, 'plugin', 'put');
     console.warn('.put() is deprecated! Use .restApi().put()');
     return this._send(HttpMethod.PUT, url, callback, payload);
   }
 
   delete(url: string, callback?: SendCallback) {
+    this.report.trackApi(this, 'plugin', 'delete');
     console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
     return this.restApi()
       .delete(this.url(url))
@@ -286,19 +303,19 @@ export class Plugin implements PluginApi {
   }
 
   styles(): StylesPluginApi {
-    return new GrStylesApi();
+    return new GrStylesApi(this);
   }
 
   restApi(prefix?: string): RestPluginApi {
-    return new GrPluginRestApi(prefix);
+    return new GrPluginRestApi(this, prefix);
   }
 
-  attributeHelper(element: HTMLElement) {
-    return new GrAttributeHelper(element);
+  attributeHelper(element: HTMLElement): AttributeHelperPluginApi {
+    return new GrAttributeHelper(this, element);
   }
 
   eventHelper(element: HTMLElement): EventHelperPluginApi {
-    return new GrEventHelper(element);
+    return new GrEventHelper(this, element);
   }
 
   popup(): Promise<PopupPluginApi>;
@@ -314,6 +331,7 @@ export class Plugin implements PluginApi {
   }
 
   screen(screenName: string, moduleName?: string) {
+    this.report.trackApi(this, 'plugin', 'screen');
     if (moduleName && typeof moduleName !== 'string') {
       console.error(
         '.screen(pattern, callback) deprecated, use ' +
@@ -328,6 +346,7 @@ export class Plugin implements PluginApi {
   }
 
   _getScreenName(screenName: string) {
+    this.report.trackApi(this, 'plugin', '_getScreenName');
     return `${this.getPluginName()}-screen-${screenName}`;
   }
 }

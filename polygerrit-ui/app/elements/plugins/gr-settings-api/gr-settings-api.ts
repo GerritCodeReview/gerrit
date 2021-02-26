@@ -18,6 +18,7 @@ import '../../settings/gr-settings-view/gr-settings-item';
 import '../../settings/gr-settings-view/gr-settings-menu-item';
 import {PluginApi} from '../../../api/plugin';
 import {SettingsPluginApi} from '../../../api/settings';
+import {appContext} from '../../../services/app-context';
 
 export class GrSettingsApi implements SettingsPluginApi {
   private _token: string;
@@ -26,27 +27,34 @@ export class GrSettingsApi implements SettingsPluginApi {
 
   private _moduleName?: string;
 
+  private readonly reporting = appContext.reportingService;
+
   constructor(readonly plugin: PluginApi) {
+    this.reporting.trackApi(this.plugin, 'settings', 'constructor');
     // Generate default screen URL token, specific to plugin, and unique(ish).
     this._token = plugin.getPluginName() + Math.random().toString(36).substr(5);
   }
 
   title(newTitle: string) {
+    this.reporting.trackApi(this.plugin, 'settings', 'title');
     this._title = newTitle;
     return this;
   }
 
   token(newToken: string) {
+    this.reporting.trackApi(this.plugin, 'settings', 'token');
     this._token = newToken;
     return this;
   }
 
   module(newModuleName: string) {
+    this.reporting.trackApi(this.plugin, 'settings', 'module');
     this._moduleName = newModuleName;
     return this;
   }
 
   build() {
+    this.reporting.trackApi(this.plugin, 'settings', 'build');
     if (!this._moduleName) {
       throw new Error('Settings screen custom element not defined!');
     }

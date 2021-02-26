@@ -16,6 +16,23 @@
       "message": "ping again ... this has been opened for 10 days without any feedback :-(\nIt is fixing a major breakage for the multi-site plugin on stable-3.3.",
       "revId": "fceea5937b9b018bb20d8fb92a2203f219cb300c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cf4bd57_641e52bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-26T07:45:38Z",
+      "side": 1,
+      "message": "Should we document new lib module type(BatchModule) somewhere in the documentation?",
+      "revId": "fceea5937b9b018bb20d8fb92a2203f219cb300c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcd59e27_22ec4236",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-26T13:22:57Z",
+      "side": 1,
+      "message": "Thanks, Edwin. Just one minor nit.",
+      "revId": "4a1b2ce1e4941cc4e799bc86134e22dbf7cee3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7715831f_65b62f22",
+        "filename": "Documentation/dev-rest-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-26T13:22:57Z",
+      "side": 1,
+      "message": "add",
+      "range": {
+        "startLine": 56,
+        "startChar": 74,
+        "endLine": 56,
+        "endChar": 77
+      },
+      "revId": "4a1b2ce1e4941cc4e799bc86134e22dbf7cee3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1929efe_cdc31004",
+        "filename": "Documentation/dev-rest-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-26T13:22:57Z",
+      "side": 1,
+      "message": "to",
+      "range": {
+        "startLine": 56,
+        "startChar": 85,
+        "endLine": 56,
+        "endChar": 87
+      },
+      "revId": "4a1b2ce1e4941cc4e799bc86134e22dbf7cee3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

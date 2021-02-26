@@ -292,17 +292,17 @@ export class GrReporting implements ReportingService {
 
   private readonly _baselines = STARTUP_TIMERS;
 
-  private reportRepoName: string | undefined;
+  private _reportRepoName: string | undefined;
 
-  private reportChangeId: NumericChangeId | undefined;
+  private _reportChangeId: NumericChangeId | undefined;
 
-  private timers: {timeBetweenDraftActions: Timer | null} = {
+  private _timers: {timeBetweenDraftActions: Timer | null} = {
     timeBetweenDraftActions: null,
   };
 
-  private pending: PendingReportInfo[] = [];
+  private _pending: PendingReportInfo[] = [];
 
-  private slowRpcList: SlowRpcCall[] = [];
+  private _slowRpcList: SlowRpcCall[] = [];
 
   /**
    * Keeps track of which ids were already reported to have been executed.
@@ -321,7 +321,7 @@ export class GrReporting implements ReportingService {
   }
 
   private get slowRpcSnapshot() {
-    return (this.slowRpcList || []).slice();
+    return (this._slowRpcList || []).slice();
   }
 
   private _arePluginsLoaded() {
@@ -366,16 +366,16 @@ export class GrReporting implements ReportingService {
     }
 
     // We report events immediately when metrics plugin is loaded
-    if (this._isMetricsPluginLoaded() && !this.pending.length) {
+    if (this._isMetricsPluginLoaded() && !this._pending.length) {
       this._reportEvent(eventInfo, noLog);
     } else {
       // We cache until metrics plugin is loaded
-      this.pending.push([eventInfo, noLog]);
+      this._pending.push([eventInfo, noLog]);
       if (this._isMetricsPluginLoaded()) {
-        this.pending.forEach(([eventInfo, opt_noLog]) => {
+        this._pending.forEach(([eventInfo, opt_noLog]) => {
           this._reportEvent(eventInfo, opt_noLog);
         });
-        this.pending = [];
+        this._pending = [];
       }
     }
   }
@@ -417,11 +417,11 @@ export class GrReporting implements ReportingService {
       eventInfo.eventDetails = JSON.stringify(eventDetails);
     }
 
-    if (this.reportRepoName) {
-      eventInfo.repoName = this.reportRepoName;
+    if (this._reportRepoName) {
+      eventInfo.repoName = this._reportRepoName;
     }
-    if (this.reportChangeId) {
-      eventInfo.changeId = `${this.reportChangeId}`;
+    if (this._reportChangeId) {
+      eventInfo.changeId = `${this._reportChangeId}`;
     }
 
     const isInBackgroundTab = document.visibilityState === 'hidden';
@@ -501,10 +501,10 @@ export class GrReporting implements ReportingService {
     this.time(TIMER.DIFF_VIEW_DISPLAYED);
     this.time(TIMER.DIFF_VIEW_LOAD_FULL);
     this.time(TIMER.FILE_LIST_DISPLAYED);
-    this.reportRepoName = undefined;
-    this.reportChangeId = undefined;
+    this._reportRepoName = undefined;
+    this._reportChangeId = undefined;
     // reset slow rpc list since here start page loads which report these rpcs
-    this.slowRpcList = [];
+    this._slowRpcList = [];
     this.hiddenDurationTimer.reset();
   }
 
@@ -765,7 +765,7 @@ export class GrReporting implements ReportingService {
       true
     );
     if (elapsed >= SLOW_RPC_THRESHOLD) {
-      this.slowRpcList.push({anonymizedUrl, elapsed});
+      this._slowRpcList.push({anonymizedUrl, elapsed});
     }
   }
 
@@ -812,10 +812,10 @@ export class GrReporting implements ReportingService {
     // If there is no timer defined, then this is the first interaction.
     // Set up the timer so that it's ready to record the intervening time when
     // called again.
-    const timer = this.timers.timeBetweenDraftActions;
+    const timer = this._timers.timeBetweenDraftActions;
     if (!timer) {
       // Create a timer with a maximum length.
-      this.timers.timeBetweenDraftActions = this.getTimer(
+      this._timers.timeBetweenDraftActions = this.getTimer(
         DRAFT_ACTION_TIMER
       ).withMaximum(DRAFT_ACTION_TIMER_MAX);
       return;
@@ -848,11 +848,11 @@ export class GrReporting implements ReportingService {
   }
 
   setRepoName(repoName: string) {
-    this.reportRepoName = repoName;
+    this._reportRepoName = repoName;
   }
 
   setChangeId(changeId: NumericChangeId) {
-    this.reportChangeId = changeId;
+    this._reportChangeId = changeId;
   }
 }
 

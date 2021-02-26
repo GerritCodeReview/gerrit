@@ -19,24 +19,24 @@ import {ChangeMetadataPluginApi} from '../../../api/change-metadata';
 import {HookApi} from '../../../api/hook';
 
 export class GrChangeMetadataApi implements ChangeMetadataPluginApi {
-  private hook: HookApi | null;
+  private _hook: HookApi | null;
 
   public plugin: PluginApi;
 
   constructor(plugin: PluginApi) {
     this.plugin = plugin;
-    this.hook = null;
+    this._hook = null;
   }
 
   _createHook() {
-    this.hook = this.plugin.hook('change-metadata-item');
+    this._hook = this.plugin.hook('change-metadata-item');
   }
 
   onLabelsChanged(callback: (value: unknown) => void) {
-    if (!this.hook) {
+    if (!this._hook) {
       this._createHook();
     }
-    this.hook!.onAttached((element: Element) =>
+    this._hook!.onAttached((element: Element) =>
       this.plugin.attributeHelper(element).bind('labels', callback)
     );
     return this;

@@ -51,10 +51,10 @@ export class GrPluginEndpoints {
 
   private readonly _importedUrls = new Set<string>();
 
-  private pluginLoaded = false;
+  private _pluginLoaded = false;
 
   setPluginsReady() {
-    this.pluginLoaded = true;
+    this._pluginLoaded = true;
   }
 
   onNewEndpoint(endpoint: string, callback: Callback) {
@@ -125,7 +125,7 @@ export class GrPluginEndpoints {
     // one register before plugins ready
     // the other done after, then only the later one will have the callbacks
     // invoked.
-    if (this.pluginLoaded && this._callbacks.has(endpoint)) {
+    if (this._pluginLoaded && this._callbacks.has(endpoint)) {
       this._callbacks.get(endpoint)!.forEach(callback => callback(moduleInfo));
     }
   }

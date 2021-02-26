@@ -60,7 +60,7 @@ export interface GrChangeActionsElement extends Element {
 }
 
 export class GrChangeActionsInterface implements ChangeActionsPluginApi {
-  private el?: GrChangeActionsElement;
+  private _el?: GrChangeActionsElement;
 
   RevisionActions = RevisionActions;
 
@@ -80,7 +80,7 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
       console.warn('changeActions() is not ready');
       return;
     }
-    this.el = el;
+    this._el = el;
   }
 
   /**
@@ -88,7 +88,7 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
    * element and retrieve if the interface was created before element.
    */
   private ensureEl(): GrChangeActionsElement {
-    if (!this.el) {
+    if (!this._el) {
       const sharedApiElement = appContext.jsApiService;
       this.setEl(
         (sharedApiElement.getElement(
@@ -96,7 +96,7 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
         ) as unknown) as GrChangeActionsElement
       );
     }
-    return this.el!;
+    return this._el!;
   }
 
   addPrimaryActionKey(key: PrimaryActionKey) {

@@ -56,7 +56,7 @@ export class GrOverlay extends IronOverlayMixin(
    * @event fullscreen-overlay-opened
    */
 
-  private fullScreenOpen = false;
+  private _fullScreenOpen = false;
 
   private _boundHandleClose: () => void = () => super.close();
 
@@ -99,7 +99,7 @@ export class GrOverlay extends IronOverlayMixin(
       super.open.apply(this);
       if (this._isMobile()) {
         fireEvent(this, 'fullscreen-overlay-opened');
-        this.fullScreenOpen = true;
+        this._fullScreenOpen = true;
       }
       this._awaitOpen(resolve, reject);
     });
@@ -112,9 +112,9 @@ export class GrOverlay extends IronOverlayMixin(
   // called after iron-overlay is closed. Does not actually close the overlay
   _overlayClosed() {
     window.removeEventListener('popstate', this._boundHandleClose);
-    if (this.fullScreenOpen) {
+    if (this._fullScreenOpen) {
       fireEvent(this, 'fullscreen-overlay-closed');
-      this.fullScreenOpen = false;
+      this._fullScreenOpen = false;
     }
     if (this.returnFocusTo) {
       this.returnFocusTo.focus();

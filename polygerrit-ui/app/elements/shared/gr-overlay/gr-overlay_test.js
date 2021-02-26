@@ -57,11 +57,11 @@ suite('gr-overlay tests', () => {
     await element.open();
 
     assert.isTrue(element._isMobile.called);
-    assert.isTrue(element.fullScreenOpen);
+    assert.isTrue(element._fullScreenOpen);
     assert.isTrue(openHandler.called);
 
     element._overlayClosed();
-    assert.isFalse(element.fullScreenOpen);
+    assert.isFalse(element._fullScreenOpen);
     assert.isTrue(closeHandler.called);
   });
 
@@ -75,11 +75,11 @@ suite('gr-overlay tests', () => {
     await element.open();
 
     assert.isTrue(element._isMobile.called);
-    assert.isFalse(element.fullScreenOpen);
+    assert.isFalse(element._fullScreenOpen);
     assert.isFalse(openHandler.called);
 
     element._overlayClosed();
-    assert.isFalse(element.fullScreenOpen);
+    assert.isFalse(element._fullScreenOpen);
     assert.isFalse(closeHandler.called);
   });
 });

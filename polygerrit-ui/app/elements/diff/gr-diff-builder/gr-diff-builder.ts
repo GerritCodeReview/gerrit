@@ -80,7 +80,7 @@ export abstract class GrDiffBuilder {
 
   readonly groups: GrDiffGroup[];
 
-  private blameInfo: BlameInfo[] | null;
+  private _blameInfo: BlameInfo[] | null;
 
   private readonly _layerUpdateListener: (
     start: LineNumber,
@@ -104,7 +104,7 @@ export abstract class GrDiffBuilder {
     this._prefs = prefs;
     this._outputEl = outputEl;
     this.groups = [];
-    this.blameInfo = null;
+    this._blameInfo = null;
 
     if (isNaN(prefs.tab_size) || prefs.tab_size <= 0) {
       throw Error('Invalid tab size from preferences.');
@@ -765,7 +765,7 @@ export abstract class GrDiffBuilder {
    * re-render its blame cell content.
    */
   setBlame(blame: BlameInfo[] | null) {
-    this.blameInfo = blame;
+    this._blameInfo = blame;
     if (!blame) return;
 
     // TODO(wyatta): make this loop asynchronous.
@@ -890,11 +890,11 @@ export abstract class GrDiffBuilder {
    * @return The commit information.
    */
   _getBlameCommitForBaseLine(lineNum: LineNumber) {
-    if (!this.blameInfo) {
+    if (!this._blameInfo) {
       return null;
     }
 
-    for (const blameCommit of this.blameInfo) {
+    for (const blameCommit of this._blameInfo) {
       for (const range of blameCommit.ranges) {
         if (range.start <= lineNum && range.end >= lineNum) {
           return blameCommit;

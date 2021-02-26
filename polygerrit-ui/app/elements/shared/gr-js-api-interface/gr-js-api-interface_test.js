@@ -426,7 +426,7 @@ suite('GrJsApiInterface tests', () => {
             // eslint-disable-next-line no-invalid-this
             const grPopupInterface = this;
             assert.equal(grPopupInterface.plugin, plugin);
-            assert.equal(grPopupInterface.moduleName, 'some-name');
+            assert.equal(grPopupInterface._moduleName, 'some-name');
           });
       plugin.popup('some-name');
       assert.isTrue(openStub.calledOnce);

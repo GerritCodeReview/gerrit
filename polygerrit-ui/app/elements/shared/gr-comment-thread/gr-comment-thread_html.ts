@@ -90,11 +90,11 @@ export const htmlTemplate = html`
       margin-left: var(--spacing-l);
       border: 1px solid var(--border-color);
     }
-    .view-diff-container {
-      text-align: end;
-    }
     .view-diff-button {
-      margin: var(--spacing-m);
+      margin: var(--spacing-s) var(--spacing-m);
+    }
+    .view-diff-container {
+      border-top: 1px solid var(--border-color);
     }
   </style>
 

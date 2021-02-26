@@ -158,6 +158,30 @@
       },
       "revId": "28fa5432a0bb999ed886bddad9d36bc6658f7b0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97d6e526_6517da97",
+        "filename": "java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T09:26:53Z",
+      "side": 1,
+      "message": "Ok, thanks.\n\nMy -2 is actually a +2 with a request :-)\n\nCan we wait until next week with merging this? I\u0027d like to resolve the ongoing latency issues before we flush any caches because that in itself might make latency worse. Please just ping me to turn the -2 into a +2 when you have the time to flush the internal caches and babysit the rollout.",
+      "parentUuid": "0d4d2120_64e4c5a2",
+      "range": {
+        "startLine": 36,
+        "startChar": 46,
+        "endLine": 36,
+        "endChar": 49
+      },
+      "revId": "28fa5432a0bb999ed886bddad9d36bc6658f7b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

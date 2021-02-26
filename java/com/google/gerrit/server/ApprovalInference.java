@@ -26,7 +26,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
-import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.StorageException;
@@ -34,6 +33,7 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -46,11 +46,18 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffEntry.ChangeType;
+import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /**
  * Computes approvals for a given patch set by looking at approvals applied to the given patch set
@@ -68,17 +75,20 @@ public class ApprovalInference {
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
   private final PatchListCache patchListCache;
+  private final GitRepositoryManager repositoryManager;
 
   @Inject
   ApprovalInference(
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
-      PatchListCache patchListCache) {
+      PatchListCache patchListCache,
+      GitRepositoryManager repositoryManager) {
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
     this.patchListCache = patchListCache;
+    this.repositoryManager = repositoryManager;
   }
 
   /**
@@ -111,7 +121,7 @@ public class ApprovalInference {
       PatchSet.Id psId,
       ChangeKind kind,
       LabelType type,
-      @Nullable PatchList patchList) {
+      @Nullable List<DiffEntry> diffEntries) {
     int n = psa.key().patchSetId().get();
     checkArgument(n != psId.get());
 
@@ -172,11 +182,11 @@ public class ApprovalInference {
           project.getName());
       return true;
     } else if (type.isCopyAllScoresIfListOfFilesDidNotChange()
-        && patchList.getPatches().stream()
+        && diffEntries.stream()
             .noneMatch(
-                p ->
-                    p.getChangeType() == ChangeType.ADDED
-                        || p.getChangeType() == ChangeType.DELETED)) {
+                d ->
+                    d.getChangeType() == ChangeType.ADD
+                        || d.getChangeType() == ChangeType.DELETE)) {
       logger.atFine().log(
           "approval %d on label %s of patch set %d of change %d can be copied"
               + " to patch set %d because the label has set "
@@ -368,23 +378,35 @@ public class ApprovalInference {
     logger.atFine().log(
         "change kind for patch set %d of change %d against prior patch set %s is %s",
         ps.id().get(), ps.id().changeId().get(), priorPatchSet.getValue().id().changeId(), kind);
-    PatchList patchList = null;
+    List<DiffEntry> diffEntries = null;
     LabelTypes labelTypes = project.getLabelTypes();
     for (PatchSetApproval psa : priorApprovals) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
         continue;
       }
       LabelType type = labelTypes.byLabel(psa.labelId());
-      // Only compute patchList if there is a relevant label, since this is expensive.
-      if (patchList == null && type != null && type.isCopyAllScoresIfListOfFilesDidNotChange()) {
-        patchList = getPatchList(project, ps, priorPatchSet);
+      // Only compute diffEntries if there is a relevant label, since this is a little expensive.
+      if (diffEntries == null && type != null && type.isCopyAllScoresIfListOfFilesDidNotChange()) {
+        diffEntries = getDiffEntries(project, ps, priorPatchSet);
       }
-      if (!canCopy(project, psa, ps.id(), kind, type, patchList)) {
+      if (!canCopy(project, psa, ps.id(), kind, type, diffEntries)) {
         continue;
       }
       resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
     }
     return resultByUser.values();
+  }
+
+  private List<DiffEntry> getDiffEntries(
+      ProjectState project, PatchSet ps, Map.Entry<PatchSet.Id, PatchSet> priorPatchSet) {
+    try (Repository repository = repositoryManager.openRepository(project.getNameKey())) {
+      DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
+      diffFormatter.setReader(new RevWalk(repository).getObjectReader(), repository.getConfig());
+      diffFormatter.setDetectRenames(true);
+      return diffFormatter.scan(priorPatchSet.getValue().commitId(), ps.commitId());
+    } catch (IOException ex) {
+      throw new StorageException(ex);
+    }
   }
 
   /**

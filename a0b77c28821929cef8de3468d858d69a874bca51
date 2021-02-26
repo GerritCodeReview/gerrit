@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd68da93_8a380150",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T08:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "945a7d07_a429fa60",
+      "range": {
+        "startLine": 180,
+        "startChar": 46,
+        "endLine": 180,
+        "endChar": 55
+      },
+      "revId": "a0b77c28821929cef8de3468d858d69a874bca51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd54608e_2c0175f6",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-02-26T07:59:30Z",
       "side": 1,
       "message": "[optional] maybe throw a dedicated error if cachedConfig.getParsedProjectLevelConfigs() is not present\n\ncheckState(cachedConfig.getParsedProjectLevelConfigs().isPresent(), \"config file %s in project %s doesn\u0027t exist or was not parseable\", fileName, getName());",
+      "revId": "a0b77c28821929cef8de3468d858d69a874bca51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d360c09_1bb77953",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T08:05:39Z",
+      "side": 1,
+      "message": "It\u0027s OK for this not to exist, actually. Not every project at every level needs this config for the inheritance to work. Leaving as-is.",
+      "parentUuid": "dd54608e_2c0175f6",
       "revId": "a0b77c28821929cef8de3468d858d69a874bca51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

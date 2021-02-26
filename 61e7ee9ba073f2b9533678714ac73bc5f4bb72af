@@ -33,6 +33,24 @@
       "message": "Thanks!\n\nIs this WIP due to missing tests, or is there anything else it\u0027s waiting on?",
       "revId": "61e7ee9ba073f2b9533678714ac73bc5f4bb72af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d416974_dd9715aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-26T08:50:32Z",
+      "side": 1,
+      "message": "I am waiting for a reply on the original bug b/159989381 to your comment\n```\nThe documentation at https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-input doesn\u0027t make clear to me: what happens if create_empty_commit is false and branches is nonempty?\n```\n\nI am also not sure so waiting on a response before proceeding with this.",
+      "parentUuid": "86f32692_3b2eb8d9",
+      "revId": "61e7ee9ba073f2b9533678714ac73bc5f4bb72af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

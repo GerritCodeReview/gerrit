@@ -429,6 +429,8 @@ export class GrRelatedCollapse extends GrLitElement {
   @property()
   length = 0;
 
+  private readonly reporting = appContext.reportingService;
+
   static get styles() {
     return [
       sharedStyles,
@@ -509,6 +511,10 @@ export class GrRelatedCollapse extends GrLitElement {
   private toggle(e: MouseEvent) {
     e.stopPropagation();
     this.showAll = !this.showAll;
+    this.reporting.reportInteraction('toggle show all button', {
+      sectionName: this.title,
+      toState: this.showAll ? 'Show all' : 'Show less',
+    });
   }
 }
 

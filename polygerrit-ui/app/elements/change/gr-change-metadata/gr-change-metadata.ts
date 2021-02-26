@@ -210,6 +210,8 @@ export class GrChangeMetadata extends GestureEventListeners(
 
   restApiService = appContext.restApiService;
 
+  private readonly reporting = appContext.reportingService;
+
   /** @override */
   ready() {
     super.ready();
@@ -567,6 +569,10 @@ export class GrChangeMetadata extends GestureEventListeners(
 
   _onShowAllClick() {
     this._showAllSections = !this._showAllSections;
+    this.reporting.reportInteraction('toggle show all button', {
+      sectionName: 'metadata',
+      toState: this._showAllSections ? 'Show all' : 'Show less',
+    });
   }
 
   /**

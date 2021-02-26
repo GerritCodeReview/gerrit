@@ -94,6 +94,8 @@ class GrChangeRequirements extends GestureEventListeners(
     KnownExperimentId.NEW_CHANGE_SUMMARY_UI
   );
 
+  private readonly reporting = appContext.reportingService;
+
   _computeShowWip(change: ChangeInfo) {
     return change.work_in_progress;
   }
@@ -193,6 +195,10 @@ class GrChangeRequirements extends GestureEventListeners(
 
   _handleShowHide() {
     this._showOptionalLabels = !this._showOptionalLabels;
+    this.reporting.reportInteraction('toggle show all button', {
+      sectionName: 'optional labels',
+      toState: this._showOptionalLabels ? 'Show all' : 'Show less',
+    });
   }
 
   _computeSubmitRequirementEndpoint(item: ChangeRequirement | ChangeWIP) {

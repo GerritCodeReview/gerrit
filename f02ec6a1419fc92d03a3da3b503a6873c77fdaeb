@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a783d624_f49fe604",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-26T10:20:55Z",
+      "side": 1,
+      "message": "Please add a test for the metrics.\n\nExample:\nhttp://google3/javatests/com/google/devtools/gerritcodereview/common/cache/CacheMetricsTest.java?l\u003d65\u0026rcl\u003d312179283",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "711e1065_b727ae7f",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-26T10:20:55Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be simpler to just have a static field, like e.g. http://google3/java/com/google/devtools/gerritcodereview/git/task/MonitoredMessageCallback.java?l\u003d142\u0026rcl\u003d343299390 ?",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6653cbf5_99ca8cea",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-26T10:20:55Z",
+      "side": 1,
+      "message": "Metrics should not be a subset of one another. This makes some computations harder, e.g. for mismatching diffs you need to compute the difference. It\u0027s better to have a single metric with a boolean field \"match\".",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eef68dbe_59e883e2",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-26T10:20:55Z",
+      "side": 1,
+      "message": "Will this have to be resized to deal with the extra load?",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d893508_a83f1747",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-26T10:20:55Z",
+      "side": 1,
+      "message": "If we don\u0027t have a metric for this we\u0027ll need to check the logs for this warning. Are you OK with that?",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a7b888e_bc66d372",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-26T10:20:55Z",
+      "side": 1,
+      "message": "Objects.equal()\nhttps://docs.oracle.com/javase/8/docs/api/java/util/Objects.html#equals-java.lang.Object-java.lang.Object-",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

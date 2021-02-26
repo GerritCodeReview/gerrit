@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7f97cb5_677712d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-26T08:32:00Z",
+      "side": 1,
+      "message": "Add reference to the context: change 178633, where Batch module was introduced for plugins.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 68
+      },
+      "revId": "fceea5937b9b018bb20d8fb92a2203f219cb300c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "649e0d3a_c78d3639",
@@ -48,6 +71,65 @@
       "writtenOn": "2021-02-26T08:06:45Z",
       "side": 1,
       "message": "I verified locally with multi-site setup and reindex works as expected",
+      "revId": "fceea5937b9b018bb20d8fb92a2203f219cb300c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8cc3ff5_e5d22a0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-26T08:32:00Z",
+      "side": 1,
+      "message": "Yes. We have two sections for:\n\n [[gerrit.installDbModule]]gerrit.installDbModule::\n\nand\n\n  [[gerrit.installModule]]gerrit.installModule::",
+      "parentUuid": "0cf4bd57_641e52bc",
+      "revId": "fceea5937b9b018bb20d8fb92a2203f219cb300c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d25726d_71fcc74e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-26T08:32:00Z",
+      "side": 1,
+      "message": "So the test case would be to migrate chronical-map plugin top use new libBatchModule.",
+      "parentUuid": "649e0d3a_c78d3639",
+      "revId": "fceea5937b9b018bb20d8fb92a2203f219cb300c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f486dd8a_78a37bdc",
+        "filename": "java/com/google/gerrit/server/LibModuleType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-02-26T08:32:00Z",
+      "side": 1,
+      "message": "This should be documented in Documentation/config-gerrit.txt",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 34
+      },
       "revId": "fceea5937b9b018bb20d8fb92a2203f219cb300c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

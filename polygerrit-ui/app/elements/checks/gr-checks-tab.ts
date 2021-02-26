@@ -28,18 +28,19 @@ import {
   allActions$,
   allResults$,
   allRuns$,
+  checksPatchsetNumber$,
   someProvidersAreLoading$,
 } from '../../services/checks/checks-model';
 import './gr-checks-runs';
 import './gr-checks-results';
 import {sharedStyles} from '../../styles/shared-styles';
-import {changeNum$, currentPatchNum$} from '../../services/change/change-model';
-import {NumericChangeId, PatchSetNum} from '../../types/common';
+import {changeNum$, latestPatchNum$} from '../../services/change/change-model';
+import {NumericChangeId, PatchSetNumber} from '../../types/common';
 import {
   ActionTriggeredEvent,
   fireActionTriggered,
 } from '../../services/checks/checks-util';
-import {checkRequiredProperty} from '../../utils/common-util';
+import {assertIsDefined, check, checkRequiredProperty} from '../../utils/common-util';
 import {RunSelectedEvent} from './gr-checks-runs';
 import {ChecksTabState} from '../../types/events';
 import {fireAlert} from '../../utils/event-util';
@@ -64,7 +65,10 @@ export class GrChecksTab extends GrLitElement {
   tabState?: ChecksTabState;
 
   @property()
-  currentPatchNum: PatchSetNum | undefined = undefined;
+  checksPatchsetNumber: PatchSetNumber | undefined = undefined;
+
+  @property()
+  latestPatchsetNumber: PatchSetNumber | undefined = undefined;
 
   @property()
   changeNum: NumericChangeId | undefined = undefined;
@@ -82,7 +86,8 @@ export class GrChecksTab extends GrLitElement {
     this.subscribe('runs', allRuns$);
     this.subscribe('actions', allActions$);
     this.subscribe('results', allResults$);
-    this.subscribe('currentPatchNum', currentPatchNum$);
+    this.subscribe('checksPatchsetNumber', checksPatchsetNumber$);
+    this.subscribe('latestPatchsetNumber', latestPatchNum$);
     this.subscribe('changeNum', changeNum$);
     this.subscribe('someProvidersAreLoading', someProvidersAreLoading$);
 
@@ -124,7 +129,6 @@ export class GrChecksTab extends GrLitElement {
   }
 
   render() {
-    const ps = `Patchset ${this.currentPatchNum} (Latest)`;
     const filteredRuns = this.runs.filter(
       r =>
         this.selectedRuns.length === 0 ||
@@ -134,13 +138,9 @@ export class GrChecksTab extends GrLitElement {
       <div class="header">
         <div class="left">
           <gr-dropdown-list
-            value="${ps}"
-            .items="${[
-              {
-                value: `${ps}`,
-                text: `${ps}`,
-              },
-            ]}"
+            value="${this.checksPatchsetNumber}"
+            .items="${this.createPatchsetDropdownItems()}"
+            @value-change="${this.onPatchsetSelected}"
           ></gr-dropdown-list>
           <span ?hidden="${!this.someProvidersAreLoading}">Loading...</span>
         </div>
@@ -163,6 +163,24 @@ export class GrChecksTab extends GrLitElement {
     `;
   }
 
+  private onPatchsetSelected(e: CustomEvent<{value: string}>) {
+    const patchset = Number(e.detail.value);
+    check(!isNaN(patchset), 'selected patchset must be a number');
+    this.checksService.setPatchset(patchset as PatchSetNumber);
+  }
+
+  private createPatchsetDropdownItems() {
+    return Array.from(Array(this.latestPatchsetNumber), (_, i) => {
+      assertIsDefined(this.latestPatchsetNumber, 'latestPatchsetNumber');
+      const index = this.latestPatchsetNumber - i;
+      const postfix = index === this.latestPatchsetNumber ? ' (latest)' : '';
+      return {
+        value: `${index}`,
+        text: `Patchset ${index}${postfix}`,
+      };
+    });
+  }
+
   protected updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
     if (changedProperties.has('tabState')) {
@@ -181,10 +199,10 @@ export class GrChecksTab extends GrLitElement {
 
   handleActionTriggered(action: Action, run?: CheckRun) {
     if (!this.changeNum) return;
-    if (!this.currentPatchNum) return;
+    if (!this.checksPatchsetNumber) return;
     const promise = action.callback(
       this.changeNum,
-      this.currentPatchNum as number,
+      this.checksPatchsetNumber,
       run?.attempt,
       run?.externalId,
       run?.checkName,

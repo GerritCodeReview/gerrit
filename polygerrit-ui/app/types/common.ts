@@ -76,6 +76,7 @@ export type ElementPropertyDeepChange<
 export type ParsedJSON = BrandType<unknown, '_parsedJSON'>;
 
 export type PatchSetNum = BrandType<'PARENT' | 'edit' | number, '_patchSet'>;
+export type PatchSetNumber = BrandType<number, '_patchSet'>;
 
 export const EditPatchSetNum = 'edit' as PatchSetNum;
 // TODO(TS): This is not correct, it is better to have a separate ApiPatchSetNum

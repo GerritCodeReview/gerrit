@@ -18,7 +18,6 @@
 import {
   switchMap,
   takeWhile,
-  tap,
   throttleTime,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -29,12 +28,12 @@ import {
   FetchResponse,
   ResponseCode,
 } from '../../api/checks';
-import {change$, currentPatchNum$} from '../change/change-model';
+import {change$, changeNum$, latestPatchNum$} from '../change/change-model';
 import {
   updateStateSetLoading,
   checkToPluginMap$,
   updateStateSetProvider,
-  updateStateSetResults,
+  updateStateSetResults, checksPatchsetNumber$, updateStateSetPatchset,
 } from './checks-model';
 import {
   BehaviorSubject,
@@ -44,18 +43,26 @@ import {
   of,
   Subject,
 } from 'rxjs';
+import {PatchSetNumber} from '../../types/common';
 
 export class ChecksService {
   private readonly providers: {[name: string]: ChecksProvider} = {};
 
   private readonly reloadSubjects: {[name: string]: Subject<void>} = {};
 
-  private changeAndPatchNum$ = change$.pipe(withLatestFrom(currentPatchNum$));
-
   private checkToPluginMap = new Map<string, string>();
 
   constructor() {
-    checkToPluginMap$.subscribe(x => (this.checkToPluginMap = x));
+    checkToPluginMap$.subscribe(map => {
+      this.checkToPluginMap = map;
+    });
+    latestPatchNum$.subscribe(num => {
+      updateStateSetPatchset(num);
+    });
+  }
+
+  setPatchset(num: PatchSetNumber) {
+    updateStateSetPatchset(num);
   }
 
   reload(pluginName: string) {
@@ -82,37 +89,43 @@ export class ChecksService {
     updateStateSetProvider(pluginName, config);
     // Both, changed numbers and and announceUpdate request should trigger.
     combineLatest([
-      this.changeAndPatchNum$,
+      changeNum$,
+      checksPatchsetNumber$,
       this.reloadSubjects[pluginName].pipe(throttleTime(1000)),
     ])
       .pipe(
         takeWhile(_ => !!this.providers[pluginName]),
+        withLatestFrom(change$),
         switchMap(
-          ([[change, patchNum], _]): Observable<FetchResponse> => {
-            if (!change || !patchNum || typeof patchNum !== 'number') {
+          ([[changeNum, patchNum, _], change]): Observable<FetchResponse> => {
+            if (
+              !change ||
+              !changeNum ||
+              !patchNum ||
+              typeof patchNum !== 'number'
+            ) {
               return of({
                 responseCode: ResponseCode.OK,
                 runs: [],
               });
             }
             const data: ChangeData = {
-              changeNumber: change._number,
+              changeNumber: changeNum,
               patchsetNumber: patchNum,
               repo: change.project,
             };
             updateStateSetLoading(pluginName);
             return from(this.providers[pluginName].fetch(data));
           }
-        ),
-        tap(response => {
-          updateStateSetResults(
-            pluginName,
-            response.runs ?? [],
-            response.actions
-          );
-        })
+        )
       )
-      .subscribe(() => {});
+      .subscribe(response => {
+        updateStateSetResults(
+          pluginName,
+          response.runs ?? [],
+          response.actions
+        );
+      });
     this.reload(pluginName);
   }
 }

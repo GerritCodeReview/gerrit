@@ -26,6 +26,7 @@ import {
   RunStatus,
 } from '../../api/checks';
 import {distinctUntilChanged, map} from 'rxjs/operators';
+import {PatchSetNumber} from '../../types/common';
 
 // This is a convenience type for working with results, because when working
 // with a bunch of results you will typically also want to know about the run
@@ -41,29 +42,44 @@ interface ChecksProviderState {
 }
 
 interface ChecksState {
-  [name: string]: ChecksProviderState;
+  patchsetNumber?: PatchSetNumber;
+  providerNameToState: {
+    [name: string]: ChecksProviderState;
+  };
 }
 
-const initialState: ChecksState = {};
+const initialState: ChecksState = {
+  providerNameToState: {},
+};
 
 const privateState$ = new BehaviorSubject(initialState);
 
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const checksState$: Observable<ChecksState> = privateState$;
 
-export const aPluginHasRegistered$ = checksState$.pipe(
+export const checksPatchsetNumber$ = checksState$.pipe(
+  map(state => state.patchsetNumber),
+  distinctUntilChanged()
+);
+
+export const checksProviderState$ = checksState$.pipe(
+  map(state => state.providerNameToState),
+  distinctUntilChanged()
+);
+
+export const aPluginHasRegistered$ = checksProviderState$.pipe(
   map(state => Object.keys(state).length > 0),
   distinctUntilChanged()
 );
 
-export const someProvidersAreLoading$ = checksState$.pipe(
+export const someProvidersAreLoading$ = checksProviderState$.pipe(
   map(state => {
     return Object.values(state).some(providerState => providerState.loading);
   }),
   distinctUntilChanged()
 );
 
-export const allActions$ = checksState$.pipe(
+export const allActions$ = checksProviderState$.pipe(
   map(state => {
     return Object.values(state).reduce(
       (allActions: Action[], providerState: ChecksProviderState) => [
@@ -75,7 +91,7 @@ export const allActions$ = checksState$.pipe(
   })
 );
 
-export const allRuns$ = checksState$.pipe(
+export const allRuns$ = checksProviderState$.pipe(
   map(state => {
     return Object.values(state).reduce(
       (allRuns: CheckRun[], providerState: ChecksProviderState) => [
@@ -87,7 +103,7 @@ export const allRuns$ = checksState$.pipe(
   })
 );
 
-export const checkToPluginMap$ = checksState$.pipe(
+export const checkToPluginMap$ = checksProviderState$.pipe(
   map(state => {
     const map = new Map<string, string>();
     for (const [pluginName, providerState] of Object.entries(state)) {
@@ -99,7 +115,7 @@ export const checkToPluginMap$ = checksState$.pipe(
   })
 );
 
-export const allResults$ = checksState$.pipe(
+export const allResults$ = checksProviderState$.pipe(
   map(state => {
     return Object.values(state)
       .reduce(
@@ -124,7 +140,8 @@ export function updateStateSetProvider(
   config?: ChecksApiConfig
 ) {
   const nextState = {...privateState$.getValue()};
-  nextState[pluginName] = {
+  nextState.providerNameToState = {...nextState.providerNameToState};
+  nextState.providerNameToState[pluginName] = {
     pluginName,
     loading: false,
     config,
@@ -200,8 +217,9 @@ export const fakeRun4: CheckRun = {
 
 export function updateStateSetLoading(pluginName: string) {
   const nextState = {...privateState$.getValue()};
-  nextState[pluginName] = {
-    ...nextState[pluginName],
+  nextState.providerNameToState = {...nextState.providerNameToState};
+  nextState.providerNameToState[pluginName] = {
+    ...nextState.providerNameToState[pluginName],
     loading: true,
   };
   privateState$.next(nextState);
@@ -213,11 +231,18 @@ export function updateStateSetResults(
   actions: Action[] = []
 ) {
   const nextState = {...privateState$.getValue()};
-  nextState[pluginName] = {
-    ...nextState[pluginName],
+  nextState.providerNameToState = {...nextState.providerNameToState};
+  nextState.providerNameToState[pluginName] = {
+    ...nextState.providerNameToState[pluginName],
     loading: false,
     runs: [...runs],
     actions: [...actions],
   };
+  privateState$.next(nextState);
+}
+
+export function updateStateSetPatchset(patchsetNumber?: PatchSetNumber) {
+  const nextState = {...privateState$.getValue()};
+  nextState.patchsetNumber = patchsetNumber;
   privateState$.next(nextState);
 }

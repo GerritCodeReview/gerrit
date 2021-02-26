@@ -514,6 +514,9 @@ span multiple projects.
   $ git push origin HEAD:refs/heads/master -o topic=multi-master
 ----
 
+For more information about using topics, see the user guide:
+link:cross-repository-changes.html[Submitting Changes Across Repositories by using Topics].
+
 [[hashtags]]
 == Using Hashtags
 

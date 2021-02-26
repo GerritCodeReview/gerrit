@@ -288,6 +288,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f7bfbb99_d8ca4864",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-26T00:09:11Z",
+      "side": 0,
+      "message": "I think you covered parallelized and cached in your updated Scalability section. Add something on omitted and browser performance?",
+      "parentUuid": "827bcec3_9ab977eb",
+      "range": {
+        "startLine": 480,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 22
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2123501b_6219f7bc",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1

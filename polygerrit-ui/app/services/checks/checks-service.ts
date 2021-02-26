@@ -16,6 +16,7 @@
  */
 
 import {
+  filter,
   switchMap,
   takeWhile,
   throttleTime,
@@ -44,6 +45,7 @@ import {
   Observable,
   of,
   Subject,
+  timer,
 } from 'rxjs';
 import {PatchSetNumber} from '../../types/common';
 
@@ -54,12 +56,17 @@ export class ChecksService {
 
   private checkToPluginMap = new Map<string, string>();
 
+  private readonly documentVisibilityChange$ = new BehaviorSubject(undefined);
+
   constructor() {
     checkToPluginMap$.subscribe(map => {
       this.checkToPluginMap = map;
     });
     latestPatchNum$.subscribe(num => {
       updateStateSetPatchset(num);
+    });
+    document.addEventListener('visibilitychange', () => {
+      this.documentVisibilityChange$.next(undefined);
     });
   }
 
@@ -89,17 +96,25 @@ export class ChecksService {
     this.providers[pluginName] = provider;
     this.reloadSubjects[pluginName] = new BehaviorSubject<void>(undefined);
     updateStateSetProvider(pluginName, config);
-    // Both, changed numbers and and announceUpdate request should trigger.
+    const pollIntervalMs = (config?.fetchPollingIntervalSeconds ?? 60) * 1000;
+    // Various events should trigger fetching checks from the provider:
+    // 1. Change number and patchset number changes.
+    // 2. Specific reload requests.
+    // 3. Regular polling starting with an initial fetch right now.
+    // 4. A hidden Gerrit tab becoming visible.
     combineLatest([
       changeNum$,
       checksPatchsetNumber$,
       this.reloadSubjects[pluginName].pipe(throttleTime(1000)),
+      timer(0, pollIntervalMs),
+      this.documentVisibilityChange$,
     ])
       .pipe(
         takeWhile(_ => !!this.providers[pluginName]),
+        filter(_ => document.visibilityState !== 'hidden'),
         withLatestFrom(change$),
         switchMap(
-          ([[changeNum, patchNum, _], change]): Observable<FetchResponse> => {
+          ([[changeNum, patchNum], change]): Observable<FetchResponse> => {
             if (
               !change ||
               !changeNum ||
@@ -128,6 +143,5 @@ export class ChecksService {
           response.actions
         );
       });
-    this.reload(pluginName);
   }
 }

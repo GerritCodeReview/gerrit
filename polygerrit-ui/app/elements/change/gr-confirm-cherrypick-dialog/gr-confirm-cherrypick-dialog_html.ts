@@ -46,11 +46,12 @@ export const htmlTemplate = html`
     }
     .cherryPickTopicLayout {
       display: flex;
+      align-items: center;
+      margin-bottom: var(--spacing-m);
     }
     .cherryPickSingleChange,
     .cherryPickTopic {
       margin-left: var(--spacing-m);
-      margin-bottom: var(--spacing-m);
     }
     .cherry-pick-topic-message {
       margin-bottom: var(--spacing-m);

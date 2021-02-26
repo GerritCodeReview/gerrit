@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feb51471_0340b45a",
+        "filename": "java/com/google/gerrit/entities/CommentContext.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-26T10:41:40Z",
+      "side": 1,
+      "message": "Given that this returns a free form String, could you point to the list of content types?\n\nEdit: I read in the next file that this is a MIME type. So maybe call it mimeType()?",
+      "revId": "cf194fe48173c31fcbdda883b5d8335edfd1d232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d1a4abc_bb6016a0",
+        "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-26T10:41:40Z",
+      "side": 1,
+      "message": "I think \"Mime type\", like you say in the comment, would make a better identifier as it is more specific than \"content type\".\n\nEdit: Hmm, or is \"content type\" consistent with the frontend?",
+      "revId": "cf194fe48173c31fcbdda883b5d8335edfd1d232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8204dfe_894a9200",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-26T10:41:40Z",
+      "side": 1,
+      "message": "nit: not needed",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 9
+      },
+      "revId": "cf194fe48173c31fcbdda883b5d8335edfd1d232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5d704e9_3df3dbb4",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/CommentContextSerializerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-02-26T10:41:40Z",
+      "side": 1,
+      "message": "Doesn\u0027t really matter, but I was surprised it isn\u0027t text/x-java.",
+      "range": {
+        "startLine": 17,
+        "startChar": 74,
+        "endLine": 17,
+        "endChar": 78
+      },
+      "revId": "cf194fe48173c31fcbdda883b5d8335edfd1d232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

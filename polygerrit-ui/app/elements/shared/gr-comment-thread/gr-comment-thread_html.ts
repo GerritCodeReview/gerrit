@@ -36,6 +36,9 @@ export const htmlTemplate = html`
     gr-comment {
       border-bottom: 1px solid var(--comment-separator-color);
     }
+    gr-diff {
+      border: 1px solid var(--border-color);
+    }
     #actions {
       margin-left: auto;
       padding: var(--spacing-s) var(--spacing-m);
@@ -88,10 +91,11 @@ export const htmlTemplate = html`
     }
     .diff-container {
       margin-left: var(--spacing-l);
-      border: 1px solid var(--border-color);
+      display: flex;
     }
     .view-diff-container {
-      text-align: end;
+      align-self: flex-end;
+      border: none;
     }
     .view-diff-button {
       margin: var(--spacing-m);

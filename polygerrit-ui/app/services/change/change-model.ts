@@ -46,10 +46,18 @@ export const changeState$: Observable<ChangeState> = privateState$;
 // Must only be used by the change service or whatever is in control of this
 // model.
 export function updateState(change?: ParsedChangeInfo) {
-  privateState$.next({
-    ...privateState$.getValue(),
-    change,
-  });
+  const current = privateState$.getValue();
+  // We want to make it easy for subscribers to react to change changes, so we
+  // are explicitly emitting and additional `undefined` when the change number
+  // changes. So if you are subscribed to the latestPatchsetNumber for example,
+  // then you can rely on emissions even if the old and the new change have the
+  // same latestPatchsetNumber.
+  if (change !== undefined && current.change !== undefined) {
+    if (change._number !== current.change._number) {
+      privateState$.next({...current, change: undefined});
+    }
+  }
+  privateState$.next({...current, change});
 }
 
 /**
@@ -91,9 +99,6 @@ export const latestPatchNum$ = change$.pipe(
  *
  * Note that this selector can emit a patchNum without the change being
  * available!
- *
- * TODO: It would be good to assert/enforce somehow that currentPatchNum$ cannot
- * emit 'PARENT'.
  */
 export const currentPatchNum$: Observable<
   PatchSetNum | undefined

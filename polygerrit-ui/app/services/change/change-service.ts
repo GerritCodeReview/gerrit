@@ -16,21 +16,16 @@
  */
 import {routerChangeNum$} from '../router/router-model';
 import {updateState} from './change-model';
-import {tap} from 'rxjs/operators';
 import {ParsedChangeInfo} from '../../types/types';
 
 export class ChangeService {
-  // TODO: In the future we will want to make restApiService.getChangeDetail()
-  // calls from a switchMap() here. For now just make sure to invalidate the
-  // change when no changeNum is set.
-  private routerChangeNumEffect = routerChangeNum$.pipe(
-    tap(changeNum => {
-      if (!changeNum) updateState(undefined);
-    })
-  );
-
   constructor() {
-    this.routerChangeNumEffect.subscribe();
+    // TODO: In the future we will want to make restApiService.getChangeDetail()
+    // calls from a switchMap() here. For now just make sure to invalidate the
+    // change when no changeNum is set.
+    routerChangeNum$.subscribe(changeNum => {
+      if (!changeNum) updateState(undefined);
+    });
   }
 
   /**

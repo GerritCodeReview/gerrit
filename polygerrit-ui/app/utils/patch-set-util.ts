@@ -3,11 +3,12 @@ import {
   ChangeInfo,
   PatchSetNum,
   EditPatchSetNum,
-  BrandType,
   ParentPatchSetNum,
+  PatchSetNumber,
 } from '../types/common';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
+import {check} from './common-util';
 
 /**
  * @license
@@ -82,9 +83,7 @@ export function convertToPatchSetNum(
   return patchset as PatchSetNum;
 }
 
-export function isNumber(
-  psn: PatchSetNum
-): psn is BrandType<number, '_patchSet'> {
+export function isNumber(psn: PatchSetNum): psn is PatchSetNumber {
   return typeof psn === 'number';
 }
 
@@ -250,14 +249,16 @@ export const _testOnly_computeWipForPatchSets = _computeWipForPatchSets;
 
 export function computeLatestPatchNum(
   allPatchSets?: PatchSet[]
-): PatchSetNum | undefined {
+): PatchSetNumber | undefined {
   if (!allPatchSets || !allPatchSets.length) {
     return undefined;
   }
-  if (allPatchSets[0].num === EditPatchSetNum) {
-    return allPatchSets[1].num;
+  let latest = allPatchSets[0].num;
+  if (latest === EditPatchSetNum) {
+    latest = allPatchSets[1].num;
   }
-  return allPatchSets[0].num;
+  check(isNumber(latest), 'Latest patchset cannot be EDIT or PARENT.');
+  return latest;
 }
 
 export function computePredecessor(

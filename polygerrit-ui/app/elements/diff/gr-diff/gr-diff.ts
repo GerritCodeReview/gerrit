@@ -755,7 +755,7 @@ export class GrDiff extends GestureEventListeners(
       this.classList.add('no-left');
     }
     if (renderPrefs.disable_context_control_buttons) {
-      this.updateStyles({'--context-control-display': 'none'});
+      this.classList.add('disable-context-control-buttons');
     }
   }
 

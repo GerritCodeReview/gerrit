@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb89b464_a2ad13eb",
+        "filename": "java/com/google/gerrit/entities/CommentContext.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-26T16:56:59Z",
+      "side": 1,
+      "message": "There is no reference in the code to some preconfigured mime types and they have free text form. This should be of the form text/html, text/x-java, etc...\n\nFor the variable name, I prefer to keep it as content type with the JavaDoc explaining its purpose. This is so that it\u0027s consistent with the \"contentType\" variable name in DiffFileMetaInfo [1], which is serving the same purpose.\n\nI added more javadocs to explain the contents of this variable.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-file-meta-info",
+      "parentUuid": "feb51471_0340b45a",
+      "revId": "cf194fe48173c31fcbdda883b5d8335edfd1d232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d1a4abc_bb6016a0",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-02-26T10:41:40Z",
       "side": 1,
       "message": "I think \"Mime type\", like you say in the comment, would make a better identifier as it is more specific than \"content type\".\n\nEdit: Hmm, or is \"content type\" consistent with the frontend?",
+      "revId": "cf194fe48173c31fcbdda883b5d8335edfd1d232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53f560a5_a1fda8fd",
+        "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-26T16:56:59Z",
+      "side": 1,
+      "message": "Yes, this is consistent with the frontend, especially that DiffFileMetaInfo uses the same name. (check my other comment).",
+      "parentUuid": "2d1a4abc_bb6016a0",
       "revId": "cf194fe48173c31fcbdda883b5d8335edfd1d232",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ece75c54_82552b99",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-26T16:56:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8204dfe_894a9200",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 9
+      },
+      "revId": "cf194fe48173c31fcbdda883b5d8335edfd1d232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5d704e9_3df3dbb4",
@@ -71,6 +131,30 @@
       "writtenOn": "2021-02-26T10:41:40Z",
       "side": 1,
       "message": "Doesn\u0027t really matter, but I was surprised it isn\u0027t text/x-java.",
+      "range": {
+        "startLine": 17,
+        "startChar": 74,
+        "endLine": 17,
+        "endChar": 78
+      },
+      "revId": "cf194fe48173c31fcbdda883b5d8335edfd1d232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a3a5af5_f33adc74",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/CommentContextSerializerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-26T16:56:59Z",
+      "side": 1,
+      "message": "This is just used for testing the serializer, so any text can suffice to test the round-trip.\n\nI renamed it to text/x-java though ;)",
+      "parentUuid": "f5d704e9_3df3dbb4",
       "range": {
         "startLine": 17,
         "startChar": 74,

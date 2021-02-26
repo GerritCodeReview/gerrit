@@ -16,6 +16,23 @@
       "message": "Help needed: Can not understand why google-java-format check failed, https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/66406/console",
       "revId": "7cf9d2febfb36603ef3f86c1ea72c4420f399058",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc915535_f0e34e20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T09:02:07Z",
+      "side": 1,
+      "message": "Please get back to Luca\u0027s questions on the bug (14129) first.",
+      "revId": "7cf9d2febfb36603ef3f86c1ea72c4420f399058",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

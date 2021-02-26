@@ -370,6 +370,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22843f7f_fce7b1f2",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-26T15:27:46Z",
+      "side": 1,
+      "message": "\u003e But I\u0027d really rather not argue about this. If you don\u0027t think there\u0027s content here that would be valuable as product intro material, then we can discuss if it still belongs here or not. If you think there is good intro content here, but you don\u0027t have time to move it, let me know and I\u0027ll try to help.\n\nIt looks like any of the first 3 docs under \"About Gerrit\" [1] would make a reasonable location for anything you think isn\u0027t design specific but is product info not already captured in one of those docs.\n\n[1] https://gerrit-review.googlesource.com/Documentation/index.html#_about_gerrit",
+      "parentUuid": "afee1b99_3ecaba1e",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 91,
+        "endChar": 33
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d713f4bc_6f29bebb",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1

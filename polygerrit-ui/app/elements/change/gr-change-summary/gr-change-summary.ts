@@ -77,6 +77,8 @@ export class GrSummaryChip extends GrLitElement {
   @property()
   category?: CommentTabState;
 
+  private readonly reporting = appContext.reportingService;
+
   static get styles() {
     return [
       sharedStyles,
@@ -131,6 +133,9 @@ export class GrSummaryChip extends GrLitElement {
   private handleClick(e: MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
+    this.reporting.reportInteraction('comment chip click', {
+      category: this.category,
+    });
     fireShowPrimaryTab(this, PrimaryTab.COMMENT_THREADS, true, {
       commentTab: this.category,
     });

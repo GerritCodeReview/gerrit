@@ -17,6 +17,7 @@
 
 import {NumericChangeId} from '../../types/common';
 import {EventDetails} from '../../api/reporting';
+import {PluginApi} from '../../api/plugin';
 
 export type EventValue = string | number | {error?: Error};
 
@@ -97,6 +98,7 @@ export interface ReportingService {
    * Every execution is only reported once per session.
    */
   reportExecution(id: string, details: EventDetails): void;
+  trackApi(plugin: PluginApi, object: string, method: string): void;
   reportInteraction(eventName: string, details?: EventDetails): void;
   /**
    * A draft interaction was started. Update the time-between-draft-actions

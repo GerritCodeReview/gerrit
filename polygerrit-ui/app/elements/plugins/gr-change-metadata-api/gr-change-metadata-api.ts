@@ -17,15 +17,19 @@
 import {PluginApi} from '../../../api/plugin';
 import {ChangeMetadataPluginApi} from '../../../api/change-metadata';
 import {HookApi} from '../../../api/hook';
+import {appContext} from '../../../services/app-context';
 
 export class GrChangeMetadataApi implements ChangeMetadataPluginApi {
   private hook: HookApi | null;
 
   public plugin: PluginApi;
 
+  private readonly reporting = appContext.reportingService;
+
   constructor(plugin: PluginApi) {
     this.plugin = plugin;
     this.hook = null;
+    this.reporting.trackApi(this.plugin, 'metadata', 'constructor');
   }
 
   _createHook() {
@@ -33,6 +37,7 @@ export class GrChangeMetadataApi implements ChangeMetadataPluginApi {
   }
 
   onLabelsChanged(callback: (value: unknown) => void) {
+    this.reporting.trackApi(this.plugin, 'metadata', 'onLabelsChanged');
     if (!this.hook) {
       this._createHook();
     }

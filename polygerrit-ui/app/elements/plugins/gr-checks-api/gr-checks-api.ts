@@ -43,13 +43,19 @@ export class GrChecksApi implements ChecksPluginApi {
 
   private readonly checksService = appContext.checksService;
 
-  constructor(readonly plugin: PluginApi) {}
+  private readonly reporting = appContext.reportingService;
+
+  constructor(readonly plugin: PluginApi) {
+    this.reporting.trackApi(this.plugin, 'checks', 'constructor');
+  }
 
   announceUpdate() {
+    this.reporting.trackApi(this.plugin, 'checks', 'announceUpdate');
     this.checksService.reload(this.plugin.getPluginName());
   }
 
   register(provider: ChecksProvider, config?: ChecksApiConfig): void {
+    this.reporting.trackApi(this.plugin, 'checks', 'register');
     if (this.state === State.REGISTERED)
       throw new Error('Only one provider can be registered per plugin.');
     this.state = State.REGISTERED;

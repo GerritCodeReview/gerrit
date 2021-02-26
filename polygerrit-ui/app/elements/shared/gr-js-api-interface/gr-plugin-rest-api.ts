@@ -18,6 +18,7 @@ import {HttpMethod} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback, RestPluginApi} from '../../../api/rest';
+import {PluginApi} from '../../../api/plugin';
 
 async function getErrorMessage(response: Response): Promise<string> {
   const text = await response.text();
@@ -36,33 +37,44 @@ class ResponseError extends Error {
 export class GrPluginRestApi implements RestPluginApi {
   private readonly restApi = appContext.restApiService;
 
-  constructor(private readonly prefix = '') {}
+  private readonly reporting = appContext.reportingService;
+
+  constructor(readonly plugin: PluginApi, private readonly prefix = '') {
+    this.reporting.trackApi(this.plugin, 'rest', 'constructor');
+  }
 
   getLoggedIn() {
+    this.reporting.trackApi(this.plugin, 'rest', 'getLoggedIn');
     return this.restApi.getLoggedIn();
   }
 
   getVersion() {
+    this.reporting.trackApi(this.plugin, 'rest', 'getVersion');
     return this.restApi.getVersion();
   }
 
   getConfig() {
+    this.reporting.trackApi(this.plugin, 'rest', 'getConfig');
     return this.restApi.getConfig();
   }
 
   invalidateReposCache() {
+    this.reporting.trackApi(this.plugin, 'rest', 'invalidateReposCache');
     this.restApi.invalidateReposCache();
   }
 
   getAccount() {
+    this.reporting.trackApi(this.plugin, 'rest', 'getAccount');
     return this.restApi.getAccount();
   }
 
   getAccountCapabilities(capabilities: string[]) {
+    this.reporting.trackApi(this.plugin, 'rest', 'getAccountCapabilities');
     return this.restApi.getAccountCapabilities(capabilities);
   }
 
   getRepos(filter: string, reposPerPage: number, offset?: number) {
+    this.reporting.trackApi(this.plugin, 'rest', 'getRepos');
     return this.restApi.getRepos(filter, reposPerPage, offset);
   }
 
@@ -100,6 +112,7 @@ export class GrPluginRestApi implements RestPluginApi {
     errFn?: ErrorCallback,
     contentType?: string
   ): Promise<Response | void> {
+    this.reporting.trackApi(this.plugin, 'rest', 'fetch');
     return this.restApi.send(
       method,
       this.prefix + url,
@@ -119,6 +132,7 @@ export class GrPluginRestApi implements RestPluginApi {
     errFn?: ErrorCallback,
     contentType?: string
   ) {
+    this.reporting.trackApi(this.plugin, 'rest', 'send');
     // Plugins typically don't want Gerrit to show error dialogs for failed
     // requests. So we are defining a default errFn here, even if it is not
     // explicitly set by the caller.
@@ -167,6 +181,7 @@ export class GrPluginRestApi implements RestPluginApi {
   }
 
   get(url: string) {
+    this.reporting.trackApi(this.plugin, 'rest', 'get');
     return this.send(HttpMethod.GET, url);
   }
 
@@ -176,6 +191,7 @@ export class GrPluginRestApi implements RestPluginApi {
     errFn?: ErrorCallback,
     contentType?: string
   ) {
+    this.reporting.trackApi(this.plugin, 'rest', 'post');
     return this.send(HttpMethod.POST, url, payload, errFn, contentType);
   }
 
@@ -185,10 +201,12 @@ export class GrPluginRestApi implements RestPluginApi {
     errFn?: ErrorCallback,
     contentType?: string
   ) {
+    this.reporting.trackApi(this.plugin, 'rest', 'put');
     return this.send(HttpMethod.PUT, url, payload, errFn, contentType);
   }
 
   delete(url: string) {
+    this.reporting.trackApi(this.plugin, 'rest', 'delete');
     return this.fetch(HttpMethod.DELETE, url).then(response => {
       if (response.status !== 204) {
         return response.text().then(text => {

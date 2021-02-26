@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ceb3ee4_545b3bc9",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-26T00:09:11Z",
+      "side": 1,
+      "message": "These scaled poorly with googlesource\u0027s implementation, but I don\u0027t recall that they scale poorly in general or that others have reported them as a scaling concern.",
+      "range": {
+        "startLine": 385,
+        "startChar": 22,
+        "endLine": 385,
+        "endChar": 34
+      },
+      "revId": "af8665d6af32aefb54b15e8c8511afaac295167c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

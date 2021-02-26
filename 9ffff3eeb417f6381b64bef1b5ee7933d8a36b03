@@ -346,6 +346,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "afee1b99_3ecaba1e",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-02-26T00:09:11Z",
+      "side": 1,
+      "message": "\u003e \u003e That feels to me like it was targeting folks new to Gerrit that are trying to understand what the tool is.\n\u003e \n\u003e it\u0027s called dev-design.txt, ie. a document aimed at gerrit developers. If you\u0027re developing Gerrit, you\u0027d already know what it is used for?\n\nI think you\u0027re reading into that naming more than is warranted. If you\u0027re claiming that everything Shawn added to this doc originally was targeted at existing Gerrit devs, that makes zero sense. There were no other Gerrit devs at the time he wrote it. The entire project was only 2 or 3 months old.\n\nBut I\u0027d really rather not argue about this. If you don\u0027t think there\u0027s content here that would be valuable as product intro material, then we can discuss if it still belongs here or not. If you think there is good intro content here, but you don\u0027t have time to move it, let me know and I\u0027ll try to help.",
+      "parentUuid": "b528c426_64e9b361",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 91,
+        "endChar": 33
+      },
+      "revId": "9ffff3eeb417f6381b64bef1b5ee7933d8a36b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d713f4bc_6f29bebb",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1

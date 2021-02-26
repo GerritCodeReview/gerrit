@@ -20,6 +20,7 @@ import {EventValue, ReportingService, Timer} from './gr-reporting';
 import {hasOwnProperty} from '../../utils/common-util';
 import {NumericChangeId} from '../../types/common';
 import {EventDetails} from '../../api/reporting';
+import {PluginApi} from '../../api/plugin';
 
 // Latency reporting constants.
 
@@ -800,8 +801,16 @@ export class GrReporting implements ReportingService {
       id,
       undefined,
       details,
-      false
+      true // skip console log
     );
+  }
+
+  trackApi(plugin: PluginApi, object: string, method: string) {
+    this.reportExecution('plugin-api', {
+      plugin: plugin.getPluginName(),
+      object,
+      method,
+    });
   }
 
   /**

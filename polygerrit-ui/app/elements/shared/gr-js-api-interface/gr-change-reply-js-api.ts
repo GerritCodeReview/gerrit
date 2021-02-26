@@ -25,15 +25,20 @@ import {
   ReplyChangedCallback,
   ValueChangedDetail,
 } from '../../../api/change-reply';
+import {appContext} from '../../../services/app-context';
 
 /**
  * GrChangeReplyInterface, provides a set of handy methods on reply dialog.
  */
 export class GrChangeReplyInterface implements ChangeReplyPluginApi {
+  private readonly reporting = appContext.reportingService;
+
   constructor(
     readonly plugin: PluginApi,
     readonly sharedApiElement: JsApiService
-  ) {}
+  ) {
+    this.reporting.trackApi(this.plugin, 'reply', 'constructor');
+  }
 
   get _el(): GrReplyDialog {
     return (this.sharedApiElement.getElement(
@@ -42,18 +47,22 @@ export class GrChangeReplyInterface implements ChangeReplyPluginApi {
   }
 
   getLabelValue(label: string): string {
+    this.reporting.trackApi(this.plugin, 'reply', 'getLabelValue');
     return this._el.getLabelValue(label);
   }
 
   setLabelValue(label: string, value: string) {
+    this.reporting.trackApi(this.plugin, 'reply', 'setLabelValue');
     this._el.setLabelValue(label, value);
   }
 
   send(includeComments?: boolean) {
+    this.reporting.trackApi(this.plugin, 'reply', 'send');
     this._el.send(includeComments);
   }
 
   addReplyTextChangedCallback(handler: ReplyChangedCallback) {
+    this.reporting.trackApi(this.plugin, 'reply', 'addReplyTextChangedCb');
     const hookApi = this.plugin.hook('reply-text');
     const registeredHandler = (e: Event) => {
       const ce = e as CustomEvent<ValueChangedDetail>;
@@ -74,6 +83,7 @@ export class GrChangeReplyInterface implements ChangeReplyPluginApi {
   }
 
   addLabelValuesChangedCallback(handler: LabelsChangedCallback) {
+    this.reporting.trackApi(this.plugin, 'reply', 'addLabelValuesChangedCb');
     const hookApi = this.plugin.hook('reply-label-scores');
     const registeredHandler = (e: Event) => {
       const ce = e as CustomEvent<LabelsChangedDetail>;
@@ -95,6 +105,7 @@ export class GrChangeReplyInterface implements ChangeReplyPluginApi {
   }
 
   showMessage(message: string) {
+    this.reporting.trackApi(this.plugin, 'reply', 'showMessage');
     this._el.setPluginMessage(message);
   }
 }

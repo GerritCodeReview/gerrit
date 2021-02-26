@@ -19,6 +19,7 @@ import {ConfigInfo} from '../../../types/common';
 import {PluginApi} from '../../../api/plugin';
 import {RepoCommandCallback, RepoPluginApi} from '../../../api/repo';
 import {HookApi} from '../../../api/hook';
+import {appContext} from '../../../services/app-context';
 
 /**
  * Parameters provided on repo-command endpoint
@@ -31,7 +32,11 @@ export interface GrRepoCommandEndpointEl extends HTMLElement {
 export class GrRepoApi implements RepoPluginApi {
   private hook?: HookApi;
 
-  constructor(readonly plugin: PluginApi) {}
+  private readonly reporting = appContext.reportingService;
+
+  constructor(readonly plugin: PluginApi) {
+    this.reporting.trackApi(this.plugin, 'repo', 'constructor');
+  }
 
   // TODO(TS): should mark as public since used in gr-change-metadata-api
   _createHook(title: string) {
@@ -43,6 +48,7 @@ export class GrRepoApi implements RepoPluginApi {
   }
 
   createCommand(title: string, callback: RepoCommandCallback) {
+    this.reporting.trackApi(this.plugin, 'repo', 'createCommand');
     if (this.hook) {
       console.warn('Already set up.');
       return this;
@@ -57,6 +63,7 @@ export class GrRepoApi implements RepoPluginApi {
   }
 
   onTap(callback: (event: Event) => boolean) {
+    this.reporting.trackApi(this.plugin, 'repo', 'onTap');
     if (!this.hook) {
       console.warn('Call createCommand first.');
       return this;

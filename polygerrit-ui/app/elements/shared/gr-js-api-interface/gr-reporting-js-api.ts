@@ -25,9 +25,12 @@ import {EventDetails, ReportingPluginApi} from '../../../api/reporting';
 export class GrReportingJsApi implements ReportingPluginApi {
   private readonly reporting = appContext.reportingService;
 
-  constructor(private readonly plugin: PluginApi) {}
+  constructor(private readonly plugin: PluginApi) {
+    this.reporting.trackApi(this.plugin, 'reporting', 'constructor');
+  }
 
   reportInteraction(eventName: string, details?: EventDetails) {
+    this.reporting.trackApi(this.plugin, 'reporting', 'reportInteraction');
     this.reporting.reportInteraction(
       `${this.plugin.getPluginName()}-${eventName}`,
       details
@@ -35,6 +38,7 @@ export class GrReportingJsApi implements ReportingPluginApi {
   }
 
   reportLifeCycle(eventName: string, details?: EventDetails) {
+    this.reporting.trackApi(this.plugin, 'reporting', 'reportLifeCycle');
     this.reporting.reportLifeCycle(
       `${this.plugin.getPluginName()}-${eventName}`,
       details

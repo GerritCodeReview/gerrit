@@ -41,10 +41,12 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
   private readonly reporting = appContext.reportingService;
 
   constructor(private readonly plugin: PluginApi) {
+    this.reporting.trackApi(this.plugin, 'annotation', 'constructor');
     plugin.on(EventType.ANNOTATE_DIFF, this);
   }
 
   setLayer(annotationCallback: AnnotationCallback) {
+    this.reporting.trackApi(this.plugin, 'annotation', 'setLayer');
     if (this.annotationCallback) {
       console.warn('Overwriting an existing plugin annotation layer.');
     }
@@ -55,6 +57,7 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
   setCoverageProvider(
     coverageProvider: CoverageProvider
   ): GrAnnotationActionsInterface {
+    this.reporting.trackApi(this.plugin, 'annotation', 'setCoverageProvider');
     if (this.coverageProvider) {
       console.warn('Overwriting an existing coverage provider.');
     }
@@ -74,6 +77,7 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
     checkboxLabel: string,
     onAttached: (checkboxEl: Element | null) => void
   ) {
+    this.reporting.trackApi(this.plugin, 'annotation', 'enableToggleCheckbox');
     this.plugin.hook('annotation-toggler').onAttached(element => {
       if (!element.content) {
         this.reporting.error(new Error('plugin endpoint without content.'));
@@ -104,6 +108,7 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
   }
 
   notify(path: string, start: number, end: number, side: Side) {
+    this.reporting.trackApi(this.plugin, 'annotation', 'notify');
     for (const annotationLayer of this.annotationLayers) {
       // Notify only the annotation layer that is associated with the specified
       // path.

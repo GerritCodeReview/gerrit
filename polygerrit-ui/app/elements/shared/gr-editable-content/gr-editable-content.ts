@@ -120,6 +120,8 @@ export class GrEditableContent extends GestureEventListeners(
 
   private readonly flagsService = appContext.flagsService;
 
+  private readonly reporting = appContext.reportingService;
+
   /** @override */
   ready() {
     super.ready();
@@ -238,6 +240,10 @@ export class GrEditableContent extends GestureEventListeners(
 
   _toggleCommitCollapsed() {
     this._commitCollapsed = !this._commitCollapsed;
+    this.reporting.reportInteraction('toggle show all button', {
+      sectionName: 'Commit message',
+      toState: !this._commitCollapsed ? 'Show all' : 'Show less',
+    });
     if (this._commitCollapsed) {
       window.scrollTo(0, 0);
     }

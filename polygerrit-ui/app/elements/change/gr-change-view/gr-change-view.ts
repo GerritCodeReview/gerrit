@@ -825,8 +825,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
       paperTabs.scrollIntoView();
     }
     if (paperTabs.selected !== activeIndex) {
+      // paperTabs.selected is undefined during rendering
+      if (paperTabs.selected !== undefined) {
+        this.reporting.reportInteraction('show-tab', {tabName});
+      }
       paperTabs.selected = activeIndex;
-      this.reporting.reportInteraction('show-tab', {tabName});
     }
     return tabName;
   }

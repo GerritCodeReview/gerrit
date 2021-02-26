@@ -38,6 +38,7 @@
 ... link:user-changeid.html[Change-Id Lines]
 ... link:user-signedoffby.html[Signed-off-by Lines]
 ... link:user-change-cleanup.html[Change Cleanup]
+... link:cross-repository-changes.html[Cross Repository Changes using Topics]
 
 == Project Management
 . link:project-configuration.html[Project Configuration]

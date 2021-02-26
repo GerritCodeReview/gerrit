@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cd4d906_1e2df0ac",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-26T16:31:51Z",
+      "side": 1,
+      "message": "I tried adding tests but we use the DisabledMetricMaker upstream, which does not export any metrics. I have previously checked other metrics as well and they don\u0027t have any tests.\n\nAlso this test is in google3 :-)",
+      "parentUuid": "a783d624_f49fe604",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "711e1065_b727ae7f",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-02-26T10:20:55Z",
       "side": 1,
       "message": "Wouldn\u0027t it be simpler to just have a static field, like e.g. http://google3/java/com/google/devtools/gerritcodereview/git/task/MonitoredMessageCallback.java?l\u003d142\u0026rcl\u003d343299390 ?",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d56a1892_5ad187d2",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-26T16:31:51Z",
+      "side": 1,
+      "message": "All metrics in our code base use @Singleton (examples: ReviewersUtil, RetryHelper, AsyncReceiveCommits, etc...). I preferred to keep this consistent with already existent metrics.",
+      "parentUuid": "711e1065_b727ae7f",
       "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b89dec5_6335db02",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-26T16:31:51Z",
+      "side": 1,
+      "message": "Done.\n\nI kept them as separate metrics: matching and mismatching diffs.",
+      "parentUuid": "6653cbf5_99ca8cea",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eef68dbe_59e883e2",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-02-26T10:20:55Z",
       "side": 1,
       "message": "Will this have to be resized to deal with the extra load?",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f25512af_d7567cf7",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-26T16:31:51Z",
+      "side": 1,
+      "message": "In DiffExecutorModule we do not set a specific pool size for the executor. The default uses a corePoolSize \u003d 0 and maximumPooSize \u003d INT_MAX.\n\nI\u0027m not sure if we need to change the default values, but this executor will be used only in canary for testing.",
+      "parentUuid": "eef68dbe_59e883e2",
       "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81ac8b12_922a060b",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-26T16:31:51Z",
+      "side": 1,
+      "message": "Done. I added a metric for errors.",
+      "parentUuid": "7d893508_a83f1747",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a7b888e_bc66d372",
@@ -99,6 +189,24 @@
       "writtenOn": "2021-02-26T10:20:55Z",
       "side": 1,
       "message": "Objects.equal()\nhttps://docs.oracle.com/javase/8/docs/api/java/util/Objects.html#equals-java.lang.Object-java.lang.Object-",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85a3ac97_cadd6028",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-02-26T16:31:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a7b888e_bc66d372",
       "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -18,14 +18,20 @@ import './gr-custom-plugin-header';
 import {GrCustomPluginHeader} from './gr-custom-plugin-header';
 import {PluginApi} from '../../../api/plugin';
 import {ThemePluginApi} from '../../../api/theme';
+import {appContext} from '../../../services/app-context';
 
 /**
  * Defines api for theme, can be used to set header logo and title.
  */
 export class GrThemeApi implements ThemePluginApi {
-  constructor(private readonly plugin: PluginApi) {}
+  private readonly reporting = appContext.reportingService;
+
+  constructor(private readonly plugin: PluginApi) {
+    this.reporting.trackApi(this.plugin, 'theme', 'constructor');
+  }
 
   setHeaderLogoAndTitle(logoUrl: string, title: string) {
+    this.reporting.trackApi(this.plugin, 'theme', 'setHeaderLogoAndTitle');
     this.plugin.hook('header-title', {replace: true}).onAttached(element => {
       const customHeader: GrCustomPluginHeader = document.createElement(
         'gr-custom-plugin-header'

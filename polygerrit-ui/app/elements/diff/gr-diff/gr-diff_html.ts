@@ -24,6 +24,9 @@ export const htmlTemplate = html`
     :host(.no-left) .sideBySide .right:not([data-value]) + td {
       display: none;
     }
+    .disable-context-control-buttons {
+      --context-control-display: 'none';
+    }
     :host {
       font-family: var(--monospace-font-family, ''), 'Roboto Mono';
       font-size: var(--font-size, var(--font-size-code, 12px));
@@ -56,7 +59,7 @@ export const htmlTemplate = html`
       Context controls break up the table visually, so we set the right border
       on individual sections to leave a gap for the divider.
       */
-    .section {
+    .section :not(.disable-context-control-buttons) {
       border-right: 1px solid var(--border-color);
     }
     .section.contextControl {

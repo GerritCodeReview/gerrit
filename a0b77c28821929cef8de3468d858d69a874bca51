@@ -81,6 +81,24 @@
       "parentUuid": "dd54608e_2c0175f6",
       "revId": "a0b77c28821929cef8de3468d858d69a874bca51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60d0a182_344bbac4",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-26T08:35:22Z",
+      "side": 1,
+      "message": "Ack, I actually misread this code here.",
+      "parentUuid": "1d360c09_1bb77953",
+      "revId": "a0b77c28821929cef8de3468d858d69a874bca51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

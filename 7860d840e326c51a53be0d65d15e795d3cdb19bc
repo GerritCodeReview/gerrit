@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4114d7f3_ba05f85f",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-26T08:35:22Z",
+      "side": 1,
+      "message": "nit: I think checkState supports %s placeholders, so this could be\n\n\"file name %s must end in .config, fileName)",
+      "range": {
+        "startLine": 180,
+        "startChar": 45,
+        "endLine": 180,
+        "endChar": 94
+      },
+      "revId": "7860d840e326c51a53be0d65d15e795d3cdb19bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

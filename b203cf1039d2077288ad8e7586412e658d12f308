@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53e7e893_e2f21484",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-02-26T14:08:35Z",
+      "side": 1,
+      "message": "I propose we place the \"View diff\" button inside the container to the bottom right so that the action looks contained within the diff, you\u0027ll find the specs on the bug.",
+      "revId": "b203cf1039d2077288ad8e7586412e658d12f308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

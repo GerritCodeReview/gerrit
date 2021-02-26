@@ -113,6 +113,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04783d0e_b202f5f6",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-26T08:57:09Z",
+      "side": 1,
+      "message": "\u003e No. That change doesn\u0027t touch local build at all. It\u0027s changing remote-bazelrc, remote configuration. That means that it\u0027s only RBE build (or other remote backend) that it\u0027s affected here.\n\nAh, gotcha.\n\n\u003e If this change would change --local_test_jobs for local build it wold have added this line:\n\u003e \n\u003e   test --local_test_jobs\u003d100\n\u003e \n\u003e in main .bazelrc file.\n\u003e \n\u003e Besides that we already bumped build:remote --jobs\u003d100, in the same manner.\n\nYes, but the problem is that also for RBE builds we won\u0027t have a local CPU with 100 cores. Do you mean that for each remote RBE execution we need a local thread to talk with the remote? If yes, then the local_test_jobs needs to match the jobs *all the times*.",
+      "parentUuid": "8b3f092f_f51b8bfb",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "ea19b48725c97ec4211a25a4543db9b149d63172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbe6cfd1_1b77e924",

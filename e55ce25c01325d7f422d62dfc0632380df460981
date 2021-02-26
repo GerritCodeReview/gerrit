@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4449bd26_f521c9b6",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-26T18:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4900182e_544c3c6c",
+      "range": {
+        "startLine": 36,
+        "startChar": 30,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25070214_8b46e5ee",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-26T09:58:03Z",
       "side": 1,
       "message": "Will we have tests to protect against this not being the case (vs. seeing it only in production when a newly added filed is diffed)?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 56
+      },
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e9e4b44_7ebc70e2",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-26T18:56:09Z",
+      "side": 1,
+      "message": "There is one test at the bottom of ChangeInfoDifferTest that uses reflection to build a full ChangeInfo instance. The test helped identify classes for the isSimple method so it was very useful!\n\nAdded to the test so that it checks classes only reachable through Collections.",
+      "parentUuid": "25070214_8b46e5ee",
       "range": {
         "startLine": 39,
         "startChar": 0,
@@ -110,6 +158,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b540e47_f6b0cc34",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-26T18:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c49e20b_68e42807",
+      "range": {
+        "startLine": 129,
+        "startChar": 9,
+        "endLine": 129,
+        "endChar": 15
+      },
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec8c019b_4f712ca6",
@@ -123,6 +195,30 @@
       "writtenOn": "2021-02-26T09:58:03Z",
       "side": 1,
       "message": "Please see my other comments on failing here",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 18
+      },
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "491d57c6_b3f46600",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-26T18:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec8c019b_4f712ca6",
       "range": {
         "startLine": 136,
         "startChar": 0,
@@ -156,6 +252,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd103d8c_6d23ea6b",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-26T18:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be7499ee_7580396d",
+      "range": {
+        "startLine": 141,
+        "startChar": 14,
+        "endLine": 141,
+        "endChar": 18
+      },
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "512a6bd6_9724f0c9",
@@ -169,6 +289,24 @@
       "writtenOn": "2021-02-26T09:58:03Z",
       "side": 1,
       "message": "I think we should just fail in these cases. It\u0027s easier to see that Gerrit is throwing lots of HTTP 500s and in the best case have test failures before rather than just silently ignoring a field and requiring users to file tickets against us a la \"why is fooField never populated\".",
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92e55ee9_519d549f",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-02-26T18:56:09Z",
+      "side": 1,
+      "message": "Throwing everywhere now instead of logging failures.\n\nSounds good!",
+      "parentUuid": "512a6bd6_9724f0c9",
       "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

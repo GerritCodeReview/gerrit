@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9613ff3a_e052caab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-26T20:33:09Z",
+      "side": 1,
+      "message": "FWIW, we have teams that rely on service users showing up in the suggestion. So it\u0027s good that there was the config option to switch back to the old behaviour.",
+      "parentUuid": "3e341445_e28cba07",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "1659f346b529d7f887a841674b29d09a951d88ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e3f4594_be7dc782",

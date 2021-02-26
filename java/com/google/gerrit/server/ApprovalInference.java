@@ -25,6 +25,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -368,11 +369,12 @@ public class ApprovalInference {
         "change kind for patch set %d of change %d against prior patch set %s is %s",
         ps.id().get(), ps.id().changeId().get(), priorPatchSet.getValue().id().changeId(), kind);
     PatchList patchList = null;
+    LabelTypes labelTypes = project.getLabelTypes();
     for (PatchSetApproval psa : priorApprovals) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
         continue;
       }
-      LabelType type = project.getLabelTypes().byLabel(psa.labelId());
+      LabelType type = labelTypes.byLabel(psa.labelId());
       // Only compute patchList if there is a relevant label, since this is expensive.
       if (patchList == null && type != null && type.isCopyAllScoresIfListOfFilesDidNotChange()) {
         patchList = getPatchList(project, ps, priorPatchSet);

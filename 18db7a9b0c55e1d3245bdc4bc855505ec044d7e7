@@ -258,6 +258,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35fe31bc_81338509",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T09:58:03Z",
+      "side": 1,
+      "message": "This was also jumping to my eye when reading and I wanted to suggest smth like Sets.difference, but you are right about the dupes in any Collection that we\u0027d loose.\n\nSeems fine as it is to me because data here is usually small.",
+      "parentUuid": "7a477ca5_4b31070b",
+      "range": {
+        "startLine": 123,
+        "startChar": 26,
+        "endLine": 123,
+        "endChar": 51
+      },
+      "revId": "18db7a9b0c55e1d3245bdc4bc855505ec044d7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d886f1d1_41b22c6d",
         "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
         "patchSetId": 5

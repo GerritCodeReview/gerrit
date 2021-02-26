@@ -38,6 +38,7 @@ import {customElement, property, observe} from '@polymer/decorators';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {HttpMethod, ChangeStatus} from '../../../constants/constants';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {fireEvent} from '../../../utils/event-util';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -264,10 +265,12 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
 
   _handlecherryPickSingleChangeClicked() {
     this._cherryPickType = CherryPickType.SINGLE_CHANGE;
+    fireEvent(this, 'iron-resize');
   }
 
   _handlecherryPickTopicClicked() {
     this._cherryPickType = CherryPickType.TOPIC;
+    fireEvent(this, 'iron-resize');
   }
 
   @observe('changeStatus', 'commitNum', 'commitMessage')

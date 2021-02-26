@@ -170,6 +170,7 @@ export const htmlTemplate = html`
       on-confirm="_handleCherrypickConfirm"
       on-cancel="_handleConfirmDialogCancel"
       project="[[change.project]]"
+      on-refit-overlay="_handleRefitOverlay"
       hidden=""
     ></gr-confirm-cherrypick-dialog>
     <gr-confirm-cherrypick-conflict-dialog

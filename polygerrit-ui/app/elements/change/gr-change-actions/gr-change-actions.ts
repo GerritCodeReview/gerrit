@@ -264,6 +264,7 @@ const EDIT_ACTIONS: Set<string> = new Set([
 
 const AWAIT_CHANGE_ATTEMPTS = 5;
 const AWAIT_CHANGE_TIMEOUT_MS = 1000;
+const REFIT_OVERLAY_DEBOUNCE_MS = 100;
 
 /* Revert submission is skipped as the normal revert dialog will now show
 the user a choice between reverting single change or an entire submission.
@@ -1387,6 +1388,14 @@ export class GrChangeActions
       assertUIActionInfo(this.revisionActions.rebase),
       true,
       payload
+    );
+  }
+
+  _handleRefitOverlay() {
+    this.debounce(
+      'refit-overlay-debouncer',
+      () => this.$.overlay.refit(),
+      REFIT_OVERLAY_DEBOUNCE_MS
     );
   }
 

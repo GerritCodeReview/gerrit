@@ -18,6 +18,8 @@ import {
   EventHelperPluginApi,
   UnsubscribeCallback,
 } from '../../../api/event-helper';
+import {PluginApi} from '../../../api/plugin';
+import {appContext} from '../../../services/app-context';
 
 export interface ListenOptions {
   event?: string;
@@ -25,13 +27,18 @@ export interface ListenOptions {
 }
 
 export class GrEventHelper implements EventHelperPluginApi {
-  constructor(readonly element: HTMLElement) {}
+  private readonly reporting = appContext.reportingService;
+
+  constructor(readonly plugin: PluginApi, readonly element: HTMLElement) {
+    this.reporting.trackApi(this.plugin, 'event', 'constructor');
+  }
 
   /**
    * Add a callback to arbitrary event.
    * The callback may return false to prevent event bubbling.
    */
   on(event: string, callback: (event: Event) => boolean) {
+    this.reporting.trackApi(this.plugin, 'event', 'on');
     return this._listen(this.element, callback, {event});
   }
 
@@ -39,6 +46,7 @@ export class GrEventHelper implements EventHelperPluginApi {
    * Alias for @see onClick
    */
   onTap(callback: (event: Event) => boolean) {
+    this.reporting.trackApi(this.plugin, 'event', 'onTap');
     return this.onClick(callback);
   }
 
@@ -47,6 +55,7 @@ export class GrEventHelper implements EventHelperPluginApi {
    * The callback may return false to prevent event bubbling.
    */
   onClick(callback: (event: Event) => boolean) {
+    this.reporting.trackApi(this.plugin, 'event', 'onClick');
     return this._listen(this.element, callback);
   }
 
@@ -54,6 +63,7 @@ export class GrEventHelper implements EventHelperPluginApi {
    * Alias for @see captureClick
    */
   captureTap(callback: (event: Event) => boolean) {
+    this.reporting.trackApi(this.plugin, 'event', 'captureTap');
     return this.captureClick(callback);
   }
 
@@ -64,6 +74,7 @@ export class GrEventHelper implements EventHelperPluginApi {
    * The callback may return false to cancel regular event listeners.
    */
   captureClick(callback: (event: Event) => boolean) {
+    this.reporting.trackApi(this.plugin, 'event', 'captureClick');
     const parent = this.element.parentElement!;
     return this._listen(parent, callback, {capture: true});
   }

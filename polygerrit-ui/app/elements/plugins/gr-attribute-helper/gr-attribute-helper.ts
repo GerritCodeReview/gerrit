@@ -15,14 +15,20 @@
  * limitations under the License.
  */
 import {AttributeHelperPluginApi} from '../../../api/attribute-helper';
+import {PluginApi} from '../../../api/plugin';
+import {appContext} from '../../../services/app-context';
 
 export class GrAttributeHelper implements AttributeHelperPluginApi {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private readonly _promises = new Map<string, Promise<any>>();
 
+  private readonly reporting = appContext.reportingService;
+
   // TODO(TS): Change any to something more like HTMLElement.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(public element: any) {}
+  constructor(readonly plugin: PluginApi, public element: any) {
+    this.reporting.trackApi(this.plugin, 'attribute', 'constructor');
+  }
 
   _getChangedEventName(name: string): string {
     return name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase() + '-changed';
@@ -52,6 +58,7 @@ export class GrAttributeHelper implements AttributeHelperPluginApi {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   bind(name: string, callback: (value: any) => void) {
+    this.reporting.trackApi(this.plugin, 'attribute', 'bind');
     const attributeChangedEventName = this._getChangedEventName(name);
     const changedHandler = (e: CustomEvent) =>
       this._reportValue(callback, e.detail.value);
@@ -72,6 +79,7 @@ export class GrAttributeHelper implements AttributeHelperPluginApi {
    * to be initialized if it isn't defined.
    */
   get(name: string): Promise<unknown> {
+    this.reporting.trackApi(this.plugin, 'attribute', 'get');
     if (this._elementHasProperty(name)) {
       return Promise.resolve(this.element[name]);
     }
@@ -93,6 +101,7 @@ export class GrAttributeHelper implements AttributeHelperPluginApi {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   set(name: string, value: any) {
+    this.reporting.trackApi(this.plugin, 'attribute', 'set');
     this.element[name] = value;
     this.element.dispatchEvent(
       new CustomEvent(this._getChangedEventName(name), {detail: {value}})

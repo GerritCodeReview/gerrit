@@ -16,6 +16,7 @@
  */
 import {EventType, PluginApi} from '../../../api/plugin';
 import {AdminPluginApi, MenuLink} from '../../../api/admin';
+import {appContext} from '../../../services/app-context';
 
 /**
  * GrAdminApi class.
@@ -26,15 +27,20 @@ export class GrAdminApi implements AdminPluginApi {
   // TODO(TS): maybe define as enum if its a limited set
   private menuLinks: MenuLink[] = [];
 
+  private readonly reporting = appContext.reportingService;
+
   constructor(private readonly plugin: PluginApi) {
+    this.reporting.trackApi(this.plugin, 'admin', 'constructor');
     this.plugin.on(EventType.ADMIN_MENU_LINKS, this);
   }
 
   addMenuLink(text: string, url: string, capability?: string) {
+    this.reporting.trackApi(this.plugin, 'admin', 'addMenuLink');
     this.menuLinks.push({text, url, capability: capability || null});
   }
 
   getMenuLinks(): MenuLink[] {
+    this.reporting.trackApi(this.plugin, 'admin', 'getMenuLinks');
     return this.menuLinks.slice(0);
   }
 }

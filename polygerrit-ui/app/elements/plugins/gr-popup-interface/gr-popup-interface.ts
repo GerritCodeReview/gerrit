@@ -19,6 +19,7 @@ import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrPluginPopup} from './gr-plugin-popup';
 import {PluginApi} from '../../../api/plugin';
 import {PopupPluginApi} from '../../../api/popup';
+import {appContext} from '../../../services/app-context';
 
 interface CustomPolymerPluginEl extends HTMLElement {
   plugin: PluginApi;
@@ -35,10 +36,14 @@ export class GrPopupInterface implements PopupPluginApi {
 
   private popup: GrPluginPopup | null = null;
 
+  private readonly reporting = appContext.reportingService;
+
   constructor(
     readonly plugin: PluginApi,
     private moduleName: string | null = null
-  ) {}
+  ) {
+    this.reporting.trackApi(this.plugin, 'popup', 'constructor');
+  }
 
   _getElement() {
     // TODO(TS): maybe consider removing this if no one is using
@@ -52,6 +57,7 @@ export class GrPopupInterface implements PopupPluginApi {
    * if it was provided with constructor.
    */
   open(): Promise<PopupPluginApi> {
+    this.reporting.trackApi(this.plugin, 'popup', 'open');
     if (!this.openingPromise) {
       this.openingPromise = this.plugin
         .hook('plugin-overlay')
@@ -76,6 +82,7 @@ export class GrPopupInterface implements PopupPluginApi {
    * Hides the popup.
    */
   close() {
+    this.reporting.trackApi(this.plugin, 'popup', 'close');
     if (!this.popup) {
       return;
     }

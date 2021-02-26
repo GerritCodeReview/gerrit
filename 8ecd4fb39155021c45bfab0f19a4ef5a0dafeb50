@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2888cae5_a13e254c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1395,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-26T19:08:20Z",
+      "side": 1,
+      "message": "reverted",
+      "parentUuid": "56ec4b2b_c7cf250c",
+      "revId": "8ecd4fb39155021c45bfab0f19a4ef5a0dafeb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "408d06c0_e8f86543",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-02-26T14:36:18Z",
       "side": 1,
       "message": "The event should be agnostic of what the reaction will be. It should rather be something like \u0027resized\u0027 or so.\n\nYou can actually try firing \u0027iron-resize\u0027. That should do the trick without the need for explicitly handling it. See other usages in our code base.\n\nIf you want to go fancy, then you would probably want to change gr-overlay and add a ResizeObserver to all the stuff that is slotted into it.",
+      "revId": "8ecd4fb39155021c45bfab0f19a4ef5a0dafeb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "312340f4_15b5c236",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-02-26T19:08:20Z",
+      "side": 1,
+      "message": "iron-resize works. Nice!",
+      "parentUuid": "408d06c0_e8f86543",
       "revId": "8ecd4fb39155021c45bfab0f19a4ef5a0dafeb50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

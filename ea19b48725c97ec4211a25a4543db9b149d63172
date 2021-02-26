@@ -161,6 +161,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fdd3c93_20f58cce",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-26T09:57:39Z",
+      "side": 1,
+      "message": "\u003e \u003e Yes, but the problem is that also for RBE builds we won\u0027t have a local CPU with 100 cores.\n\u003e \n\u003e Nothing is local here. The test are distributed to remote worker. I guess, this is a problem with option --local_test_jobs. It should have be named: --remote_test_jobs. Also note, I copy/pasted this option combination from bazel Buildkite job, that run on RBE. As can be seen, with ths config options, all (!) RBE test take \u003c 10 minutes.\n\nOK, my question was: \"why should that value be different from the jobs setting? If we have jobs\u003d200 then local_test_jobs\u003d200 should be the right value.\n\nWould it be worth asking the Bazel team?",
+      "parentUuid": "a6944ae3_0e21f407",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "ea19b48725c97ec4211a25a4543db9b149d63172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbe6cfd1_1b77e924",

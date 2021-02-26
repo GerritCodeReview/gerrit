@@ -50,6 +50,11 @@ Example to set a Gerrit project's link:rest-api-projects.html#set-project-descri
  curl -X PUT --user john:2LlAB3K9B0PF --data-binary @project-desc.txt --header "Content-Type: application/json; charset=UTF-8" http://localhost:8080/a/projects/myproject/description
 ----
 
+[[pretty-json]]
+=== Pretty JSON
+
+By default any JSON in responses is compacted. To get pretty-printed JSON add `pp=1` to the request.
+
 === Authentication
 
 To test APIs that require authentication, the username and password must be specified on

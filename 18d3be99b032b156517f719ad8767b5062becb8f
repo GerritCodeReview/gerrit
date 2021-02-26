@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34a57645_f92a2920",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-26T08:18:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b68d2378_6c706abf",
+      "range": {
+        "startLine": 191,
+        "startChar": 16,
+        "endLine": 191,
+        "endChar": 22
+      },
+      "revId": "18d3be99b032b156517f719ad8767b5062becb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "271d6841_35470a34",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-25T14:50:32Z",
       "side": 1,
       "message": "Could this send fire when you navigate out of changeview? Can it takes long time? Maybe it can be raced with timer(1s) or it can be invalid if current change is different.",
+      "range": {
+        "startLine": 196,
+        "startChar": 8,
+        "endLine": 196,
+        "endChar": 34
+      },
+      "revId": "18d3be99b032b156517f719ad8767b5062becb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "545f1087_69ad1734",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-02-26T08:18:59Z",
+      "side": 1,
+      "message": "You are right that we should always check when an async operation comes back. Compared to hundreds of other places in the code base this is not the most important one to check though IMO. And it is also not so obvious how to best handle this without adding too much complexity. What I have done as a simple first step is to never wait more than 5 seconds. From here is should be easier to refine this later when needed. I will also look a bit into the checks model in my next changes. Maybe it will get a bit easier how to invalidate such operations then.",
+      "parentUuid": "271d6841_35470a34",
       "range": {
         "startLine": 196,
         "startChar": 8,

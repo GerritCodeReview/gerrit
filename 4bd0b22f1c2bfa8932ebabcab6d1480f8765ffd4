@@ -22,6 +22,30 @@
       },
       "revId": "4bd0b22f1c2bfa8932ebabcab6d1480f8765ffd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51cfabc0_0c1c20de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-02-26T09:40:21Z",
+      "side": 1,
+      "message": "To be clear, my \"objection\" was that the commit message didn\u0027t match the commit.\nI see nothing wrong with the commit itself.",
+      "parentUuid": "f707185f_a8566549",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 52
+      },
+      "revId": "4bd0b22f1c2bfa8932ebabcab6d1480f8765ffd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

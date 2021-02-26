@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9706364_2554d4f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T09:58:03Z",
+      "side": 1,
+      "message": "This looks really nice!",
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4900182e_544c3c6c",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T09:58:03Z",
+      "side": 1,
+      "message": "nit: {@code }",
+      "range": {
+        "startLine": 36,
+        "startChar": 30,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25070214_8b46e5ee",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T09:58:03Z",
+      "side": 1,
+      "message": "Will we have tests to protect against this not being the case (vs. seeing it only in production when a newly added filed is diffed)?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 56
+      },
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03cd5a05_fc8db6bc",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T09:58:03Z",
+      "side": 1,
+      "message": "nit: Info classes can\u0027t include comperators",
+      "range": {
+        "startLine": 119,
+        "startChar": 11,
+        "endLine": 119,
+        "endChar": 21
+      },
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c49e20b_68e42807",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T09:58:03Z",
+      "side": 1,
+      "message": "orElseThrow(() -\u003e new IllegalStateException(\"class \" + c + \" must have a zero argument constructor\"))",
+      "range": {
+        "startLine": 129,
+        "startChar": 9,
+        "endLine": 129,
+        "endChar": 15
+      },
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec8c019b_4f712ca6",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T09:58:03Z",
+      "side": 1,
+      "message": "Please see my other comments on failing here",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 18
+      },
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be7499ee_7580396d",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T09:58:03Z",
+      "side": 1,
+      "message": "nit: {@code null}",
+      "range": {
+        "startLine": 141,
+        "startChar": 14,
+        "endLine": 141,
+        "endChar": 18
+      },
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "512a6bd6_9724f0c9",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T09:58:03Z",
+      "side": 1,
+      "message": "I think we should just fail in these cases. It\u0027s easier to see that Gerrit is throwing lots of HTTP 500s and in the best case have test failures before rather than just silently ignoring a field and requiring users to file tickets against us a la \"why is fooField never populated\".",
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9ea8021_bd978fa5",
+        "filename": "javatests/com/google/gerrit/extensions/common/ChangeInfoDifferTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-02-26T09:58:03Z",
+      "side": 1,
+      "message": "All of these could be constructors in the respective *Info classes. That makes it so that they can be reused in other tests.",
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

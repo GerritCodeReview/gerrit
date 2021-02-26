@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "945a7d07_a429fa60",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-26T07:59:30Z",
+      "side": 1,
+      "message": "Maybe include the fileName into this message.",
+      "range": {
+        "startLine": 180,
+        "startChar": 46,
+        "endLine": 180,
+        "endChar": 55
+      },
+      "revId": "a0b77c28821929cef8de3468d858d69a874bca51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd54608e_2c0175f6",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-02-26T07:59:30Z",
+      "side": 1,
+      "message": "[optional] maybe throw a dedicated error if cachedConfig.getParsedProjectLevelConfigs() is not present\n\ncheckState(cachedConfig.getParsedProjectLevelConfigs().isPresent(), \"config file %s in project %s doesn\u0027t exist or was not parseable\", fileName, getName());",
+      "revId": "a0b77c28821929cef8de3468d858d69a874bca51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

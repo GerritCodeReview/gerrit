@@ -93,6 +93,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         persist(DIFF, FileDiffCacheKey.class, FileDiffOutput.class)
             .maximumWeight(10 << 20)
             .weigher(FileDiffWeigher.class)
+            .version(2)
             .keySerializer(FileDiffCacheKey.Serializer.INSTANCE)
             .valueSerializer(FileDiffOutput.Serializer.INSTANCE)
             .loader(FileDiffLoader.class);
@@ -219,19 +220,16 @@ public class FileDiffCacheImpl implements FileDiffCache {
         RawTextComparator cmp = comparatorFor(key.whitespace());
         ComparisonType comparisonType =
             getComparisonType(rw, reader, key.oldCommit(), key.newCommit());
-        RevCommit aCommit =
-            comparisonType.isAgainstParentOrAutoMerge()
-                ? null
-                : DiffUtil.getRevCommit(rw, key.oldCommit());
+        RevCommit aCommit = DiffUtil.getRevCommit(rw, key.oldCommit());
         RevCommit bCommit = DiffUtil.getRevCommit(rw, key.newCommit());
         return magicPath == MagicPath.COMMIT
-            ? createCommitEntry(reader, aCommit, bCommit, cmp, key.diffAlgorithm())
+            ? createCommitEntry(reader, aCommit, bCommit, comparisonType, cmp, key.diffAlgorithm())
             : createMergeListEntry(
                 reader, aCommit, bCommit, comparisonType, cmp, key.diffAlgorithm());
       } catch (IOException e) {
         logger.atWarning().log("Failed to compute commit entry for key %s", key);
       }
-      return FileDiffOutput.empty(key.newFilePath());
+      return FileDiffOutput.empty(key.newFilePath(), key.oldCommit(), key.newCommit());
     }
 
     private static RawTextComparator comparatorFor(Whitespace ws) {
@@ -255,13 +253,24 @@ public class FileDiffCacheImpl implements FileDiffCache {
         ObjectReader reader,
         RevCommit oldCommit,
         RevCommit newCommit,
+        ComparisonType comparisonType,
         RawTextComparator rawTextComparator,
         GitFileDiffCacheImpl.DiffAlgorithm diffAlgorithm)
         throws IOException {
-      Text aText = oldCommit != null ? Text.forCommit(reader, oldCommit) : Text.EMPTY;
+      Text aText =
+          comparisonType.isAgainstParentOrAutoMerge()
+              ? Text.EMPTY
+              : Text.forCommit(reader, oldCommit);
       Text bText = Text.forCommit(reader, newCommit);
       return createMagicFileDiffOutput(
-          rawTextComparator, oldCommit, aText, bText, Patch.COMMIT_MSG, diffAlgorithm);
+          oldCommit,
+          newCommit,
+          comparisonType,
+          rawTextComparator,
+          aText,
+          bText,
+          Patch.COMMIT_MSG,
+          diffAlgorithm);
     }
 
     private FileDiffOutput createMergeListEntry(
@@ -273,20 +282,31 @@ public class FileDiffCacheImpl implements FileDiffCache {
         GitFileDiffCacheImpl.DiffAlgorithm diffAlgorithm)
         throws IOException {
       Text aText =
-          oldCommit != null ? Text.forMergeList(comparisonType, reader, oldCommit) : Text.EMPTY;
+          comparisonType.isAgainstParentOrAutoMerge()
+              ? Text.EMPTY
+              : Text.forMergeList(comparisonType, reader, oldCommit);
       Text bText = Text.forMergeList(comparisonType, reader, newCommit);
       return createMagicFileDiffOutput(
-          rawTextComparator, oldCommit, aText, bText, Patch.MERGE_LIST, diffAlgorithm);
+          oldCommit,
+          newCommit,
+          comparisonType,
+          rawTextComparator,
+          aText,
+          bText,
+          Patch.MERGE_LIST,
+          diffAlgorithm);
     }
 
     private static FileDiffOutput createMagicFileDiffOutput(
+        ObjectId oldCommit,
+        ObjectId newCommit,
+        ComparisonType comparisonType,
         RawTextComparator rawTextComparator,
-        RevCommit aCommit,
         Text aText,
         Text bText,
         String fileName,
         GitFileDiffCacheImpl.DiffAlgorithm diffAlgorithm) {
-      byte[] rawHdr = getRawHeader(aCommit != null, fileName);
+      byte[] rawHdr = getRawHeader(!comparisonType.isAgainstParentOrAutoMerge(), fileName);
       byte[] aContent = aText.getContent();
       byte[] bContent = bText.getContent();
       long size = bContent.length;
@@ -298,6 +318,9 @@ public class FileDiffCacheImpl implements FileDiffCache {
       FileHeader fileHeader = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
       Patch.ChangeType changeType = FileHeaderUtil.getChangeType(fileHeader);
       return FileDiffOutput.builder()
+          .oldCommitId(oldCommit)
+          .newCommitId(newCommit)
+          .comparisonType(comparisonType)
           .oldPath(FileHeaderUtil.getOldPath(fileHeader))
           .newPath(FileHeaderUtil.getNewPath(fileHeader))
           .changeType(changeType)
@@ -370,8 +393,13 @@ public class FileDiffCacheImpl implements FileDiffCache {
                         mainGitDiff.newPath().get())
                 : 0;
 
+        ObjectId oldCommit = augmentedKey.key().oldCommit();
+        ObjectId newCommit = augmentedKey.key().newCommit();
         FileDiffOutput fileDiff =
             FileDiffOutput.builder()
+                .oldCommitId(oldCommit)
+                .newCommitId(newCommit)
+                .comparisonType(getComparisonType(rw, reader, oldCommit, newCommit))
                 .changeType(mainGitDiff.changeType())
                 .patchType(mainGitDiff.patchType())
                 .oldPath(mainGitDiff.oldPath())

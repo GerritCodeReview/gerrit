@@ -61,7 +61,7 @@ export const htmlTemplate = html`
       font-weight: var(--font-weight-bold);
     }
     .message {
-      --gr-formatted-text-prose-max-width: 80ch;
+      --gr-formatted-text-prose-max-width: 120ch;
     }
     .collapsed .message {
       max-width: none;

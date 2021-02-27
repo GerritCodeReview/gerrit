@@ -40,10 +40,12 @@ import {appContext} from '../../../services/app-context';
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'added:',
+  'after:',
   'age:',
   'age:1week', // Give an example age
   'assignee:',
   'author:',
+  'before:',
   'branch:',
   'bug:',
   'cc:',
@@ -77,6 +79,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'is:assigned',
   'is:closed',
   'is:ignored',
+  'is:merge',
   'is:merged',
   'is:open',
   'is:owner',
@@ -88,6 +91,8 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'is:watched',
   'is:wip',
   'label:',
+  'mergedafter:',
+  'mergedbefore:',
   'message:',
   'onlyexts:',
   'onlyextensions:',

@@ -60,7 +60,7 @@ def _create_coordinates(fully_qualified_name):
     if len(parts) == 3:
         group_id, artifact_id, version = parts
     elif len(parts) == 4:
-        group_id, artifact_id, version, packaging = parts
+        group_id, artifact_id, version, classifier = parts
     elif len(parts) == 5:
         group_id, artifact_id, version, packaging, classifier = parts
     else:
@@ -158,7 +158,10 @@ def _maven_jar_impl(ctx):
     srcjar = None
     if ctx.attr.src_sha1 or ctx.attr.attach_source:
         srcjar = jar + "-src.jar"
-        srcurl = url + "-sources.jar"
+        srcurl = url
+        if coordinates.classifier != None:
+            srcurl = url.replace("-" + coordinates.classifier, "")
+        srcurl += "-sources.jar"
         srcjar_path = ctx.path("jar/" + srcjar)
         args = [python, script, "-o", srcjar_path, "-u", srcurl]
         if ctx.attr.src_sha1:

@@ -10,39 +10,6 @@ To run the Gerrit service, the following requirement must be met on the host:
 +
 Gerrit is not yet compatible with Java 13 or newer at this time.
 
-[[cryptography]]
-== Configure Java for Strong Cryptography
-
-Support for extra strength cryptographic ciphers: _AES128CTR_, _AES256CTR_,
-_ARCFOUR256_, and _ARCFOUR128_ can be enabled by downloading the _Java
-Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files_
-from Oracle and installing them into your JRE.
-
-[NOTE]
-Installing JCE extensions is optional and export restrictions may apply.
-
-. Download the unlimited strength JCE policy files.
-+
-- link:http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html[JDK7 JCE policy files,role=external,window=_blank]
-- link:http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[JDK8 JCE policy files,role=external,window=_blank]
-. Uncompress and extract the downloaded file.
-+
-The downloaded file  contains the following files:
-+
-[cols="2"]
-|===
-|README.txt
-|Information about JCE and installation guide
-
-|local_policy.jar
-|Unlimited strength local policy file
-
-|US_export_policy.jar
-|Unlimited strength US export policy file
-|===
-. Install the unlimited strength policy JAR files by following instructions
-found in `README.txt`.
-
 [[download]]
 == Download Gerrit
 

@@ -221,6 +221,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0821a5f3_261f36f0",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-02-28T20:14:56Z",
+      "side": 1,
+      "message": "because switch case require stable identifier. I can make it either `numberKey` or NumberKey. I applied `numberKey` to fit in with other existing constant.",
+      "parentUuid": "5d9b6022_10d67607",
+      "range": {
+        "startLine": 69,
+        "startChar": 10,
+        "endLine": 69,
+        "endChar": 31
+      },
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0958678_f65f3551",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
         "patchSetId": 2

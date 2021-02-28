@@ -1,0 +1,26 @@
+Upstream: https://github.com/highlightjs/highlight.js/pull/3026
+Subject: [PATCH] Add tex alias to latex mode
+
+---
+ src/languages/latex.js | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/languages/latex.js b/src/languages/latex.js
+index 47b0636d..d351274e 100644
+--- a/src/languages/latex.js
++++ b/src/languages/latex.js
+@@ -239,7 +239,10 @@ export default function(hljs) {
+ 
+   return {
+     name: 'LaTeX',
+-    aliases: ['TeX'],
++    aliases: [
++      'tex',
++      'TeX',
++    ],
+     contains: [
+       ...VERBATIM,
+       ...EVERYTHING_BUT_VERBATIM
+-- 
+2.30.1
+

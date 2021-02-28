@@ -132,6 +132,10 @@ public class ProjectLevelConfig {
 
                 for (String subsection : levelCfg.getSubsections(section)) {
                   allNames = cfg.getNames(section, subsection);
+
+                  // Make sure that the subsection is set, in case it is empty.
+                  cfg.setString(section, subsection, null, null);
+
                   for (String name : levelCfg.getNames(section, subsection)) {
                     String[] levelValues = levelCfg.getStringList(section, subsection, name);
                     if (allNames.contains(name) && merge) {

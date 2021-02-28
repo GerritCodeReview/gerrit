@@ -132,21 +132,28 @@ public class ProjectLevelConfig {
 
                 for (String subsection : levelCfg.getSubsections(section)) {
                   allNames = cfg.getNames(section, subsection);
-                  for (String name : levelCfg.getNames(section, subsection)) {
-                    String[] levelValues = levelCfg.getStringList(section, subsection, name);
-                    if (allNames.contains(name) && merge) {
-                      cfg.setStringList(
-                          section,
-                          subsection,
-                          name,
-                          Streams.concat(
-                                  Arrays.stream(cfg.getStringList(section, subsection, name)),
-                                  Arrays.stream(levelValues))
-                              .sorted()
-                              .distinct()
-                              .collect(toList()));
-                    } else {
-                      cfg.setStringList(section, subsection, name, Arrays.asList(levelValues));
+
+                  Set<String> allNamesLevelCfg = levelCfg.getNames(section, subsection);
+                  if (allNamesLevelCfg.isEmpty()) {
+                    // Set empty subsection.
+                    cfg.setString(section, subsection, null, null);
+                  } else {
+                    for (String name : allNamesLevelCfg) {
+                      String[] levelValues = levelCfg.getStringList(section, subsection, name);
+                      if (allNames.contains(name) && merge) {
+                        cfg.setStringList(
+                            section,
+                            subsection,
+                            name,
+                            Streams.concat(
+                                    Arrays.stream(cfg.getStringList(section, subsection, name)),
+                                    Arrays.stream(levelValues))
+                                .sorted()
+                                .distinct()
+                                .collect(toList()));
+                      } else {
+                        cfg.setStringList(section, subsection, name, Arrays.asList(levelValues));
+                      }
                     }
                   }
                 }

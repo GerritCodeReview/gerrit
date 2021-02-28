@@ -1,0 +1,23 @@
+Upstream: https://github.com/highlightjs/highlight.js/pull/3026
+Subject: [PATCH] Make language registration case insensitive
+
+---
+ src/highlight.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/highlight.js b/src/highlight.js
+index 0c416aef..2ba24fdc 100644
+--- a/src/highlight.js
++++ b/src/highlight.js
+@@ -875,7 +875,7 @@ const HLJS = function(hljs) {
+     if (typeof aliasList === 'string') {
+       aliasList = [aliasList];
+     }
+-    aliasList.forEach(alias => { aliases[alias] = languageName; });
++    aliasList.forEach(alias => { aliases[alias.toLowerCase()] = languageName; });
+   }
+ 
+   /**
+-- 
+2.30.1
+

@@ -22,6 +22,7 @@ languages included. Build it with the following:
     $>  # start in some temp directory
     $>  git clone https://github.com/highlightjs/highlight.js
     $>  cd highlight.js
+    $>  patch -p1 < ../0001-Make-language-registration-case-insensitive.patch
     $>  git clone https://github.com/highlightjs/highlightjs-closure-templates
     $>  ln -s ../../highlightjs-closure-templates/soy.js src/languages/soy.js
     $>  mkdir test/detect/soy && ln -s ../../../highlightjs-closure-templates/test/detect/soy/default.txt test/detect/soy/default.txt

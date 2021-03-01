@@ -350,6 +350,24 @@
       "message": "All of these could be constructors in the respective *Info classes. That makes it so that they can be reused in other tests.",
       "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fadd795_d8a58d10",
+        "filename": "javatests/com/google/gerrit/extensions/common/ChangeInfoDifferTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-01T09:13:35Z",
+      "side": 1,
+      "message": "ping",
+      "parentUuid": "a9ea8021_bd978fa5",
+      "revId": "e55ce25c01325d7f422d62dfc0632380df460981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

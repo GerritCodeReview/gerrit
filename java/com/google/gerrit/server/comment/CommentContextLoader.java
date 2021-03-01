@@ -16,6 +16,7 @@ package com.google.gerrit.server.comment;
 
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.groupingBy;
 
 import com.google.auto.value.AutoValue;
@@ -23,15 +24,22 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.CommentContext;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.ContextLineInfo;
+import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.patch.ComparisonType;
 import com.google.gerrit.server.patch.Text;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import eu.medsea.mimeutil.MimeType;
+import eu.medsea.mimeutil.MimeUtil2;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -52,17 +60,25 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 public class CommentContextLoader {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final FileTypeRegistry registry;
   private final GitRepositoryManager repoManager;
   private final Project.NameKey project;
+  private final ProjectState projectState;
 
   public interface Factory {
     CommentContextLoader create(Project.NameKey project);
   }
 
   @Inject
-  CommentContextLoader(GitRepositoryManager repoManager, @Assisted Project.NameKey project) {
+  CommentContextLoader(
+      FileTypeRegistry registry,
+      GitRepositoryManager repoManager,
+      ProjectCache projectCache,
+      @Assisted Project.NameKey project) {
+    this.registry = registry;
     this.repoManager = repoManager;
     this.project = project;
+    projectState = projectCache.get(project).orElseThrow(illegalState(project));
   }
 
   /**
@@ -122,7 +138,8 @@ public class CommentContextLoader {
       ObjectReader reader, RevCommit commit, Range commentRange, int contextPadding)
       throws IOException {
     Text text = Text.forCommit(reader, commit);
-    return createContext(text, commentRange, contextPadding);
+    return createContext(
+        text, commentRange, contextPadding, FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE);
   }
 
   private CommentContext getContextForMergeList(
@@ -130,7 +147,8 @@ public class CommentContextLoader {
       throws IOException {
     ComparisonType cmp = ComparisonType.againstParent(1);
     Text text = Text.forMergeList(cmp, reader, commit);
-    return createContext(text, commentRange, contextPadding);
+    return createContext(
+        text, commentRange, contextPadding, FileContentUtil.TEXT_X_GERRIT_MERGE_LIST);
   }
 
   private CommentContext getContextForFilePath(
@@ -151,11 +169,23 @@ public class CommentContextLoader {
       }
       ObjectId id = tw.getObjectId(0);
       Text src = new Text(repo.open(id, Constants.OBJ_BLOB));
-      return createContext(src, commentRange, contextPadding);
+      String contentType = getContentType(tw, filePath, src);
+      return createContext(src, commentRange, contextPadding, contentType);
     }
   }
 
-  private static CommentContext createContext(Text src, Range commentRange, int contextPadding) {
+  private String getContentType(TreeWalk tw, String filePath, Text src) {
+    PatchScript.FileMode fileMode = PatchScript.FileMode.fromJgitFileMode(tw.getFileMode(0));
+    String mimeType = MimeUtil2.UNKNOWN_MIME_TYPE.toString();
+    if (src.size() > 0 && PatchScript.FileMode.SYMLINK != fileMode) {
+      MimeType registryMimeType = registry.getMimeType(filePath, src.getContent());
+      mimeType = registryMimeType.toString();
+    }
+    return FileContentUtil.resolveContentType(projectState, filePath, fileMode, mimeType);
+  }
+
+  private static CommentContext createContext(
+      Text src, Range commentRange, int contextPadding, String contentType) {
     if (commentRange.start() < 1 || commentRange.end() - 1 > src.size()) {
       // TODO(ghareeb): We should throw an exception in this case. See
       // https://bugs.chromium.org/p/gerrit/issues/detail?id=14102 which is an example where the
@@ -168,7 +198,7 @@ public class CommentContextLoader {
     for (int i = commentRange.start(); i < commentRange.end(); i++) {
       context.put(i, src.getString(i - 1));
     }
-    return CommentContext.create(context.build());
+    return CommentContext.create(context.build(), contentType);
   }
 
   /**

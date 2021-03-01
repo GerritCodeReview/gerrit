@@ -30,6 +30,9 @@ public class CommentInfo extends Comment {
    */
   public List<ContextLineInfo> contextLines;
 
+  /** Mime type of the underlying source file. Only available if context lines are requested. */
+  public String sourceContentType;
+
   @Override
   public boolean equals(Object o) {
     if (super.equals(o)) {

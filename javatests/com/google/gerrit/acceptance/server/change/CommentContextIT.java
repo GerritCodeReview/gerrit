@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.ContextLineInfo;
+import com.google.gerrit.server.change.FileContentUtil;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -317,6 +318,82 @@ public class CommentContextIT extends AbstractDaemonTest {
         changeId,
         /* contextPadding= */ 300,
         IntStream.range(200, 301).boxed().collect(ImmutableList.toImmutableList()));
+  }
+
+  @Test
+  public void commentContextReturnsCorrectContentTypeForCommitMessage() throws Exception {
+    PushOneCommit.Result result =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, FILE_CONTENT, "topic");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput comment = CommentsUtil.newComment(COMMIT_MSG, Side.REVISION, 7, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).path).isEqualTo(COMMIT_MSG);
+    assertThat(comments.get(0).sourceContentType)
+        .isEqualTo(FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE);
+  }
+
+  @Test
+  public void commentContextReturnsCorrectContentType_Java() throws Exception {
+    String javaContent =
+        "public class Main {\n"
+            + " public static void main(String[]args){\n"
+            + " if(args==null){\n"
+            + " System.err.println(\"Something\");\n"
+            + " }\n"
+            + " }\n"
+            + " }";
+    String fileName = "src.java";
+    String changeId = createChangeWithContent(fileName, javaContent, /* line= */ 4);
+
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).path).isEqualTo(fileName);
+    assertThat(comments.get(0).contextLines)
+        .isEqualTo(createContextLines("4", " System.err.println(\"Something\");"));
+    assertThat(comments.get(0).sourceContentType).isEqualTo("text/x-java");
+  }
+
+  @Test
+  public void commentContextReturnsCorrectContentType_Cpp() throws Exception {
+    String cppContent =
+        "#include <iostream>\n"
+            + "\n"
+            + "int main() {\n"
+            + "    std::cout << \"Hello World!\";\n"
+            + "    return 0;\n"
+            + "}";
+    String fileName = "src.cpp";
+    String changeId = createChangeWithContent(fileName, cppContent, /* line= */ 4);
+
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList();
+
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).path).isEqualTo(fileName);
+    assertThat(comments.get(0).contextLines)
+        .isEqualTo(createContextLines("4", "    std::cout << \"Hello World!\";"));
+    assertThat(comments.get(0).sourceContentType).isEqualTo("text/x-c++src");
+  }
+
+  private String createChangeWithContent(String fileName, String fileContent, int line)
+      throws Exception {
+    PushOneCommit.Result result =
+        createChange(testRepo, "master", SUBJECT, fileName, fileContent, "topic");
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput comment = CommentsUtil.newComment(fileName, Side.REVISION, line, "comment", false);
+    CommentsUtil.addComments(gApi, changeId, ps1, comment);
+    return changeId;
   }
 
   private String createChangeWithComment(int startLine, int endLine) throws Exception {

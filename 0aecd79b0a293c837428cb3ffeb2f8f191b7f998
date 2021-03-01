@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc73df8f_1861a43f",
+        "filename": "java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-03-01T10:17:24Z",
+      "side": 1,
+      "message": "This is because I refer to the declaration of setSoTimeout() in Socket.java in the JDK, but it is really unnecessary for users to reduce readability because of this.\n\nIn conclusion, agree with your codereview opinion.",
+      "parentUuid": "d2652941_96478796",
+      "range": {
+        "startLine": 60,
+        "startChar": 35,
+        "endLine": 60,
+        "endChar": 37
+      },
+      "revId": "0aecd79b0a293c837428cb3ffeb2f8f191b7f998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8fd5da5_6a490e5f",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-01T09:43:29Z",
       "side": 1,
       "message": "nit: socket",
+      "range": {
+        "startLine": 104,
+        "startChar": 17,
+        "endLine": 104,
+        "endChar": 19
+      },
+      "revId": "0aecd79b0a293c837428cb3ffeb2f8f191b7f998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3750ef2_4fee4936",
+        "filename": "java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-03-01T10:17:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8fd5da5_6a490e5f",
       "range": {
         "startLine": 104,
         "startChar": 17,

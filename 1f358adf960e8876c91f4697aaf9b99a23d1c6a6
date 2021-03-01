@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c12c8ba_56d760df",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-01T10:59:47Z",
+      "side": 1,
+      "message": "I\u0027m a bit concerned about flooding the logs in case there is a bug. This seems like a good use case for .atMostEvery(1 minute or so), or possibly .perUnique(change).\n\nhttps://dbeaumont.users.x20web.corp.google.com/flogger/doc/index.html",
+      "revId": "1f358adf960e8876c91f4697aaf9b99a23d1c6a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c6f8ea2_95316c6f",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-01T10:59:47Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be at ERROR level?",
+      "revId": "1f358adf960e8876c91f4697aaf9b99a23d1c6a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -101,6 +101,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6765d440_eab45511",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-03-01T14:25:26Z",
+      "side": 1,
+      "message": "I proposed the resolution for that problem in CreateChange scenario. If you agree with it I can start applying this to other supported tests",
+      "parentUuid": "fbc77fd2_6417ed7a",
+      "revId": "fcbbb487bd517a963286bee4dca8b3f8a465b8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1544fcee_5fe05cbe",

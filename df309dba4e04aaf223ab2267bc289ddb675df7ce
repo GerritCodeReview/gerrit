@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5eb60ce_7327af21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-01T07:37:05Z",
+      "side": 1,
+      "message": "Can we just wait until hljs makes another release?\n\nThe priority of adding tex file highlighting does not seem to justify adding patches and making the processes more complicated.",
+      "revId": "df309dba4e04aaf223ab2267bc289ddb675df7ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

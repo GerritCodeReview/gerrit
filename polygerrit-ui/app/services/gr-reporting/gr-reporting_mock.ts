@@ -16,6 +16,7 @@
  */
 import {ReportingService, Timer} from './gr-reporting';
 import {EventDetails} from '../../api/reporting';
+import {PluginApi} from '../../api/plugin';
 
 export class MockTimer implements Timer {
   end(): this {
@@ -66,6 +67,9 @@ export const grReportingMock: ReportingService = {
   },
   reportExecution: (id: string, details: EventDetails) => {
     log(`reportExecution '${id}': ${JSON.stringify(details)}`);
+  },
+  trackApi: (plugin: PluginApi, object: string, method: string) => {
+    log(`trackApi '${plugin}', ${object}, ${method}`);
   },
   reportExtension: () => {},
   reportInteraction: (eventName: string, details?: EventDetails) => {

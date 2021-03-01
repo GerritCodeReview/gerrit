@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import {StyleObject, StylesPluginApi} from '../../../api/styles';
+import {appContext} from '../../../services/app-context';
+import {PluginApi} from '../../../api/plugin';
 
 /**
  * @fileoverview We should consider dropping support for this API:
@@ -77,10 +79,17 @@ export class GrStyleObject implements StyleObject {
  * TODO(TS): move to util
  */
 export class GrStylesApi implements StylesPluginApi {
+  private readonly reporting = appContext.reportingService;
+
+  constructor(readonly plugin: PluginApi) {
+    this.reporting.trackApi(this.plugin, 'styles', 'constructor');
+  }
+
   /**
    * Creates a new GrStyleObject with specified style properties.
    */
   css(ruleStr: string) {
+    this.reporting.trackApi(this.plugin, 'styles', 'css');
     return new GrStyleObject(ruleStr);
   }
 }

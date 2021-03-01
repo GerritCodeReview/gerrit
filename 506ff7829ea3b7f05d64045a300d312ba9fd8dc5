@@ -33,6 +33,23 @@
       "message": "@Patrck, any suggestions how to proceed here?",
       "revId": "506ff7829ea3b7f05d64045a300d312ba9fd8dc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f4d072d_3a46bcbe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-01T13:31:02Z",
+      "side": 1,
+      "message": "Can someone from @Google remove CRVW-2 from this change (or explain what should happen to move forward with this refactoring change)?\n\nNow, that change 289025 was merged and change index schema was bumped, reindex is needed after upgrade to upcoming gerrit release 3.4.x, so that would be to good time to merge this series (including follow-up changes with Lucene version upgrade).",
+      "revId": "506ff7829ea3b7f05d64045a300d312ba9fd8dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

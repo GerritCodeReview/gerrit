@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc82fdc0_2f536395",
+        "filename": "javatests/com/google/gerrit/acceptance/config/PluginConfigFactoryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-01T09:04:00Z",
+      "side": 1,
+      "message": "Can you add that to the existing ProjectLevelConfigIT?",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 34
+      },
+      "revId": "c4729a03f3c262414dd69e54bf0a3d034d681404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -174,6 +174,7 @@ export class GrChecksTab extends GrLitElement {
   }
 
   private createPatchsetDropdownItems() {
+    if (!this.latestPatchsetNumber) return [];
     return Array.from(Array(this.latestPatchsetNumber), (_, i) => {
       assertIsDefined(this.latestPatchsetNumber, 'latestPatchsetNumber');
       const index = this.latestPatchsetNumber - i;

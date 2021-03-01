@@ -109,6 +109,21 @@ class GerritSimulation extends Simulation {
     in.replaceAllLiterally(key, value.toString)
   }
 
+  protected def getProperty(term: String, default: Any): String = {
+    val property = packageName + "." + term
+    var value = default
+    default match {
+      case _: String | _: Double =>
+        val propertyValue = Option(System.getProperty(property))
+        if (propertyValue.nonEmpty) {
+          value = propertyValue.get
+        }
+      case _: Integer =>
+        value = Integer.getInteger(property, default.asInstanceOf[Integer])
+    }
+    value.toString
+  }
+
   /**
    * Meant to be optionally overridden by plugins or other extensions.
    * Such potential overriding methods, such as the example below,

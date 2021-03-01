@@ -90,6 +90,11 @@ class GerritSimulation extends Simulation {
   }
 
   protected def replaceProperty(term: String, default: Any, in: String): String = {
+    val value = getProperty(term, default)
+    replaceKeyWith(term, value, in)
+  }
+
+  protected def getProperty(term: String, default: Any): String = {
     val property = packageName + "." + term
     var value = default
     default match {
@@ -101,7 +106,7 @@ class GerritSimulation extends Simulation {
       case _: Integer =>
         value = Integer.getInteger(property, default.asInstanceOf[Integer])
     }
-    replaceKeyWith(term, value, in)
+    value.toString
   }
 
   protected def replaceKeyWith(term: String, value: Any, in: String): String = {

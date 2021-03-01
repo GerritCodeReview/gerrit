@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50690c2d_f8bacea4",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-01T10:59:47Z",
+      "side": 1,
+      "message": "Oh :-(",
+      "parentUuid": "6cd4d906_1e2df0ac",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "711e1065_b727ae7f",
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Done.\n\nI kept them as separate metrics: matching and mismatching diffs.",
       "parentUuid": "6653cbf5_99ca8cea",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39f75333_a78c69c2",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-01T10:59:47Z",
+      "side": 1,
+      "message": "I think the canonical way is to have a single metric \"diffs\" or \"diffs_dark_launch\" or something, with a field for a tri-state enum MATCH, MISMATCH and ERROR.",
+      "parentUuid": "2b89dec5_6335db02",
       "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

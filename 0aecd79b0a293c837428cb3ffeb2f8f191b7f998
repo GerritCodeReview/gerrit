@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2652941_96478796",
+        "filename": "java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-01T09:43:29Z",
+      "side": 1,
+      "message": "nit: _SOCKET_\n\notherwise it\u0027s not trivial to know what this means",
+      "range": {
+        "startLine": 60,
+        "startChar": 35,
+        "endLine": 60,
+        "endChar": 37
+      },
+      "revId": "0aecd79b0a293c837428cb3ffeb2f8f191b7f998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8fd5da5_6a490e5f",
+        "filename": "java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-01T09:43:29Z",
+      "side": 1,
+      "message": "nit: socket",
+      "range": {
+        "startLine": 104,
+        "startChar": 17,
+        "endLine": 104,
+        "endChar": 19
+      },
+      "revId": "0aecd79b0a293c837428cb3ffeb2f8f191b7f998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

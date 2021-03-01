@@ -22,16 +22,23 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ProjectLevelConfigIT extends AbstractDaemonTest {
+  private static final String PLUGIN_NAME = "test-plugin";
+
   @Inject private ProjectOperations projectOperations;
+  @Inject private PluginConfigFactory pluginConfigFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -184,5 +191,28 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
 
     ProjectState state = projectCache.get(project).get();
     assertThat(state.getConfig(configName).get().toText()).isEmpty();
+  }
+
+  @Test
+  public void emptySubSectionsCanBeRead() throws Exception {
+    updatePluginConfig(project, "[section \"subsection\"]");
+    Config cfg = pluginConfigFactory.getProjectPluginConfigWithInheritance(project, PLUGIN_NAME);
+    assertThat(cfg.getSubsections("section")).containsExactly("subsection");
+  }
+
+  private void updatePluginConfig(Project.NameKey project, String pluginConfig) throws Exception {
+    try (TestRepository<Repository> testRepo =
+        new TestRepository<>(repoManager.openRepository(project))) {
+      Ref ref = testRepo.getRepository().exactRef(RefNames.REFS_CONFIG);
+      RevCommit head = testRepo.getRevWalk().parseCommit(ref.getObjectId());
+      testRepo.update(
+          RefNames.REFS_CONFIG,
+          testRepo
+              .commit()
+              .parent(head)
+              .message("Configure plugin")
+              .add(PLUGIN_NAME + ".config", pluginConfig));
+    }
+    projectCache.evict(project);
   }
 }

@@ -16,6 +16,24 @@
       "message": "Please add java doc to the method.",
       "revId": "4707c76ba4ff3daeab2c76bc6525c06ca9247cb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11fc944a_8bbb8727",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-01T19:56:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee013f2e_f8e28f70",
+      "revId": "4707c76ba4ff3daeab2c76bc6525c06ca9247cb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -157,7 +157,7 @@ def fetch_admin_group():
         BASE_URL + "groups/?suggest=ad&p=All-Projects",
         headers=HEADERS,
         auth=ADMIN_BASIC_AUTH).text))
-    admin_group_name = r.keys()[0]
+    admin_group_name = list(r.keys())[0]
     GROUP_ADMIN = r[admin_group_name]
     GROUP_ADMIN["name"] = admin_group_name
 
@@ -305,7 +305,7 @@ def main():
     project_names = create_gerrit_projects(group_names)
 
     for idx, u in enumerate(gerrit_users):
-        for _ in xrange(random.randint(1, 5)):
-            create_change(u, project_names[4 * idx / len(gerrit_users)])
+        for _ in range(random.randint(1, 5)):
+            create_change(u, project_names[4 * idx // len(gerrit_users)])
 
 main()

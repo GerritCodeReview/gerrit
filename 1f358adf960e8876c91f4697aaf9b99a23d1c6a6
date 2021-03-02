@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03d50509_aac0f894",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-02T10:23:16Z",
+      "side": 1,
+      "message": "This should only logged once per request. We have quotas and I\u0027m not expecting this to flood the logs so much.\n\nI added a \"at most every\" 10 seconds also for precaution.",
+      "parentUuid": "8c12c8ba_56d760df",
+      "revId": "1f358adf960e8876c91f4697aaf9b99a23d1c6a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c6f8ea2_95316c6f",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-03-01T10:59:47Z",
       "side": 1,
       "message": "Shouldn\u0027t this be at ERROR level?",
+      "revId": "1f358adf960e8876c91f4697aaf9b99a23d1c6a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d41f544_8c2af076",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-02T10:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c6f8ea2_95316c6f",
       "revId": "1f358adf960e8876c91f4697aaf9b99a23d1c6a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

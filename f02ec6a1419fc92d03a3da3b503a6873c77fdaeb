@@ -142,6 +142,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afa04887_b068b91e",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-02T10:23:16Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "39f75333_a78c69c2",
+      "revId": "f02ec6a1419fc92d03a3da3b503a6873c77fdaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eef68dbe_59e883e2",

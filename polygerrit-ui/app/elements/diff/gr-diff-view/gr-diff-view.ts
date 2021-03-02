@@ -95,7 +95,7 @@ import {
 } from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
-import {fireAlert, fireTitleChange} from '../../../utils/event-util';
+import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
@@ -645,14 +645,20 @@ export class GrDiffView extends KeyboardShortcutMixin(
     }
   }
 
+  // Similar to gr-change-view._handleOpenReplyDialog
   _handleOpenReplyDialog(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e)) return;
     if (this.modifierPressed(e)) return;
-    if (!this._loggedIn) return;
+    this._getLoggedIn().then(isLoggedIn => {
+      if (!isLoggedIn) {
+        fireEvent(this, 'show-auth-required');
+        return;
+      }
 
-    this.set('changeViewState.showReplyDialog', true);
-    e.preventDefault();
-    this._navToChangeView();
+      this.set('changeViewState.showReplyDialog', true);
+      e.preventDefault();
+      this._navToChangeView();
+    });
   }
 
   _handleToggleLeftPane(e: CustomKeyboardEvent) {

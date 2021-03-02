@@ -624,7 +624,7 @@ suite('gr-diff-view tests', () => {
       assert.isNotOk(args[3]);
     });
 
-    test('keyboard shortcuts with patch range', () => {
+    test.only('keyboard shortcuts with patch range', () => {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: 5,
@@ -644,14 +644,18 @@ suite('gr-diff-view tests', () => {
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
+      const getLoggedIn = sinon.stub(element, '_getLoggedIn');
+      getLoggedIn.returns(Promise.resolve(false));
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      flush();
       assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
           'should only work when the user is logged in.');
       assert.isNull(window.sessionStorage.getItem(
           'changeView.showReplyDialog'));
 
-      element._loggedIn = true;
+      getLoggedIn.returns(Promise.resolve(true));
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      flush();
       assert.isTrue(element.changeViewState.showReplyDialog);
 
       assert(changeNavStub.lastCall.calledWithExactly(element._change, 10,

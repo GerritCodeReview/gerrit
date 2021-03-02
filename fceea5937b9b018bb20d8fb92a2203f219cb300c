@@ -147,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d347752_0602763d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-02T06:58:38Z",
+      "side": 1,
+      "message": "I see this in config-gerrit.txt\n\n```\n[[gerrit.installDbModule]]gerrit.installDbModule::\n+\nRepeatable list of class name of additional Guice modules to load at\nGerrit startup as part of the dbInjector and during the init phases.\nClasses are resolved using the primary Gerrit class loader, hence the\nclass needs to be either declared in Gerrit or an additional JAR\nlocated under the `/lib` directory.\n+\nBy default unset.\n\n[[gerrit.installModule]]gerrit.installModule::\n+\nRepeatable list of class name of additional Guice modules to load at\nGerrit startup as part of the sysInjector and during the init phases.\nClasses are resolved using the primary Gerrit class loader, hence the\nclass needs to be either declared in Gerrit or an additional JAR\nlocated under the `/lib` directory.\n+\nBy default unset.\n+\nExample:\n----\n[gerrit]\n  installModule \u003d com.googlesource.gerrit.libmodule.MyModule\n  installModule \u003d com.example.abc.OurSpecialSauceModule\n  installDbModule \u003d com.example.def.OurCustomProvider\n----\n```",
+      "parentUuid": "13ad98cc_0a9b291e",
+      "revId": "fceea5937b9b018bb20d8fb92a2203f219cb300c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f486dd8a_78a37bdc",

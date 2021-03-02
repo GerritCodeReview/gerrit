@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bed4c376_4595845d",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-03-02T11:57:10Z",
+      "side": 1,
+      "message": "since this now becomes duplicated maybe refactor?",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 5
+      },
+      "revId": "e355d8a36ecb8b6132014e6b419495346b1d29f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

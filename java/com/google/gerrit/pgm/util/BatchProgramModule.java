@@ -65,6 +65,7 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
+import com.google.gerrit.server.patch.DiffOperationsImpl;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.permissions.SectionSortCache;
@@ -94,6 +95,7 @@ public class BatchProgramModule extends FactoryModule {
   @Override
   protected void configure() {
     install(new DiffExecutorModule());
+    install(DiffOperationsImpl.module());
     install(new SysExecutorModule());
     install(BatchUpdate.module());
     install(PatchListCacheImpl.module());

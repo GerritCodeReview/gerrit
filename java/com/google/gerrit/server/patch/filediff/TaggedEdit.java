@@ -27,7 +27,11 @@ public abstract class TaggedEdit {
     return new AutoValue_TaggedEdit(edit, dueToRebase);
   }
 
-  abstract Edit edit();
+  public abstract Edit edit();
 
-  abstract boolean dueToRebase();
+  public org.eclipse.jgit.diff.Edit jgitEdit() {
+    return Edit.toJGitEdit(edit());
+  }
+
+  public abstract boolean dueToRebase();
 }

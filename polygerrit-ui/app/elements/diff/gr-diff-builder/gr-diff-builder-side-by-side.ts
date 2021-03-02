@@ -21,15 +21,17 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
+import {RenderPreferences} from '../../../api/diff';
 
 export class GrDiffBuilderSideBySide extends GrDiffBuilder {
   constructor(
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
-    readonly layers: DiffLayer[] = []
+    readonly layers: DiffLayer[] = [],
+    renderPrefs?: RenderPreferences
   ) {
-    super(diff, prefs, outputEl, layers);
+    super(diff, prefs, outputEl, layers, renderPrefs);
   }
 
   _getMoveControlsConfig() {

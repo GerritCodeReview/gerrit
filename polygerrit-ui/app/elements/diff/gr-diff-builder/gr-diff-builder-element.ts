@@ -43,7 +43,7 @@ import {
   GrRangedCommentLayer,
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
-import {DiffViewMode} from '../../../api/diff';
+import {DiffViewMode, RenderPreferences} from '../../../api/diff';
 import {Side} from '../../../constants/constants';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
@@ -183,7 +183,11 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     return coverageRanges.filter(range => range && range.side === 'right');
   }
 
-  render(keyLocations: KeyLocations, prefs: DiffPreferencesInfo) {
+  render(
+    keyLocations: KeyLocations,
+    prefs: DiffPreferencesInfo,
+    renderPrefs?: RenderPreferences
+  ) {
     // Setting up annotation layers must happen after plugins are
     // installed, and |render| satisfies the requirement, however,
     // |attached| doesn't because in the diff view page, the element is
@@ -202,7 +206,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     if (!this.diff) {
       throw Error('Cannot render a diff without DiffInfo.');
     }
-    this._builder = this._getDiffBuilder(this.diff, prefs);
+    this._builder = this._getDiffBuilder(this.diff, prefs, renderPrefs);
 
     this.$.processor.context = prefs.context;
     this.$.processor.keyLocations = keyLocations;
@@ -344,7 +348,11 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     throw Error(`Invalid preference value: ${pref}`);
   }
 
-  _getDiffBuilder(diff: DiffInfo, prefs: DiffPreferencesInfo): GrDiffBuilder {
+  _getDiffBuilder(
+    diff: DiffInfo,
+    prefs: DiffPreferencesInfo,
+    renderPrefs?: RenderPreferences
+  ): GrDiffBuilder {
     if (isNaN(prefs.tab_size) || prefs.tab_size <= 0) {
       this._handlePreferenceError('tab size');
     }
@@ -367,7 +375,8 @@ export class GrDiffBuilderElement extends GestureEventListeners(
         localPrefs,
         this.diffElement,
         this.baseImage,
-        this.revisionImage
+        this.revisionImage,
+        renderPrefs
       );
     } else if (diff.binary) {
       // If the diff is binary, but not an image.
@@ -377,14 +386,16 @@ export class GrDiffBuilderElement extends GestureEventListeners(
         diff,
         localPrefs,
         this.diffElement,
-        this._layers
+        this._layers,
+        renderPrefs
       );
     } else if (this.viewMode === DiffViewMode.UNIFIED) {
       builder = new GrDiffBuilderUnified(
         diff,
         localPrefs,
         this.diffElement,
-        this._layers
+        this._layers,
+        renderPrefs
       );
     }
     if (!builder) {

@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "416ad6f4_ccd2306e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-02T20:01:24Z",
+      "side": 1,
+      "message": "I am a bit reluctant to review this until we are sure that we are allowed to use MWC.",
+      "revId": "ba31ec41170d8e1314610618eafbdec9aa6c22e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "924301f4_fffa7801",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-02T20:01:24Z",
+      "side": 1,
+      "message": "Where are `paper-styles` used?",
+      "revId": "ba31ec41170d8e1314610618eafbdec9aa6c22e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6f50d77f_7aee864c",

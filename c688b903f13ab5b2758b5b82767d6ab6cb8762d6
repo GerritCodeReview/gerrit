@@ -16,6 +16,29 @@
       "message": "This seems a bit large.\n\n@Delphine, can you provide specs for the margin?\n\nMaybe something like this? https://imgur.com/a/pU9PQLu\n\nThat would be: var(--spacing-s) var(--spacing-s) var(--spacing-xs) var(--spacing-s)\n\nOr do we even want a border to separate from the code? https://imgur.com/a/3aD83iY",
       "revId": "c688b903f13ab5b2758b5b82767d6ab6cb8762d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad7738ee_9502f17b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-02T14:26:30Z",
+      "side": 1,
+      "message": "`--spacing-xs`\nSo that the view diff container takes less height.",
+      "range": {
+        "startLine": 94,
+        "startChar": 18,
+        "endLine": 94,
+        "endChar": 29
+      },
+      "revId": "c688b903f13ab5b2758b5b82767d6ab6cb8762d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

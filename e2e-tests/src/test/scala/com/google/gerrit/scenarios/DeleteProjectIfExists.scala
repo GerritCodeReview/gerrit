@@ -1,4 +1,4 @@
-// Copyright (C) 2020 The Android Open Source Project
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,25 +14,19 @@
 
 package com.google.gerrit.scenarios
 
-import io.gatling.core.Predef._
+import io.gatling.core.Predef.{atOnceUsers, _}
 import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
+import io.gatling.http.Predef._
 
-class DeleteProject extends ProjectSimulation {
-  private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
-  private val forceOptionKey = "force_option"
+class DeleteProjectIfExists extends ProjectSimulation {
+  private val data: FeederBuilder = jsonFile(resource).convert(keys)
 
-  def this(projectName: String) {
-    this()
-    this.projectName = projectName
-  }
-
-  val test: ScenarioBuilder = scenario(uniqueName)
+  private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
-      .exec(session => {
-        session.set(forceOptionKey, getProperty(forceOptionKey, "false"))
-      })
-      .exec(httpRequest.body(ElFileBody(body)).asJson)
+      .exec(httpRequest
+          .body(ElFileBody(body)).asJson
+          .check(status.in(204, 404)))
 
   setUp(
     test.inject(

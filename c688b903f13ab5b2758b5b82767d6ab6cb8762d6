@@ -39,6 +39,24 @@
       },
       "revId": "c688b903f13ab5b2758b5b82767d6ab6cb8762d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c779d1f3_b8652600",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-02T14:35:35Z",
+      "side": 1,
+      "message": "Nice, I actually like the border.\nI proposed --spacing-xs in my first comment.\nBut I think we should align the view diff button with the code lines which use --spacing-m\n\nso what about var(--spacing-m) on the left and right side and (--spacing-s) for above and below the paper button View diff?\nAnd adding a line as in your sreenshot",
+      "parentUuid": "95987ba6_4c556c46",
+      "revId": "c688b903f13ab5b2758b5b82767d6ab6cb8762d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

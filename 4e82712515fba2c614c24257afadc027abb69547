@@ -139,6 +139,24 @@
       "parentUuid": "af83fba6_22f9b328",
       "revId": "4e82712515fba2c614c24257afadc027abb69547",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4eb6cfd_46675694",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-03-02T07:24:39Z",
+      "side": 1,
+      "message": "Thanks Frank!\n\nI\u0027ve tested it a bit and added some color overrides for the dark theme, it seems to work :)\n\nTo be completely honest I\u0027m not super happy that hings - moved in/out and long comment - don\u0027t share component behavior. They visually would shared the same behavior regarding: specific composition [icon + inline element], alignment [right], margins (top,right,bottom), /etc. Since both hints are perceived by our users and designers as the same type of component I still believe we should take a look which options we have to define that in code.\n\nBut maybe we can then experiment with some options in a further change? Maybe see what we can use altogether with \u003cslot\u003e/shadow dom?\n\nI think this can be merged anyway and then we can iterate on how to unify the a gr-code-hint behavior in a further change. What do you think?",
+      "parentUuid": "dde4fa93_93352fc7",
+      "revId": "4e82712515fba2c614c24257afadc027abb69547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

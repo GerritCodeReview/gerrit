@@ -34,6 +34,24 @@
       "parentUuid": "53e7e893_e2f21484",
       "revId": "b203cf1039d2077288ad8e7586412e658d12f308",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d5c9021_4f206930",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-02T13:01:35Z",
+      "side": 1,
+      "message": "As discussed moved to the bottom left below the line numbers instead inside the context box.\nPTAL",
+      "parentUuid": "1444cab1_e63a8d0a",
+      "revId": "b203cf1039d2077288ad8e7586412e658d12f308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

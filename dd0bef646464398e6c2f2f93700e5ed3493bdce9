@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83c288ad_bdcc66cf",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T10:43:46Z",
+      "side": 1,
+      "message": "Could you link this from https://gerrit-review.googlesource.com/Documentation/index.html \"tutorials\" as well?",
+      "range": {
+        "startLine": 2,
+        "startChar": 34,
+        "endLine": 2,
+        "endChar": 41
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "811ec9ff_117ec6ca",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T10:43:46Z",
+      "side": 1,
+      "message": "can you wrap at 80 columns, throughout?",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 115
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ebee9b4_d6366c2f",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T10:43:46Z",
+      "side": 1,
+      "message": "how do users find out if this is true?",
+      "range": {
+        "startLine": 19,
+        "startChar": 21,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "720f52c0_a6ccdbd9",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T10:43:46Z",
+      "side": 1,
+      "message": "this is a bit abstract. If you use \"A\" and \"B\", just give an example?",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 281
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65783011_72a7112c",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T10:43:46Z",
+      "side": 1,
+      "message": "this probalby doesn\u0027t belong here. In upstream gerrit, there is no multi-tenant architecture, so naturally, things cannot transcend the host boundary. \n\nMaybe you can phrase it more abstractly: \u0027topics can only be used for changes within a single Gerrit instance. There is no builtin support for synchronizing with other Gerrit or Git hosting sites\u0027",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 174
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66890b9f_875f177a",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T10:43:46Z",
+      "side": 1,
+      "message": "nit: can you trim trailing space throughout?",
+      "range": {
+        "startLine": 48,
+        "startChar": 85,
+        "endLine": 48,
+        "endChar": 86
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f720b55_6b24dc8f",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T10:43:46Z",
+      "side": 1,
+      "message": "there is a bit of a semantic confusion, where \"in the topic X\" could either mean \"change has topic string X\", or \"change will be submitted if you submit a change with topic string X\".\n\nI think it would help the explanation if you explicitly define distinct terms for these concepts (possibly using a concrete example) upfront.\n\nthe latter is called \u0027submitted together\"  (at least, in the REST API), but maybe you can think of a better word.",
+      "range": {
+        "startLine": 50,
+        "startChar": 39,
+        "endLine": 50,
+        "endChar": 58
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3402d860_4e8c8733",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T10:43:46Z",
+      "side": 1,
+      "message": "see above - it\u0027s not clearly defined what this really is.",
+      "range": {
+        "startLine": 112,
+        "startChar": 56,
+        "endLine": 113,
+        "endChar": 6
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f51c8540_69097087",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T10:43:46Z",
+      "side": 1,
+      "message": "this needs a (ascii art?) diagram.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 0
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a11f80c3_09d27af8",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T10:43:46Z",
+      "side": 1,
+      "message": "this is confusing. When you talk about submission (above), you should introduce the submission ID concept. Then, you can talk more precisely about what happens here.",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 171
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9fa595d_1c82dda8",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T10:43:46Z",
+      "side": 1,
+      "message": "the security fix comes from nowhere. Did you elide an example earlier?",
+      "range": {
+        "startLine": 159,
+        "startChar": 54,
+        "endLine": 159,
+        "endChar": 73
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03f0ef5b_bc1f2e5d",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T10:43:46Z",
+      "side": 1,
+      "message": "I think you can also search for submission IDs.",
+      "range": {
+        "startLine": 189,
+        "startChar": 3,
+        "endLine": 189,
+        "endChar": 23
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

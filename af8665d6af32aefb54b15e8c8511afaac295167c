@@ -22,6 +22,30 @@
       },
       "revId": "af8665d6af32aefb54b15e8c8511afaac295167c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35f9b1bc_26906abe",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T11:36:36Z",
+      "side": 1,
+      "message": "clarified. it\u0027s a fundamental problem with exposing interactions between team members. if you have N people, they have N^2 potential interactions.",
+      "parentUuid": "9ceb3ee4_545b3bc9",
+      "range": {
+        "startLine": 385,
+        "startChar": 22,
+        "endLine": 385,
+        "endChar": 34
+      },
+      "revId": "af8665d6af32aefb54b15e8c8511afaac295167c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

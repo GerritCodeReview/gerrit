@@ -312,6 +312,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1075aa85_f3892625",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T11:36:36Z",
+      "side": 0,
+      "message": "I added a comment to insert something on browser performance; I\u0027ll ask the FE team to come up with something. \u0027omit\u0027 is not something to put in the doc: if we find something can be omitted, we change gerrit to omit it, rather than document it.",
+      "parentUuid": "f7bfbb99_d8ca4864",
+      "range": {
+        "startLine": 480,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 22
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2123501b_6219f7bc",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 1
@@ -371,6 +395,30 @@
       "side": 0,
       "message": "\u003e what do you want this to say? How does disk usage affect design decisions?\n\nThis is more \"what should I expect from Gerrit\" and yes, there\u0027s a lot of that in here.\n\nI\u0027m not sure the intent of this doc was to affect design decisions, but more to capture the ones that had already been made. \"Gerrit uses locally accessible git repos and tries to handle big ones, here\u0027s what you can (and what we as Gerrit devs do) expect for growth over time.\"\n\n\u003e \n\u003e Maybe you want a \"limits\" table where we list the largest site/repository/change/etc?\n\nThe limits idea does go to the \"scaling\" idea I talked about above, and seeing that all in one place would be nice.",
       "parentUuid": "13728a89_a0c976a9",
+      "range": {
+        "startLine": 539,
+        "startChar": 0,
+        "endLine": 539,
+        "endChar": 14
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d6219c3_47f76332",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T11:36:36Z",
+      "side": 0,
+      "message": "you or Luca have to help me a bit for numbers that reflect local storage. I don\u0027t know what realistic limits are. Do you have ballpark numbers?",
+      "parentUuid": "ea6b1a3f_2d33ba8c",
       "range": {
         "startLine": 539,
         "startChar": 0,

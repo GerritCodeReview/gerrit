@@ -157,6 +157,24 @@
       "parentUuid": "dde4fa93_93352fc7",
       "revId": "4e82712515fba2c614c24257afadc027abb69547",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1927c8e_84ad3d5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-03-02T23:47:15Z",
+      "side": 1,
+      "message": "I\u0027ll submit this change so we can refactor in a future change. I think using a \u003cslot\u003e would work fine but I\u0027m busy with my relocation and other work. I\u0027d be happy to review for you or file an issue for a future fixit. Some parts of the move hint I don\u0027t understand like here, so maybe there is some extra work needed: https://github.com/GerritCodeReview/gerrit/blob/c74e5f7baa02702b619ac771f675754071c6f49b/polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.ts#L37",
+      "parentUuid": "c4eb6cfd_46675694",
+      "revId": "4e82712515fba2c614c24257afadc027abb69547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

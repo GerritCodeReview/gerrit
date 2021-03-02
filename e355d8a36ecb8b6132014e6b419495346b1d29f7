@@ -22,6 +22,30 @@
       },
       "revId": "e355d8a36ecb8b6132014e6b419495346b1d29f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5541a698_0f26a324",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-02T13:23:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bed4c376_4595845d",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 5
+      },
+      "revId": "e355d8a36ecb8b6132014e6b419495346b1d29f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43266e23_f4d8f5cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-02T17:53:52Z",
+      "side": 1,
+      "message": "I spent today trying to setup a test for this change but I still couldn\u0027t. We don\u0027t have other tests creating git submodules that I could piggy-back on.\n\nI also looked at creating a submodule using JGit\u0027s SubmoduleAddCommand which failed  because the in-memory repositories that are created in our tests are bare repositories.\n\nI\u0027m quite confident the fix will work, but if the test is really needed I\u0027ll have to look at this more thoroughly again, and I\u0027d postpone it for now.",
+      "parentUuid": "c9fee212_8d9fc872",
+      "revId": "2bd67322bd30441b41de93e57a39e7e828ef3c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9a502a9_3c3a2fc8",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d945689_3091c1ac",
+        "filename": "java/com/google/gerrit/server/patch/SrcContentResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-02T17:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9a502a9_3c3a2fc8",
+      "revId": "2bd67322bd30441b41de93e57a39e7e828ef3c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8b1902f_ab2015d9",
@@ -65,6 +101,30 @@
       "writtenOn": "2021-02-26T09:03:44Z",
       "side": 1,
       "message": "nit: repo or repository?",
+      "range": {
+        "startLine": 38,
+        "startChar": 51,
+        "endLine": 38,
+        "endChar": 53
+      },
+      "revId": "2bd67322bd30441b41de93e57a39e7e828ef3c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5acad52e_bfc9ece2",
+        "filename": "java/com/google/gerrit/server/patch/SrcContentResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-02T17:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8b1902f_ab2015d9",
       "range": {
         "startLine": 38,
         "startChar": 51,

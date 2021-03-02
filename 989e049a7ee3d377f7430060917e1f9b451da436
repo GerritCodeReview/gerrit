@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f9fab65_21d6dfdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-02T17:16:58Z",
+      "side": 1,
+      "message": "I think we had both checks in quota plugin:\n- limit max object size e.g. to 20MB in order to prevent users can upload huge files which to our experience are often binary files\n- limit repository size by dynamically limiting max packsize for each receive-pack so that repository size limit is enforced to e.g. 1GB",
+      "revId": "989e049a7ee3d377f7430060917e1f9b451da436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6adc29a_b1d07e0e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -43,6 +60,29 @@
         "startChar": 4,
         "endLine": 10,
         "endChar": 11
+      },
+      "revId": "989e049a7ee3d377f7430060917e1f9b451da436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de3e0e06_fcea3641",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-02T17:16:58Z",
+      "side": 1,
+      "message": "to",
+      "range": {
+        "startLine": 12,
+        "startChar": 37,
+        "endLine": 12,
+        "endChar": 40
       },
       "revId": "989e049a7ee3d377f7430060917e1f9b451da436",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

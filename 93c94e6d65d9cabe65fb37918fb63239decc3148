@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36f0834b_cc07c243",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-02T18:50:15Z",
+      "side": 1,
+      "message": "Change like so and move to dom-util or event-util.\n\n  export function waitForEvent(\n    el: Element, eventName: string\n  ): Promise\u003cCustomEvent\u003e {\n    return new Promise\u003cCustomEvent\u003e(resolve \u003d\u003e {\n      const callback \u003d (event: CustomEvent) \u003d\u003e {\n        el.removeEventListener(eventName, callback);\n        resolve(event);\n      };\n      el.addEventListener(eventName, callback);\n    });\n  }",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 1
+      },
+      "revId": "93c94e6d65d9cabe65fb37918fb63239decc3148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

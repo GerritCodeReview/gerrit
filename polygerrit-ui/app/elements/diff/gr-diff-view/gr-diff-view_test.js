@@ -624,6 +624,76 @@ suite('gr-diff-view tests', () => {
       assert.isNotOk(args[3]);
     });
 
+    test('A fires an error event when not logged in', done => {
+      const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
+      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(false));
+      const loggedInErrorSpy = sinon.spy();
+      element.addEventListener('show-auth-required', loggedInErrorSpy);
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      flush(() => {
+        assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
+          'should only work when the user is logged in.');
+        assert.isNull(window.sessionStorage.getItem(
+            'changeView.showReplyDialog'));
+        assert.isTrue(loggedInErrorSpy.called);
+        done();
+      });
+    });
+
+    test('A navigates to change with logged in', done => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 5,
+        patchNum: 10,
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 10, commit: {parents: []}},
+          b: {_number: 5, commit: {parents: []}},
+        },
+      };
+      const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
+      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+      const loggedInErrorSpy = sinon.spy();
+      element.addEventListener('show-auth-required', loggedInErrorSpy);
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      flush(() => {
+        assert.isTrue(element.changeViewState.showReplyDialog);
+        assert(changeNavStub.lastCall.calledWithExactly(element._change, 10,
+            5), 'Should navigate to /c/42/5..10');
+        assert.isFalse(loggedInErrorSpy.called);
+        done();
+      });
+    });
+
+    test('A navigates to change with old patch number with logged in', done => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: PARENT,
+        patchNum: 1,
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 1, commit: {parents: []}},
+          b: {_number: 2, commit: {parents: []}},
+        },
+      };
+      const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
+      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+      const loggedInErrorSpy = sinon.spy();
+      element.addEventListener('show-auth-required', loggedInErrorSpy);
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      flush(() => {
+        assert.isTrue(element.changeViewState.showReplyDialog);
+        assert(changeNavStub.lastCall.calledWithExactly(element._change, 1,
+            PARENT), 'Should navigate to /c/42/1');
+        assert.isFalse(loggedInErrorSpy.called);
+        done();
+      });
+    });
+
     test('keyboard shortcuts with patch range', () => {
       element._changeNum = '42';
       element._patchRange = {
@@ -643,19 +713,6 @@ suite('gr-diff-view tests', () => {
 
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
-
-      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
-          'should only work when the user is logged in.');
-      assert.isNull(window.sessionStorage.getItem(
-          'changeView.showReplyDialog'));
-
-      element._loggedIn = true;
-      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      assert.isTrue(element.changeViewState.showReplyDialog);
-
-      assert(changeNavStub.lastCall.calledWithExactly(element._change, 10,
-          5), 'Should navigate to /c/42/5..10');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert(changeNavStub.lastCall.calledWithExactly(element._change, 10,
@@ -716,19 +773,6 @@ suite('gr-diff-view tests', () => {
 
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
-
-      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
-          'should only work when the user is logged in.');
-      assert.isNull(window.sessionStorage.getItem(
-          'changeView.showReplyDialog'));
-
-      element._loggedIn = true;
-      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      assert.isTrue(element.changeViewState.showReplyDialog);
-
-      assert(changeNavStub.lastCall.calledWithExactly(element._change, 1,
-          PARENT), 'Should navigate to /c/42/1');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert(changeNavStub.lastCall.calledWithExactly(element._change, 1,

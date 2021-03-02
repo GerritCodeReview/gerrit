@@ -42,8 +42,9 @@ import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -52,6 +53,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -108,21 +110,21 @@ public class CommentsUtil {
 
   private static final Ordering<Comparable<?>> NULLS_FIRST = Ordering.natural().nullsFirst();
 
+  private final DiffOperations diffOperations;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final String serverId;
-  private final PatchListCache patchListCache;
 
   @Inject
   CommentsUtil(
+      DiffOperations diffOperations,
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
-      @GerritServerId String serverId,
-      PatchListCache patchListCache) {
+      @GerritServerId String serverId) {
+    this.diffOperations = diffOperations;
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.serverId = serverId;
-    this.patchListCache = patchListCache;
   }
 
   public HumanComment newHumanComment(
@@ -433,8 +435,11 @@ public class CommentsUtil {
     try {
       // TODO(ghareeb): Adjust after the auto-merge code was moved out of the diff caches. Also
       // unignore the test in PortedCommentsIT.
-      return patchListCache.getOldId(change, patchset, null);
-    } catch (PatchListNotAvailableException e) {
+      Map<String, FileDiffOutput> modifiedFiles =
+          diffOperations.listModifiedFilesAgainstParent(
+              change.getProject(), patchset.commitId(), null);
+      return modifiedFiles.values().iterator().next().oldCommitId();
+    } catch (DiffNotAvailableException e) {
       throw new StorageException(e);
     }
   }

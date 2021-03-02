@@ -16,6 +16,24 @@
       "message": "Should we rather move it to the oldest supported stable branch: 3.1?",
       "revId": "f9b82895533745462ee368c530e8e721713bf16d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a4f5220_6cb545f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-02T12:01:55Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "995b0ea1_a0ebb87c",
+      "revId": "f9b82895533745462ee368c530e8e721713bf16d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

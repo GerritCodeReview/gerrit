@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f50d77f_7aee864c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-overview-image.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-02T10:34:50Z",
+      "side": 1,
+      "message": "Note: I shortened the internally used properties again when addressing the type in line 109, as there are no other controls in here which this could accidentally style, and it seemed a bit more obvious than a\n\n--overview-image-background-color: var(--overview-image-background-color, $default)\n\nto allow styling this from any level above, not just on the component directly.\n\nI guess I could also inline these below instead, let me know if you prefer that.",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 24
+      },
+      "revId": "ba31ec41170d8e1314610618eafbdec9aa6c22e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

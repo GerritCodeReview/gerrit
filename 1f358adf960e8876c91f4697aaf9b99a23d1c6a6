@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "714f12f6_688a66b9",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-02T12:30:54Z",
+      "side": 1,
+      "message": "My bad. Done.\n\nMismatch -\u003e Warning log\nError -\u003e Severe log\n\nIn either cases, we push logs at most every 10 seconds.",
+      "parentUuid": "1ebed1c2_c99ebc4e",
+      "revId": "1f358adf960e8876c91f4697aaf9b99a23d1c6a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c6f8ea2_95316c6f",

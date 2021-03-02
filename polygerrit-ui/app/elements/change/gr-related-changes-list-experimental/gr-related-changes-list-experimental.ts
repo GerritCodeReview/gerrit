@@ -85,6 +85,7 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
         }
         section {
           margin-bottom: var(--spacing-m);
+          width: fit-content;
         }
       `,
     ];

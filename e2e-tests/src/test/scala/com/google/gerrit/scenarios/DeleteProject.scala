@@ -20,6 +20,7 @@ import io.gatling.core.structure.ScenarioBuilder
 
 class DeleteProject extends ProjectSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
+  private val forceKey = "force_project_deletion"
 
   def this(projectName: String) {
     this()
@@ -28,7 +29,10 @@ class DeleteProject extends ProjectSimulation {
 
   val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
-      .exec(httpRequest)
+      .exec(session => {
+        session.set(forceKey, getProperty(forceKey, "false"))
+      })
+      .exec(httpRequest.body(ElFileBody(body)).asJson)
 
   setUp(
     test.inject(

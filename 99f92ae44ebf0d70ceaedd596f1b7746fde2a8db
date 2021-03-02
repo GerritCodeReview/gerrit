@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e84f01a2_db14227f",
+        "filename": "tools/node_tools/node_modules_licenses/utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-02T16:44:19Z",
+      "side": 1,
+      "message": "typo: surround",
+      "range": {
+        "startLine": 26,
+        "startChar": 18,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "99f92ae44ebf0d70ceaedd596f1b7746fde2a8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

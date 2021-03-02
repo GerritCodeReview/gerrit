@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ebed1c2_c99ebc4e",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-02T12:14:37Z",
+      "side": 1,
+      "message": "I think you meant to add that here instead of the exception case below.",
+      "parentUuid": "03d50509_aac0f894",
+      "revId": "1f358adf960e8876c91f4697aaf9b99a23d1c6a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c6f8ea2_95316c6f",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
         "patchSetId": 11

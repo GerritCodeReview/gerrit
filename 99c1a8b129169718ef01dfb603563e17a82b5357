@@ -138,6 +138,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbbd6889_f9443ec3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2190,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-03T23:48:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "21af8a67_5de85193",
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1364099a_974900bd",
@@ -163,6 +181,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5087c89_20a769ae",
+        "filename": "java/com/google/gerrit/server/LibModuleType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-03T23:48:21Z",
+      "side": 1,
+      "message": "The batch module is a child injector of dbInjector, but cannot override modules of it.",
+      "parentUuid": "1364099a_974900bd",
+      "range": {
+        "startLine": 23,
+        "startChar": 26,
+        "endLine": 23,
+        "endChar": 37
+      },
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3f8768a_00325eb9",
         "filename": "java/com/google/gerrit/server/LibModuleType.java",
         "patchSetId": 7
@@ -174,6 +216,30 @@
       "writtenOn": "2021-03-03T20:33:40Z",
       "side": 1,
       "message": "DB_BATCH_MODULE?",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1c4fde6_76f9d46f",
+        "filename": "java/com/google/gerrit/server/LibModuleType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-03T23:48:21Z",
+      "side": 1,
+      "message": "See above: it isn\u0027t an override of the db module, hence it would be misleading to think about that is equivalent to the DB_MODULE",
+      "parentUuid": "a3f8768a_00325eb9",
       "range": {
         "startLine": 24,
         "startChar": 2,

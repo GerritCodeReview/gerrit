@@ -38,6 +38,7 @@ import org.junit.Test;
 
 /** Test handling of the NoteDb commit hash in the GetChange endpoint */
 public class ChangeMetaIT extends AbstractDaemonTest {
+
   @Test
   public void metaSha1_fromIndex() throws Exception {
     PushOneCommit.Result result = createChange();
@@ -104,7 +105,7 @@ public class ChangeMetaIT extends AbstractDaemonTest {
   protected static class PluginDefinedSimpleAttributeModule extends AbstractModule {
     static class MyMetaHash extends PluginDefinedInfo {
       String myMetaRef;
-    };
+    }
 
     static PluginDefinedInfo newMyMetaHash(ChangeData cd) {
       MyMetaHash mmh = new MyMetaHash();

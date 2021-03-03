@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
@@ -61,6 +63,11 @@ public class GetChange
 
   @Option(name = "--meta", usage = "NoteDb meta SHA1")
   String metaRevId = "";
+
+  public void setMetaRevId(String metaRevId) {
+    checkNotNull(metaRevId);
+    this.metaRevId = metaRevId;
+  }
 
   @Option(name = "-O", usage = "Output option flags, in hex")
   void setOptionFlagsHex(String hex) {

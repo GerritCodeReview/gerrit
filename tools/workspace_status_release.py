@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # This is a variant of the `workspace_status.py` script that in addition to
 # plain `git describe` implements a few heuristics to arrive at more to the

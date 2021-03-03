@@ -384,7 +384,7 @@ export class GrChecksRuns extends GrLitElement {
     if (runs.length === 0) return;
     const expanded = this.isSectionExpanded.get(status) ?? true;
     const expandedClass = expanded ? 'expanded' : 'collapsed';
-    const icon = expanded ? 'gr-icons:expand-more' : 'gr-icons:expand-less';
+    const icon = expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
     return html`
       <div class="${status.toLowerCase()} ${expandedClass}">
         <div

@@ -35,10 +35,8 @@ import {
 import {sharedStyles} from '../../styles/shared-styles';
 import {RunResult} from '../../services/checks/checks-model';
 import {
-  hasCompleted,
   hasCompletedWithoutResults,
   iconForCategory,
-  isRunning,
 } from '../../services/checks/checks-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
@@ -321,8 +319,10 @@ export class GrChecksResults extends GrLitElement {
         .categoryHeader {
           margin-top: var(--spacing-l);
           margin-left: var(--spacing-l);
-          text-transform: capitalize;
           cursor: default;
+        }
+        .categoryHeader .title {
+          text-transform: capitalize;
         }
         .categoryHeader .expandIcon {
           width: var(--line-height-h3);
@@ -345,6 +345,7 @@ export class GrChecksResults extends GrLitElement {
         .categoryHeader .statusIcon.success {
           color: var(--success-foreground);
         }
+        .collapsed .noResultsMessage,
         .collapsed table {
           display: none;
         }
@@ -352,8 +353,14 @@ export class GrChecksResults extends GrLitElement {
           border-bottom: 1px solid var(--border-color);
           padding-bottom: var(--spacing-m);
         }
-        .noCompleted {
-          margin-top: var(--spacing-l);
+        .noResultsMessage {
+          width: 100%;
+          max-width: 1280px;
+          margin-top: var(--spacing-m);
+          background-color: var(--background-color-primary);
+          box-shadow: var(--elevation-level-1);
+          padding: var(--spacing-s)
+            calc(20px + var(--spacing-l) + var(--spacing-m) + var(--spacing-s));
         }
         table.resultsTable {
           width: 100%;
@@ -374,7 +381,7 @@ export class GrChecksResults extends GrLitElement {
   render() {
     return html`
       <div><h2 class="heading-2">Results</h2></div>
-      ${this.renderFilter()} ${this.renderNoCompleted()}
+      ${this.renderFilter()}
       ${this.renderSection(Category.ERROR)}
       ${this.renderSection(Category.WARNING)}
       ${this.renderSection(Category.INFO)} ${this.renderSection('SUCCESS')}
@@ -398,31 +405,31 @@ export class GrChecksResults extends GrLitElement {
     this.filterRegExp = new RegExp(this.filterInput.value, 'i');
   }
 
-  renderNoCompleted() {
-    if (this.runs.some(hasCompleted)) return;
-    let text = 'No results';
-    if (this.runs.some(isRunning)) {
-      text = 'Checks are running ...';
-    }
-    return html`<div class="noCompleted">${text}</div>`;
-  }
-
   renderSection(category: Category | 'SUCCESS') {
     const catString = category.toString().toLowerCase();
     let runs = this.runs;
     if (category === 'SUCCESS') {
-      runs = runs
-        .filter(hasCompletedWithoutResults)
-        .filter(r => this.filterRegExp.test(r.checkName));
+      runs = runs.filter(hasCompletedWithoutResults);
     } else {
       runs = runs.filter(r =>
         (r.results ?? []).some(res => res.category === category)
       );
     }
-    if (runs.length === 0) return;
-    const expanded = this.isSectionExpanded.get(category) ?? true;
+    const all = runs.reduce((allResults: RunResult[], run) => {
+      return [...allResults, ...this.computeRunResults(category, run)];
+    }, []);
+    const filtered = all.filter(
+      result =>
+        this.filterRegExp.test(result.checkName) ||
+        this.filterRegExp.test(result.summary)
+    );
+    let expanded = this.isSectionExpanded.get(category);
+    if (expanded === undefined) {
+      expanded = all.length > 0;
+      this.isSectionExpanded.set(category, expanded);
+    }
     const expandedClass = expanded ? 'expanded' : 'collapsed';
-    const icon = expanded ? 'gr-icons:expand-more' : 'gr-icons:expand-less';
+    const icon = expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
     return html`
       <div class="${expandedClass}">
         <h3
@@ -434,27 +441,50 @@ export class GrChecksResults extends GrLitElement {
             icon="gr-icons:${iconForCategory(category)}"
             class="statusIcon ${catString}"
           ></iron-icon>
-          ${catString}
+          <span class="title">${catString}</span>
+          <span class="count">${this.renderCount(all, filtered)}</span>
         </h3>
-        <table class="resultsTable">
-          <thead>
-            <tr class="headerRow">
-              <th class="iconCol"></th>
-              <th class="nameCol">Run</th>
-              <th class="summaryCol">Summary</th>
-              <th class="expanderCol"></th>
-            </tr>
-          </thead>
-          <tbody>
-            ${runs.map(run =>
-              category === 'SUCCESS'
-                ? this.renderSuccessfulRun(run)
-                : this.renderRun(category, run)
-            )}
-          </tbody>
-        </table>
+        ${this.renderResults(all, filtered)}
       </div>
     `;
+  }
+
+  renderResults(all: RunResult[], filtered: RunResult[]) {
+    if (all.length === 0) {
+      return html`<div class="noResultsMessage">No results</div>`;
+    }
+    if (filtered.length === 0) {
+      return html`
+        <div class="noResultsMessage">
+          None of the results match the filter.
+        </div>
+      `;
+    }
+    return html`
+      <table class="resultsTable">
+        <thead>
+          <tr class="headerRow">
+            <th class="iconCol"></th>
+            <th class="nameCol">Run</th>
+            <th class="summaryCol">Summary</th>
+            <th class="expanderCol"></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${filtered.map(
+            result => html`<gr-result-row .result="${result}"></gr-result-row>`
+          )}
+        </tbody>
+      </table>
+    `;
+  }
+
+  renderCount(all: RunResult[], filtered: RunResult[]) {
+    if (all.length === filtered.length) {
+      return html`(${all.length})`;
+    } else {
+      return html`(${filtered.length} of ${all.length})`;
+    }
   }
 
   toggleExpanded(category: Category | 'SUCCESS') {
@@ -463,21 +493,18 @@ export class GrChecksResults extends GrLitElement {
     this.requestUpdate();
   }
 
-  renderRun(category: Category, run: CheckRun) {
-    return html`${run.results
-      ?.filter(result => result.category === category)
-      .filter(
-        result =>
-          this.filterRegExp.test(run.checkName) ||
-          this.filterRegExp.test(result.summary)
-      )
-      .map(
-        result =>
-          html`<gr-result-row .result="${{...run, ...result}}"></gr-result-row>`
-      )}`;
+  computeRunResults(category: Category | 'SUCCESS', run: CheckRun) {
+    if (category === 'SUCCESS') return [this.computeSuccessfulRunResult(run)];
+    return (
+      run.results
+        ?.filter(result => result.category === category)
+        .map(result => {
+          return {...run, ...result};
+        }) ?? []
+    );
   }
 
-  renderSuccessfulRun(run: CheckRun) {
+  computeSuccessfulRunResult(run: CheckRun): RunResult {
     const adaptedRun: RunResult = {
       category: Category.INFO, // will not be used, but is required
       summary: run.statusDescription ?? '',
@@ -501,7 +528,7 @@ export class GrChecksResults extends GrLitElement {
         },
       ];
     }
-    return html`<gr-result-row .result="${adaptedRun}"></gr-result-row>`;
+    return adaptedRun;
   }
 }
 

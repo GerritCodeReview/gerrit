@@ -51,6 +51,24 @@
       "parentUuid": "9bb4c134_29021b39",
       "revId": "0bc68109a3ab1010a5d3c8946ddaa97306ec4e0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32c28ef3_090f2cea",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-03T10:19:04Z",
+      "side": 1,
+      "message": "\u003e New features create new failure modes, which is the opposite of what we want on a stable branch.\n\nWhilst I fully agree with you, the current guidelines were actually even more loose allowing also new features on stable and *unsupported* (aka EOL) branches.\n\nI wanted at least to get an agreement from the community of not introduce new features on branches that are EOL. We can even make this stricter but I agree we would need further discussion and feedback from the community.\n\n\u003e We had a number of urgent security issues recently, and it will be much easier to convince folks to upgrade to a new patchlevel release if they can be sure all of the existing features keep working unchanged.\n\nThat\u0027s very true and should also include the dependencies upgrades.\nSome of Gerrit features are actually coming from its dependencies (e.g. JGit and Jetty). When a dependency is upgraded on a stable branch we should also check that it isn\u0027t impacting the way Gerrit features work.\n\nThe latest noteworthy example was the Jetty upgrade that broke the reverse proxy on stable branch: people found that out only after upgrading to a security fix.\nThe Jetty upgrade wasn\u0027t needed for the security fix but happened to be done in a stable branch :-(\n\n\u003e If someone needs a new feature on a stable branch, we could either make a separate stable-but-not-so-stable branch, or require it to be on master and encourage the contributor to backport from master in a private fork. \n\nThat was actually discussed years ago, but it would leak to the explosion again of forks, either public (a stable-but-no-so-stable) or private.\n\nIf we open that Pandora\u0027s box, I am sure we will get a stable-but-not-so-stable-2.16 immediately :-(\n\n\u003e Regardless, I think this is somethnig to decide at ESC level.\n\nYes, and beyond that also.",
+      "parentUuid": "b80d99eb_1a929ee1",
+      "revId": "0bc68109a3ab1010a5d3c8946ddaa97306ec4e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

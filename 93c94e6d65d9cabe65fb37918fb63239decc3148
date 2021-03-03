@@ -22,6 +22,30 @@
       },
       "revId": "93c94e6d65d9cabe65fb37918fb63239decc3148",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aef402d9_917097f0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-03T09:31:49Z",
+      "side": 1,
+      "message": "Kept the \"Once\" in the name since the listener is removed immediately after it\u0027s called.",
+      "parentUuid": "36f0834b_cc07c243",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 1
+      },
+      "revId": "93c94e6d65d9cabe65fb37918fb63239decc3148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

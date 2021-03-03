@@ -84,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d7fab9f6_357cd314",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-03T23:10:57Z",
+      "side": 1,
+      "message": "\u003e I think you meant earliest non-EOL 😊\n\nYeah :-) it was a typo. Thanks for clarifying it.",
+      "parentUuid": "998457fa_9f94dc99",
+      "revId": "435f8dbff8befc21b341f64197fb9eaf60e35dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f924d2a_afe2cb5c",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 7

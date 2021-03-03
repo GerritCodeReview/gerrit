@@ -28,7 +28,7 @@ def _npm_binary_impl(ctx):
     else:
         fail("repository %s not in {%s,%s}" % (repository, GERRIT, NPMJS))
 
-    python = ctx.which("python")
+    python = ctx.which("python3")
     script = ctx.path(ctx.attr._download_script)
 
     args = [python, script, "-o", dest, "-u", url, "-v", sha1]
@@ -51,7 +51,7 @@ ComponentInfo = provider()
 
 # for use in repo rules.
 def _run_npm_binary_str(ctx, tarball, args):
-    python_bin = ctx.which("python")
+    python_bin = ctx.which("python3")
     return " ".join([
         str(python_bin),
         str(ctx.path(ctx.attr._run_npm)),
@@ -65,7 +65,7 @@ def _bower_archive(ctx):
     version_name = "%s__version.json" % ctx.name
 
     cmd = [
-        ctx.which("python"),
+        ctx.which("python3"),
         ctx.path(ctx.attr._download_bower),
         "-b",
         "%s" % _run_npm_binary_str(ctx, ctx.attr._bower_archive, []),
@@ -320,7 +320,7 @@ def _bundle_impl(ctx):
     app_path = app_path[app_path.index(pkg_dir) + len(pkg_dir):]
 
     hermetic_npm_binary = " ".join([
-        "python",
+        "python3",
         "$p/" + ctx.file._run_npm.path,
         "$p/" + ctx.file._bundler_archive.path,
         "--inline-scripts",
@@ -371,7 +371,7 @@ def _bundle_impl(ctx):
 
     if ctx.attr.split:
         hermetic_npm_command = "export PATH && " + " ".join([
-            "python",
+            "python3",
             ctx.file._run_npm.path,
             ctx.file._crisper_archive.path,
             "--script-in-head=false",

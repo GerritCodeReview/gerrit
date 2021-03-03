@@ -82,6 +82,7 @@ public class Module extends RestApiModule {
 
     postOnCollection(CHANGE_KIND).to(CreateChange.class);
     get(CHANGE_KIND).to(GetChange.class);
+    get(CHANGE_KIND, "meta_diff").to(GetMetaDiff.class);
     post(CHANGE_KIND, "merge").to(CreateMergePatchSet.class);
     get(CHANGE_KIND, "detail").to(GetDetail.class);
     get(CHANGE_KIND, "topic").to(GetTopic.class);

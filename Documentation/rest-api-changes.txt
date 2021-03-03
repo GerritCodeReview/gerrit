@@ -569,6 +569,69 @@ Historical state of the change can be retrieved by specifying the
 populate ChangeInfo. If the SHA1 is not reachable as a NoteDb state,
 status code 412 is returned.
 
+----
+
+[[get-meta-diff]]
+=== Get Meta Diff
+--
+'GET /changes/link:#change-id[\{change-id\}]/meta_diff/?old=SHA1&meta=SHA1'
+--
+
+Retrieves the difference between two historical states of a change
+by specifying the `old=SHA1` and the `meta=SHA1` parameters.
+
+If the `old` parameter is not provided, the parent of the `meta`
+SHA1 is used. If the `meta` parameter is not provided, the current
+state of the change is used. If neither are provided, the
+difference between the current state of the change and its previous
+state is returned.
+
+Additional fields can be obtained by adding `o` parameters, analogous
+to GetChange (link), and the same concerns for GetChange hold for
+this endpoint too. Fields are described in link:#list-changes[Query Changes].
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/meta_diff?old=b083abc34eb6dbdb9e154ba092fc198000e997b4&meta=63b81f2bde703ae07787a940e8fdf9a1828605b1 HTTP/1.0
+----
+
+As a response, two link:#change-info[ChangeInfo] entities are returned
+that describe information added and removed from the `old` change state.
+Only fields that differ between the change's two states are returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "added": {
+      "attention_set": [
+        {
+          "account": {
+            "name": "John Doe"
+          },
+         "last_update": "2013-02-21 11:16:36.775000000",
+         "reason": "reviewer or cc replied"
+        }
+      ]
+      "updated": "2013-02-21 11:16:36.775000000",
+      "topic": "new-topic"
+    },
+    "removed": {
+      "updated": "2013-02-20 12:05:34.111000000",
+      "topic": "old-topic"
+    }
+  }
+----
+
+If the provided SHA1 for `meta` is not reachable as a NoteDb
+state, the status code 412 is returned. If the SHA1 for `old`
+is not reachable, the difference between the change at state
+`meta` and an empty change is returned.
+----
 
 [[get-change-detail]]
 === Get Change Detail

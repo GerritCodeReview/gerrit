@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -81,7 +82,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         @Assisted("patchSetA") PatchSet.Id patchSetA,
         @Assisted("patchSetB") PatchSet.Id patchSetB,
         DiffPreferencesInfo diffPrefs,
-        CurrentUser currentUser);
+        CurrentUser currentUser,
+        boolean useNewDiffCache);
 
     PatchScriptFactory create(
         ChangeNotes notes,
@@ -89,7 +91,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         int parentNum,
         PatchSet.Id patchSetB,
         DiffPreferencesInfo diffPrefs,
-        CurrentUser currentUser);
+        CurrentUser currentUser,
+        boolean useNewDiffCache);
   }
 
   /** These metrics are temporary for launching the new redesigned diff cache. */
@@ -138,6 +141,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private final boolean runNewDiffCacheAsync;
 
+  // TODO(ghareeb): temporary field use for testing. Please remove.
+  private final boolean useNewDiffCache;
+
   @AssistedInject
   PatchScriptFactory(
       GitRepositoryManager grm,
@@ -156,7 +162,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
       @Assisted("patchSetB") PatchSet.Id patchSetB,
       @Assisted DiffPreferencesInfo diffPrefs,
-      @Assisted CurrentUser currentUser) {
+      @Assisted CurrentUser currentUser,
+      @Assisted boolean useNewDiffCache) {
     this.repoManager = grm;
     this.psUtil = psUtil;
     this.builderFactory = builderFactory;
@@ -178,6 +185,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
     this.runNewDiffCacheAsync =
         cfg.getBoolean("cache", "diff_cache", "runNewDiffCacheAsync_getDiff", false);
+    this.useNewDiffCache = useNewDiffCache;
 
     changeId = patchSetB.changeId();
   }
@@ -200,7 +208,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       @Assisted int parentNum,
       @Assisted PatchSet.Id patchSetB,
       @Assisted DiffPreferencesInfo diffPrefs,
-      @Assisted CurrentUser currentUser) {
+      @Assisted CurrentUser currentUser,
+      @Assisted boolean useNewDiffCache) {
     this.repoManager = grm;
     this.psUtil = psUtil;
     this.builderFactory = builderFactory;
@@ -222,6 +231,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
     this.runNewDiffCacheAsync =
         cfg.getBoolean("cache", "diff_cache", "runNewDiffCacheAsync_getDiff", false);
+    this.useNewDiffCache = useNewDiffCache;
 
     changeId = patchSetB.changeId();
     checkArgument(parentNum >= 0, "parentNum must be >= 0");
@@ -261,6 +271,19 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           bId = edit.get().getEditCommit();
         }
 
+        if (useNewDiffCache) {
+          FileDiffOutput fileDiffOutput =
+              aId == null
+                  ? diffOperations.getModifiedFileAgainstParent(
+                      notes.getProjectName(),
+                      bId,
+                      parentNum == -1 ? null : parentNum + 1,
+                      fileName,
+                      diffPrefs.ignoreWhitespace)
+                  : diffOperations.getModifiedFile(
+                      notes.getProjectName(), aId, bId, fileName, diffPrefs.ignoreWhitespace);
+          return newBuilder().toPatchScriptNew(git, fileDiffOutput);
+        }
         PatchScriptBuilder patchScriptBuilder = newBuilder();
         PatchList list = listFor(keyFor(aId, bId, diffPrefs.ignoreWhitespace));
         PatchListEntry content = list.get(fileName);
@@ -271,6 +294,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         return patchScript;
       } catch (PatchListNotAvailableException e) {
         throw new NoSuchChangeException(changeId, e);
+      } catch (DiffNotAvailableException e) {
+        throw new StorageException(e);
       } catch (IOException e) {
         logger.atSevere().withCause(e).log("File content unavailable");
         throw new NoSuchChangeException(changeId, e);

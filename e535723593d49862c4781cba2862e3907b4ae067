@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1495e0d_410edcfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-03-03T07:56:39Z",
+      "side": 1,
+      "message": "Yes, should be removed actually",
+      "parentUuid": "3587c403_326dea3f",
+      "range": {
+        "startLine": 27,
+        "startChar": 55,
+        "endLine": 27,
+        "endChar": 59
+      },
+      "revId": "e535723593d49862c4781cba2862e3907b4ae067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d02f45d1_1b837c5e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -37,6 +61,24 @@
       "writtenOn": "2021-03-03T05:05:01Z",
       "side": 1,
       "message": "nit: remove the blank line so all the footers are together",
+      "revId": "e535723593d49862c4781cba2862e3907b4ae067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f2878c9_2e17abac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-03-03T07:56:39Z",
+      "side": 1,
+      "message": "Yes, very correct",
+      "parentUuid": "d02f45d1_1b837c5e",
       "revId": "e535723593d49862c4781cba2862e3907b4ae067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -60,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "519c9250_11a0ceec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-03-03T07:56:39Z",
+      "side": 1,
+      "message": "The change is really small, so I think the stability is under control.\n\nBut I think I would add a test at a later time.",
+      "parentUuid": "33ce3a56_132bf7a8",
+      "revId": "e535723593d49862c4781cba2862e3907b4ae067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c61731c3_ab25d03c",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5
@@ -71,6 +131,30 @@
       "writtenOn": "2021-03-03T07:42:27Z",
       "side": 1,
       "message": "Should we add recommendation for gerrit admins? May be 60 seconds? Or may be even change it to be the default?",
+      "range": {
+        "startLine": 4605,
+        "startChar": 0,
+        "endLine": 4605,
+        "endChar": 13
+      },
+      "revId": "e535723593d49862c4781cba2862e3907b4ae067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "350e3c7a_7127bd1d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4605,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-03-03T07:56:39Z",
+      "side": 1,
+      "message": "I always believe that setup the SOCKET_TIMEOUT greater than 0 (Default) is a best practice in similar scene.\n\nSo I think I will make some additions to the changes here",
+      "parentUuid": "c61731c3_ab25d03c",
       "range": {
         "startLine": 4605,
         "startChar": 0,

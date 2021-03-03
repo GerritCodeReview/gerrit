@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cea4ef11_4095a994",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-03T20:10:26Z",
+      "side": 1,
+      "message": "Oh nice! Did not know about flat(). Unfortunately that would require changing the compiler options from es2018 to es2019, which I am not inclined to try today. Maybe you can do this next week? I would certainly be happy to use flat().",
+      "parentUuid": "76f183eb_bf202624",
+      "range": {
+        "startLine": 432,
+        "startChar": 4,
+        "endLine": 434,
+        "endChar": 11
+      },
+      "revId": "a3083d3259ff4dc5b4d154984610db3850e7e426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb5f76f1_93915d12",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4835fc0c_629d0b8c",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-03T20:10:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb5f76f1_93915d12",
+      "range": {
+        "startLine": 440,
+        "startChar": 23,
+        "endLine": 441,
+        "endChar": 30
+      },
+      "revId": "a3083d3259ff4dc5b4d154984610db3850e7e426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a25fda8_faa9e0de",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-03-03T19:29:34Z",
       "side": 1,
       "message": "Maybe it could be different text if all.length \u003d 1. Or maybe write comment that all is at least 3 to have filtering option.",
+      "range": {
+        "startLine": 470,
+        "startChar": 22,
+        "endLine": 470,
+        "endChar": 43
+      },
+      "revId": "a3083d3259ff4dc5b4d154984610db3850e7e426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7be45a4_8813e306",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-03T20:10:26Z",
+      "side": 1,
+      "message": "Removed the number from the message. The count is shown in the title. That is maybe enough.",
+      "parentUuid": "6a25fda8_faa9e0de",
       "range": {
         "startLine": 470,
         "startChar": 22,

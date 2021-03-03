@@ -175,6 +175,24 @@
       "parentUuid": "c4eb6cfd_46675694",
       "revId": "4e82712515fba2c614c24257afadc027abb69547",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc8edb94_107e3af9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-03-03T09:42:23Z",
+      "side": 1,
+      "message": "Ok then. I can see if I can find some time to unify both move and long comment hints in a further change.",
+      "parentUuid": "f1927c8e_84ad3d5b",
+      "revId": "4e82712515fba2c614c24257afadc027abb69547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

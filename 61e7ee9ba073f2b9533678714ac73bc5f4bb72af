@@ -51,6 +51,24 @@
       "parentUuid": "86f32692_3b2eb8d9",
       "revId": "61e7ee9ba073f2b9533678714ac73bc5f4bb72af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28cb195e_b86b4ed2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-03T18:25:38Z",
+      "side": 1,
+      "message": "I replied on the bug.",
+      "parentUuid": "0d416974_dd9715aa",
+      "revId": "61e7ee9ba073f2b9533678714ac73bc5f4bb72af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -893,6 +893,8 @@ limitations under the License.
     });
 
     suite('getRepos', () => {
+      const filterPromise = Promise.resolve();
+      sandbox.stub(element, '__filterRepos').returns(filterPromise);
       const defaultQuery = 'state%3Aactive%20OR%20state%3Aread-only';
       let fetchCacheURLStub;
       setup(() => {

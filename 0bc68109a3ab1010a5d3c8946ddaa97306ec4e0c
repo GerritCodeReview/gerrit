@@ -16,6 +16,23 @@
       "message": "Example is change 298606, that could benefit from LC+1 vote 😊",
       "revId": "0bc68109a3ab1010a5d3c8946ddaa97306ec4e0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bb4c134_29021b39",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-03T08:20:04Z",
+      "side": 1,
+      "message": "Optional: Add a link to Gerrit releases: [1], because new contributors might not know where the release/stable branch status is documented.\n\n[1] https://www.gerritcodereview.com/releases-readme.html",
+      "revId": "0bc68109a3ab1010a5d3c8946ddaa97306ec4e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

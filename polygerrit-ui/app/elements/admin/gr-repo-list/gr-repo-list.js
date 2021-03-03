@@ -121,12 +121,22 @@
 
     _getRepos(filter, reposPerPage, offset) {
       this._repos = [];
+      const filteredRepos = [];
       return this.$.restAPI.getRepos(filter, reposPerPage, offset)
           .then(repos => {
             // Late response.
             if (filter !== this._filter || !repos) { return; }
-            this._repos = repos;
-            this._loading = false;
+            let itemProcessed = 0
+            repos.forEach(value => {
+              if(value["name"].includes(filter)){
+                filteredRepos.push(value);
+              }
+              itemProcessed++;
+              if(itemProcessed === repos.length){
+                this._repos = filteredRepos;
+                this._loading = false;
+              }
+            })
           });
     },
 

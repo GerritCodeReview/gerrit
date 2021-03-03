@@ -163,7 +163,8 @@ public class SubmitWithStickyApprovalDiff {
             latestApprovedPatchsetId,
             currentPatchsetId,
             diffPreferencesInfo,
-            currentUser);
+            currentUser,
+            /* useNewDiffCache= */ false);
     PatchScript patchScript = null;
     try {
       patchScript = patchScriptFactory.call();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e16ccb0_82c167ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-03T10:12:59Z",
+      "side": 1,
+      "message": "tangent: did we check where these diffs came from? Maybe we could filter the diffs due to rebase from the postsubmit diff like we do for the normal diff view.",
+      "revId": "081527c0a787943169cea1a8f356520a7de03a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

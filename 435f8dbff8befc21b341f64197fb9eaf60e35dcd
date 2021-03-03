@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e7632d3_529488f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-03T16:02:33Z",
+      "side": 1,
+      "message": "nit: business",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "435f8dbff8befc21b341f64197fb9eaf60e35dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39ad0d07_e6a46c15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-03T16:02:33Z",
+      "side": 1,
+      "message": "nit: but",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 16
+      },
+      "revId": "435f8dbff8befc21b341f64197fb9eaf60e35dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f924d2a_afe2cb5c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4598,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-03T16:02:33Z",
+      "side": 1,
+      "message": "should this be: \"of an open socket\" ? Reading the javadoc [1] it seems this only affects a socket that\u0027s already open.\n\n[1] https://commons.apache.org/proper/commons-net/javadocs/api-3.6/org/apache/commons/net/SocketClient.html#setSoTimeout(int)",
+      "range": {
+        "startLine": 4598,
+        "startChar": 19,
+        "endLine": 4598,
+        "endChar": 38
+      },
+      "revId": "435f8dbff8befc21b341f64197fb9eaf60e35dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed8b4eec_2e148d7e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4610,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-03T16:02:33Z",
+      "side": 1,
+      "message": "I don\u0027t think this text is helpful to an admin. How should they judge what an appropriate timeout would be?\n\nObviously we expect admins to be able to change this, otherwise we wouldn\u0027t expose it. If we don\u0027t have more advice for them, then I would stick to describing the behavior the config controls (which I think you\u0027re already doing).\n\nIf you do have specific advice for an admin (something like \"Set at least 2x the time it normally takes to send an email through this SMTP server\" - I made this up, don\u0027t use it), that would be fine to include here.",
+      "range": {
+        "startLine": 4608,
+        "startChar": 40,
+        "endLine": 4610,
+        "endChar": 41
+      },
+      "revId": "435f8dbff8befc21b341f64197fb9eaf60e35dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,7 @@
     "@polymer/paper-listbox": "^3.0.1",
     "@polymer/paper-tabs": "^3.1.0",
     "@polymer/paper-toggle-button": "^3.0.1",
+    "@polymer/paper-tooltip": "^3.0.1",
     "@polymer/polymer": "^3.4.1",
     "@types/resize-observer-browser": "^0.1.5",
     "@webcomponents/shadycss": "^1.9.2",

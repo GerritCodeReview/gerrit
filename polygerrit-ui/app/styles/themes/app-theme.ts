@@ -275,6 +275,8 @@ const styleSheet = safeStyleSheet`
     --iron-overlay-backdrop: {
       transition: none;
     };
+    --paper-tooltip-duration-in: 0;
+    --paper-tooltip-duration-out: 0;
   }
   @media screen and (max-width: 50em) {
     html {

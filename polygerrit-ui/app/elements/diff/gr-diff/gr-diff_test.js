@@ -804,7 +804,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, 3);
       assert.equal(element._safetyBypass, -1);
-      assert.equal(renderStub.firstCall.lastArg.context, -1);
+      assert.equal(renderStub.firstCall.args[1].context, -1);
     });
 
     test('toggles collapse context from bypass', async () => {
@@ -817,7 +817,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, 3);
       assert.isNull(element._safetyBypass);
-      assert.equal(renderStub.firstCall.lastArg.context, 3);
+      assert.equal(renderStub.firstCall.args[1].context, 3);
     });
 
     test('toggles collapse context from pref using default', async () => {
@@ -829,7 +829,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, -1);
       assert.equal(element._safetyBypass, 10);
-      assert.equal(renderStub.firstCall.lastArg.context, 10);
+      assert.equal(renderStub.firstCall.args[1].context, 10);
     });
   });
 

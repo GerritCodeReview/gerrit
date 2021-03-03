@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95133e0c_cef62679",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-03-03T12:30:20Z",
+      "side": 1,
+      "message": "Maybe we did but AFAIR max object size is set on repository level and is by default derived from All-Projects project.\nIn terms of the repository size starting with 3.0 gerrit core is responsible for enforcing the quota and plugin just needs to provide the available size. It was implemented with setting wrong limitation (max object size instead of max pack size) which got fixed with this change.\nI will add that info to the commit message.",
+      "parentUuid": "2f9fab65_21d6dfdd",
+      "revId": "989e049a7ee3d377f7430060917e1f9b451da436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6adc29a_b1d07e0e",
@@ -96,6 +114,30 @@
       "writtenOn": "2021-03-02T17:16:58Z",
       "side": 1,
       "message": "to",
+      "range": {
+        "startLine": 12,
+        "startChar": 37,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "989e049a7ee3d377f7430060917e1f9b451da436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f680474d_91d654d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-03-03T12:30:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de3e0e06_fcea3641",
       "range": {
         "startLine": 12,
         "startChar": 37,

@@ -2231,11 +2231,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
         }
       });
 
-    // Resolves when the project config has successfully loaded.
-    const projectConfigLoaded = detailCompletes.then(success => {
-      if (!success) return Promise.resolve();
-      return this._getProjectConfig();
-    });
+    // Resolves when the project config has loaded.
+    const projectConfigLoaded = detailCompletes.then(() =>
+      this._getProjectConfig()
+    );
     allDataPromises.push(projectConfigLoaded);
 
     // Resolves when change comments have loaded (comments, drafts and robot

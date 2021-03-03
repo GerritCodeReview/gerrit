@@ -197,6 +197,30 @@
       },
       "revId": "8b6c771bd7f09c5705f87fead352aa4b67b47977",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4bf30c2_6ed63c2d",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-03T11:40:58Z",
+      "side": 1,
+      "message": "\u003e I really have to guess at what you mean here. Could you try to clarify it some? I think you\u0027re saying reviewers are expected to point out opportunities to refactor during code review, but should be mindful of the scope of what the implementer was trying to change. Did I get that right?\n\u003e \n\u003e I generally agree with that, but reading the Fowler article you linked above, it seems to discourage this:\n\u003e \n\u003e  One of the features of opportunistic refactoring is that it can hit any part of\n\u003e  the code base you\u0027re working in. You may be doing most of your work in one class,\n\u003e  but spot problems in a class that\u0027s in a quite different area of the code. That\n\u003e  lack of locality shouldn\u0027t stop you from making the change now. There\u0027s often a\n\u003e  temptation to leave a change in another part of a code base to another day - but\n\u003e  another day often doesn\u0027t come.\n\u003e \n\u003e What are your thoughts on that? It seems we do probably want to provide some guidance for reviewers and implementers for what to suggest/expect, but I\u0027m not sure what that guidance should be.\n\nI agree with Martin Fowler, so possibly I have refine what I proposed. If you spot problems *related* to the work you are doing, then yes they should be addressed in your refactoring and that guidelines should be shared between the contributor and the reviewer as a \"common sense approach\".\n\nWhat I wanted to express that neither the contributor nor the reviewer should expect the entire code to be refactored because it isn\u0027t in a good shape, before making any change to it. Every little change should come with its own little refactoring: delaying the much needed refactoring to \"another day\" isn\u0027t a good idea and delaying all changes to \"a day when the code-base will be redesigned\" isn\u0027t good either.\n\nIn Gerrit we do have topics, and we should use them to tie together the different phases of an implementation:\n- refactoring\n- features\n- cleanups elsewhere\n\nI believe we already mention here how to use topics, so it should make sense today already.\n\nLet me try to rephrase that more clearly.",
+      "parentUuid": "05fa1ea2_4e4d0673",
+      "range": {
+        "startLine": 321,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 63
+      },
+      "revId": "8b6c771bd7f09c5705f87fead352aa4b67b47977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -275,6 +275,14 @@ const styleSheet = safeStyleSheet`
     --iron-overlay-backdrop: {
       transition: none;
     };
+    --paper-tooltip-duration-in: 0;
+    --paper-tooltip-duration-out: 0;
+    --paper-tooltip-background: var(--tooltip-background-color);
+    --paper-tooltip-opacity: 1.0;
+    --paper-tooltip-text-color: var(--tooltip-text-color);
+    --paper-tooltip: {
+      font-size: var(--font-size-small);
+    }
   }
   @media screen and (max-width: 50em) {
     html {

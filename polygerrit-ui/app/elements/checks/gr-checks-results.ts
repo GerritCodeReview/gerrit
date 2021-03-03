@@ -24,6 +24,7 @@ import {
   query,
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
+import '@polymer/paper-tooltip/paper-tooltip';
 import {
   Category,
   CheckRun,
@@ -229,6 +230,7 @@ class GrResultRow extends GrLitElement {
   }
 
   renderLink(link: Link) {
+    const tooltipText = link.tooltip ?? 'Link to details';
     return html`
       <a href="${link.url}" target="_blank">
         <iron-icon
@@ -236,6 +238,7 @@ class GrResultRow extends GrLitElement {
           class="launch"
           icon="gr-icons:launch"
         ></iron-icon>
+        <paper-tooltip offset="5">${tooltipText}</paper-tooltip>
       </a>
     `;
   }

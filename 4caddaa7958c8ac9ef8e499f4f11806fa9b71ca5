@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f40cbda_7d3de088",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-03-03T13:30:08Z",
+      "side": 1,
+      "message": "Unfortunately, InitHttpd also initializes a property from another section, namely gerrit.canonicalWebUrl, so we cannot skip this whole init step.\nI am abandoning this change.",
+      "revId": "4caddaa7958c8ac9ef8e499f4f11806fa9b71ca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87a07a0e_ab370912",

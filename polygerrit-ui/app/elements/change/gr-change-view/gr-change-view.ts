@@ -1902,6 +1902,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _openReplyDialog(section?: FocusTarget) {
+    if (!this._change) return;
     this.$.replyOverlay.open().finally(() => {
       // the following code should be executed no matter open succeed or not
       this._resetReplyOverlayFocusStops();

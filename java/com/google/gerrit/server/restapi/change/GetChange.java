@@ -62,6 +62,10 @@ public class GetChange
   @Option(name = "--meta", usage = "NoteDb meta SHA1")
   String metaRevId = "";
 
+  public void setMetaRevId(String metaRevId) {
+    this.metaRevId = metaRevId == null ? "" : metaRevId;
+  }
+
   @Option(name = "-O", usage = "Output option flags, in hex")
   void setOptionFlagsHex(String hex) {
     options.addAll(ListOption.fromBits(ListChangesOption.class, Integer.parseInt(hex, 16)));

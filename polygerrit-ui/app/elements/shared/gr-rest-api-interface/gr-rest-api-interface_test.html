@@ -898,6 +898,7 @@ limitations under the License.
       setup(() => {
         fetchCacheURLStub =
             sandbox.stub(element._restApiHelper, 'fetchCacheURL');
+        sandbox.stub(element, '_filterRepos');
       });
 
       test('normal use', () => {

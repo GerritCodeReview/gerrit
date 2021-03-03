@@ -1,6 +1,92 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b88da6f3_441cb95b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-03T20:33:40Z",
+      "side": 1,
+      "message": "in site program like Reindex. The problem was: plugins are not loaded in site program in general and in Reindex in particular. BatchModule solved that.",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cec38f3_8430c4d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-03T20:33:40Z",
+      "side": 1,
+      "message": "Mention that the plugin could then expose BatchModule to be loaded  in site program like Reindex for new plugin classes (was already possible before this change) and in addition, override gerrit classes from core in site program like Reindex (this change). One use case would be to override H2 cache backend during reindex operation with alternative cache backend. This is needed, because reindex populates diff caches.",
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c120730_678f7659",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-03T20:33:40Z",
+      "side": 1,
+      "message": "\"site program\" would be more clear in this context, like Reindex?",
+      "range": {
+        "startLine": 24,
+        "startChar": 59,
+        "endLine": 25,
+        "endChar": 4
+      },
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80862fde_3ef6e651",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-03T20:33:40Z",
+      "side": 1,
+      "message": "I think daemon and site program as \"two contexts\" here is rather confusing. libModule is already there and BatchModul is also there. The reason why we add new libModule kind is to allow the plugins to override gerrit core classes in site program. May be remove mention of daemon here?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 49
+      },
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e824ea8d_7c0e51f3",
@@ -14,6 +100,86 @@
       "writtenOn": "2021-03-03T00:41:03Z",
       "side": 1,
       "message": "Ping ...",
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5046af99_b85f0433",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-03T20:33:40Z",
+      "side": 1,
+      "message": "Should we wait with merging this until libBatchModule is exposed in modules/cache-chroniclemap project and we verified with this series that reindex works as expected (because we cannot really test this change otherwise, beside that reindex works again with multi-site plugin installed)?",
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21af8a67_5de85193",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-03T20:33:40Z",
+      "side": 1,
+      "message": "Mention that Gerrit plugin could contribute to libBatchModule, similarly that  plugins can expose BatchModule, and it would be loaded in site program (like Reindex) and could override gerrit core bindings.",
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1364099a_974900bd",
+        "filename": "java/com/google/gerrit/server/LibModuleType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-03T20:33:40Z",
+      "side": 1,
+      "message": "dbInjector, as you are passing dbInjector to BatchProgramModule ctor:\n\n  modules.add(new BatchProgramModule(dbInjector));",
+      "range": {
+        "startLine": 23,
+        "startChar": 26,
+        "endLine": 23,
+        "endChar": 37
+      },
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3f8768a_00325eb9",
+        "filename": "java/com/google/gerrit/server/LibModuleType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-03T20:33:40Z",
+      "side": 1,
+      "message": "DB_BATCH_MODULE?",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 6
+      },
       "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -322,6 +322,7 @@ export class GrChecksRuns extends GrLitElement {
         id="filterInput"
         type="text"
         placeholder="Filter runs by regular expression"
+        ?hidden="${!this.showFilter()}"
         @input="${this.onInput}"
       />
       ${this.renderSection(RunStatus.COMPLETED)}
@@ -415,6 +416,14 @@ export class GrChecksRuns extends GrLitElement {
       .selected="${selected}"
       .deselected="${deselected}"
     ></gr-checks-run>`;
+  }
+
+  showFilter(): boolean {
+    const show = this.runs.length > 10;
+    if (!show && this.filterRegExp.source.length > 0) {
+      this.filterRegExp = new RegExp('');
+    }
+    return show;
   }
 }
 

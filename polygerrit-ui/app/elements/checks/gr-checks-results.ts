@@ -35,8 +35,10 @@ import {
 import {sharedStyles} from '../../styles/shared-styles';
 import {RunResult} from '../../services/checks/checks-model';
 import {
+  allResults,
   hasCompleted,
   hasCompletedWithoutResults,
+  hasResultsOf,
   iconForCategory,
   isRunning,
 } from '../../services/checks/checks-util';
@@ -382,7 +384,12 @@ export class GrChecksResults extends GrLitElement {
   }
 
   renderFilter() {
-    if (this.runs.length === 0) return;
+    if (allResults(this.runs).length <= 3) {
+      if (this.filterRegExp.source.length > 0) {
+        this.filterRegExp = new RegExp('');
+      }
+      return;
+    }
     return html`
       <input
         id="filterInput"
@@ -415,9 +422,7 @@ export class GrChecksResults extends GrLitElement {
         .filter(hasCompletedWithoutResults)
         .filter(r => this.filterRegExp.test(r.checkName));
     } else {
-      runs = runs.filter(r =>
-        (r.results ?? []).some(res => res.category === category)
-      );
+      runs = runs.filter(r => hasResultsOf(r, category));
     }
     if (runs.length === 0) return;
     const expanded = this.isSectionExpanded.get(category) ?? true;

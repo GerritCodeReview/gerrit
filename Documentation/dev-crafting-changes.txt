@@ -306,6 +306,23 @@ especially if changing one without the other will break something!
     and it also makes `git revert` more useful.
   * Use topics to link your separate changes together.
 
+[[opportunistic-refactoring]]
+== Opportunistic Refactory
+
+Opportunistic Refactory is a terminology
+link:https://martinfowler.com/bliki/OpportunisticRefactoring.html[used by Martin Fowler,role=external,window=_blank]
+also known as "boy scout rule" of the software developer.
+
+Do not leave litter and additional tech-debt in the code while implementing
+a new feature or fixing a bug. However, do not try to refactor the entire
+code-base just because you have found some cleanup that would be needed
+and useful.
+
+Also, a reviewer must not pretend the implementer of a new feature to
+refactor the entire module but rather providing a noticeable improvement
+that would make sense with the new code, or bug-fix introduced.
+
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

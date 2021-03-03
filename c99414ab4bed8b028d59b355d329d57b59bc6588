@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0299b0cd_847853e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-03-03T12:38:27Z",
+      "side": 1,
+      "message": "General question should I go ahead and create an entry in the release notes for it (as a part of imaginary, done somewhere in future 3.0.17 release)?",
+      "revId": "c99414ab4bed8b028d59b355d329d57b59bc6588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76f183eb_bf202624",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-03T19:29:34Z",
+      "side": 1,
+      "message": "Is this equivalent to \n```\nruns.reduce((acc, val) \u003d\u003e acc.concat(this.computeRunResults(category, run)), []);\n```\n\nmaybe it can be done with\n```\nruns.map(run \u003d\u003e this.computeRunResults(category, run)).flat()\n```",
+      "range": {
+        "startLine": 432,
+        "startChar": 4,
+        "endLine": 434,
+        "endChar": 11
+      },
+      "revId": "a3083d3259ff4dc5b4d154984610db3850e7e426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb5f76f1_93915d12",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-03T19:29:34Z",
+      "side": 1,
+      "message": "Nit: Would this work?\n```\nconst expanded \u003d this.isSectionExpanded.get(category) ?? all.length \u003e 0;\n```",
+      "range": {
+        "startLine": 440,
+        "startChar": 23,
+        "endLine": 441,
+        "endChar": 30
+      },
+      "revId": "a3083d3259ff4dc5b4d154984610db3850e7e426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a25fda8_faa9e0de",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-03T19:29:34Z",
+      "side": 1,
+      "message": "Maybe it could be different text if all.length \u003d 1. Or maybe write comment that all is at least 3 to have filtering option.",
+      "range": {
+        "startLine": 470,
+        "startChar": 22,
+        "endLine": 470,
+        "endChar": 43
+      },
+      "revId": "a3083d3259ff4dc5b4d154984610db3850e7e426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

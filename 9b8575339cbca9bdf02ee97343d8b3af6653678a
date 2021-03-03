@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1e20de6_cc1aace2",
+        "filename": "Documentation/js_licenses.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-03T18:14:43Z",
+      "side": 1,
+      "message": "What is the difference between this tooltip and the tooltip we currently have in the reply dialog? For example when hovering over `Send` button. My understanding was that the tooltip in the reply dialog was the default tooltip for Gerrit.",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 374,
+        "endChar": 24
+      },
+      "revId": "9b8575339cbca9bdf02ee97343d8b3af6653678a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b54541ee_7217eb3f",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-03T18:14:43Z",
+      "side": 1,
+      "message": "Could we style the tooltip? Font size, colors...\nFor example for dark theme, would be great if we could change the background color, it is hardly readable at the moment.\nFor both themes, would be great to define transparency of the tooltip.",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 279,
+        "endChar": 36
+      },
+      "revId": "9b8575339cbca9bdf02ee97343d8b3af6653678a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Action, Category, CheckRun, RunStatus} from '../../api/checks';
+import {Action, Category, CheckResult, CheckRun, RunStatus} from '../../api/checks';
 import {assertNever} from '../../utils/common-util';
 
 export function worstCategory(run: CheckRun) {
@@ -116,6 +116,16 @@ export function hasCompletedWithoutResults(run: CheckRun) {
 
 export function hasCompletedWith(run: CheckRun, category: Category) {
   return hasCompleted(run) && hasResultsOf(run, category);
+}
+
+export function hasResults(run: CheckRun): boolean {
+  return (run.results ?? []).length > 0;
+}
+
+export function allResults(runs: CheckRun[]): CheckResult[] {
+  return runs.reduce((results: CheckResult[], run: CheckRun) => {
+    return [...results, ...(run.results ?? [])];
+  }, []);
 }
 
 export function hasResultsOf(run: CheckRun, category: Category) {

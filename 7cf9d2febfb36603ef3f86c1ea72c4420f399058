@@ -50,6 +50,24 @@
       "message": "Hi Xingwei Cao:\n\nNice to see another Alibaba engineer join the community.\n\nAs the comments describe, the code style check is failed on your patch, you can find the error cause in the \"Check Menu\" (blow the commit message) and find the related CI execution links.\n\nIn current case, the failed code style CI link [1] is displayed and you can visit it on browser and take a look at the failure output:\n\n   \"\n       ...\n       java/com/google/gerrit/server/restapi/account/GetAccount.java\n    \n       Build step \u0027Execute shell\u0027 marked build as failure\n       Finished: FAILURE\n   \"\n\nThat is because \"GetAccount.java\" related change break the Google coding style (Gerrit uses Google Code Style).\n\nIf you use IntelliJ IDEA , there is a documentation[2] about how to use the google-java-format plugin with IDE.\n\nOr you can download the google-java-format on your own and then check your codes with it, there is a documentation about it[3].\n\n\n[1] https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/66465/console\n[2] https://gerrit-review.googlesource.com/Documentation/dev-intellij.html#_code_style\n[3] https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#style",
       "revId": "7cf9d2febfb36603ef3f86c1ea72c4420f399058",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f1c8114_482684b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1052372
+      },
+      "writtenOn": "2021-03-03T10:04:40Z",
+      "side": 1,
+      "message": "Thanks for comments from Teng.\nI have formatted the change files by \"java -jar /path/to/google-java-format-1.7-all-deps.jar GetAccount.java\" locally. The patchset 8 is the updated one.\nUnfortunately, the style check failed again 😂",
+      "parentUuid": "1584063b_c28bb185",
+      "revId": "7cf9d2febfb36603ef3f86c1ea72c4420f399058",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

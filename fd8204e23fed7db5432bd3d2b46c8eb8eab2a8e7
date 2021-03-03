@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d28d1aba_93ddbe8f",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-03T16:17:50Z",
+      "side": 1,
+      "message": "Refactoring",
+      "range": {
+        "startLine": 312,
+        "startChar": 14,
+        "endLine": 312,
+        "endChar": 23
+      },
+      "revId": "fd8204e23fed7db5432bd3d2b46c8eb8eab2a8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

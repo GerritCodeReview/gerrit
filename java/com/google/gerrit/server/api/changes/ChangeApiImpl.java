@@ -46,6 +46,8 @@ import com.google.gerrit.extensions.api.changes.TopicInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInfoDiffer;
+import com.google.gerrit.extensions.common.ChangeInfoDifference;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
@@ -513,6 +515,27 @@ class ChangeApiImpl implements ChangeApi {
       return getChange.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve change", e);
+    }
+  }
+
+  @Override
+  public ChangeInfoDifference metaDiff(
+      String oldMetaRevId,
+      String newMetaRevId,
+      EnumSet<ListChangesOption> options,
+      ImmutableListMultimap<String, String> pluginOptions)
+      throws RestApiException {
+    try (DynamicOptions dynamicOptions = new DynamicOptions(injector, dynamicBeans)) {
+      GetChange getChange = getChangeProvider.get();
+      options.forEach(getChange::addOption);
+      dynamicOptionParser.parseDynamicOptions(getChange, pluginOptions, dynamicOptions);
+      getChange.setMetaRevId(oldMetaRevId);
+      ChangeInfo oldChange = getChange.apply(change).value();
+      getChange.setMetaRevId(newMetaRevId);
+      ChangeInfo newChange = getChange.apply(change).value();
+      return ChangeInfoDiffer.getDifference(oldChange, newChange);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve meta diff", e);
     }
   }
 

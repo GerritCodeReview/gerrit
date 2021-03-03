@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInfoDifference;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
@@ -228,6 +229,13 @@ public interface ChangeApi {
 
   ChangeInfo get(
       EnumSet<ListChangesOption> options, ImmutableListMultimap<String, String> pluginOptions)
+      throws RestApiException;
+
+  ChangeInfoDifference metaDiff(
+      String oldMetaRevId,
+      String newMetaRevId,
+      EnumSet<ListChangesOption> options,
+      ImmutableListMultimap<String, String> pluginOptions)
       throws RestApiException;
 
   default ChangeInfo get(ImmutableListMultimap<String, String> pluginOptions)
@@ -609,6 +617,16 @@ public interface ChangeApi {
     @Override
     public ChangeInfo get(
         EnumSet<ListChangesOption> options, ImmutableListMultimap<String, String> pluginOptions)
+        throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfoDifference metaDiff(
+        String oldMetaRevId,
+        String newMetaRevId,
+        EnumSet<ListChangesOption> options,
+        ImmutableListMultimap<String, String> pluginOptions)
         throws RestApiException {
       throw new NotImplementedException();
     }

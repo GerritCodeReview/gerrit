@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ed3c30c_9624af0c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-03-03T12:30:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b44c87fc_e7d372d3",
+      "range": {
+        "startLine": 101,
+        "startChar": 11,
+        "endLine": 101,
+        "endChar": 14
+      },
+      "revId": "ae4660b00d6c73337c672570c754eb024c6216be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17fac723_aca87e45",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-02T16:28:12Z",
       "side": 1,
       "message": "I believe this comment is no longer relevant and it could be removed.",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 120,
+        "endChar": 59
+      },
+      "revId": "ae4660b00d6c73337c672570c754eb024c6216be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a6042dd_14741b4a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-03-03T12:30:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17fac723_aca87e45",
       "range": {
         "startLine": 120,
         "startChar": 4,

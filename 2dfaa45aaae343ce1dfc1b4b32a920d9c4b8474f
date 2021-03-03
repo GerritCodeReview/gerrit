@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa3489bf_3235c161",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-03T17:37:27Z",
+      "side": 1,
+      "message": "Could we add a sentence about how allowClosed works and what it does?\n\nIn this change, I also see it was renamed to \"recomputeOnClosedChanges\". Could you please add a sentence about that and whether it\u0027s a change in behaviour or just a rename?",
+      "range": {
+        "startLine": 7,
+        "startChar": 39,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "2dfaa45aaae343ce1dfc1b4b32a920d9c4b8474f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "253cc801_cbae817a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-03T17:37:27Z",
+      "side": 1,
+      "message": "I have a couple of concerns here:\n* Why the assumption that the change is closed? I tried to follow the code up the hierarchy parseSubmitRecords -\u003e parseSubmission -\u003e parse, but there is nothing implying that the change is merged.\n* Apart from that, what this line seems to be doing is, reading the submit records from NoteDb and, if the change is closed but SR is OK, flips the SR to closed. This is then is stored in memory, cached, etc... With this we have the SR status different between memory and NoteDb (OK in NoteDb, but CLOSED in Memory). I believe it\u0027s better to have the submit record stored as closed in NoteDb at the time of merge (or the instance that it should be flipped). Is there a reason why we don\u0027t do this?\n\nUpdate: Probably also the reason for the broken ChangeNotesTest.",
+      "range": {
+        "startLine": 898,
+        "startChar": 8,
+        "endLine": 901,
+        "endChar": 9
+      },
+      "revId": "2dfaa45aaae343ce1dfc1b4b32a920d9c4b8474f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "385df719_2a114ddd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRuleIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-03T17:37:27Z",
+      "side": 1,
+      "message": "nit: 2021",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "2dfaa45aaae343ce1dfc1b4b32a920d9c4b8474f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "340cf5ac_40faadae",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRuleIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-03T17:37:27Z",
+      "side": 1,
+      "message": "isNotEqualTo?\n\nAccording to the comment on L43, submit records should be different, no?\n\nThis test fails for me: records before submission \u003d OK, after submission \u003d CLOSED.",
+      "range": {
+        "startLine": 47,
+        "startChar": 40,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "2dfaa45aaae343ce1dfc1b4b32a920d9c4b8474f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

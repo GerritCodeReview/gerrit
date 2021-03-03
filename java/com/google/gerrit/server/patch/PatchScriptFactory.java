@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -261,6 +262,19 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           bId = edit.get().getEditCommit();
         }
 
+        if (diffPrefs.useNewDiffCache) {
+          FileDiffOutput fileDiffOutput =
+              aId == null
+                  ? diffOperations.getModifiedFileAgainstParent(
+                      notes.getProjectName(),
+                      bId,
+                      parentNum == -1 ? null : parentNum + 1,
+                      fileName,
+                      diffPrefs.ignoreWhitespace)
+                  : diffOperations.getModifiedFile(
+                      notes.getProjectName(), aId, bId, fileName, diffPrefs.ignoreWhitespace);
+          return newBuilder().toPatchScriptNew(git, fileDiffOutput);
+        }
         PatchScriptBuilder patchScriptBuilder = newBuilder();
         PatchList list = listFor(keyFor(aId, bId, diffPrefs.ignoreWhitespace));
         PatchListEntry content = list.get(fileName);
@@ -271,6 +285,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         return patchScript;
       } catch (PatchListNotAvailableException e) {
         throw new NoSuchChangeException(changeId, e);
+      } catch (DiffNotAvailableException e) {
+        throw new StorageException(e);
       } catch (IOException e) {
         logger.atSevere().withCause(e).log("File content unavailable");
         throw new NoSuchChangeException(changeId, e);

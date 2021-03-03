@@ -59,6 +59,7 @@ public class DiffPreferencesInfo {
   public Boolean skipDeleted;
   public Boolean skipUnchanged;
   public Boolean skipUncommented;
+  public boolean useNewDiffCache;
 
   public static DiffPreferencesInfo defaults() {
     DiffPreferencesInfo i = new DiffPreferencesInfo();
@@ -86,6 +87,7 @@ public class DiffPreferencesInfo {
     i.skipDeleted = false;
     i.skipUnchanged = false;
     i.skipUncommented = false;
+    i.useNewDiffCache = false;
     return i;
   }
 }

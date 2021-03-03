@@ -91,6 +91,10 @@ public class GetDiff implements RestReadView<FileResource> {
   @Option(name = "--intraline")
   boolean intraline;
 
+  // TODO(ghareeb): This is a temporary parameter for debugging. Please remove.
+  @Option(name = "--use-new-diff-cache")
+  boolean useNewDiffCache;
+
   @Inject
   GetDiff(
       ProjectCache projectCache,
@@ -118,6 +122,7 @@ public class GetDiff implements RestReadView<FileResource> {
       prefs.ignoreWhitespace = Whitespace.IGNORE_LEADING_AND_TRAILING;
     }
     prefs.intralineDifference = intraline;
+    prefs.useNewDiffCache = useNewDiffCache;
     logger.atFine().log(
         "diff preferences: ignoreWhitespace = %s, intralineDifference = %s",
         prefs.ignoreWhitespace, prefs.intralineDifference);

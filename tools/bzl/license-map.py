@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # reads bazel query XML files, to join target names with their licenses.
 

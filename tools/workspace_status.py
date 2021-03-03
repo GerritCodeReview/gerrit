@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # This script will be run by bazel when the build process starts to
 # generate key-value information that represents the status of the

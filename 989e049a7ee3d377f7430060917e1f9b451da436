@@ -146,6 +146,30 @@
       },
       "revId": "989e049a7ee3d377f7430060917e1f9b451da436",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41487322_e38092de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-03-03T12:32:16Z",
+      "side": 1,
+      "message": "properly resolved in the next PS, sorry ;)",
+      "parentUuid": "f680474d_91d654d2",
+      "range": {
+        "startLine": 12,
+        "startChar": 37,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "989e049a7ee3d377f7430060917e1f9b451da436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

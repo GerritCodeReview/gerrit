@@ -1306,6 +1306,33 @@
         `&query=${encodedFilter}`;
     },
 
+    /**
+     * This method is used to apply a filter after fetching the repositories using
+     * _fetchSharedCacheURL. The Promise returned by _fetchSharedCacheURL may have
+     * extra repositories that don't match the filter entered by the user.
+     *
+     * The objective of this method is to have the exact behavior as the old UI,
+     * although still based on the delimiters applied in the filter.
+     *
+     * @param {string} filter
+     * @param {Promise} res
+     * @param {string} url
+     */
+    _filterRepos(filter, res, url){
+      const filteredValues = []
+      this._sharedFetchPromises[url] = res.then(response => {
+        response.forEach(value => {
+          if(value["name"].includes(filter)){
+            filteredValues.push(value);
+          }
+        })
+        this._cache.set(url, filteredValues);
+        this._sharedFetchPromises[url] = undefined;
+        return filteredValues;
+      })
+      return this._sharedFetchPromises[url];
+    },
+
     invalidateGroupsCache() {
       this._restApiHelper.invalidateFetchPromisesPrefix('/groups/?');
     },
@@ -1340,10 +1367,11 @@
 
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchSharedCacheURL({
+      const res = this._fetchSharedCacheURL({
         url,
         anonymizedUrl: '/projects/?*',
       });
+      return this._filterRepos(filter, res, url);
     },
 
     setRepoHead(repo, ref) {

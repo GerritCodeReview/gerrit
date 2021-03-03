@@ -56,6 +56,29 @@
       "message": "Any chance you can add a test for this? The code generally looks fine and the commit messages makes sense to me.",
       "revId": "e535723593d49862c4781cba2862e3907b4ae067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c61731c3_ab25d03c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4605,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-03T07:42:27Z",
+      "side": 1,
+      "message": "Should we add recommendation for gerrit admins? May be 60 seconds? Or may be even change it to be the default?",
+      "range": {
+        "startLine": 4605,
+        "startChar": 0,
+        "endLine": 4605,
+        "endChar": 13
+      },
+      "revId": "e535723593d49862c4781cba2862e3907b4ae067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.api.changes.TopicInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInfoDifference;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
@@ -91,6 +92,7 @@ import com.google.gerrit.server.restapi.change.ListChangeRobotComments;
 import com.google.gerrit.server.restapi.change.ListReviewers;
 import com.google.gerrit.server.restapi.change.MarkAsReviewed;
 import com.google.gerrit.server.restapi.change.MarkAsUnreviewed;
+import com.google.gerrit.server.restapi.change.GetMetaDiff;
 import com.google.gerrit.server.restapi.change.Move;
 import com.google.gerrit.server.restapi.change.PostHashtags;
 import com.google.gerrit.server.restapi.change.PostPrivate;
@@ -149,6 +151,7 @@ class ChangeApiImpl implements ChangeApi {
   private final ChangeIncludedIn includedIn;
   private final PostReviewers postReviewers;
   private final Provider<GetChange> getChangeProvider;
+  private final Provider<GetMetaDiff> metaDiffProvider;
   private final PostHashtags postHashtags;
   private final GetHashtags getHashtags;
   private final AttentionSet attentionSet;
@@ -204,6 +207,7 @@ class ChangeApiImpl implements ChangeApi {
       ChangeIncludedIn includedIn,
       PostReviewers postReviewers,
       Provider<GetChange> getChangeProvider,
+      Provider<GetMetaDiff> metaDiffProvider,
       PostHashtags postHashtags,
       GetHashtags getHashtags,
       AttentionSet attentionSet,
@@ -257,6 +261,7 @@ class ChangeApiImpl implements ChangeApi {
     this.includedIn = includedIn;
     this.postReviewers = postReviewers;
     this.getChangeProvider = getChangeProvider;
+    this.metaDiffProvider = metaDiffProvider;
     this.postHashtags = postHashtags;
     this.getHashtags = getHashtags;
     this.attentionSet = attentionSet;
@@ -513,6 +518,25 @@ class ChangeApiImpl implements ChangeApi {
       return getChange.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve change", e);
+    }
+  }
+
+  @Override
+  public ChangeInfoDifference metaDiff(
+      String oldMetaRevId,
+      String newMetaRevId,
+      EnumSet<ListChangesOption> options,
+      ImmutableListMultimap<String, String> pluginOptions)
+      throws RestApiException {
+    try (DynamicOptions dynamicOptions = new DynamicOptions(injector, dynamicBeans)) {
+      GetMetaDiff metaDiff = metaDiffProvider.get();
+      metaDiff.setOldMetaRevId(oldMetaRevId);
+      metaDiff.setNewMetaRevId(newMetaRevId);
+      options.forEach(metaDiff::addOption);
+      dynamicOptionParser.parseDynamicOptions(metaDiff, pluginOptions, dynamicOptions);
+      return metaDiff.apply(change).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve metadiff", e);
     }
   }
 

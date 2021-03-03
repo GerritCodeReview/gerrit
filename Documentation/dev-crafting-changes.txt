@@ -306,6 +306,30 @@ especially if changing one without the other will break something!
     and it also makes `git revert` more useful.
   * Use topics to link your separate changes together.
 
+[[opportunistic-refactoring]]
+== Opportunistic Refactoring
+
+Opportunistic Refactoring is a terminology
+link:https://martinfowler.com/bliki/OpportunisticRefactoring.html[used by Martin Fowler,role=external,window=_blank]
+also known as the "boy scout rule" of the software developer:
+"always leave the code behind in a better state than you found it."
+
+In practice, this rule means you should not add technical debt in the code while
+implementing a new feature or fixing a bug. If you or a reviewer find an
+opportunity to clean up the code during implementation or review of your change,
+take the time to do a little cleanup to improve the overall code base.
+
+When approaching refactoring, keep in mind that changes should do one thing
+(<<change-size,see change size section above>>). If a change you're making
+requires cleanup/refactoring, it is best to do that cleanup in a preparatory and
+separate change. Likewise, if during review for a functional change, an
+opportunity for cleanup/refactoring is discovered, then it is preferable to do
+the cleanup first in a separate change so as to improve the reviewability of the
+functional change.
+
+Reviewers should keep in mind the scope of the change under review and ensure
+suggested refactoring is aligned with that scope.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

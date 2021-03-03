@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInfoDifference;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
@@ -32,6 +33,7 @@ import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -259,6 +261,45 @@ public interface ChangeApi {
     return get(
         EnumSet.complementOf(EnumSet.of(ListChangesOption.CHECK, ListChangesOption.SKIP_DIFFSTAT)));
   }
+
+  default ChangeInfoDifference metaDiff(String metaRevId) throws RestApiException {
+    return metaDiff("", metaRevId);
+  }
+
+  default ChangeInfoDifference metaDiffWithOld(String oldMetaRevId) throws RestApiException {
+    return metaDiff(oldMetaRevId, "");
+  }
+
+  default ChangeInfoDifference metaDiff(String oldMetaRevId, String newMetaRevId)
+      throws RestApiException {
+    return metaDiff(
+        oldMetaRevId,
+        newMetaRevId,
+        EnumSet.noneOf(ListChangesOption.class),
+        ImmutableListMultimap.of());
+  }
+
+  default ChangeInfoDifference metaDiff(String newMetaRevId, ListChangesOption... options)
+      throws RestApiException {
+    return metaDiff("", newMetaRevId, Arrays.asList(options));
+  }
+
+  default ChangeInfoDifference metaDiff(
+      String oldMetaRevId, String newMetaRevId, Collection<ListChangesOption> options)
+      throws RestApiException {
+    return metaDiff(
+        oldMetaRevId,
+        newMetaRevId,
+        Sets.newEnumSet(options, ListChangesOption.class),
+        ImmutableListMultimap.of());
+  }
+
+  ChangeInfoDifference metaDiff(
+      String oldMetaRevId,
+      String newMetaRevId,
+      EnumSet<ListChangesOption> options,
+      ImmutableListMultimap<String, String> pluginOptions)
+      throws RestApiException;
 
   /** {@link #get(ListChangesOption...)} with no options included. */
   default ChangeInfo info() throws RestApiException {
@@ -609,6 +650,16 @@ public interface ChangeApi {
     @Override
     public ChangeInfo get(
         EnumSet<ListChangesOption> options, ImmutableListMultimap<String, String> pluginOptions)
+        throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfoDifference metaDiff(
+        String oldMetaRevId,
+        String newMetaRevId,
+        EnumSet<ListChangesOption> options,
+        ImmutableListMultimap<String, String> pluginOptions)
         throws RestApiException {
       throw new NotImplementedException();
     }

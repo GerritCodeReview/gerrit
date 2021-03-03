@@ -46,6 +46,29 @@
       },
       "revId": "09b4deaeed7c95485a9ae0c1b5f498ed170c9267",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed286f43_5d8fa302",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-03T13:11:45Z",
+      "side": 1,
+      "message": "Is the dark theme export using this font instead of 500? It looks like the font-weight in dark theme is bolder than in light theme.",
+      "range": {
+        "startLine": 116,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 62
+      },
+      "revId": "09b4deaeed7c95485a9ae0c1b5f498ed170c9267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

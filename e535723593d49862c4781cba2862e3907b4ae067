@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4525d724_86b8fb77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-03-03T09:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1495e0d_410edcfa",
+      "range": {
+        "startLine": 27,
+        "startChar": 55,
+        "endLine": 27,
+        "endChar": 59
+      },
+      "revId": "e535723593d49862c4781cba2862e3907b4ae067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d02f45d1_1b837c5e",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "Yes, very correct",
       "parentUuid": "d02f45d1_1b837c5e",
+      "revId": "e535723593d49862c4781cba2862e3907b4ae067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b54b22bb_530882a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-03-03T09:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f2878c9_2e17abac",
       "revId": "e535723593d49862c4781cba2862e3907b4ae067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -155,6 +197,30 @@
       "side": 1,
       "message": "I always believe that setup the SOCKET_TIMEOUT greater than 0 (Default) is a best practice in similar scene.\n\nSo I think I will make some additions to the changes here",
       "parentUuid": "c61731c3_ab25d03c",
+      "range": {
+        "startLine": 4605,
+        "startChar": 0,
+        "endLine": 4605,
+        "endChar": 13
+      },
+      "revId": "e535723593d49862c4781cba2862e3907b4ae067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae655937_e858a4fb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4605,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-03-03T09:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "350e3c7a_7127bd1d",
       "range": {
         "startLine": 4605,
         "startChar": 0,

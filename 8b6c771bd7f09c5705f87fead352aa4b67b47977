@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a22536cb_d521da59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-03T04:50:33Z",
+      "side": 1,
+      "message": "+2 for including this idea, just some suggestions/nits on the content.",
+      "revId": "8b6c771bd7f09c5705f87fead352aa4b67b47977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "035f4a80_7664d37f",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-03T04:50:33Z",
+      "side": 1,
+      "message": "s/Refactory/Refactoring/ ? I don\u0027t think I\u0027ve seen the term \"refactory\" before.",
+      "range": {
+        "startLine": 310,
+        "startChar": 17,
+        "endLine": 310,
+        "endChar": 26
+      },
+      "revId": "8b6c771bd7f09c5705f87fead352aa4b67b47977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb67d256_7f2eceae",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-03T04:50:33Z",
+      "side": 1,
+      "message": "Append?\n\n developer - \"always leave the code behind in a better state than you found it.\"",
+      "range": {
+        "startLine": 314,
+        "startChar": 56,
+        "endLine": 314,
+        "endChar": 57
+      },
+      "revId": "8b6c771bd7f09c5705f87fead352aa4b67b47977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "285e8069_eca46fb7",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-03T04:50:33Z",
+      "side": 1,
+      "message": "nit: as the",
+      "range": {
+        "startLine": 314,
+        "startChar": 11,
+        "endLine": 314,
+        "endChar": 14
+      },
+      "revId": "8b6c771bd7f09c5705f87fead352aa4b67b47977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e63436aa_e87ff159",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-03T04:50:33Z",
+      "side": 1,
+      "message": "Add another sentence: \"A little bit of cleanup can go a long way.\" ?",
+      "revId": "8b6c771bd7f09c5705f87fead352aa4b67b47977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05fa1ea2_4e4d0673",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-03T04:50:33Z",
+      "side": 1,
+      "message": "I really have to guess at what you mean here. Could you try to clarify it some? I think you\u0027re saying reviewers are expected to point out opportunities to refactor during code review, but should be mindful of the scope of what the implementer was trying to change. Did I get that right?\n\nI generally agree with that, but reading the Fowler article you linked above, it seems to discourage this:\n\n One of the features of opportunistic refactoring is that it can hit any part of\n the code base you\u0027re working in. You may be doing most of your work in one class,\n but spot problems in a class that\u0027s in a quite different area of the code. That\n lack of locality shouldn\u0027t stop you from making the change now. There\u0027s often a\n temptation to leave a change in another part of a code base to another day - but\n another day often doesn\u0027t come.\n\nWhat are your thoughts on that? It seems we do probably want to provide some guidance for reviewers and implementers for what to suggest/expect, but I\u0027m not sure what that guidance should be.",
+      "range": {
+        "startLine": 321,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 63
+      },
+      "revId": "8b6c771bd7f09c5705f87fead352aa4b67b47977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

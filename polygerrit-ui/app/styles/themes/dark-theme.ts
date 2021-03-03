@@ -66,7 +66,7 @@ function getStyleEl() {
       --reviewed-text-color: #dadce0;
       --vote-text-color: black;
       --status-text-color: black;
-      --tooltip-text-color: white;
+      --tooltip-text-color: var(--gray-200);
       --negative-red-text-color: #f28b82;
       --positive-green-text-color: #81c995;
 
@@ -87,7 +87,7 @@ function getStyleEl() {
       --disabled-button-background-color: #484a4d;
       --primary-button-background-color: var(--link-color);
       --selection-background-color: rgba(161, 194, 250, 0.1);
-      --tooltip-background-color: #111;
+      --tooltip-background-color: var(--gray-800);
       /* comment background colors */
       --comment-background-color: #3c3f43;
       --robot-comment-background-color: #1e3a5f;

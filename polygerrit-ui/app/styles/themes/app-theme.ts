@@ -61,6 +61,7 @@ const styleSheet = safeStyleSheet`
     --green-200: #a8dab5;
     --green-50: #e6f4ea;
     --gray-900: #202124;
+    --gray-800: #3c4043;
     --gray-700: #5f6368;
     --gray-300: #dadce0;
     --gray-100: #f1f3f4;
@@ -130,7 +131,7 @@ const styleSheet = safeStyleSheet`
     --disabled-button-background-color: #e8eaed;
     --primary-button-background-color: var(--blue-700);
     --selection-background-color: rgba(161, 194, 250, 0.1);
-    --tooltip-background-color: #333;
+    --tooltip-background-color: var(--gray-900);
     /* comment background colors */
     --comment-background-color: #e8eaed;
     --robot-comment-background-color: var(--blue-50);
@@ -275,6 +276,14 @@ const styleSheet = safeStyleSheet`
     --iron-overlay-backdrop: {
       transition: none;
     };
+    --paper-tooltip-duration-in: 0;
+    --paper-tooltip-duration-out: 0;
+    --paper-tooltip-background: var(--tooltip-background-color);
+    --paper-tooltip-opacity: 1.0;
+    --paper-tooltip-text-color: var(--tooltip-text-color);
+    --paper-tooltip: {
+      font-size: var(--font-size-small);
+    }
   }
   @media screen and (max-width: 50em) {
     html {

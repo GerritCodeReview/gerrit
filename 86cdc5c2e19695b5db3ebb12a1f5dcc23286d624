@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d26d76a_43b64eae",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-03T20:56:11Z",
+      "side": 1,
+      "message": "Is there a reason why this is handled differently than the _repoOwnerId above? I am generally a great fan of symmetry and consistency. :-)",
+      "revId": "86cdc5c2e19695b5db3ebb12a1f5dcc23286d624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

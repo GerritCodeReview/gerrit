@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71cb6a42_738b7447",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-03-03T11:01:45Z",
+      "side": 1,
+      "message": "\u003e limit max object size e.g. to 20MB\n\nAFAIK, this was always a feature of Gerrit core",
+      "parentUuid": "2f9fab65_21d6dfdd",
+      "revId": "989e049a7ee3d377f7430060917e1f9b451da436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6adc29a_b1d07e0e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

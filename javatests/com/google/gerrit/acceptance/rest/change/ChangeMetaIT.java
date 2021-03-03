@@ -38,6 +38,9 @@ import org.junit.Test;
 
 /** Test handling of the NoteDb commit hash in the GetChange endpoint */
 public class ChangeMetaIT extends AbstractDaemonTest {
+
+  private static final int UNREACHABLE_SHA1 = 412;
+
   @Test
   public void metaSha1_fromIndex() throws Exception {
     PushOneCommit.Result result = createChange();
@@ -98,13 +101,32 @@ public class ChangeMetaIT extends AbstractDaemonTest {
     RestResponse resp =
         adminRestSession.get("/changes/" + ch1.getChangeId() + "/?meta=" + info2.metaRevId);
 
-    resp.assertStatus(412);
+    resp.assertStatus(UNREACHABLE_SHA1);
+  }
+
+  @Test
+  public void metaDiffUnreachableSha1() throws Exception {
+    PushOneCommit.Result ch1 = createChange();
+    PushOneCommit.Result ch2 = createChange();
+
+    ChangeInfo info2 = gApi.changes().id(ch2.getChangeId()).get();
+
+    RestResponse resp =
+        adminRestSession.get(
+            "/changes/"
+                + ch1.getChangeId()
+                + "/metadiff/?oldMeta="
+                + info2.metaRevId
+                + "meta="
+                + info2.metaRevId);
+
+    resp.assertStatus(UNREACHABLE_SHA1);
   }
 
   protected static class PluginDefinedSimpleAttributeModule extends AbstractModule {
     static class MyMetaHash extends PluginDefinedInfo {
       String myMetaRef;
-    };
+    }
 
     static PluginDefinedInfo newMyMetaHash(ChangeData cd) {
       MyMetaHash mmh = new MyMetaHash();

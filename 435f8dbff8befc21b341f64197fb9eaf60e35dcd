@@ -66,6 +66,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "998457fa_9f94dc99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-03T22:05:58Z",
+      "side": 1,
+      "message": "I think you meant earliest non-EOL 😊\n\nJust in case you\u0027re not familiar with it Teng, Luca is suggesting you use https://gerrit-review.googlesource.com/Documentation/intro-user.html#move which is available from the top right drop-down in the UI next to \"Edit\". From there you can select \"Move change\" and then specify the \u0027stable-3.1\u0027 branch.",
+      "parentUuid": "1aae138d_75aa4d6e",
+      "revId": "435f8dbff8befc21b341f64197fb9eaf60e35dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f924d2a_afe2cb5c",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 7

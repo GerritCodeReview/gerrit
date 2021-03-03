@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74a1e57e_8038cb0a",
+        "filename": "Documentation/js_licenses.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-03T21:14:49Z",
+      "side": 1,
+      "message": "Yes, until now that was the default tooltip. But we cannot use the Polymer Mixin in a LitElement and the existing tooltip is a bit of a mess anyway. So we would be happy to replace this with something more standard. If I figure out the styling issues I would was hoping that using two different tooltips is not a big deal, at least for a while. Later this year we want to replace paper component with MWC anyway, then we can revisit this.",
+      "parentUuid": "c1e20de6_cc1aace2",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 374,
+        "endChar": 24
+      },
+      "revId": "9b8575339cbca9bdf02ee97343d8b3af6653678a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b54541ee_7217eb3f",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-03T18:14:43Z",
       "side": 1,
       "message": "Could we style the tooltip? Font size, colors...\nFor example for dark theme, would be great if we could change the background color, it is hardly readable at the moment.\nFor both themes, would be great to define transparency of the tooltip.",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 279,
+        "endChar": 36
+      },
+      "revId": "9b8575339cbca9bdf02ee97343d8b3af6653678a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09c67e92_6e65bdbf",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-03T21:14:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b54541ee_7217eb3f",
       "range": {
         "startLine": 278,
         "startChar": 4,

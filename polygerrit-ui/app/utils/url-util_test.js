@@ -20,7 +20,11 @@ import {
   getBaseUrl,
   getDocsBaseUrl,
   _testOnly_clearDocsBaseUrlCache,
-  encodeURL, singleDecodeURL,
+  encodeURL,
+  singleDecodeURL,
+  toPath,
+  toPathname,
+  toSearchParams,
 } from './url-util.js';
 
 suite('url-util tests', () => {
@@ -123,5 +127,24 @@ suite('url-util tests', () => {
         assert.equal(singleDecodeURL('ghi+jkl'), 'ghi jkl');
       });
     });
+  });
+
+  test('toPathname', () => {
+    assert.equal(toPathname('asdf'), 'asdf');
+    assert.equal(toPathname('asdf?qwer=zxcv'), 'asdf');
+  });
+
+  test('toSearchParams', () => {
+    assert.equal(toSearchParams('asdf').toString(), '');
+    assert.equal(toSearchParams('asdf?qwer=zxcv').get('qwer'), 'zxcv');
+  });
+
+  test('toPathname', () => {
+    const params = new URLSearchParams();
+    assert.equal(toPath('asdf', params), 'asdf');
+    params.set('qwer', 'zxcv');
+    assert.equal(toPath('asdf', params), 'asdf?qwer=zxcv');
+    assert.equal(toPath(toPathname('asdf?qwer=zxcv'),
+        toSearchParams('asdf?qwer=zxcv')), 'asdf?qwer=zxcv');
   });
 });

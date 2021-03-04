@@ -70,6 +70,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed6c7eba_5d1b4a58",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-04T09:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7b3c30d_5ca3b16d",
+      "range": {
+        "startLine": 157,
+        "startChar": 9,
+        "endLine": 157,
+        "endChar": 14
+      },
+      "revId": "899733edff06c7ce634bc187a269cab234f9ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1c17303_8fcc2353",
@@ -93,6 +117,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6ea7a6a_4084e277",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-04T09:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1c17303_8fcc2353",
+      "range": {
+        "startLine": 188,
+        "startChar": 40,
+        "endLine": 188,
+        "endChar": 43
+      },
+      "revId": "899733edff06c7ce634bc187a269cab234f9ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47247a50_e5f256f4",
@@ -106,6 +154,30 @@
       "writtenOn": "2021-03-04T00:06:59Z",
       "side": 1,
       "message": "non-tag reference?",
+      "range": {
+        "startLine": 189,
+        "startChar": 2,
+        "endLine": 189,
+        "endChar": 11
+      },
+      "revId": "899733edff06c7ce634bc187a269cab234f9ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ea28ec1_c1f5d08d",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-04T09:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47247a50_e5f256f4",
       "range": {
         "startLine": 189,
         "startChar": 2,
@@ -185,6 +257,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27469545_4ab14045",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-04T09:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2e46690_02b13506",
+      "range": {
+        "startLine": 221,
+        "startChar": 25,
+        "endLine": 221,
+        "endChar": 28
+      },
+      "revId": "899733edff06c7ce634bc187a269cab234f9ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b08fc621_50055bcd",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-04T09:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebf1e7cc_fcf844b1",
+      "range": {
+        "startLine": 221,
+        "startChar": 60,
+        "endLine": 221,
+        "endChar": 66
+      },
+      "revId": "899733edff06c7ce634bc187a269cab234f9ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0db24fd2_371fd6a8",
@@ -198,6 +318,30 @@
       "writtenOn": "2021-03-04T00:06:59Z",
       "side": 1,
       "message": "I think either \"These features\" or \"Both features\" would be fine to start the sentence with.",
+      "range": {
+        "startLine": 433,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 28
+      },
+      "revId": "899733edff06c7ce634bc187a269cab234f9ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f97df67d_83260e9e",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-04T09:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0db24fd2_371fd6a8",
       "range": {
         "startLine": 433,
         "startChar": 0,
@@ -231,6 +375,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a2b702a_095ad4db",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-04T09:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac1f290f_235b6d05",
+      "range": {
+        "startLine": 454,
+        "startChar": 1,
+        "endLine": 454,
+        "endChar": 11
+      },
+      "revId": "899733edff06c7ce634bc187a269cab234f9ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "183518af_da84c8e8",
@@ -244,6 +412,30 @@
       "writtenOn": "2021-03-04T00:06:59Z",
       "side": 1,
       "message": "We have a repo with 300k+ changes. A couple more with 100k+ changes.",
+      "range": {
+        "startLine": 455,
+        "startChar": 1,
+        "endLine": 455,
+        "endChar": 13
+      },
+      "revId": "899733edff06c7ce634bc187a269cab234f9ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6231c80_5c0d5fbd",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-04T09:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "183518af_da84c8e8",
       "range": {
         "startLine": 455,
         "startChar": 1,
@@ -277,6 +469,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97bf9117_56174309",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-04T09:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60549575_bf4533b1",
+      "range": {
+        "startLine": 456,
+        "startChar": 1,
+        "endLine": 456,
+        "endChar": 17
+      },
+      "revId": "899733edff06c7ce634bc187a269cab234f9ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6b47ae8_6968c8a7",
@@ -300,6 +516,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe7f630d_e181d1cc",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-04T09:58:51Z",
+      "side": 1,
+      "message": "I\u0027d rather have a notedb number here; the performance characteristics are different.",
+      "parentUuid": "f6b47ae8_6968c8a7",
+      "range": {
+        "startLine": 458,
+        "startChar": 1,
+        "endLine": 458,
+        "endChar": 16
+      },
+      "revId": "899733edff06c7ce634bc187a269cab234f9ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2faf4b07_961867e3",
@@ -313,6 +553,30 @@
       "writtenOn": "2021-03-04T00:06:59Z",
       "side": 1,
       "message": "Looks like we hit 87.",
+      "range": {
+        "startLine": 459,
+        "startChar": 1,
+        "endLine": 459,
+        "endChar": 17
+      },
+      "revId": "899733edff06c7ce634bc187a269cab234f9ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "349642bd_b59f7336",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-04T09:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2faf4b07_961867e3",
       "range": {
         "startLine": 459,
         "startChar": 1,

@@ -105,6 +105,7 @@ export interface DiffPreferencesInfo extends DiffPreferenceInfoApi {
   hide_empty_pane?: boolean;
   match_brackets?: boolean;
   line_wrapping?: boolean;
+  expand_diff_line?: boolean; // if diff line should take width same as parent
 }
 
 export declare type DiffPreferencesInfoKey = keyof DiffPreferencesInfo;

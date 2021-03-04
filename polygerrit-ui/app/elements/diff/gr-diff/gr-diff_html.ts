@@ -30,6 +30,14 @@ export const htmlTemplate = html`
     :host(.disable-context-control-buttons) .section {
       border-right: none;
     }
+    /* remove line length indicator from comment context */
+    :host(.disable-context-control-buttons)
+      .full-width
+      td.content
+      .contentText {
+      background-image: none;
+    }
+
     :host {
       font-family: var(--monospace-font-family, ''), 'Roboto Mono';
       font-size: var(--font-size, var(--font-size-code, 12px));

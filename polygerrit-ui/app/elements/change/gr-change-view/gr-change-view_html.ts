@@ -149,7 +149,7 @@ export const htmlTemplate = html`
       overflow-x: hidden;
     }
     .relatedChanges {
-      flex: 1 1 auto;
+      flex: 0 1 auto;
       overflow: hidden;
       padding: var(--spacing-l) 0;
     }
@@ -170,6 +170,9 @@ export const htmlTemplate = html`
       max-height: var(--relation-chain-max-height, 2em);
       overflow: hidden;
       position: relative; /* for arrowToCurrentChange to have position:absolute and be hidden */
+    }
+    .emptySpace {
+      flex-grow: 1;
     }
     .commitContainer {
       display: flex;
@@ -575,6 +578,7 @@ export const htmlTemplate = html`
                 </div>
               </template>
             </div>
+            <div class="emptySpace"></div>
           </div>
         </div>
       </div>

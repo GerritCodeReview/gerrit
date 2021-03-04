@@ -85,7 +85,9 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
         }
         section {
           margin-bottom: var(--spacing-m);
-          width: fit-content;
+        }
+        gr-related-change {
+          display: flex;
         }
       `,
     ];
@@ -459,13 +461,19 @@ export class GrRelatedCollapse extends GrLitElement {
           width: 1.2em;
         }
         .collapsed ::slotted(gr-related-change.show-when-collapsed) {
-          display: flex;
+          visibility: visible;
+          height: auto;
         }
+        /* keep width, so width of section and position of show all button
+         * are set according to width of all (even hidden) elements
+         */
         .collapsed ::slotted(gr-related-change) {
-          display: none;
+          visibility: hidden;
+          height: 0px;
         }
         ::slotted(gr-related-change) {
-          display: flex;
+          visibility: visible;
+          height: auto;
         }
         gr-button iron-icon {
           color: inherit;

@@ -213,7 +213,7 @@ export function isInvolved(
   return owner || uploader || reviewer || cc;
 }
 
-export function getCurrentRevision(change?: ChangeInfo) {
+export function getCurrentRevision(change?: ChangeInfo | ParsedChangeInfo) {
   if (!change?.revisions || !change?.current_revision) return undefined;
   return change.revisions[change.current_revision];
 }

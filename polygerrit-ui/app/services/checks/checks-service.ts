@@ -48,6 +48,7 @@ import {
   timer,
 } from 'rxjs';
 import {PatchSetNumber} from '../../types/common';
+import {getCurrentRevision} from '../../utils/change-util';
 
 export class ChecksService {
   private readonly providers: {[name: string]: ChecksProvider} = {};
@@ -130,6 +131,7 @@ export class ChecksService {
               changeNumber: changeNum,
               patchsetNumber: patchNum,
               repo: change.project,
+              commmitMessage: getCurrentRevision(change)?.commit?.message,
             };
             updateStateSetLoading(pluginName);
             return from(this.providers[pluginName].fetch(data));

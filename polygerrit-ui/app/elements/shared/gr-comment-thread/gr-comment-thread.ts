@@ -234,9 +234,11 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
       if (!prefs) return;
       this._prefs = {
         ...prefs,
-        // override explicitly so that diff doesn't take too much width
-        // compared to the context
-        line_wrapping: false,
+        // set line_wrapping to true so that the context can take all the
+        // remaining space after comment card has rendered
+        line_wrapping: true,
+        expand_diff_line: true, // allow the diff line to take the entire
+        // width of the comment context
       };
     });
     this._setInitialExpandedState();

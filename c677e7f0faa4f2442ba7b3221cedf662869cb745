@@ -22,6 +22,30 @@
       },
       "revId": "c677e7f0faa4f2442ba7b3221cedf662869cb745",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aeee204_4e394ca4",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-04T10:49:53Z",
+      "side": 0,
+      "message": "Conceptually, this is wrong, but you are right that it\u0027s better to keep this and not change it in the context of this change.\n\nIt\u0027s wrong because the outcome of SRs should not depend on the fact that we are indexing or serving requests. They should be consistent.\n\nHowever, if IIRC then this was code added to reduce the time it takes to reindex when you upgrade Gerrit. So better to not touch it now :-)",
+      "parentUuid": "263c559a_4e31fd5d",
+      "range": {
+        "startLine": 124,
+        "startChar": 34,
+        "endLine": 124,
+        "endChar": 62
+      },
+      "revId": "c677e7f0faa4f2442ba7b3221cedf662869cb745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

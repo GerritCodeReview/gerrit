@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a7ac1d48_4ca841d8",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-04T10:49:53Z",
+      "side": 1,
+      "message": "I think you are right, this wasn\u0027t a good place in the code to tweak the status. I\u0027ve moved it to SubmitRuleEvaluator. It also spares us the cache eviction, so double-win.\n\nAt the time when the change gets submitted, we store the records *before* the submission is happening. That means the status stored is \"OK\" not \"CLOSED\". The rest of the records are fine.\n\nIt would be better to store \"CLOSED\" but it means we have to migrate all data. We likely have to migrate data anyway for your proposal to store SRs as JSON in notes. This OK vs CLOSED issue would not be a good enough reason for me to perform a data migration just because that\u0027s very expensive and we can easily fix this differently.\n\nI think we have some cleanup to do as part of this project as to how this is all handled and how the stored SRs look like. But that can go into subsequent changes :-)",
+      "parentUuid": "253cc801_cbae817a",
+      "range": {
+        "startLine": 898,
+        "startChar": 8,
+        "endLine": 901,
+        "endChar": 9
+      },
+      "revId": "2dfaa45aaae343ce1dfc1b4b32a920d9c4b8474f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "385df719_2a114ddd",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRuleIT.java",
         "patchSetId": 6
@@ -60,6 +84,30 @@
       "writtenOn": "2021-03-03T17:37:27Z",
       "side": 1,
       "message": "nit: 2021",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "2dfaa45aaae343ce1dfc1b4b32a920d9c4b8474f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2e105ca_397de693",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRuleIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-04T10:49:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "385df719_2a114ddd",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -83,6 +131,30 @@
       "writtenOn": "2021-03-03T17:37:27Z",
       "side": 1,
       "message": "isNotEqualTo?\n\nAccording to the comment on L43, submit records should be different, no?\n\nThis test fails for me: records before submission \u003d OK, after submission \u003d CLOSED.",
+      "range": {
+        "startLine": 47,
+        "startChar": 40,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "2dfaa45aaae343ce1dfc1b4b32a920d9c4b8474f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fdd7216_b349be91",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRuleIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-04T10:49:53Z",
+      "side": 1,
+      "message": "The test run was from an old patch set. Test results are good now.",
+      "parentUuid": "340cf5ac_40faadae",
       "range": {
         "startLine": 47,
         "startChar": 40,

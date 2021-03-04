@@ -105,6 +105,24 @@
       "parentUuid": "f832f472_c9bb67da",
       "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe756ca5_ce6dc809",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-04T16:50:56Z",
+      "side": 1,
+      "message": "\u003e \u003e Given the conversation about upgrading dependencies on stable branches at [1]\n\u003e \n\u003e That\u0027s not related, as the linked change is talking about:\n\u003e \n\u003e   \"Contributions of new features are on supported branches\"\n\nPlease read Luca\u0027s comment that I linked to. He specifically addresses upgrading dependencies on stable branches.\n\n\u003e \n\u003e \u003e I\u0027m not seeing a clear reason this is needed on 3.3\n\u003e \n\u003e Have you checked the follow-up change? It\u0027s fixing Issue 12639, that was reported multiple times, see this upstream issue: [1]\n\nThat seems to be about some warning text printed when the server starts and it seems there\u0027s a workaround you can put into the Gerrit config? I agree it would be nice to fix, but I\u0027m not sure a library major version upgrade is worth it.\n\n\u003e \n\u003e \u003e and it looks risky\n\u003e \n\u003e It isn\u0027t risky. Google Guice is basically very stable and there is no development happening. Can you cherry-pick this series to your internal gerrit version and your plugins and confirm that everything works as expected?\n\nThere seems to be plenty of development happening (170+ commits)? https://github.com/google/guice/compare/4.2.3...5.0.1\n\nWe have a subset of plugins running on a server based off master, so we\u0027re already testing those and they\u0027re working fine. That server is very lightly used however.\n\nOur primary server is still using 2.7 with Guice upgraded to 4.0-beta5. I think upgrading to 4.2.3 breaks some things in 2.7 core that we didn\u0027t want to deal with fixing. I definitely don\u0027t want to try getting to 5.0.1 😊\n\nI\u0027m not putting a -2 on this, but I think we should put sufficient thought and consideration into the tradeoffs of risk of upgrading a library vs living with a workaround for a warning. I think you\u0027re much more familiar with the Guice code base and what changes are happening there than I am, so if you\u0027ve done this analysis and feel confident this change is safe and a reasonable tradeoff, I\u0027ll trust you on that.\n\n\u003e \n\u003e [1] https://github.com/google/guice/issues/1321",
+      "parentUuid": "b7ddce6e_c87806ad",
+      "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

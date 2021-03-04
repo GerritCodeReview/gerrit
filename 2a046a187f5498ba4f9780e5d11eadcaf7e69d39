@@ -69,6 +69,24 @@
       "parentUuid": "f13d1a18_2bc02b82",
       "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f832f472_c9bb67da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-04T15:26:56Z",
+      "side": 1,
+      "message": "Given the conversation about upgrading dependencies on stable branches at [1], perhaps this series should only happen on master? I\u0027m not seeing a clear reason this is needed on 3.3 and it looks risky.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/298880/comment/9bb4c134_29021b39/",
+      "parentUuid": "069e1cfb_39aec5ab",
+      "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

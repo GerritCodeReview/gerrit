@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50ea9f3c_1ee383e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-04T14:37:36Z",
+      "side": 1,
+      "message": "nit: to update with \"inside\" the container",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "0be7fe7bc77ad60ab5c4c3f1e65448ef5f83be66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "671cc4a6_d451b319",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-04T14:37:36Z",
+      "side": 1,
+      "message": "LGTM, thanks Dhruv and Ben!",
+      "revId": "0be7fe7bc77ad60ab5c4c3f1e65448ef5f83be66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

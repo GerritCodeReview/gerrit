@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a75d8ef_2d7ae030",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-04T14:28:22Z",
+      "side": 1,
+      "message": "Thanks Frank and Renan for working on this change.",
+      "revId": "2a2a480ed3ab27b781375c7424792a43e1dc309f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

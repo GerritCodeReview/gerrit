@@ -35,9 +35,6 @@ export class GrRelatedChange extends GrLitElement {
   href?: string;
 
   @property()
-  isCurrentChange = false;
-
-  @property()
   showSubmittableCheck = false;
 
   @property()
@@ -102,9 +99,6 @@ export class GrRelatedChange extends GrLitElement {
         .submittableCheck.submittable {
           display: inline;
         }
-        .arrowToCurrentChange {
-          position: absolute;
-        }
       `,
     ];
   }
@@ -113,13 +107,7 @@ export class GrRelatedChange extends GrLitElement {
     const change = this.change;
     if (!change) throw new Error('Missing change');
     const linkClass = this._computeLinkClass(change);
-    return html`<span
-        role="img"
-        class="arrowToCurrentChange"
-        aria-label="Arrow marking current change"
-        ?hidden=${!this.isCurrentChange}
-        >➔</span
-      >
+    return html`
       <div class="changeContainer">
         <a href="${this.href}" class="${linkClass}"><slot></slot></a>
         ${this.showSubmittableCheck
@@ -137,7 +125,8 @@ export class GrRelatedChange extends GrLitElement {
               (${this._computeChangeStatus(change)})
             </span>`
           : ''}
-      </div> `;
+      </div>
+    `;
   }
 
   _computeLinkClass(change: ChangeInfo | RelatedChangeAndCommitInfo) {

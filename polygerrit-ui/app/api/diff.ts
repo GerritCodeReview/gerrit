@@ -177,6 +177,7 @@ export declare interface RenderPreferences {
   hide_left_side?: boolean;
   disable_context_control_buttons?: boolean;
   show_file_comment_button?: boolean;
+  hide_line_length_indicator?: boolean;
 }
 
 /**

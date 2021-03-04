@@ -548,7 +548,7 @@ export abstract class GrDiffBuilder {
 
       if (
         ((this._prefs.show_file_comment_button === false ||
-          this._renderPrefs?.show_file_comment_button) === false &&
+          this._renderPrefs?.show_file_comment_button === false) &&
           number === 'FILE') ||
         number === 'LOST'
       ) {

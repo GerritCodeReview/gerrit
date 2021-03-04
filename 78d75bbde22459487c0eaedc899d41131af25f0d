@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4a25b06_924edfda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-03-04T12:05:49Z",
+      "side": 1,
+      "message": "We can do this with the existing only implementation: https://gerrit.googlesource.com/gerrit/+/refs/changes/02/296102/8/java/com/google/gerrit/server/experiments/ConfigExperimentFeatures.java,\n\nthough we would need to temporary bind it internally too.",
+      "parentUuid": "3ae699a4_3ddc8496",
+      "revId": "78d75bbde22459487c0eaedc899d41131af25f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ba0c1a8_0ae6adf5",

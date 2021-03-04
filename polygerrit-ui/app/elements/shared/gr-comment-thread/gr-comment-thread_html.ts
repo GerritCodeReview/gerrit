@@ -94,6 +94,7 @@ export const htmlTemplate = html`
     .diff-container {
       margin-left: var(--spacing-l);
       border: 1px solid var(--border-color);
+      max-width: 1200px;
     }
     .view-diff-container {
       text-align: end;

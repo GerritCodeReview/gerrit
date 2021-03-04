@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "014fca7b_bec89174",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-04T10:12:20Z",
+      "side": 1,
+      "message": "Not sure I understand.\nThere is a background color to the view diff container in your screenshot that I\u0027m not seeing in my screenshots.\nIs that what you are referring to?",
+      "parentUuid": "77964ffd_51ace33a",
+      "revId": "c688b903f13ab5b2758b5b82767d6ab6cb8762d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "95987ba6_4c556c46",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
         "patchSetId": 6
@@ -150,6 +168,24 @@
       "side": 1,
       "message": "Ok, so .view-diff-container gets a border-top of 1px. And the margin of .view-diff-button becomes `var(--spacing-s) var(--spacing-m)` That matches the comment card actions. SGTM!",
       "parentUuid": "743fdcae_2f4492bf",
+      "revId": "c688b903f13ab5b2758b5b82767d6ab6cb8762d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fb965f1_5fb8302c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-04T10:12:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4d64b59_d29840f1",
       "revId": "c688b903f13ab5b2758b5b82767d6ab6cb8762d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

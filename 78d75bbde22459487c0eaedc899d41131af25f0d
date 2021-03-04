@@ -144,6 +144,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8a6aebd_4f6c32c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-04T14:40:58Z",
+      "side": 1,
+      "message": "Re @Maria,I think you are asking if the requests will somehow interfere (hope I understood your question correctly)? The answer is no, because the implementations are using separate caches in totally separate components. So a request with (new_logic\u003dtrue) followed by (new_logic\u003dfalse) will never hit a probable cached value from the previous request.",
+      "parentUuid": "2878e461_8eba48be",
+      "revId": "78d75bbde22459487c0eaedc899d41131af25f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ba0c1a8_0ae6adf5",

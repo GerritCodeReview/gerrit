@@ -16,6 +16,24 @@
       "message": "Why not squashing with the parent guice bump?\nWould this major upgrade brake other plugins?\nThe WARN in the error log isn\u0027t very serious, but breaking compatibility it is a more serious concern.",
       "revId": "99f0f68adf9d6fba464555d8c0b5c6dcf2ee0db0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2958fa4_063814d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-04T14:12:52Z",
+      "side": 1,
+      "message": "Why not squashing : because the other commits ate just cherry-picks from master branch.\n\nCompatibility: Guice 5.x is 100% compatible with previously used 4.2.3 release.\n\nIn fact we updated on master to 5.0.0-beta months ago and everything worked as expected.",
+      "parentUuid": "47a1e08c_0c7b43a0",
+      "revId": "99f0f68adf9d6fba464555d8c0b5c6dcf2ee0db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

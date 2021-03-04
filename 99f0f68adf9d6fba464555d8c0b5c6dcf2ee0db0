@@ -52,6 +52,24 @@
       "parentUuid": "f2958fa4_063814d8",
       "revId": "99f0f68adf9d6fba464555d8c0b5c6dcf2ee0db0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f22f9ab_53e888f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-04T14:35:57Z",
+      "side": 1,
+      "message": "The release notes have a \"migrating from v4.2.3\" section [1], which means that it isn\u0027t 100% backward compatible as-is.\n\nAlso bear in mind that although we may have all our plugins working, we cannot assume that the custom-made plugins made by the Gerrit users would not break.\n\nI\u0027d suggest to check our plugins first and then wait for a few more days to get more feedback from the community before merging.\n\n[1] https://github.com/google/guice/wiki/Guice501#migrating-from-423",
+      "parentUuid": "bf293bcf_5d231898",
+      "revId": "99f0f68adf9d6fba464555d8c0b5c6dcf2ee0db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

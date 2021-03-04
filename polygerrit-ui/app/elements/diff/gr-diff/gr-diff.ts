@@ -722,7 +722,7 @@ export class GrDiff extends PolymerElement {
     if (prefs.line_wrapping) {
       this._diffTableClass = 'full-width';
       if (this.viewMode === 'SIDE_BY_SIDE') {
-        stylesToUpdate['--content-width'] = 'none';
+        stylesToUpdate['--content-width'] = '100%';
         stylesToUpdate['--line-limit'] = `${lineLength}ch`;
       }
     } else {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ec3ef87_a24beaf0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-04T08:39:57Z",
+      "side": 1,
+      "message": "I think we should backport this series to stable-3.3, as it\u0027s the first gerrit release that support Java 11.",
+      "revId": "5a1bfdcb04908e3230fb30b29f2b1ed334c4a42f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -87,6 +87,24 @@
       "parentUuid": "069e1cfb_39aec5ab",
       "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7ddce6e_c87806ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-04T15:56:34Z",
+      "side": 1,
+      "message": "\u003e Given the conversation about upgrading dependencies on stable branches at [1]\n\nThat\u0027s not related, as the linked change is talking about:\n\n  \"Contributions of new features are on supported branches\"\n\n\u003e I\u0027m not seeing a clear reason this is needed on 3.3\n\nHave you checked the follow-up change? It\u0027s fixing Issue 12639, that was reported multiple times, see this upstream issue: [1]\n\n\u003e and it looks risky\n\nIt isn\u0027t risky. Google Guice is basically very stable and there is no development happening. Can you cherry-pick this series to your internal gerrit version and your plugins and confirm that everything works as expected?\n\n[1] https://github.com/google/guice/issues/1321",
+      "parentUuid": "f832f472_c9bb67da",
+      "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

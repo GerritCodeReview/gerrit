@@ -227,6 +227,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "22fd5f89_f4e81ac2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-04T09:55:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d3cc04ae_ab51e9d2",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 49
+      },
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e824ea8d_7c0e51f3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -341,6 +365,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de74ff31_af6f31cd",
+        "filename": "java/com/google/gerrit/server/LibModuleType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-04T09:55:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d5087c89_20a769ae",
+      "range": {
+        "startLine": 23,
+        "startChar": 26,
+        "endLine": 23,
+        "endChar": 37
+      },
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3f8768a_00325eb9",
@@ -378,6 +426,30 @@
       "side": 1,
       "message": "See above: it isn\u0027t an override of the db module, hence it would be misleading to think about that is equivalent to the DB_MODULE",
       "parentUuid": "a3f8768a_00325eb9",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a44b0e4_27cfb4ee",
+        "filename": "java/com/google/gerrit/server/LibModuleType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-04T09:55:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d1c4fde6_76f9d46f",
       "range": {
         "startLine": 24,
         "startChar": 2,

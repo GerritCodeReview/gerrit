@@ -16,6 +16,40 @@
       "message": "Can you add an example of how this will show up in the logs? I don\u0027t think I can read this code well enough to understand that myself 😊",
       "revId": "3bb7f74137a61c4e7a587d66f317a0316b693c11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ac64147_0f83fee3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-04T19:20:04Z",
+      "side": 1,
+      "message": "It looks ok. I actually tested file with name ?usp :) \nhttps://gerrit-review.googlesource.com/c/gerrit/+/297276/2/%253Fusp.ts",
+      "revId": "3bb7f74137a61c4e7a587d66f317a0316b693c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8932395c_aefd42d0",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-04T19:20:04Z",
+      "side": 1,
+      "message": "NIT: Are dom-util good place for url-utils? :)",
+      "revId": "3bb7f74137a61c4e7a587d66f317a0316b693c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

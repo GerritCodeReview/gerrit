@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e182c367_1accd70e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-04T12:06:15Z",
+      "side": 1,
+      "message": "Thanks. I checked https://gerrit-review.googlesource.com/c/gerrit/+/296102 which seems to support experiments as part of the Gerrit Config (Maria can confirm). I can use it for subsequent launches.\n\nFor this change I\u0027d still prefer to use a request parameter as it would make it easier to me for testing (details in my previous comment). Differences are also that a request parameter would only allow me to trigger the new logic, and users will be unaffected.\n\nCurrently I rolled out a dark launch, and the new logic is run async, so I\u0027d use this for inspection and debugging.\n\nIf we don\u0027t want to have this kind of testing I\u0027ll rework this change :-)",
+      "parentUuid": "3ae699a4_3ddc8496",
+      "revId": "78d75bbde22459487c0eaedc899d41131af25f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ba0c1a8_0ae6adf5",

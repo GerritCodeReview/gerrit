@@ -46,6 +46,30 @@
       },
       "revId": "c677e7f0faa4f2442ba7b3221cedf662869cb745",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf685763_b7ab9605",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-04T15:12:15Z",
+      "side": 0,
+      "message": "Yeah I agree that online re-indexing should not affect the logic here. Thanks for the explanation. We could tackle this in another change.",
+      "parentUuid": "6aeee204_4e394ca4",
+      "range": {
+        "startLine": 124,
+        "startChar": 34,
+        "endLine": 124,
+        "endChar": 62
+      },
+      "revId": "c677e7f0faa4f2442ba7b3221cedf662869cb745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb099741_1cac1177",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-04T15:12:15Z",
+      "side": 1,
+      "message": "OK. Thanks for the explanation. Moving the code to SubmitRuleEvaluator looks good to me.",
+      "parentUuid": "a7ac1d48_4ca841d8",
+      "range": {
+        "startLine": 898,
+        "startChar": 8,
+        "endLine": 901,
+        "endChar": 9
+      },
+      "revId": "2dfaa45aaae343ce1dfc1b4b32a920d9c4b8474f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "385df719_2a114ddd",

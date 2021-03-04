@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2556314_d5d9f735",
+        "filename": "java/com/google/gerrit/entities/SubmitRecord.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-04T15:12:15Z",
+      "side": 1,
+      "message": "optional: Label::deepCopy",
+      "range": {
+        "startLine": 160,
+        "startChar": 40,
+        "endLine": 160,
+        "endChar": 57
+      },
+      "revId": "6ca8961779ce1ed96b20b4b06d32049e9400a083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

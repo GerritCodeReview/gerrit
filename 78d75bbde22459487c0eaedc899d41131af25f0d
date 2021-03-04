@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72bbd9c4_75651946",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-04T09:42:15Z",
+      "side": 1,
+      "message": "I prefer using a request parameter here. This is easier for testing, for example I\u0027d like to look at the response of the same request one time using the old diff implementation then another with the new one.\nHaving a Gerrit config for this will be much more tedious.",
+      "parentUuid": "ab2edec5_05a5e0ad",
+      "revId": "78d75bbde22459487c0eaedc899d41131af25f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ba0c1a8_0ae6adf5",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-03-04T08:47:42Z",
       "side": 1,
       "message": "Do we serialize this object into user/project preferences and would that temporary parameter affect that?",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 35
+      },
+      "revId": "78d75bbde22459487c0eaedc899d41131af25f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72e2dfef_20b2db92",
+        "filename": "java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-04T09:42:15Z",
+      "side": 1,
+      "message": "Well, I found one occurrence in \"AccountState\" which is using this entity. This has a lot of references, e.g. in AccountCache.\n\nThough this new field can just be neglected (we don\u0027t care about serializing it), I\u0027d better keep it outside of DiffPreferenceInfo.\n\nI updated this change accordingly.",
+      "parentUuid": "1ba0c1a8_0ae6adf5",
       "range": {
         "startLine": 64,
         "startChar": 16,

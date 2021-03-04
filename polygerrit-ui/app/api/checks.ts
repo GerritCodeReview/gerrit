@@ -47,6 +47,7 @@ export interface ChangeData {
   changeNumber: number;
   patchsetNumber: number;
   repo: string;
+  commmitMessage?: string;
 }
 
 export interface ChecksProvider {

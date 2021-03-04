@@ -34,6 +34,24 @@
       "parentUuid": "47a1e08c_0c7b43a0",
       "revId": "99f0f68adf9d6fba464555d8c0b5c6dcf2ee0db0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf293bcf_5d231898",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-04T14:18:16Z",
+      "side": 1,
+      "message": "\u003e Why not squashing : because the other commits ate just cherry-picks from master branch.\n\nThis is not a cherry-pick from master though.\n\n\u003e Compatibility: Guice 5.x is 100% compatible with previously used 4.2.3 release.\n\nWhat if plugins were using other libraries that were compatible with Guice 4.2.x but not with 5.0.x?\nHave you checked why they bumped the major version if there were not breaking changes?\n\n\u003e In fact we updated on master to 5.0.0-beta months ago and everything workinsed as expected.\n\nI checked and the change was uploaded in mid January and merged a few days ago: we had it for less than 2 months on master. We can check the CI builds of the plugins and see if that broke something or not.",
+      "parentUuid": "f2958fa4_063814d8",
+      "revId": "99f0f68adf9d6fba464555d8c0b5c6dcf2ee0db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

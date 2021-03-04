@@ -47,6 +47,7 @@ export const htmlTemplate = html`
       color: var(--comment-text-color);
       box-shadow: var(--elevation-level-2);
       border-radius: var(--border-radius);
+      flex-shrink: 0;
     }
     #container {
       display: var(--gr-comment-thread-display, flex);
@@ -94,6 +95,9 @@ export const htmlTemplate = html`
     .diff-container {
       margin-left: var(--spacing-l);
       border: 1px solid var(--border-color);
+      flex-grow: 1;
+      flex-shrink: 1;
+      max-width: 1200px;
     }
     .view-diff-button {
       margin: var(--spacing-s) var(--spacing-m);

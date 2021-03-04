@@ -44,6 +44,13 @@ import {
 /** What is the maximum number of shown changes in collapsed list? */
 const MAX_CHANGES_WHEN_COLLAPSED = 3;
 
+interface ChangeMarkersInList {
+  showCurrentChangeArrow: boolean;
+  showWhenCollapsed: boolean;
+  showTopArrow: boolean;
+  showBottomArrow: boolean;
+}
+
 @customElement('gr-related-changes-list-experimental')
 export class GrRelatedChangesListExperimental extends GrLitElement {
   @property()
@@ -87,12 +94,20 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
           margin-bottom: var(--spacing-m);
           width: fit-content;
         }
+        .marker {
+          position: absolute;
+          display: none;
+          margin-left: calc(-1 * var(--spacing-s));
+        }
+        .arrowToCurrentChange {
+          position: absolute;
+        }
       `,
     ];
   }
 
   render() {
-    let showWhenCollapsedPredicate = this.showWhenCollapsedPredicateFactory(
+    const relatedChangesMarkersPredicate = this.markersPredicateFactory(
       this.relatedChanges.length,
       this.relatedChanges.findIndex(relatedChange =>
         this._changesEqual(relatedChange, this.change)
@@ -113,23 +128,25 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       >
         ${this.relatedChanges.map(
           (change, index) =>
-            html`<gr-related-change
-              class="${classMap({
-                ['show-when-collapsed']: showWhenCollapsedPredicate(index),
-              })}"
-              .isCurrentChange="${this._changesEqual(change, this.change)}"
-              .change="${change}"
-              .connectedRevisions="${connectedRevisions}"
-              .href="${change?._change_number
-                ? GerritNav.getUrlForChangeById(
-                    change._change_number,
-                    change.project,
-                    change._revision_number as PatchSetNum
-                  )
-                : ''}"
-              .showChangeStatus=${true}
-              >${change.commit.subject}</gr-related-change
-            >`
+            html`${this.renderMarkers(
+                relatedChangesMarkersPredicate(index)
+              )}<gr-related-change
+                class="${classMap({
+                  ['show-when-collapsed']: relatedChangesMarkersPredicate(index)
+                    .showWhenCollapsed,
+                })}"
+                .change="${change}"
+                .connectedRevisions="${connectedRevisions}"
+                .href="${change?._change_number
+                  ? GerritNav.getUrlForChangeById(
+                      change._change_number,
+                      change.project,
+                      change._revision_number as PatchSetNum
+                    )
+                  : ''}"
+                .showChangeStatus=${true}
+                >${change.commit.subject}</gr-related-change
+              >`
         )}
       </gr-related-collapse>
     </section>`;
@@ -137,7 +154,7 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
     const submittedTogetherChanges = this.submittedTogether?.changes ?? [];
     const countNonVisibleChanges =
       this.submittedTogether?.non_visible_changes ?? 0;
-    showWhenCollapsedPredicate = this.showWhenCollapsedPredicateFactory(
+    const submittedTogetherMarkersPredicate = this.markersPredicateFactory(
       submittedTogetherChanges.length,
       submittedTogetherChanges.findIndex(relatedChange =>
         this._changesEqual(relatedChange, this.change)
@@ -154,20 +171,23 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       >
         ${submittedTogetherChanges.map(
           (change, index) =>
-            html`<gr-related-change
-              class="${classMap({
-                ['show-when-collapsed']: showWhenCollapsedPredicate(index),
-              })}"
-              .isCurrentChange="${this._changesEqual(change, this.change)}"
-              .change="${change}"
-              .href="${GerritNav.getUrlForChangeById(
-                change._number,
-                change.project
-              )}"
-              .showSubmittableCheck=${true}
-              >${change.project}: ${change.branch}:
-              ${change.subject}</gr-related-change
-            >`
+            html`${this.renderMarkers(
+                submittedTogetherMarkersPredicate(index)
+              )}<gr-related-change
+                class="${classMap({
+                  ['show-when-collapsed']: submittedTogetherMarkersPredicate(
+                    index
+                  ).showWhenCollapsed,
+                })}"
+                .change="${change}"
+                .href="${GerritNav.getUrlForChangeById(
+                  change._number,
+                  change.project
+                )}"
+                .showSubmittableCheck=${true}
+                >${change.project}: ${change.branch}:
+                ${change.subject}</gr-related-change
+              >`
         )}
       </gr-related-collapse>
       <div class="note" ?hidden=${!countNonVisibleChanges}>
@@ -175,7 +195,7 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       </div>
     </section>`;
 
-    showWhenCollapsedPredicate = this.showWhenCollapsedPredicateFactory(
+    const sameTopicMarkersPredicate = this.markersPredicateFactory(
       this.sameTopicChanges.length,
       -1
     );
@@ -189,23 +209,26 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       >
         ${this.sameTopicChanges.map(
           (change, index) =>
-            html`<gr-related-change
-              class="${classMap({
-                ['show-when-collapsed']: showWhenCollapsedPredicate(index),
-              })}"
-              .change="${change}"
-              .href="${GerritNav.getUrlForChangeById(
-                change._number,
-                change.project
-              )}"
-              >${change.project}: ${change.branch}:
-              ${change.subject}</gr-related-change
-            >`
+            html`${this.renderMarkers(
+                sameTopicMarkersPredicate(index)
+              )}<gr-related-change
+                class="${classMap({
+                  ['show-when-collapsed']: sameTopicMarkersPredicate(index)
+                    .showWhenCollapsed,
+                })}"
+                .change="${change}"
+                .href="${GerritNav.getUrlForChangeById(
+                  change._number,
+                  change.project
+                )}"
+                >${change.project}: ${change.branch}:
+                ${change.subject}</gr-related-change
+              >`
         )}
       </gr-related-collapse>
     </section>`;
 
-    showWhenCollapsedPredicate = this.showWhenCollapsedPredicateFactory(
+    const mergeConflictsMarkersPredicate = this.markersPredicateFactory(
       this.conflictingChanges.length,
       -1
     );
@@ -219,22 +242,25 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       >
         ${this.conflictingChanges.map(
           (change, index) =>
-            html`<gr-related-change
-              class="${classMap({
-                ['show-when-collapsed']: showWhenCollapsedPredicate(index),
-              })}"
-              .change="${change}"
-              .href="${GerritNav.getUrlForChangeById(
-                change._number,
-                change.project
-              )}"
-              >${change.subject}</gr-related-change
-            >`
+            html`${this.renderMarkers(
+                mergeConflictsMarkersPredicate(index)
+              )}<gr-related-change
+                class="${classMap({
+                  ['show-when-collapsed']: mergeConflictsMarkersPredicate(index)
+                    .showWhenCollapsed,
+                })}"
+                .change="${change}"
+                .href="${GerritNav.getUrlForChangeById(
+                  change._number,
+                  change.project
+                )}"
+                >${change.subject}</gr-related-change
+              >`
         )}
       </gr-related-collapse>
     </section>`;
 
-    showWhenCollapsedPredicate = this.showWhenCollapsedPredicateFactory(
+    const cherryPicksMarkersPredicate = this.markersPredicateFactory(
       this.cherryPickChanges.length,
       -1
     );
@@ -248,17 +274,20 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       >
         ${this.cherryPickChanges.map(
           (change, index) =>
-            html`<gr-related-change
-              class="${classMap({
-                ['show-when-collapsed']: showWhenCollapsedPredicate(index),
-              })}"
-              .change="${change}"
-              .href="${GerritNav.getUrlForChangeById(
-                change._number,
-                change.project
-              )}"
-              >${change.branch}: ${change.subject}</gr-related-change
-            >`
+            html`${this.renderMarkers(
+                cherryPicksMarkersPredicate(index)
+              )}<gr-related-change
+                class="${classMap({
+                  ['show-when-collapsed']: cherryPicksMarkersPredicate(index)
+                    .showWhenCollapsed,
+                })}"
+                .change="${change}"
+                .href="${GerritNav.getUrlForChangeById(
+                  change._number,
+                  change.project
+                )}"
+                >${change.branch}: ${change.subject}</gr-related-change
+              >`
         )}
       </gr-related-collapse>
     </section>`;
@@ -272,8 +301,11 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
     </gr-endpoint-decorator>`;
   }
 
-  showWhenCollapsedPredicateFactory(length: number, highlightIndex: number) {
-    return (index: number) => {
+  markersPredicateFactory(
+    length: number,
+    highlightIndex: number
+  ): (index: number) => ChangeMarkersInList {
+    const showWhenCollapsedPredicate = (index: number) => {
       if (highlightIndex === -1) return index < MAX_CHANGES_WHEN_COLLAPSED;
       if (highlightIndex === 0) return index <= MAX_CHANGES_WHEN_COLLAPSED - 1;
       if (highlightIndex === length - 1)
@@ -283,6 +315,51 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
         index <= highlightIndex + MAX_CHANGES_WHEN_COLLAPSED - 2
       );
     };
+    return (index: number) => {
+      return {
+        showCurrentChangeArrow:
+          highlightIndex !== -1 && index === highlightIndex,
+        showWhenCollapsed: showWhenCollapsedPredicate(index),
+        showTopArrow:
+          index >= 1 &&
+          index !== highlightIndex &&
+          showWhenCollapsedPredicate(index) &&
+          !showWhenCollapsedPredicate(index - 1),
+        showBottomArrow:
+          index <= length - 2 &&
+          index !== highlightIndex &&
+          showWhenCollapsedPredicate(index) &&
+          !showWhenCollapsedPredicate(index + 1),
+      };
+    };
+  }
+
+  renderMarkers(changeMarkers: ChangeMarkersInList) {
+    if (changeMarkers.showCurrentChangeArrow) {
+      return html`<span
+        role="img"
+        class="arrowToCurrentChange"
+        aria-label="Arrow marking current change"
+        >➔</span
+      >`;
+    }
+    if (changeMarkers.showTopArrow) {
+      return html`<span
+        role="img"
+        class="marker"
+        aria-label="Arrow marking change has collapsed ancestors"
+        ><iron-icon icon="gr-icons:arrowDropUp"></iron-icon
+      ></span> `;
+    }
+    if (changeMarkers.showBottomArrow) {
+      return html`<span
+        role="img"
+        class="marker"
+        aria-label="Arrow marking change has collapsed descendants"
+        ><iron-icon icon="gr-icons:arrowDropDown"></iron-icon
+      ></span> `;
+    }
+    return nothing;
   }
 
   reload(getRelatedChanges?: Promise<RelatedChangesInfo | undefined>) {
@@ -460,6 +537,12 @@ export class GrRelatedCollapse extends GrLitElement {
         }
         .collapsed ::slotted(gr-related-change.show-when-collapsed) {
           display: flex;
+        }
+        /* ::slotted has lower precedence, !important is needed
+         * to overridde display: none on .marker
+         */
+        .collapsed ::slotted(.marker) {
+          display: block !important;
         }
         .collapsed ::slotted(gr-related-change) {
           display: none;

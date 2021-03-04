@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db705f46_3ac06ec6",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-04T14:20:14Z",
+      "side": 1,
+      "message": "I added the styling specs to the bug for app-theme and dark-theme, ocpying them in this comment too.\n\nLight theme\n\n--tooltip-text-color: white;\n\n--tooltip-background-color: var(--gray-900);\n\nDark theme\n\n--tooltip-text-color: var(--gray-200);\n\n--tooltip-background-color: var(--gray-800);",
+      "range": {
+        "startLine": 282,
+        "startChar": 36,
+        "endLine": 282,
+        "endChar": 56
+      },
+      "revId": "ab6fda971b09a9efc0cb4a30f6e316a63402452d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

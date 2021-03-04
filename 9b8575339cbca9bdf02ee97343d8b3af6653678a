@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f7352f9_22da1096",
+        "filename": "Documentation/js_licenses.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-04T14:20:14Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "74a1e57e_8038cb0a",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 374,
+        "endChar": 24
+      },
+      "revId": "9b8575339cbca9bdf02ee97343d8b3af6653678a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b54541ee_7217eb3f",

@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "241cea5e_aa65a484",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-03-04T12:22:59Z",
+      "side": 1,
+      "message": "Sorry for the naive question, if you test it this way, wouldn\u0027t it mean there is a chance that the diff get\u0027s cached (and persisted) with the new implementation (or old), with each subsequent request getting the persisted cached value (regardless of the option?)",
+      "parentUuid": "7daced1b_63481506",
+      "revId": "78d75bbde22459487c0eaedc899d41131af25f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ba0c1a8_0ae6adf5",

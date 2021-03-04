@@ -753,6 +753,9 @@ export class GrDiff extends PolymerElement {
     if (renderPrefs.disable_context_control_buttons) {
       this.classList.add('disable-context-control-buttons');
     }
+    if (renderPrefs.hide_line_length_indicator) {
+      this.classList.add('hide-line-length-indicator');
+    }
   }
 
   _diffChanged(newValue?: DiffInfo) {

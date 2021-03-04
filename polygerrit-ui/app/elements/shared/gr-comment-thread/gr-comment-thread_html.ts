@@ -86,6 +86,11 @@ export const htmlTemplate = html`
     .fileName {
       padding: var(--spacing-m) var(--spacing-s) var(--spacing-m);
     }
+    @media only screen and (max-width: 1200px) {
+      .diff-container {
+        display: none;
+      }
+    }
     .diff-container {
       margin-left: var(--spacing-l);
       border: 1px solid var(--border-color);

@@ -177,6 +177,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d833a67b_f1bc6835",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-04T08:58:04Z",
+      "side": 1,
+      "message": "\u003e I think daemon and site program as \"two contexts\" here is rather confusing. libModule is already there and BatchModul is also there. The reason why we add new libModule kind is to allow the plugins to override gerrit core classes in site program. \n\nNo, that\u0027s not the intent of this change. Plugins are not involved in this change but this allows libModules to impact the override of Gerrit tagged modules.\n\n\u003e May be remove mention of daemon here?\n\nThat\u0027s relevant to explain *WHY* we are doing this: allowing a libModule to have different bindings for batch programs and daemon.",
+      "parentUuid": "80862fde_3ef6e651",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 49
+      },
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e824ea8d_7c0e51f3",

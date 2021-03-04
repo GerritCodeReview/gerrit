@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fe7c817_43a91671",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-04T06:32:18Z",
+      "side": 1,
+      "message": "\u003e That isn\u0027t true [...]\n\nInit step has nothing to do with site program. \n\n  $ java -jar gerrit.war init\n\nis init step, but:\n\n  $ java -jar gerrit.war reindex\n\nis site program call. My statement was plugins were not supported in site program and that\u0027s why batch module in plugins was introduced. Your answer was: init step always supported plugins.\n\nThis change is about site program and not init step.\n\nAgain, what you need to epmhasize is the fact, that libModule overloading is now also supported in site program.",
+      "parentUuid": "e6ea3718_f2e4434f",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cec38f3_8430c4d5",

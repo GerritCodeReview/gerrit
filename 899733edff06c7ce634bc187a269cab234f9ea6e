@@ -612,6 +612,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5b59b7c_d5761819",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-04T15:41:52Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "fe7f630d_e181d1cc",
+      "range": {
+        "startLine": 458,
+        "startChar": 1,
+        "endLine": 458,
+        "endChar": 16
+      },
+      "revId": "899733edff06c7ce634bc187a269cab234f9ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2faf4b07_961867e3",

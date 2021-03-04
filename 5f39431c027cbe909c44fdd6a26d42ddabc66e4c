@@ -143,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2e02d8b_746052ed",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-04T15:41:52Z",
+      "side": 0,
+      "message": "Re-reading the content below and the text you have in PS10, I\u0027m agreeing with you more that it\u0027s probably fine to drop. I do think we\u0027re lacking a good intro doc for admins, something like \"commonly changed server settings\", which I think this section does highlight even though that wasn\u0027t the intent.",
+      "parentUuid": "f64ae8ca_ee19958c",
+      "range": {
+        "startLine": 410,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 14
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2c43edb_6f5d2b9b",
@@ -324,6 +348,30 @@
       "side": 0,
       "message": "I added a comment to insert something on browser performance; I\u0027ll ask the FE team to come up with something. \u0027omit\u0027 is not something to put in the doc: if we find something can be omitted, we change gerrit to omit it, rather than document it.",
       "parentUuid": "f7bfbb99_d8ca4864",
+      "range": {
+        "startLine": 480,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 22
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30aeb7e2_3c1630ca",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-04T15:41:52Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "1075aa85_f3892625",
       "range": {
         "startLine": 480,
         "startChar": 0,

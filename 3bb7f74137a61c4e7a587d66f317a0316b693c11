@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28a36ee8_a877a23b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2021-03-04T16:53:35Z",
+      "side": 1,
+      "message": "Can you add an example of how this will show up in the logs? I don\u0027t think I can read this code well enough to understand that myself 😊",
+      "revId": "3bb7f74137a61c4e7a587d66f317a0316b693c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

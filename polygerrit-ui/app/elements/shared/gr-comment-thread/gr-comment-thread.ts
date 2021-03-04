@@ -183,6 +183,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   _renderPrefs: RenderPreferences = {
     hide_left_side: true,
     disable_context_control_buttons: true,
+    show_file_comment_button: false,
   };
 
   @property({type: Boolean, reflectToAttribute: true})
@@ -236,7 +237,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(
       if (!prefs) return;
       this._prefs = {
         ...prefs,
-        show_file_comment_button: false,
         // override explicitly so that diff doesn't take too much width
         // compared to the context
         line_wrapping: false,

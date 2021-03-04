@@ -65,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df969e93_b5249c61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-04T00:50:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cec38f3_8430c4d5",
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c120730_678f7659",
@@ -78,6 +96,30 @@
       "writtenOn": "2021-03-03T20:33:40Z",
       "side": 1,
       "message": "\"site program\" would be more clear in this context, like Reindex?",
+      "range": {
+        "startLine": 24,
+        "startChar": 59,
+        "endLine": 25,
+        "endChar": 4
+      },
+      "revId": "99c1a8b129169718ef01dfb603563e17a82b5357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c0e2b0d_9ff551f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-04T00:50:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c120730_678f7659",
       "range": {
         "startLine": 24,
         "startChar": 59,

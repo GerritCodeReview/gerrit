@@ -94,6 +94,7 @@ export const htmlTemplate = html`
     .diff-container {
       margin-left: var(--spacing-l);
       border: 1px solid var(--border-color);
+      flex-grow: 1;
     }
     .view-diff-button {
       margin: var(--spacing-s) var(--spacing-m);

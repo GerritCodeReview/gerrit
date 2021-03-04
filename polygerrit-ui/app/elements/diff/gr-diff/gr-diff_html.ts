@@ -154,7 +154,6 @@ export const htmlTemplate = html`
       background-color: var(--diff-blank-background-color);
     }
     .full-width {
-      width: 100%;
     }
     .full-width .contentText {
       white-space: break-spaces;

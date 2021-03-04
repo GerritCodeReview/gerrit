@@ -83,12 +83,12 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     colgroup.appendChild(col);
 
     // Add left-side line number.
-    col = document.createElement('col');
+    col = this._createElement('col', 'left');
     col.setAttribute('width', width.toString());
     colgroup.appendChild(col);
 
     // Add left-side content.
-    colgroup.appendChild(document.createElement('col'));
+    colgroup.appendChild(this._createElement('col', 'left'));
 
     // Add right-side line number.
     col = document.createElement('col');

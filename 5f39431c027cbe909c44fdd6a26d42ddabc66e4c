@@ -427,6 +427,30 @@
       },
       "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "106d0264_7edfa673",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-04T00:06:59Z",
+      "side": 0,
+      "message": "We have individual repos that have 100GB+ pack files. I\u0027m not sure that\u0027s healthy, but we have them. That\u0027s also not with latest Gerrit/JGit, so we\u0027re not sure if changes there make those repos better/worse.\n\nOverall our disk usage for our largest instance is about 4TB for git repos. At one point it was doubling every 2 years, but isn\u0027t quite as consistent now. That doubling was also happening while teams and usage was growing rapidly.\n\nI\u0027ll comment more on the new table you added.",
+      "parentUuid": "2d6219c3_47f76332",
+      "range": {
+        "startLine": 539,
+        "startChar": 0,
+        "endLine": 539,
+        "endChar": 14
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

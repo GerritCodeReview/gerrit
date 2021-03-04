@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47a1e08c_0c7b43a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-04T14:06:43Z",
+      "side": 1,
+      "message": "Why not squashing with the parent guice bump?\nWould this major upgrade brake other plugins?\nThe WARN in the error log isn\u0027t very serious, but breaking compatibility it is a more serious concern.",
+      "revId": "99f0f68adf9d6fba464555d8c0b5c6dcf2ee0db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

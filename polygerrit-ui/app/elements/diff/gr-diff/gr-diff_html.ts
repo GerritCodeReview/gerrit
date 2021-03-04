@@ -24,6 +24,12 @@ export const htmlTemplate = html`
     :host(.no-left) .sideBySide .right:not([data-value]) + td {
       display: none;
     }
+    :host(.disable-context-control-buttons) {
+      --context-control-display: none;
+    }
+    :host(.disable-context-control-buttons) .section {
+      border-right: none;
+    }
     :host {
       font-family: var(--monospace-font-family, ''), 'Roboto Mono';
       font-size: var(--font-size, var(--font-size-code, 12px));

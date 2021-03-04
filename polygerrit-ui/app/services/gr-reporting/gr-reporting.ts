@@ -97,7 +97,7 @@ export interface ReportingService {
    *
    * Every execution is only reported once per session.
    */
-  reportExecution(id: string, details: EventDetails): void;
+  reportExecution(id: string, details?: EventDetails): void;
   trackApi(plugin: PluginApi, object: string, method: string): void;
   reportInteraction(eventName: string, details?: EventDetails): void;
   /**

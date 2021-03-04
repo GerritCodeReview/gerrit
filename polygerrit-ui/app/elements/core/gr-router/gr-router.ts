@@ -67,7 +67,7 @@ import {LocationChangeEventDetail} from '../../../types/events';
 import {GerritView, updateState} from '../../../services/router/router-model';
 import {firePageError} from '../../../utils/event-util';
 import {addQuotesWhen} from '../../../utils/string-util';
-import {windowLocationReload} from '../../../utils/dom-util';
+import {toPath, toPathname, toSearchParams, windowLocationReload} from '../../../utils/dom-util';
 
 const RoutePattern = {
   ROOT: '/',
@@ -762,20 +762,21 @@ export class GrRouter extends GestureEventListeners(
 
   /**  Page.js middleware that try parse the querystring into queryMap. */
   _queryStringMiddleware(ctx: PageContext, next: PageNextCallback) {
-    let queryMap: Map<string, string> | URLSearchParams = new Map<
-      string,
-      string
-    >();
+    (ctx as PageContextWithQueryMap).queryMap = this.createQueryMap(ctx);
+    next();
+  }
+
+  private createQueryMap(ctx: PageContext) {
     if (ctx.querystring) {
       // https://caniuse.com/#search=URLSearchParams
       if (window.URLSearchParams) {
-        queryMap = new URLSearchParams(ctx.querystring);
+        return new URLSearchParams(ctx.querystring);
       } else {
-        queryMap = new Map(this._parseQueryString(ctx.querystring));
+        this.reporting.reportExecution('noURLSearchParams');
+        return new Map(this._parseQueryString(ctx.querystring));
       }
     }
-    (ctx as PageContextWithQueryMap).queryMap = queryMap;
-    next();
+    return new Map<string, string>();
   }
 
   /**
@@ -806,13 +807,13 @@ export class GrRouter extends GestureEventListeners(
       pattern,
       (ctx, next) => this._loadUserMiddleware(ctx, next),
       (ctx, next) => this._queryStringMiddleware(ctx, next),
-      data => {
+      ctx => {
         this.reporting.locationChanged(handlerName);
         const promise = authRedirect
-          ? this._redirectIfNotLoggedIn(data)
+          ? this._redirectIfNotLoggedIn(ctx)
           : Promise.resolve();
         promise.then(() => {
-          this[handlerName](data as PageContextWithQueryMap);
+          this[handlerName](ctx as PageContextWithQueryMap);
         });
       }
     );
@@ -843,6 +844,21 @@ export class GrRouter extends GestureEventListeners(
       }
       this._isRedirecting = false;
       this._isInitialLoad = false;
+      next();
+    });
+
+    // Remove the tracking param 'usp' (User Source Parameter) from the URL,
+    // just to have users look at cleaner URLs.
+    page((ctx, next) => {
+      if (window.URLSearchParams) {
+        const pathname = toPathname(ctx.canonicalPath);
+        const searchParams = toSearchParams(ctx.canonicalPath);
+        if (searchParams.has('usp')) {
+          searchParams.delete('usp');
+          this._redirect(toPath(pathname, searchParams));
+          return;
+        }
+      }
       next();
     });
 

@@ -792,7 +792,7 @@ export class GrReporting implements ReportingService {
     );
   }
 
-  reportExecution(id: string, details: EventDetails) {
+  reportExecution(id: string, details?: EventDetails) {
     if (this.executionReported.has(id)) return;
     this.executionReported.add(id);
     this.reporter(

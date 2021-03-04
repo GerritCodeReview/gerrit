@@ -70,6 +70,24 @@
       "parentUuid": "bf293bcf_5d231898",
       "revId": "99f0f68adf9d6fba464555d8c0b5c6dcf2ee0db0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "443c0386_76543f60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-04T16:05:04Z",
+      "side": 1,
+      "message": "\u003e The release notes have a \"migrating from v4.2.3\" section [1], which means that it isn\u0027t 100% backward compatible as-is.\n\nHave you checked this section (as I said in the parent change: Google Guice is very stable and basically no development happening, except fixing compatbility with Java 11 and newer, that we want)?\n\n* Using Multibinding extension: it was moved to Guice core, trivial, right?\n* Using Guice no-AOP version: Gerrit never used Aspect Oriented Programming stuff\n* Migrate away from ProvisionListener.getDependencyChain API: Gerrit never used it, see this Zoekt query result: [1]\n\n[1] https://cs.bazel.build/search?q\u003dr%3Agerrit+ProvisionListener\n\nDone.",
+      "parentUuid": "5f22f9ab_53e888f9",
+      "revId": "99f0f68adf9d6fba464555d8c0b5c6dcf2ee0db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -822,7 +822,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     }
     const tabName = tabs[activeIndex].dataset['name'];
     if (scrollIntoView) {
-      paperTabs.scrollIntoView();
+      paperTabs.scrollIntoView({block: 'center'});
     }
     if (paperTabs.selected !== activeIndex) {
       // paperTabs.selected is undefined during rendering

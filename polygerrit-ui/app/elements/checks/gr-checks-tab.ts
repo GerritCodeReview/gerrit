@@ -157,10 +157,12 @@ export class GrChecksTab extends GrLitElement {
           class="runs"
           .runs="${this.runs}"
           .selectedRuns="${this.selectedRuns}"
+          .tabState="${this.tabState}"
           @run-selected="${this.handleRunSelected}"
         ></gr-checks-runs>
         <gr-checks-results
           class="results"
+          .tabState="${this.tabState}"
           .runs="${filteredRuns}"
           .selectedRunsCount="${this.selectedRuns.length}"
           @run-selected="${this.handleRunSelected}"
@@ -191,9 +193,8 @@ export class GrChecksTab extends GrLitElement {
   protected updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
     if (changedProperties.has('tabState')) {
-      const check = this.tabState?.checkName;
-      if (check) {
-        this.selectedRuns = [check];
+      if (this.tabState) {
+        this.selectedRuns = [];
       }
     }
   }

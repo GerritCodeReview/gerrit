@@ -44,8 +44,9 @@ import {
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
-import {pluralize} from '../../utils/string-util';
+import {charsOnly, pluralize} from '../../utils/string-util';
 import {fireRunSelectionReset} from './gr-checks-util';
+import {ChecksTabState} from '../../types/events';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {
@@ -308,6 +309,9 @@ export class GrChecksResults extends GrLitElement {
   @property()
   runs: CheckRun[] = [];
 
+  @property()
+  tabState?: ChecksTabState;
+
   /**
    * How many runs are selected in the runs panel?
    * If 0, then the `runs` property contains all the runs there are.
@@ -421,6 +425,34 @@ export class GrChecksResults extends GrLitElement {
     ];
   }
 
+  protected updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (changedProperties.has('tabState') && this.tabState) {
+      const {statusOrCategory, checkName} = this.tabState;
+      if (
+        statusOrCategory &&
+        statusOrCategory !== RunStatus.RUNNING &&
+        statusOrCategory !== RunStatus.RUNNABLE
+      ) {
+        let cat = statusOrCategory.toString().toLowerCase();
+        if (statusOrCategory === RunStatus.COMPLETED) cat = 'success';
+        this.scrollElIntoView(`.categoryHeader .${cat}`);
+      } else if (checkName) {
+        this.scrollElIntoView(`gr-result-row.${charsOnly(checkName)}`);
+      }
+    }
+  }
+
+  scrollElIntoView(selector: string) {
+    this.updateComplete.then(() => {
+      let el = this.shadowRoot?.querySelector(selector);
+      // <gr-result-row> has display:contents and cannot be scrolled into view
+      // itself. Thus we are preferring to scroll the first child into view.
+      el = el?.shadowRoot?.firstElementChild ?? el;
+      el?.scrollIntoView({block: 'center'});
+    });
+  }
+
   render() {
     return html`
       <div><h2 class="heading-2">Results</h2></div>
@@ -501,7 +533,7 @@ export class GrChecksResults extends GrLitElement {
     return html`
       <div class="${expandedClass}">
         <h3
-          class="categoryHeader heading-3"
+          class="categoryHeader ${catString} heading-3"
           @click="${() => this.toggleExpanded(category)}"
         >
           <iron-icon class="expandIcon" icon="${icon}"></iron-icon>
@@ -543,7 +575,12 @@ export class GrChecksResults extends GrLitElement {
         </thead>
         <tbody>
           ${filtered.map(
-            result => html`<gr-result-row .result="${result}"></gr-result-row>`
+            result => html`
+              <gr-result-row
+                class="${charsOnly(result.checkName)}"
+                .result="${result}"
+              ></gr-result-row>
+            `
           )}
         </tbody>
       </table>

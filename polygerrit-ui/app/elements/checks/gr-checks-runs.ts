@@ -21,6 +21,7 @@ import {
   customElement,
   internalProperty,
   property,
+  PropertyValues,
   query,
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
@@ -46,6 +47,7 @@ import {
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
 import {fireRunSelected} from './gr-checks-util';
+import {ChecksTabState} from '../../types/events';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends GrLitElement {
@@ -239,6 +241,9 @@ export class GrChecksRuns extends GrLitElement {
   @property()
   selectedRuns: string[] = [];
 
+  @property()
+  tabState?: ChecksTabState;
+
   private isSectionExpanded = new Map<RunStatus, boolean>();
 
   constructor() {
@@ -293,6 +298,23 @@ export class GrChecksRuns extends GrLitElement {
         }
       `,
     ];
+  }
+
+  protected updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (changedProperties.has('tabState') && this.tabState) {
+      const {statusOrCategory} = this.tabState;
+      if (
+        statusOrCategory === RunStatus.RUNNING ||
+        statusOrCategory === RunStatus.RUNNABLE
+      ) {
+        this.updateComplete.then(() => {
+          const s = statusOrCategory.toString().toLowerCase();
+          const el = this.shadowRoot?.querySelector(`.${s} .sectionHeader`);
+          el?.scrollIntoView({block: 'center'});
+        });
+      }
+    }
   }
 
   render() {

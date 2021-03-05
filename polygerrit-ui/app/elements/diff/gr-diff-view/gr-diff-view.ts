@@ -1761,19 +1761,22 @@ export class GrDiffView extends KeyboardShortcutMixin(
     return disableDiffPrefs || !loggedIn;
   }
 
-  _handleNextUnreviewedFile(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+  _navigateToNextUnreviewedFile() {
     if (!this._path) return;
     if (!this._fileList) return;
     if (!this._reviewedFiles) return;
-
-    this._setReviewed(true);
     // Ensure that the currently viewed file always appears in unreviewedFiles
     // so we resolve the right "next" file.
     const unreviewedFiles = this._fileList.filter(
       file => file === this._path || !this._reviewedFiles.has(file)
     );
     this._navToFile(this._path, unreviewedFiles, 1);
+  }
+
+  _handleNextUnreviewedFile(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    this._setReviewed(true);
+    this._navigateToNextUnreviewedFile();
   }
 
   _navigateToNextFileWithCommentThread() {

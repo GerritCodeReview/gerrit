@@ -351,6 +351,24 @@
       "parentUuid": "b94829d3_0d3ee47e",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64c217e3_2491aaf8",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-05T12:28:11Z",
+      "side": 1,
+      "message": "\u003e a non registered user. I cannot add that user to attention set\n\nCorrect, that\u0027s not supported at this point.\n\n\u003e So that adding user per name to attention set and not per account_id is a bug?\n\nIt\u0027s a bug AFAIC. The NoteDb change storage should deal only with account IDs (besides plaintext comments people write). This way you can delete the account name/email on the account and are done and there is no need to loop through all change notes and delete things.\n\nAs Han-Wen says, the spots where we would need to delete names would grow and it\u0027s easy to forget a place when cleaning up.",
+      "parentUuid": "b94829d3_0d3ee47e",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

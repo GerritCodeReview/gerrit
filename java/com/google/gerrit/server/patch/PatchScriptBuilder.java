@@ -102,12 +102,8 @@ class PatchScriptBuilder {
                 .map(TaggedEdit::jgitEdit)
                 .collect(toImmutableSet()),
             content.headerLines(),
-            content.oldPath().orElse(null),
-            // TODO(ghareeb): logic for new path is confusing. This is needed because
-            // PatchFileChange does some tricks with paths so that they're compatible with the old
-            // diff cache. Adding this todo to cleanup this stuff when the new diff cache becomes
-            // the default.
-            content.newPath().isPresent() ? content.newPath().get() : content.oldPath().get(),
+            getOldName(content.oldPath(), content.changeType()),
+            getNewName(content.oldPath(), content.newPath(), content.changeType()),
             content.changeType(),
             content.patchType().orElse(null));
     SidesResolver sidesResolver = new SidesResolver(git, content.comparisonType());
@@ -120,6 +116,42 @@ class PatchScriptBuilder {
             content.oldCommitId(),
             content.newCommitId());
     return build(sides.a, sides.b, change);
+  }
+
+  private String getOldName(Optional<String> oldName, ChangeType changeType) {
+    // TODO(ghareeb): We adapt the new diff cache output so that it's compatible with the old diff
+    // cache behaviour. Later on we can cleanup this logic a bit.
+    switch (changeType) {
+      case DELETED:
+      case ADDED:
+      case MODIFIED:
+      case REWRITE:
+        return null;
+      case COPIED:
+      case RENAMED:
+        return oldName.get();
+      default:
+        throw new IllegalArgumentException("Unsupported type " + changeType);
+    }
+  }
+
+  private String getNewName(
+      Optional<String> oldName, Optional<String> newName, ChangeType changeType) {
+    // TODO(ghareeb): logic for new path is confusing. We adapt the new diff cache output so that
+    // it's compatible with the existing behaviour of Get Diff. Later on we can cleanup this logic a
+    // bit.
+    switch (changeType) {
+      case DELETED:
+        return oldName.get();
+      case ADDED:
+      case MODIFIED:
+      case REWRITE:
+      case COPIED:
+      case RENAMED:
+        return newName.get();
+      default:
+        throw new IllegalArgumentException("Unsupported type " + changeType);
+    }
   }
 
   private ResolvedSides resolveSides(

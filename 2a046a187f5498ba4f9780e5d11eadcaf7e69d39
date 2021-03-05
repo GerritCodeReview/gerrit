@@ -195,6 +195,24 @@
       "parentUuid": "85916978_99639b17",
       "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "937979ab_640c239a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-05T09:50:12Z",
+      "side": 1,
+      "message": "\u003e I\u0027m sorry, that was an unnecessary rhetorical comment from me, I don\u0027t think it should be applied to any stable-branches.\n\nI believe we can take this discussion off-line as it is relevant to future dependency updates applied on master. I will add a point to discuss at the next forthcoming ESC to get their point of view as well.",
+      "parentUuid": "abf9047e_a7726652",
+      "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

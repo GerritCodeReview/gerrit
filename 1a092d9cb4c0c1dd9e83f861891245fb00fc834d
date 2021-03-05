@@ -297,6 +297,24 @@
       "parentUuid": "1a99d6bc_4c456679",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46aa4765_dd1eba2d",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-05T12:21:11Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t the username a type of external ID? Sounds like it should be.\n\nThe username is an external ID (with scheme \"username:\"). It\u0027s just *the* external ID that upstream Gerrit uses for SSH authentication.\n\nFor LDAP I thought it\u0027s not using the username but the external ID with scheme \"gerrit:\" isn\u0027t it?",
+      "parentUuid": "6450b2df_288fe5e4",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

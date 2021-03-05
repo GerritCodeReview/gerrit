@@ -106,6 +106,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "11b8dbf7_1d267302",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-05T10:53:29Z",
+      "side": 1,
+      "message": "how does an admin add a notice?",
+      "range": {
+        "startLine": 47,
+        "startChar": 7,
+        "endLine": 50,
+        "endChar": 39
+      },
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7eca1354_abbed862",
         "filename": "Documentation/user-privacy.txt",
         "patchSetId": 1
@@ -140,6 +163,24 @@
       "writtenOn": "2021-03-05T07:15:09Z",
       "side": 1,
       "message": "Would it make sense to also mention the limitations to the RTBF (right to be forgotten) in Gerrit?\n\nAlso, it could be useful to indicate one way to mitigate the (lack) of RTBF in Gerrit is to use the accounts plugin [1] which allows to \"anonymise\" the account without compromising the integrity of existing Gerrit changes.\n\n[1] https://gerrit.googlesource.com/plugins/account/",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6749cc1_561efba4",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-05T10:53:29Z",
+      "side": 1,
+      "message": "I wonder what this plugin is for. You can remove your data already by first overriding/blanking your name, and then deleting external identifiers. (The UI could be better, but that is a separate question).\n\nRegarding RTBF\n\n* if you submit code, the name + email gets recorded in version control, and that can\u0027t be undone. Having a CLA enforcement for uploads can ensure that users do not do this unwittingly.\n\n* we should be careful to not give promises we are not keeping. for example: the attention set feature has been writing names into NoteDb in places where they are difficult to remove.",
+      "parentUuid": "08996ed3_1fd904dd",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -21,6 +21,7 @@ import {
   customElement,
   internalProperty,
   property,
+  PropertyValues,
   query,
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
@@ -45,6 +46,7 @@ import {
 } from '../../services/checks/checks-model';
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
+import {ChecksTabState} from '../../types/events';
 
 export interface RunSelectedEventDetail {
   checkName: string;
@@ -259,6 +261,9 @@ export class GrChecksRuns extends GrLitElement {
   @property()
   selectedRuns: string[] = [];
 
+  @property()
+  tabState?: ChecksTabState;
+
   private isSectionExpanded = new Map<RunStatus, boolean>();
 
   constructor() {
@@ -313,6 +318,23 @@ export class GrChecksRuns extends GrLitElement {
         }
       `,
     ];
+  }
+
+  protected updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (changedProperties.has('tabState') && this.tabState) {
+      const {statusOrCategory} = this.tabState;
+      if (
+        statusOrCategory === RunStatus.RUNNING ||
+        statusOrCategory === RunStatus.RUNNABLE
+      ) {
+        this.updateComplete.then(() => {
+          const s = statusOrCategory.toString().toLowerCase();
+          const el = this.shadowRoot?.querySelector(`.${s} .sectionHeader`);
+          el?.scrollIntoView({block: 'center'});
+        });
+      }
+    }
   }
 
   render() {

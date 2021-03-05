@@ -101,7 +101,10 @@ export const htmlTemplate = html`
           </gr-label>
         </td>
         <td>
-          <gr-account-link account="[[mappedLabel.account]]"></gr-account-link>
+          <gr-account-link
+            account="[[mappedLabel.account]]"
+            change="[[change]]"
+          ></gr-account-link>
         </td>
         <td>
           <gr-button

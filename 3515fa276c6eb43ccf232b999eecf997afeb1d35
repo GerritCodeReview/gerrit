@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f98ba590_6e10b4c3",
+        "filename": "java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-05T12:23:29Z",
+      "side": 1,
+      "message": "I had somehow thought that the DiffFormatter needs to live until the end of the iteration, that\u0027s why I had the PrologEnvironment close it. Fixed.",
+      "parentUuid": "03854767_9b9d91be",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 88,
+        "endChar": 14
+      },
+      "revId": "3515fa276c6eb43ccf232b999eecf997afeb1d35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f598c3fc_531a45e6",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-24T08:50:29Z",
       "side": 1,
       "message": "This is surprising. RULE_ERRORs mark internal server errors. Should this be \"NOT_READY\"?\n\nFor context, see the JavaDoc in SubmitRecord.",
+      "range": {
+        "startLine": 102,
+        "startChar": 80,
+        "endLine": 102,
+        "endChar": 90
+      },
+      "revId": "3515fa276c6eb43ccf232b999eecf997afeb1d35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ada935f_010db72f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/rules/RulesIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-05T12:23:29Z",
+      "side": 1,
+      "message": "Yes, I also found it confusing. It\u0027s what the rule returns when it doesn\u0027t match, via \"return engine.fail();\" in PRED_commit_delta_4.java:129. This behavior is unchanged. Maybe the reasoning was \"If the RE doesn\u0027t match anything then the assignment to the output arguments fails\".",
+      "parentUuid": "f598c3fc_531a45e6",
       "range": {
         "startLine": 102,
         "startChar": 80,

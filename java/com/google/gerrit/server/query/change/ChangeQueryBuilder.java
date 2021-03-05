@@ -790,7 +790,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> hashtag(String hashtag) {
-    return new HashtagPredicate(hashtag);
+    return new ExactHashtagPredicate(hashtag);
+  }
+
+  @Operator
+  public Predicate<ChangeData> inhashtag(String hashtag) throws QueryParseException {
+    if (hashtag.startsWith("^")) {
+      return new RegexHashtagPredicate(hashtag);
+    }
+    if (hashtag.isEmpty()) {
+      return new ExactHashtagPredicate(hashtag);
+    }
+
+    if (!args.index.getSchema().hasField(ChangeField.FUZZY_HASHTAG)) {
+      throw new QueryParseException(
+          "'inhashtag' operator is not supported by change index version");
+    }
+    return new FuzzyHashtagPredicate(hashtag, args.index);
   }
 
   @Operator

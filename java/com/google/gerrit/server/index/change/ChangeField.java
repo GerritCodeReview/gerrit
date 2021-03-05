@@ -179,6 +179,11 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_HASHTAG)
           .buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase).collect(toSet()));
 
+  /** Hashtags as fulltext field for in-string search. */
+  public static final FieldDef<ChangeData, Iterable<String>> FUZZY_HASHTAG =
+      fullText("hashtag2")
+          .buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase).collect(toSet()));
+
   /** Hashtags with original case. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> HASHTAG_CASE_AWARE =
       storedOnly("_hashtag")

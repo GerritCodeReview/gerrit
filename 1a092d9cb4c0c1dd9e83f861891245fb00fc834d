@@ -225,6 +225,24 @@
       "parentUuid": "b6749cc1_561efba4",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd384ef3_a104cf27",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-05T11:18:47Z",
+      "side": 1,
+      "message": "\u003e The only tricky thing is: how can the username be blanked as well? It isn\u0027t  currently possible in Gerrit though.\n\nAFAIK, we don\u0027t have usernames for googlesource at all. What are they used for anyway?\n\n\u003e Can you raise it as a bug?\n\nsure. We need something more structural, though. This should have really been caught by our integration tests.\n\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d14185",
+      "parentUuid": "0f239fa6_d6c7a3e3",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "I checked the header sections, the arrows to expand/collapse should be reversed.\n\nWhen section header is collapsed, use `Expand more` arrow.\nWhen section header is expanded, use `Expand less` arrow.",
       "revId": "4f46fe65c223f733aa02d3eb1d71f326399fa70f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01f02a54_cbc28471",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-05T08:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b591b6e3_6b9242be",
+      "revId": "4f46fe65c223f733aa02d3eb1d71f326399fa70f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

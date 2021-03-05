@@ -159,6 +159,24 @@
       "parentUuid": "f747aab3_708765b7",
       "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85916978_99639b17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-03-05T09:18:04Z",
+      "side": 1,
+      "message": "\u003e \u003e If this fix were aimed at fixing the issue in current releases, why was it applied on master and not stable-3.2 (which also seems affected)?\n\u003e \n\u003e Yes we could, Java 11 officially supported starting from stable-3.3, would you approve that series on stable-3.2? If you already voted CRVW-1 on stable-3.3 branch?!\n\u003e \n\u003e Again, I don\u0027t want any workarounds, until you tell me that this upgrade broke something for you. Have you tried? Can you apply this series to your stable-3.3 staging gerrit instance and report back that it works as expected.\n\u003e \n\u003e Nowadays, Java 11 and newer prevail. Folks in the wild are using Java 13, Java 14, Java 15 and next Java 16.\n\u003e \n\u003e ... \n\u003e On all those installation sites Logs is flooded with this warnings\n\nFlooded? We get a warning on upstart and that\u0027s it (Gerrit:3.3, Java:11). How often do they restart their servers in order to flood the logs?\n\n\u003e and we have a trivial, non intrusive and innocent fix.\n\nHave you run this fix in production on decently loaded stable-3.3 site for a couple of weeks?\nIf the customers you are referring to feel that it\u0027s a big problem they should be able to apply a hot-fix without it being merged on a stable branch.\nIf they want to play with fire let them. IMO we shouldn\u0027t risk all other installations running into problems for one warning on upstart.",
+      "parentUuid": "85340a9f_b5b58ee3",
+      "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

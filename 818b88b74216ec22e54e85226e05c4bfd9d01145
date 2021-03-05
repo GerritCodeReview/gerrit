@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c650807_6b377fff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-05T20:12:34Z",
+      "side": 1,
+      "message": "Found the only one other place where we show the account chip without actions.\nAdded here.",
+      "revId": "818b88b74216ec22e54e85226e05c4bfd9d01145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

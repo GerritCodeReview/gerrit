@@ -16,6 +16,24 @@
       "message": "I assume we generate these URLs outside of Gerrit and want to track that a user came from \u003cfoobar\u003e source to Gerrit?\n\nCould we track this in a Referrer instead?",
       "revId": "7b16e9c8edfb04ae8b1593f163881d15306ddf45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "687ec001_96bf2dd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-05T09:01:24Z",
+      "side": 1,
+      "message": "I have tried using a referer, but it is impossible to set a referer in a Chrome Extension. And I have verified that Chrome does not one itself unfortunately. :-(",
+      "parentUuid": "47b54686_984fda38",
+      "revId": "7b16e9c8edfb04ae8b1593f163881d15306ddf45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

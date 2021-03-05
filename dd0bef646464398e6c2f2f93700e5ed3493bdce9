@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d119d2b9_8996ada3",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-05T00:40:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83c288ad_bdcc66cf",
+      "range": {
+        "startLine": 2,
+        "startChar": 34,
+        "endLine": 2,
+        "endChar": 41
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "811ec9ff_117ec6ca",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-02T10:43:46Z",
       "side": 1,
       "message": "can you wrap at 80 columns, throughout?",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 115
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4fc2d8a_3a134f7d",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-05T00:40:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "811ec9ff_117ec6ca",
       "range": {
         "startLine": 5,
         "startChar": 0,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce3804a6_594c0625",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-05T00:40:16Z",
+      "side": 1,
+      "message": "What about, \"ask your Gerrit administrator if you\u0027re not sure if this is enabled for your Gerrit instance.\" ?\n\nIf there are ways to check for non-administrators, let me know!",
+      "parentUuid": "1ebee9b4_d6366c2f",
+      "range": {
+        "startLine": 19,
+        "startChar": 21,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "720f52c0_a6ccdbd9",
         "filename": "Documentation/cross-repository-changes.txt",
         "patchSetId": 1
@@ -83,6 +155,30 @@
       "writtenOn": "2021-03-02T10:43:46Z",
       "side": 1,
       "message": "this is a bit abstract. If you use \"A\" and \"B\", just give an example?",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 281
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73f44bae_c4cd275f",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-05T00:40:16Z",
+      "side": 1,
+      "message": "Linked to the example",
+      "parentUuid": "720f52c0_a6ccdbd9",
       "range": {
         "startLine": 37,
         "startChar": 2,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0bc2c06_20fba7ae",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-05T00:40:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65783011_72a7112c",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 174
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66890b9f_875f177a",
@@ -139,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c5c433f_03d0a895",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-05T00:40:16Z",
+      "side": 1,
+      "message": "Done. Sorry about the formatting issues. I\u0027m using VS code and formatting support doesn\u0027t seem to be super great for Ascii doc.",
+      "parentUuid": "66890b9f_875f177a",
+      "range": {
+        "startLine": 48,
+        "startChar": 85,
+        "endLine": 48,
+        "endChar": 86
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f720b55_6b24dc8f",
@@ -152,6 +296,30 @@
       "writtenOn": "2021-03-02T10:43:46Z",
       "side": 1,
       "message": "there is a bit of a semantic confusion, where \"in the topic X\" could either mean \"change has topic string X\", or \"change will be submitted if you submit a change with topic string X\".\n\nI think it would help the explanation if you explicitly define distinct terms for these concepts (possibly using a concrete example) upfront.\n\nthe latter is called \u0027submitted together\"  (at least, in the REST API), but maybe you can think of a better word.",
+      "range": {
+        "startLine": 50,
+        "startChar": 39,
+        "endLine": 50,
+        "endChar": 58
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94666844_81629569",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-05T00:40:16Z",
+      "side": 1,
+      "message": "I restructured the doc to pull the example up.",
+      "parentUuid": "0f720b55_6b24dc8f",
       "range": {
         "startLine": 50,
         "startChar": 39,
@@ -187,6 +355,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "822cb39a_9942feeb",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-05T00:40:16Z",
+      "side": 1,
+      "message": "Tried to clarify by introducing Submitted Together above",
+      "parentUuid": "3402d860_4e8c8733",
+      "range": {
+        "startLine": 112,
+        "startChar": 56,
+        "endLine": 113,
+        "endChar": 6
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f51c8540_69097087",
         "filename": "Documentation/cross-repository-changes.txt",
         "patchSetId": 1
@@ -198,6 +390,30 @@
       "writtenOn": "2021-03-02T10:43:46Z",
       "side": 1,
       "message": "this needs a (ascii art?) diagram.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 0
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c38a2ed_ac13f808",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-05T00:40:16Z",
+      "side": 1,
+      "message": "Added diagram and rewrote this to make it clearer.",
+      "parentUuid": "f51c8540_69097087",
       "range": {
         "startLine": 118,
         "startChar": 0,
@@ -233,6 +449,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "731038eb_fd0d9024",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-05T00:40:16Z",
+      "side": 1,
+      "message": "Tried to do this, PTAL.",
+      "parentUuid": "a11f80c3_09d27af8",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 171
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9fa595d_1c82dda8",
         "filename": "Documentation/cross-repository-changes.txt",
         "patchSetId": 1
@@ -244,6 +484,30 @@
       "writtenOn": "2021-03-02T10:43:46Z",
       "side": 1,
       "message": "the security fix comes from nowhere. Did you elide an example earlier?",
+      "range": {
+        "startLine": 159,
+        "startChar": 54,
+        "endLine": 159,
+        "endChar": 73
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e0b53e8_3ff1ed3e",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-05T00:40:16Z",
+      "side": 1,
+      "message": "No that\u0027s an example of why you\u0027d want to do this. Made this clearer.",
+      "parentUuid": "f9fa595d_1c82dda8",
       "range": {
         "startLine": 159,
         "startChar": 54,
@@ -267,6 +531,30 @@
       "writtenOn": "2021-03-02T10:43:46Z",
       "side": 1,
       "message": "I think you can also search for submission IDs.",
+      "range": {
+        "startLine": 189,
+        "startChar": 3,
+        "endLine": 189,
+        "endChar": 23
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5c59f99_5da753e8",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-05T00:40:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03f0ef5b_bc1f2e5d",
       "range": {
         "startLine": 189,
         "startChar": 3,

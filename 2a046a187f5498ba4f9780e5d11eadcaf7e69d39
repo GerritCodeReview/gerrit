@@ -123,6 +123,24 @@
       "parentUuid": "b7ddce6e_c87806ad",
       "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f747aab3_708765b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-03-05T08:24:03Z",
+      "side": 1,
+      "message": "First thanks davido for your hard work fixing this issue on master.\n\nI agree with Nasser that this doesn\u0027t seem like a good fit for a stable-branch to me. The issue doesn\u0027t seem that severe to me and there is a workaround for it.\n\nIf this fix were aimed at fixing the issue in current releases, why was it applied on master and not stable-3.2 (which also seems affected)?\n\nOn a different note:\nIs this some new workflow I\u0027m not aware of? \"Fix on master and cherry-pick to stable-branches\" seems to have been rather prevalent lately. Would you mind documenting it and push it for review [1] so that we can have a community-wide discussion about it?\n\n[1] https://gerrit.googlesource.com/homepage/+/refs/heads/master/pages/site/community/bug-fixing.md",
+      "parentUuid": "fe756ca5_ce6dc809",
+      "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

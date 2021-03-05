@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47b54686_984fda38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-05T07:46:42Z",
+      "side": 1,
+      "message": "I assume we generate these URLs outside of Gerrit and want to track that a user came from \u003cfoobar\u003e source to Gerrit?\n\nCould we track this in a Referrer instead?",
+      "revId": "7b16e9c8edfb04ae8b1593f163881d15306ddf45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

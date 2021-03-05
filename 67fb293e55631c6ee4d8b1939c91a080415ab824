@@ -16,6 +16,24 @@
       "message": "Can you make the rule more specific instead?\n\nMaybe by using `div.collapsed` instead of `.collapsed`?",
       "revId": "67fb293e55631c6ee4d8b1939c91a080415ab824",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f980c1a0_ee596516",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-05T11:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24c6f0ba_c1d1a1d0",
+      "revId": "67fb293e55631c6ee4d8b1939c91a080415ab824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

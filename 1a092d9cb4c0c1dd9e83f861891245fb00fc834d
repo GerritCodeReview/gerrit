@@ -333,6 +333,24 @@
       "parentUuid": "6450b2df_288fe5e4",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ea9d44f_7e0e5297",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-05T12:27:44Z",
+      "side": 1,
+      "message": "\u003e The username is an external ID (with scheme \"username:\"). It\u0027s just *the* external ID that upstream Gerrit uses for SSH authentication.\n\nsure. But it means the username can be removed, because you could remove the external ID using the existing account API.\n\n\u003e  not per account_id is a bug?\n\nthe users are added by their account ID. It\u0027s just that we write an extra string that has the full name. See the bugreport for more details.",
+      "parentUuid": "b94829d3_0d3ee47e",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

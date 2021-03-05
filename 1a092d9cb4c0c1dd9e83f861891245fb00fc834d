@@ -129,6 +129,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9847f780_291d97d6",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-05T11:06:22Z",
+      "side": 1,
+      "message": "You can define a different post-registration page and put the notice there.",
+      "parentUuid": "11b8dbf7_1d267302",
+      "range": {
+        "startLine": 47,
+        "startChar": 7,
+        "endLine": 50,
+        "endChar": 39
+      },
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7eca1354_abbed862",
         "filename": "Documentation/user-privacy.txt",
         "patchSetId": 1
@@ -181,6 +205,24 @@
       "side": 1,
       "message": "I wonder what this plugin is for. You can remove your data already by first overriding/blanking your name, and then deleting external identifiers. (The UI could be better, but that is a separate question).\n\nRegarding RTBF\n\n* if you submit code, the name + email gets recorded in version control, and that can\u0027t be undone. Having a CLA enforcement for uploads can ensure that users do not do this unwittingly.\n\n* we should be careful to not give promises we are not keeping. for example: the attention set feature has been writing names into NoteDb in places where they are difficult to remove.",
       "parentUuid": "08996ed3_1fd904dd",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f239fa6_d6c7a3e3",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-05T11:06:22Z",
+      "side": 1,
+      "message": "\u003e I wonder what this plugin is for.\n\nIt is more a \"macro UX\" to allow people to:\n- blank their identity\n- disable their account\n\nAfter they are requesting to be \"forgotten by Gerrit\", they are just left with a disabled account_id associated with a username.\n\nThe only tricky thing is: how can the username be blanked as well? It isn\u0027t currently possible in Gerrit though.\n\n\u003e You can remove your data already by first overriding/blanking your name, and then deleting external identifiers. (The UI could be better, but that is a separate question).\n\nSee above: it is more about UX. Also, in Gerrit you cannot disable yourself, whilst with the account plugin you can do it.\n\n\u003e Regarding RTBF\n\u003e \n\u003e * if you submit code, the name + email gets recorded in version control, and that can\u0027t be undone. Having a CLA enforcement for uploads can ensure that users do not do this unwittingly.\n\nYes, that\u0027s correct and goes beyond the scope of Gerrit. If you create a commit with your real e-mail there, and you share with everyone else in the OpenSource, you don\u0027t have track anymore on who has it.\n\nFor the RTBF Gerrit should get in touch with anyone that has cloned your code and remove your e-mail there as well, which is technically possible but very unrealistic and problematic to implement.\n\nThat\u0027s something the EU needs to live with, until they clarify their position on OpenSource about it.\n\n\u003e * we should be careful to not give promises we are not keeping. for example: the attention set feature has been writing names into NoteDb in places where they are difficult to remove.\n\nNames and not account_id? I didn\u0027t realise that, and it should be fixed IMHO.\nCan you raise it as a bug?",
+      "parentUuid": "b6749cc1_561efba4",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

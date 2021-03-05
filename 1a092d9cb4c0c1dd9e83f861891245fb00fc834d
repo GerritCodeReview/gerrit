@@ -369,6 +369,24 @@
       "parentUuid": "b94829d3_0d3ee47e",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20b0a4e2_ec83c78b",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-05T12:38:31Z",
+      "side": 1,
+      "message": "\u003e sure. But it means the username can be removed, because you could remove the\n\u003e external ID using the existing account API.\n\nNo, Gerrit disallows removing/changing the username external ID.\nThe reason is that Gerrit supports user branches that contain the username as part of the ref name and these refs would need to be renamed/deleted when you change/delete the username. Since renaming these refs is not implemented, Gerrit just disallows changing usernames.\n\nSo to remove the username you would need to edit NoteDb directly, but then you should be sure that no user branches exist.",
+      "parentUuid": "64c217e3_2491aaf8",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

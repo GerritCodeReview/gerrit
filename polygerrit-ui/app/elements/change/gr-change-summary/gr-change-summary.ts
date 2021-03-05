@@ -385,7 +385,7 @@ export class GrChangeSummary extends GrLitElement {
   }
 
   private onChipClick(state: ChecksTabState) {
-    fireShowPrimaryTab(this, PrimaryTab.CHECKS, true, {
+    fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
       checksTab: state,
     });
   }
